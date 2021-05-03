@@ -1,0 +1,11 @@
+{
+  "name": "beam-studio-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": {
+    "name": "FLUX Inc.",
+    "email": "support@flux3dp.com"
+  },
+  "description": "Core of Beam Studio",
+  "license": "MIT"
+}
