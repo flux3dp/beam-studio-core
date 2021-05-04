@@ -24,7 +24,7 @@ const lang = i18n.lang.beambox.popup.pdf2svg;
 const programDataPath = path.join('C:', 'ProgramData');
 const beamStudioDataPath = path.join(programDataPath, 'Beam Studio');
 const win32TempFile = path.join(beamStudioDataPath, 'temp.pdf');
-if (process.platform === 'win32') {
+if (window.os === 'Windows') {
     if (!fs.existsSync(programDataPath)) {
         child_process.execSync(`mkdir "${programDataPath}"`);
     }
@@ -34,9 +34,9 @@ if (process.platform === 'win32') {
 }
 
 let pdf2svgPath = null;
-if (process.platform === 'darwin') {
+if (window.os === 'MacOS') {
     pdf2svgPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg');
-} else if (process.platform === 'win32') {
+} else if (window.os === 'Windows') {
     pdf2svgPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg.exe');
 }
 
@@ -46,11 +46,11 @@ const pdf2svg = async (file) => {
         //mac or windows, using packed binary executable
         try {
             let filePath = file.path;
-            if (process.platform === 'win32') {
+            if (window.os === 'Windows') {
                 fs.copyFileSync(file.path, win32TempFile);
                 filePath = win32TempFile;
             }
-            const {stdout, stderr} = await execFile(pdf2svgPath, [filePath, outPath]);
+            const { stdout, stderr } = await execFile(pdf2svgPath, [filePath, outPath]);
             if (!stderr) {
                 console.log(outPath);
                 let resp = await fetch(outPath);
@@ -74,7 +74,7 @@ const pdf2svg = async (file) => {
             });
         }
     } else {
-        //Linux 
+        // Linux
         const outPath = path.join('/tmp', 'out.svg');
         try {
             await exec('type pdf2svg');

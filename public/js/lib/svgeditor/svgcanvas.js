@@ -1951,7 +1951,7 @@ define([
             break;
           case 'text':
             started = true;
-            const isMac = process.platform === 'darwin';
+            const isMac = window.os === 'MacOS';
             var newText = addSvgElementFromJson({
               element: 'text',
               curStyles: true,
@@ -2699,7 +2699,7 @@ define([
 
                 if (selected.tagName === 'text') {
                   cur_text.font_size = selected.getAttribute('font-size');
-                  if (process.platform === 'mac') {
+                  if (window.os === 'MacOS') {
                     cur_text.font_family = selected.getAttribute('data-font-family');
                   } else {
                     cur_text.font_family = selected.getAttribute('font-family');
@@ -8246,7 +8246,7 @@ define([
      */
     this.setFontFamily = function (val, isSubCmd) {
       let cmd = null;
-      if (process.platform !== 'darwin') cur_text.font_family = val;
+      if (window.os !== 'MacOS') cur_text.font_family = val;
       if (isSubCmd) {
         canvas.undoMgr.beginUndoableChange('font-family', selectedElements);
         changeSelectedAttributeNoUndo('font-family', val, selectedElements);
@@ -9195,7 +9195,7 @@ define([
       this.latestImportFileName = fileName;
       this.currentFileName = fileName;
       TopBarController.setFileName(fileName);
-      if (process.platform === 'win32') {
+      if (window.os === 'Windows') {
         window.titlebar.updateTitle(fileName);
       } else {
         $('#svgcanvas').trigger('mouseup'); //update file title
@@ -9212,7 +9212,7 @@ define([
       const fs = requireNode('fs');
       if (fs.existsSync(filePath)) {
         let fileName;
-        if (process.platform === 'win32') {
+        if (window.os === 'Windows') {
           fileName = filePath.split('\\');
         } else {
           fileName = filePath.split('/');
@@ -9263,7 +9263,7 @@ define([
       recentMenu.clear();
       recentFiles.forEach(filePath => {
         let label = filePath
-        if (process.platform !== 'win32') {
+        if (window.os !== 'Windows') {
           label = filePath.replace(':', '/');
         }
         recentMenu.append(new MenuItem({
@@ -9276,7 +9276,7 @@ define([
       recentMenu.append(new MenuItem({ type: 'separator' }));
       recentMenu.append(new MenuItem({ 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } }));
       Menu.setApplicationMenu(Menu.getApplicationMenu());
-      if (process.platform === 'win32') {
+      if (window.os === 'Windows') {
         window.titlebar.updateMenu(Menu.getApplicationMenu());
       }
     }

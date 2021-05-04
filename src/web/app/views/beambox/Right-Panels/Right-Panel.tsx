@@ -17,8 +17,8 @@ const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel;
 
-const isWin = process.platform === 'win32';
-const isLinux = process.platform === 'linux';
+const isWin = window.os === 'Windows';
+const isLinux = window.os === 'Linux';
 
 export class RightPanel extends React.Component {
     constructor() {
@@ -40,7 +40,7 @@ export class RightPanel extends React.Component {
                 this.setState({selectedTab: 'layers'});
             } else if (selectedElement && !this.lastElement) {
                 this.setState({selectedTab: 'objects'});
-            } 
+            }
         } else {
             if (this.lastMode !== mode) {
                 this.setState({selectedTab: 'objects'});
@@ -100,7 +100,7 @@ export class RightPanel extends React.Component {
                     onClick={() => {if (!isObjectDisabled) this.setState({selectedTab: 'objects'})}}>
                     <img className="tab-icon object" src="img/right-panel/icon-adjust.svg" draggable={false}/>
                     <div className="tab-title">
-                        {objectTitle}   
+                        {objectTitle}
                     </div>
                 </div>
             </div>

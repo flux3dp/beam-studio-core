@@ -8,7 +8,7 @@ const { createContext } = React;
 const TimeEstimationButtonContext = createContext();
 let _context = null;
 const LANG = i18n.lang.beambox.time_est_button;
-const isMac = process.platform === 'darwin';
+const isMac = window.os === 'MacOS';
 
 interface ITimeEstimationButtonContext {
     estimatedTime: number|null,

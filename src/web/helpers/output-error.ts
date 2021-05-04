@@ -106,7 +106,7 @@ export default {
         let output = getOutput();
         let reportFile = new Blob(output, {type: 'application/octet-stream'});
         // reportFile.lastModifiedDate = new Date();
-        const reportName = `bugreport_${Math.floor(Date.now() / 1000)}_${process.platform}_${window['FLUX'].version}.log`;
+        const reportName = `bugreport_${Math.floor(Date.now() / 1000)}_${window.os}_${window['FLUX'].version}.log`;
         const uploadFormData = new FormData();
         uploadFormData.append('file', reportFile);
         uploadFormData.append('Content-Type', reportFile.type);

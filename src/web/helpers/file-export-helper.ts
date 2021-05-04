@@ -16,7 +16,7 @@ const LANG = i18n.lang;
 
 const setCurrentFileName = (filePath: string) => {
     let currentFileName: string | string[];
-    if (process.platform === 'win32') {
+    if (window.os === 'Windows') {
         currentFileName = filePath.split('\\');
     } else {
         currentFileName = filePath.split('/');

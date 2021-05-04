@@ -13,18 +13,18 @@ export default {
                     message: LANG.popup.upload_file_too_large
                 });
             }, 100);
-            return;   
+            return;
         }
-        Progress.openNonstopProgress({id: 'upload-to-aws', message: LANG.popup.progress.uploading});
+        Progress.openNonstopProgress({ id: 'upload-to-aws', message: LANG.popup.progress.uploading });
 
         try {
-            let report_file = new Blob([body], {type: 'application/octet-stream'});
-            // report_file.lastModifiedDate = new Date();
-            const reportName = `${Math.floor(Date.now() / 1000)}-${fileName}-${process.platform}-v${window['FLUX'].version}-${fileName}`;
+            const reportFile = new Blob([body], { type: 'application/octet-stream' });
+            // reportFile.lastModifiedDate = new Date();
+            const reportName = `${Math.floor(Date.now() / 1000)}-${fileName}-${window.os}-v${window['FLUX'].version}-${fileName}`;
 
             const uploadFormData = new FormData();
-            uploadFormData.append('file', report_file);
-            uploadFormData.append('Content-Type', report_file.type);
+            uploadFormData.append('file', reportFile);
+            uploadFormData.append('Content-Type', reportFile.type);
             uploadFormData.append('acl', 'bucket-owner-full-control');
             uploadFormData.append('key', `svg&bvg/reportName`);
 

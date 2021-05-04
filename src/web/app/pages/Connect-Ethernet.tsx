@@ -16,7 +16,7 @@ export default () => class ConnectEthernet extends React.PureComponent {
   }
 
   renderContent = () => {
-    const guideHref = process.platform === 'darwin' ? lang.connect_ethernet.tutorial2_a_href_mac : lang.connect_ethernet.tutorial2_a_href_win;
+    const guideHref = window.os === 'MacOS' ? lang.connect_ethernet.tutorial2_a_href_mac : lang.connect_ethernet.tutorial2_a_href_win;
     const externalLink = (url: string) => {
       const electron = requireNode('electron');
       electron.remote.shell.openExternal(url);

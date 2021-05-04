@@ -21,7 +21,7 @@ const electron = requireNode('electron');
 
 const LANG = i18n.lang.beambox.left_panel;
 const interProcessWebSocket = InterProcessApi();
-const isWin = process.platform === 'win32';
+const isWin = window.os === 'Windows';
 
 class LeftPanel extends React.Component {
     constructor() {
@@ -197,6 +197,6 @@ class LeftPanel extends React.Component {
             );
         }
     }
-} 
+}
 
 export default LeftPanel;

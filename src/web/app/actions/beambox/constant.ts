@@ -80,12 +80,12 @@ export default {
     hybridLaser: ['fbm1'],
   },
   leftPanelWidth: 50, // px
-  rightPanelWidth: process.platform !== 'darwin' ? 258 : 242, // px
-  rightPanelScrollBarWidth: process.platform !== 'darwin' ? 16 : 0, // px
-  sidePanelsWidth: process.platform !== 'darwin' ? 308 : 292, // px
-  topBarHeight: process.platform === 'win32' ? 70 : 40, // px
+  rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
+  rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px
+  sidePanelsWidth: window.os !== 'MacOS' ? 308 : 292, // px
+  topBarHeight: window.os === 'Windows' ? 70 : 40, // px
   topBarHeightWithoutTitleBar: 40, // px
-  menuberHeight: process.platform === 'win32' ? 30 : 0, // px
+  menuberHeight: window.os === 'Windows' ? 30 : 0, // px
   layerListHeight: 240, // px
   rulerWidth: 15, // px
 };
