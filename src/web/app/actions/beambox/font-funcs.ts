@@ -72,7 +72,7 @@ const hashCode = function(s) {
 let fontNameMapObj: any = Config().read('font-name-map') || {};
 if (fontNameMapObj.navigatorLang !== navigator.language) {
     fontNameMapObj = {};
-} 
+}
 const fontNameMap = new Map();
 const availableFontFamilies = (function requestAvailableFontFamilies() {
     // get all available fonts in user PC
@@ -131,7 +131,7 @@ fontNameMapObj.navigatorLang = navigator.language;
 Config().write('font-name-map', fontNameMapObj);
 
 const getFontOfPostscriptName = memoize((postscriptName) => {
-    if (process.platform === 'darwin') {
+    if (window.os === 'MacOS') {
         const font = FontScanner.findFontSync({ postscriptName });
         return font;
     } else {
@@ -169,7 +169,7 @@ const substitutedFont = function($textElement){
     const originFont = getFontOfPostscriptName($textElement.attr('font-postscript'));
     const fontFamily = $textElement.attr('font-family');
     const text = $textElement.text();
-    
+
     // Escape for Whitelists
     const whiteList = ['標楷體'];
     const whiteKeyWords = ['華康', 'Adobe', '文鼎'];
@@ -192,7 +192,7 @@ const substitutedFont = function($textElement){
         return {font: originFont};
     }
     // array of used family which are in the text
-    
+
     const originPostscriptName = originFont.postscriptName;
     let unSupportedChar = [];
     const fontList = Array.from(text).map(char => {
@@ -207,7 +207,7 @@ const substitutedFont = function($textElement){
             unSupportedChar
         };
     } else {
-        // Test all found fonts if they contain all 
+        // Test all found fonts if they contain all
         for (let i = 0; i < fontList.length; ++i) {
             let allFit = true;
             for (let j = 0; j < text.length; ++j) {
@@ -303,7 +303,7 @@ const convertTextToPathFluxsvg = async ($textElement, bbox, isTempConvert?: bool
             }
         }
     }
-    if (process.platform === 'darwin') {
+    if (window.os === 'MacOS') {
         svgCanvas.undoMgr.beginUndoableChange('font-family', Array.from($textElement));
         $textElement.attr('font-family', $textElement.attr('font-postscript'));
         batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
@@ -376,7 +376,7 @@ const convertTextToPathFluxsvg = async ($textElement, bbox, isTempConvert?: bool
         }
         svgedit.recalculate.recalculateDimensions(path);
     }
-    
+
     if (!isTempConvert) {
         let textElem = $textElement[0];
         let parent = textElem.parentNode;
@@ -488,7 +488,7 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
                 isAnyFontUnsupported = true;
             }
         }
-        
+
         if (isAnyFontUnsupported && !AlertConfig.read('skip_check_thumbnail_warning')) {
             await new Promise<void>((resolve) => {
                 Alert.popUp({
@@ -503,7 +503,7 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
                         }
                     }
                 });
-            }); 
+            });
         }
         return true;
     } else {

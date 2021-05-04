@@ -40,7 +40,7 @@ const React = requireNode('react');
 const classNames = requireNode('classnames');
 const lang = i18n.lang;
 const LANG = i18n.lang.topbar;
-const isNotMac = process.platform !== 'darwin';
+const isNotMac = window.os !== 'MacOS';
 let _contextCaller;
 
 export class TopBar extends React.Component {
@@ -541,7 +541,7 @@ export class TopBar extends React.Component {
     }
 
     renderFileName() {
-        if (process.platform === 'win32') {
+        if (window.os === 'Windows') {
             return null;
         } else {
             const { fileName, hasUnsavedChange } = this.context;

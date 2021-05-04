@@ -3354,7 +3354,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
     const textInput = document.getElementById('text');
     let wasNewLineAdded = false;
     const checkFunctionKeyPressed = (evt: KeyboardEvent) => {
-      return (process.platform === 'darwin' && evt.metaKey) || (process.platform !== 'darwin' && evt.ctrlKey);
+      return (window.os === 'MacOS' && evt.metaKey) || (window.os !== 'MacOS' && evt.ctrlKey);
     }
 
     $('#text').on('keyup input', function (this: HTMLInputElement, evt) {
@@ -3413,7 +3413,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
         evt.preventDefault();
         svgCanvas.textActions.selectAll();
       } else if (isFunctionKeyPressed && evt.key === 'z') {
-        if (process.platform === 'darwin') evt.preventDefault();
+        if (window.os === 'MacOS') evt.preventDefault();
       }
     });
 
@@ -5280,7 +5280,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
           // 'fnkey' means 'cmd' or 'ctrl'
           Shortcuts.on(['del'], deleteSelected);
           //Shortcuts.on(['fnkey', 'z'], clickUndo);
-          //if (process.platform === 'darwin') {
+          //if (window.os === 'MacOS') {
           //    Shortcuts.on(['cmd', 'shift', 'z'], clickRedo);
           //} else {
           //    Shortcuts.on(['ctrl', 'y'], clickRedo);

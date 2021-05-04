@@ -11,7 +11,6 @@ import Progress from '../app/actions/progress-caller'
    =================================================================================
   |  Header Length |     VINT     | the size of vint will grow according to value   |
    =================================================================================
-   
 
    =================================================================================
   |     Header     |  header len  |                                                 |
@@ -64,14 +63,14 @@ const fs = requireNode('fs');
 const electronRemote = requireNode('electron').remote;
 const { dialog } = electronRemote;
 const getFilePath = async (title, allFiles, extensionName, extensions, filename) => {
-    const isMac = process.platform === 'darwin';
-    const isLinux = process.platform === 'linux';
+    const isMac = window.os === 'MacOS';
+    const isLinux = window.os === 'Linux';
     const options = {
         defaultPath: isLinux ? `${filename}.${extensions[0]}` : filename,
         title,
         filters: [
             { name: isMac ? `${extensionName} (*.${extensions[0]})` : extensionName, extensions },
-            { name: allFiles, extensions: ['*'] }
+            { name: allFiles, extensions: ['*'] },
         ]
     }
 
@@ -158,7 +157,7 @@ const generateImageSourceBlockBuffer = (imageSources) => {
 
 const saveBeam = async (path, svgString, imageSources) => {
     const stream = fs.createWriteStream(path, {flags: 'w'});
-    const signatureBuffer = Buffer.from([66, 101, 97, 109, 2]); //Bvg{version in uint} max to 255  
+    const signatureBuffer = Buffer.from([66, 101, 97, 109, 2]); // Bvg{version in uint} max to 255
     const svgBlockBuf = genertateSvgBlockBuffer(svgString);
     const imageSourceBlockBuffer = generateImageSourceBlockBuffer(imageSources);
     const metaDataBuf = Buffer.from('Hi, I am meta data O_<');
@@ -181,7 +180,7 @@ const readHeader = (headerBuf) => {
     offset += metadataSize;
     vInt = readVInt(headerBuf, offset);
     const svgBlockSize = vInt.value;
-    console.log('svgBlockSize', svgBlockSize); 
+    console.log('svgBlockSize', svgBlockSize);
     offset = vInt.offset;
     vInt = readVInt(headerBuf, offset);
     const imageSourceBlockSize = vInt.value;
@@ -245,7 +244,7 @@ const readBeam = async (file) => {
     const respData = await fetchedData.blob();
     let data = await new Response(respData).arrayBuffer();
     const buf = Buffer.from(data);
-    
+
     let offset = 0, vint;
     const signatureBuffer = buf.slice(offset, 5);
     console.log('Signature:', signatureBuffer.toString());

@@ -20,14 +20,13 @@ export default class SVGEditor extends React.Component {
     e.preventDefault();
     e.stopPropagation();
   }
-
   render() {
     // HIDE ALMOST ALL TOOLS USING CSS
     return (
       <div>
         <TaskInterpreterPanel />
-        <div id="svg_editor" className={classNames({ mac: process.platform === 'darwin' })}>
-          <div id="rulers" className={classNames({ mac: process.platform === 'darwin' })}>
+        <div id="svg_editor" className={classNames({ mac: window.os === 'MacOS' })}>
+          <div id="rulers" className={classNames({ mac: window.os === 'MacOS' })}>
             <div id="ruler_corner" />
             <div id="ruler_x">
               <div>
@@ -41,7 +40,7 @@ export default class SVGEditor extends React.Component {
             </div>
             <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
           </div>
-          <div id="workarea" className={classNames({ mac: process.platform === 'darwin' })}>
+          <div id="workarea" className={classNames({ mac: window.os === 'MacOS' })}>
             <style
               id="styleoverrides"
               type="text/css"

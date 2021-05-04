@@ -5,9 +5,9 @@ const LANG = i18n.lang;
 const electron = requireNode('electron');
 
 export default function () {
-    if (process.platform !== 'win32') return;
+    if (window.os !== 'Windows') return;
     const customTitlebar = requireNode('custom-electron-titlebar');
-    
+
     $('.content').css({'height': 'calc(100% - 30px)'});
     let titlebar = new customTitlebar.Titlebar({
         backgroundColor: customTitlebar.Color.fromHex('#333'),

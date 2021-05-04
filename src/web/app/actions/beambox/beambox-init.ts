@@ -142,10 +142,10 @@ const displayGuides = () => {
 
 const initDefaultFont = () => {
     const lang = navigator.language;
-    const os = process.platform;
+    const { os } = window;
     const FontScanner = requireNode('font-scanner');
     const config = Config();
-    let defaultFontFamily = os === 'linux' ? 'Ubuntu' : 'Arial';
+    let defaultFontFamily = os === 'Linux' ? 'Ubuntu' : 'Arial';
     if (FontConstants[lang] && FontConstants[lang][os]) {
         defaultFontFamily = FontConstants[lang][os];
     }
@@ -684,7 +684,7 @@ const showQuestionnaire = async () => {
 const checkOSVersion = () => {
     const LANG = i18n.lang.beambox;
     if (!AlertConfig.read('skip_os_version_warning')) {
-        if (process.platform === 'darwin') {
+        if (window.os === 'MacOS') {
             try {
                 const osVersion = /(?<=Mac OS X )[\.\_\d]+/.exec(navigator.userAgent)[0];
                 const version = osVersion.split('_').map((v) => parseInt(v));
@@ -703,7 +703,7 @@ const checkOSVersion = () => {
                 console.error('Fail to get MacOS Version');
                 return;
             }
-        } else if (process.platform === 'win32') {
+        } else if (window.os === 'Windows') {
             var windowsVersionStrings = [
                 { s: 'Windows 10', r: /(Windows 10.0|Windows NT 10.0)/, shouldAlert: false },
                 { s: 'Windows 8.1', r: /(Windows 8.1|Windows NT 6.3)/, shouldAlert: true },

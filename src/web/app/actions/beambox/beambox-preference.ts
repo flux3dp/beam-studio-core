@@ -2,7 +2,7 @@ import Config from 'helpers/api/config';
 
 const DEFAULT_PREFERENCE = {
   should_remind_calibrate_camera: true,
-  mouse_input_device: (process.platform === 'darwin') ? 'TOUCHPAD' : 'MOUSE',
+  mouse_input_device: (window.os === 'MacOS') ? 'TOUCHPAD' : 'MOUSE',
   model: 'fbb1b',
   show_guides: false,
   guide_x0: 0,

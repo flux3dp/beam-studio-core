@@ -69,7 +69,7 @@ var genericLogger = Logger('generic'),
             }
         });
 
-        var FN_KEY = process.platform === "darwin" ? "cmd" : "ctrl";
+        const FN_KEY = window.os === "MacOS" ? "cmd" : "ctrl";
 
         shortcuts.on([FN_KEY, 'a'], function() { window.document.execCommand('selectAll'); });
         shortcuts.on([FN_KEY, '0'], function() { console.log("Reset View!"); svgEditor.resetView(); });

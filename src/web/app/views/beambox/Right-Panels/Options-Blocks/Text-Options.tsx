@@ -11,7 +11,7 @@ const classNames = requireNode('classnames');
 const ReactSelect = requireNode('react-select');
 const Select = ReactSelect.default;
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-const isMac = process.platform === 'darwin';
+const isMac = window.os === 'MacOS';
 
 class TextOptions extends React.Component {
     constructor(props) {
@@ -106,7 +106,7 @@ class TextOptions extends React.Component {
 
     renderFontFamilyBlock = () => {
         const { fontFamily } = this.state;
-        if (process.platform === 'darwin') {
+        if (window.os === 'MacOS') {
             const options = FontFuncs.availableFontFamilies.map((option) => {
                 return {value: option, label: FontFuncs.fontNameMap.get(option)}
             });
@@ -313,7 +313,6 @@ class TextOptions extends React.Component {
                         <span className="onoffswitch-switch"></span>
                     </label>
                 </div>
-                
             </div>
         );
     }

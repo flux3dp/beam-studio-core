@@ -1,3 +1,4 @@
+import globalHelper from 'helpers/global-helper';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { DialogContext } from 'app/contexts/Dialog-Context';
 import ToolPanelsController from 'app/actions/beambox/Tool-Panels-Controller';
@@ -9,13 +10,14 @@ import { TimeEstimationButton } from 'app/views/beambox/Time-Estimation-Button/T
 import grayScale from 'helpers/grayscale';
 
 console.log("TSLoader", {
-    svgEditor, 
-    DialogContext,
-    ToolPanelsController,
-    Tutorial,
-    RightPanel,
-    OptionsPanel,
-    LayerPanel,
-    TimeEstimationButton,
-    grayScale,
+  globalHelper,
+  svgEditor,
+  DialogContext,
+  ToolPanelsController,
+  Tutorial,
+  RightPanel,
+  OptionsPanel,
+  LayerPanel,
+  TimeEstimationButton,
+  grayScale,
 });

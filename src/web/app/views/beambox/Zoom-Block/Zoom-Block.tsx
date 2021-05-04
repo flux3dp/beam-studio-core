@@ -31,7 +31,7 @@ export class ZoomBlock extends React.Component {
 
     getDpmm = async () => {
         try {
-            if (process.platform === 'darwin') {
+            if (window.os === 'MacOS') {
                 const res = await exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
                 if (!res.stderr) {
                     const match = res.stdout.match(/(?<=Model Identifier: ).+\b/);
@@ -46,7 +46,7 @@ export class ZoomBlock extends React.Component {
                         }
                     }
                 }
-            } else if (process.platform === 'win32') {
+            } else if (window.os === 'Windows') {
                 const res = await exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
                 if (!res.stderr) {
                     const matchWidth = res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
@@ -75,7 +75,7 @@ export class ZoomBlock extends React.Component {
                         }
                     }
                 }
-            } else if (process.platform === 'linux') {
+            } else if (window.os === 'Linux') {
                 const res = await exec('xrandr | grep \' connected\'');
                 if (!res.stderr) {
                     const matches = res.stdout.match(/\d+x\d+\+\d+\+\d+ \d+mm x \d+mm\b/g);

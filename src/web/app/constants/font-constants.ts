@@ -3,24 +3,24 @@
 // https://en.wikipedia.org/wiki/List_of_CJK_fonts#Sans-serif
 
 export default {
-    'zh-CN': {
-        darwin: 'STHeiti',
-        win32: 'Microsoft YaHei',
-        linux: 'Ubuntu',
-    },
-    'zh-TW': {
-        darwin: 'Heiti TC',
-        win32: '微軟正黑體',
-        linux: 'Ubuntu',
-    },
-    'ja': {
-        darwin: 'Hiragino Maru Gothic ProN',
-        win32: 'Meiryo',
-        linux: 'Ubuntu',
-    },
-    'ko': {
-        darwin: 'Apple SD Gothic Neo',
-        win32: 'Malgun Gothic',
-        linux: 'Ubuntu',
-    }
+  'zh-CN': {
+    MacOS: 'STHeiti',
+    Windows: 'Microsoft YaHei',
+    Linux: 'Ubuntu',
+  },
+  'zh-TW': {
+    MacOS: 'Heiti TC',
+    Windows: '微軟正黑體',
+    Linux: 'Ubuntu',
+  },
+  ja: {
+    MacOS: 'Hiragino Maru Gothic ProN',
+    Windows: 'Meiryo',
+    Linux: 'Ubuntu',
+  },
+  ko: {
+    MacOS: 'Apple SD Gothic Neo',
+    Windows: 'Malgun Gothic',
+    Linux: 'Ubuntu',
+  },
 };

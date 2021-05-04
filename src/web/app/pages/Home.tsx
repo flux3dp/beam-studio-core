@@ -35,7 +35,7 @@ export default function(args) {
         _changeActiveLang = (e) => {
             i18n.setActiveLang(e.currentTarget.value);
             electron.ipcRenderer.send('NOTIFY_LANGUAGE');
-            if (process.platform === 'win32') {
+            if (window.os === 'Windows') {
                 window['titlebar'].updateMenu(Menu.getApplicationMenu());
             }
             this.setState({

@@ -384,7 +384,7 @@ export class LayerPanel extends React.Component {
   };
 
   handleLayerClick = (e: MouseEvent, layerName: string): void => {
-    const isCtrlOrCmd = (process.platform === 'darwin' && e.metaKey) || (process.platform !== 'darwin' && e.ctrlKey);
+    const isCtrlOrCmd = (window.os === 'MacOS' && e.metaKey) || (window.os !== 'MacOS' && e.ctrlKey);
     if (e.button === 0) {
       if (isCtrlOrCmd) {
         this.toggleLayerSelected(layerName);

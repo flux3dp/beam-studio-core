@@ -2,19 +2,20 @@ const allowTracking = false;
 
 import $ from 'jquery';
 import Backbone from 'backbone';
-import Router from './app/router';
-import globalEvents from './app/actions/global';
-import menuBar from './helpers/menubar';
+import Router from 'app/router';
+import globalEvents from 'app/actions/global';
+import menuBar from 'helpers/menubar';
 
 declare global {
   var requireNode: (name: string) => any;
   interface Window {
-    electron: {
+    electron?: {
       ipc: any,
       events: { [key: string]: string; },
       version: string,
       trigger_file_input_click: (inputId: string) => void,
     },
+    os: 'MacOS' | 'Windows' | 'Linux' | 'others',
   }
 }
 

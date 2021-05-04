@@ -102,7 +102,7 @@ class NetworkTestingPanel extends React.Component {
         }
         catch (e) {
             let message = `${LANG.fail_to_start_network_test}\n${e}`;
-            if (process.platform === 'linux') message += '\n' + LANG.linux_permission_hint;
+            if (window.os === 'Linux') message += '\n' + LANG.linux_permission_hint;
             Alert.popUp({
                 type: AlertConstants.SHOW_POPUP_ERROR,
                 message,
@@ -147,7 +147,7 @@ class NetworkTestingPanel extends React.Component {
 
     _calculateConnectionQuality() {
         const failedPings = this.pingCounts - this.successedPing;
-        const avgRRT = this.totalRRT/this.successedPing;
+        const avgRRT = this.totalRRT / this.successedPing;
         if (avgRRT < 2) { // If rrt < 2 ms, net-ping is more prone to timeout. deduct 1 for each failed ping.
             return 100 - failedPings;
         } else {// deduct 3 for each failed ping, quality would be less than 70 when more than 10 fails occur.
@@ -251,7 +251,7 @@ class NetworkTestingPanel extends React.Component {
                                 defaultValue={this.defaultValue}
                                 onBlur={this._onInputBlur.bind(this)}
                                 onKeyDown={this._onInputKeydown.bind(this)}
-                                >    
+                                >
                             </input>
                         </div>
                     </div>

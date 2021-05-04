@@ -16,7 +16,7 @@ test('test beambox-preference', () => {
   expect(mockRead).toHaveBeenNthCalledWith(1, 'beambox-preference');
   expect(mockWrite).toHaveBeenNthCalledWith(1, 'beambox-preference', {
     should_remind_calibrate_camera: true,
-    mouse_input_device: (process.platform === 'darwin') ? 'TOUCHPAD' : 'MOUSE',
+    mouse_input_device: (window.os === 'MacOS') ? 'TOUCHPAD' : 'MOUSE',
     model: 'fbb1b',
     show_guides: false,
     guide_x0: 0,
