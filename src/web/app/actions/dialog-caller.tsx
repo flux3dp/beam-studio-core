@@ -1,34 +1,33 @@
-/* eslint-disable no-console */
-import Modal from 'app/widgets/Modal';
-import DialogBox from 'app/widgets/Dialog-Box';
-import InputLightBox from 'app/widgets/Input-Lightbox';
-import FluxIdLogin from 'app/views/FluxIdLogin';
+import * as React from 'react';
+import AboutBeamStudio from 'app/views/beambox/About-Beam-Studio';
 import ChangeLogDialog from 'app/views/dialogs/Change-Log';
 import ConfirmPrompt from 'app/views/dialogs/Confirm-Prompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
-import { DialogContextHelper } from 'app/views/dialogs/Dialog';
-import Prompt from 'app/views/dialogs/Prompt';
-import AboutBeamStudio from 'app/views/beambox/About-Beam-Studio';
+import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentPanel from 'app/views/beambox/Document-Panels/Document-Panel';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
+import FluxIdLogin from 'app/views/FluxIdLogin';
+import InputLightBox from 'app/widgets/Input-Lightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
+import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/Network-Testing-Panel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
+import Prompt from 'app/views/dialogs/Prompt';
 import SvgNestButtons from 'app/views/beambox/Svg-Nest-Buttons';
-import { Tutorial } from 'app/views/tutorials/Tutorial';
-import { IPrompt, IDialogBoxStyle, IInputLightBox } from 'interfaces/IDialog';
-import { ITutorial } from 'interfaces/ITutorial';
+import { DialogContextHelper } from 'app/views/dialogs/Dialog';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
+import { ITutorial } from 'interfaces/ITutorial';
+import { Tutorial } from 'app/views/tutorials/Tutorial';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const React = requireNode('react');
-const addDialogComponent = (id: string, component: Element): void => {
+const addDialogComponent = (id: string, component: JSX.Element): void => {
   if (!DialogContextHelper.context) {
     console.log('Dialog context not loaded Yet');
   } else {
@@ -188,7 +187,6 @@ export default {
         caption={args.caption}
         defaultValue={args.defaultValue}
         onYes={args.onYes}
-        onNo={args.onNo}
         onCancel={args.onCancel}
         closeOnBackgroundClick={args.closeOnBackgroundClick}
         onClose={() => popDialogById(id)}
@@ -205,7 +203,7 @@ export default {
         message={args.message}
         confirmValue={args.confirmValue}
         onConfirmed={() => resolve(true)}
-        onCanceled={() => resolve(false)}
+        onCancel={() => resolve(false)}
         onClose={() => popDialogById(id)}
       />);
   }),
@@ -249,7 +247,7 @@ export default {
         }}
       />);
   },
-  showDialogBox: (id: string, style: IDialogBoxStyle, content: string | Element): void => {
+  showDialogBox: (id: string, style: IDialogBoxStyle, content: string): void => {
     if (isIdExist(id)) return;
     console.log(style);
     addDialogComponent(id,

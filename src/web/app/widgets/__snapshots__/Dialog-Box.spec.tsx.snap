@@ -24,9 +24,7 @@ exports[`should render correctly 1`] = `
   <div
     className="dialog-box"
   >
-    <div>
-      Hello World
-    </div>
+    Hello World
   </div>
   <div
     className="close-btn right"

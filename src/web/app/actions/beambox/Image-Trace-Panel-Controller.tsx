@@ -1,4 +1,4 @@
-import ImageTracePanel from '../../views/beambox/Image-Trace-Panel';
+import ImageTracePanel from 'app/views/beambox/Image-Trace-Panel';
 
 const React = requireNode('react');
 const ReactDOM = requireNode('react-dom');

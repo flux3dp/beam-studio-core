@@ -1,25 +1,23 @@
-/* eslint-disable no-console */
-
-/* eslint-disable react/no-multi-comp */
-import BeamboxActions from 'app/actions/beambox';
-import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import BeamboxStore from 'app/stores/beambox-store';
-import ImageTracerApi from 'helpers/api/image-tracer';
-import Modal from 'app/widgets/Modal';
-import SliderControl from 'app/widgets/Slider-Control';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import BeamboxActions from 'app/actions/beambox';
+import BeamboxStore from 'app/stores/beambox-store';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import ImageData from 'helpers/image-data';
-import requirejsHelper from 'helpers/requirejs-helper';
+import Modal from 'app/widgets/Modal';
+import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import SliderControl from 'app/widgets/Slider-Control';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+import ImageTracer = require('imagetracer');
+
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgedit = globalSVG.Edit;
 });
 
-const React = requireNode('react');
+
 const Cropper = requireNode('cropperjs');
 const LANG = i18n.lang.beambox.image_trace_panel;
 

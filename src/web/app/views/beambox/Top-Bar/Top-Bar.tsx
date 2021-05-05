@@ -1,32 +1,34 @@
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import $ from 'jquery';
 import Alert from 'app/actions/alert-caller';
+import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
-import Progress from 'app/actions/progress-caller';
 import BeamboxActions from 'app/actions/beambox';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import ExportFuncs from 'app/actions/beambox/export-funcs';
+import checkDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
-import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
-import Modal from 'app/widgets/Modal';
+import Discover from 'helpers/api/discover';
+import ExportFuncs from 'app/actions/beambox/export-funcs';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import LeftPanel from '../Left-Panels/Left-Panel';
+import Modal from 'app/widgets/Modal';
+import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
+import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import Progress from 'app/actions/progress-caller';
+import sprintf from 'helpers/sprintf';
+import storage from 'helpers/storage-helper';
+import SymbolMaker from 'helpers/symbol-maker';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import VersionChecker from 'helpers/version-checker';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IDeviceInfo } from 'interfaces/IDevice';
 import { ITopBarContext, TopBarContext, TopBarContextProvider } from './contexts/Top-Bar-Context';
 import { TopBarHints } from './Top-Bar-Hints';
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
-import TutorialConstants from 'app/constants/tutorial-constants';
-import { IDeviceInfo } from 'interfaces/IDevice';
-import AlertConfig from 'helpers/api/alert-config';
-import Discover from 'helpers/api/discover';
-import checkDeviceStatus from 'helpers/check-device-status';
-import DeviceMaster from 'helpers/device-master';
-import storage from 'helpers/storage-helper';
-import sprintf from 'helpers/sprintf';
-import SymbolMaker from 'helpers/symbol-maker';
-import VersionChecker from 'helpers/version-checker';
-import * as i18n from 'helpers/i18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgEditor;
@@ -35,7 +37,6 @@ getSVGAsync((globalSVG) => {
     svgEditor = globalSVG.Editor;
 });
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const { $ } = window;
 const lang = i18n.lang;
@@ -43,23 +44,24 @@ const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
 let _contextCaller;
 
-export class TopBar extends React.Component {
+interface State {
+  isPreviewing: boolean;
+  hasDiscoverdMachine: boolean;
+  shouldShowDeviceList: boolean;
+  deviceListDir: string;
+  deviceListType?: string | null;
+  selectDeviceCallback: () => void;
+}
+
+export class TopBar extends React.Component<any, State> {
     private deviceList: IDeviceInfo[];
-    private state: {
-        isPreviewing?: boolean,
-        hasDiscoverdMachine?: boolean,
-        shouldShowDeviceList?: boolean,
-        deviceListType?: string|null,
-        deviceListDir?: string,
-        selectDeviceCallback?: (device?: IDeviceInfo) => void,
-    };
-    private setState: (newState: any) => void;
+
     private context: ITopBarContext;
     private discover: any;
     private topBarClassName: string;
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.deviceList = [];
         this.state = {
             isPreviewing: false,

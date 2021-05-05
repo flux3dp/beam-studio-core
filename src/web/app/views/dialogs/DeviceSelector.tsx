@@ -1,15 +1,19 @@
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
 import discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-const classNames = requireNode('classnames');
-const React = requireNode('react');
-const { useRef, useEffect, useState } = React;
+const { useEffect, useState } = React;
 
 let _discover = null;
 
-const DeviceSelector = ({ onSelect, onClose }) => {
+interface Props {
+  onSelect: (device: IDeviceInfo) => void;
+  onClose: () => void;
+}
+
+const DeviceSelector = ({ onSelect, onClose }: Props) => {
     const [deviceList, setDeviceList] = useState([]);
     useEffect(() => {
         _discover = discover('device-selector', (discoverdDevices) => {
@@ -75,6 +79,6 @@ const DeviceSelector = ({ onSelect, onClose }) => {
             </div>
         </Modal>
     )
-}
+};
 
 export default DeviceSelector;

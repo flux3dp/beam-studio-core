@@ -1,22 +1,23 @@
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import $ from 'jquery';
-import Constant from '../../../actions/beambox/constant';
-import RowColumnPanel from './RowColumn';
+import Constant from 'app/actions/beambox/constant';
+import storage from 'helpers/storage-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import IntervalPanel from './Interval';
-import OffsetDirPanel from './OffsetDir';
-import OffsetCornerPanel from './OffsetCorner';
-import OffsetDistPanel from './OffsetDist';
-import NestSpacingPanel from './NestSpacing';
 import NestGAPanel from './NestGA';
 import NestRotationPanel from './NestRotation';
-import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import NestSpacingPanel from './NestSpacing';
+import OffsetCornerPanel from './OffsetCorner';
+import OffsetDirPanel from './OffsetDir';
+import OffsetDistPanel from './OffsetDist';
+import RowColumnPanel from './RowColumn';
+
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
-const React = requireNode('react');
+
 const ClassNames = requireNode('classnames');
-const PropTypes = requireNode('prop-types');
 const LANG = i18n.lang.beambox.tool_panels;
 
 let _mm2pixel = function(pixel_input) {
@@ -31,7 +32,15 @@ const validPanelsMap = {
     'nest': ['nestOffset', 'nestRotation', 'nestGA'],
 };
 
-class ToolPanel extends React.Component {
+export type ToolPanelType = 'unknown' | 'gridArray' | 'offset' | 'nest';
+
+interface Props {
+  type: ToolPanelType;
+  data: any;
+  unmount: () => void;
+}
+
+class ToolPanel extends React.Component<Props> {
     constructor(props) {
         super(props);
         this._setArrayRowColumn = this._setArrayRowColumn.bind(this);
@@ -241,11 +250,6 @@ class ToolPanel extends React.Component {
             </div>
         );
     }
-};
-
-ToolPanel.propTypes = {
-    type: PropTypes.oneOf(Object.keys(validPanelsMap)).isRequired,
-    data: PropTypes.object.isRequired,
 };
 
 export default ToolPanel;
