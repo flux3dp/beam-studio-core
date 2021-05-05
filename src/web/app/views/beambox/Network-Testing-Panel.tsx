@@ -1,18 +1,22 @@
-import Modal from '../../widgets/Modal';
-import Alert from '../../actions/alert-caller';
-import AlertConstants from '../../constants/alert-constants';
-import Progress from '../../actions/progress-caller';
-import KeycodeConstants from '../../constants/keycode-constants';
-import Discover from '../../../helpers/api/discover';
-import * as i18n from '../../../helpers/i18n';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import Discover from 'helpers/api/discover';
+import KeycodeConstants from 'app/constants/keycode-constants';
+import Modal from 'app/widgets/Modal';
+import Progress from 'app/actions/progress-caller';
 
-const React = requireNode('react');
 const ping = requireNode('net-ping');
 const LANG = i18n.lang.beambox.network_testing_panel;
 const { shell } = requireNode('electron').remote
 
+interface Props {
+  ip: string;
+  onClose: () => void;
+}
 
-class NetworkTestingPanel extends React.Component {
+class NetworkTestingPanel extends React.Component<Props> {
     constructor(props) {
         super(props);
         let ip = '';

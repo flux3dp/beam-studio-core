@@ -1,60 +1,92 @@
 // refer to: https://gist.github.com/jbottigliero/7982340,
 //           https://github.com/JedWatson/react-select
-const React = requireNode('react');
-const PropTypes = requireNode('prop-types');
+import * as React from 'react';
 
-class Select extends React.Component{
-    render() {
-        // the default value for the <select> (selected for ReactJS)
-        // http://facebook.github.io/react/docs/forms.html#why-select-value
-        var defaultValue = this.props.defaultValue;
+interface Props {
+  id?: string;
+  name?: string;
+  className?: string;
+  multiple?: boolean;
+  disabled?: boolean;
+  options: {
+    value: string,
+    label: string,
+    selected: boolean;
+    data?: any;
+  }[];
+  defaultValue?: string | string[];
+  onChange: (e: any) => void;
+}
 
-        var options = this.props.options.map(function(opt, i){
+class Select extends React.Component<Props> {
+  renderOptions = (isMultiple, defaultValue, options) => {
+    let defaultOptionValue;
+    const renderedOptions = options.map((opt, i) => {
+      const metadata = JSON.stringify(opt.data);
+      // if this is the selected option, set the <select>'s defaultValue
+      if (opt.selected) {
+        // if the <select> is a multiple, push the values
+        // to an array
+        if (isMultiple) {
+          if (defaultOptionValue === undefined) {
+            defaultOptionValue = [];
+          }
+          if (defaultOptionValue instanceof Array) {
+            defaultOptionValue.push(opt.value);
+          }
+        } else {
+          // otherwise, just set the value.
+          // NOTE: this means if you pass in a list of options with
+          // multiple 'selected', WITHOUT specifiying 'multiple',
+          // properties the last option in the list will be the ONLY item selected.
+          defaultOptionValue = (defaultValue !== undefined ? defaultValue : opt.value);
+        }
+      }
+      // attribute schema matches <option> spec; http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.6
+      // EXCEPT for 'key' attribute which is requested by ReactJS
+      return (
+        // eslint-disable-next-line react/no-array-index-key
+        <option key={i} value={opt.value} label={opt.label} data-meta={metadata}>
+          {opt.label}
+        </option>
+      );
+    });
 
-            var metadata = JSON.stringify(opt.data);
+    return [renderedOptions, defaultOptionValue];
+  };
 
-            // if this is the selected option, set the <select>'s defaultValue
-            if (opt.selected === true || opt.selected === 'selected') {
-                // if the <select> is a multiple, push the values
-                // to an array
-                if (this.props.multiple) {
-                    if (defaultValue === undefined) {
-                        defaultValue = [];
-                    }
-                    defaultValue.push( opt.value );
-                } else {
-                    // otherwise, just set the value.
-                    // NOTE: this means if you pass in a list of options with
-                    // multiple 'selected', WITHOUT specifiying 'multiple',
-                    // properties the last option in the list will be the ONLY item selected.
-                    defaultValue = (defaultValue !== undefined ? defaultValue : opt.value);
-                }
-            }
+  render() {
+    // the default value for the <select> (selected for ReactJS)
+    // http://facebook.github.io/react/docs/forms.html#why-select-value
+    const {
+      id,
+      name,
+      className,
+      defaultValue,
+      options,
+      multiple,
+      disabled,
+      onChange,
+    } = this.props;
 
-            // attribute schema matches <option> spec; http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.6
-            // EXCEPT for 'key' attribute which is requested by ReactJS
-            return <option key={i} value={opt.value} label={opt.label} data-meta={metadata}>{opt.label}</option>;
-        }, this);
+    // eslint-disable-next-line max-len
+    const [renderedOptions, defaultOptionValue] = this.renderOptions(multiple, defaultValue, options);
 
-        return  <select
-                    disabled={this.props.disabled}
-                    defaultValue={defaultValue}
-                    value={defaultValue}
-                    multiple={this.props.multiple}
-                    name={this.props.name}
-                    id={this.props.id}
-                    className={this.props.className}
-                    onChange={this.props.onChange}
-                >
-                    {options}
-                </select>;
-    }
-};
-Select.defaultProps = {
-    multiple: false
-};
-Select.propType = {
-    onChange: PropTypes.func
-};
+    return (
+      <select
+        disabled={disabled}
+        defaultValue={defaultOptionValue}
+        value={defaultOptionValue}
+        multiple={multiple}
+        name={name}
+        id={id}
+        className={className}
+        onChange={onChange}
+      >
+        {renderedOptions}
+      </select>
+    );
+  }
+}
 
 export default Select;

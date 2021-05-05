@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Select should render correctly 1`] = `
+<select
+  className="test123"
+  defaultValue={
+    Array [
+      "en",
+      "jp",
+    ]
+  }
+  id="123"
+  multiple={true}
+  name="select-lang"
+  onChange={[MockFunction]}
+  value={
+    Array [
+      "en",
+      "jp",
+    ]
+  }
+>
+  <option
+    key="0"
+    label="en"
+    value="en"
+  >
+    en
+  </option>
+  <option
+    key="1"
+    label="es"
+    value="es"
+  >
+    es
+  </option>
+  <option
+    key="2"
+    label="jp"
+    value="jp"
+  >
+    jp
+  </option>
+</select>
+`;
+
+exports[`test Select should render correctly 2`] = `
+<select
+  className="test123"
+  defaultValue="en"
+  id="123"
+  name="select-lang"
+  onChange={[MockFunction]}
+  value="en"
+>
+  <option
+    key="0"
+    label="en"
+    value="en"
+  >
+    en
+  </option>
+  <option
+    key="1"
+    label="es"
+    value="es"
+  >
+    es
+  </option>
+  <option
+    key="2"
+    label="jp"
+    value="jp"
+  >
+    jp
+  </option>
+</select>
+`;

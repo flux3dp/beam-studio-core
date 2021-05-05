@@ -1,15 +1,15 @@
-/* eslint-disable react/sort-comp, no-console */
-import $ from 'jquery';
-import Constants from 'app/actions/beambox/constant';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import $ from 'jquery';
+import ButtonGroup from 'app/widgets/Button-Group';
+import Constants from 'app/actions/beambox/constant';
+import CurveControl from 'app/widgets/Curve-Control';
 import ImageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
-import Progress from 'app/actions/progress-caller';
 import Modal from 'app/widgets/Modal';
-import ButtonGroup from 'app/widgets/Button-Group';
-import CurveControl from 'app/widgets/Curve-Control';
-import SliderControl from 'app/widgets/Slider-Control';
 import OpenCVWebSocket from 'helpers/api/open-cv';
+import Progress from 'app/actions/progress-caller';
+import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IButton } from 'interfaces/IButton';
 import { IImageDataResult } from 'interfaces/IImageData';
@@ -23,7 +23,6 @@ getSVGAsync((globalSVG) => {
 
 const classNames = requireNode('classnames');
 const Cropper = requireNode('cropperjs');
-const React = requireNode('react');
 const jimp = requireNode('jimp');
 
 const opencvWS = new OpenCVWebSocket();
@@ -34,15 +33,15 @@ const updateLang = () => {
 
 export type PhotoEditMode = 'sharpen' | 'crop' | 'curve';
 
-interface IProps {
+interface Props {
   element: HTMLElement,
   src: string,
   mode: PhotoEditMode,
   unmount: () => void,
 }
 
-class PhotoEditPanel extends React.Component<IProps> {
-  constructor(props: IProps) {
+class PhotoEditPanel extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
     updateLang();
     const { element, src } = this.props;

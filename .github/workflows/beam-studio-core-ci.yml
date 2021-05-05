@@ -5,8 +5,6 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
 
 jobs:
   unit-test:
@@ -23,12 +21,12 @@ jobs:
       - name: Run unit tests
         run: yarn run spec
   # https://github.com/marketplace/actions/run-eslint-with-reviewdog
-  eslint-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Eslint check
-        uses: reviewdog/action-eslint@v1
+  # eslint-check:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Eslint check
+  #       uses: reviewdog/action-eslint@v1
         # with:
         # remove this parameter due to this known issue: https://github.com/reviewdog/reviewdog/issues/848
         #   fail_on_error: true

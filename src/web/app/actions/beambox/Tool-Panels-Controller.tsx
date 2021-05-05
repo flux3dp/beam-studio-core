@@ -1,4 +1,4 @@
-import ToolPanels from '../../views/beambox/Tool-Panels/Tool-Panels';
+import ToolPanels, { ToolPanelType } from '../../views/beambox/Tool-Panels/Tool-Panels';
 import BeamboxGlobalInteraction from '../../actions/beambox/beambox-global-interaction';
 
 const React = requireNode('react');
@@ -7,7 +7,7 @@ const ReactDOM = requireNode('react-dom');
 class ToolPanelsController {
     isVisible: boolean;
     reactRoot: string;
-    type: string;
+    type: ToolPanelType;
     $me: JQuery<HTMLElement>;
     data: { rowcolumn: { row: number; column: number; }; distance: { dx: number; dy: number; }; };
     isEditable: boolean;
@@ -52,7 +52,7 @@ class ToolPanelsController {
         this.isEditable = isEditable;
     }
 
-    setType(type) {
+    setType(type: ToolPanelType) {
         this.type = type;
     }
 
@@ -81,7 +81,6 @@ class ToolPanelsController {
     _render() {
         ReactDOM.render(
             <ToolPanels
-                isEditable={this.isEditable}
                 type={this.type}
                 data = {this.data}
                 unmount = {this.unmount.bind(this)}

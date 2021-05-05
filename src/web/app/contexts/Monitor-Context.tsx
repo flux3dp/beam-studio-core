@@ -1,28 +1,25 @@
-const React = requireNode('react');
-
+import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
-import ElectronDialogs from 'app/actions/electron-dialogs';
-import Progress from 'app/actions/progress-caller';
-import AlertConstants from 'app/constants/alert-constants';
 import DeviceConstants from 'app/constants/device-constants';
-import { Mode, ItemType } from 'app/constants/monitor-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
+import ElectronDialogs from 'app/actions/electron-dialogs';
+import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
+import Progress from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
-import i18n from 'helpers/i18n';
-import { IReport } from 'interfaces/IDevice';
 import { IProgress } from 'interfaces/IProgress';
+import { IDeviceInfo, IReport } from 'interfaces/IDevice';
+import { ItemType, Mode } from 'app/constants/monitor-constants';
 
 let LANG = i18n.lang;
 const updateLang = () => {
     LANG = i18n.lang;
 }
-
-const { createContext } = React;
 
 const getFirstBlobInArray = (array: any[]) => {
     const id = array.findIndex((elem) => elem instanceof Blob);
@@ -40,9 +37,49 @@ const findKeyInObjectArray = (array: any[], key: string) => {
     return null;
 }
 
-export const MonitorContext = createContext();
+export const MonitorContext = React.createContext(null);
 
-export class MonitorContextProvider extends React.Component {
+interface Props {
+  mode: Mode;
+  previewTask?: { fcodeBlob: string, taskImageURL: string, taskTime: number };
+  device: IDeviceInfo;
+  onClose: () => void;
+}
+
+interface State {
+  mode: Mode;
+  currentPath: string[];
+  highlightedItem: any;
+  fileInfo: any[];
+  previewTask: { fcodeBlob: string, taskImageURL: string, taskTime: number };
+  workingTask: any,
+  taskImageURL: string | null;
+  taskTime: number | null;
+  report: any;
+  uploadProgress: number | null;
+  downloadProgress: number | null;
+  shouldUpdateFileList: boolean;
+  currentPosition: { x: number, y: number };
+  relocateOrigin: { x: number, y: number };
+  cameraOffset?: {
+    x: number,
+    y: number,
+    angle: number,
+    scaleRatioX: number,
+    scaleRatioY: number,
+  };
+  isMaintainMoving?: boolean;
+}
+
+export class MonitorContextProvider extends React.Component<Props, State> {
+  didErrorPopped: boolean;
+
+  modeBeforeCamera: Mode;
+
+  modeBeforeRelocate: Mode;
+
+  reporter: NodeJS.Timeout;
+
     constructor(props) {
         super(props);
         const { mode, previewTask } = props;
@@ -310,7 +347,7 @@ export class MonitorContextProvider extends React.Component {
             this.modeBeforeCamera = Mode.PREVIEW;
         } else if (fileInfo) {
             const { imageBlob, taskTime } = this.getTaskInfo(fileInfo);
-            const taskImageURL = URL.createObjectURL(imageBlob); 
+            const taskImageURL = URL.createObjectURL(imageBlob);
             this.setState({
                 mode: mode === Mode.CAMERA ? Mode.CAMERA : Mode.FILE_PREVIEW,
                 taskImageURL,
