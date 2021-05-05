@@ -1,17 +1,19 @@
-import Modal from '../../widgets/Modal'
-import SelectView from '../../widgets/Select';
-import VerticalSlider from '../../widgets/Vertical-Slider-Control';
+import * as React from 'react';
+import * as i18n from '../../../helpers/i18n';
 import BeamboxStore from '../../stores/beambox-store';
 import ExportFuncs from '../../actions/beambox/export-funcs';
+import Modal from '../../widgets/Modal';
 import ProgressActions from '../../actions/progress-actions';
 import ProgressConstants from '../../constants/progress-constants';
-import * as i18n from '../../../helpers/i18n';
+import SelectView from '../../widgets/Select';
+import VerticalSlider from '../../widgets/Vertical-Slider-Control';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
-const React = requireNode('react');
+
 const LANG = i18n.lang.topmenu;
 const SerialPort = requireNode('serialport');
 const LINES_PER_PAGE = 100;
@@ -114,7 +116,7 @@ class TaskInterpreterPanel extends React.Component {
                     console.log(`Successfully open port to ${this.state.selectedPort}`);
                 }
             });
-            
+
             this.port.on('open', () => {
                 console.log('Port Opened');
             });
@@ -126,11 +128,11 @@ class TaskInterpreterPanel extends React.Component {
             this.port.on('error', err => {
                 console.log('Port err:', err);
             });
-            
+
             this.port.on('drain', () => {
                 console.log('drained');
             });
-            
+
             this.port.on('data', data => {
                 console.log('Port:', data.toString());
                 this.state.consoleText += data.toString();
@@ -142,7 +144,7 @@ class TaskInterpreterPanel extends React.Component {
                         $('.console').scrollTop(Number.MAX_SAFE_INTEGER);
                     });
                 }
-                    
+
                 this._ondataCB(data.toString());
             });
         }
@@ -192,7 +194,7 @@ class TaskInterpreterPanel extends React.Component {
                 firstIndex: 0,
                 currentIndex: 0
             });
-            
+
         }
         fileReader.readAsText(gcodeBlob);
     }
@@ -397,7 +399,7 @@ class TaskInterpreterPanel extends React.Component {
             this.setState({currentIndex: 0});
         }
     }
-    
+
     async _waitForHoming () {
         if (this.port && this.port.isOpen) {
             this.port.write('$H\n');
@@ -427,7 +429,7 @@ class TaskInterpreterPanel extends React.Component {
                         this._ondataCB = () => {};
                         suc = true;
                         resolve(data);
-                    } 
+                    }
                 }
                 setTimeout(() => {
                     if (!suc) {

@@ -80,9 +80,6 @@ exports[`test Connect-Ethernet should render correctly in mac 1`] = `
       </div>
     </div>
   }
-  disabledEscapeOnBackground={false}
-  onClose={[Function]}
-  onOpen={[Function]}
 />
 `;
 
@@ -166,8 +163,5 @@ exports[`test Connect-Ethernet should render correctly in win 1`] = `
       </div>
     </div>
   }
-  disabledEscapeOnBackground={false}
-  onClose={[Function]}
-  onOpen={[Function]}
 />
 `;

@@ -176,7 +176,7 @@ class UnitInput extends React.Component{
     }
 
     render() {
-        let _renderUnit = '';
+        let _renderUnit: string | JSX.Element = '';
         if(this.props.unit !== '') {
             _renderUnit = <span className="unit">{this.getLengthUnit()}</span>;
         }

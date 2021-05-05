@@ -105,8 +105,5 @@ exports[`test Connect-Wired should render correctly 1`] = `
       </div>
     </div>
   }
-  disabledEscapeOnBackground={false}
-  onClose={[Function]}
-  onOpen={[Function]}
 />
 `;

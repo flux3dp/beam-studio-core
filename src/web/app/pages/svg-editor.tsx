@@ -1,14 +1,13 @@
-import storage from 'helpers/storage-helper';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import $ from 'jquery';
+import classNames from 'classnames';
+import storage from 'helpers/storage-helper';
+import svgEditor from 'app/actions/beambox/svg-editor';
 import TaskInterpreterPanel from 'app/views/beambox/Task-Interpreter-Panel';
 import { RightPanel } from 'app/views/beambox/Right-Panels/Right-Panel';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
-import svgEditor from 'app/actions/beambox/svg-editor';
-import $ from 'jquery';
 
-// TODO: fix loading these libraries?
-const React = requireNode('react');
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox;
 export default class SVGEditor extends React.Component {
   componentDidMount() {
@@ -20,13 +19,15 @@ export default class SVGEditor extends React.Component {
     e.preventDefault();
     e.stopPropagation();
   }
+
   render() {
     // HIDE ALMOST ALL TOOLS USING CSS
+    const platformClassNames = classNames({ mac: window.os === 'MacOS' });
     return (
       <div>
         <TaskInterpreterPanel />
-        <div id="svg_editor" className={classNames({ mac: window.os === 'MacOS' })}>
-          <div id="rulers" className={classNames({ mac: window.os === 'MacOS' })}>
+        <div id="svg_editor" className={platformClassNames}>
+          <div id="rulers" className={platformClassNames}>
             <div id="ruler_corner" />
             <div id="ruler_x">
               <div>
@@ -40,12 +41,12 @@ export default class SVGEditor extends React.Component {
             </div>
             <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
           </div>
-          <div id="workarea" className={classNames({ mac: window.os === 'MacOS' })}>
+          <div id="workarea" className={platformClassNames}>
             <style
               id="styleoverrides"
               type="text/css"
               media="screen"
-              scoped="scoped"
+              scoped
               dangerouslySetInnerHTML={{
                 __html: '',
               }}
@@ -1035,7 +1036,7 @@ export default class SVGEditor extends React.Component {
                     type="radio"
                     name="image_opt"
                     defaultValue="embed"
-                    defaultChecked="checked"
+                    defaultChecked
                   />
                   {' '}
                   <span id="image_opt_embed">
@@ -1160,7 +1161,7 @@ export default class SVGEditor extends React.Component {
                     type="checkbox"
                     defaultValue="show_rulers"
                     id="show_rulers"
-                    defaultChecked="checked"
+                    defaultChecked
                   />
                 </label>
                 <label>

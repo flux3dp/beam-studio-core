@@ -1,7 +1,6 @@
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
 import i18n from 'helpers/i18n';
-
-const React = requireNode('react');
+import Modal from 'app/widgets/Modal';
 
 let lang = i18n.lang.initialize;
 const updateLang = () => {

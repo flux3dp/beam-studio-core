@@ -1,20 +1,21 @@
-import { RightPanelContext, RightPanelContextProvider } from './contexts/RightPanelContext'
-import { ObjectPanelContextProvider } from './contexts/ObjectPanelContext'
-import { LayerPanelContextProvider } from './contexts/LayerPanelContext'
-import { ObjectPanel } from './Object-Panel'
-import PathEditPanel from './Path-Edit-Panel';
-import { LayerPanel } from './Layer-Panel';
-import * as TutorialController from '../../tutorials/Tutorial-Controller';
-import TutorialConstants from '../../../constants/tutorial-constants';
 import * as i18n from '../../../../helpers/i18n';
+import * as React from 'react';
+import * as TutorialController from '../../tutorials/Tutorial-Controller';
+import classNames from 'classnames';
+import PathEditPanel from './Path-Edit-Panel';
+import TutorialConstants from '../../../constants/tutorial-constants';
 import { getSVGAsync } from '../../../../helpers/svg-editor-helper';
+import { LayerPanel } from './Layer-Panel';
+import { LayerPanelContextProvider } from './contexts/LayerPanelContext';
+import { ObjectPanel } from './Object-Panel';
+import { ObjectPanelContextProvider } from './contexts/ObjectPanelContext';
+import { RightPanelContext, RightPanelContextProvider } from './contexts/RightPanelContext';
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 let _contextCaller;
 
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+
 const LANG = i18n.lang.beambox.right_panel;
 
 const isWin = window.os === 'Windows';

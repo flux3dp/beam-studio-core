@@ -1,5 +1,5 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import * as React from 'react';
+import classNames from 'classnames';
 
 interface Props {
   id: string;
@@ -60,12 +60,12 @@ class SwitchControl extends React.Component<Props, State> {
     } = this.props;
     const { checked } = this.state;
     return (
-      <div className={classNames('controls', { disabled: isDisabled })} name={id}>
+      <div className={classNames('controls', { disabled: isDisabled })} data-name={id}>
         <div className="label pull-left">{label}</div>
         <div className="control">
           <div className="switch-container">
             <div className="switch-status">{checked ? onText : offText}</div>
-            <div className="onoffswitch" name={name || ''}>
+            <div className="onoffswitch" data-name={name || ''}>
               <input
                 type="checkbox"
                 name="onoffswitch"

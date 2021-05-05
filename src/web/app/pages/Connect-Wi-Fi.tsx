@@ -1,16 +1,19 @@
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
+import classNames from 'classnames';
 import i18n from 'helpers/i18n';
-
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import Modal from 'app/widgets/Modal';
 
 let lang = i18n.lang.initialize;
-
 const updateLang = () => {
   lang = i18n.lang.initialize;
 };
 
-class ConnectWiFi extends React.PureComponent {
+interface State {
+  showCollapse1: boolean;
+  showCollapse2: boolean;
+}
+
+class ConnectWiFi extends React.PureComponent<any, State> {
   constructor(props) {
     super(props);
     updateLang();

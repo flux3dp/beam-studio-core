@@ -106,8 +106,5 @@ exports[`test Connect-Wi-Fi should render correctly 1`] = `
       </div>
     </div>
   }
-  disabledEscapeOnBackground={false}
-  onClose={[Function]}
-  onOpen={[Function]}
 />
 `;

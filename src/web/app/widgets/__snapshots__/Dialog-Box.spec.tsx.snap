@@ -3,7 +3,7 @@
 exports[`should render correctly 1`] = `
 <div
   className="dialog-box-container"
-  onClick={[Function]}
+  onClick={[MockFunction]}
   style={
     Object {
       "bottom": NaN,
@@ -23,10 +23,14 @@ exports[`should render correctly 1`] = `
   />
   <div
     className="dialog-box"
-  />
+  >
+    <div>
+      Hello World
+    </div>
+  </div>
   <div
     className="close-btn right"
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     <div
       className="cross-wrapper"

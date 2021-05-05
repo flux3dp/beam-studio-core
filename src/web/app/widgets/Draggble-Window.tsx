@@ -1,6 +1,6 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
-const Draggable = requireNode('react-draggable');
+import * as React from 'react';
+import classNames from 'classnames';
+import Draggable from 'react-draggable';
 
 interface Props {
   title: string;

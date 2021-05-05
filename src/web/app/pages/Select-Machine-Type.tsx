@@ -1,9 +1,9 @@
-import Modal from 'app/widgets/Modal';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Modal from 'app/widgets/Modal';
 import { WorkareaMap, WorkAreaModel } from 'app/actions/beambox/constant';
 
-const React = requireNode('react');
 const { lang } = i18n;
 
 class SelectMachineType extends React.PureComponent {

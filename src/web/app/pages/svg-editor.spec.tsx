@@ -73,8 +73,8 @@ describe('test Skip-Connect-Machine', () => {
       stopPropagation: jest.fn(),
     };
     mockGet.mockReturnValue('inches');
-    Object.defineProperty(process, 'platform', {
-      value: 'darwin',
+    Object.defineProperty(window, 'os', {
+      value: 'MacOS',
     });
     const wrapper = mount(<SVGEditor />);
     expect(toJson(wrapper)).toMatchSnapshot();
@@ -126,8 +126,8 @@ describe('test Skip-Connect-Machine', () => {
 
   test('should render correctly in win', () => {
     mockGet.mockReturnValue('mm');
-    Object.defineProperty(process, 'platform', {
-      value: 'win32',
+    Object.defineProperty(window, 'os', {
+      value: 'Windows',
     });
     const wrapper = mount(<SVGEditor />);
     expect(toJson(wrapper)).toMatchSnapshot();
