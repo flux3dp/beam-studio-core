@@ -1,5 +1,5 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import * as React from 'react';
+import classNames from 'classnames';
 
 interface IProps {
   id: string,
@@ -20,8 +20,11 @@ interface IState {
   lastValidValue?: string | number,
 }
 
-function isValueValid(value: string): boolean {
-  return value.length > 0 && !Number.isNaN(Number(value));
+function isValueValid(value: string | number): boolean {
+  if (typeof value === 'string') {
+    return value.length > 0 && !Number.isNaN(Number(value));
+  }
+  return true;
 }
 
 class SliderControl extends React.Component<IProps, IState> {
@@ -48,7 +51,7 @@ class SliderControl extends React.Component<IProps, IState> {
     onChange(id, newValue);
   };
 
-  getValidatedValue = (value: string): number => {
+  getValidatedValue = (value: string | number): string | number => {
     const { max, min } = this.props;
     const { lastValidValue } = this.state;
     if (!isValueValid(value)) {
@@ -102,9 +105,8 @@ class SliderControl extends React.Component<IProps, IState> {
     }
   };
 
-  handleEditValue = (e: InputEvent): void => {
-    const target = e.target as HTMLInputElement;
-    const newValue = target.value;
+  handleEditValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const newValue = e.target.value;
     this.setState({ inputValue: newValue });
 
     if (isValueValid(newValue)) {
@@ -126,7 +128,7 @@ class SliderControl extends React.Component<IProps, IState> {
     }
   };
 
-  render(): Element {
+  render(): JSX.Element {
     const {
       id, unit = '', label = '', min, max, step,
     } = this.props;
@@ -145,7 +147,7 @@ class SliderControl extends React.Component<IProps, IState> {
               step={step}
               value={sliderValue}
               onChange={(e) => this.handleSliderChange(e.target.value)}
-              onMouseUp={(e) => this.handleSliderMouseUp(e.target.value)}
+              onMouseUp={(e: any) => this.handleSliderMouseUp(e.target.value)}
             />
           </div>
           <input
@@ -155,7 +157,7 @@ class SliderControl extends React.Component<IProps, IState> {
             onChange={this.handleEditValue}
             onFocus={this.handleEditValue}
             onBlur={this.handleInputBlur}
-            onKeyDown={(e: KeyboardEvent) => e.stopPropagation()}
+            onKeyDown={(e: React.KeyboardEvent) => e.stopPropagation()}
           />
         </div>
       </div>

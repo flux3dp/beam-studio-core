@@ -1,16 +1,20 @@
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
+import classNames from 'classnames';
 import i18n from 'helpers/i18n';
-
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import Modal from 'app/widgets/Modal';
 
 let lang = i18n.lang.initialize;
 const updateLang = (): void => {
   lang = i18n.lang.initialize;
 };
 
+interface State {
+  showCollapse1: boolean;
+  showCollapse2: boolean;
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default () => class ConnectWiFi extends React.PureComponent {
+export default () => class ConnectWiFi extends React.PureComponent<any, State> {
   constructor(props) {
     super(props);
     updateLang();

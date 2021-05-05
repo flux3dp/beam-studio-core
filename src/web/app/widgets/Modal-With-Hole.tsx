@@ -1,7 +1,6 @@
+import * as React from 'react';
+import classNames from 'classnames';
 import Modal from './Modal';
-
-const React = requireNode('react');
-const classNames = requireNode('classnames');
 
 interface HolePosition {
   top: number;
@@ -16,7 +15,7 @@ interface HoleSize {
 }
 
 interface Props {
-  className: string;
+  className?: string;
   holePosition: HolePosition;
   holeSize: HoleSize;
 }
@@ -40,12 +39,11 @@ class ModalWithHole extends React.PureComponent<Props> {
       holePosition,
       holeSize,
       children,
-      content,
     } = this.props;
     if (!holePosition) {
       return (
         <Modal className={{ 'with-hole': true }}>
-          {children || content}
+          {children}
         </Modal>
       );
     }
@@ -67,7 +65,7 @@ class ModalWithHole extends React.PureComponent<Props> {
         <div className="modal-background" style={{ bottom }} />
         <div className="modal-background" style={{ left }} />
         <div className="modal-background" style={{ right }} />
-        <div className="modal-body">{children || content}</div>
+        <div className="modal-body">{children}</div>
       </div>
     );
   }

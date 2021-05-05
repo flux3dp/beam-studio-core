@@ -15,8 +15,8 @@ import { IConfig } from 'interfaces/IAutosave';
 import { IFont } from 'interfaces/IFont';
 import { ILang } from 'interfaces/ILang';
 
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import * as React from 'react';
+import classNames from 'classnames';
 
 const Controls = (props) => {
     const style = { width: 'calc(100% / 10 * 3 - 10px)' };
@@ -68,12 +68,13 @@ const SelectControl = ({ id, label, onChange, options }: ISelectControlProps) =>
     );
 }
 
-class SettingGeneral extends React.Component {
-    private state: {
-        lang?: ILang,
-        editingAutosaveConfig?: IConfig,
-        warnings?: { [key: string]: string},
-    }
+interface State {
+  lang?: ILang;
+  editingAutosaveConfig?: IConfig;
+  warnings?: { [key: string]: string };
+}
+
+class SettingGeneral extends React.Component<any, State> {
     constructor(props) {
         super(props);
         this.state = {

@@ -1,9 +1,8 @@
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import Modal from 'app/widgets/Modal';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
 import windowLocationReload from 'app/actions/windowLocation';
-
-const React = requireNode('react');
 
 const { lang } = i18n;
 

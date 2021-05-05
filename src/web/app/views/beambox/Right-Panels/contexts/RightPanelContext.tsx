@@ -1,4 +1,5 @@
-const React = requireNode('react');
+import * as React from 'react';
+
 const { createContext } = React;
 export const RightPanelContext = createContext();
 

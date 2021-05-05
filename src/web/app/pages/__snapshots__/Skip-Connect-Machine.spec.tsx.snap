@@ -39,9 +39,6 @@ exports[`test Skip-Connect-Machine should render correctly 1`] = `
         </div>
       </div>
     }
-    disabledEscapeOnBackground={false}
-    onClose={[Function]}
-    onOpen={[Function]}
   >
     <div
       className="initialization modal-window"

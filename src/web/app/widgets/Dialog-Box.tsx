@@ -1,5 +1,5 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import * as React from 'react';
+import classNames from 'classnames';
 
 interface Position {
   top?: number;
@@ -7,6 +7,7 @@ interface Position {
   bottom?: number;
   right?: number;
 }
+
 interface Props {
   arrowDirection: 'top' | 'left' | 'bottom' | 'right';
   arrowHeight: number;
@@ -16,16 +17,18 @@ interface Props {
   position: Position;
   onClose: () => void;
   onClick: () => void;
+  content: JSX.Element;
 }
+
 class DialogBox extends React.PureComponent<Props> {
   renderArrow = () => {
     const {
-      arrowDirection,
-      arrowHeight,
-      arrowWidth,
-      arrowColor,
-      arrowPadding,
-      position,
+      arrowDirection = 'left',
+      arrowHeight = 17,
+      arrowWidth = 20,
+      arrowColor = '#0091ff',
+      arrowPadding = 15,
+      position = { left: 100, top: 100 },
     } = this.props;
     const arrowStyle = {
       top: { borderWidth: `0 ${arrowWidth / 2}px ${arrowHeight}px ${arrowWidth / 2}px`, borderColor: `transparent transparent ${arrowColor} transparent` },
@@ -45,11 +48,11 @@ class DialogBox extends React.PureComponent<Props> {
 
   calculatePositioStyle = () => {
     const {
-      arrowDirection,
-      arrowHeight,
-      arrowWidth,
-      arrowPadding,
-      position,
+      arrowDirection = 'left',
+      arrowHeight = 17,
+      arrowWidth = 20,
+      arrowPadding = 15,
+      position = { left: 100, top: 100 },
     } = this.props;
     const horizontalRef = position.left === undefined ? 'right' : 'left';
     const verticalRef = position.top === undefined ? 'bottom' : 'top';
@@ -65,11 +68,11 @@ class DialogBox extends React.PureComponent<Props> {
   };
 
   renderCloseButton = () => {
-    const { position, onClose } = this.props;
+    const { position = { left: 100, top: 100 }, onClose } = this.props;
     const horizontalRef = position.left === undefined ? 'right' : 'left';
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={classNames('close-btn', horizontalRef)} onClick={() => onClose()}>
+      <div className={classNames('close-btn', horizontalRef)} onClick={onClose}>
         <div className="cross-wrapper">
           <div className="bars bar1" />
           <div className="bars bar2" />
@@ -79,10 +82,10 @@ class DialogBox extends React.PureComponent<Props> {
   };
 
   render() {
-    const { children, content, onClick } = this.props;
+    const { children, content, onClick = () => { } } = this.props;
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={classNames('dialog-box-container')} style={this.calculatePositioStyle()} onClick={() => onClick()}>
+      <div className={classNames('dialog-box-container')} style={this.calculatePositioStyle()} onClick={onClick}>
         {this.renderArrow()}
         <div className={classNames('dialog-box')}>
           {children || content}
@@ -92,15 +95,5 @@ class DialogBox extends React.PureComponent<Props> {
     );
   }
 }
-
-DialogBox.defaultProps = {
-  arrowDirection: 'left',
-  arrowHeight: 17, // Main Axis
-  arrowWidth: 20, // Secondary Axis,
-  arrowColor: '#0091ff',
-  arrowPadding: 15,
-  position: { left: 100, top: 100 },
-  onClick: () => { },
-};
 
 export default DialogBox;

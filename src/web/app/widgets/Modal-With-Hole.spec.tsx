@@ -17,20 +17,4 @@ test('should render correctly', () => {
     }}
     className="abc"
   />))).toMatchSnapshot();
-
-  expect(toJson(shallow(<ModalWithHole
-    holeSize={{
-      width: 100,
-      height: 200,
-    }}
-    className="abc"
-  />))).toMatchSnapshot();
-
-  expect(toJson(shallow(<ModalWithHole
-    holePosition={{
-    }}
-    holeSize={{
-    }}
-    className="abc"
-  />))).toMatchSnapshot();
 });

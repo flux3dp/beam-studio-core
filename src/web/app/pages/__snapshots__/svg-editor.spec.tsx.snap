@@ -55,7 +55,7 @@ exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
           }
           id="styleoverrides"
           media="screen"
-          scoped="scoped"
+          scoped={true}
           type="text/css"
         />
         <div
@@ -1597,7 +1597,7 @@ exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
             </legend>
             <label>
               <input
-                defaultChecked="checked"
+                defaultChecked={true}
                 defaultValue="embed"
                 name="image_opt"
                 type="radio"
@@ -1837,7 +1837,7 @@ exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
                 Show rulers
               </span>
               <input
-                defaultChecked="checked"
+                defaultChecked={true}
                 defaultValue="show_rulers"
                 id="show_rulers"
                 type="checkbox"
@@ -2073,7 +2073,7 @@ exports[`test Skip-Connect-Machine should render correctly in win 1`] = `
           }
           id="styleoverrides"
           media="screen"
-          scoped="scoped"
+          scoped={true}
           type="text/css"
         />
         <div
@@ -3615,7 +3615,7 @@ exports[`test Skip-Connect-Machine should render correctly in win 1`] = `
             </legend>
             <label>
               <input
-                defaultChecked="checked"
+                defaultChecked={true}
                 defaultValue="embed"
                 name="image_opt"
                 type="radio"
@@ -3855,7 +3855,7 @@ exports[`test Skip-Connect-Machine should render correctly in win 1`] = `
                 Show rulers
               </span>
               <input
-                defaultChecked="checked"
+                defaultChecked={true}
                 defaultValue="show_rulers"
                 id="show_rulers"
                 type="checkbox"

@@ -89,9 +89,6 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
         </div>
       </div>
     }
-    disabledEscapeOnBackground={false}
-    onClose={[Function]}
-    onOpen={[Function]}
   >
     <div
       className="initialization modal-window"
@@ -276,9 +273,6 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
         </div>
       </div>
     }
-    disabledEscapeOnBackground={false}
-    onClose={[Function]}
-    onOpen={[Function]}
   >
     <div
       className="initialization modal-window"
@@ -463,9 +457,6 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
         </div>
       </div>
     }
-    disabledEscapeOnBackground={false}
-    onClose={[Function]}
-    onOpen={[Function]}
   >
     <div
       className="initialization modal-window"

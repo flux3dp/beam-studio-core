@@ -1,10 +1,9 @@
+import * as React from 'react';
 import dialog from 'app/actions/dialog-caller';
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import storage from 'helpers/storage-helper';
-import i18n from 'helpers/i18n';
 import windowLocationReload from 'app/actions/windowLocation';
-
-const React = requireNode('react');
 
 let lang;
 
