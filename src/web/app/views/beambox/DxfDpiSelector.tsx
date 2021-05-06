@@ -1,10 +1,17 @@
-import ButtonGroup from '../../widgets/Button-Group';
-import KeyCodeConstants from '../../constants/keycode-constants';
-import * as i18n from '../../../helpers/i18n';
-const React = requireNode('react');
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ButtonGroup from 'app/widgets/Button-Group';
+import KeyCodeConstants from 'app/constants/keycode-constants';
+
 const lang = i18n.lang;
 
-const DxfDpiSelector = ({defaultDpiValue, onSubmit, onCancel}) => {
+interface Props {
+  defaultDpiValue: number;
+  onSubmit: (dpi: number) => void;
+  onCancel: () => void;
+}
+
+const DxfDpiSelector = ({ defaultDpiValue, onSubmit, onCancel }: Props) => {
     const submitValue = () => {
         const dpi = Number($('#dpi-input').val());
         onSubmit(dpi);
@@ -36,7 +43,7 @@ const DxfDpiSelector = ({defaultDpiValue, onSubmit, onCancel}) => {
     const style = {
         padding: '3px 10px',
         width: '120px',
-        textAlign: 'left'
+        'text-align': 'left',
     };
     return (
         <div className='dxf-dpi-selector'>
@@ -58,6 +65,6 @@ const DxfDpiSelector = ({defaultDpiValue, onSubmit, onCancel}) => {
             <ButtonGroup buttons={buttons}/>
         </div>
     );
-};
+}
 
 export default DxfDpiSelector;

@@ -1,17 +1,16 @@
-/* eslint-disable react/no-danger */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-props-no-spreading */
+import * as React from 'react';
 import { IButton } from 'interfaces/IButton';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 
-interface IProps {
-  buttons: IButton[],
+interface Props {
+  buttons: IButton[];
+  className?: string;
 }
-class ButtonGroup extends React.Component<IProps> {
-  render(): void {
-    const { buttons } = this.props as IProps;
+
+class ButtonGroup extends React.Component<Props> {
+  render() {
+    const { buttons } = this.props;
     if (buttons.length <= 0) {
       return <span />;
     }
