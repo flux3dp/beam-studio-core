@@ -1,11 +1,37 @@
-import keyCodeConstants from '../constants/keycode-constants';
+import * as React from 'react';
+import keyCodeConstants from 'app/constants/keycode-constants';
 import storage from 'helpers/storage-helper';
 
 const ClassNames = requireNode('classnames');
-const React = requireNode('react');
 const PropTypes = requireNode('prop-types');
 
-class UnitInput extends React.Component{
+interface Props {
+  type?: string;
+  defaultValue: number;
+  unit?: string;
+  decimal?: number;
+  max?: number;
+  min?: number;
+  getValue: (value: number) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  isDoOnInput?: boolean;
+  onKeyUp?: (e) => any;
+  step?: number;
+  forceUsePropsUnit?: boolean;
+  displayMultiValue?: boolean;
+  abbr?: boolean;
+  className?: any;
+  disabled?: boolean;
+}
+
+interface State {
+  isEditing: boolean;
+  displayValue: number;
+  savedValue: number;
+}
+
+class UnitInput extends React.Component<Props, State> {
     private decimal: number = 0;
     constructor(props) {
         super(props);

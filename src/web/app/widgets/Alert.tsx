@@ -1,15 +1,34 @@
+import * as React from 'react';
 import ButtonGroup from 'app/widgets/Button-Group';
 import Modal from 'app/widgets/Modal';
 
 const classNames = requireNode('classnames');
 const electron = requireNode('electron');
-const React = requireNode('react');
 
-class Alert extends React.Component {
+interface Props {
+  caption: string;
+  iconUrl?: string;
+  message: string | JSX.Element;
+  checkboxText?: string;
+  checkboxCallbacks?: () => void | (() => void)[];
+  onClose?: () => void;
+  animationClass?: string;
+  buttons: {
+    label: string;
+    className: string;
+    onClick: () => void;
+  }[];
+}
+
+interface State {
+  checkboxChecked: boolean;
+}
+
+class Alert extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
-            checkboxChecked: false
+            checkboxChecked: false,
         }
         this.messageRef = React.createRef();
     }
