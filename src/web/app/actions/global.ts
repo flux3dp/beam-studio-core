@@ -3,8 +3,6 @@ import * as i18n from '../../helpers/i18n';
 import shortcuts from '../../helpers/shortcuts';
 import config from '../../helpers/api/config';
 import Logger from '../../helpers/logger';
-import DeviceMaster from '../../helpers/device-master';
-import AlertActions from './alert-actions';
 import { getSVGAsync } from '../../helpers/svg-editor-helper';
 let svgCanvas;
 let svgEditor;
@@ -115,16 +113,6 @@ $('body').on('click', '[data-ga-event]', function(e) {
 window.onerror = function(message, source, lineno, colno, error) {
     genericLogger.append([message, source, lineno].join(' '));
 };
-
-//Process Visual C++ Redistributable Check
-FLUX.processPythonException = function(exception_str){
-    if(exception_str.indexOf("ImportError: DLL load failed") !== -1){
-        AlertActions.showPopupError(
-            'error-vcredist',
-            lang.support.no_vcredist
-        );
-    }
-}
 
 export default function(callback) {
     var $body = $('body'),

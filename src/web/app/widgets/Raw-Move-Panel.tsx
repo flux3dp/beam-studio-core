@@ -24,7 +24,7 @@ interface State {
 }
 
 class RawMovePanel extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const device = DeviceMaster.currentDevice.info;
     this.state = {
@@ -38,7 +38,7 @@ class RawMovePanel extends React.Component<Props, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  getSafeDistance() {
+  getSafeDistance(): { x: number, y: number } {
     if (BeamboxPreference.read('enable-diode')) {
       return {
         x: 45,
@@ -59,18 +59,18 @@ class RawMovePanel extends React.Component<Props, State> {
     }
   };
 
-  estimateMoveTime = (x: number, y: number) => {
+  estimateMoveTime = (x: number, y: number): Promise<void> => {
     const { currentX, currentY, feedrate } = this.state;
     const dist = Math.hypot(currentX - x, currentY - y); // mm
-    const estimatedTime = dist / feedrate * 60; // s
-    return new Promise((resolve) => {
+    const estimatedTime = (dist / feedrate) * 60; // s
+    return new Promise<void>((resolve) => {
       setTimeout(() => {
-        resolve(null);
+        resolve();
       }, estimatedTime * 1000);
     });
   };
 
-  rawHome = async () => {
+  rawHome = async (): Promise<void> => {
     const { onMoveStart } = this.props;
     if (onMoveStart) {
       onMoveStart();
@@ -141,7 +141,7 @@ class RawMovePanel extends React.Component<Props, State> {
     this.rawMove(target.x, target.y);
   };
 
-  render() {
+  render(): JSX.Element {
     const {
       currentX,
       currentY,
@@ -149,7 +149,7 @@ class RawMovePanel extends React.Component<Props, State> {
       safeDistance,
     } = this.state;
     return (
-      <svg className="maintain-move-panel" version="1.1" x="0px" y="0px" viewBox="0 0 538 535.7" style={{ enableBackground: 'new 0 0 538 535.7' }} preserveAspectRatio="none">
+      <svg className="maintain-move-panel" version="1.1" x="0px" y="0px" viewBox="0 0 538 535.7" preserveAspectRatio="none">
         <g>
           <path
             className="st0"

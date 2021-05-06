@@ -147,7 +147,7 @@ export class AlertsAndProgress extends React.Component {
                 );
             }
         })
-        
+
         return (
             <div className='alerts-container'>
                 {components}

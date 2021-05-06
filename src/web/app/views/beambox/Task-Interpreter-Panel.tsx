@@ -3,8 +3,6 @@ import * as i18n from '../../../helpers/i18n';
 import BeamboxStore from '../../stores/beambox-store';
 import ExportFuncs from '../../actions/beambox/export-funcs';
 import Modal from '../../widgets/Modal';
-import ProgressActions from '../../actions/progress-actions';
-import ProgressConstants from '../../constants/progress-constants';
 import SelectView from '../../widgets/Select';
 import VerticalSlider from '../../widgets/Vertical-Slider-Control';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';

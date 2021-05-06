@@ -1,5 +1,5 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
 import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/Monitor-Context';
@@ -7,11 +7,20 @@ import FormatDuration from 'helpers/duration-formatter';
 import MonitorStatus from 'helpers/monitor-status';
 import VersionChecker from 'helpers/version-checker';
 import i18n from 'helpers/i18n';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;
 
-export default class MonitorTask extends React.PureComponent {
+interface IProps {
+  device: IDeviceInfo,
+}
+
+interface IState {
+
+}
+
+export default class MonitorTask extends React.PureComponent<IProps, > {
     renderImage() {
         const { taskImageURL } = this.context;
         const divStyle = {
@@ -55,7 +64,7 @@ export default class MonitorTask extends React.PureComponent {
                 <div className="btn-relocate-container">
                     <div className="btn-relocate" onClick={startRelocate}>
                         <img src="img/beambox/icon-target.svg"/>
-                        {(relocateOrigin.x !== 0 || relocateOrigin.y !== 0) ? 
+                        {(relocateOrigin.x !== 0 || relocateOrigin.y !== 0) ?
                             <div className="relocate-origin">{`(${relocateOrigin.x}, ${relocateOrigin.y})`}</div>
                             : null
                         }
