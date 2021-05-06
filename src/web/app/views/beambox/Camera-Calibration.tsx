@@ -1,30 +1,31 @@
-/* eslint-disable react/no-multi-comp */
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import $ from 'jquery';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import alertConstants from 'app/constants/alert-constants';
 import alert from 'app/actions/alert-caller';
-import dialog from 'app/actions/dialog-caller';
-import progress from 'app/actions/progress-caller';
 import Alert from 'app/widgets/Alert';
-import Modal from 'app/widgets/Modal';
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import Config from 'helpers/api/config';
+import alertConstants from 'app/constants/alert-constants';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import CameraCalibration from 'helpers/api/camera-calibration';
 import CheckDeviceStatus from 'helpers/check-device-status';
+import Config from 'helpers/api/config';
+import Constant from 'app/actions/beambox/constant';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
-import * as i18n from 'helpers/i18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import dialog from 'app/actions/dialog-caller';
+import Modal from 'app/widgets/Modal';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import progress from 'app/actions/progress-caller';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 import VersionChecker from 'helpers/version-checker';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IDeviceInfo } from 'interfaces/IDevice';
+
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
 const classNames = requireNode('classnames');
-const React = requireNode('react');
 const { useState, useEffect, useRef } = React;
 const LANG = i18n.lang.camera_calibration;
 
@@ -43,11 +44,28 @@ let cameraPosition = {
 };
 const calibratedMachineUUIDs = [];
 
-class CameraCalibrationComponent extends React.Component {
-  private props: any
-  private state: any
-  private setState: (newState) => void
-  private unit: string
+interface Props {
+  device: IDeviceInfo;
+  borderless: boolean;
+  onClose: (completed: boolean) => void;
+}
+
+interface State {
+  currentStep: symbol;
+  currentOffset: {
+    X: number;
+    Y: number;
+    R: number;
+    SX: number;
+    SY: number;
+  };
+  imgBlobUrl: string;
+}
+
+class CameraCalibrationComponent extends React.Component<Props, State> {
+  private unit: string;
+
+  origFanSpeed: number;
 
   constructor(props) {
     super(props);

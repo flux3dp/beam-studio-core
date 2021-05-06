@@ -489,7 +489,6 @@ export default function(args) {
         _renderCameraCalibration = () => {
             return (
                 <CameraCalibration
-                    model="beambox"
                     device={this.state.cameraCalibration.device}
                     borderless={this.state.cameraCalibration.borderless}
                     onClose={()=>{
