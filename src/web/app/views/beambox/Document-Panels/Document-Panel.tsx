@@ -82,7 +82,7 @@ interface Props {
 interface State {
   engraveDpi: string;
   workarea: string;
-  rotaryMode: string;
+  rotaryMode: boolean;
   borderlessMode: boolean;
   enableDiode: boolean;
   enableAutofocus: boolean;
