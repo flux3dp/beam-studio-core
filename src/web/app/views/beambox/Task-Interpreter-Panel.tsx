@@ -98,7 +98,7 @@ class TaskInterpreterPanel extends React.Component {
             return ({
                 value: p.path,
                 label: p.path,
-                select: this.state.selectedPort === p.path
+                selected: this.state.selectedPort === p.path
             });
         });
         this.setState({selectedPort: portsList[0].path});

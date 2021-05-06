@@ -1,17 +1,24 @@
-import ButtonGroup from '../../widgets/Button-Group';
-import Modal from '../../widgets/Modal';
-import keyCodeConstants from '../../constants/keycode-constants';
-import * as i18n from '../../../helpers/i18n';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ButtonGroup from 'app/widgets/Button-Group';
+import keyCodeConstants from 'app/constants/keycode-constants';
+import Modal from 'app/widgets/Modal';
+import { IButton } from 'interfaces/IButton';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.alert;
 
-class ConfirmPrompt extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+interface Props {
+  caption?: string;
+  message?: string;
+  buttons?: IButton[];
+  confirmValue?: string;
+  onConfirmed: () => void;
+  onClose: () => void;
+  onCancel: () => void;
+}
 
+class ConfirmPrompt extends React.Component<Props> {
     onValidate = () => {
         const { confirmValue } = this.props;
         if (!confirmValue) {

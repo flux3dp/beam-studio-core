@@ -1,81 +1,87 @@
-import keyCodeConstants from '../constants/keycode-constants';
+import * as React from 'react';
+import $ from 'jquery';
+import keyCodeConstants from 'app/constants/keycode-constants';
 
-const React = requireNode('react');
-const ReactDOM = requireNode('react-dom');
+interface Props {
+  defaultValue: any;
+  validation: (any) => any;
+  getValue: (any) => void;
+}
 
-class ValidationTextInput extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            displayValue: this.props.defaultValue,
-            value: this.props.defaultValue
-        };
+interface State {
+  displayValue: any;
+  value: any;
+}
+
+class ValidationTextInput extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
+    const { defaultValue } = this.props;
+    this.state = {
+      displayValue: defaultValue,
+      value: defaultValue,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { defaultValue } = this.props;
+    if (defaultValue !== prevProps.defaultValue) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        displayValue: defaultValue,
+        value: defaultValue,
+      });
     }
+  }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.defaultValue !== prevProps.defaultValue) {
-            this.setState({
-                displayValue: this.props.defaultValue,
-                value: this.props.defaultValue
-            });
-        }
-    }
+  handleBlur(e) {
+    this.validateAndUpdateValue(e.target.value);
+  }
 
-    validateAndUpdateValue(val) {
-        let res = this.props.validation(val);
-        if (res || res === '') {
-            this.setState({
-                displayValue: res,
-                value: res
-            }, this.props.getValue(res));
+  handleChange(e) {
+    this.setState({ displayValue: e.target.value });
+  }
 
-        } else {
-            this.setState({displayValue: this.state.value});
-        }
-    }
-
-    handleBlur(e) {
+  handleKeyDown(e) {
+    e.stopPropagation();
+    switch (e.keyCode) {
+      case keyCodeConstants.KEY_RETURN:
         this.validateAndUpdateValue(e.target.value);
+        $(e.target)[0].blur();
+        break;
+      case keyCodeConstants.KEY_ESC:
+        this.setState((prevState) => ({ displayValue: prevState.value }));
+        break;
+      default:
+        break;
     }
+  }
 
-    handleChange(e) {
-        this.setState({displayValue: e.target.value});
+  validateAndUpdateValue(val) {
+    const { validation = (s) => s, getValue = () => {} } = this.props;
+    const res = validation(val);
+    if (res || res === '') {
+      this.setState({
+        displayValue: res,
+        value: res,
+      }, () => getValue(res));
+    } else {
+      this.setState((prevState) => ({ displayValue: prevState.value }));
     }
+  }
 
-    handleKeyDown(e) {
-        e.stopPropagation();
-
-        switch (e.keyCode) {
-            case keyCodeConstants.KEY_RETURN:
-                this.validateAndUpdateValue(e.target.value);
-                $(e.target)[0].blur();
-
-                break;
-            case keyCodeConstants.KEY_ESC:
-                this.setState({displayValue: this.state.value});
-                break;
-            default:
-                break;
-        }
-    }
-
-    render() {
-        return (
-            <input
-                type='text'
-                value={this.state.displayValue}
-                onBlur={this.handleBlur.bind(this)}
-                onChange={this.handleChange.bind(this)}
-                onKeyDown={this.handleKeyDown.bind(this)}
-            />
-        );
-    }
-    
-};
-
-ValidationTextInput.defaultProps = {
-    validation: (s) => {return s},
-    getValue: () => {}
-};
+  render() {
+    const { displayValue } = this.state;
+    return (
+      <input
+        type="text"
+        value={displayValue}
+        onBlur={this.handleBlur.bind(this)}
+        onChange={this.handleChange.bind(this)}
+        onKeyDown={this.handleKeyDown.bind(this)}
+      />
+    );
+  }
+}
 
 export default ValidationTextInput;

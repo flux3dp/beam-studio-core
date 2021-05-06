@@ -1,36 +1,45 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
-
-import { Mode } from 'app/constants/monitor-constants';
-import { MonitorContext } from 'app/contexts/Monitor-Context';
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
 import FormatDuration from 'helpers/duration-formatter';
-import MonitorStatus from 'helpers/monitor-status';
 import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
-
-import MonitorHeader, { NavBtnType } from './Monitor-Header';
-import MonitorFilelist from './Monitor-Filelist';
-import MonitorTask from './Monitor-Task';
-import MonitorControl from './Monitor-Control';
+import Modal from 'app/widgets/Modal';
+import { MonitorContext } from 'app/contexts/Monitor-Context';
+import { Mode } from 'app/constants/monitor-constants';
+import { IDeviceInfo } from 'interfaces/IDevice';
+import MonitorStatus from 'helpers/monitor-status';
 import MonitorCamera from './Monitor-Camera';
-import MonitorRelocate from './Monitor-Relocate';
+import MonitorControl from './Monitor-Control';
+import MonitorFilelist from './Monitor-Filelist';
+import MonitorHeader, { NavBtnType } from './Monitor-Header';
 import MonitorInfo from './Monitor-Info';
+import MonitorRelocate from './Monitor-Relocate';
+import MonitorTask from './Monitor-Task';
+
+const classNames = requireNode('classnames');
 
 let LANG = i18n.lang;
 
 const updateLang = () => {
     LANG = i18n.lang;
+};
+
+interface Props {
+  mode?: string;
+  device: IDeviceInfo
 }
 
-export default class Monitor extends React.Component {
+interface State {
+  currentPath: string[];
+  mode: string;
+  report: any;
+}
+
+export default class Monitor extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
             currentPath: [],
             mode: props.mode,
-            selectedItem: {},
-            fileInfo: null,
             report: {},
         };
         updateLang();
@@ -118,22 +127,22 @@ export default class Monitor extends React.Component {
 
         const getInfoProgressText = () => {
             const { mode, taskTime, report, uploadProgress, downloadProgress } = this.context;
-    
+
             if (uploadProgress !== null) {
                 return `${LANG.monitor.processing} ${uploadProgress}%`;
             }
-    
+
             if(downloadProgress !== null) {
                 return `${LANG.monitor.processing} ${Math.floor((downloadProgress.size - downloadProgress.left) / downloadProgress.size * 100)}%`;
             }
-    
+
             if (!taskTime || mode !== Mode.WORKING || !report.prog || MonitorStatus.isAbortedOrCompleted(report)) {
                 return '';
             }
-    
+
             const percentageDone = Math.floor(report.prog * 100);
             const timeLeft = FormatDuration(taskTime * (1 - report.prog));
-    
+
             return `${percentageDone}%, ${timeLeft} ${i18n.lang.monitor.left}`;
         }
 

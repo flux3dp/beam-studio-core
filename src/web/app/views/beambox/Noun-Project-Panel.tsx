@@ -1,11 +1,12 @@
-import { defaultIcons } from 'app/constants/noun-project-constants';
-import Modal from 'app/widgets/Modal';
-import DraggableWindow from 'app/widgets/Draggble-Window';
-import { IData, IIcon } from 'interfaces/INoun-Project';
-import { getNPIconsByTerm, getNPIconByID, fluxIDEvents } from 'helpers/api/flux-id';
-import storage from 'helpers/storage-helper';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import defaultIcons from 'app/constants/noun-project-constants';
+import DraggableWindow from 'app/widgets/Draggble-Window';
+import Modal from 'app/widgets/Modal';
+import storage from 'helpers/storage-helper';
+import { fluxIDEvents, getNPIconByID, getNPIconsByTerm } from 'helpers/api/flux-id';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IIcon } from 'interfaces/INoun-Project';
 
 const EventEmitter = requireNode('events');
 
@@ -14,7 +15,7 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const React = requireNode('react');
+
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.noun_project_panel;
 
@@ -26,7 +27,7 @@ enum Tabs {
   HISTORY = 1,
 };
 
-interface IState {
+interface State {
   currentTab: Tabs,
   term: string,
   isSearching: boolean,
@@ -81,10 +82,13 @@ const updateCache = (icons: IIcon[], term: string, page: number) => {
 
 export const NounProjectPanelController = new EventEmitter();
 
-class NounProjectPanel extends React.Component {
+interface Props {
+  onClose: () => void;
+}
+
+class NounProjectPanel extends React.Component<Props, State> {
   private fetchingTerm: string = '';
   private fetchedPage: number = 0;
-  private state: IState;
   constructor(props) {
     super(props);
     const nounProjectHistory: IIcon[] = storage.get('noun-project-history') || [];

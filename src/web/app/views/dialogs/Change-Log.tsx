@@ -1,7 +1,7 @@
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
 import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
 
-const React = requireNode('react');
 const PropTypes = requireNode('prop-types');
 const LANG = i18n.lang.change_logs;
 
@@ -49,8 +49,12 @@ const CHANGES_EN = {
   ],
 };
 
-class ChangeLogDialog extends React.Component {
-  render(): Element {
+interface Props {
+  onClose: () => void;
+}
+
+class ChangeLogDialog extends React.Component<Props> {
+  render() {
     const renderChangeLogs = () => {
       const activeLang = i18n.getActiveLang();
       const CHANGES = activeLang.startsWith('zh') ? CHANGES_TW : CHANGES_EN;

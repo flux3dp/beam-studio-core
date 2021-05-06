@@ -1,19 +1,26 @@
-import ButtonGroup from '../../widgets/Button-Group';
-import Modal from '../../widgets/Modal';
-import keyCodeConstants from '../../constants/keycode-constants';
-import * as i18n from '../../../helpers/i18n';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ButtonGroup from 'app/widgets/Button-Group';
+import keyCodeConstants from 'app/constants/keycode-constants';
+import Modal from 'app/widgets/Modal';
+import { IButton } from 'interfaces/IButton';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.alert;
 
-class Prompt extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+interface Props {
+  buttons?: IButton[];
+  closeOnBackgroundClick?: boolean;
+  caption?: string;
+  defaultValue?: string;
+  onYes: (value?: string) => void;
+  onClose: () => void;
+  onCancel?: () => void;
+}
 
+class Prompt extends React.Component<Props> {
     handleKeyDown = (e) => {
-        const {onYes, onClose} = this.props;
+        const { onYes, onClose } = this.props;
         if (e.keyCode === keyCodeConstants.KEY_RETURN) {
             if (onYes) {
                 onYes(this.refs.textInput.value);
@@ -24,7 +31,7 @@ class Prompt extends React.Component {
     }
 
     renderButtons = () => {
-        const {buttons, onYes, onCancel, onClose} = this.props;
+        const { buttons, onYes, onCancel, onClose } = this.props;
         if (buttons) {
             return <ButtonGroup className='btn-right' buttons={buttons}/>;
         }

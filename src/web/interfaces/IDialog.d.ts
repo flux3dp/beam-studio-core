@@ -1,5 +1,6 @@
 import { IButton } from './IButton';
 
+export type ArrowDirection = 'top' | 'left' | 'bottom' | 'right';
 export interface IDialogBoxStyle {
   position: {
     top?: number,
@@ -7,7 +8,7 @@ export interface IDialogBoxStyle {
     left?: number,
     right?: number,
   },
-  arrowDirection?: string,
+  arrowDirection?: ArrowDirection,
   arrowPadding?: number | undefined,
   arrowHeight?: number,
   arrowWidth?: number,

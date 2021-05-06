@@ -1,20 +1,21 @@
-import DialogBox from '../../widgets/Dialog-Box';
-import Modal from '../../widgets/Modal';
-import ModalWithHole from '../../widgets/Modal-With-Hole';
-import Alert from '../../actions/alert-caller';
-import AlertConstants from '../../constants/alert-constants';
-import { TutorialCallbacks } from '../../constants/tutorial-constants';
-import * as i18n from '../../../helpers/i18n';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import DialogBox from 'app/widgets/Dialog-Box';
+import Modal from 'app/widgets/Modal';
+import ModalWithHole from 'app/widgets/Modal-With-Hole';
+import { getSVGAsync } from 'app/../helpers/svg-editor-helper';
+import { TutorialCallbacks } from 'app/constants/tutorial-constants';
+
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+
 const { createContext } = React;
 const TutorialContext = createContext();
 const LANG = i18n.lang.tutorial;
-let _contextCaller;    
+let _contextCaller;
 
 class TutorialContextProvider extends React.Component {
     constructor(props) {
@@ -187,11 +188,14 @@ class TutorialComponent extends React.Component {
 };
 TutorialComponent.contextType = TutorialContext;
 
-export class Tutorial extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+interface Props {
+  end_alert: string;
+  dialogStylesAndContents: ITutorialDialog[];
+  hasNextButton: boolean;
+  onClose: () => void;
+}
 
+export class Tutorial extends React.Component<Props> {
     endTutorial = () => {
         const { onClose, end_alert } = this.props;
         Alert.popUp({

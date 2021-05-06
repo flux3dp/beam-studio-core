@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { ArrowDirection } from 'interfaces/IDialog';
 
 interface Position {
   top?: number;
@@ -9,15 +10,15 @@ interface Position {
 }
 
 interface Props {
-  arrowDirection: 'top' | 'left' | 'bottom' | 'right';
+  arrowDirection: ArrowDirection;
   arrowHeight: number;
   arrowWidth: number;
   arrowColor: string;
   arrowPadding: number;
   position: Position;
   onClose: () => void;
-  onClick: () => void;
-  content: JSX.Element;
+  onClick?: () => void;
+  content: string;
 }
 
 class DialogBox extends React.PureComponent<Props> {
@@ -84,7 +85,6 @@ class DialogBox extends React.PureComponent<Props> {
   render() {
     const { children, content, onClick = () => { } } = this.props;
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div className={classNames('dialog-box-container')} style={this.calculatePositioStyle()} onClick={onClick}>
         {this.renderArrow()}
         <div className={classNames('dialog-box')}>

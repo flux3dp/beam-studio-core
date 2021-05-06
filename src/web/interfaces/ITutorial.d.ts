@@ -23,7 +23,7 @@ export interface ITutorialDialog {
   },
   hintCircle?: IHintCircle,
   text: string,
-  subElement?: HTMLElement,
+  subElement?: JSX.Element,
   nextStepRequirement?: string,
   callback?: string,
 }

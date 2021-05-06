@@ -1,9 +1,9 @@
-import * as i18n from '../../helpers/i18n';
-import Constants from '../constants/input-lightbox-constants';
-import Modal from './Modal';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import Constants from 'app/constants/input-lightbox-constants';
 import AlertDialog from './AlertDialog';
+import Modal from './Modal';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const PropTypes = requireNode('prop-types');
 
@@ -14,7 +14,24 @@ var acceptableTypes = [
     Constants.TYPE_FILE
 ];
 
-class InputLightBox extends React.Component{
+interface Props {
+  type: string;
+  confirmText: string;
+  inputHeader: string;
+  defaultValue: string;
+  maxLength: number;
+  isOpen: boolean;
+  lang?: any;
+  caption: string;
+  onClose: (from: string) => void;
+  onSubmit: (value: string) => void | Promise<void>;
+}
+
+interface State {
+  allowSubmit: boolean;
+}
+
+class InputLightBox extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {

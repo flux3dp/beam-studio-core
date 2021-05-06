@@ -1,8 +1,8 @@
-import ExportFuncs from '../../../actions/beambox/export-funcs';
-import FormatDuration from '../../../../helpers/duration-formatter';
-import * as i18n from '../../../../helpers/i18n';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ExportFuncs from 'app/actions/beambox/export-funcs';
+import FormatDuration from 'helpers/duration-formatter';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const { createContext } = React;
 const TimeEstimationButtonContext = createContext();

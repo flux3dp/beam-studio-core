@@ -9,7 +9,7 @@ export class DialogContextProvider extends React.Component {
     this.dialogComponents = [];
   }
 
-  addDialogComponent = (id: string, dialogComponent: Element): void => {
+  addDialogComponent = (id: string, dialogComponent: JSX.Element): void => {
     this.dialogComponents.push({ id, component: dialogComponent });
     this.forceUpdate();
   };
@@ -26,7 +26,7 @@ export class DialogContextProvider extends React.Component {
     this.forceUpdate();
   };
 
-  render(): Element {
+  render() {
     const { children } = this.props;
     const {
       dialogComponents,

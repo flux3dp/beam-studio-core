@@ -1,18 +1,19 @@
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import BeamboxActions from 'app/actions/beambox';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Constant from 'app/actions/beambox/constant';
+import DropDownControl from 'app/widgets/Dropdown-Control';
+import Modal from 'app/widgets/Modal';
+import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
+import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import SwitchControl from 'app/widgets/Switch-Control';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-import Modal from '../../../widgets/Modal';
-import DropDownControl from '../../../widgets/Dropdown-Control';
-import SwitchControl from '../../../widgets/Switch-Control';
-import BeamboxActions from '../../../actions/beambox';
-import BeamboxPreference from '../../../actions/beambox/beambox-preference';
-import Constant from '../../../actions/beambox/constant';
-import OpenBottomBoundaryDrawer from '../../../actions/beambox/open-bottom-boundary-drawer';
-import PreviewModeBackgroundDrawer from '../../../actions/beambox/preview-mode-background-drawer';
-import * as i18n from '../../../../helpers/i18n';
-import { getSVGAsync } from '../../../../helpers/svg-editor-helper';
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
-const React = requireNode('react');
+
 const LANG = i18n.lang.beambox.document_panel;
 
 // value is one of low, medium, high
@@ -73,7 +74,11 @@ if (window['FLUX'].dev) {
     workareaOptions.push({ label: 'Beambox2', value: 'fbb2b' });
 }
 
-export default class DocumentPanel extends React.PureComponent {
+interface Props {
+  unmount: () => void;
+}
+
+export default class DocumentPanel extends React.PureComponent<Props> {
     constructor() {
         super();
         this.state = {
