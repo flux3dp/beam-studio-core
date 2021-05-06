@@ -30,7 +30,22 @@ interface Props {
   onClose: () => void;
 }
 
-class LayerColorConfigPanel extends React.Component<Props> {
+interface State {
+  newColor?: string;
+  isDisplayingModal: boolean;
+}
+
+class LayerColorConfigPanel extends React.Component<Props, State> {
+  private layerColorConfig: any;
+
+  private layerColorConfigDict: any;
+
+  private newPower: number;
+
+  private newSpeed: number;
+
+  private newRepeat: number;
+
     constructor(props) {
         super(props);
         // TODO: make config interface
@@ -256,7 +271,7 @@ class LayerColorConfigPanel extends React.Component<Props> {
         this._close();
     }
 
-    _renderButton(className: string, onClick: Function, label: string, disabled?: boolean) {
+    _renderButton(className: string, onClick: React.MouseEventHandler, label: string, disabled?: boolean) {
         className = `btn btn-default ${className}`;
         if (disabled) {
             className += ' disabled';
