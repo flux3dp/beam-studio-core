@@ -9,6 +9,7 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import SwitchControl from 'app/widgets/Switch-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { string } from 'prop-types';
 
 let svgCanvas;
 let svgEditor;
@@ -78,9 +79,18 @@ interface Props {
   unmount: () => void;
 }
 
-export default class DocumentPanel extends React.PureComponent<Props> {
-    constructor() {
-        super();
+interface State {
+  engraveDpi: string;
+  workarea: string;
+  rotaryMode: string;
+  borderlessMode: boolean;
+  enableDiode: boolean;
+  enableAutofocus: boolean;
+}
+
+export default class DocumentPanel extends React.PureComponent<Props, State> {
+    constructor(props) {
+        super(props);
         this.state = {
             engraveDpi: BeamboxPreference.read('engrave_dpi'),
             workarea: BeamboxPreference.read('workarea') || 'fbb1b',

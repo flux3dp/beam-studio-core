@@ -1,9 +1,24 @@
-const React = requireNode('react');
+import * as React from 'react';
+
 const classNames = requireNode('classnames');
 const PropTypes = requireNode('prop-types');
 
+interface Props {
+  id: string;
+  label?: string;
+  value: string;
+  onChange: (id, value) => void;
+  options: any[];
+  hiddenOptions?: any[];
+}
+
+interface State {
+  sliderValue?: string;
+  selectedValue?: string;
+}
+
 // Full controlled component, value is controlled by props.value, rerender parent componet to change display value
-class DropDownControl extends React.Component{
+class DropDownControl extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.selectedValue = this.props.value;
@@ -79,7 +94,6 @@ DropDownControl.propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.string,
     options: PropTypes.array,
-    default: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     hiddenOptions: PropTypes.array,
 };
