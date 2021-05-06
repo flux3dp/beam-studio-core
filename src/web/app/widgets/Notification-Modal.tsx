@@ -214,7 +214,6 @@ class NotificationModal extends React.Component {
             checkbox = this._getCheckbox(),
             content = (
                 <AlertDialog
-                    lang={lang}
                     caption={typeTitle}
                     message={this.props.message}
                     checkbox={checkbox}

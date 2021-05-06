@@ -154,7 +154,6 @@ class InputLightBox extends React.Component<Props, State> {
             content = (
                 <form className="form" onSubmit={this.onSubmit}>
                     <AlertDialog
-                        lang={lang}
                         caption={this.props.caption}
                         message={message}
                         buttons={buttons}

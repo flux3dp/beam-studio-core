@@ -1,15 +1,36 @@
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import ButtonGroup from './Button-Group';
-import * as i18n from '../../helpers/i18n';
-const React = requireNode('react');
+
 var lang = i18n.lang.buttons;
 
-class AlertDialog extends React.Component{
+interface Props {
+  displayImages?: boolean;
+  imgClass?: string;
+  images?: string[];
+  message: string | JSX.Element;
+  buttons: {
+    label: string;
+    className: string;
+    onClick: () => void;
+  }[];
+  checkbox?: string | null;
+  caption: string;
+  checkedCallback?: () => void;
+  onClose?: () => void;
+  onCustom?: () => void;
+}
+
+interface State {
+  imgIndex: number;
+}
+
+class AlertDialog extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
             imgIndex: 0
         }
-
     }
 
     _renderMessage = () => {
@@ -102,7 +123,6 @@ class AlertDialog extends React.Component{
     }
 };
 AlertDialog.defaultProps = {
-    lang: {},
     caption: '',
     checkbox: '',
     message: '',
