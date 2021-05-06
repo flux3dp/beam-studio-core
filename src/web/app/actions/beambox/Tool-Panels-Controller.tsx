@@ -1,5 +1,5 @@
-import ToolPanels from '../../views/beambox/Tool-Panels/Tool-Panels';
-import BeamboxGlobalInteraction from '../../actions/beambox/beambox-global-interaction';
+import ToolPanels from 'app/views/beambox/Tool-Panels/Tool-Panels';
+import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 
 const React = requireNode('react');
 const ReactDOM = requireNode('react-dom');

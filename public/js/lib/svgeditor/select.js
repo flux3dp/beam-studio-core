@@ -15,13 +15,8 @@
 // 3) browser.js
 // 4) math.js
 // 5) svgutils.js
-define([
-	'app/actions/beambox/Tool-Panels-Controller'
-], function(
-	ToolPanelsController
-){
+define([], function(){
 'use strict';
-ToolPanelsController = ToolPanelsController.default;
 
 if (!svgedit.select) {
 	svgedit.select = {};
@@ -124,7 +119,7 @@ svgedit.select.Selector.prototype.updateGripCursors = function(angle) {
 			switch(dir_arr[i]) {
 				case 'e':
 				case 'w':
-					return 'ew';				
+					return 'ew';
 				case 'n':
 				case 's':
 					return 'ns';
@@ -155,7 +150,6 @@ svgedit.select.Selector.prototype.showGrips = function(show) {
 		this.selectorGroup.appendChild(selectorManager_.selectorGripsGroup);
 		this.updateGripCursors(svgedit.utilities.getRotationAngle(elem));
 	}
-	ToolPanelsController.unmount();
 };
 
 // Function: svgedit.select.Selector.resize
@@ -497,8 +491,6 @@ svgedit.select.SelectorManager.prototype.releaseSelector = function(elem) {
 			break;
 		}
 	}
-	
-	ToolPanelsController.unmount();
 };
 
 // Function: svgedit.select.SelectorManager.getRubberBandBox

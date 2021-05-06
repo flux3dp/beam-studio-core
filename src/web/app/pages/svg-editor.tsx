@@ -1,6 +1,5 @@
 import * as i18n from 'helpers/i18n';
 import * as React from 'react';
-import $ from 'jquery';
 import classNames from 'classnames';
 import storage from 'helpers/storage-helper';
 import svgEditor from 'app/actions/beambox/svg-editor';
@@ -11,6 +10,7 @@ import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contex
 const LANG = i18n.lang.beambox;
 export default class SVGEditor extends React.Component {
   componentDidMount() {
+    const { $ } = window;
     $(svgEditor.init);
   }
 

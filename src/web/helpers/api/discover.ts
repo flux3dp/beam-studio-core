@@ -26,7 +26,8 @@ var ws = ws || Websocket({
     idList = [],
     _devices = {},
     sendFoundPrinter = function() {
-        discoverLogger.clear().append(_devices);
+        discoverLogger.clear();
+        discoverLogger.append(_devices);
 
         dispatchers.forEach(function(dispatcher) {
             dispatcher.sender(printers);
@@ -79,7 +80,7 @@ var ws = ws || Websocket({
                 sendFoundPrinter();
                 lastSendMessage = Date.now();
             }, BUFFER);
-        }  
+        }
     },
     poke = function(targetIP: string) {
         if (targetIP == null) { return; };
@@ -148,7 +149,7 @@ const startTcpPoke = () => {
     const tcpPokeInterval = setInterval(() => {
         pokeTcp(pokeIPs[i]);
         i = i + 1 < pokeIPs.length ? i + 1 : 0;
-    }, 1000); 
+    }, 1000);
 }
 startTcpPoke();
 

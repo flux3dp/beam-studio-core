@@ -1,17 +1,17 @@
+/* eslint-disable no-console */
 
 /* eslint-disable react/no-multi-comp */
-import $ from 'jquery';
-import BeamboxActions from '../../actions/beambox';
-import PreviewModeBackgroundDrawer from '../../actions/beambox/preview-mode-background-drawer';
-import FnWrapper from '../../actions/beambox/svgeditor-function-wrapper';
-import BeamboxStore from '../../stores/beambox-store';
-import * as i18n from '../../../helpers/i18n';
-import ImageData from '../../../helpers/image-data';
-import Modal from '../../widgets/Modal';
-import SliderControl from '../../widgets/Slider-Control';
+import BeamboxActions from 'app/actions/beambox';
+import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import BeamboxStore from 'app/stores/beambox-store';
+import ImageTracerApi from 'helpers/api/image-tracer';
+import Modal from 'app/widgets/Modal';
+import SliderControl from 'app/widgets/Slider-Control';
+import * as i18n from 'helpers/i18n';
+import ImageData from 'helpers/image-data';
+import requirejsHelper from 'helpers/requirejs-helper';
 
-// @ts-expect-error
-import ImageTracer = require('imagetracer');
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => {
@@ -332,7 +332,8 @@ class ImageTracePanel extends React.Component<any, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  traceImageAndAppend(imgUrl, cropData, preCrop) {
+  async traceImageAndAppend(imgUrl, cropData, preCrop) {
+    const ImageTracer = await requirejsHelper('imagetracer');
     return new Promise((resolve) => {
       ImageTracer.imageToSVG(imgUrl, (svgstr) => {
         const gId = svgCanvas.getNextId();

@@ -7,3 +7,6 @@ Object.defineProperty(window, 'os', {
   value: '',
   writable: true,
 });
+Object.defineProperty(window, '$', {
+  value: jest.fn(),
+});

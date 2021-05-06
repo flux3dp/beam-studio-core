@@ -43,10 +43,10 @@ import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'helpers/storage-helper';
 import PdfHelper from 'helpers/pdf-helper';
+import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import * as i18n from 'helpers/i18n';
-
 import AlertConfig from 'helpers/api/alert-config';
 import Config from 'helpers/api/config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
@@ -54,10 +54,10 @@ import { IFont } from 'interfaces/IFont';
 import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage } from 'interfaces/IStorage';
 
-// @ts-expect-error
-import Dxf2Svg = require('dxf2svg');
-// @ts-expect-error
-import ImageTracer = require('imagetracer');
+import svgCanvasClass from 'app/svgedit/svgcanvas';
+if (svgCanvasClass) {
+  console.log('svgCanvas loaded successfully');
+}
 
 const React = requireNode('react');
 const electron = requireNode('electron');
@@ -5486,9 +5486,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
               moveBottomSelectedElement();
               break;
             default:
-              if (svgedit.contextmenu && svgedit.contextmenu.hasCustomHandler(action)) {
-                svgedit.contextmenu.getCustomHandler(action).call();
-              }
+              console.warn('Unknown contextmenu action:', action);
               break;
           }
           if (svgCanvas.clipBoard.length) {
@@ -5970,6 +5968,8 @@ const svgEditor = window['svgEditor'] = (function ($) {
         readImage(file);
       };
       const importDxf = async file => {
+        const Dxf2Svg = await requirejsHelper('dxf2svg');
+        const ImageTracer = await requirejsHelper('imagetracer');
         const { defaultDpiValue, parsed } = await new Promise(resolve => {
           const reader = new FileReader();
           reader.onloadend = evt => {
@@ -5997,17 +5997,13 @@ const svgEditor = window['svgEditor'] = (function ($) {
 
             if (parsed.header.insunits == '1') {
               defaultDpiValue = 25.4;
-            }
-            if (parsed.header.insunits == '2') {
+            } else if (parsed.header.insunits == '2') {
               defaultDpiValue = 304.8;
-            }
-            if (parsed.header.insunits == '4') {
+            } else if (parsed.header.insunits == '4') {
               defaultDpiValue = 1;
-            }
-            if (parsed.header.insunits == '5') {
+            } else if (parsed.header.insunits == '5') {
               defaultDpiValue = 10;
-            }
-            if (parsed.header.insunits == '6') {
+            } else if (parsed.header.insunits == '6') {
               defaultDpiValue = 100;
             }
             resolve({ parsed, defaultDpiValue });

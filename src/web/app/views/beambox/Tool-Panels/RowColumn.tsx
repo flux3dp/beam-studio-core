@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import UnitInput from'../../../widgets/Unit-Input-v2';
 import * as i18n from '../../../../helpers/i18n';
 

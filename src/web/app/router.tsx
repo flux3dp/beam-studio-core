@@ -1,7 +1,6 @@
-import * as i18n from '../helpers/i18n';
 import $ from 'jquery';
 import Backbone from 'backbone';
-import config from '../helpers/api/config';
+import * as i18n from 'helpers/i18n';
 import appSettings from './app-settings';
 import Home from './pages/Home';
 import SelectMachineType from './pages/Select-Machine-Type';
@@ -19,6 +18,7 @@ import { Dialog } from './views/dialogs/Dialog';
 import { AlertProgressContextProvider } from './contexts/Alert-Progress-Context';
 import { DialogContextProvider } from './contexts/Dialog-Context';
 import NotificationCollection from './views/Notification-Collection';
+
 const React = requireNode('react');
 const ReactDOM = requireNode('react-dom');
 
