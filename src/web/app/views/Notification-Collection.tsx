@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import config from '../../helpers/api/config';
 import AlertActions from '../actions/alert-actions';
 import AlertStore from '../stores/alert-store';
@@ -27,6 +26,7 @@ declare global {
 }
 
 const React = requireNode('react');
+const { $ } = window;
 
 export default function(args) {
     args = args || {};

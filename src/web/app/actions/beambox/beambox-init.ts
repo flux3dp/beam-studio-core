@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 import ImageTracePanelController from './Image-Trace-Panel-Controller';

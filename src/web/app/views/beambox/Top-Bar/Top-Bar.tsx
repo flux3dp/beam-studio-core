@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -38,6 +37,7 @@ getSVGAsync((globalSVG) => {
 
 const React = requireNode('react');
 const classNames = requireNode('classnames');
+const { $ } = window;
 const lang = i18n.lang;
 const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
@@ -304,7 +304,7 @@ export class TopBar extends React.Component {
                 const paths = Array.from($(layer).find('path, rect, ellipse, polygon, line'));
                 const uses = $(layer).find('use');
                 let hasWireframe = false
-                Array.from(uses).forEach((use) => {
+                Array.from(uses).forEach((use: Element) => {
                     const href = use.getAttribute('xlink:href');
                     paths.push(...Array.from($(`${href}`).find('path, rect, ellipse, polygon, line')));
                     if (use.getAttribute('data-wireframe') === 'true') {

@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import shortcuts from '../../helpers/shortcuts';
 import AlertConstants from '../constants/alert-constants';
 import Modal from './Modal';
