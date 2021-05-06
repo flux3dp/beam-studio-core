@@ -8,8 +8,7 @@ import Modal from 'app/widgets/Modal';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-import ImageTracer = require('imagetracer');
+import requirejsHelper from 'helpers/requirejs-helper';
 
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => {
@@ -569,7 +568,7 @@ class ImageTracePanel extends React.Component<any, State> {
                   min={0}
                   max={255}
                   step={1}
-                  default={parseInt(threshold)}
+                  default={Math.floor(threshold)}
                   onChange={(id, val) => this.handleParameterChange(id, val)}
                 />
               </div>
