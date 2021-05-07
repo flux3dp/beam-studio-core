@@ -19,7 +19,12 @@ interface Props {
 }
 
 export default class ColorPickerPanel extends React.Component<Props> {
-    private layer: Element
+    private layer: Element;
+
+    private width: number;
+
+    private pickr: any;
+
     constructor(props) {
         super(props);
         this.width = 200;
@@ -89,5 +94,3 @@ export default class ColorPickerPanel extends React.Component<Props> {
         );
     }
 }
-
-
