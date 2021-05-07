@@ -15,7 +15,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.noun_project_panel;
 
@@ -25,7 +24,7 @@ const INFO_DIALOG_HEIGHT = 60;
 enum Tabs {
   LIBRARY = 0,
   HISTORY = 1,
-};
+}
 
 interface State {
   currentTab: Tabs,
@@ -87,8 +86,16 @@ interface Props {
 }
 
 class NounProjectPanel extends React.Component<Props, State> {
-  private fetchingTerm: string = '';
-  private fetchedPage: number = 0;
+  private fetchingTerm = '';
+
+  private fetchedPage = 0;
+
+  private scrollPosition: any;
+
+  private searchInput: React.RefObject<HTMLInputElement>;
+
+  private contentContainer: React.RefObject<HTMLDivElement>;
+
   constructor(props) {
     super(props);
     const nounProjectHistory: IIcon[] = storage.get('noun-project-history') || [];
@@ -156,7 +163,7 @@ class NounProjectPanel extends React.Component<Props, State> {
         <img className="search-icon" src="img/noun-project-panel/icon-search.svg" draggable="false" />
         <input type="text" id="search-input" ref={this.searchInput} placeholder={LANG.search}
           defaultValue={term}
-          onKeyDown={(e: KeyboardEvent) => { this.handleSearchInputKeyDown(e) }}
+          onKeyDown={(e: React.KeyboardEvent) => this.handleSearchInputKeyDown(e)}
         />
         <div className={classNames('cancel-button', { hide: term === '' })} onClick={() => this.onCancelSearch()}>
           <img src="img/icon-clear.svg" title={LANG.clear} />
@@ -165,7 +172,7 @@ class NounProjectPanel extends React.Component<Props, State> {
     );
   }
 
-  async handleSearchInputKeyDown(e: KeyboardEvent) {
+  async handleSearchInputKeyDown(e: React.KeyboardEvent) {
     e.stopPropagation();
     if (e.key === 'Enter') {
       this.handleSearch();
@@ -277,7 +284,7 @@ class NounProjectPanel extends React.Component<Props, State> {
 
   renderContent() {
     const { currentTab } = this.state;
-    let content: HTMLElement;
+    let content: JSX.Element;
     if (currentTab === Tabs.LIBRARY) {
       content = this.renderLibraryContent();
     } else if (currentTab === Tabs.HISTORY) {
@@ -288,7 +295,7 @@ class NounProjectPanel extends React.Component<Props, State> {
       <div
         className={classNames('content-container', { 'no-header': currentTab === Tabs.HISTORY })}
         ref={this.contentContainer}
-        onScroll={(e: UIEvent) => this.onSearchResultScroll(e)}
+        onScroll={(e: React.UIEvent) => this.onSearchResultScroll(e)}
       >
         {content}
       </div>
@@ -335,7 +342,7 @@ class NounProjectPanel extends React.Component<Props, State> {
     return this.renderNoIconContent(`We didn't find any icons for "${term}"`);
   }
 
-  renderNoIconContent(text: string, className: string = '', onClick: Function = null) {
+  renderNoIconContent(text: string, className: string = '', onClick: React.MouseEventHandler = null) {
     return (
       <div className='no-icon-results'>
         <div className={className} onClick={onClick}>
@@ -391,12 +398,12 @@ class NounProjectPanel extends React.Component<Props, State> {
       <div
         className={classNames('icon-cell', { highlight: isHighlighted })}
         key={icon.id}
-        onClick={(e: MouseEvent) => {
+        onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           this.onHighlight(index);
         }}
         onDoubleClick={() => this.handleInsert(icon)}
-        onDragStart={(e: DragEvent) => this.onIconDragStart(e, icon)}
+        onDragStart={(e: React.DragEvent) => this.onIconDragStart(e, icon)}
       >
         <img src={icon.preview_url_84} />
       </div>
@@ -458,12 +465,12 @@ class NounProjectPanel extends React.Component<Props, State> {
     });
   }
 
-  onIconDragStart(e: DragEvent, icon: IIcon) {
+  onIconDragStart(e: React.DragEvent, icon: IIcon) {
     const dt = e.dataTransfer;
     dt.setData('text/noun-project-icon', JSON.stringify(icon));
   }
 
-  async onSearchResultScroll(e: UIEvent) {
+  async onSearchResultScroll(e: React.UIEvent) {
     const { resultIcons, isSearching, hasNext } = this.state;
     if (!hasNext || isSearching || resultIcons.length <= this.fetchedPage) return;
     const eventTarget = e.target as HTMLElement;
@@ -500,14 +507,14 @@ class NounProjectPanel extends React.Component<Props, State> {
         <div className={classNames('term')}>
           {highLightedIcon ? highLightedIcon.term : ''}
         </div>
-        <div className={classNames('info', { disabled: !highLightedIcon })} title={'info'} onClick={(e: MouseEvent) => this.onInfoClick(e)}>
+        <div className={classNames('info', { disabled: !highLightedIcon })} title={'info'} onClick={(e: React.MouseEvent) => this.onInfoClick(e)}>
           <img className='search-icon' src={`img/icon-info.svg`} draggable='false' />
         </div>
       </div>
     );
   }
 
-  onInfoClick(e: MouseEvent) {
+  onInfoClick(e: React.MouseEvent) {
     this.setState({ showInfoModal: true, infoModalX: e.clientX, infoModalY: e.clientY });
   }
 

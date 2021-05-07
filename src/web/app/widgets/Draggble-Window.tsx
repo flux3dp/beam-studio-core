@@ -6,7 +6,7 @@ interface Props {
   title: string;
   defaultPosition: { x: number, y: number };
   containerClass: string;
-  handleClass: string;
+  handleClass?: string;
   onClose?: () => void;
 }
 class DraggableWindow extends React.PureComponent<Props> {
