@@ -1,17 +1,26 @@
-import { getLayerElementByName } from '../../../helpers/layer-helper';
-import * as i18n from '../../../helpers/i18n';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import { getLayerElementByName } from 'helpers/layer-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas });
 
 const LANG = i18n.lang.beambox.photo_edit_panel;
-const React = requireNode('react');
 const Pickr = requireNode('@simonwep/pickr');
 const classNames = requireNode('classnames');
 
-export default class ColorPickerPanel extends React.Component{
+interface Props {
+  layerName: string;
+  top: number;
+  left: number;
+  onColorChanged: (newColor: string) => void;
+  onClose: () => void;
+}
+
+export default class ColorPickerPanel extends React.Component<Props> {
     private layer: Element
-    constructor(props?) {
+    constructor(props) {
         super(props);
         this.width = 200;
         this.layer = getLayerElementByName(props.layerName);

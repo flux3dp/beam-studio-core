@@ -1,10 +1,12 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/mouse-events-have-key-events,
-jsx-a11y/no-static-element-interactions, react/static-property-placement, no-underscore-dangle */
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
-import Dialog from 'app/actions/dialog-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import Dialog from 'app/actions/dialog-caller';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import { initLayerConfig, cloneLayerConfig } from 'helpers/laser-config-helper';
+import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ILayerPanelContext } from 'interfaces/IContext';
 import {
   getLayerElementByName,
   deleteLayers,
@@ -13,13 +15,10 @@ import {
   mergeSelectedLayers,
   moveLayersToPosition,
 } from 'helpers/layer-helper';
-import * as i18n from 'helpers/i18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ILayerPanelContext } from 'interfaces/IContext';
-import { LayerPanelContext } from './contexts/LayerPanelContext';
-import LaserPanel from './Laser-Panel';
-import ColorPickerPanel from '../Color-Picker-Panel';
 import * as TutorialController from '../../tutorials/Tutorial-Controller';
+import ColorPickerPanel from '../Color-Picker-Panel';
+import LaserPanel from './Laser-Panel';
+import { LayerPanelContext } from './contexts/LayerPanelContext';
 
 let svgCanvas;
 let svgEditor;
@@ -28,7 +27,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const { ContextMenu, MenuItem, ContextMenuTrigger } = requireNode('react-contextmenu');
 const PropTypes = requireNode('prop-types');
@@ -41,11 +39,25 @@ export const ContextHelper = {
   },
 };
 
-export class LayerPanel extends React.Component {
+interface Props {
+  elem: Element;
+}
+
+interface State {
+  colorPanelLayer: string;
+  colorPanelLeft: number;
+  colorPanelTop: number;
+  draggingDestIndex?: number;
+  draggingLayer?: string;
+}
+
+export class LayerPanel extends React.Component<Props, State> {
   private context: ILayerPanelContext;
 
-  constructor() {
-    super();
+  private promptMoveLayerOnce: boolean;
+
+  constructor(props) {
+    super(props);
     this.state = {
       colorPanelLayer: null,
       colorPanelLeft: null,
@@ -172,7 +184,7 @@ export class LayerPanel extends React.Component {
     });
   };
 
-  moveToOtherLayer = (e: DragEvent): void => {
+  moveToOtherLayer = (e: React.ChangeEvent): void => {
     const select = e.target as HTMLSelectElement;
     const destLayer = select.options[select.selectedIndex].value;
     const drawing = svgCanvas.getCurrentDrawing();
@@ -330,7 +342,7 @@ export class LayerPanel extends React.Component {
     this.forceUpdate();
   };
 
-  openLayerColorPanel = (e: MouseEvent, layerName: string): void => {
+  openLayerColorPanel = (e: React.MouseEvent, layerName: string): void => {
     e.stopPropagation();
     this.setState({
       colorPanelLayer: layerName,
@@ -339,7 +351,7 @@ export class LayerPanel extends React.Component {
     });
   };
 
-  onlayerDragStart = (e: DragEvent, layerName: string): void => {
+  onlayerDragStart = (e: React.DragEvent, layerName: string): void => {
     const dragImage = document.getElementById('drag-image') as Element;
     e.dataTransfer.setDragImage(dragImage, 0, 0);
     const { selectedLayers, setSelectedLayers } = this.context;
@@ -383,7 +395,7 @@ export class LayerPanel extends React.Component {
     this.renameLayer();
   };
 
-  handleLayerClick = (e: MouseEvent, layerName: string): void => {
+  handleLayerClick = (e: React.MouseEvent, layerName: string): void => {
     const isCtrlOrCmd = (window.os === 'MacOS' && e.metaKey) || (window.os !== 'MacOS' && e.ctrlKey);
     if (e.button === 0) {
       if (isCtrlOrCmd) {
@@ -401,7 +413,7 @@ export class LayerPanel extends React.Component {
     }
   };
 
-  renderColorPickerPanel(): Element {
+  renderColorPickerPanel() {
     const { colorPanelLayer, colorPanelTop, colorPanelLeft } = this.state;
     if (!colorPanelLayer) {
       return null;
@@ -417,7 +429,7 @@ export class LayerPanel extends React.Component {
     );
   }
 
-  renderDragImage = (): Element => {
+  renderDragImage = () => {
     const drawing = svgCanvas.getCurrentDrawing();
     const { selectedLayers } = this.context;
     const { draggingLayer } = this.state;
@@ -457,9 +469,9 @@ export class LayerPanel extends React.Component {
     );
   };
 
-  renderDragBar = (): Element => <div key="drag-bar" className={classNames('drag-bar')} />;
+  renderDragBar = () => <div key="drag-bar" className={classNames('drag-bar')} />;
 
-  renderLayerList = (): Element => {
+  renderLayerList = () => {
     const { selectedLayers } = this.context;
     const { draggingDestIndex } = this.state;
     const items = [];
@@ -493,11 +505,11 @@ export class LayerPanel extends React.Component {
           <div
             key={layerName}
             className={classNames('layer', { layersel: isSelected, lock: isLocked, current: currentLayerName === layerName })}
-            onClick={(e: MouseEvent) => this.handleLayerClick(e, layerName)}
+            onClick={(e: React.MouseEvent) => this.handleLayerClick(e, layerName)}
             onMouseOver={() => this.highlightLayer(layerName)}
             onMouseOut={() => this.highlightLayer()}
             draggable
-            onDragStart={(e: DragEvent) => this.onlayerDragStart(e, layerName)}
+            onDragStart={(e: React.DragEvent) => this.onlayerDragStart(e, layerName)}
             onDragEnd={() => this.onlayerDragEnd()}
           >
             <div
@@ -511,12 +523,12 @@ export class LayerPanel extends React.Component {
               <div className="layercolor">
                 <div
                   style={{ backgroundColor: drawing.getLayerColor(layerName) }}
-                  onClick={(e: MouseEvent) => this.openLayerColorPanel(e, layerName)}
+                  onClick={(e: React.MouseEvent) => this.openLayerColorPanel(e, layerName)}
                 />
               </div>
               <div
                 className="layername"
-                onDoubleClick={(e: MouseEvent) => {
+                onDoubleClick={(e: React.MouseEvent) => {
                   if (!e.ctrlKey && !e.shiftKey && !e.metaKey) this.layerDoubleClick();
                 }}
               >
@@ -524,7 +536,7 @@ export class LayerPanel extends React.Component {
               </div>
               <div
                 className={classNames('layervis')}
-                onClick={(e: MouseEvent) => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   this.setLayerVisibility(layerName);
                 }}
@@ -533,7 +545,7 @@ export class LayerPanel extends React.Component {
               </div>
               <div
                 className="layerlock"
-                onClick={(e: MouseEvent) => {
+                onClick={(e: React.MouseEvent) => {
                   if (isLocked) {
                     e.stopPropagation();
                     this.unLockLayers(layerName);
@@ -562,7 +574,7 @@ export class LayerPanel extends React.Component {
     );
   };
 
-  renderSelLayerBlock = (): Element => {
+  renderSelLayerBlock = () => {
     const { elem } = this.props;
     const options = [];
     const drawing = svgCanvas.getCurrentDrawing();
@@ -585,7 +597,7 @@ export class LayerPanel extends React.Component {
           value={currentLayerName}
           id="selLayerNames"
           title="Move selected elements to a different layer"
-          onChange={(e) => this.moveToOtherLayer(e)}
+          onChange={(e: React.ChangeEvent) => this.moveToOtherLayer(e)}
           disabled={options.length < 2}
         >
           {options}
@@ -594,7 +606,7 @@ export class LayerPanel extends React.Component {
     );
   };
 
-  renderAddLayerButton(): Element {
+  renderAddLayerButton() {
     return (
       <div className="add-layer-btn" onClick={() => this.addNewLayer()}>
         <div className="bar bar1" />
@@ -604,7 +616,7 @@ export class LayerPanel extends React.Component {
     );
   }
 
-  render(): Element {
+  render() {
     if (!svgCanvas) {
       setTimeout(() => {
         this.forceUpdate();
@@ -654,13 +666,5 @@ export class LayerPanel extends React.Component {
     );
   }
 }
-
-LayerPanel.propTypes = {
-  elem: PropTypes.shape({ tagName: PropTypes.string }),
-};
-
-LayerPanel.defaultProps = {
-  elem: {},
-};
 
 LayerPanel.contextType = LayerPanelContext;
