@@ -1,20 +1,30 @@
-import Modal from 'app/widgets/Modal';
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import Dialog from 'app/actions/dialog-caller';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import RightPanelConstants from 'app/constants/right-panel-constants';
+import Dialog from 'app/actions/dialog-caller';
 import isObjectEmpty from 'helpers/is-object-empty';
+import Modal from 'app/widgets/Modal';
+import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 const defaultLaserOptions = RightPanelConstants.laserPresetKeys;
 
-class LaserManageModal extends React.Component {
+interface Props {
+  selectedItem: string;
+  initDefaultConfig: () => void;
+  onClose: () => void;
+}
+
+interface State {
+
+}
+
+class LaserManageModal extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.editingCustomizedLaserConfigs = storage.get('customizedLaserConfigs') || [];
