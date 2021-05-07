@@ -1,16 +1,16 @@
-import FontFuncs from 'app/actions/beambox/font-funcs';
-import Progress from 'app/actions/progress-caller';
-import Dialog from 'app/actions/dialog-caller';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import imageEdit from 'helpers/image-edit';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Dialog from 'app/actions/dialog-caller';
+import FontFuncs from 'app/actions/beambox/font-funcs';
+import imageEdit from 'helpers/image-edit';
+import Progress from 'app/actions/progress-caller';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
@@ -77,7 +77,7 @@ class ActionsPanel extends React.Component<IProps> {
 
   renderButtons = (
     label: string, onClick: () => void, isFullLine?: boolean, isDisabled?: boolean,
-  ): Element => {
+  ) => {
     const className = classNames('btn', 'btn-default', { disabled: isDisabled });
     return (
       <div className={classNames('btn-container', { full: isFullLine, half: !isFullLine })} onClick={() => onClick()} key={label}>
@@ -86,7 +86,7 @@ class ActionsPanel extends React.Component<IProps> {
     );
   };
 
-  renderImageActions = (): Element[] => {
+  renderImageActions = () => {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = [
@@ -102,7 +102,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderTextActions = (): Element[] => {
+  renderTextActions = () => {
     const content = [
       this.renderButtons(LANG.convert_to_path, this.convertToPath, true),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -110,7 +110,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderPathActions = (): Element[] => {
+  renderPathActions = () => {
     const content = [
       this.renderButtons(LANG.decompose_path, () => svgCanvas.decomposePath(), true),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
@@ -119,7 +119,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderRectActions = (): Element[] => {
+  renderRectActions = () => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -127,7 +127,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderEllipseActions = (): Element[] => {
+  renderEllipseActions = () => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -135,7 +135,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderPolygonActions = (): Element[] => {
+  renderPolygonActions = () => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -143,7 +143,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderLineActions = (): Element[] => {
+  renderLineActions = () => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -151,7 +151,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderUseActions = (): Element[] => {
+  renderUseActions = () => {
     const content = [
       this.renderButtons(LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -159,17 +159,17 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  renderGroupActions = (): Element[] => {
+  renderGroupActions = () => {
     const content = [
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
     ];
     return content;
   };
 
-  renderMultiSelectActions = (): Element[] => {
+  renderMultiSelectActions = () => {
     const { elem } = this.props;
-    const childs: HTMLElement[] = Array.from(elem.childNodes);
-    const supportOffset = childs.every((child) => !['g', 'text', 'image', 'use'].includes(child.tagName));
+    const childs = Array.from(elem.childNodes);
+    const supportOffset = childs.every((child: ChildNode) => !['g', 'text', 'image', 'use'].includes(child.nodeName));
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, !supportOffset),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -177,7 +177,7 @@ class ActionsPanel extends React.Component<IProps> {
     return content;
   };
 
-  render(): Element {
+  render() {
     const { elem } = this.props;
     const isMultiSelect = elem && elem.tagName === 'g' && elem.getAttribute('data-tempgroup') === 'true';
     let content = null;
