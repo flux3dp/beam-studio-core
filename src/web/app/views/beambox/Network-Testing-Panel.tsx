@@ -16,7 +16,34 @@ interface Props {
   onClose: () => void;
 }
 
-class NetworkTestingPanel extends React.Component<Props> {
+interface State {
+  ip: string;
+  localIp: string[];
+}
+
+class NetworkTestingPanel extends React.Component<Props, State> {
+  private defaultValue: string;
+
+  private TEST_TIME: number;
+
+  private discoveredDevices: any[];
+
+  private discover: any;
+
+  private stopFlag: boolean;
+
+  private pingCounts: number;
+
+  private successedPing: number;
+
+  private totalRRT: number;
+
+  private startTime: Date;
+
+  private session: any;
+
+  private textInputRef: React.RefObject<HTMLInputElement>;
+
     constructor(props) {
         super(props);
         let ip = '';
@@ -54,6 +81,7 @@ class NetworkTestingPanel extends React.Component<Props> {
             ip: ip,
             localIp: local_ips
         };
+        this.textInputRef = React.createRef();
     }
 
     componentWillUnmount() {
@@ -118,7 +146,7 @@ class NetworkTestingPanel extends React.Component<Props> {
     _pingTarget() {
         this.pingCounts += 1;
         this.session.pingHost(this.state.ip, (error, target, sent, rcvd) => {
-            const elapsedTime = (+new Date()) - this.startTime;
+            const elapsedTime = (+new Date().getTime()) - this.startTime.getTime();
             const percentage =  parseInt('' + (100 * elapsedTime / this.TEST_TIME));
             Progress.update('network-testing', {
                 percentage,
@@ -214,8 +242,10 @@ class NetworkTestingPanel extends React.Component<Props> {
     }
 
     _onInputBlur() {
-        let value = this.refs.textInput.value;
-        this.state.ip = value.replace(' ', '');
+        let value = this.textInputRef.current.value;
+        this.setState({
+          ip: value.replace(' ', ''),
+        });
         return;
     }
 
@@ -251,7 +281,7 @@ class NetworkTestingPanel extends React.Component<Props> {
                         </div>
                         <div className='right-part'>
                             <input
-                                ref='textInput'
+                                ref={this.textInputRef}
                                 defaultValue={this.defaultValue}
                                 onBlur={this._onInputBlur.bind(this)}
                                 onKeyDown={this._onInputKeydown.bind(this)}
