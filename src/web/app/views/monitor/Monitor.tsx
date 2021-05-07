@@ -156,7 +156,7 @@ export default class Monitor extends React.Component<Props, State> {
 
   render() {
     const { mode } = this.context;
-    let body: Element;
+    let body: JSX.Element;
     if (mode === Mode.FILE) {
       body = this.renderFileList();
     } else if ([Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)) {

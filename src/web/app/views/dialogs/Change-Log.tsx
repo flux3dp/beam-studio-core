@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 
-const PropTypes = requireNode('prop-types');
 const LANG = i18n.lang.change_logs;
 
 const CHANGES_TW = {
@@ -142,9 +142,5 @@ class ChangeLogDialog extends React.Component<Props> {
     );
   }
 }
-
-ChangeLogDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
 
 export default ChangeLogDialog;
