@@ -1,7 +1,11 @@
-const React = requireNode('react');
-const classNames = requireNode('classnames');
+import React from 'react';
 
-export default class MonitorInfo extends React.PureComponent{
+interface IProps {
+  status: string,
+  progress: string,
+}
+
+export default class MonitorInfo extends React.PureComponent<IProps>{
     render() {
         const { status, progress } = this.props;
         return (
