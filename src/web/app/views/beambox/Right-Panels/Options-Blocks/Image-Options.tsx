@@ -17,8 +17,8 @@ const React = requireNode('react');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
 interface IProps {
-  elem: Element,
-  updateObjectPanel: () => void,
+  elem: Element;
+  updateObjectPanel: () => void;
 }
 
 class ImageOptions extends React.Component<IProps> {

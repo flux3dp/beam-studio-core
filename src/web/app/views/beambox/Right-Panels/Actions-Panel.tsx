@@ -14,14 +14,14 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
-interface IProps {
+interface Props {
   elem: HTMLElement,
   dimensionValues: { [key: string]: string },
   updateDimensionValues: (values: { [key: string]: string }) => void,
 }
 
-class ActionsPanel extends React.Component<IProps> {
-  constructor(props: IProps) {
+class ActionsPanel extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.state = {
     };

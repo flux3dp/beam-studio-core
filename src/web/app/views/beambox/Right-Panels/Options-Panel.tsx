@@ -1,21 +1,14 @@
+import * as React from 'react';
+import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
+import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
+import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Rect-Options';
+import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Text-Options';
 
-import InFillBlock from '../../../views/beambox/Right-Panels/Options-Blocks/Infill-Block';
-import RectOptions from '../../../views/beambox/Right-Panels/Options-Blocks/Rect-Options';
-import ImageOptions from '../../../views/beambox/Right-Panels/Options-Blocks/Image-Options';
-import TextOptions from '../../../views/beambox/Right-Panels/Options-Blocks/Text-Options';
-import * as i18n from '../../../../helpers/i18n';
-
-const React = requireNode('react');
-const classNames = requireNode('classnames');
-const LANG = i18n.lang.beambox.right_panel.object_panel;
-
-class OptionsPanel extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
+interface Props {
+  elem: Element;
+  updateObjectPanel: () => void;
+}
+class OptionsPanel extends React.Component<Props> {
     componentDidMount() {
     }
 

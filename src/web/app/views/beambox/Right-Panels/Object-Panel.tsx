@@ -1,24 +1,23 @@
-import DimensionPanel from './Dimension-Panel';
-import OptionsPanel from './Options-Panel';
-import ActionsPanel from './Actions-Panel';
-import { ObjectPanelContext, ObjectPanelContextProvider } from './contexts/ObjectPanelContext';
-import FnWrapper from '../../../actions/beambox/svgeditor-function-wrapper';
-import * as i18n from '../../../../helpers/i18n';
-import { getSVGAsync } from '../../../../helpers/svg-editor-helper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ActionsPanel from 'app/views/beambox/Right-Panels/Actions-Panel';
+import DimensionPanel from 'app/views/beambox/Right-Panels/Dimension-Panel';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import OptionsPanel from 'app/views/beambox/Right-Panels/Options-Panel';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ObjectPanelContext, ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 let _contextCaller;
 
-export class ObjectPanel extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+interface Props {
+  elem: Element;
+}
 
+export class ObjectPanel extends React.Component<Props> {
     componentDidMount() {
         _contextCaller = this.context;
     }
@@ -31,8 +30,8 @@ export class ObjectPanel extends React.Component {
         let { elem } = this.props;
         if (!elem) {
             return {};
-        } 
-        let elems = [elem]; 
+        }
+        let elems = [elem];
         if (elems.length > 0 && elems[0].getAttribute('data-tempgroup') === 'true') {
             elems = Array.from(elems[0].childNodes);
         }
@@ -108,7 +107,7 @@ export class ObjectPanel extends React.Component {
         const { updateDimensionValues, getDimensionValues } = this.context;
         const { elem } = this.props;
         return (
-            <DimensionPanel 
+            <DimensionPanel
                 elem={elem}
                 updateDimensionValues={updateDimensionValues}
                 getDimensionValues={getDimensionValues}
@@ -122,8 +121,6 @@ export class ObjectPanel extends React.Component {
         return (
             <OptionsPanel
                 elem={elem}
-                dimensionValues={dimensionValues}
-                updateDimensionValues={updateDimensionValues}
                 updateObjectPanel={updateObjectPanel}
             />
         );

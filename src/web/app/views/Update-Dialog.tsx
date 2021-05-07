@@ -8,7 +8,7 @@ import * as i18n from 'helpers/i18n';
 import DeviceMaster from 'helpers/device-master';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-interface IProps {
+interface Props {
   open: boolean
   type: 'software' | 'firmware' | 'toolhead',
   device: IDeviceInfo,
@@ -21,7 +21,7 @@ interface IProps {
   onInstall: () => void,
 }
 
-class UpdateDialog extends React.Component<IProps> {
+class UpdateDialog extends React.Component<Props> {
   static defaultProps = {
     open: false,
     type: 'software',
