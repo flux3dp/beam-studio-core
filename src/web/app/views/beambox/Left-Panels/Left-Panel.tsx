@@ -1,32 +1,35 @@
-import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import BeamboxActions from 'app/actions/beambox';
-import alert from 'app/actions/alert-caller';
-import dialog from 'app/actions/dialog-caller';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import alertConstants from 'app/constants/alert-constants';
-import alertConfig from 'helpers/api/alert-config';
-import InterProcessApi from 'helpers/api/inter-process';
-import { getCurrentUser } from 'helpers/api/flux-id';
 import shortcuts from 'helpers/shortcuts';
-import * as i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IUser } from 'interfaces/IUser';
+
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
-const React = requireNode('react');
+
 const classNames = requireNode('classnames');
-const electron = requireNode('electron');
 
 const LANG = i18n.lang.beambox.left_panel;
-const interProcessWebSocket = InterProcessApi();
 const isWin = window.os === 'Windows';
 
-class LeftPanel extends React.Component {
-    constructor() {
-        super();
-        this.state = {};
+interface Props {
+  isPreviewing: boolean;
+  endPreviewMode: () => void;
+  user: IUser;
+  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
+}
+
+class LeftPanel extends React.Component<Props> {
+    private leftPanelClass: string;
+
+    constructor(props) {
+        super(props);
         this.leftPanelClass = classNames('left-toolbar', { win: isWin });
     }
 
@@ -96,7 +99,6 @@ class LeftPanel extends React.Component {
             PreviewModeBackgroundDrawer.clear();
         }
         $('#left-Shoot').addClass('active');
-        this.setState(this.state);
     }
 
     startImageTrace = () => {
@@ -129,41 +131,6 @@ class LeftPanel extends React.Component {
         );
     }
 
-    renderNpButton() {
-        return null;
-        const { user } = this.props;
-        const signup_url = i18n.lang.flux_id_login.signup_url;
-        return this.renderToolButton('np', 'Icons', LANG.label.shapes, () => {
-            if (user) {
-                dialog.showNounProjectPanel();
-                return;
-            }
-            alert.popUp({
-                message: i18n.lang.noun_project_panel.login_first,
-                children: (
-                    <div className='hyper-link' onClick={() => electron.remote.shell.openExternal(signup_url)}>
-                        {i18n.lang.flux_id_login.new_to_flux}
-                    </div>
-                ),
-                buttonLabels: [i18n.lang.flux_id_login.login, i18n.lang.flux_id_login.offline],
-                primaryButtonIndex: 0,
-                callbacks: [
-                    () => dialog.showLoginDialog(() => {
-                        if (!alertConfig.read('skip-np-dialog-box')) {
-                            if (getCurrentUser()) {
-                                dialog.showDialogBox('login-np', {
-                                    position: { left: 52, top: 413 },
-                                }, i18n.lang.noun_project_panel.enjoy_shape_library);
-                                alertConfig.write('skip-np-dialog-box', true);
-                            }
-                        }
-                    }),
-                    () => {}
-                ],
-            });
-        });
-    }
-
     render() {
         const { isPreviewing } = this.props;
         if (!isPreviewing) {
@@ -177,7 +144,6 @@ class LeftPanel extends React.Component {
                     {this.renderToolButton('polygon', 'Polygon', LANG.label.polygon, FnWrapper.insertPolygon)}
                     {this.renderToolButton('line', 'Line', LANG.label.line + ' (\\)', FnWrapper.insertLine)}
                     {this.renderToolButton('draw', 'Pen', LANG.label.pen + ' (P)', FnWrapper.insertPath)}
-                    {/* {this.renderNpButton()} */}
                 </div>
             );
         } else {
