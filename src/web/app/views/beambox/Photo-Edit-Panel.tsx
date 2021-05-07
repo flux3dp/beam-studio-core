@@ -40,7 +40,32 @@ interface Props {
   unmount: () => void,
 }
 
-class PhotoEditPanel extends React.Component<Props> {
+interface State {
+  origWidth?: number;
+  origHeight?: number;
+  imageWidth?: number;
+  imageHeight?: number;
+  origSrc: string;
+  previewSrc: string;
+  displaySrc: string;
+  sharpness: number;
+  sharpRadius: number;
+  srcHistory: string[],
+  isCropping: boolean;
+  threshold: string;
+  shading: boolean;
+  displayBase64: string,
+  isImageDataGenerated: boolean;
+  isShowingOriginal: boolean;
+}
+
+class PhotoEditPanel extends React.Component<Props, State> {
+  private cropper: any;
+
+  private compareBase64: string;
+
+  private curvefunction: (n: number) => number;
+
   constructor(props: Props) {
     super(props);
     updateLang();
@@ -374,7 +399,7 @@ class PhotoEditPanel extends React.Component<Props> {
     });
   }
 
-  renderPhotoEditeModal(): Element {
+  renderPhotoEditeModal() {
     const { mode } = this.props;
     const {
       imageWidth, imageHeight, isCropping, isShowingOriginal, displayBase64,
@@ -423,7 +448,7 @@ class PhotoEditPanel extends React.Component<Props> {
     );
   }
 
-  renderSharpenPanel(): Element {
+  renderSharpenPanel() {
     const setStateAndPreview = (key: string, value: number) => {
       const { state } = this;
       if (state[key] === value) {
@@ -468,7 +493,7 @@ class PhotoEditPanel extends React.Component<Props> {
     );
   }
 
-  renderCurvePanel(): Element {
+  renderCurvePanel() {
     const updateCurveFunction = (curvefunction) => this.updateCurveFunction(curvefunction);
     const handleCurve = () => this.handleCurve(true);
     return (
@@ -484,7 +509,7 @@ class PhotoEditPanel extends React.Component<Props> {
     );
   }
 
-  renderPhotoEditFooter(): Element {
+  renderPhotoEditFooter() {
     const { mode } = this.props;
     const { srcHistory } = this.state;
     const previewButton = {
@@ -546,7 +571,7 @@ class PhotoEditPanel extends React.Component<Props> {
     );
   }
 
-  render(): Element {
+  render() {
     const { mode } = this.props;
     if (['sharpen', 'crop', 'curve'].includes(mode)) {
       return this.renderPhotoEditeModal();
