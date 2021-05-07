@@ -1,10 +1,9 @@
-import React from 'react';
 import ClassNames from 'classnames';
-
-import keyCodeConstants from '../constants/keycode-constants';
+import React from 'react';
 import storage from 'helpers/storage-helper';
+import keyCodeConstants from '../constants/keycode-constants';
 
-interface IProps {
+interface Props {
   min?: number,
   max?: number,
   step?: number,
@@ -24,13 +23,13 @@ interface IProps {
   onFocus?: () => void,
 }
 
-interface IStates {
+interface States {
   isEditing: boolean,
   displayValue: string | number,
   savedValue: string,
 }
 
-class UnitInput extends React.Component<IProps, IStates> {
+class UnitInput extends React.Component<Props, States> {
   static defaultProps = {
     getValue: function (value) { },
     defaultValue: 0,
@@ -68,7 +67,7 @@ class UnitInput extends React.Component<IProps, IStates> {
     this._handleInput = this._handleInput.bind(this);
   }
 
-  componentDidUpdate(prevProps: IProps) {
+  componentDidUpdate(prevProps: Props) {
     const { defaultValue, unit } = this.props;
     if (prevProps.unit !== unit) {
       this.setDecimal();
@@ -80,7 +79,7 @@ class UnitInput extends React.Component<IProps, IStates> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: IProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const val = this._validateValue(nextProps.defaultValue);
     this.setState({
       displayValue: this.getTransformedValue(Number(val)),

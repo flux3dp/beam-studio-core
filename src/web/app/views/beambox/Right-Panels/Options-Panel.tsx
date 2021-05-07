@@ -9,12 +9,6 @@ interface Props {
   updateObjectPanel: () => void;
 }
 class OptionsPanel extends React.Component<Props> {
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
-
     render() {
         const { elem, updateObjectPanel } = this.props;
         let contents = [];

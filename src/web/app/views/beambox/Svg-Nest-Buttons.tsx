@@ -20,6 +20,10 @@ interface State {
 }
 
 class SvgNestButtons extends React.Component<Props, State> {
+  private undoNestChanges: any[];
+
+  private nestedElements: any[];
+
     constructor(props) {
         super(props);
         this.state = {
