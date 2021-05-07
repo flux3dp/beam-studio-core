@@ -21,10 +21,27 @@ interface Props {
 }
 
 interface State {
-
+  isSelectingCustomized: boolean;
+  selectedItem: string;
+  displaySpeed: number;
+  displayPower: number;
+  displayRepeat: number;
+  displayZStep: number;
 }
 
 class LaserManageModal extends React.Component<Props, State> {
+  private editingCustomizedLaserConfigs: any[];
+
+  private editingDefaultLaserConfigsInUse: any;
+
+  private unit: string;
+
+  private unsavedChanges: any;
+
+  private draggingEntry: any;
+
+  private draggingIndex: number;
+
     constructor(props) {
         super(props);
         this.editingCustomizedLaserConfigs = storage.get('customizedLaserConfigs') || [];
