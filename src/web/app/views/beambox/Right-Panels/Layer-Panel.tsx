@@ -29,7 +29,6 @@ getSVGAsync((globalSVG) => {
 
 const classNames = requireNode('classnames');
 const { ContextMenu, MenuItem, ContextMenuTrigger } = requireNode('react-contextmenu');
-const PropTypes = requireNode('prop-types');
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 let contextCaller;
 
@@ -51,9 +50,7 @@ interface State {
   draggingLayer?: string;
 }
 
-export class LayerPanel extends React.Component<Props, State> {
-  private context: ILayerPanelContext;
-
+class LayerPanel extends React.Component<Props, State> {
   private promptMoveLayerOnce: boolean;
 
   constructor(props) {
