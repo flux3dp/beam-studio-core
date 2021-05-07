@@ -17,12 +17,12 @@ interface IPoint {
   y: number,
 }
 
-interface IProps {
+interface Props {
   updateCurveFunction: (curveFunction: (x: number) => number) => void,
   updateImage: () => void,
 }
 
-interface IState {
+interface State {
   controlPoints: IPoint[],
   draggingIndex?: number,
   dragStartPoint?: IPoint,
@@ -113,10 +113,10 @@ const generateCubicSplineFromPoints = (points: IPoint[]) => {
   return solveX(A, B);
 };
 
-export default class CurveControl extends React.PureComponent<IProps, IState> {
-  constructor(props: IProps) {
+export default class CurveControl extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
-    const { updateCurveFunction } = this.props as IProps;
+    const { updateCurveFunction } = this.props as Props;
     this.state = {
       controlPoints: [{ x: 0, y: 0 }, { x: 255, y: 255 }],
       selectingIndex: null,
@@ -133,7 +133,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
   }
 
   cubicSplinesInterpolation = (x: number): number => {
-    const { controlPoints, splineKs } = this.state as IState;
+    const { controlPoints, splineKs } = this.state as State;
     const ps = generateSafePoints(controlPoints);
     let i = 0;
     while (i < ps.length) {
@@ -266,7 +266,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
   }
 
   addControlPoint = (e: React.MouseEvent): void => {
-    const { controlPoints, draggingIndex } = this.state as IState;
+    const { controlPoints, draggingIndex } = this.state as State;
     if (typeof draggingIndex === 'number') {
       return;
     }
