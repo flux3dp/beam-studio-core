@@ -1,7 +1,9 @@
 import ProgressConstants from '../constants/progress-constants';
-import { AlertsAndProgressContextHelper, IProgress } from '../views/dialogs/Alerts-And-Progress';
+import { AlertsAndProgressContextHelper } from '../views/dialogs/Alerts-And-Progress';
+import { IProgressDialog } from 'interfaces/IProgress'
+
 export default {
-    openNonstopProgress: (args: IProgress) => {
+    openNonstopProgress: (args: IProgressDialog) => {
         if (!AlertsAndProgressContextHelper.context) {
             console.log('Alert context not loaded Yet');
         } else {
@@ -12,7 +14,7 @@ export default {
             AlertsAndProgressContextHelper.context.openProgress(args);
         }
     },
-    openSteppingProgress: (args: IProgress) => {
+    openSteppingProgress: (args: IProgressDialog) => {
         if (!AlertsAndProgressContextHelper.context) {
             console.log('Alert context not loaded Yet');
         } else {

@@ -9,7 +9,7 @@ export interface IAlert {
     children?: Element,
     buttons?: IButton | IButton[],
     buttonType?: string,
-    buttonLabels?: string | string[], 
+    buttonLabels?: string | string[],
     callbacks?: Function | Function[],
     primaryButtonIndex?: number,
     onYes?: Function,
