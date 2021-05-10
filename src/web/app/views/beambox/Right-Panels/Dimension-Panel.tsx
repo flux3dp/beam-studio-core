@@ -34,7 +34,7 @@ const fixedSizeMapping = {
 };
 
 interface Props {
-  elem: SVGUseElement;
+  elem: Element;
   getDimensionValues: () => any;
   updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
 }
@@ -150,14 +150,14 @@ class DimensionPanel extends React.Component<Props> {
   handleSizeKeyUp = (e: KeyboardEvent): void => {
     const { elem } = this.props;
     if (elem.tagName === 'use' && (e.keyCode === KeycodeConstants.KEY_UP || e.keyCode === KeycodeConstants.KEY_DOWN)) {
-      SymbolMaker.reRenderImageSymbol(elem);
+      SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
     }
   };
 
   handleSizeBlur = async (): Promise<void> => {
     const { elem } = this.props;
     if (elem.tagName === 'use') {
-      SymbolMaker.reRenderImageSymbol(elem);
+      SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
     } else if (elem.tagName === 'g') {
       const allUses = Array.from(elem.querySelectorAll('use'));
       SymbolMaker.reRenderImageSymbolArray(allUses);

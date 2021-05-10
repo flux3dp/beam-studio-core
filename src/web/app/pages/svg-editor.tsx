@@ -3,7 +3,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import storage from 'helpers/storage-helper';
 import svgEditor from 'app/actions/beambox/svg-editor';
-import TaskInterpreterPanel from 'app/views/beambox/Task-Interpreter-Panel';
 import { RightPanel } from 'app/views/beambox/Right-Panels/Right-Panel';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
@@ -25,7 +24,6 @@ export default class SVGEditor extends React.Component {
     const platformClassNames = classNames({ mac: window.os === 'MacOS' });
     return (
       <div>
-        <TaskInterpreterPanel />
         <div id="svg_editor" className={platformClassNames}>
           <div id="rulers" className={platformClassNames}>
             <div id="ruler_corner" />

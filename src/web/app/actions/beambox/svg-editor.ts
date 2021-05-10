@@ -6182,6 +6182,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
       editor.importBvg = importBvg;
 
       const importJsScript = async (file) => {
+        // TODO: Replace require
         Progress.popById('loading_image');
         if (require.cache[file.path]) {
           delete require.cache[file.path];

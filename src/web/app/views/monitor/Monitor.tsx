@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';

@@ -1,5 +1,7 @@
+import React from 'react';
+import $ from 'jquery';
+
 import * as i18n from 'helpers/i18n';
-import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Dialog from 'app/actions/dialog-caller';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -15,7 +17,7 @@ const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {
-  elem: HTMLElement,
+  elem: Element,
   dimensionValues: { [key: string]: string },
   updateDimensionValues: (values: { [key: string]: string }) => void,
 }

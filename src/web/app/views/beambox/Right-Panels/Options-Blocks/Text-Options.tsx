@@ -23,7 +23,7 @@ interface Props {
 }
 
 interface State {
-  fontFamily: string[];
+  fontFamily: string;
   fontStyle: any;
   fontSize: number;
   letterSpacing: number;

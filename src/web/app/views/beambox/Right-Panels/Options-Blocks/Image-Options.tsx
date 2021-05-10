@@ -1,5 +1,7 @@
+import React from 'react';
+import $ from 'jquery';
+
 import * as i18n from 'helpers/i18n';
-import * as React from 'react';
 import ImageData from 'helpers/image-data';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -97,7 +99,7 @@ class ImageOptions extends React.Component<Props> {
     );
   }
 
-  handleSliderChange = (e: InputEvent): void => {
+  handleSliderChange = (e: React.ChangeEvent): void => {
     const target = e.target as HTMLInputElement;
     const value = parseInt(target.value, 10);
     this.handleThresholdChange(value);
