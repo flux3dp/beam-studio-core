@@ -1,7 +1,6 @@
-import BeamboxGlobalInteraction from '../../../../actions/beambox/beambox-global-interaction';
-import { RightPanelContextHelper } from '../Right-Panel';
+import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
+import { RightPanelContextHelper } from 'app/views/beambox/Right-Panels/Right-Panel';
 
-const React = requireNode('react');
 const setSelectedElement = (elem) => {
     if (!elem) {
         BeamboxGlobalInteraction.onObjectBlur();

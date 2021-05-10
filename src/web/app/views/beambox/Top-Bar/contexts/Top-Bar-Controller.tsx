@@ -1,6 +1,5 @@
 import { IUser } from 'interfaces/IUser';
-import { TopBar, TopBarContextHelper } from '../Top-Bar';
-const React = requireNode('react');
+import { TopBarContextHelper } from 'app/views/beambox/Top-Bar/Top-Bar';
 
 const updateTopBar = () => {
     if (!TopBarContextHelper.context) {
