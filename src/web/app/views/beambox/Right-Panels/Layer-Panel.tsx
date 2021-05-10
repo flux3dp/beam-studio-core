@@ -1,12 +1,16 @@
 import * as i18n from 'helpers/i18n';
 import * as React from 'react';
+import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import ColorPickerPanel from 'app/views/beambox/Color-Picker-Panel';
 import Dialog from 'app/actions/dialog-caller';
+import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILayerPanelContext } from 'interfaces/IContext';
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import {
   getLayerElementByName,
   deleteLayers,
@@ -15,10 +19,6 @@ import {
   mergeSelectedLayers,
   moveLayersToPosition,
 } from 'helpers/layer-helper';
-import * as TutorialController from '../../tutorials/Tutorial-Controller';
-import ColorPickerPanel from '../Color-Picker-Panel';
-import LaserPanel from './Laser-Panel';
-import { LayerPanelContext } from './contexts/LayerPanelContext';
 
 let svgCanvas;
 let svgEditor;

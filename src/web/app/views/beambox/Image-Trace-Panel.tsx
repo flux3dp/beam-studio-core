@@ -16,7 +16,6 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-
 const Cropper = requireNode('cropperjs');
 const LANG = i18n.lang.beambox.image_trace_panel;
 

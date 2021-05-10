@@ -11,12 +11,15 @@ import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import ElectronDialogs from 'app/actions/electron-dialogs';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
 import sprintf from 'helpers/sprintf';
 import storage from 'helpers/storage-helper';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { clearEstimatedTime } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
+import { getLayerElementByName } from 'helpers/layer-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
@@ -24,9 +27,6 @@ import {
   getLayersConfig,
   writeData,
 } from 'helpers/laser-config-helper';
-import { getLayerElementByName } from 'helpers/layer-helper';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import LaserManageModal from './Laser-Manage-Modal';
 
 let svgCanvas, svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor });

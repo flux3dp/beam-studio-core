@@ -1,14 +1,14 @@
-/* eslint-disable no-console */
-import dialog from 'app/actions/dialog-caller';
-import Modal from 'app/widgets/Modal';
+import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import keyCodeConstants from 'app/constants/keycode-constants';
-import Discover from 'helpers/api/discover';
 import DeviceMaster from 'helpers/device-master';
-import storage from 'helpers/storage-helper';
+import dialog from 'app/actions/dialog-caller';
+import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
+import keyCodeConstants from 'app/constants/keycode-constants';
+import Modal from 'app/widgets/Modal';
+import storage from 'helpers/storage-helper';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const dns = requireNode('dns');
 const ping = requireNode('net-ping');
@@ -17,7 +17,29 @@ let lang;
 const TIMEOUT = 20;
 const ipRex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 
-class ConnectMachine extends React.Component {
+interface State {
+  rpiIp: string;
+  machineIp: string;
+  didConnectMachine: boolean;
+  firmwareVersion: string;
+  cameraAvailability: boolean;
+  device: IDeviceInfo;
+  connectionTestCountDown: number;
+  isTesting: boolean;
+  hadTested: boolean;
+  isIpValid?: boolean;
+  testIpInfo?: string;
+}
+
+class ConnectMachine extends React.Component<any, State> {
+  private ipInput: React.RefObject<HTMLInputElement>;
+
+  private isWired: boolean;
+
+  private discover: any;
+
+  private testCountDown: NodeJS.Timeout;
+
   constructor(props) {
     super(props);
     lang = i18n.lang.initialize;
@@ -192,7 +214,7 @@ class ConnectMachine extends React.Component {
 
   pingTarget = async () => {
     const ip = this.ipInput.current.value;
-    return new Promise((resolve) => {
+    return new Promise<boolean>((resolve) => {
       try {
         const session = ping.createSession();
         session.on('error', (error) => {

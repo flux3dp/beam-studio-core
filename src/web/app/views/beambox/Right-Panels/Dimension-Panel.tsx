@@ -12,7 +12,6 @@ let svgCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
 
-const PropTypes = requireNode('prop-types');
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
 const panelMap = {
