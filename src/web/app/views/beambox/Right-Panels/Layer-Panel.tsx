@@ -665,3 +665,5 @@ class LayerPanel extends React.Component<Props, State> {
 }
 
 LayerPanel.contextType = LayerPanelContext;
+
+export default LayerPanel;

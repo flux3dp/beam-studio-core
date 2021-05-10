@@ -17,60 +17,60 @@ class PathEditPanel extends React.Component<any, any> {
         svgedit.path.path.setSelectedNodeType(newType);
     }
 
-    renderNodeTypePanel() {
-        const currentPath = svgedit.path.path;
-        let isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
-        let selectedNodeTypes = [];
-        if (currentPath) {
-            const selectedNodes = currentPath.selected_pts.map((index) => currentPath.nodePoints[index]).filter((point) => point);
-            selectedNodes.forEach((node) => {
-                if (node) {
-                    selectedNodeTypes.push(node.linkType);
-                }
-            });
-            selectedNodeTypes = [...new Set(selectedNodeTypes)];
-            selectedNodeTypes.sort();
-            if (selectedNodeTypes.length > 1) {
-                selectedNodeTypes = [];
-            }
+  renderNodeTypePanel() {
+    const currentPath = svgedit.path.path;
+    let isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
+    let selectedNodeTypes = [];
+    if (currentPath) {
+      const selectedNodes = currentPath.selected_pts.map((index) => currentPath.nodePoints[index]).filter((point) => point);
+      selectedNodes.forEach((node) => {
+        if (node) {
+          selectedNodeTypes.push(node.linkType);
         }
-
-        return (
-            <div className='node-type-panel'>
-                <div className="title">{LANG.node_type}</div>
-                <SegmentedControl
-                    isDisabled={isDisabled}
-                    selectedIndexes={selectedNodeTypes}
-                    onChanged={(newType) => this.onNodeTypeChange(newType)}
-                    segments={[
-                        {
-                            imgSrc: 'img/right-panel/icon-nodetype-0.svg',
-                            title: 'tCorner',
-                            value: LINKTYPE_CORNER,
-                        },
-                        {
-                            imgSrc: 'img/right-panel/icon-nodetype-1.svg',
-                            title: 'tSmooth',
-                            value: LINKTYPE_SMOOTH,
-                        },
-                        {
-                            imgSrc: 'img/right-panel/icon-nodetype-2.svg',
-                            title: 'tSymmetry',
-                            value: LINKTYPE_SYMMETRIC,
-                        },
-                    ]}
-                />
-            </div>
-        );
+      });
+      selectedNodeTypes = [...new Set(selectedNodeTypes)];
+      selectedNodeTypes.sort();
+      if (selectedNodeTypes.length > 1) {
+        selectedNodeTypes = [];
+      }
     }
 
-    render() {
-        return (
-            <div id="pathedit-panel">
-                {this.renderNodeTypePanel()}
-            </div>
-        );
-    }
+    return (
+      <div className="node-type-panel">
+        <div className="title">{LANG.node_type}</div>
+        <SegmentedControl
+          isDisabled={isDisabled}
+          selectedIndexes={selectedNodeTypes}
+          onChanged={(newType) => this.onNodeTypeChange(newType)}
+          segments={[
+            {
+              imgSrc: 'img/right-panel/icon-nodetype-0.svg',
+              title: 'tCorner',
+              value: LINKTYPE_CORNER,
+            },
+            {
+              imgSrc: 'img/right-panel/icon-nodetype-1.svg',
+              title: 'tSmooth',
+              value: LINKTYPE_SMOOTH,
+            },
+            {
+              imgSrc: 'img/right-panel/icon-nodetype-2.svg',
+              title: 'tSymmetry',
+              value: LINKTYPE_SYMMETRIC,
+            },
+          ]}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div id="pathedit-panel">
+        {this.renderNodeTypePanel()}
+      </div>
+    );
+  }
 }
 
 export default PathEditPanel;
