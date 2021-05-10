@@ -22,7 +22,7 @@ export class AlertsAndProgress extends React.Component {
   render() {
     const { alertProgressStack, popFromStack } = this.context;
     const components = alertProgressStack.map((alertOrProgress, index) => {
-      if (alertOrProgress.isProgrss) {
+      if (alertOrProgress.isProgress) {
         return (
           <Progress
             key={index}

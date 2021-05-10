@@ -68,7 +68,7 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
       type,
       caption,
       message,
-      isProgrss: true,
+      isProgress: true,
     });
   }
 
@@ -89,7 +89,7 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
   updateProgress = (id, args: IProgressDialog = {}) => {
     const { alertProgressStack } = this.state;
     const targetObjects = alertProgressStack.filter((alertOrProgress) => {
-      return alertOrProgress.isProgress && alertOrProgress.id === id
+      return alertOrProgress.isProgress && alertOrProgress.id === id;
     });
     if (targetObjects.length === 0) {
       return;
