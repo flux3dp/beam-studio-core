@@ -1,7 +1,7 @@
+import * as React from 'react';
 import { fluxIDEvents } from 'helpers/api/flux-id';
 import { IUser } from 'interfaces/IUser';
 
-const React = requireNode('react');
 const { createContext } = React;
 export const TopBarContext = createContext();
 
@@ -23,20 +23,19 @@ export interface ITopBarContext {
     startPreivewCallback: Function|null,
 }
 
-export class TopBarContextProvider extends React.Component {
-    private props;
-    private state: {
-        fileName: string|null,
-        selectedElem: Element|null,
-        hasUnsavedChange: boolean,
-        isDrawing: boolean,
-        isDrawn: boolean,
-        shouldStartPreviewController: boolean,
-        currentUser?: IUser
-    };
+interface State {
+  fileName: string|null;
+  selectedElem: Element|null;
+  hasUnsavedChange: boolean;
+  isDrawing: boolean;
+  isDrawn: boolean;
+  shouldStartPreviewController: boolean;
+  currentUser?: IUser;
+}
+
+export class TopBarContextProvider extends React.Component<any, State> {
     private isPreviewMode: boolean;
     private startPreivewCallback: Function|null;
-    private setState: (newState: any) => {};
 
     constructor(props) {
         super(props);

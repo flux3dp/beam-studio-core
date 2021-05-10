@@ -1,18 +1,16 @@
 import * as React from 'react';
-import * as i18n from '../../../helpers/i18n';
-import BeamboxStore from '../../stores/beambox-store';
-import ExportFuncs from '../../actions/beambox/export-funcs';
-import Modal from '../../widgets/Modal';
-import SelectView from '../../widgets/Select';
-import VerticalSlider from '../../widgets/Vertical-Slider-Control';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+import BeamboxStore from 'app/stores/beambox-store';
+import ExportFuncs from 'app/actions/beambox/export-funcs';
+import Modal from 'app/widgets/Modal';
+import SelectView from 'app/widgets/Select';
+import VerticalSlider from 'app/widgets/Vertical-Slider-Control';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
 
-const LANG = i18n.lang.topmenu;
 const SerialPort = requireNode('serialport');
 const LINES_PER_PAGE = 100;
 const TAB_GCODE = 0;

@@ -28,7 +28,7 @@ export const fitPath = (points: vector2D[]) => {
     const totalDist = accumulatedDist;
     accumulatedDist = 0;
     const allowedDist = Math.min(totalDist / allowedDistFactor, minAllowedDist);
-    
+
     for (let i = 1; i < points.length; i++) {
         const point = points[i];
         const dist = Math.hypot(point.x - points[i - 1].x, point.y - points[i - 1].y);
@@ -52,7 +52,7 @@ export const fitPath = (points: vector2D[]) => {
             fitSegment(points, start, i, vStart, vEnd, accumulatedDist / 30);
         }
     }
-    
+
     return output;
 };
 
@@ -276,6 +276,5 @@ const B2 = (t: number) => {
 };
 
 const B3 = (t: number) => {
-    const temp = 1 - t;
     return t * t * t;
 };
