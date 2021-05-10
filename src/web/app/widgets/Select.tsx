@@ -9,7 +9,7 @@ interface Props {
   multiple?: boolean;
   disabled?: boolean;
   options: {
-    value: string,
+    value: string | number,
     label: string,
     selected: boolean;
     data?: any;
