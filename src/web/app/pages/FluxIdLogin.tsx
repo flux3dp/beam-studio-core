@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-
 import dialog from 'app/actions/dialog-caller';
+import React, { useEffect } from 'react';
 
 // Empty page to show login dialog
 const FluxIdLogin = () => {

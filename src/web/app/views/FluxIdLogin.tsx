@@ -1,12 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
-import classNames from 'classnames';
-
 import alert from 'app/actions/alert-caller';
-import Modal from 'app/widgets/Modal';
-import ShowablePasswordInput from 'app/widgets/Showable-Password-Input';
-import { fluxIDEvents, externalLinkFBSignIn, externalLinkGoogleSignIn, signIn, signOut } from 'helpers/api/flux-id';
-import storage from 'helpers/storage-helper';
+import classNames from 'classnames';
 import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
+import React, { useEffect, useRef, useState } from 'react';
+import ShowablePasswordInput from 'app/widgets/Showable-Password-Input';
+import storage from 'helpers/storage-helper';
+import {
+  externalLinkFBSignIn,
+  externalLinkGoogleSignIn,
+  fluxIDEvents,
+  signIn,
+  signOut,
+} from 'helpers/api/flux-id';
 
 const electron = requireNode('electron');
 

@@ -1,13 +1,12 @@
 import * as React from 'react';
 
-const PropTypes = requireNode('prop-types');
 const { createContext } = React;
-export const DialogContext = createContext();
+export const DialogContext = createContext(null);
 
 export class DialogContextProvider extends React.Component<any> {
   private dialogComponents: {
     id: string,
-    dialogComponent: JSX.Element
+    component: JSX.Element
   }[];
 
   constructor(props) {
@@ -57,11 +56,3 @@ export class DialogContextProvider extends React.Component<any> {
     );
   }
 }
-
-DialogContextProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element),
-};
-
-DialogContextProvider.defaultProps = {
-  children: [],
-};

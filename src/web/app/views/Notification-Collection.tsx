@@ -1,14 +1,12 @@
-import config from 'helpers/api/config';
-import AlertActions from 'app/actions/alert-actions';
 import AlertStore from 'app/stores/alert-store';
-import UpdateDialog from 'app/views/Update-Dialog';
+import checkFirmware from 'helpers/check-firmware';
+import config from 'helpers/api/config';
+import DeviceMaster from 'helpers/device-master';
+import firmwareUpdater from 'helpers/firmware-updater';
 import GlobalStore from 'app/stores/global-store';
 import storage from 'helpers/storage-helper';
-import checkFirmware from 'helpers/check-firmware';
-import firmwareUpdater from 'helpers/firmware-updater';
-import DeviceMaster from 'helpers/device-master';
-// @ts-expect-error
-import Notifier = require('jqueryGrowl');
+import UpdateDialog from 'app/views/Update-Dialog';
+
 declare global {
   interface JQueryStatic {
     growl: any
@@ -21,8 +19,7 @@ const { $ } = window;
 export default function (args) {
   args = args || {};
 
-  var lang = args.state.lang,
-    FIRST_DEVICE_UPDATE = 'check-first-device-firmware';
+  var lang = args.state.lang;
 
   return class NotificationCollection extends React.Component {
     constructor(props) {

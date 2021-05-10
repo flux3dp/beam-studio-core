@@ -12,8 +12,8 @@ import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
 import Progress from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
-import { IProgress } from 'interfaces/IProgress';
 import { IDeviceInfo, IReport } from 'interfaces/IDevice';
+import { IProgress } from 'interfaces/IProgress';
 import { ItemType, Mode } from 'app/constants/monitor-constants';
 
 let LANG = i18n.lang;
