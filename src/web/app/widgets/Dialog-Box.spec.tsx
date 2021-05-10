@@ -15,7 +15,7 @@ test('should render correctly', () => {
     position={{}}
     onClose={mockOnClose}
     onClick={mockOnClick}
-    content={<div>Hello World</div>}
+    content="Hello World"
   />);
   expect(toJson(wrapper)).toMatchSnapshot();
 

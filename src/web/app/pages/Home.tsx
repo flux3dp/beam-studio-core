@@ -1,15 +1,19 @@
-import i18n from '../../helpers/i18n';
-import SelectView from '../widgets/Select';
-import Modal from '../widgets/Modal';
+import * as React from 'react';
+import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
+import SelectView from 'app/widgets/Select';
 
-const React = requireNode('react');
 const electron = requireNode('electron');
 const { Menu } = electron.remote;
 
 export default function(args) {
     args = args || {};
 
-    class Home extends React.Component{
+    interface State {
+      lang: any;
+    }
+
+    class Home extends React.Component<any, State> {
         constructor(props) {
             super(props);
             this.state = {

@@ -1,29 +1,36 @@
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
-import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import ElectronDialogs from 'app/actions/electron-dialogs';
-import RightPanelConstants from 'app/constants/right-panel-constants';
-import BeamboxStore from 'app/stores/beambox-store';
-import Dialog from 'app/actions/dialog-caller';
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import DropdownControl from 'app/widgets/Dropdown-Control';
-import LaserManageModal from './Laser-Manage-Modal';
-import storage from 'helpers/storage-helper';
 import * as i18n from 'helpers/i18n';
-import { DataType, getLayerConfig, getLayersConfig, writeData, CUSTOM_PRESET_CONSTANT } from 'helpers/laser-config-helper';
-import { getLayerElementByName } from 'helpers/layer-helper';
+import * as React from 'react';
+import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import { clearEstimatedTime } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller'
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import BeamboxStore from 'app/stores/beambox-store';
+import Constant from 'app/actions/beambox/constant';
+import Dialog from 'app/actions/dialog-caller';
+import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
+import DropdownControl from 'app/widgets/Dropdown-Control';
+import ElectronDialogs from 'app/actions/electron-dialogs';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
+import RightPanelConstants from 'app/constants/right-panel-constants';
+import sprintf from 'helpers/sprintf';
+import storage from 'helpers/storage-helper';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import UnitInput from 'app/widgets/Unit-Input-v2';
+import { clearEstimatedTime } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
+import { getLayerElementByName } from 'helpers/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import sprintf from 'helpers/sprintf'
+import {
+  CUSTOM_PRESET_CONSTANT,
+  DataType,
+  getLayerConfig,
+  getLayersConfig,
+  writeData,
+} from 'helpers/laser-config-helper';
+
 let svgCanvas, svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor });
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const PropTypes = requireNode('prop-types');
 
@@ -36,7 +43,35 @@ const hiddenOptions = [
     { value: LANG.various_preset, key: LANG.various_preset, label: LANG.various_preset },
 ];
 
-class LaserPanel extends React.PureComponent {
+interface Props {
+  selectedLayers: string[];
+}
+
+interface State {
+  speed: number;
+  power: number;
+  repeat: number;
+  height: number;
+  zStep: number;
+  isDiode: boolean;
+  didDocumentSettingsChanged: boolean;
+  configName?: string;
+  selectedItem?: string;
+  original?: string;
+  hasMultiSpeed?: boolean;
+  hasMultiPower?: boolean;
+  hasMultiRepeat?: boolean;
+  hasMultiZStep?: boolean;
+  hasMultiDiode?: boolean;
+  hasMultiConfigName?: boolean;
+  modal?: string;
+  strength?: number;
+  hasMultiHeight?: boolean;
+}
+
+class LaserPanel extends React.PureComponent<Props, State> {
+  private unit: string;
+
     constructor(props) {
         super(props);
         this.unit = storage.get('default-units') || 'mm';
@@ -238,7 +273,7 @@ class LaserPanel extends React.PureComponent {
         }
     };
 
-    _handleSpeedChange = (val) => {
+    _handleSpeedChange = (val: number) => {
         this.setState({ speed: val, configName: CUSTOM_PRESET_CONSTANT });
         clearEstimatedTime();
         this.props.selectedLayers.forEach((layerName: string) => {
@@ -472,7 +507,7 @@ class LaserPanel extends React.PureComponent {
                         max={maxValue}
                         step={1}
                         value={this.state.speed}
-                        onChange={(e) => {this._handleSpeedChange(e.target.value)}} />
+                        onChange={(e) => {this._handleSpeedChange(Number(e.target.value))}} />
                 </div>
                 {
                     hasVector && this.state.speed > 20 && (BeamboxPreference.read('vector_speed_contraint') !== false) ?
@@ -816,10 +851,6 @@ class LaserPanel extends React.PureComponent {
         );
     }
 
-};
-
-LaserPanel.propTypes = {
-    selectedLayers: PropTypes.array,
 };
 
 export default LaserPanel;

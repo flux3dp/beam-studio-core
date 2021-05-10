@@ -1,8 +1,3 @@
-import * as i18n from './i18n'
-import Alert from '../app/actions/alert-caller'
-import AlertConstants from '../app/constants/alert-constants'
-import Progress from '../app/actions/progress-caller'
-
 /*  Beam Format
    =================================================================================
   |   Block Name   |    Length    |           Contents                              |
@@ -59,6 +54,9 @@ import Progress from '../app/actions/progress-caller'
 
 */
 
+import Progress from 'app/actions/progress-caller'
+
+const { $ } = window;
 const fs = requireNode('fs');
 const electronRemote = requireNode('electron').remote;
 const { dialog } = electronRemote;
@@ -80,19 +78,6 @@ const getFilePath = async (title, allFiles, extensionName, extensions, filename)
     }
     return filePath;
 };
-
-const writeUInt64BEToBuffer = (buffer, value, offset=0) => {
-    buffer.writeUInt32BE(Math.floor(value / 2 ** 32), offset);
-    buffer.writeUInt32BE(value % 2 ** 32, offset + 4);
-    return offset + 8;
-}
-
-const readUInt64BEfromBuffer = (buffer, offset=0) => {
-    let res = 0;
-    res += buffer.readUInt32BE(offset) * 2 ** 32;
-    res += buffer.readUInt32BE(offset + 4);
-    return res;
-}
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
 const valueToVIntBuffer = (value) => {

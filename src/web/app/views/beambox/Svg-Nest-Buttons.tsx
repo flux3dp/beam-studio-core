@@ -1,17 +1,29 @@
-import Alert from '../../actions/alert-caller';
-import Constant from '../../actions/beambox/constant';
-import Modal from '../../widgets/Modal';
 import * as i18n from 'helpers/i18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import * as React from 'react';
+import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Constant from 'app/actions/beambox/constant';
+import Modal from 'app/widgets/Modal';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
 
-const React = requireNode('react');
 const LANG = i18n.lang.beambox.tool_panels;
 
-class SvgNestButtons extends React.Component {
+interface Props {
+  onClose: () => void;
+}
+
+interface State {
+  isWorking: boolean;
+}
+
+class SvgNestButtons extends React.Component<Props, State> {
+  private undoNestChanges: any[];
+
+  private nestedElements: any[];
+
     constructor(props) {
         super(props);
         this.state = {

@@ -1,18 +1,19 @@
+import * as React from 'react';
 import { ILayerPanelContext } from 'interfaces/IContext';
 
-const React = requireNode('react');
-const PropTypes = requireNode('prop-types');
-const { createContext } = React;
+export const LayerPanelContext = React.createContext<ILayerPanelContext>(null);
 
-export const LayerPanelContext: ILayerPanelContext = createContext();
-export class LayerPanelContextProvider extends React.Component {
-  private contextValue = {};
+interface Props {
+  children: React.ReactNode;
+}
+
+export class LayerPanelContextProvider extends React.Component<Props> {
+  private contextValue = null;
 
   private selectedLayers: string[] = [];
 
-  constructor(props: { children?: Element | Element[] }) {
+  constructor(props) {
     super(props);
-    this.state = {};
     this.updateContextValue();
   }
 
@@ -29,17 +30,18 @@ export class LayerPanelContextProvider extends React.Component {
     };
   };
 
-  setSelectedLayers = (selectedLayers: string[]): void => {
+  setSelectedLayers = (selectedLayers: string[]): null => {
     this.selectedLayers = [...selectedLayers];
     this.updateContextValue();
     this.forceUpdate();
+    return null;
   };
 
   updateLayerPanel = (): void => {
     this.forceUpdate();
   };
 
-  render(): Element {
+  render() {
     const { children } = this.props;
     return (
       <LayerPanelContext.Provider value={this.contextValue}>
@@ -48,11 +50,3 @@ export class LayerPanelContextProvider extends React.Component {
     );
   }
 }
-
-LayerPanelContextProvider.propTypes = {
-  children: PropTypes.element,
-};
-
-LayerPanelContextProvider.defaultProps = {
-  children: null,
-};

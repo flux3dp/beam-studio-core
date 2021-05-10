@@ -1,160 +1,114 @@
-import Modal from './Modal';
-import AlertDialog from './AlertDialog';
-import ProgressConstants from '../constants/progress-constants';
+import React from 'react';
+import classNames from 'classnames';
 
-const React = requireNode('react');
-const PropTypes = requireNode('prop-types');
+import ProgressConstants from 'app/constants/progress-constants';
+import { AlertProgressContext } from 'app/contexts/Alert-Progress-Context';
+import ButtonGroup from 'app/widgets/Button-Group';
+import Modal from 'app/widgets/Modal';
+import i18n from 'helpers/i18n';
+import { IProgressDialog } from 'interfaces/IProgress';
 
-var acceptableTypes = [
-    ProgressConstants.WAITING,
-    ProgressConstants.STEPPING,
-    ProgressConstants.NONSTOP,
-    ProgressConstants.NONSTOP_WITH_MESSAGE
-];
+const LANG = i18n.lang;
 
-class Progress extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            percentage: this.props.percentage
-        };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.setState({
-            percentage: nextProps.percentage
-        });
-    }
-
-    _getButton() {
-        var buttons = [];
-
-        switch (this.props.type) {
-        case ProgressConstants.WAITING:
-        case ProgressConstants.STEPPING:
-            buttons.push({
-                label: this.props.lang.alert.stop,
-                dataAttrs: {
-                    'ga-event': 'stop'
-                },
-                onClick: this.props.onStop
-            });
-            break;
-        case ProgressConstants.NONSTOP:
-            // No button
-            break;
-        }
-
-        if (false === this.props.hasStop) {
-            // clear button
-            buttons = [];
-        }
-
-        return buttons;
-    }
-
-    _renderMessage() {
-        var message,
-            progressIcon = this._renderIcon();
-
-        switch (this.props.type) {
-        case ProgressConstants.WAITING:
-        case ProgressConstants.STEPPING:
-            message = (
-                <div>
-                    <p>{this.props.message}</p>
-                    {progressIcon}
-                </div>
-            );
-            break;
-        case ProgressConstants.NONSTOP:
-        case ProgressConstants.NONSTOP_WITH_MESSAGE:
-            message = progressIcon;
-            break;
-        }
-
-        return message;
-    }
-
-    _renderIcon() {
-        var icon,
-            progressStyle = {
-                width: (this.state.percentage || 0) + '%'
-            };
-
-        switch (this.props.type) {
-        case ProgressConstants.WAITING:
-        case ProgressConstants.NONSTOP:
-        case ProgressConstants.NONSTOP_WITH_MESSAGE:
-            icon = (
-                <div className="spinner-roller spinner-roller-reverse"/>
-            );
-            break;
-        case ProgressConstants.STEPPING:
-            icon = (
-                <div className="progress-bar" data-percentage={this.props.percentage}>
-                    <div className="current-progress" style={progressStyle}/>
-                </div>
-            );
-            break;
-        }
-
-        return icon;
-
-    }
-
-    render() {
-        if (false === this.props.isOpen) {
-            return <div/>
-        }
-
-        var buttons = this._getButton(),
-            progressIcon = this._renderIcon(),
-            message = this._renderMessage(),
-            content = (
-                <AlertDialog
-                    lang={this.props.lang}
-                    caption={this.props.caption}
-                    message={message}
-                    buttons={buttons}
-                />
-            ),
-            className = {
-                'shadow-modal': true,
-                'waiting': ProgressConstants.WAITING === this.props.type,
-                'modal-progress': true,
-                'modal-progress-nonstop': ProgressConstants.NONSTOP === this.props.type,
-                'modal-progress-nonstop-with-message': ProgressConstants.NONSTOP_WITH_MESSAGE === this.props.type
-            };
-
-        return (
-            <Modal className={className} content={content} disabledEscapeOnBackground={false}/>
-        );
-    }
+interface Props {
+  progress: IProgressDialog,
+  onClose?: () => void,
 }
 
-Progress.propTypes = {
-    type       : PropTypes.oneOf(acceptableTypes),
-    isOpen     : PropTypes.bool,
-    lang       : PropTypes.object,
-    caption    : PropTypes.string,
-    message    : PropTypes.string,
-    percentage : PropTypes.number,
-    hasStop    : PropTypes.bool,
-    onStop     : PropTypes.func,
-    onFinished : PropTypes.func
-};
+class Progress extends React.Component<Props> {
+  private closeTimeout: NodeJS.Timeout;
 
-Progress.defaultProps = {
-    lang       : {},
-    isOpen     : true,
-    caption    : '',
-    message    : '',
-    type       : ProgressConstants.WAITING,
-    percentage : 0,
-    hasStop    : true,
-    onStop     : function() {},
-    onFinished : function() {}
-};
+  constructor(props) {
+    super(props);
+    const { progress } = this.props;
+    const { timeout, timeoutCallback } = progress;
+    if (timeout) {
+      this.closeTimeout = setTimeout(() => {
+        const { popById } = this.context;
+        if (!progress.id) {
+          console.warn('Progress without ID', progress);
+        } else {
+          popById(progress.id);
+        }
+        if (timeoutCallback) {
+          timeoutCallback();
+        }
+      }, timeout);
+    };
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.closeTimeout);
+  }
+
+  renderCaption = (caption: string) => {
+    if (!caption) return null;
+
+    return (
+      <div className='caption'>{caption}</div>
+    );
+  }
+
+  renderCancelButton = () => {
+    const progress = this.props.progress;
+    const { onCancel, id } = progress;
+    if (!onCancel) {
+      return null;
+    }
+    const buttons = [{
+      label: LANG.alert.cancel,
+      className: classNames('btn-default'),
+      onClick: () => {
+        const { popById } = this.context;
+        popById(id);
+        onCancel();
+      },
+    }];
+    return (
+      <div className={'button-container'}>
+        <ButtonGroup buttons={buttons} />
+      </div>
+    );
+
+  }
+
+  renderMessage = (progress: IProgressDialog) => {
+    let content;
+    if (progress.type === ProgressConstants.NONSTOP) {
+      content = <div className={classNames('spinner-roller spinner-roller-reverse')} />
+    } else if (progress.type === ProgressConstants.STEPPING) {
+      const progressStyle = {
+        width: (progress.percentage || 0) + '%'
+      };
+      content = (
+        <div className='stepping-container'>
+          <div className='progress-message'>{progress.message}</div>
+          <div className='progress-bar'>
+            <div className='current-progress' style={progressStyle} />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <pre className='message'>
+        {content}
+      </pre>
+    );
+  }
+
+  render() {
+    const { progress } = this.props;
+    return (
+      <Modal>
+        <div className={classNames('modal-alert', 'progress')}>
+          {this.renderCaption(progress.caption)}
+          {this.renderMessage(progress)}
+          {this.renderCancelButton()}
+        </div>
+      </Modal>
+    );
+  }
+}
+Progress.contextType = AlertProgressContext;
 
 export default Progress;

@@ -2,6 +2,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/sort-comp */
 // ref: http://blog.ivank.net/interpolation-with-cubic-splines.html
+import React from 'react';
+
 import shortcuts from 'helpers/shortcuts';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -9,23 +11,22 @@ let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-const React = requireNode('react');
 
 interface IPoint {
   x: number,
   y: number,
 }
 
-interface IProps {
+interface Props {
   updateCurveFunction: (curveFunction: (x: number) => number) => void,
   updateImage: () => void,
 }
 
-interface IState {
+interface State {
   controlPoints: IPoint[],
-  draggingIndex: number,
-  dragStartPoint: IPoint,
-  originalPoint: IPoint,
+  draggingIndex?: number,
+  dragStartPoint?: IPoint,
+  originalPoint?: IPoint,
   selectingIndex: number,
   splineKs: number[],
 }
@@ -112,10 +113,10 @@ const generateCubicSplineFromPoints = (points: IPoint[]) => {
   return solveX(A, B);
 };
 
-export default class CurveControl extends React.PureComponent<IProps, IState> {
-  constructor(props: IProps) {
+export default class CurveControl extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
-    const { updateCurveFunction } = this.props as IProps;
+    const { updateCurveFunction } = this.props as Props;
     this.state = {
       controlPoints: [{ x: 0, y: 0 }, { x: 255, y: 255 }],
       selectingIndex: null,
@@ -132,7 +133,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
   }
 
   cubicSplinesInterpolation = (x: number): number => {
-    const { controlPoints, splineKs } = this.state as IState;
+    const { controlPoints, splineKs } = this.state as State;
     const ps = generateSafePoints(controlPoints);
     let i = 0;
     while (i < ps.length) {
@@ -157,7 +158,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
     return q;
   };
 
-  onBackgroundMouseDown = (e: MouseEvent): void => {
+  onBackgroundMouseDown = (e: React.MouseEvent): void => {
     const { controlPoints } = this.state;
     const target = e.target as Element;
     if (target.tagName === 'rect') {
@@ -173,8 +174,8 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
     }
   };
 
-  onMouseMove = (e: MouseEvent): void => {
-    let { draggingIndex } = this.state;
+  onMouseMove = (e: React.MouseEvent): void => {
+    let { draggingIndex, selectingIndex } = this.state;
     if (typeof draggingIndex === 'number') {
       const { controlPoints, dragStartPoint, originalPoint } = this.state;
       const dX = e.clientX - dragStartPoint.x;
@@ -189,7 +190,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
           controlPoints[draggingIndex] = controlPoints[draggingIndex - 1];
           controlPoints[draggingIndex - 1] = p;
           draggingIndex -= 1;
-          this.state.selectingIndex -= 1;
+          selectingIndex -= 1;
         }
       } else if (
         draggingIndex < controlPoints.length - 1
@@ -202,12 +203,13 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
           controlPoints[draggingIndex] = controlPoints[draggingIndex + 1];
           controlPoints[draggingIndex + 1] = p;
           draggingIndex += 1;
-          this.state.selectingIndex += 1;
+          selectingIndex += 1;
         }
       }
       controlPoints[draggingIndex] = { x, y };
 
       this.setState({
+        selectingIndex,
         draggingIndex,
         controlPoints: [...controlPoints],
         splineKs: generateCubicSplineFromPoints(controlPoints),
@@ -216,8 +218,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
   };
 
   onMouseUp = (): void => {
-    const { draggingIndex, controlPoints } = this.state;
-    console.log(controlPoints);
+    const { draggingIndex } = this.state;
     if (typeof draggingIndex === 'number') {
       const { updateImage } = this.props;
       updateImage();
@@ -227,7 +228,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
     });
   };
 
-  renderCurve(): Element[] {
+  renderCurve(): JSX.Element[] {
     const { controlPoints: ps } = this.state;
     let d = `M 0,${255 - ps[0].y} `;
     for (let { x } = ps[0]; x < ps[ps.length - 1].x; x += 0.5) {
@@ -248,7 +249,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
       const fillOpacity = index === selectingIndex ? 1 : 0;
       items.push(
         <rect
-          id={index}
+          id={index.toString()}
           key={`${p.x},${p.y}`}
           fillOpacity={fillOpacity}
           fill="#000000"
@@ -263,8 +264,8 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
     return items;
   }
 
-  addControlPoint = (e: MouseEvent): void => {
-    const { controlPoints, draggingIndex } = this.state as IState;
+  addControlPoint = (e: React.MouseEvent): void => {
+    const { controlPoints, draggingIndex } = this.state as State;
     if (typeof draggingIndex === 'number') {
       return;
     }
@@ -321,7 +322,7 @@ export default class CurveControl extends React.PureComponent<IProps, IState> {
     }
   };
 
-  render(): Element {
+  render(): JSX.Element {
     const curve = this.renderCurve();
     const controlPointsRects = this.renderControlPoints();
     return (

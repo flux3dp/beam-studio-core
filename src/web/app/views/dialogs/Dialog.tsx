@@ -1,16 +1,11 @@
-import Modal from '../../widgets/Modal';
-import { DialogContext, DialogContextProvider } from '../../contexts/Dialog-Context';
+import * as React from 'react';
+import { DialogContext, DialogContextProvider } from 'app/contexts/Dialog-Context';
 
-const React = requireNode('react');
 let _contextCaller;
 
 const ComponentWrapper = (props) => props.children;
 
-export class Dialog extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+export class Dialog extends React.Component<any, any> {
     componentDidMount() {
         _contextCaller = this.context;
     }

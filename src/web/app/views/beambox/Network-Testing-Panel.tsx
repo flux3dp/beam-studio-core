@@ -1,18 +1,49 @@
-import Modal from '../../widgets/Modal';
-import Alert from '../../actions/alert-caller';
-import AlertConstants from '../../constants/alert-constants';
-import Progress from '../../actions/progress-caller';
-import KeycodeConstants from '../../constants/keycode-constants';
-import Discover from '../../../helpers/api/discover';
-import * as i18n from '../../../helpers/i18n';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import Discover from 'helpers/api/discover';
+import KeycodeConstants from 'app/constants/keycode-constants';
+import Modal from 'app/widgets/Modal';
+import Progress from 'app/actions/progress-caller';
 
-const React = requireNode('react');
 const ping = requireNode('net-ping');
 const LANG = i18n.lang.beambox.network_testing_panel;
 const { shell } = requireNode('electron').remote
 
+interface Props {
+  ip: string;
+  onClose: () => void;
+}
 
-class NetworkTestingPanel extends React.Component {
+interface State {
+  ip: string;
+  localIp: string[];
+}
+
+class NetworkTestingPanel extends React.Component<Props, State> {
+  private defaultValue: string;
+
+  private TEST_TIME: number;
+
+  private discoveredDevices: any[];
+
+  private discover: any;
+
+  private stopFlag: boolean;
+
+  private pingCounts: number;
+
+  private successedPing: number;
+
+  private totalRRT: number;
+
+  private startTime: Date;
+
+  private session: any;
+
+  private textInputRef: React.RefObject<HTMLInputElement>;
+
     constructor(props) {
         super(props);
         let ip = '';
@@ -50,6 +81,7 @@ class NetworkTestingPanel extends React.Component {
             ip: ip,
             localIp: local_ips
         };
+        this.textInputRef = React.createRef();
     }
 
     componentWillUnmount() {
@@ -114,7 +146,7 @@ class NetworkTestingPanel extends React.Component {
     _pingTarget() {
         this.pingCounts += 1;
         this.session.pingHost(this.state.ip, (error, target, sent, rcvd) => {
-            const elapsedTime = (+new Date()) - this.startTime;
+            const elapsedTime = (+new Date().getTime()) - this.startTime.getTime();
             const percentage =  parseInt('' + (100 * elapsedTime / this.TEST_TIME));
             Progress.update('network-testing', {
                 percentage,
@@ -210,8 +242,10 @@ class NetworkTestingPanel extends React.Component {
     }
 
     _onInputBlur() {
-        let value = this.refs.textInput.value;
-        this.state.ip = value.replace(' ', '');
+        let value = this.textInputRef.current.value;
+        this.setState({
+          ip: value.replace(' ', ''),
+        });
         return;
     }
 
@@ -247,7 +281,7 @@ class NetworkTestingPanel extends React.Component {
                         </div>
                         <div className='right-part'>
                             <input
-                                ref='textInput'
+                                ref={this.textInputRef}
                                 defaultValue={this.defaultValue}
                                 onBlur={this._onInputBlur.bind(this)}
                                 onKeyDown={this._onInputKeydown.bind(this)}

@@ -5,6 +5,7 @@
 import Progress from 'app/actions/progress-caller';
 import { getSVGAsync } from './svg-editor-helper';
 
+const { $ } = window;
 let svgCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
@@ -147,9 +148,9 @@ const makeSymbol = (elem, attrs, batchCmd, defs, type) => {
     if (!$(textElem).attr('y')) {
       $(textElem).attr('y', 0);
     }
-    let texts = Array.from(textElem.childNodes).filter((child) => child.nodeType === 3);
+    let texts = Array.from(textElem.childNodes).filter((child: ChildNode) => child.nodeType === 3);
     for (let j = texts.length - 1; j >= 0; j--) {
-      let t = texts[j];
+      let t = texts[j] as SVGTextContentElement;
       const tspan = document.createElementNS(svgedit.NS.SVG, 'tspan');
       textElem.prepend(tspan);
       tspan.textContent = t.textContent;

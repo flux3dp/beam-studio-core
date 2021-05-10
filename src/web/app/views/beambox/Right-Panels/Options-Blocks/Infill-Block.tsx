@@ -1,16 +1,27 @@
-import * as i18n from '../../../../../helpers/i18n';
-import { getSVGAsync } from '../../../../../helpers/svg-editor-helper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
 let svgCanvas;
 
 getSVGAsync((globalSVG) => {
     svgCanvas = globalSVG.Canvas;
 });
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
-class InFillBlock extends React.Component {
+interface Props {
+  elem: Element;
+}
+
+interface State {
+  isAnyFilled: boolean;
+  isAllFilled: boolean;
+  isFillable: boolean;
+}
+
+class InFillBlock extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         const { elem } = props;
@@ -22,7 +33,7 @@ class InFillBlock extends React.Component {
             isFillable
         };
     }
-    
+
     componentDidUpdate(prevProps) {
         const lastElem = prevProps.elem;
         const lastId = lastElem.getAttribute('id');
@@ -68,7 +79,7 @@ class InFillBlock extends React.Component {
                         <span className="onoffswitch-inner"></span>
                         <span className="onoffswitch-switch"></span>
                     </label>
-                </div>    
+                </div>
             </div>
         );
     }

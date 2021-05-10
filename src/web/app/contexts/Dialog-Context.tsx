@@ -1,15 +1,20 @@
-const React = requireNode('react');
-const PropTypes = requireNode('prop-types');
-const { createContext } = React;
-export const DialogContext = createContext();
+import * as React from 'react';
 
-export class DialogContextProvider extends React.Component {
-  constructor() {
-    super();
+const { createContext } = React;
+export const DialogContext = createContext(null);
+
+export class DialogContextProvider extends React.Component<any> {
+  private dialogComponents: {
+    id: string,
+    component: JSX.Element
+  }[];
+
+  constructor(props) {
+    super(props);
     this.dialogComponents = [];
   }
 
-  addDialogComponent = (id: string, dialogComponent: Element): void => {
+  addDialogComponent = (id: string, dialogComponent: JSX.Element): void => {
     this.dialogComponents.push({ id, component: dialogComponent });
     this.forceUpdate();
   };
@@ -26,7 +31,7 @@ export class DialogContextProvider extends React.Component {
     this.forceUpdate();
   };
 
-  render(): Element {
+  render() {
     const { children } = this.props;
     const {
       dialogComponents,
@@ -51,11 +56,3 @@ export class DialogContextProvider extends React.Component {
     );
   }
 }
-
-DialogContextProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element),
-};
-
-DialogContextProvider.defaultProps = {
-  children: [],
-};

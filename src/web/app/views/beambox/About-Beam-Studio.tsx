@@ -1,17 +1,15 @@
-import Modal from '../../widgets/Modal';
-import * as i18n from '../../../helpers/i18n';
-const React = requireNode('react');
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import Modal from 'app/widgets/Modal';
+
 const LANG = i18n.lang.topmenu;
 const FLUX = window['FLUX'];
 
+interface Props {
+  onClose: () => void;
+}
 
-class AboutBeamStudio extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
+class AboutBeamStudio extends React.Component<Props> {
     _close = () => {
         this.props.onClose();
     }

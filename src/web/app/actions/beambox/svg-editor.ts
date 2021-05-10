@@ -59,17 +59,11 @@ if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
 }
 
-const React = requireNode('react');
 const electron = requireNode('electron');
 const LANG = i18n.lang.beambox;
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 // TODO: change to require('svgedit')
-const svgedit = window['svgedit'];
-
-//todo preven running multiple times
-/*if (window['svgEditor']) {
-    return;
-}*/
+const { svgedit, $ } = window;
 
 declare global {
   interface JQueryStatic {
@@ -240,7 +234,7 @@ interface ISVGConfig {
   allowedOrigins?: string[]
 }
 
-const svgEditor = window['svgEditor'] = (function ($) {
+const svgEditor = window['svgEditor'] = (function () {
   // set workarea according to default model.
   const defaultModel = BeamboxPreference.read('model');
   if (defaultModel !== undefined) {
@@ -6183,6 +6177,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
       editor.importBvg = importBvg;
 
       const importJsScript = async (file) => {
+        // TODO: Replace require
         Progress.popById('loading_image');
         if (require.cache[file.path]) {
           delete require.cache[file.path];
@@ -6677,7 +6672,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
   };
 
   return editor;
-})(jQuery);
+})();
 
 // Run init once DOM is loaded
 // $(svgEditor.init);

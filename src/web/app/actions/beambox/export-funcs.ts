@@ -23,7 +23,7 @@ getSVGAsync((globalSVG) => {
     svgedit = globalSVG.Edit;
 });
 
-const electron = window['electron'];
+const { electron, $ } = window;
 const lang = i18n.lang;
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
 
@@ -280,7 +280,7 @@ const fetchTaskCode = async (device: any = null, shouldOutputGcode: boolean = fa
     if (isCanceled || isErrorOccur) {
         return {};
     }
-    
+
     if (!shouldOutputGcode) {
         return {
             fcodeBlob: taskCodeBlob,
@@ -294,7 +294,7 @@ const fetchTaskCode = async (device: any = null, shouldOutputGcode: boolean = fa
             fileTimeCost: fileTimeCost
         };
     }
-    
+
 };
 
 

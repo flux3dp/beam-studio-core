@@ -17,9 +17,10 @@ getSVGAsync((globalSVG) => {
     svgedit = globalSVG.Edit;
 });
 
+const { electron, $ } = window;
+
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const fontkit = requireNode('fontkit');
-const electron = window['electron'];
 const ipc = electron.ipc;
 const events = electron.events;
 const LANG = i18n.lang.beambox.object_panels;

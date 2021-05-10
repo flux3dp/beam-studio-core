@@ -1,23 +1,22 @@
-/* eslint-disable react/no-multi-comp */
-import $ from 'jquery';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import AlertConstants from 'app/constants/alert-constants';
-import Alert from 'app/actions/alert-caller';
-import Dialog from 'app/actions/dialog-caller';
-import Progress from 'app/actions/progress-caller';
-import AlertDialog from 'app/widgets/AlertDialog';
-import Modal from 'app/widgets/Modal';
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import Config from 'helpers/api/config';
-import CheckDeviceStatus from 'helpers/check-device-status';
-import DeviceErrorHandler from 'helpers/device-error-handler';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import $ from 'jquery';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import AlertDialog from 'app/widgets/AlertDialog';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import CheckDeviceStatus from 'helpers/check-device-status';
+import Constant from 'app/actions/beambox/constant';
+import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
+import Dialog from 'app/actions/dialog-caller';
+import Modal from 'app/widgets/Modal';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import Progress from 'app/actions/progress-caller';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 import VersionChecker from 'helpers/version-checker';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const LANG = i18n.lang.diode_calibration;
 
@@ -34,7 +33,36 @@ let cameraOffset = {
 };
 const calibratedMachineUUIDs = [];
 
-class DiodeCalibration extends React.Component {
+interface Props {
+  device: IDeviceInfo;
+  onClose: () => void;
+}
+
+interface State {
+  currentStep: symbol;
+  showHint: boolean;
+  dx: number;
+  dy: number;
+  cameraMovedX: number;
+  cameraMovedY: number;
+  isCutButtonDisabled: boolean;
+}
+
+class DiodeCalibration extends React.Component<Props, State> {
+  private imageScale: number;
+
+  private origFanSpeed: number;
+
+  private cameraOffset: {
+    x: number;
+    y: number;
+    angle?: number;
+    scaleRatioX?: number;
+    scaleRatioY?: number;
+  };
+
+  private imageUrl: string;
+
   constructor(props) {
     super(props);
     const { device } = props;

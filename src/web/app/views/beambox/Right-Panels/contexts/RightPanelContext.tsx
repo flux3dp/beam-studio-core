@@ -1,9 +1,13 @@
 import * as React from 'react';
 
-const { createContext } = React;
-export const RightPanelContext = createContext();
+export const RightPanelContext = React.createContext(null);
 
-export class RightPanelContextProvider extends React.Component {
+interface State {
+  mode: string;
+  selectedElement: Element;
+}
+
+export class RightPanelContextProvider extends React.Component<any, State> {
     constructor(props) {
         super(props);
         this.state = {

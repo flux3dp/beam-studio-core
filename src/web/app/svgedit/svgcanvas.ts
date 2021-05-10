@@ -61,7 +61,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgEditor;
-let { svgedit } = window;
+let { svgedit, $ } = window;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgEditor = globalSVG.Editor;
@@ -1221,7 +1221,7 @@ export default $.SvgCanvas = function (container, config) {
       current_mode = 'select';
       $('.tool-btn').removeClass('active');
       $('#left-Cursor').addClass('active');
-      const elemsToAdd = Array.from($(current_group || current_layer).children()).filter(c => !['title', 'filter'].includes(c.tagName));
+      const elemsToAdd = Array.from($(current_group || current_layer).children()).filter((c: Element) => !['title', 'filter'].includes(c.tagName));
       if (elemsToAdd.length < 1) {
         console.warn('Selecting empty layer in "selectAllInCurrentLayer"');
         return;
@@ -9839,8 +9839,8 @@ export default $.SvgCanvas = function (container, config) {
         id: 'disassemble-use',
         message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - 0%`,
       })
-      //Wait for progress open
-      await new Promise((resolve) => { setTimeout(resolve, 50) });
+      // Wait for progress open
+      await new Promise((resolve) => setTimeout(resolve, 50));
       let currentProgress = 0;
       for (let j = 0; j < descendants.length; j++) {
         const child = descendants[j];
@@ -9863,8 +9863,8 @@ export default $.SvgCanvas = function (container, config) {
             message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - ${Math.round(9000 * j / nodeNumbers) / 100}%`,
             percentage: progress * 0.9,
           });
-          //Wait for progress update
-          await new Promise((resolve) => { setTimeout(resolve, 50) });
+          // Wait for progress update
+          await new Promise((resolve) => setTimeout(resolve, 50));
           currentProgress = progress;
         }
       }
@@ -9872,7 +9872,7 @@ export default $.SvgCanvas = function (container, config) {
         message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 90%`,
         percentage: 90,
       });
-      await new Promise((resolve) => { setTimeout(resolve, 50) });
+      await new Promise((resolve) => setTimeout(resolve, 50));
       batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(g));
       batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, elem.nextSibling, elem.parentNode));
       elem.parentNode.removeChild(elem);

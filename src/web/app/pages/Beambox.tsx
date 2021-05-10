@@ -1,18 +1,18 @@
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import BeamboxActions from 'app/actions/beambox';
-import BeamboxInit from '../actions/beambox/beambox-init';
-import BeamboxGlobalInteraction from '../actions/beambox/beambox-global-interaction';
-import BeamboxPreference from '../actions/beambox/beambox-preference';
-import { TopBar } from '../views/beambox/Top-Bar/Top-Bar';
-import { TopBarContextProvider } from '../views/beambox/Top-Bar/contexts/Top-Bar-Context';
-import { ZoomBlock } from '../views/beambox/Zoom-Block/Zoom-Block';
-import { ZoomBlockContextProvider } from '../views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
-import { TimeEstimationButton } from '../views/beambox/Time-Estimation-Button/Time-Estimation-Button';
-import SVGEditor from './svg-editor';
-import svgEditor from '../actions/beambox/svg-editor';
+import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
+import BeamboxInit from 'app/actions/beambox/beambox-init';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import SVGEditor from 'app/pages/svg-editor';
+import svgEditor from 'app/actions/beambox/svg-editor';
+import { TimeEstimationButton } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button';
+import { TopBar } from 'app/views/beambox/Top-Bar/Top-Bar';
+import { TopBarContextProvider } from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Context';
+import { ZoomBlock } from 'app/views/beambox/Zoom-Block/Zoom-Block';
+import { ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
 
 const { electron } = window;
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 
 BeamboxInit.initSentry();

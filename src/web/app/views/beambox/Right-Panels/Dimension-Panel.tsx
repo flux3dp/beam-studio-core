@@ -1,9 +1,10 @@
-import UnitInput from 'app/widgets/Unit-Input-v2';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import Constant from 'app/actions/beambox/constant';
 import KeycodeConstants from 'app/constants/keycode-constants';
-import SymbolMaker from 'helpers/symbol-maker';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
+import SymbolMaker from 'helpers/symbol-maker';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -11,8 +12,6 @@ let svgCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
 
-const React = requireNode('react');
-const PropTypes = requireNode('prop-types');
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
 const panelMap = {
@@ -35,16 +34,18 @@ const fixedSizeMapping = {
 };
 
 interface Props {
-  elem: { [key: string]: string; },
-  getDimensionValues: () => number,
-  updateDimensionValues: (newDimensionValue: { [key: string]: string }) => void,
+  elem: Element;
+  getDimensionValues: () => any;
+  updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
 }
 
-class DimensionPanel extends React.Component {
+class DimensionPanel extends React.Component<Props> {
+  private unit: string;
+
+  private unitInputClass: any;
+
   constructor(props: Props) {
     super(props);
-    this.state = {
-    };
     this.unit = storage.get('default-units') === 'inches' ? 'in' : 'mm';
     this.unitInputClass = { 'dimension-input': true };
   }
@@ -101,9 +102,9 @@ class DimensionPanel extends React.Component {
     }
     if (elem.tagName === 'text') {
       if (elem.getAttribute('stroke-width') === '2') {
-        elem.setAttribute('stroke-width', 2.01);
+        elem.setAttribute('stroke-width', '2.01');
       } else {
-        elem.setAttribute('stroke-width', 2);
+        elem.setAttribute('stroke-width', '2');
       }
     }
     return cmd;
@@ -149,14 +150,14 @@ class DimensionPanel extends React.Component {
   handleSizeKeyUp = (e: KeyboardEvent): void => {
     const { elem } = this.props;
     if (elem.tagName === 'use' && (e.keyCode === KeycodeConstants.KEY_UP || e.keyCode === KeycodeConstants.KEY_DOWN)) {
-      SymbolMaker.reRenderImageSymbol(elem);
+      SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
     }
   };
 
   handleSizeBlur = async (): Promise<void> => {
     const { elem } = this.props;
     if (elem.tagName === 'use') {
-      SymbolMaker.reRenderImageSymbol(elem);
+      SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
     } else if (elem.tagName === 'g') {
       const allUses = Array.from(elem.querySelectorAll('use'));
       SymbolMaker.reRenderImageSymbolArray(allUses);
@@ -166,7 +167,7 @@ class DimensionPanel extends React.Component {
   handleFixRatio = (): void => {
     const { elem, updateDimensionValues } = this.props;
     const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true' || false;
-    elem.setAttribute('data-ratiofixed', !isRatioFixed);
+    elem.setAttribute('data-ratiofixed', String(!isRatioFixed));
     updateDimensionValues({ isRatioFixed: !isRatioFixed });
     this.forceUpdate();
   };
@@ -178,7 +179,7 @@ class DimensionPanel extends React.Component {
     return val / Constant.dpmm;
   };
 
-  renderDimensionPanel = (type: string): Element => {
+  renderDimensionPanel = (type: string) => {
     const { getDimensionValues } = this.props;
     const dimensionValues = getDimensionValues();
     const isRatioFixed = dimensionValues.isRatioFixed || false;
@@ -384,7 +385,7 @@ class DimensionPanel extends React.Component {
     return ret;
   };
 
-  renderFlipButtons = (): Element => (
+  renderFlipButtons = () => (
     <div className="flip-btn-container">
       <div className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(-1, 1); }} title={LANG.hflip}>
         <img src="img/right-panel/icon-hflip.svg" alt="" />
@@ -395,7 +396,7 @@ class DimensionPanel extends React.Component {
     </div>
   );
 
-  render(): Element {
+  render() {
     const { elem } = this.props;
     let panels = ['x', 'y', 'rot', 'w', 'h'];
     if (elem) {
@@ -410,21 +411,21 @@ class DimensionPanel extends React.Component {
   }
 }
 
-DimensionPanel.propTypes = {
-  elem: PropTypes.shape({
-    tagName: PropTypes.string,
-    getAttribute: PropTypes.func,
-    setAttribute: PropTypes.func,
-    querySelectorAll: PropTypes.func,
-  }),
-  getDimensionValues: PropTypes.func,
-  updateDimensionValues: PropTypes.func,
-};
+// DimensionPanel.propTypes = {
+//   elem: PropTypes.shape({
+//     tagName: PropTypes.string,
+//     getAttribute: PropTypes.func,
+//     setAttribute: PropTypes.func,
+//     querySelectorAll: PropTypes.func,
+//   }),
+//   getDimensionValues: PropTypes.func,
+//   updateDimensionValues: PropTypes.func,
+// };
 
-DimensionPanel.defaultProps = {
-  elem: {},
-  getDimensionValues: () => {},
-  updateDimensionValues: () => {},
-};
+// DimensionPanel.defaultProps = {
+//   elem: {},
+//   getDimensionValues: () => {},
+//   updateDimensionValues: () => {},
+// };
 
 export default DimensionPanel;

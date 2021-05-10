@@ -1,24 +1,31 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
+import classNames from 'classnames';
 import { IButton } from 'interfaces/IButton';
 
-const React = requireNode('react');
-const classNames = requireNode('classnames');
 
-interface IProps {
+interface Props {
+  className: string,
   buttons: IButton[],
 }
-class ButtonGroup extends React.Component<IProps> {
-  render(): void {
-    const { buttons } = this.props as IProps;
+
+class ButtonGroup extends React.Component<Props> {
+  static defaultProps = {
+    buttons: [],
+    className: '',
+  };
+
+  render(): JSX.Element {
+    const { buttons } = this.props as Props;
     if (buttons.length <= 0) {
       return <span />;
     }
     const buttonsElems = buttons.map((opt: IButton, i: number) => {
       const type = opt.type || 'button';
 
-      let content = '';
+      let content: JSX.Element = null;
       const attrs = {};
       if (opt.dataAttrs) {
         const keys = Object.keys(opt.dataAttrs);
@@ -90,10 +97,5 @@ class ButtonGroup extends React.Component<IProps> {
     return <div className={groupClassName}>{buttonsElems}</div>;
   }
 }
-
-ButtonGroup.defaultProps = {
-  buttons: [],
-  className: '',
-};
 
 export default ButtonGroup;

@@ -1,19 +1,19 @@
-/* eslint-disable react/sort-comp, no-console */
-import $ from 'jquery';
-import Constants from 'app/actions/beambox/constant';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ButtonGroup from 'app/widgets/Button-Group';
+import Constants from 'app/actions/beambox/constant';
+import CurveControl from 'app/widgets/Curve-Control';
 import ImageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
-import Progress from 'app/actions/progress-caller';
 import Modal from 'app/widgets/Modal';
-import ButtonGroup from 'app/widgets/Button-Group';
-import CurveControl from 'app/widgets/Curve-Control';
-import SliderControl from 'app/widgets/Slider-Control';
 import OpenCVWebSocket from 'helpers/api/open-cv';
+import Progress from 'app/actions/progress-caller';
+import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IButton } from 'interfaces/IButton';
 import { IImageDataResult } from 'interfaces/IImageData';
 
+const { $ } = window;
 let svgCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => {
@@ -23,7 +23,6 @@ getSVGAsync((globalSVG) => {
 
 const classNames = requireNode('classnames');
 const Cropper = requireNode('cropperjs');
-const React = requireNode('react');
 const jimp = requireNode('jimp');
 
 const opencvWS = new OpenCVWebSocket();
@@ -34,15 +33,40 @@ const updateLang = () => {
 
 export type PhotoEditMode = 'sharpen' | 'crop' | 'curve';
 
-interface IProps {
+interface Props {
   element: HTMLElement,
   src: string,
   mode: PhotoEditMode,
   unmount: () => void,
 }
 
-class PhotoEditPanel extends React.Component<IProps> {
-  constructor(props: IProps) {
+interface State {
+  origWidth?: number;
+  origHeight?: number;
+  imageWidth?: number;
+  imageHeight?: number;
+  origSrc: string;
+  previewSrc: string;
+  displaySrc: string;
+  sharpness: number;
+  sharpRadius: number;
+  srcHistory: string[],
+  isCropping: boolean;
+  threshold: string;
+  shading: boolean;
+  displayBase64: string,
+  isImageDataGenerated: boolean;
+  isShowingOriginal: boolean;
+}
+
+class PhotoEditPanel extends React.Component<Props, State> {
+  private cropper: any;
+
+  private compareBase64: string;
+
+  private curvefunction: (n: number) => number;
+
+  constructor(props: Props) {
     super(props);
     updateLang();
     const { element, src } = this.props;
@@ -375,7 +399,7 @@ class PhotoEditPanel extends React.Component<IProps> {
     });
   }
 
-  renderPhotoEditeModal(): Element {
+  renderPhotoEditeModal() {
     const { mode } = this.props;
     const {
       imageWidth, imageHeight, isCropping, isShowingOriginal, displayBase64,
@@ -424,7 +448,7 @@ class PhotoEditPanel extends React.Component<IProps> {
     );
   }
 
-  renderSharpenPanel(): Element {
+  renderSharpenPanel() {
     const setStateAndPreview = (key: string, value: number) => {
       const { state } = this;
       if (state[key] === value) {
@@ -469,7 +493,7 @@ class PhotoEditPanel extends React.Component<IProps> {
     );
   }
 
-  renderCurvePanel(): Element {
+  renderCurvePanel() {
     const updateCurveFunction = (curvefunction) => this.updateCurveFunction(curvefunction);
     const handleCurve = () => this.handleCurve(true);
     return (
@@ -485,7 +509,7 @@ class PhotoEditPanel extends React.Component<IProps> {
     );
   }
 
-  renderPhotoEditFooter(): Element {
+  renderPhotoEditFooter() {
     const { mode } = this.props;
     const { srcHistory } = this.state;
     const previewButton = {
@@ -547,7 +571,7 @@ class PhotoEditPanel extends React.Component<IProps> {
     );
   }
 
-  render(): Element {
+  render() {
     const { mode } = this.props;
     if (['sharpen', 'crop', 'curve'].includes(mode)) {
       return this.renderPhotoEditeModal();

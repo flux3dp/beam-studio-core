@@ -1,16 +1,16 @@
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import { ITutorial } from 'interfaces/ITutorial';
 import {
   TopRef, RightRef, calculateTop, calculateRight,
 } from 'helpers/absolute-position-helper';
-import * as i18n from 'helpers/i18n';
-import { ITutorial } from 'interfaces/ITutorial';
 
 export enum TutorialCallbacks {
   SELECT_DEFAULT_RECT = 'SELECT_DEFAULT_RECT',
 }
 
-const React = requireNode('react');
 const electron = requireNode('electron');
 
 const LANG = i18n.lang.tutorial;

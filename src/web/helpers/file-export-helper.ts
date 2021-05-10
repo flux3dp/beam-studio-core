@@ -6,12 +6,12 @@ import SymbolMaker from './symbol-maker';
 import * as i18n from './i18n';
 import { getSVGAsync } from './svg-editor-helper';
 
+const { $, electron } = window;
 let svgCanvas;
 getSVGAsync((globalSVG) => {
     svgCanvas = globalSVG.Canvas;
 });
 
-const electron = window['electron'];
 const LANG = i18n.lang;
 
 const setCurrentFileName = (filePath: string) => {

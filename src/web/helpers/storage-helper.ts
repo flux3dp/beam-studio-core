@@ -1,4 +1,5 @@
 import Store from 'electron-store';
+
 const store = new Store();
 
 function get(name: string): any {

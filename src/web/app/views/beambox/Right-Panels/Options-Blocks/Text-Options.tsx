@@ -1,19 +1,37 @@
-import InFillBlock from './Infill-Block';
-import UnitInput from '../../../../widgets/Unit-Input-v2';
-import FontFuncs from '../../../../actions/beambox/font-funcs';
-import * as i18n from '../../../../../helpers/i18n';
-import { getSVGAsync } from '../../../../../helpers/svg-editor-helper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import FontFuncs from 'app/actions/beambox/font-funcs';
+import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
+import UnitInput from 'app/widgets/Unit-Input-v2';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 const ReactSelect = requireNode('react-select');
 const Select = ReactSelect.default;
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 const isMac = window.os === 'MacOS';
 
-class TextOptions extends React.Component {
+interface Props {
+  elem: Element;
+  updateObjectPanel: () => void;
+  updateDimensionValues?: ({
+    fontStyle: any,
+  }) => void;
+}
+
+interface State {
+  fontFamily: string;
+  fontStyle: any;
+  fontSize: number;
+  letterSpacing: number;
+  lineSpacing: number;
+  isVerti: boolean;
+}
+
+class TextOptions extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         const { elem } = props;
@@ -143,7 +161,7 @@ class TextOptions extends React.Component {
             );
         } else {
             const options = FontFuncs.availableFontFamilies.map(
-                (option) => {
+                (option: string) => {
                     const fontName = FontFuncs.fontNameMap.get(option);
                     const label = typeof fontName === 'string' ? fontName : option;
                     return (

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Validation-Text-Input should render correctly 1`] = `
+<ValidationTextInput
+  defaultValue="123"
+  getValue={[MockFunction]}
+  validation={[MockFunction]}
+>
+  <input
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    type="text"
+    value="123"
+  />
+</ValidationTextInput>
+`;

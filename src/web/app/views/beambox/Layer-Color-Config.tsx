@@ -1,12 +1,12 @@
-import Modal from '../../widgets/Modal';
-import UnitInput from '../../widgets/Unit-Input-v2';
-import ValidationTextInput from '../../widgets/Validation-Text-Input';
-import Alert from '../../actions/alert-caller';
-import AlertConstants from '../../constants/alert-constants';
-import storage from 'helpers/storage-helper';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import Modal from 'app/widgets/Modal';
+import storage from 'helpers/storage-helper';
+import UnitInput from 'app/widgets/Unit-Input-v2';
+import ValidationTextInput from 'app/widgets/Validation-Text-Input';
 
-const React = requireNode('react');
 const LANG = i18n.lang.beambox.layer_color_config_panel;
 let defaultSettings = [
     {color: '#FF0000', power: 15, speed: 50, repeat: 1},
@@ -26,7 +26,26 @@ let defaultSettings = [
     {color: '#000000', power: 15, speed: 50, repeat: 1}
 ];
 
-class LayerColorConfigPanel extends React.Component {
+interface Props {
+  onClose: () => void;
+}
+
+interface State {
+  newColor?: string;
+  isDisplayingModal: boolean;
+}
+
+class LayerColorConfigPanel extends React.Component<Props, State> {
+  private layerColorConfig: any;
+
+  private layerColorConfigDict: any;
+
+  private newPower: number;
+
+  private newSpeed: number;
+
+  private newRepeat: number;
+
     constructor(props) {
         super(props);
         // TODO: make config interface
@@ -72,7 +91,7 @@ class LayerColorConfigPanel extends React.Component {
                 <div className='color-block' style={{backgroundColor: item.color}}>
                 </div>
                 <div className='color-hex'>
-                    <ValidationTextInput 
+                    <ValidationTextInput
                         defaultValue={item.color}
                         validation={(val) => this.validateColorInput(val, index)}
                         getValue={(val) => {this._handleColorInputValue(val, index)}}
@@ -143,7 +162,7 @@ class LayerColorConfigPanel extends React.Component {
         if (matchHex6) {
             res = matchHex6[0].toUpperCase();
         }
-        
+
         if (!res) {
             let matchHex3 = val.match(/(?<!.)#[0-9A-F]{3}\b/i);
             if (matchHex3) {
@@ -252,7 +271,7 @@ class LayerColorConfigPanel extends React.Component {
         this._close();
     }
 
-    _renderButton(className: string, onClick: Function, label: string, disabled?: boolean) {
+    _renderButton(className: string, onClick: React.MouseEventHandler, label: string, disabled?: boolean) {
         className = `btn btn-default ${className}`;
         if (disabled) {
             className += ' disabled';
@@ -338,7 +357,7 @@ class LayerColorConfigPanel extends React.Component {
             )
         } else {
             return null;
-        }   
+        }
     }
 
     _handleAddConfig() {
