@@ -1,5 +1,3 @@
-import Progress from '../app/actions/progress-caller'
-
 /*  Beam Format
    =================================================================================
   |   Block Name   |    Length    |           Contents                              |
@@ -56,6 +54,9 @@ import Progress from '../app/actions/progress-caller'
 
 */
 
+import Progress from 'app/actions/progress-caller'
+
+const { $ } = window;
 const fs = requireNode('fs');
 const electronRemote = requireNode('electron').remote;
 const { dialog } = electronRemote;

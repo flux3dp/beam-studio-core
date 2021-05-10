@@ -63,12 +63,7 @@ const electron = requireNode('electron');
 const LANG = i18n.lang.beambox;
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 // TODO: change to require('svgedit')
-const svgedit = window['svgedit'];
-
-//todo preven running multiple times
-/*if (window['svgEditor']) {
-    return;
-}*/
+const { svgedit, $ } = window;
 
 declare global {
   interface JQueryStatic {
@@ -239,7 +234,7 @@ interface ISVGConfig {
   allowedOrigins?: string[]
 }
 
-const svgEditor = window['svgEditor'] = (function ($) {
+const svgEditor = window['svgEditor'] = (function () {
   // set workarea according to default model.
   const defaultModel = BeamboxPreference.read('model');
   if (defaultModel !== undefined) {
@@ -6677,7 +6672,7 @@ const svgEditor = window['svgEditor'] = (function ($) {
   };
 
   return editor;
-})(jQuery);
+})();
 
 // Run init once DOM is loaded
 // $(svgEditor.init);

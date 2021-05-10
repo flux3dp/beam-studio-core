@@ -61,7 +61,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgEditor;
-let { svgedit } = window;
+let { svgedit, $ } = window;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgEditor = globalSVG.Editor;
@@ -1221,7 +1221,7 @@ export default $.SvgCanvas = function (container, config) {
       current_mode = 'select';
       $('.tool-btn').removeClass('active');
       $('#left-Cursor').addClass('active');
-      const elemsToAdd = Array.from($(current_group || current_layer).children()).filter(c => !['title', 'filter'].includes(c.tagName));
+      const elemsToAdd = Array.from($(current_group || current_layer).children()).filter((c: Element) => !['title', 'filter'].includes(c.tagName));
       if (elemsToAdd.length < 1) {
         console.warn('Selecting empty layer in "selectAllInCurrentLayer"');
         return;

@@ -1,6 +1,5 @@
 import * as i18n from 'helpers/i18n';
 import * as React from 'react';
-import $ from 'jquery';
 import ButtonGroup from 'app/widgets/Button-Group';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
@@ -14,6 +13,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IButton } from 'interfaces/IButton';
 import { IImageDataResult } from 'interfaces/IImageData';
 
+const { $ } = window;
 let svgCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => {

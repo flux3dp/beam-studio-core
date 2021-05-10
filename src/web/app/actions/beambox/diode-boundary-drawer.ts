@@ -1,7 +1,7 @@
 import Constant from './constant';
 import BeamboxPreference from './beambox-preference';
 
-const svgedit = window['svgedit'];
+const { $, svgedit } = window;
 
 let diodeBoundaryPath, diodeBoundarySvg;
 const createBoundary = () => {

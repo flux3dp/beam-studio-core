@@ -4,6 +4,8 @@
 import grayScale from './grayscale';
 import BeamboxPreference from '../app/actions/beambox/beambox-preference';
 import { getSVGAsync } from './svg-editor-helper';
+
+const { $ } = window;
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });

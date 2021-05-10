@@ -218,8 +218,7 @@ export default class CurveControl extends React.PureComponent<Props, State> {
   };
 
   onMouseUp = (): void => {
-    const { draggingIndex, controlPoints } = this.state;
-    console.log(controlPoints);
+    const { draggingIndex } = this.state;
     if (typeof draggingIndex === 'number') {
       const { updateImage } = this.props;
       updateImage();

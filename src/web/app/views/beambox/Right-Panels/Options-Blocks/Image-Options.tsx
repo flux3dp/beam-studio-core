@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 
 import * as i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
@@ -48,10 +47,10 @@ class ImageOptions extends React.Component<Props> {
     const { elem } = this.props as Props;
     return new Promise<IImageDataResult>((resolve) => {
       ImageData(
-        $(elem).attr('origImage'),
+        elem.getAttribute('origImage'),
         {
-          height: $(elem).height(),
-          width: $(elem).width(),
+          width: parseFloat(elem.getAttribute('width')),
+          height: parseFloat(elem.getAttribute('height')),
           grayscale: {
             is_rgba: true,
             is_shading: isShading,
