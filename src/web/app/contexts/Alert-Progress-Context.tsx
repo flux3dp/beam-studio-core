@@ -1,9 +1,7 @@
-import React, { createContext } from 'react';
-
+import * as i18n from 'helpers/i18n';
 import AlertConstants from 'app/constants/alert-constants';
 import ProgressConstants from 'app/constants/progress-constants';
-import * as i18n from 'helpers/i18n';
-
+import React, { createContext } from 'react';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 

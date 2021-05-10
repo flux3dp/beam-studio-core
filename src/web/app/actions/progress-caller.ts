@@ -1,6 +1,6 @@
-import ProgressConstants from '../constants/progress-constants';
-import { AlertsAndProgressContextHelper } from '../views/dialogs/Alerts-And-Progress';
-import { IProgressDialog } from 'interfaces/IProgress'
+import ProgressConstants from 'app/constants/progress-constants';
+import { AlertsAndProgressContextHelper } from 'views/dialogs/Alerts-And-Progress';
+import { IProgressDialog } from 'interfaces/IProgress';
 
 export default {
     openNonstopProgress: (args: IProgressDialog) => {

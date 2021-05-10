@@ -1,11 +1,17 @@
-const React = requireNode('react');
+import * as React from 'react';
+
 const PropTypes = requireNode('prop-types');
 const { createContext } = React;
 export const DialogContext = createContext();
 
-export class DialogContextProvider extends React.Component {
-  constructor() {
-    super();
+export class DialogContextProvider extends React.Component<any> {
+  private dialogComponents: {
+    id: string,
+    dialogComponent: JSX.Element
+  }[];
+
+  constructor(props) {
+    super(props);
     this.dialogComponents = [];
   }
 
