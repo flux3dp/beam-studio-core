@@ -211,8 +211,8 @@ svgEditor.addExtension('polygon', function (S) {
             let points = [];
             for (let s = 0; sides >= s; s++) {
                 var angle = 2.0 * Math.PI * s / sides + angle_offset;
-                x = (circumradius * Math.cos(angle)) + cx;
-                y = (circumradius * Math.sin(angle)) + cy;
+                const x = (circumradius * Math.cos(angle)) + cx;
+                const y = (circumradius * Math.sin(angle)) + cy;
 
                 points.push(x + ',' + y);
             }
@@ -243,7 +243,7 @@ svgEditor.addExtension('polygon', function (S) {
                 } else {
                     angle_offset = Math.PI / 2 - (Math.PI / sides);
                 }
-                
+
                 newPoly.setAttributeNS(null, 'edge', edg);
                 newPoly.setAttributeNS(null, 'angle_offset', angle_offset);
                 polygonExt.renderPolygon();
