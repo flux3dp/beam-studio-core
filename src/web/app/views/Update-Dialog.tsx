@@ -1,11 +1,10 @@
-import React from 'react';
-
-import Modal from 'app/widgets/Modal';
+import * as i18n from 'helpers/i18n';
 import ButtonGroup from 'app/widgets/Button-Group';
 import config from 'helpers/api/config';
-import sprintf from 'helpers/sprintf';
-import * as i18n from 'helpers/i18n';
 import DeviceMaster from 'helpers/device-master';
+import Modal from 'app/widgets/Modal';
+import React from 'react';
+import sprintf from 'helpers/sprintf';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 interface Props {

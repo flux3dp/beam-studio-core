@@ -1,5 +1,5 @@
-import * as React from 'react';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import Modal from 'app/widgets/Modal';
 
 const LANG = i18n.lang.topmenu;

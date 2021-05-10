@@ -1,9 +1,24 @@
+import * as React from 'react';
 
-const React = requireNode('react');
 const classNames = requireNode('classnames');
 
+interface Props {
+  segments: {
+    imgSrc?: string;
+    title: string;
+    value: number;
+    text?: string;
+  }[];
+  selectedIndexes: number[];
+  selectedIndex?: number;
+  isDisabled: boolean;
+  className?: string;
+  onChanged: (type: number) => void;
+}
+
+
 // This Component is fully controled, i.e. every time it is changed, you have to rerender its parent to refresh it.
-class SegmentedControl extends React.Component {
+class SegmentedControl extends React.Component<Props> {
     constructor(props) {
         super(props);
         if (this.props.segments) {
@@ -17,35 +32,22 @@ class SegmentedControl extends React.Component {
         if (this.props.selectedIndex !== null && (!this.props.selectedIndexes || this.props.selectedIndexes.length === 0)) {
             this.props.selectedIndexes.push(this.props.selectedIndex);
         }
-        if (this.props.isExclusive && this.props.selectedIndexes.length > 1) {
+        if (this.props.selectedIndexes.length > 1) {
             console.warn('Selected more than 1 items for exclusive control');
             this.props.selectedIndexes.splice(1, this.props.selectedIndexes.length - 1);
-        } 
+        }
     }
 
     onClick = (index) => {
-        if (this.isDisabled) {
+        if (this.props.isDisabled) {
             return;
         }
-        const { segments, isExclusive, onChanged, selectedIndexes } = this.props;
-        if (isExclusive) {
-            if (selectedIndexes[0] !== index) {
-                selectedIndexes[0] = index;
-                const value = segments[index].value || index;
-                onChanged(value);
-                return value;
-            }
-        } else {
-            const pos = selectedIndexes.findIndex((i) => i === index);
-            if (pos < 0) {
-                selectedIndexes.push(index);
-                selectedIndexes.sort();
-            } else {
-                selectedIndexes.splice(pos, 1);
-            }
-            const values = selectedIndexes.map((i) => segments[i].value || i);
-            onChanged(values);
-            return values;
+        const { segments, onChanged, selectedIndexes } = this.props;
+        if (selectedIndexes[0] !== index) {
+            selectedIndexes[0] = index;
+            const value = segments[index].value || index;
+            onChanged(value);
+            return value;
         }
     }
 
@@ -80,29 +82,28 @@ class SegmentedControl extends React.Component {
     }
 };
 
-SegmentedControl.defaultProps = {
-    isDisabled: false,
-    isExclusive: true,
-    className: '',
-    segments: [
-        {
-            imgSrc: null,
-            text: '1',
-            title: 'Placeholder 1',
-            value: 1,
-        },
-        {
-            imgSrc: null,
-            text: '2',
-            title: 'Placeholder 2',
-            value: 2,
-        }
-    ],
-    selectedIndex: null,
-    selectedIndexes: [],
-    onChanged: (selectedIndexes) => {
-        console.log(selectedIndexes)
-    }
-};
+// SegmentedControl.defaultProps = {
+//     isDisabled: false,
+//     className: '',
+//     segments: [
+//         {
+//             imgSrc: null,
+//             text: '1',
+//             title: 'Placeholder 1',
+//             value: 1,
+//         },
+//         {
+//             imgSrc: null,
+//             text: '2',
+//             title: 'Placeholder 2',
+//             value: 2,
+//         }
+//     ],
+//     selectedIndex: null,
+//     selectedIndexes: [],
+//     onChanged: (selectedIndexes) => {
+//         console.log(selectedIndexes)
+//     }
+// };
 
 export default SegmentedControl;

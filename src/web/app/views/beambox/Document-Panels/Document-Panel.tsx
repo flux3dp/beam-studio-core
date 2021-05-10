@@ -9,7 +9,6 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import SwitchControl from 'app/widgets/Switch-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { string } from 'prop-types';
 
 let svgCanvas;
 let svgEditor;

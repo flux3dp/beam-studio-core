@@ -48,7 +48,6 @@ class PathEditPanel extends React.Component {
                 <div className="title">{LANG.node_type}</div>
                 <SegmentedControl
                     isDisabled={isDisabled}
-                    isExclusive={true} 
                     selectedIndexes={selectedNodeTypes}
                     onChanged={(newType) => this.onNodeTypeChange(newType)}
                     segments={[
