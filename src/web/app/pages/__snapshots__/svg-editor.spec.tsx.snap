@@ -3,11 +3,6 @@
 exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
 <SVGEditor>
   <div>
-    <DummyTaskInterpreterPanel>
-      <div>
-        This is dummy TaskInterpreterPanel
-      </div>
-    </DummyTaskInterpreterPanel>
     <div
       className="mac"
       id="svg_editor"
@@ -2021,11 +2016,6 @@ exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
 exports[`test Skip-Connect-Machine should render correctly in win 1`] = `
 <SVGEditor>
   <div>
-    <DummyTaskInterpreterPanel>
-      <div>
-        This is dummy TaskInterpreterPanel
-      </div>
-    </DummyTaskInterpreterPanel>
     <div
       className=""
       id="svg_editor"
