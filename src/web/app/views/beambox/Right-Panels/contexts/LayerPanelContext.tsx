@@ -1,5 +1,5 @@
-import { ILayerPanelContext } from 'interfaces/IContext';
 import * as React from 'react';
+import { ILayerPanelContext } from 'interfaces/IContext';
 
 export const LayerPanelContext = React.createContext<ILayerPanelContext>(null);
 

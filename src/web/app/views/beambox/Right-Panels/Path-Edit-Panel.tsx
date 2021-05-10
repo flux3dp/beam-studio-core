@@ -1,28 +1,20 @@
-import SegmentedControl from '../../../widgets/Segmented-Control';
-import * as i18n from '../../../../helpers/i18n';
-import { getSVGAsync } from '../../../../helpers/svg-editor-helper';
+import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import SegmentedControl from 'app/widgets/Segmented-Control';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
 
-const React = requireNode('react');
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.path_edit_panel;
 
 const LINKTYPE_CORNER = 0;
 const LINKTYPE_SMOOTH = 1; // same direction, different dist
 const LINKTYPE_SYMMETRIC = 2; // same direction, same dist
 
-class PathEditPanel extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-        console.log('TODO: more path actions (add node, break continous path...)');
-    }
-
+class PathEditPanel extends React.Component<any, any> {
     onNodeTypeChange = (newType) => {
         svgedit.path.path.setSelectedNodeType(newType);
-        this.setState(this.state);
     }
 
     renderNodeTypePanel() {
@@ -73,7 +65,6 @@ class PathEditPanel extends React.Component {
     }
 
     render() {
-        const currentPath = svgedit.path.path;
         return (
             <div id="pathedit-panel">
                 {this.renderNodeTypePanel()}

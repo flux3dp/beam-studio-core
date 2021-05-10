@@ -1,3 +1,4 @@
+import * as React from 'react';
 import AlertStore from 'app/stores/alert-store';
 import checkFirmware from 'helpers/check-firmware';
 import config from 'helpers/api/config';
@@ -13,7 +14,6 @@ declare global {
   }
 }
 
-const React = requireNode('react');
 const { $ } = window;
 
 export default function (args) {
@@ -21,69 +21,39 @@ export default function (args) {
 
   var lang = args.state.lang;
 
-  return class NotificationCollection extends React.Component {
+  interface State {
+    application: {
+      open?: boolean;
+      type?: 'software' | 'firmware' | 'toolhead';
+      releaseNote?: string;
+      latestVersion?: string;
+      currentVersion?: string;
+      device?: any;
+      onDownload?: () => void;
+      onInstall?: () => void;
+    };
+    slicingStatus?: any;
+  }
+
+  return class NotificationCollection extends React.Component<any, State> {
     constructor(props) {
       super(props);
       this.state = {
-        // monitor
-        showMonitor: false,
-        fcode: {},
-        previewUrl: '',
-        monitorOpener: null,
-
-
-        // input lightbox
-        inputLightbox: {
-          open: false,
-          type: '',
-          caption: '',
-          inputHeader: '',
-          defaultValue: '',
-          confirmText: '',
-          onClose: function () { },
-          onSubmit: function () { }
-        },
         // application update
         application: {
           open: false,
           type: 'firmware',
           releaseNote: '',
           latestVersion: '',
-          updateFile: undefined,
           device: {},
           onDownload: function () { },
           onInstall: function () { }
         },
-        // change filament
-        changeFilament: {
-          open: false,
-          device: {},
-          onClose: function () { }
-        },
-        headTemperature: {
-          show: false,
-          device: {}
-        },
-
-        cameraCalibration: {
-          open: false,
-          device: {}
-        },
-
-        firstDevice: {
-          info: {}, // device info
-          apiResponse: {}, // device info
-        },
-        // images
-        displayImages: false,
-        images: []
       };
     }
 
     componentDidMount() {
       var self = this,
-        discoverMethods,
-        firstDevice,
         defaultPrinter,
         type = 'firmware',
         _checkFirmwareOfDefaultPrinter = function () {
@@ -153,9 +123,9 @@ export default function (args) {
           open: true,
           device: payload.device,
           type: payload.type,
-          currentVersion: currentVersion,
+          currentVersion,
           latestVersion: payload.updateInfo.latestVersion,
-          releaseNote: releaseNote,
+          releaseNote,
           onDownload: payload.onDownload,
           onInstall: payload.onInstall
         }

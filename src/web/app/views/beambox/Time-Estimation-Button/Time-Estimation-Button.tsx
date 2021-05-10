@@ -1,8 +1,7 @@
-import React from 'react';
-
 import * as i18n from 'helpers/i18n';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FormatDuration from 'helpers/duration-formatter';
+import React from 'react';
 
 const classNames = requireNode('classnames');
 const { createContext } = React;

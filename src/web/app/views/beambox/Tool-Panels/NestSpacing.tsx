@@ -1,21 +1,20 @@
-import React from 'react';
-
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import storage from 'helpers/storage-helper';
 import * as i18n from 'helpers/i18n';
+import React from 'react';
+import storage from 'helpers/storage-helper';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 
 const LANG = i18n.lang.beambox.tool_panels;
 
-interface IProps {
+interface Props {
   spacing: number,
   onValueChange: (val: number) => void,
 }
 
-interface IState {
+interface State {
   spacing: number,
 }
 
-class NestSpacingPanel extends React.Component<IProps, IState> {
+class NestSpacingPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { spacing } = this.props;

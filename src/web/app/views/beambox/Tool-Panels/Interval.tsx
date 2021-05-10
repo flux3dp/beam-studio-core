@@ -1,27 +1,26 @@
-import React from 'react';
-import classNames from 'classnames';
-
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import Constant from 'app/actions/beambox/constant';
-import storage from 'helpers/storage-helper';
 import * as i18n from 'helpers/i18n';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import classNames from 'classnames';
+import Constant from 'app/actions/beambox/constant';
+import React from 'react';
+import storage from 'helpers/storage-helper';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 
 const LANG = i18n.lang.beambox.tool_panels;
 
-interface IProps {
+interface Props {
   dx?: number,
   dy?: number,
   onValueChange?: (rc: { dx: number, dy: number }) => void,
 }
 
-interface IState {
+interface State {
   dx: number,
   dy: number,
   isCollapsed: boolean,
 }
 
-class Interval extends React.Component<IProps, IState> {
+class Interval extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { dx, dy } = this.props;

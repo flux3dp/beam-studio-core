@@ -1,11 +1,7 @@
 import React from 'react';
-
 import UnitInput from 'app/widgets/Unit-Input-v2';
-import i18n from 'helpers/i18n';
 
-const LANG = i18n.lang.beambox.tool_panels;
-
-interface IProps {
+interface Props {
   nestOptions: {
     generations: number,
     population: number,
@@ -16,12 +12,12 @@ interface IProps {
   }) => void,
 }
 
-interface IState {
+interface State {
   generations: number,
   population: number,
 }
 
-class NestGAPanel extends React.Component<IProps, IState> {
+class NestGAPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
