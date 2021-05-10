@@ -6,17 +6,17 @@ import * as i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.beambox.tool_panels;
 
-interface IProps {
+interface Props {
   dir: number,
   onValueChange: (val: number) => void,
 }
 
-interface IState {
+interface State {
   dir: number,
   isCollapsed: boolean,
 }
 
-class OffsetDirPanel extends React.Component<IProps, IState> {
+class OffsetDirPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { dir } = this.props;

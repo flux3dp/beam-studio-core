@@ -6,19 +6,19 @@ import classNames from 'classnames';
 import { IButton } from 'interfaces/IButton';
 
 
-interface IProps {
+interface Props {
   className: string,
   buttons: IButton[],
 }
 
-class ButtonGroup extends React.Component<IProps> {
+class ButtonGroup extends React.Component<Props> {
   static defaultProps = {
     buttons: [],
     className: '',
   };
 
   render(): JSX.Element {
-    const { buttons } = this.props as IProps;
+    const { buttons } = this.props as Props;
     if (buttons.length <= 0) {
       return <span />;
     }

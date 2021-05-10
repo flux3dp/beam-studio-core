@@ -23,11 +23,11 @@ const LANG = i18n.lang.beambox.right_panel;
 const isWin = window.os === 'Windows';
 const isLinux = window.os === 'Linux';
 
-interface IState {
+interface State {
   selectedTab: 'layers' | 'objects',
 }
 
-export class RightPanel extends React.Component<{}, IState> {
+export class RightPanel extends React.Component<{}, State> {
   private lastElement: Element;
 
   private lastMode: string;

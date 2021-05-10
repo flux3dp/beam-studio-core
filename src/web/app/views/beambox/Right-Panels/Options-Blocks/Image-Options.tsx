@@ -1,8 +1,8 @@
-/* eslint-disable react/sort-comp */
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import ImageData from 'helpers/image-data';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import ImageData from 'helpers/image-data';
+import UnitInput from 'app/widgets/Unit-Input-v2';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImageData';
 
@@ -13,17 +13,16 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-const React = requireNode('react');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
-interface IProps {
+interface Props {
   elem: Element;
   updateObjectPanel: () => void;
 }
 
-class ImageOptions extends React.Component<IProps> {
+class ImageOptions extends React.Component<Props> {
   changeAttribute = (changes: { [key: string]: string | number | boolean }): void => {
-    const { elem } = this.props as IProps;
+    const { elem } = this.props as Props;
     const batchCommand: IBatchCommand = new svgedit.history.BatchCommand('Image Option Panel');
     const setAttribute = (key: string, value: string | number | boolean) => {
       svgCanvas.undoMgr.beginUndoableChange(key, [elem]);
@@ -44,7 +43,7 @@ class ImageOptions extends React.Component<IProps> {
   };
 
   generateImageData = (isShading: boolean, threshold: number): Promise<IImageDataResult> => {
-    const { elem } = this.props as IProps;
+    const { elem } = this.props as Props;
     return new Promise<IImageDataResult>((resolve) => {
       ImageData(
         $(elem).attr('origImage'),
@@ -81,7 +80,7 @@ class ImageOptions extends React.Component<IProps> {
     updateObjectPanel();
   };
 
-  renderGradientBlock(): Element {
+  renderGradientBlock() {
     const { elem } = this.props;
     const isGradient = elem.getAttribute('data-shading') === 'true';
     return (
@@ -116,7 +115,7 @@ class ImageOptions extends React.Component<IProps> {
     this.forceUpdate();
   };
 
-  renderThresholdBlock(): Element {
+  renderThresholdBlock() {
     const { elem } = this.props;
     const isGradient = elem.getAttribute('data-shading') === 'true';
     if (isGradient) {
@@ -152,7 +151,7 @@ class ImageOptions extends React.Component<IProps> {
     );
   }
 
-  render(): Element {
+  render() {
     return (
       <div>
         {this.renderGradientBlock()}

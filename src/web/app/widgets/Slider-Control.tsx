@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-interface IProps {
+interface Props {
   id: string,
   label: string,
   min: number,
@@ -14,7 +14,7 @@ interface IProps {
   doOnlyOnBlur?: boolean,
 }
 
-interface IState {
+interface State {
   inputValue?: string | number,
   sliderValue?: string | number,
   lastValidValue?: string | number,
@@ -27,8 +27,8 @@ function isValueValid(value: string | number): boolean {
   return true;
 }
 
-class SliderControl extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class SliderControl extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     const { default: defaultValue } = this.props;
     this.state = {
@@ -38,7 +38,7 @@ class SliderControl extends React.Component<IProps, IState> {
     };
   }
 
-  shouldComponentUpdate(nextProps: IProps, nextState: IState): boolean {
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     const { sliderValue } = this.state;
     const newPropIsDifferent = nextProps.default !== sliderValue;
     const newStateIsDifferent = sliderValue !== nextState.sliderValue;

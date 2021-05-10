@@ -12,11 +12,11 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;
 
-interface IProps {
+interface Props {
   device: IDeviceInfo,
 }
 
-export default class MonitorTask extends React.PureComponent<IProps> {
+export default class MonitorTask extends React.PureComponent<Props> {
   renderImage() {
     const { taskImageURL } = this.context;
     const divStyle = {

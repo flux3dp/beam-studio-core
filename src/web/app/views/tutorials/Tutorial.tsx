@@ -19,16 +19,16 @@ const TutorialContext = createContext({});
 const LANG = i18n.lang.tutorial;
 let _contextCaller;
 
-interface IProps {
+interface Props {
   hasNextButton: boolean,
   dialogStylesAndContents: ITutorialDialog[],
   onClose: () => void,
 }
 
-interface IStates {
+interface States {
   currentStep: number,
 }
-class TutorialContextProvider extends React.Component<IProps, IStates> {
+class TutorialContextProvider extends React.Component<Props, States> {
   private defaultRect: Element;
 
   constructor(props) {

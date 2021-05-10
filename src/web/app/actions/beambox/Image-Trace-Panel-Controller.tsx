@@ -1,7 +1,7 @@
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import ImageTracePanel from 'app/views/beambox/Image-Trace-Panel';
 
-const React = requireNode('react');
-const ReactDOM = requireNode('react-dom');
 class ImageTracePanelController {
     reactRoot: string;
     constructor() {

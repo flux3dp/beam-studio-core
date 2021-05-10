@@ -18,7 +18,7 @@ const propertiesMap = {
   2: ['openFile', 'openDirectory', 'createDirectory', 'promptToCreate'],
 };
 
-interface IProps {
+interface Props {
   buttonTitle: string,
   className: string
   defaultValue: string,
@@ -40,7 +40,7 @@ const PathInput = ({
   onBlur = () => { },
   type = InputType.FILE,
   filters = [],
-}: IProps) => {
+}: Props) => {
   const [displayValue, setDisplayValue] = useState(defaultValue);
   const [savedValue, setSavedValue] = useState(defaultValue);
   const inputEl = useRef(null);

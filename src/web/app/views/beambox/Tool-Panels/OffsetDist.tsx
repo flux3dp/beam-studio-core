@@ -7,17 +7,17 @@ import * as i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.beambox.tool_panels;
 
-interface IProps {
+interface Props {
   distance: number,
   onValueChange: (val: number) => void,
 }
 
-interface IState {
+interface State {
   distance: number,
   isCollapsed: boolean,
 }
 
-class OffsetDistPanel extends React.Component<IProps, IState> {
+class OffsetDistPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { distance } = this.props;

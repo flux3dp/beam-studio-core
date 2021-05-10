@@ -2,7 +2,7 @@ import React, { createRef } from 'react';
 
 import keyCodeConstants from 'app/constants/keycode-constants';
 
-interface IProps {
+interface Props {
   id?: string,
   defaultValue: number,
   max: number,
@@ -11,13 +11,13 @@ interface IProps {
   onChange: (val?: number) => void,
 }
 
-interface IState {
+interface State {
   value: number,
   displayValue: number|string,
   isDragging: boolean,
 }
 
-class VerticalSlider extends React.Component<IProps, IState> {
+class VerticalSlider extends React.Component<Props, State> {
   static defaultProps = {
     defaultValue: 0,
     max: Number.MAX_SAFE_INTEGER,

@@ -1,10 +1,9 @@
-import * as React from 'react';
-
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
 import Constant from 'app/actions/beambox/constant';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ZoomBlockContext, ZoomBlockContextProvider } from './contexts/Zoom-Block-Context';
+import { ZoomBlockContext, ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
 
 let svgCanvas;
 let svgEditor;

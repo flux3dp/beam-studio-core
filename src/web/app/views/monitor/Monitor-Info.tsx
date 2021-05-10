@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface IProps {
+interface Props {
   status: string,
   progress: string,
 }
 
-export default class MonitorInfo extends React.PureComponent<IProps>{
+export default class MonitorInfo extends React.PureComponent<Props>{
     render() {
         const { status, progress } = this.props;
         return (

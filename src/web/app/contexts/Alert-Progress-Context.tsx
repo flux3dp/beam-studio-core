@@ -14,11 +14,11 @@ interface IAlertOrProgress extends IAlert, IProgressDialog {
   isProgress?: boolean,
 }
 
-interface IState {
+interface State {
   alertProgressStack: IAlertOrProgress[],
 }
 
-export class AlertProgressContextProvider extends React.Component<{}, IState> {
+export class AlertProgressContextProvider extends React.Component<{}, State> {
   constructor(props) {
     super(props);
     this.state = {

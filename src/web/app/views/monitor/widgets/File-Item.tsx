@@ -7,16 +7,16 @@ import { MonitorContext } from 'app/contexts/Monitor-Context';
 const maxFileNameLength = 12;
 const DEFAULT_IMAGE = 'img/ph_s.png';
 
-interface IProps {
+interface Props {
   fileName: string,
   fileInfo: { [key: string]: any },
   isSelected: boolean,
 }
 
-export default class FileItem extends React.Component<IProps> {
+export default class FileItem extends React.Component<Props> {
   private imgSrc: string;
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
     this.imgSrc = null;
     const { fileInfo } = this.props;
@@ -27,7 +27,7 @@ export default class FileItem extends React.Component<IProps> {
     this.revokeImgURL();
   }
 
-  shouldComponentUpdate(nextProps: IProps) {
+  shouldComponentUpdate(nextProps: Props) {
     for (let key in nextProps) {
       if (nextProps[key] !== this.props[key]) {
         if (key === 'fileInfo') {

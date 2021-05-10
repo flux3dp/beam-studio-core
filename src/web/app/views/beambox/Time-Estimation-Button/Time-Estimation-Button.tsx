@@ -15,11 +15,11 @@ interface ITimeEstimationButtonContext {
   setEstimatedTime(estimatedTime: number | null): void,
 };
 
-interface IState {
+interface State {
   estimatedTime: number,
 }
 
-class TimeEstimationButtonContextProvider extends React.Component<{}, IState> {
+class TimeEstimationButtonContextProvider extends React.Component<{}, State> {
   constructor(props) {
     super(props);
     this.state = {

@@ -6,17 +6,17 @@ import i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.beambox.tool_panels;
 
-interface IProps {
+interface Props {
   cornerType: string,
   onValueChange: (val: string) => void,
 }
 
-interface IState {
+interface State {
   cornerType: string,
   isCollapsed: boolean,
 }
 
-class OffsetCornerPanel extends React.Component<IProps, IState> {
+class OffsetCornerPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { cornerType } = this.props;

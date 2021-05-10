@@ -8,12 +8,12 @@ export enum NavBtnType {
   FOLDER = 2,
 }
 
-interface IProps {
+interface Props {
   name: string,
   navBtnType: NavBtnType,
 }
 
-class MonitorHeader extends React.PureComponent<IProps> {
+class MonitorHeader extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
   }

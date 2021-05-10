@@ -9,17 +9,17 @@ import { MonitorContext } from 'app/contexts/Monitor-Context';
 import FileItem from './widgets/File-Item';
 import DeviceMaster from 'helpers/device-master';
 
-interface IProps {
+interface Props {
   path: string,
 }
 
-interface IState {
+interface State {
   directories: string[],
   files: string[],
   fileInfos: { [key: string]: any },
 }
 
-class MonitorFilelist extends React.Component<IProps, IState> {
+class MonitorFilelist extends React.Component<Props, State> {
   private isUSBExist: boolean;
 
   private willUnmount: boolean = false;

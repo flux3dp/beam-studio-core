@@ -6,7 +6,7 @@ import ButtonGroup from './Button-Group';
 
 let lang = i18n.lang.buttons;
 
-interface IProps {
+interface Props {
   caption: string,
   checkbox: string,
   message: string | JSX.Element,
@@ -19,12 +19,12 @@ interface IProps {
   checkedCallback: (...args: any[]) => void,
 }
 
-interface Istates {
+interface States {
   imgIndex: number,
 }
 
-class AlertDialog extends React.Component<IProps, Istates> {
-  static defaultProps: IProps = {
+class AlertDialog extends React.Component<Props, States> {
+  static defaultProps: Props = {
     caption: '',
     checkbox: '',
     message: '',
@@ -37,7 +37,7 @@ class AlertDialog extends React.Component<IProps, Istates> {
     checkedCallback: () => {},
   };
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       imgIndex: 0,

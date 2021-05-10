@@ -8,19 +8,19 @@ const PropTypes = requireNode('prop-types');
 
 const LANG = i18n.lang.beambox.tool_panels;
 
-interface IProps {
+interface Props {
   row?: number,
   column?: number,
   onValueChange?: (rc: { row: number, column: number }) => void,
 }
 
-interface IState {
+interface State {
   row: number,
   column: number,
   isCollapsed: boolean,
 }
 
-class RowColumn extends React.Component<IProps, IState> {
+class RowColumn extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {

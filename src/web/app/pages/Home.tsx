@@ -9,7 +9,11 @@ const { Menu } = electron.remote;
 export default function(args) {
     args = args || {};
 
-    class Home extends React.Component{
+    interface State {
+      lang: any;
+    }
+
+    class Home extends React.Component<any, State> {
         constructor(props) {
             super(props);
             this.state = {

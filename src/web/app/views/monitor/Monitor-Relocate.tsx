@@ -16,16 +16,16 @@ const getImageSize = (url: string, onSize: (size: number[]) => void) => {
   img.src = url;
 };
 
-interface IProps {
+interface Props {
   device: IDeviceInfo,
 }
 
-interface IState {
+interface State {
   isHd: boolean,
   currentPosition: { x: number, y: number },
 }
 
-export default class MonitorRelocate extends React.PureComponent<IProps, IState> {
+export default class MonitorRelocate extends React.PureComponent<Props, State> {
   private isBeamboxCamera: boolean;
 
   private cameraStream: any;

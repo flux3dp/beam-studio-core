@@ -10,12 +10,12 @@ import { IProgressDialog } from 'interfaces/IProgress';
 
 const LANG = i18n.lang;
 
-interface IProps {
+interface Props {
   progress: IProgressDialog,
   onClose?: () => void,
 }
 
-class Progress extends React.Component<IProps> {
+class Progress extends React.Component<Props> {
   private closeTimeout: NodeJS.Timeout;
 
   constructor(props) {
