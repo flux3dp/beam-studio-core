@@ -1,9 +1,8 @@
-import React, { createRef } from 'react';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import Modal from 'app/widgets/Modal';
+import React, { createRef } from 'react';
 import SelectView from 'app/widgets/Select';
 import VerticalSlider from 'app/widgets/Vertical-Slider-Control';
-import * as i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -20,11 +19,11 @@ const TAB_MOVE = 2;
 //SerialPort.Binding = MockBinding
 //MockBinding.createPort('/dev/ROBOT', { echo: true, record: true });
 
-interface IProps {
-  onClose: () => void,
+interface Props {
+  onClose?: () => void,
 }
 
-interface IState {
+interface State {
   selectedPort: string,
   portOptions: { value: string, label: string, selected: boolean }[],
   file: string|File,
@@ -39,7 +38,7 @@ interface IState {
   isDragingScroll: boolean,
 }
 
-class TaskInterpreterPanel extends React.Component<IProps, IState>{
+class TaskInterpreterPanel extends React.Component<Props, State>{
   private serialPort: any;
 
   private onDataCB: (data?) => void;
