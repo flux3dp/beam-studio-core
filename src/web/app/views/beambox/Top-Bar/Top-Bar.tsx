@@ -1,7 +1,8 @@
+import React from 'react';
+import classNames from 'classnames';
+
 import * as i18n from 'helpers/i18n';
-import * as React from 'react';
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
-import $ from 'jquery';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
@@ -37,7 +38,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const classNames = requireNode('classnames');
 const { $ } = window;
 const lang = i18n.lang;
 const LANG = i18n.lang.topbar;
