@@ -1,7 +1,8 @@
+import * as React from 'react';
 import alertConstants from 'app/constants/alert-constants';
-import { AlertsAndProgress, AlertsAndProgressContextHelper }  from 'app/views/dialogs/Alerts-And-Progress';
+import { AlertsAndProgressContextHelper } from 'app/views/dialogs/Alerts-And-Progress';
 import { IAlert } from 'interfaces/IAlert';
-const React = requireNode('react');
+
 const electron = requireNode('electron');
 
 export default {

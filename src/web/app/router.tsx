@@ -1,4 +1,6 @@
 import * as i18n from 'helpers/i18n';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 import appSettings from 'app/app-settings';
 import Backbone from 'backbone';
@@ -18,9 +20,6 @@ import { AlertProgressContextProvider } from 'app/contexts/Alert-Progress-Contex
 import { AlertsAndProgress } from 'app/views/dialogs/Alerts-And-Progress';
 import { Dialog } from 'app/views/dialogs/Dialog';
 import { DialogContextProvider } from 'app/contexts/Dialog-Context';
-
-const React = requireNode('react');
-const ReactDOM = requireNode('react-dom');
 
 const _display = function(view: Function, args?, el?) {
     el = el || $('section.content')[0];

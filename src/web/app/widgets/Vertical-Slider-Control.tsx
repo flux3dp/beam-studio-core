@@ -1,7 +1,5 @@
-import keyCodeConstants from '../constants/keycode-constants';
-
-const React = requireNode('react');
-const ReactDOM = requireNode('react-dom');
+import * as React from 'react';
+import keyCodeConstants from 'app/constants/keycode-constants';
 
 class VerticalSlider extends React.Component {
     constructor(props) {
