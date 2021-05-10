@@ -6,9 +6,9 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import ImageData from 'helpers/image-data';
 import Modal from 'app/widgets/Modal';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import requirejsHelper from 'helpers/requirejs-helper';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import requirejsHelper from 'helpers/requirejs-helper';
 
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => {
