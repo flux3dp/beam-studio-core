@@ -186,9 +186,8 @@ const StepAskReadjust = (
         className: 'btn-default pull-right primary',
         onClick: async () => {
           try {
-            await PreviewModeController.start(device, () => { console.log('camera fail. stop preview mode'); });
-            // eslint-disable-next-line no-underscore-dangle
-            parent.lastConfig = PreviewModeController._getCameraOffset();
+            await PreviewModeController.start(device, () => console.log('camera fail. stop preview mode'));
+            parent.lastConfig = PreviewModeController.getCameraOffset();
             progress.openNonstopProgress({
               id: 'taking-picture',
               message: LANG.taking_picture,
@@ -306,8 +305,7 @@ const StepRefocus = ({
     let blobUrl;
     try {
       await PreviewModeController.start(device, () => console.log('camera fail. stop preview mode'));
-      // eslint-disable-next-line no-underscore-dangle
-      parent.lastConfig = PreviewModeController._getCameraOffset();
+      parent.lastConfig = PreviewModeController.getCameraOffset();
       progress.openNonstopProgress({
         id: 'taking-picture',
         message: LANG.taking_picture,
@@ -559,20 +557,34 @@ const StepBeforeAnalyzePicture = ({
     updateOffsetDataCb({ currentOffset });
   };
 
+  const useLastConfigValue = () => {
+    const lastConfig = {
+      X: parent.lastConfig.x,
+      Y: parent.lastConfig.y,
+      SX: parent.lastConfig.scaleRatioX,
+      SY: parent.lastConfig.scaleRatioY,
+      R: parent.lastConfig.angle,
+    };
+    updateOffsetDataCb({ currentOffset: lastConfig });
+  };
+
   const hintModal = showHint ? renderHintModal() : null;
   const lastConfigSquare = showLastConfig ? <div className="virtual-square last-config" style={lastConfigSquareStyle} /> : null;
   const manualCalibration = (
     <div>
-      <div className="img-center" style={imgBackground}>
-        <div className="virtual-square" style={squareStyle} />
-        {lastConfigSquare}
-        <div className="camera-control up" onClick={() => moveAndRetakePicture('up')} />
-        <div className="camera-control down" onClick={() => moveAndRetakePicture('down')} />
-        <div className="camera-control left" onClick={() => moveAndRetakePicture('left')} />
-        <div className="camera-control right" onClick={() => moveAndRetakePicture('right')} />
-      </div>
-      <div className="hint-icon" onClick={() => setShowHint(true)}>
-        ?
+      <div className="left-part">
+        <div className="img-center" style={imgBackground}>
+          <div className="virtual-square" style={squareStyle} />
+          {lastConfigSquare}
+          <div className="camera-control up" onClick={() => moveAndRetakePicture('up')} />
+          <div className="camera-control down" onClick={() => moveAndRetakePicture('down')} />
+          <div className="camera-control left" onClick={() => moveAndRetakePicture('left')} />
+          <div className="camera-control right" onClick={() => moveAndRetakePicture('right')} />
+        </div>
+        <div className="checkbox-container" onClick={() => setShowLastConfig(!showLastConfig)}>
+          <input type="checkbox" checked={showLastConfig} onChange={() => { }} />
+          <div className="title">{LANG.show_last_config}</div>
+        </div>
       </div>
       <div className="controls">
         <div className="control">
@@ -645,10 +657,12 @@ const StepBeforeAnalyzePicture = ({
             isDoOnInput
           />
         </div>
-        <div className="checkbox-container" onClick={() => setShowLastConfig(!showLastConfig)}>
-          <input type="checkbox" checked={showLastConfig} onChange={() => { }} />
-          <div className="title">{LANG.show_last_config}</div>
-        </div>
+        <button type="button" className={classNames('btn', 'btn-default')} onClick={useLastConfigValue}>
+          {LANG.use_last_config}
+        </button>
+      </div>
+      <div className="hint-icon" onClick={() => setShowHint(true)}>
+        ?
       </div>
       {hintModal}
     </div>

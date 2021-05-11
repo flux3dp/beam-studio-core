@@ -989,6 +989,7 @@ export default {
     x_ratio: 'Relación X',
     y_ratio: 'Relación Y',
     show_last_config: 'Mostrar el último resultado',
+    use_last_config: 'Importar último resultado',
     taking_picture: 'Tomar una foto...',
     analyze_result_fail: 'Falla en el análisis de la imagen capturada.<br/>Por favor asegúrese:<br/>1. Imagen capturada totalmente cubierta con papel blanco.<br/>2. La plataforma está bien enfocada.',
     drawing_calibration_image: 'Dibujando la imagen de calibración...',
