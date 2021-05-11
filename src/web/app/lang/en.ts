@@ -989,6 +989,7 @@ export default {
     x_ratio: 'X Ratio',
     y_ratio: 'Y Ratio',
     show_last_config: 'Show Last Result',
+    use_last_config: 'Import Last Result',
     taking_picture: 'Taking Picture...',
     analyze_result_fail: 'Fail to analyze captured image.<br/>Please make sure:<br/>1. Captured picture fully coverd with white paper.<br/>2. The platform is focus properly.',
     drawing_calibration_image: 'Drawing calibration image...',

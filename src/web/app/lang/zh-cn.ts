@@ -989,6 +989,7 @@ export default {
     x_ratio: '水平比例',
     y_ratio: '垂直比例',
     show_last_config: '显示前次校正结果',
+    use_last_config: '汇入前次校正数值',
     taking_picture: '截取图片中...',
     analyze_result_fail: '校正失败<br/>请确认:<br/>1. 校正图片完整画在 A4 纸上<br/>2. 已旋转升降平台旋钮，直到轻触焦距螺丝，完成对焦',
     drawing_calibration_image: '绘制校正图片中...',
