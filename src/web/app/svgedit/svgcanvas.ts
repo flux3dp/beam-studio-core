@@ -8899,7 +8899,7 @@ export default $.SvgCanvas = function (container, config) {
     var selectedCopy = []; //selectedElements is being deleted
     for (i = 0; i < len; ++i) {
       var selected = selectedElements[i];
-      if (selected == null) {
+      if (!selected) {
         break;
       }
 
@@ -8941,11 +8941,13 @@ export default $.SvgCanvas = function (container, config) {
         }
         if (shouldDeleteRef) {
           const ref = $(this.getHref(selected)).toArray()[0];
-          parent = ref.parentNode;
-          nextSibling = ref.nextSibling;
-          let elem = parent.removeChild(ref);
-          selectedCopy.push(ref); //for the copy
-          batchCmd.addSubCommand(new RemoveElementCommand(elem, nextSibling, parent));
+          if (ref) {
+            parent = ref.parentNode;
+            nextSibling = ref.nextSibling;
+            let elem = parent.removeChild(ref);
+            selectedCopy.push(ref); // for the copy
+            batchCmd.addSubCommand(new RemoveElementCommand(elem, nextSibling, parent));
+          }
         }
       }
     }
