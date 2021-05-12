@@ -24,7 +24,7 @@
         "web/interfaces/*",
       ],
       "implementations/*": [
-        "core-implementations/*",
+        "implementations/*",
       ],
     }
   },
