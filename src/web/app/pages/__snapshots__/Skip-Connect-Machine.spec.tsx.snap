@@ -17,7 +17,7 @@ exports[`test Skip-Connect-Machine should render correctly 1`] = `
           className="top-bar"
         />
         <div
-          className="skip-connect-machine"
+          className="skip-connect-machine "
         >
           <h1
             className="main-title"
@@ -57,7 +57,7 @@ exports[`test Skip-Connect-Machine should render correctly 1`] = `
             className="top-bar"
           />
           <div
-            className="skip-connect-machine"
+            className="skip-connect-machine "
           >
             <h1
               className="main-title"

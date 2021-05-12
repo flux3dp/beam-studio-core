@@ -7,7 +7,11 @@ import windowLocationReload from 'app/actions/windowLocation';
 const { lang } = i18n;
 
 export default function () {
-  return class SkipConnectMachine extends React.PureComponent {
+  interface Props {
+    className?: string;
+  }
+
+  return class SkipConnectMachine extends React.PureComponent<Props> {
     onStart = () => {
       if (!storage.get('printer-is-ready')) {
         storage.set('new-user', true);
@@ -17,21 +21,24 @@ export default function () {
       windowLocationReload();
     };
 
-    renderSelectMachineStep = () => (
-      <div className="skip-connect-machine">
-        <h1 className="main-title">{lang.initialize.setting_completed.great}</h1>
-        <div className="text-content">
-          {lang.initialize.setting_completed.setup_later}
+    renderSelectMachineStep = () => {
+      const { className = '' } = this.props;
+      return (
+        <div className={`skip-connect-machine ${className}`}>
+          <h1 className="main-title">{lang.initialize.setting_completed.great}</h1>
+          <div className="text-content">
+            {lang.initialize.setting_completed.setup_later}
+          </div>
+          <button
+            type="button"
+            className="btn btn-action"
+            onClick={() => this.onStart()}
+          >
+            {lang.initialize.setting_completed.ok}
+          </button>
         </div>
-        <button
-          type="button"
-          className="btn btn-action"
-          onClick={() => this.onStart()}
-        >
-          {lang.initialize.setting_completed.ok}
-        </button>
-      </div>
-    );
+      );
+    }
 
     render() {
       const wrapperClassName = {

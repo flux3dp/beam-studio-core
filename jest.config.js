@@ -4,11 +4,11 @@ module.exports = {
     "**/?(*.)+(spec|test).(ts|tsx)"
   ],
   collectCoverageFrom: [
-    "src/web/**/*.(ts|tsx)"
+    "src/**/*.(ts|tsx)"
   ],
   globals: {
     "ts-jest": {
-      tsconfig: "src/web/tsconfig.json"
+      tsconfig: "src/tsconfig.json"
     }
   },
   setupFilesAfterEnv: ["./src/web/setupTests.ts"],
