@@ -987,6 +987,7 @@ export interface ILang {
     x_ratio: string,
     y_ratio: string,
     show_last_config: string,
+    use_last_config: string,
     taking_picture: string,
     analyze_result_fail: string,
     drawing_calibration_image: string,
