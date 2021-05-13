@@ -150,7 +150,7 @@ const exportAsSVG = async (): Promise<void> => {
   }
   svgCanvas.clearSelection();
   $('g.layer').removeAttr('clip-path');
-  const output = removeNPElementsWrapper(() => switchSymbolWrapper(() => svgCanvas.getSvgString()));
+  const output = removeNPElementsWrapper(() => switchSymbolWrapper(() => svgCanvas.getSvgString('mm')));
   $('g.layer').attr('clip-path', 'url(#scene_mask)');
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;

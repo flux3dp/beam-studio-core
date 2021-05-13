@@ -58,6 +58,7 @@ import storage from 'helpers/storage-helper';
 import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import units, { Units } from 'helpers/units';
 
 let svgCanvas;
 let svgEditor;
@@ -5070,7 +5071,7 @@ export default $.SvgCanvas = function (container, config) {
   //
   // Returns:
   // String containing the SVG image for output
-  this.svgCanvasToString = function () {
+  this.svgCanvasToString = function (unit?: Units) {
     // keep calling it until there are none to remove
     svgedit.utilities.moveDefsIntoSvgContent();
     while (removeUnusedDefElems() > 0) { }
@@ -5121,7 +5122,7 @@ export default $.SvgCanvas = function (container, config) {
     svgcontent.setAttribute('data-zoom', (Math.round(current_zoom * 1000) / 1000));
     svgcontent.setAttribute('data-left', Math.round(x));
     svgcontent.setAttribute('data-top', Math.round(y));
-    var output = this.svgToString(svgcontent, 0);
+    var output = this.svgToString(svgcontent, 0, unit);
 
     // Rewrap gsvg
     if (naked_svgs.length) {
@@ -5145,12 +5146,10 @@ export default $.SvgCanvas = function (container, config) {
   //
   // Returns:
   // String with the given element as an SVG tag
-  this.svgToString = function (elem, indent) {
-    var out = [],
-      toXml = svgedit.utilities.toXml;
-    var unit = curConfig.baseUnit;
-    var unit_re = new RegExp('^-?[\\d\\.]+' + unit + '$');
-
+  this.svgToString = function (elem, indent, unit: Units = 'pt') {
+    const out = [];
+    const toXml = svgedit.utilities.toXml;
+    const unit_re = new RegExp('^-?[\\d\\.]+' + unit + '$');
     if (elem) {
       cleanupElement(elem);
       var attrs = elem.attributes,
@@ -5166,8 +5165,7 @@ export default $.SvgCanvas = function (container, config) {
       if (elem.id === 'svgcontent') {
         // Process root element separately
         var res = getResolution();
-
-        var vb = '';
+        // var vb = '';
         // TODO: Allow this by dividing all values by current baseVal
         // Note that this also means we should properly deal with this on import
         //			if (curConfig.baseUnit !== 'px') {
@@ -5179,13 +5177,19 @@ export default $.SvgCanvas = function (container, config) {
         //				res.w += unit;
         //				res.h += unit;
         //			}
-
-        if (unit !== 'px') {
-          res.w = svgedit.units.convertUnit(res.w, unit) + unit;
-          res.h = svgedit.units.convertUnit(res.h, unit) + unit;
+        // if (unit !== 'px') {
+        //   w = svgedit.units.convertUnit(res.w, unit) + unit;
+        //   h = svgedit.units.convertUnit(res.h, unit) + unit;
+        // }
+        const vb = `viewBox="0 0 ${res.w} ${res.h}"`;
+        let w = units.convertUnit(res.w, unit).toString();
+        let h = units.convertUnit(res.h, unit).toString();
+        if (unit !== 'pt') {
+          w += unit;
+          h += unit;
         }
 
-        out.push(' id="svgcontent" width="' + res.w + '" height="' + res.h + '"' + vb + ' xmlns="' + NS.SVG + '"');
+        out.push(` id="svgcontent" width="${w}" height="${h}" ${vb} xmlns="${NS.SVG}"`);
 
         var nsuris = {};
 
@@ -5536,13 +5540,13 @@ export default $.SvgCanvas = function (container, config) {
   //
   // Returns:
   // The current drawing as raw SVG XML text.
-  this.getSvgString = function () {
+  this.getSvgString = function (unit?: Units) {
     if (tempGroup) {
       this.ungroupTempGroup();
     }
     this.ungroupAllTempGroup();
     save_options.apply = false;
-    return this.svgCanvasToString();
+    return this.svgCanvasToString(unit);
   };
 
   // Function: svgStringToImage
@@ -6562,29 +6566,17 @@ export default $.SvgCanvas = function (container, config) {
         return;
       }
 
-      const dpi = 72;
-      const svgUnitScaling = 254 / dpi; //本來 72 個點代表 1 inch, 現在 254 個點代表 1 inch.
-      const unitMap = {
-        'in': 25.4 * 10,
-        'cm': 10 * 10,
-        'mm': 10,
-        'px': svgUnitScaling,
-        'pt': 1,
-        'text': 1
-      };
-
       if (!isNaN(val)) {
-        return val * unitMap['px'];
+        return units.convertUnit(val, 'pt', 'px');
       }
-
       unit = unit || val.substr(-2);
       const num = val.substr(0, val.length - 2);
-      if (!unitMap[unit]) {
-        console.log('unsupported unit', unit, 'for', val, ' use pixel instead');
+      if (!units.unitMap[unit]) {
+        console.log(`unsupported unit ${unit} for ${val} use pixel instead`);
       }
 
       // use pixel if unit is unsupport
-      return num * (unitMap[unit] || unitMap['px']);
+      return units.convertUnit(num, 'pt', unit);
     }
 
     const newDoc = svgedit.utilities.text2xml(xmlString);
