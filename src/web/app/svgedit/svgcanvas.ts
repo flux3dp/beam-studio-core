@@ -3790,9 +3790,11 @@ export default $.SvgCanvas = function (container, config) {
           if (valueBeforeEdit && cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
         }
         if (valueBeforeEdit && valueBeforeEdit !== textinput.value) {
-          const cmd = new ChangeTextCommand(curtext, valueBeforeEdit, textinput.value);
-          batchCmd.addSubCommand(cmd);
-          canvas.setHasUnsavedChange(true, true);
+          if (curtext) {
+            const cmd = new ChangeTextCommand(curtext, valueBeforeEdit, textinput.value);
+            batchCmd.addSubCommand(cmd);
+            canvas.setHasUnsavedChange(true, true);
+          }
         }
         if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
 
