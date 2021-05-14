@@ -11,8 +11,6 @@ export default {
     },
   },
 
-  needWebGL: ['print', 'scan'],
-
   params: {
     printing: {
     },

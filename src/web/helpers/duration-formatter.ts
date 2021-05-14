@@ -1,32 +1,21 @@
-import * as i18n from './i18n';
+export default (
+  lengthInSecondInput: number,
+  i18nHour: string,
+  i18nMinute: string,
+  i18nSecond: string,
+): string => {
+  const HOUR_IN_SECOND = 3600;
+  const MINUTE_IN_SECOND = 60;
+  const lengthInSecond: number = lengthInSecondInput || 0;
 
-var lang = i18n.lang,
-    oneHour = 3600,
-    oneMinute = 60;
-
-export default function(lengthInSecond) {
-
-    lengthInSecond = lengthInSecond || 0;
-
-    if(lengthInSecond >= oneHour) {
-
-        var hours = parseInt(String(lengthInSecond / oneHour)),
-            minutes = parseInt(String(lengthInSecond % oneHour / oneMinute));
-
-        return `${hours} ${lang.monitor.hour} ${minutes} ${lang.monitor.minute}`;
-
-    } else if (lengthInSecond >= oneMinute) {
-
-        var minutes = parseInt(String(lengthInSecond / oneMinute)),
-            seconds = parseInt(String(lengthInSecond % oneMinute));
-
-        return `${minutes} ${lang.monitor.minute} ${seconds} ${lang.monitor.second}`;
-
-    } else {
-
-        if(!lengthInSecond) {
-            return '';
-        }
-        return `${parseInt(lengthInSecond)} ${lang.monitor.second}`;
-    }
+  if (lengthInSecond >= HOUR_IN_SECOND) {
+    const hours = parseInt(String(lengthInSecond / HOUR_IN_SECOND), 10);
+    const minutes = parseInt(String((lengthInSecond % HOUR_IN_SECOND) / MINUTE_IN_SECOND), 10);
+    return `${hours} ${i18nHour} ${minutes} ${i18nMinute}`;
+  } if (lengthInSecond >= MINUTE_IN_SECOND) {
+    const minutes = parseInt(String(lengthInSecond / MINUTE_IN_SECOND), 10);
+    const seconds = parseInt(String(lengthInSecond % MINUTE_IN_SECOND), 10);
+    return `${minutes} ${i18nMinute} ${seconds} ${i18nSecond}`;
+  }
+  return !lengthInSecond ? '' : `${lengthInSecond} ${i18nSecond}`;
 };

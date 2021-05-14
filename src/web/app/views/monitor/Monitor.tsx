@@ -141,7 +141,7 @@ export default class Monitor extends React.Component<Props, State> {
       }
 
       const percentageDone = Math.floor(report.prog * 100);
-      const timeLeft = FormatDuration(taskTime * (1 - report.prog));
+      const timeLeft = FormatDuration(taskTime * (1 - report.prog), LANG.monitor.hour, LANG.monitor.minute, LANG.monitor.second);
 
       return `${percentageDone}%, ${timeLeft} ${i18n.lang.monitor.left}`;
     }

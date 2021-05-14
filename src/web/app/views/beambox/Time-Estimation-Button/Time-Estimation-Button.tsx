@@ -68,7 +68,7 @@ class TimeEstimationButtonComponent extends React.Component {
   }
 
   renderResult(estimatedTime: number) {
-    const message = `Estimated Time: ${FormatDuration(estimatedTime)}`;
+    const message = `Estimated Time: ${FormatDuration(estimatedTime, i18n.lang.monitor.hour, i18n.lang.monitor.minute, i18n.lang.monitor.second)}`;
     return (
       <div className="time-est-result">
         { message}

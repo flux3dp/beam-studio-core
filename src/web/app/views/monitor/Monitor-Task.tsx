@@ -37,7 +37,7 @@ export default class MonitorTask extends React.PureComponent<Props> {
     const { taskTime } = this.context;
 
     if (taskTime) {
-      return FormatDuration(taskTime)
+      return FormatDuration(taskTime, LANG.monitor.hour, LANG.monitor.minute, LANG.monitor.second)
     } else {
       return null;
     }

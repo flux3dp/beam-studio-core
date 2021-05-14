@@ -169,8 +169,6 @@ export default Backbone.Router.extend({
 
         var requests = args.split('/'),
             child_view = requests.splice(0, 1)[0],
-            // if something needs webgl then add to the list below
-            needWebGL = appSettings.needWebGL,
             map = {
                 'beambox': this.beambox,
                 'settings': this.settings,
