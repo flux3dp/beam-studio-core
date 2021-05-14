@@ -911,10 +911,9 @@ export default $.SvgCanvas = function (container, config) {
     this.sanitizeSvg(newDoc.documentElement);
 
     // convert paths into absolute commands
-    var i, path, len,
-      paths = newDoc.getElementsByTagNameNS(NS.SVG, 'path');
-    for (i = 0, len = paths.length; i < len; ++i) {
-      path = paths[i];
+    const paths = newDoc.getElementsByTagNameNS(NS.SVG, 'path');
+    for (let i = 0; i < paths.length; ++i) {
+      const path = paths[i];
       path.setAttribute('d', pathActions.convertPath(path));
       pathActions.fixEnd(path);
     }
@@ -4524,7 +4523,7 @@ export default $.SvgCanvas = function (container, config) {
         }
         hasMoved = false;
       },
-      finishPath: finishPath,
+      finishPath,
       toEditMode: function (element) {
         svgedit.path.path = svgedit.path.getPath_(element);
         const isContinuousDrawing = BeamboxPreference.read('continuous_drawing');
@@ -4948,6 +4947,7 @@ export default $.SvgCanvas = function (container, config) {
         // at its M point
         // M0,0 L0,100 L100,100 z
         let last_m;
+        const newList = [];
         for (let i = 0; i < elem.pathSegList.numberOfItems; ++i) {
           let seg = elem.pathSegList.getItem(i);
           if (seg.pathSegType === 2) {
@@ -4958,12 +4958,19 @@ export default $.SvgCanvas = function (container, config) {
             let prev = elem.pathSegList.getItem(i - 1);
             if (prev.x != last_m.x || prev.y != last_m.y) {
               // Add an L segment here
-              var newseg = elem.createSVGPathSegLinetoAbs(last_m.x, last_m.y);
-              svgedit.path.insertItemBefore(elem, newseg, i);
-              i++;
+              // This is a memory-efficient method, but very slow
+              // svgedit.path.insertItemBefore(elem, newseg, i);
+              // i++;
+              const newseg = elem.createSVGPathSegLinetoAbs(last_m.x, last_m.y);
+              newList.push(newseg);
             }
           }
+          // Avoiding trailing m
+          if (i !== elem.pathSegList.numberOfItems -1 || seg.pathSegType !== 2) {
+            newList.push(seg);
+          }
         }
+        elem.pathSegList._list = newList;
         if (svgedit.browser.isWebkit()) {
           resetD(elem);
         }
@@ -6573,12 +6580,10 @@ export default $.SvgCanvas = function (container, config) {
       const num = val.substr(0, val.length - 2);
       if (!units.unitMap[unit]) {
         console.log(`unsupported unit ${unit} for ${val} use pixel instead`);
+        return units.convertUnit(num, 'pt', 'px');
       }
-
-      // use pixel if unit is unsupport
       return units.convertUnit(num, 'pt', unit);
     }
-
     const newDoc = svgedit.utilities.text2xml(xmlString);
     svgCanvas.prepareSvg(newDoc);
     const svg = svgdoc.adoptNode(newDoc.documentElement);
