@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import isJson from './is-json';
 import storage from './storage-helper';
-import * as i18n from './i18n';
+import i18n from 'helpers/i18n';
 import Alert from '../app/actions/alert-caller';
-import AlertStore from '../app/stores/alert-store';
 import AlertConstants from '../app/constants/alert-constants';
 import outputError from './output-error';
 import Logger from './logger';

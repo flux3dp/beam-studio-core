@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import $ from 'jquery';
 import Constant from 'app/actions/beambox/constant';
 import storage from 'helpers/storage-helper';

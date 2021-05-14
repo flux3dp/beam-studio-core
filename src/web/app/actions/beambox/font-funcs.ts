@@ -5,7 +5,7 @@ import AlertConfig from '../../../helpers/api/alert-config';
 import SvgLaserParser from '../../../helpers/api/svg-laser-parser';
 import BeamboxPreference from '../../actions/beambox/beambox-preference';
 import Config from '../../../helpers/api/config';
-import * as i18n from '../../../helpers/i18n';
+import i18n from 'helpers/i18n';
 import sprintf from '../../../helpers/sprintf';
 import { IFontQuery } from '../../../interfaces/IFont';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';

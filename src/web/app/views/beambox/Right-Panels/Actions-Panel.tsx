@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Dialog from 'app/actions/dialog-caller';
 import FontFuncs from 'app/actions/beambox/font-funcs';

@@ -25,7 +25,7 @@ import OutputError from 'helpers/output-error';
 import sprintf from 'helpers/sprintf';
 import VersionChecker from 'helpers/version-checker';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGEdit } from 'helpers/svg-editor-helper';
 import sentryHelper from 'helpers/sentry-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';

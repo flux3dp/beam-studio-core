@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { IButton } from 'interfaces/IButton';
 import ButtonGroup from './Button-Group';
 

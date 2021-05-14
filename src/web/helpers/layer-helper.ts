@@ -1,7 +1,7 @@
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 import { getSVGAsync } from './svg-editor-helper';
 import { cloneLayerConfig } from './laser-config-helper';
-import * as i18n from './i18n';
+import i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 

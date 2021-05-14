@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.topbar;
 const HintContext = createContext({});

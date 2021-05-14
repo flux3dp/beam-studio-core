@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import classNames from 'classnames';
 import Constant from 'app/actions/beambox/constant';

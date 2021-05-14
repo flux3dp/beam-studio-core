@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import * as React from 'react';
 import ButtonGroup from 'app/widgets/Button-Group';
 import Constants from 'app/actions/beambox/constant';

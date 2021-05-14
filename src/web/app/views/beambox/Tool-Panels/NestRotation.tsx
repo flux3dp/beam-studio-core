@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import React from 'react';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 

@@ -46,7 +46,7 @@ import PdfHelper from 'helpers/pdf-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import AlertConfig from 'helpers/api/alert-config';
 import Config from 'helpers/api/config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
