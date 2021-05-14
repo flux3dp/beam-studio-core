@@ -850,6 +850,7 @@ export interface ILang {
     fileExistContinue: string,
     confirmGToF: string,
     confirmFileDelete: string,
+    ask_reconnect: string,
     task: {
       EXTRUDER: string,
       PRINT: string,

@@ -13,7 +13,7 @@ import history from '../data-history';
 import AlertConfig from './alert-config';
 import setParams from './set-params';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 let svgCanvas;
 let svgEditor;
@@ -631,7 +631,7 @@ export default function(opts) {
             ].join(' '));
             return $deferred.promise();
         },
-            
+
         uploadToSvgeditorAPI: function(files, opts) {
             var $deferred = $.Deferred(),
                 currIndex = 0,

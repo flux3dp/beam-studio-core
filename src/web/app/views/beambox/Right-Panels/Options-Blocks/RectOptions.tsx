@@ -4,7 +4,7 @@ import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Bl
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import Constant from 'app/actions/beambox/constant';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;

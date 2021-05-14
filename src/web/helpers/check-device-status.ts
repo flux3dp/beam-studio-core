@@ -2,7 +2,7 @@
  * check device status and action
  */
 import $ from 'jquery';
-import * as i18n from './i18n';
+import i18n from 'helpers/i18n';
 import DeviceMaster from './device-master';
 import DeviceConstants from '../app/constants/device-constants';
 import PreviewModeController from '../app/actions/beambox/preview-mode-controller';

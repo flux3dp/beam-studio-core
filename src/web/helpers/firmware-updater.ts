@@ -1,7 +1,7 @@
 /**
  * firmware updater
  */
-import * as i18n from './i18n';
+import i18n from 'helpers/i18n';
 import DeviceMaster from './device-master';
 import Alert from '../app/actions/alert-caller';
 import AlertConstants from '../app/constants/alert-constants';

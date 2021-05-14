@@ -1,6 +1,6 @@
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
-import * as i18n from '../../../helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';
 import BeamboxActions from 'app/actions/beambox';
 

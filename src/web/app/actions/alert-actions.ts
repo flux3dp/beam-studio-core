@@ -1,7 +1,7 @@
+import i18n from 'helpers/i18n';
 import AlertConstants from '../constants/alert-constants';
 import AlertDispatcher from '../dispatcher/alert-dispatcher';
 import AlertStore from '../stores/alert-store';
-import * as i18n from '../../helpers/i18n';
 
 var lang = i18n.lang;
 

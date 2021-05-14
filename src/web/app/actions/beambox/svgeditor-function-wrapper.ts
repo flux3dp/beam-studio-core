@@ -6,7 +6,7 @@ import Alert from '../alert-caller';
 import * as TutorialController from '../../views/tutorials/Tutorial-Controller';
 import TutorialConstants from '../../constants/tutorial-constants';
 import SymbolMaker from '../../../helpers/symbol-maker';
-import * as i18n from '../../../helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';
 
 let svgCanvas;

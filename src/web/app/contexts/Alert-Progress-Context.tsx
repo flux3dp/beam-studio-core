@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import AlertConstants from 'app/constants/alert-constants';
 import ProgressConstants from 'app/constants/progress-constants';
 import React, { createContext } from 'react';

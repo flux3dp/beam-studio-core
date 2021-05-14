@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import TutorialConstants from 'app/constants/tutorial-constants';
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContextProvider } from './contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from './contexts/ObjectPanelContext';

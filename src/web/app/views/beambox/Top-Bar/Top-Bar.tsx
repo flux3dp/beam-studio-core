@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';

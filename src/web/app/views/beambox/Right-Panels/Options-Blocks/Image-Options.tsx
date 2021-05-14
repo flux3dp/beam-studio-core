@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

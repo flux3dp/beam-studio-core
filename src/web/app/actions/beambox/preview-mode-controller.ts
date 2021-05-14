@@ -8,7 +8,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import DeviceMaster from 'helpers/device-master';
 import sprintf from 'helpers/sprintf';
 import VersionChecker from 'helpers/version-checker';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';

@@ -10,7 +10,7 @@ import { Mode } from 'app/constants/monitor-constants';
 import svgLaserParser from 'helpers/api/svg-laser-parser';
 import AwsHelper from 'helpers/aws-helper';
 import DeviceMaster from 'helpers/device-master';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import SymbolMaker from 'helpers/symbol-maker';
