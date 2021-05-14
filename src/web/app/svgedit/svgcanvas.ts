@@ -6573,9 +6573,8 @@ export default $.SvgCanvas = function (container, config) {
       const num = val.substr(0, val.length - 2);
       if (!units.unitMap[unit]) {
         console.log(`unsupported unit ${unit} for ${val} use pixel instead`);
+        return units.convertUnit(num, 'pt', 'px');
       }
-
-      // use pixel if unit is unsupport
       return units.convertUnit(num, 'pt', unit);
     }
 
