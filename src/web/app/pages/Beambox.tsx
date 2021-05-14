@@ -11,11 +11,12 @@ import { TopBar } from 'app/views/beambox/Top-Bar/Top-Bar';
 import { TopBarContextProvider } from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Context';
 import { ZoomBlock } from 'app/views/beambox/Zoom-Block/Zoom-Block';
 import { ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
+import sentryHelper from 'helpers/sentry-helper';
 
 const { electron } = window;
 const classNames = requireNode('classnames');
 
-BeamboxInit.initSentry();
+sentryHelper.initSentry();
 BeamboxInit.init();
 
 class Beambox extends React.Component {
