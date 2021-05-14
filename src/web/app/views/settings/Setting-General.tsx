@@ -524,7 +524,7 @@ class SettingGeneral extends React.Component<any, State> {
           onChange={(e) => this.updateBeamboxPreferenceChange('show_guides', e.target.value)}
         />
         <Controls label={lang.settings.guides_origin}>
-          <span className='font2' style={{ marginRight: '10px' }}>X</span>
+          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
@@ -534,7 +534,7 @@ class SettingGeneral extends React.Component<any, State> {
             forceUsePropsUnit={true}
             className={{ half: true }}
           />
-          <span className='font2' style={{ marginRight: '10px' }}>Y</span>
+          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
@@ -671,7 +671,7 @@ class SettingGeneral extends React.Component<any, State> {
           onChange={(e) => this.updateBeamboxPreferenceChange('default-diode', e.target.value)}
         />
         <Controls label={lang.settings.diode_offset}>
-          <span className='font2' style={{ marginRight: '10px' }}>X</span>
+          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
@@ -681,7 +681,7 @@ class SettingGeneral extends React.Component<any, State> {
             forceUsePropsUnit={true}
             className={{ half: true }}
           />
-          <span className='font2' style={{ marginRight: '10px' }}>Y</span>
+          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
