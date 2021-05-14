@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import storage from 'helpers/storage-helper';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.beambox.tool_panels;
 

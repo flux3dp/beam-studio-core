@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import * as React from 'react';
 import classNames from 'classnames';
 import storage from 'helpers/storage-helper';

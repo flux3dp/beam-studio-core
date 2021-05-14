@@ -7,7 +7,7 @@ import checkQuestionnaire from 'helpers/check-questionnaire';
 import ElectronUpdater from 'helpers/electron-updater';
 import FileExportHelper from 'helpers/file-export-helper';
 import imageEdit from 'helpers/image-edit';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import BeamboxPreference from './beambox-preference';

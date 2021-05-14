@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import SelectView from 'app/widgets/Select';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 
 const LANG = i18n.lang.beambox.tool_panels;
 

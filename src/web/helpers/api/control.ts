@@ -1,4 +1,4 @@
-import * as i18n from '../i18n';
+import i18n from 'helpers/i18n';
 import Websocket from '../websocket';
 import rsaKey from '../rsa-key';
 import ErrorConstants from '../../app/constants/error-constants';
@@ -421,7 +421,7 @@ class Control extends EventEmitter {
                     needsQuit ? this.ws.send('play abort') : this.ws.send('play report');
                 }, retryTimeInterval);
             };
-    
+
             this.on(EVENT_COMMAND_MESSAGE, (response) => {
                 if (timeoutTimer) clearTimeout(timeoutTimer);
                 if (retryTime >= 3) {
@@ -486,7 +486,7 @@ class Control extends EventEmitter {
                     needsQuit ? this.ws.send('play quit') : this.ws.send('play report');
                 }, retryTimeInterval);
             };
-    
+
             this.on(EVENT_COMMAND_MESSAGE, (response) => {
                 if (timeoutTimer) clearTimeout(timeoutTimer);
                 if (retryTime >= 3) {

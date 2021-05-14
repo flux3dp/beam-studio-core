@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';

@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import * as React from 'react';
 import Constants from 'app/constants/input-lightbox-constants';
 import AlertDialog from './AlertDialog';

@@ -1,4 +1,4 @@
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import * as React from 'react';
 import BeamboxActions from 'app/actions/beambox';
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';

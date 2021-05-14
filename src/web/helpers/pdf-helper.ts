@@ -4,7 +4,7 @@
  * Using pdf2svg binary: https://github.com/dawbarton/pdf2svg
  * binary for mac is built from makefile with dependencies packed by macpack: https://github.com/chearon/macpack
  */
-import * as i18n from './i18n';
+import i18n from 'helpers/i18n';
 import Alert from '../app/actions/alert-caller';
 import AlertConstants from '../app/constants/alert-constants';
 import Progress from '../app/actions/progress-caller';

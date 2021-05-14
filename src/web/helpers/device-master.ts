@@ -1,4 +1,4 @@
-import * as i18n from './i18n';
+import i18n from 'helpers/i18n';
 import sprintf from './sprintf';
 import Alert from '../app/actions/alert-caller';
 import Dialog from 'app/actions/dialog-caller';

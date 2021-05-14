@@ -1,4 +1,4 @@
-import * as i18n from '../../../helpers/i18n';
+import i18n from 'helpers/i18n';
 import Progress from '../progress-caller';
 import Alert from '../alert-caller';
 import TutorialConstants from '../../constants/tutorial-constants';

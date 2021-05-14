@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import classNames from 'classnames';
 
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 import ButtonGroup from 'app/widgets/Button-Group';
 import keyCodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';

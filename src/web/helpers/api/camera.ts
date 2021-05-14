@@ -6,7 +6,7 @@
 import Websocket from '../websocket';
 import rsaKey from '../rsa-key';
 import VersionChecker from '../version-checker';
-import * as i18n from '../i18n';
+import i18n from 'helpers/i18n';
 
 const Rxjs = requireNode('rxjs');
 const { concatMap, filter, map, switchMap, take, timeout } = requireNode('rxjs/operators');

@@ -1,5 +1,5 @@
 import { IFileFilter } from 'interfaces/IElectron';
-import * as i18n from 'helpers/i18n';
+import i18n from 'helpers/i18n';
 
 const electronRemote = requireNode('electron').remote;
 const { dialog } = electronRemote;
