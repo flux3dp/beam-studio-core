@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
-import svgEditor from 'app/actions/beambox/svg-editor';
+// import svgEditor from 'app/actions/beambox/svg-editor';
 import { RightPanel } from 'app/views/beambox/Right-Panels/Right-Panel';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
@@ -11,7 +11,7 @@ const LANG = i18n.lang.beambox;
 export default class SVGEditor extends React.Component {
   componentDidMount() {
     const { $ } = window;
-    $(svgEditor.init);
+    // $(svgEditor.init);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -22,7 +22,7 @@ export default class SVGEditor extends React.Component {
 
   render() {
     // HIDE ALMOST ALL TOOLS USING CSS
-    const platformClassNames = classNames({ mac: window.os === 'MacOS' });
+    const platformClassNames = classNames({ mac: true });
     return (
       <div>
         <div id="svg_editor" className={platformClassNames}>

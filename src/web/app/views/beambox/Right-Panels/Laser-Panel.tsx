@@ -2,22 +2,22 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { sprintf } from 'sprintf-js';
 
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
-import Alert from 'app/actions/alert-caller';
-import AlertConstants from 'app/constants/alert-constants';
+// import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+// import Alert from 'app/actions/alert-caller';
+// import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import BeamboxStore from 'app/stores/beambox-store';
+// import BeamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
-import Dialog from 'app/actions/dialog-caller';
-import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
+// import Dialog from 'app/actions/dialog-caller';
+// import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
-import ElectronDialogs from 'app/actions/electron-dialogs';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+// import ElectronDialogs from 'app/actions/electron-dialogs';
+// import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
-import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
+// import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'implementations/storage';
-import TutorialConstants from 'app/constants/tutorial-constants';
+// import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { clearEstimatedTime } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
 import { getLayerElementByName } from 'helpers/layer-helper';
@@ -25,8 +25,8 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
-  getLayerConfig,
-  getLayersConfig,
+  // getLayerConfig,
+  // getLayersConfig,
   writeData,
 } from 'helpers/laser-config-helper';
 
@@ -87,47 +87,47 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        BeamboxStore.removeAllUpdateLaserPanelListeners();
-        BeamboxStore.onUpdateLaserPanel(this.updateData);
+        // BeamboxStore.removeAllUpdateLaserPanelListeners();
+        // BeamboxStore.onUpdateLaserPanel(this.updateData);
     }
 
     componentWillUnmount() {
-        BeamboxStore.removeUpdateLaserPanelListener(this.updateData);
+        // BeamboxStore.removeUpdateLaserPanelListener(this.updateData);
     }
 
     componentDidUpdate() {
-        const { didDocumentSettingsChanged } = this.state;
-        if (didDocumentSettingsChanged) {
-            this.setState({ didDocumentSettingsChanged: false });
-        }
+        // const { didDocumentSettingsChanged } = this.state;
+        // if (didDocumentSettingsChanged) {
+        //     this.setState({ didDocumentSettingsChanged: false });
+        // }
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { selectedLayers } = props;
-        if (selectedLayers.length > 1) {
-            const drawing = svgCanvas.getCurrentDrawing();
-            const currentLayerName = drawing.getCurrentLayerName();
-            const config = getLayersConfig(selectedLayers);
-            const currentLayerConfig = getLayerConfig(currentLayerName);
-            return {
-                ...config,
-                ...currentLayerConfig,
-                isDiode: Boolean(currentLayerConfig && currentLayerConfig.diode && currentLayerConfig.diode > 0),
-            }
-        } else if (selectedLayers.length === 1) {
-            const config = getLayerConfig(selectedLayers[0]);
-            return {
-                ...config,
-                isDiode: Boolean(config && config.diode && config.diode > 0),
-                hasMultiSpeed: false,
-                hasMultiPower: false,
-                hasMultiRepeat: false,
-                hasMultiHeight: false,
-                hasMultiZStep: false,
-                hasMultiDiode: false,
-                hasMultiConfigName: false,
-            }
-        }
+        // const { selectedLayers } = props;
+        // if (selectedLayers.length > 1) {
+        //     const drawing = svgCanvas.getCurrentDrawing();
+        //     const currentLayerName = drawing.getCurrentLayerName();
+        //     const config = getLayersConfig(selectedLayers);
+        //     const currentLayerConfig = getLayerConfig(currentLayerName);
+        //     return {
+        //         ...config,
+        //         ...currentLayerConfig,
+        //         isDiode: Boolean(currentLayerConfig && currentLayerConfig.diode && currentLayerConfig.diode > 0),
+        //     }
+        // } else if (selectedLayers.length === 1) {
+        //     const config = getLayerConfig(selectedLayers[0]);
+        //     return {
+        //         ...config,
+        //         isDiode: Boolean(config && config.diode && config.diode > 0),
+        //         hasMultiSpeed: false,
+        //         hasMultiPower: false,
+        //         hasMultiRepeat: false,
+        //         hasMultiHeight: false,
+        //         hasMultiZStep: false,
+        //         hasMultiDiode: false,
+        //         hasMultiConfigName: false,
+        //     }
+        // }
         return null;
     }
 
@@ -155,120 +155,120 @@ class LaserPanel extends React.PureComponent<Props, State> {
             storage.set('customizedLaserConfigs', customizedLaserConfigs);
             storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
         } else {
-            let customized: any[] = storage.get('customizedLaserConfigs') as any[] || [];
-            const defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse') || {};
-            for (let i = 0; i < customized.length; i++) {
-                if (customized[i].isDefault) {
-                    if (defaultLaserOptions.includes(customized[i].key)) {
-                        const {speed, power, repeat} = this._getDefaultParameters(customized[i].key);
-                        customized[i].name = LANG.dropdown[unit][customized[i].key];
-                        customized[i].speed = speed;
-                        customized[i].power = power;
-                        customized[i].repeat = repeat || 1;
-                    } else {
-                        delete defaultLaserConfigsInUse[customized[i].key];
-                        customized.splice(i, 1);
-                        i--;
-                    }
-                }
-            }
-            const newPreset = defaultLaserOptions.filter((option) => defaultLaserConfigsInUse[option] === undefined);
-            newPreset.forEach((preset) => {
-                if (defaultLaserOptions.includes(preset)) {
-                    const {speed, power, repeat} = this._getDefaultParameters(preset);
-                    customized.push({
-                        name: LANG.dropdown[unit][preset],
-                        speed,
-                        power,
-                        repeat,
-                        isDefault: true,
-                        key: preset
-                    });
-                    defaultLaserConfigsInUse[preset] = true;
-                } else {
-                    delete defaultLaserConfigsInUse[preset];
-                }
-            });
-            storage.set('customizedLaserConfigs', customized);
-            storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
+            // let customized: any[] = storage.get('customizedLaserConfigs') as any[] || [];
+            // const defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse') || {};
+            // for (let i = 0; i < customized.length; i++) {
+            //     if (customized[i].isDefault) {
+            //         if (defaultLaserOptions.includes(customized[i].key)) {
+            //             const {speed, power, repeat} = this._getDefaultParameters(customized[i].key);
+            //             customized[i].name = LANG.dropdown[unit][customized[i].key];
+            //             customized[i].speed = speed;
+            //             customized[i].power = power;
+            //             customized[i].repeat = repeat || 1;
+            //         } else {
+            //             delete defaultLaserConfigsInUse[customized[i].key];
+            //             customized.splice(i, 1);
+            //             i--;
+            //         }
+            //     }
+            // }
+            // const newPreset = defaultLaserOptions.filter((option) => defaultLaserConfigsInUse[option] === undefined);
+            // newPreset.forEach((preset) => {
+            //     if (defaultLaserOptions.includes(preset)) {
+            //         const {speed, power, repeat} = this._getDefaultParameters(preset);
+            //         customized.push({
+            //             name: LANG.dropdown[unit][preset],
+            //             speed,
+            //             power,
+            //             repeat,
+            //             isDefault: true,
+            //             key: preset
+            //         });
+            //         defaultLaserConfigsInUse[preset] = true;
+            //     } else {
+            //         delete defaultLaserConfigsInUse[preset];
+            //     }
+            // });
+            // storage.set('customizedLaserConfigs', customized);
+            // storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
         };
     }
 
     exportLaserConfigs = async () => {
-        const isLinux = window.os === 'Linux';
-        const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.export_config, isLinux ? '.json' : '', [
-            { extensionName: 'JSON', extensions: ['json'] },
-        ], true);
-        if (targetFilePath) {
-            const fs = requireNode('fs');
-            const laserConfig = {} as {customizedLaserConfigs: any, defaultLaserConfigsInUse: any};
+        // const isLinux = window.os === 'Linux';
+        // const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.export_config, isLinux ? '.json' : '', [
+        //     { extensionName: 'JSON', extensions: ['json'] },
+        // ], true);
+        // if (targetFilePath) {
+        //     const fs = requireNode('fs');
+        //     const laserConfig = {} as {customizedLaserConfigs: any, defaultLaserConfigsInUse: any};
 
-            laserConfig.customizedLaserConfigs = storage.get('customizedLaserConfigs');
-            laserConfig.defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
-            fs.writeFileSync(targetFilePath, JSON.stringify(laserConfig));
-        }
+        //     laserConfig.customizedLaserConfigs = storage.get('customizedLaserConfigs');
+        //     laserConfig.defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
+        //     fs.writeFileSync(targetFilePath, JSON.stringify(laserConfig));
+        // }
     }
 
     importLaserConfig = async () => {
-        const dialogOptions = {
-            filters: [
-                { name: 'JSON', extensions: ['json', 'JSON']},
-            ]
-        };
+        // const dialogOptions = {
+        //     filters: [
+        //         { name: 'JSON', extensions: ['json', 'JSON']},
+        //     ]
+        // };
 
-        const { canceled, filePaths } = await ElectronDialogs.showOpenDialog(dialogOptions);
-        if (!canceled && filePaths) {
-            const filePath = filePaths[0];
-            const file = await fetch(filePath);
-            const fileBlob = await file.blob();
-            svgEditor.importLaserConfig(fileBlob);
-        }
+        // const { canceled, filePaths } = await ElectronDialogs.showOpenDialog(dialogOptions);
+        // if (!canceled && filePaths) {
+        //     const filePath = filePaths[0];
+        //     const file = await fetch(filePath);
+        //     const fileBlob = await file.blob();
+        //     svgEditor.importLaserConfig(fileBlob);
+        // }
     };
 
     updateData = () => {
-        this.initDefaultConfig();
-        this.updatePresetLayerConfig();
-        const layerData = FnWrapper.getCurrentLayerData();
-        if ((this.state.speed !== layerData.speed) || (this.state.repeat !== layerData.repeat)) {
-            clearEstimatedTime();
-        }
-        this.setState({
-            speed:      layerData.speed,
-            power:      layerData.power,
-            repeat:     layerData.repeat,
-            height:     layerData.height,
-            zStep:      layerData.zStep,
-            isDiode:    parseInt(layerData.isDiode) > 0,
-            didDocumentSettingsChanged: true,
-        });
+        // this.initDefaultConfig();
+        // this.updatePresetLayerConfig();
+        // const layerData = FnWrapper.getCurrentLayerData();
+        // if ((this.state.speed !== layerData.speed) || (this.state.repeat !== layerData.repeat)) {
+        //     clearEstimatedTime();
+        // }
+        // this.setState({
+        //     speed:      layerData.speed,
+        //     power:      layerData.power,
+        //     repeat:     layerData.repeat,
+        //     height:     layerData.height,
+        //     zStep:      layerData.zStep,
+        //     isDiode:    parseInt(layerData.isDiode) > 0,
+        //     didDocumentSettingsChanged: true,
+        // });
     }
 
     updatePresetLayerConfig = () => {
-        const customizedLaserConfigs: any[] = storage.get('customizedLaserConfigs') as any[] || [];
-        const drawing = svgCanvas.getCurrentDrawing();
-        const layerCount = drawing.getNumLayers();
-        for (let i=0; i < layerCount; i++) {
-            const layerName = drawing.getLayerName(i);
-            const layer = drawing.getLayerByName(layerName);
-            if (!layer) {
-                continue;
-            }
-            const configName = layer.getAttribute('data-configName');
-            const configIndex = customizedLaserConfigs.findIndex((config) => config.name === configName);
-            if (configIndex >= 0) {
-                const config = customizedLaserConfigs[configIndex];
-                if (config.isDefault) {
-                    if (defaultLaserOptions.includes(config.key)) {
-                        const {speed, power, repeat} = this._getDefaultParameters(config.key);
-                        layer.setAttribute('data-speed', speed);
-                        layer.setAttribute('data-strength', power);
-                        layer.setAttribute('data-repeat', repeat);
-                    } else {
-                        layer.removeAttribute('data-configName');
-                    }
-                }
-            }
-        }
+        // const customizedLaserConfigs: any[] = storage.get('customizedLaserConfigs') as any[] || [];
+        // const drawing = svgCanvas.getCurrentDrawing();
+        // const layerCount = drawing.getNumLayers();
+        // for (let i=0; i < layerCount; i++) {
+        //     const layerName = drawing.getLayerName(i);
+        //     const layer = drawing.getLayerByName(layerName);
+        //     if (!layer) {
+        //         continue;
+        //     }
+        //     const configName = layer.getAttribute('data-configName');
+        //     const configIndex = customizedLaserConfigs.findIndex((config) => config.name === configName);
+        //     if (configIndex >= 0) {
+        //         const config = customizedLaserConfigs[configIndex];
+        //         if (config.isDefault) {
+        //             if (defaultLaserOptions.includes(config.key)) {
+        //                 const {speed, power, repeat} = this._getDefaultParameters(config.key);
+        //                 layer.setAttribute('data-speed', speed);
+        //                 layer.setAttribute('data-strength', power);
+        //                 layer.setAttribute('data-repeat', repeat);
+        //             } else {
+        //                 layer.removeAttribute('data-configName');
+        //             }
+        //         }
+        //     }
+        // }
     };
 
     _handleSpeedChange = (val: number) => {
@@ -298,83 +298,83 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
 
     _toggleEnableHeight = () => {
-        let val = -this.state.height;
-        this.setState({ height: val });
-        this.props.selectedLayers.forEach((layerName: string) => {
-            writeData(layerName, DataType.height, val);
-        });
+        // let val = -this.state.height;
+        // this.setState({ height: val });
+        // this.props.selectedLayers.forEach((layerName: string) => {
+        //     writeData(layerName, DataType.height, val);
+        // });
     }
 
     _handleHeightChange = (val) => {
-        this.setState({ height: val });
-        this.props.selectedLayers.forEach((layerName: string) => {
-            writeData(layerName, DataType.height, val);
-        });
+        // this.setState({ height: val });
+        // this.props.selectedLayers.forEach((layerName: string) => {
+        //     writeData(layerName, DataType.height, val);
+        // });
     }
 
     _handleZStepChange = (val) => {
-        this.setState({ zStep: val, configName: CUSTOM_PRESET_CONSTANT });
-        this.props.selectedLayers.forEach((layerName: string) => {
-            writeData(layerName, DataType.zstep, val);
-            writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
-        });
+        // this.setState({ zStep: val, configName: CUSTOM_PRESET_CONSTANT });
+        // this.props.selectedLayers.forEach((layerName: string) => {
+        //     writeData(layerName, DataType.zstep, val);
+        //     writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+        // });
     }
 
     _toggleDiode = () => {
-        let val = !this.state.isDiode;
-        this.setState({ isDiode: val });
-        this.props.selectedLayers.forEach((layerName: string) => {
-            writeData(layerName, DataType.diode, val ? 1 : 0);
-        });
+        // let val = !this.state.isDiode;
+        // this.setState({ isDiode: val });
+        // this.props.selectedLayers.forEach((layerName: string) => {
+        //     writeData(layerName, DataType.diode, val ? 1 : 0);
+        // });
     }
 
     _handleSaveConfig = (name: string) => {
-        const customizedConfigs = storage.get('customizedLaserConfigs') as any[];
-        if (!customizedConfigs || customizedConfigs.length < 1) {
-            storage.set('customizedLaserConfigs', [{
-                name,
-                speed: this.state.speed,
-                power: this.state.power,
-                repeat: this.state.repeat,
-                zStep: this.state.zStep,
-            }]);
+        // const customizedConfigs = storage.get('customizedLaserConfigs') as any[];
+        // if (!customizedConfigs || customizedConfigs.length < 1) {
+        //     storage.set('customizedLaserConfigs', [{
+        //         name,
+        //         speed: this.state.speed,
+        //         power: this.state.power,
+        //         repeat: this.state.repeat,
+        //         zStep: this.state.zStep,
+        //     }]);
 
-            this.props.selectedLayers.forEach((layerName: string) => {
-                writeData(layerName, DataType.configName, name);
-            });
+        //     this.props.selectedLayers.forEach((layerName: string) => {
+        //         writeData(layerName, DataType.configName, name);
+        //     });
 
-            this.setState({
-                configName: name,
-                selectedItem: name,
-                original: name
-            });
-        } else {
-            const index = customizedConfigs.findIndex((e) => e.name === name);
-            if (index < 0) {
-                storage.set('customizedLaserConfigs', customizedConfigs.concat([{
-                    name,
-                    speed: this.state.speed,
-                    power: this.state.power,
-                    repeat: this.state.repeat,
-                    zStep: this.state.zStep,
-                }]));
+        //     this.setState({
+        //         configName: name,
+        //         selectedItem: name,
+        //         original: name
+        //     });
+        // } else {
+        //     const index = customizedConfigs.findIndex((e) => e.name === name);
+        //     if (index < 0) {
+        //         storage.set('customizedLaserConfigs', customizedConfigs.concat([{
+        //             name,
+        //             speed: this.state.speed,
+        //             power: this.state.power,
+        //             repeat: this.state.repeat,
+        //             zStep: this.state.zStep,
+        //         }]));
 
-                this.props.selectedLayers.forEach((layerName: string) => {
-                    writeData(layerName, DataType.configName, name);
-                });
+        //         this.props.selectedLayers.forEach((layerName: string) => {
+        //             writeData(layerName, DataType.configName, name);
+        //         });
 
-                this.setState({
-                    configName: name,
-                    selectedItem: name,
-                    original: name
-                });
-            } else {
-                Alert.popUp({
-                    type: AlertConstants.SHOW_POPUP_ERROR,
-                    message: LANG.existing_name,
-                });
-            }
-        }
+        //         this.setState({
+        //             configName: name,
+        //             selectedItem: name,
+        //             original: name
+        //         });
+        //     } else {
+        //         Alert.popUp({
+        //             type: AlertConstants.SHOW_POPUP_ERROR,
+        //             message: LANG.existing_name,
+        //         });
+        //     }
+        // }
     }
 
     _handleCancelModal = () => {
@@ -382,25 +382,27 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
 
     handleParameterTypeChanged = (id, value) => {
+      console.log(id, value);
         if (value === PARAMETERS_CONSTANT) {
             this.setState({ original: value });
             return;
         }
         if (value === 'save') {
-            Dialog.promptDialog({
-                caption: LANG.dropdown.save,
-                onYes: (name) => {
-                    name = name.trim();
-                    if (!name) {
-                        return;
-                    }
-                    this._handleSaveConfig(name);
-                },
-                onCancel: () => {
-                    this._handleCancelModal();
-                }
-            });
+        //     Dialog.promptDialog({
+        //         caption: LANG.dropdown.save,
+        //         onYes: (name) => {
+        //             name = name.trim();
+        //             if (!name) {
+        //                 return;
+        //             }
+        //             this._handleSaveConfig(name);
+        //         },
+        //         onCancel: () => {
+        //             this._handleCancelModal();
+        //         }
+        //     });
         } else {
+          console.log(storage.get);
             const customizedConfigs = (storage.get('customizedLaserConfigs') as any[]).find((e) => e.name === value);
             if (customizedConfigs) {
                 const {
@@ -429,24 +431,24 @@ class LaserPanel extends React.PureComponent<Props, State> {
                     writeData(layerName, DataType.configName, value);
                 });
 
-                if (TutorialConstants.SET_PRESET_WOOD_ENGRAVING === TutorialController.getNextStepRequirement()) {
-                    if (isDefault && ['wood_engraving'].includes(key)) {
-                        TutorialController.handleNextStep();
-                    } else {
-                        Alert.popUp({
-                            message: i18n.lang.tutorial.newUser.please_select_wood_engraving,
-                        });
-                    }
-                }
-                if (TutorialConstants.SET_PRESET_WOOD_CUTTING === TutorialController.getNextStepRequirement()) {
-                    if (isDefault && ['wood_3mm_cutting', 'wood_5mm_cutting'].includes(key)) {
-                        TutorialController.handleNextStep();
-                    } else {
-                        Alert.popUp({
-                            message: i18n.lang.tutorial.newUser.please_select_wood_cutting,
-                        });
-                    }
-                }
+        //         if (TutorialConstants.SET_PRESET_WOOD_ENGRAVING === TutorialController.getNextStepRequirement()) {
+        //             if (isDefault && ['wood_engraving'].includes(key)) {
+        //                 TutorialController.handleNextStep();
+        //             } else {
+        //                 Alert.popUp({
+        //                     message: i18n.lang.tutorial.newUser.please_select_wood_engraving,
+        //                 });
+        //             }
+        //         }
+        //         if (TutorialConstants.SET_PRESET_WOOD_CUTTING === TutorialController.getNextStepRequirement()) {
+        //             if (isDefault && ['wood_3mm_cutting', 'wood_5mm_cutting'].includes(key)) {
+        //                 TutorialController.handleNextStep();
+        //             } else {
+        //                 Alert.popUp({
+        //                     message: i18n.lang.tutorial.newUser.please_select_wood_cutting,
+        //                 });
+        //             }
+        //         }
             } else {
                 console.error('No such value', value);
             }
@@ -461,21 +463,21 @@ class LaserPanel extends React.PureComponent<Props, State> {
             <div className='panel'>
                 <span className='title'>{LANG.strength}</span>
                 <UnitInput
-                    min={minValue}
-                    max={maxValue}
-                    unit="%"
-                    defaultValue={this.state.power}
-                    getValue={this._handleStrengthChange}
-                    decimal={1}
-                    displayMultiValue={hasMultipleValue}
-                    />
+                  min={minValue}
+                  max={maxValue}
+                  unit="%"
+                  defaultValue={this.state.power}
+                  getValue={this._handleStrengthChange}
+                  decimal={1}
+                  displayMultiValue={hasMultipleValue}
+                />
                 <div className="slider-container">
-                    <input className={classNames('rainbow-slider')} type="range"
-                        min={minValue}
-                        max={maxValue}
-                        step={1}
-                        value={this.state.power}
-                        onChange={(e) => {this._handleStrengthChange(e.target.value)}} />
+                  <input className={classNames('rainbow-slider')} type="range"
+                      min={minValue}
+                      max={maxValue}
+                      step={1}
+                      value={this.state.power}
+                      onChange={(e) => {this._handleStrengthChange(e.target.value)}} />
                 </div>
             </div>
         );
@@ -630,13 +632,13 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
 
     _renderMoreModal = () => {
-        return (
-            <LaserManageModal
-                selectedItem={this.state.selectedItem}
-                initDefaultConfig = {this.initDefaultConfig}
-                onClose = {() => this._handleCancelModal()}
-            />
-        );
+        // return (
+        //     <LaserManageModal
+        //         selectedItem={this.state.selectedItem}
+        //         initDefaultConfig = {this.initDefaultConfig}
+        //         onClose = {() => this._handleCancelModal()}
+        //     />
+        // );
     }
 
     _renderModal = () => {
@@ -650,12 +652,12 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
     _getDefaultLaserOptions = () => {
         const { configName, hasMultiSpeed, hasMultiPower, hasMultiRepeat, hasMultiZStep, hasMultiDiode, hasMultiConfigName } = this.state;
-        const customizedConfigs = storage.get('customizedLaserConfigs') as any[] || [];
+        // const customizedConfigs = storage.get('customizedLaserConfigs') as any[] || [];
         if (hasMultiSpeed || hasMultiPower || hasMultiRepeat || hasMultiZStep || hasMultiDiode || hasMultiConfigName) {
             // multi select
             return LANG.various_preset;
-        } else if (configName === CUSTOM_PRESET_CONSTANT || customizedConfigs.findIndex((config) => config.name === configName) < 0) {
-            return LANG.custom_preset;
+        // } else if (configName === CUSTOM_PRESET_CONSTANT || customizedConfigs.findIndex((config) => config.name === configName) < 0) {
+        //     return LANG.custom_preset;
         } else if (configName) {
             return configName;
         }
@@ -738,21 +740,21 @@ class LaserPanel extends React.PureComponent<Props, State> {
             <div className={classNames('add-preset-btn', { disabled: isDiabled })} onClick={() => {
                 if (isDiabled) return;
 
-                Dialog.promptDialog({
-                    caption: LANG.dropdown.save,
-                    onYes: (name) => {
-                        name = name.trim();
-                        if (!name) {
-                            return;
-                        }
-                        this._handleSaveConfig(name);
-                    },
-                    onCancel: () => {
-                        this._handleCancelModal();
-                    }
-                });
+        //         Dialog.promptDialog({
+        //             caption: LANG.dropdown.save,
+        //             onYes: (name) => {
+        //                 name = name.trim();
+        //                 if (!name) {
+        //                     return;
+        //                 }
+        //                 this._handleSaveConfig(name);
+        //             },
+        //             onCancel: () => {
+        //                 this._handleCancelModal();
+        //             }
+        //         });
             }}>
-                <img src={'img/icon-plus.svg'}/>
+              <img src={'img/icon-plus.svg'}/>
             </div>
         );
     }
@@ -794,25 +796,25 @@ class LaserPanel extends React.PureComponent<Props, State> {
         const repeatPanel = this._renderRepeat();
         const modalDialog = this._renderModal();
 
-        if (this.state.isDiode && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
-            DiodeBoundaryDrawer.show();
-        } else {
-            DiodeBoundaryDrawer.hide();
-        }
+        // if (this.state.isDiode && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+        //     DiodeBoundaryDrawer.show();
+        // } else {
+        //     DiodeBoundaryDrawer.hide();
+        // }
 
-        const customizedConfigs = storage.get('customizedLaserConfigs') as any[];
-        const customizedOptions = (customizedConfigs || customizedConfigs.length > 0) ? customizedConfigs.map((e) => {
-            return {
-                value: e.name,
-                key: e.name,
-                label: e.name
-            };
-        }) : null ;
+        // const customizedConfigs = storage.get('customizedLaserConfigs') as any;
+        // const customizedOptions = (customizedConfigs || customizedConfigs?.length > 0) ? customizedConfigs.map((e) => {
+        //     return {
+        //         value: e.name,
+        //         key: e.name,
+        //         label: e.name
+        //     };
+        // }) : null ;
 
         let dropdownOptions: { value: string, key: string, label: string }[];
-        if (customizedOptions) {
-            dropdownOptions = customizedOptions;
-        } else {
+        // if (customizedOptions) {
+        //     dropdownOptions = customizedOptions;
+        // } else {
             dropdownOptions = defaultLaserOptions.map((item) => {
                 return {
                     value : item,
@@ -820,7 +822,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
                     label: (LANG.dropdown[this.unit][item] ? LANG.dropdown[this.unit][item] : item)
                 };
             });
-        }
+        // }
 
         return (
             <div id='laser-panel'>

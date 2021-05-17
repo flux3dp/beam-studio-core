@@ -1,18 +1,18 @@
 import i18n from 'helpers/i18n';
 import * as React from 'react';
 import Constant from 'app/actions/beambox/constant';
-import macOSWindowSize from 'app/constants/macOS-Window-Size';
+// import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ZoomBlockContext, ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 const LANG = i18n.lang.beambox.zoom_block;
-const util = requireNode('util');
-const child_process = requireNode('child_process');
-const exec = util.promisify(child_process.exec);
-const { ContextMenu, MenuItem, ContextMenuTrigger } = requireNode('react-contextmenu');
+// const util = requireNode('util');
+// const child_process = requireNode('child_process');
+// const exec = util.promisify(child_process.exec);
 
 let _contextCaller;
 
@@ -30,73 +30,73 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
   }
 
   getDpmm = async () => {
-    try {
-      if (window.os === 'MacOS') {
-        const res = await exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
-        if (!res.stderr) {
-          const match = res.stdout.match(/(?<=Model Identifier: ).+\b/);
-          if (match) {
-            const modelId = match[0];
-            const monitorSize = macOSWindowSize[modelId];
-            if (monitorSize) {
-              const dpi = Math.hypot(screen.width, screen.height) / monitorSize;
-              const dpmm = dpi / 25.4;
-              this.setState({ dpmm });
-              return;
-            }
-          }
-        }
-      } else if (window.os === 'Windows') {
-        const res = await exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
-        if (!res.stderr) {
-          const matchWidth = res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
-          const matchHeight = res.stdout.match(/(?<=MaxVerticalImageSize[\ ]*: )\d+\b/);
-          if (matchWidth && matchHeight) {
-            const width = Number(matchWidth);
-            const height = Number(matchHeight);
-            if (!isNaN(width) && !isNaN(height)) {
-              const dpmm = (screen.width / (width * 10) + screen.height / (height * 10)) / 2;
-              this.setState({ dpmm });
-              return;
-            }
-          } else if (matchWidth) {
-            const width = Number(matchWidth);
-            if (!isNaN(width)) {
-              const dpmm = screen.width / (width * 10);
-              this.setState({ dpmm });
-              return;
-            }
-          } else if (matchHeight) {
-            const height = Number(matchHeight);
-            if (!isNaN(height)) {
-              const dpmm = screen.height / (height * 10);
-              this.setState({ dpmm });
-              return;
-            }
-          }
-        }
-      } else if (window.os === 'Linux') {
-        const res = await exec('xrandr | grep \' connected\'');
-        if (!res.stderr) {
-          const matches = res.stdout.match(/\d+x\d+\+\d+\+\d+ \d+mm x \d+mm\b/g);
-          if (matches && matches.length > 0) {
-            for (let i = 0; i < matches.length; i++) {
-              const match = matches[i].match(/(\d+)x(\d+)\+\d+\+\d+ (\d+)mm x (\d+)mm\b/);
-              if (match) {
-                const [q, resW, resH, width, height] = match;
-                if (Number(resW) === screen.width && Number(resH) === screen.height && width > 0 && height > 0) {
-                  const dpmm = (screen.width / width + screen.height / height) / 2;
-                  this.setState({ dpmm });
-                  return;
-                }
-              }
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    // try {
+    //   if (window.os === 'MacOS') {
+    //     const res = await exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
+    //     if (!res.stderr) {
+    //       const match = res.stdout.match(/(?<=Model Identifier: ).+\b/);
+    //       if (match) {
+    //         const modelId = match[0];
+    //         const monitorSize = macOSWindowSize[modelId];
+    //         if (monitorSize) {
+    //           const dpi = Math.hypot(screen.width, screen.height) / monitorSize;
+    //           const dpmm = dpi / 25.4;
+    //           this.setState({ dpmm });
+    //           return;
+    //         }
+    //       }
+    //     }
+      // } else if (window.os === 'Windows') {
+      //   const res = await exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
+      //   if (!res.stderr) {
+      //     const matchWidth = res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
+      //     const matchHeight = res.stdout.match(/(?<=MaxVerticalImageSize[\ ]*: )\d+\b/);
+      //     if (matchWidth && matchHeight) {
+      //       const width = Number(matchWidth);
+      //       const height = Number(matchHeight);
+      //       if (!isNaN(width) && !isNaN(height)) {
+      //         const dpmm = (screen.width / (width * 10) + screen.height / (height * 10)) / 2;
+      //         this.setState({ dpmm });
+      //         return;
+      //       }
+      //     } else if (matchWidth) {
+      //       const width = Number(matchWidth);
+      //       if (!isNaN(width)) {
+      //         const dpmm = screen.width / (width * 10);
+      //         this.setState({ dpmm });
+      //         return;
+      //       }
+      //     } else if (matchHeight) {
+      //       const height = Number(matchHeight);
+      //       if (!isNaN(height)) {
+      //         const dpmm = screen.height / (height * 10);
+      //         this.setState({ dpmm });
+      //         return;
+      //       }
+      //     }
+      //   }
+      // } else if (window.os === 'Linux') {
+      //   const res = await exec('xrandr | grep \' connected\'');
+      //   if (!res.stderr) {
+      //     const matches = res.stdout.match(/\d+x\d+\+\d+\+\d+ \d+mm x \d+mm\b/g);
+      //     if (matches && matches.length > 0) {
+      //       for (let i = 0; i < matches.length; i++) {
+      //         const match = matches[i].match(/(\d+)x(\d+)\+\d+\+\d+ (\d+)mm x (\d+)mm\b/);
+      //         if (match) {
+      //           const [q, resW, resH, width, height] = match;
+      //           if (Number(resW) === screen.width && Number(resH) === screen.height && width > 0 && height > 0) {
+      //             const dpmm = (screen.width / width + screen.height / height) / 2;
+    //               this.setState({ dpmm });
+    //               return;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.error(e);
+    // }
     const dpmm = 96 / 25.4;
     this.setState({ dpmm });
   }

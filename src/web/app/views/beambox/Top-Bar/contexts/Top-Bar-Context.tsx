@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fluxIDEvents } from 'helpers/api/flux-id';
+// import { fluxIDEvents } from 'helpers/api/flux-id';
 import { IUser } from 'interfaces/IUser';
 
 const { createContext } = React;
@@ -52,11 +52,11 @@ export class TopBarContextProvider extends React.Component<any, State> {
   }
 
   componentDidMount() {
-    fluxIDEvents.on('update-user', this.setCurrentUser);
+    // fluxIDEvents.on('update-user', this.setCurrentUser);
   }
 
   componentWillUnmount() {
-    fluxIDEvents.removeListener('update-user', this.setCurrentUser);
+    // fluxIDEvents.removeListener('update-user', this.setCurrentUser);
   }
 
   updateTopBar = () => {
