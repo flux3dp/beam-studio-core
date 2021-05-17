@@ -448,9 +448,6 @@ class SettingGeneral extends React.Component<Props, State> {
     const isMaskEnabled = this.getBeamboxPreferenceEditingValue('enable_mask');
     const maskOptions = this.onOffOptionFactory(isMaskEnabled);
 
-    const isTextByFluxSVGOn = this.getBeamboxPreferenceEditingValue('TextbyFluxsvg') !== false;
-    const textToPathOptions = this.onOffOptionFactory(isTextByFluxSVGOn);
-
     const isFontSubstitutionOn = this.getBeamboxPreferenceEditingValue('font-substitute') !== false;
     const fontSubstituteOptions = this.onOffOptionFactory(isFontSubstitutionOn);
 
@@ -684,12 +681,6 @@ class SettingGeneral extends React.Component<Props, State> {
         />
 
         <div className="subtitle">{lang.settings.groups.text_to_path}</div>
-        <SelectControl
-          label={lang.settings.text_path_calc_optimization}
-          id="text-optimize"
-          options={textToPathOptions}
-          onChange={(e) => this.updateBeamboxPreferenceChange('TextbyFluxsvg', e.target.value)}
-        />
         <SelectControl
           label={lang.settings.font_substitute}
           id="font-substitue"

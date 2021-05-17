@@ -494,48 +494,39 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
     console.warn('font is not supported in web browser');
     return false;
   }
-  const convertByFluxsvg = BeamboxPreference.read('TextbyFluxsvg') !== false;
-  let isAnyFontUnsupported = false;
-  if (convertByFluxsvg) {
-    const texts = [...$('#svgcontent').find('text').toArray(), ...$('#svg_defs').find('text').toArray()];
-    for (let i = 0; i < texts.length; i += 1) {
-      const el = texts[i];
-      const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
-      // eslint-disable-next-line no-await-in-loop
-      const convertRes = await convertTextToPathFluxsvg($(el), bbox, true);
-      if (convertRes === ConvertResult.CANCEL_OPERATION) {
-        return false;
-      }
-      if (convertRes === ConvertResult.UNSUPPORT) {
-        isAnyFontUnsupported = true;
-      }
-    }
 
-    if (isAnyFontUnsupported && !AlertConfig.read('skip_check_thumbnail_warning')) {
-      await new Promise<void>((resolve) => {
-        Alert.popUp({
-          type: AlertConstants.SHOW_POPUP_WARNING,
-          message: LANG.text_to_path.check_thumbnail_warning,
-          callbacks: () => resolve(null),
-          checkbox: {
-            text: i18n.lang.beambox.popup.dont_show_again,
-            callbacks: () => {
-              AlertConfig.write('skip_check_thumbnail_warning', true);
-              resolve(null);
-            },
-          },
-        });
-      });
+  let isAnyFontUnsupported = false;
+  const texts = [...$('#svgcontent').find('text').toArray(), ...$('#svg_defs').find('text').toArray()];
+  for (let i = 0; i < texts.length; i += 1) {
+    const el = texts[i];
+    const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
+    // eslint-disable-next-line no-await-in-loop
+    const convertRes = await convertTextToPathFluxsvg($(el), bbox, true);
+    if (convertRes === ConvertResult.CANCEL_OPERATION) {
+      return false;
     }
-    return true;
+    if (convertRes === ConvertResult.UNSUPPORT) {
+      isAnyFontUnsupported = true;
+    }
   }
-  const allPromises = $('#svgcontent')
-    .find('text')
-    .toArray()
-    .map(
-      (el) => requestToConvertTextToPath($(el), { isTempConvert: true }),
-    );
-  return await Promise.all(allPromises);
+
+  if (isAnyFontUnsupported && !AlertConfig.read('skip_check_thumbnail_warning')) {
+    await new Promise<void>((resolve) => {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_WARNING,
+        message: LANG.text_to_path.check_thumbnail_warning,
+        callbacks: () => resolve(null),
+        checkbox: {
+          text: i18n.lang.beambox.popup.dont_show_again,
+          callbacks: () => {
+            AlertConfig.write('skip_check_thumbnail_warning', true);
+            resolve(null);
+          },
+        },
+      });
+    });
+  }
+  return true;
 };
 
 const revertTempConvert = async (): Promise<void> => {
