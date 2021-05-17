@@ -2,7 +2,6 @@ import React from 'react';
 import $ from 'jquery';
 
 import i18n from 'helpers/i18n';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Dialog from 'app/actions/dialog-caller';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import imageEdit from 'helpers/image-edit';
@@ -52,34 +51,21 @@ class ActionsPanel extends React.Component<Props> {
   };
 
   convertToPath = async (): Promise<void> => {
-    const { elem, dimensionValues } = this.props;
+    const { elem } = this.props;
     Progress.openNonstopProgress({ id: 'convert-font', message: LANG.wait_for_parsing_font });
     const bbox = svgCanvas.calculateTransformedBBox(elem);
-    const convertByFluxsvg = BeamboxPreference.read('TextbyFluxsvg') !== false;
     if (svgCanvas.textActions.isEditing) {
       svgCanvas.textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
-    if (convertByFluxsvg) {
-      await FontFuncs.convertTextToPathFluxsvg($(elem), bbox);
-    } else {
-      await new Promise((resolve) => {
-        setTimeout(async () => {
-          await FontFuncs.requestToConvertTextToPath($(elem), {
-            family: elem.getAttribute('font-family'),
-            weight: elem.getAttribute('font-weight'),
-            style: dimensionValues.fontStyle,
-          });
-          resolve(null);
-        }, 50);
-      });
-    }
+
+    await FontFuncs.convertTextToPathFluxsvg($(elem), bbox);
     Progress.popById('convert-font');
   };
 
   renderButtons = (
     label: string, onClick: () => void, isFullLine?: boolean, isDisabled?: boolean,
-  ) => {
+  ): JSX.Element => {
     const className = classNames('btn', 'btn-default', { disabled: isDisabled });
     return (
       <div className={classNames('btn-container', { full: isFullLine, half: !isFullLine })} onClick={() => onClick()} key={label}>
@@ -88,7 +74,7 @@ class ActionsPanel extends React.Component<Props> {
     );
   };
 
-  renderImageActions = () => {
+  renderImageActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = [
@@ -104,7 +90,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderTextActions = () => {
+  renderTextActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.convert_to_path, this.convertToPath, true),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -112,7 +98,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderPathActions = () => {
+  renderPathActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.decompose_path, () => svgCanvas.decomposePath(), true),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
@@ -121,7 +107,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderRectActions = () => {
+  renderRectActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -129,7 +115,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderEllipseActions = () => {
+  renderEllipseActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -137,7 +123,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderPolygonActions = () => {
+  renderPolygonActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -145,7 +131,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderLineActions = () => {
+  renderLineActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -153,7 +139,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderUseActions = () => {
+  renderUseActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
@@ -161,14 +147,14 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderGroupActions = () => {
+  renderGroupActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
     ];
     return content;
   };
 
-  renderMultiSelectActions = () => {
+  renderMultiSelectActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const childs = Array.from(elem.childNodes);
     const supportOffset = childs.every((child: ChildNode) => !['g', 'text', 'image', 'use'].includes(child.nodeName));
@@ -179,7 +165,7 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  render() {
+  render(): JSX.Element {
     const { elem } = this.props;
     const isMultiSelect = elem && elem.tagName === 'g' && elem.getAttribute('data-tempgroup') === 'true';
     let content = null;

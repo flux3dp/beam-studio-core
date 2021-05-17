@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable no-alert */
 /* eslint-disable react/no-multi-comp */
 import PathInput, { InputType } from 'app/widgets/PathInput';
 import SelectView from 'app/widgets/Select';
@@ -18,54 +20,75 @@ import { ILang } from 'interfaces/ILang';
 import * as React from 'react';
 import classNames from 'classnames';
 
-const Controls = (props) => {
+interface ControlsProps {
+  label: string,
+  warningText?: string,
+  children: JSX.Element | JSX.Element[],
+}
+const Controls = ({ label, warningText, children }: ControlsProps) => {
   const style = { width: 'calc(100% / 10 * 3 - 10px)' };
-  const innerHtml = { __html: props.label };
+  const innerHtml = { __html: label };
 
   const warningIcon = () => {
-    if (props.warningText) {
-      return (<img src='img/warning.svg' title={props.warningText} />);
+    if (warningText) {
+      return (<img src="img/warning.svg" title={warningText} />);
     }
     return null;
-  }
+  };
 
   return (
-    <div className='row-fluid'>
-      <div className='span3 no-left-margin' style={style}>
-        <label className='font2'
+    <div className="row-fluid">
+      <div className="span3 no-left-margin" style={style}>
+        <label
+          className="font2"
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={innerHtml}
         />
       </div>
-      <div className='span8 font3'>
-        {props.children}
+      <div className="span8 font3">
+        {children}
         {warningIcon()}
       </div>
     </div>
   );
 };
 
+Controls.defaultProps = {
+  warningText: null,
+};
+
 enum OptionValues {
   TRUE = 'TRUE',
   FALSE = 'FALSE',
-};
+}
 
 interface ISelectControlProps {
   id?: string,
   label: string,
   onChange: (e) => void,
-  options: any[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: { value: any, label: string, selected: boolean }[],
 }
-const SelectControl = ({ id, label, onChange, options }: ISelectControlProps) => {
-  return (
-    <Controls label={label}>
-      <SelectView
-        id={id}
-        className='font3'
-        options={options}
-        onChange={onChange}
-      />
-    </Controls>
-  );
+
+const SelectControl = ({
+  id, label, onChange, options,
+}: ISelectControlProps) => (
+  <Controls label={label}>
+    <SelectView
+      id={id}
+      className="font3"
+      options={options}
+      onChange={onChange}
+    />
+  </Controls>
+);
+
+SelectControl.defaultProps = {
+  id: null,
+};
+
+interface Props {
+  supported_langs: { [key: string]: string };
 }
 
 interface State {
@@ -74,17 +97,16 @@ interface State {
   warnings?: { [key: string]: string };
 }
 
-class SettingGeneral extends React.Component<any, State> {
-  static defaultProps = {
-    supported_langs: [''],
-  };
-
+class SettingGeneral extends React.Component<Props, State> {
   private origLang: string;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private beamboxPreferenceChanges: { [key: string]: any };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private configChanges: { [key: string]: any };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       lang: i18n.lang,
@@ -96,52 +118,58 @@ class SettingGeneral extends React.Component<any, State> {
     this.configChanges = {};
   }
 
-  checkIPFormat = (e) => {
-    let me = e.currentTarget,
-      lang = this.state.lang,
-      originalIP = this.getConfigEditingValue('poke-ip-addr'),
-      ips = me.value.split(/[,;] ?/),
-      ipv4Pattern = /^\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3}$/;
+  checkIPFormat = (e: React.FocusEvent): void => {
+    const me = e.currentTarget as HTMLInputElement;
+    const { lang } = this.state;
+    const originalIP = this.getConfigEditingValue('poke-ip-addr');
+    const ips = me.value.split(/[,;] ?/);
+    const ipv4Pattern = /^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$/;
 
-    for (let i = 0; i < ips.length; i++) {
+    for (let i = 0; i < ips.length; i += 1) {
       const ip = ips[i];
-      if ('' !== ip && typeof ip === 'string' && false === ipv4Pattern.test(ip)) {
+      if (ip !== '' && typeof ip === 'string' && ipv4Pattern.test(ip) === false) {
         me.value = originalIP;
         alert.popUp({
           id: 'wrong-ip-error',
           type: alertConstants.SHOW_POPUP_ERROR,
-          message: lang.settings.wrong_ip_format + '\n' + ip,
-        })
+          message: `${lang.settings.wrong_ip_format}\n${ip}`,
+        });
         return;
       }
     }
 
     this.configChanges['poke-ip-addr'] = me.value;
-  }
+  };
 
-  changeActiveLang = (e) => {
-    i18n.setActiveLang(e.currentTarget.value);
+  changeActiveLang = (e: React.ChangeEvent): void => {
+    const target = e.currentTarget as HTMLInputElement;
+    i18n.setActiveLang(target.value);
     this.setState({
-      lang: i18n.lang
+      lang: i18n.lang,
     });
-  }
+  };
 
-  updateConfigChange = (id, val) => {
-    if (!isNaN(Number(val))) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateConfigChange = (id: string, newVal: any): void => {
+    let val = newVal;
+    if (!Number.isNaN(Number(val))) {
       val = Number(val);
     }
     this.configChanges[id] = val;
     this.forceUpdate();
-  }
+  };
 
-  getConfigEditingValue = (key: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getConfigEditingValue = (key: string): any => {
     if (key in this.configChanges) {
       return this.configChanges[key];
     }
     return Config().read(key);
-  }
+  };
 
-  updateBeamboxPreferenceChange = (item_key: string, val) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateBeamboxPreferenceChange = (item_key: string, newVal: any): void => {
+    let val = newVal;
     if (val === OptionValues.TRUE) {
       val = true;
     } else if (val === OptionValues.FALSE) {
@@ -149,78 +177,84 @@ class SettingGeneral extends React.Component<any, State> {
     }
     this.beamboxPreferenceChanges[item_key] = val;
     this.forceUpdate();
-  }
+  };
 
-  getBeamboxPreferenceEditingValue = (key) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getBeamboxPreferenceEditingValue = (key: string): any => {
     if (key in this.beamboxPreferenceChanges) {
       return this.beamboxPreferenceChanges[key];
     }
     return BeamboxPreference.read(key);
-  }
+  };
 
-  removeDefaultMachine = () => {
-    if (confirm(this.state.lang.settings.confirm_remove_default)) {
+  removeDefaultMachine = (): void => {
+    const { lang } = this.state;
+    if (window.confirm(lang.settings.confirm_remove_default)) {
       this.forceUpdate();
     }
-  }
+  };
 
-  resetBS = () => {
-    if (confirm(this.state.lang.settings.confirm_reset)) {
+  resetBS = (): void => {
+    const { lang } = this.state;
+    if (window.confirm(lang.settings.confirm_reset)) {
       storage.clearAllExceptIP();
       localStorage.clear();
       autoSaveHelper.useDefaultConfig();
-      location.hash = '#';
-      location.reload();
+      window.location.hash = '#';
+      window.location.reload();
     }
-  }
+  };
 
-  handleDone = () => {
+  handleDone = (): void => {
     const { editingAutosaveConfig } = this.state;
-    for (let key in this.configChanges) {
+    let keys = Object.keys(this.configChanges);
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i];
       Config().write(key, this.configChanges[key]);
     }
-    for (let key in this.beamboxPreferenceChanges) {
+    keys = Object.keys(this.beamboxPreferenceChanges);
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i];
       BeamboxPreference.write(key, this.beamboxPreferenceChanges[key]);
     }
     autoSaveHelper.setConfig(editingAutosaveConfig);
-    location.hash = 'studio/beambox';
-    location.reload();
-  }
+    window.location.hash = 'studio/beambox';
+    window.location.reload();
+  };
 
-  _handleCancel = () => {
+  handleCancel = (): void => {
     i18n.setActiveLang(this.origLang);
-    location.hash = 'studio/beambox';
-    location.reload();
-  }
+    window.location.hash = 'studio/beambox';
+    window.location.reload();
+  };
 
-  onOffOptionFactory = (isOnSelected: boolean, onValue?, offValue?, onLabel?: string, offLabel?: string) => {
+  onOffOptionFactory = (
+    isOnSelected: boolean, onValue?, offValue?, onLabel?: string, offLabel?: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): { value: any, label: string, selected: boolean, }[] => {
     const { lang } = this.state;
-    onLabel = onLabel || lang.settings.on;
-    offLabel = offLabel || lang.settings.off;
-    onValue = onValue !== undefined ? onValue : OptionValues.TRUE;
-    offValue = offValue !== undefined ? offValue : OptionValues.FALSE;
 
     return [
       {
-        value: onValue,
-        label: onLabel,
+        value: onValue !== undefined ? onValue : OptionValues.TRUE,
+        label: onLabel || lang.settings.on,
         selected: isOnSelected,
       },
       {
-        value: offValue,
-        label: offLabel,
+        value: offValue !== undefined ? offValue : OptionValues.FALSE,
+        label: offLabel || lang.settings.off,
         selected: !isOnSelected,
-      }
+      },
     ];
-  }
+  };
 
-  renderAutosaveBlock() {
+  renderAutosaveBlock(): JSX.Element {
     const { lang, editingAutosaveConfig, warnings } = this.state;
     const isAutoSaveOn = editingAutosaveConfig.enabled;
     const autoSaveOptions = this.onOffOptionFactory(isAutoSaveOn);
     return (
       <div>
-        <div className='subtitle'>{lang.settings.groups.autosave}</div>
+        <div className="subtitle">{lang.settings.groups.autosave}</div>
         <SelectControl
           label={lang.settings.autosave_enabled}
           options={autoSaveOptions}
@@ -232,19 +266,19 @@ class SettingGeneral extends React.Component<any, State> {
         />
         <Controls
           label={lang.settings.autosave_path}
-          warningText={warnings['autosave_directory']}
+          warningText={warnings.autosave_directory}
         >
           <PathInput
             buttonTitle={lang.general.choose_folder}
-            className={classNames({ 'with-error': !!warnings['autosave_directory'] })}
+            className={classNames({ 'with-error': !!warnings.autosave_directory })}
             defaultValue={editingAutosaveConfig.directory}
             forceValidValue={false}
             getValue={(val: string, isValid: boolean) => {
               editingAutosaveConfig.directory = val;
               if (!isValid) {
-                warnings['autosave_directory'] = lang.settings.autosave_path_not_correct;
+                warnings.autosave_directory = lang.settings.autosave_path_not_correct;
               } else {
-                delete warnings['autosave_directory'];
+                delete warnings.autosave_directory;
               }
               this.setState({ editingAutosaveConfig, warnings });
             }}
@@ -283,24 +317,28 @@ class SettingGeneral extends React.Component<any, State> {
   }
 
   render() {
-    const { supported_langs } = this.props;
+    const { supported_langs: supportedLangs } = this.props;
     const { lang, warnings } = this.state;
     const pokeIP = Config().read('poke-ip-addr');
     const langOptions = [];
 
-    Object.keys(supported_langs).map(l => {
+    Object.keys(supportedLangs).forEach((l) => {
       langOptions.push({
         value: l,
-        label: supported_langs[l],
-        selected: l === i18n.getActiveLang()
+        label: supportedLangs[l],
+        selected: l === i18n.getActiveLang(),
       });
     });
 
     const isNotificationOn = this.getConfigEditingValue('notification') === 1;
-    const notificationOptions = this.onOffOptionFactory(isNotificationOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off);
+    const notificationOptions = this.onOffOptionFactory(
+      isNotificationOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
+    );
 
     const isAutoCheckUpdateOn = this.getConfigEditingValue('auto_check_update') !== 0;
-    const updateNotificationOptions = this.onOffOptionFactory(isAutoCheckUpdateOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off);
+    const updateNotificationOptions = this.onOffOptionFactory(
+      isAutoCheckUpdateOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
+    );
 
     const isGuessingPokeOn = this.getConfigEditingValue('guessing_poke') !== 0;
     const guessingPokeOptions = this.onOffOptionFactory(isGuessingPokeOn, 1, 0);
@@ -312,27 +350,27 @@ class SettingGeneral extends React.Component<any, State> {
       {
         value: 'mm',
         label: lang.menu.mm,
-        selected: this.getConfigEditingValue('default-units') === 'mm'
+        selected: this.getConfigEditingValue('default-units') === 'mm',
       },
       {
         value: 'inches',
         label: lang.menu.inches,
-        selected: this.getConfigEditingValue('default-units') === 'inches'
+        selected: this.getConfigEditingValue('default-units') === 'inches',
       },
     ];
 
     const defaultFont = Config().read('default-font') as IFont || {
       family: 'Arial',
-      style: 'Regular'
+      style: 'Regular',
     };
-    const fontOptions = FontFuncs.availableFontFamilies.map((family) => {
+    const fontOptions = FontFuncs.availableFontFamilies.map((family: string) => {
       const fontName = FontFuncs.fontNameMap.get(family);
       const label = typeof fontName === 'string' ? fontName : family;
       return {
         value: family,
-        label: label,
-        selected: family === defaultFont.family
-      }
+        label,
+        selected: family === defaultFont.family,
+      };
     });
     const onSelectFont = (family) => {
       const fonts = FontFuncs.requestFontsOfTheFontFamily(family);
@@ -343,16 +381,14 @@ class SettingGeneral extends React.Component<any, State> {
         postscriptName: newDefaultFont.postscriptName,
         style: newDefaultFont.style,
       });
-      this.setState(this.state);
-    }
+      this.forceUpdate();
+    };
     const fonts = FontFuncs.requestFontsOfTheFontFamily(defaultFont.family);
-    const fontStyleOptions = fonts.map((font) => {
-      return {
-        value: font.postscriptName,
-        label: font.style,
-        selected: font.style === defaultFont.style
-      }
-    });
+    const fontStyleOptions = fonts.map((font) => ({
+      value: font.postscriptName,
+      label: font.style,
+      selected: font.style === defaultFont.style,
+    }));
     const onSelectFontStyle = (postscriptName) => {
       const newDefaultFont = FontFuncs.getFontOfPostscriptName(postscriptName);
       const config = Config();
@@ -361,14 +397,20 @@ class SettingGeneral extends React.Component<any, State> {
         postscriptName: newDefaultFont.postscriptName,
         style: newDefaultFont.style,
       });
-      this.setState(this.state);
-    }
+      this.forceUpdate();
+    };
 
     const isGuideOpened = this.getBeamboxPreferenceEditingValue('show_guides') !== false;
     const guideSelectionOptions = this.onOffOptionFactory(isGuideOpened);
 
     const isDownsamplingOn = this.getBeamboxPreferenceEditingValue('image_downsampling') !== false;
-    const imageDownsamplingOptions = this.onOffOptionFactory(isDownsamplingOn, OptionValues.TRUE, OptionValues.FALSE, lang.settings.low, lang.settings.high);
+    const imageDownsamplingOptions = this.onOffOptionFactory(
+      isDownsamplingOn,
+      OptionValues.TRUE,
+      OptionValues.FALSE,
+      lang.settings.low,
+      lang.settings.high,
+    );
 
     const isContinuousDrawingOn = this.getBeamboxPreferenceEditingValue('continuous_drawing');
     const continuousDrawingOptions = this.onOffOptionFactory(isContinuousDrawingOn);
@@ -389,25 +431,22 @@ class SettingGeneral extends React.Component<any, State> {
       {
         value: 'fbm1',
         label: 'beamo',
-        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbm1'
+        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbm1',
       },
       {
         value: 'fbb1b',
         label: 'Beambox',
-        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbb1b'
+        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbb1b',
       },
       {
         value: 'fbb1p',
         label: 'Beambox Pro',
-        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbb1p'
-      }
+        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbb1p',
+      },
     ];
 
     const isMaskEnabled = this.getBeamboxPreferenceEditingValue('enable_mask');
     const maskOptions = this.onOffOptionFactory(isMaskEnabled);
-
-    const isTextByFluxSVGOn = this.getBeamboxPreferenceEditingValue('TextbyFluxsvg') !== false;
-    const textToPathOptions = this.onOffOptionFactory(isTextByFluxSVGOn);
 
     const isFontSubstitutionOn = this.getBeamboxPreferenceEditingValue('font-substitute') !== false;
     const fontSubstituteOptions = this.onOffOptionFactory(isFontSubstitutionOn);
@@ -424,16 +463,19 @@ class SettingGeneral extends React.Component<any, State> {
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
 
-    const cameraMovementSpeed = Math.min(BeamboxConstant.camera.movementSpeed.x, BeamboxConstant.camera.movementSpeed.y);
+    const cameraMovementSpeed = Math.min(
+      BeamboxConstant.camera.movementSpeed.x,
+      BeamboxConstant.camera.movementSpeed.y,
+    );
 
     const isAllValid = !warnings || (Object.keys(warnings).length === 0);
 
     return (
-      <div className='form general'>
-        <div className='subtitle'>{lang.settings.groups.general}</div>
+      <div className="form general">
+        <div className="subtitle">{lang.settings.groups.general}</div>
         <SelectControl
           label={lang.settings.language}
-          id='select-lang'
+          id="select-lang"
           options={langOptions}
           onChange={this.changeActiveLang}
         />
@@ -443,18 +485,18 @@ class SettingGeneral extends React.Component<any, State> {
           onChange={(e) => this.updateConfigChange('notification', e.target.value)}
         />
 
-        <div className='subtitle'>{lang.settings.groups.update}</div>
+        <div className="subtitle">{lang.settings.groups.update}</div>
         <SelectControl
           label={lang.settings.check_updates}
           options={updateNotificationOptions}
           onChange={(e) => this.updateConfigChange('auto_check_update', e.target.value)}
         />
 
-        <div className='subtitle'>{lang.settings.groups.connection}</div>
+        <div className="subtitle">{lang.settings.groups.connection}</div>
         <Controls label={lang.settings.ip}>
           <input
-            type='text'
-            autoComplete='false'
+            type="text"
+            autoComplete="false"
             defaultValue={pokeIP}
             onBlur={this.checkIPFormat}
           />
@@ -472,7 +514,7 @@ class SettingGeneral extends React.Component<any, State> {
 
         {this.renderAutosaveBlock()}
 
-        <div className='subtitle'>{lang.settings.groups.camera}</div>
+        <div className="subtitle">{lang.settings.groups.camera}</div>
         <Controls label={lang.settings.preview_movement_speed}>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s'}
@@ -480,7 +522,7 @@ class SettingGeneral extends React.Component<any, State> {
             max={300}
             decimal={this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0}
             defaultValue={(this.getBeamboxPreferenceEditingValue('preview_movement_speed') || cameraMovementSpeed) / 60}
-            getValue={val => this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60)}
+            getValue={(val) => this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60)}
             className={{ half: true }}
           />
         </Controls>
@@ -491,12 +533,12 @@ class SettingGeneral extends React.Component<any, State> {
             max={300}
             decimal={this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0}
             defaultValue={(this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') || (cameraMovementSpeed * 0.6)) / 60}
-            getValue={val => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60)}
+            getValue={(val) => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60)}
             className={{ half: true }}
           />
         </Controls>
 
-        <div className='subtitle'>{lang.settings.groups.editor}</div>
+        <div className="subtitle">{lang.settings.groups.editor}</div>
         <SelectControl
           label={lang.settings.default_units}
           options={defaultUnitsOptions}
@@ -519,29 +561,29 @@ class SettingGeneral extends React.Component<any, State> {
         />
         <SelectControl
           label={lang.settings.guides}
-          id='set-guide'
+          id="set-guide"
           options={guideSelectionOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('show_guides', e.target.value)}
         />
         <Controls label={lang.settings.guides_origin}>
-          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
+          <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('guide_x0')}
-            getValue={val => this.updateBeamboxPreferenceChange('guide_x0', val)}
-            forceUsePropsUnit={true}
+            getValue={(val) => this.updateBeamboxPreferenceChange('guide_x0', val)}
+            forceUsePropsUnit
             className={{ half: true }}
           />
-          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
+          <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('guide_y0')}
-            getValue={val => this.updateBeamboxPreferenceChange('guide_y0', val)}
-            forceUsePropsUnit={true}
+            getValue={(val) => this.updateBeamboxPreferenceChange('guide_y0', val)}
+            forceUsePropsUnit
             className={{ half: true }}
           />
         </Controls>
@@ -561,14 +603,14 @@ class SettingGeneral extends React.Component<any, State> {
           onChange={(e) => this.updateBeamboxPreferenceChange('simplify_clipper_path', e.target.value)}
         />
 
-        <div className='subtitle'>{lang.settings.groups.engraving}</div>
+        <div className="subtitle">{lang.settings.groups.engraving}</div>
         <SelectControl
           label={lang.settings.fast_gradient}
           options={fastGradientOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('fast_gradient', e.target.value)}
         />
 
-        <div className='subtitle'>{lang.settings.groups.path}</div>
+        <div className="subtitle">{lang.settings.groups.path}</div>
         <SelectControl
           label={lang.settings.vector_speed_constraint}
           options={vectorSpeedConstraintOptions}
@@ -581,135 +623,130 @@ class SettingGeneral extends React.Component<any, State> {
             max={20}
             defaultValue={Number(this.getConfigEditingValue('loop_compensation') || '0') / 10}
             getValue={(val) => this.updateConfigChange('loop_compensation', Number(val) * 10)}
-            forceUsePropsUnit={true}
+            forceUsePropsUnit
             className={{ half: true }}
           />
         </Controls>
-        { i18n.getActiveLang() === 'zh-cn' ?
-          <div>
-            <Controls label={lang.settings.blade_radius}>
-              <UnitInput
-                unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
-                min={0}
-                max={30}
-                step={0.01}
-                defaultValue={this.getBeamboxPreferenceEditingValue('blade_radius') || 0}
-                getValue={val => this.updateBeamboxPreferenceChange('blade_radius', val)}
-                forceUsePropsUnit={true}
-                className={{ half: true }}
+        { i18n.getActiveLang() === 'zh-cn'
+          ? (
+            <div>
+              <Controls label={lang.settings.blade_radius}>
+                <UnitInput
+                  unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
+                  min={0}
+                  max={30}
+                  step={0.01}
+                  defaultValue={this.getBeamboxPreferenceEditingValue('blade_radius') || 0}
+                  getValue={(val) => this.updateBeamboxPreferenceChange('blade_radius', val)}
+                  forceUsePropsUnit
+                  className={{ half: true }}
+                />
+              </Controls>
+              <SelectControl
+                label={lang.settings.blade_precut_switch}
+                options={precutSwitchOptions}
+                onChange={(e) => this.updateBeamboxPreferenceChange('blade_precut', e.target.value)}
               />
-            </Controls>
-            <SelectControl
-              label={lang.settings.blade_precut_switch}
-              options={precutSwitchOptions}
-              onChange={(e) => this.updateBeamboxPreferenceChange('blade_precut', e.target.value)}
-            />
-            <Controls label={lang.settings.blade_precut_position}>
-              <span className='font2' style={{ marginRight: '10px' }}>X</span>
-              <UnitInput
-                unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
-                min={0}
-                max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
-                defaultValue={this.getBeamboxPreferenceEditingValue('precut_x') || 0}
-                getValue={val => this.updateBeamboxPreferenceChange('precut_x', val)}
-                forceUsePropsUnit={true}
-                className={{ half: true }}
-              />
-              <span className='font2' style={{ marginRight: '10px' }}>Y</span>
-              <UnitInput
-                unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
-                min={0}
-                max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
-                defaultValue={this.getBeamboxPreferenceEditingValue('precut_y') || 0}
-                getValue={val => this.updateBeamboxPreferenceChange('precut_y', val)}
-                forceUsePropsUnit={true}
-                className={{ half: true }}
-              />
-            </Controls>
-          </div> : null
-        }
-
-        <div className='subtitle'>{lang.settings.groups.mask}</div>
+              <Controls label={lang.settings.blade_precut_position}>
+                <span className="font2" style={{ marginRight: '10px' }}>X</span>
+                <UnitInput
+                  unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
+                  min={0}
+                  max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
+                  defaultValue={this.getBeamboxPreferenceEditingValue('precut_x') || 0}
+                  getValue={(val) => this.updateBeamboxPreferenceChange('precut_x', val)}
+                  forceUsePropsUnit
+                  className={{ half: true }}
+                />
+                <span className="font2" style={{ marginRight: '10px' }}>Y</span>
+                <UnitInput
+                  unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
+                  min={0}
+                  max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
+                  defaultValue={this.getBeamboxPreferenceEditingValue('precut_y') || 0}
+                  getValue={(val) => this.updateBeamboxPreferenceChange('precut_y', val)}
+                  forceUsePropsUnit
+                  className={{ half: true }}
+                />
+              </Controls>
+            </div>
+          )
+          : null}
+        <div className="subtitle">{lang.settings.groups.mask}</div>
         <SelectControl
           label={lang.settings.mask}
-          id='set-mask'
+          id="set-mask"
           options={maskOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('enable_mask', e.target.value)}
         />
 
-        <div className='subtitle'>{lang.settings.groups.text_to_path}</div>
-        <SelectControl
-          label={lang.settings.text_path_calc_optimization}
-          id='text-optimize'
-          options={textToPathOptions}
-          onChange={(e) => this.updateBeamboxPreferenceChange('TextbyFluxsvg', e.target.value)}
-        />
+        <div className="subtitle">{lang.settings.groups.text_to_path}</div>
         <SelectControl
           label={lang.settings.font_substitute}
-          id='font-substitue'
+          id="font-substitue"
           options={fontSubstituteOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('font-substitute', e.target.value)}
         />
 
-        <div className='subtitle'>{lang.settings.groups.modules}</div>
+        <div className="subtitle">{lang.settings.groups.modules}</div>
         <SelectControl
           label={lang.settings.default_borderless_mode}
-          id='default-open-bottom'
+          id="default-open-bottom"
           options={borderlessModeOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('default-borderless', e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_enable_autofocus_module}
-          id='default-autofocus'
+          id="default-autofocus"
           options={autofocusModuleOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('default-autofocus', e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_enable_diode_module}
-          id='default-diode'
+          id="default-diode"
           options={diodeModuleOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('default-diode', e.target.value)}
         />
         <Controls label={lang.settings.diode_offset}>
-          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
+          <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('diode_offset_x') || 0}
-            getValue={val => this.updateBeamboxPreferenceChange('diode_offset_x', val)}
-            forceUsePropsUnit={true}
+            getValue={(val) => this.updateBeamboxPreferenceChange('diode_offset_x', val)}
+            forceUsePropsUnit
             className={{ half: true }}
           />
-          <span className='font2' style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
+          <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('diode_offset_y') || 0}
-            getValue={val => this.updateBeamboxPreferenceChange('diode_offset_y', val)}
-            forceUsePropsUnit={true}
+            getValue={(val) => this.updateBeamboxPreferenceChange('diode_offset_y', val)}
+            forceUsePropsUnit
             className={{ half: true }}
           />
         </Controls>
 
-        <div className='subtitle'>{lang.settings.groups.privacy}</div>
+        <div className="subtitle">{lang.settings.groups.privacy}</div>
         <SelectControl
           label={lang.settings.share_with_flux}
-          id='set-sentry'
+          id="set-sentry"
           options={enableSentryOptions}
           onChange={(e) => this.updateConfigChange('enable-sentry', e.target.value)}
         />
 
-        <a className='font5' onClick={this.resetBS}>
+        <div className="font5" onClick={this.resetBS}>
           <b>{lang.settings.reset_now}</b>
-        </a>
+        </div>
         <div className="clearfix" />
-        <a className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>{lang.settings.done}</a>
-        <a className="btn btn-cancel" onClick={this._handleCancel}>{lang.settings.cancel}</a>
+        <div className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>{lang.settings.done}</div>
+        <div className="btn btn-cancel" onClick={this.handleCancel}>{lang.settings.cancel}</div>
       </div>
     );
   }
-};
+}
 
 export default SettingGeneral;
