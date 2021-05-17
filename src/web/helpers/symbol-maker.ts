@@ -116,8 +116,12 @@ const makeSymbol = (
   svgedit.utilities.findDefs().appendChild(symbol);
 
   // remove invisible nodes (such as invisible layer in Illustrator)
-  $(symbol).find('*').filter(() => ($(this).css('display') === 'none')).remove();
-  $(symbol).find('use').filter(() => $(symbol).find(svgedit.utilities.getHref(this)).length === 0).remove();
+  Array.from(symbol.querySelectorAll('*'))
+    .filter((element: HTMLElement) => element.style.display === 'none')
+    .forEach((element: HTMLElement) => element.remove());
+  Array.from(symbol.querySelectorAll('use'))
+    .filter((element) => $(symbol).find(svgedit.utilities.getHref(element)).length === 0)
+    .forEach((element) => element.remove());
 
   // add prefix(which constrain css selector to symbol's id) to prevent class style pollution
   let originStyle = $(symbol).find('style').text();
