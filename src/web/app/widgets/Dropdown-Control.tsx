@@ -1,8 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const PropTypes = requireNode('prop-types');
-
 interface Props {
   id: string;
   label?: string;

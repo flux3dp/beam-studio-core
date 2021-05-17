@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import ExportFuncs from 'app/actions/beambox/export-funcs';
+// import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
 
@@ -9,7 +9,7 @@ const { createContext } = React;
 const TimeEstimationButtonContext = createContext({});
 let _context = null;
 const LANG = i18n.lang.beambox.time_est_button;
-const isMac = window.os === 'MacOS';
+const isMac = true; // window.os === 'MacOS';
 
 interface ITimeEstimationButtonContext {
   estimatedTime: number | null,
@@ -56,7 +56,7 @@ class TimeEstimationButtonComponent extends React.Component {
 
   async calculateEstimatedTime() {
     const { setEstimatedTime } = this.context as ITimeEstimationButtonContext;
-    const estimatedTime = await ExportFuncs.estimateTime();
+    const estimatedTime = 100; // await ExportFuncs.estimateTime();
     setEstimatedTime(estimatedTime);
   }
 

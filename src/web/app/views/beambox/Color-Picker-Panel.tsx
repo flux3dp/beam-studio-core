@@ -9,7 +9,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas });
 
 const LANG = i18n.lang.beambox.photo_edit_panel;
-const Pickr = requireNode('@simonwep/pickr');
+// const Pickr = requireNode('@simonwep/pickr');
 
 interface Props {
   layerName: string;
@@ -24,7 +24,7 @@ export default class ColorPickerPanel extends React.Component<Props> {
 
     private width: number;
 
-    private pickr: any;
+    // private pickr: any;
 
     constructor(props) {
         super(props);
@@ -38,31 +38,31 @@ export default class ColorPickerPanel extends React.Component<Props> {
 
     renderPickr() {
         const origColor = this.layer.getAttribute('data-color') || '#333333';
-        this.pickr = Pickr.create({
-            el: '.pickr',
-            theme: 'monolith',
-            inline: true,
-            default: origColor,
-            swatches: [
-            ],
-            components: {
-                // Main components
-                preview: true,
-                opacity: false,
-                hue: true,
-                // Input / output Options
-                interaction: {
-                    input: false,
-                    cancel: false,
-                    save: false
-                }
-            }
-        });
+        // this.pickr = Pickr.create({
+        //     el: '.pickr',
+        //     theme: 'monolith',
+        //     inline: true,
+        //     default: origColor,
+        //     swatches: [
+        //     ],
+        //     components: {
+        //         // Main components
+        //         preview: true,
+        //         opacity: false,
+        //         hue: true,
+        //         // Input / output Options
+        //         interaction: {
+        //             input: false,
+        //             cancel: false,
+        //             save: false
+        //         }
+        //     }
+        // });
     }
 
     onApply() {
-        const hexColor = this.pickr.getColor().toHEXA().toString();
-        this.props.onColorChanged(hexColor);
+        // const hexColor = this.pickr.getColor().toHEXA().toString();
+        // this.props.onColorChanged(hexColor);
         this.props.onClose();
     }
 
