@@ -3656,7 +3656,7 @@ export default $.SvgCanvas = function (container, config) {
         }
 
       },
-      setCursor: setCursor,
+      setCursor,
       hideCursor,
       onUpKey: () => {
         if (isVertical) {
@@ -3874,9 +3874,7 @@ export default $.SvgCanvas = function (container, config) {
         if (current_mode === 'textedit') {
           textActions.toSelectMode();
         } else {
-          if (cursor) {
-            $(cursor).attr('visibility', 'hidden');
-          }
+          hideCursor();
         }
       },
       init: function () {
@@ -8887,7 +8885,7 @@ export default $.SvgCanvas = function (container, config) {
    * @param {boolean} isSub whether this operation is a subcmd
    */
   this.deleteSelectedElements = function (isSub = false) {
-    textActions.toSelectMode();
+    textActions.clear();
     if (tempGroup) {
       let children = this.ungroupTempGroup();
       this.selectOnly(children, false);

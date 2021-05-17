@@ -3388,6 +3388,8 @@ const svgEditor = window['svgEditor'] = (function () {
       } else if (evt.key === 'ArrowRight') {
         evt.preventDefault();
         svgCanvas.textActions.onRightKey();
+      } else if (evt.key === 'Escape') {
+        clickSelect();
       }
       const isFunctionKeyPressed = checkFunctionKeyPressed(evt);
       if (evt.shiftKey && evt.key === 'Enter') {
