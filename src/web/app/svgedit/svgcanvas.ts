@@ -453,6 +453,7 @@ export default $.SvgCanvas = function (container, config) {
             const textElem = textElems[i];
             const angle = svgedit.utilities.getRotationAngle(textElem);
             canvas.setRotationAngle(0, true, textElem);
+            console.log(textElem, textElem.getAttribute('letter-spacing'));
             canvas.updateMultiLineTextElem(textElem);
             canvas.setRotationAngle(angle, true, textElem);
             if (textElem.getAttribute('stroke-width') === '2') {
@@ -3911,7 +3912,7 @@ export default $.SvgCanvas = function (container, config) {
     const isVertical = this.getTextIsVertical(textElem);
     const lineSpacing = parseFloat(this.getTextLineSpacing(textElem));
     const charHeight = parseFloat(this.getFontSize(textElem));
-    const letterSpacing = this.getLetterSpacing();
+    const letterSpacing = this.getLetterSpacing(textElem);
     for (let i = 0; i < tspans.length; i++) {
       if (isVertical) {
         let x = [];
@@ -4964,7 +4965,7 @@ export default $.SvgCanvas = function (container, config) {
             }
           }
           // Avoiding trailing m
-          if (i !== elem.pathSegList.numberOfItems -1 || seg.pathSegType !== 2) {
+          if (i !== elem.pathSegList.numberOfItems - 1 || seg.pathSegType !== 2) {
             newList.push(seg);
           }
         }
@@ -7043,7 +7044,7 @@ export default $.SvgCanvas = function (container, config) {
 
     // Disable other elements
     $(elem).parentsUntil('#svgcontent').andSelf().siblings().each(function () {
-      var opac = Number(this.getAttribute('opacity'))|| 1;
+      var opac = Number(this.getAttribute('opacity')) || 1;
       // Store the original's opacity
       elData(this, 'orig_opac', opac);
       this.setAttribute('opacity', (opac * 0.33).toString());
@@ -7671,7 +7672,7 @@ export default $.SvgCanvas = function (container, config) {
           var pt2 = svgedit.math.transformPoint(x2, y2, m);
 
           // Convert back to BB points
-          var g_coords: { [key: string]: number|string } = {};
+          var g_coords: { [key: string]: number | string } = {};
 
           g_coords.x1 = (pt1.x - bb.x) / bb.width;
           g_coords.y1 = (pt1.y - bb.y) / bb.height;

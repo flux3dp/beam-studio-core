@@ -171,10 +171,10 @@ const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
   return font;
 };
 
-const substitutedFont = ($textElement) => {
-  const originFont = getFontOfPostscriptName($textElement.attr('font-postscript'));
-  const fontFamily = $textElement.attr('font-family');
-  const text = $textElement.text();
+const substitutedFont = (textElement: Element) => {
+  const originFont = getFontOfPostscriptName(textElement.getAttribute('font-postscript'));
+  const fontFamily = textElement.getAttribute('font-family');
+  const text = textElement.textContent;
 
   // Escape for Whitelists
   const whiteList = ['標楷體'];
@@ -239,10 +239,10 @@ const substitutedFont = ($textElement) => {
 };
 
 const showSubstitutedFamilyPopup = (
-  $textElement, newFont, origFont, unSupportedChar,
+  textElement: Element, newFont, origFont, unSupportedChar,
 ) => new Promise<SubstituteResult>(
   (resolve) => {
-    const message = sprintf(LANG.text_to_path.font_substitute_pop, $textElement.text(), fontNameMap.get(origFont), unSupportedChar.join(', '), fontNameMap.get(newFont));
+    const message = sprintf(LANG.text_to_path.font_substitute_pop, textElement.textContent, fontNameMap.get(origFont), unSupportedChar.join(', '), fontNameMap.get(newFont));
     const buttonLabels = [
       i18n.lang.alert.confirm,
       LANG.text_to_path.use_current_font,
@@ -263,11 +263,11 @@ const showSubstitutedFamilyPopup = (
   },
 );
 
-const calculateFilled = ($textElement) => {
-  if ($textElement.attr('fill-opacity') === 0) {
+const calculateFilled = (textElement: Element) => {
+  if (parseInt(textElement.getAttribute('fill-opacity'), 10) === 0) {
     return false;
   }
-  const fillAttr = $textElement.attr('fill');
+  const fillAttr = textElement.getAttribute('fill');
   if (['#fff', '#ffffff', 'none'].includes(fillAttr)) {
     return false;
   }
@@ -277,46 +277,49 @@ const calculateFilled = ($textElement) => {
   return false;
 };
 
-const setTextPostscriptnameIfNeeded = ($textElement) => {
-  if (!$textElement.attr('font-postscript')) {
+const setTextPostscriptnameIfNeeded = (textElement: Element) => {
+  if (!textElement.getAttribute('font-postscript')) {
     const font = requestFontByFamilyAndStyle({
-      family: $textElement.attr('font-family'),
-      weight: $textElement.attr('font-weight'),
-      italic: ($textElement.attr('font-style') === 'italic'),
+      family: textElement.getAttribute('font-family'),
+      weight: parseInt(textElement.getAttribute('font-weight'), 10),
+      italic: (textElement.getAttribute('font-style') === 'italic'),
       style: null,
     });
-    $textElement.attr('font-postscript', font.postscriptName);
+    textElement.setAttribute('font-postscript', font.postscriptName);
   }
 };
 
 const convertTextToPathFluxsvg = async (
-  $textElement, bbox, isTempConvert?: boolean,
+  textElement: Element, bbox, isTempConvert?: boolean,
 ): Promise<ConvertResult> => {
-  if (!$textElement.text()) {
+  if (!textElement.textContent) {
     return ConvertResult.CONTINUE;
   }
   Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
 
-  setTextPostscriptnameIfNeeded($textElement);
+  setTextPostscriptnameIfNeeded(textElement);
   let isUnsupported = false;
   const batchCmd = new svgedit.history.BatchCommand('Text to Path');
-  const origFontFamily = $textElement.attr('font-family');
-  const origFontPostscriptName = $textElement.attr('font-postscript');
+  const origFontFamily = textElement.getAttribute('font-family');
+  const origFontPostscriptName = textElement.getAttribute('font-postscript');
   if (BeamboxPreference.read('font-substitute') !== false) {
-    const { font: newFont, unSupportedChar } = substitutedFont($textElement);
+    const { font: newFont, unSupportedChar } = substitutedFont(textElement);
     if (
       newFont.postscriptName !== origFontPostscriptName
       && unSupportedChar
       && unSupportedChar.length > 0
     ) {
       isUnsupported = true;
-      const doSub = await showSubstitutedFamilyPopup($textElement, newFont.family, $textElement.attr('font-family'), unSupportedChar);
+      const familyName = window.os === 'MacOS' ? textElement.getAttribute('data-font-family') : origFontFamily;
+      const doSub = await showSubstitutedFamilyPopup(
+        textElement, newFont.family, familyName, unSupportedChar,
+      );
       if (doSub === SubstituteResult.DO_SUB) {
-        svgCanvas.undoMgr.beginUndoableChange('font-family', Array.from($textElement));
-        $textElement.attr('font-family', newFont.family);
+        svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
+        textElement.setAttribute('font-family', newFont.family);
         batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
-        svgCanvas.undoMgr.beginUndoableChange('font-postscript', Array.from($textElement));
-        $textElement.attr('font-postscript', newFont.postscriptName);
+        svgCanvas.undoMgr.beginUndoableChange('font-postscript', [textElement]);
+        textElement.setAttribute('font-postscript', newFont.postscriptName);
         batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
       } else if (doSub === SubstituteResult.CANCEL_OPERATION) {
         Progress.popById('parsing-font');
@@ -325,17 +328,17 @@ const convertTextToPathFluxsvg = async (
     }
   }
   if (window.os === 'MacOS') {
-    svgCanvas.undoMgr.beginUndoableChange('font-family', Array.from($textElement));
-    $textElement.attr('font-family', $textElement.attr('font-postscript'));
+    svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
+    textElement.setAttribute('font-family', textElement.getAttribute('font-postscript'));
     batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
   }
-  console.log($textElement.attr('font-family'), $textElement.attr('font-postscript'));
-  $textElement.removeAttr('stroke-width');
-  const isFill = calculateFilled($textElement);
-  let color = $textElement.attr('stroke');
-  color = color !== 'none' ? color : $textElement.attr('fill');
+  console.log(textElement.getAttribute('font-family'), textElement.getAttribute('font-postscript'));
+  textElement.removeAttribute('stroke-width');
+  const isFill = calculateFilled(textElement);
+  let color = textElement.getAttribute('stroke');
+  color = color !== 'none' ? color : textElement.getAttribute('fill');
 
-  await svgWebSocket.uploadPlainTextSVG($textElement, bbox);
+  await svgWebSocket.uploadPlainTextSVG(textElement, bbox);
   const outputs = await svgWebSocket.divideSVG({ scale: 1, timeout: 15000 });
   if (!outputs.res) {
     console.error('Error when convert text by fluxsvg', outputs.data);
@@ -378,7 +381,7 @@ const convertTextToPathFluxsvg = async (
       'stroke-dasharray': 'none',
       'vector-effect': 'non-scaling-stroke',
     });
-    $(path).insertAfter($textElement);
+    $(path).insertAfter($(textElement));
     path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
     path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
     batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
@@ -386,23 +389,20 @@ const convertTextToPathFluxsvg = async (
     svgCanvas.moveElements([bbox.x], [bbox.y], [path], false);
 
     if (isTempConvert) {
-      $textElement.attr({
-        display: 'none',
-        'font-family': origFontFamily,
-        'font-postscript': origFontPostscriptName,
-        'stroke-width': 2,
-        'data-path-id': newPathId,
-      });
+      textElement.setAttribute('display', 'none');
+      textElement.setAttribute('font-family', origFontFamily);
+      textElement.setAttribute('font-postscript', origFontPostscriptName);
+      textElement.setAttribute('stroke-width', '2');
+      textElement.setAttribute('data-path-id', newPathId);
       tempPaths.push(path);
     }
     svgedit.recalculate.recalculateDimensions(path);
   }
 
   if (!isTempConvert) {
-    const textElem = $textElement[0];
-    const parent = textElem.parentNode;
-    const { nextSibling } = textElem;
-    const elem = parent.removeChild(textElem);
+    const parent = textElement.parentNode;
+    const { nextSibling } = textElement;
+    const elem = parent.removeChild(textElement);
     batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
 
     if (!batchCmd.isEmpty()) {
@@ -453,7 +453,7 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
 
   const path = document.createElementNS(svgedit.NS.SVG, 'path');
 
-  const isFill = calculateFilled($textElement);
+  const isFill = calculateFilled($textElement[0]);
   let color = $textElement.attr('stroke');
   color = color !== 'none' ? color : $textElement.attr('fill');
 
@@ -501,7 +501,7 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
     const el = texts[i];
     const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
     // eslint-disable-next-line no-await-in-loop
-    const convertRes = await convertTextToPathFluxsvg($(el), bbox, true);
+    const convertRes = await convertTextToPathFluxsvg(el, bbox, true);
     if (convertRes === ConvertResult.CANCEL_OPERATION) {
       return false;
     }

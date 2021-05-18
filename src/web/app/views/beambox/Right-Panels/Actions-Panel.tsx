@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 
 import i18n from 'helpers/i18n';
 import Dialog from 'app/actions/dialog-caller';
@@ -59,7 +58,7 @@ class ActionsPanel extends React.Component<Props> {
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.convertTextToPathFluxsvg($(elem), bbox);
+    await FontFuncs.convertTextToPathFluxsvg(elem, bbox);
     Progress.popById('convert-font');
   };
 

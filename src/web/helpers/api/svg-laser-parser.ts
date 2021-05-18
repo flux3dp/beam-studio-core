@@ -421,7 +421,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       return $deferred.promise();
     },
-    uploadPlainTextSVG($textElement, bbox) {
+    uploadPlainTextSVG(textElement: Element, bbox) {
       const $deferred = $.Deferred();
       const warningCollection = [];
 
@@ -429,8 +429,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         console.error(data);
       };
 
-      let textString = $textElement.prop('outerHTML');
-      if ($textElement.data('verti')) {
+      let textString = textElement.outerHTML;
+      if (textElement.getAttribute('data-verti') === 'true') {
         textString = textString.replace(/letter-spacing="[^"]+"/, '');
       }
       const svgString = `<svg viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}">${textString}</svg>`;
