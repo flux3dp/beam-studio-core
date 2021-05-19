@@ -69,6 +69,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       REDO: () => svgEditor.clickRedo(),
       GROUP: () => FnWrapper.groupSelected(),
       UNGROUP: () => FnWrapper.ungroupSelected(),
+      DELETE: () => svgEditor.deleteSelected(),
       DUPLICATE: () => FnWrapper.cloneSelectedElement(),
       OFFSET: () => svgEditor.triggerOffsetTool(),
       IMAGE_SHARPEN: () => dialog.showPhotoEditPanel('sharpen'),
@@ -165,7 +166,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
   }
 
   onObjectFocus(elems?) {
-    this.enableMenuItems(['DUPLICATE', 'PATH']);
+    this.enableMenuItems(['DUPLICATE', 'DELETE', 'PATH']);
     let selectedElements = elems || svgCanvas.getSelectedElems().filter((elem) => elem);
     if (selectedElements.length > 0 && selectedElements[0].getAttribute('data-tempgroup') === 'true') {
       selectedElements = Array.from(selectedElements[0].childNodes);
@@ -189,7 +190,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
   }
 
   onObjectBlur() {
-    this.disableMenuItems(['DUPLICATE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
+    this.disableMenuItems(['DUPLICATE','DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
   }
 }
 

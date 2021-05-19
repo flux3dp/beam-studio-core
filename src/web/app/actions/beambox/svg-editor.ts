@@ -145,6 +145,7 @@ interface ISVGEditor {
   clipboardData: any
   isClipboardDataReady: any
   triggerNestTool: () => void
+  deleteSelected: () => void
   loadContentAndPrefs: () => void
   tool_scale: number
   exportWindowCt: number
@@ -296,6 +297,7 @@ const svgEditor = window['svgEditor'] = (function () {
     clipboardData: null,
     isClipboardDataReady: false,
     triggerNestTool: () => { },
+    deleteSelected: () => { },
     loadContentAndPrefs: () => { },
     tool_scale: 1, // Dependent on icon size, so any use to making configurable instead? Used by JQuerySpinBtn.js
     exportWindowCt: 0,
@@ -3934,6 +3936,7 @@ const svgEditor = window['svgEditor'] = (function () {
         svgedit.path.path.onDelete();
       }
     };
+    editor.deleteSelected = deleteSelected;
 
     var cutSelected = function () {
       // disabled when focusing input element
