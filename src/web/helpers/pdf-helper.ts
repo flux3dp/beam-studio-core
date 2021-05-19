@@ -9,17 +9,18 @@ import Alert from '../app/actions/alert-caller';
 import AlertConstants from '../app/constants/alert-constants';
 import Progress from '../app/actions/progress-caller';
 import { getSVGAsync } from './svg-editor-helper';
-let svgCanvas;
+
 let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
 
 const fs = requireNode('fs');
 const path = requireNode('path');
 const util = requireNode('util');
-const child_process = requireNode('child_process');
-const exec = util.promisify(child_process.exec);
-const execFile = util.promisify(child_process.execFile);
-const resourcesRoot = process['resourcesPath'] || process.cwd();
+const childProcess = requireNode('child_process');
+const exec = util.promisify(childProcess.exec);
+const execFile = util.promisify(childProcess.execFile);
+// eslint-disable-next-line @typescript-eslint/dot-notation
+const resourcesRoot = localStorage.getItem('dev') === 'true' ? window.process.cwd() : window.process['resourcesPath'];
 const lang = i18n.lang.beambox.popup.pdf2svg;
 const electron = requireNode('electron');
 const appDataPath = electron.remote.app.getPath('appData');
@@ -29,10 +30,10 @@ const win32TempFile = path.join(beamStudioDataPath, 'temp.pdf');
 try {
   if (window.os === 'Windows') {
     if (!fs.existsSync(appDataPath)) {
-      child_process.execSync(`mkdir "${appDataPath}"`);
+      childProcess.execSync(`mkdir "${appDataPath}"`);
     }
     if (!fs.existsSync(beamStudioDataPath)) {
-      child_process.execSync(`mkdir "${beamStudioDataPath}"`);
+      childProcess.execSync(`mkdir "${beamStudioDataPath}"`);
     }
   }
 } catch (e) {
@@ -46,23 +47,29 @@ if (window.os === 'MacOS') {
   pdf2svgPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg.exe');
 }
 
-const pdf2svg = async (file) => {
-  const outPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'out.svg');
+interface FileWithPath extends File {
+  path?: string;
+}
+
+const pdf2svg = async (file: FileWithPath): Promise<void> => {
   if (pdf2svgPath) {
-    //mac or windows, using packed binary executable
+    const outPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'out.svg');
+    // mac or windows, using packed binary executable
     try {
       let filePath = file.path;
       if (window.os === 'Windows') {
         fs.copyFileSync(file.path, win32TempFile);
         filePath = win32TempFile;
       }
-      const { stdout, stderr } = await execFile(pdf2svgPath, [filePath, outPath]);
+      const { stderr } = await execFile(pdf2svgPath, [filePath, outPath]);
       if (!stderr) {
         console.log(outPath);
-        let resp = await fetch(outPath);
+        const resp = await fetch(outPath);
         const blob = await resp.blob();
-        blob['name'] = file.name + '.svg';
-        blob['lastModifiedDate'] = file.lastModifiedDate;
+        Object.assign(blob, {
+          name: `${file.name}.svg`,
+          lastModified: file.lastModified,
+        });
         svgEditor.importSvg(blob, {
           skipVersionWarning: true,
           skipByLayer: true,
@@ -72,11 +79,11 @@ const pdf2svg = async (file) => {
       }
     } catch (e) {
       console.log('Fail to convert pdf 2 svg', e);
-      const message = lang.error_when_converting_pdf + '\n' + e.message;
+      const message = `${lang.error_when_converting_pdf}\n${e.message}`;
       Progress.popById('loading_image');
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
-        message: message
+        message,
       });
     }
   } else {
@@ -90,7 +97,7 @@ const pdf2svg = async (file) => {
       Progress.popById('loading_image');
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
-        message: message
+        message,
       });
       return;
     }
@@ -100,8 +107,10 @@ const pdf2svg = async (file) => {
       if (!stderr) {
         const resp = await fetch(outPath);
         const blob = await resp.blob();
-        blob['name'] = file.name + '.svg';
-        blob['lastModifiedDate'] = file.lastModifiedDate;
+        Object.assign(blob, {
+          name: `${file.name}.svg`,
+          lastModified: file.lastModified,
+        });
         svgEditor.importSvg(blob, {
           skipVersionWarning: true,
           skipByLayer: true,
@@ -111,11 +120,11 @@ const pdf2svg = async (file) => {
       }
     } catch (e) {
       console.log('Fail to convert pdf 2 svg', e.message);
-      const message = lang.error_when_converting_pdf + '\n' + e.message;
+      const message = `${lang.error_when_converting_pdf}\n${e.message}`;
       Progress.popById('loading_image');
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
-        message: message
+        message,
       });
     }
   }
