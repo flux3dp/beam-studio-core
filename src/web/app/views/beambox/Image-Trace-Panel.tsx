@@ -1,5 +1,8 @@
+/* eslint-disable react/sort-comp */
+/* eslint-disable no-console */
+import React from 'react';
+
 import i18n from 'helpers/i18n';
-import * as React from 'react';
 import BeamboxActions from 'app/actions/beambox';
 import BeamboxStore from 'app/stores/beambox-store';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -10,7 +13,8 @@ import requirejsHelper from 'helpers/requirejs-helper';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-let svgCanvas, svgedit;
+let svgCanvas;
+let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgedit = globalSVG.Edit;
@@ -21,12 +25,12 @@ const LANG = i18n.lang.beambox.image_trace_panel;
 
 const TESTING_IT = false;
 
-//View render the following steps
-const STEP_NONE = Symbol();
-const STEP_OPEN = Symbol();
-const STEP_CROP = Symbol();
-const STEP_TUNE = Symbol();
-const STEP_APPLY = Symbol();
+// View render the following steps
+const STEP_NONE = Symbol('STEP_NONE');
+const STEP_OPEN = Symbol('STEP_OPEN');
+const STEP_CROP = Symbol('STEP_CROP');
+const STEP_TUNE = Symbol('STEP_TUNE');
+const STEP_APPLY = Symbol('STEP_APPLY');
 
 let cropper = null;
 let grayscaleCroppedImg = null;
@@ -42,13 +46,21 @@ interface State {
   croppedBlobUrl: string;
   croppedCameraCanvasBlobUrl: string;
   imageTrace: string;
-  cropData: any;
-  preCrop: any;
+  cropData: {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  };
+  preCrop: {
+    offsetX: number;
+    offsetY: number;
+  };
   threshold: number;
 }
 
-class ImageTracePanel extends React.Component<any, State> {
-  constructor(props) {
+class ImageTracePanel extends React.Component<Record<string, never>, State> {
+  constructor(props: Record<string, never>) {
     super(props);
 
     this.state = {
@@ -56,15 +68,17 @@ class ImageTracePanel extends React.Component<any, State> {
       croppedBlobUrl: '',
       croppedCameraCanvasBlobUrl: '',
       imageTrace: '',
-      cropData: {},
-      preCrop: {},
+      cropData: {
+        x: 0, y: 0, width: 0, height: 0,
+      },
+      preCrop: { offsetX: 0, offsetY: 0 },
       threshold: 128,
     };
     maxAllowableWidth = window.innerWidth - 2 * PANEL_PADDING;
     maxAllowableHieght = window.innerHeight - 2 * PANEL_PADDING;
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     BeamboxStore.onCropperShown(() => this.openCropper());
 
     if (TESTING_IT) {
@@ -92,7 +106,7 @@ class ImageTracePanel extends React.Component<any, State> {
                 is_rgba: true,
                 is_shading: false,
                 threshold: 128,
-                is_svg: false
+                is_svg: false,
               },
               onComplete: (result) => {
                 grayscaleCroppedImg = result.pngBase64;
@@ -105,27 +119,18 @@ class ImageTracePanel extends React.Component<any, State> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     BeamboxStore.removeCropperShownListener(() => this.openCropper());
   }
 
-  getImageTrace(imageTrace) {
-    const { currentStep } = this.state;
-    this.setState({ imageTrace });
-
-    if (currentStep === STEP_TUNE) {
-      this.next();
-    }
-  }
-
-  openCropper() {
+  openCropper(): void {
     const { currentStep } = this.state;
     if (currentStep === STEP_NONE) {
       this.next();
     }
   }
 
-  next() {
+  next(): void {
     const { currentStep } = this.state;
 
     switch (currentStep) {
@@ -150,7 +155,7 @@ class ImageTracePanel extends React.Component<any, State> {
     }
   }
 
-  prev() {
+  prev(): void {
     const { currentStep } = this.state;
 
     switch (currentStep) {
@@ -168,7 +173,7 @@ class ImageTracePanel extends React.Component<any, State> {
     }
   }
 
-  backToCropper() {
+  backToCropper(): void {
     const { croppedBlobUrl } = this.state;
 
     this.prev();
@@ -178,19 +183,19 @@ class ImageTracePanel extends React.Component<any, State> {
     });
   }
 
-  backToTune() {
+  backToTune(): void {
     this.prev();
     this.setState({ imageTrace: '' });
   }
 
-  async calculateImageTrace() {
+  async calculateImageTrace(): Promise<void> {
     const { currentStep } = this.state;
     if (currentStep === STEP_TUNE) {
       this.next();
     }
   }
 
-  handleCropping() {
+  handleCropping(): void {
     const cropData = cropper.getData();
     const croppedCanvas = cropper.getCroppedCanvas();
 
@@ -222,13 +227,13 @@ class ImageTracePanel extends React.Component<any, State> {
     });
   }
 
-  handleCropperCancel() {
+  handleCropperCancel(): void {
     this.destroyCropper();
     this.prev();
     BeamboxActions.endImageTrace();
   }
 
-  handleParameterChange(id, value) {
+  handleParameterChange(id: string, value: string|number): void {
     if (id === 'threshold') {
       const { croppedBlobUrl } = this.state;
       ImageData(
@@ -239,7 +244,7 @@ class ImageTracePanel extends React.Component<any, State> {
           grayscale: {
             is_rgba: true,
             is_shading: false,
-            threshold: parseInt(value),
+            threshold: parseInt(value as string, 10),
             is_svg: false,
           },
           onComplete: (result) => {
@@ -247,7 +252,7 @@ class ImageTracePanel extends React.Component<any, State> {
               URL.revokeObjectURL(grayscaleCroppedImg);
             }
             grayscaleCroppedImg = result.pngBase64;
-            this.setState({ threshold: value });
+            this.setState({ threshold: value as number });
           },
         },
       );
@@ -255,13 +260,13 @@ class ImageTracePanel extends React.Component<any, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  destroyCropper() {
+  destroyCropper(): void {
     if (cropper) {
       cropper.destroy();
     }
   }
 
-  handleImageTraceCancel() {
+  handleImageTraceCancel(): void {
     const {
       croppedBlobUrl,
       croppedCameraCanvasBlobUrl,
@@ -281,11 +286,11 @@ class ImageTracePanel extends React.Component<any, State> {
     BeamboxActions.endImageTrace();
   }
 
-  handleImageTraceComplete() {
+  handleImageTraceComplete(): void {
     this.next();
   }
 
-  async pushImageTrace() {
+  async pushImageTrace(): Promise<void> {
     const {
       cropData,
       preCrop,
@@ -328,7 +333,11 @@ class ImageTracePanel extends React.Component<any, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async traceImageAndAppend(imgUrl, cropData, preCrop) {
+  async traceImageAndAppend(
+    imgUrl: string,
+    cropData: { x: number, y: number, width: number, height: number },
+    preCrop: { offsetX: number, offsetY: number },
+  ): Promise<boolean> {
     const ImageTracer = await requirejsHelper('imagetracer');
     return new Promise((resolve) => {
       ImageTracer.imageToSVG(imgUrl, (svgstr) => {
@@ -347,7 +356,7 @@ class ImageTracePanel extends React.Component<any, State> {
             fill: '#000000',
             'stroke-width': 1,
             'vector-effect': 'non-scaling-stroke',
-          }
+          },
         }) as SVGPathElement;
         path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
         path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
@@ -385,7 +394,7 @@ class ImageTracePanel extends React.Component<any, State> {
     });
   }
 
-  renderImageToCrop() {
+  renderImageToCrop(): JSX.Element {
     return (
       <img
         id="previewForCropper"
@@ -395,8 +404,8 @@ class ImageTracePanel extends React.Component<any, State> {
     );
   }
 
-  renderCropper() {
-    const imageObj = document.getElementById('previewForCropper');
+  renderCropper(): void {
+    const imageObj = document.getElementById('previewForCropper') as HTMLImageElement;
     const coordinates = PreviewModeBackgroundDrawer.getCoordinates();
     const sourceWidth = coordinates.maxX - coordinates.minX;
     const sourceHeight = coordinates.maxY - coordinates.minY;
@@ -421,7 +430,7 @@ class ImageTracePanel extends React.Component<any, State> {
     );
   }
 
-  renderCropperModal() {
+  renderCropperModal(): JSX.Element {
     const coordinates = PreviewModeBackgroundDrawer.getCoordinates();
     const sourceWidth = coordinates.maxX - coordinates.minX;
     const sourceHeight = coordinates.maxY - coordinates.minY;
@@ -461,7 +470,7 @@ class ImageTracePanel extends React.Component<any, State> {
     );
   }
 
-  getImageTraceDom() {
+  getImageTraceDom(): JSX.Element {
     const { imageTrace } = this.state;
     if (imageTrace === null) {
       return null;
@@ -488,7 +497,7 @@ class ImageTracePanel extends React.Component<any, State> {
     );
   }
 
-  cropCameraCanvas() {
+  cropCameraCanvas(): void {
     const imageObj = document.getElementById('cameraCanvas') as HTMLCanvasElement;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -530,7 +539,7 @@ class ImageTracePanel extends React.Component<any, State> {
     });
   }
 
-  renderImageTraceModal() {
+  renderImageTraceModal(): JSX.Element {
     const {
       threshold,
       currentStep,
@@ -546,8 +555,8 @@ class ImageTracePanel extends React.Component<any, State> {
     } else {
       const containerMaxWidth = maxAllowableWidth - 330;
       const containerMaxHeight = maxAllowableHieght - 40;
-      containerStyle = (cropData.width / containerMaxWidth > cropData.height / containerMaxHeight) ?
-        { width: `${containerMaxWidth}px` } : { height: `${containerMaxHeight}px` };
+      containerStyle = (cropData.width / containerMaxWidth > cropData.height / containerMaxHeight)
+        ? { width: `${containerMaxWidth}px` } : { height: `${containerMaxHeight}px` };
     }
 
     return (
@@ -579,7 +588,7 @@ class ImageTracePanel extends React.Component<any, State> {
     );
   }
 
-  renderImageTraceFooter() {
+  renderImageTraceFooter(): JSX.Element {
     const { currentStep } = this.state;
     if (currentStep === STEP_TUNE) {
       return (
@@ -633,10 +642,9 @@ class ImageTracePanel extends React.Component<any, State> {
         </button>
       </div>
     );
-
   }
 
-  renderContent() {
+  renderContent(): JSX.Element {
     const { currentStep } = this.state;
     switch (currentStep) {
       case STEP_OPEN:
@@ -658,7 +666,7 @@ class ImageTracePanel extends React.Component<any, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div id="image-trace-panel-outer">
         {this.renderContent()}
