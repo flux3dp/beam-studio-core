@@ -2073,7 +2073,7 @@ const svgEditor = window['svgEditor'] = (function () {
           .enableContextMenuItems('#group')
           .disableContextMenuItems('#ungroup');
       } else {
-        menu_items.disableContextMenuItems('#delete,#cut,#copy,#group,#ungroup,#move_front,#move_up,#move_down,#move_back');
+        menu_items.disableContextMenuItems('#delete,#cut,#copy,#duplicate,#group,#ungroup,#move_front,#move_up,#move_down,#move_back');
       }
 
       // update history buttons
@@ -2087,7 +2087,7 @@ const svgEditor = window['svgEditor'] = (function () {
         $('#selLayerNames').removeAttr('disabled').val(currentLayerName);
         displayChangeLayerBlock(true);
         // Enable regular menu options
-        canv_menu.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
+        canv_menu.enableContextMenuItems('#delete,#cut,#copy,#duplicate,#move_front,#move_up,#move_down,#move_back');
       } else {
         $('#selLayerNames').attr('disabled', 'disabled');
         displayChangeLayerBlock(false);
@@ -5458,6 +5458,9 @@ const svgEditor = window['svgEditor'] = (function () {
               break;
             case 'copy':
               copySelected();
+              break;
+            case 'duplicate':
+              svgCanvas.cloneSelectedElements(20, 20);
               break;
             case 'paste':
               svgCanvas.pasteElements();

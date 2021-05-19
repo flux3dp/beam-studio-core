@@ -297,6 +297,7 @@ export default {
       copy: '複製',
       paste: '貼上',
       paste_in_place: '原地貼上',
+      duplicate: '重製',
       delete: '刪除',
       group: '群組',
       ungroup: '解散群組',
