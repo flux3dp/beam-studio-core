@@ -1,10 +1,12 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import ColorPickerPanel from 'app/views/beambox/Color-Picker-Panel';
 import Dialog from 'app/actions/dialog-caller';
+import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
@@ -27,7 +29,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const classNames = requireNode('classnames');
 const { ContextMenu, MenuItem, ContextMenuTrigger } = requireNode('react-contextmenu');
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 let contextCaller;

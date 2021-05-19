@@ -1,4 +1,6 @@
 import * as React from 'react';
+import classNames from 'classnames';
+
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import DeviceMaster from 'helpers/device-master';
 import dialog from 'app/actions/dialog-caller';
@@ -9,7 +11,6 @@ import Modal from 'app/widgets/Modal';
 import storage from 'helpers/storage-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-const classNames = requireNode('classnames');
 const dns = requireNode('dns');
 const ping = requireNode('net-ping');
 

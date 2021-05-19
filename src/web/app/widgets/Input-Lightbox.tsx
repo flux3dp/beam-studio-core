@@ -1,11 +1,11 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
-import Constants from 'app/constants/input-lightbox-constants';
-import AlertDialog from './AlertDialog';
-import Modal from './Modal';
+import classNames from 'classnames';
 
-const classNames = requireNode('classnames');
-const PropTypes = requireNode('prop-types');
+import AlertDialog from 'app/widgets/AlertDialog';
+import Constants from 'app/constants/input-lightbox-constants';
+import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
+
 
 var acceptableTypes = [
   Constants.TYPE_TEXT,

@@ -1,15 +1,16 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import ActionsPanel from 'app/views/beambox/Right-Panels/Actions-Panel';
 import DimensionPanel from 'app/views/beambox/Right-Panels/Dimension-Panel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import i18n from 'helpers/i18n';
 import OptionsPanel from 'app/views/beambox/Right-Panels/Options-Panel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext, ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 let _contextCaller;
 

@@ -1,6 +1,8 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -8,7 +10,6 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 let svgCanvas, svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
 
-const classNames = requireNode('classnames');
 const ReactSelect = requireNode('react-select');
 const Select = ReactSelect.default;
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
