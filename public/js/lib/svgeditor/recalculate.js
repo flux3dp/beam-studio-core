@@ -154,9 +154,11 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     case 'g':
       break;
     default:
-      if ((tlist.numberOfItems === 1 && tlist.getItem(0).type === 1) ||
-          (tlist.numberOfItems === 2 && tlist.getItem(0).type === 1 && tlist.getItem(0).type === 4)) {
-        return null;
+      if ((tlist.numberOfItems === 1 && tlist.getItem(0).type === 1)) {
+        let matrix = tlist.getItem(0).matrix;
+        if (!matrix.b === 0 || matrix.c !== 0) {
+          return null;
+        }
       }
   }
 
@@ -775,36 +777,36 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     // else if this child now has a matrix imposition (from a parent group)
     // we might be able to simplify
     else if (N == 1 && tlist.getItem(0).type == 1) {
-      if (!angle) {
-        // Remap all point-based elements
-        m = svgedit.math.transformListToTransform(tlist).matrix;
-        if (['line', 'polyline', 'polygon', 'path'].includes(selected.tagName)) {
-          if (selected.tagName === 'line') {
-            changes = $(selected).attr(['x1', 'y1', 'x2', 'y2']);
-          } else if (selected.tagName === 'path') {
-            changes.d = selected.getAttribute('d');
-          } else {
-            // polyline or polygon
-            changes.points = selected.getAttribute('points');
-            if (changes.points) {
-              const list = selected.points;
-              const len = list.numberOfItems;
-              changes.points = new Array(len);
-              for (var i = 0; i < len; ++i) {
-                var pt = list.getItem(i);
-                changes.points[i] = {x:pt.x, y:pt.y};
+      let matrix = svgedit.math.transformListToTransform(tlist).matrix;
+      if (matrix.b === 0 && matrix.c === 0) {
+        operation = 3; // scale
+        m = matrix;
+        tlist.removeItem(0);
+      } else {
+        if (!angle) {
+          // Remap all point-based elements
+          m = svgedit.math.transformListToTransform(tlist).matrix;
+          if (['line', 'polyline', 'polygon', 'path'].includes(selected.tagName)) {
+            if (selected.tagName === 'line') {
+              changes = $(selected).attr(['x1', 'y1', 'x2', 'y2']);
+            } else if (selected.tagName === 'path') {
+              changes.d = selected.getAttribute('d');
+            } else {
+              // polyline or polygon
+              changes.points = selected.getAttribute('points');
+              if (changes.points) {
+                const list = selected.points;
+                const len = list.numberOfItems;
+                changes.points = new Array(len);
+                for (var i = 0; i < len; ++i) {
+                  var pt = list.getItem(i);
+                  changes.points[i] = {x:pt.x, y:pt.y};
+                }
               }
             }
+            operation = 1;
+            tlist.clear();
           }
-          operation = 1;
-          tlist.clear();
-        }
-      } else {
-        let matrix = svgedit.math.transformListToTransform(tlist).matrix;
-        if (matrix.b === 0 && matrix.c === 0) {
-          operation = 3; // scale
-          m = matrix;
-          tlist.removeItem(0);
         }
       }
     }
