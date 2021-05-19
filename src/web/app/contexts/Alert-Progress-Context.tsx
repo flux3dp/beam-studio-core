@@ -14,47 +14,64 @@ interface IAlertOrProgress extends IAlert, IProgressDialog {
   isProgress?: boolean,
 }
 
+export interface IAlertProgressContext {
+  alertProgressStack: IAlertOrProgress[];
+  popFromStack: () => void;
+  popById: (id: string) => void;
+  checkIdExist: (id: string, isProgress?: boolean) => boolean;
+  popUp: (alert: IAlert) => void;
+  openProgress: (progress: IProgressDialog) => void;
+  updateProgress: (id: string, args?: IProgressDialog) => void;
+  popLastProgress: () => void;
+}
+
 interface State {
   alertProgressStack: IAlertOrProgress[],
 }
 
-export class AlertProgressContextProvider extends React.Component<{}, State> {
-  constructor(props) {
+export class AlertProgressContextProvider extends React.Component<unknown, State> {
+  constructor(props: unknown) {
     super(props);
     this.state = {
-      alertProgressStack: []
-    }
+      alertProgressStack: [],
+    };
   }
 
-  popFromStack = () => {
-    this.state.alertProgressStack.pop();
-    this.setState(this.state);
-  }
+  popFromStack = (): void => {
+    const { alertProgressStack } = this.state;
+    alertProgressStack.pop();
+    this.forceUpdate();
+  };
 
-  popById = (id: string) => {
+  popById = (id: string): void => {
     const { alertProgressStack } = this.state;
     this.setState({
-      alertProgressStack: alertProgressStack.filter((alertAndProgress) => alertAndProgress.id !== id),
+      alertProgressStack: alertProgressStack.filter((item) => item.id !== id),
     });
-  }
+  };
 
-  checkIdExist = (id: string, isProgress: boolean = false) => {
-    const res = this.state.alertProgressStack.filter((alertAndProgress) => {
-      return alertAndProgress.id === id && !!alertAndProgress.isProgress === isProgress;
+  checkIdExist = (id: string, isProgress = false): boolean => {
+    const { alertProgressStack } = this.state;
+    const res = alertProgressStack.filter((item) => {
+      const { id: itemId, isProgress: itemIsProg } = item;
+      return itemId === id && !!itemIsProg === isProgress;
     });
     return res.length > 0;
-  }
+  };
 
-  pushToStack = (elem) => {
-    if (elem.id) {
-      console.log('alert/progress poped', elem.id);
+  pushToStack = (item: IAlertOrProgress): void => {
+    if (item.id) {
+      // eslint-disable-next-line no-console
+      console.log('alert/progress poped', item.id);
     }
-    this.state.alertProgressStack.push(elem);
-    this.setState(this.state);
-  }
+    const { alertProgressStack } = this.state;
+    alertProgressStack.push(item);
+    this.forceUpdate();
+  };
 
-  openProgress = (args) => {
-    let { id, type, message, caption } = args;
+  openProgress = (args: IProgressDialog): void => {
+    const { type } = args;
+    let { id, message, caption } = args;
     if (!id) {
       id = `progress_${progressID}`;
       progressID = (progressID + 1) % 100000;
@@ -70,12 +87,12 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
       message,
       isProgress: true,
     });
-  }
+  };
 
-  popLastProgress = () => {
+  popLastProgress = (): void => {
     const { alertProgressStack } = this.state;
     let i;
-    for (i = alertProgressStack.length - 1; i >= 0; i--) {
+    for (i = alertProgressStack.length - 1; i >= 0; i -= 1) {
       if (alertProgressStack[i].isProgress) {
         break;
       }
@@ -84,26 +101,29 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
       alertProgressStack.splice(i, 1);
       this.setState({ alertProgressStack });
     }
-  }
+  };
 
-  updateProgress = (id, args: IProgressDialog = {}) => {
+  updateProgress = (id: string, args: IProgressDialog = {}): void => {
     const { alertProgressStack } = this.state;
-    const targetObjects = alertProgressStack.filter((alertOrProgress) => {
-      return alertOrProgress.isProgress && alertOrProgress.id === id;
+    const targetObjects = alertProgressStack.filter((item) => {
+      const { isProgress, id: itemId } = item;
+      return isProgress && itemId === id;
     });
     if (targetObjects.length === 0) {
       return;
     }
     const targetObject = targetObjects[targetObjects.length - 1];
     if (targetObject.type === ProgressConstants.NONSTOP && !args.caption && args.message) {
+      // eslint-disable-next-line no-param-reassign
       args.caption = args.message;
     }
     Object.assign(targetObject, args);
     this.setState({ alertProgressStack });
-  }
+  };
 
-  popUp = (args: IAlert) => {
-    let { type, message, caption } = args;
+  popUp = (args: IAlert): void => {
+    const { type } = args;
+    let { message, caption } = args;
     message = message || '';
     switch (type) {
       case AlertConstants.SHOW_POPUP_INFO:
@@ -115,10 +135,12 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
       case AlertConstants.SHOW_POPUP_ERROR:
         caption = caption || LANG.error;
         break;
+      default:
+        break;
     }
-    let { buttons, checkbox } = this.buttonsGenerator(args);
-    let checkboxText = checkbox ? checkbox.text : null;
-    let checkboxCallbacks = checkbox ? checkbox.callbacks : null;
+    const { buttons, checkbox } = this.buttonsGenerator(args);
+    const checkboxText = checkbox ? checkbox.text : null;
+    const checkboxCallbacks = checkbox ? checkbox.callbacks : null;
 
     this.pushToStack({
       ...args,
@@ -126,20 +148,23 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
       message,
       buttons,
       checkboxText,
-      checkboxCallbacks
+      checkboxCallbacks,
     });
-  }
+  };
 
-  buttonsGenerator = (args) => {
-    let { id, buttons, buttonType, buttonLabels, checkbox, callbacks, primaryButtonIndex, onYes, onNo, onConfirm, onRetry, onCancel } = args;
+  buttonsGenerator = (args: IAlert): { buttons, checkbox } => {
+    const { id, buttonType, checkbox } = args;
+    let { buttons } = args;
     if (buttons) {
       return { buttons, checkbox };
     }
-
+    let { buttonLabels, callbacks, primaryButtonIndex } = args;
+    let { onYes, onNo } = args;
+    let { onConfirm, onRetry, onCancel } = args;
     switch (buttonType) {
       case AlertConstants.YES_NO:
-        onYes = onYes ? onYes : () => { };
-        onNo = onNo ? onNo : () => { };
+        onYes = onYes || (() => { });
+        onNo = onNo || (() => { });
         buttonLabels = [LANG.yes, LANG.no];
         callbacks = [onYes, onNo];
         primaryButtonIndex = primaryButtonIndex || 0;
@@ -150,8 +175,8 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
         }
         break;
       case AlertConstants.YES_NO_CUSTOM:
-        onYes = onYes ? onYes : () => { };
-        onNo = onNo ? onNo : () => { };
+        onYes = onYes || (() => { });
+        onNo = onNo || (() => { });
         primaryButtonIndex = primaryButtonIndex || 0;
         if (!buttonLabels) {
           buttonLabels = [LANG.yes, LANG.no];
@@ -163,17 +188,16 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
           }
         } else if (typeof buttonLabels === 'string') {
           buttonLabels = [LANG.yes, LANG.no, buttonLabels];
-          callbacks = callbacks ? callbacks : () => { };
-          callbacks = [onYes, onNo, callbacks];
-
+          callbacks = callbacks || (() => { });
+          callbacks = [onYes, onNo, (callbacks as () => void)];
         } else {
           buttonLabels = [LANG.yes, LANG.no, ...buttonLabels];
-          callbacks = [onYes, onNo, ...callbacks];
+          callbacks = [onYes, onNo, ...(callbacks as (() => void)[])];
         }
         break;
       case AlertConstants.CONFIRM_CANCEL:
-        onConfirm = onConfirm ? onConfirm : () => { };
-        onCancel = onCancel ? onCancel : () => { };
+        onConfirm = onConfirm || (() => { });
+        onCancel = onCancel || (() => { });
         buttonLabels = [LANG.confirm, LANG.cancel];
         primaryButtonIndex = primaryButtonIndex || 0;
         callbacks = [onConfirm, onCancel];
@@ -184,8 +208,8 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
         }
         break;
       case AlertConstants.RETRY_CANCEL:
-        onRetry = onRetry ? onRetry : () => { };
-        onCancel = onCancel ? onCancel : () => { };
+        onRetry = onRetry || (() => { });
+        onCancel = onCancel || (() => { });
         buttonLabels = [LANG.retry, LANG.cancel];
         primaryButtonIndex = primaryButtonIndex || 0;
         callbacks = [onRetry, onCancel];
@@ -196,7 +220,7 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
         }
         break;
       case AlertConstants.CUSTOM_CANCEL:
-        onCancel = onCancel ? onCancel : () => { };
+        onCancel = onCancel || (() => { });
         primaryButtonIndex = primaryButtonIndex || 0;
         if (!buttonLabels) {
           buttonLabels = [LANG.cancel];
@@ -207,18 +231,17 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
           }
         } else if (typeof buttonLabels === 'string') {
           buttonLabels = [buttonLabels, LANG.cancel];
-          callbacks = callbacks ? callbacks : () => { };
-          callbacks = [callbacks, onCancel];
-
+          callbacks = callbacks || (() => { });
+          callbacks = [callbacks as () => void, onCancel];
         } else {
           buttonLabels = [...buttonLabels, LANG.cancel];
-          callbacks = [...callbacks, onCancel];
+          callbacks = [...(callbacks as (() => void)[]), onCancel];
         }
         break;
       default:
         if (!buttonLabels) {
           buttonLabels = [LANG.ok];
-          callbacks = callbacks ? callbacks : () => { };
+          callbacks = callbacks || (() => { });
           if (checkbox) {
             if (!checkbox.callbacks) {
               checkbox.callbacks = [() => { }];
@@ -228,7 +251,7 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
           }
         } else if (typeof buttonLabels === 'string') {
           buttonLabels = [buttonLabels];
-          callbacks = callbacks ? callbacks : () => { };
+          callbacks = callbacks || (() => { });
           if (checkbox) {
             if (!checkbox.callbacks) {
               checkbox.callbacks = [() => { }];
@@ -240,19 +263,19 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
         break;
     }
     buttons = buttonLabels.map((label, i) => {
-      let b = {
+      const b = {
         label,
         className: (buttonLabels.length === 1 || i === primaryButtonIndex || primaryButtonIndex === undefined) ? 'btn-default primary' : 'btn-default',
-        onClick: () => { }
+        onClick: () => { },
       };
       if (callbacks && typeof callbacks === 'function') {
         b.onClick = () => {
-          callbacks(id);
-        }
+          (callbacks as (id: string) => void)(id);
+        };
       } else if (callbacks && callbacks.length > i) {
         b.onClick = () => {
           callbacks[i](id);
-        }
+        };
       } else if (!callbacks) {
         b.onClick = () => { };
       }
@@ -260,9 +283,10 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
     });
 
     return { buttons, checkbox };
-  }
+  };
 
-  render() {
+  render(): JSX.Element {
+    const { children } = this.props;
     const { alertProgressStack } = this.state;
     const {
       popFromStack,
@@ -275,19 +299,22 @@ export class AlertProgressContextProvider extends React.Component<{}, State> {
       pushToStack,
     } = this;
     return (
-      <AlertProgressContext.Provider value={{
-        alertProgressStack,
-        popFromStack,
-        popById,
-        checkIdExist,
-        popUp,
-        openProgress,
-        updateProgress,
-        popLastProgress,
-        pushToStack,
-      }}>
-        {this.props.children}
+      <AlertProgressContext.Provider value={
+          {
+            alertProgressStack,
+            popFromStack,
+            popById,
+            checkIdExist,
+            popUp,
+            openProgress,
+            updateProgress,
+            popLastProgress,
+            pushToStack,
+          }
+        }
+      >
+        {children}
       </AlertProgressContext.Provider>
     );
   }
-};
+}
