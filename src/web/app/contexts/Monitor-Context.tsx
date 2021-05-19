@@ -477,7 +477,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   };
 
   onNavigationBtnClick = (): void => {
-    const { mode, currentPath, previewTask } = this.state;
+    const {
+      mode, currentPath, previewTask, report,
+    } = this.state;
     if (mode === Mode.FILE) {
       if (currentPath.length > 0) {
         currentPath.pop();
@@ -503,6 +505,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       this.toggleCamera();
     } else if (mode === Mode.CAMERA_RELOCATE) {
       this.endRelocate();
+    } else if (mode === Mode.WORKING && MonitorStatus.isAbortedOrCompleted(report)) {
+      DeviceMaster.quit();
     }
   };
 
