@@ -1,8 +1,9 @@
 import * as React from 'react';
+import classNames from 'classnames';
+
 import ButtonGroup from 'app/widgets/Button-Group';
 import Modal from 'app/widgets/Modal';
 
-const classNames = requireNode('classnames');
 const electron = requireNode('electron');
 
 interface Props {

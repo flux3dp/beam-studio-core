@@ -1,6 +1,7 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
 import $ from 'jquery';
+import classNames from 'classnames';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import AlertDialog from 'app/widgets/AlertDialog';
@@ -10,6 +11,7 @@ import Constant from 'app/actions/beambox/constant';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
@@ -17,7 +19,6 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.diode_calibration;
 
 //View render the following steps

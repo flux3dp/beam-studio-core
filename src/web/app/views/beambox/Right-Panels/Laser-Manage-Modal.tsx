@@ -1,16 +1,17 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Dialog from 'app/actions/dialog-caller';
+import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
 import Modal from 'app/widgets/Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'helpers/storage-helper';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 const defaultLaserOptions = RightPanelConstants.laserPresetKeys;
 

@@ -1,9 +1,12 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
+import i18n from 'helpers/i18n';
 import BeamboxActions from 'app/actions/beambox';
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import BeamboxInit from 'app/actions/beambox/beambox-init';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import sentryHelper from 'helpers/sentry-helper';
 import SVGEditor from 'app/pages/svg-editor';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { TimeEstimationButton } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button';
@@ -11,10 +14,8 @@ import { TopBar } from 'app/views/beambox/Top-Bar/Top-Bar';
 import { TopBarContextProvider } from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Context';
 import { ZoomBlock } from 'app/views/beambox/Zoom-Block/Zoom-Block';
 import { ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
-import sentryHelper from 'helpers/sentry-helper';
 
 const { electron } = window;
-const classNames = requireNode('classnames');
 
 sentryHelper.initSentry();
 BeamboxInit.init();

@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-const classNames = requireNode('classnames');
+import classNames from 'classnames';
 
 interface Props {
   segments: {
