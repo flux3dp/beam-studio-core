@@ -1,6 +1,7 @@
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-console */
 import React from 'react';
+import Cropper from 'cropperjs';
 
 import i18n from 'helpers/i18n';
 import BeamboxActions from 'app/actions/beambox';
@@ -20,7 +21,6 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-const Cropper = requireNode('cropperjs');
 const LANG = i18n.lang.beambox.image_trace_panel;
 
 const TESTING_IT = false;
@@ -29,7 +29,6 @@ const TESTING_IT = false;
 const STEP_NONE = Symbol('STEP_NONE');
 const STEP_OPEN = Symbol('STEP_OPEN');
 const STEP_CROP = Symbol('STEP_CROP');
-const STEP_TUNE = Symbol('STEP_TUNE');
 const STEP_APPLY = Symbol('STEP_APPLY');
 
 let cropper = null;
@@ -110,7 +109,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
               },
               onComplete: (result) => {
                 grayscaleCroppedImg = result.pngBase64;
-                this.setState({ currentStep: STEP_TUNE });
+                this.setState({ currentStep: STEP_APPLY });
               },
             },
           );
@@ -144,9 +143,6 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         this.setState({ currentStep: STEP_APPLY });
         this.destroyCropper();
         break;
-      case STEP_TUNE:
-        this.setState({ currentStep: STEP_APPLY });
-        break;
       case STEP_APPLY:
         this.setState({ currentStep: STEP_NONE });
         break;
@@ -155,48 +151,24 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
     }
   }
 
-  prev(): void {
+  prev = (): void => {
     const { currentStep } = this.state;
 
     switch (currentStep) {
       case STEP_CROP:
         this.setState({ currentStep: STEP_NONE });
         break;
-      case STEP_TUNE:
-        this.setState({ currentStep: STEP_CROP });
-        break;
       case STEP_APPLY:
         this.setState({ currentStep: STEP_CROP });
         break;
       default:
         break;
     }
-  }
+  };
 
-  backToCropper(): void {
-    const { croppedBlobUrl } = this.state;
-
-    this.prev();
-    URL.revokeObjectURL(croppedBlobUrl);
-    this.setState({
-      threshold: 128,
-    });
-  }
-
-  backToTune(): void {
-    this.prev();
-    this.setState({ imageTrace: '' });
-  }
-
-  async calculateImageTrace(): Promise<void> {
-    const { currentStep } = this.state;
-    if (currentStep === STEP_TUNE) {
-      this.next();
-    }
-  }
-
-  handleCropping(): void {
+  handleCropping = (): void => {
     const cropData = cropper.getData();
+    console.log(cropData);
     const croppedCanvas = cropper.getCroppedCanvas();
 
     croppedCanvas.toBlob((blob) => {
@@ -225,15 +197,15 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         },
       );
     });
-  }
+  };
 
-  handleCropperCancel(): void {
+  handleCropperCancel = (): void => {
     this.destroyCropper();
     this.prev();
     BeamboxActions.endImageTrace();
-  }
+  };
 
-  handleParameterChange(id: string, value: string|number): void {
+  handleParameterChange = (id: string, value: string|number): void => {
     if (id === 'threshold') {
       const { croppedBlobUrl } = this.state;
       ImageData(
@@ -257,7 +229,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         },
       );
     }
-  }
+  };
 
   // eslint-disable-next-line class-methods-use-this
   destroyCropper(): void {
@@ -266,7 +238,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
     }
   }
 
-  handleImageTraceCancel(): void {
+  handleImageTraceCancel = (): void => {
     const {
       croppedBlobUrl,
       croppedCameraCanvasBlobUrl,
@@ -284,13 +256,13 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
       threshold: 128,
     });
     BeamboxActions.endImageTrace();
-  }
+  };
 
   handleImageTraceComplete(): void {
     this.next();
   }
 
-  async pushImageTrace(): Promise<void> {
+  pushImageTrace = async (): Promise<void> => {
     const {
       cropData,
       preCrop,
@@ -330,7 +302,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
       threshold: 128,
     });
     BeamboxActions.endImageTrace();
-  }
+  };
 
   // eslint-disable-next-line class-methods-use-this
   async traceImageAndAppend(
@@ -394,25 +366,9 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
     });
   }
 
-  renderImageToCrop(): JSX.Element {
-    return (
-      <img
-        id="previewForCropper"
-        onLoad={this.renderCropper}
-        src={PreviewModeBackgroundDrawer.getCameraCanvasUrl()}
-      />
-    );
-  }
-
-  renderCropper(): void {
+  startCropper = (): void => {
     const imageObj = document.getElementById('previewForCropper') as HTMLImageElement;
     const coordinates = PreviewModeBackgroundDrawer.getCoordinates();
-    const sourceWidth = coordinates.maxX - coordinates.minX;
-    const sourceHeight = coordinates.maxY - coordinates.minY;
-    const ratio = Math.min(maxAllowableHieght / sourceHeight, maxAllowableWidth / sourceWidth);
-    const destWidth = sourceWidth * ratio;
-    const destHeight = sourceHeight * ratio;
-
     this.setState({
       preCrop: {
         offsetX: coordinates.minX,
@@ -424,11 +380,9 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
       {
         zoomable: false,
         viewMode: 0,
-        targetWidth: destWidth,
-        targetHeight: destHeight,
       },
     );
-  }
+  };
 
   renderCropperModal(): JSX.Element {
     const coordinates = PreviewModeBackgroundDrawer.getCoordinates();
@@ -444,7 +398,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
           <div className="main-content" style={{ width: maxAllowableWidth, height: maxAllowableHieght }}>
             <img
               id="previewForCropper"
-              onLoad={this.renderCropper}
+              onLoad={this.startCropper}
               src={croppedCameraCanvasBlobUrl}
               style={containerStyle}
             />
@@ -497,7 +451,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
     );
   }
 
-  cropCameraCanvas(): void {
+  cropCameraCanvas = (): void => {
     const imageObj = document.getElementById('cameraCanvas') as HTMLCanvasElement;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -537,7 +491,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         this.next();
       }
     });
-  }
+  };
 
   renderImageTraceModal(): JSX.Element {
     const {
@@ -577,7 +531,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
                   max={255}
                   step={1}
                   default={Math.floor(threshold)}
-                  onChange={(id, val) => this.handleParameterChange(id, val)}
+                  onChange={this.handleParameterChange}
                 />
               </div>
             </div>
@@ -589,34 +543,6 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
   }
 
   renderImageTraceFooter(): JSX.Element {
-    const { currentStep } = this.state;
-    if (currentStep === STEP_TUNE) {
-      return (
-        <div className="footer">
-          <button
-            type="button"
-            className="btn btn-default pull-right"
-            onClick={this.handleImageTraceCancel}
-          >
-            {LANG.cancel}
-          </button>
-          <button
-            type="button"
-            className="btn btn-default pull-right"
-            onClick={this.backToCropper}
-          >
-            {LANG.back}
-          </button>
-          <button
-            type="button"
-            className="btn btn-default pull-right primary"
-            onClick={this.calculateImageTrace}
-          >
-            {LANG.apply}
-          </button>
-        </div>
-      );
-    }
     return (
       <div className="footer">
         <button
@@ -651,14 +577,12 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         return (
           <img
             id="cameraCanvas"
-            onLoad={() => this.cropCameraCanvas()}
+            onLoad={this.cropCameraCanvas}
             src={PreviewModeBackgroundDrawer.getCameraCanvasUrl() || ''}
           />
         );
       case STEP_CROP:
         return this.renderCropperModal();
-      case STEP_TUNE:
-        return this.renderImageTraceModal();
       case STEP_APPLY:
         return this.renderImageTraceModal();
       default:
