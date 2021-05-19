@@ -14,30 +14,27 @@ interface Props {
 }
 
 class MonitorHeader extends React.PureComponent<Props> {
-  constructor(props) {
-    super(props);
-  }
-
-  renderNavigationBtn() {
+  renderNavigationBtn(): JSX.Element {
     const { onNavigationBtnClick } = this.context;
     const { navBtnType } = this.props;
     if (navBtnType === NavBtnType.BACK) {
       return (
         <div className="back" onClick={onNavigationBtnClick}>
-          <i className="fa fa-angle-left"></i>
+          <i className="fa fa-angle-left" />
         </div>
       );
-    } else if (navBtnType === NavBtnType.FOLDER) {
+    }
+    if (navBtnType === NavBtnType.FOLDER) {
       return (
         <div className="back" onClick={onNavigationBtnClick}>
           <img src="img/folder.svg" />
         </div>
       );
     }
-    return <div />
+    return <div />;
   }
 
-  render() {
+  render(): JSX.Element {
     const { name } = this.props;
     const { onClose } = this.context;
     return (
@@ -45,14 +42,14 @@ class MonitorHeader extends React.PureComponent<Props> {
         <div className="title">
           <span>{name}</span>
           <div className="close" onClick={onClose}>
-            <div className="x"></div>
+            <div className="x" />
           </div>
           {this.renderNavigationBtn()}
         </div>
       </div>
     );
   }
-};
+}
 
 MonitorHeader.contextType = MonitorContext;
 
