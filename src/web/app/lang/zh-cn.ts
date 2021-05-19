@@ -297,6 +297,7 @@ export default {
       copy: '复制',
       paste: '粘贴',
       paste_in_place: '粘贴到原位置',
+      duplicate: '重製',
       delete: '删除',
       group: '组合',
       ungroup: '取消组合元素',

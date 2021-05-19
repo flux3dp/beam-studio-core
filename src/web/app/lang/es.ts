@@ -297,6 +297,7 @@ export default {
       copy: 'Copiar',
       paste: 'Pegar',
       paste_in_place: 'Pegar en su lugar',
+      duplicate: 'Duplicar',
       delete: 'Eliminar',
       group: 'Grupo',
       ungroup: 'Desagrupar',

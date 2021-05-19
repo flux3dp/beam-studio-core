@@ -295,6 +295,7 @@ export interface ILang {
       copy: string,
       paste: string,
       paste_in_place: string,
+      duplicate: string,
       delete: string,
       group: string,
       ungroup: string,
