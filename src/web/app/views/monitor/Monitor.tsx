@@ -28,26 +28,17 @@ interface Props {
   device: IDeviceInfo
 }
 
-interface State {
-  currentPath: string[];
-  mode: string;
-  report: any;
-}
-
-export default class Monitor extends React.Component<Props, State> {
-  constructor(props) {
+export default class Monitor extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
-    this.state = {
-      currentPath: [],
-      mode: props.mode,
-      report: {},
-    };
     updateLang();
   }
 
-  renderHeader() {
+  renderHeader(): JSX.Element {
     const { device } = this.props;
-    const { currentPath, mode, previewTask } = this.context;
+    const {
+      currentPath, mode, previewTask, report,
+    } = this.context;
 
     let navBtnType = NavBtnType.BACK;
     if (mode === Mode.PREVIEW) {
@@ -55,7 +46,11 @@ export default class Monitor extends React.Component<Props, State> {
     } else if (mode === Mode.FILE && currentPath.length === 0 && !previewTask) {
       navBtnType = NavBtnType.NONE;
     } else if (mode === Mode.WORKING) {
-      navBtnType = NavBtnType.NONE;
+      if (MonitorStatus.isAbortedOrCompleted(report)) {
+        navBtnType = NavBtnType.BACK;
+      } else {
+        navBtnType = NavBtnType.NONE;
+      }
     }
 
     return (
@@ -66,7 +61,7 @@ export default class Monitor extends React.Component<Props, State> {
     );
   }
 
-  renderFileList() {
+  renderFileList(): JSX.Element {
     const { currentPath } = this.context;
     const path = currentPath.join('/');
     return (
@@ -76,7 +71,7 @@ export default class Monitor extends React.Component<Props, State> {
     );
   }
 
-  renderTask() {
+  renderTask(): JSX.Element {
     const { device } = this.props;
     return (
       <MonitorTask
@@ -85,11 +80,7 @@ export default class Monitor extends React.Component<Props, State> {
     );
   }
 
-  renderControl() {
-    return (<MonitorControl />);
-  }
-
-  renderCamera() {
+  renderCamera(): JSX.Element {
     const { device } = this.props;
     return (
       <MonitorCamera
@@ -98,7 +89,7 @@ export default class Monitor extends React.Component<Props, State> {
     );
   }
 
-  renderRelocate() {
+  renderRelocate(): JSX.Element {
     const { device } = this.props;
     return (
       <MonitorRelocate
@@ -107,7 +98,7 @@ export default class Monitor extends React.Component<Props, State> {
     );
   }
 
-  renderInfo() {
+  renderInfo(): JSX.Element {
     const { report, uploadProgress } = this.context;
     const getStatusText = () => {
       if (uploadProgress !== null) {
@@ -123,20 +114,25 @@ export default class Monitor extends React.Component<Props, State> {
         return displayStatus;
       }
       return '';
-    }
+    };
 
     const getInfoProgressText = () => {
-      const { mode, taskTime, report, uploadProgress, downloadProgress } = this.context;
+      const {
+        mode, taskTime, downloadProgress,
+      } = this.context;
 
       if (uploadProgress !== null) {
         return `${LANG.monitor.processing} ${uploadProgress}%`;
       }
 
       if (downloadProgress !== null) {
-        return `${LANG.monitor.processing} ${Math.floor((downloadProgress.size - downloadProgress.left) / downloadProgress.size * 100)}%`;
+        return `${LANG.monitor.processing} ${Math.floor(((downloadProgress.size - downloadProgress.left) / downloadProgress.size) * 100)}%`;
       }
 
-      if (!taskTime || mode !== Mode.WORKING || !report.prog || MonitorStatus.isAbortedOrCompleted(report)) {
+      if (!taskTime
+          || mode !== Mode.WORKING
+          || !report.prog
+          || MonitorStatus.isAbortedOrCompleted(report)) {
         return '';
       }
 
@@ -144,17 +140,17 @@ export default class Monitor extends React.Component<Props, State> {
       const timeLeft = FormatDuration(taskTime * (1 - report.prog));
 
       return `${percentageDone}%, ${timeLeft} ${i18n.lang.monitor.left}`;
-    }
+    };
 
     return (
       <MonitorInfo
         status={getStatusText()}
         progress={getInfoProgressText()}
       />
-    )
+    );
   }
 
-  render() {
+  render(): JSX.Element {
     const { mode } = this.context;
     let body: JSX.Element;
     if (mode === Mode.FILE) {
@@ -177,15 +173,15 @@ export default class Monitor extends React.Component<Props, State> {
                 {body}
               </div>
             </div>
-            {this.renderControl()}
+            <MonitorControl />
           </div>
-          <div className={classNames('sub', { 'hide': false })}>
+          <div className={classNames('sub', { hide: false })}>
             {this.renderInfo()}
           </div>
         </div>
       </Modal>
     );
   }
-};
+}
 
 Monitor.contextType = MonitorContext;

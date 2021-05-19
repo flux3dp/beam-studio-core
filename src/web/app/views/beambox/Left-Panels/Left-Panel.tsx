@@ -1,7 +1,9 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import BeamboxActions from 'app/actions/beambox';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import i18n from 'helpers/i18n';
 import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
@@ -12,8 +14,6 @@ import { IUser } from 'interfaces/IUser';
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
-
-const classNames = requireNode('classnames');
 
 const LANG = i18n.lang.beambox.left_panel;
 const isWin = window.os === 'Windows';

@@ -1,5 +1,6 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -11,6 +12,7 @@ import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import ElectronDialogs from 'app/actions/electron-dialogs';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
 import sprintf from 'helpers/sprintf';
@@ -30,9 +32,6 @@ import {
 
 let svgCanvas, svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor });
-
-const classNames = requireNode('classnames');
-const PropTypes = requireNode('prop-types');
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 const PARAMETERS_CONSTANT = 'parameters';

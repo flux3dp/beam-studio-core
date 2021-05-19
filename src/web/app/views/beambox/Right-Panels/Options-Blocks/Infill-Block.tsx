@@ -1,5 +1,7 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
+import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -8,7 +10,6 @@ getSVGAsync((globalSVG) => {
     svgCanvas = globalSVG.Canvas;
 });
 
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
 interface Props {

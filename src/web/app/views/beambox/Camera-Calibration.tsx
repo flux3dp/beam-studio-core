@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
-/* eslint-disable react/sort-comp */
 import * as React from 'react';
 import $ from 'jquery';
+import classNames from 'classnames';
 
-import i18n from 'helpers/i18n';
 import alert from 'app/actions/alert-caller';
 import Alert from 'app/widgets/Alert';
 import alertConstants from 'app/constants/alert-constants';
@@ -17,6 +16,7 @@ import Constant from 'app/actions/beambox/constant';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
 import dialog from 'app/actions/dialog-caller';
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import progress from 'app/actions/progress-caller';
@@ -30,7 +30,6 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const classNames = requireNode('classnames');
 const { useState, useEffect, useRef } = React;
 const LANG = i18n.lang.camera_calibration;
 

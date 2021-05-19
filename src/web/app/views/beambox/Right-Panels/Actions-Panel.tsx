@@ -1,17 +1,18 @@
 import React from 'react';
+import classNames from 'classnames';
 
-import i18n from 'helpers/i18n';
 import Dialog from 'app/actions/dialog-caller';
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import Progress from 'app/actions/progress-caller';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+
 
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {

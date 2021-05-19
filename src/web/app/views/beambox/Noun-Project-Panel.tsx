@@ -1,7 +1,9 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import classNames from 'classnames';
+
 import defaultIcons from 'app/constants/noun-project-constants';
 import DraggableWindow from 'app/widgets/Draggble-Window';
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import storage from 'helpers/storage-helper';
 import { fluxIDEvents, getNPIconByID, getNPIconsByTerm } from 'helpers/api/flux-id';
@@ -15,7 +17,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const classNames = requireNode('classnames');
 const LANG = i18n.lang.noun_project_panel;
 
 const INFO_DIALOG_WIDTH = 250;
