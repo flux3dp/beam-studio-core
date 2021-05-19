@@ -297,6 +297,7 @@ export default {
       copy: 'コピー',
       paste: '貼り付け',
       paste_in_place: '所定の位置に貼り付け',
+      duplicate: '複製',
       delete: '削除',
       group: 'グループ化',
       ungroup: 'グループ化解除',
