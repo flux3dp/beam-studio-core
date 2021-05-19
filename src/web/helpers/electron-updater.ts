@@ -151,9 +151,9 @@ export default {
     checkForUpdate(false);
   },
   autoCheck(): void {
-    const isAutoCheck = Config().read('auto_check_update') === 1 || !Config().read('auto_check_update');
-    if (isAutoCheck) {
-      checkForUpdate(isAutoCheck);
+    const doCheck = Config().read('auto_check_update') !== 0;
+    if (doCheck) {
+      checkForUpdate(true);
     }
   },
   switchVersion,
