@@ -8573,7 +8573,7 @@ export default $.SvgCanvas = function (container, config) {
       }
       return { isAnyFilled, isAllFilled };
     }
-    let isFilled = (Number(elem.getAttribute('fill-opacity')) !== 0) && $(elem).attr('fill') !== 'none';
+    let isFilled = (Number.parseFloat(elem.getAttribute('fill-opacity')) !== 0) && $(elem).attr('fill') !== 'none';
     return {
       isAnyFilled: isFilled,
       isAllFilled: isFilled
