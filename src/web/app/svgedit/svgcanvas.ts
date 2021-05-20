@@ -9779,6 +9779,11 @@ export default $.SvgCanvas = function (container, config) {
         continue;
       }
 
+      Progress.openSteppingProgress({
+        id: 'disassemble-use',
+        message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - 0%`,
+      });
+
       const isFromNP = elem.getAttribute('data-np') === '1';
       const cmd = SymbolMaker.switchImageSymbol(elem, false);
       if (cmd && !cmd.isEmpty()) {
@@ -9798,13 +9803,9 @@ export default $.SvgCanvas = function (container, config) {
       const href = this.getHref(elem);
       const svg = $(href).toArray()[0];
       let children = [...Array.from(svg.childNodes).reverse()];
-      let g = addSvgElementFromJson({
-        'element': 'g',
-        'attr': {
-          'id': getNextId(),
-          'transform': transform,
-        }
-      });
+      let g = document.createElementNS(svgedit.NS.SVG, 'g');
+      g.setAttribute('id', getNextId());
+      g.setAttribute('transform', transform);
       while (children.length > 0) {
         let topChild = children.pop() as Element;
         let copy = drawing.copyElem(topChild);
@@ -9815,10 +9816,6 @@ export default $.SvgCanvas = function (container, config) {
       // apply style
       const descendants = Array.from(g.querySelectorAll('*')) as Element[];
       const nodeNumbers = descendants.length;
-      Progress.openSteppingProgress({
-        id: 'disassemble-use',
-        message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - 0%`,
-      })
       // Wait for progress open
       await new Promise((resolve) => setTimeout(resolve, 50));
       let currentProgress = 0;
@@ -9844,10 +9841,11 @@ export default $.SvgCanvas = function (container, config) {
             percentage: progress * 0.9,
           });
           // Wait for progress update
-          await new Promise((resolve) => setTimeout(resolve, 50));
+          await new Promise((resolve) => setTimeout(resolve, 10));
           currentProgress = progress;
         }
       }
+      layer.appendChild(g);
       Progress.update('disassemble-use', {
         message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 90%`,
         percentage: 90,
