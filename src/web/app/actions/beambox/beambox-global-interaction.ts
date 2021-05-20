@@ -8,6 +8,7 @@ import ElectronUpdater from 'helpers/electron-updater';
 import FileExportHelper from 'helpers/file-export-helper';
 import imageEdit from 'helpers/image-edit';
 import i18n from 'helpers/i18n';
+import viewMenu from 'helpers/menubar/view';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import BeamboxPreference from './beambox-preference';
@@ -98,10 +99,11 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       ZOOM_IN: () => svgEditor.zoomIn(),
       ZOOM_OUT: () => svgEditor.zoomOut(),
       FITS_TO_WINDOW: () => svgEditor.resetView(),
-      ZOOM_WITH_WINDOW: () => svgEditor.setZoomWithWindow(),
-      SHOW_GRIDS: () => svgCanvas.toggleGrid(),
-      SHOW_RULERS: () => svgCanvas.toggleRulers(),
-      SHOW_LAYER_COLOR: () => svgCanvas.toggleUseLayerColor(),
+      ZOOM_WITH_WINDOW: () => viewMenu.toggleZoomWithWindow(),
+      SHOW_GRIDS: () => viewMenu.toggleGrid(),
+      SHOW_RULERS: () => viewMenu.toggleRulers(),
+      SHOW_LAYER_COLOR: () => viewMenu.toggleLayerColor(),
+      ANTI_ALIASING: () => viewMenu.toggleAntiAliasing(),
       NETWORK_TESTING: () => dialog.showNetworkTestingPanel(),
       ABOUT_BEAM_STUDIO: () => dialog.showAboutBeamStudio(),
       TASK_INTERPRETER: () => BeamboxActions.showTaskInterpreter(),
@@ -190,7 +192,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
   }
 
   onObjectBlur() {
-    this.disableMenuItems(['DUPLICATE','DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
+    this.disableMenuItems(['DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
   }
 }
 

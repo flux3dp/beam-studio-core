@@ -247,6 +247,7 @@ export default {
     guides_origin: 'ガイドの原点',
     guides: 'ガイド',
     image_downsampling: 'ビットマップのプレビュー品質',
+    anti_aliasing: 'アンチエイリアス',
     continuous_drawing: '連続描画',
     trace_output: 'ベクトル化/トレース画像出力',
     single_object: '単一のオブジェクト',
