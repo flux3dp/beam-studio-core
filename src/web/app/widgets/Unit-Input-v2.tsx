@@ -68,7 +68,7 @@ class UnitInput extends React.Component<Props, States> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { defaultValue, unit } = this.props;
+    const { defaultValue, unit, max } = this.props;
     if (prevProps.unit !== unit) {
       this.setDecimal();
       const val = this._validateValue(defaultValue);
@@ -76,6 +76,12 @@ class UnitInput extends React.Component<Props, States> {
         displayValue: this.getTransformedValue(Number(val)),
         savedValue: val
       });
+    }
+
+    if (prevProps.max !== max) {
+      const { displayValue } = this.state;
+      const val = this._validateValue(displayValue);
+      this._updateValue(val);
     }
   }
 
