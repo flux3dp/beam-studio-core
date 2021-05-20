@@ -245,6 +245,7 @@ export interface ILang {
     guides_origin: string,
     guides: string,
     image_downsampling: string,
+    anti_aliasing: string,
     continuous_drawing: string,
     trace_output: string,
     single_object: string,

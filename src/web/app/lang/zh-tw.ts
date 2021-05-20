@@ -247,6 +247,7 @@ export default {
     guides_origin: '參考線座標',
     guides: '參考線',
     image_downsampling: '點陣圖預覽品質',
+    anti_aliasing: '反鋸齒',
     continuous_drawing: '連續繪製',
     trace_output: '向量化及影像描圖輸出',
     single_object: '單一物件',

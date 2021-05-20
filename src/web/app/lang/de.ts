@@ -247,6 +247,7 @@ export default {
     guides_origin: 'Referenzpunkt',
     guides: 'Anleitungen',
     image_downsampling: 'Bitmap-Vorschau der Qualität',
+    anti_aliasing: 'Anti-Aliasing',
     continuous_drawing: 'Kontinuierliches Zeichnen',
     trace_output: 'Bildverfolgungsausgabe',
     single_object: 'Einzelobjekt',

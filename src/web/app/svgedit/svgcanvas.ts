@@ -46,6 +46,7 @@ import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
 import Config from 'helpers/api/config';
+import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
@@ -142,7 +143,8 @@ export default $.SvgCanvas = function (container, config) {
       'xmlns:xlink': NS.XLINK,
       style: 'will-change: scroll-position, contents, transform;'
     }).appendTo(svgroot);
-
+    const isUsingAntiAliasing = BeamboxPreference.read('anti-aliasing') !== false;
+    viewMenu.updateAntiAliasing(isUsingAntiAliasing);
   };
   clearSvgContentElement();
 
@@ -633,7 +635,6 @@ export default $.SvgCanvas = function (container, config) {
 
   const { Menu, MenuItem } = requireNode('electron').remote;
   this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
-  Menu.getApplicationMenu().items.filter(i => i.id === '_view')[0].submenu.items.filter(i => i.id === 'SHOW_LAYER_COLOR')[0].checked = this.isUsingLayerColor;
   this.isBorderlessMode = BeamboxPreference.read('borderless');
   // Clipboard for cut, copy&pasted elements
   canvas.clipBoard = [];
@@ -6874,16 +6875,6 @@ export default $.SvgCanvas = function (container, config) {
     call('changed', [svgcontent]);
   };
 
-  this.toggleUseLayerColor = () => {
-    this.isUsingLayerColor = !(this.isUsingLayerColor);
-    BeamboxPreference.write('use_layer_color', this.isUsingLayerColor);
-    Menu.getApplicationMenu().items.find(i => i.id === '_view').submenu.items.find(i => i.id === 'SHOW_LAYER_COLOR').checked = this.isUsingLayerColor;
-    const layers = Array.from(document.querySelectorAll('g.layer'));
-    layers.forEach(layer => {
-      this.updateLayerColor(layer);
-    });
-  };
-
   let hexToRgb = (hexColorCode) => {
     let res = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColorCode);
     if (res) {
@@ -6997,16 +6988,6 @@ export default $.SvgCanvas = function (container, config) {
       }
     }
   }
-
-  this.toggleRulers = () => {
-    const shouldShowRulers = !BeamboxPreference.read('show_rulers');
-    Menu.getApplicationMenu().items.find(i => i.id === '_view').submenu.items.find(i => i.id === 'SHOW_RULERS').checked = shouldShowRulers;
-    document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
-    if (shouldShowRulers) {
-      svgEditor.updateRulers();
-    }
-    BeamboxPreference.write('show_rulers', shouldShowRulers);
-  };
 
   // Function: leaveContext
   // Return from a group context to the regular kind, make any previously
@@ -11952,22 +11933,6 @@ export default $.SvgCanvas = function (container, config) {
       return batchCmd;
     }
   };
-
-  this.toggleGrid = function () {
-    const showGrid = !(svgEditor.curConfig.showGrid || false);
-    svgEditor.curConfig.showGrid = showGrid;
-    Menu.getApplicationMenu().items.find(i => i.id === '_view').submenu.items.find(i => i.id === 'SHOW_GRIDS').checked = showGrid;
-    const canvasGridDisplay = showGrid ? 'inline' : 'none';
-    $('#canvasGrid').attr('style', `display: ${canvasGridDisplay}`);
-  }
-
-  this.toggleRulers = () => {
-    const shouldShowRulers = !BeamboxPreference.read('show_rulers');
-    BeamboxPreference.write('show_rulers', shouldShowRulers);
-    Menu.getApplicationMenu().items.find(i => i.id === '_view').submenu.items.find(i => i.id === 'SHOW_RULERS').checked = shouldShowRulers;
-    document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
-    svgEditor.updateRulers();
-  }
 
   this.setRotaryMode = function (val) {
     // True or false

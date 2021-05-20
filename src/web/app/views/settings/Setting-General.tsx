@@ -412,6 +412,9 @@ class SettingGeneral extends React.Component<Props, State> {
       lang.settings.high,
     );
 
+    const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing') !== false;
+    const antiAliasingOptions = this.onOffOptionFactory(isAntiAliasingOn);
+
     const isContinuousDrawingOn = this.getBeamboxPreferenceEditingValue('continuous_drawing');
     const continuousDrawingOptions = this.onOffOptionFactory(isContinuousDrawingOn);
 
@@ -591,6 +594,11 @@ class SettingGeneral extends React.Component<Props, State> {
           label={lang.settings.image_downsampling}
           options={imageDownsamplingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('image_downsampling', e.target.value)}
+        />
+        <SelectControl
+          label={lang.settings.anti_aliasing}
+          options={antiAliasingOptions}
+          onChange={(e) => this.updateBeamboxPreferenceChange('anti-aliasing', e.target.value)}
         />
         <SelectControl
           label={lang.settings.continuous_drawing}
