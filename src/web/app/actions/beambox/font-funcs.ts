@@ -5,11 +5,11 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Progress from 'app/actions/progress-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import AlertConfig from 'helpers/api/alert-config';
-import Config from 'helpers/api/config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import i18n from 'helpers/i18n';
 import sprintf from 'helpers/sprintf';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import storage from 'helpers/storage-helper';
 import { IFont, IFontQuery } from 'interfaces/IFont';
 
 let svgCanvas;
@@ -73,7 +73,7 @@ const hashCode = (s) => {
 };
 
 // TODO: Fix config
-let fontNameMapObj: { [key: string]: string } = Config().read('font-name-map') || {};
+let fontNameMapObj: { [key: string]: string } = storage.get('font-name-map') || {};
 if (fontNameMapObj.navigatorLang !== navigator.language) {
   fontNameMapObj = {};
 }
@@ -136,7 +136,7 @@ fontNameMap.forEach((value: string, key: string) => {
   fontNameMapObj[key] = value;
 });
 fontNameMapObj.navigatorLang = navigator.language;
-Config().write('font-name-map', fontNameMapObj);
+storage.set('font-name-map', fontNameMapObj);
 
 const getFontOfPostscriptName = memoize((postscriptName) => {
   if (window.os === 'MacOS') {

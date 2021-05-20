@@ -1,5 +1,5 @@
 import i18n from 'helpers/i18n';
-import Config from './api/config';
+import storage from 'helpers/storage-helper';
 
 const lang = i18n.lang;
 
@@ -18,7 +18,7 @@ const self = {
 	 */
 	init: (discoverObj) => {
 		Discover = discoverObj;
-		if (Config().read('guessing_poke') !== 0) {
+		if (storage.get('guessing_poke') !== 0) {
 			setInterval(function() {
 				if(Discover.countDevices() === 0){
 					self.pokeNext();

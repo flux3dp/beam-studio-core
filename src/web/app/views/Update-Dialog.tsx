@@ -1,11 +1,13 @@
-import i18n from 'helpers/i18n';
-import ButtonGroup from 'app/widgets/Button-Group';
-import config from 'helpers/api/config';
-import DeviceMaster from 'helpers/device-master';
-import Modal from 'app/widgets/Modal';
 import React from 'react';
+
+import ButtonGroup from 'app/widgets/Button-Group';
+import DeviceMaster from 'helpers/device-master';
+import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
 import sprintf from 'helpers/sprintf';
+import storage from 'helpers/storage-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { StorageKey } from 'interfaces/IStorage';
 
 interface Props {
   open: boolean
@@ -36,12 +38,12 @@ class UpdateDialog extends React.Component<Props> {
 
   onSkip = () => {
     const { type, latestVersion } = this.props;
-    const key = `${type}-update-ignore-list`;
-    const ignoreList = (config().read(key) || []) as Array<string>;
+    const key = `${type}-update-ignore-list` as StorageKey;
+    const ignoreList = (storage.get(key) || []) as Array<string>;
     ignoreList.push(latestVersion);
 
     // save skip version and close
-    config().write(key, ignoreList);
+    storage.set(key, ignoreList);
     this._onClose();
   }
 

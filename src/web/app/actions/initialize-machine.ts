@@ -1,15 +1,14 @@
 /**
  * initialize machine helper
  */
-import config from 'helpers/api/config';
+import settings from 'app/app-settings';
 import storage from 'helpers/storage-helper';
-import settings from '../app-settings';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 var methods = {
     reset: function(callback) {
         callback = ('function' === typeof callback ? callback : function() {});
-        config().write('printer-is-ready', false);
+        storage.set('printer-is-ready', false)
         callback();
     },
     completeSettingUp: function(redirect) {
@@ -19,28 +18,27 @@ var methods = {
         redirect = ('boolean' === typeof redirect ? redirect : true);
 
         // add laser-default
-        config().write('laser-defaults', JSON.stringify(settings.laser_default));
+        storage.set('laser-defaults', JSON.stringify(settings.laser_default));
 
-        config().write('printer-is-ready', true, {
-            onFinished: function() {
-                methods.settedPrinter.add(
-                    methods.settingPrinter.get()
-                );
+        storage.set('printer-is-ready', true);
+        (function() {
+          methods.settedPrinter.add(
+              methods.settingPrinter.get()
+          );
 
-                methods.settingPrinter.clear();
-                methods.settingWifi.clear();
+          methods.settingPrinter.clear();
+          methods.settingWifi.clear();
 
-                if (true === redirect) {
-                    location.hash = '#studio/beambox';
-                }
-                d.resolve();
-            }
-        });
+          if (true === redirect) {
+              location.hash = '#studio/beambox';
+          }
+          d.resolve();
+        })();
         return d.promise();
     },
     hasBeenCompleted: function() {
         // If you initialized before and you're not in initialization screen
-        return config().read('printer-is-ready') && (!~location.href.indexOf('initialize/'));
+        return storage.get('printer-is-ready') && (!~location.href.indexOf('initialize/'));
     },
     settingPrinter: {
         get: function() {
@@ -101,19 +99,19 @@ var methods = {
     },
     defaultPrinter: {
         set: function(printer) {
-            config().write('default-printer', JSON.stringify(printer));
+          storage.set('default-printer', JSON.stringify(printer));
         },
         exist: function() {
-            var defaultPrinter = config().read('default-printer') || {};
+            var defaultPrinter = storage.get('default-printer') || {};
 
             return ('string' === typeof defaultPrinter['uuid']);
         },
         get: function(): IDeviceInfo {
-            const defaultDevice = (config().read('default-printer') || {}) as IDeviceInfo;
+            const defaultDevice = (storage.get('default-printer') || {}) as IDeviceInfo;
             return defaultDevice;
         },
         clear: function() {
-            storage.removeAt('default-printer');
+          storage.removeAt('default-printer');
         }
     }
 };
