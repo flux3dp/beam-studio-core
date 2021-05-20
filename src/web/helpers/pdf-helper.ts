@@ -47,11 +47,7 @@ if (window.os === 'MacOS') {
   pdf2svgPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg.exe');
 }
 
-interface FileWithPath extends File {
-  path?: string;
-}
-
-const pdf2svg = async (file: FileWithPath): Promise<void> => {
+const pdf2svg = async (file: File): Promise<void> => {
   if (pdf2svgPath) {
     const outPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'out.svg');
     // mac or windows, using packed binary executable
