@@ -297,6 +297,7 @@ export default {
       copy: 'Kopieren',
       paste: 'Einfügen',
       paste_in_place: 'Bei Originalposition einfügen',
+      duplicate: 'Duplizieren',
       delete: 'Löschen',
       group: 'Gruppieren',
       ungroup: 'Gruppierung aufheben',

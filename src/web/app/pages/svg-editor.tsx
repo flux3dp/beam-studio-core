@@ -1201,6 +1201,9 @@ export default class SVGEditor extends React.Component {
           <li>
             <a href="#paste_in_place" onClick={this.handleDisableHref}>{LANG.context_menu.paste_in_place}</a>
           </li>
+          <li>
+            <a href="#duplicate" onClick={this.handleDisableHref}>{LANG.context_menu.duplicate}</a>
+          </li>
           <li className="separator">
             <a href="#delete" onClick={this.handleDisableHref}>{LANG.context_menu.delete}</a>
           </li>
