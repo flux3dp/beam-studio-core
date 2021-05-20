@@ -21,6 +21,7 @@ import checkFirmware from 'helpers/check-firmware';
 import checkQuestionnaire from 'helpers/check-questionnaire';
 import DeviceMaster from 'helpers/device-master';
 import firmwareUpdater from 'helpers/firmware-updater';
+import viewMenu from 'helpers/menubar/view';
 import OutputError from 'helpers/output-error';
 import sprintf from 'helpers/sprintf';
 import VersionChecker from 'helpers/version-checker';
@@ -78,6 +79,7 @@ const init = (): void => {
   if (!config.read('default-font')) {
     initDefaultFont();
   }
+  viewMenu.init();
   initMenuBarEvents();
   autoSaveHelper.init();
   fluxId.init();

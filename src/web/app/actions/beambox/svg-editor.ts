@@ -121,7 +121,6 @@ interface ISVGEditor {
   setLang: (lang: any, allStrings: any) => void
   setPanning: (active: any) => void
   setWorkAreaContextMenu: () => void
-  setZoomWithWindow: () => void
   storage: IStorage
   toolButtonClick: (button: any, noHiding: any) => boolean
   updateRulers: () => void
@@ -273,7 +272,6 @@ const svgEditor = window['svgEditor'] = (function () {
     setLang: (lang: any, allStrings: any) => { },
     setPanning: (active: any) => { },
     setWorkAreaContextMenu: () => { },
-    setZoomWithWindow: () => { },
     storage: storage,
     toolButtonClick: (button: any, noHiding: any) => { return false },
     updateRulers: () => { },
@@ -776,9 +774,7 @@ const svgEditor = window['svgEditor'] = (function () {
     setupCurPrefs();
 
     const shouldShowRulers = !!BeamboxPreference.read('show_rulers');
-    const { Menu } = electron.remote;
     curConfig.showRulers = shouldShowRulers;
-    Menu.getApplicationMenu().items.find(i => i.id === '_view').submenu.items.find(i => i.id === 'SHOW_RULERS').checked = shouldShowRulers;
     document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
 
     var setIcon = editor.setIcon = function (elem, icon_id) {
@@ -6533,19 +6529,6 @@ const svgEditor = window['svgEditor'] = (function () {
     workArea.scrollLeft = defaultScroll.x * zoomLevel;
     workArea.scrollTop = defaultScroll.y * zoomLevel;
   };
-
-  editor.setZoomWithWindow = function () {
-    editor.resetView();
-    const isZoomWithWindow = !(svgCanvas.isZoomWithWindow || false);
-    svgCanvas.isZoomWithWindow = isZoomWithWindow;
-    electron.remote.Menu.getApplicationMenu().items.find(i => i.id === '_view')
-      .submenu.items.find(i => i.id === 'ZOOM_WITH_WINDOW').checked = isZoomWithWindow;
-    if (isZoomWithWindow) {
-      window.addEventListener('resize', editor.resetView);
-    } else {
-      window.removeEventListener('resize', editor.resetView);
-    }
-  }
 
   var preventDoubleZoomIn = false;
 

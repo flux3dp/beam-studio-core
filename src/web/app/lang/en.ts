@@ -247,6 +247,7 @@ export default {
     guides_origin: 'Guides Origin',
     guides: 'Guides',
     image_downsampling: 'Bitmap Previewing Quality',
+    anti_aliasing: 'Anti-Aliasing',
     continuous_drawing: 'Continuous Drawing',
     trace_output: 'Image Trace Output',
     single_object: 'Single Object',

@@ -247,6 +247,7 @@ export default {
     guides_origin: 'Guías de origen',
     guides: 'Guías',
     image_downsampling: 'Calidad de la previtualización de los mapas de bits',
+    anti_aliasing: 'Suavizado',
     continuous_drawing: 'Dibujo continuo',
     trace_output: 'Salida de Trazado / Imagen de rastro',
     single_object: 'Objeto único',
