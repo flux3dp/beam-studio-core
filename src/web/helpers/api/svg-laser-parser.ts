@@ -380,18 +380,20 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         const LANG = i18n.lang.beambox.popup;
         if (!skipVersionWarning && !AlertConfig.read('skip_svg_version_warning')) {
           const matchSVG = svgString.match(/<svg[^>]*>/g)[0];
-          version = matchSVG.match(/ version="[^"]+"/);
-          if (version) {
-            version = version[0].substring(10, version[0].length - 1);
-            if (version === '1.1') {
-              Alert.popUp({
-                type: AlertConstants.SHOW_POPUP_WARNING,
-                message: LANG.svg_1_1_waring,
-                checkbox: {
-                  text: LANG.dont_show_again,
-                  callbacks: () => AlertConfig.write('skip_svg_version_warning', true),
-                },
-              });
+          if (matchSVG) {
+            version = matchSVG.match(/ version="([^"]+)"/);
+            if (version) {
+              const versionString = version[1];
+              if (versionString === '1.1') {
+                Alert.popUp({
+                  type: AlertConstants.SHOW_POPUP_WARNING,
+                  message: LANG.svg_1_1_waring,
+                  checkbox: {
+                    text: LANG.dont_show_again,
+                    callbacks: () => AlertConfig.write('skip_svg_version_warning', true),
+                  },
+                });
+              }
             }
           }
         }
