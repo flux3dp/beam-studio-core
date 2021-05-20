@@ -58,6 +58,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       IMPORT_MATERIAL_TESTING_CUT: () => loadExampleFile('examples/mat_test_cut.bvg'),
       IMPORT_MATERIAL_TESTING_ENGRAVE: () => loadExampleFile('examples/mat_test_engrave.bvg'),
       IMPORT_MATERIAL_TESTING_LINE: () => loadExampleFile('examples/mat_test_line.bvg'),
+      IMPORT_ACRYLIC_FOCUS_PROBE: () => loadExampleFile('examples/focus_probe.bvg'),
       IMPORT_HELLO_BEAMBOX: () => loadExampleFile('examples/hello-beambox.bvg'),
       SAVE_SCENE: () => FileExportHelper.saveFile(),
       SAVE_AS: () => FileExportHelper.saveAsFile(),
