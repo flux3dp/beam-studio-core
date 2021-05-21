@@ -1,4 +1,4 @@
-type StorageKey =
+export type StorageKey =
   'font-name-map'
   | 'default-units'
   | 'default-font'

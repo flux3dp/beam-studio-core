@@ -283,6 +283,21 @@ export interface ILang {
     notification_off: string,
     update_latest: string,
     update_beta: string,
+    help_center_urls: {
+      connection: string,
+      image_downsampling: string,
+      anti_aliasing: string,
+      continuous_drawing: string,
+      simplify_clipper_path: string,
+      fast_gradient: string,
+      vector_speed_constraint: string,
+      loop_compensation: string,
+      mask: string,
+      font_substitute: string,
+      default_borderless_mode: string,
+      default_enable_autofocus_module: string,
+      default_enable_diode_module: string,
+    },
   },
   beambox: {
     tag: {

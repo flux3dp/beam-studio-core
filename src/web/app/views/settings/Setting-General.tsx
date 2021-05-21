@@ -15,6 +15,7 @@ import FontFuncs from 'app/actions/beambox/font-funcs';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import storage from 'helpers/storage-helper';
 import i18n from 'helpers/i18n';
+import browser from 'implementations/browser';
 import { IConfig } from 'interfaces/IAutosave';
 import { IFont } from 'interfaces/IFont';
 import { ILang } from 'interfaces/ILang';
@@ -22,16 +23,28 @@ import { StorageKey } from 'interfaces/IStorage';
 
 interface ControlsProps {
   label: string,
+  url?: string,
   warningText?: string,
   children: JSX.Element | JSX.Element[],
 }
-const Controls = ({ label, warningText, children }: ControlsProps) => {
+const Controls = ({ label, url = '', warningText, children }: ControlsProps): JSX.Element => {
   const style = { width: 'calc(100% / 10 * 3 - 10px)' };
   const innerHtml = { __html: label };
 
   const warningIcon = () => {
     if (warningText) {
       return (<img src="img/warning.svg" title={warningText} />);
+    }
+    return null;
+  };
+
+  const renderIcon = () => {
+    if (url) {
+      return (
+        <span className="info-icon-small">
+          <img src="img/info.svg" onClick={() => { browser.open(url); }} />
+        </span>
+      );
     }
     return null;
   };
@@ -44,6 +57,7 @@ const Controls = ({ label, warningText, children }: ControlsProps) => {
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={innerHtml}
         />
+        {renderIcon()}
       </div>
       <div className="span8 font3">
         {children}
@@ -54,6 +68,7 @@ const Controls = ({ label, warningText, children }: ControlsProps) => {
 };
 
 Controls.defaultProps = {
+  url: '',
   warningText: null,
 };
 
@@ -65,15 +80,16 @@ enum OptionValues {
 interface ISelectControlProps {
   id?: string,
   label: string,
+  url?: string,
   onChange: (e) => void,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: { value: any, label: string, selected: boolean }[],
 }
 
 const SelectControl = ({
-  id, label, onChange, options,
+  id, url, label, onChange, options,
 }: ISelectControlProps) => (
-  <Controls label={label}>
+  <Controls label={label} url={url}>
     <SelectView
       id={id}
       className="font3"
@@ -495,7 +511,15 @@ class SettingGeneral extends React.Component<Props, State> {
           onChange={(e) => this.updateConfigChange('auto_check_update', e.target.value)}
         />
 
-        <div className="subtitle">{lang.settings.groups.connection}</div>
+        <div className="subtitle">
+          {lang.settings.groups.connection}
+          <span className="info-icon-medium">
+            <img
+              src="img/info.svg"
+              onClick={()=> { browser.open(lang.settings.help_center_urls.connection)}}
+            />
+          </span>
+        </div>
         <Controls label={lang.settings.ip}>
           <input
             type="text"
@@ -595,21 +619,25 @@ class SettingGeneral extends React.Component<Props, State> {
         </Controls>
         <SelectControl
           label={lang.settings.image_downsampling}
+          url={lang.settings.help_center_urls.image_downsampling}
           options={imageDownsamplingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('image_downsampling', e.target.value)}
         />
         <SelectControl
           label={lang.settings.anti_aliasing}
+          url={lang.settings.help_center_urls.anti_aliasing}
           options={antiAliasingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('anti-aliasing', e.target.value)}
         />
         <SelectControl
           label={lang.settings.continuous_drawing}
+          url={lang.settings.help_center_urls.continuous_drawing}
           options={continuousDrawingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('continuous_drawing', e.target.value)}
         />
         <SelectControl
           label={lang.settings.simplify_clipper_path}
+          url={lang.settings.help_center_urls.simplify_clipper_path}
           options={simplifyClipperPath}
           onChange={(e) => this.updateBeamboxPreferenceChange('simplify_clipper_path', e.target.value)}
         />
@@ -617,6 +645,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.engraving}</div>
         <SelectControl
           label={lang.settings.fast_gradient}
+          url={lang.settings.help_center_urls.fast_gradient}
           options={fastGradientOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('fast_gradient', e.target.value)}
         />
@@ -624,10 +653,14 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.path}</div>
         <SelectControl
           label={lang.settings.vector_speed_constraint}
+          url={lang.settings.help_center_urls.vector_speed_constraint}
           options={vectorSpeedConstraintOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('vector_speed_contraint', e.target.value)}
         />
-        <Controls label={lang.settings.loop_compensation}>
+        <Controls
+          label={lang.settings.loop_compensation}
+          url={lang.settings.help_center_urls.loop_compensation}
+        >
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
@@ -686,6 +719,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.mask}</div>
         <SelectControl
           label={lang.settings.mask}
+          url={lang.settings.help_center_urls.mask}
           id="set-mask"
           options={maskOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('enable_mask', e.target.value)}
@@ -694,6 +728,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.text_to_path}</div>
         <SelectControl
           label={lang.settings.font_substitute}
+          url={lang.settings.help_center_urls.font_substitute}
           id="font-substitue"
           options={fontSubstituteOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('font-substitute', e.target.value)}
@@ -702,18 +737,21 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.modules}</div>
         <SelectControl
           label={lang.settings.default_borderless_mode}
+          url={lang.settings.help_center_urls.default_borderless_mode}
           id="default-open-bottom"
           options={borderlessModeOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('default-borderless', e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_enable_autofocus_module}
+          url={lang.settings.help_center_urls.default_enable_autofocus_module}
           id="default-autofocus"
           options={autofocusModuleOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('default-autofocus', e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_enable_diode_module}
+          url={lang.settings.help_center_urls.default_enable_diode_module}
           id="default-diode"
           options={diodeModuleOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('default-diode', e.target.value)}
