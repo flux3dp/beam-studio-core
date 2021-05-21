@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
+import { sprintf } from 'sprintf-js';
+
 import Alert from 'app/actions/alert-caller';
 import Dialog from 'app/actions/dialog-caller';
 import Progress from 'app/actions/progress-caller';
@@ -16,7 +18,6 @@ import Control from './api/control';
 import Discover from './api/discover';
 import Touch from './api/touch';
 import i18n from './i18n';
-import sprintf from './sprintf';
 import VersionChecker from './version-checker';
 
 let { lang } = i18n;

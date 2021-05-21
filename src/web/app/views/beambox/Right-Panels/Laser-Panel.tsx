@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { sprintf } from 'sprintf-js';
 
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
@@ -15,7 +16,6 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
-import sprintf from 'helpers/sprintf';
 import storage from 'helpers/storage-helper';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
