@@ -13,7 +13,6 @@ type StorageKey =
   | 'alert-config'
   | 'poke-ip-addr'
   | 'notification'
-  | 'auto_check_update'
   | 'guessing_poke'
   | 'auto_connect'
   | 'enable-sentry'
@@ -21,7 +20,23 @@ type StorageKey =
   | 'software-update-ignore-list'
   | 'firmware-update-ignore-list'
   | 'toolhead-update-ignore-list'
-  | 'new-user';
+  | 'new-user'
+  | 'last-installed-version'
+  | 'questionnaire-version'
+  | 'layer-color-config'
+  | 'setting-printer'
+  | 'printers'
+  | 'setting-wifi'
+  | 'customizedLaserConfigs'
+  | 'defaultLaserConfigsInUse'
+  | 'keep-flux-id-login'
+  | 'noun-project-history'
+  | 'auto-save-config'
+  | 'active-lang'
+  | 'flux-rsa-key'
+  | 'sentry-send-devices'
+  | 'black-list'
+  | 'host';
 
 export interface IStorage {
   get(name: StorageKey): any,
