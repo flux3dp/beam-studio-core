@@ -10,6 +10,7 @@ import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
 import browser from 'helpers/browser-helper';
+import ratingHelper from 'helpers/rating-helper';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
 import checkQuestionnaire from 'helpers/check-questionnaire';
@@ -498,6 +499,7 @@ const showStartUpDialogs = async (): Promise<void> => {
     }
     await showQuestionnaire();
   }
+  ratingHelper.init();
   checkOSVersion();
   storage.removeAt('new-user');
   // eslint-disable-next-line @typescript-eslint/dot-notation

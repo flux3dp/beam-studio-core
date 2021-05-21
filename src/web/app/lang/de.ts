@@ -720,6 +720,12 @@ export default {
       sure_to_reset: 'Du verlierst alle benutzerdefinierten Parameter. Bist du sicher, dass du die Standardeinstellungen wiederherzustellen?',
       sure_to_delete: 'Bist du sicher, diese Farbeinstellung zu löschen?',
     },
+    rating_panel: {
+      title: 'Gefallen Sie Beam Studio?',
+      description: 'Wenn Sie Beam Studio mögen, würden wir uns sehr freuen, wenn Sie uns bewerten könnten.',
+      dont_show_again: 'Nicht mehr anzeigen',
+      thank_you: 'Danke schön',
+    },
     svg_editor: {
       unnsupported_file_type: 'Der Dateityp wird nicht direkt unterstützt. Bitte konvertiere die Datei in SVG oder Bitmap.',
       unable_to_fetch_clipboard_img: 'Bild konnte nicht aus der Zwischenablage abgerufen werden',

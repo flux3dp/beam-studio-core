@@ -718,6 +718,12 @@ export interface ILang {
       sure_to_reset: string,
       sure_to_delete: string,
     },
+    rating_panel: {
+      title: string,
+      description: string,
+      dont_show_again: string,
+      thank_you: string,
+    },
     svg_editor: {
       unnsupported_file_type: string,
       unable_to_fetch_clipboard_img: string,
