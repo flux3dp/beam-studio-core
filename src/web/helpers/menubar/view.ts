@@ -11,7 +11,9 @@ getSVGAsync((globalSVG) => {
 
 const updateAntiAliasing = (on: boolean): void => {
   const svgContent = document.getElementById('svgcontent');
-  svgContent.style.shapeRendering = on ? '' : 'optimizeSpeed';
+  if (svgContent) {
+    svgContent.style.shapeRendering = on ? '' : 'optimizeSpeed';
+  }
 };
 
 const init = (): void => {
