@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import config from 'helpers/api/config';
 import Logger from 'helpers/logger';
 import shortcuts from 'helpers/shortcuts';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import storage from 'helpers/storage-helper';
 
 let svgEditor;
 getSVGAsync((globalSVG) => {
@@ -110,7 +110,5 @@ export default (callback: () => void): void => {
     callback();
   };
 
-  config().read('printer-is-ready', {
-    onFinished,
-  });
+  onFinished(storage.get('printer-is-ready'));
 };

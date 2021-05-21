@@ -8,10 +8,10 @@ import AlertConstants from 'app/constants/alert-constants';
 import { SelectionResult, ConnectionError } from 'app/constants/connection-constants';
 import DeviceConstants from 'app/constants/device-constants';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
+import storage from 'helpers/storage-helper';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
 import Camera from './api/camera';
-import Config from './api/config';
 import Control from './api/control';
 import Discover from './api/discover';
 import Touch from './api/touch';
@@ -83,7 +83,7 @@ class DeviceMaster {
           const index = this.unnotifiedDeviceUUIDs.findIndex((uuid) => uuid === info.uuid);
           this.unnotifiedDeviceUUIDs.splice(index, 1);
 
-          if (Config().read('notification') === 1) {
+          if (storage.get('notification') === 1) {
             Notification.requestPermission((permission) => {
               if (permission === 'granted') {
                 const notification = new Notification(deviceConn.info.name, {

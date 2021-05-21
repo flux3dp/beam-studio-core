@@ -1,20 +1,19 @@
-const mockRead = jest.fn();
-const mockWrite = jest.fn();
-
-jest.mock('helpers/api/config', () => () => ({
-  read: mockRead,
-  write: mockWrite,
+const mockGet = jest.fn();
+const mockSet = jest.fn();
+jest.mock('helpers/storage-helper', () => ({
+  get: mockGet,
+  set: mockSet,
 }));
 
 test('test beambox-preference', () => {
-  mockRead.mockReturnValue({
+  mockGet.mockReturnValue({
     abc: '123',
   });
 
   // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
   const beamboxPreference = require('./beambox-preference');
-  expect(mockRead).toHaveBeenNthCalledWith(1, 'beambox-preference');
-  expect(mockWrite).toHaveBeenNthCalledWith(1, 'beambox-preference', {
+  expect(mockGet).toHaveBeenNthCalledWith(1, 'beambox-preference');
+  expect(mockSet).toHaveBeenNthCalledWith(1, 'beambox-preference', {
     should_remind_calibrate_camera: true,
     mouse_input_device: (window.os === 'MacOS') ? 'TOUCHPAD' : 'MOUSE',
     model: 'fbb1b',
@@ -25,16 +24,16 @@ test('test beambox-preference', () => {
     abc: '123',
   });
 
-  mockRead.mockReturnValue({
+  mockGet.mockReturnValue({
     mouse_input_device: 'TOUCHPAD',
   });
   expect(beamboxPreference.default.read('mouse_input_device')).toBe('TOUCHPAD');
-  expect(mockRead).toHaveBeenNthCalledWith(2, 'beambox-preference');
+  expect(mockGet).toHaveBeenNthCalledWith(2, 'beambox-preference');
 
-  mockRead.mockReturnValue({});
+  mockGet.mockReturnValue({});
   beamboxPreference.default.write('mouse_input_device', 'MOUSE');
-  expect(mockRead).toHaveBeenNthCalledWith(3, 'beambox-preference');
-  expect(mockWrite).toHaveBeenNthCalledWith(2, 'beambox-preference', {
+  expect(mockGet).toHaveBeenNthCalledWith(3, 'beambox-preference');
+  expect(mockSet).toHaveBeenNthCalledWith(2, 'beambox-preference', {
     mouse_input_device: 'MOUSE',
   });
 });

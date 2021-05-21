@@ -1,6 +1,7 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+
 import Constant from 'app/actions/beambox/constant';
+import i18n from 'helpers/i18n';
 import KeycodeConstants from 'app/constants/keycode-constants';
 import storage from 'helpers/storage-helper';
 import SymbolMaker from 'helpers/symbol-maker';

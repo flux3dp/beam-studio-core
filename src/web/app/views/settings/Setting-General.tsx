@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-alert */
 /* eslint-disable react/no-multi-comp */
+import * as React from 'react';
+import classNames from 'classnames';
+
 import PathInput, { InputType } from 'app/widgets/PathInput';
 import SelectView from 'app/widgets/Select';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -9,16 +12,13 @@ import alertConstants from 'app/constants/alert-constants';
 import BeamboxConstant from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import FontFuncs from 'app/actions/beambox/font-funcs';
-import Config from 'helpers/api/config';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import storage from 'helpers/storage-helper';
 import i18n from 'helpers/i18n';
 import { IConfig } from 'interfaces/IAutosave';
 import { IFont } from 'interfaces/IFont';
 import { ILang } from 'interfaces/ILang';
-
-import * as React from 'react';
-import classNames from 'classnames';
+import { StorageKey } from 'interfaces/IStorage';
 
 interface ControlsProps {
   label: string,
@@ -104,7 +104,7 @@ class SettingGeneral extends React.Component<Props, State> {
   private beamboxPreferenceChanges: { [key: string]: any };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private configChanges: { [key: string]: any };
+  private configChanges: { [key in StorageKey]: any };
 
   constructor(props: Props) {
     super(props);
@@ -115,7 +115,7 @@ class SettingGeneral extends React.Component<Props, State> {
     };
     this.origLang = i18n.getActiveLang();
     this.beamboxPreferenceChanges = {};
-    this.configChanges = {};
+    this.configChanges = {} as any;
   }
 
   checkIPFormat = (e: React.FocusEvent): void => {
@@ -150,7 +150,7 @@ class SettingGeneral extends React.Component<Props, State> {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateConfigChange = (id: string, newVal: any): void => {
+  updateConfigChange = (id: StorageKey, newVal: any): void => {
     let val = newVal;
     if (!Number.isNaN(Number(val))) {
       val = Number(val);
@@ -160,11 +160,11 @@ class SettingGeneral extends React.Component<Props, State> {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getConfigEditingValue = (key: string): any => {
+  getConfigEditingValue = (key: StorageKey): any => {
     if (key in this.configChanges) {
       return this.configChanges[key];
     }
-    return Config().read(key);
+    return storage.get(key);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -209,8 +209,8 @@ class SettingGeneral extends React.Component<Props, State> {
     const { editingAutosaveConfig } = this.state;
     let keys = Object.keys(this.configChanges);
     for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i];
-      Config().write(key, this.configChanges[key]);
+      const key = keys[i] as StorageKey;
+      storage.set(key, this.configChanges[key]);
     }
     keys = Object.keys(this.beamboxPreferenceChanges);
     for (let i = 0; i < keys.length; i += 1) {
@@ -319,7 +319,7 @@ class SettingGeneral extends React.Component<Props, State> {
   render() {
     const { supported_langs: supportedLangs } = this.props;
     const { lang, warnings } = this.state;
-    const pokeIP = Config().read('poke-ip-addr');
+    const pokeIP = storage.get('poke-ip-addr');
     const langOptions = [];
 
     Object.keys(supportedLangs).forEach((l) => {
@@ -359,7 +359,7 @@ class SettingGeneral extends React.Component<Props, State> {
       },
     ];
 
-    const defaultFont = Config().read('default-font') as IFont || {
+    const defaultFont = storage.get('default-font') as IFont || {
       family: 'Arial',
       style: 'Regular',
     };
@@ -375,8 +375,7 @@ class SettingGeneral extends React.Component<Props, State> {
     const onSelectFont = (family) => {
       const fonts = FontFuncs.requestFontsOfTheFontFamily(family);
       const newDefaultFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
-      const config = Config();
-      config.write('default-font', {
+      storage.set('default-font', {
         family: newDefaultFont.family,
         postscriptName: newDefaultFont.postscriptName,
         style: newDefaultFont.style,
@@ -391,8 +390,7 @@ class SettingGeneral extends React.Component<Props, State> {
     }));
     const onSelectFontStyle = (postscriptName) => {
       const newDefaultFont = FontFuncs.getFontOfPostscriptName(postscriptName);
-      const config = Config();
-      config.write('default-font', {
+      storage.set('default-font', {
         family: newDefaultFont.family,
         postscriptName: newDefaultFont.postscriptName,
         style: newDefaultFont.style,

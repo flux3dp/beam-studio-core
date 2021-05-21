@@ -35,16 +35,16 @@ describe('test Skip-Connect-Machine', () => {
 
     mockGet.mockReturnValue(true);
     wrapper.find('.btn-action').simulate('click');
-    expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');
     expect(mockSet).toHaveBeenNthCalledWith(1, 'printer-is-ready', true);
+    expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');
     expect(window.location.hash).toBe('#studio/beambox');
     expect(mockWindowLocationReload).toHaveBeenCalledTimes(1);
 
     mockGet.mockReturnValue(false);
     wrapper.find('.btn-action').simulate('click');
-    expect(mockGet).toHaveBeenNthCalledWith(2, 'printer-is-ready');
     expect(mockSet).toHaveBeenNthCalledWith(2, 'new-user', true);
     expect(mockSet).toHaveBeenNthCalledWith(3, 'printer-is-ready', true);
+    expect(mockGet).toHaveBeenNthCalledWith(2, 'printer-is-ready');
     expect(window.location.hash).toBe('#studio/beambox');
     expect(mockWindowLocationReload).toHaveBeenCalledTimes(2);
   });

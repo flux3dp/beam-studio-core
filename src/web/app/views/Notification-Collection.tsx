@@ -1,7 +1,6 @@
 import * as React from 'react';
 import AlertStore from 'app/stores/alert-store';
 import checkFirmware from 'helpers/check-firmware';
-import config from 'helpers/api/config';
 import DeviceMaster from 'helpers/device-master';
 import firmwareUpdater from 'helpers/firmware-updater';
 import GlobalStore from 'app/stores/global-store';
@@ -62,7 +61,7 @@ export default function (args) {
             if (defaultPrinter.serial === printer.serial) {
               defaultPrinter = printer;
               //update default-print's data.
-              config().write('default-printer', JSON.stringify(printer));
+              storage.set('default-printer', JSON.stringify(printer));
               return true;
             }
           });
@@ -93,7 +92,7 @@ export default function (args) {
 
       // checking firmware of default printer that is going to popup
       // update dialog if newest firmware has been released.
-      defaultPrinter = config().read('default-printer');
+      defaultPrinter = storage.get('default-printer');
       // settimeout 15 secs for make sure discover has been done.
       if (defaultPrinter) {
         setTimeout(_checkFirmwareOfDefaultPrinter, 15000);

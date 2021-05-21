@@ -48,13 +48,13 @@ import Shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import i18n from 'helpers/i18n';
 import AlertConfig from 'helpers/api/alert-config';
-import Config from 'helpers/api/config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import { IFont } from 'interfaces/IFont';
 import { IIcon } from 'interfaces/INoun-Project'
-import { IStorage } from 'interfaces/IStorage';
+import { IStorage, StorageKey } from 'interfaces/IStorage';
 
 import svgCanvasClass from 'app/svgedit/svgcanvas';
+
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
 }
@@ -316,8 +316,7 @@ const svgEditor = window['svgEditor'] = (function () {
     'zh-tw': 'zh-TW',
     'zh-cn': 'zh-CN',
   }
-  const config = Config();
-  const defaultFont = config.read('default-font') as IFont;
+  const defaultFont = storage.get('default-font') as IFont;
   let pressedKey = [];
 
   document.addEventListener('keydown', (e) => {
@@ -572,7 +571,7 @@ const svgEditor = window['svgEditor'] = (function () {
     if (editor.storage && // Cookies do not have enough available memory to hold large documents
       (curConfig.forceStorage || (!curConfig.noStorageOnLoad && document.cookie.match(/(?:^|;\s*)store=prefsAndContent/)))
     ) {
-      var name = 'svgedit-' + curConfig.canvasName;
+      var name = `svgedit-${curConfig.canvasName}` as StorageKey;
       var cached = editor.storage.get(name);
       if (cached) {
         editor.loadFromString(cached);
@@ -583,7 +582,7 @@ const svgEditor = window['svgEditor'] = (function () {
     var key;
     for (key in defaultPrefs) {
       if (defaultPrefs.hasOwnProperty(key)) { // It's our own config, so we don't need to iterate up the prototype chain
-        var storeKey = 'svg-edit-' + key;
+        var storeKey = `svg-edit-${key}` as StorageKey;
         if (editor.storage) {
           var val = editor.storage.get(storeKey);
           if (val) {
