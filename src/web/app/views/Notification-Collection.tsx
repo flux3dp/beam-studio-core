@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import AlertStore from 'app/stores/alert-store';
 import checkFirmware from 'helpers/check-firmware';
 import DeviceMaster from 'helpers/device-master';
@@ -6,6 +7,7 @@ import firmwareUpdater from 'helpers/firmware-updater';
 import GlobalStore from 'app/stores/global-store';
 import storage from 'helpers/storage-helper';
 import UpdateDialog from 'app/views/Update-Dialog';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 declare global {
   interface JQueryStatic {
@@ -23,11 +25,10 @@ export default function (args) {
   interface State {
     application: {
       open?: boolean;
-      type?: 'software' | 'firmware' | 'toolhead';
       releaseNote?: string;
       latestVersion?: string;
       currentVersion?: string;
-      device?: any;
+      device?: IDeviceInfo;
       onDownload?: () => void;
       onInstall?: () => void;
     };
@@ -41,10 +42,9 @@ export default function (args) {
         // application update
         application: {
           open: false,
-          type: 'firmware',
           releaseNote: '',
           latestVersion: '',
-          device: {},
+          device: {} as IDeviceInfo,
           onDownload: function () { },
           onInstall: function () { }
         },
@@ -54,7 +54,6 @@ export default function (args) {
     componentDidMount() {
       var self = this,
         defaultPrinter,
-        type = 'firmware',
         _checkFirmwareOfDefaultPrinter = function () {
           let printers = DeviceMaster.getAvailableDevices();
           printers.some(function (printer) {
@@ -66,9 +65,9 @@ export default function (args) {
             }
           });
 
-          checkFirmware(defaultPrinter, type).done(function (response) {
+          checkFirmware(defaultPrinter, 'firmware').done(function (response) {
             if (response.needUpdate) {
-              firmwareUpdater(response, defaultPrinter, type);
+              firmwareUpdater(response, defaultPrinter);
             }
           });
         };
@@ -106,11 +105,7 @@ export default function (args) {
     }
 
     _showUpdate = (payload) => {
-      var currentVersion = (
-        'software' === payload.type ?
-          payload.updateInfo.currentVersion :
-          payload.device.version
-      ),
+      var currentVersion = payload.device.version,
         releaseNote = (
           'zh-tw' === storage.get('active-lang') ?
             payload.updateInfo.changelog_zh :
@@ -121,7 +116,6 @@ export default function (args) {
         application: {
           open: true,
           device: payload.device,
-          type: payload.type,
           currentVersion,
           latestVersion: payload.updateInfo.latestVersion,
           releaseNote,
@@ -203,18 +197,14 @@ export default function (args) {
     }
 
     render() {
-      let latestVersion = (
-        'toolhead' === this.state.application.type ?
-          this.state.application.device.toolhead_version :
-          this.state.application.latestVersion
-      );
+      let latestVersion = this.state.application.latestVersion;
 
       return (
         <div className="notification-collection">
           <UpdateDialog
             open={this.state.application.open}
-            type={this.state.application.type}
-            device={this.state.application.device}
+            deviceName={this.state.application.device?.name}
+            deviceModel={this.state.application.device?.model}
             currentVersion={this.state.application.currentVersion}
             latestVersion={latestVersion}
             releaseNote={this.state.application.releaseNote}
