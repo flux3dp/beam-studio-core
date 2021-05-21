@@ -321,7 +321,7 @@ class SettingGeneral extends React.Component<Props, State> {
   render() {
     const { supported_langs: supportedLangs } = this.props;
     const { lang, selectedModel, warnings } = this.state;
-    const pokeIP = Config().read('poke-ip-addr');
+    const pokeIP = storage.get('poke-ip-addr');
     const langOptions = [];
 
     Object.keys(supportedLangs).forEach((l) => {
