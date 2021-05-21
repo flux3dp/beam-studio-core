@@ -720,6 +720,12 @@ export default {
       sure_to_reset: '您将会失去所有自订颜色参数，确定要回复到预设值？',
       sure_to_delete: '确定要删除这项颜色参数。',
     },
+    rating_panel: {
+      title: '喜欢 Beam Studio 吗？',
+      description: '如果您喜欢 Beam Studio，请给我们评分，我们将不胜感激。',
+      dont_show_again: '别再显示此提醒',
+      thank_you: '谢谢您',
+    },
     svg_editor: {
       unnsupported_file_type: 'Beam Studio 不直接支持此文件格式。请先输出成图片档或 SVG 格式',
       unable_to_fetch_clipboard_img: '无法读取复制连结中的档案',

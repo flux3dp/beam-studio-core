@@ -9,6 +9,7 @@ import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/views/FluxIdLogin';
 import InputLightBox from 'app/widgets/Input-Lightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
+import RatingPanel from 'app/views/beambox/Rating-Panel';
 import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/Network-Testing-Panel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
@@ -154,6 +155,14 @@ export default {
     addDialogComponent('layer-color-config',
       <LayerColorConfigPanel
         onClose={() => popDialogById('layer-color-config')}
+      />);
+  },
+  showRatingDialog: (onSubmit: (score: number) => void): void => {
+    if (isIdExist('rating-dialog')) return;
+    addDialogComponent('rating-dialog',
+      <RatingPanel
+        onSubmit={onSubmit}
+        onClose={() => popDialogById('rating-dialog')}
       />);
   },
   showSvgNestButtons: (): void => {

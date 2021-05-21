@@ -22,6 +22,7 @@ type StorageKey =
   | 'last-installed-version'
   | 'questionnaire-version'
   | 'layer-color-config'
+  | 'rating-record'
   | 'setting-printer'
   | 'printers'
   | 'setting-wifi'

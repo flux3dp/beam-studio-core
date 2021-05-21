@@ -720,6 +720,12 @@ export default {
       sure_to_reset: 'Perderás todos los parámetros personalizados, ¿estás seguro de volver a los valores por defecto?',
       sure_to_delete: '¿Está seguro de eliminar este ajuste de color?Are you sure to delete this color setting ?',
     },
+    rating_panel: {
+      title: '¿Te gusta Beam Studio?',
+      description: 'Si te gusta Beam Studio, agradeceríamos que compartieras tu experiencia.',
+      dont_show_again: 'No lo muestres la próxima vez.',
+      thank_you: 'Gracias',
+    },
     svg_editor: {
       unnsupported_file_type: 'El tipo de archivo no está soportado directamente. Por favor, convierte el archivo en SVG o mapa de bits',
       unable_to_fetch_clipboard_img: 'No se ha podido recuperar la imagen de tu portapapeles',

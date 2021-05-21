@@ -720,6 +720,12 @@ export default {
       sure_to_reset: 'You will lose all customized parameters, are you sure to reset to default?',
       sure_to_delete: 'Are you sure to delete this color setting?',
     },
+    rating_panel: {
+      title: 'Enjoy Beam Studio?',
+      description: 'If you like Beam Studio, we would greatly appreciate it if you could rate us.',
+      dont_show_again: 'Don\'t Show this next time.',
+      thank_you: 'Thank You!',
+    },
     svg_editor: {
       unnsupported_file_type: 'The file type is not directly supported. Please convert the file into SVG or bitmap',
       unable_to_fetch_clipboard_img: 'Failed to fetch image from your clipboard',

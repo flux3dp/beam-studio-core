@@ -720,6 +720,12 @@ export default {
       sure_to_reset: 'カスタマイズされたパラメータはすべて失われます。本当にデフォルトにリセットしますか？',
       sure_to_delete: 'この色の設定を削除してもよろしいですか？',
     },
+    rating_panel: {
+      title: 'Beam Studio は好きですか？',
+      description: 'Beam Studio が気に入ったら、評価していただければ幸いです。',
+      dont_show_again: '次回から表示しない',
+      thank_you: 'ありがとうございました',
+    },
     svg_editor: {
       unnsupported_file_type: 'ファイルタイプは直接サポートされていません。ファイルをSVGまたはビットマップに変換してください',
       unable_to_fetch_clipboard_img: '画像をクリップボードから転送失敗しました。',
