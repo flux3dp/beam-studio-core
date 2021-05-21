@@ -1,167 +1,341 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test Connect-Ethernet should render correctly in mac 1`] = `
-<View
-  className={
-    Object {
-      "initialization": true,
+<ConnectEthernet>
+  <View
+    className={
+      Object {
+        "initialization": true,
+        "modal-window": true,
+      }
     }
-  }
-  content={
-    <div
-      className="connect-machine"
-    >
+    content={
       <div
-        className="top-bar"
-      />
-      <div
-        className="btn-page-container"
+        className="connect-machine"
       >
         <div
-          className="btn-page"
-          onClick={[Function]}
-        >
-          Back
-        </div>
+          className="top-bar"
+        />
         <div
-          className="btn-page primary"
-          onClick={[Function]}
-        >
-          Next
-        </div>
-      </div>
-      <div
-        className="connection-ethernet"
-      >
-        <div
-          className="image-container ether"
+          className="btn-page-container"
         >
           <div
-            className="circle c1"
-          />
-          <img
-            className="ethernet-icon"
-            draggable="false"
-            src="img/init-panel/icon-dual-cable.svg"
-          />
-          <div
-            className="circle c2"
-          />
-        </div>
-        <div
-          className="text-container"
-        >
-          <div
-            className="title"
+            className="btn-page"
+            onClick={[Function]}
           >
-            Direct Connection
+            Back
           </div>
           <div
-            className="contents tutorial"
+            className="btn-page primary"
+            onClick={[Function]}
           >
-            <div>
-              1. Connect the machine with your computer with ethernet cable.
+            Next
+          </div>
+        </div>
+        <div
+          className="connection-ethernet"
+        >
+          <div
+            className="image-container ether"
+          >
+            <div
+              className="circle c1"
+            />
+            <img
+              className="ethernet-icon"
+              draggable="false"
+              src="img/init-panel/icon-dual-cable.svg"
+            />
+            <div
+              className="circle c2"
+            />
+          </div>
+          <div
+            className="text-container"
+          >
+            <div
+              className="title"
+            >
+              Direct Connection
             </div>
-            <div>
-              2. Follow 
-              <span
-                className="link"
-                onClick={[Function]}
+            <div
+              className="contents tutorial"
+            >
+              <div>
+                1. Connect the machine with your computer with ethernet cable.
+              </div>
+              <div>
+                2. Follow 
+                <span
+                  className="link"
+                  onClick={[Function]}
+                >
+                  this guide
+                </span>
+                 to make your comuter as a router.
+              </div>
+              <div>
+                3. Click Next.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  >
+    <div
+      className="initialization modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="connect-machine"
+        >
+          <div
+            className="top-bar"
+          />
+          <div
+            className="btn-page-container"
+          >
+            <div
+              className="btn-page"
+              onClick={[Function]}
+            >
+              Back
+            </div>
+            <div
+              className="btn-page primary"
+              onClick={[Function]}
+            >
+              Next
+            </div>
+          </div>
+          <div
+            className="connection-ethernet"
+          >
+            <div
+              className="image-container ether"
+            >
+              <div
+                className="circle c1"
+              />
+              <img
+                className="ethernet-icon"
+                draggable="false"
+                src="img/init-panel/icon-dual-cable.svg"
+              />
+              <div
+                className="circle c2"
+              />
+            </div>
+            <div
+              className="text-container"
+            >
+              <div
+                className="title"
               >
-                this guide
-              </span>
-               to make your comuter as a router.
-            </div>
-            <div>
-              3. Click Next.
+                Direct Connection
+              </div>
+              <div
+                className="contents tutorial"
+              >
+                <div>
+                  1. Connect the machine with your computer with ethernet cable.
+                </div>
+                <div>
+                  2. Follow 
+                  <span
+                    className="link"
+                    onClick={[Function]}
+                  >
+                    this guide
+                  </span>
+                   to make your comuter as a router.
+                </div>
+                <div>
+                  3. Click Next.
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  }
-/>
+  </View>
+</ConnectEthernet>
 `;
 
 exports[`test Connect-Ethernet should render correctly in win 1`] = `
-<View
-  className={
-    Object {
-      "initialization": true,
+<ConnectEthernet>
+  <View
+    className={
+      Object {
+        "initialization": true,
+        "modal-window": true,
+      }
     }
-  }
-  content={
-    <div
-      className="connect-machine"
-    >
+    content={
       <div
-        className="top-bar"
-      />
-      <div
-        className="btn-page-container"
+        className="connect-machine"
       >
         <div
-          className="btn-page"
-          onClick={[Function]}
-        >
-          Back
-        </div>
+          className="top-bar"
+        />
         <div
-          className="btn-page primary"
-          onClick={[Function]}
-        >
-          Next
-        </div>
-      </div>
-      <div
-        className="connection-ethernet"
-      >
-        <div
-          className="image-container ether"
+          className="btn-page-container"
         >
           <div
-            className="circle c1"
-          />
-          <img
-            className="ethernet-icon"
-            draggable="false"
-            src="img/init-panel/icon-dual-cable.svg"
-          />
-          <div
-            className="circle c2"
-          />
-        </div>
-        <div
-          className="text-container"
-        >
-          <div
-            className="title"
+            className="btn-page"
+            onClick={[Function]}
           >
-            Direct Connection
+            Back
           </div>
           <div
-            className="contents tutorial"
+            className="btn-page primary"
+            onClick={[Function]}
           >
-            <div>
-              1. Connect the machine with your computer with ethernet cable.
+            Next
+          </div>
+        </div>
+        <div
+          className="connection-ethernet"
+        >
+          <div
+            className="image-container ether"
+          >
+            <div
+              className="circle c1"
+            />
+            <img
+              className="ethernet-icon"
+              draggable="false"
+              src="img/init-panel/icon-dual-cable.svg"
+            />
+            <div
+              className="circle c2"
+            />
+          </div>
+          <div
+            className="text-container"
+          >
+            <div
+              className="title"
+            >
+              Direct Connection
             </div>
-            <div>
-              2. Follow 
-              <span
-                className="link"
-                onClick={[Function]}
+            <div
+              className="contents tutorial"
+            >
+              <div>
+                1. Connect the machine with your computer with ethernet cable.
+              </div>
+              <div>
+                2. Follow 
+                <span
+                  className="link"
+                  onClick={[Function]}
+                >
+                  this guide
+                </span>
+                 to make your comuter as a router.
+              </div>
+              <div>
+                3. Click Next.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  >
+    <div
+      className="initialization modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="connect-machine"
+        >
+          <div
+            className="top-bar"
+          />
+          <div
+            className="btn-page-container"
+          >
+            <div
+              className="btn-page"
+              onClick={[Function]}
+            >
+              Back
+            </div>
+            <div
+              className="btn-page primary"
+              onClick={[Function]}
+            >
+              Next
+            </div>
+          </div>
+          <div
+            className="connection-ethernet"
+          >
+            <div
+              className="image-container ether"
+            >
+              <div
+                className="circle c1"
+              />
+              <img
+                className="ethernet-icon"
+                draggable="false"
+                src="img/init-panel/icon-dual-cable.svg"
+              />
+              <div
+                className="circle c2"
+              />
+            </div>
+            <div
+              className="text-container"
+            >
+              <div
+                className="title"
               >
-                this guide
-              </span>
-               to make your comuter as a router.
-            </div>
-            <div>
-              3. Click Next.
+                Direct Connection
+              </div>
+              <div
+                className="contents tutorial"
+              >
+                <div>
+                  1. Connect the machine with your computer with ethernet cable.
+                </div>
+                <div>
+                  2. Follow 
+                  <span
+                    className="link"
+                    onClick={[Function]}
+                  >
+                    this guide
+                  </span>
+                   to make your comuter as a router.
+                </div>
+                <div>
+                  3. Click Next.
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  }
-/>
+  </View>
+</ConnectEthernet>
 `;
