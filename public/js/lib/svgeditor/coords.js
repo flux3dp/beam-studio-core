@@ -25,7 +25,7 @@ if (!svgedit.coords) {
 }
 
 // this is how we map paths to our preferred relative segment types
-var pathMap = [0, 'z', 'M', 'm', 'L', 'l', 'C', 'c', 'Q', 'q', 'A', 'a', 
+var pathMap = [0, 'z', 'M', 'm', 'L', 'l', 'C', 'c', 'Q', 'q', 'A', 'a',
     'H', 'h', 'V', 'v', 'S', 's', 'T', 't'];
 
 /**
@@ -51,9 +51,9 @@ svgedit.coords.init = function(editorContext) {
 */
 svgedit.coords.remapElement = function(selected, changes, m) {
   var i, type,
-    remap = function(x, y) { return svgedit.math.transformPoint(x, y, m); },
-    scalew = function(w) { return m.a * w; },
-    scaleh = function(h) { return m.d * h; },
+    remap = (x, y) => svgedit.math.transformPoint(x, y, m),
+    scalew = (w) => svgedit.math.roundToDefault(m.a * w),
+    scaleh = (h) => svgedit.math.roundToDefault(m.d * h),
     doSnapping = editorContext_.getGridSnapping() && selected.parentNode.parentNode.localName === 'svg',
     finishUp = function() {
       var o;
@@ -79,7 +79,7 @@ svgedit.coords.remapElement = function(selected, changes, m) {
           var x2 = newgrad.getAttribute('x2');
           newgrad.setAttribute('x1', -(x1 - 1));
           newgrad.setAttribute('x2', -(x2 - 1));
-        } 
+        }
 
         if (m.d < 0) {
           // flip y
@@ -308,7 +308,7 @@ svgedit.coords.remapElement = function(selected, changes, m) {
                 dstr += seg.x1 + ',' + seg.y1 + ' ' + seg.x2 + ',' + seg.y2 + ' ' +
                      seg.x + ',' + seg.y + ' ';
                 break;
-            case 9: // relative quad (q) 
+            case 9: // relative quad (q)
             case 8: // absolute quad (Q)
                 dstr += seg.x1 + ',' + seg.y1 + ' ' + seg.x + ',' + seg.y + ' ';
                 break;

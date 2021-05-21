@@ -11,7 +11,7 @@
 
 // Dependencies:
 // None.
- 
+
 /**
 * @typedef AngleCoord
 * @type {object}
@@ -28,9 +28,19 @@ if (!svgedit.math) {
 
 // Constants
 var NEAR_ZERO = 1e-14;
+const DEFAULT_DIGIT = 7;
 
 // Throw away SVGSVGElement used for creating matrices/transforms.
 var svg = document.createElementNS(svgedit.NS.SVG, 'svg');
+
+const roundToDigit = (val, digit = DEFAULT_DIGIT) => {
+  const factor = 10 ** digit;
+  return Math.round((val + Number.EPSILON) * factor) / factor;
+};
+svgedit.math.roundToDigit = roundToDigit;
+
+const roundToDefault = (val) => roundToDigit(val);
+svgedit.math.roundToDefault = roundToDefault;
 
 /**
  * A (hopefully) quicker function to transform a point by a matrix
@@ -41,12 +51,12 @@ var svg = document.createElementNS(svgedit.NS.SVG, 'svg');
  * @returns {object} An x, y object representing the transformed point
 */
 svgedit.math.transformPoint = function (x, y, m) {
-	return { x: m.a * x + m.c * y + m.e, y: m.b * x + m.d * y + m.f};
+	return { x: roundToDefault(m.a * x + m.c * y + m.e), y: roundToDefault(m.b * x + m.d * y + m.f) };
 };
 
 
 /**
- * Helper function to check if the matrix performs no actual transform 
+ * Helper function to check if the matrix performs no actual transform
  * (i.e. exists for identity purposes)
  * @param {SVGMatrix} m - The matrix object to check
  * @returns {boolean} Indicates whether or not the matrix is 1,0,0,1,0,0
@@ -164,7 +174,7 @@ svgedit.math.transformListToTransform = function (tlist, min, max) {
 	var i;
 	for (i = min; i <= max; ++i) {
 		// if our indices are out of range, just use a harmless identity matrix
-		var mtom = (i >= 0 && i < tlist.numberOfItems ? 
+		var mtom = (i >= 0 && i < tlist.numberOfItems ?
 						tlist.getItem(i).matrix :
 						svg.createSVGMatrix());
 		m = svgedit.math.matrixMultiply(m, mtom);
