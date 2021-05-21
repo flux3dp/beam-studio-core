@@ -13,7 +13,6 @@ import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 import AlertStore from 'app/stores/alert-store';
 import BeamboxStore from 'app/stores/beambox-store';
 import AlertConfig from 'helpers/api/alert-config';
-import Config from 'helpers/api/config';
 import fluxId from 'helpers/api/flux-id';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import checkDeviceStatus from 'helpers/check-device-status';
@@ -23,7 +22,6 @@ import DeviceMaster from 'helpers/device-master';
 import firmwareUpdater from 'helpers/firmware-updater';
 import viewMenu from 'helpers/menubar/view';
 import OutputError from 'helpers/output-error';
-import sprintf from 'helpers/sprintf';
 import VersionChecker from 'helpers/version-checker';
 import storage from 'helpers/storage-helper';
 import i18n from 'helpers/i18n';
@@ -32,6 +30,7 @@ import sentryHelper from 'helpers/sentry-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IFont } from 'interfaces/IFont';
 
+import { sprintf } from 'sprintf-js';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 import ImageTracePanelController from './Image-Trace-Panel-Controller';
@@ -68,15 +67,14 @@ const init = (): void => {
     BeamboxPreference.write('borderless', false);
   }
 
-  const config = Config();
-  if (!config.read('default-units')) {
+  if (!storage.get('default-units')) {
     const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
     const isEn = navigator.language.slice(0, 2).toLocaleLowerCase() === 'en';
     if (timeZone.startsWith('America') && isEn) {
-      config.write('default-units', 'inches');
+      storage.set('default-units', 'inches');
     }
   }
-  if (!config.read('default-font')) {
+  if (!storage.get('default-font')) {
     initDefaultFont();
   }
   viewMenu.init();
@@ -152,7 +150,6 @@ const initDefaultFont = () => {
   const lang = navigator.language;
   const { os } = window;
   const FontScanner = requireNode('font-scanner');
-  const config = Config();
   let defaultFontFamily = os === 'Linux' ? 'Ubuntu' : 'Arial';
   if (FontConstants[lang] && FontConstants[lang][os]) {
     defaultFontFamily = FontConstants[lang][os];
@@ -160,7 +157,7 @@ const initDefaultFont = () => {
   const fonts = FontScanner.findFontsSync({ family: defaultFontFamily });
   if (fonts.length > 0) {
     const defaultFont: IFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
-    config.write('default-font', {
+    storage.set('default-font', {
       family: defaultFont.family,
       postscriptName: defaultFont.postscriptName,
       style: defaultFont.style,

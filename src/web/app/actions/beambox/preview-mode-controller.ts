@@ -6,7 +6,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import ErrorConstants from 'app/constants/error-constants';
 import AlertConfig from 'helpers/api/alert-config';
 import DeviceMaster from 'helpers/device-master';
-import sprintf from 'helpers/sprintf';
+import { sprintf } from 'sprintf-js';
 import VersionChecker from 'helpers/version-checker';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';

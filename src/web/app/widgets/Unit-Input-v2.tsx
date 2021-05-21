@@ -1,7 +1,8 @@
 import ClassNames from 'classnames';
 import React from 'react';
+
+import keyCodeConstants from 'app/constants/keycode-constants';
 import storage from 'helpers/storage-helper';
-import keyCodeConstants from '../constants/keycode-constants';
 
 interface Props {
   min?: number,

@@ -1,5 +1,6 @@
-import i18n from 'helpers/i18n';
 import React from 'react';
+
+import i18n from 'helpers/i18n';
 import storage from 'helpers/storage-helper';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 

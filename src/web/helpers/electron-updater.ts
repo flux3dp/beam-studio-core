@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
+import { sprintf } from 'sprintf-js';
+
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import FileExportHelper from 'helpers/file-export-helper';
 import i18n from 'helpers/i18n';
-import Config from './api/config';
-import sprintf from './sprintf';
-import Alert from '../app/actions/alert-caller';
-import AlertConstants from '../app/constants/alert-constants';
-import Progress from '../app/actions/progress-caller';
-import FileExportHelper from './file-export-helper';
+import Progress from 'app/actions/progress-caller';
+import storage from 'helpers/storage-helper';
 
 const { electron, FLUX } = window;
 const { ipc, events } = electron;
@@ -151,7 +152,7 @@ export default {
     checkForUpdate(false);
   },
   autoCheck(): void {
-    const doCheck = Config().read('auto_check_update') !== 0;
+    const doCheck = storage.get('auto_check_update') !== 0;
     if (doCheck) {
       checkForUpdate(true);
     }

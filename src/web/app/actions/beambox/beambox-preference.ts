@@ -1,4 +1,4 @@
-import Config from 'helpers/api/config';
+import storage from 'helpers/storage-helper';
 
 const DEFAULT_PREFERENCE = {
   should_remind_calibrate_camera: true,
@@ -10,27 +10,25 @@ const DEFAULT_PREFERENCE = {
   engrave_dpi: 'medium', // low, medium, high
 };
 
-const config = Config();
-
 class BeamboxPreference {
   constructor() {
     // set default preference if key or even beambox-preference doesn't exist
-    let pref: any = config.read('beambox-preference');
+    let pref: any = storage.get('beambox-preference');
     pref = pref === '' ? {} : pref;
     const fullPref = Object.assign(DEFAULT_PREFERENCE, pref);
-    config.write('beambox-preference', fullPref);
+    storage.set('beambox-preference', fullPref);
   }
 
   // eslint-disable-next-line class-methods-use-this
   read(key) {
-    return config.read('beambox-preference')[key];
+    return storage.get('beambox-preference')[key];
   }
 
   // eslint-disable-next-line class-methods-use-this
   write(key, value) {
-    const pref = config.read('beambox-preference');
+    const pref = storage.get('beambox-preference');
     pref[key] = value;
-    config.write('beambox-preference', pref);
+    storage.set('beambox-preference', pref);
   }
 }
 

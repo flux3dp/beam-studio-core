@@ -11,7 +11,6 @@ import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import CameraCalibration from 'helpers/api/camera-calibration';
 import CheckDeviceStatus from 'helpers/check-device-status';
-import Config from 'helpers/api/config';
 import Constant from 'app/actions/beambox/constant';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
@@ -20,6 +19,7 @@ import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import progress from 'app/actions/progress-caller';
+import storage from 'helpers/storage-helper';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -766,7 +766,7 @@ class CameraCalibrationComponent extends React.Component<Props, State> {
       },
       imgBlobUrl: '',
     };
-    this.unit = Config().read('default-units') as string || 'mm';
+    this.unit = storage.get('default-units') as string || 'mm';
     this.updateCurrentStep = this.updateCurrentStep.bind(this);
     this.onClose = this.onClose.bind(this);
     this.updateImgBlobUrl = this.updateImgBlobUrl.bind(this);

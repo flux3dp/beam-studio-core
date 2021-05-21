@@ -45,7 +45,6 @@ import BeamboxActions from 'app/actions/beambox';
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
-import Config from 'helpers/api/config';
 import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
@@ -625,7 +624,7 @@ export default $.SvgCanvas = function (container, config) {
     // Rotary Mode
     rotaryMode = BeamboxPreference.read('rotary_mode');
 
-  const defaultFont = Config().read('default-font');
+  const defaultFont = storage.get('default-font');
   if (defaultFont) {
     cur_text.font_family = defaultFont.family;
     cur_text.font_postscriptName = defaultFont.postscriptName;
@@ -9183,8 +9182,8 @@ export default $.SvgCanvas = function (container, config) {
         type: AlertConstants.SHOW_POPUP_ERROR,
         message: i18n.lang.topmenu.file.path_not_exit,
       });
-      const recent_files = Config().read('recent_files').filter((path) => path !== filePath);
-      Config().write('recent_files', recent_files);
+      const recent_files = storage.get('recent_files').filter((path) => path !== filePath);
+      storage.set('recent_files', recent_files);
       this.updateRecentMenu();
     }
   }
