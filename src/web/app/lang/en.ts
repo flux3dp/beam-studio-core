@@ -988,7 +988,7 @@ export default {
     please_refocus: {
       beambox: 'Kindly adjust the platform to the focal point (the height of turned down acrylic)',
       beamo: 'Kindly adjust the laser head to focus on the engraving object (the height of turned down acrylic)',
-      beamo_af: 'Kindly double tap the side button of autofocus add-on, and let the probe touch the material softly.',
+      beamo_af: 'Kindly double-tap the side button of the autofocus add-on and let the probe touch the material softly.',
     },
     without_af: 'Without Autofocus',
     with_af: 'With Autofocus',
@@ -998,7 +998,7 @@ export default {
     x_ratio: 'X Ratio',
     y_ratio: 'Y Ratio',
     show_last_config: 'Show Last Result',
-    use_last_config: 'Import Last Result',
+    use_last_config: 'Use Last Calibration Value',
     taking_picture: 'Taking Picture...',
     analyze_result_fail: 'Fail to analyze captured image.<br/>Please make sure:<br/>1. Captured picture fully coverd with white paper.<br/>2. The platform is focus properly.',
     drawing_calibration_image: 'Drawing calibration image...',

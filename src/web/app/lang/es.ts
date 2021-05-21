@@ -860,7 +860,7 @@ export default {
     fileExistContinue: 'El archivo ya existe, ¿quieres reemplazarlo?',
     confirmGToF: 'El GCode se convertirá en FCode, ¿quieres continuar? ( reemplazará si existe )',
     confirmFileDelete: '¿Estás seguro de que quieres borrar este archivo?',
-    ask_reconnect: 'La conexión con la máquina se ha roto. ¿Quieres volver a conectarte?',
+    ask_reconnect: 'Se ha interrumpido la conexión con el equipo. ¿Deseas reconectar?',
     task: {
       EXTRUDER: 'Imprimiendo',
       PRINT: 'Imprimiendo',
@@ -988,7 +988,7 @@ export default {
     please_refocus: {
       beambox: 'Por favor, ajusta la plataforma al punto focal (la altura del acrílico rechazado)',
       beamo: 'Por favor, ajusta el cabezal del láser para enfocar el objeto grabado (la altura del acrílico rechazado)',
-      beamo_af: 'Por favor, toque dos veces el botón lateral del complemento de enfoque automático y deje que la sonda toque el material suavemente.',
+      beamo_af: 'Toca dos veces el botón de enfoque automático y deja que el de enfoque toque el material con cuidado.',
     },
     without_af: 'Sin ajuste de enfoque',
     with_af: 'Con ajuste de enfoque',
@@ -998,7 +998,7 @@ export default {
     x_ratio: 'Relación X',
     y_ratio: 'Relación Y',
     show_last_config: 'Mostrar el último resultado',
-    use_last_config: 'Importar último resultado',
+    use_last_config: 'Utilizar los datos de  la última calibración',
     taking_picture: 'Tomar una foto...',
     analyze_result_fail: 'Falla en el análisis de la imagen capturada.<br/>Por favor asegúrese:<br/>1. Imagen capturada totalmente cubierta con papel blanco.<br/>2. La plataforma está bien enfocada.',
     drawing_calibration_image: 'Dibujando la imagen de calibración...',
