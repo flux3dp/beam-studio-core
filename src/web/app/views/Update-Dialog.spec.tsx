@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import { IDeviceInfo } from 'interfaces/IDevice';
 
 const mockQuitTask = jest.fn();
 jest.mock('helpers/device-master', () => ({
@@ -39,8 +38,9 @@ import UpdateDialog from './Update-Dialog';
 describe('should render correctly', () => {
   test('not opened', () => {
     expect(toJson(shallow(<UpdateDialog
-      type="firmware"
-      device={{} as IDeviceInfo}
+      open={false}
+      deviceName=""
+      deviceModel=""
       currentVersion="1.0.0"
       latestVersion="1.0.1"
       releaseNote="fix bugs"
@@ -53,11 +53,8 @@ describe('should render correctly', () => {
   test('opened', () => {
     expect(toJson(shallow(<UpdateDialog
       open
-      type="firmware"
-      device={{
-        name: 'flux',
-        model: 'Beamo',
-      } as IDeviceInfo}
+      deviceName="flux"
+      deviceModel="Beamo"
       currentVersion="1.0.0"
       latestVersion="1.0.1"
       releaseNote="fix bugs"

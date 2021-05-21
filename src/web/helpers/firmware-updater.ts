@@ -11,7 +11,7 @@ import Progress from '../app/actions/progress-caller';
 import InputLightboxConstants from '../app/constants/input-lightbox-constants';
 
 
-export default function(response, printer, type: string, forceUpdate?: boolean) {
+export default function(response, printer, forceUpdate?: boolean) {
     var lang = i18n.lang,
         doUpdate,
         onDownload,
@@ -20,7 +20,7 @@ export default function(response, printer, type: string, forceUpdate?: boolean) 
         _uploadToDevice,
         _onFinishUpdate;
 
-    doUpdate = ( 'firmware' === type ? DeviceMaster.updateFirmware : DeviceMaster.updateToolhead );
+    doUpdate = DeviceMaster.updateFirmware;
 
     _uploadToDevice = async (file) => {
         const res = await DeviceMaster.select(printer);
@@ -43,11 +43,7 @@ export default function(response, printer, type: string, forceUpdate?: boolean) 
     }
 
     _onFinishUpdate = (isSuccess) => {
-        console.log('finished update', isSuccess, type);
-        if(type === 'toolhead') {
-            quitTask();
-        }
-
+        console.log('finished update', isSuccess, 'firmware');
         if (true === isSuccess) {
             Alert.popUp({
                 type: AlertConstants.SHOW_POPUP_INFO,
@@ -91,9 +87,6 @@ export default function(response, printer, type: string, forceUpdate?: boolean) 
             confirmText: lang.update.firmware.confirm,
             onSubmit: onSubmit,
             onCancel: function() {
-                if ('toolhead' === type) {
-                    DeviceMaster.quitTask();
-                }
             },
         });
     };
@@ -143,7 +136,6 @@ export default function(response, printer, type: string, forceUpdate?: boolean) 
     } else {
         AlertActions.showUpdate(
             printer,
-            type,
             response || {},
             onDownload,
             onInstall

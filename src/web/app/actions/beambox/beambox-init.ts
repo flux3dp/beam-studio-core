@@ -220,13 +220,13 @@ const initMenuBarEvents = (): void => {
             buttonType: AlertConstants.CUSTOM_CANCEL,
             buttonLabels: LANG.update.firmware.latest_firmware.still_update,
             callbacks: () => {
-              firmwareUpdater(response, currentPrinter, type, true);
+              firmwareUpdater(response, currentPrinter, true);
             },
             onCancel: () => {
             },
           });
         } else {
-          firmwareUpdater(response, currentPrinter, type);
+          firmwareUpdater(response, currentPrinter);
         }
       } catch (error) {
         Alert.popUp({

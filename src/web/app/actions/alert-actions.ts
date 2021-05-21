@@ -127,11 +127,10 @@ export default {
         });
     },
 
-    showUpdate: function(device, type, updateInfo, onDownload, onInstall) {
+    showUpdate: function(device, updateInfo, onDownload, onInstall) {
         AlertDispatcher.dispatch({
             actionType: AlertConstants.SHOW_POPUP_UPDATE,
             device: device,
-            type: type,
             updateInfo: updateInfo,
             onDownload: onDownload,
             onInstall: onInstall

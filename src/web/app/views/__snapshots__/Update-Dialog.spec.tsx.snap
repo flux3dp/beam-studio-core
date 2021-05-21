@@ -45,7 +45,6 @@ exports[`should render correctly opened 1`] = `
       <div
         className="action-button"
       >
-        
         <ButtonGroup
           buttons={
             Array [
@@ -54,7 +53,7 @@ exports[`should render correctly opened 1`] = `
                   "ga-event": "update-firmware-later",
                 },
                 "label": "LATER",
-                "onClick": [Function],
+                "onClick": [MockFunction],
               },
               Object {
                 "dataAttrs": Object {
