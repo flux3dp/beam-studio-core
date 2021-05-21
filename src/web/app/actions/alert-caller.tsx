@@ -1,9 +1,8 @@
 import * as React from 'react';
 import alertConstants from 'app/constants/alert-constants';
+import browser from 'helpers/browser-helper';
 import { AlertsAndProgressContextHelper } from 'app/views/dialogs/Alerts-And-Progress';
 import { IAlert } from 'interfaces/IAlert';
-
-const electron = requireNode('electron');
 
 export default {
     popUp: (args: IAlert) => {
@@ -41,7 +40,7 @@ export default {
     },
     renderHyperLink: (text: string, link: string) => {
         return (
-            <div className='hyper-link' onClick={()=>electron.remote.shell.openExternal(link)}>
+            <div className='hyper-link' onClick={()=>browser.open(link)}>
                 {text}
             </div>
         );

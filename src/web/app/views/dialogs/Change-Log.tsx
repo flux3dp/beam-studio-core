@@ -1,5 +1,6 @@
 import React from 'react';
 
+import browser from 'helpers/browser-helper';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 
@@ -104,8 +105,7 @@ class ChangeLogDialog extends React.Component<Props> {
     }
 
     const handleLink = () => {
-      const electron = requireNode('electron');
-      electron.remote.shell.openExternal(LANG.help_center_url);
+      browser.open(LANG.help_center_url);
     };
 
     return (

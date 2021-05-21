@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
+
+const mockOpen = jest.fn();
+jest.mock('helpers/browser-helper', () => ({
+  open: mockOpen,
+}));
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -25,21 +30,33 @@ jest.mock('helpers/i18n', () => ({
 import connectEthernet from './Connect-Ethernet';
 
 describe('test Connect-Ethernet', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   test('should render correctly in mac', () => {
-    Object.defineProperty(process, 'platform', {
-      value: 'darwin',
+    Object.defineProperty(window, 'os', {
+      value: 'MacOS',
     });
     const ConnectEthernet = connectEthernet();
-    const wrapper = shallow(<ConnectEthernet />);
+    const wrapper = mount(<ConnectEthernet />);
     expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('span').simulate('click');
+    expect(mockOpen).toHaveBeenCalledTimes(1);
+    expect(mockOpen).toHaveBeenNthCalledWith(1, 'https://support.flux3dp.com/hc/en-us/articles/360001517076');
   });
 
   test('should render correctly in win', () => {
-    Object.defineProperty(process, 'platform', {
-      value: 'win32',
+    Object.defineProperty(window, 'os', {
+      value: 'Windows',
     });
     const ConnectEthernet = connectEthernet();
-    const wrapper = shallow(<ConnectEthernet />);
+    const wrapper = mount(<ConnectEthernet />);
     expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('span').simulate('click');
+    expect(mockOpen).toHaveBeenCalledTimes(1);
+    expect(mockOpen).toHaveBeenNthCalledWith(1, 'https://support.flux3dp.com/hc/en-us/articles/360001507715');
   });
 });

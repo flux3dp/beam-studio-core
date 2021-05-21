@@ -1,8 +1,10 @@
-import alert from 'app/actions/alert-caller';
 import classNames from 'classnames';
+import React, { useEffect, useRef, useState } from 'react';
+
+import alert from 'app/actions/alert-caller';
+import browser from 'helpers/browser-helper';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
-import React, { useEffect, useRef, useState } from 'react';
 import ShowablePasswordInput from 'app/widgets/Showable-Password-Input';
 import storage from 'helpers/storage-helper';
 import {
@@ -75,7 +77,7 @@ const FluxIdLogin = ({ onClose }) => {
             <input ref={rememberMeCheckbox} type='checkbox' checked={isRememberMeChecked} onChange={() => { }} />
             <div>{LANG.remember_me}</div>
           </div>
-          <div className='forget-password' onClick={() => electron.remote.shell.openExternal(lost_password_url)}>{LANG.forget_password}</div>
+          <div className='forget-password' onClick={() => browser.open(lost_password_url)}>{LANG.forget_password}</div>
         </div>
       </div>
     );
@@ -86,7 +88,7 @@ const FluxIdLogin = ({ onClose }) => {
     return (
       <div className='footer'>
         <div className={classNames('button', 'primary')} onClick={handleLogin}>{LANG.login}</div>
-        <div className={classNames('button')} onClick={() => electron.remote.shell.openExternal(signup_url)}>{LANG.register}</div>
+        <div className={classNames('button')} onClick={() => browser.open(signup_url)}>{LANG.register}</div>
         <div className='skip' onClick={() => onClose()}>{LANG.work_offline}</div>
       </div>
     );
