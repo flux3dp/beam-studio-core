@@ -302,7 +302,7 @@ const svgEditor = window['svgEditor'] = (function () {
     langChanged: false,
     showSaveWarning: false,
     storagePromptClosed: false, // For use with ext-storage.js
-    dimensions: [Constant.dimension.getWidth(BeamboxPreference.read('model')), Constant.dimension.getHeight(BeamboxPreference.read('model'))],
+    dimensions: [Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea'))],
     uiStrings: {},
     updateContextPanel: () => {},
     clearScene: () => {},
@@ -6018,7 +6018,7 @@ const svgEditor = window['svgEditor'] = (function () {
         }
         Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
         const { outputLayers, svg: resizedSvg, bbox } = Dxf2Svg.toSVG(parsed, unitLength * 10);
-        if (!AlertConfig.read('skip_dxf_oversize_warning') && (bbox.width > Constant.dimension.getWidth(BeamboxPreference.read('model')) || bbox.height > Constant.dimension.getHeight(BeamboxPreference.read('model')))) {
+        if (!AlertConfig.read('skip_dxf_oversize_warning') && (bbox.width > Constant.dimension.getWidth(BeamboxPreference.read('workarea')) || bbox.height > Constant.dimension.getHeight(BeamboxPreference.read('workarea')))) {
           Alert.popUp({
             id: 'dxf_size_over_workarea',
             message: LANG.popup.dxf_bounding_box_size_over,
@@ -6147,13 +6147,13 @@ const svgEditor = window['svgEditor'] = (function () {
           match = str.match(/data-left="[-0-9]+"/);
           if (match) {
             let left = parseInt(match[0].substring(11, match[0].length - 1));
-            left = Math.round((left + Constant.dimension.getWidth(BeamboxPreference.read('model'))) * svgCanvas.getZoom());
+            left = Math.round((left + Constant.dimension.getWidth(BeamboxPreference.read('workarea'))) * svgCanvas.getZoom());
             $('#workarea').scrollLeft(left);
           }
           match = str.match(/data-top="[-0-9]+"/);
           if (match) {
             let top = parseInt(match[0].substring(10, match[0].length - 1));
-            top = Math.round((top + Constant.dimension.getHeight(BeamboxPreference.read('model'))) * svgCanvas.getZoom());
+            top = Math.round((top + Constant.dimension.getHeight(BeamboxPreference.read('workarea'))) * svgCanvas.getZoom());
             $('#workarea').scrollTop(top);
           }
         }
@@ -6504,10 +6504,10 @@ const svgEditor = window['svgEditor'] = (function () {
     const hasRulers = !!BeamboxPreference.read('show_rulers');
     const sidePanelsWidth = Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
     const topBarHeight = Constant.topBarHeight + (hasRulers ? Constant.rulerWidth : 0);
-    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / Constant.dimension.getWidth(BeamboxPreference.read('model')), (window.innerHeight - topBarHeight) / Constant.dimension.getHeight(BeamboxPreference.read('model')));
+    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / Constant.dimension.getWidth(BeamboxPreference.read('workarea')), (window.innerHeight - topBarHeight) / Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
     const zoomLevel = workareaToDimensionRatio * 0.95;
-    const workAreaWidth = Constant.dimension.getWidth(BeamboxPreference.read('model')) * zoomLevel;
-    const workAreaHeight = Constant.dimension.getHeight(BeamboxPreference.read('model')) * zoomLevel;
+    const workAreaWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea')) * zoomLevel;
+    const workAreaHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea')) * zoomLevel;
     const offsetX = (window.innerWidth - sidePanelsWidth - workAreaWidth) / 2 + (hasRulers ? Constant.rulerWidth : 0);
     const offsetY = (window.innerHeight - topBarHeight - workAreaHeight) / 2 + (hasRulers ? Constant.rulerWidth : 0);
     editor.zoomChanged(window, {
