@@ -1,10 +1,10 @@
 import React from 'react';
+import { sprintf } from 'sprintf-js';
 
 import ButtonGroup from 'app/widgets/Button-Group';
 import DeviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
-import sprintf from 'helpers/sprintf';
 import storage from 'helpers/storage-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { StorageKey } from 'interfaces/IStorage';
@@ -16,7 +16,6 @@ interface Props {
   currentVersion: string,
   latestVersion: string,
   releaseNote: string,
-  updateFile: any,
   onDownload: () => void,
   onClose: () => void,
   onInstall: () => void,
@@ -30,7 +29,6 @@ class UpdateDialog extends React.Component<Props> {
     currentVersion: '',
     latestVersion: '',
     releaseNote: '',
-    updateFile: undefined,
     onDownload: () => {},
     onClose: () => {},
     onInstall: () => {},

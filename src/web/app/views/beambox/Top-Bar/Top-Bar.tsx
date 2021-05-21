@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { sprintf } from 'sprintf-js';
 
 import i18n from 'helpers/i18n';
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
@@ -21,7 +22,6 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
-import sprintf from 'helpers/sprintf';
 import storage from 'helpers/storage-helper';
 import SymbolMaker from 'helpers/symbol-maker';
 import TutorialConstants from 'app/constants/tutorial-constants';

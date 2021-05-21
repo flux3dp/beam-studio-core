@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
+import { sprintf } from 'sprintf-js';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import FileExportHelper from 'helpers/file-export-helper';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
-import sprintf from 'helpers/sprintf';
 import storage from 'helpers/storage-helper';
 
 const { electron, FLUX } = window;

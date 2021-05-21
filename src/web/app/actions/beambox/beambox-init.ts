@@ -22,7 +22,6 @@ import DeviceMaster from 'helpers/device-master';
 import firmwareUpdater from 'helpers/firmware-updater';
 import viewMenu from 'helpers/menubar/view';
 import OutputError from 'helpers/output-error';
-import sprintf from 'helpers/sprintf';
 import VersionChecker from 'helpers/version-checker';
 import storage from 'helpers/storage-helper';
 import i18n from 'helpers/i18n';
@@ -31,6 +30,7 @@ import sentryHelper from 'helpers/sentry-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IFont } from 'interfaces/IFont';
 
+import { sprintf } from 'sprintf-js';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 import ImageTracePanelController from './Image-Trace-Panel-Controller';

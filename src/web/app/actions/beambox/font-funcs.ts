@@ -7,7 +7,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import AlertConfig from 'helpers/api/alert-config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import i18n from 'helpers/i18n';
-import sprintf from 'helpers/sprintf';
+import { sprintf } from 'sprintf-js';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import storage from 'helpers/storage-helper';
 import { IFont, IFontQuery } from 'interfaces/IFont';
