@@ -9,7 +9,7 @@ import SelectView from 'app/widgets/Select';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import alert from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
-import BeamboxConstant from 'app/actions/beambox/constant';
+import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import autoSaveHelper from 'helpers/auto-save-helper';
@@ -94,6 +94,7 @@ interface Props {
 interface State {
   lang?: ILang;
   editingAutosaveConfig?: IConfig;
+  selectedModel: WorkAreaModel;
   warnings?: { [key: string]: string };
 }
 
@@ -111,6 +112,7 @@ class SettingGeneral extends React.Component<Props, State> {
     this.state = {
       lang: i18n.lang,
       editingAutosaveConfig: autoSaveHelper.getConfig(),
+      selectedModel: BeamboxPreference.read('model') || 'fbm1',
       warnings: {},
     };
     this.origLang = i18n.getActiveLang();
@@ -318,8 +320,8 @@ class SettingGeneral extends React.Component<Props, State> {
 
   render() {
     const { supported_langs: supportedLangs } = this.props;
-    const { lang, warnings } = this.state;
-    const pokeIP = storage.get('poke-ip-addr');
+    const { lang, selectedModel, warnings } = this.state;
+    const pokeIP = Config().read('poke-ip-addr');
     const langOptions = [];
 
     Object.keys(supportedLangs).forEach((l) => {
@@ -432,17 +434,17 @@ class SettingGeneral extends React.Component<Props, State> {
       {
         value: 'fbm1',
         label: 'beamo',
-        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbm1',
+        selected: selectedModel === 'fbm1',
       },
       {
         value: 'fbb1b',
         label: 'Beambox',
-        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbb1b',
+        selected: selectedModel === 'fbb1b',
       },
       {
         value: 'fbb1p',
         label: 'Beambox Pro',
-        selected: this.getBeamboxPreferenceEditingValue('model') === 'fbb1p',
+        selected: selectedModel === 'fbb1p',
       },
     ];
 
@@ -558,7 +560,10 @@ class SettingGeneral extends React.Component<Props, State> {
         <SelectControl
           label={lang.settings.default_beambox_model}
           options={defaultBeamboxModelOptions}
-          onChange={(e) => this.updateBeamboxPreferenceChange('model', e.target.value)}
+          onChange={(e) => {
+            this.updateBeamboxPreferenceChange('model', e.target.value);
+            this.setState({ selectedModel: e.target.value });
+          }}
         />
         <SelectControl
           label={lang.settings.guides}
@@ -571,7 +576,7 @@ class SettingGeneral extends React.Component<Props, State> {
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
-            max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
+            max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('guide_x0')}
             getValue={(val) => this.updateBeamboxPreferenceChange('guide_x0', val)}
             forceUsePropsUnit
@@ -581,7 +586,7 @@ class SettingGeneral extends React.Component<Props, State> {
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
-            max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
+            max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('guide_y0')}
             getValue={(val) => this.updateBeamboxPreferenceChange('guide_y0', val)}
             forceUsePropsUnit
@@ -658,7 +663,7 @@ class SettingGeneral extends React.Component<Props, State> {
                 <UnitInput
                   unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
                   min={0}
-                  max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
+                  max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
                   defaultValue={this.getBeamboxPreferenceEditingValue('precut_x') || 0}
                   getValue={(val) => this.updateBeamboxPreferenceChange('precut_x', val)}
                   forceUsePropsUnit
@@ -668,7 +673,7 @@ class SettingGeneral extends React.Component<Props, State> {
                 <UnitInput
                   unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
                   min={0}
-                  max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
+                  max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
                   defaultValue={this.getBeamboxPreferenceEditingValue('precut_y') || 0}
                   getValue={(val) => this.updateBeamboxPreferenceChange('precut_y', val)}
                   forceUsePropsUnit
@@ -718,7 +723,7 @@ class SettingGeneral extends React.Component<Props, State> {
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
-            max={BeamboxConstant.dimension.getWidth(BeamboxPreference.read('model')) / 10}
+            max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('diode_offset_x') || 0}
             getValue={(val) => this.updateBeamboxPreferenceChange('diode_offset_x', val)}
             forceUsePropsUnit
@@ -728,7 +733,7 @@ class SettingGeneral extends React.Component<Props, State> {
           <UnitInput
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
-            max={BeamboxConstant.dimension.getHeight(BeamboxPreference.read('model')) / 10}
+            max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
             defaultValue={this.getBeamboxPreferenceEditingValue('diode_offset_y') || 0}
             getValue={(val) => this.updateBeamboxPreferenceChange('diode_offset_y', val)}
             forceUsePropsUnit
