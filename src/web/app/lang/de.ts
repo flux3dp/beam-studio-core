@@ -992,7 +992,7 @@ export default {
     x_ratio: 'X-Verhältnis',
     y_ratio: 'Y-Verhältnis',
     show_last_config: 'Letztes Ergebnis anzeigen',
-    use_last_config: 'Letztes Ergebnis importieren',
+    use_last_config: 'Verwenden Sie den letzten Kalibrierungswert',
     taking_picture: 'Foto machen...',
     analyze_result_fail: 'Konnte das aufgenommene Bild nichtanalysieren. <br/> Bitte stelle Folgendes sicher: <br/>1. Das aufgenommene Bild ist vollständig mit weißem Papier bedeckt.<br/>2. Die Plattform ist richtig fokussiert.',
     drawing_calibration_image: 'Kalibrierungsbild zeichnen ...',
