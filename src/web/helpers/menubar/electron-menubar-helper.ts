@@ -16,5 +16,6 @@ export const getMenuItem = (ids: string[]): Electron.MenuItem => {
 };
 
 export const updateCheckbox = (ids: string[], checked: boolean): void => {
-  getMenuItem(ids).checked = checked;
+  const menuItem = getMenuItem(ids);
+  if (menuItem) menuItem.checked = checked;
 };
