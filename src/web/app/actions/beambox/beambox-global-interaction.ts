@@ -1,20 +1,20 @@
 import Alert from 'app/actions/alert-caller';
-import dialog from 'app/actions/dialog-caller';
-import GlobalInteraction from 'app/actions/global-interaction';
 import BeamboxActions from 'app/actions/beambox';
-import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'helpers/browser-helper';
 import checkQuestionnaire from 'helpers/check-questionnaire';
+import dialog from 'app/actions/dialog-caller';
 import ElectronUpdater from 'helpers/electron-updater';
+import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileExportHelper from 'helpers/file-export-helper';
-import imageEdit from 'helpers/image-edit';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import GlobalInteraction from 'app/actions/global-interaction';
 import i18n from 'helpers/i18n';
+import imageEdit from 'helpers/image-edit';
+import Tutorials from 'app/actions/beambox/tutorials';
 import viewMenu from 'helpers/menubar/view';
+import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-import BeamboxPreference from './beambox-preference';
-import ExportFuncs from './export-funcs';
-import FnWrapper from './svgeditor-function-wrapper';
-import Tutorials from './tutorials';
 
 let svgCanvas;
 let svgEditor;
@@ -138,8 +138,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
           });
           return;
         }
-        const electron = requireNode('electron');
-        electron.remote.shell.openExternal(url);
+        browser.open(url);
       },
       CHANGE_LOGS: () => dialog.showChangLog(),
       PASTE_IN_PLACE: () => svgCanvas.pasteElements('in_place'),

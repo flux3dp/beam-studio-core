@@ -1,41 +1,43 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { sprintf } from 'sprintf-js';
+
 import Alert from 'app/actions/alert-caller';
-import Dialog from 'app/actions/dialog-caller';
-import ElectronDialogs from 'app/actions/electron-dialogs';
-import MonitorController from 'app/actions/monitor-controller';
-import Progress from 'app/actions/progress-caller';
-import AlertConstants from 'app/constants/alert-constants';
-import FontConstants from 'app/constants/font-constants';
-import { Mode } from 'app/constants/monitor-constants';
-import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
-import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
-import AlertStore from 'app/stores/alert-store';
-import BeamboxStore from 'app/stores/beambox-store';
 import AlertConfig from 'helpers/api/alert-config';
-import fluxId from 'helpers/api/flux-id';
+import AlertConstants from 'app/constants/alert-constants';
+import AlertStore from 'app/stores/alert-store';
 import autoSaveHelper from 'helpers/auto-save-helper';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import BeamboxStore from 'app/stores/beambox-store';
+import browser from 'helpers/browser-helper';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
 import checkQuestionnaire from 'helpers/check-questionnaire';
+import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
+import Dialog from 'app/actions/dialog-caller';
+import ElectronDialogs from 'app/actions/electron-dialogs';
 import firmwareUpdater from 'helpers/firmware-updater';
-import viewMenu from 'helpers/menubar/view';
-import OutputError from 'helpers/output-error';
-import VersionChecker from 'helpers/version-checker';
-import storage from 'helpers/storage-helper';
+import fluxId from 'helpers/api/flux-id';
+import FontConstants from 'app/constants/font-constants';
 import i18n from 'helpers/i18n';
-import { getSVGEdit } from 'helpers/svg-editor-helper';
+import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
+import MonitorController from 'app/actions/monitor-controller';
+import OutputError from 'helpers/output-error';
+import Progress from 'app/actions/progress-caller';
 import sentryHelper from 'helpers/sentry-helper';
+import storage from 'helpers/storage-helper';
+import ToolPanelsController from 'app/actions/beambox/Tool-Panels-Controller';
+import Tutorials from 'app/actions/beambox/tutorials';
+import VersionChecker from 'helpers/version-checker';
+import viewMenu from 'helpers/menubar/view';
+import { getSVGEdit } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IFont } from 'interfaces/IFont';
+import { Mode } from 'app/constants/monitor-constants';
+import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
+import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 
-import { sprintf } from 'sprintf-js';
-import BeamboxPreference from './beambox-preference';
-import Constant from './constant';
-import ImageTracePanelController from './Image-Trace-Panel-Controller';
-import ToolPanelsController from './Tool-Panels-Controller';
-import Tutorials from './tutorials';
 
 let menuEventRegistered = false;
 
@@ -648,8 +650,7 @@ const showQuestionnaire = async () => {
       iconUrl: 'img/beambox/icon-questionnaire.svg',
       buttonType: AlertConstants.YES_NO,
       onYes: () => {
-        const electron = requireNode('electron');
-        electron.remote.shell.openExternal(url);
+        browser.open(url);
         resolve();
       },
       onNo: () => {

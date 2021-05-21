@@ -1,7 +1,8 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'helpers/browser-helper';
 import Constant from 'app/actions/beambox/constant';
+import i18n from 'helpers/i18n';
 import { ITutorial } from 'interfaces/ITutorial';
 import {
   TopRef, RightRef, calculateTop, calculateRight,
@@ -10,8 +11,6 @@ import {
 export enum TutorialCallbacks {
   SELECT_DEFAULT_RECT = 'SELECT_DEFAULT_RECT',
 }
-
-const electron = requireNode('electron');
 
 const LANG = i18n.lang.tutorial;
 
@@ -37,9 +36,9 @@ const adjustFocusLinkClick = () => {
   // TODO: Add adjust focus link for Beambox2
   const model = BeamboxPreference.read('model') || 'fbb1b';
   if (['fbm1'].includes(model)) {
-    electron.remote.shell.openExternal(LANG.links.adjust_focus_bm);
+    browser.open(LANG.links.adjust_focus_bm);
   } else {
-    electron.remote.shell.openExternal(LANG.links.adjust_focus_bb);
+    browser.open(LANG.links.adjust_focus_bb);
   }
 };
 

@@ -1,15 +1,16 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import browser from 'helpers/browser-helper';
 import Discover from 'helpers/api/discover';
+import i18n from 'helpers/i18n';
 import KeycodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
 import Progress from 'app/actions/progress-caller';
 
 const ping = requireNode('net-ping');
 const LANG = i18n.lang.beambox.network_testing_panel;
-const { shell } = requireNode('electron').remote
 
 interface Props {
   ip: string;
@@ -204,9 +205,9 @@ class NetworkTestingPanel extends React.Component<Props, State> {
             } else {
                 children = (
                     <div className='hint-container network-testing'>
-                        <div className='hint' onClick={() => {shell.openExternal(LANG.link_device_often_on_list)}}>{LANG.hint_device_often_on_list}</div>
-                        <div className='hint' onClick={() => {shell.openExternal(LANG.link_connect_failed_when_sending_job)}}>{LANG.hint_connect_failed_when_sending_job}</div>
-                        <div className='hint' onClick={() => {shell.openExternal(LANG.link_connect_camera_timeout)}}>{LANG.hint_connect_camera_timeout}</div>
+                        <div className='hint' onClick={() => {browser.open(LANG.link_device_often_on_list)}}>{LANG.hint_device_often_on_list}</div>
+                        <div className='hint' onClick={() => {browser.open(LANG.link_connect_failed_when_sending_job)}}>{LANG.hint_connect_failed_when_sending_job}</div>
+                        <div className='hint' onClick={() => {browser.open(LANG.link_connect_camera_timeout)}}>{LANG.hint_connect_camera_timeout}</div>
                     </div>
                 );
             }

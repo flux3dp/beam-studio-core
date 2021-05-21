@@ -1,4 +1,6 @@
 import * as React from 'react';
+
+import browser from 'helpers/browser-helper';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 
@@ -17,8 +19,7 @@ export default () => class ConnectEthernet extends React.PureComponent {
   renderContent = () => {
     const guideHref = window.os === 'MacOS' ? lang.connect_ethernet.tutorial2_a_href_mac : lang.connect_ethernet.tutorial2_a_href_win;
     const externalLink = (url: string) => {
-      const electron = requireNode('electron');
-      electron.remote.shell.openExternal(url);
+      browser.open(url);
     };
     return (
       <div className="connection-ethernet">

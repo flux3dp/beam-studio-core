@@ -1,10 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import browser from 'helpers/browser-helper';
 import ButtonGroup from 'app/widgets/Button-Group';
 import Modal from 'app/widgets/Modal';
-
-const electron = requireNode('electron');
 
 interface Props {
   caption: string;
@@ -44,8 +43,8 @@ class Alert extends React.Component<Props, State> {
         const a = aElements[i];
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          electron.remote.shell.openExternal(a.getAttribute('href'));
-        })
+          browser.open(a.getAttribute('href'));
+        });
       }
     }
   }

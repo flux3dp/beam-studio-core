@@ -1,8 +1,9 @@
 import alert from 'app/actions/alert-caller';
-import progress from 'app/actions/progress-caller';
-import parseQueryData from 'helpers/query-data-parser';
-import storage from 'helpers/storage-helper';
+import browser from 'helpers/browser-helper';
 import i18n from 'helpers/i18n';
+import parseQueryData from 'helpers/query-data-parser';
+import progress from 'app/actions/progress-caller';
+import storage from 'helpers/storage-helper';
 import { IUser } from 'interfaces/IUser';
 
 const axios = requireNode('axios');
@@ -138,12 +139,12 @@ export const init = async () => {
 
 export const externalLinkFBSignIn = () => {
     const fbAuthUrl = `${FB_OAUTH_URI}?client_id=${FB_APP_ID}&redirect_uri=${FB_REDIRECT_URI}&response_type=token&scope=email`;
-    electron.remote.shell.openExternal(fbAuthUrl);
+    browser.open(fbAuthUrl);
 };
 
 export const externalLinkGoogleSignIn = () => {
     const gAuthUrl = `${G_OAUTH_URL}?client_id=${G_CLIENT_ID}&redirect_uri=${G_REDIRECT_URI}&response_type=code&scope=email+profile`;
-    electron.remote.shell.openExternal(gAuthUrl);
+    browser.open(gAuthUrl);
 };
 
 export const externalLinkMemberDashboard = async () => {
@@ -151,7 +152,7 @@ export const externalLinkMemberDashboard = async () => {
     if (token) {
         const urlPrefix = i18n.getActiveLang() === 'zh-tw' ? 'tw-' : '';
         const url = `https://${urlPrefix}store.flux3dp.com/api_entry/?feature=beam-studio-login&key=${token}`
-        electron.remote.shell.openExternal(url);
+        browser.open(url);
     }
 }
 
