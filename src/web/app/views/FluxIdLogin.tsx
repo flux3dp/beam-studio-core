@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
 import alert from 'app/actions/alert-caller';
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import ShowablePasswordInput from 'app/widgets/Showable-Password-Input';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import {
   externalLinkFBSignIn,
   externalLinkGoogleSignIn,

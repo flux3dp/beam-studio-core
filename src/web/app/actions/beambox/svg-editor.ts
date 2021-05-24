@@ -41,7 +41,7 @@ import Dialog from 'app/actions/dialog-caller';
 import AwsHelper from 'helpers/aws-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import PdfHelper from 'helpers/pdf-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';

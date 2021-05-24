@@ -9,7 +9,7 @@ import AlertStore from 'app/stores/alert-store';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import ratingHelper from 'helpers/rating-helper';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
@@ -27,7 +27,7 @@ import MonitorController from 'app/actions/monitor-controller';
 import OutputError from 'helpers/output-error';
 import Progress from 'app/actions/progress-caller';
 import sentryHelper from 'helpers/sentry-helper';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import ToolPanelsController from 'app/actions/beambox/Tool-Panels-Controller';
 import Tutorials from 'app/actions/beambox/tutorials';
 import VersionChecker from 'helpers/version-checker';
@@ -38,7 +38,6 @@ import { IFont } from 'interfaces/IFont';
 import { Mode } from 'app/constants/monitor-constants';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
-
 
 let menuEventRegistered = false;
 

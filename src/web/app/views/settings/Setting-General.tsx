@@ -4,18 +4,18 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import PathInput, { InputType } from 'app/widgets/PathInput';
-import SelectView from 'app/widgets/Select';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import alert from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
+import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import FontFuncs from 'app/actions/beambox/font-funcs';
-import autoSaveHelper from 'helpers/auto-save-helper';
-import storage from 'helpers/storage-helper';
-import i18n from 'helpers/i18n';
 import browser from 'implementations/browser';
+import FontFuncs from 'app/actions/beambox/font-funcs';
+import i18n from 'helpers/i18n';
+import PathInput, { InputType } from 'app/widgets/PathInput';
+import SelectView from 'app/widgets/Select';
+import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 import { IConfig } from 'interfaces/IAutosave';
 import { IFont } from 'interfaces/IFont';
 import { ILang } from 'interfaces/ILang';

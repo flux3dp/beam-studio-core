@@ -19,7 +19,7 @@ import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import progress from 'app/actions/progress-caller';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

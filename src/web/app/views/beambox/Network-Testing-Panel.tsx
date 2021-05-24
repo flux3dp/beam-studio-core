@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
 import KeycodeConstants from 'app/constants/keycode-constants';

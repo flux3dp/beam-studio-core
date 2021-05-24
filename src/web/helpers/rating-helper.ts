@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import Dialog from 'app/actions/dialog-caller';
 import { getInfo, submitRating } from 'helpers/api/flux-id';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 
 interface IRecord {
   times: number,

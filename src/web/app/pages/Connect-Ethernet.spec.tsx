@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
 const mockOpen = jest.fn();
-jest.mock('helpers/browser-helper', () => ({
+jest.mock('implementations/browser', () => ({
   open: mockOpen,
 }));
 

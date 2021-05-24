@@ -1,19 +1,19 @@
-import React from 'react';
-import classNames from 'classnames';
-
-import i18n from 'helpers/i18n';
 import $ from 'jquery';
+import classNames from 'classnames';
+import React from 'react';
+
 import Constant from 'app/actions/beambox/constant';
-import storage from 'helpers/storage-helper';
+import i18n from 'helpers/i18n';
+import IntervalPanel from 'app/views/beambox/Tool-Panels/Interval';
+import NestGAPanel from 'app/views/beambox/Tool-Panels/NestGA';
+import NestRotationPanel from 'app/views/beambox/Tool-Panels/NestRotation';
+import NestSpacingPanel from 'app/views/beambox/Tool-Panels/NestSpacing';
+import OffsetCornerPanel from 'app/views/beambox/Tool-Panels/OffsetCorner';
+import OffsetDirPanel from 'app/views/beambox/Tool-Panels/OffsetDir';
+import OffsetDistPanel from 'app/views/beambox/Tool-Panels/OffsetDist';
+import RowColumnPanel from 'app/views/beambox/Tool-Panels/RowColumn';
+import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import IntervalPanel from './Interval';
-import NestGAPanel from './NestGA';
-import NestRotationPanel from './NestRotation';
-import NestSpacingPanel from './NestSpacing';
-import OffsetCornerPanel from './OffsetCorner';
-import OffsetDirPanel from './OffsetDir';
-import OffsetDistPanel from './OffsetDist';
-import RowColumnPanel from './RowColumn';
 
 let svgCanvas;
 let svgEditor;

@@ -27,7 +27,7 @@ jest.mock('helpers/i18n', () => ({
 
 const mockGet = jest.fn();
 const mockSet = jest.fn();
-jest.mock('helpers/storage-helper', () => ({
+jest.mock('implementations/storage', () => ({
   get: mockGet,
   set: mockSet,
 }));

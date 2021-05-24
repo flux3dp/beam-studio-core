@@ -2,7 +2,7 @@
 import Logger from 'helpers/logger';
 import shortcuts from 'helpers/shortcuts';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 
 let svgEditor;
 getSVGAsync((globalSVG) => {

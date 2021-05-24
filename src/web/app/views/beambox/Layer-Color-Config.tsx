@@ -3,7 +3,7 @@ import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import Modal from 'app/widgets/Modal';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import ValidationTextInput from 'app/widgets/Validation-Text-Input';
 

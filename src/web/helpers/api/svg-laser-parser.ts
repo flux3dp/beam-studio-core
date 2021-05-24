@@ -15,7 +15,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import setParams from 'helpers/api/set-params';
 import history from 'helpers/data-history';
 import i18n from 'helpers/i18n';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import Websocket from 'helpers/websocket';
 

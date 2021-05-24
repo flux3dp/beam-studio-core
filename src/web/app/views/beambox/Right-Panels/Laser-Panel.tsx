@@ -16,7 +16,7 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { clearEstimatedTime } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';

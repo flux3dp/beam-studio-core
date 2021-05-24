@@ -5,7 +5,7 @@
  */
 import Websocket from 'helpers/websocket';
 import DeviceList from 'helpers/device-list';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import Logger from 'helpers/logger';
 import sentryHelper from 'helpers/sentry-helper';
 import SmartUpnp from 'helpers/smart-upnp';

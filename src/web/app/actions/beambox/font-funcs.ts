@@ -9,7 +9,7 @@ import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import i18n from 'helpers/i18n';
 import { sprintf } from 'sprintf-js';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { IFont, IFontQuery } from 'interfaces/IFont';
 
 let svgCanvas;

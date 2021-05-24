@@ -9,7 +9,7 @@ import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
 import Modal from 'app/widgets/Modal';
 import RightPanelConstants from 'app/constants/right-panel-constants';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;

@@ -1,4 +1,4 @@
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 
 type AlertConfigKey =
   'skip-interface-tutorial' |

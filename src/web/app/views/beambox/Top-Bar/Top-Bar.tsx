@@ -22,7 +22,7 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import VersionChecker from 'helpers/version-checker';

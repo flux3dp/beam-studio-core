@@ -1,10 +1,10 @@
 import React from 'react';
 
-import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import Constant from 'app/actions/beambox/constant';
-import storage from 'helpers/storage-helper';
 import i18n from 'helpers/i18n';
+import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
+import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;

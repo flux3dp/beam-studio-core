@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import ButtonGroup from 'app/widgets/Button-Group';
 import Modal from 'app/widgets/Modal';
 

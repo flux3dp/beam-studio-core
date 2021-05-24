@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
 const mockGet = jest.fn();
-jest.mock('helpers/storage-helper', () => ({
+jest.mock('implementations/storage', () => ({
   get: mockGet,
 }));
 
