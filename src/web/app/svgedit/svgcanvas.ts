@@ -54,7 +54,7 @@ import ImageData from 'helpers/image-data';
 import LaserConfigHelper from 'helpers/laser-config-helper';
 import * as LayerHelper from 'helpers/layer-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

@@ -5,7 +5,7 @@ import LangEs from 'app/lang/es';
 import LangJa from 'app/lang/ja';
 import LangZHCN from 'app/lang/zh-cn';
 import LangZHTW from 'app/lang/zh-tw';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { ILang } from 'interfaces/ILang';
 
 const ACTIVE_LANG = 'active-lang';

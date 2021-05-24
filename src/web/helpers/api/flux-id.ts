@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import alert from 'app/actions/alert-caller';
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
 import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
 
 const axios = requireNode('axios');

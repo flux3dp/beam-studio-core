@@ -1,4 +1,4 @@
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 
 const DEFAULT_PREFERENCE = {
   should_remind_calibrate_camera: true,

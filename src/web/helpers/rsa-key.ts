@@ -1,4 +1,4 @@
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 
 const RSA_KEY_NAME = 'flux-rsa-key';
 const { JSEncrypt } = requireNode('jsencrypt');

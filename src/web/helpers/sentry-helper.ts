@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { IDeviceInfo } from 'interfaces/IDevice';
-import storage from './storage-helper';
+import storage from 'implementations/storage';
 // import * as Sentry from '@sentry/electron';
 
 let isSentryInited = false;

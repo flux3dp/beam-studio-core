@@ -1,7 +1,4 @@
-import i18n from 'helpers/i18n';
-import storage from 'helpers/storage-helper';
-
-const lang = i18n.lang;
+import storage from 'implementations/storage';
 
 const AUTO_POKE_INTERVAL = 3000;
 const AUTO_DISCOVER = 1000;

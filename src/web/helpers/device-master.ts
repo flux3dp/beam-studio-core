@@ -10,7 +10,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import { SelectionResult, ConnectionError } from 'app/constants/connection-constants';
 import DeviceConstants from 'app/constants/device-constants';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
 import Camera from './api/camera';

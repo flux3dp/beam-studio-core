@@ -5,7 +5,7 @@ import checkFirmware from 'helpers/check-firmware';
 import DeviceMaster from 'helpers/device-master';
 import firmwareUpdater from 'helpers/firmware-updater';
 import GlobalStore from 'app/stores/global-store';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import UpdateDialog from 'app/views/Update-Dialog';
 import { IDeviceInfo } from 'interfaces/IDevice';
 

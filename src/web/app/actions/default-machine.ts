@@ -1,7 +1,7 @@
 /**
  * initialize machine helper
  */
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 export default {

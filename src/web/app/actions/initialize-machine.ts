@@ -2,7 +2,7 @@
  * initialize machine helper
  */
 import settings from 'app/app-settings';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 var methods = {

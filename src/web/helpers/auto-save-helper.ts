@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import beamFileHelper from 'helpers/beam-file-helper';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IConfig } from 'interfaces/IAutosave';
 

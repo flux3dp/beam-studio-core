@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import windowLocationReload from 'app/actions/windowLocation';
 
 const { lang } = i18n;

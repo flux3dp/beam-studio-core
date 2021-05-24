@@ -8,7 +8,7 @@ import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
 import keyCodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const dns = requireNode('dns');

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import alertConstants from 'app/constants/alert-constants';
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import { AlertsAndProgressContextHelper } from 'app/views/dialogs/Alerts-And-Progress';
 import { IAlert } from 'interfaces/IAlert';
 

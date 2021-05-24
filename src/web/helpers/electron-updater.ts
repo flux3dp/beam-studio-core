@@ -6,7 +6,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import FileExportHelper from 'helpers/file-export-helper';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 
 const { electron, FLUX } = window;
 const { ipc, events } = electron;

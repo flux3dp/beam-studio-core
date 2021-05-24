@@ -1,6 +1,6 @@
 import React from 'react';
 
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 

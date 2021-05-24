@@ -1,5 +1,5 @@
-import storage from './storage-helper';
-import { IDeviceInfo } from '../interfaces/IDevice';
+import storage from 'implementations/storage';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 export default function(devices: { [key: string] : IDeviceInfo }) {
     let blackList = (storage.get('black-list') as string || '').split(',');

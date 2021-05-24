@@ -1,6 +1,6 @@
 import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import browser from 'helpers/browser-helper';
+import browser from 'implementations/browser';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import { ITutorial } from 'interfaces/ITutorial';

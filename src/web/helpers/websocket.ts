@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-import isJson from './is-json';
-import storage from './storage-helper';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import blobSegments from 'helpers/blob-segments';
 import i18n from 'helpers/i18n';
-import Alert from '../app/actions/alert-caller';
-import AlertConstants from '../app/constants/alert-constants';
-import outputError from './output-error';
-import Logger from './logger';
-import blobSegments from './blob-segments';
+import isJson from 'helpers/is-json';
+import Logger from 'helpers/logger';
+import outputError from 'helpers/output-error';
+import storage from 'implementations/storage';
 
 window['FLUX'].websockets = [];
 window['FLUX'].websockets.list = function () {

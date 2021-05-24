@@ -1,9 +1,10 @@
-import i18n from 'helpers/i18n';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import classNames from 'classnames';
-import Constant from 'app/actions/beambox/constant';
 import React from 'react';
-import storage from 'helpers/storage-helper';
+
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Constant from 'app/actions/beambox/constant';
+import i18n from 'helpers/i18n';
+import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 
 const LANG = i18n.lang.beambox.tool_panels;

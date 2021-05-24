@@ -5,7 +5,7 @@ import defaultIcons from 'app/constants/noun-project-constants';
 import DraggableWindow from 'app/widgets/Draggble-Window';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
-import storage from 'helpers/storage-helper';
+import storage from 'implementations/storage';
 import { fluxIDEvents, getNPIconByID, getNPIconsByTerm } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IIcon } from 'interfaces/INoun-Project';
