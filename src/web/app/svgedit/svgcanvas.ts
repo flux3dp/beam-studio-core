@@ -376,93 +376,117 @@ export default $.SvgCanvas = function (container, config) {
   var BatchCommand = svgedit.history.BatchCommand;
   var call;
   // Implement the svgedit.history.HistoryEventHandler interface.
+
+  const cmdElements = new Set<Element>();
+  let cmdDepth = 0;
+  const onBefore = () => {
+    if (cmdDepth === 0) {
+      cmdElements.clear();
+    }
+    cmdDepth += 1;
+  }
+
+  const onAfter = () => {
+    cmdDepth -= 1;
+    if (cmdDepth === 0) {
+      const elems = Array.from(cmdElements);
+      call('changed', elems);
+      cmdElements.clear();
+    }
+  }
+
   canvas.undoMgr = new svgedit.history.UndoManager({
     handleHistoryEvent: function (eventType, cmd) {
       var EventTypes = svgedit.history.HistoryEventTypes;
       // TODO: handle setBlurOffsets.
       if (eventType === EventTypes.BEFORE_UNAPPLY || eventType === EventTypes.BEFORE_APPLY) {
+        onBefore();
         canvas.clearSelection();
       } else if (eventType === EventTypes.AFTER_APPLY || eventType === EventTypes.AFTER_UNAPPLY) {
-        var elems = cmd.elements();
-        canvas.pathActions.clear();
-        call('changed', elems);
-        var cmdType = cmd.type();
-        var isApply = (eventType === EventTypes.AFTER_APPLY);
-        if (cmdType === MoveElementCommand.type()) {
-          var parent = isApply ? cmd.newParent : cmd.oldParent;
-          if (parent === svgcontent) {
-            canvas.identifyLayers();
-          }
-          elems.forEach((elem) => {
-            if (elem.classList.contains('layer')) {
+        try {
+          var elems = cmd.elements();
+          canvas.pathActions.clear();
+          elems.forEach((elem) => cmdElements.add(elem));
+          var cmdType = cmd.type();
+          var isApply = (eventType === EventTypes.AFTER_APPLY);
+          if (cmdType === MoveElementCommand.type()) {
+            var parent = isApply ? cmd.newParent : cmd.oldParent;
+            if (parent === svgcontent) {
+              canvas.identifyLayers();
+            }
+            elems.forEach((elem) => {
+              if (elem.classList.contains('layer')) {
+                LayerPanelController.setSelectedLayers([]);
+              } else {
+                canvas.updateElementColor(elem);
+              }
+            });
+          } else if (cmdType === InsertElementCommand.type() ||
+            cmdType === RemoveElementCommand.type()) {
+            if (cmdType === InsertElementCommand.type()) {
+              if (isApply) {
+                restoreRefElems(cmd.elem);
+                if (cmd.elem.id === 'svgcontent') {
+                  svgcontent = cmd.elem;
+                }
+              }
+            } else {
+              if (!isApply) {
+                restoreRefElems(cmd.elem);
+                if (cmd.elem.id === 'svgcontent') {
+                  svgcontent = cmd.elem;
+                }
+              }
+            }
+            if (cmd.elem.tagName === 'use') {
+              setUseData(cmd.elem);
+            }
+          } else if (cmdType === ChangeElementCommand.type()) {
+            // if we are changing layer names, re-identify all layers
+            if (cmd.elem.tagName === 'title' && cmd.elem.parentNode.parentNode === svgcontent) {
+              canvas.identifyLayers();
+            }
+            var values = isApply ? cmd.newValues : cmd.oldValues;
+            // If stdDeviation was changed, update the blur.
+            if (values.stdDeviation) {
+              canvas.setBlurOffsets(cmd.elem.parentNode, values.stdDeviation);
+            }
+            // This is resolved in later versions of webkit, perhaps we should
+            // have a featured detection for correct 'use' behavior?
+            // ——————————
+            // Remove & Re-add hack for Webkit (issue 775)
+            //if (cmd.elem.tagName === 'use' && svgedit.browser.isWebkit()) {
+            //	var elem = cmd.elem;
+            //	if (!elem.getAttribute('x') && !elem.getAttribute('y')) {
+            //		var parent = elem.parentNode;
+            //		var sib = elem.nextSibling;
+            //		parent.removeChild(elem);
+            //		parent.insertBefore(elem, sib);
+            //	}
+            //}
+          } else if (cmdType === BatchCommand.type()) {
+            if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)'].includes(cmd.text)) {
+              canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
-            } else {
-              canvas.updateElementColor(elem);
             }
-          });
-        } else if (cmdType === InsertElementCommand.type() ||
-          cmdType === RemoveElementCommand.type()) {
-          if (cmdType === InsertElementCommand.type()) {
-            if (isApply) {
-              restoreRefElems(cmd.elem);
-              if (cmd.elem.id === 'svgcontent') {
-                svgcontent = cmd.elem;
-              }
-            }
-          } else {
-            if (!isApply) {
-              restoreRefElems(cmd.elem);
-              if (cmd.elem.id === 'svgcontent') {
-                svgcontent = cmd.elem;
+  
+            const textElems = elems.filter((elem) => elem.tagName === 'text');
+            for (let i = 0; i < textElems.length; i++) {
+              const textElem = textElems[i];
+              const angle = svgedit.utilities.getRotationAngle(textElem);
+              canvas.setRotationAngle(0, true, textElem);
+              console.log(textElem, textElem.getAttribute('letter-spacing'));
+              canvas.updateMultiLineTextElem(textElem);
+              canvas.setRotationAngle(angle, true, textElem);
+              if (textElem.getAttribute('stroke-width') === '2') {
+                textElem.setAttribute('stroke-width', 2.01);
+              } else {
+                textElem.setAttribute('stroke-width', 2);
               }
             }
           }
-          if (cmd.elem.tagName === 'use') {
-            setUseData(cmd.elem);
-          }
-        } else if (cmdType === ChangeElementCommand.type()) {
-          // if we are changing layer names, re-identify all layers
-          if (cmd.elem.tagName === 'title' && cmd.elem.parentNode.parentNode === svgcontent) {
-            canvas.identifyLayers();
-          }
-          var values = isApply ? cmd.newValues : cmd.oldValues;
-          // If stdDeviation was changed, update the blur.
-          if (values.stdDeviation) {
-            canvas.setBlurOffsets(cmd.elem.parentNode, values.stdDeviation);
-          }
-          // This is resolved in later versions of webkit, perhaps we should
-          // have a featured detection for correct 'use' behavior?
-          // ——————————
-          // Remove & Re-add hack for Webkit (issue 775)
-          //if (cmd.elem.tagName === 'use' && svgedit.browser.isWebkit()) {
-          //	var elem = cmd.elem;
-          //	if (!elem.getAttribute('x') && !elem.getAttribute('y')) {
-          //		var parent = elem.parentNode;
-          //		var sib = elem.nextSibling;
-          //		parent.removeChild(elem);
-          //		parent.insertBefore(elem, sib);
-          //	}
-          //}
-        } else if (cmdType === BatchCommand.type()) {
-          if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)'].includes(cmd.text)) {
-            canvas.identifyLayers();
-            LayerPanelController.setSelectedLayers([]);
-          }
-
-          const textElems = elems.filter((elem) => elem.tagName === 'text');
-          for (let i = 0; i < textElems.length; i++) {
-            const textElem = textElems[i];
-            const angle = svgedit.utilities.getRotationAngle(textElem);
-            canvas.setRotationAngle(0, true, textElem);
-            console.log(textElem, textElem.getAttribute('letter-spacing'));
-            canvas.updateMultiLineTextElem(textElem);
-            canvas.setRotationAngle(angle, true, textElem);
-            if (textElem.getAttribute('stroke-width') === '2') {
-              textElem.setAttribute('stroke-width', 2.01);
-            } else {
-              textElem.setAttribute('stroke-width', 2);
-            }
-          }
+        } finally {
+          onAfter();
         }
       }
     }
