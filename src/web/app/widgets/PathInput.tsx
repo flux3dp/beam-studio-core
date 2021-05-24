@@ -38,7 +38,7 @@ const PathInput = ({
   getValue,
   forceValidValue = true,
   onBlur = () => { },
-  type = InputType.FILE,
+  type,
   filters = [],
 }: Props) => {
   const [displayValue, setDisplayValue] = useState(defaultValue);

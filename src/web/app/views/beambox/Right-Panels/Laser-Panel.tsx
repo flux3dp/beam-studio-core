@@ -211,7 +211,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
     importLaserConfig = async () => {
         const dialogOptions = {
-            properties: ['openFile'],
             filters: [
                 { name: 'JSON', extensions: ['json', 'JSON']},
             ]

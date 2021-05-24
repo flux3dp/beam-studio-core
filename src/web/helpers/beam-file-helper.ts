@@ -54,30 +54,10 @@
 
 */
 
-import Progress from 'app/actions/progress-caller'
+import Progress from 'app/actions/progress-caller';
 
 const { $ } = window;
 const fs = requireNode('fs');
-const electronRemote = requireNode('electron').remote;
-const { dialog } = electronRemote;
-const getFilePath = async (title, allFiles, extensionName, extensions, filename) => {
-    const isMac = window.os === 'MacOS';
-    const isLinux = window.os === 'Linux';
-    const options = {
-        defaultPath: isLinux ? `${filename}.${extensions[0]}` : filename,
-        title,
-        filters: [
-            { name: isMac ? `${extensionName} (*.${extensions[0]})` : extensionName, extensions },
-            { name: allFiles, extensions: ['*'] },
-        ]
-    }
-
-    const { filePath, canceled } = await dialog.showSaveDialog(options);
-    if (canceled) {
-        return null;
-    }
-    return filePath;
-};
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
 const valueToVIntBuffer = (value) => {
@@ -250,7 +230,6 @@ const readBeam = async (file) => {
 };
 
 export default {
-    getFilePath,
     saveBeam,
     readBeam
 }

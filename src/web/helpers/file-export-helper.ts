@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import Alert from 'app/actions/alert-caller';
-import Progress from 'app/actions/progress-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import BeamFileHelper from './beam-file-helper';
-import SymbolMaker from './symbol-maker';
+import BeamFileHelper from 'helpers/beam-file-helper';
+import ElectronDialogs from 'app/actions/electron-dialogs';
 import i18n from 'helpers/i18n';
-import { getSVGAsync } from './svg-editor-helper';
+import Progress from 'app/actions/progress-caller';
+import SymbolMaker from 'helpers/symbol-maker';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 const { $, electron } = window;
 let svgCanvas;
@@ -35,7 +36,14 @@ const saveAsFile = async (): Promise<boolean> => {
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
   const ImageSource = await svgCanvas.getImageSource();
-  const currentFilePath = await BeamFileHelper.getFilePath(langFile.save_scene, langFile.all_files, langFile.scene_files, ['beam'], defaultFileName);
+  const currentFilePath = await ElectronDialogs.saveFileDialog(
+    langFile.save_scene,
+    window.os === 'Linux' ? `${defaultFileName}.beam` : defaultFileName, [{
+      extensionName: langFile.scene_files,
+      extensions: ['beam'],
+    }],
+    true,
+  );
   if (currentFilePath) {
     svgCanvas.currentFilePath = currentFilePath;
     await BeamFileHelper.saveBeam(currentFilePath, output, ImageSource);
