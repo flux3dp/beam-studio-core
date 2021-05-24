@@ -285,6 +285,21 @@ export default {
     notification_off: 'Off',
     update_latest: 'Latest',
     update_beta: 'Beta',
+    help_center_urls: {
+      connection: 'https://support.flux3dp.com/hc/en-us/sections/360000302135-Connection',
+      image_downsampling: 'https://support.flux3dp.com/hc/en-us/articles/360004494995-Bitmap-Previewing-Quality',
+      anti_aliasing: 'https://support.flux3dp.com/hc/en-us/articles/360004408956-Anti-Aliasing',
+      continuous_drawing: 'https://support.flux3dp.com/hc/en-us/articles/360004406496-Continuous-Drawing',
+      simplify_clipper_path: 'https://support.flux3dp.com/hc/en-us/articles/360004406496-Continuous-Drawing',
+      fast_gradient: 'https://support.flux3dp.com/hc/en-us/articles/360004496235-Speed-Optimization',
+      vector_speed_constraint: 'https://support.flux3dp.com/hc/en-us/articles/360004496495-Speed-Limit-20-mm-s-',
+      loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856-Loop-Compensation',
+      mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876-Workarea-Clipping',
+      font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575-Substitute-Unsupported-Characters',
+      default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076-%E9%96%8B%E8%93%8B%E5%A5%97%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%95%99%E5%AD%B8',
+      default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536-Using-the-Autofocus-Add-on',
+      default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035-Using-the-Hybrid-Laser-Add-on',
+    },
   },
   beambox: {
     tag: {
