@@ -6,7 +6,7 @@ const { dialog } = electronRemote;
 
 export default {
   saveFileDialog: async (
-    title: string, filename: string, filters: IFileFilter[], isAllfileAvailable?: boolean,
+    title: string, defaultPath: string, filters: IFileFilter[], isAllfileAvailable?: boolean,
   ): Promise<string> => {
     const isMac = (window.os === 'MacOS');
     const langFile = i18n.lang.topmenu.file;
@@ -18,7 +18,7 @@ export default {
       filters.push({ name: langFile.all_files, extensions: ['*'] });
     }
     const options = {
-      defaultPath: filename,
+      defaultPath,
       title,
       filters,
     };
@@ -29,14 +29,6 @@ export default {
     return filePath;
   },
   showOpenDialog: async (option) => {
-    if (!option) {
-      option = {
-        properties: ['openFile'],
-        filters: [
-          { name: 'All Files', extensions: ['*'] },
-        ]
-      };
-    }
     if (!option.properties) {
       option.properties = ['openFile'];
     }

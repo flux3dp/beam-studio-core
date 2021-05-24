@@ -1,13 +1,13 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import Dialog from 'app/actions/dialog-caller';
+import ElectronDialogs from 'app/actions/electron-dialogs';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import Progress from 'app/actions/progress-caller';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-
 
 let svgCanvas;
 let svgEditor;
@@ -30,10 +30,7 @@ class ActionsPanel extends React.Component<Props> {
 
   replaceImage = async (): Promise<void> => {
     const { elem } = this.props;
-    const { remote } = requireNode('electron');
-    const { dialog } = remote;
     const option = {
-      properties: ['openFile'] as Array<'openFile'>,
       filters: [
         {
           name: 'Images',
@@ -41,7 +38,7 @@ class ActionsPanel extends React.Component<Props> {
         },
       ],
     };
-    const { canceled, filePaths } = await dialog.showOpenDialog(option);
+    const { canceled, filePaths } = await ElectronDialogs.showOpenDialog(option);
     if (!canceled && filePaths && filePaths.length > 0) {
       const filePath = filePaths[0];
       const resp = await fetch(filePath);
