@@ -86,7 +86,7 @@ const init = (): void => {
       return;
     }
 
-    if (record.times > 4 && record.times % 5 === 0) {
+    if (record.times > 4 && record.times % 5 === 0 && window.navigator.onLine) {
       Dialog.showRatingDialog(setVoted);
     }
 
