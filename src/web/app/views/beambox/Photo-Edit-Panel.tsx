@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -61,6 +62,7 @@ interface State {
 }
 
 class PhotoEditPanel extends React.Component<Props, State> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cropper: any;
 
   private compareBase64: string;
@@ -122,6 +124,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
       const { width: origWidth, height: origHeight } = image.bitmap;
       if (['sharpen', 'curve'].includes(mode)) {
         if (Math.max(origWidth, origHeight) > 600) {
+          // eslint-disable-next-line no-console
           console.log('Down Sampling');
           if (origWidth >= origHeight) {
             image.resize(600, jimp.AUTO);
@@ -148,6 +151,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         });
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     } finally {
       Progress.popById('photo-edit-processing');
@@ -247,6 +251,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         this.setState({ displaySrc: newImgUrl }, () => this.handleComplete());
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log('Error when sharpening image', error);
       Progress.popById('photo-edit-processing');
     }
@@ -400,7 +405,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     });
   }
 
-  renderPhotoEditeModal() {
+  renderPhotoEditeModal(): JSX.Element {
     const { mode } = this.props;
     const {
       imageWidth, imageHeight, isCropping, isShowingOriginal, displayBase64,
@@ -449,7 +454,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderSharpenPanel() {
+  renderSharpenPanel(): JSX.Element {
     const setStateAndPreview = (key: string, value: number) => {
       const { state } = this;
       if (state[key] === value) {
@@ -494,7 +499,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderCurvePanel() {
+  renderCurvePanel(): JSX.Element {
     const updateCurveFunction = (curvefunction) => this.updateCurveFunction(curvefunction);
     const handleCurve = () => this.handleCurve(true);
     return (
@@ -510,7 +515,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderPhotoEditFooter() {
+  renderPhotoEditFooter(): JSX.Element {
     const { mode } = this.props;
     const { srcHistory } = this.state;
     const previewButton = {
@@ -572,7 +577,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     const { mode } = this.props;
     if (['sharpen', 'crop', 'curve'].includes(mode)) {
       return this.renderPhotoEditeModal();
