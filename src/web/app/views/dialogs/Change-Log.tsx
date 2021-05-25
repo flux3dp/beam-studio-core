@@ -19,7 +19,7 @@ const CHANGES_TW = {
     '新增「反鋸齒」項目於偏好設定與選單=>顯示內。',
   ],
   fixed: [
-    '修正 從Beam Studio 輸出 SVG 再匯入後，尺寸不一致的問題。',
+    '修正 從 Beam Studio 輸出 SVG 再匯入後，尺寸不一致的問題。',
     '提升匯入 SVG 檔案的速度。',
     '提升「解散圖檔」的速度。',
     '修正 偏好設定內「參考線座標」介面跑版問題。',
@@ -39,9 +39,7 @@ const CHANGES_TW = {
   ],
   changed: [
     '移除偏好設定內「文字路徑計算優化」設定，並且預設開啟。',
-    '更改物件群組後圖層歸屬邏輯。',
-    '當選取物件圖層一致時，群組後的新物件會在原圖層。',
-    '當選取物件圖層不一致時，群組後的新物件會建立在選取物件中的最上層。',
+    '更改物件群組後圖層歸屬邏輯。\n- 當選取物件圖層一致時，群組後的新物件會在原圖層。\n- 當選取物件圖層不一致時，群組後的新物件會建立在選取物件中的最上層。',
   ],
 };
 
@@ -78,9 +76,7 @@ const CHANGES_EN = {
   ],
   changed: [
     'Removed the "Text Path Calculation  Optimization" function in the Preference settings and enabled it by default.',
-    'Changed the object\'s layer changing rules after grouping.',
-    'When the selected objects are in the same layer, it won\'t change the layer after grouping.',
-    'When the selected objects are not in the same layer, it will change the grouping object\'s layer to the top layer which selected.',
+    'Changed the object\'s layer changing rules after grouping.\n- When the selected objects are in the same layer, it won\'t change the layer after grouping.\n- When the selected objects are not in the same layer, it will change the grouping object\'s layer to the top layer which selected.',
   ],
 };
 
@@ -89,7 +85,7 @@ interface Props {
 }
 
 class ChangeLogDialog extends React.Component<Props> {
-  render() {
+  render(): JSX.Element {
     const renderChangeLogs = () => {
       const activeLang = i18n.getActiveLang();
       const CHANGES = activeLang.startsWith('zh') ? CHANGES_TW : CHANGES_EN;
@@ -100,7 +96,7 @@ class ChangeLogDialog extends React.Component<Props> {
           logs.push(
             <div className="change-log-item" key={`added-${i}`}>
               <div className="index">{`${i + 1}.`}</div>
-              <div className="log">{CHANGES.added[i]}</div>
+              <pre className="log">{CHANGES.added[i]}</pre>
             </div>,
           );
         }
@@ -111,7 +107,7 @@ class ChangeLogDialog extends React.Component<Props> {
           logs.push(
             <div className="change-log-item" key={`fixed-${i}`}>
               <div className="index">{`${i + 1}.`}</div>
-              <div className="log">{CHANGES.fixed[i]}</div>
+              <pre className="log">{CHANGES.fixed[i]}</pre>
             </div>,
           );
         }
@@ -122,7 +118,7 @@ class ChangeLogDialog extends React.Component<Props> {
           logs.push(
             <div className="change-log-item" key={`changed-${i}`}>
               <div className="index">{`${i + 1}.`}</div>
-              <div className="log">{CHANGES.changed[i]}</div>
+              <pre className="log">{CHANGES.changed[i]}</pre>
             </div>,
           );
         }
