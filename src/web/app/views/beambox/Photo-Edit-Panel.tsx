@@ -76,8 +76,8 @@ class PhotoEditPanel extends React.Component<Props, State> {
       origSrc: src,
       previewSrc: src,
       displaySrc: src,
-      sharpness: 1,
-      sharpRadius: 0,
+      sharpness: 0,
+      sharpRadius: 1,
       srcHistory: [],
       isCropping: false,
       threshold: $(element).attr('data-threshold'),
@@ -472,7 +472,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
               min={0}
               max={20}
               step={1}
-              default={1}
+              default={0}
               onChange={(id: string, val: string) => setStateAndPreview('sharpness', parseFloat(val))}
               doOnlyOnMouseUp
               doOnlyOnBlur
@@ -483,7 +483,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
               min={0}
               max={100}
               step={1}
-              default={0}
+              default={1}
               onChange={(id: string, val: string) => setStateAndPreview('sharpRadius', parseInt(val, 10))}
               doOnlyOnMouseUp
               doOnlyOnBlur
