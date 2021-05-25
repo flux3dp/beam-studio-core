@@ -16,7 +16,11 @@ export class AlertsAndProgress extends React.Component {
     const { alertProgressStack, popFromStack } = this.context;
     let alertCount = 0;
     let progressCount = 0;
-    const components = alertProgressStack.map((alertOrProgress) => {
+    const components = alertProgressStack.map((alertOrProgress, index) => {
+      if (index === alertProgressStack.length - 1
+          && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
       if (alertOrProgress.isProgress) {
         progressCount += 1;
         return (
