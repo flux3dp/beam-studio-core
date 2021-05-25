@@ -134,40 +134,34 @@ class PhotoEditPanel extends React.Component<Props, State> {
     try {
       const image = await jimpHelper.urlToImage(imgBlobUrl);
       const { width: origWidth, height: origHeight } = image.bitmap;
-      if (['sharpen', 'curve'].includes(mode)) {
-        if (Math.max(origWidth, origHeight) > 600) {
-          // eslint-disable-next-line no-console
-          console.log('Down Sampling');
-          if (origWidth >= origHeight) {
-            image.resize(600, jimp.AUTO);
-          } else {
-            image.resize(jimp.AUTO, 600);
-          }
-          imgBlobUrl = await jimpHelper.imageToUrl(image);
+      if (Math.max(origWidth, origHeight) > 600) {
+        // eslint-disable-next-line no-console
+        console.log('Down Sampling');
+        if (origWidth >= origHeight) {
+          image.resize(600, jimp.AUTO);
+        } else {
+          image.resize(jimp.AUTO, 600);
         }
+        imgBlobUrl = await jimpHelper.imageToUrl(image);
+      }
+      if (['sharpen', 'curve'].includes(mode)) {
         setCompareBase64(imgBlobUrl);
-        this.setState({
-          origWidth,
-          origHeight,
-          imageWidth: image.bitmap.width,
-          imageHeight: image.bitmap.height,
-          previewSrc: imgBlobUrl,
-          displaySrc: imgBlobUrl,
-        });
       } else if (mode === 'crop') {
         this.currentCropDimension = {
           x: 0,
           y: 0,
-          w: origWidth,
-          h: origHeight,
+          w: image.bitmap.width,
+          h: image.bitmap.height,
         };
-        this.setState({
-          origWidth,
-          origHeight,
-          imageWidth: origWidth,
-          imageHeight: origHeight,
-        });
       }
+      this.setState({
+        origWidth,
+        origHeight,
+        imageWidth: image.bitmap.width,
+        imageHeight: image.bitmap.height,
+        previewSrc: imgBlobUrl,
+        displaySrc: imgBlobUrl,
+      });
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err);
@@ -295,22 +289,39 @@ class PhotoEditPanel extends React.Component<Props, State> {
   };
 
   async handleCrop(complete = false): Promise<void> {
-    const { displaySrc, srcHistory } = this.state;
+    const { displaySrc, origSrc, srcHistory } = this.state;
     const image = document.getElementById('original-image') as HTMLImageElement;
     const cropData = this.cropper.getData();
-    const x = Math.max(0, Math.round(cropData.x));
-    const y = Math.max(0, Math.round(cropData.y));
-    const w = Math.min(image.naturalWidth - x, Math.round(cropData.width));
-    const h = Math.min(image.naturalHeight - y, Math.round(cropData.height));
+    let x = Math.max(0, Math.round(cropData.x));
+    let y = Math.max(0, Math.round(cropData.y));
+    let w = Math.min(image.naturalWidth - x, Math.round(cropData.width));
+    let h = Math.min(image.naturalHeight - y, Math.round(cropData.height));
     if (x === 0 && y === 0 && w === image.naturalWidth && h === image.naturalHeight && !complete) {
       return;
     }
-
-    const imgBlobUrl = displaySrc;
+    const imgBlobUrl = complete ? origSrc : displaySrc;
     Progress.openNonstopProgress({
       id: 'photo-edit-processing',
       message: LANG.processing,
     });
+    if (complete) {
+      let ratio;
+      for (let i = 0; i < this.cropDimensionHistory.length; i += 1) {
+        const dim = this.cropDimensionHistory[i];
+        if (i === 0) {
+          const { origWidth, origHeight } = this.state;
+          ratio = origWidth > origHeight ? origWidth / dim.w : origHeight / dim.h;
+        }
+        x += dim.x;
+        y += dim.y;
+      }
+      x += this.currentCropDimension.x;
+      y += this.currentCropDimension.y;
+      w = Math.floor(w * ratio);
+      h = Math.floor(h * ratio);
+      x = Math.floor(x * ratio);
+      y = Math.floor(y * ratio);
+    }
     const newImgUrl = await jimpHelper.cropImage(imgBlobUrl, x, y, w, h);
     if (newImgUrl) {
       srcHistory.push(displaySrc);
