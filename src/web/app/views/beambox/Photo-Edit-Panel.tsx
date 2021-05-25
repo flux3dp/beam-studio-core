@@ -61,6 +61,13 @@ interface State {
   isShowingOriginal: boolean;
 }
 
+interface Dimension {
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+}
+
 class PhotoEditPanel extends React.Component<Props, State> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cropper: any;
@@ -69,11 +76,16 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
   private curvefunction: (n: number) => number;
 
+  private cropDimensionHistory: Dimension[];
+
+  private currentCropDimension: Dimension;
+
   constructor(props: Props) {
     super(props);
     updateLang();
     const { element, src } = this.props;
     this.cropper = null;
+    this.cropDimensionHistory = [];
     this.state = {
       origSrc: src,
       previewSrc: src,
@@ -143,6 +155,12 @@ class PhotoEditPanel extends React.Component<Props, State> {
           displaySrc: imgBlobUrl,
         });
       } else if (mode === 'crop') {
+        this.currentCropDimension = {
+          x: 0,
+          y: 0,
+          w: origWidth,
+          h: origHeight,
+        };
         this.setState({
           origWidth,
           origHeight,
@@ -296,14 +314,18 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const newImgUrl = await jimpHelper.cropImage(imgBlobUrl, x, y, w, h);
     if (newImgUrl) {
       srcHistory.push(displaySrc);
+      this.cropDimensionHistory.push(this.currentCropDimension);
+      this.currentCropDimension = {
+        x, y, w, h,
+      };
       this.destroyCropper();
       this.setState({
         displaySrc: newImgUrl,
         srcHistory,
         isCropping: false,
         isImageDataGenerated: false,
-        imageWidth: cropData.width,
-        imageHeight: cropData.height,
+        imageWidth: w,
+        imageHeight: h,
       }, () => {
         Progress.popById('photo-edit-processing');
         if (complete) {
@@ -398,10 +420,14 @@ class PhotoEditPanel extends React.Component<Props, State> {
     }
     URL.revokeObjectURL(displaySrc);
     const src = srcHistory.pop();
+    this.currentCropDimension = this.cropDimensionHistory.pop();
+    const { w, h } = this.currentCropDimension;
     this.setState({
       displaySrc: src,
       isCropping: false,
       isImageDataGenerated: false,
+      imageWidth: w,
+      imageHeight: h,
     });
   }
 
