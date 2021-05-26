@@ -305,13 +305,12 @@ class PhotoEditPanel extends React.Component<Props, State> {
       message: LANG.processing,
     });
     if (complete) {
-      let ratio;
+      const { origWidth, origHeight } = this.state;
+      const ratio = origWidth > origHeight
+        ? origWidth / this.cropDimensionHistory[0].w
+        : origHeight / this.cropDimensionHistory[0].h;
       for (let i = 0; i < this.cropDimensionHistory.length; i += 1) {
         const dim = this.cropDimensionHistory[i];
-        if (i === 0) {
-          const { origWidth, origHeight } = this.state;
-          ratio = origWidth > origHeight ? origWidth / dim.w : origHeight / dim.h;
-        }
         x += dim.x;
         y += dim.y;
       }
