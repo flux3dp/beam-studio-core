@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import * as React from 'react';
 import classNames from 'classnames';
 
@@ -60,18 +61,31 @@ interface State {
   isShowingOriginal: boolean;
 }
 
+interface Dimension {
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+}
+
 class PhotoEditPanel extends React.Component<Props, State> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cropper: any;
 
   private compareBase64: string;
 
   private curvefunction: (n: number) => number;
 
+  private cropDimensionHistory: Dimension[];
+
+  private currentCropDimension: Dimension;
+
   constructor(props: Props) {
     super(props);
     updateLang();
     const { element, src } = this.props;
     this.cropper = null;
+    this.cropDimensionHistory = [];
     this.state = {
       origSrc: src,
       previewSrc: src,
@@ -120,34 +134,36 @@ class PhotoEditPanel extends React.Component<Props, State> {
     try {
       const image = await jimpHelper.urlToImage(imgBlobUrl);
       const { width: origWidth, height: origHeight } = image.bitmap;
-      if (['sharpen', 'curve'].includes(mode)) {
-        if (Math.max(origWidth, origHeight) > 600) {
-          console.log('Down Sampling');
-          if (origWidth >= origHeight) {
-            image.resize(600, jimp.AUTO);
-          } else {
-            image.resize(jimp.AUTO, 600);
-          }
-          imgBlobUrl = await jimpHelper.imageToUrl(image);
+      if (Math.max(origWidth, origHeight) > 600) {
+        // eslint-disable-next-line no-console
+        console.log('Down Sampling');
+        if (origWidth >= origHeight) {
+          image.resize(600, jimp.AUTO);
+        } else {
+          image.resize(jimp.AUTO, 600);
         }
-        setCompareBase64(imgBlobUrl);
-        this.setState({
-          origWidth,
-          origHeight,
-          imageWidth: image.bitmap.width,
-          imageHeight: image.bitmap.height,
-          previewSrc: imgBlobUrl,
-          displaySrc: imgBlobUrl,
-        });
-      } else if (mode === 'crop') {
-        this.setState({
-          origWidth,
-          origHeight,
-          imageWidth: origWidth,
-          imageHeight: origHeight,
-        });
+        imgBlobUrl = await jimpHelper.imageToUrl(image);
       }
+      if (['sharpen', 'curve'].includes(mode)) {
+        setCompareBase64(imgBlobUrl);
+      } else if (mode === 'crop') {
+        this.currentCropDimension = {
+          x: 0,
+          y: 0,
+          w: image.bitmap.width,
+          h: image.bitmap.height,
+        };
+      }
+      this.setState({
+        origWidth,
+        origHeight,
+        imageWidth: image.bitmap.width,
+        imageHeight: image.bitmap.height,
+        previewSrc: imgBlobUrl,
+        displaySrc: imgBlobUrl,
+      });
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     } finally {
       Progress.popById('photo-edit-processing');
@@ -247,6 +263,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         this.setState({ displaySrc: newImgUrl }, () => this.handleComplete());
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log('Error when sharpening image', error);
       Progress.popById('photo-edit-processing');
     }
@@ -272,33 +289,54 @@ class PhotoEditPanel extends React.Component<Props, State> {
   };
 
   async handleCrop(complete = false): Promise<void> {
-    const { displaySrc, srcHistory } = this.state;
+    const { displaySrc, origSrc, srcHistory } = this.state;
     const image = document.getElementById('original-image') as HTMLImageElement;
     const cropData = this.cropper.getData();
-    const x = Math.max(0, Math.round(cropData.x));
-    const y = Math.max(0, Math.round(cropData.y));
-    const w = Math.min(image.naturalWidth - x, Math.round(cropData.width));
-    const h = Math.min(image.naturalHeight - y, Math.round(cropData.height));
+    let x = Math.max(0, Math.round(cropData.x));
+    let y = Math.max(0, Math.round(cropData.y));
+    let w = Math.min(image.naturalWidth - x, Math.round(cropData.width));
+    let h = Math.min(image.naturalHeight - y, Math.round(cropData.height));
     if (x === 0 && y === 0 && w === image.naturalWidth && h === image.naturalHeight && !complete) {
       return;
     }
-
-    const imgBlobUrl = displaySrc;
+    const imgBlobUrl = complete ? origSrc : displaySrc;
     Progress.openNonstopProgress({
       id: 'photo-edit-processing',
       message: LANG.processing,
     });
+    if (complete) {
+      let ratio;
+      for (let i = 0; i < this.cropDimensionHistory.length; i += 1) {
+        const dim = this.cropDimensionHistory[i];
+        if (i === 0) {
+          const { origWidth, origHeight } = this.state;
+          ratio = origWidth > origHeight ? origWidth / dim.w : origHeight / dim.h;
+        }
+        x += dim.x;
+        y += dim.y;
+      }
+      x += this.currentCropDimension.x;
+      y += this.currentCropDimension.y;
+      w = Math.floor(w * ratio);
+      h = Math.floor(h * ratio);
+      x = Math.floor(x * ratio);
+      y = Math.floor(y * ratio);
+    }
     const newImgUrl = await jimpHelper.cropImage(imgBlobUrl, x, y, w, h);
     if (newImgUrl) {
       srcHistory.push(displaySrc);
+      this.cropDimensionHistory.push(this.currentCropDimension);
+      this.currentCropDimension = {
+        x, y, w, h,
+      };
       this.destroyCropper();
       this.setState({
         displaySrc: newImgUrl,
         srcHistory,
         isCropping: false,
         isImageDataGenerated: false,
-        imageWidth: cropData.width,
-        imageHeight: cropData.height,
+        imageWidth: w,
+        imageHeight: h,
       }, () => {
         Progress.popById('photo-edit-processing');
         if (complete) {
@@ -393,14 +431,18 @@ class PhotoEditPanel extends React.Component<Props, State> {
     }
     URL.revokeObjectURL(displaySrc);
     const src = srcHistory.pop();
+    this.currentCropDimension = this.cropDimensionHistory.pop();
+    const { w, h } = this.currentCropDimension;
     this.setState({
       displaySrc: src,
       isCropping: false,
       isImageDataGenerated: false,
+      imageWidth: w,
+      imageHeight: h,
     });
   }
 
-  renderPhotoEditeModal() {
+  renderPhotoEditeModal(): JSX.Element {
     const { mode } = this.props;
     const {
       imageWidth, imageHeight, isCropping, isShowingOriginal, displayBase64,
@@ -449,7 +491,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderSharpenPanel() {
+  renderSharpenPanel(): JSX.Element {
     const setStateAndPreview = (key: string, value: number) => {
       const { state } = this;
       if (state[key] === value) {
@@ -494,7 +536,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderCurvePanel() {
+  renderCurvePanel(): JSX.Element {
     const updateCurveFunction = (curvefunction) => this.updateCurveFunction(curvefunction);
     const handleCurve = () => this.handleCurve(true);
     return (
@@ -510,7 +552,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderPhotoEditFooter() {
+  renderPhotoEditFooter(): JSX.Element {
     const { mode } = this.props;
     const { srcHistory } = this.state;
     const previewButton = {
@@ -572,7 +614,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     const { mode } = this.props;
     if (['sharpen', 'crop', 'curve'].includes(mode)) {
       return this.renderPhotoEditeModal();
