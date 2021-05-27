@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import ButtonGroup from 'app/widgets/Button-Group';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
@@ -18,10 +19,8 @@ import { IImageDataResult } from 'interfaces/IImageData';
 
 const { $ } = window;
 let svgCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const Cropper = requireNode('cropperjs');
@@ -200,7 +199,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     });
     const { displaySrc, origWidth, origHeight } = this.state;
     const { element, mode, unmount } = this.props;
-    const batchCmd = new svgedit.history.BatchCommand('Photo edit');
+    const batchCmd = new history.BatchCommand('Photo edit');
 
     const handleSetAttribute = (attr: string, value) => {
       svgCanvas.undoMgr.beginUndoableChange(attr, [element]);

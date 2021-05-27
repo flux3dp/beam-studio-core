@@ -1,3 +1,4 @@
+import history from 'app/svgedit/history';
 import progress from 'app/actions/progress-caller';
 import i18n from 'helpers/i18n';
 import imageData from 'helpers/image-data';
@@ -6,10 +7,8 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 let svgCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const getSelectedElem = () => {
@@ -59,7 +58,7 @@ const generateBase64Image = (
 const addBatchCommand = (
   commandName: string, elem: Element, changes: { [key: string]: string|number|boolean },
 ) => {
-  const batchCommand: IBatchCommand = new svgedit.history.BatchCommand(commandName);
+  const batchCommand: IBatchCommand = new history.BatchCommand(commandName);
   const setAttribute = (key: string, value) => {
     svgCanvas.undoMgr.beginUndoableChange(key, [elem]);
     elem.setAttribute(key, value);

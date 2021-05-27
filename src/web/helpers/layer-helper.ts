@@ -1,7 +1,8 @@
-import { IBatchCommand, ICommand } from 'interfaces/IHistory';
-import { getSVGAsync } from './svg-editor-helper';
-import { cloneLayerConfig } from './laser-config-helper';
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
+import { cloneLayerConfig } from 'helpers/laser-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
@@ -72,20 +73,20 @@ export const getLayerName = (layer: Element): string => {
   return '';
 };
 
-export const deleteLayerByName = (layerName: string): IBatchCommand => {
+export const deleteLayerByName = (layerName: string): ICommand => {
   const layer = getLayerElementByName(layerName);
   if (layer) {
     const { nextSibling } = layer;
     const parent = layer.parentNode;
     layer.remove();
-    return new svgedit.history.RemoveElementCommand(layer, nextSibling, parent);
+    return new history.RemoveElementCommand(layer, nextSibling, parent);
   }
   return null;
 };
 
 export const deleteLayers = (layerNames: string[]): void => {
   const drawing = svgCanvas.getCurrentDrawing();
-  const batchCmd: IBatchCommand = new svgedit.history.BatchCommand('Delete Layer(s)');
+  const batchCmd: IBatchCommand = new history.BatchCommand('Delete Layer(s)');
   for (let i = 0; i < layerNames.length; i += 1) {
     const cmd = deleteLayerByName(layerNames[i]);
     if (cmd) {
@@ -96,7 +97,7 @@ export const deleteLayers = (layerNames: string[]): void => {
   if (!layerCounts) {
     const svgcontent = document.getElementById('svgcontent');
     const newLayer = new svgedit.draw.Layer(LANG.layer1, null, svgcontent, '#333333').getGroup() as Element;
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(newLayer));
+    batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
   }
   if (!batchCmd.isEmpty()) {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
@@ -120,7 +121,7 @@ export const cloneLayerByName = (layerName: string, newLayerName: string): IComm
       }
     }
     cloneLayerConfig(newLayerName, layerName);
-    return new svgedit.history.InsertElementCommand(newLayer);
+    return new history.InsertElementCommand(newLayer);
   }
   return null;
 };
@@ -129,7 +130,7 @@ export const cloneSelectedLayers = (layerNames: string[]): string[] => {
   sortLayerNamesByPosition(layerNames);
   const newSelectLayers = [];
   const drawing = svgCanvas.getCurrentDrawing();
-  const batchCmd = new svgedit.history.BatchCommand('Clone Layer(s)');
+  const batchCmd = new history.BatchCommand('Clone Layer(s)');
   for (let i = 0; i < layerNames.length; i += 1) {
     let newName = `${layerNames[i]} copy`;
     let j = 0;
@@ -174,7 +175,7 @@ export const mergeLayer = (
   const baseLayer = getLayerElementByName(baseLayerName);
   if (baseLayer) {
     const firstChildOfBase = Array.from(baseLayer.childNodes).find((node: Element) => !['title', 'filter'].includes(node.tagName));
-    const batchCmd: IBatchCommand = new svgedit.history.BatchCommand(`Merge into ${baseLayer}`);
+    const batchCmd: IBatchCommand = new history.BatchCommand(`Merge into ${baseLayer}`);
     for (let i = 0; i < layersToBeMerged.length; i += 1) {
       const layer = getLayerElementByName(layersToBeMerged[i]);
       if (layer) {
@@ -188,7 +189,7 @@ export const mergeLayer = (
             } else {
               baseLayer.appendChild(child);
             }
-            const cmd = new svgedit.history.MoveElementCommand(child, nextSibling, layer);
+            const cmd = new history.MoveElementCommand(child, nextSibling, layer);
             batchCmd.addSubCommand(cmd);
             j -= 1;
           }
@@ -208,7 +209,7 @@ export const mergeLayer = (
 
 export const mergeSelectedLayers = (layerNames: string[], baseLayerName?: string): string => {
   svgCanvas.clearSelection();
-  const batchCmd = new svgedit.history.BatchCommand('Merge Layer(s)');
+  const batchCmd = new history.BatchCommand('Merge Layer(s)');
   const drawing = svgCanvas.getCurrentDrawing();
   sortLayerNamesByPosition(layerNames);
   const mergeBase = baseLayerName || layerNames[0];
@@ -267,7 +268,7 @@ export const moveLayerToPosition = (
   } else {
     parent.appendChild(layer);
   }
-  return { success: true, cmd: new svgedit.history.MoveElementCommand(layer, nextSibling, parent) };
+  return { success: true, cmd: new history.MoveElementCommand(layer, nextSibling, parent) };
 };
 
 const insertLayerBefore = (layerName: string, anchorLayerName: string) => {
@@ -277,14 +278,14 @@ const insertLayerBefore = (layerName: string, anchorLayerName: string) => {
     const { nextSibling } = layer;
     const parent = layer.parentNode;
     parent.insertBefore(layer, anchorLayer);
-    const cmd = new svgedit.history.MoveElementCommand(layer, nextSibling, parent);
+    const cmd = new history.MoveElementCommand(layer, nextSibling, parent);
     return { success: true, cmd };
   }
   return { success: false };
 };
 
 export const moveLayersToPosition = (layerNames: string[], newPosition: number): void => {
-  const batchCmd = new svgedit.history.BatchCommand('Move Layer(s)');
+  const batchCmd = new history.BatchCommand('Move Layer(s)');
   const drawing = svgCanvas.getCurrentDrawing();
   const currentLayerName = drawing.getCurrentLayerName();
   sortLayerNamesByPosition(layerNames);

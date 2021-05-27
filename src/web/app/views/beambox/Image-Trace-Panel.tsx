@@ -3,6 +3,7 @@
 import React from 'react';
 import Cropper from 'cropperjs';
 
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import BeamboxActions from 'app/actions/beambox';
 import BeamboxStore from 'app/stores/beambox-store';
@@ -15,10 +16,8 @@ import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const LANG = i18n.lang.beambox.image_trace_panel;
@@ -314,7 +313,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
     return new Promise((resolve) => {
       ImageTracer.imageToSVG(imgUrl, (svgstr) => {
         const gId = svgCanvas.getNextId();
-        const batchCmd = new svgedit.history.BatchCommand('Add Image Trace');
+        const batchCmd = new history.BatchCommand('Add Image Trace');
         const g = svgCanvas.addSvgElementFromJson({
           element: 'g',
           attr: {
@@ -332,7 +331,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         }) as SVGPathElement;
         path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
         path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
-        batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+        batchCmd.addSubCommand(new history.InsertElementCommand(path));
         svgCanvas.selectOnly([g]);
         ImageTracer.appendSVGString(svgstr.replace(/<\/?svg[^>]*>/g, ''), gId);
         const gBBox = g.getBBox();
