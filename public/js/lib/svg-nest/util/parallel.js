@@ -1,12 +1,10 @@
 ﻿(function (root) {
-    var isCommonJS = typeof module !== 'undefined' && module.exports;
-    var isNode = !(typeof window !== 'undefined' && root === window);
     var setImmediate = setImmediate || function (cb) {
         setTimeout(cb, 0);
     };
-    var Worker = isNode ? require(__dirname + '/Worker.js') : root.Worker;
+    var Worker = root.Worker;
     var URL = typeof root !== 'undefined' ? (root.URL ? root.URL : root.webkitURL) : null;
-    var _supports = (isNode || root.Worker) ? true : false; // node always supports parallel
+    var _supports = root.Worker ? true : false; // node always supports parallel
 
     function extend(from, to) {
         if (!to) to = {};
@@ -70,8 +68,8 @@
     };
 
     var defaults = {
-        evalPath: isNode ? __dirname + '/eval.js' : null,
-        maxWorkers: isNode ? require('os').cpus().length : (navigator.hardwareConcurrency || 4),
+        evalPath: null,
+        maxWorkers: navigator.hardwareConcurrency || 4,
         synchronous: true,
         env: {},
         envNamespace: 'env'
@@ -93,7 +91,7 @@
         var that = this;
         var preStr = '';
         var i = 0;
-        if (!isNode && this.requiredScripts.length !== 0) {
+        if (this.requiredScripts.length !== 0) {
             preStr += 'importScripts("' + this.requiredScripts.join('","') + '");\r\n';
         }
 
@@ -109,11 +107,7 @@
 
         var ns = this.options.envNamespace;
 
-        if (isNode) {
-            return preStr + 'process.on("message", function(e) {global.' + ns + ' = ' + env + ';process.send(JSON.stringify((' + cb.toString() + ')(JSON.parse(e).data)))})';
-        } else {
-            return preStr + 'self.onmessage = function(e) {var global = {}; global.' + ns + ' = ' + env + ';self.postMessage((' + cb.toString() + ')(e.data))}';
-        }
+        return preStr + 'self.onmessage = function(e) {var global = {}; global.' + ns + ' = ' + env + ';self.postMessage((' + cb.toString() + ')(e.data))}';
     };
 
     SvgNestParallel.prototype.require = function () {
@@ -138,37 +132,33 @@
     SvgNestParallel.prototype._spawnWorker = function (cb, env) {
         var wrk;
         var src = this.getWorkerSource(cb, env);
-        if (isNode) {
-            wrk = new Worker(this.options.evalPath);
-            wrk.postMessage(src);
-        } else {
-            if (Worker === undefined) {
-                return undefined;
-            }
 
-            try {
-                if (this.requiredScripts.length !== 0) {
-                    if (this.options.evalPath !== null) {
-                        wrk = new Worker('js/lib/svg-nest/util/eval.js');
-                        wrk.postMessage(src);
-                    } else {
-                        throw new Error('Can\'t use required scripts without eval.js!');
-                    }
-                } else if (!URL) {
-                    throw new Error('Can\'t create a blob URL in this browser!');
-                } else {
-                    var blob = new Blob([src], { type: 'text/javascript' });
-                    var url = URL.createObjectURL(blob);
+        if (Worker === undefined) {
+            return undefined;
+        }
 
-                    wrk = new Worker(url);
-                }
-            } catch (e) {
-                if (this.options.evalPath !== null) { // blob/url unsupported, cross-origin error
-                    wrk = new Worker(this.options.evalPath);
+        try {
+            if (this.requiredScripts.length !== 0) {
+                if (this.options.evalPath !== null) {
+                    wrk = new Worker('js/lib/svg-nest/util/eval.js');
                     wrk.postMessage(src);
                 } else {
-                    throw e;
+                    throw new Error('Can\'t use required scripts without eval.js!');
                 }
+            } else if (!URL) {
+                throw new Error('Can\'t create a blob URL in this browser!');
+            } else {
+                var blob = new Blob([src], { type: 'text/javascript' });
+                var url = URL.createObjectURL(blob);
+
+                wrk = new Worker(url);
+            }
+        } catch (e) {
+            if (this.options.evalPath !== null) { // blob/url unsupported, cross-origin error
+                wrk = new Worker(this.options.evalPath);
+                wrk.postMessage(src);
+            } else {
+                throw e;
             }
         }
 
