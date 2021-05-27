@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
+import history from 'app/svgedit/history';
 import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Progress from 'app/actions/progress-caller';
@@ -299,7 +300,7 @@ const convertTextToPathFluxsvg = async (
 
   setTextPostscriptnameIfNeeded(textElement);
   let isUnsupported = false;
-  const batchCmd = new svgedit.history.BatchCommand('Text to Path');
+  const batchCmd = new history.BatchCommand('Text to Path');
   const origFontFamily = textElement.getAttribute('font-family');
   const origFontPostscriptName = textElement.getAttribute('font-postscript');
   if (BeamboxPreference.read('font-substitute') !== false) {
@@ -384,7 +385,7 @@ const convertTextToPathFluxsvg = async (
     $(path).insertAfter($(textElement));
     path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
     path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+    batchCmd.addSubCommand(new history.InsertElementCommand(path));
     // output of fluxsvg will locate at (0,0), so move it.
     svgCanvas.moveElements([bbox.x], [bbox.y], [path], false);
 
@@ -403,7 +404,7 @@ const convertTextToPathFluxsvg = async (
     const parent = textElement.parentNode;
     const { nextSibling } = textElement;
     const elem = parent.removeChild(textElement);
-    batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 
     if (!batchCmd.isEmpty()) {
       svgCanvas.undoMgr.addCommandToHistory(batchCmd);
@@ -468,18 +469,18 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
     'stroke-dasharray': 'none',
     'vector-effect': 'non-scaling-stroke',
   });
-  const batchCmd = new svgedit.history.BatchCommand('Text to Path');
+  const batchCmd = new history.BatchCommand('Text to Path');
   $(path).insertAfter($textElement);
   $(path)
     .mouseover(svgCanvas.handleGenerateSensorArea)
     .mouseleave(svgCanvas.handleGenerateSensorArea);
-  batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+  batchCmd.addSubCommand(new history.InsertElementCommand(path));
   if (!isTempConvert) {
     const textElem = $textElement[0];
     const parent = textElem.parentNode;
     const { nextSibling } = textElem;
     const elem = parent.removeChild(textElem);
-    batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 
     if (!batchCmd.isEmpty()) { svgCanvas.undoMgr.addCommandToHistory(batchCmd); }
   } else {

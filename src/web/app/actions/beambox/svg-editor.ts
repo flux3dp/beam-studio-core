@@ -22,6 +22,7 @@
 TODOS
 1. JSDoc
 */
+import history from 'app/svgedit/history';
 import ToolPanelsController from './Tool-Panels-Controller';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -5688,7 +5689,7 @@ const svgEditor = window['svgEditor'] = (function () {
               );
               svgCanvas.updateElementColor(newImage);
               svgCanvas.selectOnly([newImage]);
-              svgCanvas.undoMgr.addCommandToHistory(new svgedit.history.InsertElementCommand(newImage));
+              svgCanvas.undoMgr.addCommandToHistory(new history.InsertElementCommand(newImage));
               if (!offset) {
                 svgCanvas.alignSelectedElements('l', 'page');
                 svgCanvas.alignSelectedElements('t', 'page');
@@ -5739,7 +5740,7 @@ const svgEditor = window['svgEditor'] = (function () {
                   is_svg: false
                 },
                 onComplete: function (result) {
-                  const batchCmd = new svgedit.history.BatchCommand('Replace Image');
+                  const batchCmd = new history.BatchCommand('Replace Image');
                   let cmd;
                   svgCanvas.undoMgr.beginUndoableChange('origImage', [imageElem]);
                   imageElem.setAttribute('origImage', src);

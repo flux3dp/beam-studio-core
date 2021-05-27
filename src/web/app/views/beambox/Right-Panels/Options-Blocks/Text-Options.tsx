@@ -3,14 +3,14 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
-let svgedit;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const ReactSelect = requireNode('react-select');
 const Select = ReactSelect.default;
@@ -106,7 +106,7 @@ class TextOptions extends React.Component<Props, State> {
     }
     const { updateDimensionValues, updateObjectPanel } = this.props;
     const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
-    const batchCmd = new svgedit.history.BatchCommand('Change Font family');
+    const batchCmd = new history.BatchCommand('Change Font family');
     let cmd = svgCanvas.setFontPostscriptName(newFont.postscriptName, true);
     batchCmd.addSubCommand(cmd);
     cmd = svgCanvas.setItalic(newFont.italic, true);
@@ -206,7 +206,7 @@ class TextOptions extends React.Component<Props, State> {
       family: fontFamily,
       style: val,
     });
-    const batchCmd = new svgedit.history.BatchCommand('Change Font Style');
+    const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = svgCanvas.setFontPostscriptName(font.postscriptName, true);
     batchCmd.addSubCommand(cmd);
     if (isMac) {

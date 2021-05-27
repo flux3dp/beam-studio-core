@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-continue */
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import history from 'app/svgedit/history';
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -165,10 +167,10 @@ class SvgNestButtons extends React.Component<Props, State> {
     // eslint-disable-next-line prefer-destructuring, @typescript-eslint/dot-notation
     const SvgNest = window['SvgNest'];
     SvgNest.stop();
-    const batchCmd = new svgedit.history.BatchCommand('Svg Nest');
+    const batchCmd = new history.BatchCommand('Svg Nest');
     for (let i = 0; i < this.undoNestChanges.length; i += 1) {
       const elem = this.undoNestChanges[i].element;
-      const subCmd = new svgedit.history.ChangeElementCommand(elem, this.undoNestChanges[i].attrs);
+      const subCmd = new history.ChangeElementCommand(elem, this.undoNestChanges[i].attrs);
       batchCmd.addSubCommand(subCmd);
     }
     if (!batchCmd.isEmpty()) {

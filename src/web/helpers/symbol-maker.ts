@@ -3,6 +3,7 @@
 /**
  * Make symbol elements for <use> element
  */
+import history from 'app/svgedit/history';
 import Progress from 'app/actions/progress-caller';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -247,7 +248,7 @@ const makeSymbol = (
     );
   }
 
-  batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(symbol));
+  batchCmd.addSubCommand(new history.InsertElementCommand(symbol));
 
   return symbol;
 };

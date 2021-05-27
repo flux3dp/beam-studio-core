@@ -26,6 +26,10 @@
 // 12) path.js
 // 13) coords.js
 // 14) recalculate.js
+// svgedit libs
+import history from 'app/svgedit/history';
+import historyRecording from 'app/svgedit/historyrecording';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -369,13 +373,12 @@ export default $.SvgCanvas = function (container, config) {
   var sanitizeSvg = canvas.sanitizeSvg = svgedit.sanitize.sanitizeSvg;
 
   // import from history.js
-  var MoveElementCommand = svgedit.history.MoveElementCommand;
-  var InsertElementCommand = svgedit.history.InsertElementCommand;
-  var RemoveElementCommand = svgedit.history.RemoveElementCommand;
-  var ChangeElementCommand = svgedit.history.ChangeElementCommand;
-  var BatchCommand = svgedit.history.BatchCommand;
+  var MoveElementCommand = history.MoveElementCommand;
+  var InsertElementCommand = history.InsertElementCommand;
+  var RemoveElementCommand = history.RemoveElementCommand;
+  var ChangeElementCommand = history.ChangeElementCommand;
+  var BatchCommand = history.BatchCommand;
   var call;
-  // Implement the svgedit.history.HistoryEventHandler interface.
 
   const cmdElements = new Set<Element>();
   let cmdDepth = 0;
@@ -395,9 +398,9 @@ export default $.SvgCanvas = function (container, config) {
     }
   }
 
-  canvas.undoMgr = new svgedit.history.UndoManager({
+  canvas.undoMgr = new history.UndoManager({
     handleHistoryEvent: function (eventType, cmd) {
-      var EventTypes = svgedit.history.HistoryEventTypes;
+      const EventTypes = history.HistoryEventTypes;
       // TODO: handle setBlurOffsets.
       if (eventType === EventTypes.BEFORE_UNAPPLY || eventType === EventTypes.BEFORE_APPLY) {
         onBefore();
@@ -469,7 +472,7 @@ export default $.SvgCanvas = function (container, config) {
               canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
             }
-  
+
             const textElems = elems.filter((elem) => elem.tagName === 'text');
             for (let i = 0; i < textElems.length; i++) {
               const textElem = textElems[i];
@@ -479,9 +482,9 @@ export default $.SvgCanvas = function (container, config) {
               canvas.updateMultiLineTextElem(textElem);
               canvas.setRotationAngle(angle, true, textElem);
               if (textElem.getAttribute('stroke-width') === '2') {
-                textElem.setAttribute('stroke-width', 2.01);
+                textElem.setAttribute('stroke-width', '2.01');
               } else {
-                textElem.setAttribute('stroke-width', 2);
+                textElem.setAttribute('stroke-width', '2');
               }
             }
           }
@@ -495,13 +498,8 @@ export default $.SvgCanvas = function (container, config) {
     canvas.undoMgr.addCommandToHistory(cmd);
   };
 
-  /**
-   * Get a HistoryRecordingService.
-   * @param {svgedit.history.HistoryRecordingService=} hrService - if exists, return it instead of creating a new service.
-   * @returns {svgedit.history.HistoryRecordingService}
-   */
   function historyRecordingService(hrService?) {
-    return hrService || new svgedit.history.HistoryRecordingService(canvas.undoMgr);
+    return hrService || new historyRecording.HistoryRecordingService(canvas.undoMgr);
   }
 
   // import from select.js
@@ -1042,7 +1040,7 @@ export default $.SvgCanvas = function (container, config) {
   // adding the changes to a single batch command
   var recalculateAllSelectedDimensions = this.recalculateAllSelectedDimensions = function (isSubCommand = false) {
     var text = (current_resize_mode === 'none' ? 'position' : 'size');
-    var batchCmd = new svgedit.history.BatchCommand(text);
+    var batchCmd = new history.BatchCommand(text);
 
     var i = selectedElements.length;
     while (i--) {
@@ -2769,7 +2767,7 @@ export default $.SvgCanvas = function (container, config) {
           }
 
           if (mouseSelectModeCmds.length > 1) {
-            const batchCmd = new svgedit.history.BatchCommand('Mouse Event');
+            const batchCmd = new history.BatchCommand('Mouse Event');
             for (let i = 0; i < mouseSelectModeCmds.length; i++) {
               batchCmd.addSubCommand(mouseSelectModeCmds[i]);
             }
@@ -3027,7 +3025,7 @@ export default $.SvgCanvas = function (container, config) {
           element.setAttribute('opacity', cur_shape.opacity);
           element.setAttribute('style', 'pointer-events:inherit');
           cleanupElement(element);
-          addCommandToHistory(new svgedit.history.InsertElementCommand(element));
+          addCommandToHistory(new history.InsertElementCommand(element));
           if (curConfig.selectNew && !isContinuousDrawing) {
             if (current_mode === 'textedit') {
               selectorManager.requestSelector(element).showGrips(true);
@@ -3594,47 +3592,6 @@ export default $.SvgCanvas = function (container, config) {
       }, 300);
     }
 
-    class ChangeTextCommand {
-      public elem: Element;
-      public desc: string;
-      public oldText: string;
-      public newText: string;
-      constructor(elem, oldText, newText) {
-        this.elem = elem;
-        this.desc = `Change ${elem.id || elem.tagName} from ${oldText} to ${newText}`
-        this.oldText = oldText;
-        this.newText = newText;
-      }
-
-      type() { return 'svgcanvas.textAction.ChangeTextCommand'; }
-
-      elements() { return [this.elem]; }
-
-      getText() { return this.desc; }
-
-      apply(handler) {
-        if (handler) {
-          handler.handleHistoryEvent(svgedit.history.HistoryEventTypes.BEFORE_APPLY, this);
-        }
-        canvas.textActions.renderMultiLineText(this.elem, this.newText, false);
-        if (handler) {
-          handler.handleHistoryEvent(svgedit.history.HistoryEventTypes.AFTER_APPLY, this);
-        }
-      }
-
-      unapply(handler) {
-        if (handler) {
-          handler.handleHistoryEvent(svgedit.history.HistoryEventTypes.BEFORE_UNAPPLY, this);
-        }
-
-        canvas.textActions.renderMultiLineText(this.elem, this.oldText, false);
-
-        if (handler) {
-          handler.handleHistoryEvent(svgedit.history.HistoryEventTypes.AFTER_UNAPPLY, this);
-        }
-      }
-    };
-
     return {
       select: function (target, x, y) {
         curtext = target;
@@ -3808,7 +3765,7 @@ export default $.SvgCanvas = function (container, config) {
           addToSelection([curtext], true);
           svgedit.recalculate.recalculateDimensions(curtext);
         }
-        const batchCmd = new svgedit.history.BatchCommand('Edit Text');
+        const batchCmd = new history.BatchCommand('Edit Text');
         if (curtext && !curtext.textContent.length) {
           // No content, so delete
           const cmd = canvas.deleteSelectedElements(true);
@@ -3816,7 +3773,7 @@ export default $.SvgCanvas = function (container, config) {
         }
         if (valueBeforeEdit && valueBeforeEdit !== textinput.value) {
           if (curtext) {
-            const cmd = new ChangeTextCommand(curtext, valueBeforeEdit, textinput.value);
+            const cmd = new history.ChangeTextCommand(curtext, valueBeforeEdit, textinput.value);
             batchCmd.addSubCommand(cmd);
             canvas.setHasUnsavedChange(true, true);
           }
@@ -3986,7 +3943,7 @@ export default $.SvgCanvas = function (container, config) {
       if (svgedit.browser.isWebkit()) {
         resetD(this.elem);
       }
-      var cmd = new svgedit.history.ChangeElementCommand(this.elem, {
+      var cmd = new history.ChangeElementCommand(this.elem, {
         d: this.last_d
       }, text);
       if (!isSub) {
@@ -4095,7 +4052,7 @@ export default $.SvgCanvas = function (container, config) {
         element.setAttribute('opacity', cur_shape.opacity);
         element.setAttribute('style', 'pointer-events:inherit');
         cleanupElement(element);
-        addCommandToHistory(new svgedit.history.InsertElementCommand(element));
+        addCommandToHistory(new history.InsertElementCommand(element));
         if (toEditMode) {
           pathActions.toEditMode(element);
           call('changed', [element]);
@@ -4614,12 +4571,12 @@ export default $.SvgCanvas = function (container, config) {
           return;
         }
 
-        var batchCmd = new svgedit.history.BatchCommand('Reorient path');
+        var batchCmd = new history.BatchCommand('Reorient path');
         var changes = {
           d: elem.getAttribute('d'),
           transform: elem.getAttribute('transform')
         };
-        batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(elem, changes));
+        batchCmd.addSubCommand(new history.ChangeElementCommand(elem, changes));
         clearSelection();
         this.resetOrientation(elem);
 
@@ -5853,7 +5810,7 @@ export default $.SvgCanvas = function (container, config) {
       elem = selectedElements[0];
     }
     var $elem = $(elem);
-    var batchCmd = new svgedit.history.BatchCommand();
+    var batchCmd = new history.BatchCommand();
     var ts;
 
     if ($elem.data('gsvg')) {
@@ -5890,7 +5847,7 @@ export default $.SvgCanvas = function (container, config) {
       var prev = $elem.prev();
 
       // Remove <use> element
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand($elem[0], $elem[0].nextSibling, $elem[0].parentNode));
+      batchCmd.addSubCommand(new history.RemoveElementCommand($elem[0], $elem[0].nextSibling, $elem[0].parentNode));
       $elem.remove();
 
       // See if other elements reference this symbol
@@ -5935,9 +5892,9 @@ export default $.SvgCanvas = function (container, config) {
           // remove symbol/svg element
           var nextSibling = elem.nextSibling;
           parent.removeChild(elem);
-          batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+          batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
         }
-        batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(g));
+        batchCmd.addSubCommand(new history.InsertElementCommand(g));
       }
 
       setUseData(g);
@@ -6017,12 +5974,12 @@ export default $.SvgCanvas = function (container, config) {
 
       this.prepareSvg(newDoc);
 
-      var batchCmd = new svgedit.history.BatchCommand('Change Source');
+      var batchCmd = new history.BatchCommand('Change Source');
 
       // remove old svg document
       var nextSibling = svgcontent.nextSibling;
       var oldzoom = svgroot.removeChild(svgcontent);
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(oldzoom, nextSibling, svgroot));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(oldzoom, nextSibling, svgroot));
 
       // set new svg document
       // If DOM3 adoptNode() available, use it. Otherwise fall back to DOM2 importNode()
@@ -6163,10 +6120,10 @@ export default $.SvgCanvas = function (container, config) {
       this.contentW = attrs.width;
       this.contentH = attrs.height;
 
-      batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(svgcontent));
+      batchCmd.addSubCommand(new history.InsertElementCommand(svgcontent));
       // update root to the correct size
       var changes = content.attr(['width', 'height']);
-      batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(svgroot, changes));
+      batchCmd.addSubCommand(new history.ChangeElementCommand(svgroot, changes));
 
       // reset zoom
       current_zoom = 1;
@@ -6236,7 +6193,7 @@ export default $.SvgCanvas = function (container, config) {
   // was obtained
   // * import should happen in top-left of current zoomed viewport
   this.importSvgString = async function (xmlString, _type, layerName) {
-    const batchCmd = new svgedit.history.BatchCommand('Import Image');
+    const batchCmd = new history.BatchCommand('Import Image');
 
     function parseSvg(svg: Element, type) {
       function _removeSvgText() {
@@ -6555,7 +6512,7 @@ export default $.SvgCanvas = function (container, config) {
         }
       }
 
-      batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(use_el));
+      batchCmd.addSubCommand(new history.InsertElementCommand(use_el));
 
       return use_el;
     }
@@ -6693,7 +6650,7 @@ export default $.SvgCanvas = function (container, config) {
    * to it, and then clears the selection. This function then calls the 'changed' handler.
    * This is an undoable action.
    * @param {string} name - The given name. If the layer name exists, a new name will be generated.
-   * @param {svgedit.history.HistoryRecordingService} hrService - History recording service
+   * @param hrService - History recording service
    */
   this.cloneLayer = function (name, hrService) {
     // Clone the current layer and make the cloned layer the new current layer
@@ -6713,9 +6670,9 @@ export default $.SvgCanvas = function (container, config) {
     var parent = current_layer.parentNode;
     current_layer = getCurrentDrawing().deleteCurrentLayer();
     if (current_layer) {
-      var batchCmd = new svgedit.history.BatchCommand('Delete Layer');
+      var batchCmd = new history.BatchCommand('Delete Layer');
       // store in our Undo History
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(current_layer, nextSibling, parent));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(current_layer, nextSibling, parent));
       addCommandToHistory(batchCmd);
       clearSelection();
       call('changed', [parent]);
@@ -6779,7 +6736,7 @@ export default $.SvgCanvas = function (container, config) {
     var oldpos, drawing = getCurrentDrawing();
     var result = drawing.setCurrentLayerPosition(newpos);
     if (result) {
-      addCommandToHistory(new svgedit.history.MoveElementCommand(result.currentGroup, result.oldNextSibling, svgcontent));
+      addCommandToHistory(new history.MoveElementCommand(result.currentGroup, result.oldNextSibling, svgcontent));
       return true;
     }
     return false;
@@ -6813,7 +6770,7 @@ export default $.SvgCanvas = function (container, config) {
     var layer = drawing.setLayerVisibility(layername, bVisible);
     if (layer) {
       var oldDisplay = prevVisibility ? 'inline' : 'none';
-      addCommandToHistory(new svgedit.history.ChangeElementCommand(layer, {
+      addCommandToHistory(new history.ChangeElementCommand(layer, {
         'display': oldDisplay
       }, 'Layer Visibility'));
     } else {
@@ -6846,7 +6803,7 @@ export default $.SvgCanvas = function (container, config) {
       return false;
     }
 
-    var batchCmd = new svgedit.history.BatchCommand('Move Elements to Layer');
+    var batchCmd = new history.BatchCommand('Move Elements to Layer');
 
     // loop for each selected element and move it
     if (tempGroup) {
@@ -6872,7 +6829,7 @@ export default $.SvgCanvas = function (container, config) {
       if (this.isUsingLayerColor) {
         this.updateElementColor(elem);
       }
-      batchCmd.addSubCommand(new svgedit.history.MoveElementCommand(elem, oldNextSibling, oldLayer));
+      batchCmd.addSubCommand(new history.MoveElementCommand(elem, oldNextSibling, oldLayer));
     }
 
     addCommandToHistory(batchCmd);
@@ -7221,17 +7178,17 @@ export default $.SvgCanvas = function (container, config) {
 
     var ts: any = $(elem).children('title');
 
-    var batchCmd = new svgedit.history.BatchCommand('Set Label');
+    var batchCmd = new history.BatchCommand('Set Label');
 
     if (!val.length) {
       // Remove title element
       var tsNextSibling = ts.nextSibling;
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(ts[0], tsNextSibling, elem));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(ts[0], tsNextSibling, elem));
       ts.remove();
     } else if (ts.length) {
       // Change title contents
       var title = ts[0];
-      batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(title, {
+      batchCmd.addSubCommand(new history.ChangeElementCommand(title, {
         '#text': title.textContent
       }));
       title.textContent = val;
@@ -7240,7 +7197,7 @@ export default $.SvgCanvas = function (container, config) {
       title = svgdoc.createElementNS(NS.SVG, 'title');
       title.textContent = val;
       $(elem).prepend(title);
-      batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(title));
+      batchCmd.addSubCommand(new history.InsertElementCommand(title));
     }
 
     addCommandToHistory(batchCmd);
@@ -7264,7 +7221,7 @@ export default $.SvgCanvas = function (container, config) {
       doc_title: any = false,
       old_title = '';
 
-    var batchCmd = new svgedit.history.BatchCommand('Change Image Title');
+    var batchCmd = new history.BatchCommand('Change Image Title');
 
     for (i = 0; i < childs.length; i++) {
       if (childs[i].nodeName === 'title') {
@@ -7284,7 +7241,7 @@ export default $.SvgCanvas = function (container, config) {
       // No title given, so element is not necessary
       doc_title.parentNode.removeChild(doc_title);
     }
-    batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(doc_title, {
+    batchCmd.addSubCommand(new history.ChangeElementCommand(doc_title, {
       '#text': old_title
     }));
     addCommandToHistory(batchCmd);
@@ -7327,7 +7284,7 @@ export default $.SvgCanvas = function (container, config) {
       var bbox = getStrokedBBox();
 
       if (bbox) {
-        batchCmd = new svgedit.history.BatchCommand('Fit Canvas to Content');
+        batchCmd = new history.BatchCommand('Fit Canvas to Content');
         var visEls = getVisibleElements();
         addToSelection(visEls);
         var dx = [],
@@ -7349,7 +7306,7 @@ export default $.SvgCanvas = function (container, config) {
     }
     if (x !== w || y !== h) {
       if (!batchCmd) {
-        batchCmd = new svgedit.history.BatchCommand('Change Image Dimensions');
+        batchCmd = new history.BatchCommand('Change Image Dimensions');
       }
 
       x = svgedit.units.convertToNum('width', x);
@@ -7360,13 +7317,13 @@ export default $.SvgCanvas = function (container, config) {
 
       this.contentW = x;
       this.contentH = y;
-      batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(svgcontent, {
+      batchCmd.addSubCommand(new history.ChangeElementCommand(svgcontent, {
         'width': w,
         'height': h
       }));
 
       svgcontent.setAttribute('viewBox', [0, 0, x / current_zoom, y / current_zoom].join(' '));
-      batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(svgcontent, {
+      batchCmd.addSubCommand(new history.ChangeElementCommand(svgcontent, {
         'viewBox': ['0 0', w, h].join(' ')
       }));
 
@@ -7973,7 +7930,7 @@ export default $.SvgCanvas = function (container, config) {
 
       val -= 0;
 
-      var batchCmd = new svgedit.history.BatchCommand();
+      var batchCmd = new history.BatchCommand();
 
       // Blur found!
       if (filter) {
@@ -8000,7 +7957,7 @@ export default $.SvgCanvas = function (container, config) {
         filter.appendChild(newblur);
         svgedit.utilities.findDefs().appendChild(filter);
 
-        batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(filter));
+        batchCmd.addSubCommand(new history.InsertElementCommand(filter));
       }
 
       var changes = {
@@ -8009,12 +7966,12 @@ export default $.SvgCanvas = function (container, config) {
 
       if (val === 0) {
         elem.removeAttribute('filter');
-        batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(elem, changes));
+        batchCmd.addSubCommand(new history.ChangeElementCommand(elem, changes));
         return;
       }
 
       changeSelectedAttribute('filter', 'url(#' + elem_id + '_blur)');
-      batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(elem, changes));
+      batchCmd.addSubCommand(new history.ChangeElementCommand(elem, changes));
       canvas.setBlurOffsets(filter, val);
 
       cur_command = batchCmd;
@@ -8411,10 +8368,10 @@ export default $.SvgCanvas = function (container, config) {
       return;
     }
 
-    var batchCmd = new svgedit.history.BatchCommand('Change Image URL');
+    var batchCmd = new history.BatchCommand('Change Image URL');
 
     setHref(elem, val);
-    batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(elem, {
+    batchCmd.addSubCommand(new history.ChangeElementCommand(elem, {
       '#href': cur_href
     }));
 
@@ -8429,7 +8386,7 @@ export default $.SvgCanvas = function (container, config) {
 
         selectorManager.requestSelector(elem).resize();
 
-        batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(elem, changes));
+        batchCmd.addSubCommand(new history.ChangeElementCommand(elem, changes));
         addCommandToHistory(batchCmd);
         call('changed', [elem]);
       }).attr('src', val);
@@ -8464,10 +8421,10 @@ export default $.SvgCanvas = function (container, config) {
       return;
     }
 
-    var batchCmd = new svgedit.history.BatchCommand('Change Link URL');
+    var batchCmd = new history.BatchCommand('Change Link URL');
 
     setHref(elem, val);
-    batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(elem, {
+    batchCmd.addSubCommand(new history.ChangeElementCommand(elem, {
       '#href': cur_href
     }));
 
@@ -8487,7 +8444,7 @@ export default $.SvgCanvas = function (container, config) {
       if (r != val) {
         selected.setAttribute('rx', val);
         selected.setAttribute('ry', val);
-        addCommandToHistory(new svgedit.history.ChangeElementCommand(selected, {
+        addCommandToHistory(new history.ChangeElementCommand(selected, {
           'rx': r,
           'ry': r
         }, 'Radius'));
@@ -8585,7 +8542,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.setElemsFill = function (elems) {
-    let batchCmd = new svgedit.history.BatchCommand('set elems fill');
+    let batchCmd = new history.BatchCommand('set elems fill');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
       if (elem == null) {
@@ -8613,7 +8570,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.setElementFill = function (elem, color) {
-    let batchCmd = new svgedit.history.BatchCommand('set elem fill');
+    let batchCmd = new history.BatchCommand('set elem fill');
     let cmd;
     canvas.undoMgr.beginUndoableChange('fill', [elem]);
     elem.setAttribute('fill', color);
@@ -8627,7 +8584,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.setElemsUnfill = function (elems) {
-    let batchCmd = new svgedit.history.BatchCommand('set elems unfill');
+    let batchCmd = new history.BatchCommand('set elems unfill');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
       if (elem == null) {
@@ -8652,7 +8609,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.setElementUnfill = function (elem, color) {
-    let batchCmd = new svgedit.history.BatchCommand('set elem unfill');
+    let batchCmd = new history.BatchCommand('set elem unfill');
     let cmd;
     canvas.undoMgr.beginUndoableChange('stroke', [elem]);
     elem.setAttribute('stroke', color);
@@ -8896,7 +8853,7 @@ export default $.SvgCanvas = function (container, config) {
       this.selectOnly(children, false);
     }
     var i;
-    var batchCmd = new svgedit.history.BatchCommand('Delete Elements');
+    var batchCmd = new history.BatchCommand('Delete Elements');
     var len = selectedElements.length;
     var selectedCopy = []; //selectedElements is being deleted
     for (i = 0; i < len; ++i) {
@@ -8973,7 +8930,7 @@ export default $.SvgCanvas = function (container, config) {
       this.selectOnly(children, false);
     }
     var i;
-    var batchCmd = new svgedit.history.BatchCommand('Cut Elements');
+    var batchCmd = new history.BatchCommand('Cut Elements');
     var len = selectedElements.length;
     var selectedCopy = []; //selectedElements is being deleted
     var layerDict = {}, layerCount = 0;
@@ -9074,7 +9031,7 @@ export default $.SvgCanvas = function (container, config) {
     }
 
     var pasted = [];
-    var batchCmd = new svgedit.history.BatchCommand('Paste elements');
+    var batchCmd = new history.BatchCommand('Paste elements');
     var drawing = getCurrentDrawing();
 
     // Move elements to lastClickPoint
@@ -9097,7 +9054,7 @@ export default $.SvgCanvas = function (container, config) {
       } else {
         (current_group || drawing.getCurrentLayer()).appendChild(copy);
       }
-      batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(copy));
+      batchCmd.addSubCommand(new history.InsertElementCommand(copy));
       restoreRefElems(copy);
       this.updateElementColor(copy);
     }
@@ -9278,7 +9235,7 @@ export default $.SvgCanvas = function (container, config) {
     const newElements = [];
     const dx = [];
     const dy = [];
-    const batchCmd = new svgedit.history.BatchCommand('Grid elements');
+    const batchCmd = new history.BatchCommand('Grid elements');
     const drawing = getCurrentDrawing();
     for (let i = 0; i < originElements.length; ++i) {
       const elem = originElements[i];
@@ -9295,7 +9252,7 @@ export default $.SvgCanvas = function (container, config) {
           const layerName = $(elem.parentNode).find('title').text();
           const layer = drawing.getLayerByName(layerName);
           layer.appendChild(copy);
-          batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(copy));
+          batchCmd.addSubCommand(new history.InsertElementCommand(copy));
           restoreRefElems(copy);
           dx.push(j * interval.dx);
           dy.push(k * interval.dy);
@@ -9349,7 +9306,7 @@ export default $.SvgCanvas = function (container, config) {
       });
       return;
     }
-    let batchCmd = new svgedit.history.BatchCommand(`${mode} Elements`);
+    let batchCmd = new history.BatchCommand(`${mode} Elements`);
     // clipper needs integer input so scale up path with a big const.
     const scale = 100;
     let solution_paths = [];
@@ -9440,7 +9397,7 @@ export default $.SvgCanvas = function (container, config) {
       this.updateElementColor(element);
     }
 
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(element));
+    batchCmd.addSubCommand(new history.InsertElementCommand(element));
     let cmd = this.deleteSelectedElements(true);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     if (!isSubCmd) addCommandToHistory(batchCmd);
@@ -9468,7 +9425,7 @@ export default $.SvgCanvas = function (container, config) {
       this.selectOnly(children, false);
     }
     elems = elems || selectedElements;
-    let batchCmd = new svgedit.history.BatchCommand('Create Offset Elements');
+    let batchCmd = new history.BatchCommand('Create Offset Elements');
     let solution_paths = [];
     const scale = 100;
 
@@ -9588,7 +9545,7 @@ export default $.SvgCanvas = function (container, config) {
       }
     });
     pathActions.fixEnd(newElem);
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(newElem));
+    batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
     if (this.isUsingLayerColor) {
       this.updateElementColor(newElem);
     }
@@ -9603,7 +9560,7 @@ export default $.SvgCanvas = function (container, config) {
       this.selectOnly(children, false);
     }
     let allNewPaths = [];
-    let batchCmd = new svgedit.history.BatchCommand('Decompose Image');
+    let batchCmd = new history.BatchCommand('Decompose Image');
     elems = elems || selectedElements;
     elems.forEach(elem => {
       if (!elem || elem.tagName != 'path') {
@@ -9641,7 +9598,7 @@ export default $.SvgCanvas = function (container, config) {
             });
             layer.appendChild(path);
             newPaths.push(path);
-            batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+            batchCmd.addSubCommand(new history.InsertElementCommand(path));
           }
           startIndex = i;
         }
@@ -9649,7 +9606,7 @@ export default $.SvgCanvas = function (container, config) {
       const parent = elem.parentNode;
       const nextSibling = elem.nextSibling;
       parent.removeChild(elem);
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 
       if (newPaths.length > 0) {
         selectOnly(newPaths, false);
@@ -9688,7 +9645,7 @@ export default $.SvgCanvas = function (container, config) {
       });
       return;
     }
-    let batchCmd = new svgedit.history.BatchCommand('Vectorize Image');
+    let batchCmd = new history.BatchCommand('Vectorize Image');
     Progress.openNonstopProgress({
       id: 'vectorize-image',
       message: LANG.photo_edit_panel.processing,
@@ -9739,7 +9696,7 @@ export default $.SvgCanvas = function (container, config) {
     });
     path.addEventListener('mouseover', this.handleGenerateSensorArea);
     path.addEventListener('mouseleave', this.handleGenerateSensorArea);
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+    batchCmd.addSubCommand(new history.InsertElementCommand(path));
     let cmd = this.deleteSelectedElements(true);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     this.selectOnly([g], false);
@@ -9796,7 +9753,7 @@ export default $.SvgCanvas = function (container, config) {
     }
     //Wait for alert close
     await new Promise((resolve) => setTimeout(resolve, 20));
-    let batchCmd = new svgedit.history.BatchCommand('Disassemble Use');
+    let batchCmd = new history.BatchCommand('Disassemble Use');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
       if (!elem || elem.tagName !== 'use') {
@@ -9875,8 +9832,8 @@ export default $.SvgCanvas = function (container, config) {
         percentage: 90,
       });
       await new Promise((resolve) => setTimeout(resolve, 50));
-      batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(g));
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, elem.nextSibling, elem.parentNode));
+      batchCmd.addSubCommand(new history.InsertElementCommand(g));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(elem, elem.nextSibling, elem.parentNode));
       elem.parentNode.removeChild(elem);
       let angle = svgedit.utilities.getRotationAngle(g);
       if (angle) canvas.setRotationAngle(0, true, g);
@@ -10143,7 +10100,7 @@ export default $.SvgCanvas = function (container, config) {
         break;
     }
 
-    var batchCmd = new svgedit.history.BatchCommand(cmd_str);
+    var batchCmd = new history.BatchCommand(cmd_str);
 
     let layerNames = [];
     for (let i = 0; i < selectedElements.length; i++) {
@@ -10175,7 +10132,7 @@ export default $.SvgCanvas = function (container, config) {
     if (type === 'a') {
       setHref(group, url);
     }
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(group));
+    batchCmd.addSubCommand(new history.InsertElementCommand(group));
 
 
     for (let i = 0; i < selectedElements.length; i++) {
@@ -10185,7 +10142,7 @@ export default $.SvgCanvas = function (container, config) {
       }
       const { nextSibling, parentNode } = elem;
       group.appendChild(elem);
-      batchCmd.addSubCommand(new svgedit.history.MoveElementCommand(elem, nextSibling, parentNode));
+      batchCmd.addSubCommand(new history.MoveElementCommand(elem, nextSibling, parentNode));
     }
     if (!batchCmd.isEmpty()) {
       addCommandToHistory(batchCmd);
@@ -10211,7 +10168,7 @@ export default $.SvgCanvas = function (container, config) {
     var glist = svgedit.transformlist.getTransformList(g);
     var m = svgedit.math.transformListToTransform(glist).matrix;
 
-    var batchCmd = new svgedit.history.BatchCommand('Push group properties');
+    var batchCmd = new history.BatchCommand('Push group properties');
 
     // TODO: get all fill/stroke properties from the group that we are about to destroy
     // "fill", "fill-opacity", "fill-rule", "stroke", "stroke-dasharray", "stroke-dashoffset",
@@ -10395,7 +10352,7 @@ export default $.SvgCanvas = function (container, config) {
       changes.transform = xform;
       g.setAttribute('transform', '');
       g.removeAttribute('transform');
-      batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(g, changes));
+      batchCmd.addSubCommand(new history.ChangeElementCommand(g, changes));
     }
 
     if (undoable && !batchCmd.isEmpty()) {
@@ -10433,7 +10390,7 @@ export default $.SvgCanvas = function (container, config) {
     // Look for parent "a"
     if (g.tagName === 'g' || g.tagName === 'a') {
 
-      var batchCmd = new svgedit.history.BatchCommand('Ungroup Elements');
+      var batchCmd = new history.BatchCommand('Ungroup Elements');
       var cmd = pushGroupProperties(g, true);
       if (cmd) {
         batchCmd.addSubCommand(cmd);
@@ -10457,7 +10414,7 @@ export default $.SvgCanvas = function (container, config) {
         // Remove child title elements
         if (elem.tagName === 'title') {
           var nextSibling = elem.nextSibling;
-          batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, oldParent));
+          batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, oldParent));
           oldParent.removeChild(elem);
           continue;
         }
@@ -10472,7 +10429,7 @@ export default $.SvgCanvas = function (container, config) {
           elem = parent.insertBefore(elem, anchor);
         }
         children[i++] = elem;
-        batchCmd.addSubCommand(new svgedit.history.MoveElementCommand(elem, oldNextSibling, oldParent));
+        batchCmd.addSubCommand(new history.MoveElementCommand(elem, oldNextSibling, oldParent));
       }
 
       // remove the group from the selection
@@ -10481,7 +10438,7 @@ export default $.SvgCanvas = function (container, config) {
       // delete the group element (but make undo-able)
       var gNextSibling = g.nextSibling;
       g = parent.removeChild(g);
-      batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(g, gNextSibling, parent));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(g, gNextSibling, parent));
       // update selection
       addToSelection(children);
       this.tempGroupSelectedElements();
@@ -10652,7 +10609,7 @@ export default $.SvgCanvas = function (container, config) {
     // Look for parent "a"
     if (g.tagName === 'g' || g.tagName === 'a') {
 
-      let batchCmd = new svgedit.history.BatchCommand('Ungroup Temp Group');
+      let batchCmd = new history.BatchCommand('Ungroup Temp Group');
       let cmd = pushGroupProperties(g, true);
       if (cmd) {
         batchCmd.addSubCommand(cmd);
@@ -10733,7 +10690,7 @@ export default $.SvgCanvas = function (container, config) {
         // If the element actually moved position, add the command and fire the changed
         // event handler.
         if (oldNextSibling !== t.nextSibling) {
-          addCommandToHistory(new svgedit.history.MoveElementCommand(t, oldNextSibling, oldParent, 'up'));
+          addCommandToHistory(new history.MoveElementCommand(t, oldNextSibling, oldParent, 'up'));
           call('changed', [t]);
         }
       }
@@ -10758,7 +10715,7 @@ export default $.SvgCanvas = function (container, config) {
         // If the element actually moved position, add the command and fire the changed
         // event handler.
         if (oldNextSibling !== t.nextSibling) {
-          addCommandToHistory(new svgedit.history.MoveElementCommand(t, oldNextSibling, oldParent, 'down'));
+          addCommandToHistory(new history.MoveElementCommand(t, oldNextSibling, oldParent, 'down'));
           call('changed', [t]);
         }
       }
@@ -10795,7 +10752,7 @@ export default $.SvgCanvas = function (container, config) {
     }
 
     if (oldNextSibling != t.nextSibling) {
-      addCommandToHistory(new svgedit.history.MoveElementCommand(t, oldNextSibling, oldParent, 'Move ' + dir));
+      addCommandToHistory(new history.MoveElementCommand(t, oldNextSibling, oldParent, 'Move ' + dir));
       call('changed', [t]);
     }
   };
@@ -10818,7 +10775,7 @@ export default $.SvgCanvas = function (container, config) {
       dy /= current_zoom;
     }
     undoable = undoable || true;
-    var batchCmd = new svgedit.history.BatchCommand('position');
+    var batchCmd = new history.BatchCommand('position');
     var i = selectedElements.length;
     while (i--) {
       var selected = selectedElements[i];
@@ -10881,7 +10838,7 @@ export default $.SvgCanvas = function (container, config) {
       dy /= current_zoom;
     }
     undoable = (undoable == null) ? true : undoable;
-    const batchCmd = new svgedit.history.BatchCommand('position');
+    const batchCmd = new history.BatchCommand('position');
     var i = elems.length;
     while (i--) {
       var selected = elems[i];
@@ -10962,7 +10919,7 @@ export default $.SvgCanvas = function (container, config) {
       return;
     }
 
-    const batchCmd = new svgedit.history.BatchCommand('Dist Hori');
+    const batchCmd = new history.BatchCommand('Dist Hori');
 
     realSelectedElements.sort((a, b) => {
       const xa = this.getCenter(a).x;
@@ -11009,7 +10966,7 @@ export default $.SvgCanvas = function (container, config) {
       return;
     }
 
-    const batchCmd = new svgedit.history.BatchCommand('Dist Verti');
+    const batchCmd = new history.BatchCommand('Dist Verti');
 
     realSelectedElements.sort((a, b) => {
       const ya = this.getCenter(a).y;
@@ -11136,7 +11093,7 @@ export default $.SvgCanvas = function (container, config) {
         break;
       }
     }
-    let batchCmd = new svgedit.history.BatchCommand('Flip Elements');
+    let batchCmd = new history.BatchCommand('Flip Elements');
 
     for (let i = 0; i < len; ++i) {
       const elem = selectedElements[i];
@@ -11205,7 +11162,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.flipElementWithRespectToCenter = async function (elem, center, flipPara) {
-    let batchCmd = new svgedit.history.BatchCommand('Flip Single Element');
+    let batchCmd = new history.BatchCommand('Flip Single Element');
 
     const angle = svgedit.utilities.getRotationAngle(elem);
     canvas.undoMgr.beginUndoableChange('transform', [elem]);
@@ -11259,7 +11216,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this._flipImage = async function (image, horizon = 1, vertical = 1) {
-    let batchCmd = new svgedit.history.BatchCommand('Flip image');
+    let batchCmd = new history.BatchCommand('Flip image');
     if (horizon === 1 && vertical === 1) {
       return;
     }
@@ -11310,7 +11267,7 @@ export default $.SvgCanvas = function (container, config) {
     }
 
     var i, elem;
-    var batchCmd = new svgedit.history.BatchCommand('Clone Elements');
+    var batchCmd = new history.BatchCommand('Clone Elements');
     // find all the elements selected (stop at first null)
     var len = selectedElements.length;
 
@@ -11339,7 +11296,7 @@ export default $.SvgCanvas = function (container, config) {
       // clone each element and replace it within copiedElements
       elem = copiedElements[i] = drawing.copyElem(copiedElements[i]);
       destLayer.appendChild(elem);
-      batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(elem));
+      batchCmd.addSubCommand(new history.InsertElementCommand(elem));
     }
 
     if (!batchCmd.isEmpty()) {
@@ -11897,7 +11854,7 @@ export default $.SvgCanvas = function (container, config) {
   };
   // refer to resize behavior in mouseup mousemove mousedown
   this.setSvgElemSize = function (para, val, undoable) {
-    let batchCmd = new svgedit.history.BatchCommand('set size');
+    let batchCmd = new history.BatchCommand('set size');
     const selected = selectedElements[0];
     const realLocation = this.getSvgRealLocation(selected);
     let sx = 1;
