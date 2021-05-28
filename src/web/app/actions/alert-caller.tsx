@@ -1,6 +1,4 @@
-import * as React from 'react';
 import alertConstants from 'app/constants/alert-constants';
-import browser from 'implementations/browser';
 import { AlertsAndProgressContextHelper } from 'app/views/dialogs/Alerts-And-Progress';
 import { IAlert } from 'interfaces/IAlert';
 
@@ -37,12 +35,5 @@ export default {
         } else {
             return AlertsAndProgressContextHelper.context.checkIdExist(id, false);
         }
-    },
-    renderHyperLink: (text: string, link: string) => {
-        return (
-            <div className='hyper-link' onClick={()=>browser.open(link)}>
-                {text}
-            </div>
-        );
     },
 };
