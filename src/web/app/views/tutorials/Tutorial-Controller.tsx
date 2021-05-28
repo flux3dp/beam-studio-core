@@ -1,4 +1,4 @@
-import { Tutorial, TutorialContextCaller } from './Tutorial';
+import { TutorialContextCaller } from 'app/views/tutorials/Tutorial';
 
 export const handleNextStep = () => {
     if (!TutorialContextCaller.context) {

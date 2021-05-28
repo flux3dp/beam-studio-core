@@ -726,8 +726,5 @@ const checkOSVersion = (): void => {
 
 export default {
   init,
-  initMenuBarEvents,
   showStartUpDialogs,
-  showTutorial,
-  checkOSVersion,
 };

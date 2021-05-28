@@ -60,7 +60,6 @@ if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
 }
 
-const electron = requireNode('electron');
 const LANG = i18n.lang.beambox;
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 // TODO: change to require('svgedit')

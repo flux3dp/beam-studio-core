@@ -1,11 +1,9 @@
-
 import Constant from './constant';
 import BeamboxPreference from './beambox-preference';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';
-let svgCanvas;
+
 let svgedit;
 getSVGAsync((globalSVG) => {
-    svgCanvas = globalSVG.Canvas;
     svgedit = globalSVG.Edit;
 });
 
@@ -79,6 +77,4 @@ const hide = () => {
 
 export default {
     update,
-    show,
-    hide
 };
