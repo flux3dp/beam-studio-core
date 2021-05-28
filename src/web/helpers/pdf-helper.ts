@@ -4,16 +4,16 @@
  * Using pdf2svg binary: https://github.com/dawbarton/pdf2svg
  * binary for mac is built from makefile with dependencies packed by macpack: https://github.com/chearon/macpack
  */
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
-import Alert from '../app/actions/alert-caller';
-import AlertConstants from '../app/constants/alert-constants';
-import Progress from '../app/actions/progress-caller';
-import { getSVGAsync } from './svg-editor-helper';
+import Progress from 'app/actions/progress-caller';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgEditor;
 getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
 
-const fs = requireNode('fs');
 const path = requireNode('path');
 const util = requireNode('util');
 const childProcess = requireNode('child_process');
@@ -29,10 +29,10 @@ const win32TempFile = path.join(beamStudioDataPath, 'temp.pdf');
 
 try {
   if (window.os === 'Windows') {
-    if (!fs.existsSync(appDataPath)) {
+    if (!fs.exists(appDataPath)) {
       childProcess.execSync(`mkdir "${appDataPath}"`);
     }
-    if (!fs.existsSync(beamStudioDataPath)) {
+    if (!fs.exists(beamStudioDataPath)) {
       childProcess.execSync(`mkdir "${beamStudioDataPath}"`);
     }
   }
@@ -54,7 +54,7 @@ const pdf2svg = async (file: File): Promise<void> => {
     try {
       let filePath = file.path;
       if (window.os === 'Windows') {
-        fs.copyFileSync(file.path, win32TempFile);
+        fs.copyFile(file.path, win32TempFile);
         filePath = win32TempFile;
       }
       const { stderr } = await execFile(pdf2svgPath, [filePath, outPath]);

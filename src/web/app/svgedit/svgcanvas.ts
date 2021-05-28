@@ -63,6 +63,7 @@ import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
+import fs from 'implementations/fileSystem';
 
 let svgCanvas;
 let svgEditor;
@@ -9127,8 +9128,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.loadRecentFile = async (filePath) => {
-    const fs = requireNode('fs');
-    if (fs.existsSync(filePath)) {
+    if (fs.exists(filePath)) {
       let fileName;
       if (window.os === 'Windows') {
         fileName = filePath.split('\\');

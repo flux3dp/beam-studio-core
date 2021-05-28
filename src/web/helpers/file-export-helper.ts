@@ -3,6 +3,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ElectronDialogs from 'app/actions/electron-dialogs';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
@@ -61,16 +62,9 @@ const saveFile = async (): Promise<boolean> => {
   }
   svgCanvas.clearSelection();
   const output = svgCanvas.getSvgString();
-  const fs = requireNode('fs');
   console.log(svgCanvas.currentFilePath);
   if (svgCanvas.currentFilePath.endsWith('.bvg')) {
-    fs.writeFile(svgCanvas.currentFilePath, output, (err) => {
-      if (err) {
-        console.log('Save Err', err);
-        return;
-      }
-      console.log('saved');
-    });
+    fs.writeFile(svgCanvas.currentFilePath, output);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
