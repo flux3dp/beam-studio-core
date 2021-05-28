@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -10,6 +11,7 @@ import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
 import ElectronDialogs from 'app/actions/electron-dialogs';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
@@ -288,8 +290,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         if (!targetFilePath) return;
 
         const bxLogs = OutputError.getOutput();
-        const fs = requireNode('fs');
-        fs.writeFileSync(targetFilePath, bxLogs.join(''));
+        fs.writeFile(targetFilePath, bxLogs.join(''));
 
         this.stopReport();
         const { device } = this.props;
@@ -306,11 +307,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           const key = logKeys[i];
           const blob = getFirstBlobInArray(logFiles[key]);
           if (blob) {
-            fs.appendFileSync(targetFilePath, `\n===\n${key}\n===\n`);
+            fs.appendFile(targetFilePath, `\n===\n${key}\n===\n`);
             // eslint-disable-next-line no-await-in-loop
             const arrBuf = await new Response(blob).arrayBuffer();
             const buf = Buffer.from(arrBuf);
-            fs.appendFileSync(targetFilePath, buf);
+            fs.appendFile(targetFilePath, buf);
           }
         }
       };
@@ -637,10 +638,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       this.setState({ downloadProgress: null });
       const targetPath = await ElectronDialogs.saveFileDialog(name, name, [], true);
       if (targetPath) {
-        const fs = requireNode('fs');
         const arrBuf = await new Response(file[1]).arrayBuffer();
         const buf = Buffer.from(arrBuf);
-        fs.writeFileSync(targetPath, buf);
+        fs.writeFile(targetPath, buf);
       }
     } catch (e) {
       console.error('Error when downloading file', e);

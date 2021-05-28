@@ -29,6 +29,7 @@ import {
   getLayersConfig,
   writeData,
 } from 'helpers/laser-config-helper';
+import fs from 'implementations/fileSystem';
 
 let svgCanvas, svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor });
@@ -200,12 +201,11 @@ class LaserPanel extends React.PureComponent<Props, State> {
             { extensionName: 'JSON', extensions: ['json'] },
         ], true);
         if (targetFilePath) {
-            const fs = requireNode('fs');
             const laserConfig = {} as {customizedLaserConfigs: any, defaultLaserConfigsInUse: any};
 
             laserConfig.customizedLaserConfigs = storage.get('customizedLaserConfigs');
             laserConfig.defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
-            fs.writeFileSync(targetFilePath, JSON.stringify(laserConfig));
+            fs.writeFile(targetFilePath, JSON.stringify(laserConfig));
         }
     }
 

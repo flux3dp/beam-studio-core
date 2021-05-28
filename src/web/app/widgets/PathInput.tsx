@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import electronDialogs from 'app/actions/electron-dialogs';
-import fs from 'fs';
+import fs from 'implementations/fileSystem';
 import { IFileFilter } from 'interfaces/IElectron';
 
 const { useEffect, useRef, useState } = React;
@@ -51,11 +51,10 @@ const PathInput = ({
   }, [defaultValue]);
 
   const validateValue = (val: string) => {
-    if (fs.existsSync(val)) {
+    if (fs.exists(val)) {
       if (type === InputType.BOTH) return true;
-      const stat = fs.lstatSync(val);
-      return (type === InputType.FILE && stat.isFile())
-        || (type === InputType.FOLDER && stat.isDirectory());
+      return (type === InputType.FILE && fs.isFile(val))
+        || (type === InputType.FOLDER && fs.isDirectory(val));
     }
     return false;
   };

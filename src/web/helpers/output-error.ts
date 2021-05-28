@@ -1,30 +1,18 @@
 /**
  * output error log
  */
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import ElectronDialogs from 'app/actions/electron-dialogs';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
-import Logger from './logger';
-import Alert from '../app/actions/alert-caller';
-import AlertConstants from '../app/constants/alert-constants';
-import ElectronDialogs from '../app/actions/electron-dialogs';
-import Progress from '../app/actions/progress-caller';
+import Logger from 'helpers/logger';
+import Progress from 'app/actions/progress-caller';
+
 const Store = requireNode('electron-store');
 const store = new Store();
 
 const LANG = i18n.lang.beambox;
-
-function obfuse(str){
-    var output = [],
-        c;
-
-    for (var i in str) {
-        if (true === str.hasProperty(i)) {
-            c = {'f':'x','l':'u','u':'l','x':'f'}[str[i]];
-            output.push(c?c:str[i]);
-        }
-    }
-
-    return output.join('');
-}
 
 let getOutput = () => {
     let output = [];
@@ -96,8 +84,7 @@ export default {
         ], false);
 
         if (targetFilePath) {
-            const fs = requireNode('fs');
-            fs.writeFileSync(targetFilePath, output.join(''));
+            fs.writeFile(targetFilePath, output.join(''));
         }
         return;
     },

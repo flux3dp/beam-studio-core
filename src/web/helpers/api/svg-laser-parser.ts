@@ -18,11 +18,11 @@ import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import Websocket from 'helpers/websocket';
+import fs from 'implementations/fileSystem';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
-const fs = requireNode('fs');
 const path = requireNode('path');
 
 // Because the preview image size is 640x640
@@ -356,13 +356,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
               .replace(/&amp;/g, '&');
             // Test Abosulte Path
             hasPath = true;
-            if (fs.existsSync(newPath)) {
+            if (fs.exists(newPath)) {
               continue;
             }
             // Test Relative Path
             if (file.path) {
               newPath = path.join(basename, newPath);
-              if (fs.existsSync(newPath)) {
+              if (fs.exists(newPath)) {
                 newPath = newPath.replace(/&/g, '&amp;')
                   .replace(/'/g, '&apos;')
                   .replace(/"/g, '&quot;')
