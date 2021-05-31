@@ -38,9 +38,8 @@ let getOutput = () => {
     output.push(JSON.stringify(report_info.discoverDeviceList, null, 2))
 
     if(window['FLUX'].logfile) {
-        let fs = requireNode("fs");
         try {
-            let buf = fs.readFileSync(window['FLUX'].logfile, {encoding: "utf8"})
+            let buf = fs.readFile(window['FLUX'].logfile, 'utf8');
             output.push('\n\n======::backend::======\n');
             output.push(buf)
         } catch(err) {
