@@ -63,6 +63,8 @@ import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
 import fs from 'implementations/fileSystem';
+import jimpHelper from 'helpers/jimp-helper';
+import imageProcessor from 'implementations/imageProcessor';
 
 let svgCanvas;
 let svgEditor;
@@ -11221,13 +11223,9 @@ export default $.SvgCanvas = function (container, config) {
     let cmd;
     const origImage = $(image).attr('origImage');
     if (origImage) {
-      const jimp = requireNode('jimp');
-      let data: any = await fetch(origImage);
-      data = await data.blob();
-      data = await new Response(data).arrayBuffer();
-      data = await jimp.read(data);
+      let data: any = await jimpHelper.urlToImage(origImage);
       data.flip(horizon === -1, vertical === -1);
-      data = await data.getBufferAsync(jimp.MIME_PNG);
+      data = await data.getBufferAsync(imageProcessor.MIME_PNG);
       data = new Blob([data]);
       const src = URL.createObjectURL(data);
       canvas.undoMgr.beginUndoableChange('origImage', [image]);

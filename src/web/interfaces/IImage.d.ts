@@ -1,3 +1,10 @@
+export interface IImageProcessor {
+  MIME_PNG: string;
+  BLEND_OVERLAY: string;
+  AUTO: number;
+  read: (data: Buffer) => any;
+}
+
 export interface IImageDataResult {
   canvas: HTMLCanvasElement,
   size: {

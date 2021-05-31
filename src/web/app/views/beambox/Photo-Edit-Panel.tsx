@@ -15,7 +15,8 @@ import Progress from 'app/actions/progress-caller';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IButton } from 'interfaces/IButton';
-import { IImageDataResult } from 'interfaces/IImageData';
+import { IImageDataResult } from 'interfaces/IImage';
+import imageProcessor from 'implementations/imageProcessor';
 
 const { $ } = window;
 let svgCanvas;
@@ -24,7 +25,6 @@ getSVGAsync((globalSVG) => {
 });
 
 const Cropper = requireNode('cropperjs');
-const jimp = requireNode('jimp');
 
 const opencvWS = new OpenCVWebSocket();
 let LANG = i18n.lang.beambox.photo_edit_panel;
@@ -137,9 +137,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
         // eslint-disable-next-line no-console
         console.log('Down Sampling');
         if (origWidth >= origHeight) {
-          image.resize(600, jimp.AUTO);
+          image.resize(600, imageProcessor.AUTO);
         } else {
-          image.resize(jimp.AUTO, 600);
+          image.resize(imageProcessor.AUTO, 600);
         }
         imgBlobUrl = await jimpHelper.imageToUrl(image);
       }

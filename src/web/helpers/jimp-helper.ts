@@ -2,21 +2,17 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-param-reassign */
-
-// Some Custom Function for Jimp Module
-import binomialCoefficient from 'helpers/math/binomial-coefficient';
-
-const Jimp = requireNode('jimp');
+import imageProcessor from 'implementations/imageProcessor';
 
 const urlToImage = async (url: string) => {
   const resp = await fetch(url);
   const respData = await resp.blob();
   const imageData = await new Response(respData).arrayBuffer();
-  const image = await Jimp.read(imageData as Buffer);
+  const image = await imageProcessor.read(imageData as Buffer);
   return image;
 };
 
-const imageToUrl = async (image, mimeType: string = Jimp.MIME_PNG) => {
+const imageToUrl = async (image, mimeType: string = imageProcessor.MIME_PNG) => {
   const jimpData = await image.getBufferAsync(mimeType);
   const jimpBlob = new Blob([jimpData]);
   const src = URL.createObjectURL(jimpBlob);
@@ -63,46 +59,6 @@ const curveOperate = async (imgBlobUrl: string, curveMap: number[]) => {
   }
 };
 
-const applyKernel = (
-  image, kernel: number[][], x: number, y: number, transparentPixel = 255,
-) => {
-  const value = [0, 0, 0];
-  const sizeX = (kernel.length - 1) / 2;
-  const sizeY = (kernel[0].length - 1) / 2;
-
-  for (let kx = 0; kx < kernel.length; kx += 1) {
-    for (let ky = 0; ky < kernel[kx].length; ky += 1) {
-      const idx = image.getPixelIndex(x + kx - sizeX, y + ky - sizeY);
-      const alpha = image.bitmap.data[idx + 3] / 255;
-      value[0] += (alpha * image.bitmap.data[idx] + (1 - alpha) * transparentPixel)
-        * kernel[kx][ky];
-      value[1] += (alpha * image.bitmap.data[idx + 1] + (1 - alpha) * transparentPixel)
-        * kernel[kx][ky];
-      value[2] += (alpha * image.bitmap.data[idx + 2] + (1 - alpha) * transparentPixel)
-        * kernel[kx][ky];
-    }
-  }
-  return value;
-};
-
-const convolute = (image, kernal: number[][]) => {
-  const ksizeX = (kernal.length - 1) / 2;
-  const ksizeY = (kernal[0].length - 1) / 2;
-  const { width, height } = image.bitmap;
-  const startX = ksizeX;
-  const startY = ksizeY;
-  const w = width - ksizeX;
-  const h = height - ksizeY;
-  const source = image.clone();
-  image.scanQuiet(startX, startY, w, h, (x: number, y: number, idx: number) => {
-    const value = applyKernel(source, kernal, x, y);
-    image.bitmap.data[idx] = Jimp.limit255(value[0]);
-    image.bitmap.data[idx + 1] = Jimp.limit255(value[1]);
-    image.bitmap.data[idx + 2] = Jimp.limit255(value[2]);
-  });
-  return image;
-};
-
 const sharpImage = async (imgBlobUrl: string, sharpness: number) => {
   try {
     const image = await urlToImage(imgBlobUrl);
@@ -117,104 +73,6 @@ const sharpImage = async (imgBlobUrl: string, sharpness: number) => {
     console.error('Error when sharping image:', error);
     return null;
   }
-};
-
-const unsharpMask = async (imgBlobUrl: string, sharpness: number, radius: number) => {
-  try {
-    if (sharpness * radius === 0) {
-      return imgBlobUrl;
-    }
-    console.log(sharpness, radius);
-    const image = await urlToImage(imgBlobUrl);
-    const source = image.clone();
-    const sum = 2 ** (2 * radius);
-    const kernelH = binomialCoefficient(2 * radius).map((n) => [n / sum]);
-    const kernelV = [binomialCoefficient(2 * radius).map((n) => n / sum)];
-    convolute(image, kernelH);
-    convolute(image, kernelV);
-    for (let i = 0; i < image.bitmap.data.length; i += 1) {
-      if (i % 4 !== 3) {
-        const mask = source.bitmap.data[i] - image.bitmap.data[i];
-        const value = Jimp.limit255(source.bitmap.data[i] + sharpness * mask);
-        image.bitmap.data[i] = value;
-      }
-    }
-    const newImgUrl = imageToUrl(image);
-    return newImgUrl;
-  } catch (error) {
-    console.error('Error when applying unsharp mask:', error);
-    return null;
-  }
-};
-
-const oneDirectionalGaussianBlur = (image: any, r: number, dir: string): any => {
-  const w = image.bitmap.width;
-  const h = image.bitmap.height;
-  const r1 = r + 1;
-  const blurDecay = 1 + 1 / r;
-  const denominator = blurDecay > 1 ? (blurDecay ** r1 - 1) / (blurDecay - 1) : r1;
-  const windowR = Array(r1).fill(0);
-  const windowG = Array(r1).fill(0);
-  const windowB = Array(r1).fill(0);
-  const windowA = Array(r1).fill(0);
-  let curR;
-  let curG;
-  let curB;
-  let curA;
-  let p;
-  let iLimit;
-  let jLimit;
-  if (dir === 'left' || dir === 'right') {
-    iLimit = h;
-    jLimit = w;
-  } else if (dir === 'up' || dir === 'down') {
-    iLimit = w;
-    jLimit = h;
-  }
-  for (let i = 0; i < iLimit; i += 1) {
-    for (let j = 0; j < jLimit; j += 1) {
-      let x;
-      let y;
-      if (dir === 'left') {
-        x = w - 1 - j;
-        y = i;
-      } else if (dir === 'right') {
-        x = j;
-        y = i;
-      } else if (dir === 'up') {
-        x = i;
-        y = h - 1 - j;
-      } else if (dir === 'down') {
-        x = i;
-        y = j;
-      }
-      p = (w * y + x) * 4;
-      if (j === 0) {
-        curR = image.bitmap.data[p] * denominator;
-        curG = image.bitmap.data[p + 1] * denominator;
-        curB = image.bitmap.data[p + 2] * denominator;
-        curA = image.bitmap.data[p + 3] * denominator;
-        windowR.fill(image.bitmap.data[p]);
-        windowG.fill(image.bitmap.data[p + 1]);
-        windowB.fill(image.bitmap.data[p + 2]);
-        windowA.fill(image.bitmap.data[p + 3]);
-      } else {
-        curR = (curR - windowR.shift()) / blurDecay + image.bitmap.data[p] * blurDecay ** r;
-        curG = (curG - windowG.shift()) / blurDecay + image.bitmap.data[p + 1] * blurDecay ** r;
-        curB = (curB - windowB.shift()) / blurDecay + image.bitmap.data[p + 2] * blurDecay ** r;
-        curA = (curA - windowA.shift()) / blurDecay + image.bitmap.data[p + 3] * blurDecay ** r;
-        windowR.push(image.bitmap.data[p]);
-        windowG.push(image.bitmap.data[p + 1]);
-        windowB.push(image.bitmap.data[p + 2]);
-        windowA.push(image.bitmap.data[p + 3]);
-      }
-      image.bitmap.data[p] = Math.floor(curR / denominator);
-      image.bitmap.data[p + 1] = Math.floor(curG / denominator);
-      image.bitmap.data[p + 2] = Math.floor(curB / denominator);
-      image.bitmap.data[p + 3] = 255;
-    }
-  }
-  return image;
 };
 
 const oneDirectionalLinearBlur = (image: any, r: number, dir: string): any => {
@@ -377,7 +235,7 @@ const generateStampBevel = async (imgBlobUrl: string, threshold: number) => {
     await stampBlur(origImage, Math.ceil(Math.min(w, h) / 30));
     regulateBlurredImage(origImage);
     image.composite(origImage, 0, 0, {
-      mode: Jimp.BLEND_OVERLAY,
+      mode: imageProcessor.BLEND_OVERLAY,
       opacitySource: 1,
       opacityDest: 1,
     });
@@ -390,17 +248,11 @@ const generateStampBevel = async (imgBlobUrl: string, threshold: number) => {
 };
 
 export default {
-  oneDirectionalGaussianBlur,
-  oneDirectionalLinearBlur,
-  stampBlur,
-  regulateBlurredImage,
   urlToImage,
   imageToUrl,
   colorInvert,
   cropImage,
   curveOperate,
   sharpImage,
-  unsharpMask,
   generateStampBevel,
-  binarizeImage,
 };

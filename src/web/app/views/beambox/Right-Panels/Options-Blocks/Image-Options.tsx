@@ -6,7 +6,7 @@ import ImageData from 'helpers/image-data';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { IImageDataResult } from 'interfaces/IImageData';
+import { IImageDataResult } from 'interfaces/IImage';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
