@@ -1,11 +1,9 @@
-import i18n from 'helpers/i18n';
-import Websocket from '../websocket';
-import rsaKey from '../rsa-key';
-import ErrorConstants from '../../app/constants/error-constants';
+import EventEmitter from 'events';
 
-// console.warn('Remember to use correct EventEmitter');
-// import EventEmitter from 'events';
-const EventEmitter = requireNode('events');
+import ErrorConstants from 'app/constants/error-constants';
+import i18n from 'helpers/i18n';
+import rsaKey from 'helpers/rsa-key';
+import Websocket from 'helpers/websocket';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
 const EVENT_COMMAND_ERROR = 'command-error';

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import Websocket from '../websocket';
+import EventEmitter from 'events';
 
-const EventEmitter = requireNode('events');
+import Websocket from 'helpers/websocket';
 
 class OpenCVWebSocket extends EventEmitter {
   constructor() {
