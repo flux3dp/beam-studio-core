@@ -1,11 +1,11 @@
+import { Subject, from } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-const Rxjs = requireNode('rxjs');
-const { concatMap } = requireNode('rxjs/operators');
 
 let svgCanvas;
 let svgedit;
@@ -21,7 +21,7 @@ class PreviewModeBackgroundDrawer {
     cameraCanvasUrl: string;
     coordinates: { maxX: number; maxY: number; minX: number; minY: number; };
     cameraOffset: any;
-    backgroundDrawerSubject: any;
+    backgroundDrawerSubject: Subject<any>;
     constructor() {
         this.canvas = document.createElement('canvas');
         this.cameraCanvasUrl = '';
@@ -32,7 +32,7 @@ class PreviewModeBackgroundDrawer {
             minX : 10000,
             minY : 10000
         }
-
+        this.backgroundDrawerSubject = new Subject();
         this.cameraOffset = null;
     }
 
@@ -43,9 +43,9 @@ class PreviewModeBackgroundDrawer {
         // { x, y, angle, scaleRatioX, scaleRatioY }
         this.cameraOffset = cameraOffset;
 
-        this.backgroundDrawerSubject = new Rxjs.Subject();
+        this.backgroundDrawerSubject = new Subject();
         this.backgroundDrawerSubject
-            .pipe(concatMap(p => Rxjs.from(p)))
+            .pipe(concatMap(p => from(p)))
             .subscribe(blob => this._drawBlobToBackground(blob));
     }
 
