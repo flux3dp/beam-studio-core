@@ -16,6 +16,7 @@
     "classnames": "^2.3.1",
     "cropperjs": "^1.5.11",
     "electron-store": "^8.0.0",
+    "fontkit": "^1.8.1",
     "jquery": "^3.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
