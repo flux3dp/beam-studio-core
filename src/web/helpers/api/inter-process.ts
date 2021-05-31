@@ -2,11 +2,10 @@
  * API image tracer
  * Ref: none
  */
-
-import Websocket from '../websocket';
-import BeamboxActions from '../../app/actions/beambox';
-import FnWrapper from '../../app/actions/beambox/svgeditor-function-wrapper';
-import { DataType, writeData } from '../laser-config-helper';
+import beamboxStore from 'app/stores/beambox-store';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import Websocket from 'helpers/websocket';
+import { DataType, writeData } from 'helpers/laser-config-helper';
 
 export default function() {
     var ws = Websocket({
@@ -39,7 +38,7 @@ export default function() {
                                 writeData(name, DataType.strength, parseInt(power));
                             }
 
-                            BeamboxActions.updateLaserPanel();
+                            beamboxStore.emitUpdateLaserPanel();
                         }
                     });
                 }
@@ -59,7 +58,7 @@ export default function() {
                             writeData(name, DataType.strength, parseInt(power));
                         }
 
-                        BeamboxActions.updateLaserPanel();
+                        beamboxStore.emitUpdateLaserPanel();
                     }
                 }, 1000);
             },

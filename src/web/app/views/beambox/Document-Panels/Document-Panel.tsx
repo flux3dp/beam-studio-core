@@ -1,9 +1,10 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
-import BeamboxActions from 'app/actions/beambox';
+
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import beamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
 import DropDownControl from 'app/widgets/Dropdown-Control';
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
@@ -151,7 +152,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
             PreviewModeBackgroundDrawer.updateCanvasSize();
         }
         OpenBottomBoundaryDrawer.update();
-        BeamboxActions.updateLaserPanel();
+        beamboxStore.emitUpdateLaserPanel();
     }
 
     render() {

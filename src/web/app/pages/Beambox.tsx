@@ -1,11 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import i18n from 'helpers/i18n';
-import BeamboxActions from 'app/actions/beambox';
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import BeamboxInit from 'app/actions/beambox/beambox-init';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import beamboxStore from 'app/stores/beambox-store';
+import i18n from 'helpers/i18n';
 import sentryHelper from 'helpers/sentry-helper';
 import SVGEditor from 'app/pages/svg-editor';
 import svgEditor from 'app/actions/beambox/svg-editor';
@@ -26,7 +26,7 @@ class Beambox extends React.Component {
 
     // need to run after svgedit packages loaded, so place it at componentDidMouont
     if (BeamboxPreference.read('show_guides')) {
-      BeamboxActions.drawGuideLines();
+      beamboxStore.emitDrawGuideLines();
     }
 
     const { ipc, events } = electron;
