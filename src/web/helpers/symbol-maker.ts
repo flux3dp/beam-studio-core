@@ -3,6 +3,7 @@
 /**
  * Make symbol elements for <use> element
  */
+import fs from 'implementations/fileSystem';
 import history from 'app/svgedit/history';
 import Progress from 'app/actions/progress-caller';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -267,8 +268,7 @@ const getStrokeWidth = (imageRatio, scale) => {
 };
 
 const sendTaskToWorker = async (data) => new Promise((resolve) => {
-  const path = requireNode('path');
-  const workerPath = path.join(__dirname, 'js', 'dist', 'helpers', 'symbol-helper', 'image-symbol-worker.js');
+  const workerPath = fs.join(__dirname, 'js', 'dist', 'helpers', 'symbol-helper', 'image-symbol-worker.js');
   const worker = new Worker(workerPath);
   worker.postMessage(data);
   worker.onerror = (e) => console.log(e);

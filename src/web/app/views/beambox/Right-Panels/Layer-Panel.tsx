@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
@@ -13,6 +14,7 @@ import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILayerPanelContext } from 'interfaces/IContext';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+
 import {
   getLayerElementByName,
   deleteLayers,
@@ -29,7 +31,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const { ContextMenu, MenuItem, ContextMenuTrigger } = requireNode('react-contextmenu');
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 let contextCaller;
 

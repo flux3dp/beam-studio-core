@@ -1,6 +1,8 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+
 import Constant from 'app/actions/beambox/constant';
+import i18n from 'helpers/i18n';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ZoomBlockContext, ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
@@ -12,7 +14,6 @@ const LANG = i18n.lang.beambox.zoom_block;
 const util = requireNode('util');
 const child_process = requireNode('child_process');
 const exec = util.promisify(child_process.exec);
-const { ContextMenu, MenuItem, ContextMenuTrigger } = requireNode('react-contextmenu');
 
 let _contextCaller;
 

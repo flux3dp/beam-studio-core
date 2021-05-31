@@ -1,6 +1,6 @@
-/* eslint-disable react/sort-comp */
 import * as React from 'react';
 import classNames from 'classnames';
+import Cropper from 'cropperjs';
 
 import ButtonGroup from 'app/widgets/Button-Group';
 import Constants from 'app/actions/beambox/constant';
@@ -23,8 +23,6 @@ let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-
-const Cropper = requireNode('cropperjs');
 
 const opencvWS = new OpenCVWebSocket();
 let LANG = i18n.lang.beambox.photo_edit_panel;
@@ -280,8 +278,8 @@ class PhotoEditPanel extends React.Component<Props, State> {
         autoCropArea: 1,
         zoomable: false,
         viewMode: 0,
-        targetWidth: image.width,
-        targetHeight: image.height,
+        // targetWidth: image.width,
+        // targetHeight: image.height,
       },
     );
     this.setState({ isCropping: true });

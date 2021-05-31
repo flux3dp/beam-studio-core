@@ -8,22 +8,20 @@
 import $ from 'jquery';
 
 import Alert from 'app/actions/alert-caller';
-import Progress from 'app/actions/progress-caller';
+import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import AlertConfig from 'helpers/api/alert-config';
-import setParams from 'helpers/api/set-params';
+import fs from 'implementations/fileSystem';
 import history from 'helpers/data-history';
 import i18n from 'helpers/i18n';
+import Progress from 'app/actions/progress-caller';
+import setParams from 'helpers/api/set-params';
 import storage from 'implementations/storage';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import Websocket from 'helpers/websocket';
-import fs from 'implementations/fileSystem';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-
-const path = requireNode('path');
 
 // Because the preview image size is 640x640
 const MAXWIDTH = 640;
@@ -361,7 +359,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             }
             // Test Relative Path
             if (file.path) {
-              newPath = path.join(basename, newPath);
+              newPath = fs.join(basename, newPath);
               if (fs.exists(newPath)) {
                 newPath = newPath.replace(/&/g, '&amp;')
                   .replace(/'/g, '&apos;')

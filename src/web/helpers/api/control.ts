@@ -1,7 +1,6 @@
 import EventEmitter from 'events';
 
 import ErrorConstants from 'app/constants/error-constants';
-import i18n from 'helpers/i18n';
 import rsaKey from 'helpers/rsa-key';
 import Websocket from 'helpers/websocket';
 
@@ -17,7 +16,7 @@ const CONNECITON_TIMEOUT_ERROR = {
     'error': 'TIMEOUT',
     'info': 'connection timeoout'
 };
-const lang = i18n.lang;
+
 class Control extends EventEmitter {
     public isConnected = false;
 
