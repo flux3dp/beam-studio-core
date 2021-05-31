@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import Dialog from 'app/actions/dialog-caller';
-import ElectronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
@@ -38,7 +38,7 @@ class ActionsPanel extends React.Component<Props> {
         },
       ],
     };
-    const { canceled, filePaths } = await ElectronDialogs.showOpenDialog(option);
+    const { canceled, filePaths } = await dialog.showOpenDialog(option);
     if (!canceled && filePaths && filePaths.length > 0) {
       const filePath = filePaths[0];
       const resp = await fetch(filePath);

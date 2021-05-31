@@ -54,10 +54,10 @@
 
 */
 
+import fs from 'implementations/fileSystem';
 import Progress from 'app/actions/progress-caller';
 
 const { $ } = window;
-const fs = requireNode('fs');
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
 const valueToVIntBuffer = (value) => {
@@ -121,17 +121,22 @@ const generateImageSourceBlockBuffer = (imageSources) => {
 }
 
 const saveBeam = async (path, svgString, imageSources) => {
-    const stream = fs.createWriteStream(path, {flags: 'w'});
     const signatureBuffer = Buffer.from([66, 101, 97, 109, 2]); // Bvg{version in uint} max to 255
     const svgBlockBuf = genertateSvgBlockBuffer(svgString);
     const imageSourceBlockBuffer = generateImageSourceBlockBuffer(imageSources);
     const metaDataBuf = Buffer.from('Hi, I am meta data O_<');
     const headerBuffer = Buffer.concat([valueToVIntBuffer(metaDataBuf.length), metaDataBuf, valueToVIntBuffer(svgBlockBuf.length), valueToVIntBuffer(imageSourceBlockBuffer.length)]);
     const headerSizeBuf = valueToVIntBuffer(headerBuffer.length);
-    stream.write(Buffer.concat([signatureBuffer, headerSizeBuf, headerBuffer, svgBlockBuf, imageSourceBlockBuffer]));
-    // Ending block
-    stream.write(Buffer.from([0x00]));
-    stream.close();
+    fs.writeStream(path, 'w', [
+      Buffer.concat([
+        signatureBuffer,
+        headerSizeBuf,
+        headerBuffer,
+        svgBlockBuf,
+        imageSourceBlockBuffer,
+      ]),
+      Buffer.from([0x00]),
+    ]);
 };
 
 const readHeader = (headerBuf) => {

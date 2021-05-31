@@ -1,30 +1,18 @@
 /**
  * output error log
  */
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import dialog from 'implementations/dialog';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
-import Logger from './logger';
-import Alert from '../app/actions/alert-caller';
-import AlertConstants from '../app/constants/alert-constants';
-import ElectronDialogs from '../app/actions/electron-dialogs';
-import Progress from '../app/actions/progress-caller';
+import Logger from 'helpers/logger';
+import Progress from 'app/actions/progress-caller';
+
 const Store = requireNode('electron-store');
 const store = new Store();
 
 const LANG = i18n.lang.beambox;
-
-function obfuse(str){
-    var output = [],
-        c;
-
-    for (var i in str) {
-        if (true === str.hasProperty(i)) {
-            c = {'f':'x','l':'u','u':'l','x':'f'}[str[i]];
-            output.push(c?c:str[i]);
-        }
-    }
-
-    return output.join('');
-}
 
 let getOutput = () => {
     let output = [];
@@ -50,9 +38,8 @@ let getOutput = () => {
     output.push(JSON.stringify(report_info.discoverDeviceList, null, 2))
 
     if(window['FLUX'].logfile) {
-        let fs = requireNode("fs");
         try {
-            let buf = fs.readFileSync(window['FLUX'].logfile, {encoding: "utf8"})
+            let buf = fs.readFile(window['FLUX'].logfile, 'utf8');
             output.push('\n\n======::backend::======\n');
             output.push(buf)
         } catch(err) {
@@ -91,13 +78,15 @@ export default {
 
         let output = getOutput();
         const fileName = `bugreport_${Math.floor(Date.now() / 1000)}.txt`;
-        const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.popup.bug_report, fileName, [
-            {extensionName: 'txt', extensions: ['txt']}
-        ], false);
+        const targetFilePath = await dialog.showSaveDialog(
+          LANG.popup.bug_report, fileName, [{
+            name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+            extensions: ['txt'],
+          }],
+        );
 
         if (targetFilePath) {
-            const fs = requireNode('fs');
-            fs.writeFileSync(targetFilePath, output.join(''));
+            fs.writeFile(targetFilePath, output.join(''));
         }
         return;
     },

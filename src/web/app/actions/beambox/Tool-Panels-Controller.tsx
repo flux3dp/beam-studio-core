@@ -7,14 +7,11 @@ class ToolPanelsController {
     isVisible: boolean;
     reactRoot: string;
     type: ToolPanelType;
-    $me: JQuery<HTMLElement>;
     data: { rowcolumn: { row: number; column: number; }; distance: { dx: number; dy: number; }; };
-    isEditable: boolean;
     constructor() {
         this.reactRoot = '';
         this.isVisible = false;
         this.type = 'unknown';
-        this.$me = $();
         this.data = {
             rowcolumn: {
                 row: 1, column: 1
@@ -47,16 +44,8 @@ class ToolPanelsController {
         }
     }
 
-    setEditable(isEditable) {
-        this.isEditable = isEditable;
-    }
-
     setType(type: ToolPanelType) {
         this.type = type;
-    }
-
-    setMe(theObject) {
-        this.$me = theObject;
     }
 
     setGridArrayRowColumn(x, y) {

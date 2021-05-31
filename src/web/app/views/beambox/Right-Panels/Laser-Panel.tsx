@@ -9,9 +9,9 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 // import BeamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
 // import Dialog from 'app/actions/dialog-caller';
+// import dialog from 'implementations/dialog';
 // import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
-// import ElectronDialogs from 'app/actions/electron-dialogs';
 // import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 // import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
@@ -29,6 +29,7 @@ import {
   // getLayersConfig,
   writeData,
 } from 'helpers/laser-config-helper';
+import fs from 'implementations/fileSystem';
 
 let svgCanvas, svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor });
@@ -196,16 +197,22 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
     exportLaserConfigs = async () => {
         // const isLinux = window.os === 'Linux';
-        // const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.export_config, isLinux ? '.json' : '', [
-        //     { extensionName: 'JSON', extensions: ['json'] },
-        // ], true);
+        // const targetFilePath = await dialog.showSaveDialog(
+        //   LANG.export_config,
+        //   isLinux ? '.json' : '', [{
+        //     name: window.os === 'MacOS' ? 'JSON (*.json)' : 'JSON',
+        //     extensions: ['json'],
+        //   }, {
+        //     name: i18n.lang.topmenu.file.all_files,
+        //     extensions: ['*'],
+        //   }],
+        // );
         // if (targetFilePath) {
-        //     const fs = requireNode('fs');
         //     const laserConfig = {} as {customizedLaserConfigs: any, defaultLaserConfigsInUse: any};
 
         //     laserConfig.customizedLaserConfigs = storage.get('customizedLaserConfigs');
         //     laserConfig.defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
-        //     fs.writeFileSync(targetFilePath, JSON.stringify(laserConfig));
+        //     fs.writeFile(targetFilePath, JSON.stringify(laserConfig));
         // }
     }
 
@@ -216,7 +223,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         //     ]
         // };
 
-        // const { canceled, filePaths } = await ElectronDialogs.showOpenDialog(dialogOptions);
+        // const { canceled, filePaths } = await dialog.showOpenDialog(dialogOptions);
         // if (!canceled && filePaths) {
         //     const filePath = filePaths[0];
         //     const file = await fetch(filePath);

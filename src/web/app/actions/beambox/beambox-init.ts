@@ -10,22 +10,23 @@ import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
 import browser from 'implementations/browser';
-import ratingHelper from 'helpers/rating-helper';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
 import checkQuestionnaire from 'helpers/check-questionnaire';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
-import ElectronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import firmwareUpdater from 'helpers/firmware-updater';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
 import MonitorController from 'app/actions/monitor-controller';
 import OutputError from 'helpers/output-error';
 import Progress from 'app/actions/progress-caller';
+import ratingHelper from 'helpers/rating-helper';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import ToolPanelsController from 'app/actions/beambox/Tool-Panels-Controller';
@@ -183,13 +184,17 @@ const initMenuBarEvents = (): void => {
               Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
             });
           Progress.popById('get_log');
-          const targetFilePath = await ElectronDialogs.saveFileDialog(log, log, [{ extensionName: 'log', extensions: ['log'] }]);
+          const targetFilePath = await dialog.showSaveDialog(
+            log, log, [{
+              name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
+              extensions: ['log'],
+            }],
+          );
 
           if (targetFilePath) {
-            const fs = requireNode('fs');
             const arrBuf = await new Response(file[1]).arrayBuffer();
             const buf = Buffer.from(arrBuf);
-            fs.writeFileSync(targetFilePath, buf);
+            fs.writeFile(targetFilePath, buf);
           }
         } catch (errorData) {
           Progress.popById('get_log');
@@ -726,8 +731,5 @@ const checkOSVersion = (): void => {
 
 export default {
   init,
-  initMenuBarEvents,
   showStartUpDialogs,
-  showTutorial,
-  checkOSVersion,
 };

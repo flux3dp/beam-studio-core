@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import beamFileHelper from 'helpers/beam-file-helper';
+import fs from 'implementations/fileSystem';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IConfig } from 'interfaces/IAutosave';
 
-const fs = requireNode('fs');
-const fsPromises = fs.promises;
 const path = requireNode('path');
 
 let svgCanvas;
@@ -38,13 +37,10 @@ const useDefaultConfig = async (): Promise<void> => {
     fileNumber: 5,
     timeInterval: 10,
   };
-  await fs.mkdirSync(directory, {
-    recursive: true,
-  });
+  await fs.mkdir(directory, true);
   // Create a dumb file to prompt mac permission
   const tempFilePath = path.join(directory, 'beam-studio auto-save-1.beam');
-  const stream = fs.createWriteStream(tempFilePath, { flags: 'a' });
-  stream.close();
+  fs.writeStream(tempFilePath, 'a');
   storage.set('auto-save-config', defaultConfig);
 };
 
@@ -74,10 +70,10 @@ const startAutoSave = (): void => {
         const imageSource = await svgCanvas.getImageSource();
         for (let i = fileNumber - 1; i >= 1; i -= 1) {
           const from = path.join(directory, `beam-studio auto-save-${i}.beam`);
-          if (fs.existsSync(from)) {
+          if (fs.exists(from)) {
             const to = path.join(directory, `beam-studio auto-save-${i + 1}.beam`);
             // eslint-disable-next-line no-await-in-loop
-            await fsPromises.rename(from, to);
+            await fs.rename(from, to);
           }
         }
         const target = path.join(directory, 'beam-studio auto-save-1.beam');
