@@ -4,6 +4,8 @@ import EventEmitter from 'events';
 import Websocket from 'helpers/websocket';
 
 class OpenCVWebSocket extends EventEmitter {
+  private ws: any;
+
   constructor() {
     super();
     this.ws = Websocket({

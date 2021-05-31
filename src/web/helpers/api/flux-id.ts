@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import EventEmitter from 'events';
 
 import alert from 'app/actions/alert-caller';
@@ -9,6 +9,10 @@ import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
+
+interface ResponseWithError extends AxiosResponse {
+  error?: string;
+}
 
 const electron = requireNode('electron');
 
@@ -72,7 +76,7 @@ const updateUser = (info?) => {
   }
 };
 
-export const getCurrentUser = () => currentUser;
+export const getCurrentUser = (): IUser => currentUser;
 
 const handleOAuthLoginSuccess = (data) => {
   updateUser(data);
@@ -88,7 +92,7 @@ const signInWithFBToken = async (fb_token: string) => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', { fb_token }, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   progress.popById('flux-id-login');
   if (response.error) {
     handleErrorMessage(response.error);
@@ -108,12 +112,12 @@ const signInWithFBToken = async (fb_token: string) => {
 export const getInfo = async (silent: boolean = false) => {
   const response = await axiosFluxId.get('/user/info', {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     if (!silent) {
       handleErrorMessage(response.error);
     }
-    return false;
+    return null;
   }
   const responseData = response.data;
   if (response.status === 200) {
@@ -126,7 +130,7 @@ export const getInfo = async (silent: boolean = false) => {
     const message = responseData.message ? `${responseData.info}: ${responseData.message}` : responseData.info;
     alert.popUpError({ message });
   }
-  return false;
+  return null;
 };
 
 const getAccessToken = async () => {
@@ -134,9 +138,8 @@ const getAccessToken = async () => {
     params: {
       response_type: 'token',
     },
-  }, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     handleErrorMessage(response.error);
     return false;
@@ -147,7 +150,7 @@ const getAccessToken = async () => {
   }
   const message = responseData.message ? `${responseData.info}: ${responseData.message}` : responseData.info;
   alert.popUpError({ message });
-  return false;
+  return null;
 };
 
 const signInWithGoogleCode = async (info): Promise<boolean> => {
@@ -158,7 +161,7 @@ const signInWithGoogleCode = async (info): Promise<boolean> => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', data, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   progress.popById('flux-id-login');
 
   if (response.error) {
@@ -203,7 +206,7 @@ export const init = async (): Promise<void> => {
       axiosFluxId.defaults.headers.post['X-CSRFToken'] = csrfcookies[0].value;
     }
     const res = await getInfo(true);
-    if (res.status !== 'ok') {
+    if (res && res.status !== 'ok') {
       updateMenu();
     }
   } else {
@@ -250,7 +253,7 @@ export const signIn = async (
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', signInData, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   progress.popById('flux-id-login');
   if (response.status === 200) {
     const { data } = response;
@@ -268,7 +271,7 @@ export const submitRating = async (
 ) => {
   const response = await axiosFluxId.post('/user_rating/submit_rating', ratingData, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
 
   if (response.status === 200) {
     const { data } = response;
@@ -299,9 +302,8 @@ export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
     params: {
       offset,
     },
-  }, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     handleErrorMessage(response.error);
     return false;
@@ -313,7 +315,7 @@ export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
 export const getNPIconByID = async (id: string) => {
   const response = await axiosFluxId.get(`/api/np/icon/${id}`, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     handleErrorMessage(response.error);
     return false;
