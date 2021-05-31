@@ -2,7 +2,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamFileHelper from 'helpers/beam-file-helper';
-import ElectronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
@@ -37,13 +37,15 @@ const saveAsFile = async (): Promise<boolean> => {
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
   const ImageSource = await svgCanvas.getImageSource();
-  const currentFilePath = await ElectronDialogs.saveFileDialog(
+  const currentFilePath = await dialog.showSaveDialog(
     langFile.save_scene,
     window.os === 'Linux' ? `${defaultFileName}.beam` : defaultFileName, [{
-      extensionName: langFile.scene_files,
+      name: window.os === 'MacOS' ? `${langFile.scene_files} (*.beam)` : langFile.scene_files,
       extensions: ['beam'],
+    }, {
+      name: i18n.lang.topmenu.file.all_files,
+      extensions: ['*'],
     }],
-    true,
   );
   if (currentFilePath) {
     svgCanvas.currentFilePath = currentFilePath;

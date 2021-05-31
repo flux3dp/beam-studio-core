@@ -7,10 +7,10 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import dialog from 'implementations/dialog';
 import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
-import ElectronDialogs from 'app/actions/electron-dialogs';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
@@ -284,9 +284,12 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       };
 
       const handleReport = async () => {
-        const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.beambox.popup.bug_report, 'devicelogs.txt', [
-          { extensionName: 'txt', extensions: ['txt'] },
-        ], false);
+        const targetFilePath = await dialog.showSaveDialog(
+          LANG.beambox.popup.bug_report, 'devicelogs.txt', [{
+            name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+            extensions: ['txt'],
+          }],
+        );
         if (!targetFilePath) return;
 
         const bxLogs = OutputError.getOutput();
@@ -636,7 +639,12 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         this.setState({ downloadProgress: p });
       });
       this.setState({ downloadProgress: null });
-      const targetPath = await ElectronDialogs.saveFileDialog(name, name, [], true);
+      const targetPath = await dialog.showSaveDialog(
+        name, name, [{
+          name: i18n.lang.topmenu.file.all_files,
+          extensions: ['*'],
+        }],
+      );
       if (targetPath) {
         const arrBuf = await new Response(file[1]).arrayBuffer();
         const buf = Buffer.from(arrBuf);

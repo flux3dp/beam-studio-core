@@ -16,7 +16,7 @@ import checkQuestionnaire from 'helpers/check-questionnaire';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
-import ElectronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import firmwareUpdater from 'helpers/firmware-updater';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
@@ -184,7 +184,12 @@ const initMenuBarEvents = (): void => {
               Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
             });
           Progress.popById('get_log');
-          const targetFilePath = await ElectronDialogs.saveFileDialog(log, log, [{ extensionName: 'log', extensions: ['log'] }]);
+          const targetFilePath = await dialog.showSaveDialog(
+            log, log, [{
+              name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
+              extensions: ['log'],
+            }],
+          );
 
           if (targetFilePath) {
             const arrBuf = await new Response(file[1]).arrayBuffer();

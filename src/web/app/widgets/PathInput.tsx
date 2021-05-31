@@ -1,8 +1,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import electronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
-import { IFileFilter } from 'interfaces/IElectron';
+import { DialogFilter, OpenDialogProperties } from 'interfaces/IDialog';
 
 const { useEffect, useRef, useState } = React;
 
@@ -28,7 +28,7 @@ interface Props {
   // eslint-disable-next-line react/require-default-props
   onBlur?: () => void,
   // eslint-disable-next-line react/require-default-props
-  filters?: IFileFilter[],
+  filters?: DialogFilter[],
 }
 
 const PathInput = ({
@@ -94,13 +94,13 @@ const PathInput = ({
   };
 
   const setValueFromDialog = async () => {
-    const properties = propertiesMap[type];
+    const properties = propertiesMap[type] as OpenDialogProperties[];
     const option = {
       properties,
       filters,
       defaultPath: savedValue,
     };
-    const { filePaths, canceled } = await electronDialogs.showOpenDialog(option);
+    const { filePaths, canceled } = await dialog.showOpenDialog(option);
     if (!canceled) {
       const isValid = validateValue(filePaths[0]);
       if (!forceValidValue || isValid) {

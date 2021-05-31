@@ -3,7 +3,7 @@
  */
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import ElectronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Logger from 'helpers/logger';
@@ -79,9 +79,12 @@ export default {
 
         let output = getOutput();
         const fileName = `bugreport_${Math.floor(Date.now() / 1000)}.txt`;
-        const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.popup.bug_report, fileName, [
-            {extensionName: 'txt', extensions: ['txt']}
-        ], false);
+        const targetFilePath = await dialog.showSaveDialog(
+          LANG.popup.bug_report, fileName, [{
+            name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+            extensions: ['txt'],
+          }],
+        );
 
         if (targetFilePath) {
             fs.writeFile(targetFilePath, output.join(''));
