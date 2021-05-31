@@ -2,7 +2,7 @@ import * as React from 'react';
 import $ from 'jquery';
 import classNames from 'classnames';
 
-// import BeamboxActions from 'app/actions/beambox';
+// import beamboxStore from 'app/stores/beambox-store';
 // import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 // import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
@@ -13,8 +13,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IUser } from 'interfaces/IUser';
 
 let svgCanvas;
-let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.left_panel;
 const isWin = window.os === 'Windows';
@@ -108,11 +107,11 @@ class LeftPanel extends React.Component<Props> {
     //     }
     //     this.props.endPreviewMode();
     //     svgCanvas.clearSelection();
-    //     BeamboxActions.showCropper();
+    //     beamboxStore.emitShowCropper();
     //     $('#left-Cursor').addClass('active');
     // }
 
-    renderToolButton(iconName: string, id?: string, label?: string, onClick?: () => void, className?: string, disabled?: boolean) {
+    renderToolButton(iconName: string, id?, label?: string, onClick?, className?, disabled?: boolean) {
         const cx = classNames('tool-btn', className, {disabled});
         const { isPreviewing } = this.props;
         const setActiveAndOnClick = () => {
