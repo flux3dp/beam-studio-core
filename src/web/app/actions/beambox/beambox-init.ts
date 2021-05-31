@@ -5,7 +5,7 @@ import { sprintf } from 'sprintf-js';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
-import AlertStore from 'app/stores/alert-store';
+import alertStore from 'app/stores/alert-store';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
@@ -244,21 +244,6 @@ const initMenuBarEvents = (): void => {
       }
     };
     const checkStatus = () => {
-      const handleYes = (id) => {
-        if (id === 'head-missing') {
-          updateFirmware();
-        }
-      };
-      const handleCancel = (id) => {
-        if (id === 'head-missing') {
-          AlertStore.removeYesListener(handleYes);
-          AlertStore.removeCancelListener(handleCancel);
-          DeviceMaster.endMaintainMode();
-        }
-      };
-      AlertStore.onRetry(handleYes);
-      AlertStore.onCancel(handleCancel);
-
       Progress.openNonstopProgress({ id: 'check-status', caption: LANG.update.preparing });
       if (type === 'toolhead') {
         DeviceMaster.enterMaintainMode().then(() => {

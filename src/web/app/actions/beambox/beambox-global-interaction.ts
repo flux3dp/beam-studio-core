@@ -1,5 +1,4 @@
 import Alert from 'app/actions/alert-caller';
-import BeamboxActions from 'app/actions/beambox';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
 import checkQuestionnaire from 'helpers/check-questionnaire';
@@ -107,7 +106,6 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       ANTI_ALIASING: () => viewMenu.toggleAntiAliasing(),
       NETWORK_TESTING: () => dialog.showNetworkTestingPanel(),
       ABOUT_BEAM_STUDIO: () => dialog.showAboutBeamStudio(),
-      TASK_INTERPRETER: () => BeamboxActions.showTaskInterpreter(),
       MANAGE_ACCOUNT: () => externalLinkMemberDashboard(),
       SIGN_IN: () => dialog.showLoginDialog(() => {
         // Disable before noun-project is available

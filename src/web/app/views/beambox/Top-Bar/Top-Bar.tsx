@@ -7,7 +7,6 @@ import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
-import BeamboxActions from 'app/actions/beambox';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
@@ -30,6 +29,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { TopBarContext, TopBarContextProvider } from './contexts/Top-Bar-Context';
 import { TopBarHints } from './Top-Bar-Hints';
+import beamboxStore from 'app/stores/beambox-store';
 
 let svgCanvas;
 let svgEditor;
@@ -157,7 +157,7 @@ export class TopBar extends React.Component<{}, State> {
             svgCanvas.setResolution(Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
             svgEditor.resetView();
             PreviewModeBackgroundDrawer.updateCanvasSize();
-            BeamboxActions.updateLaserPanel();
+            beamboxStore.emitUpdateLaserPanel();
             OpenBottomBoundaryDrawer.update();
             resolve(true);
           },
