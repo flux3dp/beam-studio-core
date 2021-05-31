@@ -11,6 +11,7 @@
   "dependencies": {
     "@sentry/react": "^6.4.1",
     "@types/backbone": "^1.4.10",
+    "axios": "^0.21.1",
     "backbone": "^1.4.0",
     "classnames": "^2.3.1",
     "cropperjs": "^1.5.11",
