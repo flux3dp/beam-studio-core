@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
-import history from 'app/svgedit/history';
-import Alert from 'app/actions/alert-caller';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Progress from 'app/actions/progress-caller';
-import AlertConstants from 'app/constants/alert-constants';
-import AlertConfig from 'helpers/api/alert-config';
-import SvgLaserParser from 'helpers/api/svg-laser-parser';
-import i18n from 'helpers/i18n';
+import fontkit from 'fontkit';
 import { sprintf } from 'sprintf-js';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+import Alert from 'app/actions/alert-caller';
+import AlertConfig from 'helpers/api/alert-config';
+import AlertConstants from 'app/constants/alert-constants';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import fontScanner from 'implementations/fontScanner';
+import history from 'app/svgedit/history';
+import i18n from 'helpers/i18n';
+import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
+import SvgLaserParser from 'helpers/api/svg-laser-parser';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IFont, IFontQuery } from 'interfaces/IFont';
 
 let svgCanvas;
@@ -24,10 +27,8 @@ getSVGAsync((globalSVG) => {
 const { electron, $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
-const fontkit = requireNode('fontkit');
 const { ipc, events } = electron;
 const LANG = i18n.lang.beambox.object_panels;
-const FontScanner = requireNode('font-scanner');
 
 enum SubstituteResult {
   DO_SUB = 2,
@@ -141,10 +142,10 @@ storage.set('font-name-map', fontNameMapObj);
 
 const getFontOfPostscriptName = memoize((postscriptName) => {
   if (window.os === 'MacOS') {
-    const font = FontScanner.findFontSync({ postscriptName });
+    const font = fontScanner.findFont({ postscriptName });
     return font;
   }
-  const allFonts = FontScanner.getAvailableFontsSync();
+  const allFonts = fontScanner.getAvailableFonts();
   const fit = allFonts.filter((f) => f.postscriptName === postscriptName);
   console.log(fit);
   if (fit.length > 0) {
@@ -203,7 +204,7 @@ const substitutedFont = (textElement: Element) => {
   const originPostscriptName = originFont.postscriptName;
   const unSupportedChar = [];
   const fontList = Array.from(text).map((char) => {
-    const sub = FontScanner.substituteFontSync(originPostscriptName, char);
+    const sub = fontScanner.substituteFont(originPostscriptName, char);
     if (sub.postscriptName !== originPostscriptName) unSupportedChar.push(char);
     return sub;
   });
@@ -218,7 +219,7 @@ const substitutedFont = (textElement: Element) => {
   for (let i = 0; i < fontList.length; i += 1) {
     let allFit = true;
     for (let j = 0; j < text.length; j += 1) {
-      const foundfont = FontScanner.substituteFontSync(fontList[i].postscriptName, text[j]);
+      const foundfont = fontScanner.substituteFont(fontList[i].postscriptName, text[j]);
       if (fontList[i].postscriptName !== foundfont.postscriptName) {
         allFit = false;
         break;
@@ -650,7 +651,6 @@ export default {
   fontNameMap,
   requestFontsOfTheFontFamily,
   requestFontByFamilyAndStyle,
-  requestToConvertTextToPath,
   convertTextToPathFluxsvg,
   tempConvertTextToPathAmoungSvgcontent,
   revertTempConvert,

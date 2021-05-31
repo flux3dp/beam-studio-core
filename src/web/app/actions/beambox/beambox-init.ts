@@ -5,7 +5,6 @@ import { sprintf } from 'sprintf-js';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
-import alertStore from 'app/stores/alert-store';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
@@ -20,6 +19,7 @@ import dialog from 'implementations/dialog';
 import firmwareUpdater from 'helpers/firmware-updater';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
+import fontScanner from 'implementations/fontScanner';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
@@ -152,12 +152,11 @@ const displayGuides = () => {
 const initDefaultFont = () => {
   const lang = navigator.language;
   const { os } = window;
-  const FontScanner = requireNode('font-scanner');
   let defaultFontFamily = os === 'Linux' ? 'Ubuntu' : 'Arial';
   if (FontConstants[lang] && FontConstants[lang][os]) {
     defaultFontFamily = FontConstants[lang][os];
   }
-  const fonts = FontScanner.findFontsSync({ family: defaultFontFamily });
+  const fonts = fontScanner.findFonts({ family: defaultFontFamily });
   if (fonts.length > 0) {
     const defaultFont: IFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
     storage.set('default-font', {
