@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
+import axios from 'axios';
+import EventEmitter from 'events';
+
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
@@ -7,9 +10,7 @@ import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
 
-const axios = requireNode('axios');
 const electron = requireNode('electron');
-const EventEmitter = requireNode('events');
 
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
