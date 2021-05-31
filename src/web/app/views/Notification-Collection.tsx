@@ -1,10 +1,9 @@
 import * as React from 'react';
 
-import AlertStore from 'app/stores/alert-store';
+import alertStore from 'app/stores/alert-store';
 import checkFirmware from 'helpers/check-firmware';
 import DeviceMaster from 'helpers/device-master';
 import firmwareUpdater from 'helpers/firmware-updater';
-import GlobalStore from 'app/stores/global-store';
 import storage from 'implementations/storage';
 import UpdateDialog from 'app/views/Update-Dialog';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -72,12 +71,7 @@ export default function (args) {
           });
         };
 
-      AlertStore.onNotify(this._handleNotification);
-      AlertStore.onCloseNotify(this._handleCloseNotification);
-      AlertStore.onUpdate(this._showUpdate);
-
-      GlobalStore.onCloseAllView(this._handleCloseAllView);
-      GlobalStore.onSliceComplete(this._handleSliceReport);
+      alertStore.onUpdate(this._showUpdate);
 
       // checking FLUX studio laster version in website that is going to
       // popup update dialog if newser FLUX Studio has been relwased.
@@ -96,12 +90,6 @@ export default function (args) {
       if (defaultPrinter) {
         setTimeout(_checkFirmwareOfDefaultPrinter, 15000);
       }
-    }
-
-    componentWillUnmount() {
-      AlertStore.removeNotifyListener(this._handleNotification);
-      GlobalStore.removeCloseAllViewListener(this._handleCloseAllView);
-      GlobalStore.removeSliceCompleteListener(this._handleSliceReport);
     }
 
     _showUpdate = (payload) => {
@@ -140,60 +128,6 @@ export default function (args) {
 
     _handleUpdateInstall = () => {
       this.state.application.onInstall();
-    }
-
-    _handleNotification = (type, message, onClickCallback, fixed) => {
-      var growl;
-      fixed = fixed || false;
-
-      var types = {
-        INFO: function () {
-          growl = $.growl.notice({
-            title: lang.alert.info,
-            message: message,
-            fixed: fixed,
-            location: 'bl'
-          });
-        },
-
-        WARNING: function () {
-          growl = $.growl.warning({
-            title: lang.alert.warning,
-            message: message,
-            fixed: fixed,
-            location: 'bl'
-          });
-        },
-
-        ERROR: function () {
-          growl = $.growl.error({
-            title: lang.alert.error,
-            message: message,
-            fixed: true,
-            location: 'bl'
-          });
-        }
-      };
-
-      types[type]();
-      setTimeout(function () {
-        $('.growl').on('click', function () {
-          onClickCallback(growl);
-        });
-      }, 500);
-    }
-
-    _handleCloseNotification = () => {
-      $('#growls').remove();
-    }
-
-    _handleCloseAllView = () => {
-      $('.device > .menu').removeClass('show');
-      $('.dialog-opener').prop('checked', '');
-    }
-
-    _handleSliceReport = (data) => {
-      this.setState({ slicingStatus: data.report });
     }
 
     render() {

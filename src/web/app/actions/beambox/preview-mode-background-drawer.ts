@@ -1,11 +1,11 @@
-import BeamboxPreference from './beambox-preference';
-import Constant from './constant';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import beamboxStore from 'app/stores/beambox-store';
+import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
-import BeamboxActions from 'app/actions/beambox';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 const Rxjs = requireNode('rxjs');
-const { concatMap, filter, map, switchMap, take, timeout } = requireNode('rxjs/operators');
+const { concatMap } = requireNode('rxjs/operators');
 
 let svgCanvas;
 let svgedit;
@@ -75,7 +75,7 @@ class PreviewModeBackgroundDrawer {
             this._drawBlobToBackground(blob);
         });
         if (BeamboxPreference.read('show_guides')) {
-            BeamboxActions.drawGuideLines();
+            beamboxStore.emitDrawGuideLines();
         }
     }
 

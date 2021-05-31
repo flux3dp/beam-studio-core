@@ -5,7 +5,6 @@ import Cropper from 'cropperjs';
 
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
-import BeamboxActions from 'app/actions/beambox';
 import BeamboxStore from 'app/stores/beambox-store';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import ImageData from 'helpers/image-data';
@@ -201,7 +200,6 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
   handleCropperCancel = (): void => {
     this.destroyCropper();
     this.prev();
-    BeamboxActions.endImageTrace();
   };
 
   handleParameterChange = (id: string, value: string|number): void => {
@@ -254,7 +252,6 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
       imageTrace: '',
       threshold: 128,
     });
-    BeamboxActions.endImageTrace();
   };
 
   handleImageTraceComplete(): void {
@@ -300,7 +297,6 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
       imageTrace: '',
       threshold: 128,
     });
-    BeamboxActions.endImageTrace();
   };
 
   // eslint-disable-next-line class-methods-use-this

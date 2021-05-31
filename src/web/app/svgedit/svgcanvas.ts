@@ -45,7 +45,6 @@ import TimeEstimationButtonController from 'app/views/beambox/Time-Estimation-Bu
 import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import ZoomBlockController from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Controller';
-import BeamboxActions from 'app/actions/beambox';
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
@@ -2589,7 +2588,6 @@ export default $.SvgCanvas = function (container, config) {
             TutorialController.handleNextStep();
           }
         };
-        BeamboxActions.startDrawingPreviewBlob();
         if (PreviewModeController.isPreviewMode()) {
           if (start_x === real_x && start_y === real_y) {
             PreviewModeController.preview(real_x, real_y, true, () => callback());

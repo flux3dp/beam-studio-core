@@ -1,15 +1,14 @@
 /**
  * firmware updater
  */
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import alertStore from 'app/stores/alert-store';
+import DeviceMaster from 'helpers/device-master';
+import Dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
-import DeviceMaster from './device-master';
-import Alert from '../app/actions/alert-caller';
-import AlertConstants from '../app/constants/alert-constants';
-import AlertActions from '../app/actions/alert-actions';
-import Dialog from '../app/actions/dialog-caller';
-import Progress from '../app/actions/progress-caller';
-import InputLightboxConstants from '../app/constants/input-lightbox-constants';
-
+import InputLightboxConstants from 'app/constants/input-lightbox-constants';
+import Progress from 'app/actions/progress-caller';
 
 export default function(response, printer, forceUpdate?: boolean) {
     var lang = i18n.lang,
@@ -134,11 +133,11 @@ export default function(response, printer, forceUpdate?: boolean) {
     if (forceUpdate) {
         onInstall();
     } else {
-        AlertActions.showUpdate(
-            printer,
-            response || {},
-            onDownload,
-            onInstall
-        );
+        alertStore.emitUpdate({
+          device: printer,
+          updateInfo: response || {},
+          onDownload,
+          onInstall,
+        });
     }
 }
