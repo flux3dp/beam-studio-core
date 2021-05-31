@@ -9,9 +9,11 @@
   "description": "Core of Beam Studio",
   "license": "MIT",
   "dependencies": {
+    "@sentry/react": "^6.4.1",
     "@types/backbone": "^1.4.10",
     "backbone": "^1.4.0",
     "classnames": "^2.3.1",
+    "cropperjs": "^1.5.11",
     "electron-store": "^8.0.0",
     "jquery": "^3.6.0",
     "prop-types": "^15.7.2",
