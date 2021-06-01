@@ -1,4 +1,5 @@
 import $ from 'jquery';
+
 import communicator from 'implementations/communicator';
 import menu from 'implementations/menu';
 

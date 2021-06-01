@@ -1,7 +1,8 @@
-import communicator from 'implementations/communicator';
-
 const main = async () => {
-  communicator.on('SVG_URL_TO_IMG_URL', (e, data) => {
+  const electron = require('electron');
+  console.log(electron);
+  const { ipcRenderer: ipc } = electron;
+  ipc.on('SVG_URL_TO_IMG_URL', (e, data) => {
     const {
       url, width, height, id, strokeWidth,
     } = data;
@@ -25,7 +26,7 @@ const main = async () => {
       const res = await fetch(imageBase64);
       const imageBlob = await res.blob();
       const imageUrl = URL.createObjectURL(imageBlob);
-      communicator.send('SVG_URL_TO_IMG_URL_DONE', { imageUrl, id });
+      ipc.send('SVG_URL_TO_IMG_URL_DONE', { imageUrl, id });
     };
     img.src = url;
   });
