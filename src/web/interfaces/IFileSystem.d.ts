@@ -10,4 +10,5 @@ export interface IFileSystem {
   mkdir(path: string, isRecursive: boolean): Promise<string>;
   writeStream(path: string, flags: string, data?: Buffer[]): void;
   join(...paths: string[]): string;
+  getPath(path: string): string;
 }

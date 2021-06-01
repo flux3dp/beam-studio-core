@@ -15,8 +15,6 @@ import {
   signOut,
 } from 'helpers/api/flux-id';
 
-const electron = requireNode('electron');
-
 let LANG = i18n.lang.flux_id_login;
 const updateLang = () => {
   LANG = i18n.lang.flux_id_login;
