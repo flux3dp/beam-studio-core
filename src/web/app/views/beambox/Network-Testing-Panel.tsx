@@ -5,6 +5,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
+import os from 'implementations/os';
 import KeycodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
 import Progress from 'app/actions/progress-caller';
@@ -54,7 +55,6 @@ class NetworkTestingPanel extends React.Component<Props, State> {
         }
         this.TEST_TIME = 30000;
         let local_ips = [];
-        const os = requireNode('os');
         let ifaces = os.networkInterfaces();
         Object.keys(ifaces).forEach(function (ifname) {
             let alias = 0;
