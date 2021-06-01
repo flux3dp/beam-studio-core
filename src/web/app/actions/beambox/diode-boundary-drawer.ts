@@ -27,23 +27,31 @@ const createBoundary = () => {
     style: 'pointer-events:none',
   });
 };
-// console.log(diodeBoundaryPath);
-const show = (): void => {
+
+const show = (isDiode = false): void => {
   if (!diodeBoundaryPath) createBoundary();
   const w = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
   const h = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
-  const limitXR = Constant.diode.limitX * Constant.dpmm;
-  const limitYB = Constant.diode.limitY * Constant.dpmm;
-  const OffsetX = Math.max(BeamboxPreference.read('diode_offset_x'), 0);
-  const OffsetY = Math.max(BeamboxPreference.read('diode_offset_y'), 0);
-  const limitXL = (OffsetX !== undefined ? OffsetX : Constant.diode.defaultOffsetX) * Constant.dpmm;
-  const limitYT = (OffsetY !== undefined ? OffsetY : Constant.diode.defaultOffsetY) * Constant.dpmm;
-  const d = `M${w},${h}L0,${h}L0,0L${w},${0}zM${limitXL},${limitYT}L${w - limitXR},${limitYT}L${w - limitXR},${h - limitYB}L${limitXL},${h - limitYB}z`;
-  $(diodeBoundaryPath).attr('d', d);
+
+  let d = '';
+  if (isDiode) {
+    let offsetX = BeamboxPreference.read('diode_offset_x') !== undefined ? BeamboxPreference.read('diode_offset_x') : Constant.diode.defaultOffsetX;
+    let offsetY = BeamboxPreference.read('diode_offset_y') !== undefined ? BeamboxPreference.read('diode_offset_y') : Constant.diode.defaultOffsetY;
+    offsetX = Math.max(offsetX, 0);
+    offsetY = Math.max(offsetY, 0);
+    const limitXL = offsetX * Constant.dpmm;
+    const limitYT = offsetY * Constant.dpmm;
+    d = `M0,0H${w}V${limitYT}H${limitXL}V${h}H0V0`;
+  } else {
+    const limitXR = Constant.diode.limitX * Constant.dpmm;
+    const limitYB = Constant.diode.limitY * Constant.dpmm;
+    d = `M${w},${h}H0,V${h - limitYB}H${w - limitXR}V0H${w}V${h}`;
+  }
+  diodeBoundaryPath.setAttribute('d', d);
 };
 const hide = (): void => {
   if (!diodeBoundaryPath) return;
-  $(diodeBoundaryPath).attr('d', '');
+  diodeBoundaryPath.setAttribute('d', '');
 };
 
 export default {

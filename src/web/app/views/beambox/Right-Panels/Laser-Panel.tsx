@@ -93,6 +93,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
   componentDidMount(): void {
     BeamboxStore.removeAllUpdateLaserPanelListeners();
     BeamboxStore.onUpdateLaserPanel(this.updateData);
+    this.updateDiodeBoundary();
   }
 
   componentDidUpdate(): void {
@@ -100,6 +101,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
     if (didDocumentSettingsChanged) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ didDocumentSettingsChanged: false });
+    } else {
+      this.updateDiodeBoundary();
     }
   }
 
@@ -719,6 +722,15 @@ class LaserPanel extends React.PureComponent<Props, State> {
     return PARAMETERS_CONSTANT;
   };
 
+  updateDiodeBoundary(): void {
+    const { isDiode } = this.state;
+    if (BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+      DiodeBoundaryDrawer.show(isDiode);
+    } else {
+      DiodeBoundaryDrawer.hide();
+    }
+  }
+
   doLayersContainVector(): boolean {
     const { selectedLayers } = this.props;
     const layers = selectedLayers.map((layerName: string) => getLayerElementByName(layerName));
@@ -840,7 +852,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   render(): JSX.Element {
     const { selectedLayers } = this.props;
-    const { isDiode } = this.state;
     let displayName = '';
     if (selectedLayers.length === 1) {
       // eslint-disable-next-line prefer-destructuring
@@ -853,12 +864,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const strengthPanel = this.renderStrength();
     const repeatPanel = this.renderRepeat();
     const modalDialog = this.renderModal();
-
-    if (isDiode && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
-      DiodeBoundaryDrawer.show();
-    } else {
-      DiodeBoundaryDrawer.hide();
-    }
 
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
     const customizedOptions = (customizedConfigs || customizedConfigs.length > 0)
