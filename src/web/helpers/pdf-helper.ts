@@ -21,8 +21,7 @@ const execFile = util.promisify(childProcess.execFile);
 // eslint-disable-next-line @typescript-eslint/dot-notation
 const resourcesRoot = localStorage.getItem('dev') === 'true' ? window.process.cwd() : window.process['resourcesPath'];
 const lang = i18n.lang.beambox.popup.pdf2svg;
-const electron = requireNode('electron');
-const appDataPath = electron.remote.app.getPath('appData');
+const appDataPath = fs.getPath('appData');
 const beamStudioDataPath = fs.join(appDataPath, 'Beam Studio');
 const win32TempFile = fs.join(beamStudioDataPath, 'temp.pdf');
 

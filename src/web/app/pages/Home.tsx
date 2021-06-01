@@ -1,10 +1,10 @@
 import * as React from 'react';
+
+import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
+import menu from 'implementations/menu';
 import Modal from 'app/widgets/Modal';
 import SelectView from 'app/widgets/Select';
-
-const electron = requireNode('electron');
-const { Menu } = electron.remote;
 
 export default function(args) {
     args = args || {};
@@ -38,9 +38,9 @@ export default function(args) {
 
         _changeActiveLang = (e) => {
             i18n.setActiveLang(e.currentTarget.value);
-            electron.ipcRenderer.send('NOTIFY_LANGUAGE');
+            communicator.send('NOTIFY_LANGUAGE');
             if (window.os === 'Windows') {
-                window['titlebar'].updateMenu(Menu.getApplicationMenu());
+                window['titlebar'].updateMenu(menu.getApplicationMenu());
             }
             this.setState({
                 lang: i18n.lang

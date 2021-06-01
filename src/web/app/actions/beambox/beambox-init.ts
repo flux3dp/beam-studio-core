@@ -12,6 +12,7 @@ import browser from 'implementations/browser';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
 import checkQuestionnaire from 'helpers/check-questionnaire';
+import communicator from 'implementations/communicator';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
@@ -169,8 +170,6 @@ const initDefaultFont = () => {
 
 const initMenuBarEvents = (): void => {
   const LANG = i18n.lang;
-  const electron = requireNode('electron');
-  const ipc = electron.ipcRenderer;
 
   const getLog = async (printer, log: string) => {
     try {
@@ -275,7 +274,7 @@ const initMenuBarEvents = (): void => {
   const registerAllDeviceMenuClickEvents = () => {
     menuEventRegistered = true;
 
-    ipc.on('MENU_CLICK', (e, menuItem) => {
+    communicator.on('MENU_CLICK', (e, menuItem) => {
       const actions: { [key: string]: ((deivce?: IDeviceInfo) => void) } = {};
       const { lang } = i18n;
 

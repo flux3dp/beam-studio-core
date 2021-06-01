@@ -12,16 +12,23 @@ getSVGAsync((globalSVG) => {
 
 let autoSaveInterval = null;
 
+const AUTO_SAVE_CONFIG_STORAGE_KEY = 'auto-save-config';
+
+const getConfig = (): IConfig => storage.get(AUTO_SAVE_CONFIG_STORAGE_KEY) as IConfig;
+
+const setConfig = (config: IConfig): void => {
+  storage.set(AUTO_SAVE_CONFIG_STORAGE_KEY, config);
+};
+
 const useDefaultConfig = async (): Promise<void> => {
   const getDefaultPath = () => {
-    const electron = requireNode('electron');
     try {
-      return fs.join(electron.remote.app.getPath('documents'), 'Beam Studio', 'auto-save');
+      return fs.join(fs.getPath('documents'), 'Beam Studio', 'auto-save');
     } catch (err) {
       console.error('Unable to get documents path', err);
     }
     try {
-      return electron.remote.app.getPath('userData');
+      return fs.getPath('userData');
     } catch (err) {
       console.error('Unable to get userData path', err);
     }
@@ -39,25 +46,19 @@ const useDefaultConfig = async (): Promise<void> => {
   // Create a dumb file to prompt mac permission
   const tempFilePath = fs.join(directory, 'beam-studio auto-save-1.beam');
   fs.writeStream(tempFilePath, 'a');
-  storage.set('auto-save-config', defaultConfig);
+  setConfig(defaultConfig);
 };
 
 const init = (): void => {
-  if (!storage.isExisting('auto-save-config')) {
+  if (!storage.isExisting(AUTO_SAVE_CONFIG_STORAGE_KEY)) {
     // Rename after fixing eslint of Setting-General.tsx
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useDefaultConfig();
   }
 };
 
-const getConfig = (): IConfig => storage.get('auto-save-config') as IConfig;
-
-const setConfig = (config: IConfig): void => {
-  storage.set('auto-save-config', config);
-};
-
 const startAutoSave = (): void => {
-  const config = storage.get('auto-save-config');
+  const config = getConfig();
   if (config) {
     const { directory, fileNumber, timeInterval } = config;
     console.log('auto save service started');
@@ -88,7 +89,7 @@ const stopAutoSave = (): void => {
 
 const toggleAutoSave = (start = false): void => {
   if (start) {
-    const config = storage.get('auto-save-config');
+    const config = getConfig();
     const { enabled } = config;
     if (enabled && !autoSaveInterval) {
       startAutoSave();
@@ -104,6 +105,4 @@ export default {
   getConfig,
   setConfig,
   toggleAutoSave,
-  startAutoSave,
-  stopAutoSave,
 };

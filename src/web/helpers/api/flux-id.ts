@@ -4,6 +4,8 @@ import EventEmitter from 'events';
 
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
+import communicator from 'implementations/communicator';
+import cookies from 'implementations/cookies';
 import i18n from 'helpers/i18n';
 import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
@@ -13,9 +15,6 @@ import { IUser } from 'interfaces/IUser';
 interface ResponseWithError extends AxiosResponse {
   error?: string;
 }
-
-const electron = requireNode('electron');
-
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
 const FB_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
@@ -51,7 +50,7 @@ const handleErrorMessage = (error) => {
 };
 
 const updateMenu = (info?) => {
-  electron.ipcRenderer.send('UPDATE_ACCOUNT', info);
+  communicator.send('UPDATE_ACCOUNT', info);
 };
 
 const updateUser = (info?) => {
@@ -180,18 +179,17 @@ const signInWithGoogleCode = async (info): Promise<boolean> => {
 };
 
 export const init = async (): Promise<void> => {
-  const { cookies } = electron.remote.session.defaultSession;
   cookies.on('changed', (event, cookie, cause, removed) => {
     if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
       axiosFluxId.defaults.headers.post['X-CSRFToken'] = cookie.value;
     }
   });
-  electron.ipcRenderer.on('FB_AUTH_TOKEN', (e, dataString: string) => {
+  communicator.on('FB_AUTH_TOKEN', (e, dataString: string) => {
     const data = parseQueryData(dataString);
     const token = data.access_token;
     signInWithFBToken(token);
   });
-  electron.ipcRenderer.on('GOOGLE_AUTH', (e, dataString: string) => {
+  communicator.on('GOOGLE_AUTH', (e, dataString: string) => {
     const data = parseQueryData(dataString);
     signInWithGoogleCode(data);
   });
@@ -220,9 +218,7 @@ export const init = async (): Promise<void> => {
       url += cookie.domain;
       url += cookie.path;
 
-      cookies.remove(url, cookie.name, (error) => {
-        if (error) console.log(`error removing cookie ${cookie.name}`, error);
-      });
+      cookies.remove(url, cookie.name);
     });
     updateMenu();
   }
