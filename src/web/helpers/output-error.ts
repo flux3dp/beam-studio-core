@@ -8,9 +8,7 @@ import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Logger from 'helpers/logger';
 import Progress from 'app/actions/progress-caller';
-
-const Store = requireNode('electron-store');
-const store = new Store();
+import storage from 'implementations/storage';
 
 const LANG = i18n.lang.beambox;
 
@@ -55,8 +53,8 @@ let getOutput = () => {
 
     output.push('\n\n======::storage::======\n');
 
-    for(let key in store.store) {
-        let value = store.get(key);
+    for(let key in storage.getStore()) {
+        let value = storage.get(key);
         console.log(key, value);
         if(typeof value == "string" && value.startsWith("-----BEGIN RSA PRIVATE KEY-----\n")) {
             value = "[hidden]";

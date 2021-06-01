@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import Pickr from '@simonwep/pickr';
 
 import i18n from 'helpers/i18n';
 import { getLayerElementByName } from 'helpers/layer-helper';
@@ -9,7 +10,6 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas });
 
 const LANG = i18n.lang.beambox.photo_edit_panel;
-const Pickr = requireNode('@simonwep/pickr');
 
 interface Props {
   layerName: string;

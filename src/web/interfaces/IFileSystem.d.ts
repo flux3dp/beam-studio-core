@@ -8,5 +8,6 @@ export interface IFileSystem {
   isDirectory(input: string): boolean;
   rename(oldPath: string, newPath: string): Promise<void>;
   mkdir(path: string, isRecursive: boolean): Promise<string>;
-  writeStream(path: string, flags: string, data?: Buffer[]);
+  writeStream(path: string, flags: string, data?: Buffer[]): void;
+  join(...paths: string[]): string;
 }

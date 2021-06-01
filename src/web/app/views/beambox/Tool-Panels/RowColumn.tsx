@@ -1,10 +1,8 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import i18n from 'helpers/i18n';
-
-const PropTypes = requireNode('prop-types');
+import UnitInput from 'app/widgets/Unit-Input-v2';
 
 const LANG = i18n.lang.beambox.tool_panels;
 

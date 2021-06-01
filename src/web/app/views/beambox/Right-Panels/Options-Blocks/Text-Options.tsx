@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as React from 'react';
 import classNames from 'classnames';
+import Select from 'react-select';
 
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
@@ -12,8 +13,6 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
-const ReactSelect = requireNode('react-select');
-const Select = ReactSelect.default;
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 const isMac = window.os === 'MacOS';
 

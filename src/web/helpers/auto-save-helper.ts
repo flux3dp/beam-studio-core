@@ -5,8 +5,6 @@ import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IConfig } from 'interfaces/IAutosave';
 
-const path = requireNode('path');
-
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
@@ -18,7 +16,7 @@ const useDefaultConfig = async (): Promise<void> => {
   const getDefaultPath = () => {
     const electron = requireNode('electron');
     try {
-      return path.join(electron.remote.app.getPath('documents'), 'Beam Studio', 'auto-save');
+      return fs.join(electron.remote.app.getPath('documents'), 'Beam Studio', 'auto-save');
     } catch (err) {
       console.error('Unable to get documents path', err);
     }
@@ -39,7 +37,7 @@ const useDefaultConfig = async (): Promise<void> => {
   };
   await fs.mkdir(directory, true);
   // Create a dumb file to prompt mac permission
-  const tempFilePath = path.join(directory, 'beam-studio auto-save-1.beam');
+  const tempFilePath = fs.join(directory, 'beam-studio auto-save-1.beam');
   fs.writeStream(tempFilePath, 'a');
   storage.set('auto-save-config', defaultConfig);
 };
@@ -69,14 +67,14 @@ const startAutoSave = (): void => {
         const svgString = svgCanvas.getSvgString();
         const imageSource = await svgCanvas.getImageSource();
         for (let i = fileNumber - 1; i >= 1; i -= 1) {
-          const from = path.join(directory, `beam-studio auto-save-${i}.beam`);
+          const from = fs.join(directory, `beam-studio auto-save-${i}.beam`);
           if (fs.exists(from)) {
-            const to = path.join(directory, `beam-studio auto-save-${i + 1}.beam`);
+            const to = fs.join(directory, `beam-studio auto-save-${i + 1}.beam`);
             // eslint-disable-next-line no-await-in-loop
             await fs.rename(from, to);
           }
         }
-        const target = path.join(directory, 'beam-studio auto-save-1.beam');
+        const target = fs.join(directory, 'beam-studio auto-save-1.beam');
         beamFileHelper.saveBeam(target, svgString, imageSource);
       }
     }, timeInterval * 60 * 1000);

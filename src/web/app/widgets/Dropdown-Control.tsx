@@ -1,7 +1,5 @@
-import React from 'react';
 import classNames from 'classnames';
-
-const PropTypes = requireNode('prop-types');
+import React from 'react';
 
 interface Props {
   id: string;
