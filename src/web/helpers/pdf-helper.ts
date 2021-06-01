@@ -8,16 +8,13 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
+import os from 'implementations/os';
 import Progress from 'app/actions/progress-caller';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgEditor;
 getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
 
-const util = requireNode('util');
-const childProcess = requireNode('child_process');
-const exec = util.promisify(childProcess.exec);
-const execFile = util.promisify(childProcess.execFile);
 // eslint-disable-next-line @typescript-eslint/dot-notation
 const resourcesRoot = localStorage.getItem('dev') === 'true' ? window.process.cwd() : window.process['resourcesPath'];
 const lang = i18n.lang.beambox.popup.pdf2svg;
@@ -28,10 +25,10 @@ const win32TempFile = fs.join(beamStudioDataPath, 'temp.pdf');
 try {
   if (window.os === 'Windows') {
     if (!fs.exists(appDataPath)) {
-      childProcess.execSync(`mkdir "${appDataPath}"`);
+      os.process.execSync(`mkdir "${appDataPath}"`);
     }
     if (!fs.exists(beamStudioDataPath)) {
-      childProcess.execSync(`mkdir "${beamStudioDataPath}"`);
+      os.process.execSync(`mkdir "${beamStudioDataPath}"`);
     }
   }
 } catch (e) {
@@ -55,7 +52,7 @@ const pdf2svg = async (file: File): Promise<void> => {
         fs.copyFile(file.path, win32TempFile);
         filePath = win32TempFile;
       }
-      const { stderr } = await execFile(pdf2svgPath, [filePath, outPath]);
+      const { stderr } = await os.process.execFile(pdf2svgPath, [filePath, outPath]);
       if (!stderr) {
         console.log(outPath);
         const resp = await fetch(outPath);
@@ -84,7 +81,7 @@ const pdf2svg = async (file: File): Promise<void> => {
     // Linux
     const outPath = fs.join('/tmp', 'out.svg');
     try {
-      await exec('type pdf2svg');
+      await os.process.exec('type pdf2svg');
     } catch (e) {
       console.log(e);
       const message = lang.error_pdf2svg_not_found;
@@ -96,7 +93,7 @@ const pdf2svg = async (file: File): Promise<void> => {
       return;
     }
     try {
-      const { stdout, stderr } = await exec(`pdf2svg "${file.path}" "${outPath}"`);
+      const { stdout, stderr } = await os.process.exec(`pdf2svg "${file.path}" "${outPath}"`);
       console.log('out', stdout, 'err', stderr);
       if (!stderr) {
         const resp = await fetch(outPath);

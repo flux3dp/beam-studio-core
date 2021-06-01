@@ -4,6 +4,7 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
+import os from 'implementations/os';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ZoomBlockContext, ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
 
@@ -11,9 +12,6 @@ let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 const LANG = i18n.lang.beambox.zoom_block;
-const util = requireNode('util');
-const child_process = requireNode('child_process');
-const exec = util.promisify(child_process.exec);
 
 let _contextCaller;
 
@@ -33,7 +31,7 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
   getDpmm = async () => {
     try {
       if (window.os === 'MacOS') {
-        const res = await exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
+        const res = await os.process.exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
         if (!res.stderr) {
           const match = res.stdout.match(/(?<=Model Identifier: ).+\b/);
           if (match) {
@@ -48,7 +46,7 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
           }
         }
       } else if (window.os === 'Windows') {
-        const res = await exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
+        const res = await os.process.exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
         if (!res.stderr) {
           const matchWidth = res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
           const matchHeight = res.stdout.match(/(?<=MaxVerticalImageSize[\ ]*: )\d+\b/);
@@ -77,7 +75,7 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
           }
         }
       } else if (window.os === 'Linux') {
-        const res = await exec('xrandr | grep \' connected\'');
+        const res = await os.process.exec('xrandr | grep \' connected\'');
         if (!res.stderr) {
           const matches = res.stdout.match(/\d+x\d+\+\d+\+\d+ \d+mm x \d+mm\b/g);
           if (matches && matches.length > 0) {
