@@ -13,8 +13,11 @@ type AlertConfigKey =
   'skip_image_path_warning';
 
 export default {
-  read: (key: AlertConfigKey) => storage.get('alert-config')[key],
-  write: (key: AlertConfigKey, value: any) => {
+  read: (key: AlertConfigKey) => {
+    const config = storage.get('alert-config') || {};
+    return config[key];
+  },
+  write: (key: AlertConfigKey, value: any): void => {
     const config = storage.get('alert-config') || {};
     config[key] = value;
     storage.set('alert-config', config);
