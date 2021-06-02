@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import Cropper from 'cropperjs';
 
-import ButtonGroup from 'app/widgets/Button-Group';
+import ButtonGroup from 'app/widgets/ButtonGroup';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
 import history from 'app/svgedit/history';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import i18n from 'helpers/i18n';
 import { IButton } from 'interfaces/IButton';
-import ButtonGroup from './Button-Group';
+import ButtonGroup from './ButtonGroup';
 
 let lang = i18n.lang.buttons;
 
