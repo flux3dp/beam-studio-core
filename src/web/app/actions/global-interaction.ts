@@ -1,24 +1,20 @@
 /* eslint-disable class-methods-use-this */
-import windowLocationReload from 'app/actions/windowLocation';
+import communicator from 'implementations/communicator';
+import dialogCaller from 'app/actions/dialog-caller';
 import fileExportHelper from 'helpers/file-export-helper';
-import dialogCaller from './dialog-caller';
+import windowLocationReload from 'app/actions/windowLocation';
 
 const MENU_ITEMS = ['IMPORT', 'EXPORT_FLUX_TASK', 'SAVE_SCENE',
   'UNDO', 'DUPLICATE', 'PHOTO_EDIT', 'DOCUMENT_SETTING', 'CLEAR_SCENE',
   'ZOOM_IN', 'ZOOM_OUT', 'FITS_TO_WINDOW', 'ZOOM_WITH_WINDOW', 'SHOW_GRIDS', 'SHOW_LAYER_COLOR',
   'TUTORIAL', 'NETWORK_TESTING', 'ABOUT_BEAM_STUDIO'];
 
-let ipc;
-let events;
 let defaultAction;
 let currentHandler;
 
 const { electron } = window;
 
 if (electron) {
-  ipc = electron.ipc;
-  events = electron.events;
-
   defaultAction = {
     PREFERENCE: async () => {
       dialogCaller.clearAllDialogComponents();
@@ -34,7 +30,7 @@ if (electron) {
     },
   };
 
-  ipc.on(events.MENU_CLICK, (event, menuItem, ...args) => {
+  communicator.on('MENU_CLICK', (event, menuItem, ...args) => {
     const action = defaultAction[menuItem.id];
     if (action) {
       action(menuItem.id, ...args);
@@ -43,9 +39,9 @@ if (electron) {
     }
   });
 
-  ipc.on('WINDOW_CLOSE', async () => {
+  communicator.on('WINDOW_CLOSE', async () => {
     const res = await fileExportHelper.toggleUnsavedChangedDialog();
-    if (res) ipc.send('CLOSE_REPLY', true);
+    if (res) communicator.send('CLOSE_REPLY', true);
   });
 }
 
@@ -58,7 +54,7 @@ class GlobalInteraction {
 
   attach(enabledItems: string[]): void {
     currentHandler = this;
-    if (ipc) {
+    if (communicator) {
       if (enabledItems) {
         const disabledItems = [];
         for (let i = 0; i < MENU_ITEMS.length; i += 1) {
@@ -83,14 +79,14 @@ class GlobalInteraction {
   }
 
   enableMenuItems(items: string[]): void {
-    if (ipc) {
-      ipc.send(events.ENABLE_MENU_ITEM, items);
+    if (communicator) {
+      communicator.send('ENABLE_MENU_ITEM', items);
     }
   }
 
   disableMenuItems(items: string[]): void {
-    if (ipc) {
-      ipc.send(events.DISABLE_MENU_ITEM, items);
+    if (communicator) {
+      communicator.send('DISABLE_MENU_ITEM', items);
     }
   }
 

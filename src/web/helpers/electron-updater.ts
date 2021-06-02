@@ -3,13 +3,13 @@ import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import communicator from 'implementations/communicator';
 import FileExportHelper from 'helpers/file-export-helper';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 
-const { electron, FLUX } = window;
-const { ipc, events } = electron;
+const { FLUX } = window;
 const LANG = i18n.lang.update.software;
 
 const checkForUpdate = (isAutoCheck) => {
@@ -18,7 +18,7 @@ const checkForUpdate = (isAutoCheck) => {
     Progress.openNonstopProgress({ id: 'electron-check-update', message: LANG.checking });
   }
   let hasGetResponse = false;
-  ipc.send(events.CHECK_FOR_UPDATE, currentChannel);
+  communicator.send('CHECK_FOR_UPDATE', currentChannel);
   setTimeout(() => {
     if (!hasGetResponse) {
       if (!isAutoCheck) {
@@ -30,7 +30,7 @@ const checkForUpdate = (isAutoCheck) => {
       }
     }
   }, 15000);
-  ipc.once(events.UPDATE_AVAILABLE, (event, res) => {
+  communicator.once('UPDATE_AVAILABLE', (event, res) => {
     hasGetResponse = true;
     if (!isAutoCheck) {
       Progress.popById('electron-check-update');
@@ -57,7 +57,7 @@ const checkForUpdate = (isAutoCheck) => {
         caption: LANG.check_update,
         buttonType: AlertConstants.YES_NO,
         onYes: () => {
-          ipc.once(events.UPDATE_DOWNLOADED, (e, info) => {
+          communicator.once('UPDATE_DOWNLOADED', (e, info) => {
             const downloadedMsg = `Beam Studio v${info.version} ${LANG.install_or_not}`;
             Alert.popUp({
               buttonType: AlertConstants.YES_NO,
@@ -65,21 +65,21 @@ const checkForUpdate = (isAutoCheck) => {
               caption: LANG.check_update,
               onYes: async () => {
                 const unsavedDialogRes = await FileExportHelper.toggleUnsavedChangedDialog();
-                if (unsavedDialogRes) ipc.send(events.QUIT_AND_INSTALL);
+                if (unsavedDialogRes) communicator.send('QUIT_AND_INSTALL');
               },
             });
           });
-          ipc.on(events.DOWNLOAD_PROGRESS, (e, progress) => {
+          communicator.on('DOWNLOAD_PROGRESS', (e, progress) => {
             console.log('progress:', progress.percent);
           });
           Alert.popUp({
             message: LANG.downloading,
             caption: LANG.check_update,
           });
-          ipc.send(events.DOWNLOAD_UPDATE);
+          communicator.send('DOWNLOAD_UPDATE');
         },
         onNo: () => {
-          ipc.once(events.UPDATE_DOWNLOADED, () => { });
+          communicator.once('UPDATE_DOWNLOADED', () => { });
         },
       });
     } else if (!isAutoCheck) {
@@ -95,8 +95,8 @@ const switchVersion = (): void => {
   const currentChannel = FLUX.version.split('-')[1];
   Progress.openNonstopProgress({ id: 'electron-check-switch', message: LANG.checking });
   const targetChannel = currentChannel ? 'latest' : 'beta';
-  ipc.send(events.CHECK_FOR_UPDATE, targetChannel);
-  ipc.once(events.UPDATE_AVAILABLE, (event, res) => {
+  communicator.send('CHECK_FOR_UPDATE', targetChannel);
+  communicator.once('UPDATE_AVAILABLE', (event, res) => {
     Progress.popById('electron-check-switch');
     if (res.error) {
       console.log(res.error);
@@ -113,7 +113,7 @@ const switchVersion = (): void => {
         caption: LANG.switch_version,
         buttonType: AlertConstants.YES_NO,
         onYes: () => {
-          ipc.once(events.UPDATE_DOWNLOADED, (e, info) => {
+          communicator.once('UPDATE_DOWNLOADED', (e, info) => {
             const downloadedMsg = `Beam Studio v${info.version} ${LANG.switch_or_not}`;
             Alert.popUp({
               buttonType: AlertConstants.YES_NO,
@@ -121,21 +121,21 @@ const switchVersion = (): void => {
               caption: LANG.switch_version,
               onYes: async () => {
                 const unsavedDialogRes = await FileExportHelper.toggleUnsavedChangedDialog();
-                if (unsavedDialogRes) ipc.send(events.QUIT_AND_INSTALL);
+                if (unsavedDialogRes) communicator.send('QUIT_AND_INSTALL');
               },
             });
           });
-          ipc.on(events.DOWNLOAD_PROGRESS, (e, progress) => {
+          communicator.on('DOWNLOAD_PROGRESS', (e, progress) => {
             console.log('progress:', progress.percent);
           });
           Alert.popUp({
             message: LANG.downloading,
             caption: LANG.switch_version,
           });
-          ipc.send(events.DOWNLOAD_UPDATE);
+          communicator.send('DOWNLOAD_UPDATE');
         },
         onNo: () => {
-          ipc.once(events.UPDATE_DOWNLOADED, () => { });
+          communicator.once('UPDATE_DOWNLOADED', () => { });
         },
       });
     } else {

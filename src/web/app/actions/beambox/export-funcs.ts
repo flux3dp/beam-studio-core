@@ -3,6 +3,7 @@ import Alert from 'app/actions/alert-caller';
 import MonitorController from 'app/actions/monitor-controller';
 import Progress from 'app/actions/progress-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import communicator from 'implementations/communicator';
 import Constant from 'app/actions/beambox/constant';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import AlertConstants from 'app/constants/alert-constants';
@@ -25,7 +26,7 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-const { electron, $ } = window;
+const { $ } = window;
 const { lang } = i18n;
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
 
@@ -344,7 +345,7 @@ export default {
     const fileReader = new FileReader();
 
     fileReader.onload = function onLoad() {
-      electron.ipc.send('save-dialog', langFile.save_fcode, langFile.all_files, langFile.fcode_files, ['fc'], defaultFCodeName, new Uint8Array(this.result as ArrayBuffer));
+      communicator.send('save-dialog', langFile.save_fcode, langFile.all_files, langFile.fcode_files, ['fc'], defaultFCodeName, new Uint8Array(this.result as ArrayBuffer));
     };
 
     fileReader.readAsArrayBuffer(fcodeBlob);

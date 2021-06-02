@@ -2,6 +2,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamFileHelper from 'helpers/beam-file-helper';
+import communicator from 'implementations/communicator';
 import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
@@ -139,7 +140,7 @@ const exportAsBVG = async (): Promise<boolean> => {
   const output = removeNPElementsWrapper(() => switchSymbolWrapper(() => svgCanvas.getSvgString()));
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
-  const currentFilePath = electron.ipc.sendSync('save-dialog', langFile.save_scene, langFile.all_files, langFile.scene_files, ['bvg'], defaultFileName, output, localStorage.getItem('lang'));
+  const currentFilePath = communicator.sendSync('save-dialog', langFile.save_scene, langFile.all_files, langFile.scene_files, ['bvg'], defaultFileName, output, localStorage.getItem('lang'));
   if (currentFilePath) {
     setCurrentFileName(currentFilePath);
     svgCanvas.setHasUnsavedChange(false, false);
@@ -158,7 +159,7 @@ const exportAsSVG = async (): Promise<void> => {
   $('g.layer').attr('clip-path', 'url(#scene_mask)');
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
-  electron.ipc.sendSync('save-dialog', langFile.save_svg, langFile.all_files, langFile.svg_files, ['svg'], defaultFileName, output, localStorage.getItem('lang'));
+  communicator.sendSync('save-dialog', langFile.save_svg, langFile.all_files, langFile.svg_files, ['svg'], defaultFileName, output, localStorage.getItem('lang'));
 };
 
 const exportAsImage = async (type: 'png'|'jpg'): Promise<void> => {
@@ -172,14 +173,14 @@ const exportAsImage = async (type: 'png'|'jpg'): Promise<void> => {
   const buf = Buffer.from(image, 'base64');
   Progress.popById('export_image');
   if (type === 'png') {
-    electron.ipc.sendSync('save-dialog', langFile.save_png, langFile.all_files, langFile.png_files, ['png'], defaultFileName, buf, localStorage.getItem('lang'));
+    communicator.sendSync('save-dialog', langFile.save_png, langFile.all_files, langFile.png_files, ['png'], defaultFileName, buf, localStorage.getItem('lang'));
   } else if (type === 'jpg') {
-    electron.ipc.sendSync('save-dialog', langFile.save_jpg, langFile.all_files, langFile.jpg_files, ['jpg'], defaultFileName, buf, localStorage.getItem('lang'));
+    communicator.sendSync('save-dialog', langFile.save_jpg, langFile.all_files, langFile.jpg_files, ['jpg'], defaultFileName, buf, localStorage.getItem('lang'));
   }
 };
 
 const toggleUnsavedChangedDialog = async (): Promise<boolean> => new Promise((resolve) => {
-  electron.ipc.send('SAVE_DIALOG_POPPED');
+  communicator.send('SAVE_DIALOG_POPPED');
   if (!svgCanvas.getHasUnsaveChanged() || window.location.hash !== '#studio/beambox') {
     resolve(true);
   } else {
