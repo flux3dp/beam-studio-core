@@ -1984,7 +1984,7 @@ export default $.SvgCanvas = function (container, config) {
           if (!tempGroup) {
             canvas.undoMgr.beginUndoableChange('transform', selectedElements);
           } else {
-            canvas.undoMgr.beginUndoableChange('transform', tempGroup.childNodes);
+            canvas.undoMgr.beginUndoableChange('transform', Array.from(tempGroup.childNodes));
           }
           break;
         default:
@@ -10236,6 +10236,7 @@ export default $.SvgCanvas = function (container, config) {
         }
       }
 
+      startTransform = elem.getAttribute('transform');
       var chtlist = svgedit.transformlist.getTransformList(elem);
 
       // Don't process gradient transforms
