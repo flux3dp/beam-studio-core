@@ -43,7 +43,7 @@ import AwsHelper from 'helpers/aws-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
-import PdfHelper from 'helpers/pdf-helper';
+// import PdfHelper from 'helpers/pdf-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
@@ -999,7 +999,7 @@ const svgEditor = window['svgEditor'] = (function () {
 
         setTimeout(function () {
           $('.flyout_arrow_horiz:empty').each(function () {
-            $(this).append($.getSvgIcon('arrow_right').width(5).height(5));
+            // $(this).append($.getSvgIcon('arrow_right').width(5).height(5));
           });
         }, 1);
       }
@@ -6312,7 +6312,7 @@ const svgEditor = window['svgEditor'] = (function () {
             break;
           case 'pdf':
           case 'ai':
-            PdfHelper.pdf2svg(file);
+            // PdfHelper.pdf2svg(file);
             break;
           case 'js':
             importJsScript(file);

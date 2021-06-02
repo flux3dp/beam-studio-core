@@ -5,6 +5,7 @@ import classNames from 'classnames';
 // import BeamboxInit from 'app/actions/beambox/beambox-init';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 // import beamboxStore from 'app/stores/beambox-store';
+// import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
 // import sentryHelper from 'helpers/sentry-helper';
 import SVGEditor from 'app/pages/svg-editor';
@@ -14,8 +15,6 @@ import { TopBar } from 'app/views/beambox/Top-Bar/Top-Bar';
 import { TopBarContextProvider } from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Context';
 import { ZoomBlock } from 'app/views/beambox/Zoom-Block/Zoom-Block';
 import { ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
-
-// const { electron } = window;
 
 // sentryHelper.initSentry();
 // BeamboxInit.init();
@@ -33,8 +32,7 @@ class Beambox extends React.Component<Props> {
       // beamboxStore.emitDrawGuideLines();
     }
 
-    // const { ipc, events } = electron;
-    // ipc.send(events.FRONTEND_READY);
+    // communicator.send('FRONTEND_READY');
     // svgEditor.resetView();
     // await BeamboxInit.showStartUpDialogs();
   }

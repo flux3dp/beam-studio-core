@@ -11,7 +11,7 @@ import GlobalInteraction from 'app/actions/global-interaction';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import Tutorials from 'app/actions/beambox/tutorials';
-import viewMenu from 'helpers/menubar/view';
+// import viewMenu from 'helpers/menubar/view';
 import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -99,11 +99,11 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       ZOOM_IN: () => svgEditor.zoomIn(),
       ZOOM_OUT: () => svgEditor.zoomOut(),
       FITS_TO_WINDOW: () => svgEditor.resetView(),
-      ZOOM_WITH_WINDOW: () => viewMenu.toggleZoomWithWindow(),
-      SHOW_GRIDS: () => viewMenu.toggleGrid(),
-      SHOW_RULERS: () => viewMenu.toggleRulers(),
-      SHOW_LAYER_COLOR: () => viewMenu.toggleLayerColor(),
-      ANTI_ALIASING: () => viewMenu.toggleAntiAliasing(),
+      // ZOOM_WITH_WINDOW: () => viewMenu.toggleZoomWithWindow(),
+      // SHOW_GRIDS: () => viewMenu.toggleGrid(),
+      // SHOW_RULERS: () => viewMenu.toggleRulers(),
+      // SHOW_LAYER_COLOR: () => viewMenu.toggleLayerColor(),
+      // ANTI_ALIASING: () => viewMenu.toggleAntiAliasing(),
       NETWORK_TESTING: () => dialog.showNetworkTestingPanel(),
       ABOUT_BEAM_STUDIO: () => dialog.showAboutBeamStudio(),
       MANAGE_ACCOUNT: () => externalLinkMemberDashboard(),

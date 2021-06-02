@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
-import fontkit from 'fontkit';
+// import fontkit from 'fontkit';
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import communicator from 'implementations/communicator';
 import fontScanner from 'implementations/fontScanner';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
@@ -27,7 +28,6 @@ getSVGAsync((globalSVG) => {
 const { electron, $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
-const { ipc, events } = electron;
 const LANG = i18n.lang.beambox.object_panels;
 
 enum SubstituteResult {
@@ -82,56 +82,56 @@ if (fontNameMapObj.navigatorLang !== navigator.language) {
 const fontNameMap = new Map();
 const availableFontFamilies = (function requestAvailableFontFamilies() {
   // get all available fonts in user PC
-  const fonts = ipc.sendSync(events.GET_AVAILABLE_FONTS);
-  fonts.forEach((font) => {
-    if (!fontNameMap.get(font.family)) {
-      let fontName = font.family;
-      if (fontNameMapObj[font.family]) {
-        fontName = fontNameMapObj[font.family];
-      } else {
-        try {
-          let fontInfo = fontkit.openSync(font.path);
-          if (fontInfo.fonts && fontInfo.fonts[0]) {
-            fontInfo = fontInfo.fonts.find((f) => {
-              if (f.familyName === font.family) return true;
-              if (f.name.records.fontFamily[navigator.language] === font.family) return true;
-              return false;
-            }) || fontInfo.fonts[0];
-          }
-          if (fontInfo) {
-            const firstNotEn = Object.keys(fontInfo.name.records.fontFamily).find((key) => key !== 'en');
-            fontName = (fontInfo.name.records.fontFamily[navigator.language]
-              || fontInfo.name.records.fontFamily[firstNotEn]
-              || fontInfo.name.records.fontFamily.en
-              || fontName);
-          }
-        } catch (err) {
-          console.warn(`Error when get font name of ${font.family}:`, err);
-        }
-      }
+  // const fonts = communicator.sendSync('GET_AVAILABLE_FONTS');
+  // fonts.forEach((font) => {
+  //   if (!fontNameMap.get(font.family)) {
+  //     let fontName = font.family;
+  //     if (fontNameMapObj[font.family]) {
+  //       fontName = fontNameMapObj[font.family];
+  //     } else {
+  //       try {
+  //         let fontInfo = {}; // fontkit.openSync(font.path);
+  //         if (fontInfo.fonts && fontInfo.fonts[0]) {
+  //           fontInfo = fontInfo.fonts.find((f) => {
+  //             if (f.familyName === font.family) return true;
+  //             if (f.name.records.fontFamily[navigator.language] === font.family) return true;
+  //             return false;
+  //           }) || fontInfo.fonts[0];
+  //         }
+  //         if (fontInfo) {
+  //           const firstNotEn = Object.keys(fontInfo.name.records.fontFamily).find((key) => key !== 'en');
+  //           fontName = (fontInfo.name.records.fontFamily[navigator.language]
+  //             || fontInfo.name.records.fontFamily[firstNotEn]
+  //             || fontInfo.name.records.fontFamily.en
+  //             || fontName);
+  //         }
+  //       } catch (err) {
+  //         console.warn(`Error when get font name of ${font.family}:`, err);
+  //       }
+  //     }
 
-      if (typeof fontName === 'string') {
-        fontNameMap.set(font.family, fontName);
-      } else {
-        fontNameMap.set(font.family, font.family);
-      }
-    }
-  });
+  //     if (typeof fontName === 'string') {
+  //       fontNameMap.set(font.family, fontName);
+  //     } else {
+  //       fontNameMap.set(font.family, font.family);
+  //     }
+  //   }
+  // });
 
-  // make it unique
-  const fontFamilySet = new Set();
-  fonts.map((font) => fontFamilySet.add(font.family));
+  // // make it unique
+  // const fontFamilySet = new Set();
+  // fonts.map((font) => fontFamilySet.add(font.family));
 
-  // transfer to array and sort!
-  return Array.from(fontFamilySet).sort((a, b) => {
-    if (a < b) {
-      return -1;
-    }
-    if (a > b) {
-      return 1;
-    }
-    return 0;
-  });
+  // // transfer to array and sort!
+  // return Array.from(fontFamilySet).sort((a, b) => {
+  //   if (a < b) {
+  //     return -1;
+  //   }
+  //   if (a > b) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 }());
 
 fontNameMap.forEach((value: string, key: string) => {
@@ -141,17 +141,17 @@ fontNameMapObj.navigatorLang = navigator.language;
 storage.set('font-name-map', fontNameMapObj);
 
 const getFontOfPostscriptName = memoize((postscriptName) => {
-  if (window.os === 'MacOS') {
-    const font = fontScanner.findFont({ postscriptName });
-    return font;
-  }
-  const allFonts = fontScanner.getAvailableFonts();
-  const fit = allFonts.filter((f) => f.postscriptName === postscriptName);
-  console.log(fit);
-  if (fit.length > 0) {
-    return fit[0];
-  }
-  return allFonts[0];
+  // if (window.os === 'MacOS') {
+  //   const font = fontScanner.findFont({ postscriptName });
+  //   return font;
+  // }
+  // const allFonts = fontScanner.getAvailableFonts();
+  // const fit = allFonts.filter((f) => f.postscriptName === postscriptName);
+  // console.log(fit);
+  // if (fit.length > 0) {
+  //   return fit[0];
+  // }
+  // return allFonts[0];
 });
 
 const init = () => {
@@ -160,11 +160,11 @@ const init = () => {
 init();
 
 const requestFontsOfTheFontFamily = memoize((family) => {
-  const fonts = ipc.sendSync(events.FIND_FONTS, { family });
+  const fonts = communicator.sendSync('FIND_FONTS', { family });
   return Array.from(fonts);
 });
 const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
-  const font = ipc.sendSync(events.FIND_FONT, {
+  const font = communicator.sendSync('FIND_FONT', {
     family: opts.family,
     style: opts.style,
     weight: opts.weight,
@@ -437,11 +437,11 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
 
   // use key (which hash from $textElement html string) to prevent ipc event confliction
   const key = hashCode($textElement.prop('outerHTML'));
-  ipc.once(events.RESOLVE_PATH_D_OF_TEXT + key, (sender, pathD) => {
+  communicator.once('RESOLVE_PATH_D_OF_TEXT' + key, (sender, pathD) => {
     d.resolve(pathD);
   });
 
-  ipc.send(events.REQUEST_PATH_D_OF_TEXT, {
+  communicator.send('REQUEST_PATH_D_OF_TEXT', {
     text: $textElement.text(),
     x: $textElement.attr('x'),
     y: $textElement.attr('y'),

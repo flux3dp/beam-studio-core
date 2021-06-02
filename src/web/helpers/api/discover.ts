@@ -119,7 +119,7 @@ const startTcpPoke = () => {
     i = i + 1 < pokeIPs.length ? i + 1 : 0;
   }, 1000);
 };
-startTcpPoke();
+// startTcpPoke();
 
 CloudApi.getDevices().then((resp) => {
   if (resp.ok) {
@@ -210,6 +210,6 @@ const initSmartUpnp = async () => {
     SmartUpnp.startPoke(pokeIPs[i]);
   }
 };
-initSmartUpnp();
+// initSmartUpnp();
 
 export default Discover;

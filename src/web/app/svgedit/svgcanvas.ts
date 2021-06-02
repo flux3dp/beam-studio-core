@@ -48,7 +48,7 @@ import ZoomBlockController from 'app/views/beambox/Zoom-Block/contexts/Zoom-Bloc
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
-import viewMenu from 'helpers/menubar/view';
+// import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
@@ -137,20 +137,20 @@ export default $.SvgCanvas = function (container, config) {
     }
 
     // TODO: Clear out all other attributes first?
-    $(svgcontent).attr({
-      id: 'svgcontent',
-      width: dimensions[0],
-      height: dimensions[1],
-      x: dimensions[0],
-      y: dimensions[1],
-      overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
-      xmlns: NS.SVG,
-      'xmlns:se': NS.SE,
-      'xmlns:xlink': NS.XLINK,
-      style: 'will-change: scroll-position, contents, transform;'
-    }).appendTo(svgroot);
+    // $(svgcontent).attr({
+    //   id: 'svgcontent',
+    //   width: dimensions[0],
+    //   height: dimensions[1],
+    //   x: dimensions[0],
+    //   y: dimensions[1],
+    //   overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
+    //   xmlns: NS.SVG,
+    //   'xmlns:se': NS.SE,
+    //   'xmlns:xlink': NS.XLINK,
+    //   style: 'will-change: scroll-position, contents, transform;'
+    // }).appendTo(svgroot);
     const isUsingAntiAliasing = BeamboxPreference.read('anti-aliasing') !== false;
-    viewMenu.updateAntiAliasing(isUsingAntiAliasing);
+    // viewMenu.updateAntiAliasing(isUsingAntiAliasing);
   };
   clearSvgContentElement();
 

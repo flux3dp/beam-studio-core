@@ -32,8 +32,8 @@ WorkareaMap.set('fbb2b', {
 export default {
   dpmm: 10,
   dimension: {
-    getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model).width,
-    getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model).height,
+    getWidth: (model: WorkAreaModel): number => 100, // WorkareaMap.get(model).width,
+    getHeight: (model: WorkAreaModel): number => 100, // WorkareaMap.get(model).height,
   },
   camera: {
     movementSpeed: {
