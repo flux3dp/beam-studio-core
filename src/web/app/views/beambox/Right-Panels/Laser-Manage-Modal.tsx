@@ -204,7 +204,9 @@ class LaserManageModal extends React.Component<Props, State> {
                 'no-border': this.editingCustomizedLaserConfigs.length >= 8 && index === this.editingCustomizedLaserConfigs.length - 1
             });
             return (
+
                 <div
+                    id={entry.key}
                     className={entryClass}
                     key={entry.name}
                     onClick={()=>{this.handleCustomizedEntryClick(entry.name)}}
@@ -219,7 +221,11 @@ class LaserManageModal extends React.Component<Props, State> {
             );
         });
         return customizedEntries;
+
     }
+
+
+
 
     renderDefaultEntries = () => {
         const defaultEntries = defaultLaserOptions.map((entry, index) => {
@@ -242,9 +248,9 @@ class LaserManageModal extends React.Component<Props, State> {
     renderAddButton() {
         return (
             <div className="add-btn" onClick={() => this.addConfig()}>
-                <div className= "bar bar1"/>
-                <div className= "bar bar2"/>
-                <div className= "bar bar3"/>
+                <div id='qa-bar-bar1' className= "bar bar1"/>
+                <div id='qa-bar-bar2' className= "bar bar2"/>
+                <div id='qa-bar-bar3' className= "bar bar3"/>
             </div>
         );
     }
@@ -397,8 +403,8 @@ class LaserManageModal extends React.Component<Props, State> {
                             </div>
                         </div>
                         <div className='operation-buttons'>
-                            <div className='operation-button' onClick={() => {this.addSelectDefaultsToCustom()}}>{'>>'}</div>
-                            <div className='operation-button' onClick={() => {this.removeDefaultfromCustom()}}>{'<<'}</div>
+                            <div id='qa-add-button' className='operation-button' onClick={() => {this.addSelectDefaultsToCustom()}}>{'>>'}</div>
+                            <div id='qa-remove-button'className='operation-button' onClick={() => {this.removeDefaultfromCustom()}}>{'<<'}</div>
                         </div>
                         <div className='config-list-column'>
                             <div className='title'>
@@ -415,7 +421,7 @@ class LaserManageModal extends React.Component<Props, State> {
                     </div>
                     <div className={classNames('controls', {disable: disableControl})} >
                         <div className='controls-column'>
-                            <div className='control'>
+                            <div id='qa-power-input'className='control'>
                                 <span className='label'>{LANG.power.text}</span>
                                 <UnitInput
                                     min={1}
@@ -428,7 +434,7 @@ class LaserManageModal extends React.Component<Props, State> {
                                     step={1}
                                 />
                             </div>
-                            <div className='control'>
+                            <div id='qa-speed-input' className='control'>
                                 <span className='label'>{LANG.laser_speed.text}</span>
                                 <UnitInput
                                     min={3}
@@ -443,7 +449,7 @@ class LaserManageModal extends React.Component<Props, State> {
                             </div>
                         </div>
                         <div className='controls-column'>
-                            <div className='control'>
+                            <div id='qa-repeat-input' className='control'>
                                 <span className='label'>{LANG.repeat}</span>
                                 <UnitInput
                                     min={1}
@@ -456,7 +462,7 @@ class LaserManageModal extends React.Component<Props, State> {
                                     step={1}
                                 />
                             </div>
-                            <div className='control'>
+                            <div id='qa-zStep-input' className='control'>
                                 <span className='label'>{LANG.z_step}</span>
                                 <UnitInput
                                     min={0}
@@ -474,12 +480,14 @@ class LaserManageModal extends React.Component<Props, State> {
                     <div className='footer'>
                         <div className='left'>
                             <button
+                                id='qa-btn-delete'
                                 className='btn btn-default pull-right'
                                 onClick={() => this._handleDelete()}
                             >
                                 {LANG.delete}
                             </button>
                             <button
+                                id='qa-btn-reset'
                                 className='btn btn-default pull-right'
                                 onClick={() => this._handleReset()}
                             >
@@ -488,6 +496,7 @@ class LaserManageModal extends React.Component<Props, State> {
                         </div>
                         <div className='right'>
                             <button
+                                id='qa-btn-save-leave'
                                 className='btn btn-default primary'
                                 onClick={() => this._handleSaveAndExit()}
                             >

@@ -500,6 +500,7 @@ class SettingGeneral extends React.Component<Props, State> {
         />
         <SelectControl
           label={lang.settings.notifications}
+          id='qa-set-notifications'
           options={notificationOptions}
           onChange={(e) => this.updateConfigChange('notification', e.target.value)}
         />
@@ -507,6 +508,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.update}</div>
         <SelectControl
           label={lang.settings.check_updates}
+          id='qa-set-groups-update'
           options={updateNotificationOptions}
           onChange={(e) => this.updateConfigChange('auto_check_update', e.target.value)}
         />
@@ -522,6 +524,7 @@ class SettingGeneral extends React.Component<Props, State> {
         </div>
         <Controls label={lang.settings.ip}>
           <input
+            id="qa-settings.ip"
             type="text"
             autoComplete="false"
             defaultValue={pokeIP}
@@ -530,11 +533,13 @@ class SettingGeneral extends React.Component<Props, State> {
         </Controls>
         <SelectControl
           label={lang.settings.guess_poke}
+          id='qa-set-guess-poke'
           options={guessingPokeOptions}
           onChange={(e) => this.updateConfigChange('guessing_poke', e.target.value)}
         />
         <SelectControl
           label={lang.settings.auto_connect}
+          id='qa-set-auto-connect'
           options={autoConnectOptions}
           onChange={(e) => this.updateConfigChange('auto_connect', e.target.value)}
         />
@@ -544,6 +549,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.camera}</div>
         <Controls label={lang.settings.preview_movement_speed}>
           <UnitInput
+            id='qa-set-groups-camera'
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s'}
             min={3}
             max={300}
@@ -555,6 +561,7 @@ class SettingGeneral extends React.Component<Props, State> {
         </Controls>
         <Controls label={lang.settings.preview_movement_speed_hl}>
           <UnitInput
+            id='qa-set-preview-movement-speed-hl'
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s'}
             min={3}
             max={300}
@@ -568,21 +575,25 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.editor}</div>
         <SelectControl
           label={lang.settings.default_units}
+          id='qa-set-groups-editor'
           options={defaultUnitsOptions}
           onChange={(e) => this.updateConfigChange('default-units', e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_font_family}
+          id='qa-set-font-family'
           options={fontOptions}
           onChange={(e) => onSelectFont(e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_font_style}
+          id='qa-set-font-style'
           options={fontStyleOptions}
           onChange={(e) => onSelectFontStyle(e.target.value)}
         />
         <SelectControl
           label={lang.settings.default_beambox_model}
+          id='qa-set-beambox-model'
           options={defaultBeamboxModelOptions}
           onChange={(e) => {
             this.updateBeamboxPreferenceChange('model', e.target.value);
@@ -591,13 +602,14 @@ class SettingGeneral extends React.Component<Props, State> {
         />
         <SelectControl
           label={lang.settings.guides}
-          id="set-guide"
+          id="qa-set-guide"
           options={guideSelectionOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('show_guides', e.target.value)}
         />
         <Controls label={lang.settings.guides_origin}>
           <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
           <UnitInput
+            id='qa-set-settings-guides-originx'
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
@@ -608,6 +620,7 @@ class SettingGeneral extends React.Component<Props, State> {
           />
           <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
+            id='qa-set-settings-guides-originy'
             unit={this.getConfigEditingValue('default-units') === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
@@ -619,24 +632,28 @@ class SettingGeneral extends React.Component<Props, State> {
         </Controls>
         <SelectControl
           label={lang.settings.image_downsampling}
+          id='qa-set-downsampling'
           url={lang.settings.help_center_urls.image_downsampling}
           options={imageDownsamplingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('image_downsampling', e.target.value)}
         />
         <SelectControl
           label={lang.settings.anti_aliasing}
+          id='qa-set-anti_aliasing'
           url={lang.settings.help_center_urls.anti_aliasing}
           options={antiAliasingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('anti-aliasing', e.target.value)}
         />
         <SelectControl
           label={lang.settings.continuous_drawing}
+          id='qa-set-continuous-drawing'
           url={lang.settings.help_center_urls.continuous_drawing}
           options={continuousDrawingOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('continuous_drawing', e.target.value)}
         />
         <SelectControl
           label={lang.settings.simplify_clipper_path}
+          id='qa-set-simplify-clipper-path'
           url={lang.settings.help_center_urls.simplify_clipper_path}
           options={simplifyClipperPath}
           onChange={(e) => this.updateBeamboxPreferenceChange('simplify_clipper_path', e.target.value)}
@@ -645,6 +662,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.engraving}</div>
         <SelectControl
           label={lang.settings.fast_gradient}
+          id='qa-set-groups-engraving'
           url={lang.settings.help_center_urls.fast_gradient}
           options={fastGradientOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('fast_gradient', e.target.value)}
@@ -653,6 +671,7 @@ class SettingGeneral extends React.Component<Props, State> {
         <div className="subtitle">{lang.settings.groups.path}</div>
         <SelectControl
           label={lang.settings.vector_speed_constraint}
+          id='qa-set-vector-speed-constraint'
           url={lang.settings.help_center_urls.vector_speed_constraint}
           options={vectorSpeedConstraintOptions}
           onChange={(e) => this.updateBeamboxPreferenceChange('vector_speed_contraint', e.target.value)}
@@ -669,6 +688,7 @@ class SettingGeneral extends React.Component<Props, State> {
             getValue={(val) => this.updateConfigChange('loop_compensation', Number(val) * 10)}
             forceUsePropsUnit
             className={{ half: true }}
+            id = 'qa-set-loop-compensation'
           />
         </Controls>
         { i18n.getActiveLang() === 'zh-cn'
@@ -684,10 +704,12 @@ class SettingGeneral extends React.Component<Props, State> {
                   getValue={(val) => this.updateBeamboxPreferenceChange('blade_radius', val)}
                   forceUsePropsUnit
                   className={{ half: true }}
+                  id='qa-set-blade-radius'
                 />
               </Controls>
               <SelectControl
                 label={lang.settings.blade_precut_switch}
+                id='qa-set-blade-precut-switch'
                 options={precutSwitchOptions}
                 onChange={(e) => this.updateBeamboxPreferenceChange('blade_precut', e.target.value)}
               />
@@ -701,6 +723,7 @@ class SettingGeneral extends React.Component<Props, State> {
                   getValue={(val) => this.updateBeamboxPreferenceChange('precut_x', val)}
                   forceUsePropsUnit
                   className={{ half: true }}
+                  id = 'qa-set-blade-precut-positionx'
                 />
                 <span className="font2" style={{ marginRight: '10px' }}>Y</span>
                 <UnitInput
@@ -711,6 +734,7 @@ class SettingGeneral extends React.Component<Props, State> {
                   getValue={(val) => this.updateBeamboxPreferenceChange('precut_y', val)}
                   forceUsePropsUnit
                   className={{ half: true }}
+                  id='qa-set-blade-precut-positiony'
                 />
               </Controls>
             </div>
@@ -766,6 +790,7 @@ class SettingGeneral extends React.Component<Props, State> {
             getValue={(val) => this.updateBeamboxPreferenceChange('diode_offset_x', val)}
             forceUsePropsUnit
             className={{ half: true }}
+            id='qa-settings-diode-offsetx'
           />
           <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
@@ -776,6 +801,7 @@ class SettingGeneral extends React.Component<Props, State> {
             getValue={(val) => this.updateBeamboxPreferenceChange('diode_offset_y', val)}
             forceUsePropsUnit
             className={{ half: true }}
+            id='qa-settings-diode-offsety'
           />
         </Controls>
 

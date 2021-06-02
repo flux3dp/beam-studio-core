@@ -35,6 +35,7 @@ const fixedSizeMapping = {
 };
 
 interface Props {
+  id?: string;
   elem: Element;
   getDimensionValues: () => any;
   updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
@@ -78,7 +79,7 @@ class DimensionPanel extends React.Component<Props> {
     this.forceUpdate();
   };
 
-  changeSize = (type:string, val:number): IBatchCommand => {
+  changeSize = ( type:string, val:number): IBatchCommand => {
     const { elem } = this.props;
     const elemSize = val > 0.1 ? val : 0.1;
     let cmd = null;
@@ -307,6 +308,7 @@ class DimensionPanel extends React.Component<Props> {
               <img src="img/right-panel/icon-rotate.svg" alt="" />
             </div>
             <UnitInput
+              id='rotate'
               unit="deg"
               className={this.unitInputClass}
               defaultValue={dimensionValues.rotation}
@@ -319,6 +321,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">W</div>
             <UnitInput
+              id='qa-width'
               unit={this.unit}
               className={this.unitInputClass}
               onBlur={() => this.handleSizeBlur()}
@@ -333,6 +336,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">H</div>
             <UnitInput
+              id='qa-height'
               unit={this.unit}
               className={this.unitInputClass}
               onBlur={() => this.handleSizeBlur()}
@@ -380,8 +384,8 @@ class DimensionPanel extends React.Component<Props> {
 
   renderDimensionPanels = (panels:Array<string>): Array<Element> => {
     const ret = [];
-    for (let i = 0; i < panels.length; i += 1) {
-      ret.push(this.renderDimensionPanel(panels[i]));
+    for (let panel of panels) {
+      ret.push(this.renderDimensionPanel(panel));
     }
     return ret;
   };

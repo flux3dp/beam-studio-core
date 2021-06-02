@@ -21,6 +21,7 @@ export class AlertsAndProgress extends React.Component {
         progressCount += 1;
         return (
           <Progress
+            id={alertOrProgress.buttonType}
             key={`progress-${progressCount}`}
             progress={alertOrProgress}
             onClose={popFromStack}

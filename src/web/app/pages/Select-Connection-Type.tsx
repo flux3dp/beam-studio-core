@@ -37,6 +37,7 @@ class SelectConnectionType extends React.PureComponent {
 
   renderConnectionTypeButton = (type: 'wifi' | 'wired' | 'ether2ether') => (
     <button
+      id={`qa-connect-${type}`}
       type="button"
       className="btn btn-action"
       onClick={this.selectConnectionType.bind(this, type)}

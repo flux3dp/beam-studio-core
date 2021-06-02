@@ -82,7 +82,7 @@ class Prompt extends React.Component<Props> {
       <Modal
         onClose={closeOnBackgroundClick ? onClose : () => { }}
       >
-        <div className={classNames('prompt-dialog-container', 'animate__animated', 'animate__bounceIn')}>
+        <div id='addparameter' className={classNames('prompt-dialog-container', 'animate__animated', 'animate__bounceIn')}>
           <div className="caption">{caption}</div>
           <input
             autoFocus

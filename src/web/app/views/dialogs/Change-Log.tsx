@@ -160,6 +160,7 @@ class ChangeLogDialog extends React.Component<Props> {
           </div>
           <div className="footer">
             <button
+              id='qa-btn-default primary'
               type="button"
               className="btn btn-default primary"
               onClick={() => onClose()}

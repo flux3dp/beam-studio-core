@@ -3,8 +3,10 @@ import React from 'react';
 
 import keyCodeConstants from 'app/constants/keycode-constants';
 import storage from 'implementations/storage';
+import { string } from 'prop-types';
 
 interface Props {
+  id?: string,
   min?: number,
   max?: number,
   step?: number,
@@ -234,10 +236,11 @@ class UnitInput extends React.Component<Props, States> {
     className['ui ui-control-unit-input-v2'] = true;
 
     const shouldHideValue = (this.props.displayMultiValue && !this.state.isEditing);
-
+    // console.log(className);
     return (
       <div className={ClassNames(className)}>
         <input
+          id={this.props.id}
           type={this.props.type}
           step={this.props.step}
           value={shouldHideValue ? '-' : this.state.displayValue}

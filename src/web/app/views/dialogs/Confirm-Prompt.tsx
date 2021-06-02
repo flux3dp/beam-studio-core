@@ -97,7 +97,7 @@ class ConfirmPrompt extends React.Component<Props> {
   render() {
     return (
       <Modal>
-        <div className={classNames('confirm-prompt-dialog-container', 'animate__animated', 'animate__bounceIn')} ref={this.containerRef}>
+        <div id='qa-power-caption' className={classNames('confirm-prompt-dialog-container', 'animate__animated', 'animate__bounceIn')} ref={this.containerRef}>
           <div className="caption">{this.props.caption}</div>
           <pre className="message">{this.props.message}</pre>
           <input

@@ -11,6 +11,7 @@ import { IProgressDialog } from 'interfaces/IProgress';
 const LANG = i18n.lang;
 
 interface Props {
+  id?: string;
   progress: IProgressDialog,
   onClose?: () => void,
 }

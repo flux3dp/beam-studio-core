@@ -41,7 +41,7 @@ class ButtonGroup extends React.Component<Props> {
       const className = classNames('btn', hasOptClassname ? opt.className : 'btn-default', {
         'pull-right': opt.right,
       });
-
+      // console.log(opt.label.toLowerCase())
       if (typeof opt.label === 'string') {
         attrs['data-test-key'] = opt.label.toLowerCase();
       }

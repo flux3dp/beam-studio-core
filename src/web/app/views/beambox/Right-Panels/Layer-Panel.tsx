@@ -499,8 +499,10 @@ class LayerPanel extends React.Component<Props, State> {
         const isLocked = layer.getAttribute('data-lock') === 'true';
         const isSelected = selectedLayers.includes(layerName);
         const isVis = drawing.getLayerVisibility(layerName);
+        // console.log(layerName)
         items.push(
           <div
+            data-test-key={`layer-${i}`}
             key={layerName}
             className={classNames('layer', { layersel: isSelected, lock: isLocked, current: currentLayerName === layerName })}
             onClick={(e: React.MouseEvent) => this.handleLayerClick(e, layerName)}

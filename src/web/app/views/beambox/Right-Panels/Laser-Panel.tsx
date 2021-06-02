@@ -458,7 +458,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         const minValue = 1;
         const hasMultipleValue = this.state.hasMultiPower;
         return (
-            <div className='panel'>
+            <div id='strength' className='panel'>
                 <span className='title'>{LANG.strength}</span>
                 <UnitInput
                     min={minValue}
@@ -488,7 +488,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         const decimalDisplay = {mm: 1, inches: 2}[this.unit];
         const hasMultipleValue = this.state.hasMultiSpeed;
         return (
-            <div className='panel'>
+            <div id='speed' className='panel'>
                 <span className='title'>{LANG.speed}</span>
                 <UnitInput
                     min={minValue}
@@ -524,7 +524,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     _renderRepeat = () => {
         const hasMultipleValue = this.state.hasMultiRepeat;
         return (
-            <div className='panel without-drag'>
+            <div id='repeat' className='panel without-drag'>
                 <span className='title'>{LANG.repeat}</span>
                 <UnitInput
                     min={0}
