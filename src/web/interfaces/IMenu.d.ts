@@ -3,6 +3,7 @@ export interface IMenu {
   getApplicationMenu(): any;
   setApplicationMenu(menu: any): void;
   appendMenuItem(menu: any, options: MenuItemOptions): void;
+  createTitleBar(): any;
 }
 
 export interface MenuItemOptions {
