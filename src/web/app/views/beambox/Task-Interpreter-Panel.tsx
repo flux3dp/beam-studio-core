@@ -1,16 +1,16 @@
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import Modal from 'app/widgets/Modal';
+import network from 'implementations/network';
 import React, { createRef } from 'react';
 import SelectView from 'app/widgets/Select';
 import VerticalSlider from 'app/widgets/Vertical-Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { SerialPort } from 'interfaces/INetwork';
 
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
-
-const SerialPort = requireNode('serialport');
 const LINES_PER_PAGE = 100;
 const TAB_GCODE = 0;
 const TAB_CONSOLE = 1;
@@ -39,7 +39,7 @@ interface State {
 }
 
 class TaskInterpreterPanel extends React.Component<Props, State>{
-  private serialPort: any;
+  private serialPort: SerialPort;
 
   private onDataCB: (data?) => void;
 
@@ -122,7 +122,7 @@ class TaskInterpreterPanel extends React.Component<Props, State>{
 
   async updateSerialPortList() {
     const { selectedPort } = this.state;
-    let portsList = await SerialPort.list();
+    let portsList = await network.listSerialPorts();
     const portOptions = portsList.map((p) => {
       return ({
         value: p.path,
@@ -139,7 +139,7 @@ class TaskInterpreterPanel extends React.Component<Props, State>{
   _handleConnect() {
     const openPort = () => {
       let { selectedPort, consoleText } = this.state;
-      this.serialPort = new SerialPort(selectedPort, {
+      this.serialPort = network.createSerialPort(selectedPort, {
         baudRate: 230400,
         dataBits: 8,
         lock: false

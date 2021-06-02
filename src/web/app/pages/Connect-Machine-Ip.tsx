@@ -8,11 +8,9 @@ import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
 import keyCodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
+import network from 'implementations/network';
 import storage from 'implementations/storage';
 import { IDeviceInfo } from 'interfaces/IDevice';
-
-const dns = requireNode('dns');
-const ping = requireNode('net-ping');
 
 let lang;
 const TIMEOUT = 20;
@@ -98,12 +96,8 @@ class ConnectMachine extends React.Component<any, State> {
   }
 
   checkRpiIp = async () => {
-    const dnsPromise = dns.promises;
     try {
-      const lookupOptions = {
-        all: true,
-      };
-      const res = await dnsPromise.lookup('raspberrypi.local', lookupOptions);
+      const res = await network.dnsLookUpAll('raspberrypi.local');
       res.forEach((ipAddress) => {
         if (ipAddress.family === 4) {
           this.setState({ rpiIp: ipAddress.address });
@@ -217,7 +211,7 @@ class ConnectMachine extends React.Component<any, State> {
     const ip = this.ipInput.current.value;
     return new Promise<boolean>((resolve) => {
       try {
-        const session = ping.createSession();
+        const session = network.createPingSession();
         session.on('error', (error) => {
           console.log('session error: ', error);
           resolve(undefined);
