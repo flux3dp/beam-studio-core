@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/Alert-Progress-Context';
-import ButtonGroup from 'app/widgets/Button-Group';
+import ButtonGroup from 'app/widgets/ButtonGroup';
 import Modal from 'app/widgets/Modal';
 import i18n from 'helpers/i18n';
 import { IProgressDialog } from 'interfaces/IProgress';

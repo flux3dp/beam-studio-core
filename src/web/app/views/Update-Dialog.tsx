@@ -2,7 +2,7 @@
 import React from 'react';
 import { sprintf } from 'sprintf-js';
 
-import ButtonGroup from 'app/widgets/Button-Group';
+import ButtonGroup from 'app/widgets/ButtonGroup';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import storage from 'implementations/storage';

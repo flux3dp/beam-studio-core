@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import browser from 'implementations/browser';
-import ButtonGroup from 'app/widgets/Button-Group';
+import ButtonGroup from 'app/widgets/ButtonGroup';
 import Modal from 'app/widgets/Modal';
 
 interface Props {

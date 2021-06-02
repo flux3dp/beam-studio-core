@@ -72,7 +72,6 @@ exports[`should render correctly opened 1`] = `
               },
             ]
           }
-          className=""
         />
       </div>
     </div>

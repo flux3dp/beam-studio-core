@@ -1,6 +1,6 @@
 import i18n from 'helpers/i18n';
 import * as React from 'react';
-import ButtonGroup from 'app/widgets/Button-Group';
+import ButtonGroup from 'app/widgets/ButtonGroup';
 import KeyCodeConstants from 'app/constants/keycode-constants';
 
 const lang = i18n.lang;
