@@ -1,43 +1,44 @@
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 const UPDATE_LASER_PANEL = 'UPDATE_LASER_PANEL';
 const SHOW_CROPPER = 'SHOW_CROPPER';
 const DRAW_GUIDE_LINES = 'DRAW_GUIDE_LINES';
 
-export default Object.assign(EventEmitter.prototype, {
+const eventEmitter = new EventEmitter();
+export default {
   onUpdateLaserPanel(callback) {
-    this.on(UPDATE_LASER_PANEL, callback);
+    eventEmitter.on(UPDATE_LASER_PANEL, callback);
   },
 
   onCropperShown(callback) {
-    this.on(SHOW_CROPPER, callback);
+    eventEmitter.on(SHOW_CROPPER, callback);
   },
 
   onDrawGuideLines(callback) {
-    this.on(DRAW_GUIDE_LINES, callback);
+    eventEmitter.on(DRAW_GUIDE_LINES, callback);
   },
 
   removeUpdateLaserPanelListener(callback) {
-    this.removeListener(UPDATE_LASER_PANEL, callback);
+    eventEmitter.removeListener(UPDATE_LASER_PANEL, callback);
   },
 
   removeAllUpdateLaserPanelListeners() {
-    this.removeAllListeners(UPDATE_LASER_PANEL);
+    eventEmitter.removeAllListeners(UPDATE_LASER_PANEL);
   },
 
   removeCropperShownListener(callback) {
-    this.removeListener(SHOW_CROPPER, callback);
+    eventEmitter.removeListener(SHOW_CROPPER, callback);
   },
 
   emitUpdateLaserPanel() {
-    this.emit(UPDATE_LASER_PANEL);
+    eventEmitter.emit(UPDATE_LASER_PANEL);
   },
 
   emitShowCropper() {
-    this.emit(SHOW_CROPPER);
+    eventEmitter.emit(SHOW_CROPPER);
   },
 
   emitDrawGuideLines() {
-    this.emit(DRAW_GUIDE_LINES);
+    eventEmitter.emit(DRAW_GUIDE_LINES);
   },
-});
+};
