@@ -10,6 +10,12 @@ export default {
   },
 
   emitUpdate(payload: {
+    device: IDeviceInfo,
+    updateInfo: {
+      changelog_en: string,
+      changelog_zh: string,
+      latestVersion: string,
+    },
     onDownload: () => void,
     onInstall: () => void,
   }) {

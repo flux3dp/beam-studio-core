@@ -330,5 +330,3 @@ svgedit.coords.remapElement = function(selected, changes, m) {
 };
 
 }());
-svgedit.coords2 = svgedit.coords;
-console.log(svgedit.coords2)
