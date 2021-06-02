@@ -7,6 +7,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import communicator from 'implementations/communicator';
 import fontScanner from 'implementations/fontScanner';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
@@ -27,7 +28,6 @@ getSVGAsync((globalSVG) => {
 const { electron, $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
-const { ipc, events } = electron;
 const LANG = i18n.lang.beambox.object_panels;
 
 enum SubstituteResult {
@@ -82,7 +82,7 @@ if (fontNameMapObj.navigatorLang !== navigator.language) {
 const fontNameMap = new Map();
 const availableFontFamilies = (function requestAvailableFontFamilies() {
   // get all available fonts in user PC
-  const fonts = ipc.sendSync(events.GET_AVAILABLE_FONTS);
+  const fonts = communicator.sendSync('GET_AVAILABLE_FONTS');
   fonts.forEach((font) => {
     if (!fontNameMap.get(font.family)) {
       let fontName = font.family;
@@ -160,11 +160,11 @@ const init = () => {
 init();
 
 const requestFontsOfTheFontFamily = memoize((family) => {
-  const fonts = ipc.sendSync(events.FIND_FONTS, { family });
+  const fonts = communicator.sendSync('FIND_FONTS', { family });
   return Array.from(fonts);
 });
 const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
-  const font = ipc.sendSync(events.FIND_FONT, {
+  const font = communicator.sendSync('FIND_FONT', {
     family: opts.family,
     style: opts.style,
     weight: opts.weight,
@@ -437,11 +437,11 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
 
   // use key (which hash from $textElement html string) to prevent ipc event confliction
   const key = hashCode($textElement.prop('outerHTML'));
-  ipc.once(events.RESOLVE_PATH_D_OF_TEXT + key, (sender, pathD) => {
+  communicator.once('RESOLVE_PATH_D_OF_TEXT' + key, (sender, pathD) => {
     d.resolve(pathD);
   });
 
-  ipc.send(events.REQUEST_PATH_D_OF_TEXT, {
+  communicator.send('REQUEST_PATH_D_OF_TEXT', {
     text: $textElement.text(),
     x: $textElement.attr('x'),
     y: $textElement.attr('y'),

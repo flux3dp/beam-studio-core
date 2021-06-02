@@ -3,6 +3,8 @@
 /**
  * Make symbol elements for <use> element
  */
+
+import communicator from 'implementations/communicator';
 import fs from 'implementations/fileSystem';
 import history from 'app/svgedit/history';
 import Progress from 'app/actions/progress-caller';
@@ -16,7 +18,6 @@ let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
 
 let clipCount = 1;
-const { electron } = window;
 
 const makeSymbol = (
   elem: Element,
@@ -318,10 +319,10 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
 });
 
 const svgToImgUrlByShadowWindow = async (data) => new Promise<string>((resolve) => {
-  electron.ipc.once(`SVG_URL_TO_IMG_URL_DONE_${requestId}`, (sender, url) => {
+  communicator.once(`SVG_URL_TO_IMG_URL_DONE_${requestId}`, (sender, url) => {
     resolve(url);
   });
-  electron.ipc.send('SVG_URL_TO_IMG_URL', data);
+  communicator.send('SVG_URL_TO_IMG_URL', data);
 });
 
 const calculateImageRatio = (bb) => {
