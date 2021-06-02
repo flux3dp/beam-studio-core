@@ -1,11 +1,12 @@
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const UPDATE_EVENT = 'update';
 
-export default Object.assign(EventEmitter.prototype, {
+const eventEmitter = new EventEmitter();
+export default {
   onUpdate(callback) {
-    this.on(UPDATE_EVENT, callback);
+    eventEmitter.on(UPDATE_EVENT, callback);
   },
 
   emitUpdate(payload: {
@@ -18,6 +19,6 @@ export default Object.assign(EventEmitter.prototype, {
     onDownload: () => void,
     onInstall: () => void,
   }) {
-    this.emit(UPDATE_EVENT, payload);
+    eventEmitter.emit(UPDATE_EVENT, payload);
   },
-});
+};
