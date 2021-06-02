@@ -87,10 +87,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
   reporter: NodeJS.Timeout;
 
+  isGettingReport: boolean;
+
   constructor(props: Props) {
     super(props);
     const { mode, previewTask } = props;
     updateLang();
+    this.isGettingReport = false;
     this.didErrorPopped = false;
     this.modeBeforeCamera = mode;
     this.modeBeforeRelocate = mode;
@@ -147,9 +150,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   }
 
   startReport(): void {
+    if (this.reporter) clearInterval(this.reporter);
     this.reporter = setInterval(async () => {
       try {
+        if (this.isGettingReport) return;
+        this.isGettingReport = true;
         const report = await DeviceMaster.getReport();
+        this.isGettingReport = false;
         this.processReport(report);
       } catch (error) {
         if (error && error.status === 'raw') {
@@ -165,6 +172,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           const { onClose } = this.props;
           const askRetryReconnect = () => new Promise<boolean>((resolve) => {
             Alert.popUp({
+              id: 'monitor-reconnect',
               type: AlertConstants.SHOW_POPUP_ERROR,
               buttonType: AlertConstants.RETRY_CANCEL,
               message: LANG.monitor.ask_reconnect,
@@ -174,16 +182,20 @@ export class MonitorContextProvider extends React.Component<Props, State> {
                   Alert.popById('connection-error');
                   resolve(true);
                 } else {
-                  resolve(await askRetryReconnect());
+                  const doRetry = await askRetryReconnect();
+                  resolve(doRetry);
                 }
               },
               onCancel: () => resolve(false),
             });
           });
-          if (await askRetryReconnect()) {
-            this.startReport();
-          } else {
-            onClose();
+          if (!Alert.checkIdExist('monitor-reconnect')) {
+            const doRetry = await askRetryReconnect();
+            if (doRetry) {
+              this.startReport();
+            } else {
+              onClose();
+            }
           }
         }
       }

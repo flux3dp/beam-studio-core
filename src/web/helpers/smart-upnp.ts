@@ -1,3 +1,4 @@
+import os from 'implementations/os';
 import storage from 'implementations/storage';
 
 const AUTO_POKE_INTERVAL = 3000;
@@ -79,8 +80,6 @@ const self = {
 	},
 
 	getLocalAddresses: function(){
-		// TODO: fix requireNode
-		var os = requireNode('os');
 		var ifaces = os.networkInterfaces();
 		var addresses = [];
 		Object.keys(ifaces).forEach(function (ifname) {

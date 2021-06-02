@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 // import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 // import Alert from 'app/actions/alert-caller';
@@ -14,6 +14,7 @@ import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILayerPanelContext } from 'interfaces/IContext';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+
 import {
   // getLayerElementByName,
   // deleteLayers,

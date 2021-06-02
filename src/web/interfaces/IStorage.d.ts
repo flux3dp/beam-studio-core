@@ -38,10 +38,11 @@ export type StorageKey =
   | 'host';
 
 export interface IStorage {
-  get(name: StorageKey): any,
-  set(name: StorageKey, val: any): IStorage,
-  removeAt(name: StorageKey): IStorage,
-  clearAll(): IStorage,
-  clearAllExceptIP(): IStorage,
-  isExisting(key: StorageKey): boolean,
+  get(name: StorageKey): any;
+  set(name: StorageKey, val: any): IStorage;
+  removeAt(name: StorageKey): IStorage;
+  clearAll(): IStorage;
+  clearAllExceptIP(): IStorage;
+  isExisting(key: StorageKey): boolean;
+  getStore(): any;
 }

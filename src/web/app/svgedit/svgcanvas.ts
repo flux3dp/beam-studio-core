@@ -63,6 +63,9 @@ import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
 import fs from 'implementations/fileSystem';
+import jimpHelper from 'helpers/jimp-helper';
+import imageProcessor from 'implementations/imageProcessor';
+import menu from 'implementations/menu';
 
 let svgCanvas;
 let svgEditor;
@@ -654,7 +657,6 @@ export default $.SvgCanvas = function (container, config) {
 
   let drawn_path = null;
 
-  const { Menu, MenuItem } = requireNode('electron').remote;
   this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
   this.isBorderlessMode = BeamboxPreference.read('borderless');
   // Clipboard for cut, copy&pasted elements
@@ -9174,7 +9176,7 @@ export default $.SvgCanvas = function (container, config) {
 
   this.updateRecentMenu = () => {
     const recentFiles = storage.get('recent_files') || [];
-    let recentMenu = Menu.getApplicationMenu().items.filter(i => i.id === '_file')[0].submenu.items.filter(i => i.id === 'RECENT')[0].submenu;
+    let recentMenu = menu.getApplicationMenu().items.filter(i => i.id === '_file')[0].submenu.items.filter(i => i.id === 'RECENT')[0].submenu;
     recentMenu.items = [];
     recentMenu.clear();
     recentFiles.forEach(filePath => {
@@ -9182,18 +9184,18 @@ export default $.SvgCanvas = function (container, config) {
       if (window.os !== 'Windows') {
         label = filePath.replace(':', '/');
       }
-      recentMenu.append(new MenuItem({
+      menu.appendMenuItem(recentMenu, {
         'id': label, label: label, click: async () => {
           const res = await FileExportHelper.toggleUnsavedChangedDialog();
           if (res) this.loadRecentFile(filePath);
         }
-      }));
+      });
     });
-    recentMenu.append(new MenuItem({ type: 'separator' }));
-    recentMenu.append(new MenuItem({ 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } }));
-    Menu.setApplicationMenu(Menu.getApplicationMenu());
+    menu.appendMenuItem(recentMenu, { type: 'separator' });
+    menu.appendMenuItem(recentMenu, { 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } });
+    menu.setApplicationMenu(menu.getApplicationMenu());
     if (window.os === 'Windows' && window.titlebar) {
-      window.titlebar.updateMenu(Menu.getApplicationMenu());
+      window.titlebar.updateMenu(menu.getApplicationMenu());
     }
   }
 
@@ -9864,7 +9866,7 @@ export default $.SvgCanvas = function (container, config) {
   this.toggleBezierPathAlignToEdge = () => {
     const isBezierPathAlignToEdge = !(this.isBezierPathAlignToEdge || false);
     this.isBezierPathAlignToEdge = isBezierPathAlignToEdge;
-    Menu.getApplicationMenu().items.filter(i => i.id === '_edit')[0].submenu.items.filter(i => i.id === 'ALIGN_TO_EDGES')[0].checked = this.isBezierPathAlignToEdge;
+    menu.getApplicationMenu().items.filter(i => i.id === '_edit')[0].submenu.items.filter(i => i.id === 'ALIGN_TO_EDGES')[0].checked = this.isBezierPathAlignToEdge;
     $('#x_align_line').remove();
     $('#y_align_line').remove();
   }
@@ -11221,13 +11223,9 @@ export default $.SvgCanvas = function (container, config) {
     let cmd;
     const origImage = $(image).attr('origImage');
     if (origImage) {
-      const jimp = requireNode('jimp');
-      let data: any = await fetch(origImage);
-      data = await data.blob();
-      data = await new Response(data).arrayBuffer();
-      data = await jimp.read(data);
+      let data: any = await jimpHelper.urlToImage(origImage);
       data.flip(horizon === -1, vertical === -1);
-      data = await data.getBufferAsync(jimp.MIME_PNG);
+      data = await data.getBufferAsync(imageProcessor.MIME_PNG);
       data = new Blob([data]);
       const src = URL.createObjectURL(data);
       canvas.undoMgr.beginUndoableChange('origImage', [image]);

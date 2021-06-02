@@ -1,10 +1,11 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+
 import Constant from 'app/actions/beambox/constant';
+import i18n from 'helpers/i18n';
 // import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ZoomBlockContext, ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
 let svgCanvas;
 let svgEditor;

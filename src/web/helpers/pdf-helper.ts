@@ -14,7 +14,6 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 let svgEditor;
 getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
 
-const path = requireNode('path');
 const util = requireNode('util');
 const childProcess = requireNode('child_process');
 const exec = util.promisify(childProcess.exec);
@@ -22,10 +21,9 @@ const execFile = util.promisify(childProcess.execFile);
 // eslint-disable-next-line @typescript-eslint/dot-notation
 const resourcesRoot = localStorage.getItem('dev') === 'true' ? window.process.cwd() : window.process['resourcesPath'];
 const lang = i18n.lang.beambox.popup.pdf2svg;
-const electron = requireNode('electron');
-const appDataPath = electron.remote.app.getPath('appData');
-const beamStudioDataPath = path.join(appDataPath, 'Beam Studio');
-const win32TempFile = path.join(beamStudioDataPath, 'temp.pdf');
+const appDataPath = fs.getPath('appData');
+const beamStudioDataPath = fs.join(appDataPath, 'Beam Studio');
+const win32TempFile = fs.join(beamStudioDataPath, 'temp.pdf');
 
 try {
   if (window.os === 'Windows') {
@@ -42,14 +40,14 @@ try {
 
 let pdf2svgPath = null;
 if (window.os === 'MacOS') {
-  pdf2svgPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg');
+  pdf2svgPath = fs.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg');
 } else if (window.os === 'Windows') {
-  pdf2svgPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg.exe');
+  pdf2svgPath = fs.join(resourcesRoot, 'utils', 'pdf2svg', 'pdf2svg.exe');
 }
 
 const pdf2svg = async (file: File): Promise<void> => {
   if (pdf2svgPath) {
-    const outPath = path.join(resourcesRoot, 'utils', 'pdf2svg', 'out.svg');
+    const outPath = fs.join(resourcesRoot, 'utils', 'pdf2svg', 'out.svg');
     // mac or windows, using packed binary executable
     try {
       let filePath = file.path;
@@ -84,7 +82,7 @@ const pdf2svg = async (file: File): Promise<void> => {
     }
   } else {
     // Linux
-    const outPath = path.join('/tmp', 'out.svg');
+    const outPath = fs.join('/tmp', 'out.svg');
     try {
       await exec('type pdf2svg');
     } catch (e) {
