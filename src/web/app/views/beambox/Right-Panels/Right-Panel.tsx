@@ -1,16 +1,16 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-// import TutorialConstants from 'app/constants/tutorial-constants';
-// import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContextProvider } from './contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from './contexts/ObjectPanelContext';
 import { RightPanelContext, RightPanelContextProvider } from './contexts/RightPanelContext';
 import LayerPanel from './Layer-Panel';
-// import { ObjectPanel } from './Object-Panel';
-// import PathEditPanel from './Path-Edit-Panel';
+import { ObjectPanel } from './Object-Panel';
+import PathEditPanel from './Path-Edit-Panel';
 
 let svgCanvas;
 let svgEditor;
@@ -40,25 +40,25 @@ export class RightPanel extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    // _contextCaller = this.context;
+    _contextCaller = this.context;
   }
 
   componentDidUpdate() {
-    // const { mode, selectedElement } = this.context;
-    // const { selectedTab } = this.state;
-    // if (mode === 'element') {
-    //   if (!selectedElement && selectedTab !== 'layers') {
-    //     this.setState({ selectedTab: 'layers' });
-    //   } else if (selectedElement && !this.lastElement) {
-    //     this.setState({ selectedTab: 'objects' });
-    //   }
-    // } else {
-    //   if (this.lastMode !== mode) {
-    //     this.setState({ selectedTab: 'objects' });
-    //   }
-    // }
-    // this.lastMode = mode;
-    // this.lastElement = selectedElement;
+    const { mode, selectedElement } = this.context;
+    const { selectedTab } = this.state;
+    if (mode === 'element') {
+      if (!selectedElement && selectedTab !== 'layers') {
+        this.setState({ selectedTab: 'layers' });
+      } else if (selectedElement && !this.lastElement) {
+        this.setState({ selectedTab: 'objects' });
+      }
+    } else {
+      if (this.lastMode !== mode) {
+        this.setState({ selectedTab: 'objects' });
+      }
+    }
+    this.lastMode = mode;
+    this.lastElement = selectedElement;
   }
 
   renderTabs() {
@@ -77,7 +77,7 @@ export class RightPanel extends React.Component<{}, State> {
         objectTitle = LangTopBar.tag_names.multi_select;
       } else {
         if (selectedElement.tagName !== 'use') {
-          // objectTitle = LangTopBar.tag_names[selectedElement.tagName];
+          objectTitle = LangTopBar.tag_names[selectedElement.tagName];
         } else {
           if (selectedElement.getAttribute('data-svg') === 'true') {
             objectTitle = LangTopBar.tag_names.svg;
@@ -95,10 +95,10 @@ export class RightPanel extends React.Component<{}, State> {
           className={classNames('tab', 'layers', { selected: selectedTab === 'layers' })}
           onClick={() => {
             this.setState({ selectedTab: 'layers' });
-            // if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_LAYER_PANEL) {
-            //   svgCanvas.clearSelection();
-            //   TutorialController.handleNextStep();
-            // }
+            if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_LAYER_PANEL) {
+              svgCanvas.clearSelection();
+              TutorialController.handleNextStep();
+            }
           }}
         >
           <img className="tab-icon" src="img/right-panel/icon-layers.svg" draggable={false} />
@@ -130,37 +130,37 @@ export class RightPanel extends React.Component<{}, State> {
   }
 
   renderObjectPanel() {
-    // const { selectedElement } = this.context;
-    // return (
-    //   <ObjectPanel
-    //     elem={selectedElement}
-    //   />
-    // );
+    const { selectedElement } = this.context;
+    return (
+      <ObjectPanel
+        elem={selectedElement}
+      />
+    );
   }
 
   renderPathEditPanel() {
-    // return (
-    //   <PathEditPanel />
-    // );
+    return (
+      <PathEditPanel />
+    );
   }
 
   render() {
     const { mode, selectedElement } = this.context;
     const { selectedTab } = this.state;
     let content;
-    // if (selectedTab === 'layers') {
+    if (selectedTab === 'layers') {
       content = this.renderLayerAndLaserPanel();
-    // } else {
-    //   if (mode === 'path-edit') {
-    //     content = this.renderPathEditPanel();
-    //   } else { // element mode
-    //     if (!selectedElement || selectedElement.length < 1) {
-    //       content = this.renderLayerAndLaserPanel();
-    //     } else {
-    //       content = this.renderObjectPanel();
-    //     }
-    //   }
-    // }
+    } else {
+      if (mode === 'path-edit') {
+        content = this.renderPathEditPanel();
+      } else { // element mode
+        if (!selectedElement || selectedElement.length < 1) {
+          content = this.renderLayerAndLaserPanel();
+        } else {
+          content = this.renderObjectPanel();
+        }
+      }
+    }
     return (
       <div id="right-panel">
         <div id="sidepanels" className={classNames({ win: isWin, linux: isLinux })}>
