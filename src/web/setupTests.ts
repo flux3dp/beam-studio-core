@@ -14,3 +14,7 @@ Object.defineProperty(window, 'FLUX', {
   value: {},
   writable: true,
 });
+Object.defineProperty(window, 'electron', {
+  value: {},
+  writable: true,
+});

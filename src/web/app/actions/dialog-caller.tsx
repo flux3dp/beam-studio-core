@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AboutBeamStudio from 'app/views/beambox/AboutBeamStudio';
-import ChangeLogDialog from 'app/views/dialogs/Change-Log';
+import ChangeLogDialog from 'app/views/dialogs/ChangeLogDialog';
 import ConfirmPrompt from 'app/views/dialogs/Confirm-Prompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
