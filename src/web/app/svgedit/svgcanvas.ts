@@ -137,18 +137,18 @@ export default $.SvgCanvas = function (container, config) {
     }
 
     // TODO: Clear out all other attributes first?
-    // $(svgcontent).attr({
-    //   id: 'svgcontent',
-    //   width: dimensions[0],
-    //   height: dimensions[1],
-    //   x: dimensions[0],
-    //   y: dimensions[1],
-    //   overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
-    //   xmlns: NS.SVG,
-    //   'xmlns:se': NS.SE,
-    //   'xmlns:xlink': NS.XLINK,
-    //   style: 'will-change: scroll-position, contents, transform;'
-    // }).appendTo(svgroot);
+    $(svgcontent).attr({
+      id: 'svgcontent',
+      width: dimensions[0],
+      height: dimensions[1],
+      x: dimensions[0],
+      y: dimensions[1],
+      overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
+      xmlns: NS.SVG,
+      'xmlns:se': NS.SE,
+      'xmlns:xlink': NS.XLINK,
+      style: 'will-change: scroll-position, contents, transform;'
+    }).appendTo(svgroot);
     const isUsingAntiAliasing = BeamboxPreference.read('anti-aliasing') !== false;
     // viewMenu.updateAntiAliasing(isUsingAntiAliasing);
   };
@@ -11443,7 +11443,7 @@ export default $.SvgCanvas = function (container, config) {
   this.updateCanvas = function (w, h) {
     svgroot.setAttribute('width', w);
     svgroot.setAttribute('height', h);
-    // var bg = $('#canvasBackground')[0];
+    var bg = $('#canvasBackground')[0];
     var old_x = svgcontent.getAttribute('x');
     var old_y = svgcontent.getAttribute('y');
     var x = (w / 2 - this.contentW * current_zoom / 2);
@@ -11457,12 +11457,12 @@ export default $.SvgCanvas = function (container, config) {
       'viewBox': '0 0 ' + this.contentW + ' ' + this.contentH
     });
 
-    // svgedit.utilities.assignAttributes(bg, {
-    //   width: svgcontent.getAttribute('width'),
-    //   height: svgcontent.getAttribute('height'),
-    //   x: x,
-    //   y: y
-    // });
+    svgedit.utilities.assignAttributes(bg, {
+      width: svgcontent.getAttribute('width'),
+      height: svgcontent.getAttribute('height'),
+      x: x,
+      y: y
+    });
 
     var bg_img = svgedit.utilities.getElem('background_image');
     if (bg_img) {
@@ -11507,7 +11507,7 @@ export default $.SvgCanvas = function (container, config) {
     var bg = svgedit.utilities.getElem('canvasBackground');
     var border = $(bg).find('rect')[0];
     var bg_img = svgedit.utilities.getElem('background_image');
-    // border.setAttribute('fill', color);
+    border.setAttribute('fill', color);
     if (url) {
       if (!bg_img) {
         bg_img = svgdoc.createElementNS(NS.SVG, 'image');

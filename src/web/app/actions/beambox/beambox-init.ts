@@ -79,12 +79,12 @@ const init = (): void => {
     }
   }
   if (!storage.get('default-font')) {
-    initDefaultFont();
+    // initDefaultFont();
   }
   viewMenu.init();
   initMenuBarEvents();
   autoSaveHelper.init();
-  fluxId.init();
+  // fluxId.init();
   BeamboxStore.onDrawGuideLines(displayGuides);
 };
 
@@ -463,7 +463,7 @@ const initMenuBarEvents = (): void => {
   };
 
   if (!menuEventRegistered) {
-    registerAllDeviceMenuClickEvents();
+    // registerAllDeviceMenuClickEvents();
   }
 };
 
