@@ -20,7 +20,7 @@
 // 10) svgutils.js
 // 11) coords.js
 
-var svgedit = svgedit || {};
+var svgedit = window.svgedit || {};
 
 (function() {
 

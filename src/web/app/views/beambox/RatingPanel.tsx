@@ -1,5 +1,6 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+
+import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import RatingHelper from 'helpers/rating-helper';
 
@@ -64,7 +65,6 @@ class RatingPanel extends React.Component<Props, State> {
 
   renderStars(): JSX.Element {
     const { star, tempStar } = this.state;
-
     return (
       <div className="stars">
         <img

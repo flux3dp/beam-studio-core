@@ -1,6 +1,6 @@
 import * as React from 'react';
-import AboutBeamStudio from 'app/views/beambox/About-Beam-Studio';
-import ChangeLogDialog from 'app/views/dialogs/Change-Log';
+import AboutBeamStudio from 'app/views/beambox/AboutBeamStudio';
+import ChangeLogDialog from 'app/views/dialogs/ChangeLogDialog';
 import ConfirmPrompt from 'app/views/dialogs/Confirm-Prompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
@@ -9,7 +9,7 @@ import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/views/FluxIdLogin';
 import InputLightBox from 'app/widgets/Input-Lightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
-import RatingPanel from 'app/views/beambox/Rating-Panel';
+import RatingPanel from 'app/views/beambox/RatingPanel';
 import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/Network-Testing-Panel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
