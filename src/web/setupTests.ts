@@ -10,3 +10,11 @@ Object.defineProperty(window, 'os', {
 Object.defineProperty(window, '$', {
   value: jest.fn(),
 });
+Object.defineProperty(window, 'FLUX', {
+  value: {},
+  writable: true,
+});
+Object.defineProperty(window, 'electron', {
+  value: {},
+  writable: true,
+});
