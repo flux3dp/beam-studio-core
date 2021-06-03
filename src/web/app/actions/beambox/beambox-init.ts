@@ -23,14 +23,12 @@ import FontConstants from 'app/constants/font-constants';
 import fontScanner from 'implementations/fontScanner';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
-import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
 import MonitorController from 'app/actions/monitor-controller';
 import OutputError from 'helpers/output-error';
 import Progress from 'app/actions/progress-caller';
 import ratingHelper from 'helpers/rating-helper';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
-import ToolPanelsController from 'app/actions/beambox/Tool-Panels-Controller';
 import Tutorials from 'app/actions/beambox/tutorials';
 import VersionChecker from 'helpers/version-checker';
 import viewMenu from 'helpers/menubar/view';
@@ -44,9 +42,6 @@ import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 let menuEventRegistered = false;
 
 const init = (): void => {
-  ToolPanelsController.init('tool-panels-placeholder');
-  ImageTracePanelController.init('image-trace-panel-placeholder');
-
   if (Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))) {
     const defaultAutoFocus = BeamboxPreference.read('default-autofocus');
     BeamboxPreference.write('enable-autofocus', defaultAutoFocus);

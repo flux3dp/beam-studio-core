@@ -4,7 +4,6 @@ import Alert from '../alert-caller';
 import TutorialConstants from '../../constants/tutorial-constants';
 import Dialog from '../dialog-caller';
 import Discover from '../../../helpers/api/discover';
-import DeviceList from '../../../helpers/device-list';
 
 const LANG = i18n.lang.tutorial;
 const getMachineForTutorial = async () => {
