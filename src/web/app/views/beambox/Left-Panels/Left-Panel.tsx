@@ -27,7 +27,7 @@ interface Props {
 class LeftPanel extends React.Component<Props> {
     private leftPanelClass: string;
 
-    constructor(props: Props) {
+    constructor(props) {
         super(props);
         this.leftPanelClass = classNames('left-toolbar', { win: isWin });
     }
@@ -121,7 +121,7 @@ class LeftPanel extends React.Component<Props> {
                 $('.tool-btn').removeClass('active');
                 $(`#left-${id}`).addClass('active');
             }
-            onClick?.();
+            onClick();
         }
         return (
             <div id={`left-${id}`} className={cx} title={label} onClick={setActiveAndOnClick}>
