@@ -16,7 +16,7 @@
 // 6) units.js
 // 7) svgtransformlist.js
 
-var svgedit = svgedit || {};
+var svgedit = window.svgedit || {};
 
 (function() {'use strict';
 
