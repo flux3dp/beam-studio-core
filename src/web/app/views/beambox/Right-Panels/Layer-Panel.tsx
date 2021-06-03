@@ -488,6 +488,7 @@ class LayerPanel extends React.Component<Props, State> {
     }
 
     const allLayerNames: string[] = drawing.all_layers.map((layer) => layer.name_);
+
     if (draggingDestIndex === allLayerNames.length) {
       items.push(this.renderDragBar());
     }
@@ -525,33 +526,33 @@ class LayerPanel extends React.Component<Props, State> {
                 />
               </div>
               <div
-                 className="layername"
-                 onDoubleClick={(e: React.MouseEvent) => {
-                   if (!e.ctrlKey && !e.shiftKey && !e.metaKey) this.layerDoubleClick();
-                 }}
-               >
-                 {layerName}
-               </div>
-               <div
-                 className={classNames('layervis')}
-                 onClick={(e: React.MouseEvent) => {
-                   e.stopPropagation();
-                   this.setLayerVisibility(layerName);
-                 }}
-               >
-                 <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
-               </div>
-               <div
-                 className="layerlock"
-                 onClick={(e: React.MouseEvent) => {
-                   if (isLocked) {
-                     e.stopPropagation();
-                     this.unLockLayers(layerName);
-                   }
-                 }}
-               >
-                 <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
-               </div>
+                className="layername"
+                onDoubleClick={(e: React.MouseEvent) => {
+                  if (!e.ctrlKey && !e.shiftKey && !e.metaKey) this.layerDoubleClick();
+                }}
+              >
+                {layerName}
+              </div>
+              <div
+                className={classNames('layervis')}
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  this.setLayerVisibility(layerName);
+                }}
+              >
+                <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
+              </div>
+              <div
+                className="layerlock"
+                onClick={(e: React.MouseEvent) => {
+                  if (isLocked) {
+                    e.stopPropagation();
+                    this.unLockLayers(layerName);
+                  }
+                }}
+              >
+                <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
+              </div>
             </div>
             <div
               className="drag-sensor-area"
