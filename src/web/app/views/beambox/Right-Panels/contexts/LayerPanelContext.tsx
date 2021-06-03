@@ -24,7 +24,7 @@ export class LayerPanelContextProvider extends React.Component<Props> {
       updateLayerPanel,
     } = this;
     this.contextValue = {
-      selectedLayers: ['Layer 1'],
+      selectedLayers,
       setSelectedLayers,
       updateLayerPanel,
     };

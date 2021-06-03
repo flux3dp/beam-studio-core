@@ -2,26 +2,26 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
-// import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
-// import Alert from 'app/actions/alert-caller';
-// import AlertConstants from 'app/constants/alert-constants';
+import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
 import ColorPickerPanel from 'app/views/beambox/Color-Picker-Panel';
-// import Dialog from 'app/actions/dialog-caller';
+import Dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
-// import TutorialConstants from 'app/constants/tutorial-constants';
-// import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILayerPanelContext } from 'interfaces/IContext';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 import {
-  // getLayerElementByName,
-  // deleteLayers,
-  // cloneSelectedLayers,
-  // setLayersLock,
-  // mergeSelectedLayers,
-  // moveLayersToPosition,
+  getLayerElementByName,
+  deleteLayers,
+  cloneSelectedLayers,
+  setLayersLock,
+  mergeSelectedLayers,
+  moveLayersToPosition,
 } from 'helpers/layer-helper';
 
 let svgCanvas;
@@ -65,280 +65,280 @@ class LayerPanel extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    // contextCaller = this.context;
-    // const { selectedLayers } = this.context;
-    // if (selectedLayers.length === 0) {
-    //   this.initMultiSelectedLayer();
-    // }
+    contextCaller = this.context;
+    const { selectedLayers } = this.context;
+    if (selectedLayers.length === 0) {
+      this.initMultiSelectedLayer();
+    }
   }
 
   componentDidUpdate(): void {
-    // contextCaller = this.context;
-    // const { selectedLayers } = this.context;
-    // if (selectedLayers.length === 0) {
-    //   this.initMultiSelectedLayer();
-    // }
+    contextCaller = this.context;
+    const { selectedLayers } = this.context;
+    if (selectedLayers.length === 0) {
+      this.initMultiSelectedLayer();
+    }
   }
 
   componentWillUnmount(): void {
-    // contextCaller = null;
+    contextCaller = null;
   }
 
   addNewLayer = (): void => {
     const { setSelectedLayers } = this.context;
     let i = 1;
     let uniqName = `${LANG.layers.layer} ${i}`;
-    // while (svgCanvas.getCurrentDrawing().hasLayer(uniqName)) {
-    //   i += 1;
-    //   uniqName = `${LANG.layers.layer} ${i}`;
-    // }
-    // svgCanvas.createLayer(uniqName);
-    // if (TutorialController.getNextStepRequirement() === TutorialConstants.ADD_NEW_LAYER) {
-    //   TutorialController.handleNextStep();
-    // }
-    // svgEditor.updateContextPanel();
-    // initLayerConfig(uniqName);
+    while (svgCanvas.getCurrentDrawing().hasLayer(uniqName)) {
+      i += 1;
+      uniqName = `${LANG.layers.layer} ${i}`;
+    }
+    svgCanvas.createLayer(uniqName);
+    if (TutorialController.getNextStepRequirement() === TutorialConstants.ADD_NEW_LAYER) {
+      TutorialController.handleNextStep();
+    }
+    svgEditor.updateContextPanel();
+    initLayerConfig(uniqName);
     setSelectedLayers([uniqName]);
   };
 
   cloneSelectedLayers = (): void => {
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   const newSelectedLayers = cloneSelectedLayers(selectedLayers);
-  //   setSelectedLayers(newSelectedLayers);
+    const { selectedLayers, setSelectedLayers } = this.context;
+    const newSelectedLayers = cloneSelectedLayers(selectedLayers);
+    setSelectedLayers(newSelectedLayers);
   };
 
   deleteSelectLayers = (): void => {
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   deleteLayers(selectedLayers);
-  //   setSelectedLayers([]);
+    const { selectedLayers, setSelectedLayers } = this.context;
+    deleteLayers(selectedLayers);
+    setSelectedLayers([]);
   };
 
   lockSelectedLayers = (): void => {
-  //   const { selectedLayers } = this.context;
-  //   svgCanvas.clearSelection();
-  //   setLayersLock(selectedLayers, true);
-  //   this.forceUpdate();
+    const { selectedLayers } = this.context;
+    svgCanvas.clearSelection();
+    setLayersLock(selectedLayers, true);
+    this.forceUpdate();
   };
 
   unLockLayers = (layerName: string): void => {
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   if (selectedLayers.includes(layerName)) {
-  //     setLayersLock(selectedLayers, false);
-  //     this.forceUpdate();
-  //   } else {
-  //     setLayersLock([layerName], false);
-  //     setSelectedLayers([layerName]);
-  //   }
+    const { selectedLayers, setSelectedLayers } = this.context;
+    if (selectedLayers.includes(layerName)) {
+      setLayersLock(selectedLayers, false);
+      this.forceUpdate();
+    } else {
+      setLayersLock([layerName], false);
+      setSelectedLayers([layerName]);
+    }
   };
 
   mergeLayer = (): void => {
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const layerCount = drawing.getNumLayers();
-  //   const curIndex = drawing.getCurrentLayerPosition();
-  //   if (curIndex === layerCount) {
-  //     return;
-  //   }
-  //   svgCanvas.mergeLayer();
-  //   const { setSelectedLayers } = this.context;
-  //   setSelectedLayers([]);
+    const drawing = svgCanvas.getCurrentDrawing();
+    const layerCount = drawing.getNumLayers();
+    const curIndex = drawing.getCurrentLayerPosition();
+    if (curIndex === layerCount) {
+      return;
+    }
+    svgCanvas.mergeLayer();
+    const { setSelectedLayers } = this.context;
+    setSelectedLayers([]);
   };
 
   mergeAllLayer = (): void => {
-  //   svgCanvas.mergeAllLayers();
-  //   const { setSelectedLayers } = this.context;
-  //   setSelectedLayers([]);
+    svgCanvas.mergeAllLayers();
+    const { setSelectedLayers } = this.context;
+    setSelectedLayers([]);
   };
 
   mergeSelected = (): void => {
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const currentLayerName = drawing.getCurrentLayerName();
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   const baseLayer = mergeSelectedLayers(selectedLayers, currentLayerName);
-  //   setSelectedLayers([baseLayer]);
+    const drawing = svgCanvas.getCurrentDrawing();
+    const currentLayerName = drawing.getCurrentLayerName();
+    const { selectedLayers, setSelectedLayers } = this.context;
+    const baseLayer = mergeSelectedLayers(selectedLayers, currentLayerName);
+    setSelectedLayers([baseLayer]);
   };
 
   renameLayer = (): void => {
-  //   const { setSelectedLayers } = this.context;
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const oldName = drawing.getCurrentLayerName();
+    const { setSelectedLayers } = this.context;
+    const drawing = svgCanvas.getCurrentDrawing();
+    const oldName = drawing.getCurrentLayerName();
 
-  //   Dialog.promptDialog({
-  //     caption: LANG.notification.newName,
-  //     defaultValue: oldName,
-  //     onYes: (newName: string) => {
-  //       if (!newName || oldName === newName) {
-  //         return;
-  //       }
-  //       if (svgCanvas.getCurrentDrawing().hasLayer(newName)) {
-  //         Alert.popUp({
-  //           id: 'dupli_layer_name',
-  //           message: LANG.notification.enterUniqueLayerName,
-  //         });
-  //         return;
-  //       }
-  //       svgCanvas.renameCurrentLayer(newName);
-  //       cloneLayerConfig(oldName, newName);
-  //       setSelectedLayers([newName]);
-  //     },
-  //   });
+    Dialog.promptDialog({
+      caption: LANG.notification.newName,
+      defaultValue: oldName,
+      onYes: (newName: string) => {
+        if (!newName || oldName === newName) {
+          return;
+        }
+        if (svgCanvas.getCurrentDrawing().hasLayer(newName)) {
+          Alert.popUp({
+            id: 'dupli_layer_name',
+            message: LANG.notification.enterUniqueLayerName,
+          });
+          return;
+        }
+        svgCanvas.renameCurrentLayer(newName);
+        cloneLayerConfig(oldName, newName);
+        setSelectedLayers([newName]);
+      },
+    });
   };
 
-  // moveToOtherLayer = (e: React.ChangeEvent): void => {
-  //   const select = e.target as HTMLSelectElement;
-  //   const destLayer = select.options[select.selectedIndex].value;
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const confirmStr = LANG.notification.QmoveElemsToLayer.replace('%s', destLayer);
+  moveToOtherLayer = (e: React.ChangeEvent): void => {
+    const select = e.target as HTMLSelectElement;
+    const destLayer = select.options[select.selectedIndex].value;
+    const drawing = svgCanvas.getCurrentDrawing();
+    const confirmStr = LANG.notification.QmoveElemsToLayer.replace('%s', destLayer);
 
-  //   const moveToLayer = (ok) => {
-  //     if (!ok) {
-  //       return;
-  //     }
-  //     this.promptMoveLayerOnce = true;
-  //     svgCanvas.moveSelectedToLayer(destLayer);
-  //     drawing.setCurrentLayer(destLayer);
-  //     this.forceUpdate();
-  //   };
-  //   if (destLayer) {
-  //     if (this.promptMoveLayerOnce) {
-  //       moveToLayer(true);
-  //     } else {
-  //       Alert.popUp({
-  //         id: 'move layer',
-  //         buttonType: AlertConstants.YES_NO,
-  //         message: confirmStr,
-  //         onYes: moveToLayer,
-  //       });
-  //     }
-  //   }
-  // };
+    const moveToLayer = (ok) => {
+      if (!ok) {
+        return;
+      }
+      this.promptMoveLayerOnce = true;
+      svgCanvas.moveSelectedToLayer(destLayer);
+      drawing.setCurrentLayer(destLayer);
+      this.forceUpdate();
+    };
+    if (destLayer) {
+      if (this.promptMoveLayerOnce) {
+        moveToLayer(true);
+      } else {
+        Alert.popUp({
+          id: 'move layer',
+          buttonType: AlertConstants.YES_NO,
+          message: confirmStr,
+          onYes: moveToLayer,
+        });
+      }
+    }
+  };
 
-  // initMultiSelectedLayer = (): void => {
-  //   if (!svgCanvas) {
-  //     return;
-  //   }
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const currentLayerName = drawing.getCurrentLayerName();
-  //   if (currentLayerName) {
-  //     const { setSelectedLayers } = this.context;
-  //     setSelectedLayers([currentLayerName]);
-  //   }
-  // };
+  initMultiSelectedLayer = (): void => {
+    if (!svgCanvas) {
+      return;
+    }
+    const drawing = svgCanvas.getCurrentDrawing();
+    const currentLayerName = drawing.getCurrentLayerName();
+    if (currentLayerName) {
+      const { setSelectedLayers } = this.context;
+      setSelectedLayers([currentLayerName]);
+    }
+  };
 
-  // selectOnlyLayer = (layerName: string): void => {
-  //   const { setSelectedLayers } = this.context;
-  //   svgCanvas.clearSelection();
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const res = drawing.setCurrentLayer(layerName);
-  //   if (res) {
-  //     setSelectedLayers([layerName]);
-  //   }
-  // };
+  selectOnlyLayer = (layerName: string): void => {
+    const { setSelectedLayers } = this.context;
+    svgCanvas.clearSelection();
+    const drawing = svgCanvas.getCurrentDrawing();
+    const res = drawing.setCurrentLayer(layerName);
+    if (res) {
+      setSelectedLayers([layerName]);
+    }
+  };
 
   toggleLayerSelected = (layerName: string): void => {
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const index = selectedLayers.findIndex((name: string) => name === layerName);
-  //   if (index >= 0) {
-  //     if (selectedLayers.length > 1) {
-  //       selectedLayers.splice(index, 1);
-  //       drawing.setCurrentLayer(selectedLayers[0]);
-  //     }
-  //   } else {
-  //     selectedLayers.push(layerName);
-  //     drawing.setCurrentLayer(layerName);
-  //   }
-  //   setSelectedLayers(selectedLayers);
+    const { selectedLayers, setSelectedLayers } = this.context;
+    const drawing = svgCanvas.getCurrentDrawing();
+    const index = selectedLayers.findIndex((name: string) => name === layerName);
+    if (index >= 0) {
+      if (selectedLayers.length > 1) {
+        selectedLayers.splice(index, 1);
+        drawing.setCurrentLayer(selectedLayers[0]);
+      }
+    } else {
+      selectedLayers.push(layerName);
+      drawing.setCurrentLayer(layerName);
+    }
+    setSelectedLayers(selectedLayers);
   };
 
   toggleContiguousSelectedUntil = (layerName: string): void => {
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const currentLayer: string = drawing.getCurrentLayerName();
+    const drawing = svgCanvas.getCurrentDrawing();
+    const currentLayer: string = drawing.getCurrentLayerName();
 
-  //   const allLayers: string[] = drawing.all_layers.map((layer) => layer.name_);
-  //   let [startIndex, endIndex] = [-1, -1];
-  //   for (let i = 0; i < allLayers.length; i += 1) {
-  //     if (allLayers[i] === currentLayer) {
-  //       startIndex = i;
-  //     }
-  //     if (allLayers[i] === layerName) {
-  //       endIndex = i;
-  //     }
-  //     if (startIndex > -1 && endIndex > -1) break;
-  //   }
-  //   if (startIndex < 0 || endIndex < 0) return;
+    const allLayers: string[] = drawing.all_layers.map((layer) => layer.name_);
+    let [startIndex, endIndex] = [-1, -1];
+    for (let i = 0; i < allLayers.length; i += 1) {
+      if (allLayers[i] === currentLayer) {
+        startIndex = i;
+      }
+      if (allLayers[i] === layerName) {
+        endIndex = i;
+      }
+      if (startIndex > -1 && endIndex > -1) break;
+    }
+    if (startIndex < 0 || endIndex < 0) return;
 
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   const isLayerSelected = selectedLayers.includes(layerName);
+    const { selectedLayers, setSelectedLayers } = this.context;
+    const isLayerSelected = selectedLayers.includes(layerName);
 
-  //   for (let i = startIndex; i !== endIndex; endIndex > startIndex ? i += 1 : i -= 1) {
-  //     const index = selectedLayers.findIndex((name) => name === allLayers[i]);
-  //     if (isLayerSelected && index >= 0) {
-  //       selectedLayers.splice(index, 1);
-  //     } else if (!isLayerSelected && index < 0) {
-  //       selectedLayers.push(allLayers[i]);
-  //     }
-  //   }
-  //   if (!selectedLayers.includes(layerName)) {
-  //     selectedLayers.push(layerName);
-  //   }
-  //   drawing.setCurrentLayer(layerName);
-  //   setSelectedLayers(selectedLayers);
+    for (let i = startIndex; i !== endIndex; endIndex > startIndex ? i += 1 : i -= 1) {
+      const index = selectedLayers.findIndex((name) => name === allLayers[i]);
+      if (isLayerSelected && index >= 0) {
+        selectedLayers.splice(index, 1);
+      } else if (!isLayerSelected && index < 0) {
+        selectedLayers.push(allLayers[i]);
+      }
+    }
+    if (!selectedLayers.includes(layerName)) {
+      selectedLayers.push(layerName);
+    }
+    drawing.setCurrentLayer(layerName);
+    setSelectedLayers(selectedLayers);
   };
 
   highlightLayer = (layerName?: string): void => {
     let i: number;
     const curNames = [];
-    // const numLayers = svgCanvas.getCurrentDrawing().getNumLayers();
-    // for (i = 0; i < numLayers; i += 1) {
-    //   curNames[i] = svgCanvas.getCurrentDrawing().getLayerName(i);
-    // }
+    const numLayers = svgCanvas.getCurrentDrawing().getNumLayers();
+    for (i = 0; i < numLayers; i += 1) {
+      curNames[i] = svgCanvas.getCurrentDrawing().getLayerName(i);
+    }
 
-    // if (layerName) {
-    //   for (i = 0; i < numLayers; i += 1) {
-    //     if (curNames[i] !== layerName) {
-    //       svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 0.5);
-    //     }
-    //   }
-    // } else {
-    //   for (i = 0; i < numLayers; i += 1) {
-    //     svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 1.0);
-    //   }
-    // }
+    if (layerName) {
+      for (i = 0; i < numLayers; i += 1) {
+        if (curNames[i] !== layerName) {
+          svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 0.5);
+        }
+      }
+    } else {
+      for (i = 0; i < numLayers; i += 1) {
+        svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 1.0);
+      }
+    }
   };
 
   setLayerColor = (layerName: string, newColor: string): void => {
-    // const { selectedLayers } = this.context;
-    // const { isUsingLayerColor } = svgCanvas;
-    // if (selectedLayers.includes(layerName)) {
-    //   for (let i = 0; i < selectedLayers.length; i += 1) {
-    //     const layer = getLayerElementByName(selectedLayers[i]);
-    //     layer.setAttribute('data-color', newColor);
-    //     if (isUsingLayerColor) {
-    //       svgCanvas.updateLayerColor(layer);
-    //     }
-    //   }
-    // } else {
-    //   const layer = getLayerElementByName(layerName);
-    //   layer.setAttribute('data-color', newColor);
-    //   if (isUsingLayerColor) {
-    //     svgCanvas.updateLayerColor(layer);
-    //   }
-    // }
-    // this.forceUpdate();
+    const { selectedLayers } = this.context;
+    const { isUsingLayerColor } = svgCanvas;
+    if (selectedLayers.includes(layerName)) {
+      for (let i = 0; i < selectedLayers.length; i += 1) {
+        const layer = getLayerElementByName(selectedLayers[i]);
+        layer.setAttribute('data-color', newColor);
+        if (isUsingLayerColor) {
+          svgCanvas.updateLayerColor(layer);
+        }
+      }
+    } else {
+      const layer = getLayerElementByName(layerName);
+      layer.setAttribute('data-color', newColor);
+      if (isUsingLayerColor) {
+        svgCanvas.updateLayerColor(layer);
+      }
+    }
+    this.forceUpdate();
   };
 
   setLayerVisibility = (layerName: string): void => {
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const isVis = drawing.getLayerVisibility(layerName);
-  //   const { selectedLayers } = this.context;
-  //   if (selectedLayers.includes(layerName)) {
-  //     for (let i = 0; i < selectedLayers.length; i += 1) {
-  //       svgCanvas.setLayerVisibility(selectedLayers[i], !isVis);
-  //     }
-  //   } else {
-  //     svgCanvas.setLayerVisibility(layerName, !isVis);
-  //   }
-  //   this.forceUpdate();
+    const drawing = svgCanvas.getCurrentDrawing();
+    const isVis = drawing.getLayerVisibility(layerName);
+    const { selectedLayers } = this.context;
+    if (selectedLayers.includes(layerName)) {
+      for (let i = 0; i < selectedLayers.length; i += 1) {
+        svgCanvas.setLayerVisibility(selectedLayers[i], !isVis);
+      }
+    } else {
+      svgCanvas.setLayerVisibility(layerName, !isVis);
+    }
+    this.forceUpdate();
   };
 
   openLayerColorPanel = (e: React.MouseEvent, layerName: string): void => {
@@ -351,16 +351,16 @@ class LayerPanel extends React.Component<Props, State> {
   };
 
   onlayerDragStart = (e: React.DragEvent, layerName: string): void => {
-  //   const dragImage = document.getElementById('drag-image') as Element;
-  //   e.dataTransfer.setDragImage(dragImage, 0, 0);
-  //   const { selectedLayers, setSelectedLayers } = this.context;
-  //   if (!selectedLayers.includes(layerName)) {
-  //     setSelectedLayers([layerName]);
-  //   }
+    const dragImage = document.getElementById('drag-image') as Element;
+    e.dataTransfer.setDragImage(dragImage, 0, 0);
+    const { selectedLayers, setSelectedLayers } = this.context;
+    if (!selectedLayers.includes(layerName)) {
+      setSelectedLayers([layerName]);
+    }
 
-  //   this.setState({
-  //     draggingLayer: layerName,
-  //   });
+    this.setState({
+      draggingLayer: layerName,
+    });
   };
 
   onlayerCenterDragEnter = (layerName: string): void => {
@@ -378,20 +378,20 @@ class LayerPanel extends React.Component<Props, State> {
   };
 
   onlayerDragEnd = (): void => {
-  //   const { draggingDestIndex } = this.state;
-  //   const { selectedLayers } = this.context;
-  //   if (draggingDestIndex !== null) {
-  //     moveLayersToPosition(selectedLayers, draggingDestIndex);
-  //     svgCanvas.sortTempGroupByLayer();
-  //   }
-  //   this.setState({
-  //     draggingLayer: null,
-  //     draggingDestIndex: null,
-  //   });
+    const { draggingDestIndex } = this.state;
+    const { selectedLayers } = this.context;
+    if (draggingDestIndex !== null) {
+      moveLayersToPosition(selectedLayers, draggingDestIndex);
+      svgCanvas.sortTempGroupByLayer();
+    }
+    this.setState({
+      draggingLayer: null,
+      draggingDestIndex: null,
+    });
   };
 
   layerDoubleClick = (): void => {
-  //   this.renameLayer();
+    this.renameLayer();
   };
 
   handleLayerClick = (e: React.MouseEvent, layerName: string): void => {
@@ -429,15 +429,15 @@ class LayerPanel extends React.Component<Props, State> {
   }
 
   renderDragImage = () => {
-  //   const drawing = svgCanvas.getCurrentDrawing();
+    const drawing = svgCanvas.getCurrentDrawing();
     const { selectedLayers } = this.context;
     const { draggingLayer } = this.state;
-  //   const layer = drawing.getLayerByName(draggingLayer);
-  //   if (!draggingLayer || !layer) {
-  //     return (<div id="drag-image" />);
-  //   }
-  //   const isLocked = layer.getAttribute('data-lock') === 'true';
-    const isVis = true; // drawing.getLayerVisibility(draggingLayer);
+    const layer = drawing.getLayerByName(draggingLayer);
+    if (!draggingLayer || !layer) {
+      return (<div id="drag-image" />);
+    }
+    const isLocked = layer.getAttribute('data-lock') === 'true';
+    const isVis = drawing.getLayerVisibility(draggingLayer);
     const backLayers = [];
     for (let i = selectedLayers.length - 1; i >= 1; i -= 1) {
       backLayers.push(
@@ -452,10 +452,10 @@ class LayerPanel extends React.Component<Props, State> {
           <div className="drag-sensor-area" />
           <div className="layer-row">
             <div className="layercolor">
-              {/* <div style={{ backgroundColor: drawing.getLayerColor(draggingLayer) }} /> */}
+              <div style={{ backgroundColor: drawing.getLayerColor(draggingLayer) }} />
             </div>
             <div className="layername">{draggingLayer}</div>
-            <div className={classNames('layervis', { layerinvis: true, /*!drawing.getLayerVisibility(draggingLayer)*/ })}>
+            <div className={classNames('layervis', { layerinvis: !drawing.getLayerVisibility(draggingLayer) })}>
               <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
             </div>
             <div className="layerlock">
@@ -474,29 +474,28 @@ class LayerPanel extends React.Component<Props, State> {
     const { selectedLayers } = this.context;
     const { draggingDestIndex } = this.state;
     const items = [];
-    // const drawing = svgCanvas.getCurrentDrawing();
-    const currentLayerName = 'Layer 1'; // drawing.getCurrentLayerName();
+    const drawing = svgCanvas.getCurrentDrawing();
+    const currentLayerName = drawing.getCurrentLayerName();
 
-  //   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
-  //     if (!layer.group_.parentNode) {
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  //   if (isAnyLayerMissing) {
-  //     drawing.identifyLayers();
-  //   }
+    const isAnyLayerMissing = drawing.all_layers.some((layer) => {
+      if (!layer.group_.parentNode) {
+        return true;
+      }
+      return false;
+    });
+    if (isAnyLayerMissing) {
+      drawing.identifyLayers();
+    }
 
-  //   const allLayerNames: string[] = drawing.all_layers.map((layer) => layer.name_);
-        const allLayerNames = ['Layer 1'];
-  //   if (draggingDestIndex === allLayerNames.length) {
-      // items.push(this.renderDragBar());
-  //   }
+    const allLayerNames: string[] = drawing.all_layers.map((layer) => layer.name_);
+    if (draggingDestIndex === allLayerNames.length) {
+      items.push(this.renderDragBar());
+    }
 
     for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
       const layerName = allLayerNames[i];
-    //   const layer = drawing.getLayerByName(layerName);
-    //   if (layer) {
+      const layer = drawing.getLayerByName(layerName);
+      if (layer) {
         const isLocked = true; // layer.getAttribute('data-lock') === 'true';
         const isSelected = selectedLayers.includes(layerName);
         const isVis = true; // drawing.getLayerVisibility(layerName);
@@ -560,10 +559,10 @@ class LayerPanel extends React.Component<Props, State> {
             />
           </div>,
         );
-  //       if (draggingDestIndex === i) {
-          // items.push(this.renderDragBar());
-  //       }
-  //     }
+        if (draggingDestIndex === i) {
+          items.push(this.renderDragBar());
+        }
+      }
     }
 
     return (
@@ -574,35 +573,35 @@ class LayerPanel extends React.Component<Props, State> {
   };
 
   renderSelLayerBlock = () => {
-  //   const { elem } = this.props;
-  //   const options = [];
-  //   const drawing = svgCanvas.getCurrentDrawing();
-  //   const layerCount = drawing.getNumLayers();
-  //   if (!elem || layerCount === 1) {
+    const { elem } = this.props;
+    const options = [];
+    const drawing = svgCanvas.getCurrentDrawing();
+    const layerCount = drawing.getNumLayers();
+    if (!elem || layerCount === 1) {
       return null;
-  //   }
-  //   const currentLayerName = drawing.getCurrentLayerName();
-  //   for (let i = layerCount - 1; i >= 0; i -= 1) {
-  //     const layerName = drawing.getLayerName(i);
-  //     options.push(
-  //       <option value={layerName} key={i}>{layerName}</option>,
-  //     );
-  //   }
+    }
+    const currentLayerName = drawing.getCurrentLayerName();
+    for (let i = layerCount - 1; i >= 0; i -= 1) {
+      const layerName = drawing.getLayerName(i);
+      options.push(
+        <option value={layerName} key={i}>{layerName}</option>,
+      );
+    }
 
-  //   return (
-  //     <div className="selLayerBlock controls">
-  //       <span id="selLayerLabel">{LANG.move_elems_to}</span>
-  //       <select
-  //         value={currentLayerName}
-  //         id="selLayerNames"
-  //         title="Move selected elements to a different layer"
-  //         onChange={(e: React.ChangeEvent) => this.moveToOtherLayer(e)}
-  //         disabled={options.length < 2}
-  //       >
-  //         {options}
-  //       </select>
-  //     </div>
-  //   );
+    return (
+      <div className="selLayerBlock controls">
+        <span id="selLayerLabel">{LANG.move_elems_to}</span>
+        <select
+          value={currentLayerName}
+          id="selLayerNames"
+          title="Move selected elements to a different layer"
+          onChange={(e: React.ChangeEvent) => this.moveToOtherLayer(e)}
+          disabled={options.length < 2}
+        >
+          {options}
+        </select>
+      </div>
+    );
   };
 
   renderAddLayerButton() {
@@ -616,17 +615,17 @@ class LayerPanel extends React.Component<Props, State> {
   }
 
   render() {
-    // if (!svgCanvas) {
-    //   setTimeout(() => {
-    //     this.forceUpdate();
-    //   }, 50);
-    //   return null;
-    // }
+    if (!svgCanvas) {
+      setTimeout(() => {
+        this.forceUpdate();
+      }, 50);
+      return null;
+    }
     const { selectedLayers } = this.context;
     const isMultiSelecting = selectedLayers.length > 1;
-    // const drawing = svgCanvas.getCurrentDrawing();
-    const isSelectingLast = false; // ((selectedLayers.length === 1)
-    //   && (drawing.getLayerName(0) === selectedLayers[0]));
+    const drawing = svgCanvas.getCurrentDrawing();
+    const isSelectingLast = ((selectedLayers.length === 1)
+      && (drawing.getLayerName(0) === selectedLayers[0]));
     return (
       <div id="layer-and-laser-panel">
         <div id="layerpanel" onMouseOut={() => this.highlightLayer()}>
