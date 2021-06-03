@@ -8,9 +8,9 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-// import checkDeviceStatus from 'helpers/check-device-status';
+import checkDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
-// import DeviceMaster from 'helpers/device-master';
+import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import Discover from 'helpers/api/discover';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
@@ -98,10 +98,10 @@ export class TopBar extends React.Component<{}, State> {
 
   componentDidUpdate() {
     const { setShouldStartPreviewController, shouldStartPreviewController } = this.context;
-    // if (shouldStartPreviewController) {
-    //   this.showCameraPreviewDeviceList();
-    //   setShouldStartPreviewController(false);
-    // }
+    if (shouldStartPreviewController) {
+      this.showCameraPreviewDeviceList();
+      setShouldStartPreviewController(false);
+    }
   }
 
   renderPreviewButton = () => {
@@ -119,23 +119,23 @@ export class TopBar extends React.Component<{}, State> {
     );
   }
 
-  // changeToPreviewMode = () => {
-  //   const { setTopBarPreviewMode } = this.context;
-  //   svgCanvas.setMode('select');
+  changeToPreviewMode = () => {
+    const { setTopBarPreviewMode } = this.context;
+    svgCanvas.setMode('select');
 
-  //   $('#workarea').contextMenu({ menu: [] }, () => { });
-  //   $('#workarea').contextmenu(() => {
-  //     this.endPreviewMode();
-  //     return false;
-  //   });
-  //   setTopBarPreviewMode(true);
-  //   const workarea = window['workarea'];
-  //   $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-  //   this.setState({ isPreviewing: true });
-  //   if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
-  //     TutorialController.handleNextStep();
-  //   }
-  // }
+    $('#workarea').contextMenu({ menu: [] }, () => { });
+    $('#workarea').contextmenu(() => {
+      this.endPreviewMode();
+      return false;
+    });
+    setTopBarPreviewMode(true);
+    const workarea = window['workarea'];
+    $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+    this.setState({ isPreviewing: true });
+    if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
+      TutorialController.handleNextStep();
+    }
+  }
 
   showCameraPreviewDeviceList = () => {
     if (!PreviewModeController.isPreviewMode()) {
@@ -242,19 +242,19 @@ export class TopBar extends React.Component<{}, State> {
   endPreviewMode = () => {
     const { setTopBarPreviewMode } = this.context;
     try {
-      // if (PreviewModeController.isPreviewMode()) {
-      //   PreviewModeController.end();
-      // }
+      if (PreviewModeController.isPreviewMode()) {
+        PreviewModeController.end();
+      }
     } catch (error) {
       console.log(error);
     } finally {
-      // if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
-      //   TutorialController.handleNextStep();
-      // }
-      // FnWrapper.useSelectTool();
-      // $('#workarea').off('contextmenu');
-      // svgEditor.setWorkAreaContextMenu();
-      // setTopBarPreviewMode(false);
+      if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
+        TutorialController.handleNextStep();
+      }
+      FnWrapper.useSelectTool();
+      $('#workarea').off('contextmenu');
+      svgEditor.setWorkAreaContextMenu();
+      setTopBarPreviewMode(false);
       this.setState({
         isPreviewing: false,
       });
@@ -524,27 +524,27 @@ export class TopBar extends React.Component<{}, State> {
   handleSelectDevice = async (device, callback: Function) => {
     this.hideDeviceList();
     try {
-      // const status = await DeviceMaster.select(device);
-      // if (status && status.success) {
-      //   const res = await checkDeviceStatus(device);
-      //   if (res) {
-      //     callback(device);
-      //   }
-      // }
+      const status = await DeviceMaster.select(device);
+      if (status && status.success) {
+        const res = await checkDeviceStatus(device);
+        if (res) {
+          callback(device);
+        }
+      }
     } catch (e) {
-      // console.error(e);
-      // Alert.popUp({
-      //   id: 'fatal-occurred',
-      //   message: '#813' + e.toString(),
-      //   type: AlertConstants.SHOW_POPUP_ERROR,
-      // });
+      console.error(e);
+      Alert.popUp({
+        id: 'fatal-occurred',
+        message: '#813' + e.toString(),
+        type: AlertConstants.SHOW_POPUP_ERROR,
+      });
     }
   }
 
   renderFileName() {
-    // if (window.os === 'Windows') {
-    //   return null;
-    // } else {
+    if (window.os === 'Windows') {
+      return null;
+    } else {
       const { fileName, hasUnsavedChange } = this.context;
       const titleText = (fileName || LANG.untitled) + (hasUnsavedChange ? '*' : '');
       return (
@@ -552,7 +552,7 @@ export class TopBar extends React.Component<{}, State> {
           {titleText}
         </div>
       );
-    // }
+    }
   }
 
   renderHint() {
@@ -569,19 +569,19 @@ export class TopBar extends React.Component<{}, State> {
         if (selectedElem.getAttribute('data-tempgroup') === 'true') {
           content = LANG.tag_names.multi_select;
         } else {
-          // const layer = svgCanvas.getObjectLayer(selectedElem);
-          // const layerName = layer ? layer.title : '';
-          // if (selectedElem.tagName !== 'use') {
-          //   content = `${layerName} > ${LANG.tag_names[selectedElem.tagName]}`;
-          // } else {
-          //   if (selectedElem.getAttribute('data-svg') === 'true') {
-          //     content = `${layerName} > ${LANG.tag_names.svg}`;
-          //   } else if (selectedElem.getAttribute('data-dxf') === 'true') {
-          //     content = `${layerName} > ${LANG.tag_names.dxf}`;
-          //   } else {
-          //     content = `${layerName} > ${LANG.tag_names.use}`;
-          //   }
-          // }
+          const layer = svgCanvas.getObjectLayer(selectedElem);
+          const layerName = layer ? layer.title : '';
+          if (selectedElem.tagName !== 'use') {
+            content = `${layerName} > ${LANG.tag_names[selectedElem.tagName]}`;
+          } else {
+            if (selectedElem.getAttribute('data-svg') === 'true') {
+              content = `${layerName} > ${LANG.tag_names.svg}`;
+            } else if (selectedElem.getAttribute('data-dxf') === 'true') {
+              content = `${layerName} > ${LANG.tag_names.dxf}`;
+            } else {
+              content = `${layerName} > ${LANG.tag_names.use}`;
+            }
+          }
         }
       }
     } catch (e) {
