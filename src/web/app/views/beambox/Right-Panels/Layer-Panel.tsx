@@ -448,7 +448,7 @@ class LayerPanel extends React.Component<Props, State> {
     return (
       <div id="drag-image">
         {backLayers}
-        <div className={classNames('layer', 'layersel', { lock: false, /*isLocked*/ })}>
+        <div className={classNames('layer', 'layersel', { lock: isLocked })}>
           <div className="drag-sensor-area" />
           <div className="layer-row">
             <div className="layercolor">
@@ -496,9 +496,9 @@ class LayerPanel extends React.Component<Props, State> {
       const layerName = allLayerNames[i];
       const layer = drawing.getLayerByName(layerName);
       if (layer) {
-        const isLocked = true; // layer.getAttribute('data-lock') === 'true';
+        const isLocked = layer.getAttribute('data-lock') === 'true';
         const isSelected = selectedLayers.includes(layerName);
-        const isVis = true; // drawing.getLayerVisibility(layerName);
+        const isVis = drawing.getLayerVisibility(layerName);
         items.push(
           <div
             key={layerName}
@@ -520,7 +520,7 @@ class LayerPanel extends React.Component<Props, State> {
             >
               <div className="layercolor">
                 <div
-                  style={{ backgroundColor: '#333333' /*drawing.getLayerColor(layerName)*/ }}
+                  style={{ backgroundColor: drawing.getLayerColor(layerName) }}
                   onClick={(e: React.MouseEvent) => this.openLayerColorPanel(e, layerName)}
                 />
               </div>
