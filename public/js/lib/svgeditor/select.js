@@ -429,7 +429,7 @@ svgedit.select.SelectorManager.prototype.initGroup = function() {
 	// zoom levels) and Opera has at least one bug
 //	if (!svgedit.browser.isOpera()) rect.setAttribute('filter', 'url(#canvashadow)');
 	canvasbg.appendChild(rect);
-	svgFactory_.svgRoot().insertBefore(canvasbg, svgFactory_.svgContent());
+	// svgFactory_.svgRoot().insertBefore(canvasbg, svgFactory_.svgContent());
 };
 
 // Function: svgedit.select.SelectorManager.requestSelector

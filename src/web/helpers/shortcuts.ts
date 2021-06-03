@@ -1,9 +1,10 @@
-import $ from 'jquery';
+// import $ from 'jquery';
 import KeycodeConstants from '../app/constants/keycode-constants';
 /**
  * setting up shortcut
  */
 let root = window;
+let { $ } = window;
 let isMetaKey = function(keyCode) {
     return (91 === keyCode || 93 === keyCode);
 };

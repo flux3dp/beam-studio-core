@@ -1005,7 +1005,7 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     });
 
-    window['svgCanvas'] = editor.canvas = svgCanvas = new $.SvgCanvas(document.getElementById('svgcanvas'), curConfig);
+    window['svgCanvas'] = editor.canvas = svgCanvas = new svgCanvasClass(document.getElementById('svgcanvas'), curConfig);
     OpenBottomBoundaryDrawer.update();
     var supportsNonSS, resize_timer, Actions, curScrollPos,
       palette = [ // Todo: Make into configuration item?

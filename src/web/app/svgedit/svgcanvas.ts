@@ -9175,28 +9175,28 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.updateRecentMenu = () => {
-    const recentFiles = storage.get('recent_files') || [];
-    let recentMenu = menu.getApplicationMenu().items.filter(i => i.id === '_file')[0].submenu.items.filter(i => i.id === 'RECENT')[0].submenu;
-    recentMenu.items = [];
-    recentMenu.clear();
-    recentFiles.forEach(filePath => {
-      let label = filePath
-      if (window.os !== 'Windows') {
-        label = filePath.replace(':', '/');
-      }
-      menu.appendMenuItem(recentMenu, {
-        'id': label, label: label, click: async () => {
-          const res = await FileExportHelper.toggleUnsavedChangedDialog();
-          if (res) this.loadRecentFile(filePath);
-        }
-      });
-    });
-    menu.appendMenuItem(recentMenu, { type: 'separator' });
-    menu.appendMenuItem(recentMenu, { 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } });
-    menu.setApplicationMenu(menu.getApplicationMenu());
-    if (window.os === 'Windows' && window.titlebar) {
-      window.titlebar.updateMenu(menu.getApplicationMenu());
-    }
+    // const recentFiles = storage.get('recent_files') || [];
+    // let recentMenu = menu.getApplicationMenu().items.filter(i => i.id === '_file')[0].submenu.items.filter(i => i.id === 'RECENT')[0].submenu;
+    // recentMenu.items = [];
+    // recentMenu.clear();
+    // recentFiles.forEach(filePath => {
+    //   let label = filePath
+    //   if (window.os !== 'Windows') {
+    //     label = filePath.replace(':', '/');
+    //   }
+    //   menu.appendMenuItem(recentMenu, {
+    //     'id': label, label: label, click: async () => {
+    //       const res = await FileExportHelper.toggleUnsavedChangedDialog();
+    //       if (res) this.loadRecentFile(filePath);
+    //     }
+    //   });
+    // });
+    // menu.appendMenuItem(recentMenu, { type: 'separator' });
+    // menu.appendMenuItem(recentMenu, { 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } });
+    // menu.setApplicationMenu(menu.getApplicationMenu());
+    // if (window.os === 'Windows' && window.titlebar) {
+    //   window.titlebar.updateMenu(menu.getApplicationMenu());
+    // }
   }
 
   this.updateRecentFiles = (filePath) => {
@@ -11443,7 +11443,7 @@ export default $.SvgCanvas = function (container, config) {
   this.updateCanvas = function (w, h) {
     svgroot.setAttribute('width', w);
     svgroot.setAttribute('height', h);
-    var bg = $('#canvasBackground')[0];
+    // var bg = $('#canvasBackground')[0];
     var old_x = svgcontent.getAttribute('x');
     var old_y = svgcontent.getAttribute('y');
     var x = (w / 2 - this.contentW * current_zoom / 2);
@@ -11457,12 +11457,12 @@ export default $.SvgCanvas = function (container, config) {
       'viewBox': '0 0 ' + this.contentW + ' ' + this.contentH
     });
 
-    svgedit.utilities.assignAttributes(bg, {
-      width: svgcontent.getAttribute('width'),
-      height: svgcontent.getAttribute('height'),
-      x: x,
-      y: y
-    });
+    // svgedit.utilities.assignAttributes(bg, {
+    //   width: svgcontent.getAttribute('width'),
+    //   height: svgcontent.getAttribute('height'),
+    //   x: x,
+    //   y: y
+    // });
 
     var bg_img = svgedit.utilities.getElem('background_image');
     if (bg_img) {
@@ -11507,7 +11507,7 @@ export default $.SvgCanvas = function (container, config) {
     var bg = svgedit.utilities.getElem('canvasBackground');
     var border = $(bg).find('rect')[0];
     var bg_img = svgedit.utilities.getElem('background_image');
-    border.setAttribute('fill', color);
+    // border.setAttribute('fill', color);
     if (url) {
       if (!bg_img) {
         bg_img = svgdoc.createElementNS(NS.SVG, 'image');
