@@ -22,7 +22,7 @@ export default class SVGEditor extends React.Component {
 
   render() {
     // HIDE ALMOST ALL TOOLS USING CSS
-    const platformClassNames = classNames({ mac: true });
+    const platformClassNames = classNames({ mac: window.os === 'MacOS' });
     return (
       <div>
         <div id="svg_editor" className={platformClassNames}>

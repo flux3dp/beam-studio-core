@@ -999,13 +999,13 @@ const svgEditor = window['svgEditor'] = (function () {
 
         setTimeout(function () {
           $('.flyout_arrow_horiz:empty').each(function () {
-            // $(this).append($.getSvgIcon('arrow_right').width(5).height(5));
+            $(this).append($.getSvgIcon('arrow_right').width(5).height(5));
           });
         }, 1);
       }
     });
 
-    window['svgCanvas'] = editor.canvas = svgCanvas = new svgCanvasClass(document.getElementById('svgcanvas'), curConfig);
+    window['svgCanvas'] = editor.canvas = svgCanvas = new $.SvgCanvas(document.getElementById('svgcanvas'), curConfig);
     OpenBottomBoundaryDrawer.update();
     var supportsNonSS, resize_timer, Actions, curScrollPos,
       palette = [ // Todo: Make into configuration item?
