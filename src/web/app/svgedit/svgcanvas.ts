@@ -29,6 +29,8 @@
 // svgedit libs
 import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
+import textActions from 'app/svgedit/textactions';
+import textEdit from 'app/svgedit/textedit';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -402,6 +404,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   canvas.undoMgr = new history.UndoManager({
+    renderText: textEdit.renderMultiLineText,
     handleHistoryEvent: function (eventType, cmd) {
       const EventTypes = history.HistoryEventTypes;
       // TODO: handle setBlurOffsets.
@@ -481,8 +484,7 @@ export default $.SvgCanvas = function (container, config) {
               const textElem = textElems[i];
               const angle = svgedit.utilities.getRotationAngle(textElem);
               canvas.setRotationAngle(0, true, textElem);
-              console.log(textElem, textElem.getAttribute('letter-spacing'));
-              canvas.updateMultiLineTextElem(textElem);
+              textEdit.renderMultiLineText(textElem as SVGTextElement);
               canvas.setRotationAngle(angle, true, textElem);
               if (textElem.getAttribute('stroke-width') === '2') {
                 textElem.setAttribute('stroke-width', '2.01');
@@ -649,11 +651,9 @@ export default $.SvgCanvas = function (container, config) {
     // Rotary Mode
     rotaryMode = BeamboxPreference.read('rotary_mode');
 
-  const defaultFont = storage.get('default-font');
-  if (defaultFont) {
-    cur_text.font_family = defaultFont.family;
-    cur_text.font_postscriptName = defaultFont.postscriptName;
-  }
+  const curText = all_properties.text;
+  textEdit.updateCurText(curText);
+  textEdit.useDefaultFont();
 
   let drawn_path = null;
 
@@ -884,7 +884,6 @@ export default $.SvgCanvas = function (container, config) {
 
   // Set scope for these functions
   var getId, getNextId;
-  var textActions;
 
   (function (c) {
 
@@ -1612,7 +1611,7 @@ export default $.SvgCanvas = function (container, config) {
           current_resize_mode = elData(grip, 'dir');
         }
         mouseTarget = selectedElements[0];
-      } else if (canvas.textActions.isEditing) {
+      } else if (textActions.isEditing) {
         current_mode = 'textedit';
       }
 
@@ -1629,7 +1628,6 @@ export default $.SvgCanvas = function (container, config) {
       startTransform = mouseTarget.getAttribute('transform');
       var i, stroke_w,
         tlist = svgedit.transformlist.getTransformList(mouseTarget);
-
       switch (current_mode) {
         case 'select':
           started = true;
@@ -1932,6 +1930,7 @@ export default $.SvgCanvas = function (container, config) {
         case 'text':
           started = true;
           const isMac = window.os === 'MacOS';
+          const curText = textEdit.getCurText();
           var newText = addSvgElementFromJson({
             element: 'text',
             curStyles: true,
@@ -1940,17 +1939,17 @@ export default $.SvgCanvas = function (container, config) {
               y: y,
               id: getNextId(),
               fill: 'none',
-              'fill-opacity': cur_text.fill_opacity,
+              'fill-opacity': curText.fill_opacity,
               'stroke-width': 2,
-              'font-size': cur_text.font_size,
-              'font-family': isMac ? cur_text.font_postscriptName : cur_text.font_family,
-              'font-postscript': cur_text.font_postscriptName,
-              'text-anchor': cur_text.text_anchor,
+              'font-size': curText.font_size,
+              'font-family': isMac ? curText.font_postscriptName : curText.font_family,
+              'font-postscript': curText.font_postscriptName,
+              'text-anchor': curText.text_anchor,
               'xml:space': 'preserve',
               opacity: cur_shape.opacity
             }
           });
-          if (isMac) newText.setAttribute('data-font-family', cur_text.font_family);
+          if (isMac) newText.setAttribute('data-font-family', curText.font_family);
           if (canvas.isUsingLayerColor) {
             canvas.updateElementColor(newText);
           }
@@ -2311,7 +2310,7 @@ export default $.SvgCanvas = function (container, config) {
           call('transition', selectedElements);
           ObjectPanelController.updateObjectPanel();
           if (svgedit.utilities.getElem('text_cursor')) {
-            svgCanvas.textActions.init();
+            textActions.init();
           }
           break;
         case 'zoom':
@@ -2533,7 +2532,7 @@ export default $.SvgCanvas = function (container, config) {
           ObjectPanelController.updateDimensionValues({ rotation: angle < -180 ? (360 + angle) : angle });
           ObjectPanelController.updateObjectPanel();
           if (svgedit.utilities.getElem('text_cursor')) {
-            svgCanvas.textActions.init();
+            textActions.init();
           }
           break;
         default:
@@ -2677,13 +2676,15 @@ export default $.SvgCanvas = function (container, config) {
               }
 
               if (selected.tagName === 'text') {
-                cur_text.font_size = selected.getAttribute('font-size');
+                const curText = textEdit.getCurText();
+                curText.font_size = selected.getAttribute('font-size');
                 if (window.os === 'MacOS') {
-                  cur_text.font_family = selected.getAttribute('data-font-family');
+                  curText.font_family = selected.getAttribute('data-font-family');
                 } else {
-                  cur_text.font_family = selected.getAttribute('font-family');
+                  curText.font_family = selected.getAttribute('font-family');
                 }
-                cur_text.font_postscriptName = selected.getAttribute('font-postscript');
+                curText.font_postscriptName = selected.getAttribute('font-postscript');
+                textEdit.updateCurText(curText);
               }
               selectorManager.requestSelector(selected).showGrips(true);
 
@@ -3203,725 +3204,7 @@ export default $.SvgCanvas = function (container, config) {
 
   })();
 
-
-  // Group: Text edit functions
-  // Functions relating to editing text elements
-  // TODO: split textAction to an independent file
-  textActions = canvas.textActions = (function () {
-    var curtext;
-    var textinput;
-    var cursor;
-    var selblock;
-    var blinker;
-    var chardata = [];
-    var textbb, transbb;
-    var matrix;
-    var last_x, last_y;
-    var allow_dbl;
-    let lineSpacing = 1;
-    let isVertical = false;
-    let previousMode = 'select';
-    let valueBeforeEdit = '';
-    let isEditing = false;
-
-    function setCursor(index?) {
-      var empty = (textinput.value === '');
-      $(textinput).focus();
-      if (!arguments.length) {
-        if (empty) {
-          index = 0;
-        } else {
-          if (textinput.selectionEnd !== textinput.selectionStart) {
-            return;
-          }
-          index = textinput.selectionEnd;
-        }
-      }
-
-      if (!empty) {
-        textinput.setSelectionRange(index, index);
-      }
-      let charbb;
-      let { rowIndex, index: columnIndex } = indexToRowAndIndex(index);
-      charbb = chardata[rowIndex][columnIndex];
-      if (!charbb) {
-        return;
-      }
-
-      cursor = svgedit.utilities.getElem('text_cursor');
-
-      if (!cursor) {
-        cursor = document.createElementNS(NS.SVG, 'line');
-        svgedit.utilities.assignAttributes(cursor, {
-          id: 'text_cursor',
-          stroke: '#333',
-          'stroke-width': 1
-        });
-        cursor = svgedit.utilities.getElem('selectorParentGroup').appendChild(cursor);
-      }
-
-      if (!blinker) {
-        blinker = setInterval(function () {
-          var show = (cursor.getAttribute('display') === 'none');
-          cursor.setAttribute('display', show ? 'inline' : 'none');
-        }, 600);
-      }
-      var start_pt = ptToScreen(charbb.x, charbb.y);
-      var end_pt = isVertical ? ptToScreen(charbb.x + charbb.width, charbb.y) : ptToScreen(charbb.x, charbb.y + charbb.height);
-      svgedit.utilities.assignAttributes(cursor, {
-        x1: start_pt.x,
-        y1: start_pt.y,
-        x2: end_pt.x,
-        y2: end_pt.y,
-        visibility: 'visible',
-        display: 'inline'
-      });
-
-      if (selblock) {
-        selblock.setAttribute('d', '');
-      }
-    }
-
-    const calculateCharbb = () => {
-      if (!curtext) {
-        let bb = { x: 0, y: 0, width: 0, height: 0 };
-        chardata.push([bb]);
-        return;
-      }
-      let tspans = Array.from(curtext.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
-      let rowNumbers = tspans.length;
-      const charHeight = parseFloat(canvas.getFontSize());
-      let lines = textinput.value.split('\x0b');
-      let lastRowX = null;
-
-      // No contents
-      if (rowNumbers === 0) {
-        let bb = isVertical ? { x: textbb.x, y: textbb.y + (textbb.height / 2), width: charHeight, height: 0 }
-          : { x: textbb.x + (textbb.width / 2), y: textbb.y, width: 0, height: charHeight };
-        chardata.push([bb]);
-        return;
-      }
-
-      // When text is vertical, we use the widest char as first row's width
-      let firstRowMaxWidth = 0;
-      if (isVertical && rowNumbers > 0) {
-        for (let i = 0; i < tspans[0].textContent.length; i++) {
-          let start = tspans[0].getStartPositionOfChar(i);
-          let end = tspans[0].getEndPositionOfChar(i);
-          firstRowMaxWidth = Math.max(firstRowMaxWidth, end.x - start.x);
-        }
-      }
-
-      for (let i = 0; i < rowNumbers; ++i) {
-        chardata.push([]);
-        let start, end;
-        let tspanbb = svgedit.utilities.getBBox(tspans[i]);
-        if (lines[i] === '') {
-          tspans[i].textContent = ' ';
-        };
-
-        for (let j = 0; j < tspans[i].textContent.length; ++j) {
-          start = tspans[i].getStartPositionOfChar(j);
-          end = tspans[i].getEndPositionOfChar(j);
-
-          if (!svgedit.browser.supportsGoodTextCharPos()) {
-            var offset = canvas.contentW * current_zoom;
-            start.x -= offset;
-            end.x -= offset;
-
-            start.x /= current_zoom;
-            end.x /= current_zoom;
-          }
-          chardata[i].push({
-            x: start.x,
-            y: isVertical ? start.y - charHeight : tspanbb.y,
-            width: isVertical ? (i === 0 ? firstRowMaxWidth : lastRowX - start.x) : end.x - start.x,
-            height: charHeight
-          });
-        }
-        // Add a last bbox for cursor at end of text
-        // Because we insert a space for empty line, we don't add last bbox for empty line
-        if (lines[i] !== '') {
-          chardata[i].push({
-            x: isVertical ? start.x : end.x,
-            y: isVertical ? end.y : tspanbb.y,
-            width: isVertical ? (i === 0 ? firstRowMaxWidth : lastRowX - start.x) : 0,
-            height: isVertical ? 0 : charHeight
-          });
-        } else {
-          tspans[i].textContent = '';
-        }
-        lastRowX = start.x;
-      };
-    };
-
-    function indexToRowAndIndex(index) {
-      let rowIndex = 0;
-      if (!chardata || chardata.length === 0) {
-        calculateCharbb();
-      }
-      while (index >= chardata[rowIndex].length) {
-        index -= chardata[rowIndex].length;
-        rowIndex += 1;
-      }
-      return { rowIndex, index };
-    }
-
-    function setSelection(start, end, skipInput: boolean = false) {
-      if (start === end) {
-        setCursor(end);
-        return;
-      }
-
-      if (!skipInput) {
-        textinput.setSelectionRange(start, end);
-      }
-
-      selblock = svgedit.utilities.getElem('text_selectblock');
-      if (!selblock && document.getElementById('text_cursor')) {
-        selblock = document.createElementNS(NS.SVG, 'path');
-        svgedit.utilities.assignAttributes(selblock, {
-          id: 'text_selectblock',
-          fill: 'green',
-          opacity: 0.5,
-          style: 'pointer-events:none'
-        });
-        svgedit.utilities.getElem('selectorParentGroup').appendChild(selblock);
-      }
-
-      let { rowIndex: startRowIndex, index: startIndex } = indexToRowAndIndex(start);
-      let { rowIndex: endRowIndex, index: endIndex } = indexToRowAndIndex(end);
-
-      var startbb = chardata[startRowIndex][startIndex];
-      var endbb = chardata[endRowIndex][endIndex];
-
-      cursor.setAttribute('visibility', 'hidden');
-
-      let dString;
-      let points = [];
-      //drawing selection block
-      if (startRowIndex === endRowIndex) {
-        if (isVertical) {
-          points = [[startbb.x, startbb.y], [endbb.x, endbb.y], [endbb.x + endbb.width, endbb.y], [startbb.x + startbb.width, startbb.y]];
-        } else {
-          points = [[startbb.x, startbb.y], [endbb.x, endbb.y], [endbb.x, endbb.y + endbb.height], [startbb.x, startbb.y + startbb.height]];
-        }
-      } else {
-        if (isVertical) {
-          points = [[startbb.x + startbb.width, startbb.y], [startbb.x + startbb.width, textbb.y + textbb.height], [endbb.x + endbb.width, textbb.y + textbb.height],
-          [endbb.x + endbb.width, endbb.y], [endbb.x, endbb.y], [endbb.x, textbb.y], [startbb.x, textbb.y], [startbb.x, startbb.y]];
-        } else {
-          points = [[startbb.x, startbb.y], [textbb.x + textbb.width, startbb.y], [textbb.x + textbb.width, endbb.y], [endbb.x, endbb.y],
-          [endbb.x, endbb.y + endbb.height], [textbb.x, endbb.y + endbb.height], [textbb.x, startbb.y + startbb.height], [startbb.x, startbb.y + startbb.height]];
-        }
-      }
-      points = points.map(p => ptToScreen(p[0], p[1]));
-      points = points.map(p => `${p.x},${p.y}`);
-      dString = `M ${points.join(' L ')} z`;
-
-      if (selblock) {
-        svgedit.utilities.assignAttributes(selblock, {
-          d: dString,
-          'display': 'inline'
-        });
-      }
-    }
-
-    function getIndexFromPoint(mouse_x, mouse_y) {
-      // Position cursor here
-      var pt = svgroot.createSVGPoint();
-      pt.x = mouse_x;
-      pt.y = mouse_y;
-
-      // No content, so return 0
-      if (chardata.length === 1 && chardata[0].length === 1) {
-        return 0;
-      }
-      // Determine if cursor should be on left or right of character
-      var charpos = curtext.getCharNumAtPosition(pt);
-      let rowIndex = 0;
-      textbb = svgedit.utilities.getBBox(curtext);
-      //console.log(textbb);
-      if (charpos < 0) {
-        // Out of text range, look at mouse coords
-        const totalLength = chardata.reduce((acc, cur) => acc + cur.length, 0);
-        charpos = totalLength - 1;
-        if (mouse_x <= chardata[0][0].x) {
-          charpos = 0;
-        }
-        if (textbb.x < mouse_x && mouse_x < textbb.x + textbb.width && textbb.y < mouse_y && mouse_y < textbb.y + textbb.height) {
-          return false;
-        }
-      } else {
-        let index = charpos;
-        while (index >= chardata[rowIndex].length - 1) {
-          index -= chardata[rowIndex].length - 1;
-          rowIndex += 1;
-        }
-        const charbb = chardata[rowIndex][index];
-        if (isVertical) {
-          const mid = charbb.y + (charbb.height / 2);
-          if (mouse_y > mid) {
-            charpos++;
-          }
-        } else {
-          const mid = charbb.x + (charbb.width / 2);
-          if (mouse_x > mid) {
-            charpos++;
-          }
-        }
-      }
-      //Add rowIndex because charbb = charnum + 1 in every row
-      return charpos + rowIndex;
-    }
-
-    function setCursorFromPoint(mouse_x, mouse_y) {
-      setCursor(getIndexFromPoint(mouse_x, mouse_y));
-    }
-
-    function setEndSelectionFromPoint(x, y, apply: boolean = false) {
-      let i1 = textinput.selectionStart;
-      let i2 = getIndexFromPoint(x, y);
-      if (i2 === false) {
-        return;
-      }
-      let start = Math.min(i1, i2);
-      let end = Math.max(i1, i2);
-      setSelection(start, end, !apply);
-    }
-
-    function screenToPt(x_in, y_in) {
-      var out = {
-        x: x_in,
-        y: y_in
-      };
-
-      out.x /= current_zoom;
-      out.y /= current_zoom;
-
-      if (matrix) {
-        var pt = svgedit.math.transformPoint(out.x, out.y, matrix.inverse());
-        out.x = pt.x;
-        out.y = pt.y;
-      }
-
-      return out;
-    }
-
-    function ptToScreen(x_in, y_in) {
-      var out = {
-        x: x_in,
-        y: y_in
-      };
-
-      if (matrix) {
-        var pt = svgedit.math.transformPoint(out.x, out.y, matrix);
-        out.x = pt.x;
-        out.y = pt.y;
-      }
-
-      out.x *= current_zoom;
-      out.y *= current_zoom;
-
-      return out;
-    }
-
-    function hideCursor() {
-      clearInterval(blinker);
-      blinker = null;
-      document.getElementById('text_cursor')?.remove();
-      document.getElementById('text_selectblock')?.remove();
-    }
-
-    let moveCursorLastRow = () => {
-      let { rowIndex, index } = indexToRowAndIndex(textinput.selectionEnd);
-      if (rowIndex === 0) {
-        textinput.selectionEnd = textinput.selectionStart = 0;
-      } else {
-        let newCursorIndex = 0;
-        rowIndex -= 1;
-        for (let i = 0; i < rowIndex; i++) {
-          newCursorIndex += chardata[i].length;
-        }
-        newCursorIndex += Math.min(chardata[rowIndex].length - 1, index);
-        textinput.selectionEnd = textinput.selectionStart = newCursorIndex;
-      }
-    };
-
-    let moveCursorNextRow = () => {
-      let { rowIndex, index } = indexToRowAndIndex(textinput.selectionEnd);
-      if (rowIndex === chardata.length - 1) {
-        textinput.selectionEnd += chardata[rowIndex].length - index - 1;
-        textinput.selectionStart = textinput.selectionEnd;
-      } else {
-        let newCursorIndex = 0;
-        rowIndex += 1;
-        for (let i = 0; i < rowIndex; i++) {
-          newCursorIndex += chardata[i].length;
-        }
-        newCursorIndex += Math.min(chardata[rowIndex].length - 1, index);
-        textinput.selectionEnd = textinput.selectionStart = newCursorIndex;
-      }
-    };
-
-    function selectAll(evt) {
-      setSelection(0, curtext.textContent.length);
-      $(this).unbind(evt);
-    }
-
-    function selectWord(evt) {
-      if (!allow_dbl || !curtext) {
-        return;
-      }
-
-      var ept = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm),
-        mouse_x = ept.x * current_zoom,
-        mouse_y = ept.y * current_zoom;
-      var pt = screenToPt(mouse_x, mouse_y);
-
-      var index = getIndexFromPoint(pt.x, pt.y);
-      var str = curtext.textContent;
-      var first = str.substr(0, index).replace(/[a-z0-9]+$/i, '').length;
-      var m = str.substr(index).match(/^[a-z0-9]+/i);
-      var last = (m ? m[0].length : 0) + index;
-      setSelection(first, last);
-
-      // Set tripleclick
-      $(evt.target).click(selectAll);
-      setTimeout(function () {
-        $(evt.target).unbind('click', selectAll);
-      }, 300);
-    }
-
-    return {
-      select: function (target, x, y) {
-        curtext = target;
-        textActions.toEditMode(x, y);
-      },
-      start: function (elem) {
-        curtext = elem;
-        textActions.toEditMode();
-      },
-      mouseDown: function (evt, mouseTarget, start_x, start_y) {
-        var pt = screenToPt(start_x, start_y);
-        console.log('textaction mousedown');
-
-        textinput.focus();
-        setCursorFromPoint(pt.x, pt.y);
-        last_x = start_x;
-        last_y = start_y;
-
-        // TODO: Find way to block native selection
-      },
-      mouseMove: function (mouse_x, mouse_y) {
-        var pt = screenToPt(mouse_x, mouse_y);
-        setEndSelectionFromPoint(pt.x, pt.y);
-      },
-      mouseUp: function (evt, mouse_x, mouse_y) {
-        var pt = screenToPt(mouse_x, mouse_y);
-
-        setEndSelectionFromPoint(pt.x, pt.y, true);
-
-        // TODO: Find a way to make this work: Use transformed BBox instead of evt.target
-        //				if (last_x === mouse_x && last_y === mouse_y
-        //					&& !svgedit.math.rectsIntersect(transbb, {x: pt.x, y: pt.y, width:0, height:0})) {
-        //					textActions.toSelectMode(true);
-        //				}
-
-        if (
-          evt.target !== curtext &&
-          evt.target.parentNode !== curtext &&
-          mouse_x < last_x + 2 &&
-          mouse_x > last_x - 2 &&
-          mouse_y < last_y + 2 &&
-          mouse_y > last_y - 2) {
-          textActions.toSelectMode(true);
-        }
-
-      },
-      setCursor,
-      hideCursor,
-      onUpKey: () => {
-        if (isVertical) {
-          textinput.selectionEnd = Math.max(textinput.selectionEnd - 1, 0);
-          textinput.selectionStart = textinput.selectionEnd;
-        } else {
-          moveCursorLastRow();
-        }
-      },
-      onDownKey: () => {
-        if (isVertical) {
-          textinput.selectionEnd += 1;
-          textinput.selectionStart = textinput.selectionEnd;
-        } else {
-          moveCursorNextRow();
-        }
-      },
-      onLeftKey: () => {
-        if (isVertical) {
-          moveCursorNextRow();
-        } else {
-          textinput.selectionEnd = Math.max(textinput.selectionEnd - 1, 0);
-          textinput.selectionStart = textinput.selectionEnd;
-        }
-      },
-      onRightKey: () => {
-        if (isVertical) {
-          moveCursorLastRow();
-        } else {
-          textinput.selectionEnd += 1;
-          textinput.selectionStart = textinput.selectionEnd;
-        }
-      },
-      newLine: () => {
-        let oldSelectionStart = textinput.selectionStart;
-        textinput.value = textinput.value.substring(0, textinput.selectionStart) + '\x0b' + textinput.value.substring(textinput.selectionEnd);
-        textinput.selectionStart = oldSelectionStart + 1;
-        textinput.selectionEnd = oldSelectionStart + 1;
-        svgCanvas.setTextContent(textinput.value);
-      },
-      copyText: async () => {
-        if (textinput.selectionStart === textinput.selectionEnd) {
-          console.log('No selection');
-          return;
-        }
-        const selectedText = textinput.value.substring(textinput.selectionStart, textinput.selectionEnd);
-        try {
-          await navigator.clipboard.writeText(selectedText);
-          console.log('Copying to clipboard was successful!', selectedText);
-        } catch (err) {
-          console.error('Async: Could not copy text: ', err);
-        }
-      },
-      cutText: async () => {
-        if (textinput.selectionStart === textinput.selectionEnd) {
-          console.log('No selection');
-          return;
-        }
-        const selectedText = textinput.value.substring(textinput.selectionStart, textinput.selectionEnd);
-        const start = textinput.selectionStart;
-        try {
-          await navigator.clipboard.writeText(selectedText);
-          console.log('Copying to clipboard was successful!', selectedText);
-        } catch (err) {
-          console.error('Async: Could not copy text: ', err);
-        }
-        textinput.value = textinput.value.substring(0, textinput.selectionStart) + textinput.value.substring(textinput.selectionEnd);
-        textinput.selectionStart = textinput.selectionEnd = start;
-        svgCanvas.setTextContent(textinput.value);
-      },
-      pasteText: async () => {
-        let clipboardText = await navigator.clipboard.readText();
-        const start = textinput.selectionStart;
-        textinput.value = textinput.value.substring(0, textinput.selectionStart) + clipboardText + textinput.value.substring(textinput.selectionEnd);
-        textinput.selectionStart = textinput.selectionEnd = start + clipboardText.length;
-        svgCanvas.setTextContent(textinput.value);
-      },
-      selectAll: () => {
-        textinput.selectionStart = 0;
-        textinput.selectionEnd = textinput.value.length;
-        svgCanvas.setTextContent(textinput.value);
-      },
-      get isEditing() { return isEditing; },
-      toEditMode: function (x, y) {
-        isEditing = true;
-        allow_dbl = false;
-        const isContinuousDrawing = BeamboxPreference.read('continuous_drawing');
-        previousMode = isContinuousDrawing ? current_mode : 'select';
-        current_mode = 'textedit';
-        selectorManager.requestSelector(curtext).showGrips(false);
-        // Make selector group accept clicks
-        var sel = selectorManager.requestSelector(curtext).selectorRect;
-        textActions.init();
-        valueBeforeEdit = textinput.value;
-
-        $(curtext).css('cursor', 'text');
-
-        if (!arguments.length) {
-          setCursor();
-        } else {
-          var pt = screenToPt(x, y);
-          setCursorFromPoint(pt.x, pt.y);
-        }
-
-        setTimeout(function () {
-          allow_dbl = true;
-        }, 300);
-      },
-      toSelectMode: function (shouldSelectElem) {
-        isEditing = false;
-        current_mode = previousMode;
-        hideCursor();
-        $(curtext).css('cursor', 'move');
-
-        if (shouldSelectElem) {
-          clearSelection();
-          $(curtext).css('cursor', 'move');
-          call('selected', [curtext]);
-          addToSelection([curtext], true);
-          svgedit.recalculate.recalculateDimensions(curtext);
-        } else if (curtext) {
-          $(curtext).css('cursor', 'move');
-          call('selected', [curtext]);
-          addToSelection([curtext], true);
-          svgedit.recalculate.recalculateDimensions(curtext);
-        }
-        const batchCmd = new history.BatchCommand('Edit Text');
-        if (curtext && !curtext.textContent.length) {
-          // No content, so delete
-          const cmd = canvas.deleteSelectedElements(true);
-          if (valueBeforeEdit && cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-        }
-        if (valueBeforeEdit && valueBeforeEdit !== textinput.value) {
-          if (curtext) {
-            const cmd = new history.ChangeTextCommand(curtext, valueBeforeEdit, textinput.value);
-            batchCmd.addSubCommand(cmd);
-            canvas.setHasUnsavedChange(true, true);
-          }
-        }
-        if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
-
-        $(textinput).trigger('blur');
-        curtext = null;
-        //				if (svgedit.browser.supportsEditableText()) {
-        //					curtext.removeAttribute('editable');
-        //				}
-      },
-      setInputElem: function (elem) {
-        textinput = elem;
-        //			$(textinput).blur(hideCursor);
-      },
-      renderMultiLineText: (textElem, val, showGrips) => {
-        let lines = val.split('\x0b');
-        if (!textElem) {
-          return;
-        }
-        let tspans = Array.from(textElem.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
-        const charHeight = parseFloat(canvas.getFontSize());
-        const letterSpacing = canvas.getLetterSpacing();
-        for (let i = 0; i < Math.max(lines.length, tspans.length); i++) {
-          if (i < lines.length) {
-            // Add a space for empty line to render select bbox
-            if (lines[i] === '') lines[i] = ' ';
-            let tspan;
-            let x = [];
-            let y = [];
-            if (tspans[i]) {
-              tspan = tspans[i];
-            } else {
-              tspan = document.createElementNS(NS.SVG, 'tspan');
-              textElem.appendChild(tspan);
-            }
-            tspan.textContent = lines[i];
-
-            if (isVertical) {
-              const xPos = Number(textElem.getAttribute('x')) - i * lineSpacing * charHeight;
-              let yPos = Number(textElem.getAttribute('y'));
-              for (let j = 0; j < lines[i].length; j++) {
-                x.push(xPos.toFixed(2));
-                y.push(yPos.toFixed(2));
-                yPos += (1 + letterSpacing) * charHeight;// text spacing
-              }
-              $(tspan).attr({
-                'x': x.join(' '),
-                'y': y.join(' '),
-                'vector-effect': 'non-scaling-stroke',
-              });
-            } else {
-              $(tspan).attr({
-                'x': $(textElem).attr('x'),
-                'y': $(textElem).attr('y') + i * lineSpacing * charHeight,
-                'vector-effect': 'non-scaling-stroke',
-              });
-              tspan.textContent = lines[i];
-              textElem.appendChild(tspan);
-            }
-          } else {
-            if (tspans[i]) {
-              tspans[i].remove();
-            }
-          }
-        }
-        svgedit.recalculate.recalculateDimensions(textElem);
-        if (showGrips) {
-          selectorManager.requestSelector(textElem).resize();
-        }
-      },
-      setIsVertical: (val) => {
-        isVertical = val;
-      },
-      setLineSpacing: (val) => {
-        lineSpacing = val;
-      },
-      clear: function () {
-        if (current_mode === 'textedit') {
-          textActions.toSelectMode();
-        } else {
-          hideCursor();
-        }
-      },
-      init: function () {
-        if (!curtext) {
-          return;
-        }
-        //				if (svgedit.browser.supportsEditableText()) {
-        //					curtext.select();
-        //					return;
-        //				}
-
-        if (!curtext.parentNode) {
-          // Result of the ffClone, need to get correct element
-          curtext = selectedElements[0];
-          selectorManager.requestSelector(curtext).showGrips(false);
-        }
-        chardata = [];
-        const xform = curtext.getAttribute('transform');
-        textbb = svgedit.utilities.getBBox(curtext);
-        matrix = xform ? svgedit.math.getMatrix(curtext) : null;
-
-        calculateCharbb();
-
-        textinput.focus();
-        $(curtext).unbind('dblclick', selectWord).dblclick(selectWord);
-
-        setSelection(textinput.selectionStart, textinput.selectionEnd, true);
-      }
-    };
-  })();
-
-  this.updateMultiLineTextElem = (textElem) => {
-    let tspans = Array.from(textElem.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
-    const isVertical = this.getTextIsVertical(textElem);
-    const lineSpacing = parseFloat(this.getTextLineSpacing(textElem));
-    const charHeight = parseFloat(this.getFontSize(textElem));
-    const letterSpacing = this.getLetterSpacing(textElem);
-    for (let i = 0; i < tspans.length; i++) {
-      if (isVertical) {
-        let x = [];
-        let y = [];
-        const textContent = tspans[i].textContent;
-        const xPos = Number(textElem.getAttribute('x')) - i * lineSpacing * charHeight;
-        let yPos = Number(textElem.getAttribute('y'));
-        for (let j = 0; j < textContent.length; j++) {
-          x.push(xPos.toFixed(2));
-          y.push(yPos.toFixed(2));
-          yPos += (1 + letterSpacing) * charHeight;// text spacing
-        }
-        $(tspans[i]).attr({
-          'x': x.join(' '),
-          'y': y.join(' '),
-          'vector-effect': 'non-scaling-stroke',
-        });
-      } else {
-        $(tspans[i]).attr({
-          'x': $(textElem).attr('x'),
-          'y': $(textElem).attr('y') + i * lineSpacing * charHeight,
-          'vector-effect': 'non-scaling-stroke',
-        });
-      }
-    }
-    svgedit.recalculate.recalculateDimensions(textElem);
-  };
+  canvas.textActions = textActions;
 
   // TODO: Migrate all of this code into path.js
   // Group: Path edit functions
@@ -7426,13 +6709,15 @@ export default $.SvgCanvas = function (container, config) {
   // Parameters:
   // name - String with the new mode to change to
   this.setMode = function (name) {
+    cur_properties = (selectedElements[0] && selectedElements[0].nodeName === 'text') ? cur_text : cur_shape;
     if (current_mode === 'path') {
       pathActions.finishPath(false);
     }
     pathActions.clear(true);
-    textActions.clear();
-    cur_properties = (selectedElements[0] && selectedElements[0].nodeName === 'text') ? cur_text : cur_shape;
     current_mode = name;
+    if (name !== 'textedit') {
+      textActions.clear();
+    }
     if (name === 'path') {
       this.collectAlignPoints();
     }
@@ -7984,366 +7269,22 @@ export default $.SvgCanvas = function (container, config) {
     };
   })();
 
-  // Function: getBold
-  // Check whether selected element is bold or not
-  //
-  // Returns:
-  // Boolean indicating whether or not element is bold
-  this.getBold = function () {
-    // should only have one element selected
-    var selected = selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      return (selected.getAttribute('font-weight') === 'bold');
-    }
-    return false;
-  };
-
-  // Function: setBold
-  // Make the selected element bold or normal
-  //
-  // Parameters:
-  // b - Boolean indicating bold (true) or normal (false)
-  this.setBold = function (b) {
-    var selected = selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      changeSelectedAttribute('font-weight', b ? 'bold' : 'normal');
-    }
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-  };
-
-  // Function: getItalic
-  // Check whether selected element is italic or not
-  //
-  // Returns:
-  // Boolean indicating whether or not element is italic
-  this.getItalic = function (elem) {
-    var selected = elem || selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      return (selected.getAttribute('font-style') === 'italic');
-    }
-    return false;
-  };
-
-  // Function: setItalic
-  // Make the selected element italic or normal
-  //
-  // Parameters:
-  // b - Boolean indicating italic (true) or normal (false)
-  this.setItalic = function (i, isSubCmd) {
-    var selected = selectedElements[0];
-    let cmd = null;
-    if (selected != null && selected.tagName === 'text' && selectedElements[1] == null) {
-      if (isSubCmd) {
-        canvas.undoMgr.beginUndoableChange('font-style', [selected]);
-        changeSelectedAttributeNoUndo('font-style', i ? 'italic' : 'normal', [selected]);
-        cmd = canvas.undoMgr.finishUndoableChange();
-      } else {
-        changeSelectedAttribute('font-style', i ? 'italic' : 'normal');
-      }
-    }
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-    return cmd;
-  };
-
-  this.getFontWeight = function (elem) {
-    var selected = elem || selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      return selected.getAttribute('font-weight');
-    }
-    return false;
-  };
-
-  this.setFontWeight = function (i, isSubCmd) {
-    var selected = selectedElements[0];
-    let cmd = null;
-    if (selected != null && selected.tagName === 'text' && selectedElements[1] == null) {
-      if (isSubCmd) {
-        canvas.undoMgr.beginUndoableChange('font-weight', [selected]);
-        changeSelectedAttributeNoUndo('font-weight', i ? i : 'normal', [selected]);
-        cmd = canvas.undoMgr.finishUndoableChange();
-      } else {
-        changeSelectedAttribute('font-weight', i ? i : 'normal');
-      }
-    }
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-    return cmd;
-  };
-
-  this.getFontIsFill = function () {
-    var selected = selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      const fillAttr = selected.getAttribute('fill');
-      if (selected.getAttribute('fill-opacity') === '0') {
-        return false;
-      }
-      if (['#fff', '#ffffff', 'none'].includes(fillAttr)) {
-        return false;
-      } else if (fillAttr || fillAttr === null) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
-  };
-
-  this.setFontIsFill = function (isFill) {
-    var selected = selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      const color = this.isUsingLayerColor ? $(LayerHelper.getObjectLayer(selected).elem).attr('data-color') : '#000';
-      changeSelectedAttribute('fill', isFill ? color : '#fff');
-      changeSelectedAttribute('fill-opacity', isFill ? 1 : 0);
-      changeSelectedAttribute('stroke', isFill ? 'none' : color);
-    }
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-  };
-
-  this.getLetterSpacing = function (textElem) {
-    if (!textElem) textElem = selectedElements[0];
-    if (textElem != null && textElem.tagName === 'text' &&
-      selectedElements[1] == null) {
-      let val = textElem.getAttribute('letter-spacing');
-      if (val) {
-        if (val.toLowerCase().endsWith('em')) {
-          return parseFloat(val.slice(0, -2));
-        } else {
-          console.warn('letter-spacing should be em!');
-          return 0;
-        }
-      } else {
-        return 0;
-      }
-    }
-    return false;
-  };
-
-  this.setLetterSpacing = function (val) {
-    var selected = selectedElements[0];
-    if (selected != null && selected.tagName === 'text' &&
-      selectedElements[1] == null) {
-      changeSelectedAttribute('letter-spacing', val ? (val.toString() + 'em') : '0em');
-      this.updateMultiLineTextElem(selectedElements[0]);
-    }
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-  };
-
-  /**
-   * Returns the current font family
-   * @param {Element | null} elem
-   * @returns {string} the font family of element
-   */
-  this.getFontFamily = function (elem) {
-    const selected = elem || selectedElements[0];
-    if (selected) {
-      return selected.getAttribute('font-family');
-    }
-    return cur_text.font_family;
-  };
-
-  /**
-   * Set the new font family, in macOS value will be postscript to make text correctly rendered
-   * @param {string} val New font family
-   * @param {boolean} isSubCmd Whether this operation is a sub command or a sole command
-   */
-  this.setFontFamily = function (val, isSubCmd) {
-    let cmd = null;
-    if (window.os !== 'MacOS') cur_text.font_family = val;
-    if (isSubCmd) {
-      canvas.undoMgr.beginUndoableChange('font-family', selectedElements);
-      changeSelectedAttributeNoUndo('font-family', val, selectedElements);
-      cmd = canvas.undoMgr.finishUndoableChange();
-    } else {
-      changeSelectedAttribute('font-family', val);
-    }
-    if (selectedElements[0] && !selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-    return cmd;
-  };
-
-  /**
-   * Returns the font family data of element
-   * @param {Element | null} elem
-   * @returns {string} the font family data of element
-   */
-  this.getFontFamilyData = (elem) => {
-    const selected = elem || selectedElements[0];
-    if (selected) {
-      if (!selected.getAttribute('data-font-family')) {
-        return this.getFontFamily(elem);
-      }
-      return selected.getAttribute('data-font-family');
-    }
-    return cur_text.font_family;
-  };
-
-  /**
-   * Set the data font family (Used for MacOS only)
-   * In MacOS font-family would be set same as font-postscript to make sure text would be rendered correctly.
-   * So addition attribution is needed to record it's font family data.
-   * @param {string} val New font family
-   * @param {boolean} isSubCmd Whether this operation is a sub command or a sole command
-   */
-  this.setFontFamilyData = (val, isSubCmd) => {
-    let cmd = null;
-    cur_text.font_family = val;
-    if (isSubCmd) {
-      canvas.undoMgr.beginUndoableChange('data-font-family', selectedElements);
-      changeSelectedAttributeNoUndo('data-font-family', val, selectedElements);
-      cmd = canvas.undoMgr.finishUndoableChange();
-    } else {
-      changeSelectedAttribute('data-font-family', val);
-    }
-    return cmd;
-  }
-
-  this.getFontPostscriptName = function (elem) {
-    const selected = elem || selectedElements[0];
-    if (selected) {
-      return selected.getAttribute('font-postscript');
-    }
-    return cur_text.font_postscriptName;
-  };
-
-  this.setFontPostscriptName = function (val, isSubCmd) {
-    let cmd = null;
-    cur_text.font_postscriptName = val;
-    if (isSubCmd) {
-      canvas.undoMgr.beginUndoableChange('font-postscript', selectedElements);
-      changeSelectedAttributeNoUndo('font-postscript', val, selectedElements);
-      cmd = canvas.undoMgr.finishUndoableChange();
-    } else {
-      changeSelectedAttribute('font-postscript', val);
-    }
-    return cmd;
-  };
-
-  this.setTextLineSpacing = function (val) {
-    changeSelectedAttribute('data-line-spacing', val);
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-    textActions.setLineSpacing(val);
-    const elem = selectedElements[0];
-    const angle = svgedit.utilities.getRotationAngle(elem);
-    this.setRotationAngle(0, true, elem);
-    this.updateMultiLineTextElem(selectedElements[0]);
-    this.setRotationAngle(angle, true, elem);
-  };
-
-  this.getTextLineSpacing = (textElem) => {
-    if (!textElem) textElem = selectedElements[0];
-    if (textElem != null && textElem.tagName === 'text' &&
-      selectedElements[1] == null) {
-      let val = textElem.getAttribute('data-line-spacing') || '1';
-      textActions.setLineSpacing(parseFloat(val));
-      return val;
-    }
-    return false;
-  }
-
-  this.setTextIsVertical = (val) => {
-    changeSelectedAttribute('data-verti', val);
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-    textActions.setIsVertical(val);
-    const elem = selectedElements[0];
-    const angle = svgedit.utilities.getRotationAngle(elem);
-    this.setRotationAngle(0, true, elem);
-    this.updateMultiLineTextElem(elem);
-    this.setRotationAngle(angle, true, elem);
-    svgEditor.updateContextPanel();
-  }
-
-  this.getTextIsVertical = (textElem) => {
-    if (!textElem) textElem = selectedElements[0];
-    if (textElem != null && textElem.tagName === 'text' &&
-      selectedElements[1] == null) {
-      let val = textElem.getAttribute('data-verti') === 'true';
-      textActions.setIsVertical(val);
-      return val;
-    }
-    return false;
-  }
-
+  // Useless for beambox
   // Function: setFontColor
   // Set the new font color
   //
   // Parameters:
   // val - String with the new font color
-  this.setFontColor = function (val) {
-    cur_text.fill = val;
-    changeSelectedAttribute('fill', val);
-  };
+  // this.setFontColor = function (val) {
+  //   cur_text.fill = val;
+  //   changeSelectedAttribute('fill', val);
+  // };
 
   // Function: getFontColor
   // Returns the current font color
-  this.getFontColor = function () {
-    return cur_text.fill;
-  };
-
-  // Function: getFontSize
-  // Returns the current font size
-  this.getFontSize = function (textElem) {
-    if (!textElem) textElem = selectedElements[0];
-    if (textElem) {
-      return textElem.getAttribute('font-size');
-    }
-    return cur_text.font_size;
-  };
-
-  // Function: setFontSize
-  // Applies the given font size to the selected element
-  //
-  // Parameters:
-  // val - Float with the new font size
-  this.setFontSize = function (val) {
-    cur_text.font_size = val;
-    changeSelectedAttribute('font-size', val);
-    if (!selectedElements[0].textContent) {
-      textActions.setCursor();
-    }
-    this.updateMultiLineTextElem(selectedElements[0]);
-  };
-
-  // Function: getText
-  // Returns the current text (textContent) of the selected element
-  this.getText = function () {
-    var selected = selectedElements[0];
-    if (selected == null) {
-      return '';
-    }
-    return selected.textContent;
-  };
-
-  // Function: setTextContent
-  // Updates the text element with the given string
-  //
-  // Parameters:
-  // val - String with the new text
-  this.setTextContent = function (val) {
-    let textElement = selectedElements[0];
-    textActions.renderMultiLineText(textElement, val, true);
-    textActions.init(textElement);
-    textActions.setCursor();
-  };
+  // this.getFontColor = function () {
+  //   return cur_text.fill;
+  // };
 
   // Function: setImageURL
   // Sets the new image URL for the selected image element. Updates its size if

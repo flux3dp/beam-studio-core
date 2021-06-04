@@ -17,7 +17,8 @@ export interface IBatchCommand extends ICommand {
   isEmpty: () => boolean;
 }
 
-export interface IHistoryEventHandler {
+export interface IHistoryHandler {
+  renderText: (elem: SVGTextElement, val: string, showGrips: boolean) => void;
   handleHistoryEvent: (eventType: string, cmd: ICommand) => void;
 }
 
