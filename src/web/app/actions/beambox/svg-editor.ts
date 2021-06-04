@@ -23,6 +23,8 @@ TODOS
 1. JSDoc
 */
 import history from 'app/svgedit/history';
+import textActions from 'app/svgedit/textactions';
+import textEdit from 'app/svgedit/textedit';
 import ToolPanelsController from './Tool-Panels-Controller';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -1995,16 +1997,16 @@ const svgEditor = window['svgEditor'] = (function () {
             case 'text':
               $('#text_panel').css('display', 'inline');
               $('#tool_font_size').css('display', 'inline');
-              if (svgCanvas.getItalic()) {
-                $('#tool_italic').addClass('push_button_pressed').removeClass('tool_button');
-              } else {
-                $('#tool_italic').removeClass('push_button_pressed').addClass('tool_button');
-              }
-              if (svgCanvas.getBold()) {
-                $('#tool_bold').addClass('push_button_pressed').removeClass('tool_button');
-              } else {
-                $('#tool_bold').removeClass('push_button_pressed').addClass('tool_button');
-              }
+              // if (textEdit.getItalic()) {
+              //   $('#tool_italic').addClass('push_button_pressed').removeClass('tool_button');
+              // } else {
+              //   $('#tool_italic').removeClass('push_button_pressed').addClass('tool_button');
+              // }
+              // if (textEdit.getBold()) {
+              //   $('#tool_bold').addClass('push_button_pressed').removeClass('tool_button');
+              // } else {
+              //   $('#tool_bold').removeClass('push_button_pressed').addClass('tool_button');
+              // }
               // TODO: Check the elem type if it's really svg text element
               const textElem: SVGTextElement = elem;
               $('#font_size').val(elem.getAttribute('font-size'));
@@ -2017,7 +2019,8 @@ const svgEditor = window['svgEditor'] = (function () {
                   $('#text').focus().select();
                 }, 100);
               }
-              svgCanvas.textActions.setIsVertical((elem.getAttribute('data-verti') === 'true'));
+              textActions.setFontSize(textEdit.getFontSize());
+              textActions.setIsVertical((elem.getAttribute('data-verti') === 'true'));
               break;
             case 'image':
               if (svgCanvas.getMode() === 'image') {
@@ -3217,7 +3220,7 @@ const svgEditor = window['svgEditor'] = (function () {
     svgCanvas.bind('zoomed', zoomChanged);
     svgCanvas.bind('contextset', contextChanged);
     svgCanvas.bind('extension_added', extAdded);
-    svgCanvas.textActions.setInputElem($('#text')[0]);
+    textActions.setInputElem($('#text')[0]);
 
     var str = '<div class="palette_item" data-rgb="none"></div>';
     $.each(palette, function (i, item) {
@@ -3249,10 +3252,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     var changeRectRadius = function (ctl) {
       svgCanvas.setRectRadius(ctl.value);
-    };
-
-    var changeFontSize = function (ctl) {
-      svgCanvas.setFontSize(ctl.value);
     };
 
     var changeStrokeWidth = function (ctl) {
@@ -3338,11 +3337,7 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     });
 
-    $('#font_family').change(function (this: HTMLInputElement) {
-      svgCanvas.setFontFamily(this.value);
-    });
-
-    const textInput = document.getElementById('text');
+    const textInput = document.getElementById('text') as HTMLInputElement;
     let wasNewLineAdded = false;
     const checkFunctionKeyPressed = (evt: KeyboardEvent) => {
       return (window.os === 'MacOS' && evt.metaKey) || (window.os !== 'MacOS' && evt.ctrlKey);
@@ -3350,7 +3345,7 @@ const svgEditor = window['svgEditor'] = (function () {
 
     $('#text').on('keyup input', function (this: HTMLInputElement, evt) {
       evt.stopPropagation();
-      if (!svgCanvas.textActions.isEditing && evt.type === 'input') {
+      if (!textActions.isEditing && evt.type === 'input') {
         // Hack: Windows input event will some how block undo/redo event
         // So do undo/redo when not entering & input event triggered
         evt.preventDefault();
@@ -3363,9 +3358,9 @@ const svgEditor = window['svgEditor'] = (function () {
         return;
       }
       if (evt.key === 'Enter' && !wasNewLineAdded) {
-        svgCanvas.textActions.toSelectMode(true);
-      } else if (svgCanvas.textActions.isEditing) {
-        svgCanvas.setTextContent(this.value);
+        textActions.toSelectMode(true);
+      } else if (textActions.isEditing) {
+        textEdit.setTextContent(this.value);
       }
       if (evt.key !== 'Shift') {
         wasNewLineAdded = false;
@@ -3375,36 +3370,40 @@ const svgEditor = window['svgEditor'] = (function () {
       evt.stopPropagation();
       if (evt.key === 'ArrowUp') {
         evt.preventDefault();
-        svgCanvas.textActions.onUpKey();
+        textActions.onUpKey();
       } else if (evt.key === 'ArrowDown') {
         evt.preventDefault();
-        svgCanvas.textActions.onDownKey();
+        textActions.onDownKey();
       } else if (evt.key === 'ArrowLeft') {
         evt.preventDefault();
-        svgCanvas.textActions.onLeftKey();
+        textActions.onLeftKey();
       } else if (evt.key === 'ArrowRight') {
         evt.preventDefault();
-        svgCanvas.textActions.onRightKey();
+        textActions.onRightKey();
       } else if (evt.key === 'Escape') {
         clickSelect();
       }
       const isFunctionKeyPressed = checkFunctionKeyPressed(evt);
       if (evt.shiftKey && evt.key === 'Enter') {
         evt.preventDefault();
-        svgCanvas.textActions.newLine();
+        textActions.newLine();
+        textEdit.setTextContent(textInput.value);
         wasNewLineAdded = true;
       } else if (isFunctionKeyPressed && evt.key === 'c') {
         evt.preventDefault();
-        svgCanvas.textActions.copyText();
+        textActions.copyText();
       } else if (isFunctionKeyPressed && evt.key === 'x') {
         evt.preventDefault();
-        svgCanvas.textActions.cutText();
+        textActions.cutText();
+        textEdit.setTextContent(textInput.value);
       } else if (isFunctionKeyPressed && evt.key === 'v') {
         evt.preventDefault();
-        svgCanvas.textActions.pasteText();
+        textActions.pasteText();
+        textEdit.setTextContent(textInput.value);
       } else if (isFunctionKeyPressed && evt.key === 'a') {
         evt.preventDefault();
-        svgCanvas.textActions.selectAll();
+        textActions.selectAll();
+        textEdit.setTextContent(textInput.value);
       } else if (isFunctionKeyPressed && evt.key === 'z') {
         if (window.os === 'MacOS') evt.preventDefault();
       }
@@ -3938,7 +3937,7 @@ const svgEditor = window['svgEditor'] = (function () {
       if (document.activeElement.tagName.toLowerCase() === 'input') {
         return;
       }
-      if (!svgCanvas.textActions.isEditing && (selectedElement != null || multiselected)) {
+      if (!textActions.isEditing && (selectedElement != null || multiselected)) {
         svgCanvas.cutSelectedElements();
         canv_menu.enableContextMenuItems('#paste,#paste_in_place');
       }
@@ -3950,7 +3949,7 @@ const svgEditor = window['svgEditor'] = (function () {
       if (document.activeElement.tagName.toLowerCase() === 'input') {
         return;
       }
-      if (!svgCanvas.textActions.isEditing && (selectedElement != null || multiselected)) {
+      if (!textActions.isEditing && (selectedElement != null || multiselected)) {
         svgCanvas.copySelectedElements();
         canv_menu.enableContextMenuItems('#paste,#paste_in_place');
       }
@@ -4156,18 +4155,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
 
     editor.clearScene = clearScene;
-
-    var clickBold = function () {
-      svgCanvas.setBold(!svgCanvas.getBold());
-      updateContextPanel();
-      return false;
-    };
-
-    var clickItalic = function () {
-      svgCanvas.setItalic(!svgCanvas.getItalic());
-      updateContextPanel();
-      return false;
-    };
 
     var clickSave = function () {
       // In the future, more options can be provided here
@@ -5148,16 +5135,6 @@ const svgEditor = window['svgEditor'] = (function () {
         evt: 'click'
       },
       {
-        sel: '#tool_bold',
-        fn: clickBold,
-        evt: 'mousedown'
-      },
-      {
-        sel: '#tool_italic',
-        fn: clickItalic,
-        evt: 'mousedown'
-      },
-      {
         sel: '#copy_save_done',
         fn: cancelOverlays,
         evt: 'click'
@@ -5551,11 +5528,6 @@ const svgEditor = window['svgEditor'] = (function () {
       max: 180,
       step: 5,
       callback: changeRotationAngle
-    });
-    $('#font_size').SpinButton({
-      min: 0.001,
-      stepfunc: stepFontSize,
-      callback: changeFontSize
     });
     $('#group_opacity').SpinButton({
       min: 0,
