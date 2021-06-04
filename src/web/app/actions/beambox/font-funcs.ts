@@ -79,7 +79,7 @@ let fontNameMapObj: { [key: string]: string } = storage.get('font-name-map') || 
 if (fontNameMapObj.navigatorLang !== navigator.language) {
   fontNameMapObj = {};
 }
-const fontNameMap = new Map();
+const fontNameMap = new Map<string, string>();
 const availableFontFamilies = (function requestAvailableFontFamilies() {
   // get all available fonts in user PC
   const fonts = communicator.sendSync('GET_AVAILABLE_FONTS');
@@ -119,7 +119,7 @@ const availableFontFamilies = (function requestAvailableFontFamilies() {
   });
 
   // make it unique
-  const fontFamilySet = new Set();
+  const fontFamilySet = new Set<string>();
   fonts.map((font) => fontFamilySet.add(font.family));
 
   // transfer to array and sort!

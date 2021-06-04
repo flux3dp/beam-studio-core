@@ -5,6 +5,7 @@ import Select from 'react-select';
 
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
+import textEdit from 'app/svgedit/textedit';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -38,7 +39,7 @@ class TextOptions extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const { elem } = props;
-    this.state = this.getStateFromElem(elem);
+    this.state = this.getStateFromElem(elem as SVGTextElement);
   }
 
   componentDidUpdate(prevProps: Props): void {
@@ -47,13 +48,13 @@ class TextOptions extends React.Component<Props, State> {
     const { elem } = this.props;
     if (elem.getAttribute('id') !== lastId) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.getStateFromElem(elem));
+      this.setState(this.getStateFromElem(elem as SVGTextElement));
     }
   }
 
-  getStateFromElem = (elem: Element) => {
+  getStateFromElem = (elem: SVGTextElement) => {
     const { updateDimensionValues } = this.props;
-    const postscriptName = svgCanvas.getFontPostscriptName(elem);
+    const postscriptName = textEdit.getFontPostscriptName(elem);
     let font;
     if (postscriptName) {
       font = FontFuncs.getFontOfPostscriptName(postscriptName);
@@ -64,9 +65,9 @@ class TextOptions extends React.Component<Props, State> {
         elem.setAttribute('font-weight', font?.weight ? font.weight : 'normal');
       }
     } else {
-      const family = isMac ? svgCanvas.getFontFamilyData(elem) : svgCanvas.getFontFamily(elem);
-      const weight = svgCanvas.getFontWeight(elem);
-      const italic = svgCanvas.getItalic(elem);
+      const family = isMac ? textEdit.getFontFamilyData(elem) : textEdit.getFontFamily(elem);
+      const weight = textEdit.getFontWeight(elem);
+      const italic = textEdit.getItalic(elem);
       font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
     }
     // eslint-disable-next-line no-console
@@ -83,16 +84,16 @@ class TextOptions extends React.Component<Props, State> {
     if (sanitizedDefaultFontFamily !== font.family) {
       // eslint-disable-next-line no-console
       console.log(`unsupported font ${font.family}, fallback to ${sanitizedDefaultFontFamily}`);
-      svgCanvas.setFontFamily(sanitizedDefaultFontFamily, true);
+      textEdit.setFontFamily(sanitizedDefaultFontFamily, true);
       const newFont = FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)[0];
-      svgCanvas.setFontPostscriptName(newFont.postscriptName, true);
+      textEdit.setFontPostscriptName(newFont.postscriptName, true);
     }
     updateDimensionValues({ fontStyle: font.style });
     return {
       fontFamily: sanitizedDefaultFontFamily,
       fontStyle: font.style,
       fontSize: Number(elem.getAttribute('font-size')),
-      letterSpacing: svgCanvas.getLetterSpacing(elem),
+      letterSpacing: textEdit.getLetterSpacing(elem),
       lineSpacing: parseFloat(elem.getAttribute('data-line-spacing') || '1'),
       isVerti: elem.getAttribute('data-verti') === 'true',
     };
@@ -106,19 +107,19 @@ class TextOptions extends React.Component<Props, State> {
     const { updateDimensionValues, updateObjectPanel } = this.props;
     const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
     const batchCmd = new history.BatchCommand('Change Font family');
-    let cmd = svgCanvas.setFontPostscriptName(newFont.postscriptName, true);
+    let cmd = textEdit.setFontPostscriptName(newFont.postscriptName, true);
     batchCmd.addSubCommand(cmd);
-    cmd = svgCanvas.setItalic(newFont.italic, true);
+    cmd = textEdit.setItalic(newFont.italic, true);
     batchCmd.addSubCommand(cmd);
-    cmd = svgCanvas.setFontWeight(newFont.weight, true);
+    cmd = textEdit.setFontWeight(newFont.weight, true);
     batchCmd.addSubCommand(cmd);
     if (isMac) {
-      cmd = svgCanvas.setFontFamily(newFont.postscriptName, true);
+      cmd = textEdit.setFontFamily(newFont.postscriptName, true);
       batchCmd.addSubCommand(cmd);
-      cmd = svgCanvas.setFontFamilyData(family, true);
+      cmd = textEdit.setFontFamilyData(family, true);
       batchCmd.addSubCommand(cmd);
     } else {
-      cmd = svgCanvas.setFontFamily(family, true);
+      cmd = textEdit.setFontFamily(family, true);
       batchCmd.addSubCommand(cmd);
     }
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
@@ -206,15 +207,15 @@ class TextOptions extends React.Component<Props, State> {
       style: val,
     });
     const batchCmd = new history.BatchCommand('Change Font Style');
-    let cmd = svgCanvas.setFontPostscriptName(font.postscriptName, true);
+    let cmd = textEdit.setFontPostscriptName(font.postscriptName, true);
     batchCmd.addSubCommand(cmd);
     if (isMac) {
-      cmd = svgCanvas.setFontFamily(font.postscriptName, true);
+      cmd = textEdit.setFontFamily(font.postscriptName, true);
       batchCmd.addSubCommand(cmd);
     }
-    cmd = svgCanvas.setItalic(font.italic, true);
+    cmd = textEdit.setItalic(font.italic, true);
     batchCmd.addSubCommand(cmd);
-    cmd = svgCanvas.setFontWeight(font.weight, true);
+    cmd = textEdit.setFontWeight(font.weight, true);
     batchCmd.addSubCommand(cmd);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     updateDimensionValues({ fontStyle: val });
@@ -249,7 +250,7 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   handleFontSizeChange = (val: number): void => {
-    svgCanvas.setFontSize(val);
+    textEdit.setFontSize(val);
     this.setState({
       fontSize: val,
     });
@@ -273,7 +274,7 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   handleLetterSpacingChange = (val: number): void => {
-    svgCanvas.setLetterSpacing(val);
+    textEdit.setLetterSpacing(val);
     this.setState({
       letterSpacing: val,
     });
@@ -296,7 +297,7 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   handleLineSpacingChange = (val: number): void => {
-    svgCanvas.setTextLineSpacing(val);
+    textEdit.setLineSpacing(val);
     this.setState({
       lineSpacing: val,
     });
@@ -322,7 +323,7 @@ class TextOptions extends React.Component<Props, State> {
 
   handleVerticalTextClick = (): void => {
     const { isVerti } = this.state;
-    svgCanvas.setTextIsVertical(!isVerti);
+    textEdit.setIsVertical(!isVerti);
     this.setState({ isVerti: !isVerti });
   };
 
