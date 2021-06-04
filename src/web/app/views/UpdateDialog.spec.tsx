@@ -33,7 +33,7 @@ jest.mock('implementations/storage', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import UpdateDialog from './Update-Dialog';
+import UpdateDialog from './UpdateDialog';
 
 describe('should render correctly', () => {
   test('not opened', () => {
