@@ -58,10 +58,10 @@ class TextOptions extends React.Component<Props, State> {
     if (postscriptName) {
       font = FontFuncs.getFontOfPostscriptName(postscriptName);
       if (!elem.getAttribute('font-style')) {
-        elem.setAttribute('font-style', font.italic ? 'italic' : 'normal');
+        elem.setAttribute('font-style', font?.italic ? 'italic' : 'normal');
       }
       if (!elem.getAttribute('font-weight')) {
-        elem.setAttribute('font-weight', font.weight ? font.weight : 'normal');
+        elem.setAttribute('font-weight', font?.weight ? font.weight : 'normal');
       }
     } else {
       const family = isMac ? svgCanvas.getFontFamilyData(elem) : svgCanvas.getFontFamily(elem);
@@ -73,9 +73,9 @@ class TextOptions extends React.Component<Props, State> {
     console.log(font);
     const sanitizedDefaultFontFamily = (() => {
       // use these font if postscriptName cannot find in user PC
-      const fontFamilyFallback = ['PingFang TC', 'Arial', 'Times New Roman', 'Ubuntu', FontFuncs.availableFontFamilies[0]];
+      const fontFamilyFallback = ['PingFang TC', 'Arial', 'Times New Roman', 'Ubuntu', FontFuncs.availableFontFamilies?.[0]];
       const sanitizedFontFamily = [font.family, ...fontFamilyFallback].find(
-        (f) => FontFuncs.availableFontFamilies.includes(f),
+        (f) => FontFuncs.availableFontFamilies?.includes(f),
       );
       return sanitizedFontFamily;
     })();
@@ -134,7 +134,7 @@ class TextOptions extends React.Component<Props, State> {
   renderFontFamilyBlock = (): JSX.Element => {
     const { fontFamily } = this.state;
     if (window.os === 'MacOS') {
-      const options = FontFuncs.availableFontFamilies.map((option) => {
+      const options = FontFuncs.availableFontFamilies?.map((option) => {
         const label = FontFuncs.fontNameMap.get(option);
         return { value: option, label };
       });
@@ -169,7 +169,7 @@ class TextOptions extends React.Component<Props, State> {
         </div>
       );
     }
-    const options = FontFuncs.availableFontFamilies.map(
+    const options = FontFuncs.availableFontFamilies?.map(
       (option: string) => {
         const fontName = FontFuncs.fontNameMap.get(option);
         const label = typeof fontName === 'string' ? fontName : option;

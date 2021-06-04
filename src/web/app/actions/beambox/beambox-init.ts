@@ -79,7 +79,7 @@ const init = (): void => {
     }
   }
   if (!storage.get('default-font')) {
-    // initDefaultFont();
+    initDefaultFont();
   }
   viewMenu.init();
   initMenuBarEvents();
