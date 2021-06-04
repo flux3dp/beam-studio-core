@@ -5,11 +5,9 @@ import ToolPanels, { ToolPanelType } from 'app/views/beambox/Tool-Panels/Tool-Pa
 
 class ToolPanelsController {
     isVisible: boolean;
-    reactRoot: string;
     type: ToolPanelType;
     data: { rowcolumn: { row: number; column: number; }; distance: { dx: number; dy: number; }; };
     constructor() {
-        this.reactRoot = '';
         this.isVisible = false;
         this.type = 'unknown';
         this.data = {
@@ -28,11 +26,6 @@ class ToolPanelsController {
                 }
             }
         }
-    }
-
-    init(reactRoot) {
-        console.log("Init Toolpanel", reactRoot);
-        this.reactRoot = reactRoot;
     }
 
     setVisibility(isVisible) {
@@ -63,7 +56,7 @@ class ToolPanelsController {
 
     unmount() {
         this.isVisible = false;
-        ReactDOM.unmountComponentAtNode(document.getElementById(this.reactRoot));
+        ReactDOM.unmountComponentAtNode(document.getElementById('tool-panels-placeholder'));
     }
 
     _render() {
@@ -72,7 +65,7 @@ class ToolPanelsController {
                 type={this.type}
                 data = {this.data}
                 unmount = {this.unmount.bind(this)}
-            />, document.getElementById(this.reactRoot)
+            />, document.getElementById('tool-panels-placeholder')
         );
     }
 }

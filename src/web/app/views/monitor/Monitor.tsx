@@ -13,7 +13,7 @@ import MonitorCamera from './Monitor-Camera';
 import MonitorControl from './Monitor-Control';
 import MonitorFilelist from './Monitor-Filelist';
 import MonitorHeader, { NavBtnType } from './Monitor-Header';
-import MonitorInfo from './Monitor-Info';
+import MonitorInfo from './MonitorInfo';
 import MonitorRelocate from './Monitor-Relocate';
 import MonitorTask from './Monitor-Task';
 
