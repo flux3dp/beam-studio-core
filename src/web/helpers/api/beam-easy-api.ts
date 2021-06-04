@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import ExportFuncs from 'app/actions/beambox/export-funcs';

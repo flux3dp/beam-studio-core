@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 import Websocket from 'helpers/websocket';
 

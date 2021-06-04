@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
 import rsaKey from 'helpers/rsa-key';

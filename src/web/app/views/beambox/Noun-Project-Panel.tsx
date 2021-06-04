@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 import defaultIcons from 'app/constants/noun-project-constants';
 import DraggableWindow from 'app/widgets/Draggble-Window';
