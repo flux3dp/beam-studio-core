@@ -3,17 +3,12 @@ import classNames from 'classnames';
 
 import Alert from 'app/widgets/Alert';
 import Progress from 'app/widgets/Progress';
-import { AlertProgressContext, IAlertProgressContext } from 'app/contexts/Alert-Progress-Context';
+import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 
-let contextCaller;
-
-export class AlertsAndProgress extends React.Component {
-  componentDidMount(): void {
-    contextCaller = this.context;
-  }
-
+// eslint-disable-next-line react/prefer-stateless-function
+export default class AlertsAndProgress extends React.Component {
   render(): JSX.Element {
-    const { alertProgressStack, popFromStack } = this.context;
+    const { alertProgressStack, popFromStack, popById } = this.context;
     let alertCount = 0;
     let progressCount = 0;
     const components = alertProgressStack.map((alertOrProgress, index) => {
@@ -21,13 +16,13 @@ export class AlertsAndProgress extends React.Component {
           && document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
       }
-      if (alertOrProgress.isProgress) {
+      if ('isProgress' in alertOrProgress) {
         progressCount += 1;
         return (
           <Progress
             key={`progress-${progressCount}`}
             progress={alertOrProgress}
-            onClose={popFromStack}
+            popById={popById}
           />
         );
       }
@@ -56,9 +51,3 @@ export class AlertsAndProgress extends React.Component {
 }
 
 AlertsAndProgress.contextType = AlertProgressContext;
-
-export const AlertsAndProgressContextHelper = {
-  get context(): IAlertProgressContext {
-    return contextCaller;
-  },
-};

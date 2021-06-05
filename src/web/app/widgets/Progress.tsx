@@ -1,18 +1,17 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
-import ProgressConstants from 'app/constants/progress-constants';
-import { AlertProgressContext } from 'app/contexts/Alert-Progress-Context';
 import ButtonGroup from 'app/widgets/ButtonGroup';
-import Modal from 'app/widgets/Modal';
 import i18n from 'helpers/i18n';
+import Modal from 'app/widgets/Modal';
+import ProgressConstants from 'app/constants/progress-constants';
 import { IProgressDialog } from 'interfaces/IProgress';
 
 const LANG = i18n.lang;
 
 interface Props {
-  progress: IProgressDialog,
-  onClose?: () => void,
+  progress: IProgressDialog;
+  popById: (id: string) => void;
 }
 
 class Progress extends React.Component<Props> {
@@ -20,38 +19,41 @@ class Progress extends React.Component<Props> {
 
   constructor(props) {
     super(props);
-    const { progress } = this.props;
-    const { timeout, timeoutCallback } = progress;
+    const {
+      progress: {
+        id,
+        timeout,
+        timeoutCallback,
+      },
+      popById,
+    } = this.props;
     if (timeout) {
       this.closeTimeout = setTimeout(() => {
-        const { popById } = this.context;
-        if (!progress.id) {
-          console.warn('Progress without ID', progress);
+        if (!id) {
+          console.warn('Progress without ID', id);
         } else {
-          popById(progress.id);
+          popById(id);
         }
-        if (timeoutCallback) {
-          timeoutCallback();
-        }
+        timeoutCallback?.();
       }, timeout);
-    };
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this.closeTimeout);
   }
 
-  renderCaption = (caption: string) => {
+  renderCaption = (caption: string): JSX.Element => {
     if (!caption) return null;
-
     return (
-      <div className='caption'>{caption}</div>
+      <div className="caption">{caption}</div>
     );
-  }
+  };
 
-  renderCancelButton = () => {
-    const progress = this.props.progress;
-    const { onCancel, id } = progress;
+  renderCancelButton = (
+    id: string,
+    onCancel: () => void,
+  ): JSX.Element => {
     if (!onCancel) {
       return null;
     }
@@ -59,56 +61,60 @@ class Progress extends React.Component<Props> {
       label: LANG.alert.cancel,
       className: classNames('btn-default'),
       onClick: () => {
-        const { popById } = this.context;
+        const { popById } = this.props;
         popById(id);
         onCancel();
       },
     }];
     return (
-      <div className={'button-container'}>
+      <div className="button-container">
         <ButtonGroup buttons={buttons} />
       </div>
     );
+  };
 
-  }
-
-  renderMessage = (progress: IProgressDialog) => {
+  renderMessage = (
+    type: string,
+    percentage: string | number,
+    message: string,
+  ): JSX.Element => {
     let content;
-    if (progress.type === ProgressConstants.NONSTOP) {
+    if (type === ProgressConstants.NONSTOP) {
       content = <div className={classNames('spinner-roller spinner-roller-reverse')} />
-    } else if (progress.type === ProgressConstants.STEPPING) {
-      const progressStyle = {
-        width: (progress.percentage || 0) + '%'
-      };
+    } else if (type === ProgressConstants.STEPPING) {
       content = (
-        <div className='stepping-container'>
-          <div className='progress-message'>{progress.message}</div>
-          <div className='progress-bar'>
-            <div className='current-progress' style={progressStyle} />
+        <div className="stepping-container">
+          <div className="progress-message">{message}</div>
+          <div className="progress-bar">
+            <div
+              className="current-progress"
+              style={{
+                width: `${percentage || 0}%`,
+              }}
+            />
           </div>
         </div>
       );
     }
     return (
-      <pre className='message'>
+      <pre className="message">
         {content}
       </pre>
     );
-  }
+  };
 
-  render() {
+  render(): JSX.Element {
     const { progress } = this.props;
     return (
       <Modal>
         <div className={classNames('modal-alert', 'progress')}>
           {this.renderCaption(progress.caption)}
-          {this.renderMessage(progress)}
-          {this.renderCancelButton()}
+          {this.renderMessage(progress.type, progress.percentage, progress.message)}
+          {this.renderCancelButton(progress.id, progress.onCancel)}
         </div>
       </Modal>
     );
   }
 }
-Progress.contextType = AlertProgressContext;
 
 export default Progress;

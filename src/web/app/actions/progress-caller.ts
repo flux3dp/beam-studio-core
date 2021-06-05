@@ -1,47 +1,35 @@
+import EventEmitterFactory from 'helpers/eventEmitterFactory';
 import ProgressConstants from 'app/constants/progress-constants';
-import { AlertsAndProgressContextHelper } from 'app/views/dialogs/Alerts-And-Progress';
 import { IProgressDialog } from 'interfaces/IProgress';
 
+const eventEmitter = EventEmitterFactory.createEventEmitter();
 export default {
-    openNonstopProgress: (args: IProgressDialog) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            args.type = ProgressConstants.NONSTOP;
-            if (!args.caption && args.message) {
-                args.caption = args.message;
-            }
-            AlertsAndProgressContextHelper.context.openProgress(args);
-        }
-    },
-    openSteppingProgress: (args: IProgressDialog) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            args.type = ProgressConstants.STEPPING;
-            args.percentage = args.percentage || 0;
-            AlertsAndProgressContextHelper.context.openProgress(args);
-        }
-    },
-    popById: (id) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            AlertsAndProgressContextHelper.context.popById(id);
-        }
-    },
-    popLastProgress: () => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            AlertsAndProgressContextHelper.context.popLastProgress();
-        }
-    },
-    update: (id, args) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            AlertsAndProgressContextHelper.context.updateProgress(id, args);
-        }
+  openNonstopProgress: (args: IProgressDialog): void => {
+    if (!args.caption && args.message) {
+      // eslint-disable-next-line no-param-reassign
+      args.caption = args.message;
     }
+    eventEmitter.emit('AlertProgressContext.openProgress', {
+      ...args,
+      isProgress: true,
+      type: ProgressConstants.NONSTOP,
+    });
+  },
+  openSteppingProgress: (args: IProgressDialog): void => {
+    eventEmitter.emit('AlertProgressContext.openProgress', {
+      ...args,
+      isProgress: true,
+      type: ProgressConstants.STEPPING,
+      percentage: args.percentage || 0,
+    });
+  },
+  popById: (id: string): void => {
+    eventEmitter.emit('AlertProgressContext.popById', id);
+  },
+  popLastProgress: (): void => {
+    eventEmitter.emit('AlertProgressContext.popLastProgress');
+  },
+  update: (id: string, args: IProgressDialog): void => {
+    eventEmitter.emit('AlertProgressContext.updateProgress', id, args);
+  },
 };

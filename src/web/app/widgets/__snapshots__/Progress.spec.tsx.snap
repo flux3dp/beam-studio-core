@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Progress should render correctly 1`] = `
+<View>
+  <div
+    className="modal-alert progress"
+  >
+    <pre
+      className="message"
+    >
+      <div
+        className="spinner-roller spinner-roller-reverse"
+      />
+    </pre>
+  </div>
+</View>
+`;
+
+exports[`test Progress should render correctly 2`] = `
+<Progress
+  popById={[MockFunction]}
+  progress={
+    Object {
+      "caption": "flux caption",
+      "id": "12345",
+      "message": "this is current progress",
+      "onCancel": [MockFunction],
+      "percentage": 90,
+      "type": "STEPPING",
+    }
+  }
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="modal-alert progress"
+        >
+          <div
+            className="caption"
+          >
+            flux caption
+          </div>
+          <pre
+            className="message"
+          >
+            <div
+              className="stepping-container"
+            >
+              <div
+                className="progress-message"
+              >
+                this is current progress
+              </div>
+              <div
+                className="progress-bar"
+              >
+                <div
+                  className="current-progress"
+                  style={
+                    Object {
+                      "width": "90%",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </pre>
+          <div
+            className="button-container"
+          >
+            <ButtonGroup
+              buttons={
+                Array [
+                  Object {
+                    "className": "btn-default",
+                    "label": "Cancel",
+                    "onClick": [Function],
+                  },
+                ]
+              }
+            >
+              <div
+                className="button-group btn-h-group"
+              >
+                <button
+                  className="btn btn-default"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Cancel",
+                    }
+                  }
+                  data-test-key="cancel"
+                  key="0"
+                  onClick={[Function]}
+                  type="button"
+                />
+              </div>
+            </ButtonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</Progress>
+`;

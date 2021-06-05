@@ -6,14 +6,6 @@ import Constants from 'app/constants/input-lightbox-constants';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 
-
-var acceptableTypes = [
-  Constants.TYPE_TEXT,
-  Constants.TYPE_NUMBER,
-  Constants.TYPE_PASSWORD,
-  Constants.TYPE_FILE
-];
-
 interface Props {
   type: string;
   confirmText: string;
