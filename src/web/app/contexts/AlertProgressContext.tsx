@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 
 import AlertConstants from 'app/constants/alert-constants';
-import EventEmitter from 'helpers/eventEmitter';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
@@ -22,6 +22,8 @@ export const AlertProgressContext = createContext<IAlertProgressContext>({
   popById: () => {},
 });
 
+export const eventEmitter = eventEmitterFactory.createEventEmitter();
+
 interface State {
   alertProgressStack: (IAlert | IProgressDialog)[],
 }
@@ -33,13 +35,16 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       alertProgressStack: [],
     };
 
-    const eventEmitter = EventEmitter.getInstance();
-    eventEmitter.on('AlertProgressContext.openProgress', this.openProgress.bind(this));
-    eventEmitter.on('AlertProgressContext.popLastProgress', this.popLastProgress.bind(this));
-    eventEmitter.on('AlertProgressContext.updateProgress', this.updateProgress.bind(this));
-    eventEmitter.on('AlertProgressContext.popById', this.popById.bind(this));
-    eventEmitter.on('AlertProgressContext.popUp', this.popUp.bind(this));
-    eventEmitter.on('AlertProgressContext.checkIdExist', this.checkIdExist.bind(this));
+    eventEmitter.on('OPEN_PROGRESS', this.openProgress.bind(this));
+    eventEmitter.on('POP_LAST_PROGRESS', this.popLastProgress.bind(this));
+    eventEmitter.on('UPDATE_PROGRESS', this.updateProgress.bind(this));
+    eventEmitter.on('POP_BY_ID', this.popById.bind(this));
+    eventEmitter.on('POP_UP', this.popUp.bind(this));
+    eventEmitter.on('CHECK_ID_EXIST', this.checkIdExist.bind(this));
+  }
+
+  componentWillUnmount() {
+    eventEmitter.removeAllListeners();
   }
 
   popFromStack = (): void => {

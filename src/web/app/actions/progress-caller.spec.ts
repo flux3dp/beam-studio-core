@@ -1,9 +1,9 @@
 /* eslint-disable import/first */
 const mockEmit = jest.fn();
-jest.mock('helpers/eventEmitter', () => ({
-  getInstance: () => ({
+jest.mock('app/contexts/AlertProgressContext', () => ({
+  eventEmitter: {
     emit: mockEmit,
-  }),
+  },
 }));
 
 import ProgressConstants from 'app/constants/progress-constants';
@@ -21,7 +21,7 @@ describe('test progress-caller', () => {
       caption: 'flux caption',
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.openProgress', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'OPEN_PROGRESS', {
       id: '12345',
       isProgress: true,
       type: ProgressConstants.NONSTOP,
@@ -34,7 +34,7 @@ describe('test progress-caller', () => {
       message: 'flux message',
     });
     expect(mockEmit).toHaveBeenCalledTimes(2);
-    expect(mockEmit).toHaveBeenNthCalledWith(2, 'AlertProgressContext.openProgress', {
+    expect(mockEmit).toHaveBeenNthCalledWith(2, 'OPEN_PROGRESS', {
       id: '12345',
       isProgress: true,
       type: ProgressConstants.NONSTOP,
@@ -50,7 +50,7 @@ describe('test progress-caller', () => {
       percentage: 100,
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.openProgress', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'OPEN_PROGRESS', {
       id: '12345',
       isProgress: true,
       type: ProgressConstants.STEPPING,
@@ -62,7 +62,7 @@ describe('test progress-caller', () => {
       type: 'flux progress',
     });
     expect(mockEmit).toHaveBeenCalledTimes(2);
-    expect(mockEmit).toHaveBeenNthCalledWith(2, 'AlertProgressContext.openProgress', {
+    expect(mockEmit).toHaveBeenNthCalledWith(2, 'OPEN_PROGRESS', {
       id: '12345',
       isProgress: true,
       type: ProgressConstants.STEPPING,
@@ -73,13 +73,13 @@ describe('test progress-caller', () => {
   test('test popById', () => {
     progressCaller.popById('12345');
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.popById', '12345');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_BY_ID', '12345');
   });
 
   test('test popLastProgress', () => {
     progressCaller.popLastProgress();
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.popLastProgress');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_LAST_PROGRESS');
   });
 
   test('test popById', () => {
@@ -88,7 +88,7 @@ describe('test progress-caller', () => {
       type: 'flux progress',
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.updateProgress', '12345', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_PROGRESS', '12345', {
       id: '12345',
       type: 'flux progress',
     });
