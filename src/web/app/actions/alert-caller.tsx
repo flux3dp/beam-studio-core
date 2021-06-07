@@ -1,8 +1,8 @@
 import alertConstants from 'app/constants/alert-constants';
-import EventEmitterFactory from 'helpers/eventEmitterFactory';
+import EventEmitter from 'helpers/eventEmitter';
 import { IAlert } from 'interfaces/IAlert';
 
-const eventEmitter = EventEmitterFactory.createEventEmitter();
+const eventEmitter = EventEmitter.getInstance();
 export default {
   popUp: (args: IAlert): void => {
     eventEmitter.emit('AlertProgressContext.popUp', args);

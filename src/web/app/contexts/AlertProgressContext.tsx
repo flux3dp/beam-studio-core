@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 
 import AlertConstants from 'app/constants/alert-constants';
-import EventEmitterFactory from 'helpers/eventEmitterFactory';
+import EventEmitter from 'helpers/eventEmitter';
 import i18n from 'helpers/i18n';
 import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
@@ -33,7 +33,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       alertProgressStack: [],
     };
 
-    const eventEmitter = EventEmitterFactory.createEventEmitter();
+    const eventEmitter = EventEmitter.getInstance();
     eventEmitter.on('AlertProgressContext.openProgress', this.openProgress.bind(this));
     eventEmitter.on('AlertProgressContext.popLastProgress', this.popLastProgress.bind(this));
     eventEmitter.on('AlertProgressContext.updateProgress', this.updateProgress.bind(this));

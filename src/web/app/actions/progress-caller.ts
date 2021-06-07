@@ -1,8 +1,8 @@
-import EventEmitterFactory from 'helpers/eventEmitterFactory';
+import EventEmitter from 'helpers/eventEmitter';
 import ProgressConstants from 'app/constants/progress-constants';
 import { IProgressDialog } from 'interfaces/IProgress';
 
-const eventEmitter = EventEmitterFactory.createEventEmitter();
+const eventEmitter = EventEmitter.getInstance();
 export default {
   openNonstopProgress: (args: IProgressDialog): void => {
     if (!args.caption && args.message) {
