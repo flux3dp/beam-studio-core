@@ -5,7 +5,6 @@ import DialogBox from './Dialog-Box';
 
 test('should render correctly', () => {
   const mockOnClose = jest.fn();
-  const mockOnClick = jest.fn();
   const wrapper = shallow(<DialogBox
     arrowDirection="top"
     arrowHeight={10}
@@ -14,13 +13,9 @@ test('should render correctly', () => {
     arrowPadding={30}
     position={{}}
     onClose={mockOnClose}
-    onClick={mockOnClick}
     content="Hello World"
   />);
   expect(toJson(wrapper)).toMatchSnapshot();
-
-  wrapper.find('.dialog-box-container').simulate('click');
-  expect(mockOnClick).toHaveBeenCalledTimes(1);
 
   wrapper.find('.close-btn').simulate('click');
   expect(mockOnClose).toHaveBeenCalledTimes(1);

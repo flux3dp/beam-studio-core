@@ -1,18 +1,14 @@
-import { TutorialContextCaller } from 'app/views/tutorials/Tutorial';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-export const handleNextStep = () => {
-    if (!TutorialContextCaller.context) {
-        //console.log('Tutorial is not mounted now.');
-    } else {
-        TutorialContextCaller.context.handleNextStep();
-    }
+const eventEmitter = eventEmitterFactory.createEventEmitter();
+export const handleNextStep = (): void => {
+  eventEmitter.emit('TutorialContext.handleNextStep');
 };
 
-export const getNextStepRequirement = () => {
-    if (!TutorialContextCaller.context) {
-        //console.log('Tutorial is not mounted now.');
-        return null;
-    } else {
-        return TutorialContextCaller.context.getNextStepRequirement();
-    }
-}
+export const getNextStepRequirement = (): string => {
+  const response = {
+    nextStepRequirement: '',
+  };
+  eventEmitter.emit('TutorialContext.getNextStepRequirement', response);
+  return response.nextStepRequirement;
+};

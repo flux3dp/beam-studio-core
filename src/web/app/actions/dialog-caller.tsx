@@ -21,7 +21,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { ITutorial } from 'interfaces/ITutorial';
-import { Tutorial } from 'app/views/tutorials/Tutorial';
+import Tutorial from 'app/views/tutorials/Tutorial';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
