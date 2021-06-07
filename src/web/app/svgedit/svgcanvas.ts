@@ -44,7 +44,7 @@ import TopBarController from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Control
 import TopBarHintsController from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Hints-Controller';
 import * as TopBarHints from 'app/views/beambox/Top-Bar/Top-Bar-Hints';
 import TimeEstimationButtonController from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import ZoomBlockController from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Controller';
 import Constant from 'app/actions/beambox/constant';
