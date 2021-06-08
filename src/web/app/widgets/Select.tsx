@@ -18,8 +18,10 @@ interface Props {
   onChange: (e: any) => void;
 }
 
-class Select extends React.Component<Props> {
-  renderOptions = (isMultiple, defaultValue, options) => {
+function Select({
+  id, name, className, multiple, disabled, options, defaultValue, onChange,
+}: Props): JSX.Element {
+  const renderOptions = () => {
     let defaultOptionValue;
     const renderedOptions = options.map((opt, i) => {
       const metadata = JSON.stringify(opt.data);
@@ -27,7 +29,7 @@ class Select extends React.Component<Props> {
       if (opt.selected) {
         // if the <select> is a multiple, push the values
         // to an array
-        if (isMultiple) {
+        if (multiple) {
           if (defaultOptionValue === undefined) {
             defaultOptionValue = [];
           }
@@ -55,38 +57,21 @@ class Select extends React.Component<Props> {
     return [renderedOptions, defaultOptionValue];
   };
 
-  render() {
-    // the default value for the <select> (selected for ReactJS)
-    // http://facebook.github.io/react/docs/forms.html#why-select-value
-    const {
-      id,
-      name,
-      className,
-      defaultValue,
-      options,
-      multiple,
-      disabled,
-      onChange,
-    } = this.props;
-
-    // eslint-disable-next-line max-len
-    const [renderedOptions, defaultOptionValue] = this.renderOptions(multiple, defaultValue, options);
-
-    return (
-      <select
-        disabled={disabled}
-        defaultValue={defaultOptionValue}
-        value={defaultOptionValue}
-        multiple={multiple}
-        name={name}
-        id={id}
-        className={className}
-        onChange={onChange}
-      >
-        {renderedOptions}
-      </select>
-    );
-  }
+  const [renderedOptions, defaultOptionValue] = renderOptions();
+  return (
+    <select
+      disabled={disabled}
+      defaultValue={defaultOptionValue}
+      value={defaultOptionValue}
+      multiple={multiple}
+      name={name}
+      id={id}
+      className={className}
+      onChange={onChange}
+    >
+      {renderedOptions}
+    </select>
+  );
 }
 
 export default Select;

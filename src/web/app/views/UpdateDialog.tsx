@@ -8,7 +8,6 @@ import Modal from 'app/widgets/Modal';
 import storage from 'implementations/storage';
 
 interface Props {
-  open: boolean
   deviceName: string;
   deviceModel: string;
   currentVersion: string,
@@ -78,19 +77,14 @@ class UpdateDialog extends React.Component<Props> {
     return [laterButton, downloadButton, installButton];
   };
 
-  render() {
+  render(): JSX.Element {
     const {
-      open = false,
       deviceName = '',
       deviceModel = '',
       latestVersion = '',
       currentVersion = '',
       releaseNote = '',
     } = this.props;
-
-    if (!open) {
-      return <div />;
-    }
 
     const {
       lang: {
