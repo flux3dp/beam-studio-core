@@ -20,6 +20,16 @@ export interface IFontScanner {
   substituteFont: (postscriptName: string, text: string) => FontDescriptor;
 }
 
+export type FontDescriptorKeys =
+  'path' |
+  'postscriptName' |
+  'family' |
+  'style' |
+  'weight' |
+  'width' |
+  'italic' |
+  'monospace';
+
 export interface FontDescriptor {
   path?: string;
   postscriptName?: string;
