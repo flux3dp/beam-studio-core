@@ -1,5 +1,5 @@
 import ImageData from '../../../helpers/image-data';
-import * as TutorialController from '../../views/tutorials/Tutorial-Controller';
+import * as TutorialController from '../../views/tutorials/tutorialController';
 import TutorialConstants from '../../constants/tutorial-constants';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from '../../../helpers/svg-editor-helper';
