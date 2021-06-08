@@ -91,7 +91,6 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     }
   };
 
-<<<<<<< HEAD
   getNextStepRequirement = (response: {
     nextStepRequirement: string,
   }): void => {
@@ -99,13 +98,6 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     const { dialogStylesAndContents } = this.props;
     const { nextStepRequirement } = dialogStylesAndContents[currentStep];
     response.nextStepRequirement = nextStepRequirement;
-=======
-  getNextStepRequirement = () => {
-    const { currentStep } = this.state;
-    const { dialogStylesAndContents } = this.props;
-    const { nextStepRequirement } = dialogStylesAndContents[currentStep];
-    return nextStepRequirement;
->>>>>>> origin/master
   };
 
   render() {
@@ -118,10 +110,6 @@ export class TutorialContextProvider extends React.Component<Props, States> {
       currentStep,
     } = this.state;
     const {
-<<<<<<< HEAD
-=======
-      getNextStepRequirement,
->>>>>>> origin/master
       handleNextStep,
     } = this;
     return (
@@ -129,10 +117,6 @@ export class TutorialContextProvider extends React.Component<Props, States> {
         hasNextButton,
         dialogStylesAndContents,
         currentStep,
-<<<<<<< HEAD
-=======
-        getNextStepRequirement,
->>>>>>> origin/master
         handleNextStep,
       }}
       >
