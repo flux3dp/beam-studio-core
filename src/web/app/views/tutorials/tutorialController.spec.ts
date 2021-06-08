@@ -1,9 +1,9 @@
 /* eslint-disable import/first */
 const mockEmit = jest.fn();
-jest.mock('helpers/eventEmitterFactory', () => ({
-  createEventEmitter: () => ({
+jest.mock('app/views/tutorials/TutorialContext', () => ({
+  eventEmitter: {
     emit: mockEmit,
-  }),
+  },
 }));
 
 import { getNextStepRequirement, handleNextStep } from './tutorialController';
@@ -16,13 +16,13 @@ describe('test Tutorial-Controller', () => {
   test('test handleNextStep', () => {
     handleNextStep();
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'TutorialContext.handleNextStep');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'HANDLE_NEXT_STEP');
   });
 
   test('test getNextStepRequirement', () => {
     getNextStepRequirement();
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'TutorialContext.getNextStepRequirement', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'GET_NEXT_STEP_REQUIREMENT', {
       nextStepRequirement: '',
     });
   });

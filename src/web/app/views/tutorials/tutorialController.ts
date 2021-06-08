@@ -1,14 +1,13 @@
-import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import { eventEmitter } from 'app/views/tutorials/TutorialContext';
 
-const eventEmitter = eventEmitterFactory.createEventEmitter();
 export const handleNextStep = (): void => {
-  eventEmitter.emit('TutorialContext.handleNextStep');
+  eventEmitter.emit('HANDLE_NEXT_STEP');
 };
 
 export const getNextStepRequirement = (): string => {
   const response = {
     nextStepRequirement: '',
   };
-  eventEmitter.emit('TutorialContext.getNextStepRequirement', response);
+  eventEmitter.emit('GET_NEXT_STEP_REQUIREMENT', response);
   return response.nextStepRequirement;
 };

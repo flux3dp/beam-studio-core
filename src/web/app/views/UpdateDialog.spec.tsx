@@ -35,24 +35,9 @@ jest.mock('implementations/storage', () => ({
 // eslint-disable-next-line import/first
 import UpdateDialog from './UpdateDialog';
 
-describe('should render correctly', () => {
-  test('not opened', () => {
+describe('test update dialog', () => {
+  test('should render correctly', () => {
     expect(toJson(shallow(<UpdateDialog
-      open={false}
-      deviceName=""
-      deviceModel=""
-      currentVersion="1.0.0"
-      latestVersion="1.0.1"
-      releaseNote="fix bugs"
-      onDownload={jest.fn()}
-      onClose={jest.fn()}
-      onInstall={jest.fn()}
-    />))).toMatchSnapshot();
-  });
-
-  test('opened', () => {
-    expect(toJson(shallow(<UpdateDialog
-      open
       deviceName="flux"
       deviceModel="Beamo"
       currentVersion="1.0.0"

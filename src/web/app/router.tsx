@@ -11,7 +11,6 @@ import ConnectWiFi from 'app/pages/Connect-Wi-Fi';
 import ConnectWired from 'app/pages/Connect-Wired';
 import FluxIdLogin from 'app/pages/FluxIdLogin';
 import Home from 'app/pages/Home';
-import NotificationCollection from 'app/views/Notification-Collection';
 import SelectConnectionType from 'app/pages/Select-Connection-Type';
 import SelectMachineType from 'app/pages/Select-Machine-Type';
 import Settings from 'app/pages/Settings';
@@ -70,8 +69,6 @@ export default Backbone.Router.extend({
         routes.forEach(function(route) {
             router.route.apply(router, route);
         });
-
-        this.appendNotificationCollection();
     },
 
     home: function(name) {
@@ -158,10 +155,6 @@ export default Backbone.Router.extend({
                 )
                 break;
         }
-    },
-
-    appendNotificationCollection: function() {
-        _display(NotificationCollection, {}, $('.notification')[0]);
     },
 
     studio: function(page, args) {

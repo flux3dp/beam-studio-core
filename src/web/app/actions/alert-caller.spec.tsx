@@ -1,9 +1,9 @@
 /* eslint-disable import/first */
 const mockEmit = jest.fn();
-jest.mock('helpers/eventEmitterFactory', () => ({
-  createEventEmitter: () => ({
+jest.mock('app/contexts/AlertProgressContext', () => ({
+  eventEmitter: {
     emit: mockEmit,
-  }),
+  },
 }));
 
 import alertConstants from 'app/constants/alert-constants';
@@ -20,7 +20,7 @@ describe('test alert-caller', () => {
       type: 'flux alert',
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.popUp', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_UP', {
       id: '12345',
       type: 'flux alert',
     });
@@ -32,7 +32,7 @@ describe('test alert-caller', () => {
       type: 'flux alert',
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.popUp', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_UP', {
       id: '12345',
       type: alertConstants.SHOW_POPUP_ERROR,
     });
@@ -41,13 +41,13 @@ describe('test alert-caller', () => {
   test('test popById', () => {
     alertCaller.popById('12345');
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.popById', '12345');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_BY_ID', '12345');
   });
 
   test('test checkIdExist', () => {
     alertCaller.checkIdExist('12345');
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'AlertProgressContext.checkIdExist', '12345', {
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'CHECK_ID_EXIST', '12345', {
       idExist: false,
     });
   });

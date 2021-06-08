@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import AboutBeamStudio from 'app/views/beambox/AboutBeamStudio';
 import ChangeLogDialog from 'app/views/dialogs/ChangeLogDialog';
 import ConfirmPrompt from 'app/views/dialogs/Confirm-Prompt';
@@ -8,6 +9,7 @@ import DocumentPanel from 'app/views/beambox/Document-Panels/Document-Panel';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/views/FluxIdLogin';
 import InputLightBox from 'app/widgets/Input-Lightbox';
+import i18n from 'helpers/i18n';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import RatingPanel from 'app/views/beambox/RatingPanel';
 import Modal from 'app/widgets/Modal';
@@ -16,6 +18,7 @@ import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';
 import SvgNestButtons from 'app/views/beambox/Svg-Nest-Buttons';
+import UpdateDialog from 'app/views/UpdateDialog';
 import { DialogContextHelper } from 'app/views/dialogs/Dialog';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -269,6 +272,31 @@ export default {
         arrowColor={style.arrowColor}
         content={content}
         onClose={() => popDialogById(id)}
+      />);
+  },
+  showUpdateDialog: (
+    device: IDeviceInfo,
+    updateInfo: {
+      changelog_en: string,
+      changelog_zh: string,
+      latestVersion: string,
+    },
+    onDownload: () => void,
+    onInstall: () => void,
+  ): void => {
+    if (isIdExist('update-dialog')) return;
+    const { name, model, version } = device;
+    const releaseNode = i18n.getActiveLang() === 'zh-tw' ? updateInfo.changelog_zh : updateInfo.changelog_en;
+    addDialogComponent('update-dialog',
+      <UpdateDialog
+        deviceName={name}
+        deviceModel={model}
+        currentVersion={version}
+        latestVersion={updateInfo.latestVersion}
+        releaseNote={releaseNode}
+        onDownload={onDownload}
+        onInstall={onInstall}
+        onClose={() => popDialogById('update-dialog')}
       />);
   },
   showLoadingWindow: (): void => {

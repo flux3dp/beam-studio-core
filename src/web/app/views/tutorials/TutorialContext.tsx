@@ -10,6 +10,8 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 export const TutorialContext = React.createContext({});
 
+export const eventEmitter = eventEmitterFactory.createEventEmitter();
+
 interface Props {
   hasNextButton: boolean,
   dialogStylesAndContents: ITutorialDialog[],
@@ -28,12 +30,13 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     this.state = {
       currentStep: 0,
     };
-    const eventEmitter = eventEmitterFactory.createEventEmitter();
-    eventEmitter.on('TutorialContext.handleNextStep', this.handleNextStep.bind(this));
-    eventEmitter.on('TutorialContext.getNextStepRequirement', this.getNextStepRequirement.bind(this));
+
+    eventEmitter.on('HANDLE_NEXT_STEP', this.handleNextStep.bind(this));
+    eventEmitter.on('GET_NEXT_STEP_REQUIREMENT', this.getNextStepRequirement.bind(this));
   }
 
   componentWillUnmount() {
+    eventEmitter.removeAllListeners();
     this.clearDefaultRect();
   }
 
@@ -88,6 +91,7 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     }
   };
 
+<<<<<<< HEAD
   getNextStepRequirement = (response: {
     nextStepRequirement: string,
   }): void => {
@@ -95,6 +99,13 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     const { dialogStylesAndContents } = this.props;
     const { nextStepRequirement } = dialogStylesAndContents[currentStep];
     response.nextStepRequirement = nextStepRequirement;
+=======
+  getNextStepRequirement = () => {
+    const { currentStep } = this.state;
+    const { dialogStylesAndContents } = this.props;
+    const { nextStepRequirement } = dialogStylesAndContents[currentStep];
+    return nextStepRequirement;
+>>>>>>> origin/master
   };
 
   render() {
@@ -107,6 +118,10 @@ export class TutorialContextProvider extends React.Component<Props, States> {
       currentStep,
     } = this.state;
     const {
+<<<<<<< HEAD
+=======
+      getNextStepRequirement,
+>>>>>>> origin/master
       handleNextStep,
     } = this;
     return (
@@ -114,6 +129,10 @@ export class TutorialContextProvider extends React.Component<Props, States> {
         hasNextButton,
         dialogStylesAndContents,
         currentStep,
+<<<<<<< HEAD
+=======
+        getNextStepRequirement,
+>>>>>>> origin/master
         handleNextStep,
       }}
       >
