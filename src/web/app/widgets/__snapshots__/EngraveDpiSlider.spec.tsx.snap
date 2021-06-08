@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="controls"
+>
+  <div
+    className="control"
+  >
+    <span
+      className="label pull-left"
+    >
+      Resolution
+    </span>
+    <input
+      className="slider"
+      max={3}
+      min={0}
+      onChange={[Function]}
+      type="range"
+      value={0}
+    />
+    <input
+      className="value"
+      disabled={true}
+      type="text"
+      value="Low (100 DPI)"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<div
+  className="controls"
+>
+  <div
+    className="control"
+  >
+    <span
+      className="label pull-left"
+    >
+      Resolution
+    </span>
+    <input
+      className="slider"
+      max={3}
+      min={0}
+      onChange={[Function]}
+      type="range"
+      value={1}
+    />
+    <input
+      className="value"
+      disabled={true}
+      type="text"
+      value="Medium (250 DPI)"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render correctly 3`] = `
+<div
+  className="controls"
+>
+  <div
+    className="control"
+  >
+    <span
+      className="label pull-left"
+    >
+      Resolution
+    </span>
+    <input
+      className="slider"
+      max={3}
+      min={0}
+      onChange={[Function]}
+      type="range"
+      value={2}
+    />
+    <input
+      className="value"
+      disabled={true}
+      type="text"
+      value="High (500 DPI)"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render correctly 4`] = `
+<div
+  className="controls"
+>
+  <div
+    className="control"
+  >
+    <span
+      className="label pull-left"
+    >
+      Resolution
+    </span>
+    <input
+      className="slider"
+      max={3}
+      min={0}
+      onChange={[Function]}
+      type="range"
+      value={3}
+    />
+    <input
+      className="value"
+      disabled={true}
+      type="text"
+      value="Ultra High (1000 DPI)"
+    />
+  </div>
+</div>
+`;
