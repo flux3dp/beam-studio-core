@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ITutorialDialog } from 'interfaces/ITutorial';
 import { TutorialCallbacks } from 'app/constants/tutorial-constants';
@@ -8,6 +9,8 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 export const TutorialContext = React.createContext({});
+
+export const eventEmitter = eventEmitterFactory.createEventEmitter();
 
 interface Props {
   hasNextButton: boolean,
@@ -27,9 +30,13 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     this.state = {
       currentStep: 0,
     };
+
+    eventEmitter.on('HANDLE_NEXT_STEP', this.handleNextStep.bind(this));
+    eventEmitter.on('GET_NEXT_STEP_REQUIREMENT', this.getNextStepRequirement.bind(this));
   }
 
   componentWillUnmount() {
+    eventEmitter.removeAllListeners();
     this.clearDefaultRect();
   }
 
@@ -84,11 +91,13 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     }
   };
 
-  getNextStepRequirement = () => {
+  getNextStepRequirement = (response: {
+    nextStepRequirement: string,
+  }): void => {
     const { currentStep } = this.state;
     const { dialogStylesAndContents } = this.props;
     const { nextStepRequirement } = dialogStylesAndContents[currentStep];
-    return nextStepRequirement;
+    response.nextStepRequirement = nextStepRequirement;
   };
 
   render() {
@@ -101,7 +110,6 @@ export class TutorialContextProvider extends React.Component<Props, States> {
       currentStep,
     } = this.state;
     const {
-      getNextStepRequirement,
       handleNextStep,
     } = this;
     return (
@@ -109,7 +117,6 @@ export class TutorialContextProvider extends React.Component<Props, States> {
         hasNextButton,
         dialogStylesAndContents,
         currentStep,
-        getNextStepRequirement,
         handleNextStep,
       }}
       >

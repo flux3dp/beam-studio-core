@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { sprintf } from 'sprintf-js';
 
 import i18n from 'helpers/i18n';
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';

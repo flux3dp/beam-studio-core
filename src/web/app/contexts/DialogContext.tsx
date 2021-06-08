@@ -1,7 +1,12 @@
 import * as React from 'react';
 
-const { createContext } = React;
-export const DialogContext = createContext(null);
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+
+export const DialogContext = React.createContext({
+  dialogComponents: [],
+});
+
+export const eventEmitter = eventEmitterFactory.createEventEmitter();
 
 export class DialogContextProvider extends React.Component<any> {
   private dialogComponents: {
@@ -12,6 +17,15 @@ export class DialogContextProvider extends React.Component<any> {
   constructor(props) {
     super(props);
     this.dialogComponents = [];
+
+    eventEmitter.on('ADD_DIALOG_COMPONENT', this.addDialogComponent.bind(this));
+    eventEmitter.on('CLEAR_ALL_DIALOG_COMPONENTS', this.clearAllDialogComponents.bind(this));
+    eventEmitter.on('CHECK_ID_EXIST', this.isIdExist.bind(this));
+    eventEmitter.on('POP_DIALOG_BY_ID', this.popDialogById.bind(this));
+  }
+
+  componentWillUnmount() {
+    eventEmitter.removeAllListeners();
   }
 
   addDialogComponent = (id: string, dialogComponent: JSX.Element): void => {
@@ -19,7 +33,11 @@ export class DialogContextProvider extends React.Component<any> {
     this.forceUpdate();
   };
 
-  isIdExist = (id: string): boolean => this.dialogComponents.some((dialog) => dialog.id === id);
+  isIdExist = (id: string, response: {
+    isIdExist: boolean,
+  }): void => {
+    response.isIdExist = this.dialogComponents.some((dialog) => dialog.id === id);
+  };
 
   popDialogById = (id: string): void => {
     this.dialogComponents = this.dialogComponents.filter((dialog) => dialog.id !== id);
@@ -33,22 +51,10 @@ export class DialogContextProvider extends React.Component<any> {
 
   render() {
     const { children } = this.props;
-    const {
-      dialogComponents,
-      addDialogComponent,
-      clearAllDialogComponents,
-      isIdExist,
-      popDialogById,
-    } = this;
-
     return (
       <DialogContext.Provider
         value={{
-          dialogComponents,
-          addDialogComponent,
-          clearAllDialogComponents,
-          isIdExist,
-          popDialogById,
+          dialogComponents: this.dialogComponents,
         }}
       >
         {children}

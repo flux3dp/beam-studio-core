@@ -17,8 +17,8 @@ import Settings from 'app/pages/Settings';
 import SkipConnectMachine from 'app/pages/Skip-Connect-Machine';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
 import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
-import { Dialog } from 'app/views/dialogs/Dialog';
-import { DialogContextProvider } from 'app/contexts/Dialog-Context';
+import Dialog from 'app/views/dialogs/Dialog';
+import { DialogContextProvider } from 'app/contexts/DialogContext';
 
 const _display = function(view: Function, args?, el?) {
     el = el || $('section.content')[0];

@@ -8,23 +8,23 @@ import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentPanel from 'app/views/beambox/Document-Panels/Document-Panel';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/views/FluxIdLogin';
-import InputLightBox from 'app/widgets/Input-Lightbox';
 import i18n from 'helpers/i18n';
+import InputLightBox from 'app/widgets/Input-Lightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
-import RatingPanel from 'app/views/beambox/RatingPanel';
 import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/Network-Testing-Panel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';
+import RatingPanel from 'app/views/beambox/RatingPanel';
 import SvgNestButtons from 'app/views/beambox/Svg-Nest-Buttons';
 import UpdateDialog from 'app/views/UpdateDialog';
-import { DialogContextHelper } from 'app/views/dialogs/Dialog';
+import { eventEmitter } from 'app/contexts/DialogContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { ITutorial } from 'interfaces/ITutorial';
-import { Tutorial } from 'app/views/tutorials/Tutorial';
+import Tutorial from 'app/views/tutorials/Tutorial';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -32,36 +32,23 @@ getSVGAsync((globalSVG) => {
 });
 
 const addDialogComponent = (id: string, component: JSX.Element): void => {
-  if (!DialogContextHelper.context) {
-    console.log('Dialog context not loaded Yet');
-  } else {
-    DialogContextHelper.context.addDialogComponent(id, component);
-  }
+  eventEmitter.emit('ADD_DIALOG_COMPONENT', id, component);
 };
 
 const clearAllDialogComponents = (): void => {
-  if (!DialogContextHelper.context) {
-    console.log('Dialog context not loaded Yet');
-  } else {
-    DialogContextHelper.context.clearAllDialogComponents();
-  }
+  eventEmitter.emit('CLEAR_ALL_DIALOG_COMPONENTS');
 };
 
 const isIdExist = (id: string): boolean => {
-  if (!DialogContextHelper.context) {
-    console.log('Dialog context not loaded Yet');
-    return false;
-  }
-  const isExist = DialogContextHelper.context.isIdExist(id);
-  return isExist;
+  const response = {
+    isIdExist: false,
+  };
+  eventEmitter.emit('CHECK_ID_EXIST', id, response);
+  return response.isIdExist;
 };
 
 const popDialogById = (id: string): void => {
-  if (!DialogContextHelper.context) {
-    console.log('Dialog context not loaded Yet');
-  } else {
-    DialogContextHelper.context.popDialogById(id);
-  }
+  eventEmitter.emit('POP_DIALOG_BY_ID', id);
 };
 
 let promptIndex = 0;
