@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import ColorPickerPanel from 'app/views/beambox/Color-Picker-Panel';

@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { sprintf } from 'sprintf-js';
 
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';

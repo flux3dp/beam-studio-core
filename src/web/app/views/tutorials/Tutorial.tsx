@@ -6,46 +6,42 @@ import DialogBox from 'app/widgets/Dialog-Box';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import ModalWithHole from 'app/widgets/Modal-With-Hole';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ITutorialDialog } from 'interfaces/ITutorial';
 import { TutorialContext, TutorialContextProvider } from 'app/views/tutorials/TutorialContext';
 
-let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-
 const LANG = i18n.lang.tutorial;
-let _contextCaller;
 
-interface IComponentProps {
+class TutorialComponent extends React.Component<{
   endTutorial: () => void,
-}
-class TutorialComponent extends React.Component<IComponentProps> {
-  componentDidMount() {
-    _contextCaller = this.context;
-  }
-
-  componentWillUnmount() {
-    _contextCaller = null;
-  }
-
+}> {
   renderTutorialDialog() {
-    const { currentStep, dialogStylesAndContents, hasNextButton, handleNextStep } = this.context;
+    const { endTutorial } = this.props;
+    const {
+      currentStep, dialogStylesAndContents, hasNextButton, handleNextStep,
+    } = this.context;
     const { dialogBoxStyles, text, subElement } = dialogStylesAndContents[currentStep];
     return (
       <DialogBox
-        {...dialogBoxStyles}
-        onClose={() => this.props.endTutorial()}
-        content={
+        arrowDirection={dialogBoxStyles.arrowDirection}
+        arrowHeight={dialogBoxStyles.arrowHeight}
+        arrowWidth={dialogBoxStyles.arrowWidth}
+        arrowColor={dialogBoxStyles.arrowColor}
+        arrowPadding={dialogBoxStyles.arrowPadding}
+        position={dialogBoxStyles.position}
+        onClose={endTutorial}
+        content={(
           <div className="tutorial-dialog">
             {`${currentStep + 1}/${dialogStylesAndContents.length}\n`}
             {text}
             {subElement}
-            {hasNextButton ?
-              <div className="next-button" onClick={() => handleNextStep()}>
-                {LANG.next}
-              </div> : null}
+            {hasNextButton
+              ? (
+                <div className="next-button" onClick={handleNextStep}>
+                  {LANG.next}
+                </div>
+              ) : null}
           </div>
-        }
+        )}
       />
     );
   }
@@ -92,7 +88,8 @@ class TutorialComponent extends React.Component<IComponentProps> {
       </ModalWithHole>
     );
   }
-};
+}
+
 TutorialComponent.contextType = TutorialContext;
 
 interface Props {
@@ -101,32 +98,29 @@ interface Props {
   hasNextButton: boolean;
   onClose: () => void;
 }
-export class Tutorial extends React.Component<Props> {
-  endTutorial = () => {
-    const { onClose, end_alert } = this.props;
+
+export default function Tutorial({
+  end_alert,
+  dialogStylesAndContents,
+  hasNextButton,
+  onClose,
+}: Props): JSX.Element {
+  const endTutorial = () => {
     Alert.popUp({
       id: 'end-tutorial',
       message: end_alert,
       buttonType: AlertConstants.YES_NO,
-      onYes: () => {
-        onClose();
-      }
+      onYes: onClose,
     });
-  }
+  };
 
-  render() {
-    return (
-      <TutorialContextProvider {...this.props}>
-        <TutorialComponent endTutorial={this.endTutorial} />
-      </TutorialContextProvider>
-    )
-  }
+  return (
+    <TutorialContextProvider
+      hasNextButton={hasNextButton}
+      dialogStylesAndContents={dialogStylesAndContents}
+      onClose={onClose}
+    >
+      <TutorialComponent endTutorial={endTutorial} />
+    </TutorialContextProvider>
+  );
 }
-
-class ContextHelper {
-  static get context() {
-    return _contextCaller;
-  }
-}
-
-export const TutorialContextCaller = ContextHelper;

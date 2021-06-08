@@ -17,8 +17,7 @@ interface Props {
   arrowPadding: number;
   position: Position;
   onClose: () => void;
-  onClick?: () => void;
-  content: string;
+  content: string | JSX.Element;
 }
 
 class DialogBox extends React.PureComponent<Props> {
@@ -83,9 +82,9 @@ class DialogBox extends React.PureComponent<Props> {
   };
 
   render() {
-    const { children, content, onClick = () => { } } = this.props;
+    const { children, content } = this.props;
     return (
-      <div className={classNames('dialog-box-container')} style={this.calculatePositioStyle()} onClick={onClick}>
+      <div className={classNames('dialog-box-container')} style={this.calculatePositioStyle()}>
         {this.renderArrow()}
         <div className={classNames('dialog-box')}>
           {children || content}
