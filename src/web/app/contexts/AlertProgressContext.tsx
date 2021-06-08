@@ -1,32 +1,31 @@
-import i18n from 'helpers/i18n';
-import AlertConstants from 'app/constants/alert-constants';
-import ProgressConstants from 'app/constants/progress-constants';
 import React, { createContext } from 'react';
+
+import AlertConstants from 'app/constants/alert-constants';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import i18n from 'helpers/i18n';
+import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 
 const LANG = i18n.lang.alert;
 let progressID = 0;
 
-export const AlertProgressContext = createContext({});
-
-interface IAlertOrProgress extends IAlert, IProgressDialog {
-  isProgress?: boolean,
-}
-
-export interface IAlertProgressContext {
-  alertProgressStack: IAlertOrProgress[];
+interface IAlertProgressContext {
+  alertProgressStack: (IAlert | IProgressDialog)[];
   popFromStack: () => void;
   popById: (id: string) => void;
-  checkIdExist: (id: string, isProgress?: boolean) => boolean;
-  popUp: (alert: IAlert) => void;
-  openProgress: (progress: IProgressDialog) => void;
-  updateProgress: (id: string, args?: IProgressDialog) => void;
-  popLastProgress: () => void;
 }
 
+export const AlertProgressContext = createContext<IAlertProgressContext>({
+  alertProgressStack: [],
+  popFromStack: () => {},
+  popById: () => {},
+});
+
+export const eventEmitter = eventEmitterFactory.createEventEmitter();
+
 interface State {
-  alertProgressStack: IAlertOrProgress[],
+  alertProgressStack: (IAlert | IProgressDialog)[],
 }
 
 export class AlertProgressContextProvider extends React.Component<unknown, State> {
@@ -35,6 +34,17 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     this.state = {
       alertProgressStack: [],
     };
+
+    eventEmitter.on('OPEN_PROGRESS', this.openProgress.bind(this));
+    eventEmitter.on('POP_LAST_PROGRESS', this.popLastProgress.bind(this));
+    eventEmitter.on('UPDATE_PROGRESS', this.updateProgress.bind(this));
+    eventEmitter.on('POP_BY_ID', this.popById.bind(this));
+    eventEmitter.on('POP_UP', this.popUp.bind(this));
+    eventEmitter.on('CHECK_ID_EXIST', this.checkIdExist.bind(this));
+  }
+
+  componentWillUnmount() {
+    eventEmitter.removeAllListeners();
   }
 
   popFromStack = (): void => {
@@ -50,16 +60,18 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     });
   };
 
-  checkIdExist = (id: string, isProgress = false): boolean => {
+  checkIdExist = (id: string, response: {
+    idExist: boolean,
+  }): void => {
     const { alertProgressStack } = this.state;
     const res = alertProgressStack.filter((item) => {
-      const { id: itemId, isProgress: itemIsProg } = item;
-      return itemId === id && !!itemIsProg === isProgress;
+      const { id: itemId } = item;
+      return itemId === id && !('isProgress' in item);
     });
-    return res.length > 0;
+    response.idExist = res.length > 0;
   };
 
-  pushToStack = (item: IAlertOrProgress): void => {
+  pushToStack = (item: (IAlert | IProgressDialog)): void => {
     if (item.id) {
       // eslint-disable-next-line no-console
       console.log('alert/progress poped', item.id);
@@ -93,7 +105,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     const { alertProgressStack } = this.state;
     let i;
     for (i = alertProgressStack.length - 1; i >= 0; i -= 1) {
-      if (alertProgressStack[i].isProgress) {
+      if ('isProgress' in alertProgressStack[i]) {
         break;
       }
     }
@@ -103,11 +115,11 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     }
   };
 
-  updateProgress = (id: string, args: IProgressDialog = {}): void => {
+  updateProgress = (id: string, args: IProgressDialog): void => {
     const { alertProgressStack } = this.state;
     const targetObjects = alertProgressStack.filter((item) => {
-      const { isProgress, id: itemId } = item;
-      return isProgress && itemId === id;
+      const { id: itemId } = item;
+      return 'isProgress' in item && itemId === id;
     });
     if (targetObjects.length === 0) {
       return;
@@ -153,14 +165,25 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   };
 
   buttonsGenerator = (args: IAlert): { buttons, checkbox } => {
-    const { id, buttonType, checkbox } = args;
+    const { checkbox } = args;
     let { buttons } = args;
     if (buttons) {
       return { buttons, checkbox };
     }
-    let { buttonLabels, callbacks, primaryButtonIndex } = args;
-    let { onYes, onNo } = args;
-    let { onConfirm, onRetry, onCancel } = args;
+    const {
+      id,
+      buttonType,
+    } = args;
+    let {
+      buttonLabels,
+      callbacks,
+      primaryButtonIndex,
+      onYes,
+      onNo,
+      onConfirm,
+      onRetry,
+      onCancel,
+    } = args;
     switch (buttonType) {
       case AlertConstants.YES_NO:
         onYes = onYes || (() => { });
@@ -288,28 +311,12 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   render(): JSX.Element {
     const { children } = this.props;
     const { alertProgressStack } = this.state;
-    const {
-      popFromStack,
-      popById,
-      checkIdExist,
-      popUp,
-      openProgress,
-      updateProgress,
-      popLastProgress,
-      pushToStack,
-    } = this;
     return (
       <AlertProgressContext.Provider value={
           {
             alertProgressStack,
-            popFromStack,
-            popById,
-            checkIdExist,
-            popUp,
-            openProgress,
-            updateProgress,
-            popLastProgress,
-            pushToStack,
+            popFromStack: this.popFromStack,
+            popById: this.popById,
           }
         }
       >

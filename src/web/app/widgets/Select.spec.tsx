@@ -1,6 +1,7 @@
 import * as React from 'react';
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
+
 import Select from './Select';
 
 describe('test Select', () => {

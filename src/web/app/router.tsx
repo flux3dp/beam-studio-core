@@ -15,8 +15,8 @@ import SelectConnectionType from 'app/pages/Select-Connection-Type';
 import SelectMachineType from 'app/pages/Select-Machine-Type';
 import Settings from 'app/pages/Settings';
 import SkipConnectMachine from 'app/pages/Skip-Connect-Machine';
-import { AlertProgressContextProvider } from 'app/contexts/Alert-Progress-Context';
-import { AlertsAndProgress } from 'app/views/dialogs/Alerts-And-Progress';
+import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
+import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
 import { Dialog } from 'app/views/dialogs/Dialog';
 import { DialogContextProvider } from 'app/contexts/Dialog-Context';
 
