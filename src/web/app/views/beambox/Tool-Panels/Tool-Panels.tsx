@@ -14,6 +14,7 @@ import OffsetDistPanel from 'app/views/beambox/Tool-Panels/OffsetDist';
 import RowColumnPanel from 'app/views/beambox/Tool-Panels/RowColumn';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ToolPanelType } from 'app/actions/beambox/toolPanelsController';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -31,8 +32,6 @@ const validPanelsMap = {
   'offset': ['offsetDir', 'offsetCorner', 'offsetDist'],
   'nest': ['nestOffset', 'nestRotation', 'nestGA'],
 };
-
-export type ToolPanelType = 'unknown' | 'gridArray' | 'offset' | 'nest';
 
 interface Props {
   type: ToolPanelType;

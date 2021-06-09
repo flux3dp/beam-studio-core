@@ -1,8 +1,8 @@
-import ImageData from '../../../helpers/image-data';
-import * as TutorialController from '../../views/tutorials/tutorialController';
-import TutorialConstants from '../../constants/tutorial-constants';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+import ImageData from 'helpers/image-data';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgedit;

@@ -36,7 +36,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import i18n from 'helpers/i18n';
-import ToolPanelsController from 'app/actions/beambox/Tool-Panels-Controller';
+import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
