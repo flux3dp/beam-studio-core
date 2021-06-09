@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import beamboxStore from 'app/stores/beambox-store';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
-import ImageTracePanelController from 'app/actions/beambox/Image-Trace-Panel-Controller';
+import ImageTracePanelController from 'app/actions/beambox/imageTracePanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import shortcuts from 'helpers/shortcuts';
