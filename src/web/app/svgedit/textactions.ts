@@ -711,7 +711,7 @@ class TextActions {
   };
 
   clear() {
-    const currentMode = svgCanvas.getMode();
+    const currentMode = svgCanvas ? svgCanvas.getMode() : 'select';
     if (currentMode === 'textedit') {
       this.toSelectMode();
     } else {

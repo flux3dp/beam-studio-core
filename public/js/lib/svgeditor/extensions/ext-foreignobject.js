@@ -32,7 +32,6 @@ svgEditor.addExtension("foreignObject", function(S) {
 		if(!fc_rules.length) {
 			fc_rules = $('<style id="fc_rules"></style>').appendTo('head');
 		}
-		fc_rules.text(!on?"":" #tool_topath { display: none !important; }");
 		$('#foreignObject_panel').toggle(on);
 	}
 
