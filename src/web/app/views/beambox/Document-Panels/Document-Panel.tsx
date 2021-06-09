@@ -4,6 +4,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
 import DropDownControl from 'app/widgets/Dropdown-Control';
+import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
@@ -16,54 +17,6 @@ let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
 const LANG = i18n.lang.beambox.document_panel;
-
-// value is one of low, medium, high
-// onChange() will get one of low, medium, high
-const EngraveDpiSlider = ({value, onChange, onClick}) => {
-    const dpiMap = [
-        'low',
-        'medium',
-        'high',
-        'ultra',
-    ];
-
-    const dpiValueMap = {
-        low: 100,
-        medium: 250,
-        high: 500,
-        ultra: 1000,
-    };
-
-    const sliderValue = dpiMap.indexOf(value);
-
-    const onSliderValueChange = (e) => {
-        const newSliderValue = e.target.value;
-        const dpi = dpiMap[newSliderValue];
-        onChange(dpi);
-    };
-
-    return (
-        <div className='controls' onClick={onClick}>
-            <div className='control'>
-                <span className='label pull-left'>{LANG.engrave_dpi}</span>
-                <input
-                    className='slider'
-                    type='range'
-                    min={0}
-                    max={3}
-                    value={sliderValue}
-                    onChange={onSliderValueChange}
-                />
-                <input
-                    className='value'
-                    type='text'
-                    value={LANG[value] + ` (${dpiValueMap[value]} DPI)`}
-                    disabled={true}
-                />
-            </div>
-        </div>
-    );
-};
 
 const workareaOptions = [
     {label: 'beamo', value: 'fbm1'},
@@ -166,7 +119,6 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
                         <div className='title'>{LANG.document_settings}</div>
                         <EngraveDpiSlider
                             value={this.state.engraveDpi}
-                            onClick={() => {}}
                             onChange={val => this._handleEngraveDpiChange(val)}
                         />
                         <DropDownControl

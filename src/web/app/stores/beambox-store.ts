@@ -1,10 +1,10 @@
-import EventEmitter from 'eventemitter3';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 const UPDATE_LASER_PANEL = 'UPDATE_LASER_PANEL';
 const SHOW_CROPPER = 'SHOW_CROPPER';
 const DRAW_GUIDE_LINES = 'DRAW_GUIDE_LINES';
 
-const eventEmitter = new EventEmitter();
+const eventEmitter = eventEmitterFactory.createEventEmitter();
 export default {
   onUpdateLaserPanel(callback) {
     eventEmitter.on(UPDATE_LASER_PANEL, callback);

@@ -25,7 +25,7 @@ TODOS
 import history from 'app/svgedit/history';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
-import ToolPanelsController from './Tool-Panels-Controller';
+import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
