@@ -891,7 +891,6 @@ const svgEditor = window['svgEditor'] = (function () {
         '#palette .palette_item:first, #stroke_bg': 'no_color'
       },
       resize: {
-        '.svg_icon': 5,
         '.layer_button .svg_icon, #layerlist .svg_icon': 14,
         '.dropdown button .svg_icon': 7,
         '#main_button .dropdown .svg_icon': 9,
