@@ -4,6 +4,7 @@
 /* eslint-disable no-console */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import history from 'app/svgedit/history';
+import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 interface BBox {
@@ -680,7 +681,7 @@ class TextActions {
     const batchCmd = new history.BatchCommand('Edit Text');
     if (curtext && !curtext.textContent.length) {
       // No content, so delete
-      const cmd = svgCanvas.deleteSelectedElements(true);
+      const cmd = deleteSelectedElements(true);
       if (this.valueBeforeEdit && cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     }
     if (this.valueBeforeEdit && this.valueBeforeEdit !== this.textinput.value) {
