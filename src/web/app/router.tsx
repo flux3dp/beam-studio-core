@@ -89,7 +89,7 @@ export default Backbone.Router.extend({
           SelectMachineType,
           {
             props: {
-              other: other
+              other,
             }
           }
         );
@@ -99,7 +99,7 @@ export default Backbone.Router.extend({
           SelectConnectionType,
           {
             props: {
-              other: other
+              other,
             }
           }
         );
@@ -109,7 +109,7 @@ export default Backbone.Router.extend({
           SkipConnectMachine,
           {
             props: {
-              other: other
+              other,
             }
           }
         )
@@ -119,7 +119,7 @@ export default Backbone.Router.extend({
           ConnectWiFi,
           {
             props: {
-              other: other
+              other,
             }
           }
         )
@@ -129,7 +129,7 @@ export default Backbone.Router.extend({
           ConnectWired,
           {
             props: {
-              other: other
+              other,
             }
           }
         )
@@ -139,7 +139,7 @@ export default Backbone.Router.extend({
           ConnectEthernet,
           {
             props: {
-              other: other
+              other,
             }
           }
         )
@@ -149,7 +149,7 @@ export default Backbone.Router.extend({
           ConnectMachineIp,
           {
             props: {
-              other: other
+              other,
             }
           }
         )
@@ -165,10 +165,10 @@ export default Backbone.Router.extend({
       // if something needs webgl then add to the list below
       needWebGL = appSettings.needWebGL,
       map = {
-        'beambox': this.beambox,
-        'settings': this.settings,
-        'usb': this.usb,
-        'device': this.device
+        beambox: this.beambox,
+        settings: this.settings,
+        usb: this.usb,
+        device: this.device
       },
       func = this.beambox;
 
