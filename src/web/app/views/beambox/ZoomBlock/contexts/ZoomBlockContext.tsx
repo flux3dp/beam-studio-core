@@ -10,6 +10,10 @@ export class ZoomBlockContextProvider extends React.Component<any> {
     eventEmitter.on('UPDATE_ZOOM_BLOCK', this.forceUpdate.bind(this));
   }
 
+  componentWillUnmount() {
+    eventEmitter.removeAllListeners();
+  }
+
   render() {
     const { children } = this.props;
     return (
