@@ -6,14 +6,12 @@ import i18n from 'helpers/i18n';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import os from 'implementations/os';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ZoomBlockContext, ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
+import { ZoomBlockContext } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
 
 let svgCanvas;
 let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 const LANG = i18n.lang.beambox.zoom_block;
-
-let _contextCaller;
 
 export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
   constructor(props) {
@@ -24,7 +22,6 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
   }
 
   componentDidMount() {
-    _contextCaller = this.context;
     this.getDpmm();
   }
 
@@ -171,9 +168,3 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
 };
 
 ZoomBlock.contextType = ZoomBlockContext;
-
-export class ZoomBlockContextHelper {
-  static get context(): ZoomBlockContextProvider {
-    return _contextCaller;
-  }
-};
