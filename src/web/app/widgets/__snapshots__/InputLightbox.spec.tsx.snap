@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test InputLightbox 1`] = `
+<View
+  className={
+    Object {
+      "modal-input-lightbox": true,
+      "shadow-modal": true,
+    }
+  }
+  content={
+    <form
+      className="form"
+      onSubmit={[Function]}
+    >
+      <DummyImageAlertDialog
+        buttons={
+          Array [
+            Object {
+              "dataAttrs": Object {
+                "ga-event": "cancel",
+              },
+              "label": "Resolution",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "primary btn-default btn-disabled",
+              "dataAttrs": Object {
+                "ga-event": "confirm",
+              },
+              "label": "UPLOAD",
+              "onClick": [Function],
+            },
+          ]
+        }
+        caption="Firmware upload (*.bin / *.fxfw)"
+        message={
+          <label
+            className="control"
+          >
+            
+            <input
+              autoFocus={true}
+              defaultValue=""
+              maxLength={255}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              type="file"
+            />
+          </label>
+        }
+      />
+    </form>
+  }
+  disabledEscapeOnBackground={false}
+/>
+`;
+
+exports[`test InputLightbox 2`] = `
+<View
+  className={
+    Object {
+      "modal-input-lightbox": true,
+      "shadow-modal": true,
+    }
+  }
+  content={
+    <form
+      className="form"
+      onSubmit={[Function]}
+    >
+      <DummyImageAlertDialog
+        buttons={
+          Array [
+            Object {
+              "dataAttrs": Object {
+                "ga-event": "cancel",
+              },
+              "label": "Resolution",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "primary btn-default btn-disabled",
+              "dataAttrs": Object {
+                "ga-event": "confirm",
+              },
+              "label": "CONNECT",
+              "onClick": [Function],
+            },
+          ]
+        }
+        caption="ABCDE requires a password"
+        message={
+          <label
+            className="control"
+          >
+            <span
+              className="inputHeader"
+            >
+              Password
+            </span>
+            <input
+              autoFocus={true}
+              defaultValue=""
+              maxLength={255}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              type="password"
+            />
+          </label>
+        }
+      />
+    </form>
+  }
+  disabledEscapeOnBackground={false}
+/>
+`;

@@ -17,7 +17,9 @@ export class DialogContextProvider extends React.Component<any> {
   constructor(props) {
     super(props);
     this.dialogComponents = [];
+  }
 
+  componentDidMount() {
     eventEmitter.on('ADD_DIALOG_COMPONENT', this.addDialogComponent.bind(this));
     eventEmitter.on('CLEAR_ALL_DIALOG_COMPONENTS', this.clearAllDialogComponents.bind(this));
     eventEmitter.on('CHECK_ID_EXIST', this.isIdExist.bind(this));

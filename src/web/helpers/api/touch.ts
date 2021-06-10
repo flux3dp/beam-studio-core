@@ -34,7 +34,6 @@ export default function(opts) {
         });
 
     return {
-        connection: ws,
         send: function(uuid, password) {
             password = password || 'default';
 

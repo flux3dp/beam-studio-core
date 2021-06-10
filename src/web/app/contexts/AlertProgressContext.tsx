@@ -34,7 +34,9 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     this.state = {
       alertProgressStack: [],
     };
+  }
 
+  componentDidMount() {
     eventEmitter.on('OPEN_PROGRESS', this.openProgress.bind(this));
     eventEmitter.on('POP_LAST_PROGRESS', this.popLastProgress.bind(this));
     eventEmitter.on('UPDATE_PROGRESS', this.updateProgress.bind(this));
