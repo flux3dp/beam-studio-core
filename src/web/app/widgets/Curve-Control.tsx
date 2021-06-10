@@ -7,9 +7,9 @@ import React from 'react';
 import shortcuts from 'helpers/shortcuts';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-let svgCanvas;
+let svgEditor;
 getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
+  svgEditor = globalSVG.Editor;
 });
 
 interface IPoint {
@@ -129,7 +129,7 @@ export default class CurveControl extends React.PureComponent<Props, State> {
 
   componentWillUnmount(): void {
     shortcuts.off(['del']);
-    shortcuts.on(['del'], () => svgCanvas.deleteSelectedElements());
+    shortcuts.on(['del'], () => svgEditor.deleteSelected());
   }
 
   cubicSplinesInterpolation = (x: number): number => {

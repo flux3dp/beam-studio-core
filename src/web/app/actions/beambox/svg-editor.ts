@@ -22,9 +22,12 @@
 TODOS
 1. JSDoc
 */
+import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
+import { deleteSelectedElements } from 'app/svgedit/operations/delete';
+
 import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -3726,7 +3729,8 @@ const svgEditor = window['svgEditor'] = (function () {
     // an element has been selected
     var deleteSelected = function () {
       if (selectedElement != null || multiselected) {
-        svgCanvas.deleteSelectedElements();
+        textActions.clear();
+        deleteSelectedElements();
       }
       if (svgedit.path.path) {
         svgedit.path.path.onDelete();
@@ -3740,7 +3744,7 @@ const svgEditor = window['svgEditor'] = (function () {
         return;
       }
       if (!textActions.isEditing && (selectedElement != null || multiselected)) {
-        svgCanvas.cutSelectedElements();
+        clipboard.cutSelectedElements();
         canv_menu.enableContextMenuItems('#paste,#paste_in_place');
       }
     };
@@ -3752,7 +3756,7 @@ const svgEditor = window['svgEditor'] = (function () {
         return;
       }
       if (!textActions.isEditing && (selectedElement != null || multiselected)) {
-        svgCanvas.copySelectedElements();
+        clipboard.copySelectedElements();
         canv_menu.enableContextMenuItems('#paste,#paste_in_place');
       }
     };
@@ -3844,7 +3848,7 @@ const svgEditor = window['svgEditor'] = (function () {
       var zoom = svgCanvas.getZoom();
       var x = (workarea[0].scrollLeft + workarea.width() / 2) / zoom - svgCanvas.contentW;
       var y = (workarea[0].scrollTop + workarea.height() / 2) / zoom - svgCanvas.contentH;
-      svgCanvas.pasteElements('point', x, y);
+      clipboard.pasteElements('point', x, y);
     };
 
     var moveUpSelectedElement = function () {
@@ -4928,10 +4932,10 @@ const svgEditor = window['svgEditor'] = (function () {
               svgCanvas.cloneSelectedElements(20, 20);
               break;
             case 'paste':
-              svgCanvas.pasteElements();
+              clipboard.pasteElements('mouse');
               break;
             case 'paste_in_place':
-              svgCanvas.pasteElements('in_place');
+              clipboard.pasteElements('in_place');
               break;
             case 'group':
             case 'group_elements':
@@ -4956,7 +4960,7 @@ const svgEditor = window['svgEditor'] = (function () {
               console.warn('Unknown contextmenu action:', action);
               break;
           }
-          if (svgCanvas.clipBoard.length) {
+          if (clipboard.getCurrentClipboard()) {
             canv_menu.enableContextMenuItems('#paste,#paste_in_place');
           }
         }
