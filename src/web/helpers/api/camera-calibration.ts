@@ -24,8 +24,6 @@ export default function() {
         };
 
     return {
-        connection: ws,
-
         /**
          * @param {ArrayBuffer} data    - binary data with array buffer type
          */

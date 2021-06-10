@@ -10,7 +10,8 @@ module.exports = {
     "!src/web/setupTests.ts",
     "!src/web/app/svgedit/**",
     "!src/web/app/actions/beambox/svg-editor.ts",
-    "!src/web/app/lang/**"
+    "!src/web/app/lang/**",
+    "!src/implementations/**"
   ],
   globals: {
     "ts-jest": {

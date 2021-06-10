@@ -9,7 +9,7 @@ import DocumentPanel from 'app/views/beambox/Document-Panels/Document-Panel';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/views/FluxIdLogin';
 import i18n from 'helpers/i18n';
-import InputLightBox from 'app/widgets/Input-Lightbox';
+import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/Network-Testing-Panel';

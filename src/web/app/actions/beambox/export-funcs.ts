@@ -1,22 +1,22 @@
 /* eslint-disable no-console */
 import Alert from 'app/actions/alert-caller';
-import MonitorController from 'app/actions/monitor-controller';
-import Progress from 'app/actions/progress-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import communicator from 'implementations/communicator';
 import Constant from 'app/actions/beambox/constant';
-import FontFuncs from 'app/actions/beambox/font-funcs';
-import AlertConstants from 'app/constants/alert-constants';
-import { Mode } from 'app/constants/monitor-constants';
-import svgLaserParser from 'helpers/api/svg-laser-parser';
-import AwsHelper from 'helpers/aws-helper';
 import DeviceMaster from 'helpers/device-master';
+import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import MonitorController from 'app/actions/monitor-controller';
+import Progress from 'app/actions/progress-caller';
+import svgLaserParser from 'helpers/api/svg-laser-parser';
 import SymbolMaker from 'helpers/symbol-maker';
 import VersionChecker from 'helpers/version-checker';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { Mode } from 'app/constants/monitor-constants';
 
 let svgCanvas;
 let svgedit;

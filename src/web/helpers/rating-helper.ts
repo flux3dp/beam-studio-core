@@ -99,8 +99,5 @@ const init = (): void => {
 
 export default {
   init,
-  getRecord,
-  setRecord,
   setNotShowing,
-  setVoted,
 };
