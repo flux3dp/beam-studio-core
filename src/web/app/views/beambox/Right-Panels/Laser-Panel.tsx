@@ -14,7 +14,6 @@ import dialog from 'implementations/dialog';
 import Dialog from 'app/actions/dialog-caller';
 import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
-import fs from 'implementations/fileSystem';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
@@ -210,17 +209,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   exportLaserConfigs = async (): Promise<void> => {
     const isLinux = window.os === 'Linux';
-    const targetFilePath = await dialog.showSaveDialog(
-      LANG.export_config,
-      isLinux ? '.json' : '', [{
-        name: window.os === 'MacOS' ? 'JSON (*.json)' : 'JSON',
-        extensions: ['json'],
-      }, {
-        name: i18n.lang.topmenu.file.all_files,
-        extensions: ['*'],
-      }],
-    );
-    if (targetFilePath) {
+    const getContent = () => {
       const laserConfig = {} as {
         customizedLaserConfigs?: ILaserConfig[];
         defaultLaserConfigsInUse?: { [name: string]: boolean };
@@ -228,8 +217,15 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
       laserConfig.customizedLaserConfigs = storage.get('customizedLaserConfigs');
       laserConfig.defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
-      fs.writeFile(targetFilePath, JSON.stringify(laserConfig));
-    }
+      return JSON.stringify(laserConfig);
+    };
+    await dialog.writeFileDialog(getContent, LANG.export_config, isLinux ? '.json' : '', [{
+      name: window.os === 'MacOS' ? 'JSON (*.json)' : 'JSON',
+      extensions: ['json'],
+    }, {
+      name: i18n.lang.topmenu.file.all_files,
+      extensions: ['*'],
+    }]);
   };
 
   importLaserConfig = async (): Promise<void> => {
@@ -238,12 +234,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
         { name: 'JSON', extensions: ['json', 'JSON'] },
       ],
     };
-
-    const { canceled, filePaths } = await dialog.showOpenDialog(dialogOptions);
-    if (!canceled && filePaths) {
-      const filePath = filePaths[0];
-      const file = await fetch(filePath);
-      const fileBlob = await file.blob();
+    const fileBlob = await dialog.getFileFromDialog(dialogOptions);
+    if (fileBlob) {
       svgEditor.importLaserConfig(fileBlob);
     }
   };

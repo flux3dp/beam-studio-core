@@ -39,12 +39,9 @@ class ActionsPanel extends React.Component<Props> {
         },
       ],
     };
-    const { canceled, filePaths } = await dialog.showOpenDialog(option);
-    if (!canceled && filePaths && filePaths.length > 0) {
-      const filePath = filePaths[0];
-      const resp = await fetch(filePath);
-      const respBlob = await resp.blob();
-      svgEditor.replaceBitmap(respBlob, elem);
+    const fileBlob = await dialog.getFileFromDialog(option);
+    if (fileBlob) {
+      svgEditor.replaceBitmap(fileBlob, elem);
     }
   };
 

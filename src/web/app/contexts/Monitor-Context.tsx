@@ -11,7 +11,6 @@ import dialog from 'implementations/dialog';
 import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
-import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
@@ -296,39 +295,36 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       };
 
       const handleReport = async () => {
-        const targetFilePath = await dialog.showSaveDialog(
-          LANG.beambox.popup.bug_report, 'devicelogs.txt', [{
-            name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
-            extensions: ['txt'],
-          }],
-        );
-        if (!targetFilePath) return;
+        const getContent = async () => {
+          const contents = [];
+          const bxLogs = OutputError.getOutput();
+          contents.push(...bxLogs);
 
-        const bxLogs = OutputError.getOutput();
-        fs.writeFile(targetFilePath, bxLogs.join(''));
-
-        this.stopReport();
-        const { device } = this.props;
-        const vc = VersionChecker(device.version);
-        const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
-        Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
-        const logFiles = await DeviceMaster.getLogsTexts([playerLogName, 'fluxrobotd.log'], (progress: { completed: number, size: number }) => {
-          Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
-        });
-        Progress.popById('get_log');
-        this.startReport();
-        const logKeys = Object.keys(logFiles);
-        for (let i = 0; i < logKeys.length; i += 1) {
-          const key = logKeys[i];
-          const blob = getFirstBlobInArray(logFiles[key]);
-          if (blob) {
-            fs.appendFile(targetFilePath, `\n===\n${key}\n===\n`);
-            // eslint-disable-next-line no-await-in-loop
-            const arrBuf = await new Response(blob).arrayBuffer();
-            const buf = Buffer.from(arrBuf);
-            fs.appendFile(targetFilePath, buf);
+          this.stopReport();
+          const { device } = this.props;
+          const vc = VersionChecker(device.version);
+          const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
+          Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
+          const logFiles = await DeviceMaster.getLogsTexts([playerLogName, 'fluxrobotd.log'], (progress: { completed: number, size: number }) => {
+            Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
+          });
+          Progress.popById('get_log');
+          this.startReport();
+          const logKeys = Object.keys(logFiles);
+          for (let i = 0; i < logKeys.length; i += 1) {
+            const key = logKeys[i];
+            const blob = getFirstBlobInArray(logFiles[key]);
+            if (blob) {
+              contents.push(`\n===\n${key}\n===\n`);
+              contents.push(blob);
+            }
           }
-        }
+          return new Blob(contents);
+        };
+        await dialog.writeFileDialog(getContent, LANG.beambox.popup.bug_report, 'devicelogs.txt', [{
+          name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+          extensions: ['txt'],
+        }]);
       };
 
       const id = error.join('_');
@@ -651,17 +647,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         this.setState({ downloadProgress: p });
       });
       this.setState({ downloadProgress: null });
-      const targetPath = await dialog.showSaveDialog(
-        name, name, [{
-          name: i18n.lang.topmenu.file.all_files,
-          extensions: ['*'],
-        }],
-      );
-      if (targetPath) {
-        const arrBuf = await new Response(file[1]).arrayBuffer();
-        const buf = Buffer.from(arrBuf);
-        fs.writeFile(targetPath, buf);
-      }
+      const getContent = async () => (file[1] as Blob);
+      await dialog.writeFileDialog(getContent, name, name, [{
+        name: i18n.lang.topmenu.file.all_files,
+        extensions: ['*'],
+      }]);
     } catch (e) {
       console.error('Error when downloading file', e);
     }
