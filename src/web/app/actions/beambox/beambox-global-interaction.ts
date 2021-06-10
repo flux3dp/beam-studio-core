@@ -2,6 +2,7 @@ import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
 import checkQuestionnaire from 'helpers/check-questionnaire';
+import clipboard from 'app/svgedit/operations/clipboard';
 import dialog from 'app/actions/dialog-caller';
 import ElectronUpdater from 'helpers/electron-updater';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
@@ -139,7 +140,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
         browser.open(url);
       },
       CHANGE_LOGS: () => dialog.showChangLog(),
-      PASTE_IN_PLACE: () => svgCanvas.pasteElements('in_place'),
+      PASTE_IN_PLACE: () => clipboard.pasteElements('in_place'),
     };
   }
 
