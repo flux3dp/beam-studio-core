@@ -38,7 +38,7 @@ function ChangeLogDialog({ onClose }: Props): JSX.Element {
     return null;
   }
 
-  const { version } = window.electron;
+  // const { version } = window.electron;
   const handleLink = () => {
     browser.open(LANG.help_center_url);
   };
@@ -48,7 +48,8 @@ function ChangeLogDialog({ onClose }: Props): JSX.Element {
       <div className="change-log-dialog">
         <div className="header">
           <img src="icon.png" alt="Beam Studio Logo" />
-          <div className="app">{`Beam Studio ${version.replace('-', ' ')}`}</div>
+          <div className="app">{`Beam Studio Web`}</div>
+          {/* <div className="app">{`Beam Studio ${version.replace('-', ' ')}`}</div> */}
         </div>
         <div className="title">{LANG.change_log}</div>
         <div className="change-log-container">
