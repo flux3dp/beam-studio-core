@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 2`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [
+        Object {
+          "component": <div>
+            Hello World
+          </div>,
+          "id": "12345",
+        },
+        Object {
+          "component": <span>
+            Hello Flux
+          </span>,
+          "id": "67890",
+        },
+      ],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 3`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [
+        Object {
+          "component": <div>
+            Hello World
+          </div>,
+          "id": "12345",
+        },
+      ],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 4`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;

@@ -13,8 +13,8 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import { TimeEstimationButton } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button';
 import { TopBar } from 'app/views/beambox/Top-Bar/Top-Bar';
 import { TopBarContextProvider } from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Context';
-import { ZoomBlock } from 'app/views/beambox/Zoom-Block/Zoom-Block';
-import { ZoomBlockContextProvider } from 'app/views/beambox/Zoom-Block/contexts/Zoom-Block-Context';
+import { ZoomBlock } from 'app/views/beambox/ZoomBlock/ZoomBlock';
+import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
 
 sentryHelper.initSentry();
 BeamboxInit.init();
