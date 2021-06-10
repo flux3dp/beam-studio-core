@@ -21,7 +21,6 @@ import firmwareUpdater from 'helpers/firmware-updater';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontScanner from 'implementations/fontScanner';
-import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import MonitorController from 'app/actions/monitor-controller';
 import OutputError from 'helpers/output-error';
@@ -177,18 +176,11 @@ const initMenuBarEvents = (): void => {
               Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
             });
           Progress.popById('get_log');
-          const targetFilePath = await dialog.showSaveDialog(
-            log, log, [{
-              name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
-              extensions: ['log'],
-            }],
-          );
-
-          if (targetFilePath) {
-            const arrBuf = await new Response(file[1]).arrayBuffer();
-            const buf = Buffer.from(arrBuf);
-            fs.writeFile(targetFilePath, buf);
-          }
+          const getContent = async () => (file[1] as Blob);
+          await dialog.writeFileDialog(getContent, log, log, [{
+            name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
+            extensions: ['log'],
+          }]);
         } catch (errorData) {
           Progress.popById('get_log');
           const msg = errorData === 'canceled'

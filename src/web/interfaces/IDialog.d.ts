@@ -49,6 +49,12 @@ export interface IDialog {
     defaultPath?: string,
     filters?: DialogFilter[],
   ): Promise<string | null>;
+  writeFileDialog(
+    getContent: () => string | Blob | Promise<string | Blob>,
+    title?: string,
+    defaultPath?: string,
+    filters?: DialogFilter[],
+  ): Promise<string | null>;
   showOpenDialog(options: {
     defaultPath?: string,
     filters?: DialogFilter[],
@@ -57,4 +63,9 @@ export interface IDialog {
     canceled: boolean,
     filePaths: string[],
   }>;
+  getFileFromDialog(options: {
+    defaultPath?: string,
+    filters?: DialogFilter[],
+    properties?: OpenDialogProperties[],
+  }): Promise<Blob | File>;
 }
