@@ -5,9 +5,14 @@ import Alert from 'app/widgets/Alert';
 import Progress from 'app/widgets/Progress';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 
+interface Props {
+  className?: string;
+}
+
 // eslint-disable-next-line react/prefer-stateless-function
-export default class AlertsAndProgress extends React.Component {
+export default class AlertsAndProgress extends React.Component<Props> {
   render(): JSX.Element {
+    const { className = '' } = this.props;
     const { alertProgressStack, popFromStack, popById } = this.context;
     let alertCount = 0;
     let progressCount = 0;
@@ -43,7 +48,7 @@ export default class AlertsAndProgress extends React.Component {
     });
 
     return (
-      <div className="alerts-container">
+      <div className={classNames('alerts-container', className)}>
         {components}
       </div>
     );
