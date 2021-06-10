@@ -31,6 +31,7 @@ import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
+import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -561,7 +562,7 @@ export default $.SvgCanvas = function (container, config) {
     fill: 'freeze'
   }).appendTo(svgroot);
 
-  var restoreRefElems = function (elem) {
+  var restoreRefElems = canvas.restoreRefElems = function (elem) {
     // Look for missing reference elements, restore any found
     if (!elem || elem.tagName === 'STYLE' || elem.classList.contains('layer')) {
       return;
@@ -651,6 +652,8 @@ export default $.SvgCanvas = function (container, config) {
     // Rotary Mode
     rotaryMode = BeamboxPreference.read('rotary_mode');
 
+  this.getLastClickPoint = () => lastClickPoint;
+
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
   textEdit.useDefaultFont();
@@ -659,8 +662,6 @@ export default $.SvgCanvas = function (container, config) {
 
   this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
   this.isBorderlessMode = BeamboxPreference.read('borderless');
-  // Clipboard for cut, copy&pasted elements
-  canvas.clipBoard = [];
 
   // State for save before close warning
   canvas.changed = false;
@@ -4171,7 +4172,7 @@ export default $.SvgCanvas = function (container, config) {
         // Completely delete a path with 1 or 0 segments
         if (svgedit.path.path.elem.pathSegList.numberOfItems <= 1) {
           pathActions.toSelectMode(svgedit.path.path.elem);
-          canvas.deleteSelectedElements();
+          deleteSelectedElements();
           return;
         }
 
@@ -6365,6 +6366,14 @@ export default $.SvgCanvas = function (container, config) {
     return tempGroup;
   };
 
+  this.getSelectedWithoutTempGroup = () => {
+    if (tempGroup) {
+      const children = this.ungroupTempGroup();
+      this.selectOnly(children, false);
+    }
+    return selectedElements;
+  }
+
   // Function: getResolution
   // Returns the current dimensions and zoom level in an object
   var getResolution = this.getResolution = function () {
@@ -7784,257 +7793,6 @@ export default $.SvgCanvas = function (container, config) {
     }
   };
 
-  /** Function: deleteSelectedElements
-   * Removes all selected elements from the DOM
-   * @param {boolean} isSub whether this operation is a subcmd
-   */
-  this.deleteSelectedElements = function (isSub = false) {
-    textActions.clear();
-    if (tempGroup) {
-      let children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-    var i;
-    var batchCmd = new history.BatchCommand('Delete Elements');
-    var len = selectedElements.length;
-    var selectedCopy = []; //selectedElements is being deleted
-    for (i = 0; i < len; ++i) {
-      var selected = selectedElements[i];
-      if (!selected) {
-        break;
-      }
-
-      var parent = selected.parentNode;
-      var t = selected;
-
-      // this will unselect the element and remove the selectedOutline
-      selectorManager.releaseSelector(t);
-
-      // Remove the path if present.
-      svgedit.path.removePath_(t.id);
-
-      // Get the parent if it's a single-child anchor
-      if (parent.tagName === 'a' && parent.childNodes.length === 1) {
-        t = parent;
-        parent = parent.parentNode;
-      }
-
-      var nextSibling = t.nextSibling;
-      if (parent == null) {
-        console.log("The element has no parent", elem);
-      } else {
-        var elem = parent.removeChild(t);
-        selectedCopy.push(selected); //for the copy
-        selectedElements[i] = null;
-        batchCmd.addSubCommand(new RemoveElementCommand(elem, nextSibling, parent));
-      }
-      if (selected.tagName === 'use') {
-        const ref_id = this.getHref(selected);
-        //const ref = $(this.getHref(selected)).toArray()[0];
-        console.log(ref_id);
-        let use_elems = svgcontent.getElementsByTagName('use');
-        let shouldDeleteRef = true;
-        for (let j = 0; j < use_elems.length; j++) {
-          if (ref_id === this.getHref(use_elems[j])) {
-            shouldDeleteRef = false;
-            break;
-          }
-        }
-        if (shouldDeleteRef) {
-          const ref = $(this.getHref(selected)).toArray()[0];
-          if (ref) {
-            parent = ref.parentNode;
-            nextSibling = ref.nextSibling;
-            let elem = parent.removeChild(ref);
-            selectedCopy.push(ref); // for the copy
-            batchCmd.addSubCommand(new RemoveElementCommand(elem, nextSibling, parent));
-          }
-        }
-      }
-    }
-    if (!batchCmd.isEmpty() && !isSub) {
-      addCommandToHistory(batchCmd);
-    }
-    call('changed', selectedCopy);
-    clearSelection();
-
-    return batchCmd;
-  };
-
-  // Function: cutSelectedElements
-  // Removes all selected elements from the DOM and adds the change to the
-  // history stack. Remembers removed elements on the clipboard
-
-  // TODO: Combine similar code with deleteSelectedElements
-  this.cutSelectedElements = async function () {
-    if (tempGroup) {
-      let children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-    var i;
-    var batchCmd = new history.BatchCommand('Cut Elements');
-    var len = selectedElements.length;
-    var selectedCopy = []; //selectedElements is being deleted
-    var layerDict = {}, layerCount = 0;
-    let clipBoardText = 'BS Cut: ';
-
-    for (i = 0; i < len && selectedElements[i]; ++i) {
-      var selected = selectedElements[i],
-        selectedRef = selectedElements[i];
-
-      var layerName = $(selected.parentNode).find('title').text();
-      selected.setAttribute("data-origin-layer", layerName);
-      clipBoardText += $(selected).attr('id') + ', ';
-      if (!layerDict[layerName]) {
-        layerDict[layerName] = true;
-        layerCount++;
-      }
-
-      // this will unselect the element and remove the selectedOutline
-      selectorManager.releaseSelector(selectedRef);
-
-      // Remove the path if present.
-      svgedit.path.removePath_(selectedRef.id);
-
-      var nextSibling = selectedRef.nextSibling;
-      var parent = selectedRef.parentNode;
-      var elem = parent.removeChild(selectedRef);
-      selectedCopy.push(selected); //for the copy
-      selectedElements[i] = null;
-      batchCmd.addSubCommand(new RemoveElementCommand(elem, nextSibling, parent));
-    }
-
-    // If there is only one layer selected, don't force user to paste on the same layer
-    if (layerCount == 1) {
-      for (i = 0; i < selectedCopy.length; i++) {
-        selectedCopy[i].removeAttribute("data-origin-layer");
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(clipBoardText);
-      console.log('Write to clipboard was successful!', clipBoardText);
-    } catch (err) {
-      console.error('Async: Could not copy text: ', err);
-    }
-
-    if (!batchCmd.isEmpty()) {
-      addCommandToHistory(batchCmd);
-    }
-    call('changed', selectedCopy);
-    clearSelection();
-
-    canvas.clipBoard = selectedCopy;
-  };
-
-  // Function: copySelectedElements
-  // Remembers the current selected elements on the clipboard
-  this.copySelectedElements = async function () {
-    if (tempGroup) {
-      let children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-    var layerDict = {}, layerCount = 0;
-    let clipBoardText = 'BS Copy: ';
-
-    for (var i = 0; i < selectedElements.length && selectedElements[i]; ++i) {
-      var selected = selectedElements[i],
-        layerName = $(selected.parentNode).find('title').text();
-      selected.setAttribute("data-origin-layer", layerName);
-      clipBoardText += $(selected).attr('id') + ', ';
-      if (!layerDict[layerName]) {
-        layerDict[layerName] = true;
-        layerCount++;
-      }
-    }
-
-    // If there is only one layer selected, don't force user to paste on the same layer
-    if (layerCount == 1) {
-      for (i = 0; i < selectedElements.length; i++) {
-        if (selectedElements[i]) {
-          selectedElements[i].removeAttribute("data-origin-layer");
-        }
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(clipBoardText);
-      console.log('Write to clipboard was successful!', clipBoardText);
-    } catch (err) {
-      console.error('Async: Could not copy text: ', err);
-    }
-    canvas.clipBoard = $.merge([], selectedElements);
-    this.tempGroupSelectedElements();
-  };
-
-  this.pasteElements = async function (type, x, y) {
-    var cb = canvas.clipBoard;
-    var len = cb.length;
-    if (!len) {
-      return;
-    }
-
-    var pasted = [];
-    var batchCmd = new history.BatchCommand('Paste elements');
-    var drawing = getCurrentDrawing();
-
-    // Move elements to lastClickPoint
-    while (len--) {
-      var elem = cb[len];
-      if (!elem) {
-        continue;
-      }
-      var copy = drawing.copyElem(elem);
-
-      // See if elem with elem ID is in the DOM already
-      if (!svgedit.utilities.getElem(elem.id)) {
-        copy.id = elem.id;
-      }
-
-      pasted.push(copy);
-      if (copy.getAttribute("data-origin-layer") && cb.length > 1) {
-        var layer = drawing.getLayerByName(copy.getAttribute("data-origin-layer")) || (current_group || drawing.getCurrentLayer());
-        layer.appendChild(copy);
-      } else {
-        (current_group || drawing.getCurrentLayer()).appendChild(copy);
-      }
-      batchCmd.addSubCommand(new history.InsertElementCommand(copy));
-      restoreRefElems(copy);
-      this.updateElementColor(copy);
-    }
-
-    selectOnly(pasted, true);
-
-    if (type !== 'in_place') {
-
-      var ctr_x, ctr_y;
-
-      if (!type) {
-        ctr_x = lastClickPoint.x;
-        ctr_y = lastClickPoint.y;
-      } else if (type === 'point') {
-        ctr_x = x;
-        ctr_y = y;
-      }
-
-      var bbox = getStrokedBBox(pasted);
-      var cx = ctr_x - (bbox.x + bbox.width / 2),
-        cy = ctr_y - (bbox.y + bbox.height / 2),
-        dx = [],
-        dy = [];
-
-      $.each(pasted, function (i, item) {
-        dx.push(cx);
-        dy.push(cy);
-      });
-
-      var cmd = canvas.moveSelectedElements(dx, dy, false);
-      batchCmd.addSubCommand(cmd);
-    }
-
-    addCommandToHistory(batchCmd);
-    call('changed', pasted);
-    this.tempGroupSelectedElements();
-  };
-
   // Function: set
   this.setHasUnsavedChange = (hasUnsaveChanged, shouldClearEstTime = true) => {
     canvas.changed = hasUnsaveChanged;
@@ -8339,7 +8097,7 @@ export default $.SvgCanvas = function (container, config) {
     }
 
     batchCmd.addSubCommand(new history.InsertElementCommand(element));
-    let cmd = this.deleteSelectedElements(true);
+    let cmd = deleteSelectedElements(true);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     if (!isSubCmd) addCommandToHistory(batchCmd);
     this.selectOnly([element], true);
@@ -8638,7 +8396,7 @@ export default $.SvgCanvas = function (container, config) {
     path.addEventListener('mouseover', this.handleGenerateSensorArea);
     path.addEventListener('mouseleave', this.handleGenerateSensorArea);
     batchCmd.addSubCommand(new history.InsertElementCommand(path));
-    let cmd = this.deleteSelectedElements(true);
+    let cmd = deleteSelectedElements(true);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     this.selectOnly([g], false);
     let gBBox = g.getBBox();
