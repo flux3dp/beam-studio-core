@@ -1,10 +1,15 @@
 import * as React from 'react';
+import classNames from 'classnames';
 
 import { DialogContext } from 'app/contexts/DialogContext';
 
 const ComponentWrapper = (props) => props.children;
 
-export default class Dialog extends React.Component<any, any> {
+interface Props {
+  className?: string;
+}
+
+export default class Dialog extends React.Component<Props, any> {
   renderComponents() {
     const { dialogComponents } = this.context;
     const components = [];
@@ -21,8 +26,9 @@ export default class Dialog extends React.Component<any, any> {
 
   render() {
     const components = this.renderComponents();
+    const { className = '' } = this.props;
     return (
-      <div className="dialog-container">
+      <div className={classNames('dialog-container', className)}>
         {components}
       </div>
     );
