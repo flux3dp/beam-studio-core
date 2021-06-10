@@ -178,7 +178,7 @@ class Control extends EventEmitter {
         return null;
     };
 
-    setProgressListen(listener: (...args: any[]) => void) {
+    setProgressListener(listener: (...args: any[]) => void) {
         this.removeAllListeners(EVENT_COMMAND_PROGRESS);
         this.on(EVENT_COMMAND_PROGRESS, listener);
     }

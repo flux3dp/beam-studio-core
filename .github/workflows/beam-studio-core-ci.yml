@@ -22,6 +22,7 @@ jobs:
         run: yarn run spec
   coverage:
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
     env:
       CI_JOB_NUMBER: 1
     steps:
