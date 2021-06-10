@@ -79,16 +79,11 @@ export default {
 
     const output = getOutput();
     const fileName = `bugreport_${Math.floor(Date.now() / 1000)}.txt`;
-    const targetFilePath = await dialog.showSaveDialog(
-      LANG.popup.bug_report, fileName, [{
-        name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
-        extensions: ['txt'],
-      }],
-    );
-
-    if (targetFilePath) {
-      fs.writeFile(targetFilePath, output.join(''));
-    }
+    const getContent = () => output.join('');
+    await dialog.writeFileDialog(getContent, LANG.popup.bug_report, fileName, [{
+      name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+      extensions: ['txt'],
+    }]);
   },
   uploadBackendErrorLog: async (): Promise<void> => {
     Progress.openNonstopProgress({ id: 'output-error-log', message: LANG.popup.progress.uploading });
