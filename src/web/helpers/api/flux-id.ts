@@ -11,6 +11,7 @@ import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 interface ResponseWithError extends AxiosResponse {
   error?: string;
@@ -34,7 +35,7 @@ let currentUser: IUser = null;
 
 axiosFluxId.interceptors.response.use((response) => response, (error) => ({ error }));
 
-export const fluxIDEvents = new EventEmitter();
+export const fluxIDEvents = eventEmitterFactory.createEventEmitter('flux-id');
 
 const handleErrorMessage = (error) => {
   if (!error) {
