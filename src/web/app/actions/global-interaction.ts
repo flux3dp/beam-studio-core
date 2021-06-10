@@ -89,6 +89,16 @@ class GlobalInteraction {
       communicator.send('DISABLE_MENU_ITEM', items);
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  trigger(eventName: string, ...args): boolean {
+    const action = this.actions[eventName];
+    if (action) {
+      action(eventName, ...args);
+      return true;
+    }
+    return false;
+  }
 }
 
 export default GlobalInteraction;
