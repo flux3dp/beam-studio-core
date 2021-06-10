@@ -37,7 +37,7 @@ const saveAsFile = async (): Promise<boolean> => {
   const output = svgCanvas.getSvgString();
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
-  const ImageSource = await svgCanvas.getImageSource();
+  const imageSource = await svgCanvas.getImageSource();
   const currentFilePath = await dialog.showSaveDialog(
     langFile.save_scene,
     window.os === 'Linux' ? `${defaultFileName}.beam` : defaultFileName, [{
@@ -50,7 +50,7 @@ const saveAsFile = async (): Promise<boolean> => {
   );
   if (currentFilePath) {
     svgCanvas.currentFilePath = currentFilePath;
-    await BeamFileHelper.saveBeam(currentFilePath, output, ImageSource);
+    await BeamFileHelper.saveBeam(currentFilePath, output, imageSource);
     setCurrentFileName(currentFilePath);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
@@ -72,8 +72,8 @@ const saveFile = async (): Promise<boolean> => {
     return true;
   }
   if (svgCanvas.currentFilePath.endsWith('.beam')) {
-    const ImageSource = await svgCanvas.getImageSource();
-    await BeamFileHelper.saveBeam(svgCanvas.currentFilePath, output, ImageSource);
+    const imageSource = await svgCanvas.getImageSource();
+    await BeamFileHelper.saveBeam(svgCanvas.currentFilePath, output, imageSource);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
@@ -137,10 +137,22 @@ const exportAsBVG = async (): Promise<boolean> => {
     return false;
   }
   svgCanvas.clearSelection();
-  const output = removeNPElementsWrapper(() => switchSymbolWrapper(() => svgCanvas.getSvgString()));
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
-  const currentFilePath = communicator.sendSync('save-dialog', langFile.save_scene, langFile.all_files, langFile.scene_files, ['bvg'], defaultFileName, output, localStorage.getItem('lang'));
+  const getContent = () => removeNPElementsWrapper(
+    () => switchSymbolWrapper(
+      () => svgCanvas.getSvgString(),
+    ),
+  );
+  const currentFilePath = await dialog.writeFileDialog(
+    getContent,
+    langFile.save_scene,
+    defaultFileName,
+    [
+      { name: window.os === 'MacOS' ? `${langFile.scene_files} (*.bvg)` : langFile.scene_files, extensions: ['bvg'] },
+      { name: langFile.all_files, extensions: ['*'] },
+    ],
+  );
   if (currentFilePath) {
     setCurrentFileName(currentFilePath);
     svgCanvas.setHasUnsavedChange(false, false);
@@ -155,14 +167,22 @@ const exportAsSVG = async (): Promise<void> => {
   }
   svgCanvas.clearSelection();
   $('g.layer').removeAttr('clip-path');
-  const output = removeNPElementsWrapper(() => switchSymbolWrapper(() => svgCanvas.getSvgString('mm')));
+  const getContent = () => removeNPElementsWrapper(
+    () => switchSymbolWrapper(
+      () => svgCanvas.getSvgString('mm'),
+    ),
+  );
   $('g.layer').attr('clip-path', 'url(#scene_mask)');
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
-  communicator.sendSync('save-dialog', langFile.save_svg, langFile.all_files, langFile.svg_files, ['svg'], defaultFileName, output, localStorage.getItem('lang'));
+
+  await dialog.writeFileDialog(getContent, langFile.save_svg, defaultFileName, [
+    { name: window.os === 'MacOS' ? `${langFile.svg_files} (*.svg)` : langFile.svg_files, extensions: ['svg'] },
+    { name: langFile.all_files, extensions: ['*'] },
+  ]);
 };
 
-const exportAsImage = async (type: 'png'|'jpg'): Promise<void> => {
+const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   svgCanvas.clearSelection();
   const output = switchSymbolWrapper(() => svgCanvas.getSvgString());
   const langFile = LANG.topmenu.file;
@@ -170,12 +190,37 @@ const exportAsImage = async (type: 'png'|'jpg'): Promise<void> => {
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   let image = await svgCanvas.svgStringToImage(type, output);
   image = image.replace(/^data:image\/\w+;base64,/, '');
-  const buf = Buffer.from(image, 'base64');
+  const getContent = () => {
+    const sliceSize = 512;
+    const byteCharacters = atob(image);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i += 1) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays);
+    return blob;
+  };
   Progress.popById('export_image');
   if (type === 'png') {
-    communicator.sendSync('save-dialog', langFile.save_png, langFile.all_files, langFile.png_files, ['png'], defaultFileName, buf, localStorage.getItem('lang'));
+    dialog.writeFileDialog(getContent, langFile.save_png, defaultFileName, [
+      { name: window.os === 'MacOS' ? `${langFile.png_files} (*.png)` : langFile.png_files, extensions: ['png'] },
+      { name: langFile.all_files, extensions: ['*'] },
+    ]);
   } else if (type === 'jpg') {
-    communicator.sendSync('save-dialog', langFile.save_jpg, langFile.all_files, langFile.jpg_files, ['jpg'], defaultFileName, buf, localStorage.getItem('lang'));
+    dialog.writeFileDialog(getContent, langFile.save_jpg, defaultFileName, [
+      { name: window.os === 'MacOS' ? `${langFile.jpg_files} (*.jpg)` : langFile.jpg_files, extensions: ['jpg'] },
+      { name: langFile.all_files, extensions: ['*'] },
+    ]);
   }
 };
 
