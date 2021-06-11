@@ -1,0 +1,568 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 3`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 4`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 5`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 6`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 7`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 8`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;
+
+exports[`should render correctly 9`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+</div>
+`;

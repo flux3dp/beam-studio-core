@@ -36,6 +36,8 @@ declare global {
     $: any,
     jQuery: any,
     svgedit: any,
+    svgCanvas: any,
+    svgEditor: any,
     titlebar?: any,
   }
 }

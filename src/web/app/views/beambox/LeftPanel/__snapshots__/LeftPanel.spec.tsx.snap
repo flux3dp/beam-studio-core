@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly NOT in previewing 1`] = `
+<DummyDrawingToolButtonGroup
+  className="left-toolbar"
+/>
+`;
+
+exports[`should render correctly in previewing 1`] = `
+<DummyPreviewToolButtonGroup
+  className="left-toolbar win"
+  endPreviewMode={[MockFunction]}
+  setShouldStartPreviewController={[MockFunction]}
+/>
+`;
