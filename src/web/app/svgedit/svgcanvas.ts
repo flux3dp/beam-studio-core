@@ -43,7 +43,7 @@ import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerP
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
-import TimeEstimationButtonController from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
+import TimeEstimationButtonController from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import ZoomBlockController from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockController';

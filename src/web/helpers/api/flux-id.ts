@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import axios, { AxiosResponse } from 'axios';
-import EventEmitter from 'eventemitter3';
 
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
