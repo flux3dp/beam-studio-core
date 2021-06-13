@@ -11,6 +11,5 @@ export interface IProgressDialog {
   onCancel?: () => void,
   percentage?: number | string,
   timeout?: number,
-  timeoutCallback?: () => void,
   isProgress?: boolean,
 }

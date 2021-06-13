@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<AlertsAndProgress
+  className="flux"
+>
+  <div
+    className="alerts-container flux"
+  >
+    <DummyAlert
+      animationClass="animate__animated animate__bounceIn"
+      buttons={
+        Array [
+          Object {
+            "title": "Yes",
+          },
+          Object {
+            "title": "No",
+          },
+        ]
+      }
+      caption="Hello World"
+      checkboxCallbacks={[MockFunction]}
+      checkboxText="Select"
+      iconUrl="https://www.flux3dp.com/icon.svg"
+      key="alert-1"
+      message="Yes or No"
+      onClose={[MockFunction]}
+    >
+      <div>
+        This is dummy Alert
+      </div>
+    </DummyAlert>
+    <DummyProgress
+      key="progress-1"
+      popById={[MockFunction]}
+      progress={
+        Object {
+          "isProgress": true,
+        }
+      }
+    >
+      <div>
+        This is dummy Progress
+      </div>
+    </DummyProgress>
+  </div>
+</AlertsAndProgress>
+`;

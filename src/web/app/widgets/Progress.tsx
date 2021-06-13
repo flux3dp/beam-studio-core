@@ -23,7 +23,6 @@ class Progress extends React.Component<Props> {
       progress: {
         id,
         timeout,
-        timeoutCallback,
       },
       popById,
     } = this.props;
@@ -34,7 +33,6 @@ class Progress extends React.Component<Props> {
         } else {
           popById(id);
         }
-        timeoutCallback?.();
       }, timeout);
     }
   }
