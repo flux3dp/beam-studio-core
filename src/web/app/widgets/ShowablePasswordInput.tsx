@@ -1,17 +1,15 @@
 import React, { forwardRef, useState } from 'react';
-import classNames from 'classnames';
 
 interface Props {
-  divClassName?: string;
   placeholder: string;
   id: string;
 }
 
 // eslint-disable-next-line max-len
-const ShowablePasswordInput = forwardRef<HTMLInputElement, Props>(({ divClassName, placeholder, id }: Props, ref: any) => {
+const ShowablePasswordInput = forwardRef<HTMLInputElement, Props>(({ placeholder, id }: Props, ref: any) => {
   const [visible, setVisible] = useState(false);
   return (
-    <div className={classNames('showable-password-input', divClassName)}>
+    <div className="showable-password-input">
       <input
         id={id}
         ref={ref}

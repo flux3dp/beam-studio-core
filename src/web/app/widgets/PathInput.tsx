@@ -1,8 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
+
 import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
-import { DialogFilter, OpenDialogProperties } from 'interfaces/IDialog';
+import { OpenDialogProperties } from 'interfaces/IDialog';
 
 const { useEffect, useRef, useState } = React;
 
@@ -25,10 +26,6 @@ interface Props {
   forceValidValue: boolean,
   type: InputType,
   getValue: (val: string, isValid: boolean) => void,
-  // eslint-disable-next-line react/require-default-props
-  onBlur?: () => void,
-  // eslint-disable-next-line react/require-default-props
-  filters?: DialogFilter[],
 }
 
 const PathInput = ({
@@ -37,10 +34,8 @@ const PathInput = ({
   defaultValue,
   getValue,
   forceValidValue = true,
-  onBlur = () => { },
   type,
-  filters = [],
-}: Props) => {
+}: Props): JSX.Element => {
   const [displayValue, setDisplayValue] = useState(defaultValue);
   const [savedValue, setSavedValue] = useState(defaultValue);
   const inputEl = useRef(null);
@@ -64,19 +59,10 @@ const PathInput = ({
     if (!forceValidValue || isValid) {
       if (displayValue !== savedValue) {
         setSavedValue(displayValue);
-        if (getValue) {
-          getValue(displayValue, isValid);
-        }
+        getValue(displayValue, isValid);
       }
     } else {
       setDisplayValue(savedValue);
-    }
-  };
-
-  const handleBlur = () => {
-    updateValue();
-    if (onBlur) {
-      onBlur();
     }
   };
 
@@ -97,7 +83,6 @@ const PathInput = ({
     const properties = propertiesMap[type] as OpenDialogProperties[];
     const option = {
       properties,
-      filters,
       defaultPath: savedValue,
     };
     const { filePaths, canceled } = await dialog.showOpenDialog(option);
@@ -106,9 +91,7 @@ const PathInput = ({
       if (!forceValidValue || isValid) {
         setSavedValue(filePaths[0]);
         setDisplayValue(filePaths[0]);
-        if (getValue) {
-          getValue(filePaths[0], isValid);
-        }
+        getValue(filePaths[0], isValid);
       }
     }
   };
@@ -119,12 +102,13 @@ const PathInput = ({
     </div>
   );
 
+  console.log(displayValue);
   return (
     <div className={classNames('path-input', className)}>
       <input
         type="text"
         value={displayValue}
-        onBlur={handleBlur}
+        onBlur={updateValue}
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         ref={inputEl}

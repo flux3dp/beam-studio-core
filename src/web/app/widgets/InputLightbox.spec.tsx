@@ -21,6 +21,7 @@ jest.mock('app/widgets/AlertDialog', () => function DummyImageAlertDialog() {
 });
 
 import Constants from 'app/constants/input-lightbox-constants';
+
 import InputLightbox from './InputLightbox';
 
 test('test InputLightbox', () => {
