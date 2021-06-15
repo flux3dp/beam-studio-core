@@ -30,6 +30,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { TopBarContext, TopBarContextProvider } from './contexts/Top-Bar-Context';
 import { TopBarHints } from './Top-Bar-Hints';
 import beamboxStore from 'app/stores/beambox-store';
+import Menu from 'app/views/beambox/Top-Bar/Menu';
 
 let svgCanvas;
 let svgEditor;
@@ -561,6 +562,14 @@ export class TopBar extends React.Component<{}, State> {
     );
   }
 
+  renderMenu() {
+    return (
+      <div className={classNames('top-bar-menu-container')}>
+        <Menu />
+      </div>
+    );
+  }
+
   renderElementLayerAndName() {
     const { selectedElem } = this.context;
     let content = '';
@@ -615,6 +624,7 @@ export class TopBar extends React.Component<{}, State> {
           {this.renderDeviceList()}
           {this.renderElementLayerAndName()}
           {this.renderHint()}
+          {this.renderMenu()}
         </div>
       </div>
     );
