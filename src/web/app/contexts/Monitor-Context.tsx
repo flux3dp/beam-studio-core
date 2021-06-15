@@ -55,13 +55,16 @@ interface Props {
 interface State {
   mode: Mode;
   currentPath: string[];
-  highlightedItem: any;
+  highlightedItem: {
+    type?: ItemType;
+    name?: string;
+  };
   fileInfo: any[];
   previewTask: { fcodeBlob: string, taskImageURL: string, taskTime: number };
   workingTask: any,
   taskImageURL: string | null;
   taskTime: number | null;
-  report: any;
+  report: IReport;
   uploadProgress: number | null;
   downloadProgress: number | null;
   shouldUpdateFileList: boolean;
@@ -105,7 +108,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       workingTask: null,
       taskImageURL: mode === Mode.PREVIEW ? previewTask.taskImageURL : null,
       taskTime: mode === Mode.PREVIEW ? previewTask.taskTime : null,
-      report: {},
+      report: {} as IReport,
       uploadProgress: null,
       downloadProgress: null,
       shouldUpdateFileList: false,
