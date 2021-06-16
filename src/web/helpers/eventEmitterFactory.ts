@@ -4,6 +4,7 @@ const eventEmitters = {
   'flux-id': null,
   'top-bar': null,
   'top-bar-hints': null,
+  'time-estimation-button': null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {

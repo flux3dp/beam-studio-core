@@ -21,7 +21,7 @@ import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
-import { clearEstimatedTime } from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
+import { clearEstimatedTime } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonController';
 import { getLayerElementByName } from 'helpers/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {

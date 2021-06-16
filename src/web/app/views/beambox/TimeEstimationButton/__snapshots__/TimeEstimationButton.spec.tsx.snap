@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly NO estimatedTime 1`] = `
+<TimeEstimationButton>
+  <div
+    className="time-est-btn-container not-mac"
+  >
+    <div
+      className="time-est-btn"
+      onClick={[Function]}
+      title="Estimate time"
+    >
+      <img
+        draggable="false"
+        src="img/icon-stopwatch.svg"
+      />
+    </div>
+  </div>
+</TimeEstimationButton>
+`;
+
+exports[`should render correctly has estimatedTime 1`] = `
+<TimeEstimationButton>
+  <div
+    className="time-est-btn-container"
+  >
+    <div
+      className="time-est-result"
+    >
+      Estimated Time: 1 m 0 s
+    </div>
+  </div>
+</TimeEstimationButton>
+`;
