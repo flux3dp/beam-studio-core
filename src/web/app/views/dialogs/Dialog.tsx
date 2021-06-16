@@ -9,9 +9,9 @@ interface Props {
   className?: string;
 }
 
-export default class Dialog extends React.Component<Props, any> {
-  renderComponents() {
-    const { dialogComponents } = this.context;
+const Dialog = ({ className = '' }: Props): JSX.Element => {
+  const { dialogComponents } = React.useContext(DialogContext);
+  const renderComponents = () => {
     const components = [];
     for (let i = 0; i < dialogComponents.length; i += 1) {
       const { component } = dialogComponents[i];
@@ -22,17 +22,13 @@ export default class Dialog extends React.Component<Props, any> {
       );
     }
     return components;
-  }
+  };
 
-  render() {
-    const components = this.renderComponents();
-    const { className = '' } = this.props;
-    return (
-      <div className={classNames('dialog-container', className)}>
-        {components}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={classNames('dialog-container', className)}>
+      {renderComponents()}
+    </div>
+  );
+};
 
-Dialog.contextType = DialogContext;
+export default Dialog;

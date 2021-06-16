@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly no devices 1`] = `
+<DeviceSelector
+  onClose={[MockFunction]}
+  onSelect={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="device-selector"
+        >
+          <div
+            className="title"
+          >
+            Select Device
+          </div>
+          <div
+            className="device-list"
+          >
+            <ul>
+              <div
+                className="spinner-roller spinner-roller-reverse"
+                key="spinner-roller"
+              />
+            </ul>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default"
+              onClick={[Function]}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</DeviceSelector>
+`;

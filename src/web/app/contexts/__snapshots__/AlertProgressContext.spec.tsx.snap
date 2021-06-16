@@ -1,0 +1,621 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 2`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "preparing",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "",
+          "type": "NONSTOP",
+        },
+        Object {
+          "caption": "",
+          "id": "get_log",
+          "isProgress": true,
+          "message": "downloading",
+          "percentage": 0,
+          "type": "STEPPING",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 3`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "preparing",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "",
+          "type": "NONSTOP",
+        },
+        Object {
+          "caption": "",
+          "id": "get_log",
+          "isProgress": true,
+          "message": "downloading",
+          "percentage": 0,
+          "type": "STEPPING",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 4`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "preparing",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "",
+          "type": "NONSTOP",
+        },
+        Object {
+          "caption": "",
+          "id": "get_log",
+          "isProgress": true,
+          "message": "downloading",
+          "percentage": 100,
+          "type": "STEPPING",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 5`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "prepared",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "prepared",
+          "type": "NONSTOP",
+        },
+        Object {
+          "caption": "",
+          "id": "get_log",
+          "isProgress": true,
+          "message": "downloading",
+          "percentage": 100,
+          "type": "STEPPING",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 6`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "prepared",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "prepared",
+          "type": "NONSTOP",
+        },
+        Object {
+          "caption": "",
+          "id": "get_log",
+          "isProgress": true,
+          "message": "downloading",
+          "percentage": 100,
+          "type": "STEPPING",
+        },
+        Object {
+          "buttonType": "YES_NO",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Yes",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "No",
+              "onClick": [Function],
+            },
+          ],
+          "caption": "INFO",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "File already exists, do you want to replace it?",
+          "onYes": [MockFunction],
+          "type": "SHOW_POPUP_INFO",
+        },
+        Object {
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "OK",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": [MockFunction],
+          "caption": "WARNING",
+          "checkbox": Object {
+            "callbacks": [MockFunction],
+            "text": "Don't Show this next time.",
+          },
+          "checkboxCallbacks": [MockFunction],
+          "checkboxText": "Don't Show this next time.",
+          "message": "Some texts were changed to other Fonts when parsing texts to paths and some character may not converted normally.",
+          "type": "SHOW_POPUP_WARNING",
+        },
+        Object {
+          "buttonType": "RETRY_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Retry",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "caption": "UH-OH",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "monitor-reconnect",
+          "message": "The connection with the machine has broken. Do you want to reconnect?",
+          "onRetry": [MockFunction],
+          "type": "SHOW_POPUP_ERROR",
+        },
+        Object {
+          "buttonType": "CONFIRM_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Confirm",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "caption": undefined,
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "This will load arrangement of presets and replacing customized parameters set in the file, are you sure to proceed?",
+          "onConfirm": [MockFunction],
+        },
+        Object {
+          "buttonLabels": Array [
+            "UPDATE",
+          ],
+          "buttonType": "CUSTOM_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "UPDATE",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": [MockFunction],
+          "caption": "Machine firmware Update",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "latest-firmware",
+          "message": "You have the latest Machine firmware",
+          "onCancel": [MockFunction],
+        },
+        Object {
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Set Connection",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "className": "btn-default primary",
+              "label": "Retry",
+              "onClick": [MockFunction],
+            },
+          ],
+          "caption": undefined,
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "Unable to find machine ",
+        },
+        Object {
+          "buttonLabels": Array [
+            "Test Network",
+            "OK",
+          ],
+          "buttons": Array [
+            Object {
+              "className": "btn-default",
+              "label": "Test Network",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default primary",
+              "label": "OK",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": Array [
+            [MockFunction],
+            [MockFunction],
+          ],
+          "caption": "abcde",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "machine-info",
+          "message": "abcde: 111.222.333.444",
+          "primaryButtonIndex": 1,
+          "type": "SHOW_POPUP_INFO",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 7`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "prepared",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "prepared",
+          "type": "NONSTOP",
+        },
+        Object {
+          "caption": "",
+          "id": "get_log",
+          "isProgress": true,
+          "message": "downloading",
+          "percentage": 100,
+          "type": "STEPPING",
+        },
+        Object {
+          "buttonType": "YES_NO",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Yes",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "No",
+              "onClick": [Function],
+            },
+          ],
+          "caption": "INFO",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "File already exists, do you want to replace it?",
+          "onYes": [MockFunction],
+          "type": "SHOW_POPUP_INFO",
+        },
+        Object {
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "OK",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": [MockFunction],
+          "caption": "WARNING",
+          "checkbox": Object {
+            "callbacks": [MockFunction],
+            "text": "Don't Show this next time.",
+          },
+          "checkboxCallbacks": [MockFunction],
+          "checkboxText": "Don't Show this next time.",
+          "message": "Some texts were changed to other Fonts when parsing texts to paths and some character may not converted normally.",
+          "type": "SHOW_POPUP_WARNING",
+        },
+        Object {
+          "buttonType": "RETRY_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Retry",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "caption": "UH-OH",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "monitor-reconnect",
+          "message": "The connection with the machine has broken. Do you want to reconnect?",
+          "onRetry": [MockFunction],
+          "type": "SHOW_POPUP_ERROR",
+        },
+        Object {
+          "buttonType": "CONFIRM_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Confirm",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "caption": undefined,
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "This will load arrangement of presets and replacing customized parameters set in the file, are you sure to proceed?",
+          "onConfirm": [MockFunction],
+        },
+        Object {
+          "buttonLabels": Array [
+            "UPDATE",
+          ],
+          "buttonType": "CUSTOM_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "UPDATE",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": [MockFunction],
+          "caption": "Machine firmware Update",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "latest-firmware",
+          "message": "You have the latest Machine firmware",
+          "onCancel": [MockFunction],
+        },
+        Object {
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Set Connection",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "className": "btn-default primary",
+              "label": "Retry",
+              "onClick": [MockFunction],
+            },
+          ],
+          "caption": undefined,
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "Unable to find machine ",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly 8`] = `
+<ContextProvider
+  value={
+    Object {
+      "alertProgressStack": Array [
+        Object {
+          "caption": "prepared",
+          "id": "check-status",
+          "isProgress": true,
+          "message": "prepared",
+          "type": "NONSTOP",
+        },
+        Object {
+          "buttonType": "YES_NO",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Yes",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "No",
+              "onClick": [Function],
+            },
+          ],
+          "caption": "INFO",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "File already exists, do you want to replace it?",
+          "onYes": [MockFunction],
+          "type": "SHOW_POPUP_INFO",
+        },
+        Object {
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "OK",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": [MockFunction],
+          "caption": "WARNING",
+          "checkbox": Object {
+            "callbacks": [MockFunction],
+            "text": "Don't Show this next time.",
+          },
+          "checkboxCallbacks": [MockFunction],
+          "checkboxText": "Don't Show this next time.",
+          "message": "Some texts were changed to other Fonts when parsing texts to paths and some character may not converted normally.",
+          "type": "SHOW_POPUP_WARNING",
+        },
+        Object {
+          "buttonType": "RETRY_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Retry",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "caption": "UH-OH",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "monitor-reconnect",
+          "message": "The connection with the machine has broken. Do you want to reconnect?",
+          "onRetry": [MockFunction],
+          "type": "SHOW_POPUP_ERROR",
+        },
+        Object {
+          "buttonType": "CONFIRM_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Confirm",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "caption": undefined,
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "This will load arrangement of presets and replacing customized parameters set in the file, are you sure to proceed?",
+          "onConfirm": [MockFunction],
+        },
+        Object {
+          "buttonLabels": Array [
+            "UPDATE",
+          ],
+          "buttonType": "CUSTOM_CANCEL",
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "UPDATE",
+              "onClick": [Function],
+            },
+            Object {
+              "className": "btn-default",
+              "label": "Cancel",
+              "onClick": [Function],
+            },
+          ],
+          "callbacks": [MockFunction],
+          "caption": "Machine firmware Update",
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "id": "latest-firmware",
+          "message": "You have the latest Machine firmware",
+          "onCancel": [MockFunction],
+        },
+        Object {
+          "buttons": Array [
+            Object {
+              "className": "btn-default primary",
+              "label": "Set Connection",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "className": "btn-default primary",
+              "label": "Retry",
+              "onClick": [MockFunction],
+            },
+          ],
+          "caption": undefined,
+          "checkboxCallbacks": null,
+          "checkboxText": null,
+          "message": "Unable to find machine ",
+        },
+      ],
+      "popById": [Function],
+      "popFromStack": [Function],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
