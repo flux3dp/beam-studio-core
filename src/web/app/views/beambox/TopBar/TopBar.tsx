@@ -16,7 +16,7 @@ import Discover from 'helpers/api/discover';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
-import LeftPanel from 'app/views/beambox/Left-Panels/Left-Panel';
+import LeftPanel from 'app/views/beambox/LeftPanel/LeftPanel';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
@@ -605,7 +605,6 @@ export class TopBar extends React.Component<{}, State> {
       <div className="top-bar-left-panel-container">
         <LeftPanel
           isPreviewing={isPreviewing}
-          user={currentUser}
           setShouldStartPreviewController={setShouldStartPreviewController}
           endPreviewMode={this.endPreviewMode}
         />
