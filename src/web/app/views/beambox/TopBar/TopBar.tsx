@@ -17,7 +17,7 @@ import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LeftPanel from 'app/views/beambox/Left-Panels/Left-Panel';
-import Menu from 'app/views/beambox/Top-Bar/Menu';
+import Menu from 'app/views/beambox/TopBar/Menu';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
