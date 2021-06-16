@@ -41,9 +41,8 @@ import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import TopBarController from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Controller';
-import TopBarHintsController from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Hints-Controller';
-import * as TopBarHints from 'app/views/beambox/Top-Bar/Top-Bar-Hints';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
+import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
 import TimeEstimationButtonController from 'app/views/beambox/Time-Estimation-Button/Time-Estimation-Button-Controller';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
@@ -1957,7 +1956,7 @@ export default $.SvgCanvas = function (container, config) {
           break;
         case 'polygon':
           // Polygon is created in ext-polygon.js
-          TopBarHintsController.setHint(TopBarHints.Constants.POLYGON);
+          TopBarHintsController.setHint('POLYGON');
           break;
         case 'path':
         // Fall through

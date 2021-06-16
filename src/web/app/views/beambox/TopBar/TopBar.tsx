@@ -2,12 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import { sprintf } from 'sprintf-js';
 
-import i18n from 'helpers/i18n';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
@@ -15,7 +15,8 @@ import Dialog from 'app/actions/dialog-caller';
 import Discover from 'helpers/api/discover';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import LeftPanel from '../Left-Panels/Left-Panel';
+import i18n from 'helpers/i18n';
+import LeftPanel from 'app/views/beambox/Left-Panels/Left-Panel';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
@@ -23,13 +24,13 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
+import TopBarHints from 'app/views/beambox/TopBar/TopBarHints';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { TopBarContext, TopBarContextProvider } from './contexts/Top-Bar-Context';
-import { TopBarHints } from './Top-Bar-Hints';
-import beamboxStore from 'app/stores/beambox-store';
+import { TopBarContext } from './contexts/TopBarContext';
+import { TopBarHintsContextProvider } from './contexts/TopBarHintsContext';
 
 let svgCanvas;
 let svgEditor;
@@ -42,7 +43,6 @@ const { $ } = window;
 const lang = i18n.lang;
 const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
-let _contextCaller;
 
 interface State {
   isPreviewing: boolean;
@@ -74,7 +74,6 @@ export class TopBar extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    _contextCaller = this.context;
     this.discover = Discover(
       'top-bar',
       (deviceList) => {
@@ -557,7 +556,9 @@ export class TopBar extends React.Component<{}, State> {
 
   renderHint() {
     return (
-      <TopBarHints />
+      <TopBarHintsContextProvider>
+        <TopBarHints />
+      </TopBarHintsContextProvider>
     );
   }
 
@@ -622,9 +623,3 @@ export class TopBar extends React.Component<{}, State> {
 }
 
 TopBar.contextType = TopBarContext;
-
-export class TopBarContextHelper {
-  static get context(): TopBarContextProvider {
-    return _contextCaller;
-  }
-}
