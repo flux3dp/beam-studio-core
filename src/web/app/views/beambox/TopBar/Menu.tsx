@@ -6,6 +6,16 @@ import {
   SubMenu,
 } from '@szhsin/react-menu';
 
+import ExportFuncs from 'app/actions/beambox/export-funcs';
+import FileExportHelper from 'helpers/file-export-helper';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+let svgEditor;
+getSVGAsync((globalSVG) => {
+  svgEditor = globalSVG.Editor;
+});
+
 export default function Menu(): JSX.Element {
   return (
     <TopBarMenu menuButton={(
@@ -35,16 +45,21 @@ export default function Menu(): JSX.Element {
         </SubMenu>
         <MenuDivider />
         <SubMenu label="Export To ...">
-          <MenuItem>BVG</MenuItem>
-          <MenuItem>SVG</MenuItem>
-          <MenuItem>PNG</MenuItem>
-          <MenuItem>JPG</MenuItem>
-          <MenuItem>FLUX task</MenuItem>
+          <MenuItem onClick={() => {
+            FileExportHelper.exportAsBVG().then((value) => value);
+          }}
+          >
+            BVG
+          </MenuItem>
+          <MenuItem onClick={() => FileExportHelper.exportAsSVG()}>SVG</MenuItem>
+          <MenuItem onClick={() => FileExportHelper.exportAsImage('png')}>PNG</MenuItem>
+          <MenuItem onClick={() => FileExportHelper.exportAsImage('jpg')}>JPG</MenuItem>
+          <MenuItem onClick={() => ExportFuncs.exportFcode()}>FLUX task</MenuItem>
         </SubMenu>
       </SubMenu>
       <SubMenu label="Edit">
-        <MenuItem>Undo</MenuItem>
-        <MenuItem>Redo</MenuItem>
+        <MenuItem onClick={() => svgEditor.clickUndo()}>Undo</MenuItem>
+        <MenuItem onClick={() => svgEditor.clickRedo()}>Redo</MenuItem>
         <MenuDivider />
         <MenuItem>Cut</MenuItem>
         <MenuItem>Copy</MenuItem>
@@ -52,8 +67,8 @@ export default function Menu(): JSX.Element {
         <MenuItem>Paste in Place</MenuItem>
         <MenuItem>Duplicate</MenuItem>
         <MenuDivider />
-        <MenuItem>Group</MenuItem>
-        <MenuItem>Ungroup</MenuItem>
+        <MenuItem onClick={() => FnWrapper.groupSelected()}>Group</MenuItem>
+        <MenuItem onClick={() => FnWrapper.ungroupSelected()}>Ungroup</MenuItem>
         <MenuDivider />
         <SubMenu label="Path">
           <MenuItem>Offset</MenuItem>
