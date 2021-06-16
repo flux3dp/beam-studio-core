@@ -32,7 +32,7 @@ import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import TopBarController from 'app/views/beambox/Top-Bar/contexts/Top-Bar-Controller';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
