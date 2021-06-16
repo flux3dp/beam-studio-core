@@ -39,7 +39,7 @@ export default function () {
           </button>
         </div>
       );
-    }
+    };
 
     render() {
       const wrapperClassName = {

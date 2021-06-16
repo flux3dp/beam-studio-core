@@ -16,24 +16,21 @@ describe('test alert-caller', () => {
 
   test('test popUp', () => {
     alertCaller.popUp({
-      id: '12345',
-      type: 'flux alert',
+      message: 'completed',
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_UP', {
-      id: '12345',
-      type: 'flux alert',
+      message: 'completed',
     });
   });
 
   test('test popUpError', () => {
     alertCaller.popUpError({
-      id: '12345',
-      type: 'flux alert',
+      message: 'failed',
     });
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_UP', {
-      id: '12345',
+      message: 'failed',
       type: alertConstants.SHOW_POPUP_ERROR,
     });
   });

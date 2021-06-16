@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';

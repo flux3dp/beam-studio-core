@@ -8,7 +8,6 @@ import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 
 const LANG = i18n.lang.alert;
-let progressID = 0;
 
 interface IAlertProgressContext {
   alertProgressStack: (IAlert | IProgressDialog)[];
@@ -84,21 +83,16 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   };
 
   openProgress = (args: IProgressDialog): void => {
-    const { type } = args;
-    let { id, message, caption } = args;
-    if (!id) {
-      id = `progress_${progressID}`;
-      progressID = (progressID + 1) % 100000;
-    }
-    message = message || '';
-    caption = caption || '';
+    const {
+      id, caption, message, type,
+    } = args;
 
     this.pushToStack({
       ...args,
       id,
       type,
-      caption,
-      message,
+      caption: caption || '',
+      message: message || '',
       isProgress: true,
     });
   };
@@ -136,15 +130,14 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   };
 
   popUp = (args: IAlert): void => {
-    const { type } = args;
-    let { message, caption } = args;
-    message = message || '';
+    const { message, type } = args;
+    let { caption } = args;
     switch (type) {
       case AlertConstants.SHOW_POPUP_INFO:
         caption = caption || LANG.info;
         break;
       case AlertConstants.SHOW_POPUP_WARNING:
-        caption = caption || LANG.warning;
+        caption = LANG.warning;
         break;
       case AlertConstants.SHOW_POPUP_ERROR:
         caption = caption || LANG.error;
@@ -153,16 +146,14 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
         break;
     }
     const { buttons, checkbox } = this.buttonsGenerator(args);
-    const checkboxText = checkbox ? checkbox.text : null;
-    const checkboxCallbacks = checkbox ? checkbox.callbacks : null;
 
     this.pushToStack({
       ...args,
       caption,
       message,
       buttons,
-      checkboxText,
-      checkboxCallbacks,
+      checkboxText: checkbox ? checkbox.text : null,
+      checkboxCallbacks: checkbox ? checkbox.callbacks : null,
     });
   };
 
@@ -175,115 +166,46 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     const {
       id,
       buttonType,
+      onYes,
+      onConfirm,
+      onRetry,
     } = args;
     let {
       buttonLabels,
       callbacks,
       primaryButtonIndex,
-      onYes,
       onNo,
-      onConfirm,
-      onRetry,
       onCancel,
     } = args;
     switch (buttonType) {
       case AlertConstants.YES_NO:
-        onYes = onYes || (() => { });
         onNo = onNo || (() => { });
         buttonLabels = [LANG.yes, LANG.no];
         callbacks = [onYes, onNo];
         primaryButtonIndex = primaryButtonIndex || 0;
-        if (checkbox) {
-          const onCheckedYes = checkbox.onYes ? checkbox.onYes : () => { };
-          const onCheckedNo = checkbox.onNo ? checkbox.onNo : () => { };
-          checkbox.callbacks = [onCheckedYes, onCheckedNo];
-        }
-        break;
-      case AlertConstants.YES_NO_CUSTOM:
-        onYes = onYes || (() => { });
-        onNo = onNo || (() => { });
-        primaryButtonIndex = primaryButtonIndex || 0;
-        if (!buttonLabels) {
-          buttonLabels = [LANG.yes, LANG.no];
-          callbacks = [onYes, onNo];
-          if (checkbox) {
-            const onCheckedYes = checkbox.onYes ? checkbox.onYes : () => { };
-            const onCheckedNo = checkbox.onNo ? checkbox.onNo : () => { };
-            checkbox.callbacks = [onCheckedYes, onCheckedNo];
-          }
-        } else if (typeof buttonLabels === 'string') {
-          buttonLabels = [LANG.yes, LANG.no, buttonLabels];
-          callbacks = callbacks || (() => { });
-          callbacks = [onYes, onNo, (callbacks as () => void)];
-        } else {
-          buttonLabels = [LANG.yes, LANG.no, ...buttonLabels];
-          callbacks = [onYes, onNo, ...(callbacks as (() => void)[])];
-        }
         break;
       case AlertConstants.CONFIRM_CANCEL:
-        onConfirm = onConfirm || (() => { });
         onCancel = onCancel || (() => { });
         buttonLabels = [LANG.confirm, LANG.cancel];
         primaryButtonIndex = primaryButtonIndex || 0;
         callbacks = [onConfirm, onCancel];
-        if (checkbox) {
-          const onCheckedConfirm = checkbox.onConfirm ? checkbox.onConfirm : () => { };
-          const onCheckedCancel = checkbox.onCancel ? checkbox.onCancel : () => { };
-          checkbox.callbacks = [onCheckedConfirm, onCheckedCancel];
-        }
         break;
       case AlertConstants.RETRY_CANCEL:
-        onRetry = onRetry || (() => { });
         onCancel = onCancel || (() => { });
         buttonLabels = [LANG.retry, LANG.cancel];
         primaryButtonIndex = primaryButtonIndex || 0;
         callbacks = [onRetry, onCancel];
-        if (checkbox) {
-          const onCheckedRetry = checkbox.onRetry ? checkbox.onRetry : () => { };
-          const onCheckedCancel = checkbox.onCancel ? checkbox.onCancel : () => { };
-          checkbox.callbacks = [onCheckedRetry, onCheckedCancel];
-        }
         break;
       case AlertConstants.CUSTOM_CANCEL:
         onCancel = onCancel || (() => { });
         primaryButtonIndex = primaryButtonIndex || 0;
-        if (!buttonLabels) {
-          buttonLabels = [LANG.cancel];
-          callbacks = [onCancel];
-          if (checkbox) {
-            const onCheckedCancel = checkbox.onCancel ? checkbox.onCancel : () => { };
-            checkbox.callbacks = [onCheckedCancel];
-          }
-        } else if (typeof buttonLabels === 'string') {
-          buttonLabels = [buttonLabels, LANG.cancel];
-          callbacks = callbacks || (() => { });
-          callbacks = [callbacks as () => void, onCancel];
-        } else {
-          buttonLabels = [...buttonLabels, LANG.cancel];
-          callbacks = [...(callbacks as (() => void)[]), onCancel];
-        }
+        buttonLabels = [...buttonLabels, LANG.cancel];
+        callbacks = [callbacks as () => void, onCancel];
         break;
       default:
         if (!buttonLabels) {
           buttonLabels = [LANG.ok];
           callbacks = callbacks || (() => { });
-          if (checkbox) {
-            if (!checkbox.callbacks) {
-              checkbox.callbacks = [() => { }];
-            } else if (typeof checkbox.callbacks === 'function') {
-              checkbox.callbacks = [checkbox.callbacks];
-            }
-          }
-        } else if (typeof buttonLabels === 'string') {
-          buttonLabels = [buttonLabels];
-          callbacks = callbacks || (() => { });
-          if (checkbox) {
-            if (!checkbox.callbacks) {
-              checkbox.callbacks = [() => { }];
-            } else if (typeof checkbox.callbacks === 'function') {
-              checkbox.callbacks = [checkbox.callbacks];
-            }
-          }
         }
         break;
     }
@@ -301,8 +223,6 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
         b.onClick = () => {
           callbacks[i](id);
         };
-      } else if (!callbacks) {
-        b.onClick = () => { };
       }
       return b;
     });

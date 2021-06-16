@@ -4,13 +4,13 @@ import { IButton } from './IButton';
 export interface IAlert {
   id?: string;
   type?: string;
-  message?: string;
+  message: string;
   caption?: string;
   iconUrl?: string;
   children?: Element;
-  buttons?: IButton | IButton[];
+  buttons?: IButton[];
   buttonType?: string;
-  buttonLabels?: string | string[];
+  buttonLabels?: string[];
   callbacks?: Function | Function[];
   primaryButtonIndex?: number;
   onYes?: Function;
@@ -18,17 +18,10 @@ export interface IAlert {
   onConfirm?: Function;
   onRetry?: Function;
   onCancel?: Function;
-  checkbox?: ICheckbox;
+  checkbox?: {
+    text: string;
+    callbacks: () => void;
+  };
   checkboxText?: string;
-  checkboxCallbacks?: Function | Function[];
-}
-
-export interface ICheckbox {
-  text: string;
-  callbacks: Function | Function[];
-  onYes?: Function;
-  onNo?: Function;
-  onConfirm?: Function;
-  onRetry?: Function;
-  onCancel?: Function;
+  checkboxCallbacks?: () => void;
 }

@@ -4,20 +4,17 @@ import classNames from 'classnames';
 import browser from 'implementations/browser';
 import ButtonGroup from 'app/widgets/ButtonGroup';
 import Modal from 'app/widgets/Modal';
+import { IButton } from 'interfaces/IButton';
 
 interface Props {
   caption: string;
   iconUrl?: string;
   message: string | JSX.Element;
   checkboxText?: string;
-  checkboxCallbacks?: () => void | (() => void)[];
+  checkboxCallbacks?: () => void;
   onClose?: () => void;
   animationClass?: string;
-  buttons: {
-    label: string;
-    className: string;
-    onClick: () => void;
-  }[];
+  buttons: IButton[];
 }
 
 interface State {

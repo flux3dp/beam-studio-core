@@ -210,7 +210,7 @@ const initMenuBarEvents = (): void => {
             message: `${message} (v${latestVersion})`,
             caption,
             buttonType: AlertConstants.CUSTOM_CANCEL,
-            buttonLabels: LANG.update.firmware.latest_firmware.still_update,
+            buttonLabels: [LANG.update.firmware.latest_firmware.still_update],
             callbacks: () => {
               firmwareUpdater(response, currentPrinter, true);
             },
