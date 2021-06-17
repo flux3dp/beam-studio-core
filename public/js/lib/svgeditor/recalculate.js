@@ -809,7 +809,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         }
       }
     }
-    console.log(selected, operation);
+
     if (operation === 0) {
       operation = 4; // rotation
       if (angle) {
