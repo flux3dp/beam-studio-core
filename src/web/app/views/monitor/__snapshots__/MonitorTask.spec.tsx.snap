@@ -1,0 +1,244 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly Mode.FILE_PREVIEW & MonitorStatus.isAbortedOrCompleted returns false & VersionChecker meets requirement 1`] = `
+<MonitorTask
+  deviceVersion="1.2.3"
+>
+  <div
+    className="task"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#F0F0F0",
+          "backgroundImage": "url(img/ph_l.png)",
+          "backgroundPosition": "50% 50%",
+          "backgroundRepeatY": "no-repeat",
+          "backgroundSize": "100% auto",
+          "borderRadius": "2px",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className="status-info running"
+    >
+      <div
+        className="verticle-align"
+      >
+        <div>
+          Laser Engraving
+        </div>
+        <div
+          className="status-info-duration"
+        />
+      </div>
+      <div
+        className="btn-relocate-container"
+      >
+        <div
+          className="btn-relocate"
+          onClick={[MockFunction]}
+        >
+          <img
+            src="img/beambox/icon-target.svg"
+          />
+        </div>
+      </div>
+      <div
+        className="status-info-progress"
+      />
+    </div>
+  </div>
+</MonitorTask>
+`;
+
+exports[`should render correctly Mode.PREVIEW & MonitorStatus.isAbortedOrCompleted returns true & VersionChecker meets requirement 1`] = `
+<MonitorTask
+  deviceVersion="1.2.3"
+>
+  <div
+    className="task"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#F0F0F0",
+          "backgroundImage": "url(img/flux.svg)",
+          "backgroundPosition": "50% 50%",
+          "backgroundRepeatY": "no-repeat",
+          "backgroundSize": "100% auto",
+          "borderRadius": "2px",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className="status-info running hide"
+    >
+      <div
+        className="verticle-align"
+      >
+        <div>
+          Laser Engraving
+        </div>
+        <div
+          className="status-info-duration"
+        >
+          1m 30s
+        </div>
+      </div>
+      <div
+        className="btn-relocate-container"
+      >
+        <div
+          className="btn-relocate"
+          onClick={[MockFunction]}
+        >
+          <img
+            src="img/beambox/icon-target.svg"
+          />
+          <div
+            className="relocate-origin"
+          >
+            (1, 1)
+          </div>
+        </div>
+      </div>
+      <div
+        className="status-info-progress"
+      />
+    </div>
+  </div>
+</MonitorTask>
+`;
+
+exports[`should render correctly Mode.WORKING & MonitorStatus.isAbortedOrCompleted returns false & VersionChecker meets requirement 1`] = `
+<MonitorTask
+  deviceVersion="1.2.3"
+>
+  <div
+    className="task"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#F0F0F0",
+          "backgroundImage": "url(img/ph_l.png)",
+          "backgroundPosition": "50% 50%",
+          "backgroundRepeatY": "no-repeat",
+          "backgroundSize": "100% auto",
+          "borderRadius": "2px",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className="status-info running"
+    >
+      <div
+        className="verticle-align"
+      >
+        <div>
+          Laser Engraving
+        </div>
+        <div
+          className="status-info-duration"
+        />
+      </div>
+      <div
+        className="status-info-progress"
+      >
+        12.3%
+      </div>
+    </div>
+  </div>
+</MonitorTask>
+`;
+
+exports[`should render correctly Mode.WORKING & MonitorStatus.isAbortedOrCompleted returns false & VersionChecker meets requirement 2`] = `
+<MonitorTask
+  deviceVersion="1.2.3"
+>
+  <div
+    className="task"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#F0F0F0",
+          "backgroundImage": "url(img/ph_l.png)",
+          "backgroundPosition": "50% 50%",
+          "backgroundRepeatY": "no-repeat",
+          "backgroundSize": "100% auto",
+          "borderRadius": "2px",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className="status-info running"
+    >
+      <div
+        className="verticle-align"
+      >
+        <div>
+          Laser Engraving
+        </div>
+        <div
+          className="status-info-duration"
+        />
+      </div>
+      <div
+        className="status-info-progress"
+      />
+    </div>
+  </div>
+</MonitorTask>
+`;
+
+exports[`should render correctly Mode.WORKING & MonitorStatus.isAbortedOrCompleted returns true & VersionChecker meets requirement 1`] = `
+<MonitorTask
+  deviceVersion="1.2.3"
+>
+  <div
+    className="task"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#F0F0F0",
+          "backgroundImage": "url(img/ph_l.png)",
+          "backgroundPosition": "50% 50%",
+          "backgroundRepeatY": "no-repeat",
+          "backgroundSize": "100% auto",
+          "borderRadius": "2px",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className="status-info running hide"
+    >
+      <div
+        className="verticle-align"
+      >
+        <div>
+          Laser Engraving
+        </div>
+        <div
+          className="status-info-duration"
+        />
+      </div>
+      <div
+        className="status-info-progress"
+      />
+    </div>
+  </div>
+</MonitorTask>
+`;
