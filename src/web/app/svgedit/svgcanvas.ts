@@ -5788,9 +5788,11 @@ export default $.SvgCanvas = function (container, config) {
         while (iterationStack.length > 0) {
           let node = iterationStack.pop();
           if (node.nodeType === 1 && node.tagName !== 'STYLE') {
-            node.setAttribute('data-wireframe', true);
-            node.setAttribute('stroke', '#000');
-            node.setAttribute('fill-opacity', '0');
+            if (!['g', 'tspan'].includes(node.tagName)) {
+              node.setAttribute('data-wireframe', true);
+              node.setAttribute('stroke', '#000');
+              node.setAttribute('fill-opacity', '0');
+            }
             iterationStack.push(...Array.from(node.childNodes));
           }
         }
@@ -8500,7 +8502,7 @@ export default $.SvgCanvas = function (container, config) {
       let currentProgress = 0;
       for (let j = 0; j < descendants.length; j++) {
         const child = descendants[j];
-        if (child.tagName !== 'g' && wireframe) {
+        if (!['g', 'tspan'].includes(child.tagName) && wireframe) {
           child.setAttribute('stroke', color);
           child.setAttribute('fill', '#FFF');
           child.setAttribute('fill-opacity', '0');
