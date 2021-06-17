@@ -4,7 +4,7 @@ import browser from 'implementations/browser';
 import checkQuestionnaire from 'helpers/check-questionnaire';
 import clipboard from 'app/svgedit/operations/clipboard';
 import dialog from 'app/actions/dialog-caller';
-import ElectronUpdater from 'helpers/electron-updater';
+// import ElectronUpdater from 'helpers/electron-updater';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileExportHelper from 'helpers/file-export-helper';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -45,7 +45,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
     };
 
     this.actions = {
-      SWITCH_VERSION: () => ElectronUpdater.switchVersion(),
+      // SWITCH_VERSION: () => ElectronUpdater.switchVersion(),
       OPEN: () => {
         const { electron } = window;
         if (electron) {
@@ -120,7 +120,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
         // }
       }),
       SIGN_OUT: () => signOut(),
-      UPDATE_BS: () => ElectronUpdater.checkForUpdate(),
+      // UPDATE_BS: () => ElectronUpdater.checkForUpdate(),
       QUESTIONNAIRE: async () => {
         const res = await checkQuestionnaire();
         if (!res) {
@@ -163,7 +163,7 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       'NETWORK_TESTING',
       'ABOUT_BEAM_STUDIO',
     ]);
-    ElectronUpdater.autoCheck();
+    // ElectronUpdater.autoCheck();
   }
 
   onObjectFocus(elems?) {

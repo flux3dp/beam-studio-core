@@ -6,6 +6,7 @@ import {
   SubMenu,
 } from '@szhsin/react-menu';
 
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileExportHelper from 'helpers/file-export-helper';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -76,13 +77,26 @@ export default function Menu(): JSX.Element {
         </SubMenu>
       </SubMenu>
       <SubMenu label="View">
-        <MenuItem>Zoom In</MenuItem>
-        <MenuItem>Zoom Out</MenuItem>
-        <MenuItem>Fit to Window Size</MenuItem>
-        <MenuItem>Auto Fit to Window Size</MenuItem>
+        <MenuItem onClick={() => svgEditor.zoomIn()}>Zoom In</MenuItem>
+        <MenuItem onClick={() => svgEditor.zoomOut()}>Zoom Out</MenuItem>
+        <MenuItem onClick={() => svgEditor.resetView()}>Fit to Window Size</MenuItem>
+        {/* <MenuItem>Auto Fit to Window Size</MenuItem> */}
         <MenuDivider />
         <MenuItem type="checkbox" checked>Show Grids</MenuItem>
-        <MenuItem type="checkbox">Show Rulers</MenuItem>
+        <MenuItem
+          type="checkbox"
+          onClick={() => {
+            const shouldShowRulers = !BeamboxPreference.read('show_rulers');
+            // updateCheckbox(['_view', 'SHOW_RULERS'], shouldShowRulers);
+            document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
+            if (shouldShowRulers) {
+              svgEditor.updateRulers();
+            }
+            BeamboxPreference.write('show_rulers', shouldShowRulers);
+          }}
+        >
+          Show Rulers
+        </MenuItem>
         <MenuItem type="checkbox" checked>User Layer Color</MenuItem>
       </SubMenu>
     </TopBarMenu>
