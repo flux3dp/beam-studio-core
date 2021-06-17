@@ -102,6 +102,7 @@ const PathInput = ({
     </div>
   );
 
+  console.log(displayValue);
   return (
     <div className={classNames('path-input', className)}>
       <input
