@@ -5,6 +5,13 @@ jest.mock('implementations/storage', () => ({
   set: mockSet,
 }));
 
+jest.mock('app/actions/beambox/constant', () => ({
+  diode: {
+    defaultOffsetX: 10, // mm
+    defaultOffsetY: 10, // mm
+  },
+}));
+
 test('test beambox-preference', () => {
   mockGet.mockReturnValue({
     abc: '123',
@@ -21,6 +28,8 @@ test('test beambox-preference', () => {
     guide_x0: 0,
     guide_y0: 0,
     engrave_dpi: 'medium',
+    diode_offset_x: 10,
+    diode_offset_y: 10,
     abc: '123',
   });
 
