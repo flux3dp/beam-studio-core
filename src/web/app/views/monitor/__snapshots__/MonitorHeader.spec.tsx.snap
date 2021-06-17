@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly NavBtnType is BACK 1`] = `
+<MonitorHeader
+  name="myDevice"
+  navBtnType={1}
+>
+  <div
+    className="header"
+  >
+    <div
+      className="title"
+    >
+      <span>
+        myDevice
+      </span>
+      <div
+        className="close"
+        onClick={[MockFunction]}
+      >
+        <div
+          className="x"
+        />
+      </div>
+      <div
+        className="back"
+        onClick={[MockFunction]}
+      >
+        <i
+          className="fa fa-angle-left"
+        />
+      </div>
+    </div>
+  </div>
+</MonitorHeader>
+`;
+
+exports[`should render correctly NavBtnType is FOLDER 1`] = `
+<MonitorHeader
+  name="myDevice"
+  navBtnType={2}
+>
+  <div
+    className="header"
+  >
+    <div
+      className="title"
+    >
+      <span>
+        myDevice
+      </span>
+      <div
+        className="close"
+        onClick={[MockFunction]}
+      >
+        <div
+          className="x"
+        />
+      </div>
+      <div
+        className="back"
+        onClick={[MockFunction]}
+      >
+        <img
+          src="img/folder.svg"
+        />
+      </div>
+    </div>
+  </div>
+</MonitorHeader>
+`;
+
+exports[`should render correctly NavBtnType is something else 1`] = `
+<MonitorHeader
+  name="myDevice"
+  navBtnType={0}
+>
+  <div
+    className="header"
+  >
+    <div
+      className="title"
+    >
+      <span>
+        myDevice
+      </span>
+      <div
+        className="close"
+        onClick={[MockFunction]}
+      >
+        <div
+          className="x"
+        />
+      </div>
+      <div />
+    </div>
+  </div>
+</MonitorHeader>
+`;

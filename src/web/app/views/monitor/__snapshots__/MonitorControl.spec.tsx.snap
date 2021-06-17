@@ -1,0 +1,430 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly mode is CAMERA 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-go"
+      />
+      <div
+        className="description"
+      >
+        Start
+      </div>
+    </div>
+    <div
+      className="controls right disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control on"
+      />
+      <div
+        className="description on"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is CAMERA_RELOCATE 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-cancel"
+      />
+      <div
+        className="description"
+      >
+        Cancel
+      </div>
+    </div>
+    <div
+      className="controls right"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-control btn-relocate"
+      >
+        <img
+          src="img/beambox/icon-target.svg"
+        />
+      </div>
+      <div
+        className="description"
+      >
+        Relocate
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is FILE 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-upload btn-control"
+      />
+      <input
+        accept=".fc"
+        className="upload-control"
+        onChange={[MockFunction]}
+        type="file"
+      />
+      <div
+        className="description"
+      >
+        Upload
+      </div>
+    </div>
+    <div
+      className="controls center disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-download"
+      />
+      <div
+        className="description"
+      >
+        Download
+      </div>
+    </div>
+    <div
+      className="controls right disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is FILE_PREVIEW 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-go"
+      />
+      <div
+        className="description"
+      >
+        Start
+      </div>
+    </div>
+    <div
+      className="controls right disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is PREVIEW 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-go"
+      />
+      <div
+        className="description"
+      >
+        Start
+      </div>
+    </div>
+    <div
+      className="controls right"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is WORKING ButtonTypes.DISABLED_STOP and ButtonTypes.DISABLED_PAUSE 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-pause"
+      />
+      <div
+        className="description"
+      >
+        Pause
+      </div>
+    </div>
+    <div
+      className="controls right disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is WORKING ButtonTypes.DISABLED_STOP and ButtonTypes.DISABLED_PLAY 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center disabled"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-go"
+      />
+      <div
+        className="description"
+      >
+        Start
+      </div>
+    </div>
+    <div
+      className="controls right disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is WORKING ButtonTypes.STOP and ButtonTypes.PAUSE 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-pause"
+      />
+      <div
+        className="description"
+      >
+        Pause
+      </div>
+    </div>
+    <div
+      className="controls right disabled"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
+
+exports[`should render correctly mode is WORKING ButtonTypes.STOP and ButtonTypes.PLAY 1`] = `
+<MonitorControl>
+  <div
+    className="operation"
+  >
+    <div
+      className="controls left"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-stop"
+      />
+      <div
+        className="description"
+      >
+        Stop
+      </div>
+    </div>
+    <div
+      className="controls center"
+      onClick={[Function]}
+    >
+      <div
+        className="btn-control btn-go"
+      />
+      <div
+        className="description"
+      >
+        Start
+      </div>
+    </div>
+    <div
+      className="controls right"
+      onClick={[MockFunction]}
+    >
+      <div
+        className="btn-camera btn-control"
+      />
+      <div
+        className="description"
+      >
+        Camera
+      </div>
+    </div>
+  </div>
+</MonitorControl>
+`;
