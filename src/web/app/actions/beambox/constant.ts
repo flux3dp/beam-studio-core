@@ -58,10 +58,16 @@ export default {
     },
   },
   diode: {
+    calibrationPicture: {
+      offsetX: 69, // mm
+      offsetY: 6, // mm
+      centerX: 159, // mm
+      centerY: 96, // mm
+    },
     limitX: 50, // mm
     limitY: 10, // mm
-    defaultOffsetX: 69, // mm
-    defaultOffsetY: 6, // mm
+    defaultOffsetX: 70, // mm
+    defaultOffsetY: 7, // mm
     safeDistance: {
       X: 45, // mm
       Y: 15, // mm
