@@ -83,18 +83,17 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       var xform = tlist.getItem(k);
       if (xform.type === 0) {
         tlist.removeItem(k);
-      }
-      // remove identity matrices
-      else if (xform.type === 1) {
+      } else if (xform.type === 1) {
         if (svgedit.math.isIdentity(xform.matrix)) {
           tlist.removeItem(k);
+        } else if (xform.matrix.a === 1 && xform.matrix.b === 0 && xform.matrix.c === 0 && xform.matrix.d === 1) {
+          const { e, f } = xform.matrix;
+          const translate = svgroot.createSVGTransform();
+          translate.setTranslate(e, f);
+          tlist.replaceItem(translate, k);
         }
-      }
-      // remove zero-degree rotations
-      else if (xform.type === 4) {
-        if (xform.angle === 0) {
-          tlist.removeItem(k);
-        }
+      } else if (xform.type === 4 && xform.angle === 0) {
+        tlist.removeItem(k);
       }
     }
     // End here if all it has is a rotation
@@ -810,7 +809,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         }
       }
     }
-
+    console.log(selected, operation);
     if (operation === 0) {
       operation = 4; // rotation
       if (angle) {
