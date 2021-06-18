@@ -164,7 +164,7 @@ const initMenuEvents = (): void => {
     menuEventRegistered = true;
     const menuEventListener = menuEventListenerFactory.createMenuEventListener();
 
-    menuEventListener.on('MENU_CLICK', (e, menuItem) => {
+    menuEventListener.on('MENU_CLICK', (_, menuItem) => {
       const actions: { [key: string]: ((deivce?: IDeviceInfo) => void) } = {
         ...menuActions,
         ...menuDeviceActions,

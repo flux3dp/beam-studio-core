@@ -7,17 +7,16 @@ import {
 } from '@szhsin/react-menu';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import ExportFuncs from 'app/actions/beambox/export-funcs';
-import FileExportHelper from 'helpers/file-export-helper';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-let svgEditor;
-getSVGAsync((globalSVG) => {
-  svgEditor = globalSVG.Editor;
-});
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 export default function Menu(): JSX.Element {
+  const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
+  const eventEmitter = eventEmitterFactory.createEventEmitter('top-bar-menu');
+  const callback = (id: string) => {
+    eventEmitter.emit('MENU_CLICK', null, {
+      id,
+    });
+  };
   return (
     <TopBarMenu menuButton={(
       <img
@@ -36,7 +35,7 @@ export default function Menu(): JSX.Element {
         <MenuItem>Save As...</MenuItem>
         <MenuDivider />
         <SubMenu label="Examples">
-          <MenuItem>Example of beamo</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>Example of beamo</MenuItem>
           <MenuItem>Example of beambox</MenuItem>
           <MenuItem>Material Engraving Test</MenuItem>
           <MenuItem>Material Engraving Test - Classic</MenuItem>
@@ -46,21 +45,16 @@ export default function Menu(): JSX.Element {
         </SubMenu>
         <MenuDivider />
         <SubMenu label="Export To ...">
-          <MenuItem onClick={() => {
-            FileExportHelper.exportAsBVG().then((value) => value);
-          }}
-          >
-            BVG
-          </MenuItem>
-          <MenuItem onClick={() => FileExportHelper.exportAsSVG()}>SVG</MenuItem>
-          <MenuItem onClick={() => FileExportHelper.exportAsImage('png')}>PNG</MenuItem>
-          <MenuItem onClick={() => FileExportHelper.exportAsImage('jpg')}>JPG</MenuItem>
-          <MenuItem onClick={() => ExportFuncs.exportFcode()}>FLUX task</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_BVG')}>SVG</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_SVG')}>SVG</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_PNG')}>PNG</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_JPG')}>JPG</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>FLUX task</MenuItem>
         </SubMenu>
       </SubMenu>
       <SubMenu label="Edit">
-        <MenuItem onClick={() => svgEditor.clickUndo()}>Undo</MenuItem>
-        <MenuItem onClick={() => svgEditor.clickRedo()}>Redo</MenuItem>
+        <MenuItem onClick={() => callback('UNDO')}>Undo</MenuItem>
+        <MenuItem onClick={() => callback('REDO')}>Redo</MenuItem>
         <MenuDivider />
         <MenuItem>Cut</MenuItem>
         <MenuItem>Copy</MenuItem>
@@ -68,8 +62,8 @@ export default function Menu(): JSX.Element {
         <MenuItem>Paste in Place</MenuItem>
         <MenuItem>Duplicate</MenuItem>
         <MenuDivider />
-        <MenuItem onClick={() => FnWrapper.groupSelected()}>Group</MenuItem>
-        <MenuItem onClick={() => FnWrapper.ungroupSelected()}>Ungroup</MenuItem>
+        <MenuItem onClick={() => callback('GROUP')}>Group</MenuItem>
+        <MenuItem onClick={() => callback('UNGROUP')}>Ungroup</MenuItem>
         <MenuDivider />
         <SubMenu label="Path">
           <MenuItem>Offset</MenuItem>
@@ -77,27 +71,23 @@ export default function Menu(): JSX.Element {
         </SubMenu>
       </SubMenu>
       <SubMenu label="View">
-        <MenuItem onClick={() => svgEditor.zoomIn()}>Zoom In</MenuItem>
-        <MenuItem onClick={() => svgEditor.zoomOut()}>Zoom Out</MenuItem>
-        <MenuItem onClick={() => svgEditor.resetView()}>Fit to Window Size</MenuItem>
-        {/* <MenuItem>Auto Fit to Window Size</MenuItem> */}
+        <MenuItem onClick={() => callback('ZOOM_IN')}>Zoom In</MenuItem>
+        <MenuItem onClick={() => callback('ZOOM_OUT')}>Zoom Out</MenuItem>
+        <MenuItem onClick={() => callback('FITS_TO_WINDOW')}>Fit to Window Size</MenuItem>
+        <MenuItem onClick={() => callback('ZOOM_WITH_WINDOW')}>Auto Fit to Window Size</MenuItem>
         <MenuDivider />
-        <MenuItem type="checkbox" checked>Show Grids</MenuItem>
+        <MenuItem type="checkbox" onClick={() => callback('SHOW_GRIDS')} checked>Show Grids</MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => {
-            const shouldShowRulers = !BeamboxPreference.read('show_rulers');
-            // updateCheckbox(['_view', 'SHOW_RULERS'], shouldShowRulers);
-            document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
-            if (shouldShowRulers) {
-              svgEditor.updateRulers();
-            }
-            BeamboxPreference.write('show_rulers', shouldShowRulers);
+            callback('SHOW_RULERS');
+            changeShouldShowRulers(!shouldShowRulers);
           }}
+          checked={shouldShowRulers}
         >
           Show Rulers
         </MenuItem>
-        <MenuItem type="checkbox" checked>User Layer Color</MenuItem>
+        <MenuItem type="checkbox" onClick={() => callback('SHOW_LAYER_COLOR')} checked>User Layer Color</MenuItem>
       </SubMenu>
     </TopBarMenu>
   );
