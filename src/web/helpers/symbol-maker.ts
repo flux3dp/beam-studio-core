@@ -5,8 +5,8 @@
  */
 
 import communicator from 'implementations/communicator';
-import fs from 'implementations/fileSystem';
 import history from 'app/svgedit/history';
+import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import Progress from 'app/actions/progress-caller';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -269,8 +269,7 @@ const getStrokeWidth = (imageRatio, scale) => {
 };
 
 const sendTaskToWorker = async (data) => new Promise((resolve) => {
-  const workerPath = fs.join(__dirname, 'js', 'dist', 'helpers', 'symbol-helper', 'image-symbol-worker.js');
-  const worker = new Worker(workerPath);
+  const worker = new ImageSymbolWorker('');
   worker.postMessage(data);
   worker.onerror = (e) => console.log(e);
   worker.onmessage = (e) => {

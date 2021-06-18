@@ -1,3 +1,4 @@
+import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 
 const DEFAULT_PREFERENCE = {
@@ -8,6 +9,8 @@ const DEFAULT_PREFERENCE = {
   guide_x0: 0,
   guide_y0: 0,
   engrave_dpi: 'medium', // low, medium, high
+  diode_offset_x: constant.diode.defaultOffsetX,
+  diode_offset_y: constant.diode.defaultOffsetY,
 };
 
 class BeamboxPreference {
