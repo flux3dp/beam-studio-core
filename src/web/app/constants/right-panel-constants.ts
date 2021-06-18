@@ -65,7 +65,7 @@ export default {
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
-      speed: 4,
+      speed: 10,
     },
   },
 
@@ -132,7 +132,7 @@ export default {
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
-      speed: 4,
+      speed: 10,
     },
   },
 
@@ -199,7 +199,7 @@ export default {
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
-      speed: 4,
+      speed: 10,
     },
   },
   BEAMBOX2: {
@@ -265,7 +265,7 @@ export default {
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
-      speed: 4,
+      speed: 10,
     },
   },
   laserPresetKeys: [

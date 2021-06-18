@@ -174,8 +174,8 @@ class DeviceMaster {
           await this.enterMaintainMode();
         } else if (mode === 'raw') {
           await this.enterRawMode();
-          device.control.isLineCheckMode = isLineCheckMode;
-          device.control.lineNumber = lineNumber;
+          controlSocket.isLineCheckMode = isLineCheckMode;
+          controlSocket.lineNumber = lineNumber;
         }
         if (device.camera !== null) {
           await this.connectCamera();
