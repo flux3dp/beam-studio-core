@@ -1,23 +1,35 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
-import { Mode } from 'app/constants/monitor-constants';
-import { MonitorContext } from 'app/contexts/Monitor-Context';
 import FormatDuration from 'helpers/duration-formatter';
+import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import VersionChecker from 'helpers/version-checker';
-import i18n from 'helpers/i18n';
-import { IDeviceInfo } from 'interfaces/IDevice';
+import { Mode } from 'app/constants/monitor-constants';
+import { MonitorContext } from 'app/contexts/Monitor-Context';
 
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;
 
 interface Props {
-  device: IDeviceInfo,
+  deviceVersion: string;
 }
 
 export default class MonitorTask extends React.PureComponent<Props> {
-  renderImage() {
+  getJobTime(): string {
+    const { taskTime } = this.context;
+    return taskTime ? FormatDuration(taskTime) : null;
+  }
+
+  getProgress(): string {
+    const { mode, report } = this.context;
+    if (mode !== Mode.WORKING || MonitorStatus.isAbortedOrCompleted(report)) {
+      return '';
+    }
+    return report.prog !== undefined ? `${(report.prog * 100).toFixed(1)}%` : '';
+  }
+
+  renderImage(): JSX.Element {
     const { taskImageURL } = this.context;
     const divStyle = {
       borderRadius: '2px',
@@ -27,52 +39,31 @@ export default class MonitorTask extends React.PureComponent<Props> {
       backgroundPosition: '50% 50%',
       backgroundRepeatY: 'no-repeat',
       width: '100%',
-      height: '100%'
+      height: '100%',
     };
-
     return (<div style={divStyle} />);
   }
 
-  getJobTime() {
-    const { taskTime } = this.context;
-
-    if (taskTime) {
-      return FormatDuration(taskTime)
-    } else {
-      return null;
-    }
-  }
-
-  getProgress() {
-    const { mode, report } = this.context;
-    if (mode !== Mode.WORKING || MonitorStatus.isAbortedOrCompleted(report)) {
-      return '';
-    }
-    return report.prog !== undefined ? `${(report.prog * 100).toFixed(1)}%` : '';
-  }
-
-  renderRelocateButton() {
+  renderRelocateButton(): JSX.Element {
     const { mode, relocateOrigin, startRelocate } = this.context;
-    const { device } = this.props;
-    const vc = VersionChecker(device.version);
+    const { deviceVersion } = this.props;
+    const vc = VersionChecker(deviceVersion);
     if ([Mode.PREVIEW, Mode.FILE_PREVIEW].includes(mode) && vc.meetRequirement('RELOCATE_ORIGIN')) {
       return (
         <div className="btn-relocate-container">
           <div className="btn-relocate" onClick={startRelocate}>
             <img src="img/beambox/icon-target.svg" />
-            {(relocateOrigin.x !== 0 || relocateOrigin.y !== 0) ?
-              <div className="relocate-origin">{`(${relocateOrigin.x}, ${relocateOrigin.y})`}</div>
-              : null
-            }
+            {(relocateOrigin.x !== 0 || relocateOrigin.y !== 0)
+              ? <div className="relocate-origin">{`(${relocateOrigin.x}, ${relocateOrigin.y})`}</div>
+              : null}
           </div>
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
-  renderInfo() {
+  renderInfo(): JSX.Element {
     const { report } = this.context;
     const infoClass = classNames('status-info', 'running', { hide: MonitorStatus.isAbortedOrCompleted(report) });
     return (
@@ -87,9 +78,9 @@ export default class MonitorTask extends React.PureComponent<Props> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     return (
-      <div className='task'>
+      <div className="task">
         {this.renderImage()}
         {this.renderInfo()}
       </div>

@@ -21,16 +21,16 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 
 const LANG = i18n.lang.diode_calibration;
 
-//View render the following steps
-const STEP_ASK_READJUST = Symbol();
-const STEP_ALERT = Symbol();
-const STEP_CUT = Symbol();
-const STEP_ANALYZE = Symbol();
-const STEP_FINISH = Symbol();
+// View render the following steps
+const STEP_ASK_READJUST = Symbol('STEP_ASK_READJUST');
+const STEP_ALERT = Symbol('STEP_ALERT');
+const STEP_CUT = Symbol('STEP_CUT');
+const STEP_ANALYZE = Symbol('STEP_ANALYZE');
+const STEP_FINISH = Symbol('STEP_FINISH');
 
 let cameraOffset = {
   x: 0,
-  y: 0
+  y: 0,
 };
 const calibratedMachineUUIDs = [];
 
@@ -64,7 +64,7 @@ class DiodeCalibration extends React.Component<Props, State> {
 
   private imageUrl: string;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { device } = props;
     const didCalibrate = calibratedMachineUUIDs.includes(device.uuid);
@@ -77,185 +77,30 @@ class DiodeCalibration extends React.Component<Props, State> {
       dy: 0,
       cameraMovedX: 0,
       cameraMovedY: 0,
-      isCutButtonDisabled: false
+      isCutButtonDisabled: false,
     };
   }
 
-  updateCurrentStep = (nextStep) => {
+  updateCurrentStep = (nextStep): void => {
     this.setState({
-      currentStep: nextStep
+      currentStep: nextStep,
     });
-  }
+  };
 
-  onClose = async () => {
-    this.props.onClose();
+  onClose = async (): Promise<void> => {
+    const { onClose } = this.props;
+    onClose();
     await PreviewModeController.end();
     if (this.origFanSpeed) {
       await DeviceMaster.setFan(this.origFanSpeed);
     }
-  }
+  };
 
-  updateShowHint(show) {
-    this.setState({ showHint: show });
-  }
-
-  render() {
-    const { currentStep } = this.state;
-    let content;
-    switch (currentStep) {
-      case STEP_ASK_READJUST:
-        content = this.renderStepAskReadjust();
-        break;
-      case STEP_ALERT:
-        content = this.renderStepAlert();
-        break;
-      case STEP_CUT:
-        content = this.renderStepCut();
-        break;
-      case STEP_ANALYZE:
-        content = this.renderStepAnalyze();
-        break;
-      case STEP_FINISH:
-        content = this.renderStepFinish();
-        break;
-    }
-    return (
-      <div className='modal-diode-calibration'>
-        {content}
-      </div>
-    );
-  }
-
-  renderStepAskReadjust() {
-    const { device } = this.props;
-    return (
-      <AlertDialog
-        caption={LANG.diode_calibration}
-        message={LANG.ask_for_readjust}
-        buttons={
-          [
-            {
-              label: LANG.cancel,
-              className: 'btn-default pull-left',
-              onClick: () => this.onClose()
-            },
-            {
-              label: LANG.skip,
-              className: 'btn-default pull-right primary',
-              onClick: async () => {
-                try {
-                  await CheckDeviceStatus(device);
-                  await this.doCaptureTask();
-                  await this.cropAndRotateImg();
-                  this.updateCurrentStep(STEP_ANALYZE);
-                } catch (error) {
-                  console.log(error);
-                  Alert.popUp({
-                    id: 'menu-item',
-                    type: AlertConstants.SHOW_POPUP_ERROR,
-                    message: '#815 ' + (error.message || DeviceErrorHandler.translate(error) || 'Fail to capture'),
-                    callbacks: async () => {
-                      const report = await DeviceMaster.getReport();
-                      device.st_id = report.st_id;
-                      await CheckDeviceStatus(device, false, true);
-                    }
-                  });
-                } finally {
-                  Progress.popById('taking-picture');
-                }
-              }
-            },
-            {
-              label: LANG.do_engraving,
-              className: 'btn-default pull-right',
-              onClick: () => this.updateCurrentStep(STEP_ALERT)
-            },
-          ]
-        }
-      />
-    );
-
-  }
-
-  renderStepAlert() {
-    const { device } = this.props;
-    const model = device.model === 'fbm1' ? 'beamo' : 'beambox';
-    return (
-      <AlertDialog
-        caption={LANG.diode_calibration}
-        message={LANG.please_do_camera_calibration_and_focus[model]}
-        buttons={
-          [{
-            label: LANG.next,
-            className: 'btn-default pull-right primary',
-            onClick: () => this.updateCurrentStep(STEP_CUT)
-          },
-          {
-            label: LANG.cancel,
-            className: 'btn-default pull-left',
-            onClick: () => this.onClose()
-          }]
-        }
-      />
-    );
-  }
-  // Cut and Take Picture
-  renderStepCut() {
-    const { device } = this.props;
-    const { isCutButtonDisabled } = this.state;
-    return (
-      <AlertDialog
-        caption={LANG.diode_calibration}
-        message={LANG.please_place_paper}
-        buttons={
-          [{
-            label: LANG.start_engrave,
-            className: classNames('btn-default pull-right primary', { 'disabled': isCutButtonDisabled }),
-            onClick: async () => {
-              if (isCutButtonDisabled) {
-                return;
-              }
-              try {
-                this.setState({ isCutButtonDisabled: true });
-                await CheckDeviceStatus(device);
-                await this.doCuttingTask();
-                await this.doCaptureTask();
-                await this.cropAndRotateImg();
-                if (!calibratedMachineUUIDs.includes(device.uuid)) {
-                  calibratedMachineUUIDs.push(device.uuid);
-                }
-                this.updateCurrentStep(STEP_ANALYZE);
-              } catch (error) {
-                this.setState({ isCutButtonDisabled: false });
-                console.log(error);
-                Alert.popUp({
-                  id: 'menu-item',
-                  type: AlertConstants.SHOW_POPUP_ERROR,
-                  message: '#815 ' + (error.message || DeviceErrorHandler.translate(error) || 'Fail to cut and capture'),
-                  callbacks: async () => {
-                    const report = await DeviceMaster.getReport();
-                    device.st_id = report.st_id;
-                    await CheckDeviceStatus(device, false, true);
-                  }
-                });
-              }
-            }
-          },
-          {
-            label: LANG.cancel,
-            className: 'btn-default pull-left',
-            onClick: () => this.onClose()
-          }]
-        }
-      />
-    );
-  }
-
-  doCuttingTask = async () => {
+  doCuttingTask = async (): Promise<void> => {
     const { device } = this.props;
     const res = await DeviceMaster.select(device);
     if (!res.success) {
-      throw 'Fail to select device';
+      throw Error('Fail to select device');
     }
     const laserPower = Number((await DeviceMaster.getLaserPower()).value);
     const fanSpeed = Number((await DeviceMaster.getFan()).value);
@@ -265,10 +110,8 @@ class DiodeCalibration extends React.Component<Props, State> {
     const tempCmdAvailable = vc.meetRequirement('TEMP_I2C_CMD');
     if (tempCmdAvailable) {
       await DeviceMaster.setFanTemp(100);
-    } else {
-      if (fanSpeed > 100) {
-        await DeviceMaster.setFan(100); // 10%
-      }
+    } else if (fanSpeed > 100) {
+      await DeviceMaster.setFan(100); // 10%
     }
 
     if (laserPower !== 1) {
@@ -284,9 +127,9 @@ class DiodeCalibration extends React.Component<Props, State> {
     if (!tempCmdAvailable) {
       await DeviceMaster.setFan(fanSpeed);
     }
-  }
+  };
 
-  doCaptureTask = async () => {
+  doCaptureTask = async (): Promise<void> => {
     const { device } = this.props;
     let blobUrl;
     try {
@@ -298,18 +141,17 @@ class DiodeCalibration extends React.Component<Props, State> {
       });
       cameraOffset = PreviewModeController.getCameraOffset();
       this.cameraOffset = cameraOffset;
-      const movementX = Constant.camera.calibrationPicture.centerX + Constant.diode.defaultOffsetX - cameraOffset.x;
-      const movementY = Constant.camera.calibrationPicture.centerY + Constant.diode.defaultOffsetY - cameraOffset.y;
+      const { centerX, centerY } = Constant.diode.calibrationPicture;
+      const movementX = centerX - this.cameraOffset.x;
+      const movementY = centerY - this.cameraOffset.y;
       blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
-    } catch (error) {
-      throw error;
     } finally {
       Progress.popById('taking-picture');
     }
     this.imageUrl = blobUrl;
-  }
+  };
 
-  cropAndRotateImg = async () => {
+  cropAndRotateImg = async (): Promise<string> => {
     const img = new Image();
 
     await new Promise((resolve) => {
@@ -323,7 +165,7 @@ class DiodeCalibration extends React.Component<Props, State> {
     const {
       angle,
       scaleRatioX,
-      scaleRatioY
+      scaleRatioY,
     } = this.cameraOffset;
 
     const cvs = document.createElement('canvas');
@@ -333,8 +175,9 @@ class DiodeCalibration extends React.Component<Props, State> {
     const w = img.width;
     const h = img.height;
 
-    const l = h * scaleRatioY / (Math.cos(a) + Math.sin(a));
-    cvs.width = cvs.height = l;
+    const l = (h * scaleRatioY) / (Math.cos(a) + Math.sin(a));
+    cvs.width = l;
+    cvs.height = l;
     this.imageScale = 200 / l; // 200 width of image display div
     ctx.translate(l / 2, l / 2);
     ctx.rotate(a);
@@ -348,125 +191,9 @@ class DiodeCalibration extends React.Component<Props, State> {
         resolve(newImageUrl);
       });
     });
-  }
-
-  renderStepAnalyze() {
-    const { dx, dy, cameraMovedX, cameraMovedY } = this.state;
-
-    let imgBackground = {
-      background: `url(${this.imageUrl})`
-    };
-    const squareSize = Constant.camera.calibrationPicture.size * Constant.dpmm * this.imageScale;
-
-    let squareStyle = {
-      width: squareSize, //px
-      height: squareSize, //px
-      left: 100 - squareSize / 2 + (dx - cameraMovedX) * Constant.dpmm * this.imageScale,
-      top: 100 - squareSize / 2 + (dy - cameraMovedY) * Constant.dpmm * this.imageScale
-    };
-    let manual_calibration = (
-      <div>
-        <div className="img-center" style={imgBackground}>
-          <div className="virtual-square" style={squareStyle} />
-          <div className="camera-control up" onClick={() => this.moveAndRetakePicture('up')} />
-          <div className="camera-control down" onClick={() => this.moveAndRetakePicture('down')} />
-          <div className="camera-control left" onClick={() => this.moveAndRetakePicture('left')} />
-          <div className="camera-control right" onClick={() => this.moveAndRetakePicture('right')} />
-        </div>
-        <div className="hint-icon" onClick={() => { this.setState({ showHint: true }) }}>
-          ?
-                </div>
-        <div className="controls">
-          <div className="control">
-            <label>{LANG.dx}</label>
-            <UnitInput
-              type={'number'}
-              min={-20}
-              max={20}
-              unit="mm"
-              defaultValue={dx}
-              getValue={(dx) => { this.setState({ dx }) }}
-              decimal={2}
-              step={0.5}
-              isDoOnInput={true}
-            />
-          </div>
-          <div className="control">
-            <label>{LANG.dy}</label>
-            <UnitInput
-              type={'number'}
-              min={-10}
-              max={20}
-              unit="mm"
-              defaultValue={dy}
-              getValue={(dy) => { this.setState({ dy }) }}
-              decimal={2}
-              step={0.5}
-              isDoOnInput={true}
-            />
-          </div>
-        </div>
-        {this.renderHintModal()}
-      </div>
-    );
-
-    return (
-      <AlertDialog
-        caption={LANG.diode_calibration}
-        message={manual_calibration}
-        buttons={
-          [{
-            label: LANG.next,
-            className: 'btn-default pull-right primary',
-            onClick: () => {
-              const offsetX = Constant.diode.defaultOffsetX + dx;
-              const offsetY = Constant.diode.defaultOffsetY + dy;
-              console.log(offsetX, offsetY);
-              BeamboxPreference.write('diode_offset_x', offsetX);
-              BeamboxPreference.write('diode_offset_y', offsetY);
-              this.updateCurrentStep(STEP_FINISH);
-            }
-          },
-          {
-            label: LANG.cancel,
-            className: 'btn-default pull-left',
-            onClick: () => this.onClose()
-          }]
-        }
-      />
-    );
-  }
-
-  renderHintModal = () => {
-    if (!this.state.showHint) {
-      return null;
-    }
-    const virtual_square = $('.modal-diode-calibration .virtual-square');
-    let position1 = virtual_square.offset();
-    position1.top += virtual_square.height() + 5;
-    const controls = $('.modal-diode-calibration .controls');
-    let position2 = controls.offset();
-    position2.left += 30;
-    position2.top -= 45;
-    return (
-      <div className="hint-modal-background" onClick={() => { this.setState({ showHint: false }) }}>
-        <div className="hint-box" style={position1}>
-          <div className="arrowup"></div>
-          <div className="hint-body">
-            {LANG.hint_red_square}
-          </div>
-        </div>
-        <div className="hint-box" style={position2}>
-          <div className="hint-body">
-            {LANG.hint_adjust_parameters}
-          </div>
-          <div className="arrowdown"></div>
-        </div>
-      </div>
-    );
   };
 
-  moveAndRetakePicture = async (dir) => {
+  moveAndRetakePicture = async (dir: string): Promise<void> => {
     try {
       Progress.openNonstopProgress({
         id: 'taking-picture',
@@ -487,22 +214,270 @@ class DiodeCalibration extends React.Component<Props, State> {
         case 'right':
           cameraMovedX += 3;
           break;
+        default:
+          break;
       }
-      const movementX = Constant.camera.calibrationPicture.centerX + Constant.diode.defaultOffsetX - this.cameraOffset.x + cameraMovedX;
-      const movementY = Constant.camera.calibrationPicture.centerY + Constant.diode.defaultOffsetY - this.cameraOffset.y + cameraMovedY;
-      let blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
+      const { centerX, centerY } = Constant.diode.calibrationPicture;
+      const movementX = centerX - this.cameraOffset.x + cameraMovedX;
+      const movementY = centerY - this.cameraOffset.y + cameraMovedY;
+      const blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
       console.log(movementX, movementY);
       this.imageUrl = blobUrl;
       await this.cropAndRotateImg();
       this.setState({ cameraMovedX, cameraMovedY });
-    } catch (error) {
-      throw error;
     } finally {
       Progress.popById('taking-picture');
     }
+  };
+
+  updateShowHint(show: boolean): void {
+    this.setState({ showHint: show });
   }
 
-  renderStepFinish() {
+  renderStepAskReadjust(): JSX.Element {
+    const { device } = this.props;
+    return (
+      <AlertDialog
+        caption={LANG.diode_calibration}
+        message={LANG.ask_for_readjust}
+        buttons={
+          [
+            {
+              label: LANG.cancel,
+              className: 'btn-default pull-left',
+              onClick: () => this.onClose(),
+            },
+            {
+              label: LANG.skip,
+              className: 'btn-default pull-right primary',
+              onClick: async () => {
+                try {
+                  await CheckDeviceStatus(device);
+                  await this.doCaptureTask();
+                  await this.cropAndRotateImg();
+                  this.updateCurrentStep(STEP_ANALYZE);
+                } catch (error) {
+                  console.log(error);
+                  Alert.popUp({
+                    id: 'menu-item',
+                    type: AlertConstants.SHOW_POPUP_ERROR,
+                    message: `#815 ${(error.message || DeviceErrorHandler.translate(error) || 'Fail to capture')}`,
+                    callbacks: async () => {
+                      const report = await DeviceMaster.getReport();
+                      device.st_id = report.st_id;
+                      await CheckDeviceStatus(device, false, true);
+                    },
+                  });
+                } finally {
+                  Progress.popById('taking-picture');
+                }
+              },
+            },
+            {
+              label: LANG.do_engraving,
+              className: 'btn-default pull-right',
+              onClick: () => this.updateCurrentStep(STEP_ALERT),
+            },
+          ]
+        }
+      />
+    );
+  }
+
+  renderStepAlert(): JSX.Element {
+    const { device } = this.props;
+    const model = device.model === 'fbm1' ? 'beamo' : 'beambox';
+    return (
+      <AlertDialog
+        caption={LANG.diode_calibration}
+        message={LANG.please_do_camera_calibration_and_focus[model]}
+        buttons={
+          [{
+            label: LANG.next,
+            className: 'btn-default pull-right primary',
+            onClick: () => this.updateCurrentStep(STEP_CUT),
+          },
+          {
+            label: LANG.cancel,
+            className: 'btn-default pull-left',
+            onClick: () => this.onClose(),
+          }]
+        }
+      />
+    );
+  }
+
+  // Cut and Take Picture
+  renderStepCut(): JSX.Element {
+    const { device } = this.props;
+    const { isCutButtonDisabled } = this.state;
+    return (
+      <AlertDialog
+        caption={LANG.diode_calibration}
+        message={LANG.please_place_paper}
+        buttons={
+          [{
+            label: LANG.start_engrave,
+            className: classNames('btn-default pull-right primary', { disabled: isCutButtonDisabled }),
+            onClick: async () => {
+              if (isCutButtonDisabled) {
+                return;
+              }
+              try {
+                this.setState({ isCutButtonDisabled: true });
+                await CheckDeviceStatus(device);
+                await this.doCuttingTask();
+                await this.doCaptureTask();
+                await this.cropAndRotateImg();
+                if (!calibratedMachineUUIDs.includes(device.uuid)) {
+                  calibratedMachineUUIDs.push(device.uuid);
+                }
+                this.updateCurrentStep(STEP_ANALYZE);
+              } catch (error) {
+                this.setState({ isCutButtonDisabled: false });
+                console.log(error);
+                Alert.popUp({
+                  id: 'menu-item',
+                  type: AlertConstants.SHOW_POPUP_ERROR,
+                  message: `#815 ${(error.message || DeviceErrorHandler.translate(error) || 'Fail to cut and capture')}`,
+                  callbacks: async () => {
+                    const report = await DeviceMaster.getReport();
+                    device.st_id = report.st_id;
+                    await CheckDeviceStatus(device, false, true);
+                  },
+                });
+              }
+            },
+          },
+          {
+            label: LANG.cancel,
+            className: 'btn-default pull-left',
+            onClick: () => this.onClose(),
+          }]
+        }
+      />
+    );
+  }
+
+  renderStepAnalyze(): JSX.Element {
+    const {
+      dx, dy, cameraMovedX, cameraMovedY,
+    } = this.state;
+
+    const imgBackground = {
+      background: `url(${this.imageUrl})`,
+    };
+    const squareSize = Constant.camera.calibrationPicture.size * Constant.dpmm * this.imageScale;
+
+    const squareStyle = {
+      width: squareSize, // px
+      height: squareSize, // px
+      left: 100 - squareSize / 2 + (dx - cameraMovedX) * Constant.dpmm * this.imageScale,
+      top: 100 - squareSize / 2 + (dy - cameraMovedY) * Constant.dpmm * this.imageScale,
+    };
+    const manualCalibration = (
+      <div>
+        <div className="img-center" style={imgBackground}>
+          <div className="virtual-square" style={squareStyle} />
+          <div className="camera-control up" onClick={() => this.moveAndRetakePicture('up')} />
+          <div className="camera-control down" onClick={() => this.moveAndRetakePicture('down')} />
+          <div className="camera-control left" onClick={() => this.moveAndRetakePicture('left')} />
+          <div className="camera-control right" onClick={() => this.moveAndRetakePicture('right')} />
+        </div>
+        <div className="hint-icon" onClick={() => this.setState({ showHint: true })}>
+          ?
+        </div>
+        <div className="controls">
+          <div className="control">
+            <label>{LANG.dx}</label>
+            <UnitInput
+              type="number"
+              min={-20}
+              max={20}
+              unit="mm"
+              defaultValue={dx}
+              getValue={(val) => this.setState({ dx: val })}
+              decimal={2}
+              step={0.5}
+              isDoOnInput
+            />
+          </div>
+          <div className="control">
+            <label>{LANG.dy}</label>
+            <UnitInput
+              type="number"
+              min={-10}
+              max={20}
+              unit="mm"
+              defaultValue={dy}
+              getValue={(val) => this.setState({ dy: val })}
+              decimal={2}
+              step={0.5}
+              isDoOnInput
+            />
+          </div>
+        </div>
+        {this.renderHintModal()}
+      </div>
+    );
+    return (
+      <AlertDialog
+        caption={LANG.diode_calibration}
+        message={manualCalibration}
+        buttons={
+          [{
+            label: LANG.next,
+            className: 'btn-default pull-right primary',
+            onClick: () => {
+              const offsetX = Constant.diode.calibrationPicture.offsetX + dx;
+              const offsetY = Constant.diode.calibrationPicture.offsetY + dy;
+              console.log(offsetX, offsetY);
+              BeamboxPreference.write('diode_offset_x', offsetX);
+              BeamboxPreference.write('diode_offset_y', offsetY);
+              this.updateCurrentStep(STEP_FINISH);
+            },
+          },
+          {
+            label: LANG.cancel,
+            className: 'btn-default pull-left',
+            onClick: () => this.onClose(),
+          }]
+        }
+      />
+    );
+  }
+
+  renderHintModal = (): JSX.Element => {
+    const { showHint } = this.state;
+    if (!showHint) {
+      return null;
+    }
+    const virtualSquare = $('.modal-diode-calibration .virtual-square');
+    const position1 = virtualSquare.offset();
+    position1.top += virtualSquare.height() + 5;
+    const controls = $('.modal-diode-calibration .controls');
+    const position2 = controls.offset();
+    position2.left += 30;
+    position2.top -= 45;
+    return (
+      <div className="hint-modal-background" onClick={() => this.setState({ showHint: false })}>
+        <div className="hint-box" style={position1}>
+          <div className="arrowup" />
+          <div className="hint-body">
+            {LANG.hint_red_square}
+          </div>
+        </div>
+        <div className="hint-box" style={position2}>
+          <div className="hint-body">
+            {LANG.hint_adjust_parameters}
+          </div>
+          <div className="arrowdown" />
+        </div>
+      </div>
+    );
+  };
+
+  renderStepFinish(): JSX.Element {
     return (
       <AlertDialog
         caption={LANG.diode_calibration}
@@ -511,18 +486,47 @@ class DiodeCalibration extends React.Component<Props, State> {
           [{
             label: LANG.finish,
             className: 'btn-default pull-right primary',
-            onClick: () => this.onClose()
+            onClick: () => this.onClose(),
           }]
         }
       />
     );
   }
-};
+
+  render(): JSX.Element {
+    const { currentStep } = this.state;
+    let content;
+    switch (currentStep) {
+      case STEP_ASK_READJUST:
+        content = this.renderStepAskReadjust();
+        break;
+      case STEP_ALERT:
+        content = this.renderStepAlert();
+        break;
+      case STEP_CUT:
+        content = this.renderStepCut();
+        break;
+      case STEP_ANALYZE:
+        content = this.renderStepAnalyze();
+        break;
+      case STEP_FINISH:
+        content = this.renderStepFinish();
+        break;
+      default:
+        break;
+    }
+    return (
+      <div className="modal-diode-calibration">
+        {content}
+      </div>
+    );
+  }
+}
 
 export default DiodeCalibration;
 
 // Not putting this in dialog-caller to avoid circular import because DeviceMaster imports dialog
-export const showDiodeCalibration = (device) => {
+export const showDiodeCalibration = (device: IDeviceInfo): void => {
   if (Dialog.isIdExist('diode-cali')) return;
   Dialog.addDialogComponent('diode-cali',
     <Modal>
@@ -530,6 +534,5 @@ export const showDiodeCalibration = (device) => {
         device={device}
         onClose={() => Dialog.popDialogById('diode-cali')}
       />
-    </Modal>
-  );
+    </Modal>);
 };
