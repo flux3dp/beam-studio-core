@@ -69,7 +69,7 @@ export default {
     defaultOffsetX: 70, // mm
     defaultOffsetY: 7, // mm
     safeDistance: {
-      X: 45, // mm
+      X: 50, // mm
       Y: 15, // mm
     },
   },
