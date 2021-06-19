@@ -1,27 +1,21 @@
-import { ContextHelper } from '../Layer-Panel';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+
+const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
 const updateLayerPanel = (): void => {
-  if (!ContextHelper.context) {
-    // console.log('LayerPanel is not mounted now.');
-  } else {
-    ContextHelper.context.updateLayerPanel();
-  }
+  layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
 };
 
 const getSelectedLayers = (): string[] => {
-  if (!ContextHelper.context) {
-    // console.info('LayerPanel is not mounted now.');
-    return null;
-  }
-  return ContextHelper.context.selectedLayers;
+  const response = {
+    selectedLayers: [],
+  };
+  layerPanelEventEmitter.emit('GET_SELECTED_LAYERS', response);
+  return response.selectedLayers;
 };
 
 const setSelectedLayers = (selectedLayers: string[]): void => {
-  if (!ContextHelper.context) {
-    // console.info('LayerPanel is not mounted now.');
-  } else {
-    ContextHelper.context.setSelectedLayers(selectedLayers);
-  }
+  layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', selectedLayers);
 };
 
 export default {

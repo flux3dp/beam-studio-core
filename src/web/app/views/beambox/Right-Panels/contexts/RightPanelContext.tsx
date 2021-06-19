@@ -1,53 +1,71 @@
 import * as React from 'react';
 
-export const RightPanelContext = React.createContext(null);
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+
+type RightPanelMode = 'element' | 'path-edit';
+interface IRightPanelContext {
+  mode: RightPanelMode;
+  selectedElement: Element;
+}
+
+export const RightPanelContext = React.createContext<IRightPanelContext>({
+  mode: 'element',
+  selectedElement: null,
+});
+const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
 
 interface State {
-  mode: string;
+  mode: RightPanelMode;
   selectedElement: Element;
 }
 
 export class RightPanelContextProvider extends React.Component<any, State> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            mode: 'element',
-            selectedElement: null,
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      mode: 'element',
+      selectedElement: null,
+    };
+  }
 
-    setMode = (mode) => {
-        const {mode: currentMode} = this.state;
-        if (['path-edit'].includes(mode) || currentMode !== mode) {
-            this.setState({ mode });
-        }
-    }
+  componentDidMount() {
+    rightPanelEventEmitter.on('SET_MODE', this.setMode.bind(this));
+    rightPanelEventEmitter.on('SET_SELECTED_ELEMENT', this.setSelectedElement.bind(this));
+  }
 
-    setSelectedElement = (elems) => {
-        if (elems !== this.state.selectedElement) {
-            (document.activeElement as HTMLInputElement).blur();
-        }
-        this.setState({selectedElement: elems});
-    }
+  componentWillUnmount() {
+    rightPanelEventEmitter.removeAllListeners();
+  }
 
-    render() {
-        const {
-            setMode,
-            setSelectedElement,
-        } = this;
-        const {
-            mode,
-            selectedElement,
-        } = this.state;
-        return (
-            <RightPanelContext.Provider value={{
-                setMode,
-                mode,
-                setSelectedElement,
-                selectedElement,
-            }}>
-                {this.props.children}
-            </RightPanelContext.Provider>
-        );
+  setMode = (mode: RightPanelMode): void => {
+    const { mode: currentMode } = this.state;
+    if (mode === 'path-edit' || currentMode !== mode) {
+      this.setState({ mode });
     }
-};
+  };
+
+  setSelectedElement = (elems: Element): void => {
+    const { selectedElement } = this.state;
+    if (elems !== selectedElement) {
+      (document.activeElement as HTMLInputElement).blur();
+    }
+    this.setState({ selectedElement: elems });
+  };
+
+  render(): JSX.Element {
+    const { children } = this.props;
+    const {
+      mode,
+      selectedElement,
+    } = this.state;
+    return (
+      <RightPanelContext.Provider value={{
+        mode,
+        selectedElement,
+      }}
+      >
+        {children}
+      </RightPanelContext.Provider>
+    );
+  }
+}

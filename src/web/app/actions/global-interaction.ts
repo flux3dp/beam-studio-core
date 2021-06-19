@@ -18,12 +18,6 @@ if (electron) {
 }
 
 class GlobalInteraction {
-  protected actions: { [key: string]: (eventName?:string, args?) => void };
-
-  constructor() {
-    this.actions = {};
-  }
-
   attach(enabledItems: string[]): void {
     currentHandler = this;
     if (communicator) {

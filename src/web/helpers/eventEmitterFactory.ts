@@ -5,6 +5,9 @@ const eventEmitters = {
   'top-bar': null,
   'top-bar-hints': null,
   'time-estimation-button': null,
+  'layer-panel': null,
+  'right-panel': null,
+  'object-panel': null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {
