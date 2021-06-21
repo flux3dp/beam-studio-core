@@ -54,7 +54,6 @@ import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
-import FileExportHelper from 'helpers/file-export-helper';
 import ImageData from 'helpers/image-data';
 import LaserConfigHelper from 'helpers/laser-config-helper';
 import * as LayerHelper from 'helpers/layer-helper';
@@ -67,7 +66,7 @@ import units, { Units } from 'helpers/units';
 import fs from 'implementations/fileSystem';
 import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
-import menu from 'implementations/menu';
+import recentMenuUpdator from 'implementations/recentMenuUpdator';
 
 let svgCanvas;
 let svgEditor;
@@ -7865,38 +7864,13 @@ export default $.SvgCanvas = function (container, config) {
       });
       const recent_files = storage.get('recent_files').filter((path) => path !== filePath);
       storage.set('recent_files', recent_files);
-      this.updateRecentMenu();
+      recentMenuUpdator.update();
     }
   }
 
   this.cleanRecentFiles = () => {
     storage.set('recent_files', []);
-    this.updateRecentMenu();
-  }
-
-  this.updateRecentMenu = () => {
-    const recentFiles = storage.get('recent_files') || [];
-    let recentMenu = menu.getApplicationMenu().items.filter(i => i.id === '_file')[0].submenu.items.filter(i => i.id === 'RECENT')[0].submenu;
-    recentMenu.items = [];
-    recentMenu.clear();
-    recentFiles.forEach(filePath => {
-      let label = filePath
-      if (window.os !== 'Windows') {
-        label = filePath.replace(':', '/');
-      }
-      menu.appendMenuItem(recentMenu, {
-        'id': label, label: label, click: async () => {
-          const res = await FileExportHelper.toggleUnsavedChangedDialog();
-          if (res) this.loadRecentFile(filePath);
-        }
-      });
-    });
-    menu.appendMenuItem(recentMenu, { type: 'separator' });
-    menu.appendMenuItem(recentMenu, { 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } });
-    menu.setApplicationMenu(menu.getApplicationMenu());
-    if (window.os === 'Windows' && window.titlebar) {
-      window.titlebar.updateMenu(menu.getApplicationMenu());
-    }
+    recentMenuUpdator.update();
   }
 
   this.updateRecentFiles = (filePath) => {
@@ -7912,10 +7886,10 @@ export default $.SvgCanvas = function (container, config) {
       }
     }
     storage.set('recent_files', recentFiles);
-    this.updateRecentMenu();
+    recentMenuUpdator.update();
   }
 
-  this.updateRecentMenu();
+  recentMenuUpdator.update();
 
   /**
    * Create grid array of selected element
@@ -8566,7 +8540,6 @@ export default $.SvgCanvas = function (container, config) {
   this.toggleBezierPathAlignToEdge = () => {
     const isBezierPathAlignToEdge = !(this.isBezierPathAlignToEdge || false);
     this.isBezierPathAlignToEdge = isBezierPathAlignToEdge;
-    menu.getApplicationMenu().items.filter(i => i.id === '_edit')[0].submenu.items.filter(i => i.id === 'ALIGN_TO_EDGES')[0].checked = this.isBezierPathAlignToEdge;
     $('#x_align_line').remove();
     $('#y_align_line').remove();
   }
