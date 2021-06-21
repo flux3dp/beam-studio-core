@@ -18,17 +18,9 @@ const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {
   elem: Element,
-  dimensionValues: { [key: string]: string },
-  updateDimensionValues: (values: { [key: string]: string }) => void,
 }
 
 class ActionsPanel extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   replaceImage = async (): Promise<void> => {
     const { elem } = this.props;
     const option = {

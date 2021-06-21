@@ -12,9 +12,7 @@ import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ILayerPanelContext } from 'interfaces/IContext';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-
 import {
   getLayerElementByName,
   deleteLayers,
@@ -32,13 +30,6 @@ getSVGAsync((globalSVG) => {
 });
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
-let contextCaller;
-
-export const ContextHelper = {
-  get context(): ILayerPanelContext {
-    return contextCaller;
-  },
-};
 
 interface Props {
   elem: Element;
@@ -65,7 +56,6 @@ class LayerPanel extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    contextCaller = this.context;
     const { selectedLayers } = this.context;
     if (selectedLayers.length === 0) {
       this.initMultiSelectedLayer();
@@ -73,15 +63,10 @@ class LayerPanel extends React.Component<Props, State> {
   }
 
   componentDidUpdate(): void {
-    contextCaller = this.context;
     const { selectedLayers } = this.context;
     if (selectedLayers.length === 0) {
       this.initMultiSelectedLayer();
     }
-  }
-
-  componentWillUnmount(): void {
-    contextCaller = null;
   }
 
   addNewLayer = (): void => {
