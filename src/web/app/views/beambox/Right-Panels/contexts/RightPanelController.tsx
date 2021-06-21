@@ -1,38 +1,28 @@
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
-import { RightPanelContextHelper } from 'app/views/beambox/Right-Panels/Right-Panel';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-const setSelectedElement = (elem) => {
-    if (!elem) {
-        BeamboxGlobalInteraction.onObjectBlur();
-    } else {
-        BeamboxGlobalInteraction.onObjectBlur();
-        BeamboxGlobalInteraction.onObjectFocus([elem]);
-    }
-    if (!RightPanelContextHelper.context) {
-        console.log('RightPanel is not mounted now.');
-    } else {
-        RightPanelContextHelper.context.setSelectedElement(elem);
-    }
+const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
+
+const setSelectedElement = (elem): void => {
+  if (!elem) {
+    BeamboxGlobalInteraction.onObjectBlur();
+  } else {
+    BeamboxGlobalInteraction.onObjectBlur();
+    BeamboxGlobalInteraction.onObjectFocus([elem]);
+  }
+  rightPanelEventEmitter.emit('SET_SELECTED_ELEMENT', elem);
 };
 
-const toPathEditMode = () => {
-    if (!RightPanelContextHelper.context) {
-        console.log('RightPanel is not mounted now.');
-    } else {
-        RightPanelContextHelper.context.setMode('path-edit');
-    }
-}
+const toPathEditMode = (): void => {
+  rightPanelEventEmitter.emit('SET_MODE', 'path-edit');
+};
 
-const toElementMode = () => {
-    if (!RightPanelContextHelper.context) {
-        console.log('RightPanel is not mounted now.');
-    } else {
-        RightPanelContextHelper.context.setMode('element');
-    }
-}
+const toElementMode = (): void => {
+  rightPanelEventEmitter.emit('SET_MODE', 'element');
+};
 
 export default {
-    setSelectedElement,
-    toPathEditMode,
-    toElementMode,
-}
+  setSelectedElement,
+  toPathEditMode,
+  toElementMode,
+};

@@ -36,7 +36,9 @@ const fixedSizeMapping = {
 
 interface Props {
   elem: Element;
-  getDimensionValues: () => any;
+  getDimensionValues: (response: {
+    dimensionValues: any,
+  }) => void;
   updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
 }
 
@@ -114,7 +116,11 @@ class DimensionPanel extends React.Component<Props> {
   handleSizeChange = (type:string, val:number): void => {
     const batchCmd = new history.BatchCommand('Object Panel Size Change');
     const { updateDimensionValues, getDimensionValues } = this.props;
-    const dimensionValues = getDimensionValues();
+    const response = {
+      dimensionValues: {} as any,
+    };
+    getDimensionValues(response);
+    const dimensionValues = response.dimensionValues;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     const newDimensionValue = {};
@@ -182,7 +188,11 @@ class DimensionPanel extends React.Component<Props> {
 
   renderDimensionPanel = (type: string): JSX.Element => {
     const { getDimensionValues } = this.props;
-    const dimensionValues = getDimensionValues();
+    const response = {
+      dimensionValues: {} as any,
+    };
+    getDimensionValues(response);
+    const dimensionValues = response.dimensionValues;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     switch (type) {

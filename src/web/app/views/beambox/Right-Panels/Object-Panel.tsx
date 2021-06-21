@@ -7,26 +7,17 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import OptionsPanel from 'app/views/beambox/Right-Panels/Options-Panel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ObjectPanelContext, ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
-let svgCanvas, svgedit;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
+let svgCanvas;
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const LANG = i18n.lang.beambox.right_panel.object_panel;
-let _contextCaller;
 
 interface Props {
   elem: Element;
 }
 
 export class ObjectPanel extends React.Component<Props> {
-  componentDidMount() {
-    _contextCaller = this.context;
-  }
-
-  componentWillUnmount() {
-    _contextCaller = null;
-  }
-
   getAvailableFunctions = () => {
     let { elem } = this.props;
     if (!elem) {
@@ -130,13 +121,10 @@ export class ObjectPanel extends React.Component<Props> {
   }
 
   renderActionPanel = () => {
-    const { dimensionValues, updateDimensionValues } = this.context;
     const { elem } = this.props;
     return (
       <ActionsPanel
         elem={elem}
-        dimensionValues={dimensionValues}
-        updateDimensionValues={updateDimensionValues}
       />
     );
   }
@@ -154,9 +142,3 @@ export class ObjectPanel extends React.Component<Props> {
 }
 
 ObjectPanel.contextType = ObjectPanelContext;
-
-export class ObjectPanelContextHelper {
-  static get context(): ObjectPanelContextProvider {
-    return _contextCaller;
-  }
-};

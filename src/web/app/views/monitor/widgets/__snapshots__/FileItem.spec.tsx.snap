@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly fileInfo has NO blob 1`] = `
+<FileItem
+  fileInfo={
+    Object {
+      "author": "flux",
+    }
+  }
+  fileName="abc.txt"
+  isSelected={true}
+>
+  <div
+    className="file"
+    data-filename="abc.txt"
+    data-test-key="abc.txt"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    title="abc.txt"
+  >
+    <div
+      className="image-wrapper"
+    >
+      <img
+        onError={[Function]}
+        src="img/ph_s.png"
+      />
+      <i
+        className="fa fa-times-circle-o selected"
+        onClick={[MockFunction]}
+      />
+    </div>
+    <div
+      className="name selected"
+    >
+      abc.txt
+    </div>
+  </div>
+</FileItem>
+`;
+
+exports[`should render correctly fileInfo has blob 1`] = `
+<FileItem
+  fileInfo={
+    Object {
+      "2": Blob {},
+      "author": "flux",
+    }
+  }
+  fileName="abcdefghijklm.txt"
+  isSelected={false}
+>
+  <div
+    className="file"
+    data-filename="abcdefghijklm.txt"
+    data-test-key="abcdefghijklm.txt"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    title="abcdefghijklm.txt"
+  >
+    <div
+      className="image-wrapper"
+    >
+      <img
+        onError={[Function]}
+        src="xxx.yyy.zzz"
+      />
+      <i
+        className="fa fa-times-circle-o"
+        onClick={[MockFunction]}
+      />
+    </div>
+    <div
+      className="name"
+    >
+      abcdefghijkl...
+    </div>
+  </div>
+</FileItem>
+`;

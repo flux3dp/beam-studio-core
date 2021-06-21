@@ -1,50 +1,67 @@
 import * as React from 'react';
-import { ILayerPanelContext } from 'interfaces/IContext';
 
-export const LayerPanelContext = React.createContext<ILayerPanelContext>(null);
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-interface Props {
-  children: React.ReactNode;
+interface ILayerPanelContext {
+  selectedLayers: string[];
+  setSelectedLayers: (selectedLayers: string[]) => void,
 }
 
-export class LayerPanelContextProvider extends React.Component<Props> {
-  private contextValue = null;
+export const LayerPanelContext = React.createContext<ILayerPanelContext>({
+  selectedLayers: [],
+  setSelectedLayers: () => { },
+});
+const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
-  private selectedLayers: string[] = [];
+interface State {
+  selectedLayers: string[];
+}
 
+export class LayerPanelContextProvider extends React.PureComponent<any, State> {
   constructor(props) {
     super(props);
-    this.updateContextValue();
+    this.state = {
+      selectedLayers: [],
+    };
   }
 
-  updateContextValue = (): void => {
-    const {
-      selectedLayers,
-      setSelectedLayers,
-      updateLayerPanel,
-    } = this;
-    this.contextValue = {
-      selectedLayers,
-      setSelectedLayers,
-      updateLayerPanel,
-    };
+  componentDidMount() {
+    layerPanelEventEmitter.on('UPDATE_LAYER_PANEL', this.updateLayerPanel.bind(this));
+    layerPanelEventEmitter.on('SET_SELECTED_LAYERS', this.setSelectedLayers.bind(this));
+    layerPanelEventEmitter.on('GET_SELECTED_LAYERS', this.getSelectedLayers.bind(this));
+  }
+
+  componentWillUnmount() {
+    layerPanelEventEmitter.removeAllListeners();
+  }
+
+  setSelectedLayers = (selectedLayers: string[]): void => {
+    this.setState({
+      selectedLayers: [...selectedLayers],
+    });
   };
 
-  setSelectedLayers = (selectedLayers: string[]): null => {
-    this.selectedLayers = [...selectedLayers];
-    this.updateContextValue();
-    this.forceUpdate();
-    return null;
+  getSelectedLayers = (response: {
+    selectedLayers: string[],
+  }): void => {
+    const { selectedLayers } = this.state;
+    response.selectedLayers = selectedLayers;
   };
 
   updateLayerPanel = (): void => {
     this.forceUpdate();
   };
 
-  render() {
+  render(): JSX.Element {
     const { children } = this.props;
+    const { selectedLayers } = this.state;
+    const { setSelectedLayers } = this;
     return (
-      <LayerPanelContext.Provider value={this.contextValue}>
+      <LayerPanelContext.Provider value={{
+        selectedLayers,
+        setSelectedLayers,
+      }}
+      >
         {children}
       </LayerPanelContext.Provider>
     );
