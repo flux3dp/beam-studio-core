@@ -47,7 +47,7 @@ function ChangeLogDialog({ onClose }: Props): JSX.Element {
     <Modal>
       <div className="change-log-dialog">
         <div className="header">
-          <img src="icon.png" alt="Beam Studio Logo" />
+          <img src="img/icon.png" alt="Beam Studio Logo" />
           <div className="app">{`Beam Studio Web`}</div>
           {/* <div className="app">{`Beam Studio ${version.replace('-', ' ')}`}</div> */}
         </div>
