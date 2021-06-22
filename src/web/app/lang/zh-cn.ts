@@ -160,7 +160,7 @@ export default {
         camera: 'Camera',
         cloud: 'Cloud',
         player: 'Player',
-        robot: 'Robot'
+        robot: 'Robot',
       },
       link: {
         help_center: 'https://helpcenter.flux3dp.com/',
