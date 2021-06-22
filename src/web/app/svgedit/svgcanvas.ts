@@ -52,7 +52,6 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import Progress from 'app/actions/progress-caller';
 import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
-import BeamFileHelper from 'helpers/beam-file-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import ImageData from 'helpers/image-data';
 import LaserConfigHelper from 'helpers/laser-config-helper';
@@ -63,7 +62,6 @@ import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
-import fs from 'implementations/fileSystem';
 import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
 import recentMenuUpdator from 'implementations/recentMenuUpdator';
@@ -7824,53 +7822,6 @@ export default $.SvgCanvas = function (container, config) {
   // Get latest imported file name
   this.getLatestImportFileName = function () {
     return this.latestImportFileName;
-  }
-
-  this.loadRecentFile = async (filePath) => {
-    if (fs.exists(filePath)) {
-      let fileName;
-      if (window.os === 'Windows') {
-        fileName = filePath.split('\\');
-      } else {
-        fileName = filePath.split('/');
-      }
-      Alert.popUp({
-        id: 'load-recent',
-        message: LANG.popup.loading_image,
-      });
-      fileName = fileName[fileName.length - 1];
-      fileName = fileName.slice(0, fileName.lastIndexOf('.')).replace(':', "/");
-      this.setLatestImportFileName(fileName);
-      this.currentFilePath = filePath;
-      this.updateRecentFiles(filePath);
-      try {
-        svgCanvas.clearSelection();
-        if (filePath.endsWith('beam')) {
-          await BeamFileHelper.readBeam(filePath);
-        } else if (filePath.endsWith('bvg')) {
-          let res: any = await fetch(filePath);
-          res = await res.blob();
-          svgEditor.importBvg(res);
-        }
-        this.setHasUnsavedChange(false);
-      } finally {
-        Alert.popById('load-recent');
-      }
-    } else {
-      Alert.popUp({
-        id: 'load-recent',
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        message: i18n.lang.topmenu.file.path_not_exit,
-      });
-      const recent_files = storage.get('recent_files').filter((path) => path !== filePath);
-      storage.set('recent_files', recent_files);
-      recentMenuUpdator.update();
-    }
-  }
-
-  this.cleanRecentFiles = () => {
-    storage.set('recent_files', []);
-    recentMenuUpdator.update();
   }
 
   this.updateRecentFiles = (filePath) => {
