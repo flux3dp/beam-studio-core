@@ -5,6 +5,7 @@ const eventEmitters = {
   'top-bar': null,
   'top-bar-hints': null,
   'time-estimation-button': null,
+  'top-bar-menu': null,
   'layer-panel': null,
   'right-panel': null,
   'object-panel': null,
