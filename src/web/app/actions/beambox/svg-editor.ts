@@ -160,6 +160,8 @@ interface ISVGEditor {
   uiStrings: any
   updateContextPanel: () => void
   clearScene: () => void
+  cutSelected: () => void;
+  copySelected: () => void;
 }
 
 interface ISVGPref {
@@ -311,6 +313,8 @@ const svgEditor = window['svgEditor'] = (function () {
     uiStrings: {},
     updateContextPanel: () => {},
     clearScene: () => {},
+    cutSelected: () => {},
+    copySelected: () => {},
   };
 
   const availableLangMap = {
@@ -3747,6 +3751,7 @@ const svgEditor = window['svgEditor'] = (function () {
         canv_menu.enableContextMenuItems('#paste,#paste_in_place');
       }
     };
+    editor.cutSelected = cutSelected;
     document.addEventListener('cut', cutSelected, false);
 
     var copySelected = function () {
@@ -3759,6 +3764,7 @@ const svgEditor = window['svgEditor'] = (function () {
         canv_menu.enableContextMenuItems('#paste,#paste_in_place');
       }
     };
+    editor.copySelected = copySelected;
     document.addEventListener('copy', copySelected, false);
 
     // handle paste

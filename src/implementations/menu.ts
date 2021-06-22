@@ -1,3 +1,3 @@
-import { IMenu } from 'interfaces/IMenu';
+import AbstractMenu from 'helpers/menubar/AbstractMenu';
 
-export default {} as IMenu;
+export default {} as AbstractMenu;

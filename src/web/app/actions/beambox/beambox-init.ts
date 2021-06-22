@@ -18,16 +18,12 @@ import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontScanner from 'implementations/fontScanner';
 import i18n from 'helpers/i18n';
-import menuActions from 'app/actions/beambox/menuActions';
-import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
-import menuEventListenerFactory from 'implementations/menuEventListenerFactory';
+import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
-import viewMenu from 'helpers/menubar/view';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { IDeviceInfo } from 'interfaces/IDevice';
 import { IFont } from 'interfaces/IFont';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 
@@ -35,8 +31,6 @@ let svgedit;
 getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
-
-let menuEventRegistered = false;
 
 const init = (): void => {
   if (Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))) {
@@ -73,8 +67,7 @@ const init = (): void => {
   if (!storage.get('default-font')) {
     initDefaultFont();
   }
-  viewMenu.init();
-  initMenuEvents();
+  menu.init();
   autoSaveHelper.init();
   // fluxId.init();
   BeamboxStore.onDrawGuideLines(displayGuides);
@@ -156,38 +149,6 @@ const initDefaultFont = () => {
       postscriptName: defaultFont.postscriptName,
       style: defaultFont.style,
     });
-  }
-};
-
-const initMenuEvents = (): void => {
-  const registerMenuClickEvents = () => {
-    menuEventRegistered = true;
-    const menuEventListener = menuEventListenerFactory.createMenuEventListener();
-
-    menuEventListener.on('MENU_CLICK', (_, menuItem) => {
-      const actions: { [key: string]: ((deivce?: IDeviceInfo) => void) } = {
-        ...menuActions,
-        ...menuDeviceActions,
-      };
-
-      if (typeof actions[menuItem.id] === 'function') {
-        if (Object.keys(menuActions).includes(menuItem.id)) {
-          actions[menuItem.id]();
-        } else {
-          const callback = {
-            timeout: 20000,
-            onSuccess: (device) => actions[menuItem.id](device),
-            onTimeout: () => console.log('select device timeout'),
-          };
-
-          DeviceMaster.getDeviceBySerial(menuItem.serial, callback);
-        }
-      }
-    });
-  };
-
-  if (!menuEventRegistered) {
-    registerMenuClickEvents();
   }
 };
 
