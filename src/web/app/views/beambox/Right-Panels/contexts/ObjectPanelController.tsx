@@ -10,7 +10,7 @@ const getDimensionValues = (key: string): any => {
   const response = {
     dimensionValues: {},
   };
-  objectPanelEventEmitter.emit('GET_DIMENSION_VALUES', key, response);
+  objectPanelEventEmitter.emit('GET_DIMENSION_VALUES', response, key);
   return response.dimensionValues;
 };
 

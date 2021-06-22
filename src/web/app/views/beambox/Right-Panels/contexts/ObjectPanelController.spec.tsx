@@ -22,9 +22,9 @@ describe('test ObjectPanelController', () => {
   test('test getDimensionValues', () => {
     ObjectPanelController.getDimensionValues('x');
     expect(emit).toHaveBeenCalledTimes(1);
-    expect(emit).toHaveBeenNthCalledWith(1, 'GET_DIMENSION_VALUES', 'x', {
+    expect(emit).toHaveBeenNthCalledWith(1, 'GET_DIMENSION_VALUES', {
       dimensionValues: {},
-    });
+    }, 'x');
   });
 
   test('test updateObjectPanel', () => {

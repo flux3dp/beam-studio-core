@@ -5632,12 +5632,13 @@ const svgEditor = window['svgEditor'] = (function () {
       editor.importBvg = importBvg;
 
       const importJsScript = async (file) => {
-        // TODO: Replace require
         Progress.popById('loading_image');
-        if (require.cache[file.path]) {
-          delete require.cache[file.path];
-        }
-        require(file.path);
+        const reader = new FileReader();
+        reader.onloadend = (evt) => {
+          const script = evt.target.result as string;
+          Function(script)();
+        };
+        reader.readAsText(file);
       };
 
       const importLaserConfig = async (file) => {
