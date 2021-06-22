@@ -23,7 +23,10 @@ export default abstract class AbstractMenu {
         };
 
         if (typeof actions[menuItem.id] === 'function') {
-          if (Object.keys(menuActions).includes(menuItem.id)) {
+          const menuActionIds = Object.entries(actions)
+            .filter((action) => action[1].length === 0)
+            .map((action) => action[0]);
+          if (menuActionIds.includes(menuItem.id)) {
             actions[menuItem.id]();
           } else {
             const callback = {
