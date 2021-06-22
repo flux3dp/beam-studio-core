@@ -23,7 +23,7 @@ exports[`should render correctly 1`] = `
           >
             <img
               alt="Beam Studio Logo"
-              src="icon.png"
+              src="img/icon.png"
             />
             <div
               className="app"

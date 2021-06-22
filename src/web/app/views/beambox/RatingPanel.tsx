@@ -106,7 +106,7 @@ class RatingPanel extends React.Component<Props, State> {
     return (
       <div className="main-content">
         <div className="icon">
-          <img src="icon.png" />
+          <img src="img/icon.png" />
         </div>
         <h2 className="caption" style={{ textAlign: 'center' }}>
           {LANG.title}

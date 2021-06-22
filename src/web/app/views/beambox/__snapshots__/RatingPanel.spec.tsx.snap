@@ -28,7 +28,7 @@ exports[`should render correctly 1`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -147,7 +147,7 @@ exports[`should render correctly 2`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -266,7 +266,7 @@ exports[`should render correctly 3`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -385,7 +385,7 @@ exports[`should render correctly 4`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -504,7 +504,7 @@ exports[`should render correctly 5`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -623,7 +623,7 @@ exports[`should render correctly 6`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -742,7 +742,7 @@ exports[`should render correctly 7`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -861,7 +861,7 @@ exports[`should render correctly 8`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -980,7 +980,7 @@ exports[`should render correctly 9`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1099,7 +1099,7 @@ exports[`should render correctly 10`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1218,7 +1218,7 @@ exports[`should render correctly 11`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1337,7 +1337,7 @@ exports[`should render correctly 12`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1456,7 +1456,7 @@ exports[`should render correctly 13`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1575,7 +1575,7 @@ exports[`should render correctly 14`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1694,7 +1694,7 @@ exports[`should render correctly 15`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
@@ -1813,7 +1813,7 @@ exports[`should render correctly 16`] = `
               className="icon"
             >
               <img
-                src="icon.png"
+                src="img/icon.png"
               />
             </div>
             <h2
