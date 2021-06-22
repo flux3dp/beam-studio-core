@@ -64,7 +64,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
 import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
-import recentMenuUpdator from 'implementations/recentMenuUpdator';
+import recentMenuUpdater from 'implementations/recentMenuUpdater';
 
 let svgCanvas;
 let svgEditor;
@@ -7837,10 +7837,10 @@ export default $.SvgCanvas = function (container, config) {
       }
     }
     storage.set('recent_files', recentFiles);
-    recentMenuUpdator.update();
+    recentMenuUpdater.update();
   }
 
-  recentMenuUpdator.update();
+  recentMenuUpdater.update();
 
   /**
    * Create grid array of selected element
