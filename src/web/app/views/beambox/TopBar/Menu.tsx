@@ -7,6 +7,7 @@ import {
 } from '@szhsin/react-menu';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'implementations/browser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 
@@ -21,10 +22,11 @@ export default function Menu(): JSX.Element {
       id,
     });
   };
+  const openPage = (url: string) => browser.open(url);
   return (
     <TopBarMenu menuButton={(
       <img
-        src="img/top-bar/icon.png"
+        src="img/icon.png"
         style={{
           width: '40px',
         }}
@@ -116,17 +118,19 @@ export default function Menu(): JSX.Element {
         <MenuItem>{menuCms.network_testing}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.help}>
-        <MenuItem>{menuCms.about_beam_studio}</MenuItem>
-        <MenuItem>{menuCms.show_start_tutorial}</MenuItem>
-        <MenuItem>{menuCms.show_ui_intro}</MenuItem>
-        <MenuItem>{menuCms.questionnaire}</MenuItem>
-        <MenuItem>{menuCms.change_logs}</MenuItem>
-        <MenuItem>{menuCms.help_center}</MenuItem>
-        <MenuItem>{menuCms.contact}</MenuItem>
+        <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>{menuCms.about_beam_studio}</MenuItem>
+        <MenuItem onClick={() => callback('START_TUTORIAL')}>{menuCms.show_start_tutorial}</MenuItem>
+        <MenuItem onClick={() => callback('START_UI_INTRO')}>{menuCms.show_ui_intro}</MenuItem>
+        <MenuItem onClick={() => callback('QUESTIONNAIRE')}>{menuCms.questionnaire}</MenuItem>
+        <MenuItem onClick={() => callback('CHANGE_LOGS')}>{menuCms.change_logs}</MenuItem>
+        <MenuItem onClick={() => openPage(menuCms.link.help_center)}>
+          {menuCms.help_center}
+        </MenuItem>
+        <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />
-        <MenuItem>{menuCms.forum}</MenuItem>
+        <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
         <MenuDivider />
-        <MenuItem>{menuCms.bug_report}</MenuItem>
+        <MenuItem onClick={() => callback('BUG_REPORT')}>{menuCms.bug_report}</MenuItem>
         <MenuItem>{menuCms.dev_tool}</MenuItem>
       </SubMenu>
     </TopBarMenu>

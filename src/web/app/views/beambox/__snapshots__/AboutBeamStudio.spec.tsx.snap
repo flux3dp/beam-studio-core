@@ -21,7 +21,7 @@ exports[`should render correctly 1`] = `
           className="about-beam-studio"
         >
           <img
-            src="icon.png"
+            src="img/icon.png"
           />
           <div
             className="app-name"

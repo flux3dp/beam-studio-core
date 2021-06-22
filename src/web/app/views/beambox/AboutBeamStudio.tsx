@@ -14,7 +14,7 @@ function AboutBeamStudio({ onClose }: Props): JSX.Element {
   return (
     <Modal onClose={onClose}>
       <div className="about-beam-studio">
-        <img src="icon.png" />
+        <img src="img/icon.png" />
         <div className="app-name">Beam Studio</div>
         <div className="version">{`${LANG.version} ${FLUX.version}`}</div>
         <div className="copyright">Copyright ⓒ 2021 FLUX Inc.</div>
