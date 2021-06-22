@@ -1,23 +1,24 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
-import appSettings from 'app/app-settings';
 import Backbone from 'backbone';
+
+import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
+import appSettings from 'app/app-settings';
 import Beambox from 'app/pages/Beambox';
 import ConnectEthernet from 'app/pages/Connect-Ethernet';
 import ConnectMachineIp from 'app/pages/Connect-Machine-Ip';
 import ConnectWiFi from 'app/pages/Connect-Wi-Fi';
 import ConnectWired from 'app/pages/Connect-Wired';
+import Dialog from 'app/views/dialogs/Dialog';
 import FluxIdLogin from 'app/pages/FluxIdLogin';
 import Home from 'app/pages/Home';
+import i18n from 'helpers/i18n';
 import SelectConnectionType from 'app/pages/Select-Connection-Type';
 import SelectMachineType from 'app/pages/Select-Machine-Type';
 import Settings from 'app/pages/Settings';
 import SkipConnectMachine from 'app/pages/Skip-Connect-Machine';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
-import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
-import Dialog from 'app/views/dialogs/Dialog';
 import { DialogContextProvider } from 'app/contexts/DialogContext';
 
 const display = function (view: Function, args?, el?) {

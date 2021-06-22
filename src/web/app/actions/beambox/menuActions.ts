@@ -13,7 +13,6 @@ import imageEdit from 'helpers/image-edit';
 import OutputError from 'helpers/output-error';
 import Tutorials from 'app/actions/beambox/tutorials';
 import viewMenu from 'helpers/menubar/view';
-import windowLocationReload from 'app/actions/windowLocation';
 import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -56,9 +55,6 @@ export default {
   ADD_NEW_MACHINE: async () => {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
     if (res) window.location.hash = '#initialize/connect/select-connection-type';
-  },
-  RELOAD_APP: () => {
-    windowLocationReload();
   },
   SIGN_IN: () => Dialog.showLoginDialog(() => { }),
   IMPORT_EXAMPLE: () => loadExampleFile('examples/badge.bvg'),
@@ -117,7 +113,6 @@ export default {
   ABOUT_BEAM_STUDIO: () => Dialog.showAboutBeamStudio(),
   MANAGE_ACCOUNT: () => externalLinkMemberDashboard(),
   SIGN_OUT: () => signOut(),
-  UPDATE_BS: () => ElectronUpdater.checkForUpdate(),
   QUESTIONNAIRE: async () => {
     const res = await checkQuestionnaire();
     if (!res) {
@@ -137,15 +132,11 @@ export default {
     browser.open(url);
   },
   CHANGE_LOGS: () => Dialog.showChangLog(),
+  CUT: () => svgEditor.cutSelected(),
+  COPY: () => svgEditor.copySelected(),
+  PASTE: () => clipboard.pasteElements('mouse'),
   PASTE_IN_PLACE: () => clipboard.pasteElements('in_place'),
   BUG_REPORT: () => {
     OutputError.downloadErrorLog();
-  },
-  SWITCH_VERSION: () => ElectronUpdater.switchVersion(),
-  OPEN: () => {
-    const { electron } = window;
-    if (electron) {
-      electron.trigger_file_input_click('import_image');
-    }
   },
 };

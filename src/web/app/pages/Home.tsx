@@ -2,9 +2,11 @@ import * as React from 'react';
 
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
-import menu from 'implementations/menu';
 import Modal from 'app/widgets/Modal';
 import SelectView from 'app/widgets/Select';
+
+const { electron } = window;
+const { Menu } = electron.remote;
 
 export default function(args) {
     args = args || {};
@@ -40,7 +42,7 @@ export default function(args) {
             i18n.setActiveLang(e.currentTarget.value);
             communicator.send('NOTIFY_LANGUAGE');
             if (window.os === 'Windows') {
-                window['titlebar'].updateMenu(menu.getApplicationMenu());
+                window['titlebar'].updateMenu(Menu.getApplicationMenu());
             }
             this.setState({
                 lang: i18n.lang

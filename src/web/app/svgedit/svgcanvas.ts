@@ -52,9 +52,7 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import Progress from 'app/actions/progress-caller';
 import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
-import BeamFileHelper from 'helpers/beam-file-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
-import FileExportHelper from 'helpers/file-export-helper';
 import ImageData from 'helpers/image-data';
 import LaserConfigHelper from 'helpers/laser-config-helper';
 import * as LayerHelper from 'helpers/layer-helper';
@@ -64,10 +62,9 @@ import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
-import fs from 'implementations/fileSystem';
 import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
-import menu from 'implementations/menu';
+import recentMenuUpdater from 'implementations/recentMenuUpdater';
 
 let svgCanvas;
 let svgEditor;
@@ -7827,78 +7824,6 @@ export default $.SvgCanvas = function (container, config) {
     return this.latestImportFileName;
   }
 
-  this.loadRecentFile = async (filePath) => {
-    if (fs.exists(filePath)) {
-      let fileName;
-      if (window.os === 'Windows') {
-        fileName = filePath.split('\\');
-      } else {
-        fileName = filePath.split('/');
-      }
-      Alert.popUp({
-        id: 'load-recent',
-        message: LANG.popup.loading_image,
-      });
-      fileName = fileName[fileName.length - 1];
-      fileName = fileName.slice(0, fileName.lastIndexOf('.')).replace(':', "/");
-      this.setLatestImportFileName(fileName);
-      this.currentFilePath = filePath;
-      this.updateRecentFiles(filePath);
-      try {
-        svgCanvas.clearSelection();
-        if (filePath.endsWith('beam')) {
-          await BeamFileHelper.readBeam(filePath);
-        } else if (filePath.endsWith('bvg')) {
-          let res: any = await fetch(filePath);
-          res = await res.blob();
-          svgEditor.importBvg(res);
-        }
-        this.setHasUnsavedChange(false);
-      } finally {
-        Alert.popById('load-recent');
-      }
-    } else {
-      Alert.popUp({
-        id: 'load-recent',
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        message: i18n.lang.topmenu.file.path_not_exit,
-      });
-      const recent_files = storage.get('recent_files').filter((path) => path !== filePath);
-      storage.set('recent_files', recent_files);
-      this.updateRecentMenu();
-    }
-  }
-
-  this.cleanRecentFiles = () => {
-    storage.set('recent_files', []);
-    this.updateRecentMenu();
-  }
-
-  this.updateRecentMenu = () => {
-    const recentFiles = storage.get('recent_files') || [];
-    let recentMenu = menu.getApplicationMenu().items.filter(i => i.id === '_file')[0].submenu.items.filter(i => i.id === 'RECENT')[0].submenu;
-    recentMenu.items = [];
-    recentMenu.clear();
-    recentFiles.forEach(filePath => {
-      let label = filePath
-      if (window.os !== 'Windows') {
-        label = filePath.replace(':', '/');
-      }
-      menu.appendMenuItem(recentMenu, {
-        'id': label, label: label, click: async () => {
-          const res = await FileExportHelper.toggleUnsavedChangedDialog();
-          if (res) this.loadRecentFile(filePath);
-        }
-      });
-    });
-    menu.appendMenuItem(recentMenu, { type: 'separator' });
-    menu.appendMenuItem(recentMenu, { 'id': 'CLEAR_RECENT', label: i18n.lang.topmenu.file.clear_recent, click: () => { this.cleanRecentFiles() } });
-    menu.setApplicationMenu(menu.getApplicationMenu());
-    if (window.os === 'Windows' && window.titlebar) {
-      window.titlebar.updateMenu(menu.getApplicationMenu());
-    }
-  }
-
   this.updateRecentFiles = (filePath) => {
     let recentFiles = storage.get('recent_files') || [];
     const i = recentFiles.indexOf(filePath);
@@ -7912,10 +7837,10 @@ export default $.SvgCanvas = function (container, config) {
       }
     }
     storage.set('recent_files', recentFiles);
-    this.updateRecentMenu();
+    recentMenuUpdater.update();
   }
 
-  this.updateRecentMenu();
+  recentMenuUpdater.update();
 
   /**
    * Create grid array of selected element
@@ -8566,7 +8491,6 @@ export default $.SvgCanvas = function (container, config) {
   this.toggleBezierPathAlignToEdge = () => {
     const isBezierPathAlignToEdge = !(this.isBezierPathAlignToEdge || false);
     this.isBezierPathAlignToEdge = isBezierPathAlignToEdge;
-    menu.getApplicationMenu().items.filter(i => i.id === '_edit')[0].submenu.items.filter(i => i.id === 'ALIGN_TO_EDGES')[0].checked = this.isBezierPathAlignToEdge;
     $('#x_align_line').remove();
     $('#y_align_line').remove();
   }
