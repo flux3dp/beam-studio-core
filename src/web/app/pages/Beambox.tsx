@@ -20,11 +20,7 @@ import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/Z
 // sentryHelper.initSentry();
 BeamboxInit.init();
 
-interface Props {
-  className?: string;
-}
-
-class Beambox extends React.Component<Props> {
+class Beambox extends React.Component {
   async componentDidMount() {
     BeamboxGlobalInteraction.attach();
 
@@ -44,9 +40,8 @@ class Beambox extends React.Component<Props> {
 
   render() {
     const activeLang = i18n.getActiveLang();
-    const { className = '' } = this.props;
     return (
-      <div className={classNames('studio-container', 'beambox-studio', activeLang, className)}>
+      <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
         <TopBarContextProvider>
           <TopBar />
         </TopBarContextProvider>
