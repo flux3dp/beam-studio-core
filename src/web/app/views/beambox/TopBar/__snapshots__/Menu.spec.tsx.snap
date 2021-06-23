@@ -1417,29 +1417,30 @@ exports[`should render correctly test checkbox menu item 2`] = `
                     tabindex="-1"
                   >
                     <li
-                      class="rc-menu__item"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Zoom In
                     </li>
                     <li
-                      class="rc-menu__item"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Zoom Out
                     </li>
                     <li
-                      class="rc-menu__item"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Fit to Window Size
                     </li>
                     <li
-                      class="rc-menu__item"
-                      role="menuitem"
+                      aria-checked="false"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
+                      role="menuitemcheckbox"
                       tabindex="-1"
                     >
                       Auto Fit to Window Size
@@ -1687,29 +1688,30 @@ exports[`should render correctly test checkbox menu item 2`] = `
                         tabindex="-1"
                       >
                         <li
-                          class="rc-menu__item"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
                           Zoom In
                         </li>
                         <li
-                          class="rc-menu__item"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
                           Zoom Out
                         </li>
                         <li
-                          class="rc-menu__item"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
                           Fit to Window Size
                         </li>
                         <li
-                          class="rc-menu__item"
-                          role="menuitem"
+                          aria-checked="false"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
+                          role="menuitemcheckbox"
                           tabindex="-1"
                         >
                           Auto Fit to Window Size
@@ -1774,12 +1776,13 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   tabIndex="-1"
                 >
                   <Memo(MenuItem)
+                    className="rc-menu__item--type-checkbox"
                     index={0}
                     key=".0"
                     onClick={[Function]}
                   >
                     <li
-                      className="rc-menu__item"
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -1797,12 +1800,13 @@ exports[`should render correctly test checkbox menu item 2`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
+                    className="rc-menu__item--type-checkbox"
                     index={1}
                     key=".1"
                     onClick={[Function]}
                   >
                     <li
-                      className="rc-menu__item"
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -1820,12 +1824,13 @@ exports[`should render correctly test checkbox menu item 2`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
+                    className="rc-menu__item--type-checkbox"
                     index={2}
                     key=".2"
                     onClick={[Function]}
                   >
                     <li
-                      className="rc-menu__item"
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -1843,12 +1848,15 @@ exports[`should render correctly test checkbox menu item 2`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
+                    checked={false}
                     index={3}
                     key=".3"
                     onClick={[Function]}
+                    type="checkbox"
                   >
                     <li
-                      className="rc-menu__item"
+                      aria-checked={false}
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -1859,7 +1867,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                       onPointerDown={[Function]}
                       onPointerLeave={[Function]}
                       onPointerUp={[Function]}
-                      role="menuitem"
+                      role="menuitemcheckbox"
                       tabIndex={-1}
                     >
                       Auto Fit to Window Size
@@ -2153,29 +2161,30 @@ exports[`should render correctly test checkbox menu item 3`] = `
                     tabindex="-1"
                   >
                     <li
-                      class="rc-menu__item"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Zoom In
                     </li>
                     <li
-                      class="rc-menu__item"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Zoom Out
                     </li>
                     <li
-                      class="rc-menu__item"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Fit to Window Size
                     </li>
                     <li
-                      class="rc-menu__item"
-                      role="menuitem"
+                      aria-checked="false"
+                      class="rc-menu__item rc-menu__item--type-checkbox"
+                      role="menuitemcheckbox"
                       tabindex="-1"
                     >
                       Auto Fit to Window Size
@@ -2423,29 +2432,30 @@ exports[`should render correctly test checkbox menu item 3`] = `
                         tabindex="-1"
                       >
                         <li
-                          class="rc-menu__item"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
                           Zoom In
                         </li>
                         <li
-                          class="rc-menu__item"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
                           Zoom Out
                         </li>
                         <li
-                          class="rc-menu__item"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
                           Fit to Window Size
                         </li>
                         <li
-                          class="rc-menu__item"
-                          role="menuitem"
+                          aria-checked="false"
+                          class="rc-menu__item rc-menu__item--type-checkbox"
+                          role="menuitemcheckbox"
                           tabindex="-1"
                         >
                           Auto Fit to Window Size
@@ -2510,12 +2520,13 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   tabIndex="-1"
                 >
                   <Memo(MenuItem)
+                    className="rc-menu__item--type-checkbox"
                     index={0}
                     key=".0"
                     onClick={[Function]}
                   >
                     <li
-                      className="rc-menu__item"
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -2533,12 +2544,13 @@ exports[`should render correctly test checkbox menu item 3`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
+                    className="rc-menu__item--type-checkbox"
                     index={1}
                     key=".1"
                     onClick={[Function]}
                   >
                     <li
-                      className="rc-menu__item"
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -2556,12 +2568,13 @@ exports[`should render correctly test checkbox menu item 3`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
+                    className="rc-menu__item--type-checkbox"
                     index={2}
                     key=".2"
                     onClick={[Function]}
                   >
                     <li
-                      className="rc-menu__item"
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -2579,12 +2592,15 @@ exports[`should render correctly test checkbox menu item 3`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
+                    checked={false}
                     index={3}
                     key=".3"
                     onClick={[Function]}
+                    type="checkbox"
                   >
                     <li
-                      className="rc-menu__item"
+                      aria-checked={false}
+                      className="rc-menu__item rc-menu__item--type-checkbox"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
@@ -2595,7 +2611,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                       onPointerDown={[Function]}
                       onPointerLeave={[Function]}
                       onPointerUp={[Function]}
-                      role="menuitem"
+                      role="menuitemcheckbox"
                       tabIndex={-1}
                     >
                       Auto Fit to Window Size
