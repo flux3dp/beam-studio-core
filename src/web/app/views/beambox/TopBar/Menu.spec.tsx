@@ -191,7 +191,7 @@ describe('should render correctly', () => {
     wrapper.find('div.rc-menu__item').at(2).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('li.rc-menu__item--type-checkbox').at(1).simulate('click');
+    wrapper.find('li.rc-menu__item--type-checkbox').at(5).simulate('click');
     expect(emit).toHaveBeenCalledTimes(1);
     expect(emit).toHaveBeenNthCalledWith(1, 'MENU_CLICK', null, {
       id: 'SHOW_RULERS',
