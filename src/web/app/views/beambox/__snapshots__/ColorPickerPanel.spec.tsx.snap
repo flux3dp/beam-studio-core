@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<ColorPickerPanel
+  layerName="layer 1"
+  left={300}
+  onClose={[MockFunction]}
+  onColorChanged={[MockFunction]}
+  top={100}
+>
+  <div
+    className="color-picker-panel"
+    style={
+      Object {
+        "left": 100,
+        "top": 100,
+      }
+    }
+  >
+    <div
+      className="modal-background"
+      onClick={[MockFunction]}
+    />
+    <div
+      className="pickr"
+    />
+    <div
+      className="footer"
+    >
+      <button
+        className="btn btn-default pull-right"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        Cancel
+      </button>
+      <button
+        className="btn btn-default pull-right primary"
+        onClick={[Function]}
+        type="button"
+      >
+        Okay
+      </button>
+    </div>
+  </div>
+</ColorPickerPanel>
+`;

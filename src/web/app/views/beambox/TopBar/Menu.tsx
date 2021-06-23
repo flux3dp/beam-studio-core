@@ -114,8 +114,8 @@ export default function Menu(): JSX.Element {
         </MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.machines}>
-        <MenuItem>{menuCms.add_new_machine}</MenuItem>
-        <MenuItem>{menuCms.network_testing}</MenuItem>
+        <MenuItem onClick={() => callback('ADD_NEW_MACHINE')}>{menuCms.add_new_machine}</MenuItem>
+        <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.help}>
         <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>{menuCms.about_beam_studio}</MenuItem>

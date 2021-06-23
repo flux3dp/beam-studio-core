@@ -5,7 +5,7 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import ColorPickerPanel from 'app/views/beambox/Color-Picker-Panel';
+import ColorPickerPanel from 'app/views/beambox/ColorPickerPanel';
 import Dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';

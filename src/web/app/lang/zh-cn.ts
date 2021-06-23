@@ -43,13 +43,9 @@ export default {
     },
     menu: {
       preferences: '偏好设定',
-      switch_to_latest: '切换至稳定版',
-      switch_to_beta: '切换至 Beta 版',
-      update: '检查更新',
       hide: '隐藏 Beam Studio',
       hideothers: '隐藏其他',
       service: '服务',
-      reload_app: '重新整理',
       quit: '离开',
       window: '视窗',
       minimize: '最小化',
