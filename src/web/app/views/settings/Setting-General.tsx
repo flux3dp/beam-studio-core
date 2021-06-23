@@ -381,7 +381,7 @@ class SettingGeneral extends React.Component<Props, State> {
       family: 'Arial',
       style: 'Regular',
     };
-    const fontOptions = FontFuncs.availableFontFamilies?.map((family: string) => {
+    const fontOptions = FontFuncs.availableFontFamilies.map((family: string) => {
       const fontName = FontFuncs.fontNameMap.get(family);
       const label = typeof fontName === 'string' ? fontName : family;
       return {
