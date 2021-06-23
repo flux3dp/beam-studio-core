@@ -43,13 +43,9 @@ export default {
     },
     menu: {
       preferences: 'Preferencias',
-      switch_to_latest: 'Cambiar a versión estable',
-      switch_to_beta: 'Cambiar a la versión Beta',
-      update: 'Verificar la actualización',
       hide: 'Ocultar Beam Studio',
       hideothers: 'Ocultar a los demás',
       service: 'Servicios',
-      reload_app: 'Recargar la aplicación',
       quit: 'Sal de…',
       window: 'Ventana',
       minimize: 'Minimizar',

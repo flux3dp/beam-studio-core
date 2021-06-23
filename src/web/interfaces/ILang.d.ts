@@ -41,13 +41,9 @@ export interface ILang {
     },
     menu: {
       preferences: string;
-      switch_to_latest: string;
-      switch_to_beta: string;
-      update: string;
       hide: string;
       hideothers: string;
       service: string;
-      reload_app: string;
       quit: string;
       window: string;
       minimize: string;
