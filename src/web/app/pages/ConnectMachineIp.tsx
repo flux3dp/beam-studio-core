@@ -30,7 +30,7 @@ interface State {
   testIpInfo?: string;
 }
 
-class ConnectMachine extends React.Component<any, State> {
+export default class ConnectMachine extends React.Component<any, State> {
   private ipInput: React.RefObject<HTMLInputElement>;
 
   private isWired: boolean;
@@ -397,6 +397,3 @@ class ConnectMachine extends React.Component<any, State> {
     );
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default () => ConnectMachine;
