@@ -9,8 +9,7 @@ const updateLang = () => {
   lang = i18n.lang.initialize;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default () => class ConnectEthernet extends React.PureComponent {
+export default class ConnectEthernet extends React.PureComponent {
   constructor(props) {
     super(props);
     updateLang();
@@ -78,4 +77,4 @@ export default () => class ConnectEthernet extends React.PureComponent {
       <Modal className={wrapperClassName} content={content} />
     );
   }
-};
+}

@@ -20,7 +20,7 @@ import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/Z
 // sentryHelper.initSentry();
 BeamboxInit.init();
 
-class Beambox extends React.Component {
+export default class Beambox extends React.Component {
   async componentDidMount() {
     BeamboxGlobalInteraction.attach();
 
@@ -58,5 +58,3 @@ class Beambox extends React.Component {
     );
   }
 }
-
-export default () => Beambox;

@@ -25,11 +25,10 @@ function DummySettingGeneral() {
 jest.mock('app/views/settings/Setting-General', () => DummySettingGeneral);
 
 // eslint-disable-next-line import/first
-import settings from './Settings';
+import HomeView from './HomeView';
 
 describe('test Settings', () => {
   test('should render correctly', () => {
-    const HomeView = settings();
     const wrapper = mount(<HomeView />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });

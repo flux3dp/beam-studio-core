@@ -236,13 +236,13 @@ class SettingGeneral extends React.Component<Props, State> {
       BeamboxPreference.write(key, this.beamboxPreferenceChanges[key]);
     }
     autoSaveHelper.setConfig(editingAutosaveConfig);
-    window.location.hash = 'studio/beambox';
+    window.location.hash = '#studio/beambox';
     window.location.reload();
   };
 
   handleCancel = (): void => {
     i18n.setActiveLang(this.origLang);
-    window.location.hash = 'studio/beambox';
+    window.location.hash = '#studio/beambox';
     window.location.reload();
   };
 

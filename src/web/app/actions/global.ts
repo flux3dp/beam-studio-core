@@ -2,8 +2,8 @@
 import communicator from 'implementations/communicator';
 import Logger from 'helpers/logger';
 import shortcuts from 'helpers/shortcuts';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import storage from 'implementations/storage';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgEditor;
 getSVGAsync((globalSVG) => {
@@ -100,15 +100,12 @@ export default (callback: () => void): void => {
   const { hash } = window.location;
   const onFinished = (data) => {
     const isReady = data;
-
     if (isReady === true && (hash === '' || hash.startsWith('#initialize'))) {
       window.location.hash = '#studio/beambox';
     } else if (isReady === false && !hash.startsWith('#initialize')) {
       window.location.hash = '#';
     }
-
     callback();
   };
-
   onFinished(storage.get('printer-is-ready'));
 };

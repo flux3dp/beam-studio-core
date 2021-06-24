@@ -21,11 +21,10 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import connectWifi from './Connect-Wi-Fi';
+import ConnectWifi from './ConnectWiFi';
 
 describe('test Connect-Wi-Fi', () => {
   test('should render correctly', () => {
-    const ConnectWifi = connectWifi();
     const wrapper = shallow(<ConnectWifi />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });

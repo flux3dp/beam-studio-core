@@ -21,11 +21,10 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import connectWired from './Connect-Wired';
+import ConnectWired from './ConnectWired';
 
 describe('test Connect-Wired', () => {
   test('should render correctly', () => {
-    const ConnectWired = connectWired();
     const wrapper = shallow(<ConnectWired />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
