@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';

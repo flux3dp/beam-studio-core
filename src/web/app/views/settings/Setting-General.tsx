@@ -4,20 +4,20 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-// import alert from 'app/actions/alert-caller';
-// import alertConstants from 'app/constants/alert-constants';
+import alert from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
-// import FontFuncs from 'app/actions/beambox/font-funcs';
+import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
-// import PathInput, { InputType } from 'app/widgets/PathInput';
+import PathInput, { InputType } from 'app/widgets/PathInput';
 import SelectView from 'app/widgets/Select';
 import storage from 'implementations/storage';
-// import UnitInput from 'app/widgets/Unit-Input-v2';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 import { IConfig } from 'interfaces/IAutosave';
-// import { IFont } from 'interfaces/IFont';
+import { IFont } from 'interfaces/IFont';
 import { ILang } from 'interfaces/ILang';
 import { StorageKey } from 'interfaces/IStorage';
 
@@ -136,28 +136,28 @@ class SettingGeneral extends React.Component<Props, State> {
     this.configChanges = {} as any;
   }
 
-  // checkIPFormat = (e: React.FocusEvent): void => {
-  //   const me = e.currentTarget as HTMLInputElement;
-  //   const { lang } = this.state;
-  //   const originalIP = this.getConfigEditingValue('poke-ip-addr');
-  //   const ips = me.value.split(/[,;] ?/);
-  //   const ipv4Pattern = /^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$/;
+  checkIPFormat = (e: React.FocusEvent): void => {
+    const me = e.currentTarget as HTMLInputElement;
+    const { lang } = this.state;
+    const originalIP = this.getConfigEditingValue('poke-ip-addr');
+    const ips = me.value.split(/[,;] ?/);
+    const ipv4Pattern = /^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$/;
 
-  //   for (let i = 0; i < ips.length; i += 1) {
-  //     const ip = ips[i];
-  //     if (ip !== '' && typeof ip === 'string' && ipv4Pattern.test(ip) === false) {
-  //       me.value = originalIP;
-  //       alert.popUp({
-  //         id: 'wrong-ip-error',
-  //         type: alertConstants.SHOW_POPUP_ERROR,
-  //         message: `${lang.settings.wrong_ip_format}\n${ip}`,
-  //       });
-  //       return;
-  //     }
-  //   }
+    for (let i = 0; i < ips.length; i += 1) {
+      const ip = ips[i];
+      if (ip !== '' && typeof ip === 'string' && ipv4Pattern.test(ip) === false) {
+        me.value = originalIP;
+        alert.popUp({
+          id: 'wrong-ip-error',
+          type: alertConstants.SHOW_POPUP_ERROR,
+          message: `${lang.settings.wrong_ip_format}\n${ip}`,
+        });
+        return;
+      }
+    }
 
-  //   this.configChanges['poke-ip-addr'] = me.value;
-  // };
+    this.configChanges['poke-ip-addr'] = me.value;
+  };
 
   changeActiveLang = (e: React.ChangeEvent): void => {
     const target = e.currentTarget as HTMLInputElement;
@@ -168,49 +168,49 @@ class SettingGeneral extends React.Component<Props, State> {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // updateConfigChange = (id: StorageKey, newVal: any): void => {
-  //   let val = newVal;
-  //   if (!Number.isNaN(Number(val))) {
-  //     val = Number(val);
-  //   }
-  //   this.configChanges[id] = val;
-  //   this.forceUpdate();
-  // };
+  updateConfigChange = (id: StorageKey, newVal: any): void => {
+    let val = newVal;
+    if (!Number.isNaN(Number(val))) {
+      val = Number(val);
+    }
+    this.configChanges[id] = val;
+    this.forceUpdate();
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // getConfigEditingValue = (key: StorageKey): any => {
-  //   if (key in this.configChanges) {
-  //     return this.configChanges[key];
-  //   }
-  //   return storage.get(key);
-  // };
+  getConfigEditingValue = (key: StorageKey): any => {
+    if (key in this.configChanges) {
+      return this.configChanges[key];
+    }
+    return storage.get(key);
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // updateBeamboxPreferenceChange = (item_key: string, newVal: any): void => {
-  //   let val = newVal;
-  //   if (val === OptionValues.TRUE) {
-  //     val = true;
-  //   } else if (val === OptionValues.FALSE) {
-  //     val = false;
-  //   }
-  //   this.beamboxPreferenceChanges[item_key] = val;
-  //   this.forceUpdate();
-  // };
+  updateBeamboxPreferenceChange = (item_key: string, newVal: any): void => {
+    let val = newVal;
+    if (val === OptionValues.TRUE) {
+      val = true;
+    } else if (val === OptionValues.FALSE) {
+      val = false;
+    }
+    this.beamboxPreferenceChanges[item_key] = val;
+    this.forceUpdate();
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // getBeamboxPreferenceEditingValue = (key: string): any => {
-  //   if (key in this.beamboxPreferenceChanges) {
-  //     return this.beamboxPreferenceChanges[key];
-  //   }
-  //   return BeamboxPreference.read(key);
-  // };
+  getBeamboxPreferenceEditingValue = (key: string): any => {
+    if (key in this.beamboxPreferenceChanges) {
+      return this.beamboxPreferenceChanges[key];
+    }
+    return BeamboxPreference.read(key);
+  };
 
-  // removeDefaultMachine = (): void => {
-  //   const { lang } = this.state;
-  //   if (window.confirm(lang.settings.confirm_remove_default)) {
-  //     this.forceUpdate();
-  //   }
-  // };
+  removeDefaultMachine = (): void => {
+    const { lang } = this.state;
+    if (window.confirm(lang.settings.confirm_remove_default)) {
+      this.forceUpdate();
+    }
+  };
 
   resetBS = (): void => {
     const { lang } = this.state;
@@ -246,93 +246,93 @@ class SettingGeneral extends React.Component<Props, State> {
     window.location.reload();
   };
 
-  // onOffOptionFactory = (
-  //   isOnSelected: boolean, onValue?, offValue?, onLabel?: string, offLabel?: string,
-  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // ): { value: any, label: string, selected: boolean, }[] => {
-  //   const { lang } = this.state;
+  onOffOptionFactory = (
+    isOnSelected: boolean, onValue?, offValue?, onLabel?: string, offLabel?: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): { value: any, label: string, selected: boolean, }[] => {
+    const { lang } = this.state;
 
-  //   return [
-  //     {
-  //       value: onValue !== undefined ? onValue : OptionValues.TRUE,
-  //       label: onLabel || lang.settings.on,
-  //       selected: isOnSelected,
-  //     },
-  //     {
-  //       value: offValue !== undefined ? offValue : OptionValues.FALSE,
-  //       label: offLabel || lang.settings.off,
-  //       selected: !isOnSelected,
-  //     },
-  //   ];
-  // };
+    return [
+      {
+        value: onValue !== undefined ? onValue : OptionValues.TRUE,
+        label: onLabel || lang.settings.on,
+        selected: isOnSelected,
+      },
+      {
+        value: offValue !== undefined ? offValue : OptionValues.FALSE,
+        label: offLabel || lang.settings.off,
+        selected: !isOnSelected,
+      },
+    ];
+  };
 
-  // renderAutosaveBlock(): JSX.Element {
-  //   const { lang, editingAutosaveConfig, warnings } = this.state;
-  //   const isAutoSaveOn = editingAutosaveConfig.enabled;
-  //   const autoSaveOptions = this.onOffOptionFactory(isAutoSaveOn);
-  //   return (
-  //     <div>
-  //       <div className="subtitle">{lang.settings.groups.autosave}</div>
-  //       <SelectControl
-  //         label={lang.settings.autosave_enabled}
-  //         options={autoSaveOptions}
-  //         onChange={(e) => {
-  //           const enabled = e.target.value === OptionValues.TRUE;
-  //           editingAutosaveConfig.enabled = enabled;
-  //           this.setState({ editingAutosaveConfig });
-  //         }}
-  //       />
-  //       <Controls
-  //         label={lang.settings.autosave_path}
-  //         warningText={warnings.autosave_directory}
-  //       >
-  //         <PathInput
-  //           buttonTitle={lang.general.choose_folder}
-  //           className={classNames({ 'with-error': !!warnings.autosave_directory })}
-  //           defaultValue={editingAutosaveConfig.directory}
-  //           forceValidValue={false}
-  //           getValue={(val: string, isValid: boolean) => {
-  //             editingAutosaveConfig.directory = val;
-  //             if (!isValid) {
-  //               warnings.autosave_directory = lang.settings.autosave_path_not_correct;
-  //             } else {
-  //               delete warnings.autosave_directory;
-  //             }
-  //             this.setState({ editingAutosaveConfig, warnings });
-  //           }}
-  //           type={InputType.FOLDER}
-  //         />
-  //       </Controls>
-  //       <Controls label={lang.settings.autosave_interval}>
-  //         <UnitInput
-  //           unit={lang.monitor.minute}
-  //           min={1}
-  //           max={60}
-  //           decimal={0}
-  //           defaultValue={editingAutosaveConfig.timeInterval}
-  //           getValue={(val: number) => {
-  //             editingAutosaveConfig.timeInterval = val;
-  //             this.setState({ editingAutosaveConfig });
-  //           }}
-  //           className={{ half: true }}
-  //         />
-  //       </Controls>
-  //       <Controls label={lang.settings.autosave_number}>
-  //         <UnitInput
-  //           min={1}
-  //           max={10}
-  //           decimal={0}
-  //           defaultValue={editingAutosaveConfig.fileNumber}
-  //           getValue={(val: number) => {
-  //             editingAutosaveConfig.fileNumber = val;
-  //             this.setState({ editingAutosaveConfig });
-  //           }}
-  //           className={{ half: true }}
-  //         />
-  //       </Controls>
-  //     </div>
-  //   );
-  // }
+  renderAutosaveBlock(): JSX.Element {
+    const { lang, editingAutosaveConfig, warnings } = this.state;
+    const isAutoSaveOn = editingAutosaveConfig.enabled;
+    const autoSaveOptions = this.onOffOptionFactory(isAutoSaveOn);
+    return (
+      <div>
+        <div className="subtitle">{lang.settings.groups.autosave}</div>
+        <SelectControl
+          label={lang.settings.autosave_enabled}
+          options={autoSaveOptions}
+          onChange={(e) => {
+            const enabled = e.target.value === OptionValues.TRUE;
+            editingAutosaveConfig.enabled = enabled;
+            this.setState({ editingAutosaveConfig });
+          }}
+        />
+        <Controls
+          label={lang.settings.autosave_path}
+          warningText={warnings.autosave_directory}
+        >
+          <PathInput
+            buttonTitle={lang.general.choose_folder}
+            className={classNames({ 'with-error': !!warnings.autosave_directory })}
+            defaultValue={editingAutosaveConfig.directory}
+            forceValidValue={false}
+            getValue={(val: string, isValid: boolean) => {
+              editingAutosaveConfig.directory = val;
+              if (!isValid) {
+                warnings.autosave_directory = lang.settings.autosave_path_not_correct;
+              } else {
+                delete warnings.autosave_directory;
+              }
+              this.setState({ editingAutosaveConfig, warnings });
+            }}
+            type={InputType.FOLDER}
+          />
+        </Controls>
+        <Controls label={lang.settings.autosave_interval}>
+          <UnitInput
+            unit={lang.monitor.minute}
+            min={1}
+            max={60}
+            decimal={0}
+            defaultValue={editingAutosaveConfig.timeInterval}
+            getValue={(val: number) => {
+              editingAutosaveConfig.timeInterval = val;
+              this.setState({ editingAutosaveConfig });
+            }}
+            className={{ half: true }}
+          />
+        </Controls>
+        <Controls label={lang.settings.autosave_number}>
+          <UnitInput
+            min={1}
+            max={10}
+            decimal={0}
+            defaultValue={editingAutosaveConfig.fileNumber}
+            getValue={(val: number) => {
+              editingAutosaveConfig.fileNumber = val;
+              this.setState({ editingAutosaveConfig });
+            }}
+            className={{ half: true }}
+          />
+        </Controls>
+      </div>
+    );
+  }
 
   render() {
     const { supported_langs: supportedLangs } = this.props;
@@ -348,144 +348,144 @@ class SettingGeneral extends React.Component<Props, State> {
       });
     });
 
-    // const isNotificationOn = this.getConfigEditingValue('notification') === 1;
-    // const notificationOptions = this.onOffOptionFactory(
-    //   isNotificationOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
-    // );
+    const isNotificationOn = this.getConfigEditingValue('notification') === 1;
+    const notificationOptions = this.onOffOptionFactory(
+      isNotificationOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
+    );
 
-    // const isAutoCheckUpdateOn = this.getConfigEditingValue('auto_check_update') !== 0;
-    // const updateNotificationOptions = this.onOffOptionFactory(
-    //   isAutoCheckUpdateOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
-    // );
+    const isAutoCheckUpdateOn = this.getConfigEditingValue('auto_check_update') !== 0;
+    const updateNotificationOptions = this.onOffOptionFactory(
+      isAutoCheckUpdateOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
+    );
 
-    // const isGuessingPokeOn = this.getConfigEditingValue('guessing_poke') !== 0;
-    // const guessingPokeOptions = this.onOffOptionFactory(isGuessingPokeOn, 1, 0);
+    const isGuessingPokeOn = this.getConfigEditingValue('guessing_poke') !== 0;
+    const guessingPokeOptions = this.onOffOptionFactory(isGuessingPokeOn, 1, 0);
 
-    // const isAutoConnectOn = this.getConfigEditingValue('auto_connect') !== 0;
-    // const autoConnectOptions = this.onOffOptionFactory(isAutoConnectOn, 1, 0);
+    const isAutoConnectOn = this.getConfigEditingValue('auto_connect') !== 0;
+    const autoConnectOptions = this.onOffOptionFactory(isAutoConnectOn, 1, 0);
 
-    // const defaultUnitsOptions = [
-    //   {
-    //     value: 'mm',
-    //     label: lang.menu.mm,
-    //     selected: this.getConfigEditingValue('default-units') === 'mm',
-    //   },
-    //   {
-    //     value: 'inches',
-    //     label: lang.menu.inches,
-    //     selected: this.getConfigEditingValue('default-units') === 'inches',
-    //   },
-    // ];
+    const defaultUnitsOptions = [
+      {
+        value: 'mm',
+        label: lang.menu.mm,
+        selected: this.getConfigEditingValue('default-units') === 'mm',
+      },
+      {
+        value: 'inches',
+        label: lang.menu.inches,
+        selected: this.getConfigEditingValue('default-units') === 'inches',
+      },
+    ];
 
-    // const defaultFont = storage.get('default-font') as IFont || {
-    //   family: 'Arial',
-    //   style: 'Regular',
-    // };
-    // const fontOptions = FontFuncs.availableFontFamilies.map((family: string) => {
-    //   const fontName = FontFuncs.fontNameMap.get(family);
-    //   const label = typeof fontName === 'string' ? fontName : family;
-    //   return {
-    //     value: family,
-    //     label,
-    //     selected: family === defaultFont.family,
-    //   };
-    // });
-    // const onSelectFont = (family) => {
-    //   const fonts = FontFuncs.requestFontsOfTheFontFamily(family);
-    //   const newDefaultFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
-    //   storage.set('default-font', {
-    //     family: newDefaultFont.family,
-    //     postscriptName: newDefaultFont.postscriptName,
-    //     style: newDefaultFont.style,
-    //   });
-    //   this.forceUpdate();
-    // };
-    // const fonts = FontFuncs.requestFontsOfTheFontFamily(defaultFont.family);
-    // const fontStyleOptions = fonts.map((font) => ({
-    //   value: font.postscriptName,
-    //   label: font.style,
-    //   selected: font.style === defaultFont.style,
-    // }));
-    // const onSelectFontStyle = (postscriptName) => {
-    //   const newDefaultFont = FontFuncs.getFontOfPostscriptName(postscriptName);
-    //   storage.set('default-font', {
-    //     family: newDefaultFont.family,
-    //     postscriptName: newDefaultFont.postscriptName,
-    //     style: newDefaultFont.style,
-    //   });
-    //   this.forceUpdate();
-    // };
+    const defaultFont = storage.get('default-font') as IFont || {
+      family: 'Arial',
+      style: 'Regular',
+    };
+    const fontOptions = FontFuncs.availableFontFamilies.map((family: string) => {
+      const fontName = FontFuncs.fontNameMap.get(family);
+      const label = typeof fontName === 'string' ? fontName : family;
+      return {
+        value: family,
+        label,
+        selected: family === defaultFont.family,
+      };
+    });
+    const onSelectFont = (family) => {
+      const fonts = FontFuncs.requestFontsOfTheFontFamily(family);
+      const newDefaultFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
+      storage.set('default-font', {
+        family: newDefaultFont.family,
+        postscriptName: newDefaultFont.postscriptName,
+        style: newDefaultFont.style,
+      });
+      this.forceUpdate();
+    };
+    const fonts = FontFuncs.requestFontsOfTheFontFamily(defaultFont.family);
+    const fontStyleOptions = fonts.map((font) => ({
+      value: font.postscriptName,
+      label: font.style,
+      selected: font.style === defaultFont.style,
+    }));
+    const onSelectFontStyle = (postscriptName) => {
+      const newDefaultFont = FontFuncs.getFontOfPostscriptName(postscriptName);
+      storage.set('default-font', {
+        family: newDefaultFont.family,
+        postscriptName: newDefaultFont.postscriptName,
+        style: newDefaultFont.style,
+      });
+      this.forceUpdate();
+    };
 
-    // const isGuideOpened = this.getBeamboxPreferenceEditingValue('show_guides') !== false;
-    // const guideSelectionOptions = this.onOffOptionFactory(isGuideOpened);
+    const isGuideOpened = this.getBeamboxPreferenceEditingValue('show_guides') !== false;
+    const guideSelectionOptions = this.onOffOptionFactory(isGuideOpened);
 
-    // const isDownsamplingOn = this.getBeamboxPreferenceEditingValue('image_downsampling') !== false;
-    // const imageDownsamplingOptions = this.onOffOptionFactory(
-    //   isDownsamplingOn,
-    //   OptionValues.TRUE,
-    //   OptionValues.FALSE,
-    //   lang.settings.low,
-    //   lang.settings.high,
-    // );
+    const isDownsamplingOn = this.getBeamboxPreferenceEditingValue('image_downsampling') !== false;
+    const imageDownsamplingOptions = this.onOffOptionFactory(
+      isDownsamplingOn,
+      OptionValues.TRUE,
+      OptionValues.FALSE,
+      lang.settings.low,
+      lang.settings.high,
+    );
 
-    // const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing') !== false;
-    // const antiAliasingOptions = this.onOffOptionFactory(isAntiAliasingOn);
+    const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing') !== false;
+    const antiAliasingOptions = this.onOffOptionFactory(isAntiAliasingOn);
 
-    // const isContinuousDrawingOn = this.getBeamboxPreferenceEditingValue('continuous_drawing');
-    // const continuousDrawingOptions = this.onOffOptionFactory(isContinuousDrawingOn);
+    const isContinuousDrawingOn = this.getBeamboxPreferenceEditingValue('continuous_drawing');
+    const continuousDrawingOptions = this.onOffOptionFactory(isContinuousDrawingOn);
 
-    // const isSimplifyClipperPathOn = this.getBeamboxPreferenceEditingValue('simplify_clipper_path');
-    // const simplifyClipperPath = this.onOffOptionFactory(isSimplifyClipperPathOn);
+    const isSimplifyClipperPathOn = this.getBeamboxPreferenceEditingValue('simplify_clipper_path');
+    const simplifyClipperPath = this.onOffOptionFactory(isSimplifyClipperPathOn);
 
-    // const isFastGradientOn = this.getBeamboxPreferenceEditingValue('fast_gradient') !== false;
-    // const fastGradientOptions = this.onOffOptionFactory(isFastGradientOn);
+    const isFastGradientOn = this.getBeamboxPreferenceEditingValue('fast_gradient') !== false;
+    const fastGradientOptions = this.onOffOptionFactory(isFastGradientOn);
 
-    // const isVectorSpeedConstrainOn = this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
-    // const vectorSpeedConstraintOptions = this.onOffOptionFactory(isVectorSpeedConstrainOn);
+    const isVectorSpeedConstrainOn = this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
+    const vectorSpeedConstraintOptions = this.onOffOptionFactory(isVectorSpeedConstrainOn);
 
-    // const isPrecutSwitchOn = this.getBeamboxPreferenceEditingValue('blade_precut') === true;
-    // const precutSwitchOptions = this.onOffOptionFactory(isPrecutSwitchOn);
+    const isPrecutSwitchOn = this.getBeamboxPreferenceEditingValue('blade_precut') === true;
+    const precutSwitchOptions = this.onOffOptionFactory(isPrecutSwitchOn);
 
-    // const defaultBeamboxModelOptions = [
-    //   {
-    //     value: 'fbm1',
-    //     label: 'beamo',
-    //     selected: selectedModel === 'fbm1',
-    //   },
-    //   {
-    //     value: 'fbb1b',
-    //     label: 'Beambox',
-    //     selected: selectedModel === 'fbb1b',
-    //   },
-    //   {
-    //     value: 'fbb1p',
-    //     label: 'Beambox Pro',
-    //     selected: selectedModel === 'fbb1p',
-    //   },
-    // ];
+    const defaultBeamboxModelOptions = [
+      {
+        value: 'fbm1',
+        label: 'beamo',
+        selected: selectedModel === 'fbm1',
+      },
+      {
+        value: 'fbb1b',
+        label: 'Beambox',
+        selected: selectedModel === 'fbb1b',
+      },
+      {
+        value: 'fbb1p',
+        label: 'Beambox Pro',
+        selected: selectedModel === 'fbb1p',
+      },
+    ];
 
-    // const isMaskEnabled = this.getBeamboxPreferenceEditingValue('enable_mask');
-    // const maskOptions = this.onOffOptionFactory(isMaskEnabled);
+    const isMaskEnabled = this.getBeamboxPreferenceEditingValue('enable_mask');
+    const maskOptions = this.onOffOptionFactory(isMaskEnabled);
 
-    // const isFontSubstitutionOn = this.getBeamboxPreferenceEditingValue('font-substitute') !== false;
-    // const fontSubstituteOptions = this.onOffOptionFactory(isFontSubstitutionOn);
+    const isFontSubstitutionOn = this.getBeamboxPreferenceEditingValue('font-substitute') !== false;
+    const fontSubstituteOptions = this.onOffOptionFactory(isFontSubstitutionOn);
 
-    // const isDefaultBorderlessOn = this.getBeamboxPreferenceEditingValue('default-borderless');
-    // const borderlessModeOptions = this.onOffOptionFactory(isDefaultBorderlessOn);
+    const isDefaultBorderlessOn = this.getBeamboxPreferenceEditingValue('default-borderless');
+    const borderlessModeOptions = this.onOffOptionFactory(isDefaultBorderlessOn);
 
-    // const isDefaultAutofocusOn = this.getBeamboxPreferenceEditingValue('default-autofocus');
-    // const autofocusModuleOptions = this.onOffOptionFactory(isDefaultAutofocusOn);
+    const isDefaultAutofocusOn = this.getBeamboxPreferenceEditingValue('default-autofocus');
+    const autofocusModuleOptions = this.onOffOptionFactory(isDefaultAutofocusOn);
 
-    // const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
-    // const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
+    const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
+    const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
 
-    // const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
-    // const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
+    const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
+    const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
 
-    // const cameraMovementSpeed = Math.min(
-    //   BeamboxConstant.camera.movementSpeed.x,
-    //   BeamboxConstant.camera.movementSpeed.y,
-    // );
+    const cameraMovementSpeed = Math.min(
+      BeamboxConstant.camera.movementSpeed.x,
+      BeamboxConstant.camera.movementSpeed.y,
+    );
 
     const isAllValid = !warnings || (Object.keys(warnings).length === 0);
 
@@ -498,7 +498,7 @@ class SettingGeneral extends React.Component<Props, State> {
           options={langOptions}
           onChange={this.changeActiveLang}
         />
-        {/* <SelectControl
+        <SelectControl
           label={lang.settings.notifications}
           options={notificationOptions}
           onChange={(e) => this.updateConfigChange('notification', e.target.value)}
@@ -785,7 +785,7 @@ class SettingGeneral extends React.Component<Props, State> {
           id="set-sentry"
           options={enableSentryOptions}
           onChange={(e) => this.updateConfigChange('enable-sentry', e.target.value)}
-        /> */}
+        />
 
         <div className="font5" onClick={this.resetBS}>
           <b>{lang.settings.reset_now}</b>
