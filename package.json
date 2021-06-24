@@ -13,6 +13,7 @@
     "@simonwep/pickr": "^1.8.1",
     "@szhsin/react-menu": "^1.10.1",
     "axios": "^0.21.1",
+    "buffer": "^6.0.3",
     "classnames": "^2.3.1",
     "cropperjs": "^1.5.11",
     "eventemitter3": "^4.0.7",
