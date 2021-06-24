@@ -41,10 +41,10 @@ const wrappedComponent = (
   </AlertProgressContextProvider>
 );
 
-const router = () => {
+const router = (container) => {
   ReactDOM.render(
     wrappedComponent,
-    $('section.content')[0],
+    container,
   );
 };
 
