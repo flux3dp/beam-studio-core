@@ -50,7 +50,11 @@ export default {
   PREFERENCE: async () => {
     Dialog.clearAllDialogComponents();
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
-    if (res) window.location.hash = '#studio/settings';
+    if (res) {
+      console.log(res);
+      window.location.href = '/settings';
+      // window.location.hash = '#studio/settings';
+    }
   },
   ADD_NEW_MACHINE: async () => {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
