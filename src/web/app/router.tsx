@@ -42,10 +42,7 @@ const wrappedComponent = (
 );
 
 const router = (container) => {
-  ReactDOM.render(
-    wrappedComponent,
-    container,
-  );
+  ReactDOM.render(wrappedComponent, container);
 };
 
 export default router;
