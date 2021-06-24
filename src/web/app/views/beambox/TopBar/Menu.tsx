@@ -16,6 +16,7 @@ export default function Menu(): JSX.Element {
   const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
   const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
   const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(BeamboxPreference.read('use_layer_color'));
+  const [shouldZoomWithWindow, changeShouldZoomWithWindow] = React.useState(false);
   const eventEmitter = eventEmitterFactory.createEventEmitter('top-bar-menu');
   const callback = (id: string) => {
     eventEmitter.emit('MENU_CLICK', null, {
@@ -37,17 +38,17 @@ export default function Menu(): JSX.Element {
         <MenuItem>{menuCms.open}</MenuItem>
         <MenuItem>{menuCms.recent}</MenuItem>
         <MenuDivider />
-        <MenuItem>{menuCms.save_scene}</MenuItem>
-        <MenuItem>{menuCms.save_as}</MenuItem>
+        <MenuItem onClick={() => callback('SAVE_SCENE')}>{menuCms.save_scene}</MenuItem>
+        <MenuItem onClick={() => callback('SAVE_AS')}>{menuCms.save_as}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
           <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>{menuCms.import_hello_beamo}</MenuItem>
-          <MenuItem>{menuCms.import_hello_beambox}</MenuItem>
-          <MenuItem>{menuCms.import_material_testing_engrave}</MenuItem>
-          <MenuItem>{menuCms.import_material_testing_old}</MenuItem>
-          <MenuItem>{menuCms.import_material_testing_cut}</MenuItem>
-          <MenuItem>{menuCms.import_material_testing_simple_cut}</MenuItem>
-          <MenuItem>{menuCms.import_material_testing_line}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>{menuCms.import_hello_beambox}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>{menuCms.import_material_testing_engrave}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>{menuCms.import_material_testing_old}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>{menuCms.import_material_testing_cut}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>{menuCms.import_material_testing_simple_cut}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_LINE')}>{menuCms.import_material_testing_line}</MenuItem>
         </SubMenu>
         <MenuDivider />
         <SubMenu label={menuCms.export_to}>
@@ -77,10 +78,19 @@ export default function Menu(): JSX.Element {
         </SubMenu>
       </SubMenu>
       <SubMenu label={menuCms.view}>
-        <MenuItem onClick={() => callback('ZOOM_IN')}>{menuCms.zoom_in}</MenuItem>
-        <MenuItem onClick={() => callback('ZOOM_OUT')}>{menuCms.zoom_out}</MenuItem>
-        <MenuItem onClick={() => callback('FITS_TO_WINDOW')}>{menuCms.fit_to_window}</MenuItem>
-        <MenuItem onClick={() => callback('ZOOM_WITH_WINDOW')}>{menuCms.zoom_with_window}</MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>{menuCms.zoom_in}</MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_OUT')}>{menuCms.zoom_out}</MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('FITS_TO_WINDOW')}>{menuCms.fit_to_window}</MenuItem>
+        <MenuItem
+          type="checkbox"
+          onClick={() => {
+            callback('ZOOM_WITH_WINDOW');
+            changeShouldZoomWithWindow(!shouldZoomWithWindow);
+          }}
+          checked={shouldZoomWithWindow}
+        >
+          {menuCms.zoom_with_window}
+        </MenuItem>
         <MenuDivider />
         <MenuItem
           type="checkbox"
