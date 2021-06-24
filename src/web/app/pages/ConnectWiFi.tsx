@@ -13,7 +13,7 @@ interface State {
   showCollapse2: boolean;
 }
 
-class ConnectWiFi extends React.PureComponent<any, State> {
+export default class ConnectWiFi extends React.PureComponent<any, State> {
   constructor(props) {
     super(props);
     updateLang();
@@ -87,6 +87,3 @@ class ConnectWiFi extends React.PureComponent<any, State> {
     );
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default () => ConnectWiFi;

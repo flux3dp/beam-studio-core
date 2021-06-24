@@ -27,7 +27,7 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import connectEthernet from './Connect-Ethernet';
+import ConnectEthernet from './ConnectEthernet';
 
 describe('test Connect-Ethernet', () => {
   beforeEach(() => {
@@ -38,7 +38,6 @@ describe('test Connect-Ethernet', () => {
     Object.defineProperty(window, 'os', {
       value: 'MacOS',
     });
-    const ConnectEthernet = connectEthernet();
     const wrapper = mount(<ConnectEthernet />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
@@ -51,7 +50,6 @@ describe('test Connect-Ethernet', () => {
     Object.defineProperty(window, 'os', {
       value: 'Windows',
     });
-    const ConnectEthernet = connectEthernet();
     const wrapper = mount(<ConnectEthernet />);
     expect(toJson(wrapper)).toMatchSnapshot();
 

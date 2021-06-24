@@ -7,7 +7,7 @@ import windowLocationReload from 'app/actions/windowLocation';
 
 let lang;
 
-class SelectConnectionType extends React.PureComponent {
+export default class SelectConnectionType extends React.PureComponent {
   constructor(props) {
     super(props);
     lang = i18n.lang.initialize;
@@ -95,5 +95,3 @@ class SelectConnectionType extends React.PureComponent {
     );
   }
 }
-
-export default () => SelectConnectionType;

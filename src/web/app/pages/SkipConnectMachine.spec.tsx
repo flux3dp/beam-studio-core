@@ -25,11 +25,10 @@ const mockWindowLocationReload = jest.fn();
 jest.mock('app/actions/windowLocation', () => mockWindowLocationReload);
 
 // eslint-disable-next-line import/first
-import skipConnectMachine from './Skip-Connect-Machine';
+import SkipConnectMachine from './SkipConnectMachine';
 
 describe('test Skip-Connect-Machine', () => {
   test('should render correctly', () => {
-    const SkipConnectMachine = skipConnectMachine();
     const wrapper = mount(<SkipConnectMachine />);
     expect(toJson(wrapper)).toMatchSnapshot();
 

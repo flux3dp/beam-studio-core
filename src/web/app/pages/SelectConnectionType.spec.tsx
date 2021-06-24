@@ -33,7 +33,7 @@ const mockWindowLocationReload = jest.fn();
 jest.mock('app/actions/windowLocation', () => mockWindowLocationReload);
 
 // eslint-disable-next-line import/first
-import selectConnectionType from './Select-Connection-Type';
+import SelectConnectionType from './SelectConnectionType';
 
 describe('test Select-Connection-Type', () => {
   beforeEach(() => {
@@ -43,7 +43,6 @@ describe('test Select-Connection-Type', () => {
   test('should render correctly with new user', () => {
     mockGet.mockReturnValue(false);
 
-    const SelectConnectionType = selectConnectionType();
     const wrapper = mount(<SelectConnectionType />);
     expect(toJson(wrapper)).toMatchSnapshot();
     expect(mockGet).toHaveBeenCalledTimes(1);
@@ -72,7 +71,6 @@ describe('test Select-Connection-Type', () => {
   test('should render correctly but not new user', () => {
     mockGet.mockReturnValue(true);
 
-    const SelectConnectionType = selectConnectionType();
     const wrapper = mount(<SelectConnectionType />);
     expect(toJson(wrapper)).toMatchSnapshot();
     expect(mockGet).toHaveBeenCalledTimes(1);

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
+exports[`test svg-editor should render correctly in mac 1`] = `
 <SVGEditor>
   <div>
     <div
@@ -909,7 +909,7 @@ exports[`test Skip-Connect-Machine should render correctly in mac 1`] = `
 </SVGEditor>
 `;
 
-exports[`test Skip-Connect-Machine should render correctly in win 1`] = `
+exports[`test svg-editor should render correctly in win 1`] = `
 <SVGEditor>
   <div>
     <div
