@@ -41,11 +41,8 @@ const wrappedComponent = (
   </AlertProgressContextProvider>
 );
 
-const router = () => {
-  ReactDOM.render(
-    wrappedComponent,
-    $('section.content')[0],
-  );
+const router = (container) => {
+  ReactDOM.render(wrappedComponent, container);
 };
 
 export default router;
