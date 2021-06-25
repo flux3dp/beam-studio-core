@@ -562,6 +562,17 @@ export class TopBar extends React.Component<{}, State> {
     );
   }
 
+  renderMenu() {
+    if (window.FLUX.version === 'web') {
+      return (
+        <div className={classNames('top-bar-menu-container')}>
+          <Menu />
+        </div>
+      );
+    }
+    return null;
+  }
+
   renderElementLayerAndName() {
     const { selectedElem } = this.context;
     let content = '';
@@ -615,6 +626,7 @@ export class TopBar extends React.Component<{}, State> {
           {this.renderDeviceList()}
           {this.renderElementLayerAndName()}
           {this.renderHint()}
+          {this.renderMenu()}
         </div>
       </div>
     );
