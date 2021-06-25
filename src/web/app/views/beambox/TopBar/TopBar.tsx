@@ -564,11 +564,14 @@ export class TopBar extends React.Component<{}, State> {
   }
 
   renderMenu() {
-    return (
-      <div className={classNames('top-bar-menu-container')}>
-        <Menu />
-      </div>
-    );
+    if (window.FLUX.version === 'web') {
+      return (
+        <div className={classNames('top-bar-menu-container')}>
+          <Menu />
+        </div>
+      );
+    }
+    return null;
   }
 
   renderElementLayerAndName() {
