@@ -12,7 +12,7 @@ import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import Modal from 'app/widgets/Modal';
-import NetworkTestingPanel from 'app/views/beambox/Network-Testing-Panel';
+import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';

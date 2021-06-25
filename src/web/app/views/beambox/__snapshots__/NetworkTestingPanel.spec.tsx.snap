@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<NetworkTestingPanel
+  ip="192.168.68.163"
+  onClose={[MockFunction]}
+>
+  <View
+    onClose={[MockFunction]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="network-testing-panel"
+        >
+          <section
+            className="main-content"
+          >
+            <div
+              className="title"
+            >
+              Network Testing
+            </div>
+            <div
+              className="info"
+            >
+              <div
+                className="left-part"
+              >
+                Local IP address:
+              </div>
+              <div
+                className="right-part"
+              >
+                192.168.68.2
+              </div>
+            </div>
+            <div
+              className="info"
+            >
+              <div
+                className="left-part"
+              >
+                Target device IP address:
+              </div>
+              <div
+                className="right-part"
+              >
+                <input
+                  defaultValue="192.168.68.163"
+                  onKeyDown={[Function]}
+                />
+              </div>
+            </div>
+          </section>
+          <section
+            className="footer"
+          >
+            <button
+              className="btn btn-default pull-right"
+              onClick={[MockFunction]}
+              type="button"
+            >
+              End
+            </button>
+            <button
+              className="btn btn-default pull-right primary"
+              onClick={[Function]}
+              type="button"
+            >
+              Start
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </View>
+</NetworkTestingPanel>
+`;
