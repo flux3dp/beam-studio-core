@@ -82,6 +82,7 @@ test('should render correctly', () => {
 
   wrapper.find('input').simulate('keyDown', {
     keyCode: 13,
+    key: 'Enter',
   });
   expect(mockNetworkTest).toHaveBeenCalledTimes(1);
   expect(mockNetworkTest).toHaveBeenNthCalledWith(1, '192.168.68.163', 30000, expect.any(Function));
@@ -95,6 +96,7 @@ test('should render correctly', () => {
   wrapper.find('input').instance().value = '192.168.68.3';
   wrapper.find('input').simulate('keyDown', {
     keyCode: 13,
+    key: 'Enter',
   });
   expect(mockNetworkTest).toHaveBeenCalledTimes(2);
   expect(mockNetworkTest).toHaveBeenNthCalledWith(2, '192.168.68.3', 30000, expect.any(Function));

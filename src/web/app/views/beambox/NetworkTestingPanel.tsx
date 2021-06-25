@@ -7,7 +7,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
-import KeycodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
 import network from 'implementations/network';
 import os from 'implementations/os';
@@ -71,7 +70,6 @@ class NetworkTestingPanel extends React.Component<Props, State> {
 
   onStart = async (): Promise<void> => {
     const ip = this.getIPValue();
-    console.log(ip);
     if (!ip) {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
@@ -181,8 +179,7 @@ class NetworkTestingPanel extends React.Component<Props, State> {
 
   onInputKeydown = (e: React.KeyboardEvent): void => {
     e.stopPropagation();
-    console.log(e.key);
-    if (e.keyCode === KeycodeConstants.KEY_RETURN) {
+    if (e.key === 'Enter') {
       this.onStart();
     }
   };
