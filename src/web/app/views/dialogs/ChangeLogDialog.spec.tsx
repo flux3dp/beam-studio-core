@@ -48,7 +48,7 @@ jest.mock('implementations/changelog', () => ({
   },
 }));
 
-window.electron.version = '1.2.3';
+window.FLUX.version = '1.2.3';
 
 import * as React from 'react';
 import { mount } from 'enzyme';
