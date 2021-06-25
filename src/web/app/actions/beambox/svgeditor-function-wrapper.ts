@@ -1,13 +1,8 @@
-import Constant from './constant';
-import Progress from '../progress-caller';
-import ImageData from '../../../helpers/image-data';
-import BeamFileHelper from '../../../helpers/beam-file-helper';
-import Alert from '../alert-caller';
-import * as TutorialController from '../../views/tutorials/Tutorial-Controller';
-import TutorialConstants from '../../constants/tutorial-constants';
-import SymbolMaker from '../../../helpers/symbol-maker';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
+import ImageData from 'helpers/image-data';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgedit;
@@ -18,7 +13,6 @@ getSVGAsync((globalSVG) => {
     svgEditor = globalSVG.Editor;
 });
 const LANG = i18n.lang.beambox;
-const electron = window['electron'];
 
 let _setCrosshairCursor = function() {
     $('#workarea').css('cursor', 'crosshair');

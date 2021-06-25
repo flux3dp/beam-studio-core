@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import Constant from 'app/actions/beambox/constant';
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import KeycodeConstants from 'app/constants/keycode-constants';
 import storage from 'implementations/storage';
@@ -10,8 +11,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 let svgCanvas;
-let svgedit;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
@@ -37,7 +37,9 @@ const fixedSizeMapping = {
 interface Props {
   id?: string;
   elem: Element;
-  getDimensionValues: () => any;
+  getDimensionValues: (response: {
+    dimensionValues: any,
+  }) => void;
   updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
 }
 
@@ -113,9 +115,13 @@ class DimensionPanel extends React.Component<Props> {
   };
 
   handleSizeChange = (type:string, val:number): void => {
-    const batchCmd = new svgedit.history.BatchCommand('Object Panel Size Change');
+    const batchCmd = new history.BatchCommand('Object Panel Size Change');
     const { updateDimensionValues, getDimensionValues } = this.props;
-    const dimensionValues = getDimensionValues();
+    const response = {
+      dimensionValues: {} as any,
+    };
+    getDimensionValues(response);
+    const dimensionValues = response.dimensionValues;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     const newDimensionValue = {};
@@ -181,9 +187,13 @@ class DimensionPanel extends React.Component<Props> {
     return val / Constant.dpmm;
   };
 
-  renderDimensionPanel = (type: string) => {
+  renderDimensionPanel = (type: string): JSX.Element => {
     const { getDimensionValues } = this.props;
-    const dimensionValues = getDimensionValues();
+    const response = {
+      dimensionValues: {} as any,
+    };
+    getDimensionValues(response);
+    const dimensionValues = response.dimensionValues;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     switch (type) {
@@ -390,7 +400,7 @@ class DimensionPanel extends React.Component<Props> {
     return ret;
   };
 
-  renderFlipButtons = () => (
+  renderFlipButtons = (): JSX.Element => (
     <div className="flip-btn-container">
       <div className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(-1, 1); }} title={LANG.hflip}>
         <img src="img/right-panel/icon-hflip.svg" alt="" />
@@ -401,7 +411,7 @@ class DimensionPanel extends React.Component<Props> {
     </div>
   );
 
-  render() {
+  render(): JSX.Element {
     const { elem } = this.props;
     let panels = ['x', 'y', 'rot', 'w', 'h'];
     if (elem) {

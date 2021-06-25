@@ -1,8 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import electronDialogs from 'app/actions/electron-dialogs';
-import fs from 'fs';
-import { IFileFilter } from 'interfaces/IElectron';
+
+import dialog from 'implementations/dialog';
+import fs from 'implementations/fileSystem';
+import { OpenDialogProperties } from 'interfaces/IDialog';
 
 const { useEffect, useRef, useState } = React;
 
@@ -25,10 +26,6 @@ interface Props {
   forceValidValue: boolean,
   type: InputType,
   getValue: (val: string, isValid: boolean) => void,
-  // eslint-disable-next-line react/require-default-props
-  onBlur?: () => void,
-  // eslint-disable-next-line react/require-default-props
-  filters?: IFileFilter[],
 }
 
 const PathInput = ({
@@ -37,10 +34,8 @@ const PathInput = ({
   defaultValue,
   getValue,
   forceValidValue = true,
-  onBlur = () => { },
   type,
-  filters = [],
-}: Props) => {
+}: Props): JSX.Element => {
   const [displayValue, setDisplayValue] = useState(defaultValue);
   const [savedValue, setSavedValue] = useState(defaultValue);
   const inputEl = useRef(null);
@@ -51,11 +46,10 @@ const PathInput = ({
   }, [defaultValue]);
 
   const validateValue = (val: string) => {
-    if (fs.existsSync(val)) {
+    if (fs.exists(val)) {
       if (type === InputType.BOTH) return true;
-      const stat = fs.lstatSync(val);
-      return (type === InputType.FILE && stat.isFile())
-        || (type === InputType.FOLDER && stat.isDirectory());
+      return (type === InputType.FILE && fs.isFile(val))
+        || (type === InputType.FOLDER && fs.isDirectory(val));
     }
     return false;
   };
@@ -65,19 +59,10 @@ const PathInput = ({
     if (!forceValidValue || isValid) {
       if (displayValue !== savedValue) {
         setSavedValue(displayValue);
-        if (getValue) {
-          getValue(displayValue, isValid);
-        }
+        getValue(displayValue, isValid);
       }
     } else {
       setDisplayValue(savedValue);
-    }
-  };
-
-  const handleBlur = () => {
-    updateValue();
-    if (onBlur) {
-      onBlur();
     }
   };
 
@@ -95,21 +80,18 @@ const PathInput = ({
   };
 
   const setValueFromDialog = async () => {
-    const properties = propertiesMap[type];
+    const properties = propertiesMap[type] as OpenDialogProperties[];
     const option = {
       properties,
-      filters,
       defaultPath: savedValue,
     };
-    const { filePaths, canceled } = await electronDialogs.showOpenDialog(option);
+    const { filePaths, canceled } = await dialog.showOpenDialog(option);
     if (!canceled) {
       const isValid = validateValue(filePaths[0]);
       if (!forceValidValue || isValid) {
         setSavedValue(filePaths[0]);
         setDisplayValue(filePaths[0]);
-        if (getValue) {
-          getValue(filePaths[0], isValid);
-        }
+        getValue(filePaths[0], isValid);
       }
     }
   };
@@ -125,7 +107,7 @@ const PathInput = ({
       <input
         type="text"
         value={displayValue}
-        onBlur={handleBlur}
+        onBlur={updateValue}
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         ref={inputEl}

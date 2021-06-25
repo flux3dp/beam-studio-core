@@ -64,7 +64,7 @@
  *                                                                              *
  *******************************************************************************/
 (function ()
-{	
+{
 	"use strict";
 	var ClipperLib = {};
 	ClipperLib.version = '6.4.2.2';
@@ -75,28 +75,12 @@
 	//ClipperLib.use_xyz: adds a Z member to IntPoint. Adds a minor cost to performance.
 	ClipperLib.use_xyz = false;
 
-	var isNode = false;
-	if (typeof module !== 'undefined' && module.exports)
-	{
-		module.exports = ClipperLib;
-		isNode = true;
-	}
-	else
-	{
-		if (typeof (document) !== "undefined") window.ClipperLib = ClipperLib;
-		else self['ClipperLib'] = ClipperLib;
-	}
-	var navigator_appName;
-	if (!isNode)
-	{
-		var nav = navigator.userAgent.toString().toLowerCase();
-		navigator_appName = navigator.appName;
-	}
-	else
-	{
-		var nav = "chrome"; // Node.js uses Chrome's V8 engine
-		navigator_appName = "Netscape"; // Firefox, Chrome and Safari returns "Netscape", so Node.js should also
-	}
+  if (typeof (document) !== "undefined") window.ClipperLib = ClipperLib;
+  else self['ClipperLib'] = ClipperLib;
+
+  var nav = navigator.userAgent.toString().toLowerCase();
+	var navigator_appName = navigator.appName;
+
 	// Browser test to speedup performance critical functions
 	var browser = {};
 
@@ -5445,7 +5429,7 @@
 				}
 
 				//When StrictlySimple and 'e' is being touched by another edge, then
-				//make sure both edges have a vertex here ...        
+				//make sure both edges have a vertex here ...
 				if (this.StrictlySimple)
 				{
 					var ePrev = e.PrevInAEL;
@@ -7726,7 +7710,7 @@
 			let stack = [];
 			for (let i = 1; i <= defaultStep; ++i) {
 				stack.push({...curve.point(i / defaultStep), t: i / defaultStep});
-				
+
 				while (stack.length > 0) {
 					const p = stack[stack.length - 1];
 					if (Math.sqrt((p.X - lastPoint.X) ** 2 + (p.Y - lastPoint.Y) ** 2) > maxDistance) {
@@ -7772,7 +7756,7 @@
 			let stack = [];
 			for (let i = 1; i <= defaultStep; ++i) {
 				stack.push({...curve.point(i / defaultStep), t: i / defaultStep});
-				
+
 				while (stack.length > 0) {
 					const p = stack[stack.length - 1];
 					if (Math.sqrt((p.X - lastPoint.X) ** 2 + (p.Y - lastPoint.Y) ** 2) > maxDistance) {

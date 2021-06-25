@@ -1,11 +1,8 @@
-import i18n from 'helpers/i18n';
-import Websocket from '../websocket';
-import rsaKey from '../rsa-key';
-import ErrorConstants from '../../app/constants/error-constants';
+import EventEmitter from 'eventemitter3';
 
-// console.warn('Remember to use correct EventEmitter');
-// import EventEmitter from 'events';
-const EventEmitter = requireNode('events');
+import ErrorConstants from 'app/constants/error-constants';
+import rsaKey from 'helpers/rsa-key';
+import Websocket from 'helpers/websocket';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
 const EVENT_COMMAND_ERROR = 'command-error';
@@ -19,7 +16,7 @@ const CONNECITON_TIMEOUT_ERROR = {
     'error': 'TIMEOUT',
     'info': 'connection timeoout'
 };
-const lang = i18n.lang;
+
 class Control extends EventEmitter {
     public isConnected = false;
 
@@ -181,7 +178,7 @@ class Control extends EventEmitter {
         return null;
     };
 
-    setProgressListen(listener: (...args: any[]) => void) {
+    setProgressListener(listener: (...args: any[]) => void) {
         this.removeAllListeners(EVENT_COMMAND_PROGRESS);
         this.on(EVENT_COMMAND_PROGRESS, listener);
     }

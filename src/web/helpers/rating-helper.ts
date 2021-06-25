@@ -40,7 +40,7 @@ const setVoted = (score: number): void => {
   });
 
   getInfo(true).then((response) => {
-    if (response.status === 'ok') {
+    if (response && response.status === 'ok') {
       submitRating({
         user: response.email,
         score,
@@ -99,8 +99,5 @@ const init = (): void => {
 
 export default {
   init,
-  getRecord,
-  setRecord,
   setNotShowing,
-  setVoted,
 };

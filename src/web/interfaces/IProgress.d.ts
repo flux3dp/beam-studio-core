@@ -8,8 +8,8 @@ export interface IProgressDialog {
   type?: string,
   caption?: string,
   message?: string,
-  onCancel?: Function,
+  onCancel?: () => void,
   percentage?: number | string,
   timeout?: number,
-  timeoutCallback?: () => void,
+  isProgress?: boolean,
 }

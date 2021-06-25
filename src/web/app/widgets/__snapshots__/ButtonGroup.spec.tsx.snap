@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly has buttons 1`] = `
+<div
+  className="button-group flux"
+>
+  <a
+    className="btn btn-test pull-right"
+    data-abc={123}
+    data-test-key="btn-label"
+    href="https://flux3dp.com/"
+    key="0"
+    onClick={[MockFunction]}
+  >
+    BTN-LABEL
+  </a>
+  <button
+    className="btn btn-default"
+    data-test-key="icon-label"
+    key="1"
+    onClick={[MockFunction]}
+    title="flux3dp"
+    type="button"
+  >
+    icon-label
+  </button>
+  <button
+    className="btn btn-default"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "button-label",
+      }
+    }
+    data-test-key="button-label"
+    key="2"
+    onClick={[MockFunction]}
+    onMouseDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
+    onMouseUp={[MockFunction]}
+    title="flux3dp"
+    type="button"
+  />
+</div>
+`;
+
+exports[`should render correctly no buttons 1`] = `<span />`;

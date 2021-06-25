@@ -5,7 +5,7 @@ import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
-import ShowablePasswordInput from 'app/widgets/Showable-Password-Input';
+import ShowablePasswordInput from 'app/widgets/ShowablePasswordInput';
 import storage from 'implementations/storage';
 import {
   externalLinkFBSignIn,
@@ -14,8 +14,6 @@ import {
   signIn,
   signOut,
 } from 'helpers/api/flux-id';
-
-const electron = requireNode('electron');
 
 let LANG = i18n.lang.flux_id_login;
 const updateLang = () => {

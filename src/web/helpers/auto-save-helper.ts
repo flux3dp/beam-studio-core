@@ -1,12 +1,9 @@
 /* eslint-disable no-console */
 import beamFileHelper from 'helpers/beam-file-helper';
+import fs from 'implementations/fileSystem';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IConfig } from 'interfaces/IAutosave';
-
-const fs = requireNode('fs');
-const fsPromises = fs.promises;
-const path = requireNode('path');
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -15,16 +12,23 @@ getSVGAsync((globalSVG) => {
 
 let autoSaveInterval = null;
 
+const AUTO_SAVE_CONFIG_STORAGE_KEY = 'auto-save-config';
+
+const getConfig = (): IConfig => storage.get(AUTO_SAVE_CONFIG_STORAGE_KEY) as IConfig;
+
+const setConfig = (config: IConfig): void => {
+  storage.set(AUTO_SAVE_CONFIG_STORAGE_KEY, config);
+};
+
 const useDefaultConfig = async (): Promise<void> => {
   const getDefaultPath = () => {
-    const electron = requireNode('electron');
     try {
-      return path.join(electron.remote.app.getPath('documents'), 'Beam Studio', 'auto-save');
+      return fs.join(fs.getPath('documents'), 'Beam Studio', 'auto-save');
     } catch (err) {
       console.error('Unable to get documents path', err);
     }
     try {
-      return electron.remote.app.getPath('userData');
+      return fs.getPath('userData');
     } catch (err) {
       console.error('Unable to get userData path', err);
     }
@@ -38,32 +42,23 @@ const useDefaultConfig = async (): Promise<void> => {
     fileNumber: 5,
     timeInterval: 10,
   };
-  await fs.mkdirSync(directory, {
-    recursive: true,
-  });
+  await fs.mkdir(directory, true);
   // Create a dumb file to prompt mac permission
-  const tempFilePath = path.join(directory, 'beam-studio auto-save-1.beam');
-  const stream = fs.createWriteStream(tempFilePath, { flags: 'a' });
-  stream.close();
-  storage.set('auto-save-config', defaultConfig);
+  const tempFilePath = fs.join(directory, 'beam-studio auto-save-1.beam');
+  fs.writeStream(tempFilePath, 'a');
+  setConfig(defaultConfig);
 };
 
 const init = (): void => {
-  if (!storage.isExisting('auto-save-config')) {
+  if (!storage.isExisting(AUTO_SAVE_CONFIG_STORAGE_KEY)) {
     // Rename after fixing eslint of Setting-General.tsx
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useDefaultConfig();
   }
 };
 
-const getConfig = (): IConfig => storage.get('auto-save-config') as IConfig;
-
-const setConfig = (config: IConfig): void => {
-  storage.set('auto-save-config', config);
-};
-
 const startAutoSave = (): void => {
-  const config = storage.get('auto-save-config');
+  const config = getConfig();
   if (config) {
     const { directory, fileNumber, timeInterval } = config;
     console.log('auto save service started');
@@ -73,14 +68,14 @@ const startAutoSave = (): void => {
         const svgString = svgCanvas.getSvgString();
         const imageSource = await svgCanvas.getImageSource();
         for (let i = fileNumber - 1; i >= 1; i -= 1) {
-          const from = path.join(directory, `beam-studio auto-save-${i}.beam`);
-          if (fs.existsSync(from)) {
-            const to = path.join(directory, `beam-studio auto-save-${i + 1}.beam`);
+          const from = fs.join(directory, `beam-studio auto-save-${i}.beam`);
+          if (fs.exists(from)) {
+            const to = fs.join(directory, `beam-studio auto-save-${i + 1}.beam`);
             // eslint-disable-next-line no-await-in-loop
-            await fsPromises.rename(from, to);
+            await fs.rename(from, to);
           }
         }
-        const target = path.join(directory, 'beam-studio auto-save-1.beam');
+        const target = fs.join(directory, 'beam-studio auto-save-1.beam');
         beamFileHelper.saveBeam(target, svgString, imageSource);
       }
     }, timeInterval * 60 * 1000);
@@ -94,7 +89,7 @@ const stopAutoSave = (): void => {
 
 const toggleAutoSave = (start = false): void => {
   if (start) {
-    const config = storage.get('auto-save-config');
+    const config = getConfig();
     const { enabled } = config;
     if (enabled && !autoSaveInterval) {
       startAutoSave();
@@ -110,6 +105,4 @@ export default {
   getConfig,
   setConfig,
   toggleAutoSave,
-  startAutoSave,
-  stopAutoSave,
 };

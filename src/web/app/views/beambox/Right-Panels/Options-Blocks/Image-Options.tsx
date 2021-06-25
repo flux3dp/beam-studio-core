@@ -1,17 +1,16 @@
 import React from 'react';
 
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { IImageDataResult } from 'interfaces/IImageData';
+import { IImageDataResult } from 'interfaces/IImage';
 
 let svgCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
@@ -24,7 +23,7 @@ interface Props {
 class ImageOptions extends React.Component<Props> {
   changeAttribute = (changes: { [key: string]: string | number | boolean }): void => {
     const { elem } = this.props as Props;
-    const batchCommand: IBatchCommand = new svgedit.history.BatchCommand('Image Option Panel');
+    const batchCommand: IBatchCommand = new history.BatchCommand('Image Option Panel');
     const setAttribute = (key: string, value: string | number | boolean) => {
       svgCanvas.undoMgr.beginUndoableChange(key, [elem]);
       elem.setAttribute(key, value as string);
@@ -81,23 +80,6 @@ class ImageOptions extends React.Component<Props> {
     updateObjectPanel();
   };
 
-  renderGradientBlock() {
-    const { elem } = this.props;
-    const isGradient = elem.getAttribute('data-shading') === 'true';
-    return (
-      <div className="option-block" key="gradient">
-        <div className="label">{LANG.shading}</div>
-        <div className="onoffswitch" onClick={this.handleGradientClick}>
-          <input type="checkbox" className="onoffswitch-checkbox" checked={isGradient} readOnly />
-          <label className="onoffswitch-label">
-            <span className="onoffswitch-inner" />
-            <span className="onoffswitch-switch" />
-          </label>
-        </div>
-      </div>
-    );
-  }
-
   handleSliderChange = (e: React.ChangeEvent): void => {
     const target = e.target as HTMLInputElement;
     const value = parseInt(target.value, 10);
@@ -116,7 +98,24 @@ class ImageOptions extends React.Component<Props> {
     this.forceUpdate();
   };
 
-  renderThresholdBlock() {
+  renderGradientBlock(): JSX.Element {
+    const { elem } = this.props;
+    const isGradient = elem.getAttribute('data-shading') === 'true';
+    return (
+      <div className="option-block" key="gradient">
+        <div className="label">{LANG.shading}</div>
+        <div className="onoffswitch" onClick={this.handleGradientClick}>
+          <input type="checkbox" className="onoffswitch-checkbox" checked={isGradient} readOnly />
+          <label className="onoffswitch-label">
+            <span className="onoffswitch-inner" />
+            <span className="onoffswitch-switch" />
+          </label>
+        </div>
+      </div>
+    );
+  }
+
+  renderThresholdBlock(): JSX.Element {
     const { elem } = this.props;
     const isGradient = elem.getAttribute('data-shading') === 'true';
     if (isGradient) {
@@ -152,7 +151,7 @@ class ImageOptions extends React.Component<Props> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         {this.renderGradientBlock()}

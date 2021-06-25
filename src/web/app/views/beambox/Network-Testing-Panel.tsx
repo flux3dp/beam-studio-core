@@ -7,9 +7,11 @@ import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
 import KeycodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
+import network from 'implementations/network';
+import os from 'implementations/os';
 import Progress from 'app/actions/progress-caller';
+import { PingSession } from 'interfaces/INetwork';
 
-const ping = requireNode('net-ping');
 const LANG = i18n.lang.beambox.network_testing_panel;
 
 interface Props {
@@ -41,7 +43,7 @@ class NetworkTestingPanel extends React.Component<Props, State> {
 
   private startTime: Date;
 
-  private session: any;
+  private session: PingSession;
 
   private textInputRef: React.RefObject<HTMLInputElement>;
 
@@ -54,7 +56,6 @@ class NetworkTestingPanel extends React.Component<Props, State> {
         }
         this.TEST_TIME = 30000;
         let local_ips = [];
-        const os = requireNode('os');
         let ifaces = os.networkInterfaces();
         Object.keys(ifaces).forEach(function (ifname) {
             let alias = 0;
@@ -125,7 +126,7 @@ class NetworkTestingPanel extends React.Component<Props, State> {
 
     _createSession() {
         try {
-            this.session = ping.createSession({
+            this.session = network.createPingSession({
                 retries: 0,
             });
             this.session.on('error', error => {

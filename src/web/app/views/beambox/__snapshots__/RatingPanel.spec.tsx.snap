@@ -1,0 +1,1905 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 2`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 3`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 4`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 5`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 6`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 7`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 8`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 9`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 10`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 11`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 12`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 13`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 14`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 15`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/WhiteStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;
+
+exports[`should render correctly 16`] = `
+<RatingPanel
+  onClose={[MockFunction]}
+  onSubmit={[MockFunction]}
+>
+  <View
+    onClose={[Function]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="rating-panel"
+        >
+          <div
+            className="main-content"
+          >
+            <div
+              className="icon"
+            >
+              <img
+                src="img/icon.png"
+              />
+            </div>
+            <h2
+              className="caption"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Enjoy Beam Studio?
+            </h2>
+            <div
+              className="description"
+            >
+              If you like Beam Studio, we would greatly appreciate it if you could rate us.
+            </div>
+            <div
+              className="stars"
+            >
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+              <img
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="img/YellowStar.svg"
+              />
+            </div>
+            <div
+              className="modal-checkbox"
+              onClick={[Function]}
+            >
+              <input
+                checked={false}
+                type="checkbox"
+              />
+              <div>
+                Don't Show this next time.
+              </div>
+            </div>
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-default secondary"
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</RatingPanel>
+`;

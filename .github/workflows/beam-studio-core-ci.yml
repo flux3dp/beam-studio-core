@@ -20,6 +20,17 @@ jobs:
         run: yarn install
       - name: Run unit tests
         run: yarn run spec
+  coverage:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
+    env:
+      CI_JOB_NUMBER: 1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: artiomtr/jest-coverage-report-action@v1.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #   threshold: 80 # optional parameter
   # https://github.com/marketplace/actions/run-eslint-with-reviewdog
   # eslint-check:
   #   runs-on: ubuntu-latest

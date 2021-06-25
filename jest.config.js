@@ -4,7 +4,14 @@ module.exports = {
     "**/?(*.)+(spec|test).(ts|tsx)"
   ],
   collectCoverageFrom: [
-    "src/**/*.(ts|tsx)"
+    "src/**/*.(ts|tsx)",
+    "!src/web/loader.ts",
+    "!src/web/main.ts",
+    "!src/web/setupTests.ts",
+    "!src/web/app/svgedit/**",
+    "!src/web/app/actions/beambox/svg-editor.ts",
+    "!src/web/app/lang/**",
+    "!src/implementations/**"
   ],
   globals: {
     "ts-jest": {

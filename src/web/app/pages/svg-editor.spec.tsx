@@ -63,10 +63,14 @@ jest.mock('app/actions/beambox/svg-editor', () => ({
   init: mockInit,
 }));
 
+Object.defineProperty(window, '$', {
+  value: jest.fn(),
+});
+
 // eslint-disable-next-line import/first, import/order
 import SVGEditor from './svg-editor';
 
-describe('test Skip-Connect-Machine', () => {
+describe('test svg-editor', () => {
   test('should render correctly in mac', () => {
     const event = {
       preventDefault: jest.fn(),

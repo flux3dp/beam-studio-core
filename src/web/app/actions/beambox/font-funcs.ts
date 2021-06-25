@@ -1,15 +1,20 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
-import Alert from 'app/actions/alert-caller';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Progress from 'app/actions/progress-caller';
-import AlertConstants from 'app/constants/alert-constants';
-import AlertConfig from 'helpers/api/alert-config';
-import SvgLaserParser from 'helpers/api/svg-laser-parser';
-import i18n from 'helpers/i18n';
+import fontkit from 'fontkit';
 import { sprintf } from 'sprintf-js';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+import Alert from 'app/actions/alert-caller';
+import AlertConfig from 'helpers/api/alert-config';
+import AlertConstants from 'app/constants/alert-constants';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import communicator from 'implementations/communicator';
+import fontScanner from 'implementations/fontScanner';
+import history from 'app/svgedit/history';
+import i18n from 'helpers/i18n';
+import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
+import SvgLaserParser from 'helpers/api/svg-laser-parser';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IFont, IFontQuery } from 'interfaces/IFont';
 
 let svgCanvas;
@@ -23,10 +28,7 @@ getSVGAsync((globalSVG) => {
 const { electron, $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
-const fontkit = requireNode('fontkit');
-const { ipc, events } = electron;
 const LANG = i18n.lang.beambox.object_panels;
-const FontScanner = requireNode('font-scanner');
 
 enum SubstituteResult {
   DO_SUB = 2,
@@ -77,10 +79,10 @@ let fontNameMapObj: { [key: string]: string } = storage.get('font-name-map') || 
 if (fontNameMapObj.navigatorLang !== navigator.language) {
   fontNameMapObj = {};
 }
-const fontNameMap = new Map();
+const fontNameMap = new Map<string, string>();
 const availableFontFamilies = (function requestAvailableFontFamilies() {
   // get all available fonts in user PC
-  const fonts = ipc.sendSync(events.GET_AVAILABLE_FONTS);
+  const fonts = communicator.sendSync('GET_AVAILABLE_FONTS');
   fonts.forEach((font) => {
     if (!fontNameMap.get(font.family)) {
       let fontName = font.family;
@@ -117,7 +119,7 @@ const availableFontFamilies = (function requestAvailableFontFamilies() {
   });
 
   // make it unique
-  const fontFamilySet = new Set();
+  const fontFamilySet = new Set<string>();
   fonts.map((font) => fontFamilySet.add(font.family));
 
   // transfer to array and sort!
@@ -140,10 +142,10 @@ storage.set('font-name-map', fontNameMapObj);
 
 const getFontOfPostscriptName = memoize((postscriptName) => {
   if (window.os === 'MacOS') {
-    const font = FontScanner.findFontSync({ postscriptName });
+    const font = fontScanner.findFont({ postscriptName });
     return font;
   }
-  const allFonts = FontScanner.getAvailableFontsSync();
+  const allFonts = fontScanner.getAvailableFonts();
   const fit = allFonts.filter((f) => f.postscriptName === postscriptName);
   console.log(fit);
   if (fit.length > 0) {
@@ -158,11 +160,11 @@ const init = () => {
 init();
 
 const requestFontsOfTheFontFamily = memoize((family) => {
-  const fonts = ipc.sendSync(events.FIND_FONTS, { family });
+  const fonts = communicator.sendSync('FIND_FONTS', { family });
   return Array.from(fonts);
 });
 const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
-  const font = ipc.sendSync(events.FIND_FONT, {
+  const font = communicator.sendSync('FIND_FONT', {
     family: opts.family,
     style: opts.style,
     weight: opts.weight,
@@ -202,7 +204,7 @@ const substitutedFont = (textElement: Element) => {
   const originPostscriptName = originFont.postscriptName;
   const unSupportedChar = [];
   const fontList = Array.from(text).map((char) => {
-    const sub = FontScanner.substituteFontSync(originPostscriptName, char);
+    const sub = fontScanner.substituteFont(originPostscriptName, char);
     if (sub.postscriptName !== originPostscriptName) unSupportedChar.push(char);
     return sub;
   });
@@ -217,7 +219,7 @@ const substitutedFont = (textElement: Element) => {
   for (let i = 0; i < fontList.length; i += 1) {
     let allFit = true;
     for (let j = 0; j < text.length; j += 1) {
-      const foundfont = FontScanner.substituteFontSync(fontList[i].postscriptName, text[j]);
+      const foundfont = fontScanner.substituteFont(fontList[i].postscriptName, text[j]);
       if (fontList[i].postscriptName !== foundfont.postscriptName) {
         allFit = false;
         break;
@@ -299,7 +301,7 @@ const convertTextToPathFluxsvg = async (
 
   setTextPostscriptnameIfNeeded(textElement);
   let isUnsupported = false;
-  const batchCmd = new svgedit.history.BatchCommand('Text to Path');
+  const batchCmd = new history.BatchCommand('Text to Path');
   const origFontFamily = textElement.getAttribute('font-family');
   const origFontPostscriptName = textElement.getAttribute('font-postscript');
   if (BeamboxPreference.read('font-substitute') !== false) {
@@ -384,7 +386,7 @@ const convertTextToPathFluxsvg = async (
     $(path).insertAfter($(textElement));
     path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
     path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
-    batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+    batchCmd.addSubCommand(new history.InsertElementCommand(path));
     // output of fluxsvg will locate at (0,0), so move it.
     svgCanvas.moveElements([bbox.x], [bbox.y], [path], false);
 
@@ -403,7 +405,7 @@ const convertTextToPathFluxsvg = async (
     const parent = textElement.parentNode;
     const { nextSibling } = textElement;
     const elem = parent.removeChild(textElement);
-    batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 
     if (!batchCmd.isEmpty()) {
       svgCanvas.undoMgr.addCommandToHistory(batchCmd);
@@ -435,11 +437,11 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
 
   // use key (which hash from $textElement html string) to prevent ipc event confliction
   const key = hashCode($textElement.prop('outerHTML'));
-  ipc.once(events.RESOLVE_PATH_D_OF_TEXT + key, (sender, pathD) => {
+  communicator.once('RESOLVE_PATH_D_OF_TEXT' + key, (sender, pathD) => {
     d.resolve(pathD);
   });
 
-  ipc.send(events.REQUEST_PATH_D_OF_TEXT, {
+  communicator.send('REQUEST_PATH_D_OF_TEXT', {
     text: $textElement.text(),
     x: $textElement.attr('x'),
     y: $textElement.attr('y'),
@@ -468,18 +470,18 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
     'stroke-dasharray': 'none',
     'vector-effect': 'non-scaling-stroke',
   });
-  const batchCmd = new svgedit.history.BatchCommand('Text to Path');
+  const batchCmd = new history.BatchCommand('Text to Path');
   $(path).insertAfter($textElement);
   $(path)
     .mouseover(svgCanvas.handleGenerateSensorArea)
     .mouseleave(svgCanvas.handleGenerateSensorArea);
-  batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(path));
+  batchCmd.addSubCommand(new history.InsertElementCommand(path));
   if (!isTempConvert) {
     const textElem = $textElement[0];
     const parent = textElem.parentNode;
     const { nextSibling } = textElem;
     const elem = parent.removeChild(textElem);
-    batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 
     if (!batchCmd.isEmpty()) { svgCanvas.undoMgr.addCommandToHistory(batchCmd); }
   } else {
@@ -649,7 +651,6 @@ export default {
   fontNameMap,
   requestFontsOfTheFontFamily,
   requestFontByFamilyAndStyle,
-  requestToConvertTextToPath,
   convertTextToPathFluxsvg,
   tempConvertTextToPathAmoungSvgcontent,
   revertTempConvert,

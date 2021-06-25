@@ -1,106 +1,44 @@
-import Dispatcher from '../dispatcher/beambox-dispatcher';
-import Constants from '../constants/beambox-constants';
-const EventEmitter = requireNode('events');
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-var beamboxStore;
+const UPDATE_LASER_PANEL = 'UPDATE_LASER_PANEL';
+const SHOW_CROPPER = 'SHOW_CROPPER';
+const DRAW_GUIDE_LINES = 'DRAW_GUIDE_LINES';
 
-beamboxStore = Object.assign(EventEmitter.prototype, {
+const eventEmitter = eventEmitterFactory.createEventEmitter();
+export default {
+  onUpdateLaserPanel(callback) {
+    eventEmitter.on(UPDATE_LASER_PANEL, callback);
+  },
 
-    onUpdateLaserPanel: function (callback) {
-        this.on(Constants.UPDATE_LASER_PANEL, callback);
-        return beamboxStore;
-    },
+  onCropperShown(callback) {
+    eventEmitter.on(SHOW_CROPPER, callback);
+  },
 
-    onEndDrawingPreviewBlob: function (callback) {
-        this.on(Constants.END_DRAWING_PREVIEW_BLOB, callback);
-        return beamboxStore;
-    },
+  onDrawGuideLines(callback) {
+    eventEmitter.on(DRAW_GUIDE_LINES, callback);
+  },
 
-    onStartDrawingPreviewBlob: function (callback) {
-        this.on(Constants.START_DRAWING_PREVIEW_BLOB, callback);
-        return beamboxStore;
-    },
+  removeUpdateLaserPanelListener(callback) {
+    eventEmitter.removeListener(UPDATE_LASER_PANEL, callback);
+  },
 
-    onCropperShown: function (callback) {
-        this.on(Constants.SHOW_CROPPER, callback);
-        return beamboxStore;
-    },
+  removeAllUpdateLaserPanelListeners() {
+    eventEmitter.removeAllListeners(UPDATE_LASER_PANEL);
+  },
 
-    onEndImageTrace: function (callback) {
-        this.on(Constants.END_IMAGE_TRACE, callback);
-        return beamboxStore;
-    },
+  removeCropperShownListener(callback) {
+    eventEmitter.removeListener(SHOW_CROPPER, callback);
+  },
 
-    onClearCameraCanvas: function (callback) {
-        this.on(Constants.CLEAR_CAMERA_CANVAS, callback);
-        return beamboxStore;
-    },
+  emitUpdateLaserPanel() {
+    eventEmitter.emit(UPDATE_LASER_PANEL);
+  },
 
-    onResetPreviewButton: function (callback) {
-        this.on(Constants.RESET_PREVIEW_BUTTON, callback);
-        return beamboxStore;
-    },
+  emitShowCropper() {
+    eventEmitter.emit(SHOW_CROPPER);
+  },
 
-    onShowTaskInterpreter: function (callback) {
-        this.on(Constants.SHOW_TASK_INTERPRETER, callback);
-        return beamboxStore;
-    },
-
-    onDrawGuideLines: function (callback) {
-        this.on(Constants.DRAW_GUIDE_LINES, callback);
-        return beamboxStore;
-    },
-
-    removeUpdateLaserPanelListener: function (callback) {
-        this.removeListener(Constants.UPDATE_LASER_PANEL, callback);
-        return beamboxStore;
-    },
-
-    removeAllUpdateLaserPanelListeners: function () {
-        this.removeAllListeners(Constants.UPDATE_LASER_PANEL);
-        return beamboxStore;
-    },
-
-    removeEndDrawingPreviewBlobListener: function (callback) {
-        this.removeListener(Constants.END_DRAWING_PREVIEW_BLOB, callback);
-        return beamboxStore;
-    },
-
-    removeStartDrawingPreviewBlobListener: function (callback) {
-        this.removeListener(Constants.START_DRAWING_PREVIEW_BLOB, callback);
-        return beamboxStore;
-    },
-
-    removeCropperShownListener: function (callback) {
-        this.removeListener(Constants.SHOW_CROPPER, callback);
-        return beamboxStore;
-    },
-
-    removeEndImageTraceListener: function (callback) {
-        this.removeListener(Constants.END_IMAGE_TRACE, callback);
-        return beamboxStore;
-    },
-
-    removeClearCameraCanvasListener: function (callback) {
-        this.removeListener(Constants.CLEAR_CAMERA_CANVAS, callback);
-        return beamboxStore;
-    },
-
-    removeResetPreviewButton: function (callback) {
-        this.removeListener(Constants.RESET_PREVIEW_BUTTON, callback);
-        return beamboxStore;
-    },
-
-    dispatcherIndex: Dispatcher.register(function (payload) {
-        var actionType = payload.actionType;
-
-        if (Constants[actionType]) {
-            beamboxStore.emit(actionType, payload);
-        }
-        else {
-            throw console.error(`unknown action type: ${actionType}`);
-        }
-    })
-});
-
-export default beamboxStore;
+  emitDrawGuideLines() {
+    eventEmitter.emit(DRAW_GUIDE_LINES);
+  },
+};

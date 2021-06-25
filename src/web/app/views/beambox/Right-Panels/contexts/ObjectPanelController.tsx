@@ -1,31 +1,25 @@
-import { ObjectPanelContextHelper } from 'app/views/beambox/Right-Panels/Object-Panel';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-const updateDimensionValues = (newValue) => {
-    if (!ObjectPanelContextHelper.context) {
-        // console.log('ObjectPanel is not mounted now.');
-    } else {
-        ObjectPanelContextHelper.context.updateDimensionValues(newValue);
-    }
+const objectPanelEventEmitter = eventEmitterFactory.createEventEmitter('object-panel');
+
+const updateDimensionValues = (newValue: any): void => {
+  objectPanelEventEmitter.emit('UPDATE_DIMENSION_VALUES', newValue);
 };
 
-const getDimensionValues = (key) => {
-    if (!ObjectPanelContextHelper.context) {
-        //console.log('ObjectPanel is not mounted now.');
-    } else {
-        return ObjectPanelContextHelper.context.getDimensionValues(key);
-    }
-}
+const getDimensionValues = (key: string): any => {
+  const response = {
+    dimensionValues: {},
+  };
+  objectPanelEventEmitter.emit('GET_DIMENSION_VALUES', response, key);
+  return response.dimensionValues;
+};
 
-const updateObjectPanel = () => {
-    if (!ObjectPanelContextHelper.context) {
-        //console.log('ObjectPanel is not mounted now.');
-    } else {
-        ObjectPanelContextHelper.context.updateObjectPanel();
-    }
+const updateObjectPanel = (): void => {
+  objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
 };
 
 export default {
-    updateObjectPanel: updateObjectPanel,
-    updateDimensionValues: updateDimensionValues,
-    getDimensionValues: getDimensionValues
-}
+  updateObjectPanel,
+  updateDimensionValues,
+  getDimensionValues,
+};

@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PathInput should render correctly 1`] = `
+<div
+  className="path-input with-error"
+>
+  <input
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    type="text"
+    value="defaultFolder"
+  />
+  <div
+    className="dialog-btn"
+    onClick={[Function]}
+    title="Choose Folder"
+  >
+    <img
+      src="img/right-panel/icon-import.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`test PathInput should render correctly 2`] = `
+<div
+  className="path-input with-error"
+>
+  <input
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    type="text"
+    value="defaultFolder"
+  />
+  <div
+    className="dialog-btn"
+    onClick={[Function]}
+    title="Choose Folder"
+  >
+    <img
+      src="img/right-panel/icon-import.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`test PathInput should render correctly 3`] = `
+<div
+  className="path-input with-error"
+>
+  <input
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    type="text"
+    value="myDocuments"
+  />
+  <div
+    className="dialog-btn"
+    onClick={[Function]}
+    title="Choose Folder"
+  >
+    <img
+      src="img/right-panel/icon-import.svg"
+    />
+  </div>
+</div>
+`;

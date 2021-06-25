@@ -10,12 +10,12 @@ import { Mode } from 'app/constants/monitor-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import MonitorStatus from 'helpers/monitor-status';
 import MonitorCamera from './Monitor-Camera';
-import MonitorControl from './Monitor-Control';
+import MonitorControl from './MonitorControl';
 import MonitorFilelist from './Monitor-Filelist';
-import MonitorHeader, { NavBtnType } from './Monitor-Header';
-import MonitorInfo from './Monitor-Info';
+import MonitorHeader, { NavBtnType } from './MonitorHeader';
+import MonitorInfo from './MonitorInfo';
 import MonitorRelocate from './Monitor-Relocate';
-import MonitorTask from './Monitor-Task';
+import MonitorTask from './MonitorTask';
 
 let LANG = i18n.lang;
 
@@ -75,7 +75,7 @@ export default class Monitor extends React.Component<Props> {
     const { device } = this.props;
     return (
       <MonitorTask
-        device={device}
+        deviceVersion={device.version}
       />
     );
   }

@@ -174,8 +174,8 @@ class DeviceMaster {
           await this.enterMaintainMode();
         } else if (mode === 'raw') {
           await this.enterRawMode();
-          device.control.isLineCheckMode = isLineCheckMode;
-          device.control.lineNumber = lineNumber;
+          controlSocket.isLineCheckMode = isLineCheckMode;
+          controlSocket.lineNumber = lineNumber;
         }
         if (device.camera !== null) {
           await this.connectCamera();
@@ -410,7 +410,7 @@ class DeviceMaster {
     }
 
     if (onProgress) {
-      controlSocket.setProgressListen(onProgress);
+      controlSocket.setProgressListener(onProgress);
     }
     await controlSocket.addTask(controlSocket.upload, data);
     await controlSocket.addTask(controlSocket.start);
@@ -604,7 +604,7 @@ class DeviceMaster {
   ) {
     const controlSocket = this.currentDevice.control;
     if (onProgress) {
-      controlSocket.setProgressListen(onProgress);
+      controlSocket.setProgressListener(onProgress);
     }
     const res = await controlSocket.addTask(controlSocket.upload, data, path, fileName);
     return res;
@@ -613,7 +613,7 @@ class DeviceMaster {
   downloadFile(path: string, fileName: string, onProgress?: (...args: any[]) => void) {
     const controlSocket = this.currentDevice.control;
     if (onProgress) {
-      controlSocket.setProgressListen(onProgress);
+      controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.downloadFile, `${path}/${fileName}`, onProgress);
   }
@@ -621,7 +621,7 @@ class DeviceMaster {
   downloadLog(log: string, onProgress: (...args: any[]) => void = () => { }) {
     const controlSocket = this.currentDevice.control;
     if (onProgress) {
-      controlSocket.setProgressListen(onProgress);
+      controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.downloadLog(log);
   }
@@ -848,7 +848,7 @@ class DeviceMaster {
   updateFirmware = (file: File, onProgress: (...args: any[]) => void) => {
     const controlSocket = this.currentDevice.control;
     if (onProgress) {
-      controlSocket.setProgressListen(onProgress);
+      controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.fwUpdate, file);
   };
@@ -856,7 +856,7 @@ class DeviceMaster {
   updateToolhead = (file: File, onProgress: (...args: any[]) => void) => {
     const controlSocket = this.currentDevice.control;
     if (onProgress) {
-      controlSocket.setProgressListen(onProgress);
+      controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.toolheadUpdate, file);
   };

@@ -3,7 +3,6 @@
 exports[`should render correctly 1`] = `
 <div
   className="dialog-box-container"
-  onClick={[MockFunction]}
   style={
     Object {
       "bottom": NaN,

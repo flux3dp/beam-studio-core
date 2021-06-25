@@ -3,19 +3,16 @@
  * API discover
  * Ref: https://github.com/flux3dp/fluxghost/wiki/websocket-discover
  */
-import Websocket from 'helpers/websocket';
+import CloudApi from 'helpers/api/cloud';
 import DeviceList from 'helpers/device-list';
-import storage from 'implementations/storage';
 import Logger from 'helpers/logger';
+import network from 'implementations/network';
 import sentryHelper from 'helpers/sentry-helper';
 import SmartUpnp from 'helpers/smart-upnp';
+import storage from 'implementations/storage';
+import Websocket from 'helpers/websocket';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-import CloudApi from './cloud';
-
-const dns = requireNode('dns');
-
-const dnsPromise = dns.promises;
 let lastSendMessage = 0;
 const BUFFER = 100;
 let timer;
@@ -190,10 +187,7 @@ const Discover = (id: string, getPrinters: (printers: IDeviceInfo[]) => void) =>
 
 const initSmartUpnp = async () => {
   try {
-    const lookupOptions = {
-      all: true,
-    };
-    const res = await dnsPromise.lookup('raspberrypi.local', lookupOptions);
+    const res = await network.dnsLookUpAll('raspberrypi.local');
     res.forEach((ipAddress) => {
       if (ipAddress.family === 4 && !pokeIPs.includes(ipAddress.address)) {
         console.log(`Add ${ipAddress.address} to Poke ips`);

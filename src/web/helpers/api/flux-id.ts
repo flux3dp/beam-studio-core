@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
+import axios, { AxiosResponse } from 'axios';
+
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
+import communicator from 'implementations/communicator';
+import cookies from 'implementations/cookies';
 import i18n from 'helpers/i18n';
 import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-const axios = requireNode('axios');
-const electron = requireNode('electron');
-const EventEmitter = requireNode('events');
-
+interface ResponseWithError extends AxiosResponse {
+  error?: string;
+}
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
 const FB_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
@@ -30,7 +34,7 @@ let currentUser: IUser = null;
 
 axiosFluxId.interceptors.response.use((response) => response, (error) => ({ error }));
 
-export const fluxIDEvents = new EventEmitter();
+export const fluxIDEvents = eventEmitterFactory.createEventEmitter('flux-id');
 
 const handleErrorMessage = (error) => {
   if (!error) {
@@ -46,7 +50,7 @@ const handleErrorMessage = (error) => {
 };
 
 const updateMenu = (info?) => {
-  electron.ipcRenderer.send('UPDATE_ACCOUNT', info);
+  communicator.send('UPDATE_ACCOUNT', info);
 };
 
 const updateUser = (info?) => {
@@ -71,7 +75,7 @@ const updateUser = (info?) => {
   }
 };
 
-export const getCurrentUser = () => currentUser;
+export const getCurrentUser = (): IUser => currentUser;
 
 const handleOAuthLoginSuccess = (data) => {
   updateUser(data);
@@ -87,7 +91,7 @@ const signInWithFBToken = async (fb_token: string) => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', { fb_token }, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   progress.popById('flux-id-login');
   if (response.error) {
     handleErrorMessage(response.error);
@@ -107,12 +111,12 @@ const signInWithFBToken = async (fb_token: string) => {
 export const getInfo = async (silent: boolean = false) => {
   const response = await axiosFluxId.get('/user/info', {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     if (!silent) {
       handleErrorMessage(response.error);
     }
-    return false;
+    return null;
   }
   const responseData = response.data;
   if (response.status === 200) {
@@ -125,7 +129,7 @@ export const getInfo = async (silent: boolean = false) => {
     const message = responseData.message ? `${responseData.info}: ${responseData.message}` : responseData.info;
     alert.popUpError({ message });
   }
-  return false;
+  return null;
 };
 
 const getAccessToken = async () => {
@@ -133,9 +137,8 @@ const getAccessToken = async () => {
     params: {
       response_type: 'token',
     },
-  }, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     handleErrorMessage(response.error);
     return false;
@@ -146,7 +149,7 @@ const getAccessToken = async () => {
   }
   const message = responseData.message ? `${responseData.info}: ${responseData.message}` : responseData.info;
   alert.popUpError({ message });
-  return false;
+  return null;
 };
 
 const signInWithGoogleCode = async (info): Promise<boolean> => {
@@ -157,7 +160,7 @@ const signInWithGoogleCode = async (info): Promise<boolean> => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', data, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   progress.popById('flux-id-login');
 
   if (response.error) {
@@ -176,18 +179,17 @@ const signInWithGoogleCode = async (info): Promise<boolean> => {
 };
 
 export const init = async (): Promise<void> => {
-  const { cookies } = electron.remote.session.defaultSession;
   cookies.on('changed', (event, cookie, cause, removed) => {
     if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
       axiosFluxId.defaults.headers.post['X-CSRFToken'] = cookie.value;
     }
   });
-  electron.ipcRenderer.on('FB_AUTH_TOKEN', (e, dataString: string) => {
+  communicator.on('FB_AUTH_TOKEN', (e, dataString: string) => {
     const data = parseQueryData(dataString);
     const token = data.access_token;
     signInWithFBToken(token);
   });
-  electron.ipcRenderer.on('GOOGLE_AUTH', (e, dataString: string) => {
+  communicator.on('GOOGLE_AUTH', (e, dataString: string) => {
     const data = parseQueryData(dataString);
     signInWithGoogleCode(data);
   });
@@ -202,7 +204,7 @@ export const init = async (): Promise<void> => {
       axiosFluxId.defaults.headers.post['X-CSRFToken'] = csrfcookies[0].value;
     }
     const res = await getInfo(true);
-    if (res.status !== 'ok') {
+    if (res && res.status !== 'ok') {
       updateMenu();
     }
   } else {
@@ -216,9 +218,7 @@ export const init = async (): Promise<void> => {
       url += cookie.domain;
       url += cookie.path;
 
-      cookies.remove(url, cookie.name, (error) => {
-        if (error) console.log(`error removing cookie ${cookie.name}`, error);
-      });
+      cookies.remove(url, cookie.name);
     });
     updateMenu();
   }
@@ -249,7 +249,7 @@ export const signIn = async (
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', signInData, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   progress.popById('flux-id-login');
   if (response.status === 200) {
     const { data } = response;
@@ -267,7 +267,7 @@ export const submitRating = async (
 ) => {
   const response = await axiosFluxId.post('/user_rating/submit_rating', ratingData, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
 
   if (response.status === 200) {
     const { data } = response;
@@ -298,9 +298,8 @@ export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
     params: {
       offset,
     },
-  }, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     handleErrorMessage(response.error);
     return false;
@@ -312,7 +311,7 @@ export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
 export const getNPIconByID = async (id: string) => {
   const response = await axiosFluxId.get(`/api/np/icon/${id}`, {
     withCredentials: true,
-  });
+  }) as ResponseWithError;
   if (response.error) {
     handleErrorMessage(response.error);
     return false;

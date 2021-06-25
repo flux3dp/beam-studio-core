@@ -3,6 +3,10 @@
 /**
  * Make symbol elements for <use> element
  */
+
+import communicator from 'implementations/communicator';
+import history from 'app/svgedit/history';
+import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import Progress from 'app/actions/progress-caller';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -14,7 +18,6 @@ let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
 
 let clipCount = 1;
-const { electron } = window;
 
 const makeSymbol = (
   elem: Element,
@@ -247,7 +250,7 @@ const makeSymbol = (
     );
   }
 
-  batchCmd.addSubCommand(new svgedit.history.InsertElementCommand(symbol));
+  batchCmd.addSubCommand(new history.InsertElementCommand(symbol));
 
   return symbol;
 };
@@ -266,9 +269,7 @@ const getStrokeWidth = (imageRatio, scale) => {
 };
 
 const sendTaskToWorker = async (data) => new Promise((resolve) => {
-  const path = requireNode('path');
-  const workerPath = path.join(__dirname, 'js', 'dist', 'helpers', 'symbol-helper', 'image-symbol-worker.js');
-  const worker = new Worker(workerPath);
+  const worker = new ImageSymbolWorker('');
   worker.postMessage(data);
   worker.onerror = (e) => console.log(e);
   worker.onmessage = (e) => {
@@ -317,10 +318,10 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
 });
 
 const svgToImgUrlByShadowWindow = async (data) => new Promise<string>((resolve) => {
-  electron.ipc.once(`SVG_URL_TO_IMG_URL_DONE_${requestId}`, (sender, url) => {
+  communicator.once(`SVG_URL_TO_IMG_URL_DONE_${requestId}`, (sender, url) => {
     resolve(url);
   });
-  electron.ipc.send('SVG_URL_TO_IMG_URL', data);
+  communicator.send('SVG_URL_TO_IMG_URL', data);
 });
 
 const calculateImageRatio = (bb) => {

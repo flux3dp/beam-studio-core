@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Severity } from '@sentry/types';
+
 import { IDeviceInfo } from 'interfaces/IDevice';
+import Sentry from 'implementations/sentry';
 import storage from 'implementations/storage';
-// import * as Sentry from '@sentry/electron';
 
 let isSentryInited = false;
-const sendDevices: { [uuid: string]: string } = {};
-// const sendDevices: { [uuid: string]: string } = storage.get('sentry-send-devices') || {};
-
-// eslint-disable-next-line @typescript-eslint/dot-notation
-const Sentry = window['nodeModules']['@sentry/electron'];
+const sendDevices: { [uuid: string]: string } = storage.get('sentry-send-devices') || {};
 
 const initSentry = (): void => {
   if (storage.get('enable-sentry')) {
@@ -16,7 +15,7 @@ const initSentry = (): void => {
     Sentry.init({ dsn: 'https://bbd96134db9147658677dcf024ae5a83@o28957.ingest.sentry.io/5617300' });
     isSentryInited = true;
     Sentry.captureMessage('User Census', {
-      level: 'info',
+      level: 'info' as Severity,
       tags: {
         census: 'v1',
         from: 'renderer',
@@ -29,7 +28,7 @@ const sendDeviceInfo = (device: IDeviceInfo): void => {
   if (isSentryInited) {
     if (!sendDevices[device.uuid]) {
       Sentry.captureMessage('Device Info', {
-        level: 'info',
+        level: 'info' as Severity,
         tags: {
           'device-lastversion': 'no',
           'device-uuid': device.uuid,
@@ -41,7 +40,7 @@ const sendDeviceInfo = (device: IDeviceInfo): void => {
       storage.set('sentry-send-devices', sendDevices);
     } else if (sendDevices[device.uuid] !== device.version) {
       Sentry.captureMessage('Device Info', {
-        level: 'info',
+        level: 'info' as Severity,
         tags: {
           'device-lastversion': sendDevices[device.uuid],
           'device-uuid': device.uuid,

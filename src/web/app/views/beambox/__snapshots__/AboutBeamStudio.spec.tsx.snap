@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<AboutBeamStudio
+  onClose={[MockFunction]}
+>
+  <View
+    onClose={[MockFunction]}
+  >
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="about-beam-studio"
+        >
+          <img
+            src="img/icon.png"
+          />
+          <div
+            className="app-name"
+          >
+            Beam Studio
+          </div>
+          <div
+            className="version"
+          >
+            Version 1.2.3
+          </div>
+          <div
+            className="copyright"
+          >
+            Copyright ⓒ 2021 FLUX Inc.
+          </div>
+          <button
+            className="btn btn-default"
+            onClick={[MockFunction]}
+            type="button"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </View>
+</AboutBeamStudio>
+`;

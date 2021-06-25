@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import EventEmitter from 'eventemitter3';
 
 import defaultIcons from 'app/constants/noun-project-constants';
 import DraggableWindow from 'app/widgets/Draggble-Window';
@@ -9,8 +10,6 @@ import storage from 'implementations/storage';
 import { fluxIDEvents, getNPIconByID, getNPIconsByTerm } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IIcon } from 'interfaces/INoun-Project';
-
-const EventEmitter = requireNode('events');
 
 let svgEditor;
 getSVGAsync((globalSVG) => {

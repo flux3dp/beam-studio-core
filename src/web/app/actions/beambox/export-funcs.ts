@@ -1,21 +1,22 @@
 /* eslint-disable no-console */
 import Alert from 'app/actions/alert-caller';
-import MonitorController from 'app/actions/monitor-controller';
-import Progress from 'app/actions/progress-caller';
+import AlertConstants from 'app/constants/alert-constants';
+import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
-import FontFuncs from 'app/actions/beambox/font-funcs';
-import AlertConstants from 'app/constants/alert-constants';
-import { Mode } from 'app/constants/monitor-constants';
-import svgLaserParser from 'helpers/api/svg-laser-parser';
-import AwsHelper from 'helpers/aws-helper';
+import dialog from 'implementations/dialog';
 import DeviceMaster from 'helpers/device-master';
+import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import MonitorController from 'app/actions/monitor-controller';
+import Progress from 'app/actions/progress-caller';
+import svgLaserParser from 'helpers/api/svg-laser-parser';
 import SymbolMaker from 'helpers/symbol-maker';
 import VersionChecker from 'helpers/version-checker';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { Mode } from 'app/constants/monitor-constants';
 
 let svgCanvas;
 let svgedit;
@@ -25,7 +26,7 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-const { electron, $ } = window;
+const { $ } = window;
 const { lang } = i18n;
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
 
@@ -127,7 +128,7 @@ const updateImageResolution = (isFullResolution = true) => new Promise<void>((re
 });
 
 interface WrappedFile {
-  data: string|ArrayBuffer;
+  data: string | ArrayBuffer;
   name: string;
   uploadName: string;
   extension: string;
@@ -344,7 +345,11 @@ export default {
     const fileReader = new FileReader();
 
     fileReader.onload = function onLoad() {
-      electron.ipc.send('save-dialog', langFile.save_fcode, langFile.all_files, langFile.fcode_files, ['fc'], defaultFCodeName, new Uint8Array(this.result as ArrayBuffer));
+      const getContent = () => new Blob([this.result as ArrayBuffer]);
+      dialog.writeFileDialog(getContent, langFile.save_fcode, defaultFCodeName, [
+        { name: window.os === 'MacOS' ? `${langFile.fcode_files} (*.fc)` : langFile.fcode_files, extensions: ['fc'] },
+        { name: langFile.all_files, extensions: ['*'] },
+      ]);
     };
 
     fileReader.readAsArrayBuffer(fcodeBlob);

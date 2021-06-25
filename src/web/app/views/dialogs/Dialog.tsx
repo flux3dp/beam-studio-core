@@ -1,47 +1,34 @@
 import * as React from 'react';
-import { DialogContext, DialogContextProvider } from 'app/contexts/Dialog-Context';
+import classNames from 'classnames';
 
-let _contextCaller;
+import { DialogContext } from 'app/contexts/DialogContext';
 
 const ComponentWrapper = (props) => props.children;
 
-export class Dialog extends React.Component<any, any> {
-    componentDidMount() {
-        _contextCaller = this.context;
-    }
+interface Props {
+  className?: string;
+}
 
-    componentWillUnmount() {
-        _contextCaller = null;
+const Dialog = ({ className = '' }: Props): JSX.Element => {
+  const { dialogComponents } = React.useContext(DialogContext);
+  const renderComponents = () => {
+    const components = [];
+    for (let i = 0; i < dialogComponents.length; i += 1) {
+      const { component } = dialogComponents[i];
+      components.push(
+        <ComponentWrapper key={i}>
+          {component}
+        </ComponentWrapper>,
+      );
     }
+    return components;
+  };
 
-    renderComponents() {
-        const { dialogComponents } = this.context;
-        const components = [];
-        for (let i = 0; i < dialogComponents.length; i++) {
-            const { component } = dialogComponents[i];
-            components.push(
-                <ComponentWrapper key={i}>
-                    { component }
-                </ComponentWrapper>
-            );
-        }
-        return components;
-    }
-
-    render() {
-        const components = this.renderComponents();
-        return (
-            <div className="dialog-container">
-                {components}
-            </div>
-        );
-    }
+  return (
+    <div className={classNames('dialog-container', className)}>
+      {renderComponents()}
+    </div>
+  );
 };
 
-Dialog.contextType = DialogContext;
-
-export class DialogContextHelper {
-    static get context(): DialogContextProvider {
-        return _contextCaller;
-    }
-}
+export default Dialog;

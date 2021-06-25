@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import Alert from 'app/actions/alert-caller';
-import BeamboxActions from 'app/actions/beambox';
 import Progress from 'app/actions/progress-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import ErrorConstants from 'app/constants/error-constants';
@@ -173,7 +172,6 @@ class PreviewModeController {
       }
       $('#workarea').css('cursor', 'auto');
       if (!PreviewModeBackgroundDrawer.isClean()) {
-        BeamboxActions.endDrawingPreviewBlob();
         this.isDrawing = false;
       }
       this.end();
@@ -234,7 +232,6 @@ class PreviewModeController {
       const result = await this.preview(points[i][0], points[i][1], (i === points.length - 1));
 
       if (!result) {
-        BeamboxActions.endDrawingPreviewBlob();
         this.isDrawing = false;
         return;
       }

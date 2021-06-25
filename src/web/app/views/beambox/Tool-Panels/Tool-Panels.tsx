@@ -14,10 +14,10 @@ import OffsetDistPanel from 'app/views/beambox/Tool-Panels/OffsetDist';
 import RowColumnPanel from 'app/views/beambox/Tool-Panels/RowColumn';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ToolPanelType } from 'app/actions/beambox/toolPanelsController';
 
 let svgCanvas;
-let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.tool_panels;
 
@@ -32,8 +32,6 @@ const validPanelsMap = {
   'offset': ['offsetDir', 'offsetCorner', 'offsetDist'],
   'nest': ['nestOffset', 'nestRotation', 'nestGA'],
 };
-
-export type ToolPanelType = 'unknown' | 'gridArray' | 'offset' | 'nest';
 
 interface Props {
   type: ToolPanelType;
@@ -77,14 +75,12 @@ class ToolPanel extends React.Component<Props> {
 
   _setArrayRowColumn(rowcolumn) {
     this.props.data.rowcolumn = rowcolumn;
-    let rc = rowcolumn;
-    this.setState({ rowcolumn: rc });
+    this.setState({ rowcolumn });
   };
 
   _setArrayDistance(distance) {
     this.props.data.distance = distance;
-    let d = distance;
-    this.setState({ distance: d });
+    this.setState({ distance });
   };
 
   _setOffsetDir(dir) {

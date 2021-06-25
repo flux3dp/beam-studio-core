@@ -37,3 +37,35 @@ export interface IInputLightBox {
   onCancel?: () => void,
   onClose?: (from?: string) => void,
 }
+
+export interface DialogFilter {
+  name: string;
+  extensions: string[];
+}
+export type OpenDialogProperties = 'openFile' | 'openDirectory' | 'createDirectory' | 'promptToCreate';
+export interface IDialog {
+  showSaveDialog(
+    title?: string,
+    defaultPath?: string,
+    filters?: DialogFilter[],
+  ): Promise<string | null>;
+  writeFileDialog(
+    getContent: () => string | Blob | Promise<string | Blob>,
+    title?: string,
+    defaultPath?: string,
+    filters?: DialogFilter[],
+  ): Promise<string | null>;
+  showOpenDialog(options: {
+    defaultPath?: string,
+    filters?: DialogFilter[],
+    properties?: OpenDialogProperties[],
+  }): Promise<{
+    canceled: boolean,
+    filePaths: string[],
+  }>;
+  getFileFromDialog(options: {
+    defaultPath?: string,
+    filters?: DialogFilter[],
+    properties?: OpenDialogProperties[],
+  }): Promise<Blob | File>;
+}

@@ -1,10 +1,11 @@
-/* eslint-disable react/sort-comp */
 import * as React from 'react';
 import classNames from 'classnames';
+import Cropper from 'cropperjs';
 
-import ButtonGroup from 'app/widgets/Button-Group';
+import ButtonGroup from 'app/widgets/ButtonGroup';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
+import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
@@ -14,18 +15,14 @@ import Progress from 'app/actions/progress-caller';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IButton } from 'interfaces/IButton';
-import { IImageDataResult } from 'interfaces/IImageData';
+import { IImageDataResult } from 'interfaces/IImage';
+import imageProcessor from 'implementations/imageProcessor';
 
 const { $ } = window;
 let svgCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
-
-const Cropper = requireNode('cropperjs');
-const jimp = requireNode('jimp');
 
 const opencvWS = new OpenCVWebSocket();
 let LANG = i18n.lang.beambox.photo_edit_panel;
@@ -138,9 +135,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
         // eslint-disable-next-line no-console
         console.log('Down Sampling');
         if (origWidth >= origHeight) {
-          image.resize(600, jimp.AUTO);
+          image.resize(600, imageProcessor.AUTO);
         } else {
-          image.resize(jimp.AUTO, 600);
+          image.resize(imageProcessor.AUTO, 600);
         }
         imgBlobUrl = await jimpHelper.imageToUrl(image);
       }
@@ -200,7 +197,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     });
     const { displaySrc, origWidth, origHeight } = this.state;
     const { element, mode, unmount } = this.props;
-    const batchCmd = new svgedit.history.BatchCommand('Photo edit');
+    const batchCmd = new history.BatchCommand('Photo edit');
 
     const handleSetAttribute = (attr: string, value) => {
       svgCanvas.undoMgr.beginUndoableChange(attr, [element]);
@@ -281,8 +278,8 @@ class PhotoEditPanel extends React.Component<Props, State> {
         autoCropArea: 1,
         zoomable: false,
         viewMode: 0,
-        targetWidth: image.width,
-        targetHeight: image.height,
+        // targetWidth: image.width,
+        // targetHeight: image.height,
       },
     );
     this.setState({ isCropping: true });
@@ -306,9 +303,12 @@ class PhotoEditPanel extends React.Component<Props, State> {
     });
     if (complete) {
       const { origWidth, origHeight } = this.state;
+      const resizedW = this.cropDimensionHistory.length > 0
+        ? this.cropDimensionHistory[0].w : this.currentCropDimension.w;
+      const resizedH = this.cropDimensionHistory.length > 0
+        ? this.cropDimensionHistory[0].h : this.currentCropDimension.h;
       const ratio = origWidth > origHeight
-        ? origWidth / this.cropDimensionHistory[0].w
-        : origHeight / this.cropDimensionHistory[0].h;
+        ? origWidth / resizedW : origHeight / resizedH;
       for (let i = 0; i < this.cropDimensionHistory.length; i += 1) {
         const dim = this.cropDimensionHistory[i];
         x += dim.x;

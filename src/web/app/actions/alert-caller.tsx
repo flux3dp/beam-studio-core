@@ -1,48 +1,25 @@
-import * as React from 'react';
 import alertConstants from 'app/constants/alert-constants';
-import browser from 'implementations/browser';
-import { AlertsAndProgressContextHelper } from 'app/views/dialogs/Alerts-And-Progress';
+import { eventEmitter } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 
 export default {
-    popUp: (args: IAlert) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            AlertsAndProgressContextHelper.context.popUp(args);
-        }
-    },
-    popUpError: (args: IAlert) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            args = {
-                ...args,
-                type: alertConstants.SHOW_POPUP_ERROR,
-            };
-            AlertsAndProgressContextHelper.context.popUp(args);
-        }
-    },
-    popById: (id) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-        } else {
-            AlertsAndProgressContextHelper.context.popById(id);
-        }
-    },
-    checkIdExist: (id: string) => {
-        if (!AlertsAndProgressContextHelper.context) {
-            console.log('Alert context not loaded Yet');
-            return false;
-        } else {
-            return AlertsAndProgressContextHelper.context.checkIdExist(id, false);
-        }
-    },
-    renderHyperLink: (text: string, link: string) => {
-        return (
-            <div className='hyper-link' onClick={()=>browser.open(link)}>
-                {text}
-            </div>
-        );
-    },
+  popUp: (args: IAlert): void => {
+    eventEmitter.emit('POP_UP', args);
+  },
+  popUpError: (args: IAlert): void => {
+    eventEmitter.emit('POP_UP', {
+      ...args,
+      type: alertConstants.SHOW_POPUP_ERROR,
+    });
+  },
+  popById: (id: string): void => {
+    eventEmitter.emit('POP_BY_ID', id);
+  },
+  checkIdExist: (id: string): boolean => {
+    const response = {
+      idExist: false,
+    };
+    eventEmitter.emit('CHECK_ID_EXIST', id, response);
+    return response.idExist;
+  },
 };

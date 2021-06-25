@@ -2,14 +2,15 @@
 /* eslint-disable no-console */
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import dialog from 'implementations/dialog';
 import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
-import ElectronDialogs from 'app/actions/electron-dialogs';
 import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
@@ -54,13 +55,16 @@ interface Props {
 interface State {
   mode: Mode;
   currentPath: string[];
-  highlightedItem: any;
+  highlightedItem: {
+    type?: ItemType;
+    name?: string;
+  };
   fileInfo: any[];
   previewTask: { fcodeBlob: string, taskImageURL: string, taskTime: number };
   workingTask: any,
   taskImageURL: string | null;
   taskTime: number | null;
-  report: any;
+  report: IReport;
   uploadProgress: number | null;
   downloadProgress: number | null;
   shouldUpdateFileList: boolean;
@@ -85,10 +89,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
   reporter: NodeJS.Timeout;
 
+  isGettingReport: boolean;
+
   constructor(props: Props) {
     super(props);
     const { mode, previewTask } = props;
     updateLang();
+    this.isGettingReport = false;
     this.didErrorPopped = false;
     this.modeBeforeCamera = mode;
     this.modeBeforeRelocate = mode;
@@ -101,7 +108,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       workingTask: null,
       taskImageURL: mode === Mode.PREVIEW ? previewTask.taskImageURL : null,
       taskTime: mode === Mode.PREVIEW ? previewTask.taskTime : null,
-      report: {},
+      report: {} as IReport,
       uploadProgress: null,
       downloadProgress: null,
       shouldUpdateFileList: false,
@@ -145,9 +152,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   }
 
   startReport(): void {
+    if (this.reporter) clearInterval(this.reporter);
     this.reporter = setInterval(async () => {
       try {
+        if (this.isGettingReport) return;
+        this.isGettingReport = true;
         const report = await DeviceMaster.getReport();
+        this.isGettingReport = false;
         this.processReport(report);
       } catch (error) {
         if (error && error.status === 'raw') {
@@ -163,6 +174,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           const { onClose } = this.props;
           const askRetryReconnect = () => new Promise<boolean>((resolve) => {
             Alert.popUp({
+              id: 'monitor-reconnect',
               type: AlertConstants.SHOW_POPUP_ERROR,
               buttonType: AlertConstants.RETRY_CANCEL,
               message: LANG.monitor.ask_reconnect,
@@ -172,16 +184,20 @@ export class MonitorContextProvider extends React.Component<Props, State> {
                   Alert.popById('connection-error');
                   resolve(true);
                 } else {
-                  resolve(await askRetryReconnect());
+                  const doRetry = await askRetryReconnect();
+                  resolve(doRetry);
                 }
               },
               onCancel: () => resolve(false),
             });
           });
-          if (await askRetryReconnect()) {
-            this.startReport();
-          } else {
-            onClose();
+          if (!Alert.checkIdExist('monitor-reconnect')) {
+            const doRetry = await askRetryReconnect();
+            if (doRetry) {
+              this.startReport();
+            } else {
+              onClose();
+            }
           }
         }
       }
@@ -282,37 +298,36 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       };
 
       const handleReport = async () => {
-        const targetFilePath = await ElectronDialogs.saveFileDialog(LANG.beambox.popup.bug_report, 'devicelogs.txt', [
-          { extensionName: 'txt', extensions: ['txt'] },
-        ], false);
-        if (!targetFilePath) return;
+        const getContent = async () => {
+          const contents = [];
+          const bxLogs = OutputError.getOutput();
+          contents.push(...bxLogs);
 
-        const bxLogs = OutputError.getOutput();
-        const fs = requireNode('fs');
-        fs.writeFileSync(targetFilePath, bxLogs.join(''));
-
-        this.stopReport();
-        const { device } = this.props;
-        const vc = VersionChecker(device.version);
-        const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
-        Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
-        const logFiles = await DeviceMaster.getLogsTexts([playerLogName, 'fluxrobotd.log'], (progress: { completed: number, size: number }) => {
-          Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
-        });
-        Progress.popById('get_log');
-        this.startReport();
-        const logKeys = Object.keys(logFiles);
-        for (let i = 0; i < logKeys.length; i += 1) {
-          const key = logKeys[i];
-          const blob = getFirstBlobInArray(logFiles[key]);
-          if (blob) {
-            fs.appendFileSync(targetFilePath, `\n===\n${key}\n===\n`);
-            // eslint-disable-next-line no-await-in-loop
-            const arrBuf = await new Response(blob).arrayBuffer();
-            const buf = Buffer.from(arrBuf);
-            fs.appendFileSync(targetFilePath, buf);
+          this.stopReport();
+          const { device } = this.props;
+          const vc = VersionChecker(device.version);
+          const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
+          Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
+          const logFiles = await DeviceMaster.getLogsTexts([playerLogName, 'fluxrobotd.log'], (progress: { completed: number, size: number }) => {
+            Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
+          });
+          Progress.popById('get_log');
+          this.startReport();
+          const logKeys = Object.keys(logFiles);
+          for (let i = 0; i < logKeys.length; i += 1) {
+            const key = logKeys[i];
+            const blob = getFirstBlobInArray(logFiles[key]);
+            if (blob) {
+              contents.push(`\n===\n${key}\n===\n`);
+              contents.push(blob);
+            }
           }
-        }
+          return new Blob(contents);
+        };
+        await dialog.writeFileDialog(getContent, LANG.beambox.popup.bug_report, 'devicelogs.txt', [{
+          name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+          extensions: ['txt'],
+        }]);
       };
 
       const id = error.join('_');
@@ -635,13 +650,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         this.setState({ downloadProgress: p });
       });
       this.setState({ downloadProgress: null });
-      const targetPath = await ElectronDialogs.saveFileDialog(name, name, [], true);
-      if (targetPath) {
-        const fs = requireNode('fs');
-        const arrBuf = await new Response(file[1]).arrayBuffer();
-        const buf = Buffer.from(arrBuf);
-        fs.writeFileSync(targetPath, buf);
-      }
+      const getContent = async () => (file[1] as Blob);
+      await dialog.writeFileDialog(getContent, name, name, [{
+        name: i18n.lang.topmenu.file.all_files,
+        extensions: ['*'],
+      }]);
     } catch (e) {
       console.error('Error when downloading file', e);
     }

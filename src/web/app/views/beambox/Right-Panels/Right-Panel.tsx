@@ -1,22 +1,19 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import TutorialConstants from 'app/constants/tutorial-constants';
-import * as TutorialController from 'app/views/tutorials/Tutorial-Controller';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
+import LayerPanel from 'app/views/beambox/Right-Panels/LayerPanel';
+import PathEditPanel from 'app/views/beambox/Right-Panels/Path-Edit-Panel';
+import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { LayerPanelContextProvider } from './contexts/LayerPanelContext';
-import { ObjectPanelContextProvider } from './contexts/ObjectPanelContext';
-import { RightPanelContext, RightPanelContextProvider } from './contexts/RightPanelContext';
-import LayerPanel from './Layer-Panel';
-import { ObjectPanel } from './Object-Panel';
-import PathEditPanel from './Path-Edit-Panel';
+import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { ObjectPanel } from 'app/views/beambox/Right-Panels/Object-Panel';
+import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
 let svgCanvas;
-let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
-let _contextCaller;
-
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel;
 
@@ -37,10 +34,6 @@ export class RightPanel extends React.Component<{}, State> {
     this.state = {
       selectedTab: 'layers',
     };
-  }
-
-  componentDidMount() {
-    _contextCaller = this.context;
   }
 
   componentDidUpdate() {
@@ -175,9 +168,3 @@ export class RightPanel extends React.Component<{}, State> {
 }
 
 RightPanel.contextType = RightPanelContext;
-
-export class RightPanelContextHelper {
-  static get context(): RightPanelContextProvider {
-    return _contextCaller;
-  }
-};

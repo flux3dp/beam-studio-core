@@ -2,11 +2,12 @@ import classNames from 'classnames';
 import React from 'react';
 
 import Dialog from 'app/actions/dialog-caller';
-import ElectronDialogs from 'app/actions/electron-dialogs';
+import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import Progress from 'app/actions/progress-caller';
+import textActions from 'app/svgedit/textactions';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -17,17 +18,9 @@ const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {
   elem: Element,
-  dimensionValues: { [key: string]: string },
-  updateDimensionValues: (values: { [key: string]: string }) => void,
 }
 
 class ActionsPanel extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   replaceImage = async (): Promise<void> => {
     const { elem } = this.props;
     const option = {
@@ -38,12 +31,9 @@ class ActionsPanel extends React.Component<Props> {
         },
       ],
     };
-    const { canceled, filePaths } = await ElectronDialogs.showOpenDialog(option);
-    if (!canceled && filePaths && filePaths.length > 0) {
-      const filePath = filePaths[0];
-      const resp = await fetch(filePath);
-      const respBlob = await resp.blob();
-      svgEditor.replaceBitmap(respBlob, elem);
+    const fileBlob = await dialog.getFileFromDialog(option);
+    if (fileBlob) {
+      svgEditor.replaceBitmap(fileBlob, elem);
     }
   };
 
@@ -51,8 +41,8 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     Progress.openNonstopProgress({ id: 'convert-font', message: LANG.wait_for_parsing_font });
     const bbox = svgCanvas.calculateTransformedBBox(elem);
-    if (svgCanvas.textActions.isEditing) {
-      svgCanvas.textActions.toSelectMode();
+    if (textActions.isEditing) {
+      textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
 

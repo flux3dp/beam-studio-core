@@ -8,25 +8,18 @@
 import $ from 'jquery';
 
 import Alert from 'app/actions/alert-caller';
-import Progress from 'app/actions/progress-caller';
+import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import AlertConfig from 'helpers/api/alert-config';
-import setParams from 'helpers/api/set-params';
-import history from 'helpers/data-history';
+import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
+import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import Websocket from 'helpers/websocket';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-
-const fs = requireNode('fs');
-const path = requireNode('path');
-
-// Because the preview image size is 640x640
-const MAXWIDTH = 640;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
@@ -56,71 +49,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
     onFatal: parserOpts.onFatal,
   });
   let lastOrder = '';
-  const History = history();
-  const computePreviewImageSize = (size) => {
-    let { width, height } = size;
-    const longerSide = Math.max(width, height);
-    const ratio = MAXWIDTH / longerSide;
-
-    height *= ratio;
-    width *= ratio;
-
-    return {
-      width,
-      height,
-    };
-  };
 
   return {
-    connection: ws,
-    History,
-    /**
-     * get svg
-     *
-     * @param {File} file - the file object
-     *
-     * @return {Promise}
-     */
-    get(file) {
-      lastOrder = 'get';
-
-      const $deferred = $.Deferred();
-      const args = [
-        lastOrder,
-        file.uploadName,
-      ];
-      const blobs = [];
-      let blob;
-      let totalLength = 0;
-      const size = {
-        height: 0,
-        width: 0,
-      };
-
-      events.onMessage = (data) => {
-        if (data.status === 'continue') {
-          totalLength = data.length;
-          size.height = data.height;
-          size.width = data.width;
-        } else if (data instanceof Blob === true) {
-          blobs.push(data);
-          blob = new Blob(blobs, { type: file.type });
-
-          if (totalLength === blob.size) {
-            History.push(file.uploadName, { size, blob });
-            $deferred.resolve({ size, blob });
-          }
-        }
-      };
-
-      events.onError = (response) => {
-        $deferred.reject(response);
-      };
-
-      ws.send(args.join(' '));
-
-      return $deferred.promise();
-    },
     getTaskCode(names, opts) {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => { });
@@ -356,13 +286,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
               .replace(/&amp;/g, '&');
             // Test Abosulte Path
             hasPath = true;
-            if (fs.existsSync(newPath)) {
+            if (fs.exists(newPath)) {
               continue;
             }
             // Test Relative Path
             if (file.path) {
-              newPath = path.join(basename, newPath);
-              if (fs.existsSync(newPath)) {
+              newPath = fs.join(basename, newPath);
+              if (fs.exists(newPath)) {
                 newPath = newPath.replace(/&/g, '&amp;')
                   .replace(/'/g, '&apos;')
                   .replace(/"/g, '&quot;')
@@ -584,8 +514,5 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         }
       };
     },
-
-    params: setParams(ws, events),
-    computePreviewImageSize,
   };
 };
