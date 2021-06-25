@@ -57,7 +57,7 @@ export default function Menu(): JSX.Element {
           <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>{menuCms.export_flux_task}</MenuItem>
         </SubMenu>
         <MenuDivider />
-        <MenuItem>{menuCms.preferences}</MenuItem>
+        <MenuItem onClick={() => callback('PREFERENCE')}>{menuCms.preferences}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.edit}>
         <MenuItem onClick={() => callback('UNDO')}>{menuCms.undo}</MenuItem>
