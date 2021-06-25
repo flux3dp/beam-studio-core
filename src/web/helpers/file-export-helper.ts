@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import BeamFileHelper from 'helpers/beam-file-helper';
+import beamFileHelper from 'helpers/beam-file-helper';
 import communicator from 'implementations/communicator';
 import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
@@ -38,20 +38,25 @@ const saveAsFile = async (): Promise<boolean> => {
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
   const imageSource = await svgCanvas.getImageSource();
-  const currentFilePath = await dialog.showSaveDialog(
+  const getContent = () => beamFileHelper.getBeamBlob(output, imageSource);
+  const filePath = await dialog.writeFileDialog(
+    getContent,
     langFile.save_scene,
-    window.os === 'Linux' ? `${defaultFileName}.beam` : defaultFileName, [{
-      name: window.os === 'MacOS' ? `${langFile.scene_files} (*.beam)` : langFile.scene_files,
-      extensions: ['beam'],
-    }, {
-      name: i18n.lang.topmenu.file.all_files,
-      extensions: ['*'],
-    }],
+    window.os === 'Linux' ? `${defaultFileName}.beam` : defaultFileName,
+    [
+      {
+        name: window.os === 'MacOS' ? `${langFile.scene_files} (*.beam)` : langFile.scene_files,
+        extensions: ['beam'],
+      },
+      {
+        name: i18n.lang.topmenu.file.all_files,
+        extensions: ['*'],
+      },
+    ],
   );
-  if (currentFilePath) {
-    svgCanvas.currentFilePath = currentFilePath;
-    await BeamFileHelper.saveBeam(currentFilePath, output, imageSource);
-    setCurrentFileName(currentFilePath);
+  if (filePath) {
+    svgCanvas.currentFilePath = filePath;
+    setCurrentFileName(filePath);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
@@ -73,7 +78,7 @@ const saveFile = async (): Promise<boolean> => {
   }
   if (svgCanvas.currentFilePath.endsWith('.beam')) {
     const imageSource = await svgCanvas.getImageSource();
-    await BeamFileHelper.saveBeam(svgCanvas.currentFilePath, output, imageSource);
+    await beamFileHelper.saveBeam(svgCanvas.currentFilePath, output, imageSource);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
