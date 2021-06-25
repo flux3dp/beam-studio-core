@@ -29,7 +29,7 @@ const loadExampleFile = async (path: string) => {
   const res = await FileExportHelper.toggleUnsavedChangedDialog();
   if (!res) return;
   const oReq = new XMLHttpRequest();
-  oReq.open('GET', path, true);
+  oReq.open('GET', `https://beam-studio-web.s3.ap-northeast-1.amazonaws.com/${path}`, true);
   oReq.responseType = 'blob';
 
   oReq.onload = async function onload() {
