@@ -7,9 +7,6 @@ export interface INetwork {
     address: string,
     family: number,
   }[]>;
-  createPingSession: (options?: {
-    retries?: number,
-  }) => PingSession;
   listSerialPorts: () => Promise<{
     path: string;
   }[]>;
@@ -18,12 +15,18 @@ export interface INetwork {
     dataBits?: number;
     lock?: boolean;
   }, callback?: any) => SerialPort;
-}
-
-export interface PingSession {
-  on: (event: string, callback) => void;
-  pingHost: (target: string, callback) => void;
-  close: () => void;
+  checkIPExist: (ip: string, trial: number) => Promise<{ error?: string, isExisting: boolean }>,
+  networkTest: (
+    ip: string,
+    time: number,
+    onProgress: (percentage: number) => void,
+  ) => Promise<{
+    err?: string,
+    reason?: string,
+    successRate?: number,
+    avgRRT?: number,
+    quality?: number,
+  }>;
 }
 
 export interface SerialPort {

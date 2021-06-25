@@ -62,7 +62,7 @@ export default class ConnectMachine extends React.Component<any, State> {
 
     this.discover = Discover('connect-machine-ip', (deviceList) => {
       const { isIpValid, didConnectMachine, machineIp } = this.state;
-      const shouldTryConnect = isIpValid || (isIpValid === undefined);
+      const shouldTryConnect = isIpValid || (isIpValid === null);
       if (shouldTryConnect && didConnectMachine === null && machineIp !== null) {
         for (let i = 0; i < deviceList.length; i += 1) {
           const device = deviceList[i];
@@ -207,40 +207,11 @@ export default class ConnectMachine extends React.Component<any, State> {
     }
   };
 
-  pingTarget = async () => {
+  checkIPExist = async (): Promise<boolean> => {
     const ip = this.ipInput.current.value;
-    return new Promise<boolean>((resolve) => {
-      try {
-        const session = network.createPingSession();
-        session.on('error', (error) => {
-          console.log('session error: ', error);
-          resolve(undefined);
-          throw (error);
-        });
-        let pingTries = 3;
-        const doPing = () => {
-          session.pingHost(ip, (error, target, sent, rcvd) => {
-            if (error) {
-              console.log(error);
-              pingTries -= 1;
-              console.log(pingTries);
-              if (pingTries === 0) {
-                resolve(false);
-              } else {
-                doPing();
-              }
-            } else {
-              console.log('rrt', rcvd - sent);
-              resolve(true);
-            }
-          });
-        };
-        doPing();
-      } catch (e) {
-        console.log(e);
-        resolve(undefined);
-      }
-    });
+    const { error, isExisting } = await network.checkIPExist(ip, 3);
+    if (error) return null;
+    return isExisting;
   };
 
   startTesting = async () => {
@@ -279,7 +250,8 @@ export default class ConnectMachine extends React.Component<any, State> {
       hadTested: false,
       machineIp: ip,
     });
-    const isIpValid = await this.pingTarget();
+    const isIpValid = await this.checkIPExist();
+    console.log(isIpValid);
     if (isIpValid === false) {
       this.setState({
         machineIp: ip,
@@ -300,6 +272,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     clearInterval(this.testCountDown);
     this.testCountDown = setInterval(() => {
       const { isTesting, didConnectMachine, connectionTestCountDown } = this.state;
+      console.log(isTesting, didConnectMachine, connectionTestCountDown);
       if (isTesting && didConnectMachine === null) {
         if (connectionTestCountDown > 1) {
           this.setState({ connectionTestCountDown: connectionTestCountDown - 1 });
