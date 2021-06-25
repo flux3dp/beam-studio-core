@@ -492,11 +492,6 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
 };
 
 const tempConvertTextToPathAmoungSvgcontent = async () => {
-  if (!electron) {
-    console.warn('font is not supported in web browser');
-    return false;
-  }
-
   let isAnyFontUnsupported = false;
   const texts = [...$('#svgcontent').find('text').toArray(), ...$('#svg_defs').find('text').toArray()];
   for (let i = 0; i < texts.length; i += 1) {
