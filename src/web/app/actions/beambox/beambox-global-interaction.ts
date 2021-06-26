@@ -1,12 +1,13 @@
-import GlobalInteraction from 'app/actions/global-interaction';
+/* eslint-disable class-methods-use-this */
+import menu from 'implementations/menu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
-class BeamboxGlobalInteraction extends GlobalInteraction {
+class BeamboxGlobalInteraction {
   attach() {
-    super.attach([
+    menu.attach([
       'IMPORT',
       'SAVE_SCENE',
       'UNDO',
@@ -24,11 +25,10 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       'NETWORK_TESTING',
       'ABOUT_BEAM_STUDIO',
     ]);
-    // ElectronUpdater.autoCheck();
   }
 
   onObjectFocus(elems?) {
-    this.enableMenuItems(['DUPLICATE', 'DELETE', 'PATH']);
+    menu.enable(['DUPLICATE', 'DELETE', 'PATH']);
     let selectedElements = elems || svgCanvas.getSelectedElems().filter((elem) => elem);
     if (selectedElements.length > 0 && selectedElements[0].getAttribute('data-tempgroup') === 'true') {
       selectedElements = Array.from(selectedElements[0].childNodes);
@@ -37,22 +37,22 @@ class BeamboxGlobalInteraction extends GlobalInteraction {
       return;
     }
     if (selectedElements[0].tagName === 'image') {
-      this.enableMenuItems(['PHOTO_EDIT']);
+      menu.enable(['PHOTO_EDIT']);
     } else if (selectedElements[0].tagName === 'use') {
-      this.enableMenuItems(['SVG_EDIT']);
+      menu.enable(['SVG_EDIT']);
     } else if (selectedElements[0].tagName === 'path') {
-      this.enableMenuItems(['DECOMPOSE_PATH']);
+      menu.enable(['DECOMPOSE_PATH']);
     }
     if (selectedElements && selectedElements.length > 0) {
-      this.enableMenuItems(['GROUP']);
+      menu.enable(['GROUP']);
     }
     if (selectedElements && selectedElements.length === 1 && ['g', 'a', 'use'].includes(selectedElements[0].tagName)) {
-      this.enableMenuItems(['UNGROUP']);
+      menu.enable(['UNGROUP']);
     }
   }
 
   onObjectBlur() {
-    this.disableMenuItems(['DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
+    menu.disable(['DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
   }
 }
 
