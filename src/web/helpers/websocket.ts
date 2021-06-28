@@ -6,7 +6,6 @@ import i18n from 'helpers/i18n';
 import isJson from 'helpers/is-json';
 import Logger from 'helpers/logger';
 import outputError from 'helpers/output-error';
-import storage from 'implementations/storage';
 
 window['FLUX'].websockets = [];
 window['FLUX'].websockets.list = function () {
@@ -39,15 +38,14 @@ const readyState = {
 //      onClose       - fired on connection closed
 //      onOpen        - fired on connection connecting
 export default function (options) {
-  let { dev } = window['FLUX'];
-  const customHost = storage.get('host');
+  const customHost = localStorage.getItem('host');
   const customPort = localStorage.getItem('port');
   const defaultCallback = () => { };
   const defaultOptions = {
     hostname: customHost || '127.0.0.1',
     method: '',
     get port() {
-      return customPort || dev ? '8000' : window['FLUX'].ghostPort;
+      return customPort || window['FLUX'].ghostPort;
     },
     autoReconnect: true,
     ignoreAbnormalDisconnect: false,
