@@ -54,6 +54,10 @@ class BeamboxGlobalInteraction {
   onObjectBlur() {
     menu.disable(['DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
   }
+
+  detach() {
+    menu.detach();
+  }
 }
 
 const instance = new BeamboxGlobalInteraction();
