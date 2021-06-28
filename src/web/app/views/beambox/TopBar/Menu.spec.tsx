@@ -116,7 +116,7 @@ jest.mock('helpers/i18n', () => ({
         calibrate_origin: 'Calibrate Origin ( Home )',
         calibrate_beambox_camera: 'Calibrate Camera',
         calibrate_beambox_camera_borderless: 'Calibrate Camera (Open Bottom)',
-        calibrate_diode_module: 'Calibrate Diode Module',
+        calibrate_diode_module: 'Calibrate Diode Laser Module',
         movement_test: 'Run Movement Test',
         turn_on_laser: 'Turn On Scanning Laser',
         auto_leveling_clean: 'Run Auto Leveling with Clean Data',

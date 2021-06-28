@@ -48,7 +48,7 @@ import AwsHelper from 'helpers/aws-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
-import PdfHelper from 'helpers/pdf-helper';
+import pdfHelper from 'implementations/pdfHelper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
@@ -134,7 +134,7 @@ interface ISVGEditor {
   triggerOffsetTool: () => void
   loadFromStringAsync(arg0: any)
   importBvgStringAsync: (str: any) => Promise<void>
-  handleFile: (file: any) => void
+  handleFile: (file: any) => Promise<void>
   loadFromString(arg0: any)
   importBvg: (file: any) => Promise<void>
   importLaserConfig: (file: any) => Promise<void>
@@ -287,7 +287,7 @@ const svgEditor = window['svgEditor'] = (function () {
     triggerOffsetTool: () => { },
     loadFromStringAsync: () => { },
     importBvgStringAsync: async (str) => { },
-    handleFile: (file) => { },
+    handleFile: async (file) => { },
     loadFromString: (arg0) => { },
     importBvg: async (file) => { },
     importLaserConfig: async (file) => { },
@@ -5310,7 +5310,7 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.readSVG = readSVG;
-      const importSvg = async (file, args: { skipVersionWarning?: boolean, skipByLayer?: boolean, isFromNounProject?: boolean, isFromAI?: boolean } = {}) => {
+      const importSvg = async (file: File, args: { skipVersionWarning?: boolean, skipByLayer?: boolean, isFromNounProject?: boolean, isFromAI?: boolean } = {}) => {
         async function importAs(type) {
           const result = await svgWebSocket.uploadPlainSVG(file, args.skipVersionWarning);
           if (result !== 'ok') {
@@ -5703,7 +5703,7 @@ const svgEditor = window['svgEditor'] = (function () {
         if (icon.icon_url) {
           const response = await fetch(icon.icon_url);
           const blob = await response.blob();
-          importSvg(blob);
+          importSvg(blob as File);
         } else {
           const response = await fetch(icon.preview_url);
           const blob = await response.blob();
@@ -5711,7 +5711,7 @@ const svgEditor = window['svgEditor'] = (function () {
         }
       };
 
-      const handleFile = (file) => {
+      const handleFile = async (file) => {
         svgCanvas.clearSelection();
         const fileType = (function () {
           if (file.name.toLowerCase().endsWith('.beam')) {
@@ -5765,7 +5765,22 @@ const svgEditor = window['svgEditor'] = (function () {
             break;
           case 'pdf':
           case 'ai':
-            PdfHelper.pdf2svg(file);
+            const { blob, errorMessage } = await pdfHelper.pdfToSvgBlob(file);
+            if (blob) {
+              Object.assign(blob, {
+                name: file.name,
+              });
+              importSvg(blob as File, {
+                skipVersionWarning: true,
+                skipByLayer: true,
+              });
+            } else {
+              Progress.popById('loading_image');
+              Alert.popUp({
+                type: AlertConstants.SHOW_POPUP_ERROR,
+                message: errorMessage,
+              });
+            }
             break;
           case 'js':
             importJsScript(file);
