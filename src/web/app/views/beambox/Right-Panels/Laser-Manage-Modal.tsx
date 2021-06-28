@@ -77,53 +77,48 @@ class LaserManageModal extends React.Component<Props, State> {
       console.error(`Unable to get default preset key: ${name}`);
       return { speed: 20, power: 15, repeat: 1 };
     }
+    const { speed, power } = RightPanelConstants[modelName][name];
+    const repeat = RightPanelConstants[modelName][name].repeat || 1;
+    const zStep = RightPanelConstants[modelName][name].zStep || 0;
+    return {
+      speed, power, repeat, zStep,
+    };
+  };
 
-    renderCustomizedEntries = () => {
-        const customizedEntries = this.editingCustomizedLaserConfigs.map((entry, index) => {
-            const hasUnsavedChanges = this.unsavedChanges.hasOwnProperty(entry.name);
-            const entryClass = classNames({
-                'config-entry': true,
-                'selected': (this.state.isSelectingCustomized && this.state.selectedItem === entry.name),
-                'no-border': this.editingCustomizedLaserConfigs.length >= 8 && index === this.editingCustomizedLaserConfigs.length - 1
-            });
-            return (
+  handleCustomizedConfigClick = (name: string): void => {
+    const selectedConfig = this.editingConfigs.find((e) => e.name === name);
+    const editingValue = { ...selectedConfig, ...this.unsavedChanges[name] };
+    this.setState({
+      isSelectingCustomized: true,
+      selectedItem: name,
+      displaySpeed: editingValue.speed,
+      displayPower: editingValue.power,
+      displayRepeat: editingValue.repeat || 1,
+      displayZStep: editingValue.zStep || 0,
+    });
+  };
 
-                <div
-                    id={entry.key}
-                    className={entryClass}
-                    key={entry.name}
-                    onClick={()=>{this.handleCustomizedEntryClick(entry.name)}}
-                    draggable={true}
-                    onDragStart={() => this.onEntryDragStart(entry, index)}
-                    onDragOver={() => this.onEntryDragOver(entry, index)}
-                    onDragEnd={() => this.onEntryDragEnd()}
-                >
-                    <div className='entry-name'>{`${entry.name + (hasUnsavedChanges ? ' *' : '')}`}</div>
-                    <span className='sub-text'>{entry.isDefault ? LANG.default : ''}</span>
-                </div>
-            );
-        });
-        return customizedEntries;
+  handleDefaultConfigClick = (name: string): void => {
+    const {
+      speed, power, repeat, zStep,
+    } = this.getDefaultParameters(name);
+    this.setState({
+      isSelectingCustomized: false,
+      selectedItem: name,
+      displaySpeed: speed,
+      displayPower: power,
+      displayRepeat: repeat || 1,
+      displayZStep: zStep || 0,
+    });
+  };
 
-    }
-
-
-
-
-    renderDefaultEntries = () => {
-        const defaultEntries = defaultLaserOptions.map((entry, index) => {
-            const inUse = this.editingDefaultLaserConfigsInUse[entry];
-            const entryClass = classNames({
-                'config-entry': true,
-                'selected': (!this.state.isSelectingCustomized && this.state.selectedItem === entry),
-                'no-border': defaultLaserOptions.length >= 8 && index === defaultLaserOptions.length - 1
-            });
-            return (
-                <div className={entryClass} key={entry} onClick={()=>{this.handleDefaultEntryClick(entry)}}>
-                    <div className='entry-name'>{LANG.dropdown[this.unit][entry]}</div>
-                    <span className='sub-text'>{inUse ? LANG.inuse : ''}</span>
-                </div>
-            );
+  addSelectDefaultsToCustom = (): void => {
+    const { isSelectingCustomized, selectedItem } = this.state;
+    if (!isSelectingCustomized && selectedItem !== '') {
+      if (this.editingDefaultLaserConfigsInUse[selectedItem]) {
+        this.setState({
+          selectedItem: LANG.dropdown[this.unit][selectedItem],
+          isSelectingCustomized: true,
         });
         return;
       }
@@ -145,14 +140,15 @@ class LaserManageModal extends React.Component<Props, State> {
         isSelectingCustomized: true,
       }, () => $('#custom-config-list').scrollTop(this.editingConfigs.length * 20));
     }
+  };
 
-    renderAddButton() {
-        return (
-            <div className="add-btn" onClick={() => this.addConfig()}>
-                <div id='qa-bar-bar1' className= "bar bar1"/>
-                <div id='qa-bar-bar2' className= "bar bar2"/>
-                <div id='qa-bar-bar3' className= "bar bar3"/>
-            </div>
+  removeDefaultfromCustom = (): void => {
+    const { selectedItem, isSelectingCustomized } = this.state;
+    if (selectedItem !== '') {
+      let index;
+      if (isSelectingCustomized) {
+        index = this.editingConfigs.findIndex(
+          (config) => config.name === selectedItem,
         );
       } else {
         index = this.editingConfigs.findIndex(
@@ -224,6 +220,7 @@ class LaserManageModal extends React.Component<Props, State> {
       });
       return (
         <div
+          id={config.key}
           draggable
           className={entryClass}
           key={config.name}
@@ -328,142 +325,48 @@ class LaserManageModal extends React.Component<Props, State> {
     } else if (key === 'zStep') {
       this.setState({ displayZStep: newValue });
     }
+  };
 
-    render() {
-        const { isSelectingCustomized, selectedItem, displaySpeed, displayPower, displayRepeat, displayZStep} = this.state;
-        const selectedConfig = this.editingCustomizedLaserConfigs.find((e) => e.name === selectedItem);
-        const disableControl = Boolean(!isSelectingCustomized) || Boolean(!selectedConfig) || Boolean(selectedConfig.isDefault);
-        const defaultEntries = this.renderDefaultEntries();
-        const customizedEntries = this.renderCustomizedEntries();
+  handleReset = (): void => {
+    const { initDefaultConfig } = this.props;
+    Alert.popUp({
+      buttonType: AlertConstants.YES_NO,
+      message: LANG.sure_to_reset,
+      onYes: () => {
+        storage.removeAt('defaultLaserConfigsInUse');
+        initDefaultConfig();
+        this.editingConfigs = storage.get('customizedLaserConfigs') || [];
+        this.editingDefaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
+        this.forceUpdate();
+      },
+    });
+  };
 
-        const speedUnit = {mm: 'mm/s', inches: 'in/s'}[this.unit];
-        const unitSpeedDecimal = {mm: 1, inches: 3}[this.unit];
-        const zStepUnit = {mm: 'mm', inches: 'in'}[this.unit];
-        const unitZStepDcimal = {mm: 2, inches: 4}[this.unit];
-        const unitZStepStep = {mm: 0.5, inches: 0.01}[this.unit];
-
-        return (
-            <Modal>
-                <div className="more-config-panel">
-                    <div className="title">{LANG.more}</div>
-                    <div className="config-list-columns">
-                        <div className='config-list-column'>
-                            <div className='title'>{LANG.default}</div>
-                            <div id='default-config-list' className="config-list">
-                                {defaultEntries}
-                            </div>
-                        </div>
-                        <div className='operation-buttons'>
-                            <div id='qa-add-button' className='operation-button' onClick={() => {this.addSelectDefaultsToCustom()}}>{'>>'}</div>
-                            <div id='qa-remove-button'className='operation-button' onClick={() => {this.removeDefaultfromCustom()}}>{'<<'}</div>
-                        </div>
-                        <div className='config-list-column'>
-                            <div className='title'>
-                                {LANG.customized}
-                                {this.renderAddButton()}
-                            </div>
-                            <div id='custom-config-list' className="config-list" >
-                                {customizedEntries}
-                            </div>
-                        </div>
-                    </div>
-                    <div className='config-name'>
-                        {isSelectingCustomized ? selectedItem : LANG.dropdown[this.unit][selectedItem]}
-                    </div>
-                    <div className={classNames('controls', {disable: disableControl})} >
-                        <div className='controls-column'>
-                            <div id='qa-power-input'className='control'>
-                                <span className='label'>{LANG.power.text}</span>
-                                <UnitInput
-                                    min={1}
-                                    max={100}
-                                    disabled={disableControl}
-                                    unit={'%'}
-                                    getValue={(val) => {this.handleUnsavedChange(selectedItem, 'power', val)}}
-                                    defaultValue={displayPower}
-                                    decimal={1}
-                                    step={1}
-                                />
-                            </div>
-                            <div id='qa-speed-input' className='control'>
-                                <span className='label'>{LANG.laser_speed.text}</span>
-                                <UnitInput
-                                    min={3}
-                                    max={300}
-                                    disabled={disableControl}
-                                    unit={speedUnit}
-                                    getValue={(val) => {this.handleUnsavedChange(selectedItem, 'speed', val)}}
-                                    defaultValue={displaySpeed}
-                                    decimal={unitSpeedDecimal}
-                                    step={1}
-                                />
-                            </div>
-                        </div>
-                        <div className='controls-column'>
-                            <div id='qa-repeat-input' className='control'>
-                                <span className='label'>{LANG.repeat}</span>
-                                <UnitInput
-                                    min={1}
-                                    max={100}
-                                    disabled={disableControl}
-                                    unit={LANG.times}
-                                    getValue={(val) => {this.handleUnsavedChange(selectedItem, 'repeat', val)}}
-                                    defaultValue={displayRepeat}
-                                    decimal={0}
-                                    step={1}
-                                />
-                            </div>
-                            <div id='qa-zStep-input' className='control'>
-                                <span className='label'>{LANG.z_step}</span>
-                                <UnitInput
-                                    min={0}
-                                    max={20}
-                                    disabled={disableControl}
-                                    unit={zStepUnit}
-                                    getValue={(val) => {this.handleUnsavedChange(selectedItem, 'zStep', val)}}
-                                    defaultValue={displayZStep}
-                                    decimal={unitZStepDcimal}
-                                    step={unitZStepStep}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='footer'>
-                        <div className='left'>
-                            <button
-                                id='qa-btn-delete'
-                                className='btn btn-default pull-right'
-                                onClick={() => this._handleDelete()}
-                            >
-                                {LANG.delete}
-                            </button>
-                            <button
-                                id='qa-btn-reset'
-                                className='btn btn-default pull-right'
-                                onClick={() => this._handleReset()}
-                            >
-                                {LANG.reset}
-                            </button>
-                        </div>
-                        <div className='right'>
-                            <button
-                                id='qa-btn-save-leave'
-                                className='btn btn-default primary'
-                                onClick={() => this._handleSaveAndExit()}
-                            >
-                                {LANG.save_and_exit}
-                            </button>
-                            <button
-                                className='btn btn-default pull-right'
-                                onClick={() => this._handleCancel()}
-                            >
-                                {LANG.cancel}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
-        );
+  handleDelete = (): void => {
+    const { selectedItem } = this.state;
+    const index = this.editingConfigs.findIndex(
+      (e) => e.name === selectedItem,
+    );
+    if (index > -1) {
+      if (this.editingConfigs[index].isDefault) {
+        this.removeDefaultfromCustom();
+        return;
+      }
+      this.editingConfigs.splice(index, 1);
+      if (this.editingConfigs.length > 0) {
+        const i = Math.min(index, this.editingConfigs.length - 1);
+        const nextCustomizedConfig = this.editingConfigs[i];
+        this.setState({
+          selectedItem: nextCustomizedConfig ? nextCustomizedConfig.name : '',
+          displayPower: nextCustomizedConfig ? nextCustomizedConfig.power : 0,
+          displaySpeed: nextCustomizedConfig ? nextCustomizedConfig.speed : 0,
+          displayRepeat: nextCustomizedConfig ? nextCustomizedConfig.repeat : 1,
+          displayZStep: nextCustomizedConfig ? nextCustomizedConfig.zStep : 0,
+        });
+      } else {
+        const firstDefaultConfig = defaultLaserOptions[0];
+        this.handleDefaultConfigClick(firstDefaultConfig);
+      }
     }
   };
 
@@ -484,10 +387,10 @@ class LaserManageModal extends React.Component<Props, State> {
 
   renderAddButton(): JSX.Element {
     return (
-      <div className="add-btn" onClick={() => this.addConfig()}>
-        <div className="bar bar1" />
-        <div className="bar bar2" />
-        <div className="bar bar3" />
+      <div id="add_btn" className="add-btn" onClick={() => this.addConfig()}>
+        <div id="add_bar1" className="bar bar1" />
+        <div id="add_bar2" className="bar bar2" />
+        <div id="add_bar3" className="bar bar3" />
       </div>
     );
   }
@@ -522,8 +425,8 @@ class LaserManageModal extends React.Component<Props, State> {
               </div>
             </div>
             <div className="operation-buttons">
-              <div className="operation-button" onClick={this.addSelectDefaultsToCustom}>{'>>'}</div>
-              <div className="operation-button" onClick={this.removeDefaultfromCustom}>{'<<'}</div>
+              <div id="addselect" className="operation-button" onClick={this.addSelectDefaultsToCustom}>{'>>'}</div>
+              <div id="removeselect" className="operation-button" onClick={this.removeDefaultfromCustom}>{'<<'}</div>
             </div>
             <div className="config-list-column">
               <div className="title">
@@ -543,6 +446,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.power.text}</span>
                 <UnitInput
+                  id="laser_power"
                   min={1}
                   max={100}
                   disabled={disableControl}
@@ -556,6 +460,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.laser_speed.text}</span>
                 <UnitInput
+                  id="laser_speed"
                   min={3}
                   max={300}
                   disabled={disableControl}
@@ -571,6 +476,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.repeat}</span>
                 <UnitInput
+                  id="laser_repeat"
                   min={1}
                   max={100}
                   disabled={disableControl}
@@ -584,6 +490,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.z_step}</span>
                 <UnitInput
+                  id="laser_zStep"
                   min={0}
                   max={20}
                   disabled={disableControl}
@@ -599,6 +506,7 @@ class LaserManageModal extends React.Component<Props, State> {
           <div className="footer">
             <div className="left">
               <button
+                id="laser_delete"
                 type="button"
                 className="btn btn-default pull-right"
                 onClick={this.handleDelete}
@@ -606,6 +514,7 @@ class LaserManageModal extends React.Component<Props, State> {
                 {LANG.delete}
               </button>
               <button
+                id="laser_reset"
                 type="button"
                 className="btn btn-default pull-right"
                 onClick={this.handleReset}
@@ -615,6 +524,7 @@ class LaserManageModal extends React.Component<Props, State> {
             </div>
             <div className="right">
               <button
+                id="laser_save_and_exit"
                 type="button"
                 className="btn btn-default primary"
                 onClick={this.handleSaveAndExit}
@@ -622,6 +532,7 @@ class LaserManageModal extends React.Component<Props, State> {
                 {LANG.save_and_exit}
               </button>
               <button
+                id="laser_cancel"
                 type="button"
                 className="btn btn-default pull-right"
                 onClick={onClose}

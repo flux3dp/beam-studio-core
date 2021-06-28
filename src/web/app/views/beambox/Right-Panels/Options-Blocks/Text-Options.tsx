@@ -262,6 +262,7 @@ class TextOptions extends React.Component<Props, State> {
       <div className="option-block">
         <div className="label">{LANG.font_size}</div>
         <UnitInput
+          id="font_size"
           min={1}
           unit="px"
           decimal={0}
@@ -286,6 +287,7 @@ class TextOptions extends React.Component<Props, State> {
       <div className="option-block">
         <div className="label">{LANG.letter_spacing}</div>
         <UnitInput
+          id="letter_spacing"
           unit="em"
           step={0.05}
           className={{ 'option-input': true }}
@@ -309,6 +311,7 @@ class TextOptions extends React.Component<Props, State> {
       <div className="option-block">
         <div className="label">{LANG.line_spacing}</div>
         <UnitInput
+          id="line_spacing"
           unit=""
           min={0.8}
           step={0.1}
@@ -332,7 +335,7 @@ class TextOptions extends React.Component<Props, State> {
     return (
       <div className="option-block">
         <div className="label">{LANG.vertical_text}</div>
-        <div className="onoffswitch" onClick={() => this.handleVerticalTextClick()}>
+        <div id="vertical_text" className="onoffswitch" onClick={() => this.handleVerticalTextClick()}>
           <input type="checkbox" className="onoffswitch-checkbox" checked={isVerti} readOnly />
           <label className="onoffswitch-label">
             <span className="onoffswitch-inner" />

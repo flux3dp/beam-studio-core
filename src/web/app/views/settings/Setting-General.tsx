@@ -22,6 +22,7 @@ import { ILang } from 'interfaces/ILang';
 import { StorageKey } from 'interfaces/IStorage';
 
 interface ControlsProps {
+  id?:string,
   label: string,
   url?: string,
   warningText?: string,
@@ -524,7 +525,7 @@ class SettingGeneral extends React.Component<Props, State> {
         </div>
         <Controls label={lang.settings.ip}>
           <input
-            id="qa-settings.ip"
+            id="qa-settings-ip"
             type="text"
             autoComplete="false"
             defaultValue={pokeIP}

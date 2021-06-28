@@ -202,6 +202,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">X</div>
             <UnitInput
+              id="x_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.x)}
@@ -214,6 +215,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">Y</div>
             <UnitInput
+              id="y_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.y)}
@@ -229,6 +231,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>1</sub>
             </div>
             <UnitInput
+              id="x1_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.x1)}
@@ -244,6 +247,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>1</sub>
             </div>
             <UnitInput
+              id="y1_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.y1)}
@@ -259,6 +263,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>2</sub>
             </div>
             <UnitInput
+              id="x2_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.x2)}
@@ -274,6 +279,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>2</sub>
             </div>
             <UnitInput
+              id="y2_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.y2)}
@@ -289,6 +295,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>C</sub>
             </div>
             <UnitInput
+              id="cx_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.cx)}
@@ -304,6 +311,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>C</sub>
             </div>
             <UnitInput
+              id="cy_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.cy)}
@@ -331,7 +339,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">W</div>
             <UnitInput
-              id='qa-width'
+              id='width'
               unit={this.unit}
               className={this.unitInputClass}
               onBlur={() => this.handleSizeBlur()}
@@ -346,7 +354,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">H</div>
             <UnitInput
-              id='qa-height'
+              id='height'
               unit={this.unit}
               className={this.unitInputClass}
               onBlur={() => this.handleSizeBlur()}
@@ -361,6 +369,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">W</div>
             <UnitInput
+              id="rx_width"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.rx * 2)}
@@ -373,6 +382,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">H</div>
             <UnitInput
+              id="ry_height"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.ry * 2)}
@@ -401,11 +411,11 @@ class DimensionPanel extends React.Component<Props> {
   };
 
   renderFlipButtons = (): JSX.Element => (
-    <div className="flip-btn-container">
-      <div className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(-1, 1); }} title={LANG.hflip}>
+    <div  className="flip-btn-container">
+      <div id="horizontal_flip" className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(-1, 1); }} title={LANG.hflip}>
         <img src="img/right-panel/icon-hflip.svg" alt="" />
       </div>
-      <div className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(1, -1); }} title={LANG.vflip}>
+      <div id="vertical_flip" className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(1, -1); }} title={LANG.vflip}>
         <img src="img/right-panel/icon-vflip.svg" alt="" />
       </div>
     </div>

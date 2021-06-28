@@ -9,6 +9,7 @@ import imageEdit from 'helpers/image-edit';
 import Progress from 'app/actions/progress-caller';
 import textActions from 'app/svgedit/textactions';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { string } from 'prop-types';
 
 let svgCanvas;
 let svgEditor;
@@ -51,12 +52,12 @@ class ActionsPanel extends React.Component<Props> {
   };
 
   renderButtons = (
-    label: string, onClick: () => void, isFullLine?: boolean, isDisabled?: boolean,
+    label: string, onClick: () => void, isFullLine?: boolean, id?:string, isDisabled?: boolean,
   ): JSX.Element => {
     const className = classNames('btn', 'btn-default', { disabled: isDisabled });
     return (
-      <div className={classNames('btn-container', { full: isFullLine, half: !isFullLine })} onClick={() => onClick()} key={label}>
-        <button type="button" className={className}>{label}</button>
+      <div className={classNames('btn-container', { full: isFullLine, half: !isFullLine })} onClick={() => onClick()} key={label}  >
+        <button id={id} type="button" className={className}>{label}</button>
       </div>
     );
   };
@@ -65,78 +66,78 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = [
-      this.renderButtons(LANG.replace_with, () => this.replaceImage(), true),
-      this.renderButtons(LANG.trace, () => svgCanvas.imageToSVG(), false, isShading),
-      this.renderButtons(LANG.grading, () => Dialog.showPhotoEditPanel('curve'), false),
-      this.renderButtons(LANG.sharpen, () => Dialog.showPhotoEditPanel('sharpen'), false),
-      this.renderButtons(LANG.crop, () => Dialog.showPhotoEditPanel('crop'), false),
-      this.renderButtons(LANG.bevel, () => imageEdit.generateStampBevel(elem), false),
-      this.renderButtons(LANG.invert, () => imageEdit.colorInvert(elem), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.replace_with, () => this.replaceImage(), true, "replace_with"),
+      this.renderButtons(LANG.trace, () => svgCanvas.imageToSVG(), false, "trace", isShading),
+      this.renderButtons(LANG.grading, () => Dialog.showPhotoEditPanel('curve'), false, "grading"),
+      this.renderButtons(LANG.sharpen, () => Dialog.showPhotoEditPanel('sharpen'), false, "sharpen"),
+      this.renderButtons(LANG.crop, () => Dialog.showPhotoEditPanel('crop'), false, "crop"),
+      this.renderButtons(LANG.bevel, () => imageEdit.generateStampBevel(elem), false, "bevel"),
+      this.renderButtons(LANG.invert, () => imageEdit.colorInvert(elem), false, "invert"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderTextActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.convert_to_path, this.convertToPath, true),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.convert_to_path, this.convertToPath, true, "convert_to_path"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false,"array"),
     ];
     return content;
   };
 
   renderPathActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.decompose_path, () => svgCanvas.decomposePath(), true),
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.decompose_path, () => svgCanvas.decomposePath(), true, "decompose_path"),
+      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, "offset"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderRectActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, "offset"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderEllipseActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, "offset"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderPolygonActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, "offset"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderLineActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, "offset"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderUseActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false, "disassemble_use"),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
 
   renderGroupActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };
@@ -146,8 +147,8 @@ class ActionsPanel extends React.Component<Props> {
     const childs = Array.from(elem.childNodes);
     const supportOffset = childs.every((child: ChildNode) => !['g', 'text', 'image', 'use'].includes(child.nodeName));
     const content = [
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, !supportOffset),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, "offset" , !supportOffset),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, "array"),
     ];
     return content;
   };

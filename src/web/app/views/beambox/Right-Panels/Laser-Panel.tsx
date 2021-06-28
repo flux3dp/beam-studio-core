@@ -473,170 +473,61 @@ class LaserPanel extends React.PureComponent<Props, State> {
             });
           }
         }
+      } else {
+        console.error('No such value', value);
+      }
     }
+  };
 
-    _handleCancelModal = () => {
-        this.setState({ modal: '' });
-    }
+  renderStrength = (): JSX.Element => {
+    const { hasMultiPower: hasMultipleValue, power } = this.state;
+    const maxValue = 100;
+    const minValue = 1;
+    return (
+      <div className="panel">
+        <span className="title">{LANG.strength}</span>
+        <UnitInput
+          id="power"
+          min={minValue}
+          max={maxValue}
+          unit="%"
+          defaultValue={power}
+          getValue={this.handleStrengthChange}
+          decimal={1}
+          displayMultiValue={hasMultipleValue}
+        />
+        <div className="slider-container">
+          <input
+            id="power_value"
+            className="rainbow-slider"
+            type="range"
+            min={minValue}
+            max={maxValue}
+            step={1}
+            value={power}
+            onChange={(e) => this.handleStrengthChange(parseInt(e.target.value, 10))}
+          />
+        </div>
+      </div>
+    );
+  };
 
-    handleParameterTypeChanged = (id, value) => {
-        if (value === PARAMETERS_CONSTANT) {
-            this.setState({ original: value });
-            return;
-        }
-        if (value === 'save') {
-            Dialog.promptDialog({
-                caption: LANG.dropdown.save,
-                onYes: (name) => {
-                    name = name.trim();
-                    if (!name) {
-                        return;
-                    }
-                    this._handleSaveConfig(name);
-                },
-                onCancel: () => {
-                    this._handleCancelModal();
-                }
-            });
-        } else {
-            const customizedConfigs = (storage.get('customizedLaserConfigs') as any[]).find((e) => e.name === value);
-            if (customizedConfigs) {
-                const {
-                    speed,
-                    power,
-                    repeat,
-                    zStep,
-                    isDefault,
-                    key
-                } = customizedConfigs;
-                clearEstimatedTime();
-                this.setState({
-                    original: value,
-                    speed,
-                    strength: power,
-                    repeat: repeat || 1,
-                    zStep: zStep || 0,
-                    selectedItem: value,
-                });
-
-                this.props.selectedLayers.forEach((layerName: string) => {
-                    writeData(layerName, DataType.speed, speed);
-                    writeData(layerName, DataType.strength, power);
-                    writeData(layerName, DataType.repeat, repeat || 1);
-                    writeData(layerName, DataType.zstep, zStep || 0);
-                    writeData(layerName, DataType.configName, value);
-                });
-
-                if (TutorialConstants.SET_PRESET_WOOD_ENGRAVING === TutorialController.getNextStepRequirement()) {
-                    if (isDefault && ['wood_engraving'].includes(key)) {
-                        TutorialController.handleNextStep();
-                    } else {
-                        Alert.popUp({
-                            message: i18n.lang.tutorial.newUser.please_select_wood_engraving,
-                        });
-                    }
-                }
-                if (TutorialConstants.SET_PRESET_WOOD_CUTTING === TutorialController.getNextStepRequirement()) {
-                    if (isDefault && ['wood_3mm_cutting', 'wood_5mm_cutting'].includes(key)) {
-                        TutorialController.handleNextStep();
-                    } else {
-                        Alert.popUp({
-                            message: i18n.lang.tutorial.newUser.please_select_wood_cutting,
-                        });
-                    }
-                }
-            } else {
-                console.error('No such value', value);
-            }
-        }
-    }
-
-    _renderStrength = () => {
-        const maxValue = 100;
-        const minValue = 1;
-        const hasMultipleValue = this.state.hasMultiPower;
+  renderSpeed = (): JSX.Element => {
+    const { hasMultiSpeed: hasMultipleValue, speed } = this.state;
+    const hasVector = this.doLayersContainVector();
+    const renderWarningText = (): JSX.Element => {
+      if (hasVector && speed > 20 && (BeamboxPreference.read('vector_speed_contraint') !== false)) {
         return (
-            <div id='strength' className='panel'>
-                <span className='title'>{LANG.strength}</span>
-                <UnitInput
-                    min={minValue}
-                    max={maxValue}
-                    unit="%"
-                    defaultValue={this.state.power}
-                    getValue={this._handleStrengthChange}
-                    decimal={1}
-                    displayMultiValue={hasMultipleValue}
-                    />
-                <div className="slider-container">
-                    <input className={classNames('rainbow-slider')} type="range"
-                        min={minValue}
-                        max={maxValue}
-                        step={1}
-                        value={this.state.power}
-                        onChange={(e) => {this._handleStrengthChange(e.target.value)}} />
-                </div>
-            </div>
-        );
-    }
-    _renderSpeed = () => {
-        const hasVector = this.doLayersContainVector();
-        const maxValue = 300;
-        const minValue = 3;
-        const unitDisplay = {mm: 'mm/s', inches: 'in/s'}[this.unit];
-        const decimalDisplay = {mm: 1, inches: 2}[this.unit];
-        const hasMultipleValue = this.state.hasMultiSpeed;
-        return (
-            <div id='speed' className='panel'>
-                <span className='title'>{LANG.speed}</span>
-                <UnitInput
-                    min={minValue}
-                    max={maxValue}
-                    unit={unitDisplay}
-                    defaultValue={this.state.speed}
-                    getValue={(val) => {this._handleSpeedChange(val)}}
-                    decimal={decimalDisplay}
-                    displayMultiValue={hasMultipleValue}
-                />
-                <div className="slider-container">
-                    <input className={classNames('rainbow-slider', { 'speed-for-vector': hasVector })} type="range"
-                        min={minValue}
-                        max={maxValue}
-                        step={1}
-                        value={this.state.speed}
-                        onChange={(e) => {this._handleSpeedChange(Number(e.target.value))}} />
-                </div>
-                {
-                    hasVector && this.state.speed > 20 && (BeamboxPreference.read('vector_speed_contraint') !== false) ?
-                    <div className='speed-warning'>
-                        <div className='warning-icon'>{'!'}</div>
-                        <div className='warning-text'>
-                            {LANG.speed_contrain_warning}
-                        </div>
-                    </div> :
-                    null
-                }
+          <div className="speed-warning">
+            <div className="warning-icon">!</div>
+            <div className="warning-text">
+              {LANG.speed_contrain_warning}
             </div>
           </div>
         );
-    }
-
-    _renderRepeat = () => {
-        const hasMultipleValue = this.state.hasMultiRepeat;
-        return (
-            <div id='repeat' className='panel without-drag'>
-                <span className='title'>{LANG.repeat}</span>
-                <UnitInput
-                    min={0}
-                    max={100}
-                    unit={LANG.times}
-                    defaultValue={this.state.repeat}
-                    getValue={this._handleRepeatChange}
-                    decimal={0}
-                    displayMultiValue={hasMultipleValue}
-                />
-            </div>
-        );
-    }
+      }
+      return null;
+    };
 
     const maxValue = 300;
     const minValue = 3;
@@ -646,6 +537,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel">
         <span className="title">{LANG.speed}</span>
         <UnitInput
+          id="speed"
           min={minValue}
           max={maxValue}
           unit={unitDisplay}
@@ -656,6 +548,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         />
         <div className="slider-container">
           <input
+            id="speed_value"
             className={classNames('rainbow-slider', { 'speed-for-vector': hasVector })}
             type="range"
             min={minValue}
@@ -676,6 +569,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel without-drag">
         <span className="title">{LANG.repeat}</span>
         <UnitInput
+          id="repeat"
           min={0}
           max={100}
           unit={LANG.times}
@@ -713,6 +607,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel without-drag">
         <span className="title">{LANG.height}</span>
         <UnitInput
+          id="height"
           min={0.01}
           max={20}
           unit="mm"
@@ -737,6 +632,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel without-drag">
         <span className="title">{LANG.z_step}</span>
         <UnitInput
+          id="z_step"
           min={0}
           max={20}
           unit="mm"
