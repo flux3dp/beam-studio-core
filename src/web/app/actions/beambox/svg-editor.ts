@@ -396,7 +396,6 @@ const svgEditor = window['svgEditor'] = (function () {
       'ext-rotary_mode.js',
       'ext-markers.js',
       'ext-connector.js',
-      'ext-shapes.js',
       'ext-imagelib.js',
       'ext-grid.js',
       'ext-polygon.js',
