@@ -20,9 +20,11 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 import AlertConstants from 'app/constants/alert-constants';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ProgressConstants from 'app/constants/progress-constants';
-import { AlertProgressContextProvider, AlertProgressContext, eventEmitter } from './AlertProgressContext';
+import { AlertProgressContextProvider, AlertProgressContext } from './AlertProgressContext';
 
+const eventEmitter = eventEmitterFactory.createEventEmitter('alert-progress');
 const Children = () => {
   const context = React.useContext(AlertProgressContext);
   return (

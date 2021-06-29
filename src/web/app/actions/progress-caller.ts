@@ -1,7 +1,8 @@
 import ProgressConstants from 'app/constants/progress-constants';
-import { eventEmitter } from 'app/contexts/AlertProgressContext';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IProgressDialog } from 'interfaces/IProgress';
 
+const eventEmitter = eventEmitterFactory.createEventEmitter('alert-progress');
 export default {
   openNonstopProgress: (args: IProgressDialog): void => {
     if (!args.caption && args.message) {
