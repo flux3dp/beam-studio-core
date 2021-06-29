@@ -22,7 +22,7 @@ function DummySettingGeneral() {
     </div>
   );
 }
-jest.mock('app/views/settings/Setting-General', () => DummySettingGeneral);
+jest.mock('app/views/settings/SettingGeneral', () => DummySettingGeneral);
 
 // eslint-disable-next-line import/first
 import HomeView from './HomeView';

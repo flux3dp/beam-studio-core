@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly invalid ip address is given 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Connection
+    <span
+      className="info-icon-medium"
+    >
+      <img
+        onClick={[Function]}
+        src="img/info.svg"
+      />
+    </span>
+  </div>
+  <Controls
+    label="Machine IP Address"
+  >
+    <input
+      autoComplete="false"
+      defaultValue="192.168.2.2"
+      onBlur={[Function]}
+      type="text"
+    />
+  </Controls>
+  <SelectControl
+    label="Search for machine IP address"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": true,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": false,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Automatically select the only machine"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+</Fragment>
+`;

@@ -9,7 +9,7 @@ exports[`test Settings should render correctly 1`] = `
       className="settings-gradient-overlay"
     />
     <DummySettingGeneral
-      supported_langs={
+      supportedLangs={
         Object {
           "de": "Deutsche",
           "en": "English",
