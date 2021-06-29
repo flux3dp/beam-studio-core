@@ -80,7 +80,7 @@ export const getCurrentUser = (): IUser => currentUser;
 const handleOAuthLoginSuccess = (data) => {
   updateUser(data);
   fluxIDEvents.emit('oauth-logged-in');
-  if (window.location.hash === '#initialize/connect/flux-id-login') {
+  if (window.location.hash === '#/initialize/connect/flux-id-login') {
     window.location.hash = '#initialize/connect/select-connection-type';
   } else {
     alert.popUp({ message: i18n.lang.flux_id_login.login_success });

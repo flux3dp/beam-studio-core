@@ -231,7 +231,7 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
 
 const toggleUnsavedChangedDialog = async (): Promise<boolean> => new Promise((resolve) => {
   communicator.send('SAVE_DIALOG_POPPED');
-  if (!svgCanvas.getHasUnsaveChanged() || window.location.hash !== '#studio/beambox') {
+  if (!svgCanvas.getHasUnsaveChanged() || window.location.hash !== '#/studio/beambox') {
     resolve(true);
   } else {
     Alert.popById('unsaved_change_dialog');
