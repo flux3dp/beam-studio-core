@@ -14,9 +14,11 @@ jest.mock('implementations/browser', () => ({
 }));
 
 const emit = jest.fn();
+const once = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
   createEventEmitter: () => ({
     emit,
+    once,
   }),
 }));
 

@@ -148,7 +148,7 @@ export default {
     });
   },
   CALIBRATE_BEAMBOX_CAMERA: async (device) => {
-    if (window.location.hash !== '#studio/beambox') {
+    if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
         message: lang.camera_calibration.please_goto_beambox_first,
@@ -158,7 +158,7 @@ export default {
     calibrateCamera(device, false);
   },
   CALIBRATE_BEAMBOX_CAMERA_BORDERLESS: async (device) => {
-    if (window.location.hash !== '#studio/beambox') {
+    if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
         message: lang.camera_calibration.please_goto_beambox_first,
@@ -178,7 +178,7 @@ export default {
     }
   },
   CALIBRATE_DIODE_MODULE: async (device) => {
-    if (window.location.hash !== '#studio/beambox') {
+    if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
         message: lang.camera_calibration.please_goto_beambox_first,

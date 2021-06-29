@@ -21,7 +21,7 @@ export const AlertProgressContext = createContext<IAlertProgressContext>({
   popById: () => {},
 });
 
-export const eventEmitter = eventEmitterFactory.createEventEmitter();
+const eventEmitter = eventEmitterFactory.createEventEmitter('alert-progress');
 
 interface State {
   alertProgressStack: (IAlert | IProgressDialog)[],
@@ -78,8 +78,9 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       console.log('alert/progress poped', item.id);
     }
     const { alertProgressStack } = this.state;
-    alertProgressStack.push(item);
-    this.forceUpdate();
+    this.setState({
+      alertProgressStack: [...alertProgressStack, item],
+    });
   };
 
   openProgress = (args: IProgressDialog): void => {

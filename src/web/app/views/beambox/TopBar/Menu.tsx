@@ -26,7 +26,7 @@ export default function Menu(): JSX.Element {
   const [undoDisabled, setUndoDisabled] = React.useState(false);
   const [redoDisabled, setRedoDisabled] = React.useState(false);
   const [duplicateDisabled, setDuplicateDisabled] = React.useState(false);
-  const [photoEditDisabled, setPhotoEditDisabled] = React.useState(false);
+  const [svgEditDisabled, setSvgEditDisabled] = React.useState(false);
   const [documentSettingDisabled, setDocumentSettingDisabled] = React.useState(false);
   const [clearSceneDisabled, setClearSceneDisabled] = React.useState(false);
   const [zoomInDisabled, setZoomInDisabled] = React.useState(false);
@@ -47,7 +47,7 @@ export default function Menu(): JSX.Element {
     UNDO: setUndoDisabled,
     REDO: setRedoDisabled,
     DUPLICATE: setDuplicateDisabled,
-    PHOTO_EDIT: setPhotoEditDisabled,
+    SVG_EDIT: setSvgEditDisabled,
     DOCUMENT_SETTING: setDocumentSettingDisabled,
     CLEAR_SCENE: setClearSceneDisabled,
     ZOOM_IN: setZoomInDisabled,
@@ -134,11 +134,16 @@ export default function Menu(): JSX.Element {
           <MenuItem onClick={() => callback('OFFSET')}>{menuCms.offset}</MenuItem>
           <MenuItem disabled={decomposePathDisabled} onClick={() => callback('DECOMPOSE_PATH')}>{menuCms.decompose_path}</MenuItem>
         </SubMenu>
+        <SubMenu disabled={svgEditDisabled} label={menuCms.svg_edit}>
+          <MenuItem onClick={() => callback('DISASSEMBLE_USE')}>{menuCms.disassemble_use}</MenuItem>
+        </SubMenu>
+        <MenuItem disabled={documentSettingDisabled} onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
+        <MenuItem disabled={clearSceneDisabled} onClick={() => callback('CLEAR_SCENE')}>{menuCms.clear_scene}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.view}>
-        <MenuItem className="rc-menu__item--type-checkbox" disabled={zoomInDisabled} onClick={() => callback('ZOOM_IN')}>{menuCms.zoom_in}</MenuItem>
-        <MenuItem className="rc-menu__item--type-checkbox" disabled={zoomOutDisabled} onClick={() => callback('ZOOM_OUT')}>{menuCms.zoom_out}</MenuItem>
-        <MenuItem className="rc-menu__item--type-checkbox" disabled={fitsToWindowDisabled} onClick={() => callback('FITS_TO_WINDOW')}>{menuCms.fit_to_window}</MenuItem>
+        <MenuItem disabled={zoomInDisabled} className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>{menuCms.zoom_in}</MenuItem>
+        <MenuItem disabled={zoomOutDisabled} className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_OUT')}>{menuCms.zoom_out}</MenuItem>
+        <MenuItem disabled={fitsToWindowDisabled} className="rc-menu__item--type-checkbox" onClick={() => callback('FITS_TO_WINDOW')}>{menuCms.fit_to_window}</MenuItem>
         <MenuItem
           type="checkbox"
           disabled={zoomWithWindowDisabled}
