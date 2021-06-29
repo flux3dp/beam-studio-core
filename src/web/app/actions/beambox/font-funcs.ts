@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
-import fontkit from 'fontkit';
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
@@ -8,7 +7,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import communicator from 'implementations/communicator';
-import fontScanner from 'implementations/fontScanner';
+import fontHelper from 'implementations/fontHelper';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
@@ -25,7 +24,7 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-const { electron, $ } = window;
+const { $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const LANG = i18n.lang.beambox.object_panels;
@@ -89,25 +88,7 @@ const availableFontFamilies = (function requestAvailableFontFamilies() {
       if (fontNameMapObj[font.family]) {
         fontName = fontNameMapObj[font.family];
       } else {
-        try {
-          let fontInfo = fontkit.openSync(font.path);
-          if (fontInfo.fonts && fontInfo.fonts[0]) {
-            fontInfo = fontInfo.fonts.find((f) => {
-              if (f.familyName === font.family) return true;
-              if (f.name.records.fontFamily[navigator.language] === font.family) return true;
-              return false;
-            }) || fontInfo.fonts[0];
-          }
-          if (fontInfo) {
-            const firstNotEn = Object.keys(fontInfo.name.records.fontFamily).find((key) => key !== 'en');
-            fontName = (fontInfo.name.records.fontFamily[navigator.language]
-              || fontInfo.name.records.fontFamily[firstNotEn]
-              || fontInfo.name.records.fontFamily.en
-              || fontName);
-          }
-        } catch (err) {
-          console.warn(`Error when get font name of ${font.family}:`, err);
-        }
+        fontName = fontHelper.getFontName(font);
       }
 
       if (typeof fontName === 'string') {
@@ -142,10 +123,10 @@ storage.set('font-name-map', fontNameMapObj);
 
 const getFontOfPostscriptName = memoize((postscriptName) => {
   if (window.os === 'MacOS') {
-    const font = fontScanner.findFont({ postscriptName });
+    const font = fontHelper.findFont({ postscriptName });
     return font;
   }
-  const allFonts = fontScanner.getAvailableFonts();
+  const allFonts = fontHelper.getAvailableFonts();
   const fit = allFonts.filter((f) => f.postscriptName === postscriptName);
   console.log(fit);
   if (fit.length > 0) {
@@ -204,7 +185,7 @@ const substitutedFont = (textElement: Element) => {
   const originPostscriptName = originFont.postscriptName;
   const unSupportedChar = [];
   const fontList = Array.from(text).map((char) => {
-    const sub = fontScanner.substituteFont(originPostscriptName, char);
+    const sub = fontHelper.substituteFont(originPostscriptName, char);
     if (sub.postscriptName !== originPostscriptName) unSupportedChar.push(char);
     return sub;
   });
@@ -219,7 +200,7 @@ const substitutedFont = (textElement: Element) => {
   for (let i = 0; i < fontList.length; i += 1) {
     let allFit = true;
     for (let j = 0; j < text.length; j += 1) {
-      const foundfont = fontScanner.substituteFont(fontList[i].postscriptName, text[j]);
+      const foundfont = fontHelper.substituteFont(fontList[i].postscriptName, text[j]);
       if (fontList[i].postscriptName !== foundfont.postscriptName) {
         allFit = false;
         break;
@@ -437,7 +418,7 @@ const requestToConvertTextToPath = async ($textElement, args): Promise<void> => 
 
   // use key (which hash from $textElement html string) to prevent ipc event confliction
   const key = hashCode($textElement.prop('outerHTML'));
-  communicator.once('RESOLVE_PATH_D_OF_TEXT' + key, (sender, pathD) => {
+  communicator.once(`RESOLVE_PATH_D_OF_TEXT${key}`, (sender, pathD) => {
     d.resolve(pathD);
   });
 
