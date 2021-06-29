@@ -16,7 +16,7 @@ import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
-import fontScanner from 'implementations/fontScanner';
+import fontHelper from 'implementations/fontHelper';
 import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
@@ -141,7 +141,7 @@ const initDefaultFont = () => {
   if (FontConstants[lang] && FontConstants[lang][os]) {
     defaultFontFamily = FontConstants[lang][os];
   }
-  const fonts = fontScanner.findFonts({ family: defaultFontFamily });
+  const fonts = fontHelper.findFonts({ family: defaultFontFamily });
   if (fonts.length > 0) {
     const defaultFont: IFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
     storage.set('default-font', {
