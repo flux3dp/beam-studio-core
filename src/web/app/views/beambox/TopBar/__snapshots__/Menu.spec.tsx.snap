@@ -1004,6 +1004,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                   tabIndex="-1"
                 >
                   <Memo(MenuItem)
+                    disabled={false}
                     index={0}
                     key=".0"
                     onClick={[Function]}
@@ -1777,6 +1778,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                 >
                   <Memo(MenuItem)
                     className="rc-menu__item--type-checkbox"
+                    disabled={false}
                     index={0}
                     key=".0"
                     onClick={[Function]}
@@ -1801,6 +1803,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     className="rc-menu__item--type-checkbox"
+                    disabled={false}
                     index={1}
                     key=".1"
                     onClick={[Function]}
@@ -1825,6 +1828,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     className="rc-menu__item--type-checkbox"
+                    disabled={false}
                     index={2}
                     key=".2"
                     onClick={[Function]}
@@ -1849,6 +1853,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     checked={false}
+                    disabled={false}
                     index={3}
                     key=".3"
                     onClick={[Function]}
@@ -1883,6 +1888,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
                     checked={true}
+                    disabled={false}
                     index={4}
                     key=".5"
                     onClick={[Function]}
@@ -1935,6 +1941,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     checked={false}
+                    disabled={false}
                     index={6}
                     key=".7"
                     onClick={[Function]}
@@ -2521,6 +2528,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                 >
                   <Memo(MenuItem)
                     className="rc-menu__item--type-checkbox"
+                    disabled={false}
                     index={0}
                     key=".0"
                     onClick={[Function]}
@@ -2545,6 +2553,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     className="rc-menu__item--type-checkbox"
+                    disabled={false}
                     index={1}
                     key=".1"
                     onClick={[Function]}
@@ -2569,6 +2578,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     className="rc-menu__item--type-checkbox"
+                    disabled={false}
                     index={2}
                     key=".2"
                     onClick={[Function]}
@@ -2593,6 +2603,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     checked={false}
+                    disabled={false}
                     index={3}
                     key=".3"
                     onClick={[Function]}
@@ -2627,6 +2638,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
                     checked={true}
+                    disabled={false}
                     index={4}
                     key=".5"
                     onClick={[Function]}
@@ -2679,6 +2691,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     checked={false}
+                    disabled={false}
                     index={6}
                     key=".7"
                     onClick={[Function]}

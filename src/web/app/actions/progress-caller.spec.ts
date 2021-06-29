@@ -1,9 +1,9 @@
 /* eslint-disable import/first */
 const mockEmit = jest.fn();
-jest.mock('app/contexts/AlertProgressContext', () => ({
-  eventEmitter: {
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: () => ({
     emit: mockEmit,
-  },
+  }),
 }));
 
 import ProgressConstants from 'app/constants/progress-constants';
