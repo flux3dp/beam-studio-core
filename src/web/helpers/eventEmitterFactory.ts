@@ -9,6 +9,7 @@ const eventEmitters = {
   'layer-panel': null,
   'right-panel': null,
   'object-panel': null,
+  'alert-progress': null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {
