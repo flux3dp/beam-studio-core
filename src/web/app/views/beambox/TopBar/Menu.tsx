@@ -13,7 +13,6 @@ import i18n from 'helpers/i18n';
 
 export default function Menu(): JSX.Element {
   const eventEmitter = React.useMemo(() => eventEmitterFactory.createEventEmitter('top-bar-menu'), []);
-
   const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
   const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
   const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(BeamboxPreference.read('use_layer_color'));
