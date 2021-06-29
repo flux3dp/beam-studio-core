@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';
+import $ from 'jquery';
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ declare global {
   }
 }
 
+window.$ = $;
 configure({ adapter: new Adapter() });
 Object.defineProperty(window, 'os', {
   value: '',

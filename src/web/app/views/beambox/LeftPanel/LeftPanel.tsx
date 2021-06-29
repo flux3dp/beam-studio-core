@@ -1,5 +1,4 @@
 import * as React from 'react';
-import $ from 'jquery';
 import classNames from 'classnames';
 
 import DrawingToolButtonGroup from 'app/views/beambox/LeftPanel/DrawingToolButtonGroup';

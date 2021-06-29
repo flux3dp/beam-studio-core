@@ -14,11 +14,13 @@ jest.mock('implementations/browser', () => ({
 }));
 
 const emit = jest.fn();
-const once = jest.fn();
+const on = jest.fn();
+const removeListener = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
   createEventEmitter: () => ({
     emit,
-    once,
+    on,
+    removeListener,
   }),
 }));
 
