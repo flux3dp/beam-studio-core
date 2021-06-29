@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import GeneralSetting from 'app/views/settings/Setting-General';
+import GeneralSetting from 'app/views/settings/SettingGeneral';
 import settings from 'app/app-settings';
 
 export default class HomeView extends React.PureComponent {
@@ -9,7 +9,7 @@ export default class HomeView extends React.PureComponent {
     return (
       <div className="studio-container settings-studio">
         <div className="settings-gradient-overlay" />
-        <GeneralSetting supported_langs={supported_langs} />
+        <GeneralSetting supportedLangs={supported_langs} />
       </div>
     );
   }
