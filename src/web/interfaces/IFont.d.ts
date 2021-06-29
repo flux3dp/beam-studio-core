@@ -13,11 +13,12 @@ export interface IFontQuery {
   italic?: boolean // not sure about type
 }
 
-export interface IFontScanner {
+export interface FontHelper {
   findFont: (fontDescriptor: FontDescriptor) => FontDescriptor;
   findFonts: (fontDescriptor: FontDescriptor) => FontDescriptor[];
   getAvailableFonts: () => FontDescriptor[];
   substituteFont: (postscriptName: string, text: string) => FontDescriptor;
+  getFontName: (font: FontDescriptor) => string;
 }
 
 export type FontDescriptorKeys =
