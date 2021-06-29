@@ -63,7 +63,7 @@ const startAutoSave = (): void => {
     const { directory, fileNumber, timeInterval } = config;
     console.log('auto save service started');
     autoSaveInterval = setInterval(async () => {
-      if (window.location.hash === '#studio/beambox') {
+      if (window.location.hash === '#/studio/beambox') {
         console.log('auto save triggered');
         const svgString = svgCanvas.getSvgString();
         const imageSource = await svgCanvas.getImageSource();
