@@ -585,7 +585,7 @@ export default {
         },
       },
       laser_panel: {
-        preset_setting: 'Parameters Setting (%s)',
+        preset_setting: 'Parameter Settings (%s)',
         multi_layer: 'Multiple Layers',
         parameters: 'Parameters',
         strength: 'Power',
