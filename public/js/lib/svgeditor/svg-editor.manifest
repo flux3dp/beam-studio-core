@@ -146,7 +146,6 @@ extensions/ext-php_savefile.js
 extensions/ext-polygon.js
 extensions/ext-server_moinsave.js
 extensions/ext-server_opensave.js
-extensions/ext-shapes.js
 extensions/ext-star.js
 extensions/ext-storage.js
 extensions/ext-webappfind.js
