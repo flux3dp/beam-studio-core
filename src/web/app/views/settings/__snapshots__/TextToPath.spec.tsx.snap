@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Text
+  </div>
+  <SelectControl
+    id="font-substitue"
+    label="Substitute Unsupported Characters"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": true,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": false,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004496575"
+  />
+</Fragment>
+`;

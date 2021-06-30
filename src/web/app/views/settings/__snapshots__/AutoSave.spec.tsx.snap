@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Auto Save
+  </div>
+  <SelectControl
+    label="Auto Save"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <Controls
+    label="Auto Save Location"
+  >
+    <PathInput
+      buttonTitle="Choose Folder"
+      className=""
+      defaultValue="/MyDocuments"
+      forceValidValue={false}
+      getValue={[Function]}
+      type={1}
+    />
+  </Controls>
+  <Controls
+    label="Save Every"
+  >
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      decimal={0}
+      defaultValue={10}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={false}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={60}
+      min={1}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="m"
+    />
+  </Controls>
+  <Controls
+    label="Number of Auto Save"
+  >
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      decimal={0}
+      defaultValue={5}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={false}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={10}
+      min={1}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit=""
+    />
+  </Controls>
+</Fragment>
+`;
