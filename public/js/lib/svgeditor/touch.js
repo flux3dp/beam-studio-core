@@ -12,8 +12,8 @@ function touchHandler(event) {'use strict';
 		default: return;
 	}
 
-	// initMouseEvent(type, canBubble, cancelable, view, clickCount, 
-	//	screenX, screenY, clientX, clientY, ctrlKey, 
+	// initMouseEvent(type, canBubble, cancelable, view, clickCount,
+	//	screenX, screenY, clientX, clientY, ctrlKey,
 	//	altKey, shiftKey, metaKey, button, relatedTarget);
 
 	simulatedEvent = document.createEvent("MouseEvent");
@@ -23,11 +23,10 @@ function touchHandler(event) {'use strict';
 								false, false, false, 0/*left*/, null);
 	if (touches.length < 2) {
 		first.target.dispatchEvent(simulatedEvent);
-		event.preventDefault();
 	}
 }
 
-document.addEventListener('touchstart', touchHandler, true);
-document.addEventListener('touchmove', touchHandler, true);
-document.addEventListener('touchend', touchHandler, true);
-document.addEventListener('touchcancel', touchHandler, true);
+document.addEventListener('touchstart', touchHandler, { passive: true });
+document.addEventListener('touchmove', touchHandler, { passive: true });
+document.addEventListener('touchend', touchHandler, { passive: true });
+document.addEventListener('touchcancel', touchHandler, { passive: true });
