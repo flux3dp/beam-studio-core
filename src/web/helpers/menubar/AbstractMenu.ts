@@ -17,6 +17,8 @@ export default abstract class AbstractMenu {
 
   abstract disable(items: string[]): void;
 
+  abstract updateLanguage(): void;
+
   private menuEventRegistered = false;
 
   protected initMenuEvents(): void {
