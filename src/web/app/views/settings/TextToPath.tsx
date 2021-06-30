@@ -8,27 +8,20 @@ interface Props {
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
 }
 
-class TextToPath extends React.Component<Props> {
-  render() {
-    const {
-      fontSubstituteOptions,
-      updateBeamboxPreferenceChange,
-    } = this.props;
-    const lang = i18n.lang;
-
-    return (
-      <>
-        <div className="subtitle">{lang.settings.groups.text_to_path}</div>
-        <SelectControl
-          label={lang.settings.font_substitute}
-          url={lang.settings.help_center_urls.font_substitute}
-          id="font-substitue"
-          options={fontSubstituteOptions}
-          onChange={(e) => updateBeamboxPreferenceChange('font-substitute', e.target.value)}
-        />
-      </>
-    );
-  }
+function TextToPath({ fontSubstituteOptions, updateBeamboxPreferenceChange }: Props): JSX.Element {
+  const lang = i18n.lang;
+  return (
+    <>
+      <div className="subtitle">{lang.settings.groups.text_to_path}</div>
+      <SelectControl
+        label={lang.settings.font_substitute}
+        url={lang.settings.help_center_urls.font_substitute}
+        id="font-substitue"
+        options={fontSubstituteOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('font-substitute', e.target.value)}
+      />
+    </>
+  );
 }
 
 export default TextToPath;

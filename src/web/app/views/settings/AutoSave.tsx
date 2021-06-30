@@ -15,97 +15,93 @@ interface Props {
   updateState: (state: any) => void;
 }
 
-class AutoSave extends React.Component<Props> {
-  render() {
-    const {
-      autoSaveOptions,
-      warnings,
-      editingAutosaveConfig,
-      updateState,
-    } = this.props;
-    const lang = i18n.lang;
-
-    return (
-      <>
-        <div className="subtitle">{lang.settings.groups.autosave}</div>
-        <SelectControl
-          label={lang.settings.autosave_enabled}
-          options={autoSaveOptions}
-          onChange={(e) => {
+function AutoSave({
+  autoSaveOptions,
+  editingAutosaveConfig,
+  warnings,
+  updateState,
+}: Props): JSX.Element {
+  const lang = i18n.lang;
+  return (
+    <>
+      <div className="subtitle">{lang.settings.groups.autosave}</div>
+      <SelectControl
+        label={lang.settings.autosave_enabled}
+        options={autoSaveOptions}
+        onChange={(e) => {
+          updateState({
+            editingAutosaveConfig: {
+              ...editingAutosaveConfig,
+              enabled: e.target.value === 'TRUE',
+            },
+          });
+        }}
+      />
+      <Controls
+        label={lang.settings.autosave_path}
+        warningText={warnings.autosave_directory}
+      >
+        <PathInput
+          buttonTitle={lang.general.choose_folder}
+          className={classNames({ 'with-error': !!warnings.autosave_directory })}
+          defaultValue={editingAutosaveConfig.directory}
+          forceValidValue={false}
+          getValue={(val: string, isValid: boolean) => {
+            if (!isValid) {
+              warnings.autosave_directory = lang.settings.autosave_path_not_correct;
+            } else {
+              delete warnings.autosave_directory;
+            }
             updateState({
               editingAutosaveConfig: {
                 ...editingAutosaveConfig,
-                enabled: e.target.value === 'TRUE',
+                directory: val,
+              },
+              warnings: {
+                ...warnings,
               },
             });
           }}
+          type={InputType.FOLDER}
         />
-        <Controls
-          label={lang.settings.autosave_path}
-          warningText={warnings.autosave_directory}
-        >
-          <PathInput
-            buttonTitle={lang.general.choose_folder}
-            className={classNames({ 'with-error': !!warnings.autosave_directory })}
-            defaultValue={editingAutosaveConfig.directory}
-            forceValidValue={false}
-            getValue={(val: string, isValid: boolean) => {
-              if (!isValid) {
-                warnings.autosave_directory = lang.settings.autosave_path_not_correct;
-              } else {
-                delete warnings.autosave_directory;
-              }
-              updateState({
-                editingAutosaveConfig: {
-                  ...editingAutosaveConfig,
-                  directory: val,
-                },
-                warnings: {
-                  ...warnings,
-                },
-              });
-            }}
-            type={InputType.FOLDER}
-          />
-        </Controls>
-        <Controls label={lang.settings.autosave_interval}>
-          <UnitInput
-            unit={lang.monitor.minute}
-            min={1}
-            max={60}
-            decimal={0}
-            defaultValue={editingAutosaveConfig.timeInterval}
-            getValue={(val: number) => {
-              updateState({
-                editingAutosaveConfig: {
-                  ...editingAutosaveConfig,
-                  timeInterval: val,
-                },
-              });
-            }}
-            className={{ half: true }}
-          />
-        </Controls>
-        <Controls label={lang.settings.autosave_number}>
-          <UnitInput
-            min={1}
-            max={10}
-            decimal={0}
-            defaultValue={editingAutosaveConfig.fileNumber}
-            getValue={(val: number) => {
-              updateState({
-                editingAutosaveConfig: {
-                  ...editingAutosaveConfig,
-                  fileNumber: val,
-                },
-              });
-            }}
-            className={{ half: true }}
-          />
-        </Controls>
-      </>
-    );
-  }
+      </Controls>
+      <Controls label={lang.settings.autosave_interval}>
+        <UnitInput
+          unit={lang.monitor.minute}
+          min={1}
+          max={60}
+          decimal={0}
+          defaultValue={editingAutosaveConfig.timeInterval}
+          getValue={(val: number) => {
+            updateState({
+              editingAutosaveConfig: {
+                ...editingAutosaveConfig,
+                timeInterval: val,
+              },
+            });
+          }}
+          className={{ half: true }}
+        />
+      </Controls>
+      <Controls label={lang.settings.autosave_number}>
+        <UnitInput
+          min={1}
+          max={10}
+          decimal={0}
+          defaultValue={editingAutosaveConfig.fileNumber}
+          getValue={(val: number) => {
+            updateState({
+              editingAutosaveConfig: {
+                ...editingAutosaveConfig,
+                fileNumber: val,
+              },
+            });
+          }}
+          className={{ half: true }}
+        />
+      </Controls>
+    </>
+  );
 }
 
 export default AutoSave;
