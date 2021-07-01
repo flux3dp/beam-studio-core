@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
-import BeamboxInit from 'app/actions/beambox/beambox-init';
+import BeamboxInit from 'implementations/beamboxInit';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import communicator from 'implementations/communicator';
@@ -18,7 +18,7 @@ import { ZoomBlock } from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
 
 sentryHelper.initSentry();
-BeamboxInit.init();
+const beamboxInit = new BeamboxInit();
 
 export default class Beambox extends React.Component {
   async componentDidMount() {
@@ -31,7 +31,7 @@ export default class Beambox extends React.Component {
 
     communicator.send('FRONTEND_READY');
     svgEditor.resetView();
-    await BeamboxInit.showStartUpDialogs();
+    await beamboxInit.showStartUpDialogs();
   }
 
   componentWillUnmount() {
