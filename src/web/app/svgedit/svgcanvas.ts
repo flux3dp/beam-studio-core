@@ -10481,6 +10481,7 @@ export default $.SvgCanvas = function (container, config) {
   this.setSvgElemSize = function (para, val, undoable) {
     let batchCmd = new history.BatchCommand('set size');
     const selected = selectedElements[0];
+    if (!selected) return;
     const realLocation = this.getSvgRealLocation(selected);
     let sx = 1;
     let sy = 1;
