@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import * as React from 'react';
-import $ from 'jquery';
 import classNames from 'classnames';
 
 import alert from 'app/actions/alert-caller';

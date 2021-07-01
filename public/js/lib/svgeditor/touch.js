@@ -26,7 +26,7 @@ function touchHandler(event) {'use strict';
 	}
 }
 
-document.addEventListener('touchstart', touchHandler, { passive: true });
-document.addEventListener('touchmove', touchHandler, { passive: true });
-document.addEventListener('touchend', touchHandler, { passive: true });
-document.addEventListener('touchcancel', touchHandler, { passive: true });
+document.addEventListener('touchstart', touchHandler, true);
+document.addEventListener('touchmove', touchHandler, true);
+document.addEventListener('touchend', touchHandler, true);
+document.addEventListener('touchcancel', touchHandler, true);
