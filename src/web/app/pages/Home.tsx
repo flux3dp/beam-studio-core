@@ -5,21 +5,10 @@ import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
 import Modal from 'app/widgets/Modal';
 import SelectView from 'app/widgets/Select';
-import { ILang } from 'interfaces/ILang';
 
-interface State {
-  lang: ILang;
-}
-
-export default class Home extends React.Component<any, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lang: i18n.lang,
-    };
-  }
-
-  private getLanguageOptions = () => {
+function Home(): JSX.Element {
+  const [lang, changeLang] = React.useState(i18n.lang);
+  const getLanguageOptions = () => {
     const options = [];
     const langCodes = Object.keys(appSettings.i18n.supported_langs);
     for (let i = 0; i < langCodes.length; i += 1) {
@@ -33,38 +22,32 @@ export default class Home extends React.Component<any, State> {
     return options;
   };
 
-  private changeActiveLang = (e) => {
+  const changeActiveLang = (e) => {
     i18n.setActiveLang(e.currentTarget.value);
     menu.updateLanguage();
-    this.setState({
-      lang: i18n.lang,
-    });
+    changeLang(i18n.lang);
   };
 
-  // Lifecycle
-  render(): JSX.Element {
-    const { lang } = this.state;
-    const options = this.getLanguageOptions();
-    const wrapperClassName = {
-      initialization: true,
-    };
-    const content = (
-      <div className="home text-center">
-        <img className="brand-image" src="img/menu/main_logo.svg" />
+  const wrapperClassName = {
+    initialization: true,
+  };
+  const content = (
+    <div className="home text-center">
+      <img className="brand-image" src="img/menu/main_logo.svg" />
+      <div>
+        <h1 className="headline">{lang.initialize.select_language}</h1>
+        <div className="language">
+          <SelectView id="select-lang" options={getLanguageOptions()} onChange={changeActiveLang} />
+        </div>
         <div>
-          <h1 className="headline">{lang.initialize.select_language}</h1>
-          <div className="language">
-            <SelectView id="select-lang" options={options} onChange={this.changeActiveLang} />
-          </div>
-          <div>
-            <a href="#initialize/connect/flux-id-login" className="btn btn-action btn-large">{lang.initialize.next}</a>
-          </div>
+          <a href="#initialize/connect/flux-id-login" className="btn btn-action btn-large">{lang.initialize.next}</a>
         </div>
       </div>
-    );
-
-    return (
-      <Modal className={wrapperClassName} content={content} />
-    );
-  }
+    </div>
+  );
+  return (
+    <Modal className={wrapperClassName} content={content} />
+  );
 }
+
+export default Home;

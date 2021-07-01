@@ -29,80 +29,128 @@ jest.mock('helpers/i18n', () => ({
 // eslint-disable-next-line import/first
 import AutoSave from './AutoSave';
 
-test('should render correctly', () => {
-  const updateState = jest.fn();
-  const wrapper = shallow(<AutoSave
-    autoSaveOptions={[
-      {
+describe('should render correctly', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test('initially no warning', () => {
+    const updateState = jest.fn();
+    const wrapper = shallow(<AutoSave
+      autoSaveOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: false,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: true,
+        },
+      ]}
+      editingAutosaveConfig={{
+        enabled: false,
+        directory: '/MyDocuments',
+        timeInterval: 10,
+        fileNumber: 5,
+      }}
+      warnings={{}}
+      updateState={updateState}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('SelectControl').simulate('change', {
+      target: {
         value: 'TRUE',
-        label: 'On',
-        selected: false,
       },
-      {
-        value: 'FALSE',
-        label: 'Off',
-        selected: true,
+    });
+    expect(updateState).toHaveBeenCalledTimes(1);
+    expect(updateState).toHaveBeenNthCalledWith(1, {
+      editingAutosaveConfig: {
+        enabled: true,
+        directory: '/MyDocuments',
+        timeInterval: 10,
+        fileNumber: 5,
       },
-    ]}
-    editingAutosaveConfig={{
-      enabled: false,
-      directory: '/MyDocuments',
-      timeInterval: 10,
-      fileNumber: 5,
-    }}
-    warnings={{}}
-    updateState={updateState}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+    });
 
-  wrapper.find('SelectControl').simulate('change', {
-    target: {
-      value: 'TRUE',
-    },
-  });
-  expect(updateState).toHaveBeenCalledTimes(1);
-  expect(updateState).toHaveBeenNthCalledWith(1, {
-    editingAutosaveConfig: {
-      enabled: true,
-      directory: '/MyDocuments',
-      timeInterval: 10,
-      fileNumber: 5,
-    },
-  });
+    wrapper.find('PathInput').props().getValue('/FolderNotExist', false);
+    expect(updateState).toHaveBeenCalledTimes(2);
+    expect(updateState).toHaveBeenNthCalledWith(2, {
+      editingAutosaveConfig: {
+        enabled: false,
+        directory: '/FolderNotExist',
+        timeInterval: 10,
+        fileNumber: 5,
+      },
+      warnings: {
+        autosave_directory: 'Specified path not found.',
+      },
+    });
 
-  wrapper.find('PathInput').props().getValue('/FolderNotExist', false);
-  expect(updateState).toHaveBeenCalledTimes(2);
-  expect(updateState).toHaveBeenNthCalledWith(2, {
-    editingAutosaveConfig: {
-      enabled: false,
-      directory: '/FolderNotExist',
-      timeInterval: 10,
-      fileNumber: 5,
-    },
-    warnings: {
-      autosave_directory: 'Specified path not found.',
-    },
+    wrapper.find('UnitInput').at(0).props().getValue(5);
+    expect(updateState).toHaveBeenCalledTimes(3);
+    expect(updateState).toHaveBeenNthCalledWith(3, {
+      editingAutosaveConfig: {
+        enabled: false,
+        directory: '/MyDocuments',
+        timeInterval: 5,
+        fileNumber: 5,
+      },
+    });
+
+    wrapper.find('UnitInput').at(1).props().getValue(10);
+    expect(updateState).toHaveBeenCalledTimes(4);
+    expect(updateState).toHaveBeenNthCalledWith(4, {
+      editingAutosaveConfig: {
+        enabled: false,
+        directory: '/MyDocuments',
+        timeInterval: 10,
+        fileNumber: 10,
+      },
+    });
   });
 
-  wrapper.find('UnitInput').at(0).props().getValue(5);
-  expect(updateState).toHaveBeenCalledTimes(3);
-  expect(updateState).toHaveBeenNthCalledWith(3, {
-    editingAutosaveConfig: {
-      enabled: false,
-      directory: '/MyDocuments',
-      timeInterval: 5,
-      fileNumber: 5,
-    },
-  });
+  test('initially with warning', () => {
+    const updateState = jest.fn();
+    const wrapper = shallow(<AutoSave
+      autoSaveOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: false,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: true,
+        },
+      ]}
+      editingAutosaveConfig={{
+        enabled: false,
+        directory: '/FolderNotExist',
+        timeInterval: 10,
+        fileNumber: 5,
+      }}
+      warnings={{
+        autosave_directory: 'Specified path not found.',
+      }}
+      updateState={updateState}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
 
-  wrapper.find('UnitInput').at(1).props().getValue(10);
-  expect(updateState).toHaveBeenCalledTimes(4);
-  expect(updateState).toHaveBeenNthCalledWith(4, {
-    editingAutosaveConfig: {
-      enabled: false,
-      directory: '/MyDocuments',
-      timeInterval: 10,
-      fileNumber: 10,
-    },
+    wrapper.find('PathInput').props().getValue('/MyDocuments', true);
+    expect(updateState).toHaveBeenCalledTimes(1);
+    expect(updateState).toHaveBeenNthCalledWith(1, {
+      editingAutosaveConfig: {
+        enabled: false,
+        directory: '/MyDocuments',
+        timeInterval: 10,
+        fileNumber: 5,
+      },
+      warnings: {
+      },
+    });
   });
 });
