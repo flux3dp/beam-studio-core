@@ -1961,7 +1961,7 @@ export default $.SvgCanvas = function (container, config) {
           start_x *= current_zoom;
           start_y *= current_zoom;
           if (canvas.isBezierPathAlignToEdge) {
-            let { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
+            const { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
             start_x = xMatchPoint ? xMatchPoint.x * current_zoom : start_x;
             start_y = yMatchPoint ? yMatchPoint.y * current_zoom : start_y;
           }
@@ -2032,7 +2032,7 @@ export default $.SvgCanvas = function (container, config) {
       if (!started) {
         if (canvas.isBezierPathAlignToEdge) {
           if (current_mode === 'path') {
-            let { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
+            const { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
             let x = xMatchPoint ? xMatchPoint.x * current_zoom : mouse_x;
             let y = yMatchPoint ? yMatchPoint.y * current_zoom : mouse_y;
             canvas.drawAlignLine(x, y, xMatchPoint, yMatchPoint);
@@ -2485,7 +2485,7 @@ export default $.SvgCanvas = function (container, config) {
             }, 100);
           }
           if (canvas.isBezierPathAlignToEdge) {
-            let { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
+            const { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
             x = xMatchPoint ? xMatchPoint.x * current_zoom : x;
             y = yMatchPoint ? yMatchPoint.y * current_zoom : y;
             canvas.drawAlignLine(x, y, xMatchPoint, yMatchPoint);
@@ -4320,7 +4320,11 @@ export default $.SvgCanvas = function (container, config) {
       } else {
         // Good bye node
         removedElements[node.id] = node;
-        node.parentNode.removeChild(node);
+        if (node.parentNode) {
+          node.parentNode.removeChild(node);
+        } else {
+          node.remove();
+        }
         numRemoved++;
 
         return false;
@@ -8571,10 +8575,13 @@ export default $.SvgCanvas = function (container, config) {
         return array[u + 1] + array[u] > 2 * val ? u : u + 1
       }
     }
-    let nearestX = bsFindNearest(this.pathAlignPointsSortByX.map(p => p.x), x / current_zoom);
+    if (!this.pathAlignPointsSortByX || !this.pathAlignPointsSortByY) {
+      return {};
+    }
+    let nearestX = bsFindNearest(this.pathAlignPointsSortByX.map((p) => p.x), x / current_zoom);
     nearestX = this.pathAlignPointsSortByX[nearestX];
     let xMatchPoint = nearestX ? (Math.abs(nearestX.x * current_zoom - x) < FUZZY_RANGE ? nearestX : null) : null;
-    let nearestY = bsFindNearest(this.pathAlignPointsSortByY.map(p => p.y), y / current_zoom);
+    let nearestY = bsFindNearest(this.pathAlignPointsSortByY.map((p) => p.y), y / current_zoom);
     nearestY = this.pathAlignPointsSortByY[nearestY];
     let yMatchPoint = nearestY ? (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE ? nearestY : null) : null;
     return { xMatchPoint, yMatchPoint };
@@ -10477,6 +10484,7 @@ export default $.SvgCanvas = function (container, config) {
   this.setSvgElemSize = function (para, val, undoable) {
     let batchCmd = new history.BatchCommand('set size');
     const selected = selectedElements[0];
+    if (!selected) return;
     const realLocation = this.getSvgRealLocation(selected);
     let sx = 1;
     let sy = 1;
