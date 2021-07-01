@@ -12,7 +12,6 @@ import { IBatchCommand } from 'interfaces/IHistory';
 
 import { getSVGAsync } from './svg-editor-helper';
 
-const { $ } = window;
 let svgCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
@@ -292,7 +291,6 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
   const {
     svgUrl, imgWidth: width, imgHeight: height, strokeWidth,
   } = data;
-  console.log(data);
   const img = new Image(width + parseInt(strokeWidth, 10), height + parseInt(strokeWidth, 10));
   img.onload = async () => {
     const imgCanvas = document.createElement('canvas');
@@ -391,9 +389,10 @@ const makeImageSymbol = async (
     const imgWidth = Math.max(bb.width * imageRatio, 1);
     const imgHeight = Math.max(bb.height * imageRatio, 1);
     const id = getRequestID();
-    const imageUrl = await svgToImgUrlByShadowWindow({
+    const param = {
       id, svgUrl, imgWidth, imgHeight, bb: bbObject, imageRatio, strokeWidth,
-    });
+    };
+    const imageUrl = window.FLUX.version === 'web' ? await svgToImgUrl(param) : await svgToImgUrlByShadowWindow(param);
     URL.revokeObjectURL(svgUrl);
     if (!imageSymbol) {
       const image = svgdoc.createElementNS(NS.SVG, 'image');
