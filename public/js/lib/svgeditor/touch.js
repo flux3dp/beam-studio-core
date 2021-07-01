@@ -1,4 +1,3 @@
-// http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript/
 function touchHandler(event) {'use strict';
 
 	var simulatedEvent,
@@ -23,6 +22,9 @@ function touchHandler(event) {'use strict';
 								false, false, false, 0/*left*/, null);
 	if (touches.length < 2) {
 		first.target.dispatchEvent(simulatedEvent);
+    if (first.target.tagName === 'svg') {
+      event.preventDefault();
+    }
 	}
 }
 
