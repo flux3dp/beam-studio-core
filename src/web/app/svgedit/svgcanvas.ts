@@ -4320,7 +4320,11 @@ export default $.SvgCanvas = function (container, config) {
       } else {
         // Good bye node
         removedElements[node.id] = node;
-        node.parentNode.removeChild(node);
+        if (node.parentNode) {
+          node.parentNode.removeChild(node);
+        } else {
+          node.remove();
+        }
         numRemoved++;
 
         return false;
