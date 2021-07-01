@@ -221,9 +221,10 @@ const funcs = {
         _setCrosshairCursor();
     },
     insertText: function() {
-        $('#tool_text').click();
         if (svgedit.browser.isTouch()) {
             $('#tool_text').mousedown();
+        } else {
+            $('#tool_text').click();
         }
         $('#workarea').css('cursor', 'text');
     },
