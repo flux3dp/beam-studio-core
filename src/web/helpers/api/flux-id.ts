@@ -27,7 +27,7 @@ const FLUXID_HOST = 'https://id.flux3dp.com';
 const FLUXID_DOMAIN = 'id.flux3dp.com';
 const axiosFluxId = axios.create({
   baseURL: FLUXID_HOST,
-  timeout: 2000,
+  timeout: 10000,
 });
 
 let currentUser: IUser = null;
@@ -178,12 +178,27 @@ const signInWithGoogleCode = async (info): Promise<boolean> => {
   return false;
 };
 
-export const init = async (): Promise<void> => {
-  cookies.on('changed', (event, cookie, cause, removed) => {
-    if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
-      axiosFluxId.defaults.headers.post['X-CSRFToken'] = cookie.value;
-    }
+export const signOut = async (): Promise<boolean> => {
+  const response = await axiosFluxId.get('/user/logout', {
+    withCredentials: true,
   });
+  if (response.status === 200) {
+    updateUser();
+    fluxIDEvents.emit('logged-out');
+    return response.data;
+  }
+  return false;
+};
+
+export const init = async (): Promise<void> => {
+  if (window.FLUX.version !== 'web') {
+    // Set csrf cookie for electron only
+    cookies.on('changed', (event, cookie, cause, removed) => {
+      if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
+        axiosFluxId.defaults.headers.post['X-CSRFToken'] = cookie.value;
+      }
+    });
+  }
   communicator.on('FB_AUTH_TOKEN', (e, dataString: string) => {
     const data = parseQueryData(dataString);
     const token = data.access_token;
@@ -195,31 +210,23 @@ export const init = async (): Promise<void> => {
   });
   if (storage.get('keep-flux-id-login') || storage.get('new-user')) {
     // If user is new, keep login status after setting machines.
-    const csrfcookies = await cookies.get({
-      domain: FLUXID_DOMAIN,
-      name: 'csrftoken',
-    });
-    if (csrfcookies.length > 0) {
-      // Should be unique
-      axiosFluxId.defaults.headers.post['X-CSRFToken'] = csrfcookies[0].value;
+    if (window.FLUX.version !== 'web') {
+      // Init csrftoken for electron
+      const csrfcookies = await cookies.get({
+        domain: FLUXID_DOMAIN,
+        name: 'csrftoken',
+      });
+      if (csrfcookies.length > 0) {
+        // Should be unique
+        axiosFluxId.defaults.headers.post['X-CSRFToken'] = csrfcookies[0].value;
+      }
     }
     const res = await getInfo(true);
     if (res && res.status !== 'ok') {
       updateMenu();
     }
   } else {
-    const fluxIdCookies = await cookies.get({
-      domain: FLUXID_DOMAIN,
-    });
-    fluxIdCookies.forEach((cookie) => {
-      let url = '';
-      url += cookie.secure ? 'https://' : 'http://';
-      url += cookie.domain.charAt(0) === '.' ? 'www' : '';
-      url += cookie.domain;
-      url += cookie.path;
-
-      cookies.remove(url, cookie.name);
-    });
+    signOut();
     updateMenu();
   }
 };
@@ -279,18 +286,6 @@ export const submitRating = async (
 
   handleErrorMessage(response.error);
   return response;
-};
-
-export const signOut = async (): Promise<boolean> => {
-  const response = await axiosFluxId.get('/user/logout', {
-    withCredentials: true,
-  });
-  if (response.status === 200) {
-    updateUser();
-    fluxIDEvents.emit('logged-out');
-    return response.data;
-  }
-  return false;
 };
 
 export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
