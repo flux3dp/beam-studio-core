@@ -1,7 +1,6 @@
 /**
  * check device status and action
  */
-import $ from 'jquery';
 import i18n from 'helpers/i18n';
 import DeviceMaster from './device-master';
 import DeviceConstants from '../app/constants/device-constants';
