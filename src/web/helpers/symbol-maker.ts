@@ -511,7 +511,7 @@ const switchImageSymbolForAll = (shouldUseImage: boolean): void => {
       switchImageSymbol(use, shouldUseImage);
     });
   });
-  Progress.popLastProgress();
+  Progress.popById('switch-all-symbol');
 };
 
 export default {
