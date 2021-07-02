@@ -5742,10 +5742,10 @@ export default $.SvgCanvas = function (container, config) {
           if (type === 'layer' && layerName) {
             let matchPara = layerName.match(/#([-SP0-9\.]*\b)/i);
             if (matchPara) {
-              let matchPower = matchPara[1].match(/P([-0-9\.]*)/i)[1];
-              let matchSpeed = matchPara[1].match(/S([-0-9\.]*)/i)[1];
-              let parsePower = matchPower ? parseFloat(matchPower) : NaN;
-              let parseSpeed = matchSpeed ? parseFloat(matchSpeed) : NaN;
+              let matchPower = matchPara[1].match(/P([-0-9\.]*)/i);
+              let matchSpeed = matchPara[1].match(/S([-0-9\.]*)/i);
+              let parsePower = matchPower ? parseFloat(matchPower[1]) : NaN;
+              let parseSpeed = matchSpeed ? parseFloat(matchSpeed[1]) : NaN;
               let laserConst = LANG.right_panel.laser_panel;
               if (!isNaN(parsePower)) {
                 parsePower = Math.round(parsePower * 10) / 10;
