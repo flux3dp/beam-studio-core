@@ -382,7 +382,7 @@ export default {
     default_beambox_model: 'Default Document Setting',
     guides_origin: 'Guides Origin',
     guides: 'Guides',
-    image_downsampling: 'Bitmap Previewing Quality',
+    image_downsampling: 'Bitmap Preview Quality',
     anti_aliasing: 'Anti-Aliasing',
     continuous_drawing: 'Continuous Drawing',
     trace_output: 'Image Trace Output',
@@ -661,7 +661,7 @@ export default {
           },
         },
         laser_speed: {
-          text: 'Laser Speed',
+          text: 'Speed',
           unit: 'mm/s',
           fast: 'Fast',
           slow: 'Slow',
@@ -769,7 +769,7 @@ export default {
     document_panel: {
       document_settings: 'Document Settings',
       engrave_parameters: 'Engraving Parameters',
-      workarea: 'Work Area',
+      workarea: 'Working Area',
       rotary_mode: 'Rotary',
       borderless_mode: 'Open Bottom',
       engrave_dpi: 'Resolution',
