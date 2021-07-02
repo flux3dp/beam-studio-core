@@ -194,7 +194,10 @@ svgedit.select.Selector.prototype.resize = function(bbox) {
 			bbox = stroked_bbox;
 		}
 	}
-
+  if (!bbox) {
+    console.warn('Selector Resize without bbox', selected, bbox);
+    return;
+  }
 	// apply the transforms
 	var l = bbox.x, t = bbox.y, w = bbox.width, h = bbox.height;
 	bbox = {x:l, y:t, width:w, height:h};

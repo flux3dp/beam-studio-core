@@ -354,13 +354,6 @@ export default {
 
     fileReader.readAsArrayBuffer(fcodeBlob);
   },
-  getGcode: async (): Promise<Blob> => {
-    const { gcodeBlob } = await fetchTaskCode(null, true);
-    if (!gcodeBlob) {
-      return null;
-    }
-    return gcodeBlob;
-  },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
     if (!fcodeBlob) {

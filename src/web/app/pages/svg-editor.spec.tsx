@@ -27,14 +27,6 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-jest.mock('app/views/beambox/Task-Interpreter-Panel', () => function DummyTaskInterpreterPanel() {
-  return (
-    <div>
-      This is dummy TaskInterpreterPanel
-    </div>
-  );
-});
-
 jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => ({
   RightPanel: function DummyRightPanel() {
     return (

@@ -662,7 +662,7 @@ export default {
           },
         },
         laser_speed: {
-          text: 'Lasergeschwindigkeit',
+          text: 'Geschwindigkeit',
           unit: 'mm/s',
           fast: 'Schnell',
           slow: 'Langsam',
