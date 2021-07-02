@@ -45,8 +45,8 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
       } else if (window.os === 'Windows') {
         const res = await os.process.exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
         if (!res.stderr) {
-          const matchWidth = res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
-          const matchHeight = res.stdout.match(/(?<=MaxVerticalImageSize[\ ]*: )\d+\b/);
+          const matchWidth = null; // res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
+          const matchHeight = null; // res.stdout.match(/(?<=MaxVerticalImageSize[\ ]*: )\d+\b/);
           if (matchWidth && matchHeight) {
             const width = Number(matchWidth);
             const height = Number(matchHeight);
