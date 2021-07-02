@@ -661,7 +661,7 @@ export default {
           },
         },
         laser_speed: {
-          text: '雷射速度',
+          text: '速度',
           unit: 'mm/s',
           fast: '快',
           slow: '慢',
@@ -670,7 +670,7 @@ export default {
           step: 0.1,
         },
         power: {
-          text: '雷射強度',
+          text: '功率',
           high: '強',
           low: '弱',
           min: 1,
