@@ -338,8 +338,8 @@ const convertTextToPathFluxsvg = async (
     fileReader.onloadend = (e) => {
       const svgString = e.target.result as string;
       // console.log(svgString);
-      const d = svgString.match(/(?<= d=")[^"]+/g);
-      const trans = svgString.match(/(?<= transform=")[^"]+/g);
+      const d = svgString.match(/ d="([^"]+)/)[1];
+      const trans = svgString.match(/transform="([^"]+)/);
       resolve({ pathD: d, transform: trans });
     };
     if (isFill) {
@@ -354,9 +354,9 @@ const convertTextToPathFluxsvg = async (
     const path = document.createElementNS(svgedit.NS.SVG, 'path');
     $(path).attr({
       id: newPathId,
-      d: pathD.join(''),
+      d: pathD,
       // Note: Assuming transform matrix for all d are the same
-      transform: transform ? transform[0] : '',
+      transform: transform ? transform[1] : '',
       fill: isFill ? color : 'none',
       'fill-opacity': isFill ? 1 : 0,
       stroke: color,
