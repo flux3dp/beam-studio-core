@@ -275,20 +275,20 @@ class TaskInterpreterPanel extends React.Component<Props, State>{
       }
       let command = gcodeList[i];
       if (command.startsWith('G1 ')) {
-        let X = command.match(/(?<=X)[0-9\.]*/);
-        let Y = command.match(/(?<=Y)[0-9\.]*/);
-        x = X ? scale * parseFloat(X[0]) : x;
-        y = Y ? scale * parseFloat(Y[0]) : y;
+        let X = command.match(/X([0-9\.]*)/);
+        let Y = command.match(/Y([0-9\.]*)/);
+        x = X ? scale * parseFloat(X[1]) : x;
+        y = Y ? scale * parseFloat(Y[1]) : y;
         if (power > 0) {
           ctx.lineTo(x, y);
         } else {
           ctx.moveTo(x, y);
         }
       } else if(command.indexOf('X2O') >= 0) {
-        const res = command.match(/(?<=X2O)[-0-9\.]*/);
+        const res = command.match(/X2O([-0-9\.]*)/);
         if(res) {
           try {
-            let p = parseInt(res[0]);
+            let p = parseInt(res[1]);
             if (p >= 0) {
               p1 = p / 255;
             } else {
