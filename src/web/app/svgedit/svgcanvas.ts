@@ -846,6 +846,9 @@ export default $.SvgCanvas = function (container, config) {
       if (childNodes) {
         for (let j = 0; j < childNodes.length; j++) {
           const elem = childNodes[j];
+          if (['defs', 'clipPath', 'feGaussianBlur', 'linearGradient', 'marker', 'mask', 'pattern', 'radialGradient', 'stop', 'switch', 'symbol'].includes(elem.tagName)) {
+            continue;
+          }
           if (elem.getBBox) {
             let bbox;
             if (elem.tagName === 'use') {
