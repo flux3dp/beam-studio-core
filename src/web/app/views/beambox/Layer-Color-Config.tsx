@@ -158,19 +158,19 @@ class LayerColorConfigPanel extends React.Component<Props, State> {
     validateColorInput(val, index) {
         val = val.replace(/ +/,'');
         let res;
-        let matchHex6 = val.match(/(?<!.)#[0-9A-F]{6}\b/i);
+        let matchHex6 = val.match(/#[0-9A-F]{6}\b/i);
         if (matchHex6) {
             res = matchHex6[0].toUpperCase();
         }
 
         if (!res) {
-            let matchHex3 = val.match(/(?<!.)#[0-9A-F]{3}\b/i);
+            let matchHex3 = val.match(/#[0-9A-F]{3}\b/i);
             if (matchHex3) {
                 res = matchHex3[0].replace(/#([0-9A-F])([0-9A-F])([0-9A-F])/i, '#$1$1$2$2$3$3').toUpperCase();
             }
         }
         if (!res) {
-            let matchRGB = val.match(/(?<!.)(rgb)?\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)(?!.)/i);
+            let matchRGB = val.match(/(rgb)?\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)(?!.)/i);
             if (matchRGB) {
                 matchRGB = matchRGB[0].match(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/)[0].split(',');
                 let hex = (parseInt(matchRGB[0]) * 65536 + parseInt(matchRGB[1]) * 256 + parseInt(matchRGB[2])).toString(16);
