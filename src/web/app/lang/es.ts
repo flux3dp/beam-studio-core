@@ -661,7 +661,7 @@ export default {
           },
         },
         laser_speed: {
-          text: 'Velocidad del láser',
+          text: 'Velocidad',
           unit: 'mm/s',
           fast: 'Rápido',
           slow: 'Lento',

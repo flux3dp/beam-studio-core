@@ -661,7 +661,7 @@ export default {
           },
         },
         laser_speed: {
-          text: 'レーザー速度',
+          text: '速度',
           unit: 'mm/秒',
           fast: '高速',
           slow: '低速',
