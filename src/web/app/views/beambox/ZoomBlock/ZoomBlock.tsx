@@ -30,9 +30,9 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
       if (window.os === 'MacOS') {
         const res = await os.process.exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
         if (!res.stderr) {
-          const match = res.stdout.match(/(?<=Model Identifier: ).+\b/);
+          const match = res.stdout.match(/Model Identifier: (.+\b)/);
           if (match) {
-            const modelId = match[0];
+            const modelId = match[1];
             const monitorSize = macOSWindowSize[modelId];
             if (monitorSize) {
               const dpi = Math.hypot(screen.width, screen.height) / monitorSize;

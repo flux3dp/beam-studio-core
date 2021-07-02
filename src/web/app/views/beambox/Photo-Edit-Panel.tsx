@@ -210,13 +210,13 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
     handleSetAttribute('origImage', displaySrc);
     if (mode === 'crop') {
-      const image = document.getElementById('original-image') as HTMLImageElement;
-      if (origWidth !== image.naturalWidth) {
-        const ratio = image.naturalWidth / origWidth;
+      const { w, h } = this.currentCropDimension;
+      if (origWidth !== w) {
+        const ratio = w / origWidth;
         handleSetAttribute('width', parseFloat($(element).attr('width')) * ratio);
       }
-      if (origHeight !== image.naturalHeight) {
-        const ratio = image.naturalHeight / origHeight;
+      if (origHeight !== h) {
+        const ratio = h / origHeight;
         handleSetAttribute('height', parseFloat($(element).attr('height')) * ratio);
       }
     }
