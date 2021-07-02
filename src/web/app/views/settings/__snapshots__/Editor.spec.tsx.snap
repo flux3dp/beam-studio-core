@@ -1,0 +1,1054 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly initially no warning 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Editor
+  </div>
+  <SelectControl
+    label="Default Units"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "mm",
+          "selected": true,
+          "value": "mm",
+        },
+        Object {
+          "label": "Inches",
+          "selected": false,
+          "value": "inches",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Arial",
+          "selected": true,
+          "value": "Arial",
+        },
+        Object {
+          "label": "Courier",
+          "selected": false,
+          "value": "Courier",
+        },
+        Object {
+          "label": "蘋果儷細宋",
+          "selected": false,
+          "value": "Apple LiSung",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font Style"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Regular",
+          "selected": true,
+          "value": "ArialMT",
+        },
+        Object {
+          "label": "Bold",
+          "selected": false,
+          "value": "Arial-BoldMT",
+        },
+        Object {
+          "label": "Bold Italic",
+          "selected": false,
+          "value": "Arial-BoldItalicMT",
+        },
+        Object {
+          "label": "Italic",
+          "selected": false,
+          "value": "Arial-ItalicMT",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Document Setting"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "beamo",
+          "selected": false,
+          "value": "fbm1",
+        },
+        Object {
+          "label": "Beambox",
+          "selected": true,
+          "value": "fbb1b",
+        },
+        Object {
+          "label": "Beambox Pro",
+          "selected": false,
+          "value": "fbb1p",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    id="set-guide"
+    label="Guides"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <Controls
+    label="Guides Origin"
+  >
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      X
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={400}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      Y
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={375}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+  </Controls>
+  <SelectControl
+    label="Bitmap Previewing Quality"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Low",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Normal",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
+  />
+  <SelectControl
+    label="Anti-Aliasing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
+  />
+  <SelectControl
+    label="Continuous Drawing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
+  />
+  <SelectControl
+    label="Optimize the Calculated Path"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
+  />
+</Fragment>
+`;
+
+exports[`should render correctly initially no warning 2`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Editor
+  </div>
+  <SelectControl
+    label="Default Units"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "mm",
+          "selected": true,
+          "value": "mm",
+        },
+        Object {
+          "label": "Inches",
+          "selected": false,
+          "value": "inches",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Arial",
+          "selected": false,
+          "value": "Arial",
+        },
+        Object {
+          "label": "Courier",
+          "selected": false,
+          "value": "Courier",
+        },
+        Object {
+          "label": "蘋果儷細宋",
+          "selected": true,
+          "value": "Apple LiSung",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font Style"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Light",
+          "selected": true,
+          "value": "LiSungLight",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Document Setting"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "beamo",
+          "selected": false,
+          "value": "fbm1",
+        },
+        Object {
+          "label": "Beambox",
+          "selected": true,
+          "value": "fbb1b",
+        },
+        Object {
+          "label": "Beambox Pro",
+          "selected": false,
+          "value": "fbb1p",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    id="set-guide"
+    label="Guides"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <Controls
+    label="Guides Origin"
+  >
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      X
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={400}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      Y
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={375}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+  </Controls>
+  <SelectControl
+    label="Bitmap Previewing Quality"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Low",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Normal",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
+  />
+  <SelectControl
+    label="Anti-Aliasing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
+  />
+  <SelectControl
+    label="Continuous Drawing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
+  />
+  <SelectControl
+    label="Optimize the Calculated Path"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
+  />
+</Fragment>
+`;
+
+exports[`should render correctly initially no warning 3`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Editor
+  </div>
+  <SelectControl
+    label="Default Units"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "mm",
+          "selected": true,
+          "value": "mm",
+        },
+        Object {
+          "label": "Inches",
+          "selected": false,
+          "value": "inches",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Arial",
+          "selected": false,
+          "value": "Arial",
+        },
+        Object {
+          "label": "Courier",
+          "selected": true,
+          "value": "Courier",
+        },
+        Object {
+          "label": "蘋果儷細宋",
+          "selected": false,
+          "value": "Apple LiSung",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font Style"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Regular",
+          "selected": true,
+          "value": "Regular",
+        },
+        Object {
+          "label": "Bold",
+          "selected": false,
+          "value": "Courier-Bold",
+        },
+        Object {
+          "label": "Bold Oblique",
+          "selected": false,
+          "value": "Courier-BoldOblique",
+        },
+        Object {
+          "label": "Oblique",
+          "selected": false,
+          "value": "Courier-Oblique",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Document Setting"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "beamo",
+          "selected": false,
+          "value": "fbm1",
+        },
+        Object {
+          "label": "Beambox",
+          "selected": true,
+          "value": "fbb1b",
+        },
+        Object {
+          "label": "Beambox Pro",
+          "selected": false,
+          "value": "fbb1p",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    id="set-guide"
+    label="Guides"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <Controls
+    label="Guides Origin"
+  >
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      X
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={400}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      Y
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={375}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+  </Controls>
+  <SelectControl
+    label="Bitmap Previewing Quality"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Low",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Normal",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
+  />
+  <SelectControl
+    label="Anti-Aliasing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
+  />
+  <SelectControl
+    label="Continuous Drawing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
+  />
+  <SelectControl
+    label="Optimize the Calculated Path"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
+  />
+</Fragment>
+`;
+
+exports[`should render correctly initially no warning 4`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Editor
+  </div>
+  <SelectControl
+    label="Default Units"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "mm",
+          "selected": true,
+          "value": "mm",
+        },
+        Object {
+          "label": "Inches",
+          "selected": false,
+          "value": "inches",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Arial",
+          "selected": false,
+          "value": "Arial",
+        },
+        Object {
+          "label": "Courier",
+          "selected": true,
+          "value": "Courier",
+        },
+        Object {
+          "label": "蘋果儷細宋",
+          "selected": false,
+          "value": "Apple LiSung",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Font Style"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Regular",
+          "selected": false,
+          "value": "Regular",
+        },
+        Object {
+          "label": "Bold",
+          "selected": true,
+          "value": "Courier-Bold",
+        },
+        Object {
+          "label": "Bold Oblique",
+          "selected": false,
+          "value": "Courier-BoldOblique",
+        },
+        Object {
+          "label": "Oblique",
+          "selected": false,
+          "value": "Courier-Oblique",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Default Document Setting"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "beamo",
+          "selected": false,
+          "value": "fbm1",
+        },
+        Object {
+          "label": "Beambox",
+          "selected": true,
+          "value": "fbb1b",
+        },
+        Object {
+          "label": "Beambox Pro",
+          "selected": false,
+          "value": "fbb1p",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    id="set-guide"
+    label="Guides"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <Controls
+    label="Guides Origin"
+  >
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      X
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={400}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+    <span
+      className="font2"
+      style={
+        Object {
+          "lineHeight": "32px",
+          "marginRight": "10px",
+        }
+      }
+    >
+      Y
+    </span>
+    <UnitInput
+      abbr={false}
+      className={
+        Object {
+          "half": true,
+        }
+      }
+      defaultValue={0}
+      disabled={false}
+      displayMultiValue={false}
+      forceUsePropsUnit={true}
+      getValue={[Function]}
+      isDoOnInput={false}
+      max={375}
+      min={0}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyUp={[Function]}
+      step={1}
+      type="text"
+      unit="mm"
+    />
+  </Controls>
+  <SelectControl
+    label="Bitmap Previewing Quality"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Low",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Normal",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
+  />
+  <SelectControl
+    label="Anti-Aliasing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
+  />
+  <SelectControl
+    label="Continuous Drawing"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
+  />
+  <SelectControl
+    label="Optimize the Calculated Path"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+    url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
+  />
+</Fragment>
+`;

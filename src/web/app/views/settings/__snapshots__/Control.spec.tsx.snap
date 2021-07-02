@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="row-fluid"
+>
+  <div
+    className="span3 no-left-margin"
+    style={
+      Object {
+        "width": "calc(100% / 10 * 3 - 10px)",
+      }
+    }
+  >
+    <label
+      className="font2"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Flux",
+        }
+      }
+    />
+  </div>
+  <div
+    className="span8 font3"
+  >
+    <div>
+      Hello World
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<Controls
+  label="Flux"
+  url="https://www.flux3dp.com"
+  warningText="Warning!!"
+>
+  <div
+    className="row-fluid"
+  >
+    <div
+      className="span3 no-left-margin"
+      style={
+        Object {
+          "width": "calc(100% / 10 * 3 - 10px)",
+        }
+      }
+    >
+      <label
+        className="font2"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Flux",
+          }
+        }
+      />
+      <span
+        className="info-icon-small"
+      >
+        <img
+          onClick={[Function]}
+          src="img/info.svg"
+        />
+      </span>
+    </div>
+    <div
+      className="span8 font3"
+    >
+      <div>
+        Hello World
+      </div>
+      <img
+        src="img/warning.svg"
+        title="Warning!!"
+      />
+    </div>
+  </div>
+</Controls>
+`;
