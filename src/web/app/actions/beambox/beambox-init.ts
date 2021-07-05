@@ -11,7 +11,7 @@ import checkQuestionnaire from 'helpers/check-questionnaire';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
-// import fluxId from 'helpers/api/flux-id';
+import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'implementations/fontHelper';
 import i18n from 'helpers/i18n';
@@ -61,7 +61,7 @@ class BeamboxInit {
     }
     menu.init();
     autoSaveHelper.init();
-    // fluxId.init();
+    fluxId.init();
     BeamboxStore.onDrawGuideLines(this.displayGuides);
   }
 
