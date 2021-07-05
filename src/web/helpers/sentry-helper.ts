@@ -3,16 +3,17 @@
 import { Severity } from '@sentry/types';
 
 import { IDeviceInfo } from 'interfaces/IDevice';
-import Sentry from 'implementations/sentry';
+import sentry from 'implementations/sentry';
 import storage from 'implementations/storage';
 
 let isSentryInited = false;
 const sendDevices: { [uuid: string]: string } = storage.get('sentry-send-devices') || {};
+const { Sentry } = sentry;
 
 const initSentry = (): void => {
   if (storage.get('enable-sentry')) {
     console.log('Sentry Initiated');
-    Sentry.init({ dsn: 'https://bbd96134db9147658677dcf024ae5a83@o28957.ingest.sentry.io/5617300' });
+    sentry.initSentry();
     isSentryInited = true;
     Sentry.captureMessage('User Census', {
       level: 'info' as Severity,

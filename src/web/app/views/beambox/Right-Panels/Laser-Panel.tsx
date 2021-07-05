@@ -407,7 +407,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     this.setState({ modal: '' });
   };
 
-  handleParameterTypeChanged = (id: string, value: string): void => {
+  handleParameterTypeChanged = (value: string): void => {
     if (value === PARAMETERS_CONSTANT) {
       this.forceUpdate();
       return;

@@ -60,19 +60,6 @@ const memoize = (fn) => {
   };
 };
 
-const hashCode = (s) => {
-  const l = s.length;
-  let h = 0;
-  let i = 0;
-  if (l > 0) {
-    while (i < l) {
-      // eslint-disable-next-line no-bitwise
-      h = (h << 5) - h + s.charCodeAt(i += 1) | 0;
-    }
-  }
-  return Math.abs(h);
-};
-
 // TODO: Fix config
 let fontNameMapObj: { [key: string]: string } = storage.get('font-name-map') || {};
 if (fontNameMapObj.navigatorLang !== navigator.language) {
@@ -394,82 +381,6 @@ const convertTextToPathFluxsvg = async (
   }
   Progress.popById('parsing-font');
   return isUnsupported ? ConvertResult.UNSUPPORT : ConvertResult.CONTINUE;
-};
-
-const requestToConvertTextToPath = async ($textElement, args): Promise<void> => {
-  const { isTempConvert } = args;
-  const d = $.Deferred();
-  const fontStyle = requestFontByFamilyAndStyle({
-    family: args.family,
-    weight: args.weight,
-    style: args.style,
-    italic: ($textElement.attr('font-style') === 'italic'),
-  }).style;
-
-  const transform = $textElement.attr('transform') || '';
-
-  const letterSpacing = (() => {
-    const letterSpacingAttr = $textElement.attr('letter-spacing');
-    if (!letterSpacingAttr) {
-      return 0;
-    }
-    return letterSpacingAttr.replace('em', '');
-  })();
-
-  // use key (which hash from $textElement html string) to prevent ipc event confliction
-  const key = hashCode($textElement.prop('outerHTML'));
-  communicator.once(`RESOLVE_PATH_D_OF_TEXT${key}`, (sender, pathD) => {
-    d.resolve(pathD);
-  });
-
-  communicator.send('REQUEST_PATH_D_OF_TEXT', {
-    text: $textElement.text(),
-    x: $textElement.attr('x'),
-    y: $textElement.attr('y'),
-    fontFamily: $textElement.attr('font-family'),
-    fontSize: $textElement.attr('font-size'),
-    fontStyle,
-    letterSpacing,
-    key,
-  });
-  const pathD = await d;
-
-  const path = document.createElementNS(svgedit.NS.SVG, 'path');
-
-  const isFill = calculateFilled($textElement[0]);
-  let color = $textElement.attr('stroke');
-  color = color !== 'none' ? color : $textElement.attr('fill');
-
-  $(path).attr({
-    id: svgCanvas.getNextId(),
-    d: pathD,
-    transform,
-    fill: isFill ? color : 'none',
-    'fill-opacity': isFill ? 1 : 0,
-    stroke: color,
-    'stroke-opacity': 1,
-    'stroke-dasharray': 'none',
-    'vector-effect': 'non-scaling-stroke',
-  });
-  const batchCmd = new history.BatchCommand('Text to Path');
-  $(path).insertAfter($textElement);
-  $(path)
-    .mouseover(svgCanvas.handleGenerateSensorArea)
-    .mouseleave(svgCanvas.handleGenerateSensorArea);
-  batchCmd.addSubCommand(new history.InsertElementCommand(path));
-  if (!isTempConvert) {
-    const textElem = $textElement[0];
-    const parent = textElem.parentNode;
-    const { nextSibling } = textElem;
-    const elem = parent.removeChild(textElem);
-    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
-
-    if (!batchCmd.isEmpty()) { svgCanvas.undoMgr.addCommandToHistory(batchCmd); }
-  } else {
-    $textElement.attr('display', 'none');
-    tempPaths.push(path);
-  }
-  svgedit.recalculate.recalculateDimensions(path);
 };
 
 const tempConvertTextToPathAmoungSvgcontent = async () => {

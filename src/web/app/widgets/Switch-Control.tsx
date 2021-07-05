@@ -8,7 +8,7 @@ interface Props {
   offText?: string;
   label: string;
   default: boolean;
-  onChange: (string, boolean) => void;
+  onChange: (value: boolean) => void;
   isDisabled?: boolean;
 }
 
@@ -33,8 +33,8 @@ class SwitchControl extends React.Component<Props, State> {
   }
 
   fireChange = (newValue): void => {
-    const { id, onChange } = this.props;
-    onChange(id, newValue);
+    const { onChange } = this.props;
+    onChange(newValue);
   };
 
   handleToggle = (e): void => {

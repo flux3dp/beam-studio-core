@@ -71,7 +71,6 @@ exports[`test Switch-Control should render correctly 2`] = `
     [MockFunction] {
       "calls": Array [
         Array [
-          "abc",
           false,
         ],
       ],
