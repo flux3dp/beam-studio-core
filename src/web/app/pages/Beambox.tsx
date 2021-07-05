@@ -7,7 +7,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
-// import sentryHelper from 'helpers/sentry-helper';
+import sentryHelper from 'helpers/sentry-helper';
 import SVGEditor from 'app/pages/svg-editor';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
@@ -17,7 +17,7 @@ import { TopBarContextProvider } from 'app/views/beambox/TopBar/contexts/TopBarC
 import { ZoomBlock } from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
 
-// sentryHelper.initSentry();
+sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
 
 export default class Beambox extends React.Component {
