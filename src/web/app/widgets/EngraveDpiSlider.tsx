@@ -9,7 +9,7 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-export default ({ value, onChange }: Props) => {
+function EngraveDpiSlider({ value, onChange }: Props): JSX.Element {
   const dpiMap = [
     'low',
     'medium',
@@ -49,4 +49,6 @@ export default ({ value, onChange }: Props) => {
       </div>
     </div>
   );
-};
+}
+
+export default EngraveDpiSlider;

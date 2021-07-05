@@ -22,7 +22,7 @@ describe('test Switch-Control', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
     expect(wrapper.state().checked).toBeFalsy();
     expect(mockOnChange).toHaveBeenCalledTimes(1);
-    expect(mockOnChange).toHaveBeenNthCalledWith(1, 'abc', false);
+    expect(mockOnChange).toHaveBeenNthCalledWith(1, false);
   });
 
   test('should render correctly if disabled', () => {

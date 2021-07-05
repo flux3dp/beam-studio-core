@@ -5,7 +5,7 @@ import ChangeLogDialog from 'app/views/dialogs/ChangeLogDialog';
 import ConfirmPrompt from 'app/views/dialogs/Confirm-Prompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
-import DocumentPanel from 'app/views/beambox/Document-Panels/Document-Panel';
+import DocumentPanel from 'app/views/beambox/DocumentPanel/DocumentPanel';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/views/FluxIdLogin';
 import i18n from 'helpers/i18n';

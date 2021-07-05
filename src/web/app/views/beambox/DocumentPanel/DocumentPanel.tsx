@@ -126,7 +126,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
                             label={LANG.workarea}
                             options={workareaOptions}
                             value={this.state.workarea}
-                            onChange={(id, val) => this._handleWorkareaChange(val)} />
+                            onChange={(val) => this._handleWorkareaChange(val)} />
                         <div className='sub-title'>{LANG.add_on}</div>
                         <SwitchControl
                             id="rotary_mode"
@@ -135,7 +135,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
                             offText={LANG.disable}
                             label={LANG.rotary_mode}
                             default={this.state.rotaryMode}
-                            onChange={(id, val) => this._handleRotaryModeChange(val)} />
+                            onChange={(val) => this._handleRotaryModeChange(val)} />
                         <SwitchControl
                             id="borderless_mode"
                             name="borderless_mode"
@@ -144,7 +144,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
                             label={LANG.borderless_mode}
                             default={doesSupportOpenBottom && this.state.borderlessMode}
                             isDisabled={!doesSupportOpenBottom}
-                            onChange={(id, val) => this._handleBorderlessModeChange(val)} />
+                            onChange={(val) => this._handleBorderlessModeChange(val)} />
                         <SwitchControl
                             id="autofocus-module"
                             name="autofocus-module"
@@ -153,7 +153,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
                             label={LANG.enable_autofocus}
                             default={doesSupportAutofocus && this.state.enableAutofocus}
                             isDisabled={!doesSupportAutofocus}
-                            onChange={(id, val) => this._handleAutofocusModuleChange(val)}
+                            onChange={(val) => this._handleAutofocusModuleChange(val)}
                         />
                         <SwitchControl
                             id="diode_module"
@@ -163,7 +163,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
                             label={LANG.enable_diode}
                             default={doesSupportHybrid && this.state.enableDiode}
                             isDisabled={!doesSupportHybrid}
-                            onChange={(id, val) => this._handleDiodeModuleChange(val)}
+                            onChange={(val) => this._handleDiodeModuleChange(val)}
                         />
                     </section>
                     <section className='footer'>

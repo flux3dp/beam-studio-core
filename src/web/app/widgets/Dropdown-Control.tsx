@@ -5,7 +5,7 @@ interface Props {
   id: string;
   label?: string;
   value: string;
-  onChange: (id: string, value: string, selectedIndex?: number) => void;
+  onChange: (value: string) => void;
   options: any[];
   hiddenOptions?: any[];
 }
@@ -32,19 +32,15 @@ class DropDownControl extends React.Component<Props, State> {
     return newPropIsDifferent || newStateIsDifferent;
   }
 
-  _fireChange = (newValue, selectedIndex) => {
-    const { id, onChange } = this.props;
-    if (id) {
-      onChange(id, newValue, selectedIndex);
-    } else {
-      onChange(newValue, selectedIndex);
-    }
+  _fireChange = (newValue) => {
+    const { onChange } = this.props;
+    onChange(newValue);
   }
 
   _handleChange = (e) => {
-    let { value, selectedIndex } = e.target;
+    let { value } = e.target;
     this.selectedValue = value;
-    this._fireChange(value, selectedIndex);
+    this._fireChange(value);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
