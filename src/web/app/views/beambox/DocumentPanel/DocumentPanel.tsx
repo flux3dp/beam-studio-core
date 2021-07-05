@@ -10,8 +10,12 @@ import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import SwitchControl from 'app/widgets/Switch-Control';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-const { svgCanvas, svgEditor } = window;
+let svgCanvas;
+let svgEditor;
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+
 const LANG = i18n.lang.beambox.document_panel;
 
 const workareaOptions = [

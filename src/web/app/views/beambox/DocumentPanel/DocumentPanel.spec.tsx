@@ -57,19 +57,27 @@ jest.mock('app/actions/beambox/preview-mode-background-drawer', () => ({
   updateCanvasSize,
 }));
 
+const getSVGAsync = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync,
+}));
+
 const setRotaryMode = jest.fn();
 const runExtensions = jest.fn();
 const setResolution = jest.fn();
-window.svgCanvas = {
-  setRotaryMode,
-  runExtensions,
-  setResolution,
-};
-
 const resetView = jest.fn();
-window.svgEditor = {
-  resetView,
-};
+getSVGAsync.mockImplementation((callback) => {
+  callback({
+    Canvas: {
+      setRotaryMode,
+      runExtensions,
+      setResolution,
+    },
+    Editor: {
+      resetView,
+    },
+  });
+});
 
 import DocumentPanel from './DocumentPanel';
 
