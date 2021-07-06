@@ -1,4 +1,5 @@
 import history from 'app/svgedit/history';
+import selector from 'app/svgedit/selector';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -8,7 +9,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 export const deleteElements = (elems: Element[], isSub = false): IBatchCommand => {
-  const selectorManager = svgedit.select.getSelectorManager();
+  const selectorManager = selector.getSelectorManager();
   const batchCmd = new history.BatchCommand('Delete Elements');
   const deletedElems = [];
   for (let i = 0; i < elems.length; i += 1) {
@@ -34,7 +35,8 @@ export const deleteElements = (elems: Element[], isSub = false): IBatchCommand =
 
     let { nextSibling } = elemToRemove;
     if (parent == null) {
-      console.log('The element has no parent', elem);
+      // eslint-disable-next-line no-console
+      console.warn('The element has no parent', elem);
     } else {
       parent.removeChild(elemToRemove);
       deletedElems.push(elem); // for the copy
@@ -42,7 +44,6 @@ export const deleteElements = (elems: Element[], isSub = false): IBatchCommand =
     }
     if (elem.tagName === 'use') {
       const refId = svgCanvas.getHref(elem);
-      console.log(refId);
       const svgcontent = document.getElementById('svgcontent');
       const useElems = svgcontent.getElementsByTagName('use');
       let shouldDeleteRef = true;

@@ -2,6 +2,7 @@
  * Editing text element attribute
  */
 
+import selector from 'app/svgedit/selector';
 import storage from 'implementations/storage';
 import textActions from 'app/svgedit/textactions';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -220,7 +221,7 @@ const renderMultiLineText = (text: SVGTextElement, val?: string, showGrips?: boo
   renderTspan(text, val);
   svgedit.recalculate.recalculateDimensions(text);
   if (showGrips) {
-    const selectorManager = svgedit.select.getSelectorManager();
+    const selectorManager = selector.getSelectorManager();
     selectorManager.requestSelector(text).resize();
   }
 };

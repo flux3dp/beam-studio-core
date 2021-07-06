@@ -4,6 +4,7 @@
 /* eslint-disable no-console */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import history from 'app/svgedit/history';
+import selector from 'app/svgedit/selector';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -642,8 +643,8 @@ class TextActions {
     const isContinuousDrawing = BeamboxPreference.read('continuous_drawing');
     this.previousMode = isContinuousDrawing ? currentMode : 'select';
     svgCanvas.setMode('textedit');
-    const selectorManager = svgedit.select.getSelectorManager();
-    selectorManager.requestSelector(curtext).showGrips(false);
+    const selectorManager = selector.getSelectorManager();
+    selectorManager.requestSelector(curtext).show(true, false);
     // Make selector group accept clicks
     // selectorManager.requestSelector(curtext).selectorRect;
     this.init();
@@ -735,8 +736,8 @@ class TextActions {
       const selectedElements = svgCanvas.getSelectedElems();
       const [elem] = selectedElements;
       this.curtext = elem;
-      const selectorManager = svgedit.select.getSelectorManager();
-      selectorManager.requestSelector(this.curtext).showGrips(false);
+      const selectorManager = selector.getSelectorManager();
+      selectorManager.requestSelector(this.curtext).show(true, false);
     }
     this.chardata = [];
     const xform = this.curtext.getAttribute('transform');

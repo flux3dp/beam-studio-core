@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import history from 'app/svgedit/history';
+import selector from 'app/svgedit/selector';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 // TODO: decouple with svgcanvas
@@ -12,7 +13,7 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 let clipboard;
 
 const cutElements = async (elems: Element[]): Promise<void> => {
-  const selectorManager = svgedit.select.getSelectorManager();
+  const selectorManager = selector.getSelectorManager();
   const batchCmd = new history.BatchCommand('Cut Elements');
   const len = elems.length;
   const selectedCopy = []; // elems is being deleted
