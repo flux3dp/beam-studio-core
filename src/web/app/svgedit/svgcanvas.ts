@@ -27,8 +27,10 @@
 // 13) coords.js
 // 14) recalculate.js
 // svgedit libs
+import canvasBackground from 'app/svgedit/canvasBackground';
 import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
+import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
@@ -504,8 +506,9 @@ export default $.SvgCanvas = function (container, config) {
     return hrService || new historyRecording.HistoryRecordingService(canvas.undoMgr);
   }
 
+  canvasBackground.setupBackground(curConfig.dimensions, () => svgroot, () => svgcontent);
   // import from select.js
-  svgedit.select.init(curConfig, {
+  selector.init(curConfig, {
     createSVGElement: function (jsonMap) {
       return canvas.addSvgElementFromJson(jsonMap);
     },
@@ -524,7 +527,7 @@ export default $.SvgCanvas = function (container, config) {
     }
   });
   // this object manages selectors for us
-  var selectorManager = this.selectorManager = svgedit.select.getSelectorManager();
+  var selectorManager = this.selectorManager = selector.getSelectorManager();
 
   // Import from path.js
   svgedit.path.init({
@@ -961,7 +964,7 @@ export default $.SvgCanvas = function (container, config) {
     elem.parentNode.removeChild(elem);
     selectorManager.releaseSelector(elem);
     selectedElements[0] = clone;
-    selectorManager.requestSelector(clone).showGrips(true);
+    selectorManager.requestSelector(clone).show(true);
     return clone;
   };
 
@@ -1032,7 +1035,7 @@ export default $.SvgCanvas = function (container, config) {
     var selector = selectorManager.requestSelector(selectedElements[0]);
     if (selector) {
       selector.resize();
-      selector.updateGripCursors(val);
+      selector.updateGripCursors();
     }
   };
 
@@ -1149,20 +1152,15 @@ export default $.SvgCanvas = function (container, config) {
         // only the first selectedBBoxes element is ever used in the codebase these days
         //			if (j == 0) selectedBBoxes[0] = svgedit.utilities.getBBox(elem);
         j++;
-        var sel = selectorManager.requestSelector(elem, bbox);
-
-        if (selectedElements.length > 1) {
-          sel.showGrips(false);
-        }
       }
     }
     if (!noCall) {
       call('selected', selectedElements);
     }
     if (showGrips || selectedElements.length === 1) {
-      selectorManager.requestSelector(selectedElements[0]).showGrips(true);
+      selectorManager.requestSelector(selectedElements[0]).show(true);
     } else {
-      selectorManager.requestSelector(selectedElements[0]).showGrips(false);
+      selectorManager.requestSelector(selectedElements[0]).show(true, false);
     }
 
     // make sure the elements are in the correct order
@@ -1750,7 +1748,8 @@ export default $.SvgCanvas = function (container, config) {
 
           // Getting the BBox from the selection box, since we know we
           // want to orient around it
-          init_bbox = svgedit.utilities.getBBox($('#selectedBox0')[0]);
+          const selectBox = document.getElementById(`selectedBox_${mouseTarget.id}`);
+          init_bbox = svgedit.utilities.getBBox(selectBox);
           var bb: { [key: string]: number } = {};
           $.each(init_bbox, function (key, val) {
             bb[key] = val / current_zoom;
@@ -2686,7 +2685,7 @@ export default $.SvgCanvas = function (container, config) {
                 curText.font_postscriptName = selected.getAttribute('font-postscript');
                 textEdit.updateCurText(curText);
               }
-              selectorManager.requestSelector(selected).showGrips(true);
+              selectorManager.requestSelector(selected).show(true);
 
               const targetLayer = LayerHelper.getObjectLayer(selected);
               const currentLayer = getCurrentDrawing().getCurrentLayer();
@@ -3030,7 +3029,7 @@ export default $.SvgCanvas = function (container, config) {
           addCommandToHistory(new history.InsertElementCommand(element));
           if (curConfig.selectNew && !isContinuousDrawing) {
             if (current_mode === 'textedit') {
-              selectorManager.requestSelector(element).showGrips(true);
+              selectorManager.requestSelector(element).show(true);
             } else {
               if (element.parentNode) {
                 selectOnly([element], true);
@@ -9790,7 +9789,7 @@ export default $.SvgCanvas = function (container, config) {
         }
       }
       selectorManager.requestSelector(elem).resize();
-      selectorManager.requestSelector(elem).showGrips(len === 1);
+      selectorManager.requestSelector(elem).show(len === 1);
       svgEditor.updateContextPanel();
     }
     addCommandToHistory(batchCmd);
@@ -10529,7 +10528,7 @@ export default $.SvgCanvas = function (container, config) {
 
     selectorManager.requestSelector(selected).resize();
 
-    selectorManager.requestSelector(selected).showGrips(true);
+    selectorManager.requestSelector(selected).show(true);
 
     let cmd = svgedit.recalculate.recalculateDimensions(selected);
     svgEditor.updateContextPanel();
@@ -10593,7 +10592,7 @@ export default $.SvgCanvas = function (container, config) {
 
     selectorManager.requestSelector(selected).resize();
 
-    selectorManager.requestSelector(selected).showGrips(true);
+    selectorManager.requestSelector(selected).show(true);
 
     svgedit.recalculate.recalculateDimensions(selected);
   };
