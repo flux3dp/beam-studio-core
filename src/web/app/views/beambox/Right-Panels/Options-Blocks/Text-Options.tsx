@@ -7,7 +7,7 @@ import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
 import textEdit from 'app/svgedit/textedit';
 import i18n from 'helpers/i18n';
-import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
+import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 

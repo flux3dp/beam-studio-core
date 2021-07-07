@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly is fillable 1`] = `
+<div
+  className="option-block"
+  key="infill"
+>
+  <div
+    className="label"
+  >
+    Infill
+  </div>
+  <div
+    className="onoffswitch"
+    onClick={[Function]}
+  >
+    <input
+      checked={false}
+      className="onoffswitch-checkbox"
+      readOnly={true}
+      type="checkbox"
+    />
+    <label
+      className="onoffswitch-label"
+    >
+      <span
+        className="onoffswitch-inner"
+      />
+      <span
+        className="onoffswitch-switch"
+      />
+    </label>
+  </div>
+</div>
+`;
+
+exports[`should render correctly is fillable 2`] = `
+<div
+  className="option-block"
+  key="infill"
+>
+  <div
+    className="label"
+  >
+    Infill
+  </div>
+  <div
+    className="onoffswitch"
+    onClick={[Function]}
+  >
+    <input
+      checked={true}
+      className="onoffswitch-checkbox"
+      readOnly={true}
+      type="checkbox"
+    />
+    <label
+      className="onoffswitch-label"
+    >
+      <span
+        className="onoffswitch-inner"
+      />
+      <span
+        className="onoffswitch-switch"
+      />
+    </label>
+  </div>
+</div>
+`;
+
+exports[`should render correctly is fillable 3`] = `
+<div
+  className="option-block"
+  key="infill"
+>
+  <div
+    className="label"
+  >
+    Infill
+  </div>
+  <div
+    className="onoffswitch"
+    onClick={[Function]}
+  >
+    <input
+      checked={false}
+      className="onoffswitch-checkbox"
+      readOnly={true}
+      type="checkbox"
+    />
+    <label
+      className="onoffswitch-label"
+    >
+      <span
+        className="onoffswitch-inner"
+      />
+      <span
+        className="onoffswitch-switch"
+      />
+    </label>
+  </div>
+</div>
+`;
+
+exports[`should render correctly is not fillable 1`] = `""`;
