@@ -54,7 +54,7 @@ import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import ImageData from 'helpers/image-data';
-import LaserConfigHelper from 'helpers/laser-config-helper';
+import laserConfigHelper from 'helpers/laser-config-helper';
 import * as LayerHelper from 'helpers/layer-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import storage from 'implementations/storage';
@@ -5740,6 +5740,7 @@ export default $.SvgCanvas = function (container, config) {
         const isLayerExist = svgCanvas.setCurrentLayer(layerName);
         if (!isLayerExist) {
           const layer = svgCanvas.createLayer(layerName);
+          laserConfigHelper.initLayerConfig(layerName);
           layer.color = color;
 
           if (type === 'layer' && layerName) {
@@ -6329,7 +6330,7 @@ export default $.SvgCanvas = function (container, config) {
 
     // create empty first layer
     canvas.createLayer(LANG.right_panel.layer_panel.layer1);
-    LaserConfigHelper.initLayerConfig(LANG.right_panel.layer_panel.layer1);
+    laserConfigHelper.initLayerConfig(LANG.right_panel.layer_panel.layer1);
 
     // clear the undo stack
     canvas.undoMgr.resetUndoStack();
