@@ -45,25 +45,25 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
       } else if (window.os === 'Windows') {
         const res = await os.process.exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
         if (!res.stderr) {
-          const matchWidth = res.stdout.match(/(?<=MaxHorizontalImageSize[\ ]*: )\d+\b/);
-          const matchHeight = res.stdout.match(/(?<=MaxVerticalImageSize[\ ]*: )\d+\b/);
+          const matchWidth = res.stdout.match(/MaxHorizontalImageSize[\ ]*: (\d+)\b/);
+          const matchHeight = res.stdout.match(/MaxVerticalImageSize[\ ]*: (\d+)\b/);
           if (matchWidth && matchHeight) {
-            const width = Number(matchWidth);
-            const height = Number(matchHeight);
+            const width = Number(matchWidth[1]);
+            const height = Number(matchHeight[1]);
             if (!isNaN(width) && !isNaN(height)) {
               const dpmm = (screen.width / (width * 10) + screen.height / (height * 10)) / 2;
               this.setState({ dpmm });
               return;
             }
           } else if (matchWidth) {
-            const width = Number(matchWidth);
+            const width = Number(matchWidth[1]);
             if (!isNaN(width)) {
               const dpmm = screen.width / (width * 10);
               this.setState({ dpmm });
               return;
             }
           } else if (matchHeight) {
-            const height = Number(matchHeight);
+            const height = Number(matchHeight[1]);
             if (!isNaN(height)) {
               const dpmm = screen.height / (height * 10);
               this.setState({ dpmm });
