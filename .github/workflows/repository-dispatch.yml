@@ -6,11 +6,11 @@ on:
       - master
 
 jobs:
-  trigger-web:
+  web-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Dispatch an event to trigger web's workflow
+      - name: Dispatch an event to trigger web's workflow and wait for e2e test result
         run: |
           curl \
             -X POST \
@@ -18,3 +18,10 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/flux3dp/beam-studio-web/dispatches \
             -d '{"event_type":"core_merged"}'
+      - uses: convictional/trigger-workflow-and-wait@v1.3.0
+        with:
+          owner: flux3dp
+          repo: beam-studio-web
+          github_token: ${{ secrets.TRIGGER_WEB_TOKEN }}
+          workflow_file_name: ready-for-deployment.yml
+          wait_interval: 300
