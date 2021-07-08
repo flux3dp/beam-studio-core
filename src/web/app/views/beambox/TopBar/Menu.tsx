@@ -22,12 +22,14 @@ export default function Menu(): JSX.Element {
   const [decomposePathDisabled, setDecomposePathDisabled] = React.useState(true);
   const [groupDisabled, setGroupDisabled] = React.useState(true);
   const [ungroupDisabled, setUngroupDisabled] = React.useState(true);
+  const [imageEditDisabled, setImageEditDisabled] = React.useState(true);
   const menuItemUpdater = {
     DUPLICATE: setDuplicateDisabled,
     SVG_EDIT: setSvgEditDisabled,
     DECOMPOSE_PATH: setDecomposePathDisabled,
     GROUP: setGroupDisabled,
     UNGROUP: setUngroupDisabled,
+    PHOTO_EDIT: setImageEditDisabled,
   };
 
   React.useEffect(() => {
@@ -86,6 +88,8 @@ export default function Menu(): JSX.Element {
         <SubMenu label={menuCms.export_to}>
           <MenuItem onClick={() => callback('EXPORT_BVG')}>{menuCms.export_BVG}</MenuItem>
           <MenuItem onClick={() => callback('EXPORT_SVG')}>{menuCms.export_SVG}</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_PNG')}>{menuCms.export_PNG}</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_JPG')}>{menuCms.export_JPG}</MenuItem>
           <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>{menuCms.export_flux_task}</MenuItem>
         </SubMenu>
         <MenuDivider />
@@ -108,9 +112,27 @@ export default function Menu(): JSX.Element {
           <MenuItem onClick={() => callback('OFFSET')}>{menuCms.offset}</MenuItem>
           <MenuItem disabled={decomposePathDisabled} onClick={() => callback('DECOMPOSE_PATH')}>{menuCms.decompose_path}</MenuItem>
         </SubMenu>
+        <SubMenu disabled={imageEditDisabled} label={menuCms.photo_edit}>
+          <MenuItem onClick={() => callback('IMAGE_SHARPEN')}>{menuCms.image_sharpen}</MenuItem>
+          <MenuItem onClick={() => callback('IMAGE_CROP')}>{menuCms.image_crop}</MenuItem>
+          <MenuItem onClick={() => callback('IMAGE_INVERT')}>{menuCms.image_invert}</MenuItem>
+          <MenuItem onClick={() => callback('IMAGE_STAMP')}>{menuCms.image_stamp}</MenuItem>
+          <MenuItem onClick={() => callback('IMAGE_VECTORIZE')}>{menuCms.image_vectorize}</MenuItem>
+          <MenuItem onClick={() => callback('IMAGE_CURVE')}>{menuCms.image_curve}</MenuItem>
+        </SubMenu>
         <SubMenu disabled={svgEditDisabled} label={menuCms.svg_edit}>
           <MenuItem onClick={() => callback('DISASSEMBLE_USE')}>{menuCms.disassemble_use}</MenuItem>
         </SubMenu>
+        <SubMenu label={menuCms.layer_setting}>
+          <MenuItem onClick={() => callback('LAYER_COLOR_CONFIG')}>{menuCms.layer_color_config}</MenuItem>
+        </SubMenu>
+        <MenuDivider />
+        <MenuItem onClick={() => callback('ALIGN_TO_EDGES')}>{menuCms.align_to_edges}</MenuItem>
+        <MenuDivider />
+        <SubMenu label={menuCms.optimization}>
+          <MenuItem onClick={() => callback('SVG_NEST')}>{menuCms.arrangement_optimization}</MenuItem>
+        </SubMenu>
+        <MenuDivider />
         <MenuItem onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
         <MenuItem onClick={() => callback('CLEAR_SCENE')}>{menuCms.clear_scene}</MenuItem>
       </SubMenu>
@@ -176,6 +198,9 @@ export default function Menu(): JSX.Element {
         <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
+        <MenuDivider />
+        <MenuItem onClick={() => callback('MANAGE_ACCOUNT')}>{menuCms.manage_account}</MenuItem>
+        <MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => callback('BUG_REPORT')}>{menuCms.bug_report}</MenuItem>
         <MenuItem>{menuCms.dev_tool}</MenuItem>
