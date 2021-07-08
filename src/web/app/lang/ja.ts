@@ -100,7 +100,7 @@ export default {
       image_crop: 'クロップ',
       image_invert: '色を反転',
       image_stamp: '面取りを生成',
-      image_vectorize: 'ベクター化',
+      image_vectorize: 'ベクトル化',
       image_curve: 'カーブ',
       arrangement_optimization: '配置',
       align_to_edges: '頂点にスナップ',
