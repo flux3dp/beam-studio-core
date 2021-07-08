@@ -456,9 +456,13 @@ export default $.SvgCanvas = function (container, config) {
               canvas.identifyLayers();
             }
             var values = isApply ? cmd.newValues : cmd.oldValues;
+            const changedValues = Object.keys(values);
             // If stdDeviation was changed, update the blur.
             if (values.stdDeviation) {
               canvas.setBlurOffsets(cmd.elem.parentNode, values.stdDeviation);
+            }
+            if (changedValues.includes('transform')) {
+              svgedit.transformlist.removeElementFromListMap(cmd.elem);
             }
             // This is resolved in later versions of webkit, perhaps we should
             // have a featured detection for correct 'use' behavior?
@@ -483,9 +487,9 @@ export default $.SvgCanvas = function (container, config) {
             for (let i = 0; i < textElems.length; i++) {
               const textElem = textElems[i];
               const angle = svgedit.utilities.getRotationAngle(textElem);
-              canvas.setRotationAngle(0, true, textElem);
+              if (angle !== 0) canvas.setRotationAngle(0, true, textElem);
               textEdit.renderMultiLineText(textElem as SVGTextElement);
-              canvas.setRotationAngle(angle, true, textElem);
+              if (angle !== 0) canvas.setRotationAngle(angle, true, textElem);
               if (textElem.getAttribute('stroke-width') === '2') {
                 textElem.setAttribute('stroke-width', '2.01');
               } else {
