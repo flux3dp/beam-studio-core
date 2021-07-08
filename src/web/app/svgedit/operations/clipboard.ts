@@ -2,6 +2,7 @@
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveSelectedElements } from 'app/svgedit/operations/move';
 
 // TODO: decouple with svgcanvas
 
@@ -178,7 +179,7 @@ const pasteElements = (
       dy.push(cy);
     });
 
-    const cmd = svgCanvas.moveSelectedElements(dx, dy, false);
+    const cmd = moveSelectedElements(dx, dy, false);
     batchCmd.addSubCommand(cmd);
   }
 

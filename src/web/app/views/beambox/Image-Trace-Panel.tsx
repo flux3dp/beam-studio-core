@@ -13,6 +13,7 @@ import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-backgr
 import requirejsHelper from 'helpers/requirejs-helper';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveElements } from 'app/svgedit/operations/move';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -348,7 +349,7 @@ class ImageTracePanel extends React.Component<Record<string, never>, State> {
         }
         g.remove();
         path.setAttribute('d', d);
-        svgCanvas.moveElements(
+        moveElements(
           [cropData.x + preCrop.offsetX],
           [cropData.y + preCrop.offsetY],
           [path],

@@ -27,6 +27,7 @@ import history from 'app/svgedit/history';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
+import { moveSelectedElements } from 'app/svgedit/operations/move';
 
 import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
@@ -3903,7 +3904,7 @@ const svgEditor = window['svgEditor'] = (function () {
           dx *= multi;
           dy *= multi;
         }
-        svgCanvas.moveSelectedElements(dx, dy);
+        moveSelectedElements(dx, dy);
       }
     };
 
