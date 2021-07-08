@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
-import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Infill-Block';
+import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptions';
 import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Text-Options';
 
@@ -19,7 +19,7 @@ class OptionsPanel extends React.Component<Props> {
         contents = (
           <RectOptions
             elem={elem}
-            dimensionValues={dimensionValues}
+            rx={dimensionValues.rx}
             updateDimensionValues={updateDimensionValues}
           />
         );
