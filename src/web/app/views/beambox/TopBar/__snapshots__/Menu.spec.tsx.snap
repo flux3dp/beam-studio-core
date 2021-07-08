@@ -621,6 +621,24 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabindex="-1"
                     >
+                      Manage My Account
+                    </li>
+                    <li
+                      class="rc-menu__item"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Sign In
+                    </li>
+                    <li
+                      class="rc-menu__divider"
+                      role="separator"
+                    />
+                    <li
+                      class="rc-menu__item"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
                       Bug Report
                     </li>
                     <li
@@ -963,6 +981,24 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                           role="menuitem"
                           tabindex="-1"
                         >
+                          Manage My Account
+                        </li>
+                        <li
+                          class="rc-menu__item"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          Sign In
+                        </li>
+                        <li
+                          class="rc-menu__divider"
+                          role="separator"
+                        />
+                        <li
+                          class="rc-menu__item"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
                           Bug Report
                         </li>
                         <li
@@ -1223,12 +1259,66 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Bug Report
+                      Manage My Account
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     index={9}
                     key=".b"
+                    onClick={[Function]}
+                  >
+                    <li
+                      className="rc-menu__item"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onPointerDown={[Function]}
+                      onPointerLeave={[Function]}
+                      onPointerUp={[Function]}
+                      role="menuitem"
+                      tabIndex={-1}
+                    >
+                      Sign In
+                    </li>
+                  </Memo(MenuItem)>
+                  <Memo(MenuDivider)
+                    key=".c"
+                  >
+                    <li
+                      className="rc-menu__divider"
+                      role="separator"
+                    />
+                  </Memo(MenuDivider)>
+                  <Memo(MenuItem)
+                    index={10}
+                    key=".d"
+                    onClick={[Function]}
+                  >
+                    <li
+                      className="rc-menu__item"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onPointerDown={[Function]}
+                      onPointerLeave={[Function]}
+                      onPointerUp={[Function]}
+                      role="menuitem"
+                      tabIndex={-1}
+                    >
+                      Bug Report
+                    </li>
+                  </Memo(MenuItem)>
+                  <Memo(MenuItem)
+                    index={11}
+                    key=".e"
                   >
                     <li
                       className="rc-menu__item"
