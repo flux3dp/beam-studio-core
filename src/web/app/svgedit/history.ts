@@ -422,7 +422,7 @@ class BatchCommand extends BaseHistoryCommand implements IBatchCommand {
     }
 
     for (let i = 0; i < this.stack.length; i += 1) {
-      this.stack[i].apply(handler);
+      this.stack[i]?.apply(handler);
     }
 
     if (handler) {
@@ -436,7 +436,7 @@ class BatchCommand extends BaseHistoryCommand implements IBatchCommand {
     }
 
     for (let i = this.stack.length - 1; i >= 0; i -= 1) {
-      this.stack[i].unapply(handler);
+      this.stack[i]?.unapply(handler);
     }
 
     if (handler) {
@@ -448,7 +448,7 @@ class BatchCommand extends BaseHistoryCommand implements IBatchCommand {
     const elemSet = new Set<Element>();
     for (let i = this.stack.length - 1; i >= 0; i -= 1) {
       const cmd = this.stack[i];
-      cmd.elements().forEach((elem) => {
+      cmd?.elements().forEach((elem) => {
         elemSet.add(elem);
       });
     }
