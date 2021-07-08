@@ -1,0 +1,20 @@
+name: repository-dispatch
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  trigger-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Dispatch an event to trigger web's workflow
+        run: |
+          curl \
+            -X POST \
+            -u "${{secrets.TRIGGER_WEB_USERNAME}}:${{secrets.TRIGGER_WEB_TOKEN}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/flux3dp/beam-studio-web/dispatches \
+            -d '{"event_type":"core_merged"}'
