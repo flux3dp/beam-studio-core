@@ -581,7 +581,6 @@ class UndoManager implements IUndoManager {
     return batchCmd;
   }
 }
-svgedit.history.UndoManager = BatchCommand;
 
 export default {
   HistoryEventTypes,

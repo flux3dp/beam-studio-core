@@ -159,7 +159,6 @@ class Selector {
     this.calculateDimesion(bbox);
     this.selectorRect.setAttribute('id', `selectedBox_${elem.id}`);
     this.selectorGroup.setAttribute('id', `selectorGroup_${elem.id}`);
-    this.selectorGroup.setAttribute('display', 'inline');
   }
 
   resize(bbox?: BBox) {
@@ -376,6 +375,7 @@ class SelectorManager {
       if (!selector.inUse) {
         delete this.selectorMap[id];
         selector.reset(elem, bbox);
+        selector.show(true);
         this.selectorMap[elem.id] = selector;
         return selector;
       }

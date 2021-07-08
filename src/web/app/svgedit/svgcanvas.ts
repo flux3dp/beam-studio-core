@@ -34,6 +34,7 @@ import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
+import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -6592,7 +6593,7 @@ export default $.SvgCanvas = function (container, config) {
           dy.push(bbox.y * -1);
         });
 
-        var cmd = canvas.moveSelectedElements(dx, dy, true);
+        var cmd = moveSelectedElements(dx, dy, true);
         batchCmd.addSubCommand(cmd);
         clearSelection();
 
@@ -7669,7 +7670,7 @@ export default $.SvgCanvas = function (container, config) {
         var bbox = getStrokedBBox([elem]);
         var diff_x = attr === 'x' ? newValue - bbox.x : 0;
         var diff_y = attr === 'y' ? newValue - bbox.y : 0;
-        canvas.moveSelectedElements(diff_x * current_zoom, diff_y * current_zoom, true);
+        moveSelectedElements(diff_x * current_zoom, diff_y * current_zoom, true);
         continue;
       }
 
@@ -7892,13 +7893,11 @@ export default $.SvgCanvas = function (container, config) {
         }
       }
     }
-    const cmd = canvas.moveElements(dx, dy, newElements, false);
+    const cmd = moveElements(dx, dy, newElements, false);
     if (cmd) {
       batchCmd.addSubCommand(cmd);
     }
     this.tempGroupSelectedElements();
-    canvas.undoMgr.undoStackPointer -= 1;
-    canvas.undoMgr.undoStack.pop();
     addCommandToHistory(batchCmd);
     if (newElements.length > 0) {
       call('changed', newElements);
@@ -8353,7 +8352,7 @@ export default $.SvgCanvas = function (container, config) {
     }
     g.remove();
     path.setAttribute('d', d);
-    this.moveElements([dx], [dy], [path], false);
+    moveElements([dx], [dy], [path], false);
     this.setRotationAngle(angle, true, path);
     if (this.isUsingLayerColor) {
       this.updateElementColor(path);
@@ -9392,122 +9391,9 @@ export default $.SvgCanvas = function (container, config) {
     }
   };
 
-  // Function: moveSelectedElements
-  // Moves selected elements on the X/Y axis
-  //
-  // Parameters:
-  // dx - Float with the distance to move on the x-axis
-  // dy - Float with the distance to move on the y-axis
-  // undoable - Boolean indicating whether or not the action should be undoable
-  //
-  // Returns:
-  // Batch command for the move
-  this.moveSelectedElements = function (dx, dy, undoable) {
-    // if undoable is not sent, default to true
-    // if single values, scale them to the zoom
-    if (dx.constructor != Array) {
-      dx /= current_zoom;
-      dy /= current_zoom;
-    }
-    undoable = undoable || true;
-    var batchCmd = new history.BatchCommand('position');
-    var i = selectedElements.length;
-    while (i--) {
-      var selected = selectedElements[i];
-      if (selected != null) {
-        //			if (i==0)
-        //				selectedBBoxes[0] = svgedit.utilities.getBBox(selected);
+  this.moveSelectedElements = moveSelectedElements;
 
-        //			var b = {};
-        //			for (var j in selectedBBoxes[i]) b[j] = selectedBBoxes[i][j];
-        //			selectedBBoxes[i] = b;
-
-        var xform = svgroot.createSVGTransform();
-        var tlist = svgedit.transformlist.getTransformList(selected);
-        let x = 0;
-        let y = 0;
-        // dx and dy could be arrays
-        if (dx.constructor == Array) {
-          xform.setTranslate(dx[i], dy[i]);
-          x = dx[i];
-          y = dy[i];
-        } else {
-          xform.setTranslate(dx, dy);
-          x = dx;
-          y = dy;
-        }
-
-        if (tlist.numberOfItems) {
-          tlist.insertItemBefore(xform, 0);
-        } else {
-          tlist.appendItem(xform);
-        }
-
-        var cmd = svgedit.recalculate.recalculateDimensions(selected);
-        if (cmd && !cmd.isEmpty() && (x !== 0 || y !== 0)) {
-          batchCmd.addSubCommand(cmd);
-        }
-
-        selectorManager.requestSelector(selected).resize();
-      }
-    }
-    if (!batchCmd.isEmpty()) {
-      if (undoable) {
-        addCommandToHistory(batchCmd);
-      }
-      call('changed', selectedElements);
-      return batchCmd;
-    }
-  };
-
-  /**
-   * move given elements
-   * @param {number[] | number} dx
-   * @param {number[] | number} dy
-   * @param {Element[]} elems
-   * @param {undoable} boolean whether this operation is undoable, return cmd if false
-   */
-  this.moveElements = function (dx, dy, elems, undoable) {
-    if (dx.constructor != Array) {
-      dx /= current_zoom;
-      dy /= current_zoom;
-    }
-    undoable = (undoable == null) ? true : undoable;
-    const batchCmd = new history.BatchCommand('position');
-    var i = elems.length;
-    while (i--) {
-      var selected = elems[i];
-      if (selected != null) {
-        var xform = svgroot.createSVGTransform();
-        var tlist = svgedit.transformlist.getTransformList(selected);
-        // dx and dy could be arrays
-        if (dx.constructor == Array) {
-          xform.setTranslate(dx[i], dy[i]);
-        } else {
-          xform.setTranslate(dx, dy);
-        }
-        if (tlist.numberOfItems) {
-          tlist.insertItemBefore(xform, 0);
-        } else {
-          tlist.appendItem(xform);
-        }
-
-        var cmd = svgedit.recalculate.recalculateDimensions(selected);
-        if (cmd && !cmd.isEmpty()) {
-          batchCmd.addSubCommand(cmd);
-        }
-        //selectorManager.requestSelector(selected).resize();
-      }
-    }
-
-    if (!batchCmd.isEmpty()) {
-      if (undoable) {
-        addCommandToHistory(batchCmd);
-      }
-      call('changed', elems);
-      return batchCmd;
-    }
-  };
+  this.moveElements = moveElements;
 
   this.getCenter = function (elem) {
     let centerX, centerY;
@@ -9573,7 +9459,7 @@ export default $.SvgCanvas = function (container, config) {
 
     for (let i = 1; i < len - 1; i++) {
       const x = this.getCenter(realSelectedElements[i]).x;
-      let cmd = this.moveElements([minX + dx * i - x], [0], [realSelectedElements[i]], false);
+      let cmd = moveElements([minX + dx * i - x], [0], [realSelectedElements[i]], false);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
       }
@@ -9620,7 +9506,7 @@ export default $.SvgCanvas = function (container, config) {
 
     for (let i = 1; i < len - 1; i++) {
       const y = this.getCenter(realSelectedElements[i]).y;
-      let cmd = this.moveElements([0], [minY + dy * i - y], [realSelectedElements[i]], false);
+      let cmd = moveElements([0], [minY + dy * i - y], [realSelectedElements[i]], false);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
       }
@@ -9845,7 +9731,7 @@ export default $.SvgCanvas = function (container, config) {
     if (cmd && !cmd.isEmpty()) {
       batchCmd.addSubCommand(cmd);
     }
-    cmd = this.moveElements([dx], [dy], [elem], false);
+    cmd = moveElements([dx], [dy], [elem], false);
     batchCmd.addSubCommand(cmd);
     return batchCmd;
   }
@@ -9934,7 +9820,7 @@ export default $.SvgCanvas = function (container, config) {
       // Need to reverse for correct selection-adding
       addToSelection(copiedElements.reverse());
       this.tempGroupSelectedElements();
-      this.moveSelectedElements(x, y, false);
+      moveSelectedElements(x, y, false);
       if (!isSubCmd) {
         addCommandToHistory(batchCmd);
       }
@@ -10052,7 +9938,7 @@ export default $.SvgCanvas = function (container, config) {
           break;
       }
     }
-    this.moveSelectedElements(dx, dy);
+    moveSelectedElements(dx, dy);
   };
 
   // Group: Additional editor tools

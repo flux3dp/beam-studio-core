@@ -14,6 +14,7 @@ import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveElements } from 'app/svgedit/operations/move';
 import { IFont, IFontQuery } from 'interfaces/IFont';
 
 let svgCanvas;
@@ -356,7 +357,7 @@ const convertTextToPathFluxsvg = async (
     path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
     batchCmd.addSubCommand(new history.InsertElementCommand(path));
     // output of fluxsvg will locate at (0,0), so move it.
-    svgCanvas.moveElements([bbox.x], [bbox.y], [path], false);
+    moveElements([bbox.x], [bbox.y], [path], false);
 
     if (isTempConvert) {
       textElement.setAttribute('display', 'none');
