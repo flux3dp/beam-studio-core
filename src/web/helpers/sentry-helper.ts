@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
 import { Severity } from '@sentry/types';
 
-import { IDeviceInfo } from 'interfaces/IDevice';
 import sentry from 'implementations/sentry';
 import storage from 'implementations/storage';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 let isSentryInited = false;
 const sendDevices: { [uuid: string]: string } = storage.get('sentry-send-devices') || {};
@@ -25,32 +25,28 @@ const initSentry = (): void => {
   }
 };
 
+const captureMessage = (
+  lastVersion: string, uuid: string, version: string, model: string,
+): void => {
+  Sentry.captureMessage('Device Info', {
+    level: 'info' as Severity,
+    tags: {
+      'device-lastversion': lastVersion,
+      'device-uuid': uuid,
+      'device-version': version,
+      'device-model': model,
+    },
+  });
+  sendDevices[uuid] = version;
+  storage.set('sentry-send-devices', sendDevices);
+};
+
 const sendDeviceInfo = (device: IDeviceInfo): void => {
   if (isSentryInited) {
     if (!sendDevices[device.uuid]) {
-      Sentry.captureMessage('Device Info', {
-        level: 'info' as Severity,
-        tags: {
-          'device-lastversion': 'no',
-          'device-uuid': device.uuid,
-          'device-version': device.version,
-          'device-model': device.model,
-        },
-      });
-      sendDevices[device.uuid] = device.version;
-      storage.set('sentry-send-devices', sendDevices);
+      captureMessage('no', device.uuid, device.version, device.model);
     } else if (sendDevices[device.uuid] !== device.version) {
-      Sentry.captureMessage('Device Info', {
-        level: 'info' as Severity,
-        tags: {
-          'device-lastversion': sendDevices[device.uuid],
-          'device-uuid': device.uuid,
-          'device-version': device.version,
-          'device-model': device.model,
-        },
-      });
-      sendDevices[device.uuid] = device.version;
-      storage.set('sentry-send-devices', sendDevices);
+      captureMessage(sendDevices[device.uuid], device.uuid, device.version, device.model);
     }
   }
 };

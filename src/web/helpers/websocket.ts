@@ -14,7 +14,6 @@ window['FLUX'].websockets.list = function () {
   });
 };
 
-let hadConnected = false;
 const WsLogger = Logger('websocket');
 const logLimit = 100;
 let wsErrorCount = 0;
@@ -212,8 +211,6 @@ export default function (options) {
           socketOptions.onMessage(data);
           break;
       }
-
-      hadConnected = true;
     };
 
     nodeWs.onclose = (result) => {

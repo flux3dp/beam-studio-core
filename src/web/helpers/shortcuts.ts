@@ -1,4 +1,4 @@
-import KeycodeConstants from '../app/constants/keycode-constants';
+import KeycodeConstants from 'app/constants/keycode-constants';
 /**
  * setting up shortcut
  */
