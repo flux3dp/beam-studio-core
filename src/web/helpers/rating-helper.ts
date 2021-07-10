@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/dot-notation */
 import Dialog from 'app/actions/dialog-caller';
-import { getInfo, submitRating } from 'helpers/api/flux-id';
 import storage from 'implementations/storage';
+import { getInfo, submitRating } from 'helpers/api/flux-id';
 
 interface IRecord {
   times: number,
