@@ -540,9 +540,10 @@ class DeviceMaster {
   }
 
   async doDiodeCalibrationCut() {
-    const res = await fetch(DeviceConstants.DIODE_CALIBRATION);
-    const blob = await res.blob();
     const vc = VersionChecker(this.currentDevice.info.version);
+    const fcode = vc.meetRequirement('CALIBRATION_MODE') ? DeviceConstants.DIODE_CALIBRATION_WITH_MODE : DeviceConstants.DIODE_CALIBRATION;
+    const res = await fetch(fcode);
+    const blob = await res.blob();
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);
       await this.setOriginY(0);
