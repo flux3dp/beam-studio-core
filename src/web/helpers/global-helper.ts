@@ -17,7 +17,6 @@ function getOS() {
 const setWindowMember = (): void => {
   window.os = getOS();
 };
-setWindowMember();
 
 export default {
   setWindowMember,
