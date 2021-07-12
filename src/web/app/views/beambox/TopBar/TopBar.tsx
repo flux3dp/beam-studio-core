@@ -46,6 +46,7 @@ const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
 
 interface State {
+  isPathPreviewing: boolean;
   isPreviewing: boolean;
   hasDiscoverdMachine: boolean;
   shouldShowDeviceList: boolean;
@@ -54,7 +55,11 @@ interface State {
   selectDeviceCallback: (device?: IDeviceInfo) => void;
 }
 
-export class TopBar extends React.Component<{}, State> {
+interface Props {
+  togglePathPreview: () => void
+}
+
+export class TopBar extends React.Component<Props, State> {
   private deviceList: IDeviceInfo[];
 
   private discover: any;
@@ -63,6 +68,7 @@ export class TopBar extends React.Component<{}, State> {
     super(props);
     this.deviceList = [];
     this.state = {
+      isPathPreviewing: false,
       isPreviewing: false,
       hasDiscoverdMachine: false,
       shouldShowDeviceList: false,
@@ -102,11 +108,12 @@ export class TopBar extends React.Component<{}, State> {
   }
 
   renderPreviewButton = () => {
-    const { isPreviewing } = this.state;
+    const { isPathPreviewing, isPreviewing } = this.state;
     const borderless = BeamboxPreference.read('borderless') || false;
     const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));
     const previewText = (borderless && supportOpenBottom) ? `${LANG.preview} ${LANG.borderless}` : LANG.preview
     return (
+      !isPathPreviewing &&
       <div className={classNames('preview-button-container', { previewing: isPreviewing })}>
         <div className="img-container" onClick={() => { isPreviewing ? this.showCameraPreviewDeviceList() : this.changeToPreviewMode() }}>
           <img src="img/top-bar/icon-camera.svg" draggable={false} />
@@ -114,6 +121,44 @@ export class TopBar extends React.Component<{}, State> {
         {isPreviewing ? <div className="title" onClick={() => this.showCameraPreviewDeviceList()}>{previewText}</div> : null}
       </div>
     );
+  }
+
+  renderPathPreviewButton = () => {
+    const { isPathPreviewing } = this.state;
+    return (
+      <div className={'path-preview-button-container'}>
+        <div className="path-preview-button" onClick={() => { this.changeToPathPreviewMode() }}>
+          <img src="img/print-preview.svg" draggable={false} />
+        </div>
+      </div>
+    );
+/*
+    <div className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })} onClick={() => this.handleExportClick()}>
+      { isNotMac ? <div className="go-text">{LANG.export}</div> : null}
+      <div className={(classNames('go-btn'))} />
+    </div>*/
+  }
+
+  changeToPathPreviewMode = () => {
+    //const { setTopBarPreviewMode } = this.context;
+    //svgCanvas.setMode('select');
+/*
+    $('#workarea').contextMenu({ menu: [] }, () => { });
+    $('#workarea').contextmenu(() => {
+      this.endPreviewMode();
+      return false;
+    });*/
+    //setTopBarPreviewMode(true);
+    //const workarea = window['workarea'];
+    /*$(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+    this.setState({ isPreviewing: true });
+    if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
+      TutorialController.handleNextStep();
+    }*/
+
+    const { togglePathPreview  } = this.props;
+    togglePathPreview();
+    this.setState({ isPathPreviewing: !this.state.isPathPreviewing });
   }
 
   changeToPreviewMode = () => {
@@ -234,6 +279,11 @@ export class TopBar extends React.Component<{}, State> {
       FnWrapper.useSelectTool();
       return;
     }
+  }
+
+  endPathPreviewMode = () => {
+    this.setState({ isPathPreviewing: false });
+    this.props.togglePathPreview();
   }
 
   endPreviewMode = () => {
@@ -392,18 +442,21 @@ export class TopBar extends React.Component<{}, State> {
   }
 
   render() {
-    const { isPreviewing, hasDiscoverdMachine } = this.state;
-    const { setShouldStartPreviewController, currentUser, fileName, hasUnsavedChange, selectedElem } = this.context;
+    const { isPathPreviewing, isPreviewing, hasDiscoverdMachine } = this.state;
+    const { setShouldStartPreviewController, fileName, hasUnsavedChange, selectedElem } = this.context;
     return (
       <div className="top-bar-left-panel-container">
         <LeftPanel
+          isPathPreviewing={isPathPreviewing}
           isPreviewing={isPreviewing}
           setShouldStartPreviewController={setShouldStartPreviewController}
+          endPathPreviewMode={this.endPathPreviewMode}
           endPreviewMode={this.endPreviewMode}
         />
         <div className={classNames('top-bar', { win: isNotMac })}>
           <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
           {this.renderPreviewButton()}
+          {this.renderPathPreviewButton()}
           <GoButton
             isNotMac={isNotMac}
             hasDiscoverdMachine={hasDiscoverdMachine}

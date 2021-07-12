@@ -20,7 +20,19 @@ import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/Z
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
 
-export default class Beambox extends React.Component {
+interface State {
+  isPathPreviewing: boolean,
+}
+
+export default class Beambox extends React.Component<Record<string, never>, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPathPreviewing: false,
+    };
+  }
+
   async componentDidMount() {
     BeamboxGlobalInteraction.attach();
 
@@ -38,20 +50,42 @@ export default class Beambox extends React.Component {
     BeamboxGlobalInteraction.detach();
   }
 
+  private togglePathPreview = () => {
+    const { isPathPreviewing } = this.state;
+    this.setState({ isPathPreviewing: !isPathPreviewing });
+  };
+
+  private renderZoomBlock() {
+    const { isPathPreviewing } = this.state;
+    if (isPathPreviewing) return null;
+    return (
+      <ZoomBlockContextProvider>
+        <ZoomBlock />
+      </ZoomBlockContextProvider>
+    );
+  }
+
+  private renderTimeEstButton() {
+    const { isPathPreviewing } = this.state;
+    if (isPathPreviewing) return null;
+    return (
+      <TimeEstimationButtonContextProvider>
+        <TimeEstimationButton />
+      </TimeEstimationButtonContextProvider>
+    );
+  }
+
   render() {
+    const { isPathPreviewing } = this.state;
     const activeLang = i18n.getActiveLang();
     return (
       <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
         <TopBarContextProvider>
-          <TopBar />
+          <TopBar togglePathPreview={this.togglePathPreview} />
         </TopBarContextProvider>
-        <ZoomBlockContextProvider>
-          <ZoomBlock />
-        </ZoomBlockContextProvider>
-        <TimeEstimationButtonContextProvider>
-          <TimeEstimationButton />
-        </TimeEstimationButtonContextProvider>
-        <SVGEditor />
+        {this.renderZoomBlock()}
+        {this.renderTimeEstButton()}
+        <SVGEditor isPathPreviewing={isPathPreviewing} />
         <div id="tool-panels-placeholder" />
         <div id="image-trace-panel-placeholder" />
       </div>

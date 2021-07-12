@@ -7,7 +7,9 @@ import PreviewToolButtonGroup from 'app/views/beambox/LeftPanel/PreviewToolButto
 import shortcuts from 'helpers/shortcuts';
 
 interface Props {
+  isPathPreviewing: boolean;
   isPreviewing: boolean;
+  endPathPreviewMode: () => void;
   endPreviewMode: () => void;
   setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
 }
@@ -88,12 +90,28 @@ class LeftPanel extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { isPreviewing, endPreviewMode, setShouldStartPreviewController } = this.props;
-    if (!isPreviewing) {
+    const {
+      isPreviewing,
+      isPathPreviewing,
+      endPreviewMode,
+      setShouldStartPreviewController,
+      endPathPreviewMode,
+    } = this.props;
+    if (!isPreviewing && !isPathPreviewing) {
       return (
         <DrawingToolButtonGroup
           className={this.leftPanelClass}
         />
+      );
+    }
+    if (isPathPreviewing) {
+      // TODO: Add PathPreviewButtonGroup
+      return (
+        <div className={this.leftPanelClass}>
+          <div id="Exit-Preview" className='tool-btn' title={LANG.label.end_preview} onClick={endPathPreviewMode}>
+            <img src="img/left-bar/icon-back.svg" draggable="false" />
+          </div>
+        </div>
       );
     }
     return (

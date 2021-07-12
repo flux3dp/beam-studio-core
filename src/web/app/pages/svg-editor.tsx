@@ -3,12 +3,17 @@ import classNames from 'classnames';
 
 import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
+import PathPreview from 'app/views/beambox/Path-Preview';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
+interface Props {
+  isPathPreviewing?: boolean,
+}
+
 const LANG = i18n.lang.beambox;
-export default class SVGEditor extends React.Component {
+export default class SVGEditor extends React.Component<Props> {
   componentDidMount() {
     const { $ } = window;
     $(svgEditor.init);
@@ -20,48 +25,51 @@ export default class SVGEditor extends React.Component {
     e.stopPropagation();
   }
 
-  render() {
-    // HIDE ALMOST ALL TOOLS USING CSS
+  renderPathPreview = () => {
+    return <PathPreview />;
+  }
+
+  renderSvgEditor = () => {
     const platformClassNames = classNames({ mac: window.os === 'MacOS' });
+
     return (
-      <div>
-        <div id="svg_editor" className={platformClassNames}>
-          <div id="rulers" className={platformClassNames}>
-            <div id="ruler_corner" />
-            <div id="ruler_x">
-              <div>
-                <canvas height={15} />
-              </div>
+      <div style={this.props.isPathPreviewing ? { display: 'none' } : {}}>
+        <div id="rulers" className={platformClassNames}>
+          <div id="ruler_corner" />
+          <div id="ruler_x">
+            <div>
+              <canvas height={15} />
             </div>
-            <div id="ruler_y">
-              <div>
-                <canvas width={15} />
-              </div>
+          </div>
+          <div id="ruler_y">
+            <div>
+              <canvas width={15} />
             </div>
-            <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
           </div>
-          <div id="workarea" className={platformClassNames}>
-            <style
-              id="styleoverrides"
-              type="text/css"
-              media="screen"
-              scoped
-              dangerouslySetInnerHTML={{
-                __html: '',
-              }}
-            />
-            <div
-              id="svgcanvas"
-              style={{
-                position: 'relative',
-              }}
-            />
-          </div>
-          <RightPanelContextProvider>
-            <RightPanel />
-          </RightPanelContextProvider>
-          <div id="main_button">
-            <div id="main_icon" className="tool_button" title="Main Menu" />
+          <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
+        </div>
+        <div id="workarea" className={platformClassNames}>
+          <style
+            id="styleoverrides"
+            type="text/css"
+            media="screen"
+            scoped
+            dangerouslySetInnerHTML={{
+              __html: '',
+            }}
+          />
+          <div
+            id="svgcanvas"
+            style={{
+              position: 'relative',
+            }}
+          />
+        </div>
+        <RightPanelContextProvider>
+          <RightPanel />
+        </RightPanelContextProvider>
+        <div id="main_button">
+          <div id="main_icon" className="tool_button" title="Main Menu">
             <div id="main_menu">
               { }
               <ul>
@@ -126,8 +134,31 @@ export default class SVGEditor extends React.Component {
               <div id="tool_fhellipse" title="Free-Hand Ellipse" />
             </div>
           </div>
-          {' '}
-          { }
+          <div className="tool_button" id="tool_path" title="Path Tool" />
+          <div className="tool_button" id="tool_text" title="Text Tool" />
+          <div className="tool_button" id="tool_image" title="Image Tool" />
+          <div
+            className="tool_button"
+            id="tool_zoom"
+            title="Zoom Tool [Ctrl+Up/Down]"
+          />
+          <div
+            style={{
+              display: 'none',
+            }}
+          >
+            <div id="tool_rect" title="Rectangle" />
+            <div id="tool_square" title="Square" />
+            <div id="tool_fhrect" title="Free-Hand Rectangle" />
+            <div id="tool_ellipse" title="Ellipse" />
+            <div id="tool_path" title="Path" />
+            <div id="tool_polygon" title="Polygon" />
+            <div id="tool_grid" title="Grid Array" />
+            <div id="tool_circle" title="Circle" />
+            <div id="tool_fhellipse" title="Free-Hand Ellipse" />
+          </div>
+        </div>
+        <div id="tools_bottom" className="tools_panel">
           <div id="tools_bottom" className="tools_panel">
             <div id="tools_bottom_2">
               <div id="color_tools">
@@ -142,87 +173,78 @@ export default class SVGEditor extends React.Component {
                     <div id="fill_color" className="color_block" />
                   </div>
                 </div>
-                <div className="color_tool" id="tool_stroke">
-                  <label className="icon_label" title="Change stroke color" />
-                  <div className="color_block">
-                    <div id="stroke_bg" />
-                    <div
-                      id="stroke_color"
-                      className="color_block"
-                      title="Change stroke color"
-                    />
-                  </div>
-                  <label className="stroke_label">
-                    <input
-                      id="stroke_width"
-                      title="Change stroke width by 1, shift-click to change by 0.1"
-                      size={2}
-                      defaultValue={5}
-                      type="text"
-                      data-attr="Stroke Width"
-                    />
-                  </label>
+              </div>
+              <div className="color_tool" id="tool_stroke">
+                <label className="icon_label" title="Change stroke color" />
+                <div className="color_block">
+                  <div id="stroke_bg" />
                   <div
-                    id="toggle_stroke_tools"
-                    title="Show/hide more stroke tools"
+                    id="stroke_color"
+                    className="color_block"
+                    title="Change stroke color"
                   />
-                  <label className="stroke_tool">
-                    <select id="stroke_style" defaultValue="none" title="Change stroke dash style">
-                      <option value="none">—</option>
-                      <option value="2,2">...</option>
-                      <option value="5,5">- -</option>
-                      <option value="5,2,2,2">- .</option>
-                      <option value="5,2,2,2,2,2">- ..</option>
-                    </select>
-                  </label>
-                  <div className="stroke_tool dropdown" id="stroke_linejoin">
-                    <div id="cur_linejoin" title="Linejoin: Miter" />
-                    <button type="button" />
-                  </div>
-                  <div className="stroke_tool dropdown" id="stroke_linecap">
-                    <div id="cur_linecap" title="Linecap: Butt" />
-                    <button type="button" />
-                  </div>
                 </div>
+                <label className="stroke_label">
+                  <input
+                    id="stroke_width"
+                    title="Change stroke width by 1, shift-click to change by 0.1"
+                    size={2}
+                    defaultValue={5}
+                    type="text"
+                    data-attr="Stroke Width"
+                  />
+                </label>
                 <div
-                  className="color_tool"
-                  id="tool_opacity"
-                  title="Change selected item opacity"
-                >
-                  <label>
-                    <span id="group_opacityLabel" className="icon_label" />
-                    <input
-                      id="group_opacity"
-                      size={3}
-                      defaultValue={100}
-                      type="text"
-                    />
-                  </label>
-                  <div id="opacity_dropdown" className="dropdown">
-                    <button type="button" />
-                    <ul>
-                      <li>0%</li>
-                      <li>25%</li>
-                      <li>50%</li>
-                      <li>75%</li>
-                      <li>100%</li>
-                      <li className="special">
-                        <div id="opac_slider" />
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="tools_bottom_3">
-              <div id="palette_holder">
-                <div
-                  id="palette"
-                  title="Click to change fill color, shift-click to change stroke color"
+                  id="toggle_stroke_tools"
+                  title="Show/hide more stroke tools"
                 />
+                <label className="stroke_tool">
+                  <select id="stroke_style" defaultValue="none" title="Change stroke dash style">
+                    <option value="none">—</option>
+                    <option value="2,2">...</option>
+                    <option value="5,5">- -</option>
+                    <option value="5,2,2,2">- .</option>
+                    <option value="5,2,2,2,2,2">- ..</option>
+                  </select>
+                </label>
+                <div className="stroke_tool dropdown" id="stroke_linejoin">
+                  <div id="cur_linejoin" title="Linejoin: Miter" />
+                  <button type="button" />
+                </div>
+                <div className="stroke_tool dropdown" id="stroke_linecap">
+                  <div id="cur_linecap" title="Linecap: Butt" />
+                  <button type="button" />
+                </div>
+              </div>
+              <div
+                className="color_tool"
+                id="tool_opacity"
+                title="Change selected item opacity"
+              >
+                <label>
+                  <span id="group_opacityLabel" className="icon_label" />
+                  <input
+                    id="group_opacity"
+                    size={3}
+                    defaultValue={100}
+                    type="text"
+                  />
+                </label>
+                <div id="opacity_dropdown" className="dropdown">
+                  <button type="button" />
+                  <ul>
+                    <li>0%</li>
+                    <li>25%</li>
+                    <li>50%</li>
+                    <li>75%</li>
+                    <li>100%</li>
+                    <li className="special">
+                      <div id="opac_slider" />
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-            { }
           </div>
           <div id="option_lists" className="dropdown">
             <ul id="linejoin_opts">
@@ -263,7 +285,7 @@ export default class SVGEditor extends React.Component {
           <div id="color_picker" />
         </div>
         {' '}
-        {}
+        { }
         <div id="svg_source_editor">
           <div className="overlay" />
           <div id="svg_source_container">

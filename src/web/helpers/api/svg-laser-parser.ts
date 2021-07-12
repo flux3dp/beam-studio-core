@@ -136,6 +136,81 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       }
       ws.send(args.join(' '));
     },
+    gcodeToFcode(names, gcodeString, opts) {
+      const $deferred = $.Deferred();
+      const warningCollection = [];
+      let file;
+      const args = [
+        'g2f',
+        //names.join(' '),
+      ];
+      const blobs = [];
+      let duration;
+      let totalLength = 0;
+      let blob;
+
+      events.onMessage = (data) => {
+        if (data instanceof Blob === true) {
+          blobs.push(data);
+          blob = new Blob(blobs);
+
+          if (totalLength === blob.size) {
+            opts.onFinished(blob, args[2], duration);
+          }
+        } else {
+          switch (data.status) {
+            case 'continue':
+              ws.send(file);
+              break;
+            case 'ok':
+              $deferred.resolve('ok');
+              break;
+            case 'warning':
+              warningCollection.push(data.message);
+              break;
+            case 'computing':
+              opts.onProgressing(data);
+              break;
+            case 'complete':
+              totalLength = data.length;
+              duration = Math.floor(data.time) + 1;
+            default:
+              break;
+  
+              if (data.status === 'computing') {
+                opts.onProgressing(data);
+              } else if (data.status === 'complete') {
+                totalLength = data.length;
+                duration = Math.floor(data.time) + 1;
+              } else if (data instanceof Blob === true) {
+                blobs.push(data);
+                blob = new Blob(blobs);
+      
+                if (totalLength === blob.size) {
+                  opts.onFinished(blob, args[2], duration);
+                }
+              } else if (data.status === 'Error') {
+                opts.onError(data.message);
+              }
+          }
+        }
+      };
+      events.onError = (data) => {
+        console.error(data);
+      };
+
+      file = new Blob([gcodeString], {
+        type: 'text/plain',
+      });
+
+      ws.send([
+        'g2f',
+        'g2f',
+        file.size,
+      ].join(' '));
+
+      return $deferred.promise();
+    },
     divideSVG(opts?) {
       const $deferred = $.Deferred();
       opts = opts || {};

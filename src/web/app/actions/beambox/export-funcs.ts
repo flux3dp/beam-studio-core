@@ -309,6 +309,79 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   };
 };
 
+// Send svg string calculate taskcode, output Fcode in default
+const fetchTransferredFcode = async (gcodeString: string) => {
+  let isErrorOccur = false;
+  let isCanceled = false;
+  let doesSupportDiodeAndAF = true;
+  let shouldUseFastGradient = false;//BeamboxPreference.read('fast_gradient') !== false;
+  /*if (device) {
+    const vc = VersionChecker(device.version);
+    doesSupportDiodeAndAF = vc.meetRequirement('DIODE_AND_AUTOFOCUS');
+    shouldUseFastGradient = shouldUseFastGradient && vc.meetRequirement('FAST_GRADIENT');
+  }*/
+
+  Progress.openSteppingProgress({
+    id: 'fetch-task',
+    message: '',
+    onCancel: () => {
+      svgeditorParser.interruptCalculation();
+      isCanceled = true;
+    },
+  });
+  const { taskCodeBlob, fileTimeCost } = await new Promise((resolve) => {
+    const names = []; // don't know what this is for
+    const codeType = 'fcode';
+    svgeditorParser.gcodeToFcode(
+      names,
+      gcodeString,
+      {
+        onProgressing: (data) => {
+          Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
+        },
+        onFinished: (taskBlob, fileName, timeCost) => {
+          Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
+          resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost });
+        },
+        onError: (message) => {
+          Progress.popById('fetch-task');
+          Alert.popUp({
+            id: 'get-taskcode-error',
+            message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
+            type: AlertConstants.SHOW_POPUP_ERROR,
+            buttonType: AlertConstants.YES_NO,
+            onYes: () => {
+              const svgString = svgCanvas.getSvgString();
+              AwsHelper.uploadToS3('output.bvg', svgString);
+            },
+          });
+          isErrorOccur = true;
+          resolve({
+            taskCodeBlob: null,
+            fileTimeCost: null,
+          });
+        },
+        codeType,
+        model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
+        enableAutoFocus: doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
+        enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
+        shouldUseFastGradient,
+        vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
+      },
+    );
+  });
+  Progress.popById('fetch-task');
+  if (isCanceled || isErrorOccur) {
+    return {};
+  }
+
+  return {
+    fcodeBlob: taskCodeBlob,
+    fileTimeCost,
+  };
+};
+
+
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
     const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await fetchTaskCode(device);
@@ -356,6 +429,13 @@ export default {
   },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
+    if (!fcodeBlob) {
+      return null;
+    }
+    return fileTimeCost;
+  },
+  gcodeToFcode: async (gcodeString): Promise<number> => {
+    const { fcodeBlob, fileTimeCost } = await fetchTransferredFcode(gcodeString);
     if (!fcodeBlob) {
       return null;
     }
