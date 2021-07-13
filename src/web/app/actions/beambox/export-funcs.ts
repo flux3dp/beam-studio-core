@@ -381,7 +381,6 @@ const fetchTransferredFcode = async (gcodeString: string) => {
   };
 };
 
-
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
     const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await fetchTaskCode(device);
@@ -426,6 +425,13 @@ export default {
     };
 
     fileReader.readAsArrayBuffer(fcodeBlob);
+  },
+  getGcode: async (): Promise<Blob> => {
+    const { gcodeBlob } = await fetchTaskCode(null, true);
+    if (!gcodeBlob) {
+      return null;
+    }
+    return gcodeBlob;
   },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
