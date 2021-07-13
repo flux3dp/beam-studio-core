@@ -2,6 +2,7 @@
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';
 import $ from 'jquery';
+import { enableFetchMocks } from 'jest-fetch-mock';
 
 declare global {
   interface Window {
@@ -34,6 +35,7 @@ declare global {
 }
 
 window.$ = $;
+enableFetchMocks();
 configure({ adapter: new Adapter() });
 Object.defineProperty(window, 'os', {
   value: '',
