@@ -14,26 +14,24 @@ interface Props {
 
 const LANG = i18n.lang.beambox;
 export default class SVGEditor extends React.Component<Props> {
-  componentDidMount() {
+  componentDidMount(): void {
     const { $ } = window;
     $(svgEditor.init);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleDisableHref(e) {
+  handleDisableHref(e): void {
     e.preventDefault();
     e.stopPropagation();
   }
 
-  renderPathPreview = () => {
-    return <PathPreview />;
-  }
+  private renderPathPreview = () => <PathPreview />;
 
-  renderSvgEditor = () => {
+  private renderSvgEditor = () => {
+    const { isPathPreviewing } = this.props;
     const platformClassNames = classNames({ mac: window.os === 'MacOS' });
-
     return (
-      <div style={this.props.isPathPreviewing ? { display: 'none' } : {}}>
+      <div style={isPathPreviewing ? { display: 'none' } : {}}>
         <div id="rulers" className={platformClassNames}>
           <div id="ruler_corner" />
           <div id="ruler_x">
@@ -284,8 +282,20 @@ export default class SVGEditor extends React.Component<Props> {
           </div>
           <div id="color_picker" />
         </div>
-        {' '}
-        { }
+      </div>
+    );
+  };
+
+  render(): JSX.Element {
+    // HIDE ALMOST ALL TOOLS USING CSS
+    const { isPathPreviewing } = this.props;
+    const platformClassNames = classNames({ mac: window.os === 'MacOS' });
+    return (
+      <div>
+        <div id="svg_editor" className={platformClassNames}>
+          {this.renderSvgEditor()}
+          {isPathPreviewing && this.renderPathPreview()}
+        </div>
         <div id="svg_source_editor">
           <div className="overlay" />
           <div id="svg_source_container">
@@ -307,6 +317,76 @@ export default class SVGEditor extends React.Component<Props> {
                 defaultValue=""
               />
             </form>
+          </div>
+        </div>
+        <div id="svg_docprops">
+          <div className="overlay" />
+          <div id="svg_docprops_container">
+            <div id="tool_docprops_back" className="toolbar_button">
+              <button id="tool_docprops_save" type="button">OK</button>
+              <button id="tool_docprops_cancel" type="button">Cancel</button>
+            </div>
+            <fieldset id="svg_docprops_docprops">
+              <legend id="svginfo_image_props">Image Properties</legend>
+              <label>
+                <span id="svginfo_title">Title:</span>
+                <input type="text" id="canvas_title" />
+              </label>
+              <fieldset id="change_resolution">
+                <legend id="svginfo_dim">Canvas Dimensions</legend>
+                <label>
+                  <span id="svginfo_width">width:</span>
+                  {' '}
+                  <input type="text" id="canvas_width" size={6} />
+                </label>
+                <label>
+                  <span id="svginfo_height">height:</span>
+                  {' '}
+                  <input type="text" id="canvas_height" size={6} />
+                </label>
+                <label>
+                  <select id="resolution" defaultValue="predefined">
+                    <option id="selectedPredefined" value="predefined">
+                      Select predefined:
+                    </option>
+                    <option>640x480</option>
+                    <option>800x600</option>
+                    <option>1024x768</option>
+                    <option>1280x960</option>
+                    <option>1600x1200</option>
+                    <option id="fitToContent" value="content">
+                      Fit to Content
+                    </option>
+                  </select>
+                </label>
+              </fieldset>
+              <fieldset id="image_save_opts">
+                <legend id="includedImages">Included Images</legend>
+                <label>
+                  <input
+                    type="radio"
+                    name="image_opt"
+                    defaultValue="embed"
+                    defaultChecked
+                  />
+                  {' '}
+                  <span id="image_opt_embed">
+                    Embed data (local files)
+                  </span>
+                  {' '}
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="image_opt"
+                    defaultValue="ref"
+                  />
+                  {' '}
+                  <span id="image_opt_ref">Use file reference</span>
+                  {' '}
+                </label>
+              </fieldset>
+            </fieldset>
           </div>
         </div>
         <div id="svg_prefs">
@@ -428,6 +508,8 @@ export default class SVGEditor extends React.Component<Props> {
                     <option value="ex">Exs</option>
                   </select>
                 </label>
+                { }
+                { }
               </fieldset>
             </fieldset>
           </div>
