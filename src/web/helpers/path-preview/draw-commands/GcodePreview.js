@@ -4,16 +4,14 @@
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-import { consoleTestResultHandler } from "tslint/lib/test";
 
 const parsedStride = 9;
 const drawStride = 8;
@@ -22,7 +20,7 @@ export function gcode(drawCommands) {
   let program = drawCommands.compile({
     vert: `
       precision mediump float;
-      uniform mat4 perspective; 
+      uniform mat4 perspective;
       uniform mat4 view;
       uniform float rotaryScale;
       uniform bool isInverting;
@@ -30,10 +28,10 @@ export function gcode(drawCommands) {
       attribute float g;
       attribute float t;
       attribute float g0Dist;
-      attribute float g1Time;  
+      attribute float g1Time;
       varying vec4 color;
       varying float vg0Dist;
-      varying float vg1Time;  
+      varying float vg1Time;
       void main() {
         gl_Position = perspective * view * vec4(position.x, position.y + position.a * rotaryScale, position.z, 1);
         if(g == 0.0)
@@ -129,7 +127,7 @@ export class GcodePreview {
         // e
         // f
         let a1 = parsed[i * parsedStride + 6];
-        // s  
+        // s
         // t
 
         let g = parsed[i * parsedStride + 9];
