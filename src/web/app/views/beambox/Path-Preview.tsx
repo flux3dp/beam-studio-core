@@ -1219,6 +1219,7 @@ class PathPreview extends React.Component<{}, State> {
           step={simTimeUnit}
           value={workspace.simTime}
           style={{
+            // @ts-ignore Set variable for css to use
             '--percentage': percentage,
           }}
           onChange={(e) => this.handleSimTimeChange(e.target.value)}
