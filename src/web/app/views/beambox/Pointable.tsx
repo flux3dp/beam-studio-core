@@ -99,6 +99,7 @@ interface Props {
   onPointerEnter?: any;
   onPointerLeave?: any;
   onPointerCancel?: any;
+  onWheel?: any;
 }
 
 // Component with pointer events enabled (specially made for Pointer Events Polyfill)
@@ -119,7 +120,7 @@ class Pointable extends React.Component<Props> {
     // Collect unused props to pass along to rendered node.
     // This could be done simply with lodash,
     // but avoiding the extra dependency here isn't difficult.
-    const { children } = this.props;
+    const { children, onWheel } = this.props;
 
     // Create a shallow copy of props
     const otherProps = { ...this.props };
@@ -128,12 +129,14 @@ class Pointable extends React.Component<Props> {
     // Remove other props used by <Pointable />
     delete otherProps.children;
     delete otherProps.touchAction;
+    delete otherProps.onWheel;
     return (
       <div
         ref={(node) => {
           this.pointableNode = node;
           return null;
         }}
+        onWheel={onWheel}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...otherProps}
       >

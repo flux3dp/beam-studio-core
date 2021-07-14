@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable max-classes-per-file */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { mat4, vec3 } from 'gl-matrix';
 
 import ExportFuncs from 'app/actions/beambox/export-funcs';
@@ -323,7 +324,9 @@ function calcCamera({
   }
   // @ts-ignore
   const viewInv = mat4.invert([], view);
-  return { fovy, perspective, view, viewInv };
+  return {
+    fovy, perspective, view, viewInv,
+  };
 }
 
 function objectHasMatchingFields(obj, fields) {
@@ -447,8 +450,10 @@ class PathPreview extends React.Component<{}, State> {
   private simInterval: any;
   private drawGcodeState: object;
   private drawLaserState: object;
+
   private gcodeString: string;
-  private __updating: any;
+
+  private isUpdating: boolean;
 
   constructor(props) {
     super(props);
@@ -537,41 +542,29 @@ class PathPreview extends React.Component<{}, State> {
     // let parsedGcode = parseGcode(gcode);
   }
 
+  shouldComponentUpdate(nextProps, nextState): boolean {
+    const {
+      width, height, workspace, camera, speedLevel, isInverting,
+    } = this.state;
+    return (
+      nextState.width !== width
+      || nextState.height !== height
+      || nextState.workspace.workOffsetX !== workspace.workOffsetX
+      || nextState.workspace.workOffsetY !== workspace.workOffsetY
+      || nextState.workspace.cursorPos !== workspace.cursorPos
+      || nextState.workspace.simTime !== workspace.simTime
+      || nextState.workspace.showLaser !== workspace.showLaser
+      || nextState.camera !== camera
+      || nextState.speedLevel !== speedLevel
+      || nextState.isInverting !== isInverting
+    );
+  }
+
   componentDidUpdate() {
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resetView);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      nextState.width !== this.state.width ||
-      nextState.height !== this.state.height ||
-      nextState.workspace.workOffsetX !== this.state.workspace.workOffsetX ||
-      nextState.workspace.workOffsetY !== this.state.workspace.workOffsetY ||
-      nextState.camera !== this.state.camera ||
-      nextState.workspace.cursorPos !== this.state.workspace.cursorPos ||
-      nextState.workspace.simTime !== this.state.workspace.simTime ||
-      nextState.workspace.showLaser !== this.state.workspace.showLaser ||
-      nextState.speedLevel !== this.state.speedLevel ||
-      nextState.isInverting !== this.state.isInverting
-    );
-  }
-
-  resetView = () => {
-    const { workspace } = this.state;
-    if (workspace.width !== window.document.getElementById('svg_editor').offsetWidth || workspace.height !== Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200)) {
-      this.setState({
-        width: window.document.getElementById('svg_editor').offsetWidth,
-        height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
-        workspace: {
-          ...workspace,
-          width: window.document.getElementById('svg_editor').offsetWidth,
-          height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
-        }
-      }, this.setCamera);
-    }
   }
 
   setWorkspaceAttrs = (attrs) => {
@@ -595,58 +588,36 @@ class PathPreview extends React.Component<{}, State> {
     }, this.setCamera);
   };
 
-  zoom(pageX, pageY, amount) {
-    const r = ReactDOM.findDOMNode(this.canvas).getBoundingClientRect();
-    const { camera } = this.state;
-    const newFovy = Math.max(0.1, Math.min(Math.PI - 0.1, camera.fovy * amount));
-    // @ts-ignore
-    const oldScale = vec3.distance(camera.eye, camera.center) * Math.tan(camera.fovy / 2) / (r.height / 2);
-    // @ts-ignore
-    const newScale = vec3.distance(camera.eye, camera.center) * Math.tan(newFovy / 2) / (r.height / 2);
-    const dx = Math.round(pageX - (r.left + r.right) / 2) * (newScale - oldScale);
-    const dy = Math.round(-pageY + (r.top + r.bottom) / 2) * (newScale - oldScale);
-    // @ts-ignore
-    const adjX = vec3.scale([], vec3.cross([], vec3.normalize([], vec3.sub([], camera.center, camera.eye)), camera.up), -dx);
-    // @ts-ignore
-    const adjY = vec3.scale([], camera.up, -dy);
-    // @ts-ignore
-    const adj = vec3.add([], adjX, adjY);
-    // @ts-ignore
-    const newEye = vec3.add([], camera.eye, adj);
-
-    this.setCameraAttrs({
-      // @ts-ignore
-      eye: newEye, // vec3.add([], camera.eye, adj),
-      // @ts-ignore
-      center: vec3.add([], camera.center, adj),
-      fovy: newFovy,
+  // fixed
+  setCamera() {
+    const {
+      width, height, camera, workspace,
+    } = this.state;
+    const newCamera = calcCamera({
+      viewportWidth: width,
+      viewportHeight: height,
+      fovy: camera.fovy,
+      near: 0.1,
+      far: 2000,
+      eye: camera.eye,
+      center: camera.center,
+      up: camera.up,
+      showPerspective: camera.showPerspective,
+      machineX: settings.machineBottomLeftX - workspace.workOffsetX,
+      machineY: settings.machineBottomLeftY - workspace.workOffsetY,
     });
+
+    if (this.camera) {
+      if (sameArrayContent(this.camera.perspective, newCamera.perspective)) {
+        newCamera.perspective = this.camera.perspective;
+      }
+      if (sameArrayContent(this.camera.view, newCamera.view)) {
+        newCamera.view = this.camera.view;
+      }
+    }
+
+    this.camera = newCamera;
   }
-
-  wheel = (e) => {
-    e.preventDefault();
-    // @ts-ignore
-    const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
-
-    this.zoom(e.pageX - p.left, e.pageY - p.top, Math.exp(e.deltaY / 2000));
-  };
-
-  zoomArea = (x1, y1, x2, y2) => {
-    const { workspace } = this.state;
-    const d = 300;
-    const cx = (x1 + x2) / 2 - settings.machineBottomLeftX + workspace.workOffsetX;
-    const cy = (y1 + y2) / 2 - settings.machineBottomLeftY + workspace.workOffsetY;
-    const fovy = 2 * Math.atan2(Math.max(Math.abs(y2 - y1), Math.abs(x2 - x1) * workspace.height / workspace.width) / 2, d);
-    this.setState({
-      camera: {
-        eye: [cx, cy, d],
-        center: [cx, cy, 0],
-        up: [0, 1, 0],
-        fovy,
-        showPerspective: false,
-      },
-    });
-  };
 
   drawFlat = (canvas, gl) => {
     const {
@@ -703,7 +674,8 @@ class PathPreview extends React.Component<{}, State> {
       const draw = () => {
         this.laserPreview.draw(
           this.drawCommands, this.camera.perspective, this.camera.view,
-          workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter, isInverting);
+          workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter, isInverting,
+        );
       };
       cacheDrawing(draw, this.drawLaserState, {
         drawCommands: this.drawCommands,
@@ -721,7 +693,8 @@ class PathPreview extends React.Component<{}, State> {
       const draw = () => {
         this.gcodePreview.draw(
           this.drawCommands, this.camera.perspective, this.camera.view,
-          workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter, isInverting);
+          workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter, isInverting,
+        );
       };
       cacheDrawing(draw, this.drawGcodeState, {
         drawCommands: this.drawCommands,
@@ -771,38 +744,39 @@ class PathPreview extends React.Component<{}, State> {
         primitive: this.drawCommands.gl.LINES,
       });
     }
-  }; // drawFlat()
+  };
 
-  // fixed
-  setCamera() {
-    const {
-      width, height, camera, workspace,
-    } = this.state;
-    const newCamera = calcCamera({
-      viewportWidth: width,
-      viewportHeight: height,
-      fovy: camera.fovy,
-      near: 0.1,
-      far: 2000,
-      eye: camera.eye,
-      center: camera.center,
-      up: camera.up,
-      showPerspective: camera.showPerspective,
-      machineX: settings.machineBottomLeftX - workspace.workOffsetX,
-      machineY: settings.machineBottomLeftY - workspace.workOffsetY,
+  private zoomArea = (x1, y1, x2, y2) => {
+    const { workspace } = this.state;
+    const d = 300;
+    const cx = (x1 + x2) / 2 - settings.machineBottomLeftX + workspace.workOffsetX;
+    const cy = (y1 + y2) / 2 - settings.machineBottomLeftY + workspace.workOffsetY;
+    const fovy = 2 * Math.atan2(Math.max(Math.abs(y2 - y1), Math.abs(x2 - x1) * (workspace.height / workspace.width)) / 2, d);
+    this.setState({
+      camera: {
+        eye: [cx, cy, d],
+        center: [cx, cy, 0],
+        up: [0, 1, 0],
+        fovy,
+        showPerspective: false,
+      },
     });
+  };
 
-    if (this.camera) {
-      if (sameArrayContent(this.camera.perspective, newCamera.perspective)) {
-        newCamera.perspective = this.camera.perspective;
-      }
-      if (sameArrayContent(this.camera.view, newCamera.view)) {
-        newCamera.view = this.camera.view;
-      }
+  resetView = () => {
+    const { workspace } = this.state;
+    if (workspace.width !== window.document.getElementById('svg_editor').offsetWidth || workspace.height !== Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200)) {
+      this.setState({
+        width: window.document.getElementById('svg_editor').offsetWidth,
+        height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
+        workspace: {
+          ...workspace,
+          width: window.document.getElementById('svg_editor').offsetWidth,
+          height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
+        },
+      }, this.setCamera);
     }
-
-    this.camera = newCamera;
-  }
+  };
 
   setCanvas = (canvas) => {
     if (this.canvas === canvas) return;
@@ -828,14 +802,15 @@ class PathPreview extends React.Component<{}, State> {
       const { workspace, width, height } = this.state;
 
       if (!this.canvas) {
-        return null;
+        return;
       }
 
       if (settings.toolDisplayCache) {
-        if (this.__updating) {
-          this.__updating = false;
+        if (this.isUpdating) {
+          this.isUpdating = false;
         } else {
-          return requestAnimationFrame(draw);
+          requestAnimationFrame(draw);
+          return;
         }
       }
 
@@ -861,6 +836,7 @@ class PathPreview extends React.Component<{}, State> {
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.clearColor(0.94, 0.94, 0.94, 1);
 
+      // eslint-disable-next-line no-bitwise
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
       gl.enable(gl.BLEND);
@@ -885,13 +861,13 @@ class PathPreview extends React.Component<{}, State> {
       this.simInterval = null;
     } else {
       this.simInterval = setInterval(() => {
-        const { workspace } = this.state;
+        const { speedLevel, workspace } = this.state;
         if (workspace.simTime >= this.simTimeMax) {
           window.clearInterval(this.simInterval);
           this.simInterval = null;
           this.forceUpdate();
         } else {
-          this.handleSimTimeChange(workspace.simTime + simTimeUnit / 5 * speedRatio[this.state.speedLevel]);
+          this.handleSimTimeChange(workspace.simTime + (simTimeUnit / 5) * speedRatio[speedLevel]);
         }
       }, 100);
     }
@@ -933,9 +909,16 @@ class PathPreview extends React.Component<{}, State> {
 
     if (this.pointers.length && e.pointerType !== this.pointers[0].pointerType) this.pointers = [];
 
-    this.pointers.push({ pointerId: e.pointerId, pointerType: e.pointerType, button: e.button, pageX: e.pageX - p.left, pageY: e.pageY - p.top, origPageX: e.pageX - p.left, origPageY: e.pageY - p.top });
+    this.pointers.push({
+      pointerId: e.pointerId,
+      pointerType: e.pointerType,
+      button: e.button,
+      pageX: e.pageX - p.left,
+      pageY: e.pageY - p.top,
+      origPageX: e.pageX - p.left,
+      origPageY: e.pageY - p.top,
+    });
     // this.movingObjects = false;
-    this.adjustingCamera = false;
     this.moveStarted = false;
     this.fingers = null;
 
@@ -943,14 +926,13 @@ class PathPreview extends React.Component<{}, State> {
   };
 
   onPointerMove = (e) => {
-    const { width, height, workspace } = this.state;
     // @ts-ignore
     const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
     e.preventDefault();
     const pointer = this.pointers.find((x) => x.pointerId === e.pointerId);
     if (!pointer) return;
-    let dx = e.pageX - p.left - pointer.pageX;
-    let dy = pointer.pageY - e.pageY + p.top;
+    const dx = e.pageX - p.left - pointer.pageX;
+    const dy = pointer.pageY - e.pageY + p.top;
     if (Math.abs(dx) >= 10 || Math.abs(dy) >= 10) this.moveStarted = true;
     if (!this.moveStarted) return;
     if (this.adjustingCamera) {
@@ -988,57 +970,45 @@ class PathPreview extends React.Component<{}, State> {
             });
           }
         }
-        this.fingers = { num: this.pointers.length, centerX, centerY, distance };
+        this.fingers = {
+          num: this.pointers.length,
+          centerX,
+          centerY,
+          distance,
+        };
       } else {
         this.fingers = null;
-        if (pointer.button === 2) {
-          // @ts-ignore
-          const rot = mat4.mul([],
-            // @ts-ignore
-            mat4.fromRotation([], dy / 200, vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center))),
-            // @ts-ignore
-            mat4.fromRotation([], -dx / 200, camera.up));
-          this.setCameraAttrs({
-            // @ts-ignore
-            eye: vec3.add([], vec3.transformMat4([], vec3.sub([], camera.eye, camera.center), rot), camera.center),
-            // @ts-ignore
-            up: vec3.normalize([], vec3.transformMat4([], camera.up, rot)),
-          });
-        } else if (pointer.button === 1) {
+        // Rotate not used
+        // if (pointer.button === 2) {
+        //   // @ts-ignore
+        //   const rot = mat4.mul([],
+        //     // @ts-ignore
+        //     mat4.fromRotation([], dy / 200, vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center))),
+        //     // @ts-ignore
+        //     mat4.fromRotation([], -dx / 200, camera.up));
+        //   this.setCameraAttrs({
+        //     // @ts-ignore
+        //     eye: vec3.add([], vec3.transformMat4([], vec3.sub([], camera.eye, camera.center), rot), camera.center),
+        //     // @ts-ignore
+        //     up: vec3.normalize([], vec3.transformMat4([], camera.up, rot)),
+        //   });
+        // }
+        if (pointer.button === 1) {
           this.zoom(pointer.origPageX, pointer.origPageY, Math.exp(-dy / 200));
         } else if (pointer.button === 0) {
-          const { view } = calcCamera({
-            viewportWidth: width,
-            viewportHeight: height,
-            fovy: camera.fovy,
-            near: 0.1,
-            far: 2000,
-            // @ts-ignore
-            eye: [0, 0, vec3.distance(camera.eye, camera.center)],
-            center: [0, 0, 0],
-            up: [0, 1, 0],
-            showPerspective: false,
-            machineX: settings.machineBottomLeftX - workspace.workOffsetX,
-            machineY: settings.machineBottomLeftY - workspace.workOffsetY,
-          });
-          const scale = 2 / width / view[0];
-          dx *= scale;
-          dy *= scale;
-          // @ts-ignore
-          const n = vec3.normalize([], vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center)));
-
-          this.setCameraAttrs({
-            // @ts-ignore
-            eye: vec3.add([], camera.eye,
-              // @ts-ignore
-              vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
-            // @ts-ignore
-            center: vec3.add([], camera.center,
-              // @ts-ignore
-              vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
-          });
+          this.pan(dx / 2, dy / 2);
         }
       }
+    }
+  };
+
+  wheel = (e) => {
+    // @ts-ignore
+    const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
+    if (e.ctrlKey) {
+      this.zoom(e.pageX - p.left, e.pageY - p.top, Math.exp(e.deltaY / 200));
+    } else {
+      this.pan(-e.deltaX, e.deltaY);
     }
   };
 
@@ -1076,8 +1046,9 @@ class PathPreview extends React.Component<{}, State> {
   };
 
   showSimTime = () => {
-    return this.transferTime(this.state.workspace.simTime);
-  }
+    const { workspace } = this.state;
+    return this.transferTime(workspace.simTime);
+  };
 
   private renderPlayButtons = () => {
     if (this.simInterval) {
@@ -1145,7 +1116,7 @@ class PathPreview extends React.Component<{}, State> {
         }
       }
 
-      const preparation = [";FLUX Laser Svgeditor Tool", "$H", "G1S0", "M25", "G1 U150", "G1 X0 Y0", "G1 F7500.0000"];
+      const preparation = [';FLUX Laser Svgeditor Tool', '$H', 'G1S0', 'M25', 'G1 U150', 'G1 X0 Y0', 'G1 F7500.0000'];
 
       let isEngraving = false;
       let laserDetected = false;
@@ -1203,6 +1174,72 @@ class PathPreview extends React.Component<{}, State> {
     const { workspace } = this.state;
     this.setState({ workspace: { ...workspace, showLaser: !workspace.showLaser } });
   };
+
+  zoom(pageX, pageY, amount) {
+    if (!this.canvas) return;
+    const r = this.canvas.getBoundingClientRect();
+    const { camera } = this.state;
+    const newFovy = Math.max(0.1, Math.min(Math.PI - 0.1, camera.fovy * amount));
+    // @ts-ignore
+    const oldScale = (vec3.distance(camera.eye, camera.center) * Math.tan(camera.fovy / 2)) / (r.height / 2);
+    // @ts-ignore
+    const newScale = (vec3.distance(camera.eye, camera.center) * Math.tan(newFovy / 2)) / (r.height / 2);
+    const dx = Math.round(pageX - (r.left + r.right) / 2) * (newScale - oldScale);
+    const dy = Math.round(-pageY + (r.top + r.bottom) / 2) * (newScale - oldScale);
+    // @ts-ignore
+    const adjX = vec3.scale([], vec3.cross([], vec3.normalize([], vec3.sub([], camera.center, camera.eye)), camera.up), -dx);
+    // @ts-ignore
+    const adjY = vec3.scale([], camera.up, -dy);
+    // @ts-ignore
+    const adj = vec3.add([], adjX, adjY);
+    // @ts-ignore
+    const newEye = vec3.add([], camera.eye, adj);
+
+    this.setCameraAttrs({
+      // @ts-ignore
+      eye: newEye, // vec3.add([], camera.eye, adj),
+      // @ts-ignore
+      center: vec3.add([], camera.center, adj),
+      fovy: newFovy,
+    });
+  }
+
+  private pan(dx, dy) {
+    const {
+      camera, width, height, workspace,
+    } = this.state;
+    const { view } = calcCamera({
+      viewportWidth: width,
+      viewportHeight: height,
+      fovy: camera.fovy,
+      near: 0.1,
+      far: 2000,
+      // @ts-ignore
+      eye: [0, 0, vec3.distance(camera.eye, camera.center)],
+      center: [0, 0, 0],
+      up: [0, 1, 0],
+      showPerspective: false,
+      machineX: settings.machineBottomLeftX - workspace.workOffsetX,
+      machineY: settings.machineBottomLeftY - workspace.workOffsetY,
+    });
+    console.log(view, width);
+    const scale = 2 / width / view[0];
+    dx *= scale;
+    dy *= scale;
+    // @ts-ignore
+    const n = vec3.normalize([], vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center)));
+    console.log(camera);
+    this.setCameraAttrs({
+      // @ts-ignore
+      eye: vec3.add([], camera.eye,
+        // @ts-ignore
+        vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
+      // @ts-ignore
+      center: vec3.add([], camera.center,
+        // @ts-ignore
+        vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
+    });
+  }
 
   render() {
     const {
