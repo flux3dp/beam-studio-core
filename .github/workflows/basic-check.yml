@@ -32,6 +32,26 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           threshold: 11.5 # optional parameter
+  web-e2e:
+    needs: coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Dispatch an event to trigger web's workflow and wait for e2e test result
+        run: |
+          curl \
+            -X POST \
+            -u "${{secrets.TRIGGER_WEB_USERNAME}}:${{secrets.TRIGGER_WEB_TOKEN}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/flux3dp/beam-studio-web/dispatches \
+            -d '{"event_type":"core_pr"}'
+      - uses: convictional/trigger-workflow-and-wait@v1.3.0
+        with:
+          owner: flux3dp
+          repo: beam-studio-web
+          github_token: ${{ secrets.TRIGGER_WEB_TOKEN }}
+          workflow_file_name: e2e.yml
+          wait_interval: 300
   # https://github.com/marketplace/actions/run-eslint-with-reviewdog
   # eslint-check:
   #   runs-on: ubuntu-latest
