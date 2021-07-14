@@ -5,6 +5,7 @@
 import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';
 
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import Pointable from 'app/views/beambox/Pointable';
 import { Text3d } from 'app/views/beambox/dom3d';
@@ -455,6 +456,8 @@ class PathPreview extends React.Component<{}, State> {
 
   private isUpdating: boolean;
 
+  private spaceKey: boolean;
+
   constructor(props) {
     super(props);
     // TODO: make config interface
@@ -495,6 +498,8 @@ class PathPreview extends React.Component<{}, State> {
   }
 
   componentDidMount() {
+    window.addEventListener('keydown', this.windowKeyDown);
+    window.addEventListener('keyup', this.windowKeyUp);
     window.addEventListener('resize', this.resetView);
     const { camera } = this.state;
     // @ts-ignore
@@ -564,6 +569,8 @@ class PathPreview extends React.Component<{}, State> {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('keydown', this.windowKeyDown);
+    window.removeEventListener('keyup', this.windowKeyUp);
     window.removeEventListener('resize', this.resetView);
   }
 
@@ -618,6 +625,14 @@ class PathPreview extends React.Component<{}, State> {
 
     this.camera = newCamera;
   }
+
+  private windowKeyDown = (e: KeyboardEvent) => {
+    if (e.key === ' ') this.spaceKey = true;
+  };
+
+  private windowKeyUp = (e: KeyboardEvent) => {
+    if (e.key === ' ') this.spaceKey = false;
+  };
 
   drawFlat = (canvas, gl) => {
     const {
@@ -904,10 +919,13 @@ class PathPreview extends React.Component<{}, State> {
   onPointerDown = (e) => {
     e.preventDefault();
     e.target.setPointerCapture(e.pointerId);
-    // @ts-ignore
-    const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
+    const pathPreviewPanelElem = document.getElementsByClassName('path-preview-panel')[0] as HTMLElement;
+    const p = { left: pathPreviewPanelElem.offsetLeft, top: pathPreviewPanelElem.offsetTop };
 
     if (this.pointers.length && e.pointerType !== this.pointers[0].pointerType) this.pointers = [];
+
+    // Does not enable left key dragging when space is not pressed
+    if (e.button === 0 && !this.spaceKey) return;
 
     this.pointers.push({
       pointerId: e.pointerId,
@@ -978,24 +996,21 @@ class PathPreview extends React.Component<{}, State> {
         };
       } else {
         this.fingers = null;
-        // Rotate not used
+        // Rotate, not used
         // if (pointer.button === 2) {
-        //   // @ts-ignore
         //   const rot = mat4.mul([],
-        //     // @ts-ignore
         //     mat4.fromRotation([], dy / 200, vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center))),
-        //     // @ts-ignore
         //     mat4.fromRotation([], -dx / 200, camera.up));
         //   this.setCameraAttrs({
-        //     // @ts-ignore
         //     eye: vec3.add([], vec3.transformMat4([], vec3.sub([], camera.eye, camera.center), rot), camera.center),
-        //     // @ts-ignore
         //     up: vec3.normalize([], vec3.transformMat4([], camera.up, rot)),
         //   });
         // }
-        if (pointer.button === 1) {
-          this.zoom(pointer.origPageX, pointer.origPageY, Math.exp(-dy / 200));
-        } else if (pointer.button === 0) {
+        // Zoom with middle button, not used
+        // if (pointer.button === 1) {
+        //   this.zoom(pointer.origPageX, pointer.origPageY, Math.exp(-dy / 200));
+        // }
+        if (pointer.button === 0 || pointer.button === 1) {
           this.pan(dx / 2, dy / 2);
         }
       }
@@ -1005,10 +1020,16 @@ class PathPreview extends React.Component<{}, State> {
   wheel = (e) => {
     // @ts-ignore
     const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
-    if (e.ctrlKey) {
-      this.zoom(e.pageX - p.left, e.pageY - p.top, Math.exp(e.deltaY / 200));
+    const mouseInputDevice = BeamboxPreference.read('mouse_input_device');
+    const isTouchpad = (mouseInputDevice === 'TOUCHPAD');
+    if (isTouchpad) {
+      if (e.ctrlKey) {
+        this.zoom(e.pageX - p.left, e.pageY - p.top, Math.exp(e.deltaY / 200));
+      } else {
+        this.pan(-e.deltaX, e.deltaY);
+      }
     } else {
-      this.pan(-e.deltaX, e.deltaY);
+      this.zoom(e.pageX - p.left, e.pageY - p.top, Math.exp(e.deltaY / 400));
     }
   };
 
@@ -1222,13 +1243,13 @@ class PathPreview extends React.Component<{}, State> {
       machineX: settings.machineBottomLeftX - workspace.workOffsetX,
       machineY: settings.machineBottomLeftY - workspace.workOffsetY,
     });
-    console.log(view, width);
+    // console.log(view, width);
     const scale = 2 / width / view[0];
     dx *= scale;
     dy *= scale;
     // @ts-ignore
     const n = vec3.normalize([], vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center)));
-    console.log(camera);
+    // console.log(camera);
     this.setCameraAttrs({
       // @ts-ignore
       eye: vec3.add([], camera.eye,
