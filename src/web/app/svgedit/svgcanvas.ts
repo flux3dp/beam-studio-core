@@ -50,7 +50,7 @@ import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHints
 import TimeEstimationButtonController from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import ZoomBlockController from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockController';
+import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';

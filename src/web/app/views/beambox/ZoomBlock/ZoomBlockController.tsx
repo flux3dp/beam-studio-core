@@ -1,4 +1,4 @@
-import { eventEmitter } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
+import { eventEmitter } from 'app/views/beambox/ZoomBlock/ZoomBlock';
 
 const updateZoomBlock = (): void => {
   eventEmitter.emit('UPDATE_ZOOM_BLOCK');

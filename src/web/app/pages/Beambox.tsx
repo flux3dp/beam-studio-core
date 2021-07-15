@@ -14,8 +14,7 @@ import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEst
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
 import { TopBar } from 'app/views/beambox/TopBar/TopBar';
 import { TopBarContextProvider } from 'app/views/beambox/TopBar/contexts/TopBarContext';
-import { ZoomBlock } from 'app/views/beambox/ZoomBlock/ZoomBlock';
-import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
+import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
@@ -59,9 +58,10 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     const { isPathPreviewing } = this.state;
     if (isPathPreviewing) return null;
     return (
-      <ZoomBlockContextProvider>
-        <ZoomBlock />
-      </ZoomBlockContextProvider>
+      <ZoomBlock
+        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom })}
+        resetView={svgEditor.resetView}
+      />
     );
   }
 
