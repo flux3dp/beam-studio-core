@@ -5,6 +5,7 @@ import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interac
 import BeamboxInit from 'implementations/beamboxInit';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
+import constant from 'app/actions/beambox/constant';
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
 import sentryHelper from 'helpers/sentry-helper';
@@ -59,7 +60,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     if (isPathPreviewing) return null;
     return (
       <ZoomBlock
-        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom })}
+        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
         resetView={svgEditor.resetView}
       />
     );

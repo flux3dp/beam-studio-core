@@ -8,6 +8,8 @@ import { mat4, vec3 } from 'gl-matrix';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import Pointable from 'app/views/beambox/Pointable';
+import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
+import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
 import { Text3d } from 'app/views/beambox/dom3d';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
@@ -19,30 +21,6 @@ const MINOR_GRID_SPACING = 10;
 const m4Identity = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 const simTimeUnit = 1 / 120;
 const speedRatio = [0.5, 1, 2, 4, 8];
-
-//
-// 初始化 shader 來告知WebGL怎麼畫
-//
-function initShaderProgram(gl, vsSource, fsSource) {
-  const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
-  const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
-
-  // 建立 shader 程式
-
-  const shaderProgram = gl.createProgram();
-  gl.attachShader(shaderProgram, vertexShader);
-  gl.attachShader(shaderProgram, fragmentShader);
-  gl.linkProgram(shaderProgram);
-
-  // 錯誤處理
-
-  if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-    alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
-    return null;
-  }
-
-  return shaderProgram;
-}
 
 //
 // creates a shader of the given type, uploads the source and
@@ -62,12 +40,36 @@ function loadShader(gl, type, source) {
   // See if it compiled successfully
 
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+    alert(`An error occurred compiling the shaders: ${gl.getShaderInfoLog(shader)}`);
     gl.deleteShader(shader);
     return null;
   }
 
   return shader;
+}
+
+//
+// 初始化 shader 來告知WebGL怎麼畫
+//
+function initShaderProgram(gl, vsSource, fsSource) {
+  const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+  const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+
+  // 建立 shader 程式
+
+  const shaderProgram = gl.createProgram();
+  gl.attachShader(shaderProgram, vertexShader);
+  gl.attachShader(shaderProgram, fragmentShader);
+  gl.linkProgram(shaderProgram);
+
+  // 錯誤處理
+
+  if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+    alert(`Unable to initialize the shader program: ${gl.getProgramInfoLog(shaderProgram)}`);
+    return null;
+  }
+
+  return shaderProgram;
 }
 
 function dist(x1, y1, x2, y2) {
@@ -304,6 +306,8 @@ function calcCamera({
   let view = mat4.lookAt([], eye, center, up);
   // @ts-ignore
   view = mat4.translate([], view, [-machineX, -machineY, 0]);
+  const yBound = vec3.distance(eye, center) * Math.tan(fovy / 2);
+  const scale = viewportHeight / (2 * yBound);
   if (showPerspective) {
     perspective = mat4.perspective(
       new Float32Array(),
@@ -313,20 +317,23 @@ function calcCamera({
       far,
     );
   } else {
-    const yBound = vec3.distance(eye, center) * Math.tan(fovy / 2);
     // @ts-ignore
     perspective = mat4.identity([]);
     // @ts-ignore
-    view = mat4.mul([], mat4.ortho([],
-      //-viewportWidth , viewportWidth, -viewportHeight, viewportHeight, near, far),
-      -yBound * viewportWidth / viewportHeight, yBound * viewportWidth / viewportHeight, -yBound, yBound, near, far),
-      view);
+    view = mat4.mul(
+      // @ts-ignore
+      [],
+      // @ts-ignore
+      // -viewportWidth , viewportWidth, -viewportHeight, viewportHeight, near, far),
+      mat4.ortho([], -yBound * (viewportWidth / viewportHeight), yBound * (viewportWidth / viewportHeight), -yBound, yBound, near, far),
+      view,
+    );
     fovy = 0;
   }
   // @ts-ignore
   const viewInv = mat4.invert([], view);
   return {
-    fovy, perspective, view, viewInv,
+    fovy, perspective, view, viewInv, scale,
   };
 }
 
@@ -336,7 +343,7 @@ function objectHasMatchingFields(obj, fields) {
 }
 
 function sameArrayContent(a, b) {
-  return a.length === b.length && a.every((v, i) => v === b[i])
+  return a.length === b.length && a.every((v, i) => v === b[i]);
 }
 
 function cacheDrawing(fn, state, args) {
@@ -352,7 +359,10 @@ function cacheDrawing(fn, state, args) {
     });
   }
   drawCommands.image({
-    perspective: m4Identity, view: m4Identity, texture: state.frameBuffer.texture, selected: false,
+    perspective: m4Identity,
+    view: m4Identity,
+    texture: state.frameBuffer.texture,
+    selected: false,
     transform2d: [2 / width, 0, 0, -2 / height, -1, 1],
   });
 }
@@ -364,6 +374,7 @@ class Grid {
   private width: any;
   private height: any;
   private origincount: any;
+
   draw(drawCommands, { perspective, view, width, height, major = MAJOR_GRID_SPACING, minor = MINOR_GRID_SPACING }) {
     if (!this.maingrid || !this.origin || this.width !== width || this.height !== height) {
       this.width = width;
@@ -381,9 +392,9 @@ class Grid {
     }
 
     drawCommands.basic({ perspective, view, position: this.origin, offset: 0, count: this.origincount, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES }); // Red
-    //drawCommands.basic({ perspective, view, position: this.origin, offset: 2, count: 2, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES }); // Green
+    // drawCommands.basic({ perspective, view, position: this.origin, offset: 2, count: 2, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES }); // Green
   }
-};
+}
 
 function GridText(props) {
   const { minor = MINOR_GRID_SPACING, major = MAJOR_GRID_SPACING, width, height } = props;
@@ -500,7 +511,7 @@ class PathPreview extends React.Component<{}, State> {
   componentDidMount() {
     window.addEventListener('keydown', this.windowKeyDown);
     window.addEventListener('keyup', this.windowKeyUp);
-    window.addEventListener('resize', this.resetView);
+    window.addEventListener('resize', this.updateWorkspace);
     const { camera } = this.state;
     // @ts-ignore
     const n = vec3.normalize([], vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center)));
@@ -571,7 +582,7 @@ class PathPreview extends React.Component<{}, State> {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.windowKeyDown);
     window.removeEventListener('keyup', this.windowKeyUp);
-    window.removeEventListener('resize', this.resetView);
+    window.removeEventListener('resize', this.updateWorkspace);
   }
 
   setWorkspaceAttrs = (attrs) => {
@@ -621,6 +632,9 @@ class PathPreview extends React.Component<{}, State> {
       if (sameArrayContent(this.camera.view, newCamera.view)) {
         newCamera.view = this.camera.view;
       }
+      if (newCamera.scale !== this.camera.scale) {
+        ZoomBlockController.updateZoomBlock();
+      }
     }
 
     this.camera = newCamera;
@@ -634,7 +648,7 @@ class PathPreview extends React.Component<{}, State> {
     if (e.key === ' ') this.spaceKey = false;
   };
 
-  drawFlat = (canvas, gl) => {
+  private drawFlat = (canvas, gl) => {
     const {
       width, height, workspace, isInverting,
     } = this.state;
@@ -727,7 +741,7 @@ class PathPreview extends React.Component<{}, State> {
 
     if (this.position[0] !== 0 && this.position[1] !== 0) {
       const crossPoints = [];
-      const crossValue = 5;
+      const crossValue = 10 / this.camera.scale;
 
       crossPoints.push(
         this.position[0] - crossValue,
@@ -778,7 +792,7 @@ class PathPreview extends React.Component<{}, State> {
     });
   };
 
-  resetView = () => {
+  updateWorkspace = () => {
     const { workspace } = this.state;
     if (workspace.width !== window.document.getElementById('svg_editor').offsetWidth || workspace.height !== Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200)) {
       this.setState({
@@ -791,6 +805,21 @@ class PathPreview extends React.Component<{}, State> {
         },
       }, this.setCamera);
     }
+  };
+
+  resetView = () => {
+    const { workspace } = this.state;
+    const { width, height } = workspace;
+    const scale = Math.min(width / 300, height / 210) * 0.95;
+    const cameraHeight = 300;
+    let newFovy = 2 * Math.atan(height / (2 * cameraHeight * scale));
+    newFovy = Math.max(0.1, Math.min(Math.PI - 0.1, newFovy));
+
+    this.setCameraAttrs({
+      eye: [150, -105, 300],
+      center: [150, -105, 0],
+      fovy: newFovy,
+    });
   };
 
   setCanvas = (canvas) => {
@@ -1066,6 +1095,22 @@ class PathPreview extends React.Component<{}, State> {
     return str;
   };
 
+  private setScale = (scale: number) => {
+    if (!this.canvas) return;
+    const { camera } = this.state;
+    const r = this.canvas.getBoundingClientRect();
+    // @ts-ignore
+    const cameraHeight = vec3.distance(camera.eye, camera.center);
+    let newFovy = 2 * Math.atan(r.height / (2 * cameraHeight * scale));
+    newFovy = Math.max(0.1, Math.min(Math.PI - 0.1, newFovy));
+
+    this.setCameraAttrs({
+      eye: camera.eye,
+      center: camera.center,
+      fovy: newFovy,
+    });
+  };
+
   showSimTime = () => {
     const { workspace } = this.state;
     return this.transferTime(workspace.simTime);
@@ -1217,8 +1262,7 @@ class PathPreview extends React.Component<{}, State> {
     const newEye = vec3.add([], camera.eye, adj);
 
     this.setCameraAttrs({
-      // @ts-ignore
-      eye: newEye, // vec3.add([], camera.eye, adj),
+      eye: newEye,
       // @ts-ignore
       center: vec3.add([], camera.center, adj),
       fovy: newFovy,
@@ -1378,6 +1422,11 @@ class PathPreview extends React.Component<{}, State> {
             <div />
           </div>
         </div>
+        <ZoomBlock
+          getZoom={() => this.camera.scale}
+          setZoom={this.setScale}
+          resetView={this.resetView}
+        />
         <div id="path-preview-side-panel">
           <div className="title">Preview Data</div>
           <div style={{ marginTop: '10px' }}>

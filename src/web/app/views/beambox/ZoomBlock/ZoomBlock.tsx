@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
-import Constant from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
@@ -119,7 +119,7 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
     const { setZoom } = this.props;
     const { dpmm } = this.state;
     const ratio = ratioPercentage / 100;
-    const targetZoom = (ratio * dpmm) / Constant.dpmm;
+    const targetZoom = ratio * dpmm;
     setZoom(targetZoom);
   };
 
@@ -151,8 +151,8 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
     if ((!getZoom && !svgCanvas) || !dpmm) {
       return 1;
     }
-    const zoom = getZoom ? getZoom() : svgCanvas.getZoom();
-    const ratio = (zoom * Constant.dpmm) / dpmm;
+    const zoom = getZoom ? getZoom() : (svgCanvas.getZoom() * constant.dpmm);
+    const ratio = zoom / dpmm;
     return ratio;
   }
 
