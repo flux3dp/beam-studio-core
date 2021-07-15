@@ -35,6 +35,14 @@ jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => function DummyRigh
   );
 });
 
+jest.mock('app/views/beambox/Path-Preview', () => function DummyPathPreview() {
+  return (
+    <div>
+      This is dummy DummyPathPreview
+    </div>
+  );
+});
+
 jest.mock('app/views/beambox/Right-Panels/contexts/RightPanelContext', () => ({
   RightPanelContextProvider: function DummyRightPanelContextProvider(props) {
     // eslint-disable-next-line react/prop-types
