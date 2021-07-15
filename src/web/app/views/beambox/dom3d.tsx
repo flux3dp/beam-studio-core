@@ -113,7 +113,7 @@ interface Text3dProps {
   x: number;
   y: number;
   size: number;
-  label: string;
+  label?: string;
   style: { [key: string]: string };
 }
 
