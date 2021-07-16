@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="tool-panel"
+>
+  <label
+    className="controls accordion"
+  >
+    <input
+      className="accordion-switcher"
+      defaultChecked={true}
+      type="checkbox"
+    />
+    <p
+      className="caption"
+      onClick={[Function]}
+    >
+      Corner
+      <span
+        className="value"
+      >
+        Sharp
+      </span>
+    </p>
+    <div
+      className="tool-panel-body"
+    >
+      <div
+        className="control offset-corner"
+      >
+        <Select
+          id="select-offset-corner"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Sharp",
+                "selected": true,
+                "value": "sharp",
+              },
+              Object {
+                "label": "Round",
+                "selected": false,
+                "value": "round",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </label>
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<div
+  className="tool-panel"
+>
+  <label
+    className="controls accordion"
+  >
+    <input
+      className="accordion-switcher"
+      defaultChecked={true}
+      type="checkbox"
+    />
+    <p
+      className="caption"
+      onClick={[Function]}
+    >
+      Corner
+      <span
+        className="value"
+      >
+        Sharp
+      </span>
+    </p>
+    <div
+      className="tool-panel-body collapsed"
+    >
+      <div
+        className="control offset-corner"
+      >
+        <Select
+          id="select-offset-corner"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Sharp",
+                "selected": true,
+                "value": "sharp",
+              },
+              Object {
+                "label": "Round",
+                "selected": false,
+                "value": "round",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </label>
+</div>
+`;
+
+exports[`should render correctly 3`] = `
+<div
+  className="tool-panel"
+>
+  <label
+    className="controls accordion"
+  >
+    <input
+      className="accordion-switcher"
+      defaultChecked={true}
+      type="checkbox"
+    />
+    <p
+      className="caption"
+      onClick={[Function]}
+    >
+      Corner
+      <span
+        className="value"
+      >
+        Round
+      </span>
+    </p>
+    <div
+      className="tool-panel-body collapsed"
+    >
+      <div
+        className="control offset-corner"
+      >
+        <Select
+          id="select-offset-corner"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Sharp",
+                "selected": false,
+                "value": "sharp",
+              },
+              Object {
+                "label": "Round",
+                "selected": true,
+                "value": "round",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </label>
+</div>
+`;

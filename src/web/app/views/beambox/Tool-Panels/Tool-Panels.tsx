@@ -5,12 +5,12 @@ import React from 'react';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import IntervalPanel from 'app/views/beambox/Tool-Panels/Interval';
-import NestGAPanel from 'app/views/beambox/Tool-Panels/NestGA';
-import NestRotationPanel from 'app/views/beambox/Tool-Panels/NestRotation';
-import NestSpacingPanel from 'app/views/beambox/Tool-Panels/NestSpacing';
-import OffsetCornerPanel from 'app/views/beambox/Tool-Panels/OffsetCorner';
-import OffsetDirPanel from 'app/views/beambox/Tool-Panels/OffsetDir';
-import OffsetDistPanel from 'app/views/beambox/Tool-Panels/OffsetDist';
+import NestGAPanel from 'app/views/beambox/Tool-Panels/NestGAPanel';
+import NestRotationPanel from 'app/views/beambox/Tool-Panels/NestRotationPanel';
+import NestSpacingPanel from 'app/views/beambox/Tool-Panels/NestSpacingPanel';
+import OffsetCornerPanel from 'app/views/beambox/Tool-Panels/OffsetCornerPanel';
+import OffsetDirectionPanel from 'app/views/beambox/Tool-Panels/OffsetDirectionPanel';
+import OffsetDistancePanel from 'app/views/beambox/Tool-Panels/OffsetDistancePanel';
 import RowColumnPanel from 'app/views/beambox/Tool-Panels/RowColumn';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -115,7 +115,7 @@ class ToolPanel extends React.Component<Props> {
           />;
           break;
         case 'offsetDir':
-          panel = <OffsetDirPanel
+          panel = <OffsetDirectionPanel
             key={panelName} dir={this.offset.dir} onValueChange={this._setOffsetDir}
           />;
           break;
@@ -125,7 +125,7 @@ class ToolPanel extends React.Component<Props> {
           />;
           break;
         case 'offsetDist':
-          panel = <OffsetDistPanel
+          panel = <OffsetDistancePanel
             key={panelName} distance={this.offset.distance} onValueChange={this._setOffsetDist}
           />;
           break;

@@ -21,9 +21,10 @@ interface State {
 class RowColumn extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    const { row, column } = this.props;
     this.state = {
-      row: this.props.row,
-      column: this.props.column,
+      row,
+      column,
       isCollapsed: false,
     };
   }
@@ -35,41 +36,35 @@ class RowColumn extends React.Component<Props, State> {
     });
   }
 
-  onRawChanged = (val: number) => {
+  onRawChanged = (row: number) => {
     const { onValueChange } = this.props;
     const { column } = this.state;
     onValueChange({
-      row: val,
+      row,
       column,
     });
-    this.setState({ row: val });
-  }
+    this.setState({ row });
+  };
 
-  onColumnChanged = (val: number) => {
+  onColumnChanged = (column: number) => {
     const { onValueChange } = this.props;
     const { row } = this.state;
     onValueChange({
       row,
-      column: val,
+      column,
     });
-    this.setState({ column: val });
-  }
+    this.setState({ column });
+  };
 
-  getValueCaption = () => {
-    const row = this.state.row,
-      column = this.state.column;
-    return `${row} X ${column}`;
-  }
-
-  render() {
-    const { isCollapsed } = this.state;
+  render(): JSX.Element {
+    const { row, column, isCollapsed } = this.state;
     return (
       <div className="tool-panel">
         <label className="controls accordion">
-          <input type="checkbox" className="accordion-switcher" defaultChecked={true} />
+          <input type="checkbox" className="accordion-switcher" defaultChecked />
           <p className="caption" onClick={() => this.setState({ isCollapsed: !isCollapsed })}>
             {LANG.array_dimension}
-            <span className="value">{this.getValueCaption()}</span>
+            <span className="value">{`${row} X ${column}`}</span>
           </p>
           <div className={classNames('tool-panel-body', { collapsed: isCollapsed })}>
             <div className="control">
@@ -78,7 +73,7 @@ class RowColumn extends React.Component<Props, State> {
                 min={1}
                 unit=""
                 decimal={0}
-                defaultValue={this.state.column || 1}
+                defaultValue={column || 1}
                 getValue={this.onColumnChanged}
               />
             </div>
@@ -88,7 +83,7 @@ class RowColumn extends React.Component<Props, State> {
                 min={1}
                 unit=""
                 decimal={0}
-                defaultValue={this.state.row || 1}
+                defaultValue={row || 1}
                 getValue={this.onRawChanged}
               />
             </div>
@@ -97,6 +92,6 @@ class RowColumn extends React.Component<Props, State> {
       </div>
     );
   }
-};
+}
 
 export default RowColumn;
