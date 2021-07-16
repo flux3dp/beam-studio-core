@@ -6,6 +6,7 @@ import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import Pointable from 'app/views/beambox/Pointable';
 import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
@@ -90,9 +91,9 @@ function initBuffers(gl, width, height) {
 
   const positions = [
     0, 0,
-    300, 0,
-    0, -210,
-    300, -210,
+    width, 0,
+    0, -height,
+    width, -height,
   ];
 
   // Now pass the list of positions into WebGL to build the
@@ -175,114 +176,20 @@ const settings = {
   machineBeamDiameter: 0.2,
   machineBottomLeftX: 0,
   machineBottomLeftY: 0,
-
-  machineFeedRange: {
-    XY: { min: 1, max: 50000 },
-    Z: { min: 1, max: 50000 },
-    A: { min: 1, max: 50000 },
-    S: { min: 0, max: 30000 },
-  },
-
-  machineXYProbeOffset: 0,
-
-  machineZEnabled: false,
-  machineZMatThickness: 0,
-  machineZToolOffset: 0,
-  machineZStartHeight: '',
-  machineZProbeOffset: 0,
-
-  machineAEnabled: false,
-
-  machineBlowerEnabled: false,
-  machineBlowerGcodeOn: '',
-  machineBlowerGcodeOff: '',
-
-  pxPerInch: 96,
-  forcePxPerInch: false,
-  dpiBitmap: 300,
-
-  toolGridWidth: 500,
-  toolGridHeight: 500,
   toolGridMinorSpacing: 10,
   toolGridMajorSpacing: 50,
-  toolSafetyLockDisabled: true,
-  toolCncMode: false,
-  toolImagePosition: 'BL',
-  toolUseNumpad: false,
   toolDisplayCache: false,
-  toolUseGamepad: false,
-  toolCreateEmptyOps: false,
-
-  toolVideoDevice: null,
-  toolVideoPerspective: { enabled: false },
-  toolVideoLens: {
-    a: 1, b: 1, F: 1, scale: 1,
-  },
-  toolVideoFov: { x: 1, y: 1 },
-  toolVideoResolution: '720p(HD)',
-
-  toolVideoOMR: false,
-  toolVideoOMROffsetX: 0,
-  toolVideoOMROffsetY: 0,
-  toolVideoOMRMarkerSize: 20,
-
-  toolWebcamUrl: '""',
-  toolFeedUnits: 'mm/min',
-  toolTestSValue: 1,
-  toolTestDuration: 0,
-
-  gcodeStart: 'G21         ; Set units to mm\r\nG90         ; Absolute positioning\r\n',
-  gcodeEnd: 'M5          ; Switch tool offEnd\r\n',
-  gcodeHoming: '',
-  gcodeGenerator: 'default',
-  gcodeToolOn: '',
-  gcodeToolOff: '',
-  gcodeLaserIntensity: 'S',
-  gcodeLaserIntensitySeparateLine: false,
-  gcodeSMinValue: 0,
-  gcodeSMaxValue: 1,
-  gcodeCheckSizePower: 0,
-  gcodeToolTestPower: 0,
-  gcodeToolTestDuration: 0,
-  gcodeConcurrency: 2,
-  gcodeCurvePrecision: 0.1,
-
-  comServerVersion: 'not connected',
-  comServerIP: 'localhost:8000',
-  comServerConnect: false,
-  comInterfaces: [],
-  comPorts: [],
-  comAccumulatedJobTime: 0,
-
-  connectVia: '',
-  connectPort: '',
-  connectBaud: '115200',
-  connectIP: '',
-
-  jogStepsize: 1,
-  jogFeedXY: 1800,
-  jogFeedZ: 300,
-
-  uiFcDrag: null,
 };
 
 const defaultWorkspace = {
-  width: 300,
-  height: 210,
   g0Rate: 7500,
   rotaryDiameter: 10,
   simTime: 0,
   cursorPos: [0, 0, 0],
   showGcode: true,
   showLaser: false,
-  showDocuments: true,
   showRotary: false,
   showCursor: true,
-  showWebcam: false,
-  showRasterPreview: false,
-  workOffsetX: 0,
-  workOffsetY: 0,
-  initialZoom: false,
 };
 
 const defaultCamera = {
@@ -398,7 +305,7 @@ class Grid {
 
 function GridText(props) {
   const { minor = MINOR_GRID_SPACING, major = MAJOR_GRID_SPACING, width, height } = props;
-  const size = Math.min(major / 3, 10)
+  const size = Math.min(major / 3, 10);
   const a = [];
   for (let x = major; x <= width; x += major) {
     a.push(<Text3d key={'x' + x} x={x} y={-5} size={size} style={{ color: '#CC0000' }} label={String(x)} />);
@@ -414,8 +321,8 @@ function GridText(props) {
 }
 
 interface State {
-  width: number,
-  height: number,
+  width: number, // width of canvas
+  height: number, // height of canvas
   speedLevel: number,
   isInverting: boolean,
   camera: {
@@ -426,28 +333,20 @@ interface State {
     showPerspective: boolean,
   },
   workspace: {
-    width: number,
-    height: number,
     g0Rate: number,
     rotaryDiameter: number,
     simTime: number,
     cursorPos: number[],
     showGcode: boolean,
     showLaser: boolean,
-    showDocuments: boolean,
     showRotary: boolean,
     showCursor: boolean,
-    showWebcam: boolean,
-    showRasterPreview: boolean,
-    workOffsetX: number,
-    workOffsetY: number,
-    initialZoom: boolean,
   }
 }
 
 class PathPreview extends React.Component<{}, State> {
   private camera: any;
-  private canvas: any;
+  private canvas: HTMLCanvasElement;
   private drawCommands: any;
   private hitTestFrameBuffer: any;
   private grid: any;
@@ -475,6 +374,13 @@ class PathPreview extends React.Component<{}, State> {
     this.canvas = null;
     this.position = [0, 0];
     this.grid = new Grid();
+    const workarea = BeamboxPreference.read('workarea') || 'beamo';
+    const width = constant.dimension.getWidth(workarea) / constant.dpmm;
+    const height = constant.dimension.getHeight(workarea) / constant.dpmm;
+    defaultCamera.eye = [width / 2, height / 2, 300];
+    defaultCamera.center = [width / 2, height / 2, 0];
+    settings.machineWidth = width;
+    settings.machineHeight = height;
     this.camera = calcCamera({
       viewportWidth: dimensions.width,
       viewportHeight: dimensions.height,
@@ -485,8 +391,8 @@ class PathPreview extends React.Component<{}, State> {
       center: defaultCamera.center,
       up: defaultCamera.up,
       showPerspective: defaultCamera.showPerspective,
-      machineX: settings.machineBottomLeftX - defaultWorkspace.workOffsetX,
-      machineY: settings.machineBottomLeftY - defaultWorkspace.workOffsetY,
+      machineX: settings.machineBottomLeftX,
+      machineY: settings.machineBottomLeftY,
     });
     this.pointers = [];
     this.moveStarted = false;
@@ -512,21 +418,6 @@ class PathPreview extends React.Component<{}, State> {
     window.addEventListener('keydown', this.windowKeyDown);
     window.addEventListener('keyup', this.windowKeyUp);
     window.addEventListener('resize', this.updateWorkspace);
-    const { camera } = this.state;
-    // @ts-ignore
-    const n = vec3.normalize([], vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center)));
-    const dx = 0;
-    const dy = 0;
-    this.setCameraAttrs({
-      // @ts-ignore
-      eye: vec3.add([], camera.eye,
-        // @ts-ignore
-        vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
-      // @ts-ignore
-      center: vec3.add([], camera.center,
-        // @ts-ignore
-        vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
-    });
     let parsedGcode;
     ExportFuncs.getGcode().then((gcodeBlob) => {
       const fileReader = new FileReader();
@@ -545,7 +436,7 @@ class PathPreview extends React.Component<{}, State> {
           this.gcodePreview.setParsedGcode(parsedGcode);
           this.laserPreview.setParsedGcode(parsedGcode);
           this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / simTimeUnit) * (simTimeUnit) + simTimeUnit / 2;
-          console.log(this.simTimeMax, this.gcodePreview.g1Time, this.gcodePreview.g0Time, this.gcodePreview.g0Dist / this.state.workspace.g0Rate);
+          // console.log(this.simTimeMax, this.gcodePreview.g1Time, this.gcodePreview.g0Time, this.gcodePreview.g0Dist / this.state.workspace.g0Rate);
           this.forceUpdate();
         }
 
@@ -553,6 +444,8 @@ class PathPreview extends React.Component<{}, State> {
       };
       fileReader.readAsText(gcodeBlob);
     });
+
+    this.resetView();
 
     // this.gcode = gcode;
     // let parsedGcode = parseGcode(gcode);
@@ -565,8 +458,6 @@ class PathPreview extends React.Component<{}, State> {
     return (
       nextState.width !== width
       || nextState.height !== height
-      || nextState.workspace.workOffsetX !== workspace.workOffsetX
-      || nextState.workspace.workOffsetY !== workspace.workOffsetY
       || nextState.workspace.cursorPos !== workspace.cursorPos
       || nextState.workspace.simTime !== workspace.simTime
       || nextState.workspace.showLaser !== workspace.showLaser
@@ -608,9 +499,7 @@ class PathPreview extends React.Component<{}, State> {
 
   // fixed
   setCamera() {
-    const {
-      width, height, camera, workspace,
-    } = this.state;
+    const { width, height, camera } = this.state;
     const newCamera = calcCamera({
       viewportWidth: width,
       viewportHeight: height,
@@ -621,8 +510,8 @@ class PathPreview extends React.Component<{}, State> {
       center: camera.center,
       up: camera.up,
       showPerspective: camera.showPerspective,
-      machineX: settings.machineBottomLeftX - workspace.workOffsetX,
-      machineY: settings.machineBottomLeftY - workspace.workOffsetY,
+      machineX: settings.machineBottomLeftX,
+      machineY: settings.machineBottomLeftY,
     });
 
     if (this.camera) {
@@ -649,9 +538,7 @@ class PathPreview extends React.Component<{}, State> {
   };
 
   private drawFlat = (canvas, gl) => {
-    const {
-      width, height, workspace, isInverting,
-    } = this.state;
+    const { workspace, isInverting } = this.state;
 
     const vsSource = `
       attribute vec4 aVertexPosition;
@@ -687,14 +574,14 @@ class PathPreview extends React.Component<{}, State> {
         isInverting: gl.getUniformLocation(shaderProgram, 'isInverting'),
       },
     };
-    const buffer = initBuffers(gl, width, height);
+    const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
     drawScene(gl, programInfo, buffer, this.camera, isInverting);
 
     this.grid.draw(this.drawCommands, {
       perspective: this.camera.perspective,
       view: this.camera.view,
-      width: 300,
-      height: 210,
+      width: settings.machineWidth,
+      height: settings.machineHeight,
       minor: Math.max(settings.toolGridMinorSpacing, 0.1),
       major: Math.max(settings.toolGridMajorSpacing, 1),
     });
@@ -776,11 +663,12 @@ class PathPreview extends React.Component<{}, State> {
   };
 
   private zoomArea = (x1, y1, x2, y2) => {
-    const { workspace } = this.state;
+    const { width, height } = this.state;
     const d = 300;
-    const cx = (x1 + x2) / 2 - settings.machineBottomLeftX + workspace.workOffsetX;
-    const cy = (y1 + y2) / 2 - settings.machineBottomLeftY + workspace.workOffsetY;
-    const fovy = 2 * Math.atan2(Math.max(Math.abs(y2 - y1), Math.abs(x2 - x1) * (workspace.height / workspace.width)) / 2, d);
+    const cx = (x1 + x2) / 2 - settings.machineBottomLeftX;
+    const cy = (y1 + y2) / 2 - settings.machineBottomLeftY;
+    const scale = Math.min(width / (x2 - x1), height / (y2 - y1));
+    const fovy = 2 * Math.atan2(height, 2 * scale * d);
     this.setState({
       camera: {
         eye: [cx, cy, d],
@@ -793,31 +681,25 @@ class PathPreview extends React.Component<{}, State> {
   };
 
   updateWorkspace = () => {
-    const { workspace } = this.state;
-    if (workspace.width !== window.document.getElementById('svg_editor').offsetWidth || workspace.height !== Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200)) {
+    const { width, height } = this.state;
+    if (width !== document.getElementById('svg_editor').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('svg_editor').offsetHeight - 200)) {
       this.setState({
         width: window.document.getElementById('svg_editor').offsetWidth,
         height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
-        workspace: {
-          ...workspace,
-          width: window.document.getElementById('svg_editor').offsetWidth,
-          height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
-        },
       }, this.setCamera);
     }
   };
 
   resetView = () => {
-    const { workspace } = this.state;
-    const { width, height } = workspace;
-    const scale = Math.min(width / 300, height / 210) * 0.95;
+    const { width, height } = this.state;
+    const { machineWidth, machineHeight } = settings;
+    const scale = Math.min(width / machineWidth, height / machineHeight) * 0.95;
     const cameraHeight = 300;
     let newFovy = 2 * Math.atan(height / (2 * cameraHeight * scale));
     newFovy = Math.max(0.1, Math.min(Math.PI - 0.1, newFovy));
-
     this.setCameraAttrs({
-      eye: [150, -105, 300],
-      center: [150, -105, 0],
+      eye: [machineWidth / 2, -machineHeight / 2, cameraHeight],
+      center: [machineWidth / 2, -machineHeight / 2, 0],
       fovy: newFovy,
     });
   };
@@ -843,8 +725,6 @@ class PathPreview extends React.Component<{}, State> {
     this.hitTestFrameBuffer = this.drawCommands.createFrameBuffer(600, 400);
 
     const draw = () => {
-      const { workspace, width, height } = this.state;
-
       if (!this.canvas) {
         return;
       }
@@ -858,25 +738,6 @@ class PathPreview extends React.Component<{}, State> {
         }
       }
 
-      if (width > 1 && height > 1 && (workspace.width !== width || workspace.height !== height)) {
-        this.setWorkspaceAttrs({ width, height });
-        if (!workspace.initialZoom) {
-          let x = settings.machineBottomLeftX;
-          let y = settings.machineBottomLeftY;
-          if (!settings.showMachine) {
-            x = 0;
-            y = 0;
-          }
-          this.setWorkspaceAttrs({ initialZoom: true });
-          this.zoomArea(
-            x - 10,
-            y - 10,
-            x + settings.machineWidth + 10,
-            y + settings.machineHeight + 10,
-          );
-        }
-      }
-
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.clearColor(0.94, 0.94, 0.94, 1);
 
@@ -887,27 +748,27 @@ class PathPreview extends React.Component<{}, State> {
 
       this.drawFlat(canvas, gl);
 
-      window.requestAnimationFrame(draw);
+      requestAnimationFrame(draw);
     };
     draw();
   };
 
   private handleStopSim = () => {
     if (this.simInterval) {
-      window.clearInterval(this.simInterval);
+      clearInterval(this.simInterval);
       this.simInterval = null;
     }
   };
 
   private handleSimToggle = () => {
     if (this.simInterval) {
-      window.clearInterval(this.simInterval);
+      clearInterval(this.simInterval);
       this.simInterval = null;
     } else {
       this.simInterval = setInterval(() => {
         const { speedLevel, workspace } = this.state;
         if (workspace.simTime >= this.simTimeMax) {
-          window.clearInterval(this.simInterval);
+          clearInterval(this.simInterval);
           this.simInterval = null;
           this.forceUpdate();
         } else {
@@ -1062,7 +923,7 @@ class PathPreview extends React.Component<{}, State> {
     }
   };
 
-  transferTime = (time) => {
+  transferTime = (time: number): string => {
     let h = 0;
     let m = 0;
     let s = 0;
@@ -1270,9 +1131,7 @@ class PathPreview extends React.Component<{}, State> {
   }
 
   private pan(dx, dy) {
-    const {
-      camera, width, height, workspace,
-    } = this.state;
+    const { camera, width, height } = this.state;
     const { view } = calcCamera({
       viewportWidth: width,
       viewportHeight: height,
@@ -1284,8 +1143,8 @@ class PathPreview extends React.Component<{}, State> {
       center: [0, 0, 0],
       up: [0, 1, 0],
       showPerspective: false,
-      machineX: settings.machineBottomLeftX - workspace.workOffsetX,
-      machineY: settings.machineBottomLeftY - workspace.workOffsetY,
+      machineX: settings.machineBottomLeftX,
+      machineY: settings.machineBottomLeftY,
     });
     // console.log(view, width);
     const scale = 2 / width / view[0];
