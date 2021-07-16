@@ -69,7 +69,7 @@ export default function Menu(): JSX.Element {
     )}
     >
       <SubMenu label={menuCms.file}>
-        <MenuItem>{menuCms.open}</MenuItem>
+        <MenuItem onClick={() => callback('OPEN')}>{menuCms.open}</MenuItem>
         <MenuItem>{menuCms.recent}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => callback('SAVE_SCENE')}>{menuCms.save_scene}</MenuItem>

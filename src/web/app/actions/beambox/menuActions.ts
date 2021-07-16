@@ -52,6 +52,9 @@ export default {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
     if (res) window.location.hash = '#studio/settings';
   },
+  OPEN: () => {
+    FnWrapper.importImage();
+  },
   ADD_NEW_MACHINE: async () => {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
     if (res) window.location.hash = '#initialize/connect/select-connection-type';
