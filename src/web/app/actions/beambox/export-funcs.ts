@@ -310,16 +310,11 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
 };
 
 // Send svg string calculate taskcode, output Fcode in default
-const fetchTransferredFcode = async (gcodeString: string) => {
+const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => {
   let isErrorOccur = false;
   let isCanceled = false;
-  let doesSupportDiodeAndAF = true;
-  let shouldUseFastGradient = false;//BeamboxPreference.read('fast_gradient') !== false;
-  /*if (device) {
-    const vc = VersionChecker(device.version);
-    doesSupportDiodeAndAF = vc.meetRequirement('DIODE_AND_AUTOFOCUS');
-    shouldUseFastGradient = shouldUseFastGradient && vc.meetRequirement('FAST_GRADIENT');
-  }*/
+  const blob = new Blob([thumbnail, gcodeString], { type: 'application/octet-stream' });
+  const arrayBuffer = await blob.arrayBuffer();
 
   Progress.openSteppingProgress({
     id: 'fetch-task',
@@ -330,11 +325,9 @@ const fetchTransferredFcode = async (gcodeString: string) => {
     },
   });
   const { taskCodeBlob, fileTimeCost } = await new Promise((resolve) => {
-    const names = []; // don't know what this is for
     const codeType = 'fcode';
     svgeditorParser.gcodeToFcode(
-      names,
-      gcodeString,
+      { arrayBuffer, thumbnailSize: thumbnail.length, size: blob.size },
       {
         onProgressing: (data) => {
           Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
@@ -363,9 +356,6 @@ const fetchTransferredFcode = async (gcodeString: string) => {
         },
         codeType,
         model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
-        enableAutoFocus: doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
-        enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
-        shouldUseFastGradient,
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
       },
     );
@@ -440,12 +430,29 @@ export default {
     }
     return fileTimeCost;
   },
-  gcodeToFcode: async (gcodeString): Promise<number> => {
-    const { fcodeBlob, fileTimeCost } = await fetchTransferredFcode(gcodeString);
+  gcodeToFcode: async (gcodeString: string, thumbnail: string): Promise<{
+    fcodeBlob: Blob,
+    fileTimeCost: number,
+  }> => {
+    const { fcodeBlob, fileTimeCost } = await fetchTransferredFcode(gcodeString, thumbnail);
     if (!fcodeBlob) {
       return null;
     }
-    return fileTimeCost;
+
+    const defaultFCodeName = svgCanvas.getLatestImportFileName() || 'untitled';
+    const langFile = i18n.lang.topmenu.file;
+    const fileReader = new FileReader();
+
+    fileReader.onload = function onLoad() {
+      const getContent = () => new Blob([this.result as ArrayBuffer]);
+      dialog.writeFileDialog(getContent, langFile.save_fcode, defaultFCodeName, [
+        { name: window.os === 'MacOS' ? `${langFile.fcode_files} (*.fc)` : langFile.fcode_files, extensions: ['fc'] },
+        { name: langFile.all_files, extensions: ['*'] },
+      ]);
+    };
+
+    fileReader.readAsArrayBuffer(fcodeBlob);
+    return { fcodeBlob, fileTimeCost };
   },
   prepareFileWrappedFromSvgStringAndThumbnail: async (): Promise<{
     uploadFile: WrappedFile,

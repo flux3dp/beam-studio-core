@@ -57,12 +57,13 @@ export function gcode(drawCommands) {
       precision mediump float;
       uniform float g0Rate;
       uniform float simTime;
+      uniform bool showRemaining;
       varying vec4 color;
       varying float vg0Dist;
       varying float vg1Time;
       void main() {
         float time = vg1Time + vg0Dist / g0Rate;
-        if(time > simTime)
+        if((time > simTime && !showRemaining) || (time <= simTime && showRemaining))
           discard;
         else
           gl_FragColor = color;
@@ -75,11 +76,11 @@ export function gcode(drawCommands) {
       g1Time: { offset: 28, },
     },
   });
-  return ({ perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, data, count }) => {
+  return ({ perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining, data, count }) => {
     drawCommands.execute({
       program,
       primitive: drawCommands.gl.LINES,
-      uniforms: { perspective, view, g0Rate, simTime, rotaryScale: rotaryDiameter * Math.PI / 360, isInverting },
+      uniforms: { perspective, view, g0Rate, simTime, rotaryScale: rotaryDiameter * Math.PI / 360, isInverting, showRemaining, },
       buffer: {
         data,
         stride: drawStride * 4,
@@ -238,7 +239,7 @@ export class GcodePreview {
     return { index: -1, position: [0, 0] };
   }
 
-  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting) {
+  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining) {
     if (this.drawCommands !== drawCommands) {
       this.drawCommands = drawCommands;
       if (this.buffer)
@@ -262,6 +263,7 @@ export class GcodePreview {
       simTime,
       rotaryDiameter,
       isInverting,
+      showRemaining,
       data: this.buffer,
       count: this.array.length / drawStride,
     });

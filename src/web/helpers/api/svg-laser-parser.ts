@@ -136,13 +136,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       }
       ws.send(args.join(' '));
     },
-    gcodeToFcode(names, gcodeString, opts) {
+    gcodeToFcode(
+      taskData: { arrayBuffer: ArrayBuffer, thumbnailSize: number, size: number },
+      opts,
+    ) {
       const $deferred = $.Deferred();
       const warningCollection = [];
-      let file;
       const args = [
         'g2f',
-        //names.join(' '),
       ];
       const blobs = [];
       let duration;
@@ -160,7 +161,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         } else {
           switch (data.status) {
             case 'continue':
-              ws.send(file);
+              ws.send(taskData.arrayBuffer);
               break;
             case 'ok':
               $deferred.resolve('ok');
@@ -174,24 +175,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             case 'complete':
               totalLength = data.length;
               duration = Math.floor(data.time) + 1;
+              break;
             default:
               break;
-  
-              if (data.status === 'computing') {
-                opts.onProgressing(data);
-              } else if (data.status === 'complete') {
-                totalLength = data.length;
-                duration = Math.floor(data.time) + 1;
-              } else if (data instanceof Blob === true) {
-                blobs.push(data);
-                blob = new Blob(blobs);
-      
-                if (totalLength === blob.size) {
-                  opts.onFinished(blob, args[2], duration);
-                }
-              } else if (data.status === 'Error') {
-                opts.onError(data.message);
-              }
           }
         }
       };
@@ -199,14 +185,10 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         console.error(data);
       };
 
-      file = new Blob([gcodeString], {
-        type: 'text/plain',
-      });
-
       ws.send([
         'g2f',
-        'g2f',
-        file.size,
+        taskData.size,
+        taskData.thumbnailSize,
       ].join(' '));
 
       return $deferred.promise();

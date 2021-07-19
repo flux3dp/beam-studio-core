@@ -73,6 +73,46 @@ function initShaderProgram(gl, vsSource, fsSource) {
   return shaderProgram;
 }
 
+const defaultVsSource = `
+  attribute vec4 aVertexPosition;
+
+  uniform mat4 uModelViewMatrix;
+  uniform mat4 uProjectionMatrix;
+
+  void main() {
+    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+  }
+`;
+
+const defaultFsSource = `
+  precision mediump float;
+  uniform bool isInverting;
+  void main() {
+    if (isInverting) {
+      gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    } else {
+      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+  }
+`;
+
+const generateProgramInfo = (gl, vsSource = defaultVsSource, fsSource = defaultFsSource) => {
+  const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
+  const programInfo = {
+    program: shaderProgram,
+    attribLocations: {
+      vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+    },
+    uniformLocations: {
+      projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+      modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+      isInverting: gl.getUniformLocation(shaderProgram, 'isInverting'),
+      showRemaining: gl.getUniformLocation(shaderProgram, 'showRemaining'),
+    },
+  };
+  return programInfo;
+};
+
 function dist(x1, y1, x2, y2) {
   return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
@@ -110,7 +150,7 @@ function initBuffers(gl, width, height) {
 }
 
 // Draw white square
-function drawScene(gl, programInfo, buffers, camera, isInverting) {
+function drawScene(gl, programInfo, buffers, camera, isInverting, showRemaining) {
   // gl.clearColor(0.0, 0.0, 0.0, 1.0);  // 設定為全黑
   // gl.clearDepth(1.0);                 // 清除所有東西
   gl.enable(gl.DEPTH_TEST); // Enable 深度測試
@@ -160,6 +200,11 @@ function drawScene(gl, programInfo, buffers, camera, isInverting) {
   gl.uniform1i(
     programInfo.uniformLocations.isInverting,
     isInverting,
+  );
+
+  gl.uniform1i(
+    programInfo.uniformLocations.showRemaining,
+    showRemaining,
   );
 
   {
@@ -273,6 +318,38 @@ function cacheDrawing(fn, state, args) {
     transform2d: [2 / width, 0, 0, -2 / height, -1, 1],
   });
 }
+
+const drawTaskPreview = (
+  taskPreview,
+  cachedDrawState,
+  canvas: HTMLCanvasElement,
+  drawCommands,
+  workspace,
+  camera,
+  drawingArgs: { isInverting?: boolean, showRemaining?: boolean, },
+) => {
+  const { isInverting = false, showRemaining = false } = drawingArgs;
+  const draw = () => {
+    taskPreview.draw(
+      drawCommands, camera.perspective, camera.view,
+      workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter,
+      isInverting, showRemaining,
+    );
+  };
+  cacheDrawing(draw, cachedDrawState, {
+    drawCommands,
+    width: canvas.width,
+    height: canvas.height,
+    perspective: camera.perspective,
+    view: camera.view,
+    g0Rate: workspace.g0Rate,
+    simTime: workspace.simTime,
+    rotaryDiameter: workspace.rotaryDiameter,
+    isInverting,
+    showRemaining,
+    arrayVersion: taskPreview.arrayVersion,
+  });
+};
 
 class Grid {
   private maingrid: any;
@@ -539,43 +616,10 @@ class PathPreview extends React.Component<{}, State> {
 
   private drawFlat = (canvas, gl) => {
     const { workspace, isInverting } = this.state;
-
-    const vsSource = `
-      attribute vec4 aVertexPosition;
-
-      uniform mat4 uModelViewMatrix;
-      uniform mat4 uProjectionMatrix;
-
-      void main() {
-        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-      }
-    `;
-    const fsSource = `
-      precision mediump float;
-      uniform bool isInverting;
-      void main() {
-        if (isInverting) {
-          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-        } else {
-          gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-        }
-      }
-    `;
-
-    const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
-    const programInfo = {
-      program: shaderProgram,
-      attribLocations: {
-        vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-      },
-      uniformLocations: {
-        projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-        modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-        isInverting: gl.getUniformLocation(shaderProgram, 'isInverting'),
-      },
-    };
+    const programInfo = generateProgramInfo(gl);
+    const showRemaining = false;
     const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
-    drawScene(gl, programInfo, buffer, this.camera, isInverting);
+    drawScene(gl, programInfo, buffer, this.camera, isInverting, showRemaining);
 
     this.grid.draw(this.drawCommands, {
       perspective: this.camera.perspective,
@@ -587,43 +631,25 @@ class PathPreview extends React.Component<{}, State> {
     });
 
     if (workspace.showLaser) {
-      const draw = () => {
-        this.laserPreview.draw(
-          this.drawCommands, this.camera.perspective, this.camera.view,
-          workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter, isInverting,
-        );
-      };
-      cacheDrawing(draw, this.drawLaserState, {
-        drawCommands: this.drawCommands,
-        width: canvas.width,
-        height: canvas.height,
-        perspective: this.camera.perspective,
-        view: this.camera.view,
-        g0Rate: workspace.g0Rate,
-        simTime: workspace.simTime,
-        rotaryDiameter: workspace.rotaryDiameter,
-        isInverting,
-        arrayVersion: this.laserPreview.arrayVersion,
-      });
+      drawTaskPreview(
+        this.laserPreview,
+        this.drawLaserState,
+        canvas,
+        this.drawCommands,
+        workspace,
+        this.camera,
+        { isInverting },
+      );
     } else {
-      const draw = () => {
-        this.gcodePreview.draw(
-          this.drawCommands, this.camera.perspective, this.camera.view,
-          workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter, isInverting,
-        );
-      };
-      cacheDrawing(draw, this.drawGcodeState, {
-        drawCommands: this.drawCommands,
-        width: canvas.width,
-        height: canvas.height,
-        perspective: this.camera.perspective,
-        view: this.camera.view,
-        g0Rate: workspace.g0Rate,
-        simTime: workspace.simTime,
-        rotaryDiameter: workspace.rotaryDiameter,
-        isInverting,
-        arrayVersion: this.gcodePreview.arrayVersion,
-      });
+      drawTaskPreview(
+        this.gcodePreview,
+        this.drawGcodeState,
+        canvas,
+        this.drawCommands,
+        workspace,
+        this.camera,
+        { isInverting },
+      );
     }
 
     if (this.position[0] !== 0 && this.position[1] !== 0) {
@@ -1023,6 +1049,60 @@ class PathPreview extends React.Component<{}, State> {
   handleStartHere = () => {
     const { workspace } = this.state;
 
+    const generateTaskThumbnail = () => {
+      const canvas = document.createElement('canvas');
+      const { machineWidth, machineHeight } = settings;
+      canvas.width = machineWidth;
+      canvas.height = machineHeight;
+      const gl = canvas.getContext('webgl', { alpha: true, depth: true, preserveDrawingBuffer: true });
+      const drawCommands = new DrawCommands(gl);
+      drawCommands.createFrameBuffer(600, 400);
+      const cameraHeight = 300;
+      const fovy = 2 * Math.atan(canvas.height / (2 * cameraHeight));
+      const camera = calcCamera({
+        viewportWidth: canvas.width,
+        viewportHeight: canvas.height,
+        fovy,
+        near: 0.1,
+        far: 2000,
+        eye: [machineWidth / 2, -machineHeight / 2, cameraHeight],
+        center: [machineWidth / 2, -machineHeight / 2, 0],
+        up: [0, 1, 0],
+        showPerspective: false,
+        machineX: 0,
+        machineY: 0,
+      });
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clearColor(0.94, 0.94, 0.94, 1);
+      // eslint-disable-next-line no-bitwise
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.enable(gl.BLEND);
+
+      const programInfo = generateProgramInfo(gl);
+      const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
+      drawScene(gl, programInfo, buffer, camera, false, true);
+      this.grid.draw(drawCommands, {
+        perspective: camera.perspective,
+        view: camera.view,
+        width: machineWidth,
+        height: machineHeight,
+        minor: Math.max(settings.toolGridMinorSpacing, 0.1),
+        major: Math.max(settings.toolGridMajorSpacing, 1),
+      });
+      drawTaskPreview(
+        this.laserPreview,
+        {},
+        canvas,
+        drawCommands,
+        workspace,
+        camera,
+        { showRemaining: true },
+      );
+      return canvas.toDataURL();
+    };
+    const thumbnail = generateTaskThumbnail();
+
     let modifiedGcodeList;
 
     if (workspace.simTime > 0 && workspace.simTime < this.simTimeMax - simTimeUnit / 2) {
@@ -1087,8 +1167,7 @@ class PathPreview extends React.Component<{}, State> {
       console.log('target: ', target, gcodeList);
       console.log('modified', modifiedGcodeList);
       console.log(modifiedGcodeList.join('\n'), '123123');
-
-      ExportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'));
+      ExportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
     }
   };
 

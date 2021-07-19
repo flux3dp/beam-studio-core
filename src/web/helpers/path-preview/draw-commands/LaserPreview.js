@@ -4,12 +4,12 @@
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -20,7 +20,7 @@ export function laser(drawCommands) {
   let program = drawCommands.compile({
     vert: `
       precision mediump float;
-      uniform mat4 perspective; 
+      uniform mat4 perspective;
       uniform mat4 view;
       uniform float rotaryScale;
       uniform bool isInverting;
@@ -28,10 +28,10 @@ export function laser(drawCommands) {
       attribute float g;
       attribute float t;
       attribute float g0Dist;
-      attribute float g1Time;  
+      attribute float g1Time;
       varying vec4 color;
       varying float vg0Dist;
-      varying float vg1Time;  
+      varying float vg1Time;
       void main() {
         gl_Position = perspective * view * vec4(position.x, position.y + position.a * rotaryScale, position.z, 1);
         if(g == 0.0)
@@ -57,12 +57,13 @@ export function laser(drawCommands) {
       precision mediump float;
       uniform float g0Rate;
       uniform float simTime;
+      uniform bool showRemaining;
       varying vec4 color;
       varying float vg0Dist;
       varying float vg1Time;
       void main() {
         float time = vg1Time + vg0Dist / g0Rate;
-        if(time > simTime)
+        if((time > simTime && !showRemaining) || (time <= simTime && showRemaining))
           discard;
         else
           gl_FragColor = color;
@@ -75,11 +76,12 @@ export function laser(drawCommands) {
       g1Time: { offset: 28, },
     },
   });
-  return ({ perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, data, count }) => {
+  return ({
+    perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining, data, count }) => {
     drawCommands.execute({
       program,
       primitive: drawCommands.gl.LINES,
-      uniforms: { perspective, view, g0Rate, simTime, rotaryScale: rotaryDiameter * Math.PI / 360, isInverting },
+      uniforms: { perspective, view, g0Rate, simTime, rotaryScale: rotaryDiameter * Math.PI / 360, isInverting, showRemaining, },
       buffer: {
         data,
         stride: drawStride * 4,
@@ -121,7 +123,7 @@ export class LaserPreview {
         // e
         // f
         let a1 = parsed[i * parsedStride + 6];
-        // s  
+        // s
         // t
 
         let g = parsed[i * parsedStride + 9];
@@ -179,7 +181,7 @@ export class LaserPreview {
     }
   }
 
-  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting) {
+  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining) {
     if (this.drawCommands !== drawCommands) {
       this.drawCommands = drawCommands;
       if (this.buffer)
@@ -187,8 +189,7 @@ export class LaserPreview {
       this.buffer = null;
     }
 
-    if (!this.array)
-      return;
+    if (!this.array) return;
 
     if (!this.buffer)
       this.buffer = drawCommands.createBuffer(this.array);
@@ -203,6 +204,7 @@ export class LaserPreview {
       simTime,
       rotaryDiameter,
       isInverting,
+      showRemaining,
       data: this.buffer,
       count: this.array.length / drawStride,
     });
