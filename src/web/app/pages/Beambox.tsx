@@ -13,7 +13,7 @@ import SVGEditor from 'app/pages/svg-editor';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
-import { TopBar } from 'app/views/beambox/TopBar/TopBar';
+import TopBar from 'app/views/beambox/TopBar/TopBar';
 import { TopBarContextProvider } from 'app/views/beambox/TopBar/contexts/TopBarContext';
 import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 
