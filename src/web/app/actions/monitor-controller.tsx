@@ -6,18 +6,21 @@ import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContextProvider } from 'app/contexts/Monitor-Context';
 
 export default {
-    showMonitor: (device: IDeviceInfo, mode: Mode = Mode.FILE, previewTask?: { fcodeBlob: string, taskImageURL: string, taskTime: number }) => {
-        Dialog.addDialogComponent('monitor',
-            <MonitorContextProvider
-                device={device}
-                mode={mode}
-                previewTask={previewTask}
-                onClose={() => Dialog.popDialogById('monitor')}
-            >
-                <Monitor
-                    device={device}
-                />
-            </MonitorContextProvider>
-        );
-    }
-}
+  showMonitor: (
+    device: IDeviceInfo,
+    mode: Mode = Mode.FILE,
+    previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number },
+  ): void => {
+    Dialog.addDialogComponent('monitor',
+      <MonitorContextProvider
+        device={device}
+        mode={mode}
+        previewTask={previewTask}
+        onClose={() => Dialog.popDialogById('monitor')}
+      >
+        <Monitor
+          device={device}
+        />
+      </MonitorContextProvider>);
+  },
+};

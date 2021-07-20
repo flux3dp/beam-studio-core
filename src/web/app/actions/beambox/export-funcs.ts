@@ -371,6 +371,19 @@ const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => 
   };
 };
 
+const openTaskInDeviceMonitor = (
+  device: IDeviceInfo,
+  fcodeBlob: Blob,
+  taskImageURL: string,
+  taskTime: number,
+): void => {
+  MonitorController.showMonitor(device, Mode.PREVIEW, {
+    fcodeBlob,
+    taskImageURL,
+    taskTime,
+  });
+};
+
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
     const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await fetchTaskCode(device);
@@ -382,11 +395,7 @@ export default {
       if (!res) {
         return;
       }
-      MonitorController.showMonitor(device, Mode.PREVIEW, {
-        fcodeBlob,
-        taskImageURL: thumbnailBlobURL,
-        taskTime: fileTimeCost,
-      });
+      openTaskInDeviceMonitor(device, fcodeBlob, thumbnailBlobURL, fileTimeCost);
     } catch (errMsg) {
       console.error(errMsg);
       // TODO: handle err message
@@ -463,4 +472,5 @@ export default {
     await FontFuncs.revertTempConvert();
     return { uploadFile, thumbnailBlobURL };
   },
+  openTaskInDeviceMonitor,
 };
