@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly submit through input 1`] = `
+<div
+  className="dxf-dpi-selector"
+>
+  <div
+    className="caption"
+  >
+    Please enter the Unit of your file
+    <br />
+    1, 2.54, 25.4, 72, 96 etc.
+  </div>
+  <div
+    className="message"
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
+  >
+    <input
+      defaultValue={100}
+      id="dpi-input"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      style={
+        Object {
+          "padding": "3px 10px",
+          "text-align": "left",
+          "width": "120px",
+        }
+      }
+    />
+  </div>
+  <ButtonGroup
+    buttons={
+      Array [
+        Object {
+          "key": "cancel",
+          "label": "Cancel",
+          "onClick": [Function],
+          "right": true,
+        },
+        Object {
+          "className": "btn-default primary",
+          "key": "ok",
+          "label": "OK",
+          "onClick": [Function],
+          "right": true,
+        },
+      ]
+    }
+  />
+</div>
+`;

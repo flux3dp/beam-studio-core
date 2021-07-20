@@ -39,43 +39,40 @@ class Interval extends React.Component<Props, State> {
     });
   }
 
-  onDxChanged = (val: number) => {
+  onDxChanged = (dx: number) => {
     const { onValueChange } = this.props;
     const { dy } = this.state;
     onValueChange({
-      dx: val,
+      dx,
       dy,
     });
-    this.setState({ dx: val });
-  }
+    this.setState({ dx });
+  };
 
-  onDyChanged = (val: number) => {
+  onDyChanged = (dy: number) => {
     const { onValueChange } = this.props;
     const { dx } = this.state;
     onValueChange({
       dx,
-      dy: val,
+      dy,
     });
-    this.setState({ dy: val });
-  }
+    this.setState({ dy });
+  };
 
-  getValueCaption = () => {
-    const dx = this.state.dx,
-      dy = this.state.dy,
-      units = storage.get('default-units') || 'mm';
-    if (units === 'inches') {
-      return `${Number(dx / 25.4).toFixed(3)}\", ${Number(dy / 25.4).toFixed(3)}\"`;
-    } else {
-      return `${dx}, ${dy} mm`;
-    }
-  }
+  getValueCaption = (): string => {
+    const { dx, dy } = this.state;
+    const units = storage.get('default-units') || 'mm';
+    return units === 'inches'
+      ? `${Number(dx / 25.4).toFixed(3)}\", ${Number(dy / 25.4).toFixed(3)}\"`
+      : `${dx}, ${dy} mm`;
+  };
 
-  render() {
-    const { isCollapsed } = this.state;
+  render(): JSX.Element {
+    const { dx, dy, isCollapsed } = this.state;
     return (
       <div className="tool-panel">
         <label className="controls accordion">
-          <input type="checkbox" className="accordion-switcher" defaultChecked={true} />
+          <input type="checkbox" className="accordion-switcher" defaultChecked />
           <p className="caption" onClick={() => this.setState({ isCollapsed: !isCollapsed })}>
             {LANG.array_interval}
             <span className="value">{this.getValueCaption()}</span>
@@ -87,7 +84,7 @@ class Interval extends React.Component<Props, State> {
                 min={0}
                 max={Constant.dimension.getWidth(BeamboxPreference.read('workarea')) / Constant.dpmm}
                 unit="mm"
-                defaultValue={this.state.dx}
+                defaultValue={dx}
                 getValue={this.onDxChanged}
               />
             </div>
@@ -97,7 +94,7 @@ class Interval extends React.Component<Props, State> {
                 min={0}
                 max={Constant.dimension.getHeight(BeamboxPreference.read('workarea')) / Constant.dpmm}
                 unit="mm"
-                defaultValue={this.state.dy}
+                defaultValue={dy}
                 getValue={this.onDyChanged}
               />
             </div>
@@ -106,6 +103,6 @@ class Interval extends React.Component<Props, State> {
       </div>
     );
   }
-};
+}
 
 export default Interval;

@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="tool-panel"
+>
+  <label
+    className="controls accordion"
+  >
+    <input
+      className="accordion-switcher"
+      defaultChecked={true}
+      type="checkbox"
+    />
+    <p
+      className="caption"
+      onClick={[Function]}
+    >
+      Offset Direction
+      <span
+        className="value"
+      >
+        Outward
+      </span>
+    </p>
+    <div
+      className="tool-panel-body"
+    >
+      <div
+        className="control offset-dir"
+      >
+        <Select
+          id="select-offset-dir"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Outward",
+                "selected": true,
+                "value": 1,
+              },
+              Object {
+                "label": "Inward",
+                "selected": false,
+                "value": 0,
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </label>
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<div
+  className="tool-panel"
+>
+  <label
+    className="controls accordion"
+  >
+    <input
+      className="accordion-switcher"
+      defaultChecked={true}
+      type="checkbox"
+    />
+    <p
+      className="caption"
+      onClick={[Function]}
+    >
+      Offset Direction
+      <span
+        className="value"
+      >
+        Outward
+      </span>
+    </p>
+    <div
+      className="tool-panel-body collapsed"
+    >
+      <div
+        className="control offset-dir"
+      >
+        <Select
+          id="select-offset-dir"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Outward",
+                "selected": true,
+                "value": 1,
+              },
+              Object {
+                "label": "Inward",
+                "selected": false,
+                "value": 0,
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </label>
+</div>
+`;
+
+exports[`should render correctly 3`] = `
+<div
+  className="tool-panel"
+>
+  <label
+    className="controls accordion"
+  >
+    <input
+      className="accordion-switcher"
+      defaultChecked={true}
+      type="checkbox"
+    />
+    <p
+      className="caption"
+      onClick={[Function]}
+    >
+      Offset Direction
+      <span
+        className="value"
+      >
+        Inward
+      </span>
+    </p>
+    <div
+      className="tool-panel-body collapsed"
+    >
+      <div
+        className="control offset-dir"
+      >
+        <Select
+          id="select-offset-dir"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Outward",
+                "selected": false,
+                "value": 1,
+              },
+              Object {
+                "label": "Inward",
+                "selected": true,
+                "value": 0,
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </label>
+</div>
+`;
