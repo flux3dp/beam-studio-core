@@ -41,7 +41,7 @@ class PreviewModeBackgroundDrawer {
     };
     this.backgroundDrawerSubject = new Subject();
     this.cameraOffset = null;
-    documentPanelEventEmitter.on('document-panel', this.updateCanvasSize)
+    documentPanelEventEmitter.on('workarea-change', this.updateCanvasSize);
   }
 
   start(cameraOffset) {
@@ -73,7 +73,6 @@ class PreviewModeBackgroundDrawer {
   }
 
   updateCanvasSize = () => {
-    console.log('?');
     const newWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
     const newHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
     const ctx = this.canvas.getContext('2d');

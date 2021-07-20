@@ -5,9 +5,14 @@
 import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';
 
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
-import ExportFuncs from 'app/actions/beambox/export-funcs';
+import dialogCaller from 'app/actions/dialog-caller';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import exportFuncs from 'app/actions/beambox/export-funcs';
+import i18n from 'helpers/i18n';
 import Pointable from 'app/views/beambox/Pointable';
 import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
@@ -16,6 +21,8 @@ import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { LaserPreview } from 'helpers/path-preview/draw-commands/LaserPreview';
 import { parseGcode } from './tmpParseGcode';
+
+const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
 const MAJOR_GRID_SPACING = 50;
 const MINOR_GRID_SPACING = 10;
@@ -491,41 +498,14 @@ class PathPreview extends React.Component<{}, State> {
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     window.addEventListener('keydown', this.windowKeyDown);
     window.addEventListener('keyup', this.windowKeyUp);
     window.addEventListener('resize', this.updateWorkspace);
-    let parsedGcode;
-    ExportFuncs.getGcode().then((gcodeBlob) => {
-      const fileReader = new FileReader();
-      fileReader.onloadend = (e) => {
-        const result = (e.target.result as string).split('\n');
-        result.splice(6, 0, 'G1 X0 Y0');
-        console.log(result);
-        this.gcodeString = result.join('\n');
-        console.log(this.gcodeString);
-
-        if (this.gcodeString.length > 83) {
-          parsedGcode = parseGcode(this.gcodeString);
-
-          console.log('parsedGcode: \n', parsedGcode);
-
-          this.gcodePreview.setParsedGcode(parsedGcode);
-          this.laserPreview.setParsedGcode(parsedGcode);
-          this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / simTimeUnit) * (simTimeUnit) + simTimeUnit / 2;
-          // console.log(this.simTimeMax, this.gcodePreview.g1Time, this.gcodePreview.g0Time, this.gcodePreview.g0Dist / this.state.workspace.g0Rate);
-          this.forceUpdate();
-        }
-
-        // this.renderGcodeCanvas();
-      };
-      fileReader.readAsText(gcodeBlob);
-    });
+    this.updateGcode();
 
     this.resetView();
-
-    // this.gcode = gcode;
-    // let parsedGcode = parseGcode(gcode);
+    documentPanelEventEmitter.on('workarea-change', this.onDeviceChange);
   }
 
   shouldComponentUpdate(nextProps, nextState): boolean {
@@ -552,16 +532,6 @@ class PathPreview extends React.Component<{}, State> {
     window.removeEventListener('keyup', this.windowKeyUp);
     window.removeEventListener('resize', this.updateWorkspace);
   }
-
-  setWorkspaceAttrs = (attrs) => {
-    const { workspace } = this.state;
-    this.setState({
-      workspace: {
-        ...workspace,
-        ...attrs,
-      },
-    });
-  };
 
   setCameraAttrs = (attrs) => {
     const { camera } = this.state;
@@ -605,6 +575,32 @@ class PathPreview extends React.Component<{}, State> {
 
     this.camera = newCamera;
   }
+
+  updateGcode = async (): Promise<void> => {
+    const gcodeBlob = await exportFuncs.getGcode();
+    const fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      const result = (e.target.result as string).split('\n');
+      result.splice(6, 0, 'G1 X0 Y0');
+      this.gcodeString = result.join('\n');
+      console.log(this.gcodeString);
+
+      if (this.gcodeString.length > 83) {
+        const parsedGcode = parseGcode(this.gcodeString);
+
+        console.log('parsedGcode: \n', parsedGcode);
+
+        this.gcodePreview.setParsedGcode(parsedGcode);
+        this.laserPreview.setParsedGcode(parsedGcode);
+        this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / simTimeUnit) * (simTimeUnit) + simTimeUnit / 2;
+        // console.log(this.simTimeMax, this.gcodePreview.g1Time, this.gcodePreview.g0Time, this.gcodePreview.g0Dist / this.state.workspace.g0Rate);
+        this.forceUpdate();
+      }
+
+      // this.renderGcodeCanvas();
+    };
+    fileReader.readAsText(gcodeBlob);
+  };
 
   private windowKeyDown = (e: KeyboardEvent) => {
     if (e.key === ' ') this.spaceKey = true;
@@ -817,6 +813,15 @@ class PathPreview extends React.Component<{}, State> {
 
   private handleSpeedLevelChange = (speedLevel) => {
     this.setState({ speedLevel });
+  };
+
+  onDeviceChange = (): void => {
+    const workarea = BeamboxPreference.read('workarea') || 'beamo';
+    const width = constant.dimension.getWidth(workarea) / constant.dpmm;
+    const height = constant.dimension.getHeight(workarea) / constant.dpmm;
+    settings.machineWidth = width;
+    settings.machineHeight = height;
+    this.updateGcode();
   };
 
   onPointerCancel = (e) => {
@@ -1046,10 +1051,27 @@ class PathPreview extends React.Component<{}, State> {
     return `x ${speedRatio[speedLevel]}`;
   };
 
-  handleStartHere = () => {
+  private handleStartHere = async (): Promise<void> => {
+    const device = await dialogCaller.selectDevice();
+    if (!device) {
+      return;
+    }
+    const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+    const allowedWorkareas = constant.allowedWorkarea[device.model];
+    if (currentWorkarea && allowedWorkareas) {
+      if (!allowedWorkareas.includes(currentWorkarea)) {
+        alertCaller.popUp({
+          id: 'workarea unavailable',
+          message: i18n.lang.message.unavailableWorkarea,
+          type: alertConstants.SHOW_POPUP_ERROR,
+        });
+        return;
+      }
+    }
+
     const { workspace } = this.state;
 
-    const generateTaskThumbnail = () => {
+    const generateTaskThumbnail = async () => {
       const canvas = document.createElement('canvas');
       const { machineWidth, machineHeight } = settings;
       canvas.width = machineWidth;
@@ -1099,9 +1121,14 @@ class PathPreview extends React.Component<{}, State> {
         camera,
         { showRemaining: true },
       );
-      return canvas.toDataURL();
+      const blob = await new Promise<Blob>((resolve) => canvas.toBlob(resolve));
+      const url = URL.createObjectURL(blob);
+      return {
+        base64: canvas.toDataURL(),
+        url,
+      };
     };
-    const thumbnail = generateTaskThumbnail();
+    const { base64: thumbnail, url: thumbnailUrl } = await generateTaskThumbnail();
 
     let modifiedGcodeList;
 
@@ -1167,7 +1194,8 @@ class PathPreview extends React.Component<{}, State> {
       console.log('target: ', target, gcodeList);
       console.log('modified', modifiedGcodeList);
       console.log(modifiedGcodeList.join('\n'), '123123');
-      ExportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
+      const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
+      exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
     }
   };
 

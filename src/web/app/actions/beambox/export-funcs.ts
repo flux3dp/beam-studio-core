@@ -447,20 +447,6 @@ export default {
     if (!fcodeBlob) {
       return null;
     }
-
-    const defaultFCodeName = svgCanvas.getLatestImportFileName() || 'untitled';
-    const langFile = i18n.lang.topmenu.file;
-    const fileReader = new FileReader();
-
-    fileReader.onload = function onLoad() {
-      const getContent = () => new Blob([this.result as ArrayBuffer]);
-      dialog.writeFileDialog(getContent, langFile.save_fcode, defaultFCodeName, [
-        { name: window.os === 'MacOS' ? `${langFile.fcode_files} (*.fc)` : langFile.fcode_files, extensions: ['fc'] },
-        { name: langFile.all_files, extensions: ['*'] },
-      ]);
-    };
-
-    fileReader.readAsArrayBuffer(fcodeBlob);
     return { fcodeBlob, fileTimeCost };
   },
   prepareFileWrappedFromSvgStringAndThumbnail: async (): Promise<{
