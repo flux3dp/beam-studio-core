@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly type is gridArray 1`] = `
+<div
+  className="tool-panels en"
+  id="beamboxToolPanel"
+  style={
+    Object {
+      "bottom": 10,
+      "left": undefined,
+      "position": "absolute",
+      "zIndex": 10,
+    }
+  }
+>
+  <div
+    className="tool-panel"
+  >
+    <label
+      className="controls accordion"
+    >
+      <input
+        className="accordion-switcher"
+        defaultChecked={true}
+        type="checkbox"
+      />
+      <p
+        className="caption"
+      >
+        <span
+          className="value"
+        >
+          Create Grid Array
+        </span>
+      </p>
+    </label>
+  </div>
+  <DummyRowColumn
+    column={1}
+    key="rowColumn"
+    onValueChange={[Function]}
+    row={1}
+  />
+  <DummyInterval
+    dx={0}
+    dy={0}
+    key="distance"
+    onValueChange={[Function]}
+  />
+  <div
+    className="tool-block"
+  >
+    <div
+      className="btn-h-group"
+    >
+      <button
+        className="btn btn-default primary"
+        onClick={[Function]}
+      >
+        Confirm
+      </button>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly type is nest 1`] = `
+<div
+  className="tool-panels en"
+  id="beamboxToolPanel"
+  style={
+    Object {
+      "bottom": 10,
+      "left": undefined,
+      "position": "absolute",
+      "zIndex": 10,
+    }
+  }
+>
+  <div
+    className="tool-panel"
+  >
+    <label
+      className="controls accordion"
+    >
+      <input
+        className="accordion-switcher"
+        defaultChecked={true}
+        type="checkbox"
+      />
+      <p
+        className="caption"
+      >
+        <span
+          className="value"
+        />
+      </p>
+    </label>
+  </div>
+  <DummyNestSpacingPanel
+    key="nestOffset"
+    onValueChange={[Function]}
+    spacing={0}
+  />
+  <DummyNestRotationPanel
+    key="nestRotation"
+    onValueChange={[Function]}
+    rotations={1}
+  />
+  <DummyNestGAPanel
+    key="nestGA"
+    nestOptions={
+      Object {
+        "generations": 3,
+        "population": 10,
+        "rotations": 1,
+        "spacing": 0,
+      }
+    }
+    updateNestOptions={[Function]}
+  />
+  <div
+    className="tool-block"
+  >
+    <div
+      className="btn-h-group"
+    >
+      <button
+        className="btn btn-default primary"
+        onClick={[Function]}
+      >
+        Confirm
+      </button>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly type is offset 1`] = `
+<div
+  className="tool-panels en"
+  id="beamboxToolPanel"
+  style={
+    Object {
+      "bottom": 10,
+      "left": undefined,
+      "position": "absolute",
+      "zIndex": 10,
+    }
+  }
+>
+  <div
+    className="tool-panel"
+  >
+    <label
+      className="controls accordion"
+    >
+      <input
+        className="accordion-switcher"
+        defaultChecked={true}
+        type="checkbox"
+      />
+      <p
+        className="caption"
+      >
+        <span
+          className="value"
+        >
+          Offset
+        </span>
+      </p>
+    </label>
+  </div>
+  <DummyOffsetDirectionPanel
+    dir={1}
+    key="offsetDir"
+    onValueChange={[Function]}
+  />
+  <DummyOffsetCornerPanel
+    cornerType="sharp"
+    key="offsetCorner"
+    onValueChange={[Function]}
+  />
+  <DummyOffsetDistancePanel
+    distance={5}
+    key="offsetDist"
+    onValueChange={[Function]}
+  />
+  <div
+    className="tool-block"
+  >
+    <div
+      className="btn-h-group"
+    >
+      <button
+        className="btn btn-default primary"
+        onClick={[Function]}
+      >
+        Confirm
+      </button>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;
