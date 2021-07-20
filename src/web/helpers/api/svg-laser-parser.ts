@@ -176,6 +176,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
               totalLength = data.length;
               duration = Math.floor(data.time) + 1;
               break;
+            case 'Error':
+              opts.onError(data.message);
+              break;
             default:
               break;
           }
