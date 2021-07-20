@@ -4,11 +4,11 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import DropDownControl from 'app/widgets/Dropdown-Control';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
-import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import SwitchControl from 'app/widgets/Switch-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -17,6 +17,7 @@ let svgEditor;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
 
 const LANG = i18n.lang.beambox.document_panel;
+const eventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
 const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
@@ -105,7 +106,7 @@ export default class DocumentPanel extends React.PureComponent<Props, State> {
       BeamboxPreference.write('workarea', workarea);
       svgCanvas.setResolution(constant.dimension.getWidth(BeamboxPreference.read('workarea')), constant.dimension.getHeight(BeamboxPreference.read('workarea')));
       svgEditor.resetView();
-      PreviewModeBackgroundDrawer.updateCanvasSize();
+      eventEmitter.emit('workarea-change');
     }
     OpenBottomBoundaryDrawer.update();
     beamboxStore.emitUpdateLaserPanel();
