@@ -3,6 +3,7 @@ import * as React from 'react';
 import browser from 'implementations/browser';
 
 interface Props {
+  id?:string,
   label: string,
   url?: string,
   warningText?: string,

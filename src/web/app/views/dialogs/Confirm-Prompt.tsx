@@ -101,6 +101,7 @@ class ConfirmPrompt extends React.Component<Props> {
           <div className="caption">{this.props.caption}</div>
           <pre className="message">{this.props.message}</pre>
           <input
+            id='power-caption'
             autoFocus={true}
             ref={this.inputRef}
             className="text-input"

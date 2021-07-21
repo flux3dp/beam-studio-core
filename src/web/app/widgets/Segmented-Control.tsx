@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 interface Props {
   segments: {
+    id?:string;
     imgSrc?: string;
     title: string;
     value: number;
@@ -57,7 +58,7 @@ class SegmentedControl extends React.Component<Props> {
             const segment = segments[i];
             const isSelected = selectedIndexes.includes(i);
             items.push(
-                <div key={i} className={classNames('seg-item', {'selected' :isSelected})} title={segment.title} onClick={() => this.onClick(i)}>
+                <div id={segment.id} key={i} className={classNames('seg-item', {'selected' :isSelected})} title={segment.title} onClick={() => this.onClick(i)}>
                     {segment.imgSrc ?
                         <img src={segment.imgSrc} className='seg-item-image' />
                         :

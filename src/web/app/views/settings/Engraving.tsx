@@ -14,6 +14,7 @@ function Engraving({ fastGradientOptions, updateBeamboxPreferenceChange }: Props
     <>
       <div className="subtitle">{lang.settings.groups.engraving}</div>
       <SelectControl
+        id="set-fast-gradient"
         label={lang.settings.fast_gradient}
         url={lang.settings.help_center_urls.fast_gradient}
         options={fastGradientOptions}

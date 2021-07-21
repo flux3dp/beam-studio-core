@@ -38,7 +38,7 @@ export default class ConnectWiFi extends React.PureComponent<any, State> {
             <div>{lang.connect_wired.tutorial2}</div>
           </div>
           <div className={classNames('contents', 'what-if', { collapsed: !showCollapse1 })}>
-            <div className="collapse-title" onClick={() => this.setState({ showCollapse1: !showCollapse1 })}>
+            <div id="qa-collapse-wired1" className="collapse-title" onClick={() => this.setState({ showCollapse1: !showCollapse1 })}>
               {lang.connect_wired.what_if_1}
               <div className="collapse-arrow" />
             </div>
@@ -47,7 +47,7 @@ export default class ConnectWiFi extends React.PureComponent<any, State> {
             </div>
           </div>
           <div className={classNames('contents', 'what-if', { collapsed: !showCollapse2 })}>
-            <div className="collapse-title" onClick={() => this.setState({ showCollapse2: !showCollapse2 })}>
+            <div id="qa-collapse-wired2" className="collapse-title" onClick={() => this.setState({ showCollapse2: !showCollapse2 })}>
               {lang.connect_wired.what_if_2}
               <div className="collapse-arrow" />
             </div>

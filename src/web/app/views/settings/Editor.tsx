@@ -91,6 +91,7 @@ function Editor({
     <>
       <div className="subtitle">{lang.settings.groups.editor}</div>
       <SelectControl
+        id="set-default-units"
         label={lang.settings.default_units}
         options={[
           {
@@ -107,16 +108,19 @@ function Editor({
         onChange={(e) => updateConfigChange('default-units', e.target.value)}
       />
       <SelectControl
+        id="set-default-font-family"
         label={lang.settings.default_font_family}
         options={fontOptions}
         onChange={(e) => onSelectFont(e.target.value)}
       />
       <SelectControl
+        id="set-default-font-style"
         label={lang.settings.default_font_style}
         options={fontStyleOptions}
         onChange={(e) => onSelectFontStyle(e.target.value)}
       />
       <SelectControl
+        id="set-default-model"
         label={lang.settings.default_beambox_model}
         options={[
           {
@@ -149,6 +153,7 @@ function Editor({
       <Controls label={lang.settings.guides_origin}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
+          id="guide-x-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
           max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
@@ -159,6 +164,7 @@ function Editor({
         />
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
         <UnitInput
+          id="guide-y-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
           max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
@@ -169,24 +175,28 @@ function Editor({
         />
       </Controls>
       <SelectControl
+        id="set-bitmap-quality"
         label={lang.settings.image_downsampling}
         url={lang.settings.help_center_urls.image_downsampling}
         options={imageDownsamplingOptions}
         onChange={(e) => updateBeamboxPreferenceChange('image_downsampling', e.target.value)}
       />
       <SelectControl
+        id="set-anti-aliasing"
         label={lang.settings.anti_aliasing}
         url={lang.settings.help_center_urls.anti_aliasing}
         options={antiAliasingOptions}
         onChange={(e) => updateBeamboxPreferenceChange('anti-aliasing', e.target.value)}
       />
       <SelectControl
+        id="set-continuous-drawingg"
         label={lang.settings.continuous_drawing}
         url={lang.settings.help_center_urls.continuous_drawing}
         options={continuousDrawingOptions}
         onChange={(e) => updateBeamboxPreferenceChange('continuous_drawing', e.target.value)}
       />
       <SelectControl
+        id="set-simplify-clipper-path"
         label={lang.settings.simplify_clipper_path}
         url={lang.settings.help_center_urls.simplify_clipper_path}
         options={simplifyClipperPath}

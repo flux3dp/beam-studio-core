@@ -3,8 +3,10 @@ import React from 'react';
 
 import keyCodeConstants from 'app/constants/keycode-constants';
 import storage from 'implementations/storage';
+import { string } from 'prop-types';
 
 interface Props {
+  id?:string,
   min?: number,
   max?: number,
   step?: number,
@@ -25,6 +27,7 @@ interface Props {
 }
 
 interface States {
+  id?:string,
   isEditing: boolean,
   displayValue: string | number,
   savedValue: string,
@@ -238,6 +241,7 @@ class UnitInput extends React.Component<Props, States> {
     return (
       <div className={ClassNames(className)}>
         <input
+          id={this.props.id}
           type={this.props.type}
           step={this.props.step}
           value={shouldHideValue ? '-' : this.state.displayValue}

@@ -487,6 +487,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel">
         <span className="title">{LANG.strength}</span>
         <UnitInput
+          id="power"
           min={minValue}
           max={maxValue}
           unit="%"
@@ -497,6 +498,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         />
         <div className="slider-container">
           <input
+            id="power_value"
             className="rainbow-slider"
             type="range"
             min={minValue}
@@ -535,6 +537,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel">
         <span className="title">{LANG.speed}</span>
         <UnitInput
+          id="speed"
           min={minValue}
           max={maxValue}
           unit={unitDisplay}
@@ -545,6 +548,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         />
         <div className="slider-container">
           <input
+            id="speed_value"
             className={classNames('rainbow-slider', { 'speed-for-vector': hasVector })}
             type="range"
             min={minValue}
@@ -565,6 +569,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel without-drag">
         <span className="title">{LANG.repeat}</span>
         <UnitInput
+          id="repeat"
           min={0}
           max={100}
           unit={LANG.times}
@@ -602,6 +607,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel without-drag">
         <span className="title">{LANG.height}</span>
         <UnitInput
+          id="height"
           min={0.01}
           max={20}
           unit="mm"
@@ -626,6 +632,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="panel without-drag">
         <span className="title">{LANG.z_step}</span>
         <UnitInput
+          id="z_step"
           min={0}
           max={20}
           unit="mm"

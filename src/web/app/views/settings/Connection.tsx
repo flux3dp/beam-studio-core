@@ -56,6 +56,7 @@ function Connection({
       </div>
       <Controls label={lang.settings.ip}>
         <input
+          id="ip-input"
           type="text"
           autoComplete="false"
           defaultValue={storage.get('poke-ip-addr')}
@@ -63,11 +64,13 @@ function Connection({
         />
       </Controls>
       <SelectControl
+        id="set-guessing-poke"
         label={lang.settings.guess_poke}
         options={guessingPokeOptions}
         onChange={(e) => updateConfigChange('guessing_poke', e.target.value)}
       />
       <SelectControl
+        id="set-auto-connect"
         label={lang.settings.auto_connect}
         options={autoConnectOptions}
         onChange={(e) => updateConfigChange('auto_connect', e.target.value)}

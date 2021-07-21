@@ -55,41 +55,41 @@ export class ObjectPanel extends React.Component<Props> {
       <div className="tool-btns-container">
         <div className="tool-btns-row">
           <div className="half-row left sep">
-            {this.renderToolBtn(LANG.hdist, 'img/right-panel/icon-hdist.svg', !buttonAvailability['dist'], () => { svgCanvas.distHori() })}
-            {this.renderToolBtn(LANG.top_align, 'img/right-panel/icon-valign-top.svg', false, () => { FnWrapper.alignTop() })}
-            {this.renderToolBtn(LANG.middle_align, 'img/right-panel/icon-valign-mid.svg', false, () => { FnWrapper.alignMiddle() })}
-            {this.renderToolBtn(LANG.bottom_align, 'img/right-panel/icon-valign-bot.svg', false, () => { FnWrapper.alignBottom() })}
+            {this.renderToolBtn(LANG.hdist, 'img/right-panel/icon-hdist.svg', !buttonAvailability['dist'], () => { svgCanvas.distHori() }, 'qa-hdist')}
+            {this.renderToolBtn(LANG.top_align, 'img/right-panel/icon-valign-top.svg', false, () => { FnWrapper.alignTop() }, 'qa-top_align')}
+            {this.renderToolBtn(LANG.middle_align, 'img/right-panel/icon-valign-mid.svg', false, () => { FnWrapper.alignMiddle() }, 'qa-middle_align')}
+            {this.renderToolBtn(LANG.bottom_align, 'img/right-panel/icon-valign-bot.svg', false, () => { FnWrapper.alignBottom() }, 'qa-bottom_align')}
           </div>
           <div className="half-row right">
-            {this.renderToolBtn(LANG.vdist, 'img/right-panel/icon-vdist.svg', !buttonAvailability['dist'], () => { svgCanvas.distVert() })}
-            {this.renderToolBtn(LANG.left_align, 'img/right-panel/icon-halign-left.svg', false, () => { FnWrapper.alignLeft() })}
-            {this.renderToolBtn(LANG.center_align, 'img/right-panel/icon-halign-mid.svg', false, () => { FnWrapper.alignCenter() })}
-            {this.renderToolBtn(LANG.right_align, 'img/right-panel/icon-halign-right.svg', false, () => { FnWrapper.alignRight() })}
+            {this.renderToolBtn(LANG.vdist, 'img/right-panel/icon-vdist.svg', !buttonAvailability['dist'], () => { svgCanvas.distVert() }, 'qa-vdist')}
+            {this.renderToolBtn(LANG.left_align, 'img/right-panel/icon-halign-left.svg', false, () => { FnWrapper.alignLeft() }, 'qa-left_align')}
+            {this.renderToolBtn(LANG.center_align, 'img/right-panel/icon-halign-mid.svg', false, () => { FnWrapper.alignCenter() }, 'qa-center_align')}
+            {this.renderToolBtn(LANG.right_align, 'img/right-panel/icon-halign-right.svg', false, () => { FnWrapper.alignRight() }, 'qa-right_align')}
           </div>
         </div>
         <div className="tool-btns-row">
           <div className="half-row left">
-            {this.renderToolBtn(LANG.group, 'img/right-panel/icon-group.svg', false, () => { svgCanvas.groupSelectedElements() })}
-            {this.renderToolBtn(LANG.ungroup, 'img/right-panel/icon-ungroup.svg', !buttonAvailability['ungroup'], () => { svgCanvas.ungroupSelectedElement() })}
+            {this.renderToolBtn(LANG.group, 'img/right-panel/icon-group.svg', false, () => { svgCanvas.groupSelectedElements() }, 'qa-group')}
+            {this.renderToolBtn(LANG.ungroup, 'img/right-panel/icon-ungroup.svg', !buttonAvailability['ungroup'], () => { svgCanvas.ungroupSelectedElement() }, 'qa-ungroup')}
           </div>
           <div className="half-row right">
-            {this.renderToolBtn(LANG.union, 'img/right-panel/icon-union.svg', !buttonAvailability['union'], () => { svgCanvas.booleanOperationSelectedElements('union') })}
-            {this.renderToolBtn(LANG.subtract, 'img/right-panel/icon-subtract.svg', !buttonAvailability['subtract'], () => { svgCanvas.booleanOperationSelectedElements('diff') })}
-            {this.renderToolBtn(LANG.intersect, 'img/right-panel/icon-intersect.svg', !buttonAvailability['intersect'], () => { svgCanvas.booleanOperationSelectedElements('intersect') })}
-            {this.renderToolBtn(LANG.difference, 'img/right-panel/icon-diff.svg', !buttonAvailability['difference'], () => { svgCanvas.booleanOperationSelectedElements('xor') })}
+            {this.renderToolBtn(LANG.union, 'img/right-panel/icon-union.svg', !buttonAvailability['union'], () => { svgCanvas.booleanOperationSelectedElements('union') }, 'qa-union')}
+            {this.renderToolBtn(LANG.subtract, 'img/right-panel/icon-subtract.svg', !buttonAvailability['subtract'], () => { svgCanvas.booleanOperationSelectedElements('diff') }, 'qa-subtract')}
+            {this.renderToolBtn(LANG.intersect, 'img/right-panel/icon-intersect.svg', !buttonAvailability['intersect'], () => { svgCanvas.booleanOperationSelectedElements('intersect') }, 'qa-intersect')}
+            {this.renderToolBtn(LANG.difference, 'img/right-panel/icon-diff.svg', !buttonAvailability['difference'], () => { svgCanvas.booleanOperationSelectedElements('xor') }, 'qa-difference')}
           </div>
         </div>
       </div>
     );
   }
 
-  renderToolBtn = (label, src, disabled, onClick) => {
+  renderToolBtn = (label, src, disabled, onClick, id) => {
     const className = classNames('tool-btn', { disabled });
     if (!onClick || disabled) {
       onClick = () => { };
     }
     return (
-      <div className={className} onClick={() => { onClick() }} title={label}>
+      <div className={className} onClick={() => { onClick() }} title={label} id={id}>
         <img src={src} draggable={false} />
       </div>
     );

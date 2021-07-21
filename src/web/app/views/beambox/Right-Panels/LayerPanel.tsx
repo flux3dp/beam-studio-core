@@ -32,6 +32,7 @@ getSVGAsync((globalSVG) => {
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
+  id?:string,
   elem: Element;
 }
 
@@ -487,6 +488,7 @@ class LayerPanel extends React.Component<Props, State> {
         const isVis = drawing.getLayerVisibility(layerName);
         items.push(
           <div
+            data-test-key={`layer-${i}`}
             key={layerName}
             className={classNames('layer', { layersel: isSelected, lock: isLocked, current: currentLayerName === layerName })}
             onClick={(e: React.MouseEvent) => this.handleLayerClick(e, layerName)}
@@ -506,11 +508,13 @@ class LayerPanel extends React.Component<Props, State> {
             >
               <div className="layercolor">
                 <div
+                  id={`layerbackgroundColor-${i}`}
                   style={{ backgroundColor: drawing.getLayerColor(layerName) }}
                   onClick={(e: React.MouseEvent) => this.openLayerColorPanel(e, layerName)}
                 />
               </div>
               <div
+                id={`layerdoubleclick-${i}`}
                 className="layername"
                 onDoubleClick={(e: React.MouseEvent) => {
                   if (!e.ctrlKey && !e.shiftKey && !e.metaKey) this.layerDoubleClick();
@@ -519,6 +523,7 @@ class LayerPanel extends React.Component<Props, State> {
                 {layerName}
               </div>
               <div
+                id={`layervis-${i}`}
                 className={classNames('layervis')}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
@@ -528,6 +533,7 @@ class LayerPanel extends React.Component<Props, State> {
                 <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
               </div>
               <div
+                id={`layerlock-${i}`}
                 className="layerlock"
                 onClick={(e: React.MouseEvent) => {
                   if (isLocked) {
@@ -626,19 +632,19 @@ class LayerPanel extends React.Component<Props, State> {
           {this.renderSelLayerBlock()}
           {this.renderDragImage()}
           <ContextMenu id="layer-contextmenu">
-            <MenuItem disabled={isMultiSelecting} onClick={this.renameLayer}>
+            <MenuItem attributes={{ id:"renameLayer" }} disabled={isMultiSelecting} onClick={this.renameLayer}>
               {LANG.layers.rename}
             </MenuItem>
-            <MenuItem onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
-            <MenuItem onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
-            <MenuItem onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
-            <MenuItem disabled={isMultiSelecting || isSelectingLast} onClick={this.mergeLayer}>
+            <MenuItem attributes={{ id:"dupelayer" }} onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
+            <MenuItem attributes={{ id:"locklayer" }} onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
+            <MenuItem attributes={{ id:"deletelayer" }} onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
+            <MenuItem attributes={{ id:"merge_down_layer"}} disabled={isMultiSelecting || isSelectingLast} onClick={this.mergeLayer}>
               {LANG.layers.merge_down}
             </MenuItem>
-            <MenuItem disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
+            <MenuItem attributes={{ id:"merge_all_layer" }} disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
               {LANG.layers.merge_all}
             </MenuItem>
-            <MenuItem disabled={!isMultiSelecting} onClick={this.mergeSelected}>
+            <MenuItem attributes={{ id:"merge_selected_layer" }} disabled={!isMultiSelecting} onClick={this.mergeSelected}>
               {LANG.layers.merge_selected}
             </MenuItem>
           </ContextMenu>

@@ -13,6 +13,7 @@ getSVGAsync((globalSVG) => {
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
 interface Props {
+  id?:string
   elem: Element;
 }
 
@@ -74,7 +75,7 @@ class InFillBlock extends React.Component<Props, State> {
     return (
       <div className="option-block" key="infill">
         <div className="label">{LANG.fill}</div>
-        <div className={classNames('onoffswitch', { 'partially-filled': elem.tagName === 'g' && isPartiallyFilled })} onClick={() => this.onClick()}>
+        <div id="infill" className={classNames('onoffswitch', { 'partially-filled': elem.tagName === 'g' && isPartiallyFilled })} onClick={() => this.onClick()}>
           <input type="checkbox" className="onoffswitch-checkbox" checked={isAnyFilled || false} readOnly />
           <label className="onoffswitch-label">
             <span className="onoffswitch-inner" />

@@ -34,6 +34,7 @@ function General({
       />
       <SelectControl
         label={lang.settings.notifications}
+        id="set-notifications"
         options={notificationOptions}
         onChange={(e) => updateConfigChange('notification', e.target.value)}
       />
