@@ -119,17 +119,21 @@ export default class TopBar extends React.Component<Props, State> {
     );
   };
 
-  renderPathPreviewButton = (): JSX.Element => (
-    <div className="path-preview-button-container">
-      <div className="path-preview-button" onClick={this.changeToPathPreviewMode}>
-        <img src="img/print-preview.svg" draggable={false} />
+  renderPathPreviewButton = (): JSX.Element => {
+    const { isPathPreviewing } = this.state;
+    return (
+      <div className={classNames('path-preview-button-container', { highlighted: isPathPreviewing })}>
+        <div className="path-preview-button" onClick={this.changeToPathPreviewMode}>
+          <img src="img/print-preview.svg" draggable={false} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   changeToPathPreviewMode = (): void => {
     const { togglePathPreview } = this.props;
     const { isPathPreviewing } = this.state;
+    svgCanvas.clearSelection();
     togglePathPreview();
     this.setState({ isPathPreviewing: !isPathPreviewing });
   };
