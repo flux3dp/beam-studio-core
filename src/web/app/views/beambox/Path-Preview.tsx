@@ -8,12 +8,15 @@ import { mat4, vec3 } from 'gl-matrix';
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import checkDeviceStatus from 'helpers/check-device-status';
 import constant from 'app/actions/beambox/constant';
+import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import i18n from 'helpers/i18n';
 import Pointable from 'app/views/beambox/Pointable';
+import units from 'helpers/units';
 import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
 import { Text3d } from 'app/views/beambox/dom3d';
@@ -24,10 +27,14 @@ import { parseGcode } from './tmpParseGcode';
 
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
+const TOOLS_PANEL_HEIGHT = 95;
 const MAJOR_GRID_SPACING = 50;
 const MINOR_GRID_SPACING = 10;
 const m4Identity = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-const simTimeUnit = 1 / 120;
+
+const SIM_TIME = 0.1; // sec
+const SIM_TIME_MINUTE = units.convertTimeUnit(SIM_TIME, 'm');
+const SIM_TIME_MS = units.convertTimeUnit(SIM_TIME, 'ms');
 const speedRatio = [0.5, 1, 2, 4, 8];
 
 //
@@ -404,6 +411,12 @@ function GridText(props) {
   return <div>{a}</div>;
 }
 
+enum PlayState {
+  STOP = 0,
+  PLAY = 1,
+  PAUSE = 2,
+}
+
 interface State {
   width: number, // width of canvas
   height: number, // height of canvas
@@ -425,7 +438,8 @@ interface State {
     showLaser: boolean,
     showRotary: boolean,
     showCursor: boolean,
-  }
+  },
+  playState: PlayState,
 }
 
 class PathPreview extends React.Component<{}, State> {
@@ -442,7 +456,7 @@ class PathPreview extends React.Component<{}, State> {
   private gcodePreview: any;
   private laserPreview: any;
   private simTimeMax: number;
-  private simInterval: any;
+  private simInterval: NodeJS.Timeout;
   private drawGcodeState: object;
   private drawLaserState: object;
 
@@ -490,11 +504,12 @@ class PathPreview extends React.Component<{}, State> {
 
     this.state = {
       width: window.document.getElementById('svg_editor').offsetWidth,
-      height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
+      height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - TOOLS_PANEL_HEIGHT),
       camera: defaultCamera,
       workspace: defaultWorkspace,
       isInverting: false,
       speedLevel: 1,
+      playState: PlayState.STOP,
     };
   }
 
@@ -508,9 +523,9 @@ class PathPreview extends React.Component<{}, State> {
     documentPanelEventEmitter.on('workarea-change', this.onDeviceChange);
   }
 
-  shouldComponentUpdate(nextProps, nextState): boolean {
+  shouldComponentUpdate(nextProps, nextState: State): boolean {
     const {
-      width, height, workspace, camera, speedLevel, isInverting,
+      width, height, workspace, camera, speedLevel, isInverting, playState,
     } = this.state;
     return (
       nextState.width !== width
@@ -521,6 +536,7 @@ class PathPreview extends React.Component<{}, State> {
       || nextState.camera !== camera
       || nextState.speedLevel !== speedLevel
       || nextState.isInverting !== isInverting
+      || nextState.playState !== playState
     );
   }
 
@@ -592,7 +608,7 @@ class PathPreview extends React.Component<{}, State> {
 
         this.gcodePreview.setParsedGcode(parsedGcode);
         this.laserPreview.setParsedGcode(parsedGcode);
-        this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / simTimeUnit) * (simTimeUnit) + simTimeUnit / 2;
+        this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) * (SIM_TIME_MINUTE) + SIM_TIME_MINUTE / 2;
         // console.log(this.simTimeMax, this.gcodePreview.g1Time, this.gcodePreview.g0Time, this.gcodePreview.g0Dist / this.state.workspace.g0Rate);
         this.forceUpdate();
       }
@@ -707,7 +723,7 @@ class PathPreview extends React.Component<{}, State> {
     if (width !== document.getElementById('svg_editor').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('svg_editor').offsetHeight - 200)) {
       this.setState({
         width: window.document.getElementById('svg_editor').offsetWidth,
-        height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - 200),
+        height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - TOOLS_PANEL_HEIGHT),
       }, this.setCamera);
     }
   };
@@ -773,42 +789,6 @@ class PathPreview extends React.Component<{}, State> {
       requestAnimationFrame(draw);
     };
     draw();
-  };
-
-  private handleStopSim = () => {
-    if (this.simInterval) {
-      clearInterval(this.simInterval);
-      this.simInterval = null;
-    }
-  };
-
-  private handleSimToggle = () => {
-    if (this.simInterval) {
-      clearInterval(this.simInterval);
-      this.simInterval = null;
-    } else {
-      this.simInterval = setInterval(() => {
-        const { speedLevel, workspace } = this.state;
-        if (workspace.simTime >= this.simTimeMax) {
-          clearInterval(this.simInterval);
-          this.simInterval = null;
-          this.forceUpdate();
-        } else {
-          this.handleSimTimeChange(workspace.simTime + (simTimeUnit / 5) * speedRatio[speedLevel]);
-        }
-      }, 100);
-    }
-  };
-
-  private handleSimTimeChange = (value) => {
-    const { workspace } = this.state;
-    this.position = this.gcodePreview.getSimTimeInfo(Number(value)).position;
-    this.setState({
-      workspace: {
-        ...workspace,
-        simTime: Number(value),
-      },
-    });
   };
 
   private handleSpeedLevelChange = (speedLevel) => {
@@ -954,7 +934,7 @@ class PathPreview extends React.Component<{}, State> {
     }
   };
 
-  transferTime = (time: number): string => {
+  transferTime = (time: number, spliter: 'unit' | ':' = 'unit'): string => {
     let h = 0;
     let m = 0;
     let s = 0;
@@ -971,20 +951,15 @@ class PathPreview extends React.Component<{}, State> {
     } else {
       s = Math.round(restTime * 60);
     }
-
     let str = '';
-
-    if (h > 0) {
-      str += `${h} h `;
+    if (spliter === ':') {
+      if (h) str += `${h}:`;
+      const padLeftZero = (num: number) => (num >= 10 ? num.toString() : `0${num}`);
+      str += `${str.length > 0 ? padLeftZero(m) : m}:`;
+      str += padLeftZero(s);
+      return str;
     }
-
-    if (m > 0) {
-      str += `${m} m `;
-    }
-
-    str += `${s} s`;
-
-    return str;
+    return `${h > 0 ? `${h} h ` : ''}${m > 0 ? `${m} m ` : ''}${s} s`;
   };
 
   private setScale = (scale: number) => {
@@ -1003,27 +978,59 @@ class PathPreview extends React.Component<{}, State> {
     });
   };
 
-  showSimTime = () => {
+  private handlePlay = () => {
+    if (this.simInterval) clearInterval(this.simInterval);
+    this.simInterval = setInterval(() => {
+      const { speedLevel, workspace } = this.state;
+      if (workspace.simTime >= this.simTimeMax) {
+        clearInterval(this.simInterval);
+        this.simInterval = null;
+        this.forceUpdate();
+      } else {
+        this.handleSimTimeChange(workspace.simTime + SIM_TIME_MINUTE * speedRatio[speedLevel]);
+      }
+    }, SIM_TIME_MS);
+    this.setState({ playState: PlayState.PLAY });
+  };
+
+  private handleStop = () => {
+    if (this.simInterval) clearInterval(this.simInterval);
+    this.setState({ playState: PlayState.STOP });
+    this.handleSimTimeChange(0);
+  };
+
+  private handlePause = () => {
+    if (this.simInterval) clearInterval(this.simInterval);
+    this.setState({ playState: PlayState.PAUSE });
+  };
+
+  private handleSimTimeChange = (value) => {
     const { workspace } = this.state;
-    return this.transferTime(workspace.simTime);
+    this.position = this.gcodePreview.getSimTimeInfo(Number(value)).position;
+    this.setState({
+      workspace: {
+        ...workspace,
+        simTime: Number(value),
+      },
+    });
   };
 
   private renderPlayButtons = () => {
-    if (this.simInterval) {
-      return (
-        <>
-          <div style={{ width: '28px', marginLeft: '5px' }} onClick={this.handleSimToggle}>
-            <img style={{ width: '28px' }} src="img/Pause.svg" />
-          </div>
-          <div style={{ width: '28px' }} onClick={this.handleStopSim}>
-            <img style={{ width: '28px' }} src="img/Stop.svg" />
-          </div>
-        </>
-      );
+    const { playState } = this.state;
+    const controlButtons = [];
+    if (playState === PlayState.STOP) {
+      controlButtons.push(<img key="play" src="img/Play.svg" onClick={this.handlePlay} />);
+      controlButtons.push(<img key="stop" className="disabled" src="img/Stop.svg" />);
+    } else if (playState === PlayState.PLAY) {
+      controlButtons.push(<img key="pause" src="img/Pause.svg" onClick={this.handlePause} />);
+      controlButtons.push(<img key="stop" src="img/Stop.svg" onClick={this.handleStop} />);
+    } else if (playState === PlayState.PAUSE) {
+      controlButtons.push(<img key="play" src="img/Play.svg" onClick={this.handlePlay} />);
+      controlButtons.push(<img key="stop" src="img/Stop.svg" onClick={this.handleStop} />);
     }
     return (
-      <div style={{ width: '28px', marginLeft: '5px' }} onClick={this.handleSimToggle}>
-        <img style={{ width: '28px' }} src="img/Play.svg" />
+      <div className="play-control">
+        {controlButtons}
       </div>
     );
   };
@@ -1132,7 +1139,7 @@ class PathPreview extends React.Component<{}, State> {
 
     let modifiedGcodeList;
 
-    if (workspace.simTime > 0 && workspace.simTime < this.simTimeMax - simTimeUnit / 2) {
+    if (workspace.simTime > 0 && workspace.simTime < this.simTimeMax - SIM_TIME_MINUTE / 2) {
       const simTimeInfo = this.gcodePreview.getSimTimeInfo(Number(workspace.simTime));
 
       const gcodeList = this.gcodeString.split('\n');
@@ -1158,13 +1165,13 @@ class PathPreview extends React.Component<{}, State> {
       let F = -1;
       for (let i = target; i > 0; i -= 1) {
         if (U < 0 && gcodeList[i].indexOf('G1 U') > -1) {
-          const res = gcodeList[i].match(/(?<=G1 U)[-0-9\.]*/);
+          const res = gcodeList[i].match(/(?<=G1 U)[-0-9.]*/);
 
           U = parseInt(res[0], 10);
         }
 
         if (F < 0 && gcodeList[i].indexOf('G1 F') > -1) {
-          const res = gcodeList[i].match(/(?<=G1 F)[-0-9\.]*/);
+          const res = gcodeList[i].match(/(?<=G1 F)[-0-9.]*/);
 
           F = parseInt(res[0], 10);
         }
@@ -1195,7 +1202,13 @@ class PathPreview extends React.Component<{}, State> {
       console.log('modified', modifiedGcodeList);
       console.log(modifiedGcodeList.join('\n'), '123123');
       const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
-      exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
+      const status = await deviceMaster.select(device);
+      if (status && status.success) {
+        const res = await checkDeviceStatus(device);
+        if (res) {
+          exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
+        }
+      }
     }
   };
 
@@ -1272,25 +1285,36 @@ class PathPreview extends React.Component<{}, State> {
     });
   }
 
-  render() {
+  // eslint-disable-next-line class-methods-use-this
+  renderDataBlock(label: string, value: string): JSX.Element {
+    return (
+      <div className="data-block">
+        <div className="item">{label}</div>
+        <div className="value">{value}</div>
+      </div>
+    );
+  }
+
+  render(): JSX.Element {
     const {
       width, height, speedLevel, workspace, isInverting,
     } = this.state;
     const progressBar = () => {
       const percentage = `${Math.round(10000 * (workspace.simTime / this.simTimeMax)) / 100}%`;
+      // Convert unit to ms to make slider smoother
       return (
         <input
           className="slider"
           type="range"
           min={0}
-          max={this.simTimeMax}
-          step={simTimeUnit}
-          value={workspace.simTime}
+          max={units.convertTimeUnit(this.simTimeMax, 'ms', 'm')}
+          step={SIM_TIME_MS}
+          value={units.convertTimeUnit(workspace.simTime, 'ms', 'm')}
           style={{
             // @ts-ignore Set variable for css to use
             '--percentage': percentage,
           }}
-          onChange={(e) => this.handleSimTimeChange(e.target.value)}
+          onChange={(e) => this.handleSimTimeChange(units.convertTimeUnit(Number(e.target.value), 'm', 'ms'))}
         />
       );
     };
@@ -1298,6 +1322,7 @@ class PathPreview extends React.Component<{}, State> {
     return (
       <div className="path-preview-panel" style={{ touchAction: 'none', userSelect: 'none' }}>
         <Pointable
+          style={{ width, height }}
           touchAction="none"
           onWheel={this.wheel}
           onPointerCancel={this.onPointerCancel}
@@ -1305,40 +1330,38 @@ class PathPreview extends React.Component<{}, State> {
           onPointerMove={this.onPointerMove}
           onPointerUp={this.onPointerUp}
         >
-          <div>
-            <canvas
-              style={{ width, height }}
-              width={Math.round(width * window.devicePixelRatio)}
-              height={Math.round(height * window.devicePixelRatio)}
-              ref={this.setCanvas}
-            />
-          </div>
+          <canvas
+            style={{ width, height }}
+            width={Math.round(width * window.devicePixelRatio)}
+            height={Math.round(height * window.devicePixelRatio)}
+            ref={this.setCanvas}
+          />
         </Pointable>
-        <div style={{ height: '200px', paddingTop: '20px' }}>
-          <div>Tools Panel</div>
+        <div className="tools-panel">
           <div>
             <div className="label pull-left" />
-            <div className="path-preview-slider-container" style={{ height: '60px' }}>
+            <div id="progress-bar" className="path-preview-slider-container">
               {progressBar()}
             </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div className="options">
             {this.renderPlayButtons()}
-            <div style={{ display: 'flex' }}>
-              <div style={{ padding: '5px 10px', lineHeight: '18px' }}>
+            <div className="speed-control">
+              <div className="label">
                 Speed
               </div>
-              <div style={{ padding: '5px 10px' }}>
-                <input
-                  type="range"
-                  min={0}
-                  max={4}
-                  step="1"
-                  value={speedLevel}
-                  onChange={(e) => this.handleSpeedLevelChange(e.target.value)}
-                />
+              <input
+                id="speed"
+                type="range"
+                min={0}
+                max={4}
+                step="1"
+                value={speedLevel}
+                onChange={(e) => this.handleSpeedLevelChange(e.target.value)}
+              />
+              <div>
+                {this.renderSpeed()}
               </div>
-              <div style={{ paddingTop: '5px', paddingBottom: '5px', lineHeight: '18px' }}>{this.renderSpeed()}</div>
             </div>
             <div className="switch-control">
               <div className="control" style={{ paddingLeft: '5px' }}>
@@ -1382,8 +1405,8 @@ class PathPreview extends React.Component<{}, State> {
               </div>
               <div className="label">Invert</div>
             </div>
-            <div style={{ padding: '5px 10px', marginLeft: '5px' }}>
-              {this.showSimTime()}
+            <div className="current-time">
+              {this.transferTime(workspace.simTime, ':')}
             </div>
             <div />
           </div>
@@ -1395,44 +1418,20 @@ class PathPreview extends React.Component<{}, State> {
         />
         <div id="path-preview-side-panel">
           <div className="title">Preview Data</div>
-          <div style={{ marginTop: '10px' }}>
-            <div className="data-block">
-              <div className="item">Size</div>
-              <div className="value">{this.renderSize()}</div>
-            </div>
-            <div className="data-block">
-              <div className="item">Estimated Time</div>
-              <div className="value">{this.transferTime(this.simTimeMax)}</div>
-            </div>
-            <div className="data-block">
-              <div className="item">Light Time</div>
-              <div className="value">{this.transferTime(this.gcodePreview.g1TimeReal)}</div>
-            </div>
-            <div className="data-block">
-              <div className="item">Rapid Time</div>
-              <div className="value">{this.transferTime(this.gcodePreview.g0TimeReal)}</div>
-            </div>
-            <div className="data-block">
-              <div className="item">Cut Distance</div>
-              <div className="value">{`${Math.round(this.gcodePreview.g1DistReal)} mm`}</div>
-            </div>
-            <div className="data-block">
-              <div className="item">Rapid Distance</div>
-              <div className="value">{`${Math.round(this.gcodePreview.g0DistReal)} mm`}</div>
-            </div>
-            <div className="data-block">
-              <div className="item">Current Position</div>
-              <div className="value">{this.renderPosition()}</div>
-            </div>
+          <div className="datas">
+            {this.renderDataBlock('Size', this.renderSize())}
+            {this.renderDataBlock('Estimated Time', this.transferTime(this.simTimeMax))}
+            {this.renderDataBlock('Light Time', this.transferTime(this.gcodePreview.g1TimeReal))}
+            {this.renderDataBlock('Rapid Time', this.transferTime(this.gcodePreview.g0TimeReal))}
+            {this.renderDataBlock('Cut Distance', `${Math.round(this.gcodePreview.g1DistReal)} mm`)}
+            {this.renderDataBlock('Rapid Distance', `${Math.round(this.gcodePreview.g0DistReal)} mm`)}
+            {this.renderDataBlock('Current Position', this.renderPosition())}
           </div>
           <div className="buttons">
-            <div
-              className="button start-button"
-              onClick={this.handleStartHere}
-            >
+            <div className="btn btn-default primary" onClick={this.handleStartHere}>
               Start Here
             </div>
-            <div className="button end-button">
+            <div className="btn btn-default">
               End Preview
             </div>
           </div>

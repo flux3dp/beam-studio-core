@@ -91,6 +91,7 @@ const updateNodeWithPE = (node, prevProps, nextProps) => {
 
 interface Props {
   touchAction: 'auto' | 'none' | 'pan-x' | 'pan-y' | 'manipulation';
+  style?: any;
   onPointerMove?: any;
   onPointerDown?: any;
   onPointerUp?: any;
