@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable max-classes-per-file */
+import classNames from 'classnames';
 import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';
 
@@ -417,6 +418,10 @@ enum PlayState {
   PAUSE = 2,
 }
 
+interface Props {
+  togglePathPreview: () => void;
+}
+
 interface State {
   width: number, // width of canvas
   height: number, // height of canvas
@@ -442,7 +447,7 @@ interface State {
   playState: PlayState,
 }
 
-class PathPreview extends React.Component<{}, State> {
+class PathPreview extends React.Component<Props, State> {
   private camera: any;
   private canvas: HTMLCanvasElement;
   private drawCommands: any;
@@ -466,7 +471,7 @@ class PathPreview extends React.Component<{}, State> {
 
   private spaceKey: boolean;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     // TODO: make config interface
     this.canvas = null;
@@ -503,8 +508,8 @@ class PathPreview extends React.Component<{}, State> {
     this.drawLaserState = {};
 
     this.state = {
-      width: window.document.getElementById('svg_editor').offsetWidth,
-      height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - TOOLS_PANEL_HEIGHT),
+      width: window.innerWidth - constant.sidePanelsWidth,
+      height: Math.max(dimensions.height, window.innerHeight - constant.topBarHeight - TOOLS_PANEL_HEIGHT),
       camera: defaultCamera,
       workspace: defaultWorkspace,
       isInverting: false,
@@ -720,10 +725,10 @@ class PathPreview extends React.Component<{}, State> {
 
   updateWorkspace = () => {
     const { width, height } = this.state;
-    if (width !== document.getElementById('svg_editor').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('svg_editor').offsetHeight - 200)) {
+    if (width !== document.getElementById('path-preview-panel').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('path-preview-panel').offsetHeight - 200)) {
       this.setState({
-        width: window.document.getElementById('svg_editor').offsetWidth,
-        height: Math.max(dimensions.height, window.document.getElementById('svg_editor').offsetHeight - TOOLS_PANEL_HEIGHT),
+        width: window.document.getElementById('path-preview-panel').offsetWidth,
+        height: Math.max(dimensions.height, window.document.getElementById('path-preview-panel').offsetHeight - TOOLS_PANEL_HEIGHT),
       }, this.setCamera);
     }
   };
@@ -820,7 +825,7 @@ class PathPreview extends React.Component<{}, State> {
   onPointerDown = (e) => {
     e.preventDefault();
     e.target.setPointerCapture(e.pointerId);
-    const pathPreviewPanelElem = document.getElementsByClassName('path-preview-panel')[0] as HTMLElement;
+    const pathPreviewPanelElem = document.getElementById('path-preview-panel') as HTMLElement;
     const p = { left: pathPreviewPanelElem.offsetLeft, top: pathPreviewPanelElem.offsetTop };
 
     if (this.pointers.length && e.pointerType !== this.pointers[0].pointerType) this.pointers = [];
@@ -846,7 +851,7 @@ class PathPreview extends React.Component<{}, State> {
 
   onPointerMove = (e) => {
     // @ts-ignore
-    const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
+    const p = { left: document.getElementById('path-preview-panel').offsetLeft, top: document.getElementById('path-preview-panel').offsetTop };
     e.preventDefault();
     const pointer = this.pointers.find((x) => x.pointerId === e.pointerId);
     if (!pointer) return;
@@ -920,7 +925,7 @@ class PathPreview extends React.Component<{}, State> {
 
   wheel = (e) => {
     // @ts-ignore
-    const p = { left: document.getElementsByClassName('path-preview-panel')[0].offsetLeft, top: document.getElementsByClassName('path-preview-panel')[0].offsetTop };
+    const p = { left: document.getElementById('path-preview-panel').offsetLeft, top: document.getElementById('path-preview-panel').offsetTop };
     const mouseInputDevice = BeamboxPreference.read('mouse_input_device');
     const isTouchpad = (mouseInputDevice === 'TOUCHPAD');
     if (isTouchpad) {
@@ -1222,7 +1227,7 @@ class PathPreview extends React.Component<{}, State> {
     this.setState({ workspace: { ...workspace, showLaser: !workspace.showLaser } });
   };
 
-  zoom(pageX, pageY, amount) {
+  zoom(pageX: number, pageY: number, amount: number): void {
     if (!this.canvas) return;
     const r = this.canvas.getBoundingClientRect();
     const { camera } = this.state;
@@ -1296,6 +1301,8 @@ class PathPreview extends React.Component<{}, State> {
   }
 
   render(): JSX.Element {
+    const className = classNames({ mac: window.os === 'MacOS' });
+    const { togglePathPreview } = this.props;
     const {
       width, height, speedLevel, workspace, isInverting,
     } = this.state;
@@ -1320,7 +1327,7 @@ class PathPreview extends React.Component<{}, State> {
     };
 
     return (
-      <div className="path-preview-panel" style={{ touchAction: 'none', userSelect: 'none' }}>
+      <div id="path-preview-panel" className={className} style={{ touchAction: 'none', userSelect: 'none' }}>
         <Pointable
           style={{ width, height }}
           touchAction="none"
@@ -1431,7 +1438,7 @@ class PathPreview extends React.Component<{}, State> {
             <div className="btn btn-default primary" onClick={this.handleStartHere}>
               Start Here
             </div>
-            <div className="btn btn-default">
+            <div className="btn btn-default" onClick={togglePathPreview}>
               End Preview
             </div>
           </div>

@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import i18n from 'helpers/i18n';
 import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
-import PathPreview from 'app/views/beambox/Path-Preview';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
 import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
@@ -26,12 +25,6 @@ export default class SVGEditor extends React.Component<Props> {
     e.preventDefault();
     e.stopPropagation();
   }
-
-  private renderPathPreview = () => {
-    const { isPathPreviewing } = this.props;
-    if (!isPathPreviewing) return null;
-    return <PathPreview />;
-  };
 
   renderZoomBlock = (): JSX.Element => {
     const { isPathPreviewing } = this.props;
@@ -311,7 +304,6 @@ export default class SVGEditor extends React.Component<Props> {
       <div>
         <div id="svg_editor" className={platformClassNames}>
           {this.renderSvgEditor()}
-          {this.renderPathPreview()}
         </div>
         <div id="svg_source_editor">
           <div className="overlay" />

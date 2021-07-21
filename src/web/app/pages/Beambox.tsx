@@ -5,9 +5,9 @@ import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interac
 import BeamboxInit from 'implementations/beamboxInit';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
-import constant from 'app/actions/beambox/constant';
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
+import PathPreview from 'app/views/beambox/Path-Preview';
 import sentryHelper from 'helpers/sentry-helper';
 import SVGEditor from 'app/pages/svg-editor';
 import svgEditor from 'app/actions/beambox/svg-editor';
@@ -54,7 +54,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     this.setState({ isPathPreviewing: !isPathPreviewing });
   };
 
-  private renderTimeEstButton() {
+  private renderTimeEstButton(): JSX.Element {
     const { isPathPreviewing } = this.state;
     if (isPathPreviewing) return null;
     return (
@@ -64,7 +64,13 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     );
   }
 
-  render() {
+  renderPathPreview = (): JSX.Element => {
+    const { isPathPreviewing } = this.state;
+    if (!isPathPreviewing) return null;
+    return <PathPreview togglePathPreview={this.togglePathPreview} />;
+  };
+
+  render(): JSX.Element {
     const { isPathPreviewing } = this.state;
     const activeLang = i18n.getActiveLang();
     return (
@@ -74,6 +80,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
         </TopBarContextProvider>
         {this.renderTimeEstButton()}
         <SVGEditor isPathPreviewing={isPathPreviewing} />
+        {this.renderPathPreview()}
         <div id="tool-panels-placeholder" />
         <div id="image-trace-panel-placeholder" />
       </div>
