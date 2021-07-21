@@ -2,10 +2,12 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import i18n from 'helpers/i18n';
+import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import PathPreview from 'app/views/beambox/Path-Preview';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
+import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
 interface Props {
@@ -25,7 +27,22 @@ export default class SVGEditor extends React.Component<Props> {
     e.stopPropagation();
   }
 
-  private renderPathPreview = () => <PathPreview />;
+  private renderPathPreview = () => {
+    const { isPathPreviewing } = this.props;
+    if (!isPathPreviewing) return null;
+    return <PathPreview />;
+  };
+
+  renderZoomBlock = (): JSX.Element => {
+    const { isPathPreviewing } = this.props;
+    if (isPathPreviewing) return null;
+    return (
+      <ZoomBlock
+        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
+        resetView={svgEditor.resetView}
+      />
+    );
+  };
 
   private renderSvgEditor = () => {
     const { isPathPreviewing } = this.props;
@@ -66,6 +83,7 @@ export default class SVGEditor extends React.Component<Props> {
         <RightPanelContextProvider>
           <RightPanel />
         </RightPanelContextProvider>
+        {this.renderZoomBlock()}
         <div id="main_button">
           <div id="main_icon" className="tool_button" title="Main Menu">
             <div id="main_menu">
@@ -288,13 +306,12 @@ export default class SVGEditor extends React.Component<Props> {
 
   render(): JSX.Element {
     // HIDE ALMOST ALL TOOLS USING CSS
-    const { isPathPreviewing } = this.props;
     const platformClassNames = classNames({ mac: window.os === 'MacOS' });
     return (
       <div>
         <div id="svg_editor" className={platformClassNames}>
           {this.renderSvgEditor()}
-          {isPathPreviewing && this.renderPathPreview()}
+          {this.renderPathPreview()}
         </div>
         <div id="svg_source_editor">
           <div className="overlay" />

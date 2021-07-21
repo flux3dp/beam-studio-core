@@ -15,7 +15,6 @@ import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEst
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
 import TopBar from 'app/views/beambox/TopBar/TopBar';
 import { TopBarContextProvider } from 'app/views/beambox/TopBar/contexts/TopBarContext';
-import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
@@ -33,7 +32,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     };
   }
 
-  async componentDidMount() {
+  async componentDidMount(): Promise<void> {
     BeamboxGlobalInteraction.attach();
 
     // need to run after svgedit packages loaded, so place it at componentDidMouont
@@ -55,17 +54,6 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     this.setState({ isPathPreviewing: !isPathPreviewing });
   };
 
-  private renderZoomBlock() {
-    const { isPathPreviewing } = this.state;
-    if (isPathPreviewing) return null;
-    return (
-      <ZoomBlock
-        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
-        resetView={svgEditor.resetView}
-      />
-    );
-  }
-
   private renderTimeEstButton() {
     const { isPathPreviewing } = this.state;
     if (isPathPreviewing) return null;
@@ -84,7 +72,6 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
         <TopBarContextProvider>
           <TopBar togglePathPreview={this.togglePathPreview} />
         </TopBarContextProvider>
-        {this.renderZoomBlock()}
         {this.renderTimeEstButton()}
         <SVGEditor isPathPreviewing={isPathPreviewing} />
         <div id="tool-panels-placeholder" />

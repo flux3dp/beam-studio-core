@@ -30,12 +30,14 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
 
   componentDidMount(): void {
     this.getDpmm();
-    eventEmitter.on('UPDATE_ZOOM_BLOCK', this.forceUpdate.bind(this));
+    eventEmitter.on('UPDATE_ZOOM_BLOCK', this.update);
   }
 
   componentWillUnmount(): void {
-    eventEmitter.removeAllListeners();
+    eventEmitter.removeListener('UPDATE_ZOOM_BLOCK', this.update);
   }
+
+  private update = () => this.forceUpdate();
 
   private getDpmm = async () => {
     try {
