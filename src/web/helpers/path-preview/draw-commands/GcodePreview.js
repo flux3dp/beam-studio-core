@@ -99,6 +99,7 @@ export class GcodePreview {
 
   setParsedGcode(parsed) {
     this.arrayChanged = true;
+    this.timeInterval = [];
     ++this.arrayVersion;
     if (parsed.length < 2 * parsedStride) {
       this.array = null;

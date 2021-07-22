@@ -100,6 +100,7 @@ export class LaserPreview {
   setParsedGcode(parsed) {
     this.arrayChanged = true;
     ++this.arrayVersion;
+    this.timeInterval = [];
     if (parsed.length < 2 * parsedStride) {
       this.array = null;
       this.g0Dist = 0;
