@@ -24,6 +24,7 @@ import { Text3d } from 'app/views/beambox/dom3d';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { LaserPreview } from 'helpers/path-preview/draw-commands/LaserPreview';
+import SidePanel from './PathPreview/SidePanel';
 import { parseGcode } from './tmpParseGcode';
 
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
@@ -56,7 +57,7 @@ function loadShader(gl, type, source) {
   // See if it compiled successfully
 
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert(`An error occurred compiling the shaders: ${gl.getShaderInfoLog(shader)}`);
+    console.error(`An error occurred compiling the shaders: ${gl.getShaderInfoLog(shader)}`);
     gl.deleteShader(shader);
     return null;
   }
@@ -81,7 +82,7 @@ function initShaderProgram(gl, vsSource, fsSource) {
   // 錯誤處理
 
   if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-    alert(`Unable to initialize the shader program: ${gl.getProgramInfoLog(shaderProgram)}`);
+    console.error(`Unable to initialize the shader program: ${gl.getProgramInfoLog(shaderProgram)}`);
     return null;
   }
 
@@ -374,7 +375,9 @@ class Grid {
   private height: any;
   private origincount: any;
 
-  draw(drawCommands, { perspective, view, width, height, major = MAJOR_GRID_SPACING, minor = MINOR_GRID_SPACING }) {
+  draw(drawCommands, {
+    perspective, view, width, height, major = MAJOR_GRID_SPACING, minor = MINOR_GRID_SPACING,
+  }) {
     if (!this.maingrid || !this.origin || this.width !== width || this.height !== height) {
       this.width = width;
       this.height = height;
@@ -390,26 +393,11 @@ class Grid {
       this.origincount = c.length / 3;
     }
 
-    drawCommands.basic({ perspective, view, position: this.origin, offset: 0, count: this.origincount, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES }); // Red
+    drawCommands.basic({
+      perspective, view, position: this.origin, offset: 0, count: this.origincount, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES,
+    }); // Red
     // drawCommands.basic({ perspective, view, position: this.origin, offset: 2, count: 2, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES }); // Green
   }
-}
-
-function GridText(props) {
-  const { minor = MINOR_GRID_SPACING, major = MAJOR_GRID_SPACING, width, height } = props;
-  const size = Math.min(major / 3, 10);
-  const a = [];
-  for (let x = major; x <= width; x += major) {
-    a.push(<Text3d key={'x' + x} x={x} y={-5} size={size} style={{ color: '#CC0000' }} label={String(x)} />);
-    a.push(<Text3d key={'x' + -x} x={-x} y={-5} size={size} style={{ color: '#CC0000' }} label={String(-x)} />);
-  }
-  a.push(<Text3d key="x-label" x={width + 15} y={0} size={size} style={{ color: '#CC0000' }}>X</Text3d>);
-  for (let y = major; y <= height; y += major) {
-    a.push(<Text3d key={'y' + y} x={-10} y={y} size={size} style={{ color: '#00CC00' }} label={String(y)} />);
-    a.push(<Text3d key={'y' + -y} x={-10} y={-y} size={size} style={{ color: '#00CC00' }} label={String(-y)} />);
-  }
-  a.push(<Text3d key="y-label" x={0} y={height + 15} size={size} style={{ color: '#00CC00' }}>Y</Text3d>);
-  return <div>{a}</div>;
 }
 
 enum PlayState {
@@ -528,7 +516,7 @@ class PathPreview extends React.Component<Props, State> {
     documentPanelEventEmitter.on('workarea-change', this.onDeviceChange);
   }
 
-  shouldComponentUpdate(nextProps, nextState: State): boolean {
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     const {
       width, height, workspace, camera, speedLevel, isInverting, playState,
     } = this.state;
@@ -1273,8 +1261,8 @@ class PathPreview extends React.Component<Props, State> {
     });
     // console.log(view, width);
     const scale = 2 / width / view[0];
-    dx *= scale;
-    dy *= scale;
+    const scaledDx = dx * scale;
+    const scaledDy = dy * scale;
     // @ts-ignore
     const n = vec3.normalize([], vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center)));
     // console.log(camera);
@@ -1282,11 +1270,11 @@ class PathPreview extends React.Component<Props, State> {
       // @ts-ignore
       eye: vec3.add([], camera.eye,
         // @ts-ignore
-        vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
+        vec3.add([], vec3.scale([], n, -scaledDx), vec3.scale([], camera.up, -scaledDy))),
       // @ts-ignore
       center: vec3.add([], camera.center,
         // @ts-ignore
-        vec3.add([], vec3.scale([], n, -dx), vec3.scale([], camera.up, -dy))),
+        vec3.add([], vec3.scale([], n, -scaledDx), vec3.scale([], camera.up, -scaledDy))),
     });
   }
 
@@ -1423,26 +1411,17 @@ class PathPreview extends React.Component<Props, State> {
           setZoom={this.setScale}
           resetView={this.resetView}
         />
-        <div id="path-preview-side-panel">
-          <div className="title">Preview Data</div>
-          <div className="datas">
-            {this.renderDataBlock('Size', this.renderSize())}
-            {this.renderDataBlock('Estimated Time', this.transferTime(this.simTimeMax))}
-            {this.renderDataBlock('Light Time', this.transferTime(this.gcodePreview.g1TimeReal))}
-            {this.renderDataBlock('Rapid Time', this.transferTime(this.gcodePreview.g0TimeReal))}
-            {this.renderDataBlock('Cut Distance', `${Math.round(this.gcodePreview.g1DistReal)} mm`)}
-            {this.renderDataBlock('Rapid Distance', `${Math.round(this.gcodePreview.g0DistReal)} mm`)}
-            {this.renderDataBlock('Current Position', this.renderPosition())}
-          </div>
-          <div className="buttons">
-            <div className="btn btn-default primary" onClick={this.handleStartHere}>
-              Start Here
-            </div>
-            <div className="btn btn-default" onClick={togglePathPreview}>
-              End Preview
-            </div>
-          </div>
-        </div>
+        <SidePanel
+          size={this.renderSize()}
+          estTime={this.transferTime(this.simTimeMax)}
+          lightTime={this.transferTime(this.gcodePreview.g1TimeReal)}
+          rapidTime={this.transferTime(this.gcodePreview.g0TimeReal)}
+          cutDist={`${Math.round(this.gcodePreview.g1DistReal)} mm`}
+          rapidDist={`${Math.round(this.gcodePreview.g0DistReal)} mm`}
+          currentPosition={this.renderPosition()}
+          handleStartHere={this.handleStartHere}
+          togglePathPreview={togglePathPreview}
+        />
       </div>
     );
   }
