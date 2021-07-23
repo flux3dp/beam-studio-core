@@ -54,7 +54,6 @@ export default {
       edit: 'Edit',
       help: 'Help',
       open: 'Open',
-      recent: 'Open Recent',
       samples: 'Examples',
       import_hello_beamo: 'Example of beamo',
       import_hello_beambox: 'Example of beambox',

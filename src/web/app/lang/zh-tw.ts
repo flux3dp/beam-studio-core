@@ -54,7 +54,6 @@ export default {
       edit: '編輯',
       help: '說明',
       open: '打開',
-      recent: '最近使用',
       samples: '範例',
       import_hello_beamo: 'beamo 範例',
       import_hello_beambox: 'Beambox 範例',
