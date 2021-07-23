@@ -52,7 +52,6 @@ export interface ILang {
       edit: string;
       help: string;
       open: string;
-      recent: string;
       samples: string;
       import_hello_beamo: string;
       import_hello_beambox: string;

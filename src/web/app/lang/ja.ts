@@ -54,7 +54,6 @@ export default {
       edit: '編集',
       help: 'ヘルプ',
       open: '開く',
-      recent: '最近使用したファイルを開く',
       samples: 'サンプル',
       import_hello_beamo: 'beamoの例',
       import_hello_beambox: 'Beamboxの例',
