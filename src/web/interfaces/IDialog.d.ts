@@ -16,13 +16,10 @@ export interface IDialogBoxStyle {
 }
 
 export interface IPrompt {
-  buttons?: IButton[],
   caption?: string,
   defaultValue?: string,
   onYes?: (value?: string) => void,
-  onNo?: (value?: string) => void,
   onCancel?: () => void,
-  closeOnBackgroundClick?: boolean,
 }
 
 export interface IInputLightBox {
