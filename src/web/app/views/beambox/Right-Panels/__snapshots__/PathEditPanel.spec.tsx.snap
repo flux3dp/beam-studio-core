@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  id="pathedit-panel"
+>
+  <div
+    className="node-type-panel"
+  >
+    <div
+      className="title"
+    >
+      NODE TYPE
+    </div>
+    <SegmentedControl
+      isDisabled={false}
+      onChanged={[Function]}
+      segments={
+        Array [
+          Object {
+            "imgSrc": "img/right-panel/icon-nodetype-0.svg",
+            "title": "tCorner",
+            "value": 0,
+          },
+          Object {
+            "imgSrc": "img/right-panel/icon-nodetype-1.svg",
+            "title": "tSmooth",
+            "value": 1,
+          },
+          Object {
+            "imgSrc": "img/right-panel/icon-nodetype-2.svg",
+            "title": "tSymmetry",
+            "value": 2,
+          },
+        ]
+      }
+      selectedIndexes={
+        Array [
+          0,
+        ]
+      }
+    />
+  </div>
+</div>
+`;

@@ -1,10 +1,11 @@
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+
+import i18n from 'helpers/i18n';
 import SegmentedControl from 'app/widgets/Segmented-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-let svgCanvas, svgedit;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit });
+let svgedit;
+getSVGAsync((globalSVG) => { svgedit = globalSVG.Edit; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.path_edit_panel;
 
@@ -12,17 +13,19 @@ const LINKTYPE_CORNER = 0;
 const LINKTYPE_SMOOTH = 1; // same direction, different dist
 const LINKTYPE_SYMMETRIC = 2; // same direction, same dist
 
-class PathEditPanel extends React.Component<any, any> {
-    onNodeTypeChange = (newType) => {
-        svgedit.path.path.setSelectedNodeType(newType);
-    }
+function PathEditPanel(): JSX.Element {
+  const onNodeTypeChange = (newType) => {
+    svgedit.path.path.setSelectedNodeType(newType);
+  };
 
-  renderNodeTypePanel() {
+  const renderNodeTypePanel = (): JSX.Element => {
     const currentPath = svgedit.path.path;
-    let isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
+    const isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
     let selectedNodeTypes = [];
     if (currentPath) {
-      const selectedNodes = currentPath.selected_pts.map((index) => currentPath.nodePoints[index]).filter((point) => point);
+      const selectedNodes = currentPath.selected_pts
+        .map((index) => currentPath.nodePoints[index])
+        .filter((point) => point);
       selectedNodes.forEach((node) => {
         if (node) {
           selectedNodeTypes.push(node.linkType);
@@ -34,14 +37,13 @@ class PathEditPanel extends React.Component<any, any> {
         selectedNodeTypes = [];
       }
     }
-
     return (
       <div className="node-type-panel">
         <div className="title">{LANG.node_type}</div>
         <SegmentedControl
           isDisabled={isDisabled}
           selectedIndexes={selectedNodeTypes}
-          onChanged={(newType) => this.onNodeTypeChange(newType)}
+          onChanged={(newType) => onNodeTypeChange(newType)}
           segments={[
             {
               imgSrc: 'img/right-panel/icon-nodetype-0.svg',
@@ -62,15 +64,13 @@ class PathEditPanel extends React.Component<any, any> {
         />
       </div>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div id="pathedit-panel">
-        {this.renderNodeTypePanel()}
-      </div>
-    );
-  }
+  return (
+    <div id="pathedit-panel">
+      {renderNodeTypePanel()}
+    </div>
+  );
 }
 
 export default PathEditPanel;

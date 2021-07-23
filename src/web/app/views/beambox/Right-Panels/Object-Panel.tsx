@@ -5,7 +5,7 @@ import ActionsPanel from 'app/views/beambox/Right-Panels/Actions-Panel';
 import DimensionPanel from 'app/views/beambox/Right-Panels/Dimension-Panel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
-import OptionsPanel from 'app/views/beambox/Right-Panels/Options-Panel';
+import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
@@ -113,7 +113,7 @@ export class ObjectPanel extends React.Component<Props> {
     return (
       <OptionsPanel
         elem={elem}
-        dimensionValues={dimensionValues}
+        rx={dimensionValues.rx}
         updateObjectPanel={updateObjectPanel}
         updateDimensionValues={updateDimensionValues}
       />
