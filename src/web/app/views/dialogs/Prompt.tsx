@@ -1,60 +1,43 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-import React, { createRef } from 'react';
+/* eslint-disable react/require-default-props */
 import classNames from 'classnames';
+import React from 'react';
 
-import i18n from 'helpers/i18n';
 import ButtonGroup from 'app/widgets/ButtonGroup';
+import i18n from 'helpers/i18n';
 import keyCodeConstants from 'app/constants/keycode-constants';
 import Modal from 'app/widgets/Modal';
-import { IButton } from 'interfaces/IButton';
 
 const LANG = i18n.lang.alert;
 
 interface Props {
-  buttons?: IButton[];
-  closeOnBackgroundClick?: boolean;
-  caption?: string;
+  caption: string;
   defaultValue?: string;
   onYes: (value?: string) => void;
-  onClose: () => void;
   onCancel?: (value?: string) => void;
+  onClose: () => void;
 }
 
-class Prompt extends React.Component<Props> {
-  private inputRef: React.RefObject<HTMLInputElement>;
+function Prompt({
+  caption, defaultValue = '', onYes, onCancel = () => { }, onClose,
+}: Props): JSX.Element {
+  const inputRef = React.useRef(null);
 
-  constructor(props: Props) {
-    super(props);
-    this.inputRef = createRef();
-  }
-
-  handleKeyDown = (e: React.KeyboardEvent): void => {
-    const { onYes, onClose } = this.props;
+  const handleKeyDown = (e: React.KeyboardEvent): void => {
     if (e.keyCode === keyCodeConstants.KEY_RETURN) {
-      if (onYes) {
-        onYes(this.inputRef.current.value);
-      }
+      onYes(inputRef.current.value);
       onClose();
     }
     e.stopPropagation();
   };
 
-  renderButtons = (): JSX.Element => {
-    const {
-      buttons, onYes, onCancel, onClose,
-    } = this.props;
-    if (buttons) {
-      return <ButtonGroup className="btn-right" buttons={buttons} />;
-    }
+  const renderButtons = (): JSX.Element => {
     const defaultButtons = [
       {
         label: LANG.ok2,
         className: 'btn-default primary',
         onClick: () => {
-          const inputElem = this.inputRef.current;
-          if (onYes) {
-            onYes(inputElem.value);
-          }
+          const inputElem = inputRef.current;
+          onYes(inputElem.value);
           onClose();
         },
       },
@@ -62,10 +45,8 @@ class Prompt extends React.Component<Props> {
         label: LANG.cancel,
         className: 'btn-default',
         onClick: () => {
-          const inputElem = this.inputRef.current;
-          if (onCancel) {
-            onCancel(inputElem.value);
-          }
+          const inputElem = inputRef.current;
+          onCancel?.(inputElem.value);
           onClose();
         },
       },
@@ -73,32 +54,24 @@ class Prompt extends React.Component<Props> {
     return <ButtonGroup className="btn-right" buttons={defaultButtons} />;
   };
 
-  render(): JSX.Element {
-    const {
-      closeOnBackgroundClick, onClose, caption, defaultValue,
-    } = this.props;
-
-    return (
-      <Modal
-        onClose={closeOnBackgroundClick ? onClose : () => { }}
-      >
-        <div className={classNames('prompt-dialog-container', 'animate__animated', 'animate__bounceIn')}>
-          <div className="caption">{caption}</div>
-          <input
-            autoFocus
-            ref={this.inputRef}
-            className="text-input"
-            type="text"
-            onKeyDown={(e) => this.handleKeyDown(e)}
-            defaultValue={defaultValue}
-          />
-          <div className="footer">
-            {this.renderButtons()}
-          </div>
+  return (
+    <Modal>
+      <div className={classNames('prompt-dialog-container', 'animate__animated', 'animate__bounceIn')}>
+        <div className="caption">{caption}</div>
+        <input
+          autoFocus
+          ref={inputRef}
+          className="text-input"
+          type="text"
+          onKeyDown={handleKeyDown}
+          defaultValue={defaultValue}
+        />
+        <div className="footer">
+          {renderButtons()}
         </div>
-      </Modal>
-    );
-  }
+      </div>
+    </Modal>
+  );
 }
 
 export default Prompt;

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import AboutBeamStudio from 'app/views/beambox/AboutBeamStudio';
 import ChangeLogDialog from 'app/views/dialogs/ChangeLogDialog';
-import ConfirmPrompt from 'app/views/dialogs/Confirm-Prompt';
+import ConfirmPrompt from 'app/views/dialogs/ConfirmPrompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentPanel from 'app/views/beambox/DocumentPanel/DocumentPanel';
@@ -182,12 +182,10 @@ export default {
     promptIndex = (promptIndex + 1) % 10000;
     addDialogComponent(id,
       <Prompt
-        buttons={args.buttons}
         caption={args.caption}
         defaultValue={args.defaultValue}
         onYes={args.onYes}
         onCancel={args.onCancel}
-        closeOnBackgroundClick={args.closeOnBackgroundClick}
         onClose={() => popDialogById(id)}
       />);
   },
