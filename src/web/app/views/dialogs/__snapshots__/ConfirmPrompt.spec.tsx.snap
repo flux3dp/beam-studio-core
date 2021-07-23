@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly has confirmValue 1`] = `
+<ConfirmPrompt
+  caption="POWER TOO HIGH"
+  confirmValue="NOTED"
+  message="Using lower laser power (under 70%) will extends laser tube's lifetime.
+Enter \\"NOTED\\" to proceed."
+  onCancel={[MockFunction]}
+  onClose={[MockFunction]}
+  onConfirmed={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="confirm-prompt-dialog-container animate__animated animate__bounceIn"
+        >
+          <div
+            className="caption"
+          >
+            POWER TOO HIGH
+          </div>
+          <pre
+            className="message"
+          >
+            Using lower laser power (under 70%) will extends laser tube's lifetime.
+Enter "NOTED" to proceed.
+          </pre>
+          <input
+            autoFocus={true}
+            className="text-input"
+            onKeyDown={[Function]}
+            placeholder="NOTED"
+            type="text"
+          />
+          <div
+            className="footer"
+          >
+            <ButtonGroup
+              buttons={
+                Array [
+                  Object {
+                    "className": "btn-default primary",
+                    "label": "OK",
+                    "onClick": [Function],
+                  },
+                  Object {
+                    "className": "btn-default",
+                    "label": "Cancel",
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              className="btn-right"
+            >
+              <div
+                className="button-group btn-right"
+              >
+                <button
+                  className="btn btn-default primary"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "OK",
+                    }
+                  }
+                  data-test-key="ok"
+                  key="0"
+                  onClick={[Function]}
+                  type="button"
+                />
+                <button
+                  className="btn btn-default"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Cancel",
+                    }
+                  }
+                  data-test-key="cancel"
+                  key="1"
+                  onClick={[Function]}
+                  type="button"
+                />
+              </div>
+            </ButtonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</ConfirmPrompt>
+`;
+
+exports[`should render correctly no confirmValue 1`] = `
+<ConfirmPrompt
+  caption="POWER TOO HIGH"
+  confirmValue=""
+  message="Using lower laser power (under 70%) will extends laser tube's lifetime.
+Enter \\"NOTED\\" to proceed."
+  onCancel={[MockFunction]}
+  onClose={[MockFunction]}
+  onConfirmed={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="confirm-prompt-dialog-container animate__animated animate__bounceIn"
+        >
+          <div
+            className="caption"
+          >
+            POWER TOO HIGH
+          </div>
+          <pre
+            className="message"
+          >
+            Using lower laser power (under 70%) will extends laser tube's lifetime.
+Enter "NOTED" to proceed.
+          </pre>
+          <input
+            autoFocus={true}
+            className="text-input"
+            onKeyDown={[Function]}
+            placeholder=""
+            type="text"
+          />
+          <div
+            className="footer"
+          >
+            <ButtonGroup
+              buttons={
+                Array [
+                  Object {
+                    "className": "btn-default primary",
+                    "label": "OK",
+                    "onClick": [Function],
+                  },
+                  Object {
+                    "className": "btn-default",
+                    "label": "Cancel",
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              className="btn-right"
+            >
+              <div
+                className="button-group btn-right"
+              >
+                <button
+                  className="btn btn-default primary"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "OK",
+                    }
+                  }
+                  data-test-key="ok"
+                  key="0"
+                  onClick={[Function]}
+                  type="button"
+                />
+                <button
+                  className="btn btn-default"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Cancel",
+                    }
+                  }
+                  data-test-key="cancel"
+                  key="1"
+                  onClick={[Function]}
+                  type="button"
+                />
+              </div>
+            </ButtonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</ConfirmPrompt>
+`;

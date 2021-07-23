@@ -9,7 +9,8 @@ module.exports = {
     "!src/web/app/svgedit/**",
     "!src/web/app/actions/beambox/svg-editor.ts",
     "!src/web/app/lang/**",
-    "!src/implementations/**"
+    "!src/implementations/**",
+    "!src/web/app/constants/**",
   ],
   globals: {
     "ts-jest": {

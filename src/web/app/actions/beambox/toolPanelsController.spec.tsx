@@ -8,7 +8,7 @@ jest.mock('app/actions/beambox/beambox-global-interaction', () => ({
   onObjectBlur: mockOnObjectBlur,
 }));
 
-jest.mock('app/views/beambox/Tool-Panels/Tool-Panels', () => function DummyToolPanels() {
+jest.mock('app/views/beambox/ToolPanels/ToolPanels', () => function DummyToolPanels() {
   return (
     <div>
       This is dummy ToolPanels

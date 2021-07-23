@@ -167,6 +167,8 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+window.os = 'MacOS';
+
 import Menu from './Menu';
 
 describe('should render correctly', () => {

@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<Prompt
+  caption="New Preset Name"
+  defaultValue=""
+  onCancel={[MockFunction]}
+  onClose={[MockFunction]}
+  onYes={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="prompt-dialog-container animate__animated animate__bounceIn"
+        >
+          <div
+            className="caption"
+          >
+            New Preset Name
+          </div>
+          <input
+            autoFocus={true}
+            className="text-input"
+            defaultValue=""
+            onKeyDown={[Function]}
+            type="text"
+          />
+          <div
+            className="footer"
+          >
+            <ButtonGroup
+              buttons={
+                Array [
+                  Object {
+                    "className": "btn-default primary",
+                    "label": "OK",
+                    "onClick": [Function],
+                  },
+                  Object {
+                    "className": "btn-default",
+                    "label": "Cancel",
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              className="btn-right"
+            >
+              <div
+                className="button-group btn-right"
+              >
+                <button
+                  className="btn btn-default primary"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "OK",
+                    }
+                  }
+                  data-test-key="ok"
+                  key="0"
+                  onClick={[Function]}
+                  type="button"
+                />
+                <button
+                  className="btn btn-default"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Cancel",
+                    }
+                  }
+                  data-test-key="cancel"
+                  key="1"
+                  onClick={[Function]}
+                  type="button"
+                />
+              </div>
+            </ButtonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</Prompt>
+`;

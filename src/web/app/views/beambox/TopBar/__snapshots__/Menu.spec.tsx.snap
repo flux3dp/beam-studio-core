@@ -1511,14 +1511,32 @@ exports[`should render correctly test checkbox menu item 2`] = `
                       role="menuitem"
                       tabindex="-1"
                     >
-                      Zoom In
+                      <span
+                        class="action"
+                      >
+                        Zoom In
+                      </span>
+                      <span
+                        class="hotkey"
+                      >
+                        ⌘+
+                      </span>
                     </li>
                     <li
                       class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
-                      Zoom Out
+                      <span
+                        class="action"
+                      >
+                        Zoom Out
+                      </span>
+                      <span
+                        class="hotkey"
+                      >
+                        ⌘-
+                      </span>
                     </li>
                     <li
                       class="rc-menu__item rc-menu__item--type-checkbox"
@@ -1782,14 +1800,32 @@ exports[`should render correctly test checkbox menu item 2`] = `
                           role="menuitem"
                           tabindex="-1"
                         >
-                          Zoom In
+                          <span
+                            class="action"
+                          >
+                            Zoom In
+                          </span>
+                          <span
+                            class="hotkey"
+                          >
+                            ⌘+
+                          </span>
                         </li>
                         <li
                           class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
-                          Zoom Out
+                          <span
+                            class="action"
+                          >
+                            Zoom Out
+                          </span>
+                          <span
+                            class="hotkey"
+                          >
+                            ⌘-
+                          </span>
                         </li>
                         <li
                           class="rc-menu__item rc-menu__item--type-checkbox"
@@ -1886,7 +1922,16 @@ exports[`should render correctly test checkbox menu item 2`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Zoom In
+                      <span
+                        className="action"
+                      >
+                        Zoom In
+                      </span>
+                      <span
+                        className="hotkey"
+                      >
+                        ⌘+
+                      </span>
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -1910,7 +1955,16 @@ exports[`should render correctly test checkbox menu item 2`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Zoom Out
+                      <span
+                        className="action"
+                      >
+                        Zoom Out
+                      </span>
+                      <span
+                        className="hotkey"
+                      >
+                        ⌘-
+                      </span>
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -2255,14 +2309,32 @@ exports[`should render correctly test checkbox menu item 3`] = `
                       role="menuitem"
                       tabindex="-1"
                     >
-                      Zoom In
+                      <span
+                        class="action"
+                      >
+                        Zoom In
+                      </span>
+                      <span
+                        class="hotkey"
+                      >
+                        ⌘+
+                      </span>
                     </li>
                     <li
                       class="rc-menu__item rc-menu__item--type-checkbox"
                       role="menuitem"
                       tabindex="-1"
                     >
-                      Zoom Out
+                      <span
+                        class="action"
+                      >
+                        Zoom Out
+                      </span>
+                      <span
+                        class="hotkey"
+                      >
+                        ⌘-
+                      </span>
                     </li>
                     <li
                       class="rc-menu__item rc-menu__item--type-checkbox"
@@ -2526,14 +2598,32 @@ exports[`should render correctly test checkbox menu item 3`] = `
                           role="menuitem"
                           tabindex="-1"
                         >
-                          Zoom In
+                          <span
+                            class="action"
+                          >
+                            Zoom In
+                          </span>
+                          <span
+                            class="hotkey"
+                          >
+                            ⌘+
+                          </span>
                         </li>
                         <li
                           class="rc-menu__item rc-menu__item--type-checkbox"
                           role="menuitem"
                           tabindex="-1"
                         >
-                          Zoom Out
+                          <span
+                            class="action"
+                          >
+                            Zoom Out
+                          </span>
+                          <span
+                            class="hotkey"
+                          >
+                            ⌘-
+                          </span>
                         </li>
                         <li
                           class="rc-menu__item rc-menu__item--type-checkbox"
@@ -2630,7 +2720,16 @@ exports[`should render correctly test checkbox menu item 3`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Zoom In
+                      <span
+                        className="action"
+                      >
+                        Zoom In
+                      </span>
+                      <span
+                        className="hotkey"
+                      >
+                        ⌘+
+                      </span>
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -2654,7 +2753,16 @@ exports[`should render correctly test checkbox menu item 3`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Zoom Out
+                      <span
+                        className="action"
+                      >
+                        Zoom Out
+                      </span>
+                      <span
+                        className="hotkey"
+                      >
+                        ⌘-
+                      </span>
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
