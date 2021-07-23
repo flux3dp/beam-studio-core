@@ -27,7 +27,7 @@ exports[`should render correctly submit through input 1`] = `
       style={
         Object {
           "padding": "3px 10px",
-          "text-align": "left",
+          "textAlign": "left",
           "width": "120px",
         }
       }
