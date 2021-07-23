@@ -9,6 +9,7 @@ import {
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import hotkeys from 'app/constants/hotkeys';
 import i18n from 'helpers/i18n';
 
 export default function Menu(): JSX.Element {
@@ -57,6 +58,12 @@ export default function Menu(): JSX.Element {
     });
   };
   const openPage = (url: string) => browser.open(url);
+  const hotkey = (action: string): JSX.Element => (
+    <>
+      <span className="action">{menuCms[action]}</span>
+      <span className="hotkey">{hotkeys[action]['keyboard'][window.os]['representation']}</span>
+    </>
+  );
 
   return (
     <TopBarMenu menuButton={(
@@ -72,8 +79,8 @@ export default function Menu(): JSX.Element {
         <MenuItem onClick={() => callback('OPEN')}>{menuCms.open}</MenuItem>
         <MenuItem>{menuCms.recent}</MenuItem>
         <MenuDivider />
-        <MenuItem onClick={() => callback('SAVE_SCENE')}>{menuCms.save_scene}</MenuItem>
-        <MenuItem onClick={() => callback('SAVE_AS')}>{menuCms.save_as}</MenuItem>
+        <MenuItem onClick={() => callback('SAVE_SCENE')}>{hotkey('save_scene')}</MenuItem>
+        <MenuItem onClick={() => callback('SAVE_AS')}>{hotkey('save_as')}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
           <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>{menuCms.import_hello_beamo}</MenuItem>
@@ -90,23 +97,23 @@ export default function Menu(): JSX.Element {
           <MenuItem onClick={() => callback('EXPORT_SVG')}>{menuCms.export_SVG}</MenuItem>
           <MenuItem onClick={() => callback('EXPORT_PNG')}>{menuCms.export_PNG}</MenuItem>
           <MenuItem onClick={() => callback('EXPORT_JPG')}>{menuCms.export_JPG}</MenuItem>
-          <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>{menuCms.export_flux_task}</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>{hotkey('export_flux_task')}</MenuItem>
         </SubMenu>
         <MenuDivider />
-        <MenuItem onClick={() => callback('PREFERENCE')}>{menuCms.preferences}</MenuItem>
+        <MenuItem onClick={() => callback('PREFERENCE')}>{hotkey('preferences')}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.edit}>
-        <MenuItem onClick={() => callback('UNDO')}>{menuCms.undo}</MenuItem>
-        <MenuItem onClick={() => callback('REDO')}>{menuCms.redo}</MenuItem>
+        <MenuItem onClick={() => callback('UNDO')}>{hotkey('undo')}</MenuItem>
+        <MenuItem onClick={() => callback('REDO')}>{hotkey('redo')}</MenuItem>
         <MenuDivider />
-        <MenuItem onClick={() => callback('CUT')}>{menuCms.cut}</MenuItem>
-        <MenuItem onClick={() => callback('COPY')}>{menuCms.copy}</MenuItem>
-        <MenuItem onClick={() => callback('PASTE')}>{menuCms.paste}</MenuItem>
-        <MenuItem onClick={() => callback('PASTE_IN_PLACE')}>{menuCms.paste_in_place}</MenuItem>
-        <MenuItem disabled={duplicateDisabled} onClick={() => callback('DUPLICATE')}>{menuCms.duplicate}</MenuItem>
+        <MenuItem onClick={() => callback('CUT')}>{hotkey('cut')}</MenuItem>
+        <MenuItem onClick={() => callback('COPY')}>{hotkey('copy')}</MenuItem>
+        <MenuItem onClick={() => callback('PASTE')}>{hotkey('paste')}</MenuItem>
+        <MenuItem onClick={() => callback('PASTE_IN_PLACE')}>{hotkey('paste_in_place')}</MenuItem>
+        <MenuItem disabled={duplicateDisabled} onClick={() => callback('DUPLICATE')}>{hotkey('duplicate')}</MenuItem>
         <MenuDivider />
-        <MenuItem disabled={groupDisabled} onClick={() => callback('GROUP')}>{menuCms.group}</MenuItem>
-        <MenuItem disabled={ungroupDisabled} onClick={() => callback('UNGROUP')}>{menuCms.ungroup}</MenuItem>
+        <MenuItem disabled={groupDisabled} onClick={() => callback('GROUP')}>{hotkey('group')}</MenuItem>
+        <MenuItem disabled={ungroupDisabled} onClick={() => callback('UNGROUP')}>{hotkey('ungroup')}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.path}>
           <MenuItem onClick={() => callback('OFFSET')}>{menuCms.offset}</MenuItem>
@@ -134,11 +141,11 @@ export default function Menu(): JSX.Element {
         </SubMenu>
         <MenuDivider />
         <MenuItem onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
-        <MenuItem onClick={() => callback('CLEAR_SCENE')}>{menuCms.clear_scene}</MenuItem>
+        <MenuItem onClick={() => callback('CLEAR_SCENE')}>{hotkey('clear_scene')}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.view}>
-        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>{menuCms.zoom_in}</MenuItem>
-        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_OUT')}>{menuCms.zoom_out}</MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>{hotkey('zoom_in')}</MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_OUT')}>{hotkey('zoom_out')}</MenuItem>
         <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('FITS_TO_WINDOW')}>{menuCms.fit_to_window}</MenuItem>
         <MenuItem
           type="checkbox"
