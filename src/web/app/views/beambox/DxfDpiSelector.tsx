@@ -41,11 +41,6 @@ const DxfDpiSelector = ({ defaultDpiValue, onSubmit, onCancel }: Props): JSX.Ele
       onClick: () => submitValue(),
     },
   ];
-  const style = {
-    padding: '3px 10px',
-    width: '120px',
-    'text-align': 'left',
-  };
   return (
     <div className="dxf-dpi-selector">
       <div className="caption">
@@ -59,7 +54,11 @@ const DxfDpiSelector = ({ defaultDpiValue, onSubmit, onCancel }: Props): JSX.Ele
           defaultValue={defaultDpiValue}
           onClick={clearInputValue}
           onKeyDown={handleKeyDown}
-          style={style}
+          style={{
+            padding: '3px 10px',
+            width: '120px',
+            textAlign: 'left',
+          }}
         />
       </div>
 
