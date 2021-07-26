@@ -14,6 +14,7 @@ import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import Discover from 'helpers/api/discover';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
+import FileName from 'app/views/beambox/TopBar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LeftPanel from 'app/views/beambox/LeftPanel/LeftPanel';
@@ -541,20 +542,6 @@ export class TopBar extends React.Component<{}, State> {
     }
   }
 
-  renderFileName() {
-    if (window.os === 'Windows') {
-      return null;
-    } else {
-      const { fileName, hasUnsavedChange } = this.context;
-      const titleText = (fileName || LANG.untitled) + (hasUnsavedChange ? '*' : '');
-      return (
-        <div className="file-title">
-          {titleText}
-        </div>
-      );
-    }
-  }
-
   renderHint() {
     return (
       <TopBarHintsContextProvider>
@@ -612,7 +599,7 @@ export class TopBar extends React.Component<{}, State> {
 
   render() {
     const { isPreviewing } = this.state;
-    const { setShouldStartPreviewController, currentUser } = this.context;
+    const { setShouldStartPreviewController, currentUser, fileName, hasUnsavedChange } = this.context;
     return (
       <div className="top-bar-left-panel-container">
         <LeftPanel
@@ -621,7 +608,7 @@ export class TopBar extends React.Component<{}, State> {
           endPreviewMode={this.endPreviewMode}
         />
         <div className={this.topBarClassName}>
-          {this.renderFileName()}
+          <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
           {this.renderPreviewButton()}
           {this.renderGoButton()}
           {this.renderDeviceList()}
