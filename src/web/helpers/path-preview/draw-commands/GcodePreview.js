@@ -206,8 +206,6 @@ export class GcodePreview {
       this.g1DistReal = g1DistReal;
       this.g1TimeReal = g1TimeReal;
     }
-
-    console.log(this.array, '\n bang array');
   }
 
   getSimTimeInfo(simTime) {
@@ -227,7 +225,11 @@ export class GcodePreview {
             //console.log('x1, y1, x2, y2 : ', this.array[index * drawStride * 2 + 1], this.array[index * drawStride * 2 + 2], this.array[index * drawStride * 2 + 9], this.array[index * drawStride * 2 + 10])
             const x = this.array[index * drawStride * 2 + 1] + (this.array[index * drawStride * 2 + 9] - this.array[index * drawStride * 2 + 1]) * ratio;
             const y = this.array[index * drawStride * 2 + 2] + (this.array[index * drawStride * 2 + 10] - this.array[index * drawStride * 2 + 2]) * ratio;
-            return { index, position: [x, -y]};
+            return {
+              index,
+              position: [x, -y],
+              next: [this.array[index * drawStride * 2 + 9], this.array[index * drawStride * 2 + 10]],
+            };
         }
         else if (this.timeInterval[guess] < simTime) {
             min = guess + 1;
@@ -237,7 +239,7 @@ export class GcodePreview {
         }
     }
 
-    return { index: -1, position: [0, 0] };
+    return { index: -1, position: [0, 0], prev: [-1, -1], next: [-1, -1] };
   }
 
   draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining) {
