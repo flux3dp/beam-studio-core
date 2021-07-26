@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -20,6 +19,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.tool_panels;
+const { $ } = window;
 
 let _mm2pixel = function (pixel_input) {
   const dpmm = Constant.dpmm;
