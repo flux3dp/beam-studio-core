@@ -1159,9 +1159,7 @@ class PathPreview extends React.Component<Props, State> {
         }
       }
 
-      console.log('WOWOWOWOWO', target, gcodeList[target], gcodeList[target+1], simTimeInfo.position);
-
-      const preparation = [';FLUX Laser Svgeditor Tool', '$H', 'G1S0', 'M25', 'G1 U150', 'G1 X0 Y0', 'G1 F7500.0000'];
+      const preparation = gcodeList.slice(0, 8);
 
       let isEngraving = false;
       let laserDetected = false;
@@ -1296,7 +1294,6 @@ class PathPreview extends React.Component<Props, State> {
                     }
                   }
                   break;
-
                 } else {
                   yFound = false;
                   startX = -1;
@@ -1360,7 +1357,7 @@ class PathPreview extends React.Component<Props, State> {
           preparation.push(`G1 F${F}`);
           preparation.push(`G1${isEngraving ? 'V' : 'S'}0`);
   
-          modifiedGcodeList = preparation.concat(fastGradientGcodeList.slice(target));  
+          modifiedGcodeList = preparation.concat(fastGradientGcodeList.slice(target));
           const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
           const status = await deviceMaster.select(device);
           if (status && status.success) {
