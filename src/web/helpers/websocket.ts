@@ -270,7 +270,7 @@ export default function (options) {
         ws = createWebSocket(socketOptions);
       }
 
-      if (ws === null || readyState.OPEN !== ws.readyState) {
+      if (readyState.OPEN !== ws.readyState) {
         ws.onopen = (e) => {
           socketOptions.onOpen(e);
           sender(data);
