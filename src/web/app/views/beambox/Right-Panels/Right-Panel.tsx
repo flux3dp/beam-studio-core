@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
 import LayerPanel from 'app/views/beambox/Right-Panels/LayerPanel';
-import PathEditPanel from 'app/views/beambox/Right-Panels/Path-Edit-Panel';
+import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';

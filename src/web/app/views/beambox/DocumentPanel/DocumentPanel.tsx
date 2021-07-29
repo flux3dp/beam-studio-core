@@ -25,7 +25,7 @@ const workareaOptions = [
 ]
 
 if (window['FLUX'].dev) {
-    workareaOptions.push({ label: 'Beambox2', value: 'fbb2b' });
+    workareaOptions.push({ label: 'Beambox 2', value: 'fbb2b' });
 }
 
 interface Props {

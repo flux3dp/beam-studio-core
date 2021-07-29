@@ -38,7 +38,7 @@ function Editor({
   updateBeamboxPreferenceChange,
   updateModel,
 }: Props): JSX.Element {
-  const lang = i18n.lang;
+  const { lang } = i18n;
   const [defaultFont, updateDefaultFont] = React.useState(storage.get('default-font') || {
     family: 'Arial',
     style: 'Regular',
@@ -87,6 +87,31 @@ function Editor({
     });
   };
 
+  const modelOptions = [
+    {
+      value: 'fbm1',
+      label: 'beamo',
+      selected: selectedModel === 'fbm1',
+    },
+    {
+      value: 'fbb1b',
+      label: 'Beambox',
+      selected: selectedModel === 'fbb1b',
+    },
+    {
+      value: 'fbb1p',
+      label: 'Beambox Pro',
+      selected: selectedModel === 'fbb1p',
+    },
+  ];
+  if (window.FLUX.dev) {
+    modelOptions.push({
+      value: 'fbb2b',
+      label: 'Beambox 2',
+      selected: selectedModel === 'fbb2b',
+    });
+  }
+
   return (
     <>
       <div className="subtitle">{lang.settings.groups.editor}</div>
@@ -118,23 +143,7 @@ function Editor({
       />
       <SelectControl
         label={lang.settings.default_beambox_model}
-        options={[
-          {
-            value: 'fbm1',
-            label: 'beamo',
-            selected: selectedModel === 'fbm1',
-          },
-          {
-            value: 'fbb1b',
-            label: 'Beambox',
-            selected: selectedModel === 'fbb1b',
-          },
-          {
-            value: 'fbb1p',
-            label: 'Beambox Pro',
-            selected: selectedModel === 'fbb1p',
-          },
-        ]}
+        options={modelOptions}
         onChange={(e) => {
           updateBeamboxPreferenceChange('model', e.target.value);
           updateModel(e.target.value);
