@@ -9,12 +9,8 @@ exports[`should render correctly open the browser and reach the correct page 1`]
     keepMounted={true}
     menuButton={
       <img
+        className="icon"
         src="img/icon.png"
-        style={
-          Object {
-            "width": "40px",
-          }
-        }
       />
     }
     offsetX={0}
@@ -27,14 +23,10 @@ exports[`should render correctly open the browser and reach the correct page 1`]
     viewScroll="initial"
   >
     <img
+      className="icon"
       onClick={[Function]}
       onKeyDown={[Function]}
       src="img/icon.png"
-      style={
-        Object {
-          "width": "40px",
-        }
-      }
     />
     <div
       className="rc-menu-container"
@@ -54,12 +46,8 @@ exports[`should render correctly open the browser and reach the correct page 2`]
     keepMounted={true}
     menuButton={
       <img
+        className="icon"
         src="img/icon.png"
-        style={
-          Object {
-            "width": "40px",
-          }
-        }
       />
     }
     offsetX={0}
@@ -72,14 +60,10 @@ exports[`should render correctly open the browser and reach the correct page 2`]
     viewScroll="initial"
   >
     <img
+      className="icon"
       onClick={[Function]}
       onKeyDown={[Function]}
       src="img/icon.png"
-      style={
-        Object {
-          "width": "40px",
-        }
-      }
     />
     <div
       className="rc-menu-container"
@@ -91,8 +75,8 @@ exports[`should render correctly open the browser and reach the correct page 2`]
         anchorRef={
           Object {
             "current": <img
+              class="icon"
               src="img/icon.png"
-              style="width: 40px;"
             />,
           }
         }
@@ -421,12 +405,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
     keepMounted={true}
     menuButton={
       <img
+        className="icon"
         src="img/icon.png"
-        style={
-          Object {
-            "width": "40px",
-          }
-        }
       />
     }
     offsetX={0}
@@ -439,14 +419,10 @@ exports[`should render correctly open the browser and reach the correct page 3`]
     viewScroll="initial"
   >
     <img
+      className="icon"
       onClick={[Function]}
       onKeyDown={[Function]}
       src="img/icon.png"
-      style={
-        Object {
-          "width": "40px",
-        }
-      }
     />
     <div
       className="rc-menu-container"
@@ -458,8 +434,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
         anchorRef={
           Object {
             "current": <img
+              class="icon"
               src="img/icon.png"
-              style="width: 40px;"
             />,
           }
         }
@@ -1358,12 +1334,8 @@ exports[`should render correctly test checkbox menu item 1`] = `
     keepMounted={true}
     menuButton={
       <img
+        className="icon"
         src="img/icon.png"
-        style={
-          Object {
-            "width": "40px",
-          }
-        }
       />
     }
     offsetX={0}
@@ -1376,14 +1348,10 @@ exports[`should render correctly test checkbox menu item 1`] = `
     viewScroll="initial"
   >
     <img
+      className="icon"
       onClick={[Function]}
       onKeyDown={[Function]}
       src="img/icon.png"
-      style={
-        Object {
-          "width": "40px",
-        }
-      }
     />
     <div
       className="rc-menu-container"
@@ -1403,12 +1371,8 @@ exports[`should render correctly test checkbox menu item 2`] = `
     keepMounted={true}
     menuButton={
       <img
+        className="icon"
         src="img/icon.png"
-        style={
-          Object {
-            "width": "40px",
-          }
-        }
       />
     }
     offsetX={0}
@@ -1421,14 +1385,10 @@ exports[`should render correctly test checkbox menu item 2`] = `
     viewScroll="initial"
   >
     <img
+      className="icon"
       onClick={[Function]}
       onKeyDown={[Function]}
       src="img/icon.png"
-      style={
-        Object {
-          "width": "40px",
-        }
-      }
     />
     <div
       className="rc-menu-container"
@@ -1440,8 +1400,8 @@ exports[`should render correctly test checkbox menu item 2`] = `
         anchorRef={
           Object {
             "current": <img
+              class="icon"
               src="img/icon.png"
-              style="width: 40px;"
             />,
           }
         }
@@ -2201,12 +2161,8 @@ exports[`should render correctly test checkbox menu item 3`] = `
     keepMounted={true}
     menuButton={
       <img
+        className="icon"
         src="img/icon.png"
-        style={
-          Object {
-            "width": "40px",
-          }
-        }
       />
     }
     offsetX={0}
@@ -2219,14 +2175,10 @@ exports[`should render correctly test checkbox menu item 3`] = `
     viewScroll="initial"
   >
     <img
+      className="icon"
       onClick={[Function]}
       onKeyDown={[Function]}
       src="img/icon.png"
-      style={
-        Object {
-          "width": "40px",
-        }
-      }
     />
     <div
       className="rc-menu-container"
@@ -2238,8 +2190,8 @@ exports[`should render correctly test checkbox menu item 3`] = `
         anchorRef={
           Object {
             "current": <img
+              class="icon"
               src="img/icon.png"
-              style="width: 40px;"
             />,
           }
         }
