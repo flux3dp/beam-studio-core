@@ -1848,7 +1848,7 @@
           }
           return pathSeg;
         } else {
-          console.log(entity, 'can not converted to bezier');
+          // console.log(entity, 'can not converted to bezier');
           return polylines[i].map((p, i) => {
             return {type: i === 0 ? 'M': 'L', points: [p]};
           });
@@ -1967,7 +1967,7 @@
     return {firstPoint, lastPoint};
   };
 
-  const connectPathSegs = (pathSegs) => { 
+  const connectPathSegs = (pathSegs) => {
     for (let i = 0; i < pathSegs.length - 1; i++) {
       let pathSeg = pathSegs[i];
       const {firstPoint, lastPoint} = getFirstPointAndLastPoints(pathSeg);
@@ -2004,7 +2004,7 @@
       ) {
       d += 'z';
     }
-    
+
     return `<path fill="none" stroke="#000000" stroke-width="1px" vector-effect="non-scaling-stroke" d="${d}"/>`;
   };
 
@@ -2197,7 +2197,6 @@
 
 
   function interpolate(t, order, points, knots, weights, result) {
-
     var i,j,s,l;              // function-scoped iteration variables
     var n = points.length;    // points count
     var d = points[0].length; // point dimensionality
@@ -2228,16 +2227,17 @@
       knots.length-1 - (order-1)
     ];
 
-    // remap t to the domain where the spline is defined
-    var low  = knots[domain[0]];
-    var high = knots[domain[1]];
-    t = t * (high - low) + low;
+    const truncateFloat = (num) => Math.round(num * 1e9) / 1e9;
 
+    // remap t to the domain where the spline is defined
+    var low  = truncateFloat(knots[domain[0]]);
+    var high = truncateFloat(knots[domain[1]]);
+    t = truncateFloat(t * (high - low) + low);
     if(t < low || t > high) throw new Error('out of bounds');
 
     // find s (the spline segment) for the [t] value provided
     for(s=domain[0]; s<domain[1]; s++) {
-      if(t >= knots[s] && t <= knots[s+1]) {
+      if(t >= truncateFloat(knots[s]) && t <= truncateFloat(knots[s+1])) {
         break;
       }
     }
