@@ -69,9 +69,7 @@ export default function Menu(): JSX.Element {
     <TopBarMenu menuButton={(
       <img
         src="img/icon.png"
-        style={{
-          width: '40px',
-        }}
+        className="icon"
       />
     )}
     >
