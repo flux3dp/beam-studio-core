@@ -1061,12 +1061,13 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   private handleStartHere = async (): Promise<void> => {
-    const device = await dialogCaller.selectDevice();
+    const device = {}
+   // const device = await dialogCaller.selectDevice();
     if (!device) {
       return;
     }
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    const allowedWorkareas = constant.allowedWorkarea[device.model];
+    /*const allowedWorkareas = constant.allowedWorkarea[device.model];
     if (currentWorkarea && allowedWorkareas) {
       if (!allowedWorkareas.includes(currentWorkarea)) {
         alertCaller.popUp({
@@ -1076,7 +1077,7 @@ class PathPreview extends React.Component<Props, State> {
         });
         return;
       }
-    }
+    }*/
 
     const { workspace } = this.state;
 
@@ -1159,12 +1160,19 @@ class PathPreview extends React.Component<Props, State> {
         }
       }
 
-      const preparation = gcodeList.slice(0, 8);
+      let preparation = [];
+      for (let i = 0; i < gcodeList.length; i += 1) {
+        preparation.push(gcodeList[i]);
+        if (gcodeList[i].indexOf('F7500') > -1) {
+          break;
+        }
+      }
 
       let isEngraving = false;
       let laserDetected = false;
       let U = -1;
       let F = -1;
+      let Z = -1;
 
       if (this.fastGradientGcodeString) {
         //ExportFuncs.gcodeToFcode(this.fastGradientGcodeString);
@@ -1259,6 +1267,22 @@ class PathPreview extends React.Component<Props, State> {
                 
                 if (engravingLineCount > distBytesCalculation)  {
                   modifiedGcodeList = prefix;
+
+                  if (BeamboxPreference.read('enable-autofocus')) {
+                    for (let j = cacheIndex; j > 0; j -= 1) {
+                      if (Z < 0 && fastGradientGcodeList[j].indexOf('Z') > -1) {
+                        const res = fastGradientGcodeList[j].match(/(?<=Z)[0-9\.]*/);
+            
+                        Z = parseInt(res[0], 10);
+                        console.log('z found', Z);
+                        break;
+                      }
+                    }
+
+                    modifiedGcodeList.push('G1 Z-1.0000');
+                    modifiedGcodeList.push(`G1 Z${Z}`);
+                  }
+
                   modifiedGcodeList.push(resolutionLine);
                   for (let j = cacheIndex; j < startBytesIndex + 1; j += 1) {
                     modifiedGcodeList.push(fastGradientGcodeList[j]);
@@ -1346,10 +1370,21 @@ class PathPreview extends React.Component<Props, State> {
               isEngraving = true;
               laserDetected = true;
             }
+
+            if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
+              const res = gcodeList[i].match(/(?<=Z)[0-9\.]*/);
   
-            if (F > 0 && U > 0 && laserDetected) {
+              Z = parseInt(res[0], 10);
+            }
+
+            if (F > 0 && U > 0 && laserDetected && (!BeamboxPreference.read('enable-autofocus') || (BeamboxPreference.read('enable-autofocus') && Z > -1))) {
               break;
             }
+          }
+
+          if (BeamboxPreference.read('enable-autofocus')) {
+            preparation.push('G1 Z-1.0000');
+            preparation.push(`G1 Z${Z}`)
           }
   
           preparation.push(`G1 U${U}`);
@@ -1391,11 +1426,21 @@ class PathPreview extends React.Component<Props, State> {
             laserDetected = true;
           }
 
-          if (F > 0 && U > 0 && laserDetected) {
+          if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
+            const res = gcodeList[i].match(/(?<=Z)[0-9\.]*/);
+
+            Z = parseInt(res[0], 10);
+          }
+
+          if (F > 0 && U > 0 && laserDetected && (!BeamboxPreference.read('enable-autofocus') || (BeamboxPreference.read('enable-autofocus') && Z > -1))) {
             break;
           }
         }
 
+        if (BeamboxPreference.read('enable-autofocus')) {
+          preparation.push('G1 Z-1.0000');
+          preparation.push(`G1 Z${Z}`)
+        }
         preparation.push(`G1 U${U}`);
         preparation.push(`G1 X${simTimeInfo.position[0].toFixed(4)} Y${simTimeInfo.position[1].toFixed(4)}`);
         preparation.push(`G1 F${F}`);
