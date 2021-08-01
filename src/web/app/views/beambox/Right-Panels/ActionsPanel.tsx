@@ -154,11 +154,11 @@ class ActionsPanel extends React.Component<Props> {
 
   render(): JSX.Element {
     const { elem } = this.props;
-    const isMultiSelect = elem && elem.tagName === 'g' && elem.getAttribute('data-tempgroup') === 'true';
+    const isMultiSelect = elem && elem.tagName.toLowerCase() === 'g' && elem.getAttribute('data-tempgroup') === 'true';
     let content = null;
     if (elem) {
-      const { tagName } = elem;
-      if (tagName === 'image') {
+      const tagName = elem.tagName.toLowerCase();
+      if (tagName === 'image' || tagName === 'img') {
         content = this.renderImageActions();
       } else if (tagName === 'text') {
         content = this.renderTextActions();
