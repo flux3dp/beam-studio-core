@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import Constant from 'app/actions/beambox/constant';
-import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
+import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import KeycodeConstants from 'app/constants/keycode-constants';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
@@ -23,6 +23,7 @@ const panelMap = {
   ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
   line: ['x1', 'y1', 'rot', 'x2', 'y2'],
   image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
   text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
   use: ['x', 'y', 'rot', 'w', 'h', 'lock'],
 };
@@ -114,7 +115,7 @@ class DimensionPanel extends React.Component<Props> {
   };
 
   handleSizeChange = (type:string, val:number): void => {
-    const batchCmd = new history.BatchCommand('Object Panel Size Change');
+    const batchCmd = HistoryCommandFactory.createBatchCommand('Object Panel Size Change');
     const { updateDimensionValues, getDimensionValues } = this.props;
     const response = {
       dimensionValues: {} as any,
@@ -124,7 +125,7 @@ class DimensionPanel extends React.Component<Props> {
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     const newDimensionValue = {};
-    const sizeVal = val * Constant.dpmm;
+    const sizeVal = val * Constant.dpmm; //12400
     if (isRatioFixed) {
       const ratio = sizeVal / parseFloat(dimensionValues[type]);
       const otherType = fixedSizeMapping[type];
@@ -194,7 +195,7 @@ class DimensionPanel extends React.Component<Props> {
     getDimensionValues(response);
     const dimensionValues = response.dimensionValues;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
-
+    // console.log(dimensionValues);
     switch (type) {
       case 'x':
         return (
@@ -411,7 +412,7 @@ class DimensionPanel extends React.Component<Props> {
     const { elem } = this.props;
     let panels = ['x', 'y', 'rot', 'w', 'h'];
     if (elem) {
-      panels = panelMap[elem.tagName] || ['x', 'y', 'rot', 'w', 'h'];
+      panels = panelMap[elem.tagName.toLowerCase()] || ['x', 'y', 'rot', 'w', 'h'];
     }
     return (
       <div className="dimension-panel">
