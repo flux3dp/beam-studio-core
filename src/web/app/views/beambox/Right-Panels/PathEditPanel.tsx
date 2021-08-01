@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import i18n from 'helpers/i18n';
-import SegmentedControl from 'app/widgets/Segmented-Control';
+import SegmentedControl from 'app/widgets/SegmentedControl';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgedit;
