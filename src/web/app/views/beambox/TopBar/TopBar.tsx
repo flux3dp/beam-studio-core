@@ -13,6 +13,7 @@ import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import Discover from 'helpers/api/discover';
+import ElementTitle from 'app/views/beambox/TopBar/ElementTitle';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileName from 'app/views/beambox/TopBar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -561,45 +562,9 @@ export class TopBar extends React.Component<{}, State> {
     return null;
   }
 
-  renderElementLayerAndName() {
-    const { selectedElem } = this.context;
-    let content = '';
-    try {
-      if (selectedElem) {
-        if (selectedElem.getAttribute('data-tempgroup') === 'true') {
-          content = LANG.tag_names.multi_select;
-        } else {
-          const layer = svgCanvas.getObjectLayer(selectedElem);
-          const layerName = layer ? layer.title : '';
-          if (selectedElem.tagName !== 'use') {
-            content = `${layerName} > ${LANG.tag_names[selectedElem.tagName]}`;
-          } else {
-            if (selectedElem.getAttribute('data-svg') === 'true') {
-              content = `${layerName} > ${LANG.tag_names.svg}`;
-            } else if (selectedElem.getAttribute('data-dxf') === 'true') {
-              content = `${layerName} > ${LANG.tag_names.dxf}`;
-            } else {
-              content = `${layerName} > ${LANG.tag_names.use}`;
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    if (!content) {
-      return null
-    }
-    return (
-      <div className="element-title">
-        {content}
-      </div>
-    );
-  }
-
   render() {
     const { isPreviewing } = this.state;
-    const { setShouldStartPreviewController, currentUser, fileName, hasUnsavedChange } = this.context;
+    const { setShouldStartPreviewController, currentUser, fileName, hasUnsavedChange, selectedElem } = this.context;
     return (
       <div className="top-bar-left-panel-container">
         <LeftPanel
@@ -612,7 +577,7 @@ export class TopBar extends React.Component<{}, State> {
           {this.renderPreviewButton()}
           {this.renderGoButton()}
           {this.renderDeviceList()}
-          {this.renderElementLayerAndName()}
+          <ElementTitle selectedElem={selectedElem} />
           {this.renderHint()}
           {this.renderMenu()}
         </div>
