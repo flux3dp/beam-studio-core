@@ -41,14 +41,14 @@ getSVGAsync.mockImplementation((callback) => {
 import ElementTitle from './ElementTitle';
 
 describe('should render correctly', () => {
-  it('no selected element', () => {
+  test('no selected element', () => {
     expect(toJson(shallow(<ElementTitle
       selectedElem={null}
     />))).toMatchSnapshot();
     expect(getObjectLayer).not.toHaveBeenCalled();
   });
 
-  it('multiple selections', () => {
+  test('multiple selections', () => {
     document.body.innerHTML = '<g id="svg_1" data-tempgroup="true" />';
     const wrapper = shallow(<ElementTitle
       selectedElem={document.getElementById('svg_1')}
@@ -62,7 +62,7 @@ describe('should render correctly', () => {
       jest.resetAllMocks();
     });
 
-    it('not use', () => {
+    test('not use', () => {
       getObjectLayer.mockReturnValue({
         title: 'Layer 1',
       });
@@ -75,7 +75,7 @@ describe('should render correctly', () => {
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
 
-    it('svg', () => {
+    test('svg', () => {
       getObjectLayer.mockReturnValue({
         title: 'Layer 1',
       });
@@ -88,7 +88,7 @@ describe('should render correctly', () => {
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
 
-    it('dxf', () => {
+    test('dxf', () => {
       getObjectLayer.mockReturnValue({
         title: 'Layer 1',
       });
@@ -101,7 +101,7 @@ describe('should render correctly', () => {
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
 
-    it('imported object', () => {
+    test('imported object', () => {
       getObjectLayer.mockReturnValue({
         title: 'Layer 1',
       });
@@ -114,7 +114,7 @@ describe('should render correctly', () => {
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
 
-    it('no layer title given', () => {
+    test('no layer title given', () => {
       getObjectLayer.mockReturnValue(null);
       document.body.innerHTML = '<use id="svg_1" />';
       const wrapper = shallow(<ElementTitle

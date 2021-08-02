@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="go-button-container no-machine"
+  onClick={[Function]}
+>
+  <div
+    className="go-btn"
+  />
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<div
+  className="go-button-container"
+  onClick={[Function]}
+>
+  <div
+    className="go-text"
+  >
+    GO
+  </div>
+  <div
+    className="go-btn"
+  />
+</div>
+`;
