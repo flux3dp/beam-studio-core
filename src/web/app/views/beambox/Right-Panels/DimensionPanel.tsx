@@ -125,7 +125,7 @@ class DimensionPanel extends React.Component<Props> {
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     const newDimensionValue = {};
-    const sizeVal = val * Constant.dpmm; //12400
+    const sizeVal = val * Constant.dpmm;
     if (isRatioFixed) {
       const ratio = sizeVal / parseFloat(dimensionValues[type]);
       const otherType = fixedSizeMapping[type];
@@ -195,7 +195,6 @@ class DimensionPanel extends React.Component<Props> {
     getDimensionValues(response);
     const dimensionValues = response.dimensionValues;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
-    // console.log(dimensionValues);
     switch (type) {
       case 'x':
         return (
