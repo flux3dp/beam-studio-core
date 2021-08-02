@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import ActionsPanel from 'app/views/beambox/Right-Panels/Actions-Panel';
+import ActionsPanel from 'app/views/beambox/Right-Panels/ActionsPanel';
 import DimensionPanel from 'app/views/beambox/Right-Panels/Dimension-Panel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
