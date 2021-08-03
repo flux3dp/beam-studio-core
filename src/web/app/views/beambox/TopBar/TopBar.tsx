@@ -8,6 +8,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
+import CommonTools from 'app/views/beambox/TopBar/CommonTools';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Discover from 'helpers/api/discover';
@@ -413,6 +414,10 @@ export class TopBar extends React.Component<{}, State> {
           <ElementTitle selectedElem={selectedElem} />
           {this.renderHint()}
           {this.renderMenu()}
+          <CommonTools
+            isWeb={window.FLUX.version === 'web'}
+            isPreviewing={isPreviewing}
+          />
         </div>
       </div>
     );

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly in non-preview mode and is web version 1`] = `
+<div
+  className="common-tools-container"
+  style={
+    Object {
+      "marginLeft": "150px",
+      "position": "absolute",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "cursor": "pointer",
+      }
+    }
+  >
+    <img
+      draggable="false"
+      onClick={[Function]}
+      src="img/left-bar/icon-Cursor.svg"
+      title="Undo"
+    />
+    <img
+      draggable="false"
+      onClick={[Function]}
+      src="img/left-bar/icon-Cursor.svg"
+      style={
+        Object {
+          "transform": "rotate(90deg)",
+        }
+      }
+      title="Redo"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render correctly in preview mode 1`] = `""`;
+
+exports[`should render correctly is not web version 1`] = `""`;
