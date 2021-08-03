@@ -117,7 +117,6 @@ export default {
       forum: '社群论坛',
       software_update: '软件更新',
       bug_report: '错误回报',
-      dev_tool: '侦错工具',
       dashboard: '仪表版',
       machine_info: '机器资讯',
       network_testing: '检测网路设定',

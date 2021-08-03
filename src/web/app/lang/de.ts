@@ -118,7 +118,6 @@ export default {
       forum: 'Gemeinschaftsforum',
       software_update: 'Software-Update',
       bug_report: 'Fehlerbericht',
-      dev_tool: 'Debug-Tool',
       dashboard: 'Dashboard',
       machine_info: 'Maschineninfo',
       network_testing: 'Testen Sie die Netzwerkeinstellungen',

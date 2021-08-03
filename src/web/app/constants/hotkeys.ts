@@ -1,6 +1,25 @@
+const isMacOs = window.os === 'MacOS';
+
 export default {
+  add_new_machine: {
+    action: 'ADD_NEW_MACHINE',
+    shortcut: isMacOs ? 'option+n' : 'alt+n',
+    representation: isMacOs ? '⌥N' : 'Alt+N',
+    keyboard: {
+      MacOS: {
+        shortcut: 'option+n',
+        representation: '⌥N',
+      },
+      Windows: {
+        shortcut: 'alt+n',
+        representation: 'Alt+N',
+      },
+    },
+  },
   cut: {
     action: 'CUT',
+    shortcut: isMacOs ? 'command+x' : 'ctrl+x',
+    representation: isMacOs ? '⌘X' : 'Ctrl+X',
     keyboard: {
       MacOS: {
         shortcut: 'command+x',
@@ -14,6 +33,8 @@ export default {
   },
   copy: {
     action: 'COPY',
+    shortcut: isMacOs ? 'command+c' : 'ctrl+c',
+    representation: isMacOs ? '⌘C' : 'Ctrl+C',
     keyboard: {
       MacOS: {
         shortcut: 'command+c',
@@ -27,6 +48,8 @@ export default {
   },
   paste: {
     action: 'PASTE',
+    shortcut: isMacOs ? 'command+v' : 'ctrl+v',
+    representation: isMacOs ? '⌘V' : 'Ctrl+V',
     keyboard: {
       MacOS: {
         shortcut: 'command+v',
@@ -40,6 +63,8 @@ export default {
   },
   paste_in_place: {
     action: 'PASTE_IN_PLACE',
+    shortcut: isMacOs ? 'shift+command+v' : 'shift+ctrl+v',
+    representation: isMacOs ? '⇧⌘V' : 'Shift+Ctrl+V',
     keyboard: {
       MacOS: {
         shortcut: 'shift+command+v',
@@ -53,6 +78,8 @@ export default {
   },
   duplicate: {
     action: 'DUPLICATE',
+    shortcut: isMacOs ? 'command+d' : 'ctrl+d',
+    representation: isMacOs ? '⌘D' : 'Ctrl+D',
     keyboard: {
       MacOS: {
         shortcut: 'command+d',
@@ -66,6 +93,8 @@ export default {
   },
   clear_scene: {
     action: 'CLEAR_SCENE',
+    shortcut: isMacOs ? 'shift+command+x' : 'shift+ctrl+x',
+    representation: isMacOs ? '⇧⌘X' : 'Shift+Ctrl+X',
     keyboard: {
       MacOS: {
         shortcut: 'shift+command+x',
@@ -79,6 +108,7 @@ export default {
   },
   zoom_in: {
     action: 'ZOOM_IN',
+    representation: isMacOs ? '⌘+' : 'Ctrl+=',
     keyboard: {
       MacOS: {
         representation: '⌘+',
@@ -90,6 +120,7 @@ export default {
   },
   zoom_out: {
     action: 'ZOOM_OUT',
+    representation: isMacOs ? '⌘-' : 'Ctrl+-',
     keyboard: {
       MacOS: {
         representation: '⌘-',
@@ -101,6 +132,8 @@ export default {
   },
   undo: {
     action: 'UNDO',
+    shortcut: isMacOs ? 'command+z' : 'ctrl+z',
+    representation: isMacOs ? '⌘Z' : 'Ctrl+Z',
     keyboard: {
       MacOS: {
         shortcut: 'command+z',
@@ -114,6 +147,8 @@ export default {
   },
   redo: {
     action: 'REDO',
+    shortcut: isMacOs ? 'shift+command+z' : 'shift+ctrl+z',
+    representation: isMacOs ? '⇧⌘Z' : 'Shift+Ctrl+Z',
     keyboard: {
       MacOS: {
         shortcut: 'shift+command+z',
@@ -127,6 +162,8 @@ export default {
   },
   group: {
     action: 'GROUP',
+    shortcut: isMacOs ? 'command+g' : 'ctrl+g',
+    representation: isMacOs ? '⌘G' : 'Ctrl+G',
     keyboard: {
       MacOS: {
         shortcut: 'command+g',
@@ -140,6 +177,8 @@ export default {
   },
   ungroup: {
     action: 'UNGROUP',
+    shortcut: isMacOs ? 'shift+command+g' : 'shift+ctrl+g',
+    representation: isMacOs ? '⇧⌘G' : 'Shift+Ctrl+G',
     keyboard: {
       MacOS: {
         shortcut: 'shift+command+g',
@@ -153,6 +192,8 @@ export default {
   },
   preferences: {
     action: 'PREFERENCE',
+    shortcut: isMacOs ? 'command+k' : 'ctrl+k',
+    representation: isMacOs ? '⌘K' : 'Ctrl+K',
     keyboard: {
       MacOS: {
         shortcut: 'command+k',
@@ -166,6 +207,8 @@ export default {
   },
   save_scene: {
     action: 'SAVE_SCENE',
+    shortcut: isMacOs ? 'command+s' : 'ctrl+s',
+    representation: isMacOs ? '⌘S' : 'Ctrl+S',
     keyboard: {
       MacOS: {
         shortcut: 'command+s',
@@ -179,6 +222,8 @@ export default {
   },
   save_as: {
     action: 'SAVE_AS',
+    shortcut: isMacOs ? 'shift+command+s' : 'shift+ctrl+s',
+    representation: isMacOs ? '⇧⌘S' : 'Shift+Ctrl+S',
     keyboard: {
       MacOS: {
         shortcut: 'shift+command+s',
@@ -192,6 +237,8 @@ export default {
   },
   export_flux_task: {
     action: 'EXPORT_FLUX_TASK',
+    shortcut: isMacOs ? 'command+e' : 'ctrl+e',
+    representation: isMacOs ? '⌘E' : 'Ctrl+E',
     keyboard: {
       MacOS: {
         shortcut: 'command+e',

@@ -6,6 +6,7 @@ import SelectControl from 'app/views/settings/SelectControl';
 import { StorageKey } from 'interfaces/IStorage';
 
 interface Props {
+  isWeb: boolean;
   supportedLangs: { [key: string]: string };
   notificationOptions: { value: any, label: string, selected: boolean }[];
   changeActiveLang: (e: React.ChangeEvent) => void;
@@ -13,12 +14,13 @@ interface Props {
 }
 
 function General({
+  isWeb,
   supportedLangs,
   notificationOptions,
   changeActiveLang,
   updateConfigChange,
 }: Props): JSX.Element {
-  const lang = i18n.lang;
+  const { lang } = i18n;
   return (
     <>
       <div className="subtitle">{lang.settings.groups.general}</div>
@@ -32,11 +34,16 @@ function General({
         }))}
         onChange={changeActiveLang}
       />
-      <SelectControl
-        label={lang.settings.notifications}
-        options={notificationOptions}
-        onChange={(e) => updateConfigChange('notification', e.target.value)}
-      />
+      {
+        isWeb ? null
+          : (
+            <SelectControl
+              label={lang.settings.notifications}
+              options={notificationOptions}
+              onChange={(e) => updateConfigChange('notification', e.target.value)}
+            />
+          )
+      }
     </>
   );
 }

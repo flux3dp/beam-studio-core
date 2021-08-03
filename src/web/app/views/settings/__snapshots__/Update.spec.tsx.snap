@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`should render correctly desktop version 1`] = `
 <Fragment>
   <div
     className="subtitle"
@@ -27,3 +27,5 @@ exports[`should render correctly 1`] = `
   />
 </Fragment>
 `;
+
+exports[`should render correctly web version 1`] = `""`;

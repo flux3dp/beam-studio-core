@@ -16,30 +16,54 @@ jest.mock('helpers/i18n', () => ({
 // eslint-disable-next-line import/first
 import Update from './Update';
 
-test('should render correctly', () => {
-  const updateConfigChange = jest.fn();
-  const wrapper = shallow(<Update
-    updateNotificationOptions={[
-      {
-        value: 'TRUE',
-        label: 'On',
-        selected: true,
-      },
-      {
-        value: 'FALSE',
-        label: 'Off',
-        selected: false,
-      },
-    ]}
-    updateConfigChange={updateConfigChange}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+describe('should render correctly', () => {
+  test('desktop version', () => {
+    const updateConfigChange = jest.fn();
+    const wrapper = shallow(<Update
+      isWeb={false}
+      updateNotificationOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: true,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: false,
+        },
+      ]}
+      updateConfigChange={updateConfigChange}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
 
-  wrapper.find('SelectControl').simulate('change', {
-    target: {
-      value: 'FALSE',
-    },
+    wrapper.find('SelectControl').simulate('change', {
+      target: {
+        value: 'FALSE',
+      },
+    });
+    expect(updateConfigChange).toHaveBeenCalledTimes(1);
+    expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'auto_check_update', 'FALSE');
   });
-  expect(updateConfigChange).toHaveBeenCalledTimes(1);
-  expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'auto_check_update', 'FALSE');
+
+  test('web version', () => {
+    const updateConfigChange = jest.fn();
+    const wrapper = shallow(<Update
+      isWeb
+      updateNotificationOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: true,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: false,
+        },
+      ]}
+      updateConfigChange={updateConfigChange}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
 });

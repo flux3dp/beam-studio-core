@@ -5,12 +5,14 @@ import SelectControl from 'app/views/settings/SelectControl';
 import { StorageKey } from 'interfaces/IStorage';
 
 interface Props {
+  isWeb: boolean;
   updateNotificationOptions: { value: any, label: string, selected: boolean, }[];
   updateConfigChange: (id: StorageKey, newVal: any) => void;
 }
 
-function Update({ updateNotificationOptions, updateConfigChange }: Props): JSX.Element {
-  const lang = i18n.lang;
+function Update({ isWeb, updateNotificationOptions, updateConfigChange }: Props): JSX.Element {
+  if (isWeb) return null;
+  const { lang } = i18n;
   return (
     <>
       <div className="subtitle">{lang.settings.groups.update}</div>

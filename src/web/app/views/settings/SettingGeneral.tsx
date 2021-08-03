@@ -240,12 +240,14 @@ class SettingGeneral extends React.Component<Props, State> {
     return (
       <div className="form general">
         <General
+          isWeb={window.FLUX.version === 'web'}
           supportedLangs={supportedLangs}
           notificationOptions={notificationOptions}
           changeActiveLang={this.changeActiveLang}
           updateConfigChange={this.updateConfigChange}
         />
         <Update
+          isWeb={window.FLUX.version === 'web'}
           updateNotificationOptions={updateNotificationOptions}
           updateConfigChange={this.updateConfigChange}
         />

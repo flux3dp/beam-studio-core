@@ -61,7 +61,7 @@ export default function Menu(): JSX.Element {
   const hotkey = (action: string): JSX.Element => (
     <>
       <span className="action">{menuCms[action]}</span>
-      <span className="hotkey">{hotkeys[action]['keyboard'][window.os]['representation']}</span>
+      <span className="hotkey">{hotkeys[action].representation}</span>
     </>
   );
 
@@ -187,7 +187,7 @@ export default function Menu(): JSX.Element {
         </MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.machines}>
-        <MenuItem onClick={() => callback('ADD_NEW_MACHINE')}>{menuCms.add_new_machine}</MenuItem>
+        <MenuItem onClick={() => callback('ADD_NEW_MACHINE')}>{hotkey('add_new_machine')}</MenuItem>
         <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.help}>
@@ -207,7 +207,6 @@ export default function Menu(): JSX.Element {
         <MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => callback('BUG_REPORT')}>{menuCms.bug_report}</MenuItem>
-        <MenuItem>{menuCms.dev_tool}</MenuItem>
       </SubMenu>
     </TopBarMenu>
   );
