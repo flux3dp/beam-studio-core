@@ -117,7 +117,6 @@ export default {
       forum: 'コミュニティフォーラム',
       software_update: 'ソフトウェア更新',
       bug_report: 'バグ報告',
-      dev_tool: 'デバッグツール',
       dashboard: 'ダッシュボード',
       machine_info: 'マシン情報',
       network_testing: 'ネットワーク設定をテスト',

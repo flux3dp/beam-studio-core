@@ -115,7 +115,6 @@ export interface ILang {
       forum: string;
       software_update: string;
       bug_report: string;
-      dev_tool: string;
       dashboard: string;
       machine_info: string;
       network_testing: string;

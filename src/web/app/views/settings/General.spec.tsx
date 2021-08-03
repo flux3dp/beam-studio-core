@@ -18,43 +18,77 @@ jest.mock('helpers/i18n', () => ({
 // eslint-disable-next-line import/first
 import General from './General';
 
-test('should render correctly', () => {
-  const changeActiveLang = jest.fn();
-  const updateConfigChange = jest.fn();
-  const wrapper = shallow(<General
-    supportedLangs={{
-      de: 'Deutsche',
-      en: 'English',
-      es: 'Español',
-      'zh-tw': '繁體中文',
-      ja: '日本語',
-      'zh-cn': '简体中文',
-    }}
-    notificationOptions={[
-      {
-        value: 'TRUE',
-        label: 'On',
-        selected: true,
-      },
-      {
+describe('should render correctly', () => {
+  test('desktop version', () => {
+    const changeActiveLang = jest.fn();
+    const updateConfigChange = jest.fn();
+    const wrapper = shallow(<General
+      isWeb={false}
+      supportedLangs={{
+        de: 'Deutsche',
+        en: 'English',
+        es: 'Español',
+        'zh-tw': '繁體中文',
+        ja: '日本語',
+        'zh-cn': '简体中文',
+      }}
+      notificationOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: true,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: false,
+        },
+      ]}
+      changeActiveLang={changeActiveLang}
+      updateConfigChange={updateConfigChange}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('SelectControl').at(0).simulate('change');
+    expect(changeActiveLang).toHaveBeenCalledTimes(1);
+
+    wrapper.find('SelectControl').at(1).simulate('change', {
+      target: {
         value: 'FALSE',
-        label: 'Off',
-        selected: false,
       },
-    ]}
-    changeActiveLang={changeActiveLang}
-    updateConfigChange={updateConfigChange}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
-
-  wrapper.find('SelectControl').at(0).simulate('change');
-  expect(changeActiveLang).toHaveBeenCalledTimes(1);
-
-  wrapper.find('SelectControl').at(1).simulate('change', {
-    target: {
-      value: 'FALSE',
-    },
+    });
+    expect(updateConfigChange).toHaveBeenCalledTimes(1);
+    expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'notification', 'FALSE');
   });
-  expect(updateConfigChange).toHaveBeenCalledTimes(1);
-  expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'notification', 'FALSE');
+
+  test('web version', () => {
+    const changeActiveLang = jest.fn();
+    const updateConfigChange = jest.fn();
+    const wrapper = shallow(<General
+      isWeb
+      supportedLangs={{
+        de: 'Deutsche',
+        en: 'English',
+        es: 'Español',
+        'zh-tw': '繁體中文',
+        ja: '日本語',
+        'zh-cn': '简体中文',
+      }}
+      notificationOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: true,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: false,
+        },
+      ]}
+      changeActiveLang={changeActiveLang}
+      updateConfigChange={updateConfigChange}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
 });

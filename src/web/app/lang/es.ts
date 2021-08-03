@@ -117,7 +117,6 @@ export default {
       forum: 'Foro de la Comunidad',
       software_update: 'Actualización del software',
       bug_report: 'Informe de errores',
-      dev_tool: 'Herramienta de depuración',
       dashboard: 'Tablero de mandos',
       machine_info: 'Información de la máquina',
       network_testing: 'Prueba la configuración de la red',

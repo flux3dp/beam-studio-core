@@ -104,7 +104,6 @@ jest.mock('helpers/i18n', () => ({
         forum: 'Community Forum',
         software_update: 'Software Update',
         bug_report: 'Bug Report',
-        dev_tool: 'Debug Tool',
         dashboard: 'Dashboard',
         machine_info: 'Machine Info',
         network_testing: 'Test Network Settings',

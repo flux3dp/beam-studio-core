@@ -617,13 +617,6 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     >
                       Bug Report
                     </li>
-                    <li
-                      class="rc-menu__item"
-                      role="menuitem"
-                      tabindex="-1"
-                    >
-                      Debug Tool
-                    </li>
                   </ul>
                 </li>
               </ul>
@@ -977,13 +970,6 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                         >
                           Bug Report
                         </li>
-                        <li
-                          class="rc-menu__item"
-                          role="menuitem"
-                          tabindex="-1"
-                        >
-                          Debug Tool
-                        </li>
                       </ul>
                     </li>,
                   }
@@ -1290,28 +1276,6 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       tabIndex={-1}
                     >
                       Bug Report
-                    </li>
-                  </Memo(MenuItem)>
-                  <Memo(MenuItem)
-                    index={11}
-                    key=".e"
-                  >
-                    <li
-                      className="rc-menu__item"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      onKeyUp={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseEnter={[Function]}
-                      onMouseLeave={[Function]}
-                      onPointerDown={[Function]}
-                      onPointerLeave={[Function]}
-                      onPointerUp={[Function]}
-                      role="menuitem"
-                      tabIndex={-1}
-                    >
-                      Debug Tool
                     </li>
                   </Memo(MenuItem)>
                 </ul>

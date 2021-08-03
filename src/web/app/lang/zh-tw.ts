@@ -117,7 +117,6 @@ export default {
       forum: '社群論壇',
       software_update: '軟體更新',
       bug_report: '錯誤回報',
-      dev_tool: '偵錯工具',
       dashboard: '儀表版',
       machine_info: '機器資訊',
       network_testing: '檢測網路設定',
