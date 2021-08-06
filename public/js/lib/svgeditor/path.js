@@ -337,13 +337,13 @@ svgedit.path.getSegSelector = function(seg, update) {
 
 // Function: smoothControlPoints
 // Takes three points and creates a smoother line based on them
-// 
-// Parameters: 
+//
+// Parameters:
 // ct1 - Object with x and y values (first control point)
 // ct2 - Object with x and y values (second control point)
 // pt - Object with x and y values (third point)
 //
-// Returns: 
+// Returns:
 // Array of two "smoothed" point objects
 svgedit.path.smoothControlPoints = function(ct1, ct2, pt) {
 	// each point must not be the origin
@@ -431,13 +431,13 @@ class PathNodePoint {
 		this.x = x;
 		this.y = y;
 		this.mSeg = null; // M segment
-		this.prevSeg = null; 
+		this.prevSeg = null;
 		if (seg.type === 2) {
 			this.setMSeg(seg);
 		} else {
 			this.setPrevSeg(seg);
 		}
-		this.nextSeg = null; 
+		this.nextSeg = null;
 		this.next = null; // next connecting grip
 		this.prev = null; // previous connecting grip
 		this.path = path;
@@ -516,7 +516,7 @@ class PathNodePoint {
 		this.controlPoints.forEach((cp) => {
 			cp.hide();
 		});
-		
+
 	}
 
 	update() {
@@ -591,7 +591,7 @@ class PathNodePoint {
 			const segItem = seg.item;
 			const x = this.x + (seg.startPoint.x - this.x) / 3;
 			const y = this.y + (seg.startPoint.y - this.y) / 3;
-			if (segItem.pathSegType === 4) { // L 
+			if (segItem.pathSegType === 4) { // L
 				segChanges[seg.index] = {pathSegType: 8, x1: x, y1: y};
 				const newControlPoint = new SegmentControlPoint(x, y, seg, 1);
 				newControlPoints.push(newControlPoint);
@@ -877,7 +877,7 @@ class SegmentControlPoint {
 					changes.x1 = theOtherControlPoint.x;
 					changes.y1 = theOtherControlPoint.y;
 				}
-			} 
+			}
 		} else if (segItem.pathSegType === 8) {
 			changes.pathSegType = 4;
 		}
@@ -1096,7 +1096,7 @@ svgedit.path.Path.prototype.addSeg = function(index) {
 	svgedit.path.insertItemBefore(this.elem, newseg, index);
 };
 
-svgedit.path.Path.prototype.onDelete = function(fn) {
+svgedit.path.Path.prototype.onDelete = function(textEdit, textPathEdit) {
 	if (this.selectedControlPoint) {
 		this.deleteCtrlPoint();
 		this.endChanges('Delete Path Control Point');
@@ -1114,15 +1114,24 @@ svgedit.path.Path.prototype.onDelete = function(fn) {
 			if (changeDCmd) {
 				batchCmd.addSubCommand(changeDCmd);
 			}
-			const nextSibling = this.elem.nextSibling;
-			const parent = this.elem.parentNode;
+			let parent = this.elem.parentNode;
 			if (parent) {
-				const elem = parent.removeChild(this.elem);
-				batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(elem, nextSibling, parent));
+        if (parent.getAttribute('data-textpath-g')) {
+          const { cmd, text } = textPathEdit.detachText(parent, true);
+          if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+          textEdit.renderText(text);
+          parent = this.elem.parentNode;
+        }
+        if (parent) {
+          this.elem.remove();
+          const nextSibling = this.elem.nextSibling;
+          batchCmd.addSubCommand(new svgedit.history.RemoveElementCommand(this.elem, nextSibling, parent));
+        }
 			}
 			if (!batchCmd.isEmpty()) {
 				svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 			}
+      svgCanvas.setMode('select');
 		}
 	}
 };
@@ -1490,7 +1499,7 @@ var getRotVals = function(x, y) {
 };
 
 // If the path was rotated, we must now pay the piper:
-// Every path point must be rotated into the rotated coordinate system of 
+// Every path point must be rotated into the rotated coordinate system of
 // its old center, then determine the new center, then rotate it back
 // This is because we want the path to remember its rotation
 

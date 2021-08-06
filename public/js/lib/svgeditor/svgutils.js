@@ -525,9 +525,12 @@ svgedit.utilities.getBBox = function(elem) {
 	switch ( elname ) {
 	case 'text':
 		if(selected.textContent === '') {
-			selected.textContent = 'a'; // Some character needed for the selector to use.
+      // Some character needed for the selector to use.
+      if (selected.firstChild) selected.firstChild.textContent = ' ';
+			else selected.textContent = ' ';
 			ret = selected.getBBox();
-			selected.textContent = '';
+      if (selected.firstChild) selected.firstChild.textContent = '';
+			else selected.textContent = '';
 		} else {
 			if (selected.getBBox) { ret = selected.getBBox(); }
 		}
@@ -668,6 +671,7 @@ svgedit.utilities.getPathDFromElement = function(elem) {
 					['L',[x+w, y]],
 					['L',[x+w, y+h]],
 					['L',[x, y+h]],
+					['L',[x, y]],
 					['Z',[]]
 				]);
 			} else {
@@ -776,7 +780,7 @@ svgedit.utilities.getBBoxOfElementAsPath = function(elem, addSvgElementFromJson,
 //
 // Returns:
 // The converted path element or null if the DOM element was not recognized.
-svgedit.utilities.convertToPath = function(elem, attrs, addSvgElementFromJson, pathActions, clearSelection, addToSelection, history, addCommandToHistory) {
+svgedit.utilities.convertToPath = function(elem, attrs, addSvgElementFromJson, pathActions, history) {
 
 	var batchCmd = new history.BatchCommand('Convert element to Path');
 
@@ -816,22 +820,18 @@ svgedit.utilities.convertToPath = function(elem, attrs, addSvgElementFromJson, p
 		}
 
 		var nextSibling = elem.nextSibling;
-		batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 		batchCmd.addSubCommand(new history.InsertElementCommand(path));
+		batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
 
-		clearSelection();
 		elem.parentNode.removeChild(elem);
 		path.setAttribute('id', id);
 		path.removeAttribute('visibility');
-		addToSelection([path], true);
 
-		addCommandToHistory(batchCmd);
-
-		return path;
+		return { path, cmd: batchCmd };
 	} else {
 		// the elem.tagName was not recognized, so no "d" attribute. Remove it, so we've haven't changed anything.
 		path.parentNode.removeChild(path);
-		return null;
+		return { path };
 	}
 
 };

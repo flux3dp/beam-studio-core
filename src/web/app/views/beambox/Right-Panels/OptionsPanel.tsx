@@ -29,12 +29,24 @@ function OptionsPanel({
       contents = (
         <TextOptions
           elem={elem}
+          textElement={elem as SVGTextElement}
           updateObjectPanel={updateObjectPanel}
           updateDimensionValues={updateDimensionValues}
         />
       );
     } else if (elem.tagName.toLowerCase() === 'image' || elem.tagName.toLowerCase() === 'img') {
       contents = <ImageOptions elem={elem} updateObjectPanel={updateObjectPanel} />;
+    } else if (elem.tagName.toLowerCase() === 'g' && elem.getAttribute('data-textpath-g')) {
+      const textElem = elem.querySelector('text');
+      contents = (
+        <TextOptions
+          isTextPath
+          elem={elem}
+          textElement={textElem}
+          updateObjectPanel={updateObjectPanel}
+          updateDimensionValues={updateDimensionValues}
+        />
+      );
     } else {
       contents = <InFillBlock elem={elem} />;
     }

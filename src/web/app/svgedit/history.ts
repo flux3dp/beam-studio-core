@@ -208,10 +208,10 @@ class RemoveElementCommand extends BaseHistoryCommand implements ICommand {
     }
 
     svgedit.transformlist.removeElementFromListMap(this.elem);
-    if (this.nextSibling == null) {
+    if (this.nextSibling === null) {
       if (window.console) {
         // eslint-disable-next-line no-console
-        console.log('Error: reference element was lost');
+        // console.log('Error: reference element was lost');
       }
     }
     this.parent.insertBefore(this.elem, this.nextSibling);

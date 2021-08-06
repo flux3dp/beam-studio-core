@@ -28,6 +28,7 @@
 // 14) recalculate.js
 // svgedit libs
 import canvasBackground from 'app/svgedit/canvasBackground';
+import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
 import selector from 'app/svgedit/selector';
@@ -404,7 +405,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   canvas.undoMgr = new history.UndoManager({
-    renderText: textEdit.renderMultiLineText,
+    renderText: textEdit.renderText,
     handleHistoryEvent: function (eventType, cmd) {
       const EventTypes = history.HistoryEventTypes;
       // TODO: handle setBlurOffsets.
@@ -488,7 +489,7 @@ export default $.SvgCanvas = function (container, config) {
               const textElem = textElems[i];
               const angle = svgedit.utilities.getRotationAngle(textElem);
               if (angle !== 0) canvas.setRotationAngle(0, true, textElem);
-              textEdit.renderMultiLineText(textElem as SVGTextElement);
+              textEdit.renderText(textElem as SVGTextElement);
               if (angle !== 0) canvas.setRotationAngle(angle, true, textElem);
               if (textElem.getAttribute('stroke-width') === '2') {
                 textElem.setAttribute('stroke-width', '2.01');
@@ -1199,6 +1200,14 @@ export default $.SvgCanvas = function (container, config) {
     addToSelection(elems, showGrips);
   };
 
+  this.multiSelect = (elems) => {
+    clearSelection(true);
+    addToSelection(elems, true);
+    if (elems.length > 1) {
+      this.tempGroupSelectedElements();
+    }
+  }
+
   // TODO: could use slice here to make this faster?
   // TODO: should the 'selected' handler
 
@@ -1706,7 +1715,7 @@ export default $.SvgCanvas = function (container, config) {
               }
               if (!right_click) {
                 if (evt.altKey) {
-                  const cmd = canvas.cloneSelectedElements(0, 0, true);
+                  const cmd = clipboard.cloneSelectedElements(0, 0, true);
                   if (cmd && !cmd.isEmpty()) {
                     mouseSelectModeCmds.push(cmd);
                   }
@@ -2986,8 +2995,13 @@ export default $.SvgCanvas = function (container, config) {
         // if this element is in a group, go up until we reach the top-level group
         // just below the layer groups
         // TODO: once we implement links, we also would have to check for <a> elements
-        while (t.parentNode.parentNode.tagName === 'g') {
-          t = t.parentNode;
+        try {
+          while (t.parentNode.parentNode.tagName === 'g') {
+            t = t.parentNode;
+          }
+        } catch (e) {
+          console.log(t, 'has no g parent')
+          throw e;
         }
         // if we are not in the middle of creating a path, and we've clicked on some shape,
         // then go to Select mode.
@@ -3065,13 +3079,24 @@ export default $.SvgCanvas = function (container, config) {
       if (parent === current_group) {
         return;
       }
-
-      var mouseTarget = getMouseTarget(evt);
-      var tagName = mouseTarget.tagName;
-
-      if (tagName === 'text' && !['textedit', 'text'].includes(current_mode)) {
-        var pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
-        textActions.select(mouseTarget, pt.x, pt.y);
+      const mouseTarget: Element = getMouseTarget(evt);
+      const { tagName } = mouseTarget;
+      if (!['textedit', 'text'].includes(current_mode)) {
+        if (tagName === 'text') {
+          const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
+          textActions.select(mouseTarget, pt.x, pt.y);
+        } else if (mouseTarget.getAttribute('data-textpath-g')) {
+          const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
+          const clickOnText = ['text', 'textPath'].includes(evt.target.tagName);
+          const text = mouseTarget.querySelector('text');
+          const path = mouseTarget.querySelector('path');
+          if (text && clickOnText) {
+            selectorManager.releaseSelector(mouseTarget);
+            textActions.select(text, pt.x, pt.y);
+          } else if (path) {
+            pathActions.toEditMode(path);
+          }
+        }
       }
 
       if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {
@@ -3823,6 +3848,7 @@ export default $.SvgCanvas = function (container, config) {
         }
 
         if (selPath) {
+          if (elem.parentNode?.getAttribute('data-textpath-g')) elem = elem.parentNode;
           call('selected', [elem]);
           addToSelection([elem], true);
         }
@@ -7613,35 +7639,32 @@ export default $.SvgCanvas = function (container, config) {
   // Returns:
   // If the getBBox flag is true, the resulting path's bounding box object.
   // Otherwise the resulting path element is returned.
-  this.convertToPath = function (elem, getBBox) {
-    if (elem == null) {
-      var elems = selectedElements;
-      $.each(elems, function (i, elem) {
-        if (elem) {
-          canvas.convertToPath(elem);
-        }
-      });
-      return;
-    }
+  this.convertToPath = function (elem, getBBox = false) {
     if (getBBox) {
       return svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
-    } else {
-      // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
-      // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
-      var attrs = {
-        'fill': cur_shape.fill,
-        'fill-opacity': cur_shape.fill_opacity,
-        'stroke': cur_shape.stroke,
-        'stroke-width': cur_shape.stroke_width,
-        'stroke-dasharray': cur_shape.stroke_dasharray,
-        'stroke-linejoin': cur_shape.stroke_linejoin,
-        'stroke-linecap': cur_shape.stroke_linecap,
-        'stroke-opacity': cur_shape.stroke_opacity,
-        'opacity': cur_shape.opacity,
-        'visibility': 'hidden'
-      };
-      return svgedit.utilities.convertToPath(elem, attrs, addSvgElementFromJson, pathActions, clearSelection, addToSelection, svgedit.history, addCommandToHistory);
     }
+    // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
+    // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
+    var attrs = {
+      'fill': cur_shape.fill,
+      'fill-opacity': cur_shape.fill_opacity,
+      'stroke': cur_shape.stroke,
+      'stroke-width': cur_shape.stroke_width,
+      'stroke-dasharray': cur_shape.stroke_dasharray,
+      'stroke-linejoin': cur_shape.stroke_linejoin,
+      'stroke-linecap': cur_shape.stroke_linecap,
+      'stroke-opacity': cur_shape.stroke_opacity,
+      'opacity': cur_shape.opacity,
+      'visibility': 'hidden'
+    };
+    const { path, cmd } = svgedit.utilities.convertToPath(elem, attrs, addSvgElementFromJson, pathActions, svgedit.history);
+    if (path) {
+      if (selectedElements.includes(elem)) selectOnly([path]);
+      if (cmd && !cmd.isEmpty()) {
+        addCommandToHistory(cmd);
+      }
+    }
+    return path;
   };
 
 
@@ -7671,10 +7694,10 @@ export default $.SvgCanvas = function (container, config) {
 
       // Set x,y vals on elements that don't have them
       if ((attr === 'x' || attr === 'y') && no_xy_elems.indexOf(elem.tagName) >= 0) {
-        var bbox = getStrokedBBox([elem]);
-        var diff_x = attr === 'x' ? newValue - bbox.x : 0;
-        var diff_y = attr === 'y' ? newValue - bbox.y : 0;
-        moveSelectedElements(diff_x * current_zoom, diff_y * current_zoom, true);
+        const bbox = getStrokedBBox([elem]);
+        const diffX = attr === 'x' ? newValue - bbox.x : 0;
+        const diffY = attr === 'y' ? newValue - bbox.y : 0;
+        moveSelectedElements(diffX * current_zoom, diffY * current_zoom, true);
         continue;
       }
 
@@ -7859,54 +7882,7 @@ export default $.SvgCanvas = function (container, config) {
    * @param {{dx: number, dy: number}} interval
    * @param {{row: number, column: number}} arraySize
    */
-  this.gridArraySelectedElement = (interval, arraySize) => {
-    if (tempGroup) {
-      let children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-
-    const originElements = selectedElements;
-    if (originElements.length == 0) {
-      return;
-    }
-    const newElements = [];
-    const dx = [];
-    const dy = [];
-    const batchCmd = new history.BatchCommand('Grid elements');
-    const drawing = getCurrentDrawing();
-    for (let i = 0; i < originElements.length; ++i) {
-      const elem = originElements[i];
-      if (!elem) {
-        break;
-      }
-      for (let j = 0; j < arraySize.column; ++j) {
-        for (let k = 0; k < arraySize.row; ++k) {
-          if (j == 0 && k == 0) continue;
-          const copy = drawing.copyElem(elem);
-          if (!svgedit.utilities.getElem(elem.id)) {
-            copy.id = elem.id;
-          }
-          const layerName = $(elem.parentNode).find('title').text();
-          const layer = drawing.getLayerByName(layerName);
-          layer.appendChild(copy);
-          batchCmd.addSubCommand(new history.InsertElementCommand(copy));
-          restoreRefElems(copy);
-          dx.push(j * interval.dx);
-          dy.push(k * interval.dy);
-          newElements.push(copy);
-        }
-      }
-    }
-    const cmd = moveElements(dx, dy, newElements, false);
-    if (cmd) {
-      batchCmd.addSubCommand(cmd);
-    }
-    this.tempGroupSelectedElements();
-    addCommandToHistory(batchCmd);
-    if (newElements.length > 0) {
-      call('changed', newElements);
-    }
-  };
+   this.gridArraySelectedElement = clipboard.generateSelectedElementArray;
 
   /**
    * Boolean Operate elements
@@ -9778,59 +9754,7 @@ export default $.SvgCanvas = function (container, config) {
     return batchCmd;
   };
 
-  // Function: cloneSelectedElements
-  // Create deep DOM copies (clones) of all selected elements and move them slightly
-  // from their originals
-  this.cloneSelectedElements = function (x, y, isSubCmd = false) {
-    if (tempGroup) {
-      let children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-
-    var i, elem;
-    var batchCmd = new history.BatchCommand('Clone Elements');
-    // find all the elements selected (stop at first null)
-    var len = selectedElements.length;
-
-    function sortfunction(a, b) {
-      return ($(b).index() - $(a).index()); //causes an array to be sorted numerically and ascending
-    }
-    selectedElements.sort(sortfunction);
-    for (i = 0; i < len; ++i) {
-      elem = selectedElements[i];
-      if (elem == null) {
-        break;
-      }
-    }
-    // use slice to quickly get the subset of elements we need
-    var copiedElements = selectedElements.slice(0, i);
-    this.clearSelection(true);
-    // note that we loop in the reverse way because of the way elements are added
-    // to the selectedElements array (top-first)
-    const drawing = getCurrentDrawing();
-    const currentLayer = drawing.getCurrentLayer();
-    i = copiedElements.length;
-    while (i--) {
-      const elemLayer = LayerHelper.getObjectLayer(copiedElements[i]);
-      const destLayer = elemLayer ? elemLayer.elem : currentLayer;
-
-      // clone each element and replace it within copiedElements
-      elem = copiedElements[i] = drawing.copyElem(copiedElements[i]);
-      destLayer.appendChild(elem);
-      batchCmd.addSubCommand(new history.InsertElementCommand(elem));
-    }
-
-    if (!batchCmd.isEmpty()) {
-      // Need to reverse for correct selection-adding
-      addToSelection(copiedElements.reverse());
-      this.tempGroupSelectedElements();
-      moveSelectedElements(x, y, false);
-      if (!isSubCmd) {
-        addCommandToHistory(batchCmd);
-      }
-    }
-    return batchCmd;
-  };
+  this.cloneSelectedElements = clipboard.cloneSelectedElements;
 
   // Function: alignSelectedElements
   // Aligns selected elements
@@ -9839,7 +9763,7 @@ export default $.SvgCanvas = function (container, config) {
   // type - String with single character indicating the alignment type
   // relative_to - String that must be one of the following:
   // "selected", "largest", "smallest", "page"
-  this.alignSelectedElements = function (type, relative_to) {
+  this.alignSelectedElements = function (type, relativeTo) {
     if (tempGroup) {
       let children = this.ungroupTempGroup();
       this.selectOnly(children, false);
@@ -9864,7 +9788,7 @@ export default $.SvgCanvas = function (container, config) {
       bboxes[i] = getStrokedBBox([elem]);
 
       // now bbox is axis-aligned and handles rotation
-      switch (relative_to) {
+      switch (relativeTo) {
         case 'smallest':
           if ((type === 'l' || type === 'c' || type === 'r') && (curwidth === Number.MIN_VALUE || curwidth > bboxes[i].width) ||
             (type === 't' || type === 'm' || type === 'b') && (curheight === Number.MIN_VALUE || curheight > bboxes[i].height)) {
@@ -9904,7 +9828,7 @@ export default $.SvgCanvas = function (container, config) {
       }
     } // loop for each element to find the bbox and adjust min/max
 
-    if (relative_to === 'page') {
+    if (relativeTo === 'page') {
       minx = 0;
       miny = 0;
       maxx = canvas.contentW;
@@ -10345,8 +10269,8 @@ export default $.SvgCanvas = function (container, config) {
 
   };
 
-  this.setSvgElemPosition = function (para, val) {
-    const selected = selectedElements[0];
+  this.setSvgElemPosition = function (para, val, elem?) {
+    const selected = elem || selectedElements[0];
     const realLocation = this.getSvgRealLocation(selected);
     let dx = 0;
     let dy = 0;

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
-import { RightPanel } from 'app/views/beambox/Right-Panels/Right-Panel';
+import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
 const LANG = i18n.lang.beambox;

@@ -439,7 +439,7 @@ div.palette_item:first-child {
 	fill: #FFF !important;
 }
 
-#tools_top div[id$="_panel"]:not(#editor_panel):not(#history_panel) {
+#tools_top div[id$="_panel"]:not(#editor_panel):not(#history_panel):not(#text_panel) {
 	display: none;
 }
 

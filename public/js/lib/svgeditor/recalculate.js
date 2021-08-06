@@ -76,6 +76,15 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
   var svgroot = context_.getSVGRoot();
   var tlist = svgedit.transformlist.getTransformList(selected);
   var k;
+
+  if (selected.getAttribute('data-textpath') === '1') {
+    selected.removeAttribute('x');
+    selected.setAttribute('transform', '');
+    selected.removeAttribute('transform');
+    tlist.clear();
+    return;
+  }
+
   // remove any unnecessary transforms
   if (tlist && tlist.numberOfItems > 0) {
     k = tlist.numberOfItems;
