@@ -12,7 +12,11 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
 import i18n from 'helpers/i18n';
 
-export default function Menu(): JSX.Element {
+interface Props {
+  email: string;
+}
+
+export default function Menu({ email }: Props): JSX.Element {
   const eventEmitter = React.useMemo(() => eventEmitterFactory.createEventEmitter('top-bar-menu'), []);
   const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
   const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
@@ -203,8 +207,12 @@ export default function Menu(): JSX.Element {
         <MenuDivider />
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
         <MenuDivider />
-        <MenuItem onClick={() => callback('MANAGE_ACCOUNT')}>{menuCms.manage_account}</MenuItem>
-        <MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>
+        <MenuItem disabled={email === null} onClick={() => callback('MANAGE_ACCOUNT')}>{menuCms.manage_account}</MenuItem>
+        {
+          email == null
+            ? (<MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>)
+            : (<MenuItem onClick={() => callback('SIGN_OUT')}>{menuCms.sign_out} ({email})</MenuItem>)
+        }
         <MenuDivider />
         <MenuItem onClick={() => callback('BUG_REPORT')}>{menuCms.bug_report}</MenuItem>
       </SubMenu>

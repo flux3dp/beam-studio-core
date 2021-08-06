@@ -173,7 +173,7 @@ import Menu from './Menu';
 describe('should render correctly', () => {
   test('open the browser and reach the correct page', () => {
     read.mockReturnValue(true);
-    const wrapper = mount(<Menu />);
+    const wrapper = mount(<Menu email={undefined} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('img').simulate('click');
@@ -189,7 +189,7 @@ describe('should render correctly', () => {
 
   test('test checkbox menu item', () => {
     read.mockReturnValue(false);
-    const wrapper = mount(<Menu />);
+    const wrapper = mount(<Menu email={undefined} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('img').simulate('click');
@@ -201,6 +201,14 @@ describe('should render correctly', () => {
     expect(emit).toHaveBeenNthCalledWith(1, 'MENU_CLICK', null, {
       id: 'SHOW_RULERS',
     });
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
+
+  test('already signed in', () => {
+    read.mockReturnValue(true);
+    const wrapper = mount(<Menu email="tester@flux3dp.com" />);
+    wrapper.find('img').simulate('click');
+    wrapper.find('div.rc-menu__item').at(4).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 });

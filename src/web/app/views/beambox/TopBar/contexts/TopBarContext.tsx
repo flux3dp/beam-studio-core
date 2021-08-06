@@ -54,6 +54,9 @@ export class TopBarContextProvider extends React.Component<any, State> {
     topBarEventEmitter.on('GET_TOP_BAR_PREVIEW_MODE', this.getTopBarPreviewMode.bind(this));
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', this.setShouldStartPreviewController.bind(this));
     topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', this.setStartPreviewCallback.bind(this));
+    window.addEventListener('update-user', (e: CustomEvent) => {
+      this.setCurrentUser.call(this, e.detail.user);
+    });
   }
 
   componentWillUnmount() {

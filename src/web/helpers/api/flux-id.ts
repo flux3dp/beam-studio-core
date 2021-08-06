@@ -21,7 +21,7 @@ const FB_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
 
 const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
-const G_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
+const G_REDIRECT_URI = `https://store.flux3dp.com/beam-studio-oauth${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
 
 const FLUXID_HOST = 'https://id.flux3dp.com';
 const FLUXID_DOMAIN = 'id.flux3dp.com';
@@ -62,6 +62,13 @@ const updateUser = (info?) => {
         info,
       };
       fluxIDEvents.emit('update-user', currentUser);
+      if (window.FLUX.version === 'web') {
+        window.opener.dispatchEvent(new CustomEvent('update-user', {
+          detail: {
+            user: currentUser,
+          },
+        }));
+      }
     } else {
       if (currentUser.email !== info.email) {
         updateMenu(info);
@@ -72,6 +79,8 @@ const updateUser = (info?) => {
     currentUser = null;
     updateMenu();
     fluxIDEvents.emit('update-user');
+  } else {
+    fluxIDEvents.emit('update-user', null);
   }
 };
 
@@ -152,7 +161,7 @@ const getAccessToken = async () => {
   return null;
 };
 
-const signInWithGoogleCode = async (info): Promise<boolean> => {
+export const signInWithGoogleCode = async (info): Promise<boolean> => {
   const data = {
     google_code: info.code,
     redirect_uri: info.redirect_url,

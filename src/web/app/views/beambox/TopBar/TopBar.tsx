@@ -381,9 +381,10 @@ export class TopBar extends React.Component<{}, State> {
 
   renderMenu() {
     if (window.FLUX.version === 'web') {
+      const { currentUser } = this.context;
       return (
         <div className={classNames('top-bar-menu-container')}>
-          <Menu />
+          <Menu email={currentUser?.email} />
         </div>
       );
     }
