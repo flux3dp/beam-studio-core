@@ -20,7 +20,6 @@ import Pointable from 'app/views/beambox/Pointable';
 import units from 'helpers/units';
 import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
-import { Text3d } from 'app/views/beambox/dom3d';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { LaserPreview } from 'helpers/path-preview/draw-commands/LaserPreview';
@@ -73,14 +72,12 @@ function initShaderProgram(gl, vsSource, fsSource) {
   const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
 
   // 建立 shader 程式
-
   const shaderProgram = gl.createProgram();
   gl.attachShader(shaderProgram, vertexShader);
   gl.attachShader(shaderProgram, fragmentShader);
   gl.linkProgram(shaderProgram);
 
   // 錯誤處理
-
   if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
     console.error(`Unable to initialize the shader program: ${gl.getProgramInfoLog(shaderProgram)}`);
     return null;
@@ -395,8 +392,7 @@ class Grid {
 
     drawCommands.basic({
       perspective, view, position: this.origin, offset: 0, count: this.origincount, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES,
-    }); // Red
-    // drawCommands.basic({ perspective, view, position: this.origin, offset: 2, count: 2, color: [0, 0, 0, 1], scale: [1, 1, 1], translate: [0, 0, 0], primitive: drawCommands.gl.LINES }); // Green
+    });
   }
 }
 
@@ -534,9 +530,6 @@ class PathPreview extends React.Component<Props, State> {
     );
   }
 
-  componentDidUpdate() {
-  }
-
   componentWillUnmount() {
     window.removeEventListener('keydown', this.windowKeyDown);
     window.removeEventListener('keyup', this.windowKeyUp);
@@ -603,11 +596,8 @@ class PathPreview extends React.Component<Props, State> {
         this.gcodePreview.setParsedGcode(parsedGcode);
         this.laserPreview.setParsedGcode(parsedGcode);
         this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) * (SIM_TIME_MINUTE) + SIM_TIME_MINUTE / 2;
-        // console.log(this.simTimeMax, this.gcodePreview.g1Time, this.gcodePreview.g0Time, this.gcodePreview.g0Dist / this.state.workspace.g0Rate);
         this.forceUpdate();
       }
-
-      // this.renderGcodeCanvas();
     };
     fileReader.readAsText(gcodeBlob);
 
@@ -1061,13 +1051,12 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   private handleStartHere = async (): Promise<void> => {
-    const device = {}
-   // const device = await dialogCaller.selectDevice();
+    const device = await dialogCaller.selectDevice();
     if (!device) {
       return;
     }
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    /*const allowedWorkareas = constant.allowedWorkarea[device.model];
+    const allowedWorkareas = constant.allowedWorkarea[device.model];
     if (currentWorkarea && allowedWorkareas) {
       if (!allowedWorkareas.includes(currentWorkarea)) {
         alertCaller.popUp({
@@ -1077,7 +1066,7 @@ class PathPreview extends React.Component<Props, State> {
         });
         return;
       }
-    }*/
+    }
 
     const { workspace } = this.state;
 
@@ -1175,8 +1164,6 @@ class PathPreview extends React.Component<Props, State> {
       let Z = -1;
 
       if (this.fastGradientGcodeString) {
-        //ExportFuncs.gcodeToFcode(this.fastGradientGcodeString);
-        //return;
         let resolution = 0;
         let prefix;
         const fastGradientGcodeList = this.fastGradientGcodeString.split('\n');
@@ -1198,7 +1185,6 @@ class PathPreview extends React.Component<Props, State> {
 
           if (isFastGradientEngraving && y) {
             targetY = Number(y);
-            console.log('computing target Y', simTimeInfo.position, targetY);
             break;
           }
         }
@@ -1206,9 +1192,7 @@ class PathPreview extends React.Component<Props, State> {
         if (isFastGradientEngraving) {
           // get resolution and prefix gcode
           let yFound = false;
-          let lastX = 0;
           let cacheIndex = -1;
-          let preservedIndex = [];
           let startX = -1;
           let startBytesIndex = -1; 
           let engravingLineCount = 0;
@@ -1239,7 +1223,6 @@ class PathPreview extends React.Component<Props, State> {
               const y = Number(fastGradientGcodeList[i].match(/(?<=Y)[0-9\.]*/)[0]);
               const x = Number(fastGradientGcodeList[i].match(/(?<=X)[0-9\.]*/)[0]);
 
-              //((simTimeInfo.position[0] < lastX && simTimeInfo.position[0] > x) || (simTimeInfo.position[0] > lastX && simTimeInfo.position[0] < x))
               if (y == targetY) {
                 cacheIndex = i;
                 startX = x;
@@ -1262,7 +1245,6 @@ class PathPreview extends React.Component<Props, State> {
               }
 
               if (fastGradientGcodeList[i].indexOf('F16 4') > -1) {
-                //const nextX = Number(fastGradientGcodeList[i+2].match(/(?<=X)[0-9\.]*/)[0]);
                 const distBytesCalculation = Math.abs((simTimeInfo.position[0] - startX)/(32*resolution));
                 
                 if (engravingLineCount > distBytesCalculation)  {
@@ -1306,7 +1288,6 @@ class PathPreview extends React.Component<Props, State> {
 
                   // @ts-ignore
                   modifiedGcodeList.push(`F16 3 ${bytesInfo & bitwiseOperand}`)
-
                   modifiedGcodeList = modifiedGcodeList.concat(fastGradientGcodeList.slice(fixedIndex + 1));
 
                   const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
@@ -1371,8 +1352,8 @@ class PathPreview extends React.Component<Props, State> {
               laserDetected = true;
             }
 
-            if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
-              const res = gcodeList[i].match(/(?<=Z)[0-9\.]*/);
+            if (BeamboxPreference.read('enable-autofocus') && Z < 0 && fastGradientGcodeList[i].indexOf('Z') > -1) {
+              const res = fastGradientGcodeList[i].match(/(?<=Z)[0-9\.]*/);
   
               Z = parseInt(res[0], 10);
             }
