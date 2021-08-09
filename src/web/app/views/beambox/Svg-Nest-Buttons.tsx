@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-continue */
 import * as React from 'react';
+import classNames from 'classnames';
 
 import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -256,10 +257,11 @@ class SvgNestButtons extends React.Component<Props, State> {
     const { isWorking } = this.state;
     // eslint-disable-next-line no-underscore-dangle
     const endText = LANG._nest.end;
+    const className = classNames('svg-nest-buttons', { win: window.FLUX.version !== 'web' && window.os === 'Windows' });
     if (isWorking) {
       return (
         <Modal className={{ 'no-background': true }}>
-          <div className="svg-nest-buttons">
+          <div className={className}>
             {this.renderStartButton()}
             <div className="svg-nest-button" onClick={this.close}>
               <div className="text">{endText}</div>
@@ -269,7 +271,7 @@ class SvgNestButtons extends React.Component<Props, State> {
       );
     }
     return (
-      <div className="svg-nest-buttons">
+      <div className={className}>
         {this.renderStartButton()}
         <div className="svg-nest-button" onClick={this.close}>
           <div className="text">{endText}</div>
