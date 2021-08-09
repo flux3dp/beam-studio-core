@@ -52,7 +52,7 @@ const updateMenu = (info?) => {
   communicator.send('UPDATE_ACCOUNT', info);
 };
 
-const updateUser = (info?, shouldDispatchFromOauthTab = false) => {
+const updateUser = (info?, isWebSocialSignIn = false) => {
   if (info) {
     if (!currentUser) {
       updateMenu(info);
@@ -61,7 +61,7 @@ const updateUser = (info?, shouldDispatchFromOauthTab = false) => {
         info,
       };
       fluxIDEvents.emit('update-user', currentUser);
-      if (shouldDispatchFromOauthTab) {
+      if (isWebSocialSignIn && window.FLUX.version === 'web') {
         window.opener.dispatchEvent(new CustomEvent('update-user', {
           detail: {
             user: currentUser,
@@ -95,7 +95,7 @@ const handleOAuthLoginSuccess = (data) => {
   }
 };
 
-const signInWithFBToken = async (fb_token: string) => {
+export const signInWithFBToken = async (fb_token: string) => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', { fb_token }, {
     withCredentials: true,
