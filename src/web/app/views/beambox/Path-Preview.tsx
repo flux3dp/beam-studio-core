@@ -1050,6 +1050,47 @@ class PathPreview extends React.Component<Props, State> {
     return `x ${speedRatio[speedLevel]}`;
   };
 
+  private searchParams = (gcodeList, target) => {
+    let U = -1;
+    let F = -1;
+    let Z = -1;
+    let laserDetected = false;
+    let isEngraving = false;
+
+    for (let i = target; i > 0; i -= 1) {
+      if (U < 0 && gcodeList[i].indexOf('G1 U') > -1) {
+        const res = gcodeList[i].match(/(?<=G1 U)[-0-9\.]*/);
+        U = parseInt(res[0], 10);
+      }
+
+      if (F < 0 && gcodeList[i].indexOf('G1 F') > -1) {
+        const res = gcodeList[i].match(/(?<=G1 F)[-0-9\.]*/);
+        F = parseInt(res[0], 10);
+      }
+
+      if (!laserDetected && gcodeList[i].indexOf('G1S0') > -1) {
+        isEngraving = false;
+        laserDetected = true;
+      }
+
+      if (!laserDetected && gcodeList[i].indexOf('G1V0') > -1) {
+        isEngraving = true;
+        laserDetected = true;
+      }
+
+      if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
+        const res = gcodeList[i].match(/(?<=Z)[0-9\.]*/);
+        Z = parseInt(res[0], 10);
+      }
+
+      if (F > 0 && U > 0 && laserDetected && (!BeamboxPreference.read('enable-autofocus') || (BeamboxPreference.read('enable-autofocus') && Z > -1))) {
+        break;
+      }
+    }
+
+    return { U, F, Z, isEngraving };
+  }
+
   private handleStartHere = async (): Promise<void> => {
     const device = await dialogCaller.selectDevice();
     if (!device) {
@@ -1157,12 +1198,6 @@ class PathPreview extends React.Component<Props, State> {
         }
       }
 
-      let isEngraving = false;
-      let laserDetected = false;
-      let U = -1;
-      let F = -1;
-      let Z = -1;
-
       if (this.fastGradientGcodeString) {
         let resolution = 0;
         let prefix;
@@ -1233,10 +1268,6 @@ class PathPreview extends React.Component<Props, State> {
             }
 
             if (cacheIndex > -1) {
-              if (fastGradientGcodeList[i].indexOf('F16 2')) {
-
-              }
-
               if (fastGradientGcodeList[i].indexOf('F16 3') > -1) {
                 if (startBytesIndex < 0) {
                   startBytesIndex = i;
@@ -1250,22 +1281,17 @@ class PathPreview extends React.Component<Props, State> {
                 if (engravingLineCount > distBytesCalculation)  {
                   modifiedGcodeList = prefix;
 
+                  const { U, F, Z } = this.searchParams(fastGradientGcodeList, cacheIndex);
+
                   if (BeamboxPreference.read('enable-autofocus')) {
-                    for (let j = cacheIndex; j > 0; j -= 1) {
-                      if (Z < 0 && fastGradientGcodeList[j].indexOf('Z') > -1) {
-                        const res = fastGradientGcodeList[j].match(/(?<=Z)[0-9\.]*/);
-            
-                        Z = parseInt(res[0], 10);
-                        console.log('z found', Z);
-                        break;
-                      }
-                    }
-
                     modifiedGcodeList.push('G1 Z-1.0000');
-                    modifiedGcodeList.push(`G1 Z${Z}`);
+                    modifiedGcodeList.push(`G1 Z${Z}`)
                   }
-
+          
+                  modifiedGcodeList.push(`G1 U${U}`);
+                  modifiedGcodeList.push(`G1 F${F}`);
                   modifiedGcodeList.push(resolutionLine);
+
                   for (let j = cacheIndex; j < startBytesIndex + 1; j += 1) {
                     modifiedGcodeList.push(fastGradientGcodeList[j]);
                   }
@@ -1329,39 +1355,7 @@ class PathPreview extends React.Component<Props, State> {
             }
           }
 
-          for (let i = target; i > 0; i -= 1) {
-            if (U < 0 && fastGradientGcodeList[i].indexOf('G1 U') > -1) {
-              const res = fastGradientGcodeList[i].match(/(?<=G1 U)[-0-9\.]*/);
-  
-              U = parseInt(res[0], 10);
-            }
-  
-            if (F < 0 && fastGradientGcodeList[i].indexOf('G1 F') > -1) {
-              const res = fastGradientGcodeList[i].match(/(?<=G1 F)[-0-9\.]*/);
-  
-              F = parseInt(res[0], 10);
-            }
-  
-            if (!laserDetected && fastGradientGcodeList[i].indexOf('G1S0') > -1) {
-              isEngraving = false;
-              laserDetected = true;
-            }
-  
-            if (!laserDetected && fastGradientGcodeList[i].indexOf('G1V0') > -1) {
-              isEngraving = true;
-              laserDetected = true;
-            }
-
-            if (BeamboxPreference.read('enable-autofocus') && Z < 0 && fastGradientGcodeList[i].indexOf('Z') > -1) {
-              const res = fastGradientGcodeList[i].match(/(?<=Z)[0-9\.]*/);
-  
-              Z = parseInt(res[0], 10);
-            }
-
-            if (F > 0 && U > 0 && laserDetected && (!BeamboxPreference.read('enable-autofocus') || (BeamboxPreference.read('enable-autofocus') && Z > -1))) {
-              break;
-            }
-          }
+          let { U, F, Z, isEngraving } = this.searchParams(fastGradientGcodeList, target);
 
           if (BeamboxPreference.read('enable-autofocus')) {
             preparation.push('G1 Z-1.0000');
@@ -1384,39 +1378,7 @@ class PathPreview extends React.Component<Props, State> {
           }
         }
       } else {
-        for (let i = target; i > 0; i -= 1) {
-          if (U < 0 && gcodeList[i].indexOf('G1 U') > -1) {
-            const res = gcodeList[i].match(/(?<=G1 U)[-0-9\.]*/);
-
-            U = parseInt(res[0], 10);
-          }
-
-          if (F < 0 && gcodeList[i].indexOf('G1 F') > -1) {
-            const res = gcodeList[i].match(/(?<=G1 F)[-0-9\.]*/);
-
-            F = parseInt(res[0], 10);
-          }
-
-          if (!laserDetected && gcodeList[i].indexOf('G1S0') > -1) {
-            isEngraving = false;
-            laserDetected = true;
-          }
-
-          if (!laserDetected && gcodeList[i].indexOf('G1V0') > -1) {
-            isEngraving = true;
-            laserDetected = true;
-          }
-
-          if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
-            const res = gcodeList[i].match(/(?<=Z)[0-9\.]*/);
-
-            Z = parseInt(res[0], 10);
-          }
-
-          if (F > 0 && U > 0 && laserDetected && (!BeamboxPreference.read('enable-autofocus') || (BeamboxPreference.read('enable-autofocus') && Z > -1))) {
-            break;
-          }
-        }
+        let { U, F, Z, isEngraving } = this.searchParams(gcodeList, target);
 
         if (BeamboxPreference.read('enable-autofocus')) {
           preparation.push('G1 Z-1.0000');
