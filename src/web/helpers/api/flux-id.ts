@@ -1,23 +1,22 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import axios, { AxiosResponse } from 'axios';
 
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import communicator from 'implementations/communicator';
 import cookies from 'implementations/cookies';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
-import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 interface ResponseWithError extends AxiosResponse {
   error?: string;
 }
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
-const FB_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
+const FB_REDIRECT_URI = `https://store.flux3dp.com/beam-studio-oauth${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
 
 const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
@@ -53,7 +52,7 @@ const updateMenu = (info?) => {
   communicator.send('UPDATE_ACCOUNT', info);
 };
 
-const updateUser = (info?) => {
+const updateUser = (info?, shouldDispatchFromOauthTab = false) => {
   if (info) {
     if (!currentUser) {
       updateMenu(info);
@@ -62,7 +61,7 @@ const updateUser = (info?) => {
         info,
       };
       fluxIDEvents.emit('update-user', currentUser);
-      if (window.FLUX.version === 'web') {
+      if (shouldDispatchFromOauthTab) {
         window.opener.dispatchEvent(new CustomEvent('update-user', {
           detail: {
             user: currentUser,
@@ -87,7 +86,7 @@ const updateUser = (info?) => {
 export const getCurrentUser = (): IUser => currentUser;
 
 const handleOAuthLoginSuccess = (data) => {
-  updateUser(data);
+  updateUser(data, true);
   fluxIDEvents.emit('oauth-logged-in');
   if (window.location.hash === '#/initialize/connect/flux-id-login') {
     window.location.hash = '#initialize/connect/select-connection-type';
@@ -117,7 +116,7 @@ const signInWithFBToken = async (fb_token: string) => {
   return false;
 };
 
-export const getInfo = async (silent: boolean = false) => {
+export const getInfo = async (silent = false) => {
   const response = await axiosFluxId.get('/user/info', {
     withCredentials: true,
   }) as ResponseWithError;
