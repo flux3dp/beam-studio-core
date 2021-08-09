@@ -9,6 +9,7 @@ import ConnectMachineIp from 'app/pages/ConnectMachineIp';
 import ConnectWiFi from 'app/pages/ConnectWiFi';
 import ConnectWired from 'app/pages/ConnectWired';
 import Dialog from 'app/views/dialogs/Dialog';
+import FacebookAuth from 'app/pages/FacebookAuth';
 import FluxIdLogin from 'app/pages/FluxIdLogin';
 import GoogleAuth from 'app/pages/GoogleAuth';
 import Home from 'app/pages/Home';
@@ -26,6 +27,7 @@ const wrappedComponent = (
       <HashRouter>
         <Switch>
           <Route exact path="/google-auth" component={GoogleAuth} />
+          <Route exact path="/fb-auth" component={FacebookAuth} />
           <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
           <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
           <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
