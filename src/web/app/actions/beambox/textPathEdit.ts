@@ -62,14 +62,17 @@ function attachTextToPath(
 
   const originalX = textElement.getAttribute('x');
   const originalY = textElement.getAttribute('y');
+  const originalTransform = textElement.getAttribute('transform');
   textElement.removeAttribute('x');
   textElement.removeAttribute('y');
+  textElement.removeAttribute('transform');
   textElement.setAttribute('data-textpath', '1');
   textElement.setAttribute('data-origx', originalX);
   textElement.setAttribute('data-origy', originalY);
   batchCmd.addSubCommand(new history.ChangeElementCommand(textElement, {
     x: originalX,
     y: originalY,
+    transform: originalTransform,
     'data-textpath': null,
     'data-origx': null,
     'data-origy': null,
