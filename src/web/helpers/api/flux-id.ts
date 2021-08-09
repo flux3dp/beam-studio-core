@@ -61,7 +61,7 @@ const updateUser = (info?, isWebSocialSignIn = false) => {
         info,
       };
       fluxIDEvents.emit('update-user', currentUser);
-      if (isWebSocialSignIn) {
+      if (isWebSocialSignIn && window.FLUX.version === 'web') {
         window.opener.dispatchEvent(new CustomEvent('update-user', {
           detail: {
             user: currentUser,
