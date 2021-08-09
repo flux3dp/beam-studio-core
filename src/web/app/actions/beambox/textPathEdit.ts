@@ -157,31 +157,6 @@ const setStartOffset = (val: number, elem: SVGTextElement): void => {
   selectorManager.requestSelector(elem.parentElement).resize();
 };
 
-function setHorizontalAlign(textElement: Element, position: 'start' | 'middle' | 'end'): ICommand {
-  const textPath = textElement.querySelector('textPath');
-  const originalStartOffset = textPath.getAttribute('startOffset');
-  const originalTextAnchor = textPath.getAttribute('text-anchor');
-  if (position === 'start') {
-    textPath.setAttribute('startOffset', '0%');
-    textPath.removeAttribute('text-anchor');
-  } else if (position === 'middle') {
-    textPath.setAttribute('startOffset', '50%');
-    textPath.setAttribute('text-anchor', 'middle');
-  } else if (position === 'end') {
-    textPath.setAttribute('startOffset', '100%');
-    textPath.setAttribute('text-anchor', 'end');
-  } else {
-    throw new Error('Bad_Parameter');
-  }
-  const selectorManager = selector.getSelectorManager();
-  selectorManager.requestSelector(textElement).resize();
-  const cmd = new history.ChangeElementCommand(textPath, {
-    startOffset: originalStartOffset,
-    'text-anchor': originalTextAnchor,
-  });
-  return cmd;
-}
-
 function setVerticalAlign(textElement: Element, position: VerticalAlign): ICommand {
   const textPath = textElement.querySelector('textPath');
   const originalDominantBaseline = textPath.getAttribute('dominant-baseline');
@@ -214,6 +189,5 @@ export default {
   detachText,
   editPath,
   setStartOffset,
-  setHorizontalAlign,
   setVerticalAlign,
 };
