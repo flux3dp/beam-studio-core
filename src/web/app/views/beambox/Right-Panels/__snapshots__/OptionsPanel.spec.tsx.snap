@@ -87,6 +87,11 @@ exports[`should render correctly text 1`] = `
         id="text"
       />
     }
+    textElement={
+      <text
+        id="text"
+      />
+    }
     updateDimensionValues={[MockFunction]}
     updateObjectPanel={[MockFunction]}
   />

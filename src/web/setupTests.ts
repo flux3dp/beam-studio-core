@@ -61,6 +61,9 @@ Object.defineProperty(window, 'svgedit', {
       XMLNS: 'http://www.w3.org/2000/xmlns/',
       INKSCAPE: 'http://www.inkscape.org/namespaces/inkscape',
     },
+    browser: {
+      isTouch: () => false,
+    },
   },
   writable: true,
 });

@@ -27,15 +27,13 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => ({
-  RightPanel: function DummyRightPanel() {
-    return (
-      <div>
-        This is dummy RightPanel
-      </div>
-    );
-  },
-}));
+jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => function DummyRightPanel() {
+  return (
+    <div>
+      This is dummy RightPanel
+    </div>
+  );
+});
 
 jest.mock('app/views/beambox/Right-Panels/contexts/RightPanelContext', () => ({
   RightPanelContextProvider: function DummyRightPanelContextProvider(props) {

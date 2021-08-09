@@ -73,20 +73,27 @@ jest.mock('helpers/svg-editor-helper', () => ({
 
 const calculateTransformedBBox = jest.fn();
 const clearSelection = jest.fn();
+const convertToPath = jest.fn();
 const imageToSVG = jest.fn();
 const decomposePath = jest.fn();
 const disassembleUse2Group = jest.fn();
 const replaceBitmap = jest.fn();
 const triggerGridTool = jest.fn();
 const triggerOffsetTool = jest.fn();
+const pathActions = {
+  toEditMode: jest.fn(),
+};
+
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Canvas: {
       calculateTransformedBBox,
       clearSelection,
+      convertToPath,
       imageToSVG,
       decomposePath,
       disassembleUse2Group,
+      pathActions,
     },
     Editor: {
       replaceBitmap,
@@ -206,12 +213,15 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
-    expect(decomposePath).toHaveBeenCalledTimes(1);
+    expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(1).simulate('click');
-    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+    expect(decomposePath).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(2).simulate('click');
+    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+
+    wrapper.find('div.btn-container').at(3).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -223,9 +233,12 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
-    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+    expect(convertToPath).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(1).simulate('click');
+    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+
+    wrapper.find('div.btn-container').at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -237,9 +250,12 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
-    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+    expect(convertToPath).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(1).simulate('click');
+    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+
+    wrapper.find('div.btn-container').at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -251,9 +267,12 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
-    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+    expect(convertToPath).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(1).simulate('click');
+    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+
+    wrapper.find('div.btn-container').at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -265,9 +284,12 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
-    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+    expect(convertToPath).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(1).simulate('click');
+    expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
+
+    wrapper.find('div.btn-container').at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
