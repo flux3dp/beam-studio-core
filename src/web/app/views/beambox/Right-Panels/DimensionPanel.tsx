@@ -58,13 +58,13 @@ class DimensionPanel extends React.Component<Props> {
     this.handleSizeBlur();
   }
 
-  handlePositionChange = (type:string, val:number): void => {
+  handlePositionChange = (type: string, val: number): void => {
     const { elem, updateDimensionValues } = this.props;
     const posVal = val * Constant.dpmm;
     if (!['use', 'text'].includes(elem.tagName)) {
       svgCanvas.changeSelectedAttribute(type, posVal, [elem]);
     } else {
-      svgCanvas.setSvgElemPosition(type, posVal);
+      svgCanvas.setSvgElemPosition(type, posVal, elem);
     }
     const newDimensionValue = {};
     newDimensionValue[type] = posVal;
@@ -81,7 +81,7 @@ class DimensionPanel extends React.Component<Props> {
     this.forceUpdate();
   };
 
-  changeSize = (type:string, val:number): IBatchCommand => {
+  changeSize = (type: string, val: number): IBatchCommand => {
     const { elem } = this.props;
     const elemSize = val > 0.1 ? val : 0.1;
     let cmd = null;
@@ -114,14 +114,14 @@ class DimensionPanel extends React.Component<Props> {
     return cmd;
   };
 
-  handleSizeChange = (type:string, val:number): void => {
+  handleSizeChange = (type: string, val: number): void => {
     const batchCmd = HistoryCommandFactory.createBatchCommand('Object Panel Size Change');
     const { updateDimensionValues, getDimensionValues } = this.props;
     const response = {
       dimensionValues: {} as any,
     };
     getDimensionValues(response);
-    const dimensionValues = response.dimensionValues;
+    const { dimensionValues } = response;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
 
     const newDimensionValue = {};
@@ -193,7 +193,7 @@ class DimensionPanel extends React.Component<Props> {
       dimensionValues: {} as any,
     };
     getDimensionValues(response);
-    const dimensionValues = response.dimensionValues;
+    const { dimensionValues } = response;
     const isRatioFixed = dimensionValues.isRatioFixed || false;
     switch (type) {
       case 'x':
@@ -388,7 +388,7 @@ class DimensionPanel extends React.Component<Props> {
     return null;
   };
 
-  renderDimensionPanels = (panels:Array<string>): Array<Element> => {
+  renderDimensionPanels = (panels: Array<string>): Array<Element> => {
     const ret = [];
     for (let i = 0; i < panels.length; i += 1) {
       ret.push(this.renderDimensionPanel(panels[i]));
@@ -398,10 +398,10 @@ class DimensionPanel extends React.Component<Props> {
 
   renderFlipButtons = (): JSX.Element => (
     <div className="flip-btn-container">
-      <div className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(-1, 1); }} title={LANG.hflip}>
+      <div className="tool-btn" onClick={() => svgCanvas.flipSelectedElements(-1, 1)} title={LANG.hflip}>
         <img src="img/right-panel/icon-hflip.svg" alt="" />
       </div>
-      <div className="tool-btn" onClick={() => { svgCanvas.flipSelectedElements(1, -1); }} title={LANG.vflip}>
+      <div className="tool-btn" onClick={() => svgCanvas.flipSelectedElements(1, -1)} title={LANG.vflip}>
         <img src="img/right-panel/icon-vflip.svg" alt="" />
       </div>
     </div>

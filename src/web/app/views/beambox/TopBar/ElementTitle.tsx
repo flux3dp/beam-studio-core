@@ -22,7 +22,10 @@ function ElementTitle({ selectedElem }: Props): JSX.Element {
     } else {
       const layer = svgCanvas.getObjectLayer(selectedElem);
       const layerName = layer ? layer.title : '';
-      if (selectedElem.tagName.toLowerCase() !== 'use') {
+
+      if (selectedElem.getAttribute('data-textpath-g')) {
+        content = `${layerName} > ${LANG.tag_names.text_path}`;
+      } else if (selectedElem.tagName.toLowerCase() !== 'use') {
         content = `${layerName} > ${LANG.tag_names[selectedElem.tagName.toLowerCase()]}`;
       } else if (selectedElem.getAttribute('data-svg') === 'true') {
         content = `${layerName} > ${LANG.tag_names.svg}`;

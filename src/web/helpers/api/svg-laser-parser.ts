@@ -363,7 +363,18 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (textElement.getAttribute('data-verti') === 'true') {
         textString = textString.replace(/letter-spacing="[^"]+"/, '');
       }
-      const svgString = `<svg viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}">${textString}</svg>`;
+      let defs = '';
+      for (let i = 0; i < textElement.childNodes.length; i += 1) {
+        const childNode = textElement.childNodes[i] as Element;
+        if (childNode.nodeName === 'textPath') {
+          const href = childNode.getAttribute('href');
+          const hrefElem = document.querySelector(href);
+          if (hrefElem) {
+            defs += hrefElem.outerHTML;
+          }
+        }
+      }
+      const svgString = `<svg viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}"><defs>${defs}</defs>${textString}</svg>`;
       console.log(svgString);
       const file = new Blob([svgString], {
         type: 'text/plain',

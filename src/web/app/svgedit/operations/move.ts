@@ -33,14 +33,13 @@ export function moveElements(
       let y = 0;
       // dx and dy could be arrays
       if (typeof dx === 'number' && typeof dy === 'number') {
-        xform.setTranslate(dx, dy);
         x = zoomedX;
         y = zoomedY;
       } else {
-        xform.setTranslate(dx[i], dy[i]);
         x = dx[i];
         y = dy[i];
       }
+      xform.setTranslate(x, y);
 
       if (tlist.numberOfItems) {
         tlist.insertItemBefore(xform, 0);

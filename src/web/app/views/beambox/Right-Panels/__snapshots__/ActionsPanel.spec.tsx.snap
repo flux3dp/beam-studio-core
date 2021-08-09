@@ -13,6 +13,18 @@ exports[`should render correctly ellipse 1`] = `
     className="btns-container"
   >
     <div
+      className="btn-container full"
+      key="Convert to Path"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        type="button"
+      >
+        Convert to Path
+      </button>
+    </div>
+    <div
       className="btn-container half"
       key="Offset"
       onClick={[Function]}
@@ -233,6 +245,18 @@ exports[`should render correctly line 1`] = `
     className="btns-container"
   >
     <div
+      className="btn-container full"
+      key="Convert to Path"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        type="button"
+      >
+        Convert to Path
+      </button>
+    </div>
+    <div
       className="btn-container half"
       key="Offset"
       onClick={[Function]}
@@ -289,6 +313,15 @@ exports[`should render correctly path 1`] = `
   >
     <div
       className="btn-container full"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        type="button"
+      />
+    </div>
+    <div
+      className="btn-container full"
       key="Decompose"
       onClick={[Function]}
     >
@@ -340,6 +373,18 @@ exports[`should render correctly polygon 1`] = `
     className="btns-container"
   >
     <div
+      className="btn-container full"
+      key="Convert to Path"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        type="button"
+      >
+        Convert to Path
+      </button>
+    </div>
+    <div
       className="btn-container half"
       key="Offset"
       onClick={[Function]}
@@ -379,6 +424,18 @@ exports[`should render correctly rect 1`] = `
   <div
     className="btns-container"
   >
+    <div
+      className="btn-container full"
+      key="Convert to Path"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        type="button"
+      >
+        Convert to Path
+      </button>
+    </div>
     <div
       className="btn-container half"
       key="Offset"

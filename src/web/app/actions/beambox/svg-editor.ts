@@ -26,6 +26,7 @@ import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
+import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -1743,8 +1744,8 @@ const svgEditor = window['svgEditor'] = (function () {
         // RightPanelController.setSelectedElement(null);
         TopBarController.setElement(null);
       } else {
-        RightPanelController.toElementMode();
         RightPanelController.setSelectedElement(elem);
+        RightPanelController.toElementMode();
         TopBarController.setElement(elem);
       }
       LayerPanelController.updateLayerPanel();
@@ -1885,12 +1886,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
           switch (el_name) {
             case 'text':
-              $('#text_panel').css('display', 'inline');
-              // TODO: Check the elem type if it's really svg text element
-              const textElem: SVGTextElement = elem;
-              let multiLineTextContent = Array.from(textElem.childNodes).map(child => child.textContent).join('\x0b');
-              const textInput = document.getElementById('text') as HTMLInputElement;
-              textInput.value = multiLineTextContent;
               if (svgCanvas.addedNew) {
                 // Timeout needed for IE9
                 setTimeout(function () {
@@ -3736,7 +3731,7 @@ const svgEditor = window['svgEditor'] = (function () {
         deleteSelectedElements();
       }
       if (svgedit.path.path) {
-        svgedit.path.path.onDelete();
+        svgedit.path.path.onDelete(textEdit, textPathEdit);
       }
     };
     editor.deleteSelected = deleteSelected;

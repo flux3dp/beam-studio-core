@@ -6,8 +6,11 @@ import Select from 'react-select';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
 import textEdit from 'app/svgedit/textedit';
+import textPathEdit, { VerticalAlign } from 'app/actions/beambox/textPathEdit';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
+import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/StartOffsetBlock';
+import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -19,6 +22,8 @@ const isMac = window.os === 'MacOS';
 
 interface Props {
   elem: Element;
+  textElement: SVGTextElement;
+  isTextPath?: boolean;
   updateObjectPanel: () => void;
   updateDimensionValues?: ({
     fontStyle: any,
@@ -32,23 +37,25 @@ interface State {
   fontSize: number;
   letterSpacing: number;
   lineSpacing: number;
+  startOffset?: number;
+  verticalAlign?: VerticalAlign;
   isVerti: boolean;
 }
 
 class TextOptions extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const { elem } = props;
-    this.state = this.getStateFromElem(elem as SVGTextElement);
+    const { textElement } = props;
+    this.state = this.getStateFromElem(textElement);
   }
 
   componentDidUpdate(prevProps: Props): void {
-    const lastElem = prevProps.elem;
+    const lastElem = prevProps.textElement;
     const lastId = lastElem.getAttribute('id');
-    const { elem } = this.props;
-    if (elem.getAttribute('id') !== lastId) {
+    const { textElement } = this.props;
+    if (textElement.getAttribute('id') !== lastId) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.getStateFromElem(elem as SVGTextElement));
+      this.setState(this.getStateFromElem(textElement));
     }
   }
 
@@ -89,6 +96,21 @@ class TextOptions extends React.Component<Props, State> {
       textEdit.setFontPostscriptName(newFont.postscriptName, true);
     }
     updateDimensionValues({ fontStyle: font.style });
+
+    let startOffset: number;
+    let verticalAlign: VerticalAlign;
+    if (elem.getAttribute('data-textpath')) {
+      const textPath = elem.querySelector('textPath');
+      if (textPath) {
+        // Use parseInt parse X% to number X
+        startOffset = parseInt(textPath.getAttribute('startOffset'), 10);
+        const alignmentBaseline = textPath.getAttribute('alignment-baseline');
+        if (alignmentBaseline === 'middle') verticalAlign = VerticalAlign.MIDDLE;
+        else if (alignmentBaseline === 'top') verticalAlign = VerticalAlign.TOP;
+        else verticalAlign = VerticalAlign.BOTTOM;
+      }
+    }
+
     return {
       fontFamily: sanitizedDefaultFontFamily,
       fontStyle: font.style,
@@ -96,6 +118,8 @@ class TextOptions extends React.Component<Props, State> {
       letterSpacing: textEdit.getLetterSpacing(elem),
       lineSpacing: parseFloat(elem.getAttribute('data-line-spacing') || '1'),
       isVerti: elem.getAttribute('data-verti') === 'true',
+      startOffset,
+      verticalAlign,
     };
   };
 
@@ -104,22 +128,22 @@ class TextOptions extends React.Component<Props, State> {
     if (typeof newFamily === 'object') {
       family = newFamily.value;
     }
-    const { updateDimensionValues, updateObjectPanel } = this.props;
+    const { updateDimensionValues, updateObjectPanel, textElement } = this.props;
     const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
     const batchCmd = new history.BatchCommand('Change Font family');
-    let cmd = textEdit.setFontPostscriptName(newFont.postscriptName, true);
+    let cmd = textEdit.setFontPostscriptName(newFont.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
-    cmd = textEdit.setItalic(newFont.italic, true);
+    cmd = textEdit.setItalic(newFont.italic, true, textElement);
     batchCmd.addSubCommand(cmd);
-    cmd = textEdit.setFontWeight(newFont.weight, true);
+    cmd = textEdit.setFontWeight(newFont.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
     if (isMac) {
-      cmd = textEdit.setFontFamily(newFont.postscriptName, true);
+      cmd = textEdit.setFontFamily(newFont.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
-      cmd = textEdit.setFontFamilyData(family, true);
+      cmd = textEdit.setFontFamilyData(family, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     } else {
-      cmd = textEdit.setFontFamily(family, true);
+      cmd = textEdit.setFontFamily(family, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
@@ -200,22 +224,22 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   handleFontStyleChange = (val: string): void => {
-    const { updateDimensionValues, updateObjectPanel } = this.props;
+    const { updateDimensionValues, updateObjectPanel, textElement } = this.props;
     const { fontFamily } = this.state;
     const font = FontFuncs.requestFontByFamilyAndStyle({
       family: fontFamily,
       style: val,
     });
     const batchCmd = new history.BatchCommand('Change Font Style');
-    let cmd = textEdit.setFontPostscriptName(font.postscriptName, true);
+    let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
     if (isMac) {
-      cmd = textEdit.setFontFamily(font.postscriptName, true);
+      cmd = textEdit.setFontFamily(font.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }
-    cmd = textEdit.setItalic(font.italic, true);
+    cmd = textEdit.setItalic(font.italic, true, textElement);
     batchCmd.addSubCommand(cmd);
-    cmd = textEdit.setFontWeight(font.weight, true);
+    cmd = textEdit.setFontWeight(font.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     updateDimensionValues({ fontStyle: val });
@@ -250,7 +274,8 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   handleFontSizeChange = (val: number): void => {
-    textEdit.setFontSize(val);
+    const { textElement } = this.props;
+    textEdit.setFontSize(val, [textElement]);
     this.setState({
       fontSize: val,
     });
@@ -274,7 +299,8 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   handleLetterSpacingChange = (val: number): void => {
-    textEdit.setLetterSpacing(val);
+    const { textElement } = this.props;
+    textEdit.setLetterSpacing(val, textElement);
     this.setState({
       letterSpacing: val,
     });
@@ -343,17 +369,62 @@ class TextOptions extends React.Component<Props, State> {
     );
   };
 
-  render(): JSX.Element {
+  handleStartOffsetChange = (val: number): void => {
+    const { textElement } = this.props;
+    textPathEdit.setStartOffset(val, textElement);
+    this.setState({
+      startOffset: val,
+    });
+  };
+
+  handleVerticalAlignChange = (val: VerticalAlign): void => {
+    const { textElement } = this.props;
+    textPathEdit.setVerticalAlign(textElement, val);
+    this.setState({
+      verticalAlign: val,
+    });
+  };
+
+  renderMultiLineTextOptions(): JSX.Element {
     const { elem } = this.props;
     return (
-      <div className="text-options">
-        { this.renderFontFamilyBlock()}
-        { this.renderFontStyleBlock()}
-        { this.renderFontSizeBlock()}
-        { this.renderLetterSpacingBlock()}
-        { this.renderLineSpacingBlock()}
-        { this.renderVerticalTextSwitch()}
+      <>
+        {this.renderLineSpacingBlock()}
+        {this.renderVerticalTextSwitch()}
         <InFillBlock elem={elem} />
+      </>
+    );
+  }
+
+  renderTextPathOptions(): JSX.Element {
+    const { elem, textElement } = this.props;
+    const path = elem.querySelector('path');
+    const { startOffset, verticalAlign } = this.state;
+    return (
+      <>
+        <StartOffsetBlock
+          value={startOffset}
+          onValueChange={this.handleStartOffsetChange}
+        />
+        <VerticalAlignBlock
+          value={verticalAlign}
+          onValueChange={this.handleVerticalAlignChange}
+        />
+        <InFillBlock elem={textElement} label={LANG.text_infill} />
+        <InFillBlock elem={path} label={LANG.path_infill} />
+      </>
+    );
+  }
+
+  render(): JSX.Element {
+    const { isTextPath } = this.props;
+    return (
+      <div className="text-options">
+        {this.renderFontFamilyBlock()}
+        {this.renderFontStyleBlock()}
+        {this.renderFontSizeBlock()}
+        {this.renderLetterSpacingBlock()}
+        {isTextPath ? this.renderTextPathOptions() : this.renderMultiLineTextOptions()}
       </div>
     );
   }
