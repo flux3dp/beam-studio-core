@@ -10,6 +10,7 @@ import ConnectWiFi from 'app/pages/ConnectWiFi';
 import ConnectWired from 'app/pages/ConnectWired';
 import Dialog from 'app/views/dialogs/Dialog';
 import FluxIdLogin from 'app/pages/FluxIdLogin';
+import GoogleAuth from 'app/pages/GoogleAuth';
 import Home from 'app/pages/Home';
 import HomeView from 'app/pages/HomeView';
 import SelectConnectionType from 'app/pages/SelectConnectionType';
@@ -24,6 +25,7 @@ const wrappedComponent = (
       <AlertsAndProgress />
       <HashRouter>
         <Switch>
+          <Route exact path="/google-auth" component={GoogleAuth} />
           <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
           <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
           <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />

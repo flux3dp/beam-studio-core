@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`should render correctly desktop version 1`] = `
 <ContextProvider
   value={
     Object {
@@ -12,7 +12,7 @@ exports[`should render correctly 1`] = `
 </ContextProvider>
 `;
 
-exports[`should render correctly 2`] = `
+exports[`should render correctly desktop version 2`] = `
 <ContextProvider
   value={
     Object {
@@ -29,6 +29,12 @@ exports[`should render correctly 2`] = `
           </span>,
           "id": "67890",
         },
+        Object {
+          "component": <span>
+            Flux Login
+          </span>,
+          "id": "flux-id-login",
+        },
       ],
     }
   }
@@ -37,7 +43,7 @@ exports[`should render correctly 2`] = `
 </ContextProvider>
 `;
 
-exports[`should render correctly 3`] = `
+exports[`should render correctly desktop version 3`] = `
 <ContextProvider
   value={
     Object {
@@ -48,6 +54,12 @@ exports[`should render correctly 3`] = `
           </div>,
           "id": "12345",
         },
+        Object {
+          "component": <span>
+            Flux Login
+          </span>,
+          "id": "flux-id-login",
+        },
       ],
     }
   }
@@ -56,7 +68,63 @@ exports[`should render correctly 3`] = `
 </ContextProvider>
 `;
 
-exports[`should render correctly 4`] = `
+exports[`should render correctly desktop version 4`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [
+        Object {
+          "component": <div>
+            Hello World
+          </div>,
+          "id": "12345",
+        },
+        Object {
+          "component": <span>
+            Flux Login
+          </span>,
+          "id": "flux-id-login",
+        },
+      ],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly desktop version 5`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly web version 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "dialogComponents": Array [
+        Object {
+          "component": <span>
+            Flux Login
+          </span>,
+          "id": "flux-id-login",
+        },
+      ],
+    }
+  }
+>
+  <Children />
+</ContextProvider>
+`;
+
+exports[`should render correctly web version 2`] = `
 <ContextProvider
   value={
     Object {
