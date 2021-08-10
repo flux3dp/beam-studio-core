@@ -8,6 +8,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
+import checkWebGL from 'helpers/check-webgl';
 import CommonTools from 'app/views/beambox/TopBar/CommonTools';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
@@ -120,6 +121,7 @@ export default class TopBar extends React.Component<Props, State> {
   };
 
   renderPathPreviewButton = (): JSX.Element => {
+    if (!checkWebGL()) return null;
     const { isPathPreviewing } = this.state;
     return (
       <div className={classNames('path-preview-button-container', { highlighted: isPathPreviewing })}>
