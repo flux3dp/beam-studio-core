@@ -15,12 +15,12 @@ interface Props {
 class LeftPanel extends React.Component<Props> {
   private leftPanelClass: string;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.leftPanelClass = classNames('left-toolbar', { win: window.os === 'Windows' });
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     // Selection Management
     $('#layerpanel').mouseup(() => {
       FnWrapper.clearSelection();
@@ -34,53 +34,60 @@ class LeftPanel extends React.Component<Props> {
     $('#svg_editor').addClass('color');
 
     shortcuts.on(['v'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.useSelectTool();
       }
     });
 
     shortcuts.on(['i'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.importImage();
       }
     });
 
     shortcuts.on(['t'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.insertText();
       }
     });
 
     shortcuts.on(['m'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.insertRectangle();
       }
     });
 
     shortcuts.on(['l'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.insertEllipse();
       }
     });
 
     shortcuts.on(['\\'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.insertLine();
       }
     });
 
     shortcuts.on(['p'], () => {
-      if (!this.props.isPreviewing) {
+      const { isPreviewing } = this.props;
+      if (!isPreviewing) {
         FnWrapper.insertPath();
       }
     });
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     $('#svg_editor').removeClass('color');
   }
 
-  render() {
+  render(): JSX.Element {
     const { isPreviewing, endPreviewMode, setShouldStartPreviewController } = this.props;
     if (!isPreviewing) {
       return (
