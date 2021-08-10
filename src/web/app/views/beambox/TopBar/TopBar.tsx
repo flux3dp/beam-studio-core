@@ -8,6 +8,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
+import checkWebGL from 'helpers/check-webgl';
 import CommonTools from 'app/views/beambox/TopBar/CommonTools';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
@@ -41,59 +42,57 @@ getSVGAsync((globalSVG) => {
 });
 
 const { $ } = window;
-const lang = i18n.lang;
+const { lang } = i18n;
 const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
 
 interface State {
+  isPathPreviewing: boolean;
   isPreviewing: boolean;
   hasDiscoverdMachine: boolean;
   shouldShowDeviceList: boolean;
-  deviceListDir: string;
   deviceListType?: string | null;
   selectDeviceCallback: (device?: IDeviceInfo) => void;
 }
 
-export class TopBar extends React.Component<{}, State> {
+interface Props {
+  togglePathPreview: () => void
+}
+
+export default class TopBar extends React.Component<Props, State> {
   private deviceList: IDeviceInfo[];
 
   private discover: any;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.deviceList = [];
     this.state = {
+      isPathPreviewing: false,
       isPreviewing: false,
       hasDiscoverdMachine: false,
       shouldShowDeviceList: false,
-      deviceListDir: 'right',
       selectDeviceCallback: () => { },
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.discover = Discover(
       'top-bar',
       (deviceList) => {
         const { hasDiscoverdMachine, shouldShowDeviceList } = this.state;
-        deviceList = deviceList.filter((device) => device.serial !== 'XXXXXXXXXX');
-        deviceList.sort((deviceA, deviceB) => deviceA.name.localeCompare(deviceB.name));
-        this.deviceList = deviceList;
-        if ((deviceList.length > 0) !== hasDiscoverdMachine) {
-          this.setState({ hasDiscoverdMachine: deviceList.length > 0 });
+        const filteredList = deviceList.filter((device) => device.serial !== 'XXXXXXXXXX');
+        filteredList.sort((deviceA, deviceB) => deviceA.name.localeCompare(deviceB.name));
+        this.deviceList = filteredList;
+        if ((filteredList.length > 0) !== hasDiscoverdMachine) {
+          this.setState({ hasDiscoverdMachine: filteredList.length > 0 });
         }
-        if (shouldShowDeviceList) {
-          this.setState(this.state);
-        }
-      }
+        if (shouldShowDeviceList) this.forceUpdate();
+      },
     );
   }
 
-  componentWillUnmount() {
-    this.discover.removeListener('top-bar');
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     const { setShouldStartPreviewController, shouldStartPreviewController } = this.context;
     if (shouldStartPreviewController) {
       this.showCameraPreviewDeviceList();
@@ -101,22 +100,47 @@ export class TopBar extends React.Component<{}, State> {
     }
   }
 
-  renderPreviewButton = () => {
-    const { isPreviewing } = this.state;
+  componentWillUnmount(): void {
+    this.discover.removeListener('top-bar');
+  }
+
+  renderPreviewButton = (): JSX.Element => {
+    const { isPathPreviewing, isPreviewing } = this.state;
+    if (isPathPreviewing) return null;
     const borderless = BeamboxPreference.read('borderless') || false;
     const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));
-    const previewText = (borderless && supportOpenBottom) ? `${LANG.preview} ${LANG.borderless}` : LANG.preview
+    const previewText = (borderless && supportOpenBottom) ? `${LANG.preview} ${LANG.borderless}` : LANG.preview;
     return (
       <div className={classNames('preview-button-container', { previewing: isPreviewing })}>
-        <div className="img-container" onClick={() => { isPreviewing ? this.showCameraPreviewDeviceList() : this.changeToPreviewMode() }}>
+        <div className="img-container" onClick={isPreviewing ? this.showCameraPreviewDeviceList : this.changeToPreviewMode}>
           <img src="img/top-bar/icon-camera.svg" draggable={false} />
         </div>
         {isPreviewing ? <div className="title" onClick={() => this.showCameraPreviewDeviceList()}>{previewText}</div> : null}
       </div>
     );
-  }
+  };
 
-  changeToPreviewMode = () => {
+  renderPathPreviewButton = (): JSX.Element => {
+    if (!checkWebGL()) return null;
+    const { isPathPreviewing } = this.state;
+    return (
+      <div className={classNames('path-preview-button-container', { highlighted: isPathPreviewing })}>
+        <div className="path-preview-button" onClick={this.changeToPathPreviewMode}>
+          <img src="img/print-preview.svg" draggable={false} />
+        </div>
+      </div>
+    );
+  };
+
+  changeToPathPreviewMode = (): void => {
+    const { togglePathPreview } = this.props;
+    const { isPathPreviewing } = this.state;
+    svgCanvas.clearSelection();
+    togglePathPreview();
+    this.setState({ isPathPreviewing: !isPathPreviewing });
+  };
+
+  changeToPreviewMode = (): void => {
     const { setTopBarPreviewMode } = this.context;
     svgCanvas.setMode('select');
 
@@ -126,23 +150,25 @@ export class TopBar extends React.Component<{}, State> {
       return false;
     });
     setTopBarPreviewMode(true);
-    const workarea = window['workarea'];
-    $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+    const workarea = document.getElementById('workarea');
+    if (workarea) {
+      $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+    }
     this.setState({ isPreviewing: true });
     if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
       TutorialController.handleNextStep();
     }
-  }
+  };
 
-  showCameraPreviewDeviceList = () => {
+  showCameraPreviewDeviceList = (): void => {
     if (!PreviewModeController.isPreviewMode()) {
-      this.showDeviceList('camera', (device) => { this.startPreviewModeController(device) });
+      this.showDeviceList('camera', (device) => this.startPreviewModeController(device));
     }
-  }
+  };
 
-  startPreviewModeController = async (device: IDeviceInfo) => {
+  startPreviewModeController = async (device: IDeviceInfo): Promise<void> => {
     const { setTopBarPreviewMode, startPreivewCallback, setStartPreviewCallback } = this.context;
-    const workarea = window['workarea'];
+    const workarea = document.getElementById('workarea');
     if (['fbm1', 'fbb1b', 'fbb1p', 'fbb2b'].includes(device.model) && device.model !== BeamboxPreference.read('workarea')) {
       const res = await new Promise((resolve) => {
         Alert.popUp({
@@ -166,6 +192,7 @@ export class TopBar extends React.Component<{}, State> {
       }
     }
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     FnWrapper.useSelectTool();
     svgCanvas.clearSelection();
     const vc = VersionChecker(device.version);
@@ -188,7 +215,7 @@ export class TopBar extends React.Component<{}, State> {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
         message,
-        caption
+        caption,
       });
       Progress.popById('start-preview-controller');
       return;
@@ -219,6 +246,7 @@ export class TopBar extends React.Component<{}, State> {
         setStartPreviewCallback(null);
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       if (error.message && error.message.startsWith('Camera WS')) {
         Alert.popUp({
@@ -231,23 +259,31 @@ export class TopBar extends React.Component<{}, State> {
           message: `${LANG.alerts.fail_to_start_preview}<br/>${error.message || ''}`,
         });
       }
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
-      return;
     }
-  }
+  };
 
-  endPreviewMode = () => {
+  endPathPreviewMode = (): void => {
+    const { togglePathPreview } = this.props;
+    this.setState({ isPathPreviewing: false });
+    togglePathPreview();
+  };
+
+  endPreviewMode = (): void => {
     const { setTopBarPreviewMode } = this.context;
     try {
       if (PreviewModeController.isPreviewMode()) {
         PreviewModeController.end();
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     } finally {
       if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
         TutorialController.handleNextStep();
       }
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
       $('#workarea').off('contextmenu');
       svgEditor.setWorkAreaContextMenu();
@@ -256,13 +292,13 @@ export class TopBar extends React.Component<{}, State> {
         isPreviewing: false,
       });
     }
-  }
+  };
 
-  showDeviceList = (type, selectDeviceCallback) => {
+  showDeviceList = (type: string, selectDeviceCallback: (device: IDeviceInfo) => void): void => {
     const { deviceList } = this;
     if (deviceList.length > 0) {
       if (storage.get('auto_connect') !== 0 && deviceList.length === 1) {
-        this.handleSelectDevice(deviceList[0], (device) => { selectDeviceCallback(device) });
+        this.handleSelectDevice(deviceList[0], (device) => selectDeviceCallback(device));
         return;
       }
       this.setState({
@@ -276,50 +312,72 @@ export class TopBar extends React.Component<{}, State> {
         message: lang.device_selection.no_beambox,
       });
     }
-  }
+  };
 
-  resetStartPreviewCallback = () => {
+  resetStartPreviewCallback = (): void => {
     const { startPreivewCallback, setStartPreviewCallback, updateTopBar } = this.context;
     if (startPreivewCallback) {
       setStartPreviewCallback(null);
       updateTopBar();
     }
-  }
+  };
 
-  hideDeviceList = () => {
+  hideDeviceList = (): void => {
     this.setState({
       shouldShowDeviceList: false,
-      selectDeviceCallback: () => { }
+      selectDeviceCallback: () => { },
     });
-  }
+  };
 
-  renderDeviceList() {
+  handleSelectDevice = async (
+    device: IDeviceInfo,
+    callback: (device: IDeviceInfo) => void,
+  ): Promise<void> => {
+    this.hideDeviceList();
+    try {
+      const status = await DeviceMaster.select(device);
+      if (status && status.success) {
+        const res = await checkDeviceStatus(device);
+        if (res) {
+          callback(device);
+        }
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      Alert.popUp({
+        id: 'fatal-occurred',
+        message: `#813 ${e.toString()}`,
+        type: AlertConstants.SHOW_POPUP_ERROR,
+      });
+    }
+  };
+
+  renderDeviceList(): JSX.Element {
     const { deviceList } = this;
     const { shouldShowDeviceList, selectDeviceCallback, deviceListType } = this.state;
     if (!shouldShowDeviceList) {
       return null;
     }
-    let status = lang.machine_status;
+    const status = lang.machine_status;
     let progress;
-    let options = deviceList.map((device) => {
-      let statusText = status[device.st_id] || status.UNKNOWN;
+    const options = deviceList.map((device) => {
+      const statusText = status[device.st_id] || status.UNKNOWN;
 
       if (device.st_prog === 0) {
         progress = '';
-      }
-      else if (16 === device.st_id && 'number' === typeof device.st_prog) {
-        progress = (device.st_prog * 100).toFixed(1) + '%';
-      }
-      else {
+      } else if (device.st_id === 16 && typeof device.st_prog === 'number') {
+        progress = `${(device.st_prog * 100).toFixed(1)}%`;
+      } else {
         progress = '';
       }
 
-      let img = `img/icon_${device.source === 'h2h' ? 'usb' : 'wifi'}.svg`;
+      const img = `img/icon_${device.source === 'h2h' ? 'usb' : 'wifi'}.svg`;
 
       return (
         <li
           key={device.uuid}
-          onClick={() => { this.handleSelectDevice(device, (device) => { selectDeviceCallback(device) }) }}
+          onClick={() => this.handleSelectDevice(device, (d) => selectDeviceCallback(d))}
           data-test-key={device.serial}
         >
           <label className="name">{device.name}</label>
@@ -334,13 +392,15 @@ export class TopBar extends React.Component<{}, State> {
       );
     });
 
-    let list = (0 < options.length) ? options : (<div key="spinner-roller" className="spinner-roller spinner-roller-reverse" />);
+    const list = (options.length > 0) ? options : (<div key="spinner-roller" className="spinner-roller spinner-roller-reverse" />);
     const menuClass = classNames('menu', deviceListType);
     return (
-      <Modal onClose={() => {
-        this.resetStartPreviewCallback();
-        this.hideDeviceList();
-      }}>
+      <Modal
+        onClose={() => {
+          this.resetStartPreviewCallback();
+          this.hideDeviceList();
+        }}
+      >
         <div className={menuClass}>
           <div className={classNames('arrow', { 'arrow-left': deviceListType === 'camera', 'arrow-right': deviceListType === 'export' })} />
           <div className="device-list">
@@ -351,27 +411,8 @@ export class TopBar extends React.Component<{}, State> {
     );
   }
 
-  handleSelectDevice = async (device, callback: Function) => {
-    this.hideDeviceList();
-    try {
-      const status = await DeviceMaster.select(device);
-      if (status && status.success) {
-        const res = await checkDeviceStatus(device);
-        if (res) {
-          callback(device);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-      Alert.popUp({
-        id: 'fatal-occurred',
-        message: '#813' + e.toString(),
-        type: AlertConstants.SHOW_POPUP_ERROR,
-      });
-    }
-  }
-
-  renderHint() {
+  // eslint-disable-next-line class-methods-use-this
+  renderHint(): JSX.Element {
     return (
       <TopBarHintsContextProvider>
         <TopBarHints />
@@ -379,7 +420,8 @@ export class TopBar extends React.Component<{}, State> {
     );
   }
 
-  renderMenu() {
+  // eslint-disable-next-line class-methods-use-this
+  renderMenu(): JSX.Element {
     if (window.FLUX.version === 'web') {
       const { currentUser } = this.context;
       return (
@@ -392,18 +434,23 @@ export class TopBar extends React.Component<{}, State> {
   }
 
   render() {
-    const { isPreviewing, hasDiscoverdMachine } = this.state;
-    const { setShouldStartPreviewController, currentUser, fileName, hasUnsavedChange, selectedElem } = this.context;
+    const { isPathPreviewing, isPreviewing, hasDiscoverdMachine } = this.state;
+    const {
+      setShouldStartPreviewController, fileName, hasUnsavedChange, selectedElem,
+    } = this.context;
     return (
       <div className="top-bar-left-panel-container">
         <LeftPanel
+          isPathPreviewing={isPathPreviewing}
           isPreviewing={isPreviewing}
           setShouldStartPreviewController={setShouldStartPreviewController}
+          endPathPreviewMode={this.endPathPreviewMode}
           endPreviewMode={this.endPreviewMode}
         />
         <div className={classNames('top-bar', { win: isNotMac })}>
           <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
           {this.renderPreviewButton()}
+          {this.renderPathPreviewButton()}
           <GoButton
             isNotMac={isNotMac}
             hasDiscoverdMachine={hasDiscoverdMachine}

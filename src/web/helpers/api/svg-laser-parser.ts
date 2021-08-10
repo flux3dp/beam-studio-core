@@ -136,6 +136,66 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       }
       ws.send(args.join(' '));
     },
+    gcodeToFcode(
+      taskData: { arrayBuffer: ArrayBuffer, thumbnailSize: number, size: number },
+      opts,
+    ) {
+      const $deferred = $.Deferred();
+      const warningCollection = [];
+      const args = [
+        'g2f',
+      ];
+      const blobs = [];
+      let duration;
+      let totalLength = 0;
+      let blob;
+
+      events.onMessage = (data) => {
+        if (data instanceof Blob === true) {
+          blobs.push(data);
+          blob = new Blob(blobs);
+
+          if (totalLength === blob.size) {
+            opts.onFinished(blob, args[2], duration);
+          }
+        } else {
+          switch (data.status) {
+            case 'continue':
+              ws.send(taskData.arrayBuffer);
+              break;
+            case 'ok':
+              $deferred.resolve('ok');
+              break;
+            case 'warning':
+              warningCollection.push(data.message);
+              break;
+            case 'computing':
+              opts.onProgressing(data);
+              break;
+            case 'complete':
+              totalLength = data.length;
+              duration = Math.floor(data.time) + 1;
+              break;
+            case 'Error':
+              opts.onError(data.message);
+              break;
+            default:
+              break;
+          }
+        }
+      };
+      events.onError = (data) => {
+        console.error(data);
+      };
+
+      ws.send([
+        'g2f',
+        taskData.size,
+        taskData.thumbnailSize,
+      ].join(' '));
+
+      return $deferred.promise();
+    },
     divideSVG(opts?) {
       const $deferred = $.Deferred();
       opts = opts || {};

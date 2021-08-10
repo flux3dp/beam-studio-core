@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 const mockEmit = jest.fn();
-jest.mock('app/views/beambox/ZoomBlock/contexts/ZoomBlockContext', () => ({
+jest.mock('app/views/beambox/ZoomBlock/ZoomBlock', () => ({
   eventEmitter: {
     emit: mockEmit,
   },

@@ -2,7 +2,7 @@
 
 exports[`should render correctly 1`] = `
 <View
-  onClose={[Function]}
+  onClose={[MockFunction]}
 >
   <div
     className="document-panel"
@@ -91,13 +91,15 @@ exports[`should render correctly 1`] = `
     >
       <button
         className="btn btn-default pull-right"
-        onClick={[Function]}
+        onClick={[MockFunction]}
+        type="button"
       >
         Cancel
       </button>
       <button
         className="btn btn-default primary pull-right"
         onClick={[Function]}
+        type="button"
       >
         Save
       </button>
@@ -108,7 +110,7 @@ exports[`should render correctly 1`] = `
 
 exports[`should render correctly 2`] = `
 <View
-  onClose={[Function]}
+  onClose={[MockFunction]}
 >
   <div
     className="document-panel"
@@ -197,13 +199,15 @@ exports[`should render correctly 2`] = `
     >
       <button
         className="btn btn-default pull-right"
-        onClick={[Function]}
+        onClick={[MockFunction]}
+        type="button"
       >
         Cancel
       </button>
       <button
         className="btn btn-default primary pull-right"
         onClick={[Function]}
+        type="button"
       >
         Save
       </button>
@@ -214,7 +218,7 @@ exports[`should render correctly 2`] = `
 
 exports[`should render correctly 3`] = `
 <View
-  onClose={[Function]}
+  onClose={[MockFunction]}
 >
   <div
     className="document-panel"
@@ -303,13 +307,15 @@ exports[`should render correctly 3`] = `
     >
       <button
         className="btn btn-default pull-right"
-        onClick={[Function]}
+        onClick={[MockFunction]}
+        type="button"
       >
         Cancel
       </button>
       <button
         className="btn btn-default primary pull-right"
         onClick={[Function]}
+        type="button"
       >
         Save
       </button>
@@ -320,7 +326,7 @@ exports[`should render correctly 3`] = `
 
 exports[`should render correctly 4`] = `
 <View
-  onClose={[Function]}
+  onClose={[MockFunction]}
 >
   <div
     className="document-panel"
@@ -409,13 +415,15 @@ exports[`should render correctly 4`] = `
     >
       <button
         className="btn btn-default pull-right"
-        onClick={[Function]}
+        onClick={[MockFunction]}
+        type="button"
       >
         Cancel
       </button>
       <button
         className="btn btn-default primary pull-right"
         onClick={[Function]}
+        type="button"
       >
         Save
       </button>

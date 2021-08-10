@@ -1,31 +1,45 @@
 import * as React from 'react';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
-import Constant from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import os from 'implementations/os';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ZoomBlockContext } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
 
 let svgCanvas;
-let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const LANG = i18n.lang.beambox.zoom_block;
 
-export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
-  constructor(props) {
+export const eventEmitter = eventEmitterFactory.createEventEmitter();
+
+interface Props {
+  getZoom?: () => number;
+  setZoom: (zoom: number) => void;
+  resetView: () => void;
+}
+
+export default class ZoomBlock extends React.Component<Props, { dpmm: number }> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       dpmm: 96 / 25.4,
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.getDpmm();
+    eventEmitter.on('UPDATE_ZOOM_BLOCK', this.update);
   }
 
-  getDpmm = async () => {
+  componentWillUnmount(): void {
+    eventEmitter.removeListener('UPDATE_ZOOM_BLOCK', this.update);
+  }
+
+  private update = () => this.forceUpdate();
+
+  private getDpmm = async () => {
     try {
       if (window.os === 'MacOS') {
         const res = await os.process.exec('/usr/sbin/system_profiler SPHardwareDataType | grep Identifier');
@@ -35,7 +49,7 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
             const modelId = match[1];
             const monitorSize = macOSWindowSize[modelId];
             if (monitorSize) {
-              const dpi = Math.hypot(screen.width, screen.height) / monitorSize;
+              const dpi = Math.hypot(window.screen.width, window.screen.height) / monitorSize;
               const dpmm = dpi / 25.4;
               this.setState({ dpmm });
               return;
@@ -45,27 +59,29 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
       } else if (window.os === 'Windows') {
         const res = await os.process.exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
         if (!res.stderr) {
-          const matchWidth = res.stdout.match(/MaxHorizontalImageSize[\ ]*: (\d+)\b/);
-          const matchHeight = res.stdout.match(/MaxVerticalImageSize[\ ]*: (\d+)\b/);
+          const matchWidth = res.stdout.match(/MaxHorizontalImageSize[ ]*: (\d+)\b/);
+          const matchHeight = res.stdout.match(/MaxVerticalImageSize[ ]*: (\d+)\b/);
           if (matchWidth && matchHeight) {
             const width = Number(matchWidth[1]);
             const height = Number(matchHeight[1]);
-            if (!isNaN(width) && !isNaN(height)) {
-              const dpmm = (screen.width / (width * 10) + screen.height / (height * 10)) / 2;
-              this.setState({ dpmm });
+            if (!Number.isNaN(width) && !Number.isNaN(height)) {
+              const dpmmW = window.screen.width / (width * 10);
+              const dpmmH = window.screen.height / (height * 10);
+              const avgDpmm = (dpmmW + dpmmH) / 2;
+              this.setState({ dpmm: avgDpmm });
               return;
             }
           } else if (matchWidth) {
             const width = Number(matchWidth[1]);
-            if (!isNaN(width)) {
-              const dpmm = screen.width / (width * 10);
+            if (!Number.isNaN(width)) {
+              const dpmm = window.screen.width / (width * 10);
               this.setState({ dpmm });
               return;
             }
           } else if (matchHeight) {
             const height = Number(matchHeight[1]);
-            if (!isNaN(height)) {
-              const dpmm = screen.height / (height * 10);
+            if (!Number.isNaN(height)) {
+              const dpmm = window.screen.height / (height * 10);
               this.setState({ dpmm });
               return;
             }
@@ -76,12 +92,15 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
         if (!res.stderr) {
           const matches = res.stdout.match(/\d+x\d+\+\d+\+\d+ \d+mm x \d+mm\b/g);
           if (matches && matches.length > 0) {
-            for (let i = 0; i < matches.length; i++) {
+            for (let i = 0; i < matches.length; i += 1) {
               const match = matches[i].match(/(\d+)x(\d+)\+\d+\+\d+ (\d+)mm x (\d+)mm\b/);
               if (match) {
                 const [q, resW, resH, width, height] = match;
-                if (Number(resW) === screen.width && Number(resH) === screen.height && width > 0 && height > 0) {
-                  const dpmm = (screen.width / width + screen.height / height) / 2;
+                if (Number(resW) === window.screen.width
+                  && Number(resH) === window.screen.height
+                  && width > 0
+                  && height > 0) {
+                  const dpmm = (window.screen.width / width + window.screen.height / height) / 2;
                   this.setState({ dpmm });
                   return;
                 }
@@ -91,40 +110,33 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
         }
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
     const dpmm = 96 / 25.4;
     this.setState({ dpmm });
-  }
+  };
 
-  calculatCurrentRatio() {
+  private setRatio = (ratioPercentage) => {
+    const { setZoom } = this.props;
     const { dpmm } = this.state;
-    if (!svgCanvas || !dpmm) {
-      return 1;
-    }
-    const ratio = svgCanvas.getZoom() * Constant.dpmm / dpmm;
-    return ratio;
-  }
+    const ratio = ratioPercentage / 100;
+    const targetZoom = ratio * dpmm;
+    setZoom(targetZoom);
+  };
 
-  setRatio = (ratio) => {
-    const { dpmm } = this.state;
-    ratio /= 100;
-    const targetZoom = ratio * dpmm / Constant.dpmm;
-    svgEditor.zoomChanged(window, { zoomLevel: targetZoom })
-  }
-
-  zoomIn = (currentRatio) => {
+  private zoomIn = (currentRatio) => {
     const ratioInPercent = Math.round(currentRatio * 100);
     let targetRatio;
     if (ratioInPercent < 500) {
-      targetRatio = ratioInPercent + ((10 - ratioInPercent % 10) || 10);
+      targetRatio = ratioInPercent + ((10 - (ratioInPercent % 10)) || 10);
     } else {
-      targetRatio = ratioInPercent + ((100 - ratioInPercent % 100) || 100);
+      targetRatio = ratioInPercent + ((100 - (ratioInPercent % 100)) || 100);
     }
     this.setRatio(targetRatio);
-  }
+  };
 
-  zoomOut = (currentRatio) => {
+  private zoomOut = (currentRatio) => {
     const ratioInPercent = Math.round(currentRatio * 100);
     let targetRatio;
     if (ratioInPercent <= 500) {
@@ -133,38 +145,48 @@ export class ZoomBlock extends React.Component<{}, { dpmm: number }> {
       targetRatio = ratioInPercent - (ratioInPercent % 100 || 100);
     }
     this.setRatio(targetRatio);
+  };
+
+  private calculateCurrentRatio() {
+    const { getZoom } = this.props;
+    const { dpmm } = this.state;
+    if ((!getZoom && !svgCanvas) || !dpmm) {
+      return 1;
+    }
+    const zoom = getZoom ? getZoom() : (svgCanvas.getZoom() * constant.dpmm);
+    const ratio = zoom / dpmm;
+    return ratio;
   }
 
-  render() {
-    const ratio = this.calculatCurrentRatio();
+  render(): JSX.Element {
+    const { resetView } = this.props;
+    const ratio = this.calculateCurrentRatio();
     const ratioInPercent = Math.round(ratio * 100);
     return (
-      <div className='zoom-block'>
-        <ContextMenuTrigger id='zoom-block-contextmenu' holdToDisplay={-1}>
-          <div className='zoom-btn zoom-out' onClick={() => this.zoomOut(ratio)}>
-            <img src='img/icon-minus.svg' />
+      <div className="zoom-block">
+        <ContextMenuTrigger id="zoom-block-contextmenu" holdToDisplay={-1}>
+          <div className="zoom-btn zoom-out" onClick={() => this.zoomOut(ratio)}>
+            <img src="img/icon-minus.svg" />
           </div>
-          <ContextMenuTrigger id='zoom-block-contextmenu' holdToDisplay={0}>
-            <div className='zoom-ratio'>
+          <ContextMenuTrigger id="zoom-block-contextmenu" holdToDisplay={0}>
+            <div className="zoom-ratio">
               {`${ratioInPercent}%`}
             </div>
           </ContextMenuTrigger>
-          <div className='zoom-btn zoom-in' onClick={() => this.zoomIn(ratio)}>
-            <img src='img/icon-plus.svg' />
+          <div className="zoom-btn zoom-in" onClick={() => this.zoomIn(ratio)}>
+            <img src="img/icon-plus.svg" />
           </div>
         </ContextMenuTrigger>
-        <ContextMenu id='zoom-block-contextmenu'>
-          <MenuItem onClick={() => svgEditor.resetView()}>{LANG.fit_to_window}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(25)}>{'25 %'}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(50)}>{'50 %'}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(75)}>{'75 %'}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(100)}>{'100 %'}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(150)}>{'150 %'}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(200)}>{'200 %'}</MenuItem>
+        <ContextMenu id="zoom-block-contextmenu">
+          <MenuItem onClick={resetView}>{LANG.fit_to_window}</MenuItem>
+          <MenuItem onClick={() => this.setRatio(25)}>25 %</MenuItem>
+          <MenuItem onClick={() => this.setRatio(50)}>50 %</MenuItem>
+          <MenuItem onClick={() => this.setRatio(75)}>75 %</MenuItem>
+          <MenuItem onClick={() => this.setRatio(100)}>100 %</MenuItem>
+          <MenuItem onClick={() => this.setRatio(150)}>150 %</MenuItem>
+          <MenuItem onClick={() => this.setRatio(200)}>200 %</MenuItem>
         </ContextMenu>
       </div>
     );
   }
-};
-
-ZoomBlock.contextType = ZoomBlockContext;
+}

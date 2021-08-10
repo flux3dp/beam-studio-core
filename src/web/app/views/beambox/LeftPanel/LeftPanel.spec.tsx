@@ -41,6 +41,18 @@ jest.mock('app/views/beambox/LeftPanel/PreviewToolButtonGroup', () => function D
   );
 });
 
+jest.mock('helpers/i18n', () => ({
+  lang: {
+    beambox: {
+      left_panel: {
+        label: {
+          end_preview: 'End Preview',
+        },
+      },
+    },
+  },
+}));
+
 import LeftPanel from './LeftPanel';
 
 describe('should render correctly', () => {
@@ -58,6 +70,8 @@ describe('should render correctly', () => {
       <LeftPanel
         isPreviewing={false}
         endPreviewMode={jest.fn()}
+        isPathPreviewing={false}
+        endPathPreviewMode={jest.fn()}
         setShouldStartPreviewController={jest.fn()}
       />,
     );
@@ -87,6 +101,28 @@ describe('should render correctly', () => {
       <LeftPanel
         isPreviewing
         endPreviewMode={jest.fn()}
+        isPathPreviewing={false}
+        endPathPreviewMode={jest.fn()}
+        setShouldStartPreviewController={jest.fn()}
+      />,
+    ))).toMatchSnapshot();
+  });
+
+  test('in path previewing', () => {
+    Object.defineProperty(window, 'os', {
+      value: 'MacOS',
+    });
+    document.body.innerHTML = `
+      <div id="layerpanel" />
+      <div id="layer-laser-panel-placeholder" />
+      <div id="svg_editor" />
+    `;
+    expect(toJson(shallow(
+      <LeftPanel
+        isPreviewing={false}
+        endPreviewMode={jest.fn()}
+        isPathPreviewing
+        endPathPreviewMode={jest.fn()}
         setShouldStartPreviewController={jest.fn()}
       />,
     ))).toMatchSnapshot();

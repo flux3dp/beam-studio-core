@@ -47,7 +47,7 @@ export const MonitorContext = React.createContext(null);
 
 interface Props {
   mode: Mode;
-  previewTask?: { fcodeBlob: string, taskImageURL: string, taskTime: number };
+  previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number };
   device: IDeviceInfo;
   onClose: () => void;
 }
@@ -60,7 +60,7 @@ interface State {
     name?: string;
   };
   fileInfo: any[];
-  previewTask: { fcodeBlob: string, taskImageURL: string, taskTime: number };
+  previewTask: { fcodeBlob: Blob, taskImageURL: string, taskTime: number };
   workingTask: any,
   taskImageURL: string | null;
   taskTime: number | null;
