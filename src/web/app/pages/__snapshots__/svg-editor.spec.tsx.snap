@@ -75,6 +75,13 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             </DummyRightPanel>
           </div>
         </DummyRightPanelContextProvider>
+        <DummyZoomBlock
+          setZoom={[Function]}
+        >
+          <div>
+            This is dummy ZoomBlock
+          </div>
+        </DummyZoomBlock>
         <div
           id="main_button"
         >
@@ -1199,6 +1206,13 @@ exports[`test svg-editor should render correctly in win 1`] = `
             </DummyRightPanel>
           </div>
         </DummyRightPanelContextProvider>
+        <DummyZoomBlock
+          setZoom={[Function]}
+        >
+          <div>
+            This is dummy ZoomBlock
+          </div>
+        </DummyZoomBlock>
         <div
           id="main_button"
         >

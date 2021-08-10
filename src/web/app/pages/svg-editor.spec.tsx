@@ -35,10 +35,10 @@ jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => function DummyRigh
   );
 });
 
-jest.mock('app/views/beambox/Path-Preview', () => function DummyPathPreview() {
+jest.mock('app/views/beambox/ZoomBlock/ZoomBlock', () => function DummyZoomBlock() {
   return (
     <div>
-      This is dummy DummyPathPreview
+      This is dummy ZoomBlock
     </div>
   );
 });
