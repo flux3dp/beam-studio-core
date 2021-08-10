@@ -7,21 +7,32 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
+import PathPreview from 'app/views/beambox/Path-Preview';
 import sentryHelper from 'helpers/sentry-helper';
 import SVGEditor from 'app/pages/svg-editor';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
-import { TopBar } from 'app/views/beambox/TopBar/TopBar';
+import TopBar from 'app/views/beambox/TopBar/TopBar';
 import { TopBarContextProvider } from 'app/views/beambox/TopBar/contexts/TopBarContext';
-import { ZoomBlock } from 'app/views/beambox/ZoomBlock/ZoomBlock';
-import { ZoomBlockContextProvider } from 'app/views/beambox/ZoomBlock/contexts/ZoomBlockContext';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
 
-export default class Beambox extends React.Component {
-  async componentDidMount() {
+interface State {
+  isPathPreviewing: boolean,
+}
+
+export default class Beambox extends React.Component<Record<string, never>, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPathPreviewing: false,
+    };
+  }
+
+  async componentDidMount(): Promise<void> {
     BeamboxGlobalInteraction.attach();
 
     // need to run after svgedit packages loaded, so place it at componentDidMouont
@@ -38,20 +49,38 @@ export default class Beambox extends React.Component {
     BeamboxGlobalInteraction.detach();
   }
 
-  render() {
+  private togglePathPreview = () => {
+    const { isPathPreviewing } = this.state;
+    this.setState({ isPathPreviewing: !isPathPreviewing });
+  };
+
+  private renderTimeEstButton(): JSX.Element {
+    const { isPathPreviewing } = this.state;
+    if (isPathPreviewing) return null;
+    return (
+      <TimeEstimationButtonContextProvider>
+        <TimeEstimationButton />
+      </TimeEstimationButtonContextProvider>
+    );
+  }
+
+  renderPathPreview = (): JSX.Element => {
+    const { isPathPreviewing } = this.state;
+    if (!isPathPreviewing) return null;
+    return <PathPreview togglePathPreview={this.togglePathPreview} />;
+  };
+
+  render(): JSX.Element {
+    const { isPathPreviewing } = this.state;
     const activeLang = i18n.getActiveLang();
     return (
       <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
         <TopBarContextProvider>
-          <TopBar />
+          <TopBar togglePathPreview={this.togglePathPreview} />
         </TopBarContextProvider>
-        <ZoomBlockContextProvider>
-          <ZoomBlock />
-        </ZoomBlockContextProvider>
-        <TimeEstimationButtonContextProvider>
-          <TimeEstimationButton />
-        </TimeEstimationButtonContextProvider>
-        <SVGEditor />
+        {this.renderTimeEstButton()}
+        <SVGEditor isPathPreviewing={isPathPreviewing} />
+        {this.renderPathPreview()}
         <div id="tool-panels-placeholder" />
         <div id="image-trace-panel-placeholder" />
       </div>

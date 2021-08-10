@@ -6,6 +6,24 @@ exports[`should render correctly NOT in previewing 1`] = `
 />
 `;
 
+exports[`should render correctly in path previewing 1`] = `
+<div
+  className="left-toolbar"
+>
+  <div
+    className="tool-btn"
+    id="Exit-Preview"
+    onClick={[MockFunction]}
+    title="End Preview"
+  >
+    <img
+      draggable="false"
+      src="img/left-bar/icon-back.svg"
+    />
+  </div>
+</div>
+`;
+
 exports[`should render correctly in previewing 1`] = `
 <DummyPreviewToolButtonGroup
   className="left-toolbar win"

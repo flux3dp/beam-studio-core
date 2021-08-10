@@ -290,6 +290,53 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
       },
     );
   });
+
+  let gcodeBlobNoFastGradient;
+
+  if (shouldOutputGcode && shouldUseFastGradient) {
+    gcodeBlobNoFastGradient = await new Promise((resolve) => {
+      const names = []; // don't know what this is for
+      const codeType = shouldOutputGcode ? 'gcode' : 'fcode';
+      svgeditorParser.getTaskCode(
+        names,
+        {
+          onProgressing: (data) => {
+            Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
+          },
+          onFinished: (taskBlob) => {
+            Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
+            resolve(taskBlob);
+          },
+          onError: (message) => {
+            Progress.popById('fetch-task');
+            Alert.popUp({
+              id: 'get-taskcode-error',
+              message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
+              type: AlertConstants.SHOW_POPUP_ERROR,
+              buttonType: AlertConstants.YES_NO,
+              onYes: () => {
+                const svgString = svgCanvas.getSvgString();
+                AwsHelper.uploadToS3('output.bvg', svgString);
+              },
+            });
+            isErrorOccur = true;
+            resolve({
+              taskCodeBlob: null,
+              fileTimeCost: null,
+            });
+          },
+          fileMode: '-f',
+          codeType,
+          model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
+          enableAutoFocus: doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
+          enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
+          shouldUseFastGradient: false,
+          vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
+        },
+      );
+    });
+  }
+
   Progress.popById('fetch-task');
   if (isCanceled || isErrorOccur) {
     return {};
@@ -302,11 +349,95 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
       fileTimeCost,
     };
   }
+  if (shouldUseFastGradient) {
+    return {
+      gcodeBlob: gcodeBlobNoFastGradient,
+      gcodeBlobFastGradient: taskCodeBlob,
+      thumbnailBlobURL,
+      fileTimeCost,
+    };
+  }
   return {
     gcodeBlob: taskCodeBlob,
+    gcodeBlobFastGradient: '',
     thumbnailBlobURL,
     fileTimeCost,
   };
+};
+
+// Send svg string calculate taskcode, output Fcode in default
+const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => {
+  let isErrorOccur = false;
+  let isCanceled = false;
+  const blob = new Blob([thumbnail, gcodeString], { type: 'application/octet-stream' });
+  const arrayBuffer = await blob.arrayBuffer();
+
+  Progress.openSteppingProgress({
+    id: 'fetch-task',
+    message: '',
+    onCancel: () => {
+      svgeditorParser.interruptCalculation();
+      isCanceled = true;
+    },
+  });
+  const { taskCodeBlob, fileTimeCost } = await new Promise((resolve) => {
+    const codeType = 'fcode';
+    svgeditorParser.gcodeToFcode(
+      { arrayBuffer, thumbnailSize: thumbnail.length, size: blob.size },
+      {
+        onProgressing: (data) => {
+          Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
+        },
+        onFinished: (taskBlob, fileName, timeCost) => {
+          Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
+          resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost });
+        },
+        onError: (message) => {
+          Progress.popById('fetch-task');
+          Alert.popUp({
+            id: 'get-taskcode-error',
+            message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
+            type: AlertConstants.SHOW_POPUP_ERROR,
+            buttonType: AlertConstants.YES_NO,
+            onYes: () => {
+              const svgString = svgCanvas.getSvgString();
+              AwsHelper.uploadToS3('output.bvg', svgString);
+            },
+          });
+          isErrorOccur = true;
+          resolve({
+            taskCodeBlob: null,
+            fileTimeCost: null,
+          });
+        },
+        codeType,
+        model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
+        vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
+      },
+    );
+  });
+  Progress.popById('fetch-task');
+  if (isCanceled || isErrorOccur) {
+    return {};
+  }
+
+  return {
+    fcodeBlob: taskCodeBlob,
+    fileTimeCost,
+  };
+};
+
+const openTaskInDeviceMonitor = (
+  device: IDeviceInfo,
+  fcodeBlob: Blob,
+  taskImageURL: string,
+  taskTime: number,
+): void => {
+  MonitorController.showMonitor(device, Mode.PREVIEW, {
+    fcodeBlob,
+    taskImageURL,
+    taskTime,
+  });
 };
 
 export default {
@@ -320,11 +451,7 @@ export default {
       if (!res) {
         return;
       }
-      MonitorController.showMonitor(device, Mode.PREVIEW, {
-        fcodeBlob,
-        taskImageURL: thumbnailBlobURL,
-        taskTime: fileTimeCost,
-      });
+      openTaskInDeviceMonitor(device, fcodeBlob, thumbnailBlobURL, fileTimeCost);
     } catch (errMsg) {
       console.error(errMsg);
       // TODO: handle err message
@@ -354,12 +481,29 @@ export default {
 
     fileReader.readAsArrayBuffer(fcodeBlob);
   },
+  getGcode: async (): Promise<{ gcodeBlob: Blob, gcodeBlobFastGradient: Blob }> => {
+    const { gcodeBlob, gcodeBlobFastGradient } = await fetchTaskCode(null, true);
+    if (!gcodeBlob) {
+      return null;
+    }
+    return { gcodeBlob, gcodeBlobFastGradient };
+  },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
     if (!fcodeBlob) {
       return null;
     }
     return fileTimeCost;
+  },
+  gcodeToFcode: async (gcodeString: string, thumbnail: string): Promise<{
+    fcodeBlob: Blob,
+    fileTimeCost: number,
+  }> => {
+    const { fcodeBlob, fileTimeCost } = await fetchTransferredFcode(gcodeString, thumbnail);
+    if (!fcodeBlob) {
+      return null;
+    }
+    return { fcodeBlob, fileTimeCost };
   },
   prepareFileWrappedFromSvgStringAndThumbnail: async (): Promise<{
     uploadFile: WrappedFile,
@@ -370,4 +514,5 @@ export default {
     await FontFuncs.revertTempConvert();
     return { uploadFile, thumbnailBlobURL };
   },
+  openTaskInDeviceMonitor,
 };
