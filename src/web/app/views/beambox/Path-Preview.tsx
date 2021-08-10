@@ -22,7 +22,6 @@ import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
 import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
-import { LaserPreview } from 'helpers/path-preview/draw-commands/LaserPreview';
 import SidePanel from './PathPreview/SidePanel';
 import { parseGcode } from './tmpParseGcode';
 
@@ -120,6 +119,7 @@ const generateProgramInfo = (gl, vsSource = defaultVsSource, fsSource = defaultF
       projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       isInverting: gl.getUniformLocation(shaderProgram, 'isInverting'),
+      showTraversal: gl.getUniformLocation(shaderProgram, 'showTraversal'),
       showRemaining: gl.getUniformLocation(shaderProgram, 'showRemaining'),
     },
   };
@@ -163,7 +163,7 @@ function initBuffers(gl, width, height) {
 }
 
 // Draw white square
-function drawScene(gl, programInfo, buffers, camera, isInverting, showRemaining) {
+function drawScene(gl, programInfo, buffers, camera, isInverting, showTraversal, showRemaining) {
   // gl.clearColor(0.0, 0.0, 0.0, 1.0);  // 設定為全黑
   // gl.clearDepth(1.0);                 // 清除所有東西
   gl.enable(gl.DEPTH_TEST); // Enable 深度測試
@@ -214,7 +214,10 @@ function drawScene(gl, programInfo, buffers, camera, isInverting, showRemaining)
     programInfo.uniformLocations.isInverting,
     isInverting,
   );
-
+  gl.uniform1i(
+    programInfo.uniformLocations.showTraversal,
+    showTraversal,
+  );
   gl.uniform1i(
     programInfo.uniformLocations.showRemaining,
     showRemaining,
@@ -245,7 +248,7 @@ const defaultWorkspace = {
   simTime: 0,
   cursorPos: [0, 0, 0],
   showGcode: true,
-  showLaser: false,
+  showTraversal: true,
   showRotary: false,
   showCursor: true,
 };
@@ -339,14 +342,14 @@ const drawTaskPreview = (
   drawCommands,
   workspace,
   camera,
-  drawingArgs: { isInverting?: boolean, showRemaining?: boolean, },
+  drawingArgs: { isInverting?: boolean, showTraversal?: boolean, showRemaining?: boolean, },
 ) => {
-  const { isInverting = false, showRemaining = false } = drawingArgs;
+  const { isInverting = false, showTraversal = false, showRemaining = false } = drawingArgs;
   const draw = () => {
     taskPreview.draw(
       drawCommands, camera.perspective, camera.view,
       workspace.g0Rate, workspace.simTime, workspace.rotaryDiameter,
-      isInverting, showRemaining,
+      isInverting, showTraversal, showRemaining,
     );
   };
   cacheDrawing(draw, cachedDrawState, {
@@ -359,6 +362,7 @@ const drawTaskPreview = (
     simTime: workspace.simTime,
     rotaryDiameter: workspace.rotaryDiameter,
     isInverting,
+    showTraversal,
     showRemaining,
     arrayVersion: taskPreview.arrayVersion,
   });
@@ -424,7 +428,7 @@ interface State {
     simTime: number,
     cursorPos: number[],
     showGcode: boolean,
-    showLaser: boolean,
+    showTraversal: boolean,
     showRotary: boolean,
     showCursor: boolean,
   },
@@ -443,11 +447,9 @@ class PathPreview extends React.Component<Props, State> {
   private moveStarted: boolean;
   private adjustingCamera: boolean;
   private gcodePreview: any;
-  private laserPreview: any;
   private simTimeMax: number;
   private simInterval: NodeJS.Timeout;
   private drawGcodeState: object;
-  private drawLaserState: object;
 
   private gcodeString: string;
   private fastGradientGcodeString: string;
@@ -486,11 +488,9 @@ class PathPreview extends React.Component<Props, State> {
     this.moveStarted = false;
     this.adjustingCamera = false;
     this.gcodePreview = new GcodePreview();
-    this.laserPreview = new LaserPreview();
     this.simTimeMax = 1;
 
     this.drawGcodeState = {};
-    this.drawLaserState = {};
 
     this.state = {
       width: window.innerWidth - constant.sidePanelsWidth,
@@ -522,7 +522,7 @@ class PathPreview extends React.Component<Props, State> {
       || nextState.height !== height
       || nextState.workspace.cursorPos !== workspace.cursorPos
       || nextState.workspace.simTime !== workspace.simTime
-      || nextState.workspace.showLaser !== workspace.showLaser
+      || nextState.workspace.showTraversal !== workspace.showTraversal
       || nextState.camera !== camera
       || nextState.speedLevel !== speedLevel
       || nextState.isInverting !== isInverting
@@ -594,7 +594,6 @@ class PathPreview extends React.Component<Props, State> {
         console.log('parsedGcode: \n', parsedGcode);
 
         this.gcodePreview.setParsedGcode(parsedGcode);
-        this.laserPreview.setParsedGcode(parsedGcode);
         this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) * (SIM_TIME_MINUTE) + SIM_TIME_MINUTE / 2;
         this.forceUpdate();
       }
@@ -602,10 +601,10 @@ class PathPreview extends React.Component<Props, State> {
     fileReader.readAsText(gcodeBlob);
 
     if (BeamboxPreference.read('fast_gradient')) {
-      const fileReaderFastGradient = new FileReader;
+      const fileReaderFastGradient = new FileReader();
       fileReaderFastGradient.onloadend = (e) => {
         this.fastGradientGcodeString = e.target.result as string;
-      }
+      };
       fileReaderFastGradient.readAsText(gcodeBlobFastGradient);
     }
   };
@@ -623,7 +622,8 @@ class PathPreview extends React.Component<Props, State> {
     const programInfo = generateProgramInfo(gl);
     const showRemaining = false;
     const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
-    drawScene(gl, programInfo, buffer, this.camera, isInverting, showRemaining);
+
+    drawScene(gl, programInfo, buffer, this.camera, isInverting, workspace.showTraversal, showRemaining);
 
     this.grid.draw(this.drawCommands, {
       perspective: this.camera.perspective,
@@ -633,28 +633,15 @@ class PathPreview extends React.Component<Props, State> {
       minor: Math.max(settings.toolGridMinorSpacing, 0.1),
       major: Math.max(settings.toolGridMajorSpacing, 1),
     });
-
-    if (workspace.showLaser) {
-      drawTaskPreview(
-        this.laserPreview,
-        this.drawLaserState,
-        canvas,
-        this.drawCommands,
-        workspace,
-        this.camera,
-        { isInverting },
-      );
-    } else {
-      drawTaskPreview(
-        this.gcodePreview,
-        this.drawGcodeState,
-        canvas,
-        this.drawCommands,
-        workspace,
-        this.camera,
-        { isInverting },
-      );
-    }
+    drawTaskPreview(
+      this.gcodePreview,
+      this.drawGcodeState,
+      canvas,
+      this.drawCommands,
+      workspace,
+      this.camera,
+      { isInverting, showTraversal: workspace.showTraversal },
+    );
 
     if (this.position[0] !== 0 && this.position[1] !== 0) {
       const crossPoints = [];
@@ -1059,12 +1046,12 @@ class PathPreview extends React.Component<Props, State> {
 
     for (let i = target; i > 0; i -= 1) {
       if (U < 0 && gcodeList[i].indexOf('G1 U') > -1) {
-        const res = gcodeList[i].match(/(?<=G1 U)[-0-9\.]*/);
+        const res = gcodeList[i].match(/(?<=G1 U)[-0-9.]*/);
         U = parseInt(res[0], 10);
       }
 
       if (F < 0 && gcodeList[i].indexOf('G1 F') > -1) {
-        const res = gcodeList[i].match(/(?<=G1 F)[-0-9\.]*/);
+        const res = gcodeList[i].match(/(?<=G1 F)[-0-9.]*/);
         F = parseInt(res[0], 10);
       }
 
@@ -1079,7 +1066,7 @@ class PathPreview extends React.Component<Props, State> {
       }
 
       if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
-        const res = gcodeList[i].match(/(?<=Z)[0-9\.]*/);
+        const res = gcodeList[i].match(/(?<=Z)[0-9.]*/);
         Z = parseInt(res[0], 10);
       }
 
@@ -1088,8 +1075,10 @@ class PathPreview extends React.Component<Props, State> {
       }
     }
 
-    return { U, F, Z, isEngraving };
-  }
+    return {
+      U, F, Z, isEngraving,
+    };
+  };
 
   private handleStartHere = async (): Promise<void> => {
     const device = await dialogCaller.selectDevice();
@@ -1143,7 +1132,7 @@ class PathPreview extends React.Component<Props, State> {
 
       const programInfo = generateProgramInfo(gl);
       const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
-      drawScene(gl, programInfo, buffer, camera, false, true);
+      drawScene(gl, programInfo, buffer, camera, false, false, true);
       this.grid.draw(drawCommands, {
         perspective: camera.perspective,
         view: camera.view,
@@ -1153,7 +1142,7 @@ class PathPreview extends React.Component<Props, State> {
         major: Math.max(settings.toolGridMajorSpacing, 1),
       });
       drawTaskPreview(
-        this.laserPreview,
+        this.gcodePreview,
         {},
         canvas,
         drawCommands,
@@ -1190,7 +1179,7 @@ class PathPreview extends React.Component<Props, State> {
         }
       }
 
-      let preparation = [];
+      const preparation = [];
       for (let i = 0; i < gcodeList.length; i += 1) {
         preparation.push(gcodeList[i]);
         if (gcodeList[i].indexOf('F7500') > -1) {
@@ -1206,11 +1195,11 @@ class PathPreview extends React.Component<Props, State> {
         let targetY;
 
         // check if is fast gradient engraving and get target Y
-        for (let i = target+1; i > 0; i -= 1) {
-          let x = gcodeList[i].match(/(?<=X)[0-9\.]*/) ? gcodeList[i].match(/(?<=X)[0-9\.]*/)[0] : '';
-          let y = gcodeList[i].match(/(?<=Y)[0-9\.]*/) ? gcodeList[i].match(/(?<=Y)[0-9\.]*/)[0] : '';
+        for (let i = target + 1; i > 0; i -= 1) {
+          const x = gcodeList[i].match(/(?<=X)[0-9\.]*/) ? gcodeList[i].match(/(?<=X)[0-9\.]*/)[0] : '';
+          const y = gcodeList[i].match(/(?<=Y)[0-9\.]*/) ? gcodeList[i].match(/(?<=Y)[0-9\.]*/)[0] : '';
 
-          if ((x && !y ) || (!x && y)) {
+          if ((x && !y) || (!x && y)) {
             isFastGradientEngraving = true;
           }
 
@@ -1229,15 +1218,15 @@ class PathPreview extends React.Component<Props, State> {
           let yFound = false;
           let cacheIndex = -1;
           let startX = -1;
-          let startBytesIndex = -1; 
+          let startBytesIndex = -1;
           let engravingLineCount = 0;
           let resolutionLine = '';
 
-          for (let i = 0; i < fastGradientGcodeList.length; i += 1) {
+          for (let i = 0; i < fastGradientGcodeList.length - 2; i += 1) {
             if (fastGradientGcodeList[i].indexOf('F16 1') > -1) {
               const res = fastGradientGcodeList[i].match(/(?<=F16 1 )[H|M|L]/);
 
-              switch(res[0]) {
+              switch (res[0]) {
                 case 'H':
                   resolution = 0.05;
                   break;
@@ -1247,18 +1236,20 @@ class PathPreview extends React.Component<Props, State> {
                 case 'L':
                   resolution = 0.2;
                   break;
+                default:
+                  break;
               }
 
               resolutionLine = fastGradientGcodeList[i];
             } else if (!prefix && fastGradientGcodeList[i].indexOf('G1 F') > -1) {
-              prefix = fastGradientGcodeList.slice(0, i+1);
+              prefix = fastGradientGcodeList.slice(0, i + 1);
             }
 
-            if (!yFound && fastGradientGcodeList[i].indexOf('Y') > -1 && (fastGradientGcodeList[i+1].indexOf('F16 2') > -1 || fastGradientGcodeList[i+2].indexOf('F16 2') > -1)) {
+            if (!yFound && fastGradientGcodeList[i].indexOf('Y') > -1 && (fastGradientGcodeList[i + 1]?.indexOf('F16 2') > -1 || fastGradientGcodeList[i + 2]?.indexOf('F16 2') > -1)) {
               const y = Number(fastGradientGcodeList[i].match(/(?<=Y)[0-9\.]*/)[0]);
               const x = Number(fastGradientGcodeList[i].match(/(?<=X)[0-9\.]*/)[0]);
 
-              if (y == targetY) {
+              if (y === targetY) {
                 cacheIndex = i;
                 startX = x;
               }
@@ -1276,18 +1267,18 @@ class PathPreview extends React.Component<Props, State> {
               }
 
               if (fastGradientGcodeList[i].indexOf('F16 4') > -1) {
-                const distBytesCalculation = Math.abs((simTimeInfo.position[0] - startX)/(32*resolution));
-                
-                if (engravingLineCount > distBytesCalculation)  {
+                const distBytesCalculation = Math.abs((simTimeInfo.position[0] - startX) / (32 * resolution));
+
+                if (engravingLineCount > distBytesCalculation) {
                   modifiedGcodeList = prefix;
 
                   const { U, F, Z } = this.searchParams(fastGradientGcodeList, cacheIndex);
 
                   if (BeamboxPreference.read('enable-autofocus')) {
                     modifiedGcodeList.push('G1 Z-1.0000');
-                    modifiedGcodeList.push(`G1 Z${Z}`)
+                    modifiedGcodeList.push(`G1 Z${Z}`);
                   }
-          
+
                   modifiedGcodeList.push(`G1 U${U}`);
                   modifiedGcodeList.push(`G1 F${F}`);
                   modifiedGcodeList.push(resolutionLine);
@@ -1296,15 +1287,15 @@ class PathPreview extends React.Component<Props, State> {
                     modifiedGcodeList.push(fastGradientGcodeList[j]);
                   }
 
-                  for(let c = 0; c < distBytesCalculation; c += 1) {
+                  for (let c = 0; c < distBytesCalculation; c += 1) {
                     modifiedGcodeList.push('F16 3 0');
                   }
                   const fixedIndex = startBytesIndex + Math.floor(distBytesCalculation) - 1;
-                  const bytesInfo = parseInt(fastGradientGcodeList[fixedIndex].match(/(?<=F16 3 )[-0-9]*/)[0]);
+                  const bytesInfo = parseInt(fastGradientGcodeList[fixedIndex].match(/(?<=F16 3 )[-0-9]*/)[0], 10);
                   const smallDist = Math.floor((distBytesCalculation - Math.floor(distBytesCalculation)) * 32);
                   let bitwiseOperand = '';
 
-                  for(let d = 0; d < 32; d += 1) {
+                  for (let d = 0; d < 32; d += 1) {
                     if (d < smallDist) {
                       bitwiseOperand += '0';
                     } else {
@@ -1313,7 +1304,7 @@ class PathPreview extends React.Component<Props, State> {
                   }
 
                   // @ts-ignore
-                  modifiedGcodeList.push(`F16 3 ${bytesInfo & bitwiseOperand}`)
+                  modifiedGcodeList.push(`F16 3 ${bytesInfo & bitwiseOperand}`);
                   modifiedGcodeList = modifiedGcodeList.concat(fastGradientGcodeList.slice(fixedIndex + 1));
 
                   const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
@@ -1328,7 +1319,7 @@ class PathPreview extends React.Component<Props, State> {
                 } else {
                   yFound = false;
                   startX = -1;
-                  startBytesIndex = -1; 
+                  startBytesIndex = -1;
                   engravingLineCount = 0;
                   resolutionLine = '';
                 }
@@ -1338,16 +1329,16 @@ class PathPreview extends React.Component<Props, State> {
         } else {
           for (let i = 0; i < fastGradientGcodeList.length - 1; i += 1) {
             if (
-              fastGradientGcodeList[i].indexOf('G1') > -1 &&
-              fastGradientGcodeList[i].indexOf('X') > -1 &&
-              fastGradientGcodeList[i].indexOf('Y') > -1
+              fastGradientGcodeList[i].indexOf('G1') > -1
+              && fastGradientGcodeList[i].indexOf('X') > -1
+              && fastGradientGcodeList[i].indexOf('Y') > -1
             ) {
               const x = Number(fastGradientGcodeList[i].match(/(?<=X)[0-9\.]*/)[0]);
               const y = Number(fastGradientGcodeList[i].match(/(?<=Y)[0-9\.]*/)[0]);
 
               if (
-                Math.abs(x - simTimeInfo.next[0]) < 0.001 &&
-                Math.abs(y + simTimeInfo.next[1]) < 0.001 
+                Math.abs(x - simTimeInfo.next[0]) < 0.001
+                && Math.abs(y + simTimeInfo.next[1]) < 0.001
               ) {
                 target = i;
                 break;
@@ -1355,18 +1346,20 @@ class PathPreview extends React.Component<Props, State> {
             }
           }
 
-          let { U, F, Z, isEngraving } = this.searchParams(fastGradientGcodeList, target);
+          const {
+            U, F, Z, isEngraving,
+          } = this.searchParams(fastGradientGcodeList, target);
 
           if (BeamboxPreference.read('enable-autofocus')) {
             preparation.push('G1 Z-1.0000');
-            preparation.push(`G1 Z${Z}`)
+            preparation.push(`G1 Z${Z}`);
           }
-  
+
           preparation.push(`G1 U${U}`);
           preparation.push(`G1 X${simTimeInfo.position[0].toFixed(4)} Y${simTimeInfo.position[1].toFixed(4)}`);
           preparation.push(`G1 F${F}`);
           preparation.push(`G1${isEngraving ? 'V' : 'S'}0`);
-  
+
           modifiedGcodeList = preparation.concat(fastGradientGcodeList.slice(target));
           const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
           const status = await deviceMaster.select(device);
@@ -1410,7 +1403,7 @@ class PathPreview extends React.Component<Props, State> {
 
   private toggleTraversalMoves = () => {
     const { workspace } = this.state;
-    this.setState({ workspace: { ...workspace, showLaser: !workspace.showLaser } });
+    this.setState({ workspace: { ...workspace, showTraversal: !workspace.showTraversal } });
   };
 
   zoom(pageX: number, pageY: number, amount: number): void {
@@ -1566,7 +1559,7 @@ class PathPreview extends React.Component<Props, State> {
                       name="onoffswitch"
                       className="onoffswitch-checkbox"
                       onChange={this.toggleTraversalMoves}
-                      checked={workspace.showLaser}
+                      checked={workspace.showTraversal}
                     />
                     <label className="onoffswitch-label" htmlFor="onoffswitch">
                       <span className="onoffswitch-inner" />

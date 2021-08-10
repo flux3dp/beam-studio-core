@@ -24,6 +24,7 @@ export function gcode(drawCommands) {
       uniform mat4 view;
       uniform float rotaryScale;
       uniform bool isInverting;
+      uniform bool showTraversal;
       attribute vec4 position;
       attribute float g;
       attribute float t;
@@ -34,9 +35,9 @@ export function gcode(drawCommands) {
       varying float vg1Time;
       void main() {
         gl_Position = perspective * view * vec4(position.x, position.y + position.a * rotaryScale, position.z, 1);
-        if(g == 0.0)
-          color = vec4(1.0, 0.0, 0.0, 0.9);
-        else if(t == 1.0)
+        if(g == 0.0) {
+          color = showTraversal ? vec4(1.0, 0.0, 0.0, 0.9) : vec4(0.0, 0.0, 0.0, 0.0);
+        } else if(t == 1.0)
           color = vec4(0.0, 0.0, 1.0, 1.0);
         else if(t == 2.0)
           color = vec4(0.5, 0.5, 0.0, 1.0);
@@ -76,11 +77,31 @@ export function gcode(drawCommands) {
       g1Time: { offset: 28, },
     },
   });
-  return ({ perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining, data, count }) => {
+  return ({
+    perspective,
+    view,
+    g0Rate,
+    simTime,
+    rotaryDiameter,
+    isInverting,
+    showTraversal,
+    showRemaining,
+    data,
+    count,
+  }) => {
     drawCommands.execute({
       program,
       primitive: drawCommands.gl.LINES,
-      uniforms: { perspective, view, g0Rate, simTime, rotaryScale: rotaryDiameter * Math.PI / 360, isInverting, showRemaining, },
+      uniforms: {
+        perspective,
+        view,
+        g0Rate,
+        simTime,
+        rotaryScale: rotaryDiameter * (Math.PI / 360),
+        isInverting,
+        showTraversal,
+        showRemaining,
+      },
       buffer: {
         data,
         stride: drawStride * 4,
@@ -242,7 +263,7 @@ export class GcodePreview {
     return { index: -1, position: [0, 0], prev: [-1, -1], next: [-1, -1] };
   }
 
-  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showRemaining) {
+  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showTraversal, showRemaining) {
     if (this.drawCommands !== drawCommands) {
       this.drawCommands = drawCommands;
       if (this.buffer)
@@ -266,6 +287,7 @@ export class GcodePreview {
       simTime,
       rotaryDiameter,
       isInverting,
+      showTraversal,
       showRemaining,
       data: this.buffer,
       count: this.array.length / drawStride,
