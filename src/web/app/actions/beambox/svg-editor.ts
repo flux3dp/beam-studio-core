@@ -2009,6 +2009,9 @@ const svgEditor = window['svgEditor'] = (function () {
         selectedElement: selectedElement,
         multiselected: multiselected
       });
+      if (elems.length === 1 && elems[0].tagName === 'polygon') {
+        ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
+      }
     };
 
     // Call when part of element is in process of changing, generally
@@ -4835,10 +4838,12 @@ const svgEditor = window['svgEditor'] = (function () {
           // +
           Shortcuts.on(['plus'], () => {
             window['polygonAddSides']();
+            ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           // -
           Shortcuts.on(['minus'], () => {
             window['polygonDecreaseSides']();
+            ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           Shortcuts.on(['esc'], clickSelect);
 

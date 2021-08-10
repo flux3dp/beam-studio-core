@@ -32,4 +32,10 @@ describe('test ObjectPanelController', () => {
     expect(emit).toHaveBeenCalledTimes(1);
     expect(emit).toHaveBeenNthCalledWith(1, 'UPDATE_OBJECT_PANEL');
   });
+
+  test('test updatePolygonSides', () => {
+    ObjectPanelController.updatePolygonSides(8);
+    expect(emit).toHaveBeenCalledTimes(1);
+    expect(emit).toHaveBeenNthCalledWith(1, 'UPDATE_POLYGON_SIDES', 8);
+  });
 });

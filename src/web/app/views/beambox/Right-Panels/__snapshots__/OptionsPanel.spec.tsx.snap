@@ -51,6 +51,45 @@ exports[`should render correctly others 1`] = `
 </div>
 `;
 
+exports[`should render correctly polygon desktop version 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <DummyInFillBlock
+    elem={
+      <polygon
+        id="polygon"
+      />
+    }
+  />
+</div>
+`;
+
+exports[`should render correctly polygon web version 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <PolygonOptions
+    elem={
+      <polygon
+        id="polygon"
+      />
+    }
+    polygonSides={8}
+  />
+</div>
+`;
+
 exports[`should render correctly rect 1`] = `
 <div
   className="options-panel"

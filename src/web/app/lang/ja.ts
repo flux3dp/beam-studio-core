@@ -701,6 +701,7 @@ export default {
         option_panel: {
           fill: 'インフィル',
           rounded_corner: '角丸',
+          sides: '邊數',
           font_family: 'フォント',
           font_style: 'スタイル',
           font_size: 'サイズ',

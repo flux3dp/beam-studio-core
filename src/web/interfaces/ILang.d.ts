@@ -699,6 +699,7 @@ export interface ILang {
         option_panel: {
           fill: string,
           rounded_corner: string,
+          sides: string,
           font_family: string,
           font_style: string,
           font_size: string,

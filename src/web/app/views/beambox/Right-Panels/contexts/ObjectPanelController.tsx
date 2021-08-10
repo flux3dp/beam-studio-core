@@ -18,8 +18,13 @@ const updateObjectPanel = (): void => {
   objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
 };
 
+const updatePolygonSides = (polygonSides: number): void => {
+  objectPanelEventEmitter.emit('UPDATE_POLYGON_SIDES', polygonSides);
+};
+
 export default {
   updateObjectPanel,
   updateDimensionValues,
   getDimensionValues,
+  updatePolygonSides,
 };

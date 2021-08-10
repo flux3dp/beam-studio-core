@@ -35,6 +35,14 @@ jest.mock('app/views/beambox/Right-Panels/Options-Blocks/Text-Options', () => fu
   );
 });
 
+jest.mock('app/views/beambox/Right-Panels/Options-Blocks/PolygonOptions', () => function PolygonOptions() {
+  return (
+    <div>
+      This is dummy PolygonOptions
+    </div>
+  );
+});
+
 import OptionsPanel from './OptionsPanel';
 
 describe('should render correctly', () => {
@@ -85,6 +93,33 @@ describe('should render correctly', () => {
 
     wrapper.find('ImageOptions').props().updateObjectPanel();
     expect(updateObjectPanel).toHaveBeenCalledTimes(1);
+  });
+
+  describe('polygon', () => {
+    test('desktop version', () => {
+      document.body.innerHTML = '<polygon id="polygon" />';
+      const wrapper = shallow(<OptionsPanel
+        elem={document.getElementById('polygon')}
+        rx={null}
+        polygonSides={8}
+        updateObjectPanel={jest.fn()}
+        updateDimensionValues={jest.fn()}
+      />);
+      expect(toJson(wrapper)).toMatchSnapshot();
+    });
+
+    test('web version', () => {
+      window.FLUX.version = 'web';
+      document.body.innerHTML = '<polygon id="polygon" />';
+      const wrapper = shallow(<OptionsPanel
+        elem={document.getElementById('polygon')}
+        rx={null}
+        polygonSides={8}
+        updateObjectPanel={jest.fn()}
+        updateDimensionValues={jest.fn()}
+      />);
+      expect(toJson(wrapper)).toMatchSnapshot();
+    });
   });
 
   test('others', () => {

@@ -701,6 +701,7 @@ export default {
         option_panel: {
           fill: 'Relleno',
           rounded_corner: 'Esquina redondeada',
+          sides: 'Number of Sides',
           font_family: 'Fuente',
           font_style: 'Estilo',
           font_size: 'Tamaño',

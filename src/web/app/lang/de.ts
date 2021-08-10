@@ -701,6 +701,7 @@ export default {
         option_panel: {
           fill: 'Füllen',
           rounded_corner: 'Gerundete Ecke',
+          sides: 'Number of Sides',
           font_family: 'Schriftart',
           font_style: 'Style',
           font_size: 'Stil',
