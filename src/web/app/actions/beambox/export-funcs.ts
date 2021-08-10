@@ -294,7 +294,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   let gcodeBlobNoFastGradient;
 
   if (shouldOutputGcode && shouldUseFastGradient) {
-    await new Promise((resolve) => {
+    gcodeBlobNoFastGradient = await new Promise((resolve) => {
       const names = []; // don't know what this is for
       const codeType = shouldOutputGcode ? 'gcode' : 'fcode';
       svgeditorParser.getTaskCode(
@@ -303,11 +303,9 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
           onProgressing: (data) => {
             Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
           },
-          onFinished: (taskBlob, fileName, timeCost) => {
+          onFinished: (taskBlob) => {
             Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
-            gcodeBlobNoFastGradient = taskBlob;
-            resolve({});
-            //resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost });
+            resolve(taskBlob);
           },
           onError: (message) => {
             Progress.popById('fetch-task');
@@ -350,13 +348,14 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
       thumbnailBlobURL,
       fileTimeCost,
     };
-  } else if (shouldUseFastGradient) {
+  }
+  if (shouldUseFastGradient) {
     return {
       gcodeBlob: gcodeBlobNoFastGradient,
       gcodeBlobFastGradient: taskCodeBlob,
       thumbnailBlobURL,
       fileTimeCost,
-    }
+    };
   }
   return {
     gcodeBlob: taskCodeBlob,
@@ -487,7 +486,7 @@ export default {
     if (!gcodeBlob) {
       return null;
     }
-    return { gcodeBlob, gcodeBlobFastGradient } ;
+    return { gcodeBlob, gcodeBlobFastGradient };
   },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
