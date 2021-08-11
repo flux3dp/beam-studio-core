@@ -889,7 +889,26 @@ export interface ILang {
     units: {
       walt: string,
       mm: string,
-    }
+    },
+    path_preview: {
+      play: string,
+      pause: string,
+      stop: string,
+      play_speed: string,
+      travel_path: string,
+      invert: string,
+      preview_info: string,
+      size: string,
+      estimated_time: string,
+      cut_time: string,
+      rapid_time: string,
+      cut_distance: string,
+      rapid_distance: string,
+      current_position: string,
+      remark: string,
+      start_here: string,
+      end_preview: string,
+    },
   },
   flux_id_login: {
     connection_fail: string,
