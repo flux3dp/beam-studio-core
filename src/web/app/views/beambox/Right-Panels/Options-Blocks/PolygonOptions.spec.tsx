@@ -9,7 +9,7 @@ jest.mock('helpers/i18n', () => ({
       right_panel: {
         object_panel: {
           option_panel: {
-            sides: 'Number of Sides',
+            sides: 'Sides',
           },
         },
       },

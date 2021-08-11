@@ -11,7 +11,7 @@ exports[`should render correctly 1`] = `
     <div
       className="label"
     >
-      Number of Sides
+      Sides
     </div>
     <UnitInput
       abbr={false}
@@ -54,7 +54,7 @@ exports[`should render correctly 2`] = `
     <div
       className="label"
     >
-      Number of Sides
+      Sides
     </div>
     <UnitInput
       abbr={false}
@@ -101,7 +101,7 @@ exports[`should render correctly 3`] = `
     <div
       className="label"
     >
-      Number of Sides
+      Sides
     </div>
     <UnitInput
       abbr={false}
@@ -148,7 +148,7 @@ exports[`should render correctly 4`] = `
     <div
       className="label"
     >
-      Number of Sides
+      Sides
     </div>
     <UnitInput
       abbr={false}

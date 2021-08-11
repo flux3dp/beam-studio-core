@@ -701,7 +701,7 @@ export default {
         option_panel: {
           fill: 'Infill',
           rounded_corner: 'Rounded corner',
-          sides: 'Number of Sides',
+          sides: 'Sides',
           font_family: 'Font',
           font_style: 'Style',
           font_size: 'Size',
