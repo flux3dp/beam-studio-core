@@ -168,7 +168,6 @@ svgEditor.addExtension('polygon', function (S) {
         },
         updatePolygonSide: (polygon, sideChange) => {
             const c = $(polygon).attr(['cx', 'cy', 'edge', 'angle_offset', 'sides']);
-            console.log(c);
             const newSidesNumber = Math.max(c.sides + sideChange, 3);
             if (newSidesNumber === c.sides) {
                 return;

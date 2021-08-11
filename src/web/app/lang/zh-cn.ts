@@ -701,6 +701,7 @@ export default {
         option_panel: {
           fill: '填充',
           rounded_corner: '圆角',
+          sides: '边数',
           font_family: '字体',
           font_style: '字型',
           font_size: '字级',

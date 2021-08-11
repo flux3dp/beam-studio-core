@@ -2,18 +2,20 @@ import * as React from 'react';
 
 import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
+import PolygonOptions from 'app/views/beambox/Right-Panels/Options-Blocks/PolygonOptions';
 import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptions';
 import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Text-Options';
 
 interface Props {
   elem: Element;
   rx: number;
+  polygonSides?: number;
   updateObjectPanel: () => void;
   updateDimensionValues: (val: { [key: string]: any }) => void;
 }
 
 function OptionsPanel({
-  elem, rx, updateObjectPanel, updateDimensionValues,
+  elem, rx, polygonSides, updateObjectPanel, updateDimensionValues,
 }: Props): JSX.Element {
   let contents: JSX.Element;
   if (elem) {
@@ -23,6 +25,13 @@ function OptionsPanel({
           elem={elem}
           rx={rx}
           updateDimensionValues={updateDimensionValues}
+        />
+      );
+    } else if (elem.tagName.toLowerCase() === 'polygon' && window.FLUX.version === 'web') {
+      contents = (
+        <PolygonOptions
+          elem={elem}
+          polygonSides={polygonSides}
         />
       );
     } else if (elem.tagName.toLowerCase() === 'text') {

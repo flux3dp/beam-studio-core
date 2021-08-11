@@ -96,7 +96,7 @@ export default class ObjectPanel extends React.Component<Props> {
   };
 
   renderToolBtn = (
-    label: string, src: string, disabled: boolean, onClick = () => {},
+    label: string, src: string, disabled: boolean, onClick = () => { },
   ): JSX.Element => {
     const className = classNames('tool-btn', { disabled });
     return (
@@ -119,12 +119,18 @@ export default class ObjectPanel extends React.Component<Props> {
   };
 
   renderOptionPanel = (): JSX.Element => {
-    const { dimensionValues, updateDimensionValues, updateObjectPanel } = this.context;
+    const {
+      polygonSides,
+      dimensionValues,
+      updateDimensionValues,
+      updateObjectPanel,
+    } = this.context;
     const { elem } = this.props;
     return (
       <OptionsPanel
         elem={elem}
         rx={dimensionValues.rx}
+        polygonSides={polygonSides}
         updateObjectPanel={updateObjectPanel}
         updateDimensionValues={updateDimensionValues}
       />

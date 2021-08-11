@@ -30,6 +30,8 @@ declare global {
     svgCanvas: any,
     svgEditor: any,
     titlebar?: any,
+    polygonAddSides: () => void;
+    polygonDecreaseSides: () => void;
   }
 }
 

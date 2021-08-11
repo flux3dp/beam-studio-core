@@ -3,6 +3,7 @@ import React from 'react';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 interface IObjectPanelContext {
+  polygonSides: number;
   dimensionValues: any;
   updateDimensionValues: (newValues: any) => void;
   getDimensionValues: (response: {
@@ -12,6 +13,7 @@ interface IObjectPanelContext {
 }
 
 export const ObjectPanelContext = React.createContext<IObjectPanelContext>({
+  polygonSides: 5,
   dimensionValues: {},
   updateDimensionValues: () => { },
   getDimensionValues: () => { },
@@ -22,6 +24,7 @@ const minRenderInterval = 200;
 
 interface State {
   lastUpdateTime: number;
+  polygonSides: number;
 }
 
 export class ObjectPanelContextProvider extends React.Component<any, State> {
@@ -34,6 +37,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     this.dimensionValues = {};
     this.state = {
       lastUpdateTime: Date.now(),
+      polygonSides: 5,
     };
   }
 
@@ -41,6 +45,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     objectPanelEventEmitter.on('UPDATE_DIMENSION_VALUES', this.updateDimensionValues.bind(this));
     objectPanelEventEmitter.on('GET_DIMENSION_VALUES', this.getDimensionValues.bind(this));
     objectPanelEventEmitter.on('UPDATE_OBJECT_PANEL', this.updateObjectPanel.bind(this));
+    objectPanelEventEmitter.on('UPDATE_POLYGON_SIDES', this.updatePolygonSides.bind(this));
   }
 
   componentWillUnmount() {
@@ -52,6 +57,12 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
       ...this.dimensionValues,
       ...newValues,
     };
+  };
+
+  updatePolygonSides = (polygonSides: number): void => {
+    this.setState({
+      polygonSides,
+    });
   };
 
   getDimensionValues = (response: {
@@ -77,6 +88,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
 
   render(): JSX.Element {
     const { children } = this.props;
+    const { polygonSides } = this.state;
     const {
       dimensionValues,
       updateDimensionValues,
@@ -85,6 +97,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     } = this;
     return (
       <ObjectPanelContext.Provider value={{
+        polygonSides,
         dimensionValues,
         updateDimensionValues,
         getDimensionValues,
