@@ -1,0 +1,1159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly no elements 1`] = `
+<ObjectPanel
+  elem={null}
+>
+  <div
+    id="object-panel"
+  >
+    <div
+      className="tool-btns-container"
+    >
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left sep"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Horizontal Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-hdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Top Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-top.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Middle Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Bottom Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-bot.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Vertical Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-vdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Left Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-left.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Center Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Right Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-right.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left"
+        >
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Group"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-group.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Ungroup"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-ungroup.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Union"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-union.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Subtract"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-subtract.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Intersect"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-intersect.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Difference"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-diff.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <DummyDimensionPanel
+      elem={null}
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <DummyOptionsPanel
+      elem={null}
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyActionsPanel
+      elem={null}
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly one element is g element 1`] = `
+<ObjectPanel
+  elem={
+    <g
+      id="svg_1"
+    />
+  }
+>
+  <div
+    id="object-panel"
+  >
+    <div
+      className="tool-btns-container"
+    >
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left sep"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Horizontal Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-hdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Top Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-top.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Middle Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Bottom Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-bot.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Vertical Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-vdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Left Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-left.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Center Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Right Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-right.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left"
+        >
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Group"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-group.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Ungroup"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-ungroup.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Union"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-union.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Subtract"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-subtract.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Intersect"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-intersect.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Difference"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-diff.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <DummyDimensionPanel
+      elem={
+        <g
+          id="svg_1"
+        />
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <DummyOptionsPanel
+      elem={
+        <g
+          id="svg_1"
+        />
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyActionsPanel
+      elem={
+        <g
+          id="svg_1"
+        />
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly one element not g element 1`] = `
+<ObjectPanel
+  elem={
+    <rect
+      id="svg_1"
+    />
+  }
+>
+  <div
+    id="object-panel"
+  >
+    <div
+      className="tool-btns-container"
+    >
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left sep"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Horizontal Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-hdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Top Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-top.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Middle Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Bottom Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-bot.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Vertical Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-vdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Left Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-left.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Center Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Right Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-right.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left"
+        >
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Group"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-group.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Ungroup"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-ungroup.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Union"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-union.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Subtract"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-subtract.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Intersect"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-intersect.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Difference"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-diff.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <DummyDimensionPanel
+      elem={
+        <rect
+          id="svg_1"
+        />
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <DummyOptionsPanel
+      elem={
+        <rect
+          id="svg_1"
+        />
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyActionsPanel
+      elem={
+        <rect
+          id="svg_1"
+        />
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly two elements contains other types of elements 1`] = `
+<ObjectPanel
+  elem={
+    <g
+      data-tempgroup="true"
+      id="svg_3"
+    >
+      <path
+        id="svg_1"
+      />
+      <line
+        id="svg_2"
+      />
+    </g>
+  }
+>
+  <div
+    id="object-panel"
+  >
+    <div
+      className="tool-btns-container"
+    >
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left sep"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Horizontal Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-hdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Top Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-top.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Middle Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Bottom Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-bot.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Vertical Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-vdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Left Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-left.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Center Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Right Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-right.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left"
+        >
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Group"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-group.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Ungroup"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-ungroup.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Union"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-union.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Subtract"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-subtract.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Intersect"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-intersect.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Difference"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-diff.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <DummyDimensionPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <path
+            id="svg_1"
+          />
+          <line
+            id="svg_2"
+          />
+        </g>
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <DummyOptionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <path
+            id="svg_1"
+          />
+          <line
+            id="svg_2"
+          />
+        </g>
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyActionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <path
+            id="svg_1"
+          />
+          <line
+            id="svg_2"
+          />
+        </g>
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly two elements contains rect, polygon or ellipse elements 1`] = `
+<ObjectPanel
+  elem={
+    <g
+      data-tempgroup="true"
+      id="svg_3"
+    >
+      <rect
+        id="svg_1"
+      />
+      <ellipse
+        id="svg_2"
+      />
+    </g>
+  }
+>
+  <div
+    id="object-panel"
+  >
+    <div
+      className="tool-btns-container"
+    >
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left sep"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Horizontal Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-hdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Top Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-top.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Middle Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Bottom Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-valign-bot.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Vertical Distribute"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-vdist.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Left Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-left.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Center Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-mid.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[MockFunction]}
+            title="Right Align"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-halign-right.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="tool-btns-row"
+      >
+        <div
+          className="half-row left"
+        >
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Group"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-group.svg"
+            />
+          </div>
+          <div
+            className="tool-btn disabled"
+            onClick={null}
+            title="Ungroup"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-ungroup.svg"
+            />
+          </div>
+        </div>
+        <div
+          className="half-row right"
+        >
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Union"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-union.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Subtract"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-subtract.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Intersect"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-intersect.svg"
+            />
+          </div>
+          <div
+            className="tool-btn"
+            onClick={[Function]}
+            title="Difference"
+          >
+            <img
+              draggable={false}
+              src="img/right-panel/icon-diff.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <DummyDimensionPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <rect
+            id="svg_1"
+          />
+          <ellipse
+            id="svg_2"
+          />
+        </g>
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <DummyOptionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <rect
+            id="svg_1"
+          />
+          <ellipse
+            id="svg_2"
+          />
+        </g>
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyActionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <rect
+            id="svg_1"
+          />
+          <ellipse
+            id="svg_2"
+          />
+        </g>
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
