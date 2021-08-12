@@ -47,7 +47,6 @@ const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
 
 interface State {
-  isPathPreviewing: boolean;
   isPreviewing: boolean;
   hasDiscoverdMachine: boolean;
   shouldShowDeviceList: boolean;
@@ -56,6 +55,7 @@ interface State {
 }
 
 interface Props {
+  isPathPreviewing: boolean;
   togglePathPreview: () => void
 }
 
@@ -68,7 +68,6 @@ export default class TopBar extends React.Component<Props, State> {
     super(props);
     this.deviceList = [];
     this.state = {
-      isPathPreviewing: false,
       isPreviewing: false,
       hasDiscoverdMachine: false,
       shouldShowDeviceList: false,
@@ -105,7 +104,8 @@ export default class TopBar extends React.Component<Props, State> {
   }
 
   renderPreviewButton = (): JSX.Element => {
-    const { isPathPreviewing, isPreviewing } = this.state;
+    const { isPathPreviewing } = this.props;
+    const { isPreviewing } = this.state;
     if (isPathPreviewing) return null;
     const borderless = BeamboxPreference.read('borderless') || false;
     const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));
@@ -122,7 +122,7 @@ export default class TopBar extends React.Component<Props, State> {
 
   renderPathPreviewButton = (): JSX.Element => {
     if (!checkWebGL()) return null;
-    const { isPathPreviewing } = this.state;
+    const { isPathPreviewing } = this.props;
     return (
       <div className={classNames('path-preview-button-container', { highlighted: isPathPreviewing })}>
         <div className="path-preview-button" onClick={this.changeToPathPreviewMode}>
@@ -134,10 +134,8 @@ export default class TopBar extends React.Component<Props, State> {
 
   changeToPathPreviewMode = (): void => {
     const { togglePathPreview } = this.props;
-    const { isPathPreviewing } = this.state;
     svgCanvas.clearSelection();
     togglePathPreview();
-    this.setState({ isPathPreviewing: !isPathPreviewing });
   };
 
   changeToPreviewMode = (): void => {
@@ -266,7 +264,6 @@ export default class TopBar extends React.Component<Props, State> {
 
   endPathPreviewMode = (): void => {
     const { togglePathPreview } = this.props;
-    this.setState({ isPathPreviewing: false });
     togglePathPreview();
   };
 
@@ -433,8 +430,9 @@ export default class TopBar extends React.Component<Props, State> {
     return null;
   }
 
-  render() {
-    const { isPathPreviewing, isPreviewing, hasDiscoverdMachine } = this.state;
+  render(): JSX.Element {
+    const { isPathPreviewing } = this.props;
+    const { isPreviewing, hasDiscoverdMachine } = this.state;
     const {
       setShouldStartPreviewController, fileName, hasUnsavedChange, selectedElem,
     } = this.context;
