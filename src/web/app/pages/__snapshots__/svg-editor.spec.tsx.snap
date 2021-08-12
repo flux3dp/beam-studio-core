@@ -127,110 +127,110 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               </ul>
             </div>
           </div>
+        </div>
+        <div
+          className="tools_panel"
+          id="tools_top"
+        >
           <div
-            className="tools_panel"
-            id="tools_top"
+            id="editor_panel"
           >
             <div
-              id="editor_panel"
-            >
-              <div
-                className="push_button"
-                id="tool_source"
-                title="Edit Source [U]"
-              />
-            </div>
-            <div
-              id="text_panel"
-            >
-              <input
-                id="text"
-                size={35}
-                type="text"
-              />
-            </div>
+              className="push_button"
+              id="tool_source"
+              title="Edit Source [U]"
+            />
           </div>
           <div
-            id="cur_context_panel"
+            id="text_panel"
+          >
+            <input
+              id="text"
+              size={35}
+              type="text"
+            />
+          </div>
+        </div>
+        <div
+          id="cur_context_panel"
+        />
+        <div
+          className="tools_panel"
+          id="tools_left"
+        >
+          <div
+            className="tool_button"
+            id="tool_select"
+            title="Select Tool"
           />
           <div
-            className="tools_panel"
-            id="tools_left"
+            className="tool_button"
+            id="tool_fhpath"
+            title="Pencil Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_line"
+            title="Line Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_path"
+            title="Path Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_text"
+            title="Text Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_image"
+            title="Image Tool"
+          />
+          <div
+            style={
+              Object {
+                "display": "none",
+              }
+            }
           >
             <div
-              className="tool_button"
-              id="tool_select"
-              title="Select Tool"
+              id="tool_rect"
+              title="Rectangle"
             />
             <div
-              className="tool_button"
-              id="tool_fhpath"
-              title="Pencil Tool"
+              id="tool_square"
+              title="Square"
             />
             <div
-              className="tool_button"
-              id="tool_line"
-              title="Line Tool"
+              id="tool_fhrect"
+              title="Free-Hand Rectangle"
             />
             <div
-              className="tool_button"
+              id="tool_ellipse"
+              title="Ellipse"
+            />
+            <div
               id="tool_path"
-              title="Path Tool"
+              title="Path"
             />
             <div
-              className="tool_button"
-              id="tool_text"
-              title="Text Tool"
+              id="tool_polygon"
+              title="Polygon"
             />
             <div
-              className="tool_button"
-              id="tool_image"
-              title="Image Tool"
+              id="tool_grid"
+              title="Grid Array"
             />
             <div
-              style={
-                Object {
-                  "display": "none",
-                }
-              }
-            >
-              <div
-                id="tool_rect"
-                title="Rectangle"
-              />
-              <div
-                id="tool_square"
-                title="Square"
-              />
-              <div
-                id="tool_fhrect"
-                title="Free-Hand Rectangle"
-              />
-              <div
-                id="tool_ellipse"
-                title="Ellipse"
-              />
-              <div
-                id="tool_path"
-                title="Path"
-              />
-              <div
-                id="tool_polygon"
-                title="Polygon"
-              />
-              <div
-                id="tool_grid"
-                title="Grid Array"
-              />
-              <div
-                id="tool_circle"
-                title="Circle"
-              />
-              <div
-                id="tool_fhellipse"
-                title="Free-Hand Ellipse"
-              />
-            </div>
+              id="tool_circle"
+              title="Circle"
+            />
+            <div
+              id="tool_fhellipse"
+              title="Free-Hand Ellipse"
+            />
           </div>
           <div
             className="tool_button"
@@ -302,232 +302,227 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           id="tools_bottom"
         >
           <div
-            className="tools_panel"
-            id="tools_bottom"
+            id="tools_bottom_2"
           >
             <div
-              id="tools_bottom_2"
+              id="color_tools"
             >
               <div
-                id="color_tools"
-              >
-                <div
-                  className="color_tool"
-                  id="tool_fill"
-                >
-                  <label
-                    className="icon_label"
-                    htmlFor="fill_color"
-                    title="Change fill color"
-                  />
-                  <div
-                    className="color_block"
-                  >
-                    <div
-                      id="fill_bg"
-                    />
-                    <div
-                      className="color_block"
-                      id="fill_color"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
                 className="color_tool"
-                id="tool_stroke"
+                id="tool_fill"
               >
                 <label
                   className="icon_label"
-                  title="Change stroke color"
+                  htmlFor="fill_color"
+                  title="Change fill color"
                 />
                 <div
                   className="color_block"
                 >
                   <div
-                    id="stroke_bg"
+                    id="fill_bg"
                   />
                   <div
                     className="color_block"
-                    id="stroke_color"
-                    title="Change stroke color"
+                    id="fill_color"
                   />
-                </div>
-                <label
-                  className="stroke_label"
-                >
-                  <input
-                    data-attr="Stroke Width"
-                    defaultValue={5}
-                    id="stroke_width"
-                    size={2}
-                    title="Change stroke width by 1, shift-click to change by 0.1"
-                    type="text"
-                  />
-                </label>
-                <div
-                  id="toggle_stroke_tools"
-                  title="Show/hide more stroke tools"
-                />
-                <label
-                  className="stroke_tool"
-                >
-                  <select
-                    defaultValue="none"
-                    id="stroke_style"
-                    title="Change stroke dash style"
-                  >
-                    <option
-                      value="none"
-                    >
-                      —
-                    </option>
-                    <option
-                      value="2,2"
-                    >
-                      ...
-                    </option>
-                    <option
-                      value="5,5"
-                    >
-                      - -
-                    </option>
-                    <option
-                      value="5,2,2,2"
-                    >
-                      - .
-                    </option>
-                    <option
-                      value="5,2,2,2,2,2"
-                    >
-                      - ..
-                    </option>
-                  </select>
-                </label>
-                <div
-                  className="stroke_tool dropdown"
-                  id="stroke_linejoin"
-                >
-                  <div
-                    id="cur_linejoin"
-                    title="Linejoin: Miter"
-                  />
-                  <button
-                    type="button"
-                  />
-                </div>
-                <div
-                  className="stroke_tool dropdown"
-                  id="stroke_linecap"
-                >
-                  <div
-                    id="cur_linecap"
-                    title="Linecap: Butt"
-                  />
-                  <button
-                    type="button"
-                  />
-                </div>
-              </div>
-              <div
-                className="color_tool"
-                id="tool_opacity"
-                title="Change selected item opacity"
-              >
-                <label>
-                  <span
-                    className="icon_label"
-                    id="group_opacityLabel"
-                  />
-                  <input
-                    defaultValue={100}
-                    id="group_opacity"
-                    size={3}
-                    type="text"
-                  />
-                </label>
-                <div
-                  className="dropdown"
-                  id="opacity_dropdown"
-                >
-                  <button
-                    type="button"
-                  />
-                  <ul>
-                    <li>
-                      0%
-                    </li>
-                    <li>
-                      25%
-                    </li>
-                    <li>
-                      50%
-                    </li>
-                    <li>
-                      75%
-                    </li>
-                    <li>
-                      100%
-                    </li>
-                    <li
-                      className="special"
-                    >
-                      <div
-                        id="opac_slider"
-                      />
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className="dropdown"
-            id="option_lists"
-          >
-            <ul
-              id="linejoin_opts"
+            <div
+              className="color_tool"
+              id="tool_stroke"
             >
-              <li
-                className="tool_button current"
-                id="linejoin_miter"
-                title="Linejoin: Miter"
+              <label
+                className="icon_label"
+                title="Change stroke color"
               />
-              <li
-                className="tool_button"
-                id="linejoin_round"
-                title="Linejoin: Round"
+              <div
+                className="color_block"
+              >
+                <div
+                  id="stroke_bg"
+                />
+                <div
+                  className="color_block"
+                  id="stroke_color"
+                  title="Change stroke color"
+                />
+              </div>
+              <label
+                className="stroke_label"
+              >
+                <input
+                  data-attr="Stroke Width"
+                  defaultValue={5}
+                  id="stroke_width"
+                  size={2}
+                  title="Change stroke width by 1, shift-click to change by 0.1"
+                  type="text"
+                />
+              </label>
+              <div
+                id="toggle_stroke_tools"
+                title="Show/hide more stroke tools"
               />
-              <li
-                className="tool_button"
-                id="linejoin_bevel"
-                title="Linejoin: Bevel"
-              />
-            </ul>
-            <ul
-              id="linecap_opts"
+              <label
+                className="stroke_tool"
+              >
+                <select
+                  defaultValue="none"
+                  id="stroke_style"
+                  title="Change stroke dash style"
+                >
+                  <option
+                    value="none"
+                  >
+                    —
+                  </option>
+                  <option
+                    value="2,2"
+                  >
+                    ...
+                  </option>
+                  <option
+                    value="5,5"
+                  >
+                    - -
+                  </option>
+                  <option
+                    value="5,2,2,2"
+                  >
+                    - .
+                  </option>
+                  <option
+                    value="5,2,2,2,2,2"
+                  >
+                    - ..
+                  </option>
+                </select>
+              </label>
+              <div
+                className="stroke_tool dropdown"
+                id="stroke_linejoin"
+              >
+                <div
+                  id="cur_linejoin"
+                  title="Linejoin: Miter"
+                />
+                <button
+                  type="button"
+                />
+              </div>
+              <div
+                className="stroke_tool dropdown"
+                id="stroke_linecap"
+              >
+                <div
+                  id="cur_linecap"
+                  title="Linecap: Butt"
+                />
+                <button
+                  type="button"
+                />
+              </div>
+            </div>
+            <div
+              className="color_tool"
+              id="tool_opacity"
+              title="Change selected item opacity"
             >
-              <li
-                className="tool_button current"
-                id="linecap_butt"
-                title="Linecap: Butt"
-              />
-              <li
-                className="tool_button"
-                id="linecap_square"
-                title="Linecap: Square"
-              />
-              <li
-                className="tool_button"
-                id="linecap_round"
-                title="Linecap: Round"
-              />
-            </ul>
+              <label>
+                <span
+                  className="icon_label"
+                  id="group_opacityLabel"
+                />
+                <input
+                  defaultValue={100}
+                  id="group_opacity"
+                  size={3}
+                  type="text"
+                />
+              </label>
+              <div
+                className="dropdown"
+                id="opacity_dropdown"
+              >
+                <button
+                  type="button"
+                />
+                <ul>
+                  <li>
+                    0%
+                  </li>
+                  <li>
+                    25%
+                  </li>
+                  <li>
+                    50%
+                  </li>
+                  <li>
+                    75%
+                  </li>
+                  <li>
+                    100%
+                  </li>
+                  <li
+                    className="special"
+                  >
+                    <div
+                      id="opac_slider"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div
-            id="color_picker"
-          />
         </div>
+        <div
+          className="dropdown"
+          id="option_lists"
+        >
+          <ul
+            id="linejoin_opts"
+          >
+            <li
+              className="tool_button current"
+              id="linejoin_miter"
+              title="Linejoin: Miter"
+            />
+            <li
+              className="tool_button"
+              id="linejoin_round"
+              title="Linejoin: Round"
+            />
+            <li
+              className="tool_button"
+              id="linejoin_bevel"
+              title="Linejoin: Bevel"
+            />
+          </ul>
+          <ul
+            id="linecap_opts"
+          >
+            <li
+              className="tool_button current"
+              id="linecap_butt"
+              title="Linecap: Butt"
+            />
+            <li
+              className="tool_button"
+              id="linecap_square"
+              title="Linecap: Square"
+            />
+            <li
+              className="tool_button"
+              id="linecap_round"
+              title="Linecap: Round"
+            />
+          </ul>
+        </div>
+        <div
+          id="color_picker"
+        />
       </div>
     </div>
     <div
@@ -1258,110 +1253,110 @@ exports[`test svg-editor should render correctly in win 1`] = `
               </ul>
             </div>
           </div>
+        </div>
+        <div
+          className="tools_panel"
+          id="tools_top"
+        >
           <div
-            className="tools_panel"
-            id="tools_top"
+            id="editor_panel"
           >
             <div
-              id="editor_panel"
-            >
-              <div
-                className="push_button"
-                id="tool_source"
-                title="Edit Source [U]"
-              />
-            </div>
-            <div
-              id="text_panel"
-            >
-              <input
-                id="text"
-                size={35}
-                type="text"
-              />
-            </div>
+              className="push_button"
+              id="tool_source"
+              title="Edit Source [U]"
+            />
           </div>
           <div
-            id="cur_context_panel"
+            id="text_panel"
+          >
+            <input
+              id="text"
+              size={35}
+              type="text"
+            />
+          </div>
+        </div>
+        <div
+          id="cur_context_panel"
+        />
+        <div
+          className="tools_panel"
+          id="tools_left"
+        >
+          <div
+            className="tool_button"
+            id="tool_select"
+            title="Select Tool"
           />
           <div
-            className="tools_panel"
-            id="tools_left"
+            className="tool_button"
+            id="tool_fhpath"
+            title="Pencil Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_line"
+            title="Line Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_path"
+            title="Path Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_text"
+            title="Text Tool"
+          />
+          <div
+            className="tool_button"
+            id="tool_image"
+            title="Image Tool"
+          />
+          <div
+            style={
+              Object {
+                "display": "none",
+              }
+            }
           >
             <div
-              className="tool_button"
-              id="tool_select"
-              title="Select Tool"
+              id="tool_rect"
+              title="Rectangle"
             />
             <div
-              className="tool_button"
-              id="tool_fhpath"
-              title="Pencil Tool"
+              id="tool_square"
+              title="Square"
             />
             <div
-              className="tool_button"
-              id="tool_line"
-              title="Line Tool"
+              id="tool_fhrect"
+              title="Free-Hand Rectangle"
             />
             <div
-              className="tool_button"
+              id="tool_ellipse"
+              title="Ellipse"
+            />
+            <div
               id="tool_path"
-              title="Path Tool"
+              title="Path"
             />
             <div
-              className="tool_button"
-              id="tool_text"
-              title="Text Tool"
+              id="tool_polygon"
+              title="Polygon"
             />
             <div
-              className="tool_button"
-              id="tool_image"
-              title="Image Tool"
+              id="tool_grid"
+              title="Grid Array"
             />
             <div
-              style={
-                Object {
-                  "display": "none",
-                }
-              }
-            >
-              <div
-                id="tool_rect"
-                title="Rectangle"
-              />
-              <div
-                id="tool_square"
-                title="Square"
-              />
-              <div
-                id="tool_fhrect"
-                title="Free-Hand Rectangle"
-              />
-              <div
-                id="tool_ellipse"
-                title="Ellipse"
-              />
-              <div
-                id="tool_path"
-                title="Path"
-              />
-              <div
-                id="tool_polygon"
-                title="Polygon"
-              />
-              <div
-                id="tool_grid"
-                title="Grid Array"
-              />
-              <div
-                id="tool_circle"
-                title="Circle"
-              />
-              <div
-                id="tool_fhellipse"
-                title="Free-Hand Ellipse"
-              />
-            </div>
+              id="tool_circle"
+              title="Circle"
+            />
+            <div
+              id="tool_fhellipse"
+              title="Free-Hand Ellipse"
+            />
           </div>
           <div
             className="tool_button"
@@ -1433,232 +1428,227 @@ exports[`test svg-editor should render correctly in win 1`] = `
           id="tools_bottom"
         >
           <div
-            className="tools_panel"
-            id="tools_bottom"
+            id="tools_bottom_2"
           >
             <div
-              id="tools_bottom_2"
+              id="color_tools"
             >
               <div
-                id="color_tools"
-              >
-                <div
-                  className="color_tool"
-                  id="tool_fill"
-                >
-                  <label
-                    className="icon_label"
-                    htmlFor="fill_color"
-                    title="Change fill color"
-                  />
-                  <div
-                    className="color_block"
-                  >
-                    <div
-                      id="fill_bg"
-                    />
-                    <div
-                      className="color_block"
-                      id="fill_color"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
                 className="color_tool"
-                id="tool_stroke"
+                id="tool_fill"
               >
                 <label
                   className="icon_label"
-                  title="Change stroke color"
+                  htmlFor="fill_color"
+                  title="Change fill color"
                 />
                 <div
                   className="color_block"
                 >
                   <div
-                    id="stroke_bg"
+                    id="fill_bg"
                   />
                   <div
                     className="color_block"
-                    id="stroke_color"
-                    title="Change stroke color"
+                    id="fill_color"
                   />
-                </div>
-                <label
-                  className="stroke_label"
-                >
-                  <input
-                    data-attr="Stroke Width"
-                    defaultValue={5}
-                    id="stroke_width"
-                    size={2}
-                    title="Change stroke width by 1, shift-click to change by 0.1"
-                    type="text"
-                  />
-                </label>
-                <div
-                  id="toggle_stroke_tools"
-                  title="Show/hide more stroke tools"
-                />
-                <label
-                  className="stroke_tool"
-                >
-                  <select
-                    defaultValue="none"
-                    id="stroke_style"
-                    title="Change stroke dash style"
-                  >
-                    <option
-                      value="none"
-                    >
-                      —
-                    </option>
-                    <option
-                      value="2,2"
-                    >
-                      ...
-                    </option>
-                    <option
-                      value="5,5"
-                    >
-                      - -
-                    </option>
-                    <option
-                      value="5,2,2,2"
-                    >
-                      - .
-                    </option>
-                    <option
-                      value="5,2,2,2,2,2"
-                    >
-                      - ..
-                    </option>
-                  </select>
-                </label>
-                <div
-                  className="stroke_tool dropdown"
-                  id="stroke_linejoin"
-                >
-                  <div
-                    id="cur_linejoin"
-                    title="Linejoin: Miter"
-                  />
-                  <button
-                    type="button"
-                  />
-                </div>
-                <div
-                  className="stroke_tool dropdown"
-                  id="stroke_linecap"
-                >
-                  <div
-                    id="cur_linecap"
-                    title="Linecap: Butt"
-                  />
-                  <button
-                    type="button"
-                  />
-                </div>
-              </div>
-              <div
-                className="color_tool"
-                id="tool_opacity"
-                title="Change selected item opacity"
-              >
-                <label>
-                  <span
-                    className="icon_label"
-                    id="group_opacityLabel"
-                  />
-                  <input
-                    defaultValue={100}
-                    id="group_opacity"
-                    size={3}
-                    type="text"
-                  />
-                </label>
-                <div
-                  className="dropdown"
-                  id="opacity_dropdown"
-                >
-                  <button
-                    type="button"
-                  />
-                  <ul>
-                    <li>
-                      0%
-                    </li>
-                    <li>
-                      25%
-                    </li>
-                    <li>
-                      50%
-                    </li>
-                    <li>
-                      75%
-                    </li>
-                    <li>
-                      100%
-                    </li>
-                    <li
-                      className="special"
-                    >
-                      <div
-                        id="opac_slider"
-                      />
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className="dropdown"
-            id="option_lists"
-          >
-            <ul
-              id="linejoin_opts"
+            <div
+              className="color_tool"
+              id="tool_stroke"
             >
-              <li
-                className="tool_button current"
-                id="linejoin_miter"
-                title="Linejoin: Miter"
+              <label
+                className="icon_label"
+                title="Change stroke color"
               />
-              <li
-                className="tool_button"
-                id="linejoin_round"
-                title="Linejoin: Round"
+              <div
+                className="color_block"
+              >
+                <div
+                  id="stroke_bg"
+                />
+                <div
+                  className="color_block"
+                  id="stroke_color"
+                  title="Change stroke color"
+                />
+              </div>
+              <label
+                className="stroke_label"
+              >
+                <input
+                  data-attr="Stroke Width"
+                  defaultValue={5}
+                  id="stroke_width"
+                  size={2}
+                  title="Change stroke width by 1, shift-click to change by 0.1"
+                  type="text"
+                />
+              </label>
+              <div
+                id="toggle_stroke_tools"
+                title="Show/hide more stroke tools"
               />
-              <li
-                className="tool_button"
-                id="linejoin_bevel"
-                title="Linejoin: Bevel"
-              />
-            </ul>
-            <ul
-              id="linecap_opts"
+              <label
+                className="stroke_tool"
+              >
+                <select
+                  defaultValue="none"
+                  id="stroke_style"
+                  title="Change stroke dash style"
+                >
+                  <option
+                    value="none"
+                  >
+                    —
+                  </option>
+                  <option
+                    value="2,2"
+                  >
+                    ...
+                  </option>
+                  <option
+                    value="5,5"
+                  >
+                    - -
+                  </option>
+                  <option
+                    value="5,2,2,2"
+                  >
+                    - .
+                  </option>
+                  <option
+                    value="5,2,2,2,2,2"
+                  >
+                    - ..
+                  </option>
+                </select>
+              </label>
+              <div
+                className="stroke_tool dropdown"
+                id="stroke_linejoin"
+              >
+                <div
+                  id="cur_linejoin"
+                  title="Linejoin: Miter"
+                />
+                <button
+                  type="button"
+                />
+              </div>
+              <div
+                className="stroke_tool dropdown"
+                id="stroke_linecap"
+              >
+                <div
+                  id="cur_linecap"
+                  title="Linecap: Butt"
+                />
+                <button
+                  type="button"
+                />
+              </div>
+            </div>
+            <div
+              className="color_tool"
+              id="tool_opacity"
+              title="Change selected item opacity"
             >
-              <li
-                className="tool_button current"
-                id="linecap_butt"
-                title="Linecap: Butt"
-              />
-              <li
-                className="tool_button"
-                id="linecap_square"
-                title="Linecap: Square"
-              />
-              <li
-                className="tool_button"
-                id="linecap_round"
-                title="Linecap: Round"
-              />
-            </ul>
+              <label>
+                <span
+                  className="icon_label"
+                  id="group_opacityLabel"
+                />
+                <input
+                  defaultValue={100}
+                  id="group_opacity"
+                  size={3}
+                  type="text"
+                />
+              </label>
+              <div
+                className="dropdown"
+                id="opacity_dropdown"
+              >
+                <button
+                  type="button"
+                />
+                <ul>
+                  <li>
+                    0%
+                  </li>
+                  <li>
+                    25%
+                  </li>
+                  <li>
+                    50%
+                  </li>
+                  <li>
+                    75%
+                  </li>
+                  <li>
+                    100%
+                  </li>
+                  <li
+                    className="special"
+                  >
+                    <div
+                      id="opac_slider"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div
-            id="color_picker"
-          />
         </div>
+        <div
+          className="dropdown"
+          id="option_lists"
+        >
+          <ul
+            id="linejoin_opts"
+          >
+            <li
+              className="tool_button current"
+              id="linejoin_miter"
+              title="Linejoin: Miter"
+            />
+            <li
+              className="tool_button"
+              id="linejoin_round"
+              title="Linejoin: Round"
+            />
+            <li
+              className="tool_button"
+              id="linejoin_bevel"
+              title="Linejoin: Bevel"
+            />
+          </ul>
+          <ul
+            id="linecap_opts"
+          >
+            <li
+              className="tool_button current"
+              id="linecap_butt"
+              title="Linecap: Butt"
+            />
+            <li
+              className="tool_button"
+              id="linecap_square"
+              title="Linecap: Square"
+            />
+            <li
+              className="tool_button"
+              id="linecap_round"
+              title="Linecap: Round"
+            />
+          </ul>
+        </div>
+        <div
+          id="color_picker"
+        />
       </div>
     </div>
     <div
