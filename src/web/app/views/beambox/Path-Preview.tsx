@@ -996,16 +996,17 @@ class PathPreview extends React.Component<Props, State> {
 
   private renderPlayButtons = () => {
     const { playState } = this.state;
+    const LANG = i18n.lang.beambox.path_preview;
     const controlButtons = [];
     if (playState === PlayState.STOP) {
-      controlButtons.push(<img key="play" src="img/Play.svg" onClick={this.handlePlay} />);
-      controlButtons.push(<img key="stop" className="disabled" src="img/Stop.svg" />);
+      controlButtons.push(<img key="play" src="img/Play.svg" title={LANG.play} onClick={this.handlePlay} />);
+      controlButtons.push(<img key="stop" className="disabled" src="img/Stop.svg" title={LANG.stop} />);
     } else if (playState === PlayState.PLAY) {
-      controlButtons.push(<img key="pause" src="img/Pause.svg" onClick={this.handlePause} />);
-      controlButtons.push(<img key="stop" src="img/Stop.svg" onClick={this.handleStop} />);
+      controlButtons.push(<img key="pause" src="img/Pause.svg" title={LANG.pause} onClick={this.handlePause} />);
+      controlButtons.push(<img key="stop" src="img/Stop.svg" title={LANG.stop} onClick={this.handleStop} />);
     } else if (playState === PlayState.PAUSE) {
-      controlButtons.push(<img key="play" src="img/Play.svg" onClick={this.handlePlay} />);
-      controlButtons.push(<img key="stop" src="img/Stop.svg" onClick={this.handleStop} />);
+      controlButtons.push(<img key="play" src="img/Play.svg" title={LANG.play} onClick={this.handlePlay} />);
+      controlButtons.push(<img key="stop" src="img/Stop.svg" title={LANG.stop} onClick={this.handleStop} />);
     }
     return (
       <div className="play-control">
@@ -1485,6 +1486,8 @@ class PathPreview extends React.Component<Props, State> {
     const {
       width, height, speedLevel, workspace, isInverting,
     } = this.state;
+    const LANG = i18n.lang.beambox.path_preview;
+
     const progressBar = () => {
       const percentage = `${Math.round(10000 * (workspace.simTime / this.simTimeMax)) / 100}%`;
       // Convert unit to ms to make slider smoother
@@ -1533,9 +1536,7 @@ class PathPreview extends React.Component<Props, State> {
           <div className="options">
             {this.renderPlayButtons()}
             <div className="speed-control">
-              <div className="label">
-                Speed
-              </div>
+              <div className="label">{LANG.play_speed}</div>
               <input
                 id="speed"
                 type="range"
@@ -1568,7 +1569,7 @@ class PathPreview extends React.Component<Props, State> {
                   </div>
                 </div>
               </div>
-              <div className="label">Traversal Moves</div>
+              <div className="label">{LANG.travel_path}</div>
             </div>
             <div className="switch-control">
               <div className="control" style={{ paddingLeft: '5px' }}>
@@ -1589,7 +1590,7 @@ class PathPreview extends React.Component<Props, State> {
                   </div>
                 </div>
               </div>
-              <div className="label">Invert</div>
+              <div className="label">{LANG.invert}</div>
             </div>
             <div className="current-time">
               {this.transferTime(workspace.simTime, ':')}
