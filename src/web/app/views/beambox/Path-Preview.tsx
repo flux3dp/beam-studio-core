@@ -996,16 +996,17 @@ class PathPreview extends React.Component<Props, State> {
 
   private renderPlayButtons = () => {
     const { playState } = this.state;
+    const LANG = i18n.lang.beambox.path_preview;
     const controlButtons = [];
     if (playState === PlayState.STOP) {
-      controlButtons.push(<img key="play" src="img/Play.svg" onClick={this.handlePlay} />);
-      controlButtons.push(<img key="stop" className="disabled" src="img/Stop.svg" />);
+      controlButtons.push(<img key="play" src="img/Play.svg" title={LANG.play} onClick={this.handlePlay} />);
+      controlButtons.push(<img key="stop" className="disabled" src="img/Stop.svg" title={LANG.stop} />);
     } else if (playState === PlayState.PLAY) {
-      controlButtons.push(<img key="pause" src="img/Pause.svg" onClick={this.handlePause} />);
-      controlButtons.push(<img key="stop" src="img/Stop.svg" onClick={this.handleStop} />);
+      controlButtons.push(<img key="pause" src="img/Pause.svg" title={LANG.pause} onClick={this.handlePause} />);
+      controlButtons.push(<img key="stop" src="img/Stop.svg" title={LANG.stop} onClick={this.handleStop} />);
     } else if (playState === PlayState.PAUSE) {
-      controlButtons.push(<img key="play" src="img/Play.svg" onClick={this.handlePlay} />);
-      controlButtons.push(<img key="stop" src="img/Stop.svg" onClick={this.handleStop} />);
+      controlButtons.push(<img key="play" src="img/Play.svg" title={LANG.play} onClick={this.handlePlay} />);
+      controlButtons.push(<img key="stop" src="img/Stop.svg" title={LANG.stop} onClick={this.handleStop} />);
     }
     return (
       <div className="play-control">
@@ -1046,13 +1047,13 @@ class PathPreview extends React.Component<Props, State> {
 
     for (let i = target; i > 0; i -= 1) {
       if (U < 0 && gcodeList[i].indexOf('G1 U') > -1) {
-        const res = gcodeList[i].match(/(?<=G1 U)[-0-9.]*/);
-        U = parseInt(res[0], 10);
+        const res = gcodeList[i].match(/G1 U([-0-9.]*)/);
+        if (res && res[1]) U = parseInt(res[1], 10);
       }
 
       if (F < 0 && gcodeList[i].indexOf('G1 F') > -1) {
-        const res = gcodeList[i].match(/(?<=G1 F)[-0-9.]*/);
-        F = parseInt(res[0], 10);
+        const res = gcodeList[i].match(/G1 F([-0-9.]*)/);
+        if (res && res[1]) F = parseInt(res[1], 10);
       }
 
       if (!laserDetected && gcodeList[i].indexOf('G1S0') > -1) {
@@ -1066,8 +1067,8 @@ class PathPreview extends React.Component<Props, State> {
       }
 
       if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
-        const res = gcodeList[i].match(/(?<=Z)[0-9.]*/);
-        Z = parseInt(res[0], 10);
+        const res = gcodeList[i].match(/Z([-0-9.]*)/);
+        if (res && res[1]) Z = parseInt(res[1], 10);
       }
 
       if (F > 0 && U > 0 && laserDetected && (!BeamboxPreference.read('enable-autofocus') || (BeamboxPreference.read('enable-autofocus') && Z > -1))) {
@@ -1196,9 +1197,10 @@ class PathPreview extends React.Component<Props, State> {
 
         // check if is fast gradient engraving and get target Y
         for (let i = target + 1; i > 0; i -= 1) {
-          const x = gcodeList[i].match(/(?<=X)[0-9\.]*/) ? gcodeList[i].match(/(?<=X)[0-9\.]*/)[0] : '';
-          const y = gcodeList[i].match(/(?<=Y)[0-9\.]*/) ? gcodeList[i].match(/(?<=Y)[0-9\.]*/)[0] : '';
-
+          const matchX = gcodeList[i].match(/X([0-9.]*)/);
+          const matchY = gcodeList[i].match(/Y([0-9.]*)/);
+          const x = matchX ? matchX[1] : '';
+          const y = matchY ? matchY[1] : '';
           if ((x && !y) || (!x && y)) {
             isFastGradientEngraving = true;
           }
@@ -1224,9 +1226,8 @@ class PathPreview extends React.Component<Props, State> {
 
           for (let i = 0; i < fastGradientGcodeList.length - 2; i += 1) {
             if (fastGradientGcodeList[i].indexOf('F16 1') > -1) {
-              const res = fastGradientGcodeList[i].match(/(?<=F16 1 )[H|M|L]/);
-
-              switch (res[0]) {
+              const res = fastGradientGcodeList[i].match(/F16 1 ([H|M|L])/);
+              switch (res[1]) {
                 case 'H':
                   resolution = 0.05;
                   break;
@@ -1246,10 +1247,11 @@ class PathPreview extends React.Component<Props, State> {
             }
 
             if (!yFound && fastGradientGcodeList[i].indexOf('Y') > -1 && (fastGradientGcodeList[i + 1]?.indexOf('F16 2') > -1 || fastGradientGcodeList[i + 2]?.indexOf('F16 2') > -1)) {
-              const y = Number(fastGradientGcodeList[i].match(/(?<=Y)[0-9\.]*/)[0]);
-              const x = Number(fastGradientGcodeList[i].match(/(?<=X)[0-9\.]*/)[0]);
-
+              const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
+              const y = Number(matchY[1]);
               if (y === targetY) {
+                const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
+                const x = Number(matchX[1]);
                 cacheIndex = i;
                 startX = x;
               }
@@ -1291,7 +1293,8 @@ class PathPreview extends React.Component<Props, State> {
                     modifiedGcodeList.push('F16 3 0');
                   }
                   const fixedIndex = startBytesIndex + Math.floor(distBytesCalculation) - 1;
-                  const bytesInfo = parseInt(fastGradientGcodeList[fixedIndex].match(/(?<=F16 3 )[-0-9]*/)[0], 10);
+                  const matchByteInfo = fastGradientGcodeList[fixedIndex].match(/F16 3 ([-0-9]*)/);
+                  const bytesInfo = parseInt(matchByteInfo[1], 10);
                   const smallDist = Math.floor((distBytesCalculation - Math.floor(distBytesCalculation)) * 32);
                   let bitwiseOperand = '';
 
@@ -1333,9 +1336,10 @@ class PathPreview extends React.Component<Props, State> {
               && fastGradientGcodeList[i].indexOf('X') > -1
               && fastGradientGcodeList[i].indexOf('Y') > -1
             ) {
-              const x = Number(fastGradientGcodeList[i].match(/(?<=X)[0-9\.]*/)[0]);
-              const y = Number(fastGradientGcodeList[i].match(/(?<=Y)[0-9\.]*/)[0]);
-
+              const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
+              const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
+              const x = Number(matchX[1]);
+              const y = Number(matchY[1]);
               if (
                 Math.abs(x - simTimeInfo.next[0]) < 0.001
                 && Math.abs(y + simTimeInfo.next[1]) < 0.001
@@ -1485,6 +1489,8 @@ class PathPreview extends React.Component<Props, State> {
     const {
       width, height, speedLevel, workspace, isInverting,
     } = this.state;
+    const LANG = i18n.lang.beambox.path_preview;
+
     const progressBar = () => {
       const percentage = `${Math.round(10000 * (workspace.simTime / this.simTimeMax)) / 100}%`;
       // Convert unit to ms to make slider smoother
@@ -1533,9 +1539,7 @@ class PathPreview extends React.Component<Props, State> {
           <div className="options">
             {this.renderPlayButtons()}
             <div className="speed-control">
-              <div className="label">
-                Speed
-              </div>
+              <div className="label">{LANG.play_speed}</div>
               <input
                 id="speed"
                 type="range"
@@ -1568,7 +1572,7 @@ class PathPreview extends React.Component<Props, State> {
                   </div>
                 </div>
               </div>
-              <div className="label">Traversal Moves</div>
+              <div className="label">{LANG.travel_path}</div>
             </div>
             <div className="switch-control">
               <div className="control" style={{ paddingLeft: '5px' }}>
@@ -1589,7 +1593,7 @@ class PathPreview extends React.Component<Props, State> {
                   </div>
                 </div>
               </div>
-              <div className="label">Invert</div>
+              <div className="label">{LANG.invert}</div>
             </div>
             <div className="current-time">
               {this.transferTime(workspace.simTime, ':')}

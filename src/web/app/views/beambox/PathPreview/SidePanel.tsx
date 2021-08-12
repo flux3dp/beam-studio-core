@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import i18n from 'helpers/i18n';
+
 interface Props {
   size: string;
   estTime: string;
@@ -30,25 +32,28 @@ class SidePanel extends React.PureComponent<Props> {
       size, estTime, lightTime, rapidTime, cutDist, rapidDist, currentPosition,
       handleStartHere, togglePathPreview,
     } = this.props;
-
+    const LANG = i18n.lang.beambox.path_preview;
     return (
       <div id="path-preview-side-panel" className={className}>
-        <div className="title">Preview Data</div>
+        <div className="title">{LANG.preview_info}</div>
         <div className="datas">
-          {this.renderDataBlock('Size', size)}
-          {this.renderDataBlock('Estimated Time', estTime)}
-          {this.renderDataBlock('Light Time', lightTime)}
-          {this.renderDataBlock('Rapid Time', rapidTime)}
-          {this.renderDataBlock('Cut Distance', cutDist)}
-          {this.renderDataBlock('Rapid Distance', rapidDist)}
-          {this.renderDataBlock('Current Position', currentPosition)}
+          {this.renderDataBlock(LANG.size, size)}
+          {this.renderDataBlock(LANG.estimated_time, estTime)}
+          {this.renderDataBlock(LANG.cut_time, lightTime)}
+          {this.renderDataBlock(LANG.rapid_time, rapidTime)}
+          {this.renderDataBlock(LANG.cut_distance, cutDist)}
+          {this.renderDataBlock(LANG.rapid_distance, rapidDist)}
+          {this.renderDataBlock(LANG.current_position, currentPosition)}
+        </div>
+        <div className="remark">
+          {LANG.remark}
         </div>
         <div className="buttons">
           <div className="btn btn-default primary" onClick={handleStartHere}>
-            Start Here
+            {LANG.start_here}
           </div>
           <div className="btn btn-default" onClick={togglePathPreview}>
-            End Preview
+            {LANG.end_preview}
           </div>
         </div>
       </div>

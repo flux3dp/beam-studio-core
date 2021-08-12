@@ -76,7 +76,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     return (
       <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
         <TopBarContextProvider>
-          <TopBar togglePathPreview={this.togglePathPreview} />
+          <TopBar isPathPreviewing={isPathPreviewing} togglePathPreview={this.togglePathPreview} />
         </TopBarContextProvider>
         {this.renderTimeEstButton()}
         <SVGEditor isPathPreviewing={isPathPreviewing} />
