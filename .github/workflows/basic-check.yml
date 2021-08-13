@@ -31,9 +31,16 @@ jobs:
       - uses: artiomtr/jest-coverage-report-action@v1.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          threshold: 21.13 # optional parameter
+          threshold: 21.20 # optional parameter
+  # https://github.com/marketplace/actions/run-eslint-with-reviewdog
+  eslint-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Eslint check
+        uses: reviewdog/action-eslint@v1
   web-e2e:
-    needs: coverage
+    needs: [coverage, eslint-check]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -52,13 +59,4 @@ jobs:
           github_token: ${{ secrets.TRIGGER_WEB_TOKEN }}
           workflow_file_name: e2e.yml
           wait_interval: 300
-  # https://github.com/marketplace/actions/run-eslint-with-reviewdog
-  # eslint-check:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Eslint check
-  #       uses: reviewdog/action-eslint@v1
-        # with:
-        # remove this parameter due to this known issue: https://github.com/reviewdog/reviewdog/issues/848
-        #   fail_on_error: true
+
