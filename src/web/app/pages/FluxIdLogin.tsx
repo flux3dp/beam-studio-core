@@ -10,6 +10,6 @@ function FluxIdLogin(): JSX.Element {
     });
   }, []);
   return <div className="top-bar" />;
-};
+}
 
 export default FluxIdLogin;
