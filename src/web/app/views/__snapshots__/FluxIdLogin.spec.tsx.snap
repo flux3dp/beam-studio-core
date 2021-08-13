@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly desktop version 1`] = `
+<View>
+  <div
+    className="flux-login"
+  >
+    <div
+      className="title"
+    >
+      Login
+    </div>
+    <div
+      className="oauth"
+    >
+      <div
+        className="button facebook"
+        onClick={[MockFunction]}
+      >
+        Continue with Facebook
+      </div>
+      <div
+        className="button google"
+        onClick={[MockFunction]}
+      >
+        Continue with Google
+      </div>
+    </div>
+    <div
+      className="sep"
+    >
+      or
+    </div>
+    <div
+      className="login-inputs"
+    >
+      <input
+        id="email-input"
+        onKeyDown={[Function]}
+        placeholder="Email"
+        type="text"
+      />
+      <ForwardRef
+        id="password-input"
+        placeholder="Password"
+      />
+      <div
+        className="options"
+      >
+        <div
+          className="remember-me"
+          onClick={[Function]}
+        >
+          <input
+            checked={false}
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div>
+            Remember me
+          </div>
+        </div>
+        <div
+          className="forget-password"
+          onClick={[Function]}
+        >
+          Forgot Password?
+        </div>
+      </div>
+    </div>
+    <div
+      className="footer"
+    >
+      <div
+        className="button primary"
+        onClick={[Function]}
+      >
+        Login
+      </div>
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        Create Your FLUX Account
+      </div>
+      <div
+        className="skip"
+        onClick={[Function]}
+      >
+        Work Offline
+      </div>
+    </div>
+  </div>
+</View>
+`;
+
+exports[`should render correctly desktop version 2`] = `
+<View>
+  <div
+    className="flux-login"
+  >
+    <div
+      className="title"
+    >
+      Login
+    </div>
+    <div
+      className="oauth"
+    >
+      <div
+        className="button facebook"
+        onClick={
+          [MockFunction] {
+            "calls": Array [
+              Array [],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          }
+        }
+      >
+        Continue with Facebook
+      </div>
+      <div
+        className="button google"
+        onClick={
+          [MockFunction] {
+            "calls": Array [
+              Array [],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          }
+        }
+      >
+        Continue with Google
+      </div>
+    </div>
+    <div
+      className="sep"
+    >
+      or
+    </div>
+    <div
+      className="login-inputs"
+    >
+      <input
+        id="email-input"
+        onKeyDown={[Function]}
+        placeholder="Email"
+        type="text"
+      />
+      <ForwardRef
+        id="password-input"
+        placeholder="Password"
+      />
+      <div
+        className="options"
+      >
+        <div
+          className="remember-me"
+          onClick={[Function]}
+        >
+          <input
+            checked={true}
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div>
+            Remember me
+          </div>
+        </div>
+        <div
+          className="forget-password"
+          onClick={[Function]}
+        >
+          Forgot Password?
+        </div>
+      </div>
+    </div>
+    <div
+      className="footer"
+    >
+      <div
+        className="button primary"
+        onClick={[Function]}
+      >
+        Login
+      </div>
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        Create Your FLUX Account
+      </div>
+      <div
+        className="skip"
+        onClick={[Function]}
+      >
+        Work Offline
+      </div>
+    </div>
+  </div>
+</View>
+`;
+
+exports[`should render correctly web version 1`] = `
+<View>
+  <div
+    className="flux-login"
+  >
+    <div
+      className="title"
+    >
+      Login
+    </div>
+    <div
+      className="oauth"
+    >
+      <div
+        className="button facebook"
+        onClick={
+          [MockFunction] {
+            "calls": Array [
+              Array [],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          }
+        }
+      >
+        Continue with Facebook
+      </div>
+      <div
+        className="button google"
+        onClick={
+          [MockFunction] {
+            "calls": Array [
+              Array [],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          }
+        }
+      >
+        Continue with Google
+      </div>
+    </div>
+    <div
+      className="sep"
+    >
+      or
+    </div>
+    <div
+      className="login-inputs"
+    >
+      <input
+        id="email-input"
+        onKeyDown={[Function]}
+        placeholder="Email"
+        type="text"
+      />
+      <ForwardRef
+        id="password-input"
+        placeholder="Password"
+      />
+      <div
+        className="options"
+      >
+        <div
+          className="remember-me"
+          onClick={[Function]}
+        >
+          <input
+            checked={false}
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div>
+            Remember me
+          </div>
+        </div>
+        <div
+          className="forget-password"
+          onClick={[Function]}
+        >
+          Forgot Password?
+        </div>
+      </div>
+    </div>
+    <div
+      className="footer"
+    >
+      <div
+        className="button primary"
+        onClick={[Function]}
+      >
+        Login
+      </div>
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        Create Your FLUX Account
+      </div>
+    </div>
+  </div>
+</View>
+`;

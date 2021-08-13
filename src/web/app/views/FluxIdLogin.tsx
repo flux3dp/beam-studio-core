@@ -111,13 +111,18 @@ const FluxIdLogin = ({ onClose }: Props): JSX.Element => {
     }
   };
 
+  const renderSkipLink = () => {
+    if (window.FLUX.version === 'web') return null;
+    return (<div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>);
+  };
+
   const renderFooterButtons = () => {
     const signupUrl = LANG.signup_url;
     return (
       <div className="footer">
         <div className={classNames('button', 'primary')} onClick={handleLogin}>{LANG.login}</div>
         <div className={classNames('button')} onClick={() => browser.open(signupUrl)}>{LANG.register}</div>
-        <div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>
+        {renderSkipLink()}
       </div>
     );
   };
@@ -126,7 +131,6 @@ const FluxIdLogin = ({ onClose }: Props): JSX.Element => {
     <Modal>
       <div className="flux-login">
         <div className="title">{LANG.login}</div>
-        {/* <div className='sub-title'>{LANG.unlock_shape_library}</div> */}
         {renderOAuthContent()}
         {renderSeperator()}
         {renderLoginInputs()}
