@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<ChangeLogDialog
+<ChangeLog
   onClose={[MockFunction]}
 >
   <View>
@@ -174,5 +174,5 @@ exports[`should render correctly 1`] = `
       </div>
     </div>
   </View>
-</ChangeLogDialog>
+</ChangeLog>
 `;

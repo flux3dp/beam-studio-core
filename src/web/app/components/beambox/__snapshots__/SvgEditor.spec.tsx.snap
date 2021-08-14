@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test svg-editor should render correctly in mac 1`] = `
-<SVGEditor>
+<SvgEditor>
   <div>
     <div
       className="mac"
@@ -1123,11 +1123,11 @@ exports[`test svg-editor should render correctly in mac 1`] = `
       </li>
     </ul>
   </div>
-</SVGEditor>
+</SvgEditor>
 `;
 
 exports[`test svg-editor should render correctly in win 1`] = `
-<SVGEditor>
+<SvgEditor>
   <div>
     <div
       className=""
@@ -2249,5 +2249,5 @@ exports[`test svg-editor should render correctly in win 1`] = `
       </li>
     </ul>
   </div>
-</SVGEditor>
+</SvgEditor>
 `;

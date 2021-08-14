@@ -11,12 +11,12 @@ jest.mock('helpers/api/flux-id', () => ({
   signInWithGoogleCode,
 }));
 
-import GoogleAuth from './GoogleAuth';
+import GoogleOAuth from './GoogleOAuth';
 
 test('should render correctly', async () => {
   signInWithGoogleCode.mockResolvedValue(true);
   window.location.hash = '#/google-auth?code=4/0AX4XfWhjY6oc1K0NJKzWnD0FayFqaSqjNMuAjcsCYSopozsP3pZ-ImYrVG_fvBAKnr_y3Q&redirect_url=https://store.flux3dp.com/beam-studio-oauth?isWeb=true';
-  const wrapper = await shallow(<GoogleAuth />);
+  const wrapper = await shallow(<GoogleOAuth />);
 
   expect(signInWithGoogleCode).toHaveBeenCalledTimes(1);
   expect(signInWithGoogleCode).toHaveBeenNthCalledWith(1, {

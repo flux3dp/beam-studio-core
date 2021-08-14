@@ -35,7 +35,7 @@ jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => function DummyRigh
   );
 });
 
-jest.mock('app/views/beambox/ZoomBlock/ZoomBlock', () => function DummyZoomBlock() {
+jest.mock('app/components/beambox/ZoomBlock', () => function DummyZoomBlock() {
   return (
     <div>
       This is dummy ZoomBlock
@@ -66,7 +66,7 @@ Object.defineProperty(window, '$', {
 });
 
 // eslint-disable-next-line import/first, import/order
-import SVGEditor from './svg-editor';
+import SvgEditor from './SvgEditor';
 
 describe('test svg-editor', () => {
   test('should render correctly in mac', () => {
@@ -78,7 +78,7 @@ describe('test svg-editor', () => {
     Object.defineProperty(window, 'os', {
       value: 'MacOS',
     });
-    const wrapper = mount(<SVGEditor />);
+    const wrapper = mount(<SvgEditor />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('a[href="#cut"]').simulate('click', event);
@@ -131,7 +131,7 @@ describe('test svg-editor', () => {
     Object.defineProperty(window, 'os', {
       value: 'Windows',
     });
-    const wrapper = mount(<SVGEditor />);
+    const wrapper = mount(<SvgEditor />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 });

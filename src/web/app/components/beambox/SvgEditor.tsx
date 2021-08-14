@@ -6,7 +6,7 @@ import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
-import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
+import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const LANG = i18n.lang.beambox;
-export default class SVGEditor extends React.Component<Props> {
+export default class SvgEditor extends React.Component<Props> {
   componentDidMount(): void {
     const { $ } = window;
     $(svgEditor.init);

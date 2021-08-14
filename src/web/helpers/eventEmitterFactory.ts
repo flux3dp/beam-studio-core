@@ -11,6 +11,7 @@ const eventEmitters = {
   'object-panel': null,
   'alert-progress': null,
   'document-panel': null,
+  'zoom-block': null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {
