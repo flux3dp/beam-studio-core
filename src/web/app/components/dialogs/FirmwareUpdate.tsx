@@ -18,7 +18,7 @@ interface Props {
   onInstall: () => void,
 }
 
-class UpdateDialog extends React.Component<Props> {
+class FirmwareUpdate extends React.Component<Props> {
   onSkip = (): void => {
     const {
       latestVersion = '',
@@ -132,4 +132,4 @@ class UpdateDialog extends React.Component<Props> {
   }
 }
 
-export default UpdateDialog;
+export default FirmwareUpdate;

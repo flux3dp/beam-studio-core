@@ -3,23 +3,24 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import AutoSave from 'app/views/settings/AutoSave';
+import AutoSave from 'app/components/settings/AutoSave';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Camera from 'app/views/settings/Camera';
-import Connection from 'app/views/settings/Connection';
-import Editor from 'app/views/settings/Editor';
-import Engraving from 'app/views/settings/Engraving';
-import General from 'app/views/settings/General';
+import Camera from 'app/components/settings/Camera';
+import Connection from 'app/components/settings/Connection';
+import Editor from 'app/components/settings/Editor';
+import Engraving from 'app/components/settings/Engraving';
+import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
-import Mask from 'app/views/settings/Mask';
-import Module from 'app/views/settings/Module';
-import Path from 'app/views/settings/Path';
-import Privacy from 'app/views/settings/Privacy';
+import Mask from 'app/components/settings/Mask';
+import Module from 'app/components/settings/Module';
+import Path from 'app/components/settings/Path';
+import Privacy from 'app/components/settings/Privacy';
+import settings from 'app/app-settings';
 import storage from 'implementations/storage';
-import TextToPath from 'app/views/settings/TextToPath';
-import Update from 'app/views/settings/Update';
+import TextToPath from 'app/components/settings/TextToPath';
+import Update from 'app/components/settings/Update';
 import { IConfig } from 'interfaces/IAutosave';
 import { ILang } from 'interfaces/ILang';
 import { StorageKey } from 'interfaces/IStorage';
@@ -29,10 +30,6 @@ enum OptionValues {
   FALSE = 'FALSE',
 }
 
-interface Props {
-  supportedLangs: { [key: string]: string };
-}
-
 interface State {
   lang?: ILang;
   editingAutosaveConfig?: IConfig;
@@ -40,14 +37,14 @@ interface State {
   warnings?: { [key: string]: string };
 }
 
-class SettingGeneral extends React.Component<Props, State> {
+class Settings extends React.PureComponent<null, State> {
   private origLang: string;
 
   private beamboxPreferenceChanges: { [key: string]: any };
 
   private configChanges: { [key in StorageKey]: any };
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state = {
       lang: i18n.lang,
@@ -156,7 +153,8 @@ class SettingGeneral extends React.Component<Props, State> {
   };
 
   render() {
-    const { supportedLangs } = this.props;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { supported_langs } = settings.i18n;
     const {
       lang,
       selectedModel,
@@ -238,107 +236,110 @@ class SettingGeneral extends React.Component<Props, State> {
     const isAllValid = !warnings || (Object.keys(warnings).length === 0);
 
     return (
-      <div className="form general">
-        <General
-          isWeb={window.FLUX.version === 'web'}
-          supportedLangs={supportedLangs}
-          notificationOptions={notificationOptions}
-          changeActiveLang={this.changeActiveLang}
-          updateConfigChange={this.updateConfigChange}
-        />
-        <Update
-          isWeb={window.FLUX.version === 'web'}
-          updateNotificationOptions={updateNotificationOptions}
-          updateConfigChange={this.updateConfigChange}
-        />
-        <Connection
-          originalIP={this.getConfigEditingValue('poke-ip-addr')}
-          guessingPokeOptions={guessingPokeOptions}
-          autoConnectOptions={autoConnectOptions}
-          updateConfigChange={this.updateConfigChange}
-        />
-        <AutoSave
-          autoSaveOptions={autoSaveOptions}
-          editingAutosaveConfig={editingAutosaveConfig}
-          warnings={warnings}
-          updateState={(state) => this.setState(state)}
-        />
-        <Camera
-          speed={{
-            unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
-            decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
-            defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed') || cameraMovementSpeed) / 60,
-            getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
-          }}
-          speedHL={{
-            unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
-            decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
-            defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') || (cameraMovementSpeed * 0.6)) / 60,
-            getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
-          }}
-        />
-        <Editor
-          defaultUnit={this.getConfigEditingValue('default-units')}
-          x0={this.getBeamboxPreferenceEditingValue('guide_x0')}
-          y0={this.getBeamboxPreferenceEditingValue('guide_y0')}
-          selectedModel={selectedModel}
-          guideSelectionOptions={guideSelectionOptions}
-          imageDownsamplingOptions={imageDownsamplingOptions}
-          antiAliasingOptions={antiAliasingOptions}
-          continuousDrawingOptions={continuousDrawingOptions}
-          simplifyClipperPath={simplifyClipperPath}
-          updateConfigChange={this.updateConfigChange}
-          updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-          updateModel={(newModel) => this.setState({ selectedModel: newModel })}
-        />
-        <Engraving
-          fastGradientOptions={fastGradientOptions}
-          updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-        />
-        <Path
-          selectedModel={selectedModel}
-          defaultUnit={this.getConfigEditingValue('default-units')}
-          vectorSpeedConstraintOptions={vectorSpeedConstraintOptions}
-          precutSwitchOptions={precutSwitchOptions}
-          loopCompensation={this.getConfigEditingValue('loop_compensation')}
-          bladeRadius={this.getBeamboxPreferenceEditingValue('blade_radius')}
-          precutX={this.getBeamboxPreferenceEditingValue('precut_x')}
-          precutY={this.getBeamboxPreferenceEditingValue('precut_y')}
-          updateConfigChange={this.updateConfigChange}
-          updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-        />
-        <Mask
-          maskOptions={maskOptions}
-          updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-        />
-        <TextToPath
-          fontSubstituteOptions={fontSubstituteOptions}
-          updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-        />
-        <Module
-          defaultUnit={this.getConfigEditingValue('default-units')}
-          selectedModel={selectedModel}
-          diodeOffsetX={this.getBeamboxPreferenceEditingValue('diode_offset_x')}
-          diodeOffsetY={this.getBeamboxPreferenceEditingValue('diode_offset_y')}
-          borderlessModeOptions={borderlessModeOptions}
-          autofocusModuleOptions={autofocusModuleOptions}
-          diodeModuleOptions={diodeModuleOptions}
-          updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-        />
-        <Privacy
-          enableSentryOptions={enableSentryOptions}
-          updateConfigChange={this.updateConfigChange}
-        />
+      <div className="studio-container settings-studio">
+        <div className="settings-gradient-overlay" />
+        <div className="form general">
+          <General
+            isWeb={window.FLUX.version === 'web'}
+            supportedLangs={supported_langs}
+            notificationOptions={notificationOptions}
+            changeActiveLang={this.changeActiveLang}
+            updateConfigChange={this.updateConfigChange}
+          />
+          <Update
+            isWeb={window.FLUX.version === 'web'}
+            updateNotificationOptions={updateNotificationOptions}
+            updateConfigChange={this.updateConfigChange}
+          />
+          <Connection
+            originalIP={this.getConfigEditingValue('poke-ip-addr')}
+            guessingPokeOptions={guessingPokeOptions}
+            autoConnectOptions={autoConnectOptions}
+            updateConfigChange={this.updateConfigChange}
+          />
+          <AutoSave
+            autoSaveOptions={autoSaveOptions}
+            editingAutosaveConfig={editingAutosaveConfig}
+            warnings={warnings}
+            updateState={(state) => this.setState(state)}
+          />
+          <Camera
+            speed={{
+              unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
+              decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
+              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed') || cameraMovementSpeed) / 60,
+              getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
+            }}
+            speedHL={{
+              unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
+              decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
+              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') || (cameraMovementSpeed * 0.6)) / 60,
+              getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
+            }}
+          />
+          <Editor
+            defaultUnit={this.getConfigEditingValue('default-units')}
+            x0={this.getBeamboxPreferenceEditingValue('guide_x0')}
+            y0={this.getBeamboxPreferenceEditingValue('guide_y0')}
+            selectedModel={selectedModel}
+            guideSelectionOptions={guideSelectionOptions}
+            imageDownsamplingOptions={imageDownsamplingOptions}
+            antiAliasingOptions={antiAliasingOptions}
+            continuousDrawingOptions={continuousDrawingOptions}
+            simplifyClipperPath={simplifyClipperPath}
+            updateConfigChange={this.updateConfigChange}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+            updateModel={(newModel) => this.setState({ selectedModel: newModel })}
+          />
+          <Engraving
+            fastGradientOptions={fastGradientOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
+          <Path
+            selectedModel={selectedModel}
+            defaultUnit={this.getConfigEditingValue('default-units')}
+            vectorSpeedConstraintOptions={vectorSpeedConstraintOptions}
+            precutSwitchOptions={precutSwitchOptions}
+            loopCompensation={this.getConfigEditingValue('loop_compensation')}
+            bladeRadius={this.getBeamboxPreferenceEditingValue('blade_radius')}
+            precutX={this.getBeamboxPreferenceEditingValue('precut_x')}
+            precutY={this.getBeamboxPreferenceEditingValue('precut_y')}
+            updateConfigChange={this.updateConfigChange}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
+          <Mask
+            maskOptions={maskOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
+          <TextToPath
+            fontSubstituteOptions={fontSubstituteOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
+          <Module
+            defaultUnit={this.getConfigEditingValue('default-units')}
+            selectedModel={selectedModel}
+            diodeOffsetX={this.getBeamboxPreferenceEditingValue('diode_offset_x')}
+            diodeOffsetY={this.getBeamboxPreferenceEditingValue('diode_offset_y')}
+            borderlessModeOptions={borderlessModeOptions}
+            autofocusModuleOptions={autofocusModuleOptions}
+            diodeModuleOptions={diodeModuleOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
+          <Privacy
+            enableSentryOptions={enableSentryOptions}
+            updateConfigChange={this.updateConfigChange}
+          />
 
-        <div className="font5" onClick={this.resetBS}>
-          <b>{lang.settings.reset_now}</b>
+          <div className="font5" onClick={this.resetBS}>
+            <b>{lang.settings.reset_now}</b>
+          </div>
+          <div className="clearfix" />
+          <div className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>{lang.settings.done}</div>
+          <div className="btn btn-cancel" onClick={this.handleCancel}>{lang.settings.cancel}</div>
         </div>
-        <div className="clearfix" />
-        <div className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>{lang.settings.done}</div>
-        <div className="btn btn-cancel" onClick={this.handleCancel}>{lang.settings.cancel}</div>
       </div>
     );
   }
 }
 
-export default SettingGeneral;
+export default Settings;

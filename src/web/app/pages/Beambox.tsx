@@ -13,7 +13,7 @@ import SvgEditor from 'app/components/beambox/SvgEditor';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
-import TopBar from 'app/views/beambox/TopBar/TopBar';
+import TopBar from 'app/components/beambox/top-bar/TopBar';
 import { TopBarContextProvider } from 'app/views/beambox/TopBar/contexts/TopBarContext';
 
 sentryHelper.initSentry();

@@ -19,6 +19,7 @@ jest.mock('helpers/i18n', () => ({
         use: 'Imported Object',
         svg: 'SVG Object',
         dxf: 'DXF Object',
+        text_path: 'Text on Path',
       },
     },
   },
@@ -117,6 +118,19 @@ describe('should render correctly', () => {
     test('no layer title given', () => {
       getObjectLayer.mockReturnValue(null);
       document.body.innerHTML = '<use id="svg_1" />';
+      const wrapper = shallow(<ElementTitle
+        selectedElem={document.getElementById('svg_1')}
+      />);
+      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(getObjectLayer).toHaveBeenCalledTimes(1);
+      expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
+    });
+
+    test('data-textpath-g', () => {
+      getObjectLayer.mockReturnValue({
+        title: 'Layer 1',
+      });
+      document.body.innerHTML = '<g id="svg_1" data-textpath-g="true" />';
       const wrapper = shallow(<ElementTitle
         selectedElem={document.getElementById('svg_1')}
       />);

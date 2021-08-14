@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import i18n from 'helpers/i18n';
-import SelectControl from 'app/views/settings/SelectControl';
+import SelectControl from 'app/components/settings/SelectControl';
 import { StorageKey } from 'interfaces/IStorage';
 
 interface Props {
