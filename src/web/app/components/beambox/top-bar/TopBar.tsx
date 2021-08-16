@@ -8,7 +8,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
-import checkWebGL from 'helpers/check-webgl';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
@@ -22,6 +21,7 @@ import LeftPanel from 'app/views/beambox/LeftPanel/LeftPanel';
 import Menu from 'app/components/beambox/top-bar/Menu';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
+import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
@@ -118,26 +118,6 @@ export default class TopBar extends React.Component<Props, State> {
         {isPreviewing ? <div className="title" onClick={() => this.showCameraPreviewDeviceList()}>{previewText}</div> : null}
       </div>
     );
-  };
-
-  renderPathPreviewButton = (): JSX.Element => {
-    if (!checkWebGL()) return null;
-    const { isPathPreviewing } = this.props;
-    return (
-      <div className={classNames('path-preview-button-container', { highlighted: isPathPreviewing })}>
-        <div className="path-preview-button" onClick={this.changeToPathPreviewMode}>
-          <img src="img/path-preview.svg" draggable={false} />
-        </div>
-      </div>
-    );
-  };
-
-  changeToPathPreviewMode = (): void => {
-    const { isPathPreviewing, togglePathPreview } = this.props;
-    if (!isPathPreviewing) {
-      svgCanvas.clearSelection();
-      togglePathPreview();
-    }
   };
 
   changeToPreviewMode = (): void => {
@@ -433,11 +413,12 @@ export default class TopBar extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { isPathPreviewing } = this.props;
+    const { isPathPreviewing, togglePathPreview } = this.props;
     const { isPreviewing, hasDiscoverdMachine } = this.state;
     const {
       setShouldStartPreviewController, fileName, hasUnsavedChange, selectedElem,
     } = this.context;
+    const { deviceList } = this;
     return (
       <div className="top-bar-left-panel-container">
         <LeftPanel
@@ -450,7 +431,11 @@ export default class TopBar extends React.Component<Props, State> {
         <div className={classNames('top-bar', { win: isNotMac })}>
           <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
           {this.renderPreviewButton()}
-          {this.renderPathPreviewButton()}
+          <PathPreviewButton
+            isPathPreviewing={isPathPreviewing}
+            isDeviceConnected={deviceList.length > 0}
+            togglePathPreview={togglePathPreview}
+          />
           <GoButton
             isNotMac={isNotMac}
             hasDiscoverdMachine={hasDiscoverdMachine}
