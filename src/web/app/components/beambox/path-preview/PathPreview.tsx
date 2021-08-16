@@ -509,9 +509,9 @@ class PathPreview extends React.Component<Props, State> {
     window.addEventListener('keydown', this.windowKeyDown);
     window.addEventListener('keyup', this.windowKeyUp);
     window.addEventListener('resize', this.updateWorkspace);
+    this.resetView();
     this.updateGcode();
 
-    this.resetView();
     documentPanelEventEmitter.on('workarea-change', this.onDeviceChange);
   }
 
@@ -588,16 +588,12 @@ class PathPreview extends React.Component<Props, State> {
       const result = (e.target.result as string).split('\n');
       result.splice(6, 0, 'G1 X0 Y0');
       this.gcodeString = result.join('\n');
-      console.log(this.gcodeString);
 
       if (this.gcodeString.length > 83) {
         const parsedGcode = parseGcode(this.gcodeString);
-
-        console.log('parsedGcode: \n', parsedGcode);
-
         this.gcodePreview.setParsedGcode(parsedGcode);
         this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) * (SIM_TIME_MINUTE) + SIM_TIME_MINUTE / 2;
-        this.forceUpdate();
+        this.handleSimTimeChange(this.simTimeMax);
       }
     };
     fileReader.readAsText(gcodeBlob);
@@ -959,18 +955,25 @@ class PathPreview extends React.Component<Props, State> {
     });
   };
 
+  private playerIntervalHandler = () => {
+    const { speedLevel, workspace } = this.state;
+    if (workspace.simTime >= this.simTimeMax) {
+      this.handleSimTimeChange(this.simTimeMax);
+      clearInterval(this.simInterval);
+      this.simInterval = null;
+      this.setState({ playState: PlayState.STOP });
+    } else {
+      this.handleSimTimeChange(workspace.simTime + SIM_TIME_MINUTE * speedRatio[speedLevel]);
+    }
+  };
+
   private handlePlay = () => {
     if (this.simInterval) clearInterval(this.simInterval);
-    this.simInterval = setInterval(() => {
-      const { speedLevel, workspace } = this.state;
-      if (workspace.simTime >= this.simTimeMax) {
-        clearInterval(this.simInterval);
-        this.simInterval = null;
-        this.forceUpdate();
-      } else {
-        this.handleSimTimeChange(workspace.simTime + SIM_TIME_MINUTE * speedRatio[speedLevel]);
-      }
-    }, SIM_TIME_MS);
+    const { workspace } = this.state;
+    if (workspace.simTime >= this.simTimeMax) {
+      this.handleSimTimeChange(0);
+    }
+    this.simInterval = setInterval(this.playerIntervalHandler, SIM_TIME_MS);
     this.setState({ playState: PlayState.PLAY });
   };
 
@@ -1182,7 +1185,7 @@ class PathPreview extends React.Component<Props, State> {
         }
       }
 
-      const preparation = [];
+      const preparation: string[] = [];
       for (let i = 0; i < gcodeList.length; i += 1) {
         preparation.push(gcodeList[i]);
         if (gcodeList[i].indexOf('F7500') > -1) {
@@ -1250,7 +1253,7 @@ class PathPreview extends React.Component<Props, State> {
 
             if (!yFound && fastGradientGcodeList[i].indexOf('Y') > -1 && (fastGradientGcodeList[i + 1]?.indexOf('F16 2') > -1 || fastGradientGcodeList[i + 2]?.indexOf('F16 2') > -1)) {
               const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
-              const y = Number(matchY[1]);
+              const y = matchY ? Number(matchY[1]) : null;
               if (y === targetY) {
                 const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
                 const x = Number(matchX[1]);
@@ -1340,14 +1343,16 @@ class PathPreview extends React.Component<Props, State> {
             ) {
               const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
               const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
-              const x = Number(matchX[1]);
-              const y = Number(matchY[1]);
-              if (
-                Math.abs(x - simTimeInfo.next[0]) < 0.001
-                && Math.abs(y + simTimeInfo.next[1]) < 0.001
-              ) {
-                target = i;
-                break;
+              if (matchX && matchY) {
+                const x = Number(matchX[1]);
+                const y = Number(matchY[1]);
+                if (
+                  Math.abs(x - simTimeInfo.next[0]) < 0.001
+                  && Math.abs(y + simTimeInfo.next[1]) < 0.001
+                ) {
+                  target = i;
+                  break;
+                }
               }
             }
           }
@@ -1377,11 +1382,13 @@ class PathPreview extends React.Component<Props, State> {
           }
         }
       } else {
-        let { U, F, Z, isEngraving } = this.searchParams(gcodeList, target);
+        const {
+          U, F, Z, isEngraving,
+        } = this.searchParams(gcodeList, target);
 
         if (BeamboxPreference.read('enable-autofocus')) {
           preparation.push('G1 Z-1.0000');
-          preparation.push(`G1 Z${Z}`)
+          preparation.push(`G1 Z${Z}`);
         }
         preparation.push(`G1 U${U}`);
         preparation.push(`G1 X${simTimeInfo.position[0].toFixed(4)} Y${simTimeInfo.position[1].toFixed(4)}`);
