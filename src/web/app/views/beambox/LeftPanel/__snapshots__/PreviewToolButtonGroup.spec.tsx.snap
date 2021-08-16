@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="left-toolbar"
+>
+  <PreviewToolButton
+    className="tool-btn"
+    iconName="back"
+    id="left-Exit-Preview"
+    onClick={[MockFunction]}
+    title="End Preview"
+  />
+  <PreviewToolButton
+    className="tool-btn"
+    iconName="shoot"
+    id="left-Shoot"
+    onClick={[Function]}
+    title="Camera Preview"
+  />
+  <PreviewToolButton
+    className="tool-btn"
+    iconName="trace"
+    id="left-Trace"
+    onClick={[Function]}
+    title="Trace Image"
+  />
+  <PreviewToolButton
+    className="tool-btn"
+    iconName="trash"
+    id="left-Trash"
+    onClick={[Function]}
+    title="Clear Preview"
+  />
+</div>
+`;
