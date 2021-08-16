@@ -21,7 +21,7 @@ jobs:
   #     - name: Run unit tests
   #       run: yarn run spec
   coverage:
-    needs: unit-test
+    # needs: unit-test
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/master'
     env:
