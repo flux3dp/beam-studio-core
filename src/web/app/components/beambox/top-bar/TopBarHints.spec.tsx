@@ -13,7 +13,7 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-import { TopBarHintsContext } from 'app/views/beambox/TopBar/contexts/TopBarHintsContext';
+import { TopBarHintsContext } from 'app/contexts/TopBarHintsContext';
 
 import TopBarHints from './TopBarHints';
 

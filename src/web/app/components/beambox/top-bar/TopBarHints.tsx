@@ -1,7 +1,7 @@
 import React from 'react';
 
 import i18n from 'helpers/i18n';
-import { TopBarHintsContext } from 'app/views/beambox/TopBar/contexts/TopBarHintsContext';
+import { TopBarHintsContext } from 'app/contexts/TopBarHintsContext';
 
 const LANG = i18n.lang.topbar;
 
