@@ -28,7 +28,7 @@ jobs:
       - name: Eslint check
         uses: reviewdog/action-eslint@v1
   web-e2e:
-    needs: [coverage, eslint-check]
+    needs: [unit-tests-and-coverage, eslint-check]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
