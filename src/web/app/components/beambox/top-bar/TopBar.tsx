@@ -126,7 +126,7 @@ export default class TopBar extends React.Component<Props, State> {
     return (
       <div className={classNames('path-preview-button-container', { highlighted: isPathPreviewing })}>
         <div className="path-preview-button" onClick={this.changeToPathPreviewMode}>
-          <img src="img/print-preview.svg" draggable={false} />
+          <img src="img/path-preview.svg" draggable={false} />
         </div>
       </div>
     );
