@@ -7,7 +7,7 @@ exports[`should render correctly 1`] = `
   <div
     className="label"
   >
-    Start Offset
+    Text Offset
   </div>
   <UnitInput
     abbr={false}
@@ -42,7 +42,7 @@ exports[`should render correctly 2`] = `
   <div
     className="label"
   >
-    Start Offset
+    Text Offset
   </div>
   <UnitInput
     abbr={false}
@@ -77,7 +77,7 @@ exports[`should render correctly 3`] = `
   <div
     className="label"
   >
-    Start Offset
+    Text Offset
   </div>
   <UnitInput
     abbr={false}
