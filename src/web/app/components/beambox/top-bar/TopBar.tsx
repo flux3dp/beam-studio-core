@@ -133,9 +133,11 @@ export default class TopBar extends React.Component<Props, State> {
   };
 
   changeToPathPreviewMode = (): void => {
-    const { togglePathPreview } = this.props;
-    svgCanvas.clearSelection();
-    togglePathPreview();
+    const { isPathPreviewing, togglePathPreview } = this.props;
+    if (!isPathPreviewing) {
+      svgCanvas.clearSelection();
+      togglePathPreview();
+    }
   };
 
   changeToPreviewMode = (): void => {
