@@ -50,7 +50,6 @@ import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHints
 import TimeEstimationButtonController from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
@@ -7642,23 +7641,22 @@ export default $.SvgCanvas = function (container, config) {
   // Returns:
   // If the getBBox flag is true, the resulting path's bounding box object.
   // Otherwise the resulting path element is returned.
-  this.convertToPath = function (elem, getBBox = false) {
+  this.convertToPath = (elem: Element, getBBox = false) => {
     if (getBBox) {
       return svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
     }
     // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
     // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
-    var attrs = {
-      'fill': cur_shape.fill,
-      'fill-opacity': cur_shape.fill_opacity,
-      'stroke': cur_shape.stroke,
-      'stroke-width': cur_shape.stroke_width,
+    const attrs = {
+      fill: elem.getAttribute('fill'),
+      'fill-opacity': elem.getAttribute('fill-opacity'),
+      stroke: elem.getAttribute('stroke'),
+      'stroke-width': elem.getAttribute('stroke-width'),
       'stroke-dasharray': cur_shape.stroke_dasharray,
       'stroke-linejoin': cur_shape.stroke_linejoin,
       'stroke-linecap': cur_shape.stroke_linecap,
       'stroke-opacity': cur_shape.stroke_opacity,
-      'opacity': cur_shape.opacity,
-      'visibility': 'hidden'
+      opacity: cur_shape.opacity,
     };
     const { path, cmd } = svgedit.utilities.convertToPath(elem, attrs, addSvgElementFromJson, pathActions, svgedit.history);
     if (path) {

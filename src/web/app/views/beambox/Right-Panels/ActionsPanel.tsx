@@ -186,15 +186,19 @@ class ActionsPanel extends React.Component<Props> {
             path = svgCanvas.convertToPath(path);
           }
           textPathEdit.attachTextToPath(text, path);
+          if (svgCanvas.isUsingLayerColor) {
+            svgCanvas.updateElementColor(text);
+          }
         }, true));
       }
     };
-
-    const content = [
+    let content = [];
+    appendOptionalButtons(content);
+    content = [
+      ...content,
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, !supportOffset),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
     ];
-    appendOptionalButtons(content);
     return content;
   };
 

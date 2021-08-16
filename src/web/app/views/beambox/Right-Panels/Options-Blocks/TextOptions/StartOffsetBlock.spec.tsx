@@ -9,7 +9,7 @@ jest.mock('helpers/i18n', () => ({
       right_panel: {
         object_panel: {
           option_panel: {
-            start_offset: 'Start Offset',
+            start_offset: 'Text Offset',
           },
         },
       },
