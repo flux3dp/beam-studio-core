@@ -1361,7 +1361,7 @@ export default $.SvgCanvas = function (container, config) {
       const originalStrokeWidth = elem.getAttribute('stroke-width');
       const originalVectorEffect = elem.getAttribute('vector-effect');
       elem.setAttribute('stroke-width', 20 / current_zoom);
-      elem.removeAttribute('vector-effect')
+      elem.removeAttribute('vector-effect');
       if (elem.isPointInStroke(clickPoint)) {
         mouseTarget = elem;
         pointInStroke = true;
@@ -3139,7 +3139,6 @@ export default $.SvgCanvas = function (container, config) {
     container.addEventListener('click', handleLinkInCanvas);
     container.addEventListener('dblclick', dblClick);
     if (navigator.maxTouchPoints > 1) {
-
       const workarea = document.getElementById('workarea');
       touchEvents.setupCanvasTouchEvents(
         container,
@@ -3159,14 +3158,14 @@ export default $.SvgCanvas = function (container, config) {
       container.addEventListener('mouseup', mouseUp);
       container.addEventListener('mouseenter', mouseEnter);
 
-      //TODO(rafaelcastrocouto): User preference for shift key and zoom factor
+      // TODO(rafaelcastrocouto): User preference for shift key and zoom factor
 
-      $(container).bind('wheel DOMMouseScroll', (function () {
+      $(container).bind('wheel DOMMouseScroll', (() => {
         let targetZoom;
         let timer;
         let trigger = Date.now();
 
-        return function (e) {
+        return function onWheel(e) {
           e.stopImmediatePropagation();
           e.preventDefault();
           const evt = e.originalEvent;
@@ -3180,16 +3179,16 @@ export default $.SvgCanvas = function (container, config) {
 
           if (isTouchpad) {
             if (e.ctrlKey) {
-              _zoomAsIllustrator();
+              zoomAsIllustrator();
             } else {
-              _panAsIllustrator();
+              panAsIllustrator();
             }
           } else {
-            _zoomAsIllustrator();
-            //panning is default behavior when pressing middle button
+            zoomAsIllustrator();
+            // panning is default behavior when pressing middle button
           }
 
-          function _zoomProcess() {
+          function zoomProcess() {
             // End of animation
             const currentZoom = svgCanvas.getZoom();
             if ((currentZoom === targetZoom) || (Date.now() - trigger > 500)) {
@@ -3199,7 +3198,7 @@ export default $.SvgCanvas = function (container, config) {
             }
 
             // Calculate next animation zoom level
-            var nextZoom = currentZoom + (targetZoom - currentZoom) / 5;
+            let nextZoom = currentZoom + (targetZoom - currentZoom) / 5;
 
             if (Math.abs(targetZoom - currentZoom) < 0.005) {
               nextZoom = targetZoom;
@@ -3207,21 +3206,21 @@ export default $.SvgCanvas = function (container, config) {
 
             const cursorPosition = {
               x: evt.pageX,
-              y: evt.pageY
+              y: evt.pageY,
             };
 
             call('zoomed', {
               zoomLevel: nextZoom,
-              staticPoint: cursorPosition
+              staticPoint: cursorPosition,
             });
           }
 
-          function _zoomAsIllustrator() {
+          function zoomAsIllustrator() {
             const delta = (evt.wheelDelta) ? evt.wheelDelta : (evt.detail) ? -evt.detail : 0;
             if (isTouchpad) {
-              targetZoom = targetZoom * 1.1 ** (delta / 100);
+              targetZoom *=  1.1 ** (delta / 100);
             } else {
-              targetZoom = targetZoom * 1.1 ** (delta / 50);
+              targetZoom *= 1.1 ** (delta / 50);
             }
 
             targetZoom = Math.min(20, targetZoom);
@@ -3232,17 +3231,18 @@ export default $.SvgCanvas = function (container, config) {
 
             if (!timer) {
               const interval = 20;
-              timer = setInterval(_zoomProcess, interval);
+              timer = setInterval(zoomProcess, interval);
             }
 
-            // due to wheel event bug (which zoom gesture will sometimes block all other processes), we trigger the zoomProcess about every few miliseconds
+            // due to wheel event bug (which zoom gesture will sometimes block all other processes),
+            // we trigger the zoomProcess about every few miliseconds
             if (Date.now() - trigger > 20) {
-              _zoomProcess();
+              zoomProcess();
               trigger = Date.now();
             }
           }
 
-          function _panAsIllustrator() {
+          function panAsIllustrator() {
             requestAnimationFrame(() => {
               const scrollLeft = $('#workarea').scrollLeft() + evt.deltaX / 2.0;
               const scrollTop = $('#workarea').scrollTop() + evt.deltaY / 2.0;
@@ -7666,7 +7666,7 @@ export default $.SvgCanvas = function (container, config) {
       return svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
     }
     // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
-    // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
+  // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
     const attrs = {
       fill: elem.getAttribute('fill'),
       'fill-opacity': elem.getAttribute('fill-opacity'),
