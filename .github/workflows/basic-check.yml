@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  unit-tests + coverage:
+  unit-tests-and-coverage:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/master'
     env:
