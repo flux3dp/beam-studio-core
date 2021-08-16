@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
-import Controls from 'app/views/settings/Control';
+import Controls from 'app/components/settings/Control';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
-import SelectControl from 'app/views/settings/SelectControl';
+import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { StorageKey } from 'interfaces/IStorage';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Controls from 'app/views/settings/Control';
+import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 

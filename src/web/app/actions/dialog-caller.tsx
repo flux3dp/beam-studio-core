@@ -18,7 +18,7 @@ import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Pane
 import Prompt from 'app/views/dialogs/Prompt';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import SvgNestButtons from 'app/views/beambox/Svg-Nest-Buttons';
-import UpdateDialog from 'app/views/UpdateDialog';
+import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -259,7 +259,7 @@ export default {
         onClose={() => popDialogById(id)}
       />);
   },
-  showUpdateDialog: (
+  showFirmwareUpdateDialog: (
     device: IDeviceInfo,
     updateInfo: {
       changelog_en: string,
@@ -273,7 +273,7 @@ export default {
     const { name, model, version } = device;
     const releaseNode = i18n.getActiveLang() === 'zh-tw' ? updateInfo.changelog_zh : updateInfo.changelog_en;
     addDialogComponent('update-dialog',
-      <UpdateDialog
+      <FirmwareUpdate
         deviceName={name}
         deviceModel={model}
         currentVersion={version}

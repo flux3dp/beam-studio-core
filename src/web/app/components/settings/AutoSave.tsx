@@ -1,10 +1,10 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import Controls from 'app/views/settings/Control';
+import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
 import PathInput, { InputType } from 'app/widgets/PathInput';
-import SelectControl from 'app/views/settings/SelectControl';
+import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { IConfig } from 'interfaces/IAutosave';
 

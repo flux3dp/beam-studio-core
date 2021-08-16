@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Controls from 'app/views/settings/Control';
+import Controls from 'app/components/settings/Control';
 import SelectView from 'app/widgets/Select';
 
 interface Props {

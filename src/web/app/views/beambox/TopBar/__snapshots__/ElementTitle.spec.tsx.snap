@@ -10,6 +10,14 @@ exports[`should render correctly multiple selections 1`] = `
 
 exports[`should render correctly no selected element 1`] = `""`;
 
+exports[`should render correctly single selection data-textpath-g 1`] = `
+<div
+  className="element-title"
+>
+  Layer 1 &gt; Text on Path
+</div>
+`;
+
 exports[`should render correctly single selection dxf 1`] = `
 <div
   className="element-title"

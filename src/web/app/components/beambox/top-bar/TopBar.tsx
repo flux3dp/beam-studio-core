@@ -31,8 +31,8 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { TopBarContext } from './contexts/TopBarContext';
-import { TopBarHintsContextProvider } from './contexts/TopBarHintsContext';
+import { TopBarContext } from '../../../views/beambox/TopBar/contexts/TopBarContext';
+import { TopBarHintsContextProvider } from '../../../views/beambox/TopBar/contexts/TopBarHintsContext';
 
 let svgCanvas;
 let svgEditor;

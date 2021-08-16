@@ -3,9 +3,9 @@ import * as React from 'react';
 import alert from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
-import Controls from 'app/views/settings/Control';
+import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
-import SelectControl from 'app/views/settings/SelectControl';
+import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import { StorageKey } from 'interfaces/IStorage';
 

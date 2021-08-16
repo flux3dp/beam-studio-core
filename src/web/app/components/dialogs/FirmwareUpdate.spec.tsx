@@ -33,11 +33,11 @@ jest.mock('implementations/storage', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import UpdateDialog from './UpdateDialog';
+import FirmwareUpdate from './FirmwareUpdate';
 
 describe('test update dialog', () => {
   test('should render correctly', () => {
-    expect(toJson(shallow(<UpdateDialog
+    expect(toJson(shallow(<FirmwareUpdate
       deviceName="flux"
       deviceModel="Beamo"
       currentVersion="1.0.0"

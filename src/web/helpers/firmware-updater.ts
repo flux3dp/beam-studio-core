@@ -107,6 +107,6 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
   if (forceUpdate) {
     onInstall();
   } else {
-    Dialog.showUpdateDialog(device, response || {}, onDownload, onInstall);
+    Dialog.showFirmwareUpdateDialog(device, response || {}, onDownload, onInstall);
   }
 };
