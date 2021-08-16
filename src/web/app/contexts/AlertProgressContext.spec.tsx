@@ -41,7 +41,7 @@ test('should render correctly', () => {
     </AlertProgressContextProvider>,
   );
   expect(toJson(wrapper)).toMatchSnapshot();
-  expect(eventEmitter.eventNames().length).toBe(6);
+  expect(eventEmitter.eventNames().length).toBe(5);
 
   eventEmitter.emit('OPEN_PROGRESS', {
     id: 'check-status',
