@@ -11,7 +11,7 @@ interface Props {
   onClose: () => void;
 }
 
-function ChangeLogDialog({ onClose }: Props): JSX.Element {
+function ChangeLog({ onClose }: Props): JSX.Element {
   const renderChangeLogs = () => {
     const CHANGES = i18n.getActiveLang().startsWith('zh') ? changelog.CHANGES_TW : changelog.CHANGES_EN;
     const logs = [];
@@ -84,4 +84,4 @@ function ChangeLogDialog({ onClose }: Props): JSX.Element {
   );
 }
 
-export default ChangeLogDialog;
+export default ChangeLog;

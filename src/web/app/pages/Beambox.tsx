@@ -7,9 +7,9 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
-import PathPreview from 'app/views/beambox/Path-Preview';
+import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import sentryHelper from 'helpers/sentry-helper';
-import SVGEditor from 'app/pages/svg-editor';
+import SvgEditor from 'app/components/beambox/SvgEditor';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
@@ -79,7 +79,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
           <TopBar isPathPreviewing={isPathPreviewing} togglePathPreview={this.togglePathPreview} />
         </TopBarContextProvider>
         {this.renderTimeEstButton()}
-        <SVGEditor isPathPreviewing={isPathPreviewing} />
+        <SvgEditor isPathPreviewing={isPathPreviewing} />
         {this.renderPathPreview()}
         <div id="tool-panels-placeholder" />
         <div id="image-trace-panel-placeholder" />

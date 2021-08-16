@@ -69,6 +69,7 @@ import units, { Units } from 'helpers/units';
 import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
 import recentMenuUpdater from 'implementations/recentMenuUpdater';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 let svgCanvas;
 let svgEditor;
@@ -80,6 +81,8 @@ getSVGAsync((globalSVG) => {
 
 const ClipperLib = (window as any).ClipperLib;
 const LANG = i18n.lang.beambox;
+
+const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
 // Class: SvgCanvas
 // The main SvgCanvas class that manages all SVG-related functions
@@ -6738,7 +6741,7 @@ export default $.SvgCanvas = function (container, config) {
       selectorManager.requestSelector(elem).resize();
     });
     pathActions.zoomChange(oldZoom);
-    ZoomBlockController.updateZoomBlock();
+    zoomBlockEventEmitter.emit('UPDATE_ZOOM_BLOCK');
     runExtensions('zoomChanged', zoomlevel);
   };
 

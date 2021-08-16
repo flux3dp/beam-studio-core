@@ -16,14 +16,14 @@ import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import i18n from 'helpers/i18n';
-import Pointable from 'app/views/beambox/Pointable';
+import Pointable from 'app/components/beambox/path-preview/Pointable';
+import SidePanel from 'app/components/beambox/path-preview/SidePanel';
 import units from 'helpers/units';
-import ZoomBlock from 'app/views/beambox/ZoomBlock/ZoomBlock';
-import ZoomBlockController from 'app/views/beambox/ZoomBlock/ZoomBlockController';
+import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
-import SidePanel from './PathPreview/SidePanel';
-import { parseGcode } from './tmpParseGcode';
+import { parseGcode } from '../../../views/beambox/tmpParseGcode';
+import ProgressBar from './ProgressBar';
 
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
@@ -36,6 +36,8 @@ const SIM_TIME = 0.1; // sec
 const SIM_TIME_MINUTE = units.convertTimeUnit(SIM_TIME, 'm');
 const SIM_TIME_MS = units.convertTimeUnit(SIM_TIME, 'ms');
 const speedRatio = [0.5, 1, 2, 4, 8];
+
+const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
 //
 // creates a shader of the given type, uploads the source and
@@ -572,7 +574,7 @@ class PathPreview extends React.Component<Props, State> {
         newCamera.view = this.camera.view;
       }
       if (newCamera.scale !== this.camera.scale) {
-        ZoomBlockController.updateZoomBlock();
+        zoomBlockEventEmitter.emit('UPDATE_ZOOM_BLOCK');
       }
     }
 
@@ -1491,26 +1493,6 @@ class PathPreview extends React.Component<Props, State> {
     } = this.state;
     const LANG = i18n.lang.beambox.path_preview;
 
-    const progressBar = () => {
-      const percentage = `${Math.round(10000 * (workspace.simTime / this.simTimeMax)) / 100}%`;
-      // Convert unit to ms to make slider smoother
-      return (
-        <input
-          className="slider"
-          type="range"
-          min={0}
-          max={units.convertTimeUnit(this.simTimeMax, 'ms', 'm')}
-          step={SIM_TIME_MS}
-          value={units.convertTimeUnit(workspace.simTime, 'ms', 'm')}
-          style={{
-            // @ts-ignore Set variable for css to use
-            '--percentage': percentage,
-          }}
-          onChange={(e) => this.handleSimTimeChange(units.convertTimeUnit(Number(e.target.value), 'm', 'ms'))}
-        />
-      );
-    };
-
     return (
       <div id="path-preview-panel" className={className} style={{ touchAction: 'none', userSelect: 'none' }}>
         <Pointable
@@ -1530,12 +1512,11 @@ class PathPreview extends React.Component<Props, State> {
           />
         </Pointable>
         <div className="tools-panel">
-          <div>
-            <div className="label pull-left" />
-            <div id="progress-bar" className="path-preview-slider-container">
-              {progressBar()}
-            </div>
-          </div>
+          <ProgressBar
+            simTime={workspace.simTime}
+            simTimeMax={this.simTimeMax}
+            handleSimTimeChange={this.handleSimTimeChange}
+          />
           <div className="options">
             {this.renderPlayButtons()}
             <div className="speed-control">

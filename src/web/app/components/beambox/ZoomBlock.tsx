@@ -12,7 +12,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const LANG = i18n.lang.beambox.zoom_block;
 
-export const eventEmitter = eventEmitterFactory.createEventEmitter();
+const eventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
 interface Props {
   getZoom?: () => number;

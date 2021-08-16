@@ -54,11 +54,11 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import ChangeLogDialog from './ChangeLogDialog';
+import ChangeLog from './ChangeLog';
 
 test('should render correctly', () => {
   const onClose = jest.fn();
-  const wrapper = mount(<ChangeLogDialog
+  const wrapper = mount(<ChangeLog
     onClose={onClose}
   />);
   expect(toJson(wrapper)).toMatchSnapshot();
