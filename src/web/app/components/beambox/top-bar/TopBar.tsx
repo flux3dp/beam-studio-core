@@ -17,7 +17,6 @@ import FileName from 'app/components/beambox/top-bar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import i18n from 'helpers/i18n';
-import LeftPanel from 'app/views/beambox/LeftPanel/LeftPanel';
 import Menu from 'app/components/beambox/top-bar/Menu';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
@@ -32,7 +31,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { TopBarContext } from 'app/contexts/TopBarContext';
+import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
 let svgCanvas;
@@ -48,7 +47,6 @@ const LANG = i18n.lang.topbar;
 const isNotMac = window.os !== 'MacOS';
 
 interface State {
-  isPreviewing: boolean;
   hasDiscoverdMachine: boolean;
   shouldShowDeviceList: boolean;
   deviceListType?: string | null;
@@ -69,7 +67,6 @@ export default class TopBar extends React.Component<Props, State> {
     super(props);
     this.deviceList = [];
     this.state = {
-      isPreviewing: false,
       hasDiscoverdMachine: false,
       shouldShowDeviceList: false,
       selectDeviceCallback: () => { },
@@ -111,7 +108,12 @@ export default class TopBar extends React.Component<Props, State> {
   };
 
   startPreviewModeController = async (device: IDeviceInfo): Promise<void> => {
-    const { setTopBarPreviewMode, startPreivewCallback, setStartPreviewCallback } = this.context;
+    const {
+      setIsPreviewing,
+      setTopBarPreviewMode,
+      startPreivewCallback,
+      setStartPreviewCallback,
+    } = this.context;
     const workarea = document.getElementById('workarea');
     if (['fbm1', 'fbb1b', 'fbb1p', 'fbb2b'].includes(device.model) && device.model !== BeamboxPreference.read('workarea')) {
       const res = await new Promise((resolve) => {
@@ -181,7 +183,7 @@ export default class TopBar extends React.Component<Props, State> {
           });
         }
         setTopBarPreviewMode(false);
-        this.setState({ isPreviewing: false });
+        setIsPreviewing(false);
         $(workarea).css('cursor', 'auto');
       });
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
@@ -208,13 +210,8 @@ export default class TopBar extends React.Component<Props, State> {
     }
   };
 
-  endPathPreviewMode = (): void => {
-    const { togglePathPreview } = this.props;
-    togglePathPreview();
-  };
-
   endPreviewMode = (): void => {
-    const { setTopBarPreviewMode } = this.context;
+    const { setTopBarPreviewMode, setIsPreviewing } = this.context;
     try {
       if (PreviewModeController.isPreviewMode()) {
         PreviewModeController.end();
@@ -231,9 +228,7 @@ export default class TopBar extends React.Component<Props, State> {
       $('#workarea').off('contextmenu');
       svgEditor.setWorkAreaContextMenu();
       setTopBarPreviewMode(false);
-      this.setState({
-        isPreviewing: false,
-      });
+      setIsPreviewing(false);
     }
   };
 
@@ -378,58 +373,50 @@ export default class TopBar extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.props;
-    const { isPreviewing, hasDiscoverdMachine } = this.state;
+    const { hasDiscoverdMachine } = this.state;
     const {
-      setShouldStartPreviewController,
+      isPreviewing,
       fileName,
       hasUnsavedChange,
       selectedElem,
       setTopBarPreviewMode,
+      setIsPreviewing,
     } = this.context;
     const { deviceList } = this;
     return (
-      <div className="top-bar-left-panel-container">
-        <LeftPanel
-          isPathPreviewing={isPathPreviewing}
+      <div className={classNames('top-bar', { win: isNotMac })}>
+        <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
+        <PreviewButton
           isPreviewing={isPreviewing}
-          setShouldStartPreviewController={setShouldStartPreviewController}
-          endPathPreviewMode={this.endPathPreviewMode}
+          isPathPreviewing={isPathPreviewing}
+          showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}
           endPreviewMode={this.endPreviewMode}
+          setTopBarPreviewMode={setTopBarPreviewMode}
+          enterPreviewMode={() => setIsPreviewing(true)}
         />
-        <div className={classNames('top-bar', { win: isNotMac })}>
-          <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
-          <PreviewButton
-            isPreviewing={isPreviewing}
-            isPathPreviewing={isPathPreviewing}
-            showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}
-            endPreviewMode={this.endPreviewMode}
-            setTopBarPreviewMode={setTopBarPreviewMode}
-            enterPreviewMode={() => this.setState({ isPreviewing: true })}
-          />
-          <PathPreviewButton
-            isPathPreviewing={isPathPreviewing}
-            isDeviceConnected={deviceList.length > 0}
-            togglePathPreview={togglePathPreview}
-          />
-          <GoButton
-            isNotMac={isNotMac}
-            hasDiscoverdMachine={hasDiscoverdMachine}
-            hasDevice={this.deviceList.length > 0}
-            endPreviewMode={this.endPreviewMode}
-            showDeviceList={this.showDeviceList}
-          />
-          {this.renderDeviceList()}
-          <ElementTitle selectedElem={selectedElem} />
-          {this.renderHint()}
-          {this.renderMenu()}
-          <CommonTools
-            isWeb={window.FLUX.version === 'web'}
-            isPreviewing={isPreviewing}
-          />
-        </div>
+        <PathPreviewButton
+          isPathPreviewing={isPathPreviewing}
+          isDeviceConnected={deviceList.length > 0}
+          togglePathPreview={togglePathPreview}
+        />
+        <GoButton
+          isNotMac={isNotMac}
+          hasDiscoverdMachine={hasDiscoverdMachine}
+          hasDevice={this.deviceList.length > 0}
+          endPreviewMode={this.endPreviewMode}
+          showDeviceList={this.showDeviceList}
+        />
+        {this.renderDeviceList()}
+        <ElementTitle selectedElem={selectedElem} />
+        {this.renderHint()}
+        {this.renderMenu()}
+        <CommonTools
+          isWeb={window.FLUX.version === 'web'}
+          isPreviewing={isPreviewing}
+        />
       </div>
     );
   }
 }
 
-TopBar.contextType = TopBarContext;
+TopBar.contextType = TopBarLeftPanelContext;

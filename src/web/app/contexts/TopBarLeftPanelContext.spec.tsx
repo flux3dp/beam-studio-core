@@ -3,15 +3,15 @@ import { shallow } from 'enzyme';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-import { TopBarContextProvider } from './TopBarContext';
+import { TopBarLeftPanelContextProvider } from './TopBarLeftPanelContext';
 
 test('should render correctly', () => {
   const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
   const fluxIDEventEmitter = eventEmitterFactory.createEventEmitter('flux-id');
   const wrapper = shallow(
-    <TopBarContextProvider>
+    <TopBarLeftPanelContextProvider>
       <></>
-    </TopBarContextProvider>,
+    </TopBarLeftPanelContextProvider>,
   );
 
   expect(wrapper.state()).toEqual({
@@ -20,6 +20,7 @@ test('should render correctly', () => {
     hasUnsavedChange: false,
     shouldStartPreviewController: false,
     currentUser: null,
+    isPreviewing: false,
   });
   expect(wrapper.instance().startPreivewCallback).toBeNull();
   expect(fluxIDEventEmitter.eventNames().length).toBe(1);
@@ -54,6 +55,8 @@ test('should render correctly', () => {
   topBarEventEmitter.emit('SET_START_PREVIEW_CALLBACK', callback);
   expect(wrapper.instance().startPreivewCallback).toEqual(callback);
 
+  wrapper.instance().setIsPreviewing(true);
+
   topBarEventEmitter.emit('UPDATE_TOP_BAR');
   expect(wrapper.state()).toEqual({
     fileName: 'abc.txt',
@@ -61,6 +64,7 @@ test('should render correctly', () => {
     hasUnsavedChange: true,
     shouldStartPreviewController: true,
     currentUser,
+    isPreviewing: true,
   });
 
   wrapper.unmount();
