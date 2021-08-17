@@ -585,7 +585,7 @@ class PathPreview extends React.Component<Props, State> {
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const result = (e.target.result as string).split('\n');
-      result.splice(6, 0, 'G1 X0 Y0');
+      result.splice(5, 0, 'G1 X0 Y0');
       this.gcodeString = result.join('\n');
 
       if (this.gcodeString.length > 83) {
