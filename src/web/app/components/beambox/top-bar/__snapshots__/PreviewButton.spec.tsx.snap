@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly is not path previewing is not previewing 1`] = `
+<div
+  className="preview-button-container"
+>
+  <div
+    className="img-container"
+    onClick={[Function]}
+  >
+    <img
+      draggable={false}
+      src="img/top-bar/icon-camera.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render correctly is not path previewing is previewing borderless and OpenBottom supported 1`] = `
+<div
+  className="preview-button-container previewing"
+>
+  <div
+    className="img-container"
+    onClick={[MockFunction]}
+  >
+    <img
+      draggable={false}
+      src="img/top-bar/icon-camera.svg"
+    />
+  </div>
+  <div
+    className="title"
+    onClick={[MockFunction]}
+  >
+    PREVIEW (OPEN BOTTOM)
+  </div>
+</div>
+`;
+
+exports[`should render correctly is not path previewing is previewing non-borderless 1`] = `
+<div
+  className="preview-button-container previewing"
+>
+  <div
+    className="img-container"
+    onClick={[MockFunction]}
+  >
+    <img
+      draggable={false}
+      src="img/top-bar/icon-camera.svg"
+    />
+  </div>
+  <div
+    className="title"
+    onClick={[MockFunction]}
+  >
+    PREVIEW
+  </div>
+</div>
+`;
+
+exports[`should render correctly is path previewing 1`] = `""`;
