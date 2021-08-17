@@ -25,8 +25,6 @@ import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { parseGcode } from '../../../views/beambox/tmpParseGcode';
 import ProgressBar from './ProgressBar';
 
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
-
 const TOOLS_PANEL_HEIGHT = 100;
 const MAJOR_GRID_SPACING = 50;
 const MINOR_GRID_SPACING = 10;
@@ -37,6 +35,7 @@ const SIM_TIME_MINUTE = units.convertTimeUnit(SIM_TIME, 'm');
 const SIM_TIME_MS = units.convertTimeUnit(SIM_TIME, 'ms');
 const speedRatio = [0.5, 1, 2, 4, 8];
 
+const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
 //
@@ -166,14 +165,8 @@ function initBuffers(gl, width, height) {
 
 // Draw white square
 function drawScene(gl, programInfo, buffers, camera, isInverting, showTraversal, showRemaining) {
-  // gl.clearColor(0.0, 0.0, 0.0, 1.0);  // 設定為全黑
-  // gl.clearDepth(1.0);                 // 清除所有東西
   gl.enable(gl.DEPTH_TEST); // Enable 深度測試
   gl.depthFunc(gl.ALWAYS); // Near things obscure far things
-
-  // 開始前先初始化畫布
-
-  // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
@@ -372,10 +365,13 @@ const drawTaskPreview = (
 
 class Grid {
   private maingrid: any;
+
   private origin: any;
-  private background: any;
+
   private width: any;
+
   private height: any;
+
   private origincount: any;
 
   draw(drawCommands, {
@@ -439,20 +435,33 @@ interface State {
 
 class PathPreview extends React.Component<Props, State> {
   private camera: any;
+
   private canvas: HTMLCanvasElement;
+
   private drawCommands: any;
+
   private grid: any;
+
   private fingers: any;
+
   private pointers: any;
+
   private position: any;
+
   private moveStarted: boolean;
+
   private adjustingCamera: boolean;
+
   private gcodePreview: any;
+
   private simTimeMax: number;
+
   private simInterval: NodeJS.Timeout;
-  private drawGcodeState: object;
+
+  private drawGcodeState: any;
 
   private gcodeString: string;
+
   private fastGradientGcodeString: string;
 
   private isUpdating: boolean;
@@ -676,24 +685,6 @@ class PathPreview extends React.Component<Props, State> {
     }
   };
 
-  private zoomArea = (x1, y1, x2, y2) => {
-    const { width, height } = this.state;
-    const d = 300;
-    const cx = (x1 + x2) / 2 - settings.machineBottomLeftX;
-    const cy = (y1 + y2) / 2 - settings.machineBottomLeftY;
-    const scale = Math.min(width / (x2 - x1), height / (y2 - y1));
-    const fovy = 2 * Math.atan2(height, 2 * scale * d);
-    this.setState({
-      camera: {
-        eye: [cx, cy, d],
-        center: [cx, cy, 0],
-        up: [0, 1, 0],
-        fovy,
-        showPerspective: false,
-      },
-    });
-  };
-
   updateWorkspace = () => {
     const { width, height } = this.state;
     if (width !== document.getElementById('path-preview-panel').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('path-preview-panel').offsetHeight - 200)) {
@@ -729,14 +720,7 @@ class PathPreview extends React.Component<Props, State> {
     if (!this.camera) return;
 
     const gl = canvas.getContext('webgl', { alpha: true, depth: true, preserveDrawingBuffer: true });
-
-    // gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    // 透過清除色來清除色彩緩衝區
-    // gl.clear(gl.COLOR_BUFFER_BIT);
-
     this.drawCommands = new DrawCommands(gl);
-    // this.props.documentCacheHolder.drawCommands = this.drawCommands;
-    this.hitTestFrameBuffer = this.drawCommands.createFrameBuffer(600, 400);
 
     const draw = () => {
       if (!this.canvas) {
@@ -873,20 +857,6 @@ class PathPreview extends React.Component<Props, State> {
         };
       } else {
         this.fingers = null;
-        // Rotate, not used
-        // if (pointer.button === 2) {
-        //   const rot = mat4.mul([],
-        //     mat4.fromRotation([], dy / 200, vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center))),
-        //     mat4.fromRotation([], -dx / 200, camera.up));
-        //   this.setCameraAttrs({
-        //     eye: vec3.add([], vec3.transformMat4([], vec3.sub([], camera.eye, camera.center), rot), camera.center),
-        //     up: vec3.normalize([], vec3.transformMat4([], camera.up, rot)),
-        //   });
-        // }
-        // Zoom with middle button, not used
-        // if (pointer.button === 1) {
-        //   this.zoom(pointer.origPageX, pointer.origPageY, Math.exp(-dy / 200));
-        // }
         if (pointer.button === 0 || pointer.button === 1) {
           this.pan(dx / 2, dy / 2);
         }
