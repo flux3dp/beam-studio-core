@@ -45,7 +45,7 @@ exports[`should render correctly not in path previewing 1`] = `
 >
   <PreviewToolButtonGroup
     className="left-toolbar win"
-    endPreviewMode={[Function]}
+    endPreviewMode={[MockFunction]}
     setShouldStartPreviewController={[MockFunction]}
   >
     <div>

@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { sprintf } from 'sprintf-js';
 
-import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -27,7 +26,6 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
-import TutorialConstants from 'app/constants/tutorial-constants';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -111,7 +109,7 @@ export default class TopBar extends React.Component<Props, State> {
     const {
       setIsPreviewing,
       setTopBarPreviewMode,
-      startPreivewCallback,
+      startPreviewCallback,
       setStartPreviewCallback,
     } = this.context;
     const workarea = document.getElementById('workarea');
@@ -187,8 +185,8 @@ export default class TopBar extends React.Component<Props, State> {
         $(workarea).css('cursor', 'auto');
       });
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-      if (startPreivewCallback) {
-        startPreivewCallback();
+      if (startPreviewCallback) {
+        startPreviewCallback();
         setStartPreviewCallback(null);
       }
     } catch (error) {
@@ -207,28 +205,6 @@ export default class TopBar extends React.Component<Props, State> {
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
-    }
-  };
-
-  endPreviewMode = (): void => {
-    const { setTopBarPreviewMode, setIsPreviewing } = this.context;
-    try {
-      if (PreviewModeController.isPreviewMode()) {
-        PreviewModeController.end();
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    } finally {
-      if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
-        TutorialController.handleNextStep();
-      }
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      FnWrapper.useSelectTool();
-      $('#workarea').off('contextmenu');
-      svgEditor.setWorkAreaContextMenu();
-      setTopBarPreviewMode(false);
-      setIsPreviewing(false);
     }
   };
 
@@ -253,8 +229,8 @@ export default class TopBar extends React.Component<Props, State> {
   };
 
   resetStartPreviewCallback = (): void => {
-    const { startPreivewCallback, setStartPreviewCallback, updateTopBar } = this.context;
-    if (startPreivewCallback) {
+    const { startPreviewCallback, setStartPreviewCallback, updateTopBar } = this.context;
+    if (startPreviewCallback) {
       setStartPreviewCallback(null);
       updateTopBar();
     }
@@ -381,6 +357,7 @@ export default class TopBar extends React.Component<Props, State> {
       selectedElem,
       setTopBarPreviewMode,
       setIsPreviewing,
+      endPreviewMode,
     } = this.context;
     const { deviceList } = this;
     return (
@@ -390,7 +367,7 @@ export default class TopBar extends React.Component<Props, State> {
           isPreviewing={isPreviewing}
           isPathPreviewing={isPathPreviewing}
           showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}
-          endPreviewMode={this.endPreviewMode}
+          endPreviewMode={endPreviewMode}
           setTopBarPreviewMode={setTopBarPreviewMode}
           enterPreviewMode={() => setIsPreviewing(true)}
         />
@@ -403,7 +380,7 @@ export default class TopBar extends React.Component<Props, State> {
           isNotMac={isNotMac}
           hasDiscoverdMachine={hasDiscoverdMachine}
           hasDevice={this.deviceList.length > 0}
-          endPreviewMode={this.endPreviewMode}
+          endPreviewMode={endPreviewMode}
           showDeviceList={this.showDeviceList}
         />
         {this.renderDeviceList()}

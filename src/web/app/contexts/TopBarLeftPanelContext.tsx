@@ -1,7 +1,17 @@
 import * as React from 'react';
 
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import TutorialConstants from 'app/constants/tutorial-constants';
 import { IUser } from 'interfaces/IUser';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+let svgEditor;
+getSVGAsync((globalSVG) => {
+  svgEditor = globalSVG.Editor;
+});
 
 export const TopBarLeftPanelContext = React.createContext({});
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
@@ -12,8 +22,9 @@ export interface TopBarLeftPanelContextInterface {
   setTopBarPreviewMode: (topBarPreviewMode: boolean) => void,
   setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void,
   setStartPreviewCallback: (callback: () => void | null) => void,
-  startPreivewCallback: () => void | null,
+  startPreviewCallback: () => void | null,
   setIsPreviewing: () => void;
+  endPreviewMode: () => void;
   currentUser: IUser,
   fileName: string | null,
   selectedElem: Element | null,
@@ -34,7 +45,7 @@ interface State {
 export class TopBarLeftPanelContextProvider extends React.Component<any, State> {
   private isPreviewMode: boolean;
 
-  private startPreivewCallback: () => void | null;
+  private startPreviewCallback: () => void | null;
 
   constructor(props) {
     super(props);
@@ -46,7 +57,7 @@ export class TopBarLeftPanelContextProvider extends React.Component<any, State> 
       currentUser: null,
       isPreviewing: false,
     };
-    this.startPreivewCallback = null;
+    this.startPreviewCallback = null;
   }
 
   componentDidMount() {
@@ -109,9 +120,9 @@ export class TopBarLeftPanelContextProvider extends React.Component<any, State> 
 
   setStartPreviewCallback = (callback: () => void | null): void => {
     if (callback) {
-      this.startPreivewCallback = callback;
+      this.startPreviewCallback = callback;
     } else {
-      this.startPreivewCallback = null;
+      this.startPreviewCallback = null;
     }
   };
 
@@ -123,14 +134,37 @@ export class TopBarLeftPanelContextProvider extends React.Component<any, State> 
     this.setState({ isPreviewing });
   };
 
+  endPreviewMode = (): void => {
+    const { setTopBarPreviewMode, setIsPreviewing } = this;
+    try {
+      if (PreviewModeController.isPreviewMode()) {
+        PreviewModeController.end();
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    } finally {
+      if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
+        TutorialController.handleNextStep();
+      }
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      FnWrapper.useSelectTool();
+      $('#workarea').off('contextmenu');
+      svgEditor.setWorkAreaContextMenu();
+      setTopBarPreviewMode(false);
+      setIsPreviewing(false);
+    }
+  };
+
   render() {
     const {
       updateTopBar,
       setTopBarPreviewMode,
       setShouldStartPreviewController,
       setStartPreviewCallback,
-      startPreivewCallback,
+      startPreviewCallback,
       setIsPreviewing,
+      endPreviewMode,
     } = this;
     const {
       fileName,
@@ -147,8 +181,9 @@ export class TopBarLeftPanelContextProvider extends React.Component<any, State> 
         setTopBarPreviewMode,
         setShouldStartPreviewController,
         setStartPreviewCallback,
-        startPreivewCallback,
+        startPreviewCallback,
         setIsPreviewing,
+        endPreviewMode,
         fileName,
         selectedElem,
         hasUnsavedChange,

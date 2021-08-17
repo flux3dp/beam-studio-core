@@ -1,5 +1,43 @@
+/* eslint-disable import/first */
 import React from 'react';
 import { shallow } from 'enzyme';
+
+const getNextStepRequirement = jest.fn();
+const handleNextStep = jest.fn();
+jest.mock('app/views/tutorials/tutorialController', () => ({
+  getNextStepRequirement,
+  handleNextStep,
+}));
+
+const isPreviewMode = jest.fn();
+const end = jest.fn();
+jest.mock('app/actions/beambox/preview-mode-controller', () => ({
+  isPreviewMode,
+  end,
+}));
+
+jest.mock('app/constants/tutorial-constants', () => ({
+  TO_EDIT_MODE: 'TO_EDIT_MODE',
+}));
+
+const useSelectTool = jest.fn();
+jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
+  useSelectTool,
+}));
+
+const getSVGAsync = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync,
+}));
+
+const setWorkAreaContextMenu = jest.fn();
+getSVGAsync.mockImplementation((callback) => {
+  callback({
+    Editor: {
+      setWorkAreaContextMenu,
+    },
+  });
+});
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
@@ -22,7 +60,7 @@ test('should render correctly', () => {
     currentUser: null,
     isPreviewing: false,
   });
-  expect(wrapper.instance().startPreivewCallback).toBeNull();
+  expect(wrapper.instance().startPreviewCallback).toBeNull();
   expect(fluxIDEventEmitter.eventNames().length).toBe(1);
   expect(topBarEventEmitter.eventNames().length).toBe(7);
 
@@ -53,7 +91,19 @@ test('should render correctly', () => {
 
   const callback = jest.fn();
   topBarEventEmitter.emit('SET_START_PREVIEW_CALLBACK', callback);
-  expect(wrapper.instance().startPreivewCallback).toEqual(callback);
+  expect(wrapper.instance().startPreviewCallback).toEqual(callback);
+
+  isPreviewMode.mockReturnValue(true);
+  getNextStepRequirement.mockReturnValue('TO_EDIT_MODE');
+  wrapper.instance().endPreviewMode();
+  expect(isPreviewMode).toHaveBeenCalledTimes(1);
+  expect(end).toHaveBeenCalledTimes(1);
+  expect(getNextStepRequirement).toHaveBeenCalledTimes(1);
+  expect(handleNextStep).toHaveBeenCalledTimes(1);
+  expect(useSelectTool).toHaveBeenCalledTimes(1);
+  expect(setWorkAreaContextMenu).toHaveBeenCalledTimes(1);
+  expect(wrapper.instance().isPreviewMode).toBeFalsy();
+  expect(wrapper.state().isPreviewing).toBeFalsy();
 
   wrapper.instance().setIsPreviewing(true);
 
