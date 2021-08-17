@@ -14,7 +14,8 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
 import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
-import { TopBarContextProvider } from 'app/contexts/TopBarContext';
+import { TopBarLeftPanelContextProvider } from 'app/contexts/TopBarLeftPanelContext';
+import LeftPanel from 'app/components/beambox/left-panel/LeftPanel';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
@@ -75,9 +76,16 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     const activeLang = i18n.getActiveLang();
     return (
       <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
-        <TopBarContextProvider>
-          <TopBar isPathPreviewing={isPathPreviewing} togglePathPreview={this.togglePathPreview} />
-        </TopBarContextProvider>
+        <TopBarLeftPanelContextProvider>
+          <TopBar
+            isPathPreviewing={isPathPreviewing}
+            togglePathPreview={this.togglePathPreview}
+          />
+          <LeftPanel
+            isPathPreviewing={isPathPreviewing}
+            togglePathPreview={this.togglePathPreview}
+          />
+        </TopBarLeftPanelContextProvider>
         {this.renderTimeEstButton()}
         <SvgEditor isPathPreviewing={isPathPreviewing} />
         {this.renderPathPreview()}
