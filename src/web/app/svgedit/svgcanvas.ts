@@ -34,6 +34,7 @@ import historyRecording from 'app/svgedit/historyrecording';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
+import touchEvents from 'app/svgedit/touchEvents';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -1358,7 +1359,9 @@ export default $.SvgCanvas = function (container, config) {
       clickPoint.y = y;
 
       const originalStrokeWidth = elem.getAttribute('stroke-width');
-      elem.setAttribute('stroke-width', 20);
+      const originalVectorEffect = elem.getAttribute('vector-effect');
+      elem.setAttribute('stroke-width', 20 / current_zoom);
+      elem.removeAttribute('vector-effect');
       if (elem.isPointInStroke(clickPoint)) {
         mouseTarget = elem;
         pointInStroke = true;
@@ -1368,6 +1371,7 @@ export default $.SvgCanvas = function (container, config) {
       } else {
         elem.removeAttribute('stroke-width');
       }
+      if (originalVectorEffect) elem.setAttribute('vector-effect', originalVectorEffect);
       if (pointInStroke) {
         break;
       }
@@ -3132,107 +3136,123 @@ export default $.SvgCanvas = function (container, config) {
 
     // Added mouseup to the container here.
     // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
-    container.addEventListener('mousedown', mouseDown);
-    container.addEventListener('mousemove', mouseMove);
-    container.addEventListener('mouseup', mouseUp);
-    container.addEventListener('mouseenter', mouseEnter);
     container.addEventListener('click', handleLinkInCanvas);
     container.addEventListener('dblclick', dblClick);
+    if (navigator.maxTouchPoints > 1) {
+      const workarea = document.getElementById('workarea');
+      touchEvents.setupCanvasTouchEvents(
+        container,
+        workarea,
+        mouseDown,
+        mouseMove,
+        mouseUp,
+        () => svgCanvas.getZoom(),
+        (zoom, staticPoint) => call('zoomed', {
+          zoomLevel: zoom,
+          staticPoint,
+        }),
+      );
+    } else {
+      container.addEventListener('mousedown', mouseDown);
+      container.addEventListener('mousemove', mouseMove);
+      container.addEventListener('mouseup', mouseUp);
+      container.addEventListener('mouseenter', mouseEnter);
 
-    //TODO(rafaelcastrocouto): User preference for shift key and zoom factor
+      // TODO(rafaelcastrocouto): User preference for shift key and zoom factor
 
-    $(container).bind('wheel DOMMouseScroll', (function () {
-      let targetZoom;
-      let timer;
-      let trigger = Date.now();
+      $(container).bind('wheel DOMMouseScroll', (() => {
+        let targetZoom;
+        let timer;
+        let trigger = Date.now();
 
-      return function (e) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        const evt = e.originalEvent;
-        evt.stopImmediatePropagation();
-        evt.preventDefault();
+        return function onWheel(e) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          const evt = e.originalEvent;
+          evt.stopImmediatePropagation();
+          evt.preventDefault();
 
-        targetZoom = svgCanvas.getZoom();
+          targetZoom = svgCanvas.getZoom();
 
-        const mouseInputDevice = BeamboxPreference.read('mouse_input_device');
-        const isTouchpad = (mouseInputDevice === 'TOUCHPAD');
+          const mouseInputDevice = BeamboxPreference.read('mouse_input_device');
+          const isTouchpad = (mouseInputDevice === 'TOUCHPAD');
 
-        if (isTouchpad) {
-          if (e.ctrlKey) {
-            _zoomAsIllustrator();
-          } else {
-            _panAsIllustrator();
-          }
-        } else {
-          _zoomAsIllustrator();
-          //panning is default behavior when pressing middle button
-        }
-
-        function _zoomProcess() {
-          // End of animation
-          const currentZoom = svgCanvas.getZoom();
-          if ((currentZoom === targetZoom) || (Date.now() - trigger > 500)) {
-            clearInterval(timer);
-            timer = undefined;
-            return;
-          }
-
-          // Calculate next animation zoom level
-          var nextZoom = currentZoom + (targetZoom - currentZoom) / 5;
-
-          if (Math.abs(targetZoom - currentZoom) < 0.005) {
-            nextZoom = targetZoom;
-          }
-
-          const cursorPosition = {
-            x: evt.pageX,
-            y: evt.pageY
-          };
-
-          call('zoomed', {
-            zoomLevel: nextZoom,
-            staticPoint: cursorPosition
-          });
-        }
-
-        function _zoomAsIllustrator() {
-          const delta = (evt.wheelDelta) ? evt.wheelDelta : (evt.detail) ? -evt.detail : 0;
           if (isTouchpad) {
-            targetZoom = targetZoom * 1.1 ** (delta / 100);
+            if (e.ctrlKey) {
+              zoomAsIllustrator();
+            } else {
+              panAsIllustrator();
+            }
           } else {
-            targetZoom = targetZoom * 1.1 ** (delta / 50);
+            zoomAsIllustrator();
+            // panning is default behavior when pressing middle button
           }
 
-          targetZoom = Math.min(20, targetZoom);
-          targetZoom = Math.max(0.1, targetZoom);
-          if ((targetZoom > 19) && (delta > 0)) {
-            return;
+          function zoomProcess() {
+            // End of animation
+            const currentZoom = svgCanvas.getZoom();
+            if ((currentZoom === targetZoom) || (Date.now() - trigger > 500)) {
+              clearInterval(timer);
+              timer = undefined;
+              return;
+            }
+
+            // Calculate next animation zoom level
+            let nextZoom = currentZoom + (targetZoom - currentZoom) / 5;
+
+            if (Math.abs(targetZoom - currentZoom) < 0.005) {
+              nextZoom = targetZoom;
+            }
+
+            const cursorPosition = {
+              x: evt.pageX,
+              y: evt.pageY,
+            };
+
+            call('zoomed', {
+              zoomLevel: nextZoom,
+              staticPoint: cursorPosition,
+            });
           }
 
-          if (!timer) {
-            const interval = 20;
-            timer = setInterval(_zoomProcess, interval);
+          function zoomAsIllustrator() {
+            const delta = (evt.wheelDelta) ? evt.wheelDelta : (evt.detail) ? -evt.detail : 0;
+            if (isTouchpad) {
+              targetZoom *=  1.1 ** (delta / 100);
+            } else {
+              targetZoom *= 1.1 ** (delta / 50);
+            }
+
+            targetZoom = Math.min(20, targetZoom);
+            targetZoom = Math.max(0.1, targetZoom);
+            if ((targetZoom > 19) && (delta > 0)) {
+              return;
+            }
+
+            if (!timer) {
+              const interval = 20;
+              timer = setInterval(zoomProcess, interval);
+            }
+
+            // due to wheel event bug (which zoom gesture will sometimes block all other processes),
+            // we trigger the zoomProcess about every few miliseconds
+            if (Date.now() - trigger > 20) {
+              zoomProcess();
+              trigger = Date.now();
+            }
           }
 
-          // due to wheel event bug (which zoom gesture will sometimes block all other processes), we trigger the zoomProcess about every few miliseconds
-          if (Date.now() - trigger > 20) {
-            _zoomProcess();
-            trigger = Date.now();
+          function panAsIllustrator() {
+            requestAnimationFrame(() => {
+              const scrollLeft = $('#workarea').scrollLeft() + evt.deltaX / 2.0;
+              const scrollTop = $('#workarea').scrollTop() + evt.deltaY / 2.0;
+              $('#workarea').scrollLeft(scrollLeft);
+              $('#workarea').scrollTop(scrollTop);
+            });
           }
-        }
-
-        function _panAsIllustrator() {
-          requestAnimationFrame(() => {
-            const scrollLeft = $('#workarea').scrollLeft() + evt.deltaX / 2.0;
-            const scrollTop = $('#workarea').scrollTop() + evt.deltaY / 2.0;
-            $('#workarea').scrollLeft(scrollLeft);
-            $('#workarea').scrollTop(scrollTop);
-          });
-        }
-      };
-    })());
-
+        };
+      })());
+    }
   })();
 
   canvas.textActions = textActions;
@@ -7646,7 +7666,7 @@ export default $.SvgCanvas = function (container, config) {
       return svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
     }
     // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
-    // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
+  // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
     const attrs = {
       fill: elem.getAttribute('fill'),
       'fill-opacity': elem.getAttribute('fill-opacity'),
@@ -7883,7 +7903,7 @@ export default $.SvgCanvas = function (container, config) {
    * @param {{dx: number, dy: number}} interval
    * @param {{row: number, column: number}} arraySize
    */
-   this.gridArraySelectedElement = clipboard.generateSelectedElementArray;
+  this.gridArraySelectedElement = clipboard.generateSelectedElementArray;
 
   /**
    * Boolean Operate elements
