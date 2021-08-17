@@ -1,21 +1,12 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import * as TutorialController from 'app/views/tutorials/tutorialController';
 import DrawingToolButtonGroup from 'app/components/beambox/left-panel/DrawingToolButtonGroup';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import PreviewToolButtonGroup from 'app/components/beambox/left-panel/PreviewToolButtonGroup';
 import shortcuts from 'helpers/shortcuts';
-import TutorialConstants from 'app/constants/tutorial-constants';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
-
-let svgEditor;
-getSVGAsync((globalSVG) => {
-  svgEditor = globalSVG.Editor;
-});
 
 const LANG = i18n.lang.beambox.left_panel;
 
@@ -99,32 +90,9 @@ class LeftPanel extends React.Component<Props> {
     $('#svg_editor').removeClass('color');
   }
 
-  endPreviewMode = (): void => {
-    const { setTopBarPreviewMode, setIsPreviewing } = this.context;
-    try {
-      if (PreviewModeController.isPreviewMode()) {
-        PreviewModeController.end();
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    } finally {
-      if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
-        TutorialController.handleNextStep();
-      }
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      FnWrapper.useSelectTool();
-      $('#workarea').off('contextmenu');
-      svgEditor.setWorkAreaContextMenu();
-      setTopBarPreviewMode(false);
-      setIsPreviewing(false);
-    }
-  };
-
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.props;
-    const { isPreviewing, setShouldStartPreviewController } = this.context;
-
+    const { isPreviewing, setShouldStartPreviewController, endPreviewMode } = this.context;
     if (!isPreviewing && !isPathPreviewing) {
       return (<DrawingToolButtonGroup className={this.leftPanelClass} />);
     }
@@ -141,7 +109,7 @@ class LeftPanel extends React.Component<Props> {
     return (
       <PreviewToolButtonGroup
         className={this.leftPanelClass}
-        endPreviewMode={this.endPreviewMode}
+        endPreviewMode={endPreviewMode}
         setShouldStartPreviewController={setShouldStartPreviewController}
       />
     );

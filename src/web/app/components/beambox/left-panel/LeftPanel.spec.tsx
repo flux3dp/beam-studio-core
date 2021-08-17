@@ -4,27 +4,9 @@ import $ from 'jquery';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-const getNextStepRequirement = jest.fn();
-const handleNextStep = jest.fn();
-jest.mock('app/views/tutorials/tutorialController', () => ({
-  getNextStepRequirement,
-  handleNextStep,
-}));
-
-const isPreviewMode = jest.fn();
-const end = jest.fn();
-jest.mock('app/actions/beambox/preview-mode-controller', () => ({
-  isPreviewMode,
-  end,
-}));
-
 const on = jest.fn();
 jest.mock('helpers/shortcuts', () => ({
   on,
-}));
-
-jest.mock('app/constants/tutorial-constants', () => ({
-  TO_EDIT_MODE: 'TO_EDIT_MODE',
 }));
 
 const clearSelection = jest.fn();
@@ -64,6 +46,11 @@ jest.mock('app/components/beambox/left-panel/PreviewToolButtonGroup', () => func
   );
 });
 
+const TopBarLeftPanelContext = React.createContext({});
+jest.mock('app/contexts/TopBarLeftPanelContext', () => ({
+  TopBarLeftPanelContext,
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     beambox: {
@@ -75,22 +62,6 @@ jest.mock('helpers/i18n', () => ({
     },
   },
 }));
-
-const getSVGAsync = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync,
-}));
-
-const setWorkAreaContextMenu = jest.fn();
-getSVGAsync.mockImplementation((callback) => {
-  callback({
-    Editor: {
-      setWorkAreaContextMenu,
-    },
-  });
-});
-
-import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
 
 import LeftPanel from './LeftPanel';
 
@@ -108,9 +79,8 @@ describe('should render correctly', () => {
     const wrapper = mount(
       <TopBarLeftPanelContext.Provider value={{
         isPreviewing: false,
-        setTopBarPreviewMode: jest.fn(),
-        setIsPreviewing: jest.fn(),
         setShouldStartPreviewController: jest.fn(),
+        endPreviewMode: jest.fn(),
       }}
       >
         <LeftPanel
@@ -142,14 +112,12 @@ describe('should render correctly', () => {
       <div id="svg_editor" />
     `;
     const setShouldStartPreviewController = jest.fn();
-    const setTopBarPreviewMode = jest.fn();
-    const setIsPreviewing = jest.fn();
+    const endPreviewMode = jest.fn();
     const wrapper = mount(
       <TopBarLeftPanelContext.Provider value={{
         isPreviewing: true,
-        setTopBarPreviewMode,
-        setIsPreviewing,
         setShouldStartPreviewController,
+        endPreviewMode,
       }}
       >
         <LeftPanel
@@ -160,19 +128,8 @@ describe('should render correctly', () => {
     );
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    isPreviewMode.mockReturnValue(true);
-    getNextStepRequirement.mockReturnValue('TO_EDIT_MODE');
     wrapper.find('PreviewToolButtonGroup').props().endPreviewMode();
-    expect(isPreviewMode).toHaveBeenCalledTimes(1);
-    expect(end).toHaveBeenCalledTimes(1);
-    expect(getNextStepRequirement).toHaveBeenCalledTimes(1);
-    expect(handleNextStep).toHaveBeenCalledTimes(1);
-    expect(useSelectTool).toHaveBeenCalledTimes(1);
-    expect(setWorkAreaContextMenu).toHaveBeenCalledTimes(1);
-    expect(setTopBarPreviewMode).toHaveBeenCalledTimes(1);
-    expect(setTopBarPreviewMode).toHaveBeenNthCalledWith(1, false);
-    expect(setIsPreviewing).toHaveBeenCalledTimes(1);
-    expect(setIsPreviewing).toHaveBeenNthCalledWith(1, false);
+    expect(endPreviewMode).toHaveBeenCalledTimes(1);
 
     wrapper.find('PreviewToolButtonGroup').props().setShouldStartPreviewController();
     expect(setShouldStartPreviewController).toHaveBeenCalledTimes(1);
@@ -191,9 +148,8 @@ describe('should render correctly', () => {
     const wrapper = mount(
       <TopBarLeftPanelContext.Provider value={{
         isPreviewing: false,
-        setTopBarPreviewMode: jest.fn(),
-        setIsPreviewing: jest.fn(),
         setShouldStartPreviewController: jest.fn(),
+        endPreviewMode: jest.fn(),
       }}
       >
         <LeftPanel
