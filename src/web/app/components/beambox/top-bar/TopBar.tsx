@@ -22,6 +22,7 @@ import Menu from 'app/components/beambox/top-bar/Menu';
 import Modal from 'app/widgets/Modal';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
+import PreviewButton from 'app/components/beambox/top-bar/PreviewButton';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
@@ -102,43 +103,6 @@ export default class TopBar extends React.Component<Props, State> {
   componentWillUnmount(): void {
     this.discover.removeListener('top-bar');
   }
-
-  renderPreviewButton = (): JSX.Element => {
-    const { isPathPreviewing } = this.props;
-    const { isPreviewing } = this.state;
-    if (isPathPreviewing) return null;
-    const borderless = BeamboxPreference.read('borderless') || false;
-    const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));
-    const previewText = (borderless && supportOpenBottom) ? `${LANG.preview} ${LANG.borderless}` : LANG.preview;
-    return (
-      <div className={classNames('preview-button-container', { previewing: isPreviewing })}>
-        <div className="img-container" onClick={isPreviewing ? this.showCameraPreviewDeviceList : this.changeToPreviewMode}>
-          <img src="img/top-bar/icon-camera.svg" draggable={false} />
-        </div>
-        {isPreviewing ? <div className="title" onClick={() => this.showCameraPreviewDeviceList()}>{previewText}</div> : null}
-      </div>
-    );
-  };
-
-  changeToPreviewMode = (): void => {
-    const { setTopBarPreviewMode } = this.context;
-    svgCanvas.setMode('select');
-
-    $('#workarea').contextMenu({ menu: [] }, () => { });
-    $('#workarea').contextmenu(() => {
-      this.endPreviewMode();
-      return false;
-    });
-    setTopBarPreviewMode(true);
-    const workarea = document.getElementById('workarea');
-    if (workarea) {
-      $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-    }
-    this.setState({ isPreviewing: true });
-    if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
-      TutorialController.handleNextStep();
-    }
-  };
 
   showCameraPreviewDeviceList = (): void => {
     if (!PreviewModeController.isPreviewMode()) {
@@ -416,7 +380,11 @@ export default class TopBar extends React.Component<Props, State> {
     const { isPathPreviewing, togglePathPreview } = this.props;
     const { isPreviewing, hasDiscoverdMachine } = this.state;
     const {
-      setShouldStartPreviewController, fileName, hasUnsavedChange, selectedElem,
+      setShouldStartPreviewController,
+      fileName,
+      hasUnsavedChange,
+      selectedElem,
+      setTopBarPreviewMode,
     } = this.context;
     const { deviceList } = this;
     return (
@@ -430,7 +398,14 @@ export default class TopBar extends React.Component<Props, State> {
         />
         <div className={classNames('top-bar', { win: isNotMac })}>
           <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
-          {this.renderPreviewButton()}
+          <PreviewButton
+            isPreviewing={isPreviewing}
+            isPathPreviewing={isPathPreviewing}
+            showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}
+            endPreviewMode={this.endPreviewMode}
+            setTopBarPreviewMode={setTopBarPreviewMode}
+            enterPreviewMode={() => this.setState({ isPreviewing: true })}
+          />
           <PathPreviewButton
             isPathPreviewing={isPathPreviewing}
             isDeviceConnected={deviceList.length > 0}

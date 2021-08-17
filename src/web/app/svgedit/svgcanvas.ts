@@ -7666,12 +7666,12 @@ export default $.SvgCanvas = function (container, config) {
       return svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
     }
     // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
-  // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
+    // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
     const attrs = {
       fill: elem.getAttribute('fill'),
       'fill-opacity': elem.getAttribute('fill-opacity'),
       stroke: elem.getAttribute('stroke'),
-      'stroke-width': elem.getAttribute('stroke-width'),
+      'stroke-width': elem.getAttribute('stroke-width') || 1,
       'stroke-dasharray': cur_shape.stroke_dasharray,
       'stroke-linejoin': cur_shape.stroke_linejoin,
       'stroke-linecap': cur_shape.stroke_linecap,

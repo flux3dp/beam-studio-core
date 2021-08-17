@@ -27,7 +27,7 @@ import ProgressBar from './ProgressBar';
 
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
-const TOOLS_PANEL_HEIGHT = 95;
+const TOOLS_PANEL_HEIGHT = 100;
 const MAJOR_GRID_SPACING = 50;
 const MINOR_GRID_SPACING = 10;
 const m4Identity = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
@@ -441,7 +441,6 @@ class PathPreview extends React.Component<Props, State> {
   private camera: any;
   private canvas: HTMLCanvasElement;
   private drawCommands: any;
-  private hitTestFrameBuffer: any;
   private grid: any;
   private fingers: any;
   private pointers: any;
