@@ -5,7 +5,6 @@
 import classNames from 'classnames';
 import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';
-
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -19,6 +18,7 @@ import i18n from 'helpers/i18n';
 import Pointable from 'app/components/beambox/path-preview/Pointable';
 import SidePanel from 'app/components/beambox/path-preview/SidePanel';
 import units from 'helpers/units';
+import VersionChecker from 'helpers/version-checker';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
@@ -1086,6 +1086,7 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   private handleStartHere = async (): Promise<void> => {
+    const { workspace } = this.state;
     const device = await dialogCaller.selectDevice();
     if (!device) {
       return;
@@ -1103,7 +1104,19 @@ class PathPreview extends React.Component<Props, State> {
       }
     }
 
-    const { workspace } = this.state;
+    if (workspace.simTime === 0) {
+      const vc = VersionChecker(device.version);
+      if (!vc.meetRequirement('USABLE_VERSION')) {
+        alertCaller.popUp({
+          id: 'fatal-occurred',
+          message: i18n.lang.beambox.popup.should_update_firmware_to_continue,
+          type: alertConstants.SHOW_POPUP_ERROR,
+        });
+        return;
+      }
+      exportFuncs.uploadFcode(device);
+      return;
+    }
 
     const generateTaskThumbnail = async () => {
       const canvas = document.createElement('canvas');
