@@ -1,10 +1,9 @@
 import React from 'react';
-// import Hammer from 'hammerjs';
 
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
-import i18n from 'helpers/i18n';
 import clipboard from 'app/svgedit/operations/clipboard';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import i18n from 'helpers/i18n';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 

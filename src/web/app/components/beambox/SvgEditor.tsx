@@ -1,7 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import i18n from 'helpers/i18n';
 import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
@@ -13,8 +12,6 @@ import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contex
 interface Props {
   isPathPreviewing?: boolean,
 }
-
-const LANG = i18n.lang.beambox;
 export default class SvgEditor extends React.Component<Props> {
   componentDidMount(): void {
     const { $ } = window;
