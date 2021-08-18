@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-import SubMenu from './submenu';
+import SubMenu from './SubMenu';
 
 describe('SubMenu tests', () => {
   it('should render correctly', () => {
