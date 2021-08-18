@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import os from 'implementations/os';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
