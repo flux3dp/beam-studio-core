@@ -15,12 +15,6 @@ describe('SubMenu tests', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
-  it('should render correctly with title', () => {
-    const title = Math.random().toString(36);
-    const wrapper = shallow(<SubMenu title={title} disabled />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-
   it('should render correctly after onMouseEnter', () => {
     const wrapper = mount(<SubMenu title="foo" hoverDelay={0} />);
     wrapper.find('.react-contextmenu-submenu').simulate('mouseEnter');
