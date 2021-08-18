@@ -65,6 +65,17 @@ export default class ContextMenuTrigger extends Component<Props> {
     callIfExists(attributes.onMouseDown, event);
   };
 
+  handleMouseMove = (event: MouseEvent) => {
+    if (this.mouseDownTimeoutId && this.holdStartPosition && event.button === 0) {
+      const { holdThreshold } = this.props;
+      const { x, y } = this.holdStartPosition;
+      const { clientX, clientY } = event;
+      if (Math.hypot(clientX - x, clientY - y) > holdThreshold) {
+        clearTimeout(this.mouseDownTimeoutId);
+      }
+    }
+  };
+
   handleMouseUp = (event) => {
     const { attributes } = this.props;
     if (event.button === 0) {
@@ -87,7 +98,6 @@ export default class ContextMenuTrigger extends Component<Props> {
 
     if (holdToDisplay >= 0 && event.touches.length > 0) {
       event.persist();
-      // event.stopPropagation();
       this.holdStartPosition = {
         x: event.touches[0].pageX,
         y: event.touches[0].pageY,
@@ -108,7 +118,6 @@ export default class ContextMenuTrigger extends Component<Props> {
       const { holdThreshold } = this.props;
       const { x, y } = this.holdStartPosition;
       const touch = event.touches[0];
-      // console.log(Math.hypot(touch.pageX - x, touch.pageY - y));
       if (Math.hypot(touch.pageX - x, touch.pageY - y) > holdThreshold) {
         clearTimeout(this.touchstartTimeoutId);
       }
@@ -198,6 +207,7 @@ export default class ContextMenuTrigger extends Component<Props> {
       onContextMenu: this.handleContextMenu,
       onClick: this.handleMouseClick,
       onMouseDown: this.handleMouseDown,
+      onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
       onTouchStart: this.handleTouchstart,
       onTouchMove: this.handleTouchMove,
