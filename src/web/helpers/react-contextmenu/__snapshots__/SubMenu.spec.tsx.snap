@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubMenu tests should render correctly 1`] = `
+<nav
+  aria-haspopup="true"
+  className="react-contextmenu-item react-contextmenu-submenu"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  role="menuitem"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+  tabIndex={-1}
+>
+  <div
+    className="react-contextmenu-item"
+    onClick={[Function]}
+    onMouseMove={[Function]}
+    onMouseOut={[Function]}
+  >
+    foo
+  </div>
+  <nav
+    className="react-contextmenu"
+    role="menu"
+    style={
+      Object {
+        "left": "100%",
+        "position": "absolute",
+        "top": 0,
+        "transition": "opacity 1ms",
+      }
+    }
+    tabIndex={-1}
+  />
+</nav>
+`;
+
+exports[`SubMenu tests should render correctly after onMouseEnter 1`] = `
+<SubMenu
+  attributes={Object {}}
+  className=""
+  disabled={false}
+  forceClose={[Function]}
+  forceOpen={false}
+  hoverDelay={0}
+  onMouseMove={[Function]}
+  onMouseOut={[Function]}
+  parentKeyNavigationHandler={[Function]}
+  rtl={false}
+  selected={false}
+  title="foo"
+>
+  <nav
+    aria-haspopup="true"
+    className="react-contextmenu-item react-contextmenu-submenu"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    role="menuitem"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+    tabIndex={-1}
+  >
+    <div
+      className="react-contextmenu-item"
+      onClick={[Function]}
+      onMouseMove={[Function]}
+      onMouseOut={[Function]}
+    >
+      foo
+    </div>
+    <nav
+      className="react-contextmenu"
+      role="menu"
+      style={
+        Object {
+          "left": "100%",
+          "position": "absolute",
+          "top": 0,
+          "transition": "opacity 1ms",
+        }
+      }
+      tabIndex={-1}
+    />
+  </nav>
+</SubMenu>
+`;
+
+exports[`SubMenu tests should render correctly after onMouseEnter when disabled 1`] = `
+<SubMenu
+  attributes={Object {}}
+  className=""
+  disabled={true}
+  forceClose={[Function]}
+  forceOpen={false}
+  hoverDelay={0}
+  onMouseMove={[Function]}
+  onMouseOut={[Function]}
+  parentKeyNavigationHandler={[Function]}
+  rtl={false}
+  selected={false}
+  title="foo"
+>
+  <nav
+    aria-haspopup="true"
+    className="react-contextmenu-item react-contextmenu-submenu"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    role="menuitem"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+    tabIndex={-1}
+  >
+    <div
+      className="react-contextmenu-item react-contextmenu-item--disabled"
+      onClick={[Function]}
+      onMouseMove={[Function]}
+      onMouseOut={[Function]}
+    >
+      foo
+    </div>
+    <nav
+      className="react-contextmenu"
+      role="menu"
+      style={
+        Object {
+          "left": "100%",
+          "position": "absolute",
+          "top": 0,
+          "transition": "opacity 1ms",
+        }
+      }
+      tabIndex={-1}
+    />
+  </nav>
+</SubMenu>
+`;
+
+exports[`SubMenu tests should render correctly when disabled 1`] = `
+<nav
+  aria-haspopup="true"
+  className="react-contextmenu-item react-contextmenu-submenu"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  role="menuitem"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+  tabIndex={-1}
+>
+  <div
+    className="react-contextmenu-item react-contextmenu-item--disabled"
+    onClick={[Function]}
+    onMouseMove={[Function]}
+    onMouseOut={[Function]}
+  >
+    foo
+  </div>
+  <nav
+    className="react-contextmenu"
+    role="menu"
+    style={
+      Object {
+        "left": "100%",
+        "position": "absolute",
+        "top": 0,
+        "transition": "opacity 1ms",
+      }
+    }
+    tabIndex={-1}
+  />
+</nav>
+`;
+
+exports[`SubMenu tests should render correctly with title 1`] = `
+<nav
+  aria-haspopup="true"
+  className="react-contextmenu-item react-contextmenu-submenu"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  role="menuitem"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+  tabIndex={-1}
+>
+  <div
+    className="react-contextmenu-item react-contextmenu-item--disabled"
+    onClick={[Function]}
+    onMouseMove={[Function]}
+    onMouseOut={[Function]}
+  >
+    0.4bib0ppwmgr
+  </div>
+  <nav
+    className="react-contextmenu"
+    role="menu"
+    style={
+      Object {
+        "left": "100%",
+        "position": "absolute",
+        "top": 0,
+        "transition": "opacity 1ms",
+      }
+    }
+    tabIndex={-1}
+  />
+</nav>
+`;
