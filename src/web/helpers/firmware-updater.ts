@@ -12,8 +12,20 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 
 export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
   const { lang } = i18n;
-  let onSubmit;
-  let onFinishUpdate;
+
+  const onFinishUpdate = (isSuccess: boolean) => {
+    if (isSuccess === true) {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_INFO,
+        message: lang.update.firmware.update_success,
+      });
+    } else {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: lang.update.firmware.update_fail,
+      });
+    }
+  };
 
   const doUpdate = DeviceMaster.updateFirmware;
 
@@ -29,26 +41,11 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
             percentage,
           });
         });
-        onFinishUpdate.bind(null, true);
+        onFinishUpdate(true);
       } catch (error) {
-        onFinishUpdate.bind(null, false);
+        onFinishUpdate(false);
       }
       Progress.popById('update-firmware');
-    }
-  };
-
-  onFinishUpdate = (isSuccess: boolean) => {
-    console.log('finished update', isSuccess, 'firmware');
-    if (isSuccess === true) {
-      Alert.popUp({
-        type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.update.firmware.update_success,
-      });
-    } else {
-      Alert.popUp({
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        message: lang.update.firmware.update_fail,
-      });
     }
   };
 
@@ -73,17 +70,7 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
     req.send();
   };
 
-  const onInstall = () => {
-    Dialog.showInputLightbox('upload-firmware', {
-      type: InputLightboxConstants.TYPE_FILE,
-      caption: lang.update.firmware.upload_file,
-      confirmText: lang.update.firmware.confirm,
-      onSubmit,
-      onCancel: () => { },
-    });
-  };
-
-  onSubmit = async (files) => {
+  const onSubmit = async (files) => {
     const file = files.item(0);
     const res = await DeviceMaster.select(device);
     if (res.success) {
@@ -96,12 +83,22 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
             percentage,
           });
         });
-        onFinishUpdate.bind(null, true);
+        onFinishUpdate(true);
       } catch (error) {
-        onFinishUpdate.bind(null, false);
+        onFinishUpdate(false);
       }
       Progress.popById('update-firmware');
     }
+  };
+
+  const onInstall = () => {
+    Dialog.showInputLightbox('upload-firmware', {
+      type: InputLightboxConstants.TYPE_FILE,
+      caption: lang.update.firmware.upload_file,
+      confirmText: lang.update.firmware.confirm,
+      onSubmit,
+      onCancel: () => { },
+    });
   };
 
   if (forceUpdate) {

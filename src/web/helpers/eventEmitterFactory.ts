@@ -12,6 +12,7 @@ const eventEmitters = {
   'alert-progress': null,
   'document-panel': null,
   'zoom-block': null,
+  workarea: null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {
