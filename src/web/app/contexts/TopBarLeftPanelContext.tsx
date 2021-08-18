@@ -6,16 +6,11 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { IUser } from 'interfaces/IUser';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-let svgEditor;
-getSVGAsync((globalSVG) => {
-  svgEditor = globalSVG.Editor;
-});
 
 export const TopBarLeftPanelContext = React.createContext({});
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
 const fluxIDEventEmitter = eventEmitterFactory.createEventEmitter('flux-id');
+const workareaEventEmitter = eventEmitterFactory.createEventEmitter('workarea');
 
 export interface TopBarLeftPanelContextInterface {
   updateTopBar: () => void,
@@ -80,7 +75,7 @@ export class TopBarLeftPanelContextProvider extends React.Component<any, State> 
   }
 
   updateTopBar = (): void => {
-    this.setState(this.state);
+    this.forceUpdate();
   };
 
   setHasUnsavedChange = (hasUnsavedChange: boolean): void => {
@@ -150,7 +145,7 @@ export class TopBarLeftPanelContextProvider extends React.Component<any, State> 
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
       $('#workarea').off('contextmenu');
-      svgEditor.setWorkAreaContextMenu();
+      workareaEventEmitter.emit('update-context-menu', { menuDisabled: false });
       setTopBarPreviewMode(false);
       setIsPreviewing(false);
     }

@@ -35,6 +35,14 @@ jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => function DummyRigh
   );
 });
 
+jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
+  return (
+    <div>
+      This is dummy Workarea
+    </div>
+  );
+});
+
 jest.mock('app/components/beambox/ZoomBlock', () => function DummyZoomBlock() {
   return (
     <div>

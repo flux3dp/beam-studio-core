@@ -6,6 +6,7 @@ import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
+import Workarea from 'app/components/beambox/Workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
@@ -56,23 +57,7 @@ export default class SvgEditor extends React.Component<Props> {
           </div>
           <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
         </div>
-        <div id="workarea" className={platformClassNames}>
-          <style
-            id="styleoverrides"
-            type="text/css"
-            media="screen"
-            scoped
-            dangerouslySetInnerHTML={{
-              __html: '',
-            }}
-          />
-          <div
-            id="svgcanvas"
-            style={{
-              position: 'relative',
-            }}
-          />
-        </div>
+        <Workarea className={platformClassNames} />
         <RightPanelContextProvider>
           <RightPanel />
         </RightPanelContextProvider>
@@ -528,44 +513,6 @@ export default class SvgEditor extends React.Component<Props> {
             <div id="dialog_buttons" />
           </div>
         </div>
-        <ul id="cmenu_canvas" className="contextMenu">
-          <li>
-            <a href="#cut" onClick={this.handleDisableHref}>{LANG.context_menu.cut}</a>
-          </li>
-          <li>
-            <a href="#copy" onClick={this.handleDisableHref}>{LANG.context_menu.copy}</a>
-          </li>
-          <li>
-            <a href="#paste" onClick={this.handleDisableHref}>{LANG.context_menu.paste}</a>
-          </li>
-          <li>
-            <a href="#paste_in_place" onClick={this.handleDisableHref}>{LANG.context_menu.paste_in_place}</a>
-          </li>
-          <li>
-            <a href="#duplicate" onClick={this.handleDisableHref}>{LANG.context_menu.duplicate}</a>
-          </li>
-          <li className="separator">
-            <a href="#delete" onClick={this.handleDisableHref}>{LANG.context_menu.delete}</a>
-          </li>
-          <li className="separator">
-            <a href="#group" onClick={this.handleDisableHref}>{LANG.context_menu.group}</a>
-          </li>
-          <li>
-            <a href="#ungroup" onClick={this.handleDisableHref}>{LANG.context_menu.ungroup}</a>
-          </li>
-          <li className="separator">
-            <a href="#move_front" onClick={this.handleDisableHref}>{LANG.context_menu.move_front}</a>
-          </li>
-          <li>
-            <a href="#move_up" onClick={this.handleDisableHref}>{LANG.context_menu.move_up}</a>
-          </li>
-          <li>
-            <a href="#move_down" onClick={this.handleDisableHref}>{LANG.context_menu.move_down}</a>
-          </li>
-          <li>
-            <a href="#move_back" onClick={this.handleDisableHref}>{LANG.context_menu.move_back}</a>
-          </li>
-        </ul>
       </div>
     );
   }

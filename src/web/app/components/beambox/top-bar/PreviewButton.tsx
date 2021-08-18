@@ -4,6 +4,7 @@ import React from 'react';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -14,6 +15,7 @@ getSVGAsync((globalSVG) => {
 });
 
 const LANG = i18n.lang.topbar;
+const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 interface Props {
   isPreviewing: boolean;
@@ -40,7 +42,7 @@ function PreviewButton({
 
   const changeToPreviewMode = (): void => {
     svgCanvas.setMode('select');
-    $('#workarea').contextMenu({ menu: [] }, () => { });
+    workareaEvents.emit('update-context-menu', { menuDisabled: true });
     $('#workarea').contextmenu(() => {
       endPreviewMode();
       return false;
