@@ -25,20 +25,6 @@ jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
   useSelectTool,
 }));
 
-const getSVGAsync = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync,
-}));
-
-const setWorkAreaContextMenu = jest.fn();
-getSVGAsync.mockImplementation((callback) => {
-  callback({
-    Editor: {
-      setWorkAreaContextMenu,
-    },
-  });
-});
-
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 import { TopBarLeftPanelContextProvider } from './TopBarLeftPanelContext';
@@ -101,7 +87,6 @@ test('should render correctly', () => {
   expect(getNextStepRequirement).toHaveBeenCalledTimes(1);
   expect(handleNextStep).toHaveBeenCalledTimes(1);
   expect(useSelectTool).toHaveBeenCalledTimes(1);
-  expect(setWorkAreaContextMenu).toHaveBeenCalledTimes(1);
   expect(wrapper.instance().isPreviewMode).toBeFalsy();
   expect(wrapper.state().isPreviewing).toBeFalsy();
 

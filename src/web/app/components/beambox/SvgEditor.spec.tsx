@@ -78,60 +78,12 @@ import SvgEditor from './SvgEditor';
 
 describe('test svg-editor', () => {
   test('should render correctly in mac', () => {
-    const event = {
-      preventDefault: jest.fn(),
-      stopPropagation: jest.fn(),
-    };
     mockGet.mockReturnValue('inches');
     Object.defineProperty(window, 'os', {
       value: 'MacOS',
     });
     const wrapper = mount(<SvgEditor />);
     expect(toJson(wrapper)).toMatchSnapshot();
-
-    wrapper.find('a[href="#cut"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(1);
-
-    wrapper.find('a[href="#copy"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(2);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(2);
-
-    wrapper.find('a[href="#paste"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(3);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(3);
-
-    wrapper.find('a[href="#paste_in_place"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(4);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(4);
-
-    wrapper.find('a[href="#delete"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(5);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(5);
-
-    wrapper.find('a[href="#group"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(6);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(6);
-
-    wrapper.find('a[href="#ungroup"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(7);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(7);
-
-    wrapper.find('a[href="#move_front"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(8);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(8);
-
-    wrapper.find('a[href="#move_up"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(9);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(9);
-
-    wrapper.find('a[href="#move_down"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(10);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(10);
-
-    wrapper.find('a[href="#move_back"]').simulate('click', event);
-    expect(event.preventDefault).toHaveBeenCalledTimes(11);
-    expect(event.stopPropagation).toHaveBeenCalledTimes(11);
   });
 
   test('should render correctly in win', () => {
