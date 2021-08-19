@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
 import LayerPanel from 'app/views/beambox/Right-Panels/LayerPanel';
-import PathEditPanel from 'app/views/beambox/Right-Panels/Path-Edit-Panel';
+import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { ObjectPanel } from 'app/views/beambox/Right-Panels/Object-Panel';
+import ObjectPanel from 'app/views/beambox/Right-Panels/ObjectPanel';
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
@@ -24,7 +24,7 @@ interface State {
   selectedTab: 'layers' | 'objects',
 }
 
-export class RightPanel extends React.Component<{}, State> {
+export default class RightPanel extends React.Component<{}, State> {
   private lastElement: Element;
 
   private lastMode: string;
@@ -36,7 +36,7 @@ export class RightPanel extends React.Component<{}, State> {
     };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     const { mode, selectedElement } = this.context;
     const { selectedTab } = this.state;
     if (mode === 'element') {
@@ -45,19 +45,17 @@ export class RightPanel extends React.Component<{}, State> {
       } else if (selectedElement && !this.lastElement) {
         this.setState({ selectedTab: 'objects' });
       }
-    } else {
-      if (this.lastMode !== mode) {
-        this.setState({ selectedTab: 'objects' });
-      }
+    } else if (this.lastMode !== mode) {
+      this.setState({ selectedTab: 'objects' });
     }
     this.lastMode = mode;
     this.lastElement = selectedElement;
   }
 
-  renderTabs() {
+  renderTabs(): JSX.Element {
     const {
       mode,
-      selectedElement
+      selectedElement,
     } = this.context;
     const { selectedTab } = this.state;
     const isObjectDisabled = (mode === 'element' && (!selectedElement || selectedElement.length < 1));
@@ -68,18 +66,16 @@ export class RightPanel extends React.Component<{}, State> {
     } else if (mode === 'element' && selectedElement) {
       if (selectedElement.getAttribute('data-tempgroup') === 'true') {
         objectTitle = LangTopBar.tag_names.multi_select;
+      } else if (selectedElement.getAttribute('data-textpath-g')) {
+        objectTitle = LangTopBar.tag_names.text_path;
+      } else if (selectedElement.tagName !== 'use') {
+        objectTitle = LangTopBar.tag_names[selectedElement.tagName];
+      } else if (selectedElement.getAttribute('data-svg') === 'true') {
+        objectTitle = LangTopBar.tag_names.svg;
+      } else if (selectedElement.getAttribute('data-dxf') === 'true') {
+        objectTitle = LangTopBar.tag_names.dxf;
       } else {
-        if (selectedElement.tagName !== 'use') {
-          objectTitle = LangTopBar.tag_names[selectedElement.tagName];
-        } else {
-          if (selectedElement.getAttribute('data-svg') === 'true') {
-            objectTitle = LangTopBar.tag_names.svg;
-          } else if (selectedElement.getAttribute('data-dxf') === 'true') {
-            objectTitle = LangTopBar.tag_names.dxf;
-          } else {
-            objectTitle = LangTopBar.tag_names.use;
-          }
-        }
+        objectTitle = LangTopBar.tag_names.use;
       }
     }
     return (
@@ -101,7 +97,8 @@ export class RightPanel extends React.Component<{}, State> {
         </div>
         <div
           className={classNames('tab', 'objects', { disabled: isObjectDisabled, selected: selectedTab === 'objects' })}
-          onClick={() => { if (!isObjectDisabled) this.setState({ selectedTab: 'objects' }) }}>
+          onClick={isObjectDisabled ? null : () => this.setState({ selectedTab: 'objects' })}
+        >
           <img className="tab-icon object" src="img/right-panel/icon-adjust.svg" draggable={false} />
           <div className="tab-title">
             {objectTitle}
@@ -111,7 +108,7 @@ export class RightPanel extends React.Component<{}, State> {
     );
   }
 
-  renderLayerAndLaserPanel() {
+  renderLayerAndLaserPanel(): JSX.Element {
     const { selectedElement } = this.context;
     return (
       <LayerPanelContextProvider>
@@ -122,7 +119,7 @@ export class RightPanel extends React.Component<{}, State> {
     );
   }
 
-  renderObjectPanel() {
+  renderObjectPanel(): JSX.Element {
     const { selectedElement } = this.context;
     return (
       <ObjectPanel
@@ -131,29 +128,20 @@ export class RightPanel extends React.Component<{}, State> {
     );
   }
 
-  renderPathEditPanel() {
-    return (
-      <PathEditPanel />
-    );
-  }
-
-  render() {
+  render(): JSX.Element {
     const { mode, selectedElement } = this.context;
     const { selectedTab } = this.state;
     let content;
     if (selectedTab === 'layers') {
       content = this.renderLayerAndLaserPanel();
+    } else if (mode === 'path-edit') {
+      content = <PathEditPanel />;
+    } else if (!selectedElement || selectedElement.length < 1) { // element mode
+      content = this.renderLayerAndLaserPanel();
     } else {
-      if (mode === 'path-edit') {
-        content = this.renderPathEditPanel();
-      } else { // element mode
-        if (!selectedElement || selectedElement.length < 1) {
-          content = this.renderLayerAndLaserPanel();
-        } else {
-          content = this.renderObjectPanel();
-        }
-      }
+      content = this.renderObjectPanel();
     }
+
     return (
       <div id="right-panel">
         <div id="sidepanels" className={classNames({ win: isWin, linux: isLinux })}>

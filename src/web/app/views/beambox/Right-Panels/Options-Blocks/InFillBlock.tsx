@@ -13,6 +13,7 @@ getSVGAsync((globalSVG) => {
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
 interface Props {
+  label?: string;
   id?:string
   elem: Element;
 }
@@ -24,7 +25,7 @@ interface State {
 }
 
 class InFillBlock extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { elem } = props;
     const isFillable = svgCanvas.isElemFillable(elem);
@@ -36,7 +37,7 @@ class InFillBlock extends React.Component<Props, State> {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props): void {
     const lastElem = prevProps.elem;
     const lastId = lastElem.getAttribute('id');
     const { elem } = this.props;
@@ -51,7 +52,7 @@ class InFillBlock extends React.Component<Props, State> {
     }
   }
 
-  onClick = () => {
+  onClick = (): void => {
     const { isAnyFilled } = this.state;
     const { elem } = this.props;
     if (isAnyFilled) {
@@ -65,8 +66,8 @@ class InFillBlock extends React.Component<Props, State> {
     });
   };
 
-  render() {
-    const { elem } = this.props;
+  render(): JSX.Element {
+    const { elem, label = LANG.fill } = this.props;
     const { isAnyFilled, isAllFilled, isFillable } = this.state;
     const isPartiallyFilled = isAnyFilled && !isAllFilled;
     if (!isFillable) {
@@ -74,7 +75,7 @@ class InFillBlock extends React.Component<Props, State> {
     }
     return (
       <div className="option-block" key="infill">
-        <div className="label">{LANG.fill}</div>
+        <div className="label">{label}</div>
         <div id="infill" className={classNames('onoffswitch', { 'partially-filled': elem.tagName === 'g' && isPartiallyFilled })} onClick={() => this.onClick()}>
           <input type="checkbox" className="onoffswitch-checkbox" checked={isAnyFilled || false} readOnly />
           <label className="onoffswitch-label">

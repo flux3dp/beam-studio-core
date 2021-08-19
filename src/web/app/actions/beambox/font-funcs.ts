@@ -13,6 +13,7 @@ import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
+import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
 import { IFont, IFontQuery } from 'interfaces/IFont';
@@ -375,6 +376,11 @@ const convertTextToPathFluxsvg = async (
     const { nextSibling } = textElement;
     const elem = parent.removeChild(textElement);
     batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
+
+    if (textElement.getAttribute('data-textpath')) {
+      const cmd = textPathEdit.ungroupTextPath(parent as SVGGElement);
+      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+    }
 
     if (!batchCmd.isEmpty()) {
       svgCanvas.undoMgr.addCommandToHistory(batchCmd);

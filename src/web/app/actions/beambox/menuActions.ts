@@ -47,12 +47,12 @@ const loadExampleFile = async (path: string) => {
 };
 
 export default {
-  PREFERENCE: async () => {
+  PREFERENCE: async (): Promise<void> => {
     Dialog.clearAllDialogComponents();
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
     if (res) window.location.hash = '#studio/settings';
   },
-  OPEN: () => {
+  OPEN: (): void => {
     FnWrapper.importImage();
   },
   ADD_NEW_MACHINE: async () => {

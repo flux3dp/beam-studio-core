@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly image 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <ImageOptions
+    elem={
+      <img
+        id="image"
+      />
+    }
+    updateObjectPanel={[MockFunction]}
+  />
+</div>
+`;
+
+exports[`should render correctly no element 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+</div>
+`;
+
+exports[`should render correctly others 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <DummyInFillBlock
+    elem={
+      <xxx
+        id="xxx"
+      />
+    }
+  />
+</div>
+`;
+
+exports[`should render correctly polygon desktop version 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <DummyInFillBlock
+    elem={
+      <polygon
+        id="polygon"
+      />
+    }
+  />
+</div>
+`;
+
+exports[`should render correctly polygon web version 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <PolygonOptions
+    elem={
+      <polygon
+        id="polygon"
+      />
+    }
+    polygonSides={8}
+  />
+</div>
+`;
+
+exports[`should render correctly rect 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <RectOptions
+    elem={
+      <rect
+        id="rect"
+      />
+    }
+    rx={null}
+    updateDimensionValues={[MockFunction]}
+  />
+</div>
+`;
+
+exports[`should render correctly text 1`] = `
+<div
+  className="options-panel"
+>
+  <div
+    className="title"
+  >
+    OPTIONS
+  </div>
+  <TextOptions
+    elem={
+      <text
+        id="text"
+      />
+    }
+    textElement={
+      <text
+        id="text"
+      />
+    }
+    updateDimensionValues={[MockFunction]}
+    updateObjectPanel={[MockFunction]}
+  />
+</div>
+`;

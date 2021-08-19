@@ -9,7 +9,6 @@ declare global {
     electron?: {
       ipc: any,
       events: { [key: string]: string; },
-      trigger_file_input_click: (inputId: string) => void,
       remote: any,
     },
     FLUX: {
@@ -31,6 +30,8 @@ declare global {
     svgCanvas: any,
     svgEditor: any,
     titlebar?: any,
+    polygonAddSides: () => void;
+    polygonDecreaseSides: () => void;
   }
 }
 
@@ -47,5 +48,23 @@ Object.defineProperty(window, 'FLUX', {
 });
 Object.defineProperty(window, 'electron', {
   value: {},
+  writable: true,
+});
+Object.defineProperty(window, 'svgedit', {
+  value: {
+    NS: {
+      HTML: 'http://www.w3.org/1999/xhtml',
+      MATH: 'http://www.w3.org/1998/Math/MathML',
+      SE: 'http://svg-edit.googlecode.com',
+      SVG: 'http://www.w3.org/2000/svg',
+      XLINK: 'http://www.w3.org/1999/xlink',
+      XML: 'http://www.w3.org/XML/1998/namespace',
+      XMLNS: 'http://www.w3.org/2000/xmlns/',
+      INKSCAPE: 'http://www.inkscape.org/namespaces/inkscape',
+    },
+    browser: {
+      isTouch: () => false,
+    },
+  },
   writable: true,
 });

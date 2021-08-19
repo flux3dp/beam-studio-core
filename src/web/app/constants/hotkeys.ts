@@ -1,206 +1,87 @@
+const isMacOs = window.os === 'MacOS';
+
 export default {
+  add_new_machine: {
+    action: 'ADD_NEW_MACHINE',
+    shortcut: isMacOs ? 'option+n' : 'alt+n',
+    representation: isMacOs ? '⌥N' : 'Alt+N',
+  },
   cut: {
     action: 'CUT',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+x',
-        representation: '⌘X',
-      },
-      Windows: {
-        shortcut: 'ctrl+x',
-        representation: 'Ctrl+X',
-      },
-    },
+    shortcut: isMacOs ? 'command+x' : 'ctrl+x',
+    representation: isMacOs ? '⌘X' : 'Ctrl+X',
   },
   copy: {
     action: 'COPY',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+c',
-        representation: '⌘C',
-      },
-      Windows: {
-        shortcut: 'ctrl+c',
-        representation: 'Ctrl+C',
-      },
-    },
+    shortcut: isMacOs ? 'command+c' : 'ctrl+c',
+    representation: isMacOs ? '⌘C' : 'Ctrl+C',
   },
   paste: {
     action: 'PASTE',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+v',
-        representation: '⌘V',
-      },
-      Windows: {
-        shortcut: 'ctrl+v',
-        representation: 'Ctrl+V',
-      },
-    },
+    shortcut: isMacOs ? 'command+v' : 'ctrl+v',
+    representation: isMacOs ? '⌘V' : 'Ctrl+V',
   },
   paste_in_place: {
     action: 'PASTE_IN_PLACE',
-    keyboard: {
-      MacOS: {
-        shortcut: 'shift+command+v',
-        representation: '⇧⌘V',
-      },
-      Windows: {
-        shortcut: 'shift+ctrl+v',
-        representation: 'Shift+Ctrl+V',
-      },
-    },
+    shortcut: isMacOs ? 'shift+command+v' : 'shift+ctrl+v',
+    representation: isMacOs ? '⇧⌘V' : 'Shift+Ctrl+V',
   },
   duplicate: {
     action: 'DUPLICATE',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+d',
-        representation: '⌘D',
-      },
-      Windows: {
-        shortcut: 'ctrl+d',
-        representation: 'Ctrl+D',
-      },
-    },
+    shortcut: isMacOs ? 'command+d' : 'ctrl+d',
+    representation: isMacOs ? '⌘D' : 'Ctrl+D',
   },
   clear_scene: {
     action: 'CLEAR_SCENE',
-    keyboard: {
-      MacOS: {
-        shortcut: 'shift+command+x',
-        representation: '⇧⌘X',
-      },
-      Windows: {
-        shortcut: 'shift+ctrl+x',
-        representation: 'Shift+Ctrl+X',
-      },
-    },
+    shortcut: isMacOs ? 'shift+command+x' : 'shift+ctrl+x',
+    representation: isMacOs ? '⇧⌘X' : 'Shift+Ctrl+X',
   },
   zoom_in: {
     action: 'ZOOM_IN',
-    keyboard: {
-      MacOS: {
-        representation: '⌘+',
-      },
-      Windows: {
-        representation: 'Ctrl+=',
-      },
-    },
+    representation: isMacOs ? '⌘+' : 'Ctrl+=',
   },
   zoom_out: {
     action: 'ZOOM_OUT',
-    keyboard: {
-      MacOS: {
-        representation: '⌘-',
-      },
-      Windows: {
-        representation: 'Ctrl+-',
-      },
-    },
+    representation: isMacOs ? '⌘-' : 'Ctrl+-',
   },
   undo: {
     action: 'UNDO',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+z',
-        representation: '⌘Z',
-      },
-      Windows: {
-        shortcut: 'ctrl+z',
-        representation: 'Ctrl+Z',
-      },
-    },
+    shortcut: isMacOs ? 'command+z' : 'ctrl+z',
+    representation: isMacOs ? '⌘Z' : 'Ctrl+Z',
   },
   redo: {
     action: 'REDO',
-    keyboard: {
-      MacOS: {
-        shortcut: 'shift+command+z',
-        representation: '⇧⌘Z',
-      },
-      Windows: {
-        shortcut: 'shift+ctrl+z',
-        representation: 'Shift+Ctrl+Z',
-      },
-    },
+    shortcut: isMacOs ? 'shift+command+z' : 'shift+ctrl+z',
+    representation: isMacOs ? '⇧⌘Z' : 'Shift+Ctrl+Z',
   },
   group: {
     action: 'GROUP',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+g',
-        representation: '⌘G',
-      },
-      Windows: {
-        shortcut: 'ctrl+g',
-        representation: 'Ctrl+G',
-      },
-    },
+    shortcut: isMacOs ? 'command+g' : 'ctrl+g',
+    representation: isMacOs ? '⌘G' : 'Ctrl+G',
   },
   ungroup: {
     action: 'UNGROUP',
-    keyboard: {
-      MacOS: {
-        shortcut: 'shift+command+g',
-        representation: '⇧⌘G',
-      },
-      Windows: {
-        shortcut: 'shift+ctrl+g',
-        representation: 'Shift+Ctrl+G',
-      },
-    },
+    shortcut: isMacOs ? 'shift+command+g' : 'shift+ctrl+g',
+    representation: isMacOs ? '⇧⌘G' : 'Shift+Ctrl+G',
   },
   preferences: {
     action: 'PREFERENCE',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+k',
-        representation: '⌘K',
-      },
-      Windows: {
-        shortcut: 'ctrl+k',
-        representation: 'Ctrl+K',
-      },
-    },
+    shortcut: isMacOs ? 'command+k' : 'ctrl+k',
+    representation: isMacOs ? '⌘K' : 'Ctrl+K',
   },
   save_scene: {
     action: 'SAVE_SCENE',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+s',
-        representation: '⌘S',
-      },
-      Windows: {
-        shortcut: 'ctrl+s',
-        representation: 'Ctrl+S',
-      },
-    },
+    shortcut: isMacOs ? 'command+s' : 'ctrl+s',
+    representation: isMacOs ? '⌘S' : 'Ctrl+S',
   },
   save_as: {
     action: 'SAVE_AS',
-    keyboard: {
-      MacOS: {
-        shortcut: 'shift+command+s',
-        representation: '⇧⌘S',
-      },
-      Windows: {
-        shortcut: 'shift+ctrl+s',
-        representation: 'Shift+Ctrl+S',
-      },
-    },
+    shortcut: isMacOs ? 'shift+command+s' : 'shift+ctrl+s',
+    representation: isMacOs ? '⇧⌘S' : 'Shift+Ctrl+S',
   },
   export_flux_task: {
     action: 'EXPORT_FLUX_TASK',
-    keyboard: {
-      MacOS: {
-        shortcut: 'command+e',
-        representation: '⌘E',
-      },
-      Windows: {
-        shortcut: 'ctrl+e',
-        representation: 'Ctrl+E',
-      },
-    },
+    shortcut: isMacOs ? 'command+e' : 'ctrl+e',
+    representation: isMacOs ? '⌘E' : 'Ctrl+E',
   },
 };

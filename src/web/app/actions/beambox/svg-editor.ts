@@ -24,8 +24,10 @@ TODOS
 */
 import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
+import svgCanvasClass from 'app/svgedit/svgcanvas';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
+import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -56,11 +58,10 @@ import SymbolMaker from 'helpers/symbol-maker';
 import i18n from 'helpers/i18n';
 import AlertConfig from 'helpers/api/alert-config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
 import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
-
-import svgCanvasClass from 'app/svgedit/svgcanvas';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -70,6 +71,8 @@ const LANG = i18n.lang.beambox;
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 // TODO: change to require('svgedit')
 const { svgedit, $ } = window;
+
+const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 declare global {
   interface JQueryStatic {
@@ -91,9 +94,6 @@ declare global {
     SpinButton(options: any): JQuery
     slider(arg0?: any, arg1?: any, arg3?: any): JQuery
     draggable(options: any): JQuery
-    enableContextMenuItems(options: any): JQuery
-    disableContextMenuItems(options: any): JQuery
-    disableContextMenu(): JQuery
     contextMenu: any
     jGraduate: any
   }
@@ -126,7 +126,6 @@ interface ISVGEditor {
   setImageURL: (url: any) => void
   setLang: (lang: any, allStrings: any) => void
   setPanning: (active: any) => void
-  setWorkAreaContextMenu: () => void
   storage: IStorage
   toolButtonClick: (button: any, noHiding: any) => boolean
   updateRulers: () => void
@@ -279,7 +278,6 @@ const svgEditor = window['svgEditor'] = (function () {
     setImageURL: (url: any) => { },
     setLang: (lang: any, allStrings: any) => { },
     setPanning: (active: any) => { },
-    setWorkAreaContextMenu: () => { },
     storage: storage,
     toolButtonClick: (button: any, noHiding: any) => { return false },
     updateRulers: () => { },
@@ -959,7 +957,6 @@ const svgEditor = window['svgEditor'] = (function () {
       undoMgr = svgCanvas.undoMgr,
       defaultImageURL = curConfig.imgPath + 'logo.png',
       workarea = $('#workarea'),
-      canv_menu = $('#cmenu_canvas'),
       // layer_menu = $('#cmenu_layers'), // Unused
       exportWindow = null,
       zoomInIcon = 'crosshair',
@@ -1743,12 +1740,11 @@ const svgEditor = window['svgEditor'] = (function () {
         // RightPanelController.setSelectedElement(null);
         TopBarController.setElement(null);
       } else {
-        RightPanelController.toElementMode();
         RightPanelController.setSelectedElement(elem);
+        RightPanelController.toElementMode();
         TopBarController.setElement(elem);
       }
       LayerPanelController.updateLayerPanel();
-      var menu_items = $('#cmenu_canvas li');
       /*
       $('#selected_panel, #multiselected_panel, #g_panel, #rect_panel, #circle_panel,' +
       '#ellipse_panel, #line_panel, #text_panel, #image_panel, #container_panel,' +
@@ -1885,12 +1881,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
           switch (el_name) {
             case 'text':
-              $('#text_panel').css('display', 'inline');
-              // TODO: Check the elem type if it's really svg text element
-              const textElem: SVGTextElement = elem;
-              let multiLineTextContent = Array.from(textElem.childNodes).map(child => child.textContent).join('\x0b');
-              const textInput = document.getElementById('text') as HTMLInputElement;
-              textInput.value = multiLineTextContent;
               if (svgCanvas.addedNew) {
                 // Timeout needed for IE9
                 setTimeout(function () {
@@ -1929,23 +1919,29 @@ const svgEditor = window['svgEditor'] = (function () {
         }
 
         if (svgCanvas.getTempGroup()) {
-          menu_items
-            .enableContextMenuItems('#group')
-            .disableContextMenuItems('#ungroup');
+          workareaEvents.emit('update-context-menu', {
+            group: true,
+            ungroup: false,
+          });
         } else {
-          menu_items[(el_name === 'g' ? 'en' : 'dis') + 'ableContextMenuItems']('#ungroup');
-          menu_items[((el_name === 'g' || !multiselected) ? 'dis' : 'en') + 'ableContextMenuItems']('#group');
+          workareaEvents.emit('update-context-menu', {
+            group: multiselected && el_name !== 'g',
+            ungroup: el_name === 'g',
+          });
         }
         const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true';
         ObjectPanelController.updateDimensionValues({ isRatioFixed });
       } // if (elem != null)
       else if (multiselected) {
         //$('#multiselected_panel').show();
-        menu_items
-          .enableContextMenuItems('#group')
-          .disableContextMenuItems('#ungroup');
+        workareaEvents.emit('update-context-menu', {
+          group: true,
+          ungroup: false,
+        });
       } else {
-        menu_items.disableContextMenuItems('#delete,#cut,#copy,#duplicate,#group,#ungroup,#move_front,#move_up,#move_down,#move_back');
+        workareaEvents.emit('update-context-menu', {
+          select: false,
+        });
       }
 
       svgCanvas.addedNew = false;
@@ -1955,7 +1951,9 @@ const svgEditor = window['svgEditor'] = (function () {
         $('#selLayerNames').removeAttr('disabled').val(currentLayerName);
         displayChangeLayerBlock(true);
         // Enable regular menu options
-        canv_menu.enableContextMenuItems('#delete,#cut,#copy,#duplicate,#move_front,#move_up,#move_down,#move_back');
+        workareaEvents.emit('update-context-menu', {
+          select: true,
+        });
       } else {
         $('#selLayerNames').attr('disabled', 'disabled');
         displayChangeLayerBlock(false);
@@ -2014,6 +2012,9 @@ const svgEditor = window['svgEditor'] = (function () {
         selectedElement: selectedElement,
         multiselected: multiselected
       });
+      if (elems.length === 1 && elems[0].tagName === 'polygon') {
+        ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
+      }
     };
 
     // Call when part of element is in process of changing, generally
@@ -3435,7 +3436,6 @@ const svgEditor = window['svgEditor'] = (function () {
         }
         on_button = false;
       }).mousedown(function (evt) {
-        //					$('.contextMenu').hide();
         var islib = $(evt.target).closest('div.tools_flyout, .contextMenu').length;
         if (!islib) {
           $('.tools_flyout:visible,.contextMenu').fadeOut(250);
@@ -3736,7 +3736,7 @@ const svgEditor = window['svgEditor'] = (function () {
         deleteSelectedElements();
       }
       if (svgedit.path.path) {
-        svgedit.path.path.onDelete();
+        svgedit.path.path.onDelete(textEdit, textPathEdit);
       }
     };
     editor.deleteSelected = deleteSelected;
@@ -3748,7 +3748,9 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       if (!textActions.isEditing && (selectedElement != null || multiselected)) {
         clipboard.cutSelectedElements();
-        canv_menu.enableContextMenuItems('#paste,#paste_in_place');
+        workareaEvents.emit('update-context-menu', {
+          paste: true,
+        });
       }
     };
     editor.cutSelected = cutSelected;
@@ -3761,7 +3763,9 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       if (!textActions.isEditing && (selectedElement != null || multiselected)) {
         clipboard.copySelectedElements();
-        canv_menu.enableContextMenuItems('#paste,#paste_in_place');
+        workareaEvents.emit('update-context-menu', {
+          paste: true,
+        });
       }
     };
     editor.copySelected = copySelected;
@@ -4840,10 +4844,12 @@ const svgEditor = window['svgEditor'] = (function () {
           // +
           Shortcuts.on(['plus'], () => {
             window['polygonAddSides']();
+            ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           // -
           Shortcuts.on(['minus'], () => {
             window['polygonDecreaseSides']();
+            ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           Shortcuts.on(['esc'], clickSelect);
 
@@ -4917,61 +4923,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     Actions.setAll();
 
-    editor.setWorkAreaContextMenu = function () {
-      $('#workarea').contextMenu({
-        menu: 'cmenu_canvas',
-        inSpeed: 0
-      },
-        function (action, el, pos) {
-          switch (action) {
-            case 'delete':
-              deleteSelected();
-              break;
-            case 'cut':
-              cutSelected();
-              break;
-            case 'copy':
-              copySelected();
-              break;
-            case 'duplicate':
-              svgCanvas.cloneSelectedElements(20, 20);
-              break;
-            case 'paste':
-              clipboard.pasteElements('mouse');
-              break;
-            case 'paste_in_place':
-              clipboard.pasteElements('in_place');
-              break;
-            case 'group':
-            case 'group_elements':
-              svgCanvas.groupSelectedElements();
-              break;
-            case 'ungroup':
-              svgCanvas.ungroupSelectedElement();
-              break;
-            case 'move_front':
-              moveTopSelectedElement();
-              break;
-            case 'move_up':
-              moveUpSelectedElement();
-              break;
-            case 'move_down':
-              moveDownSelectedElement();
-              break;
-            case 'move_back':
-              moveBottomSelectedElement();
-              break;
-            default:
-              console.warn('Unknown contextmenu action:', action);
-              break;
-          }
-          if (clipboard.getCurrentClipboard()) {
-            canv_menu.enableContextMenuItems('#paste,#paste_in_place');
-          }
-        }
-      );
-    }
-
     // Select given tool
     editor.ready(function () {
       var tool,
@@ -5021,14 +4972,6 @@ const svgEditor = window['svgEditor'] = (function () {
       step: 5,
       callback: changeOpacity
     });
-
-    editor.setWorkAreaContextMenu()
-
-    $('.contextMenu li').mousedown(function (ev) {
-      ev.preventDefault();
-    });
-
-    $('#cmenu_canvas li').disableContextMenu();
 
     window.addEventListener('beforeunload', function (e) {
       // Suppress warning if page is empty

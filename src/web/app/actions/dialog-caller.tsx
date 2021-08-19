@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import AboutBeamStudio from 'app/views/beambox/AboutBeamStudio';
-import ChangeLogDialog from 'app/views/dialogs/ChangeLogDialog';
+import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import ChangeLog from 'app/components/dialogs/ChangeLog';
 import ConfirmPrompt from 'app/views/dialogs/ConfirmPrompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentPanel from 'app/views/beambox/DocumentPanel/DocumentPanel';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
-import FluxIdLogin from 'app/views/FluxIdLogin';
+import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
@@ -16,9 +16,9 @@ import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';
-import RatingPanel from 'app/views/beambox/RatingPanel';
+import RatingPanel from 'app/components/dialogs/RatingPanel';
 import SvgNestButtons from 'app/views/beambox/Svg-Nest-Buttons';
-import UpdateDialog from 'app/views/UpdateDialog';
+import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -208,7 +208,7 @@ export default {
     if (isIdExist('change-log')) return;
     const { callback } = args;
     addDialogComponent('change-log',
-      <ChangeLogDialog
+      <ChangeLog
         onClose={() => {
           popDialogById('change-log');
           if (callback) callback();
@@ -259,7 +259,7 @@ export default {
         onClose={() => popDialogById(id)}
       />);
   },
-  showUpdateDialog: (
+  showFirmwareUpdateDialog: (
     device: IDeviceInfo,
     updateInfo: {
       changelog_en: string,
@@ -273,7 +273,7 @@ export default {
     const { name, model, version } = device;
     const releaseNode = i18n.getActiveLang() === 'zh-tw' ? updateInfo.changelog_zh : updateInfo.changelog_en;
     addDialogComponent('update-dialog',
-      <UpdateDialog
+      <FirmwareUpdate
         deviceName={name}
         deviceModel={model}
         currentVersion={version}

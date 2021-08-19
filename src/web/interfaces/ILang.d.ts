@@ -21,6 +21,7 @@ export interface ILang {
       polygon: string,
       image: string,
       text: string,
+      text_path: string,
       line: string,
       g: string,
       multi_select: string,
@@ -52,7 +53,6 @@ export interface ILang {
       edit: string;
       help: string;
       open: string;
-      recent: string;
       samples: string;
       import_hello_beamo: string;
       import_hello_beambox: string;
@@ -116,7 +116,6 @@ export interface ILang {
       forum: string;
       software_update: string;
       bug_report: string;
-      dev_tool: string;
       dashboard: string;
       machine_info: string;
       network_testing: string;
@@ -700,12 +699,17 @@ export interface ILang {
         option_panel: {
           fill: string,
           rounded_corner: string,
+          sides: string,
           font_family: string,
           font_style: string,
           font_size: string,
           letter_spacing: string,
           line_spacing: string,
           vertical_text: string,
+          start_offset: string,
+          vertical_align: string,
+          text_infill: string,
+          path_infill: string,
           shading: string,
           threshold: string,
         },
@@ -725,6 +729,9 @@ export interface ILang {
           disassemble_use: string,
           disassembling: string,
           ungrouping: string,
+          create_textpath: string,
+          detach_path: string,
+          edit_path: string,
         },
         path_edit_panel: {
           node_type: string,
@@ -882,7 +889,26 @@ export interface ILang {
     units: {
       walt: string,
       mm: string,
-    }
+    },
+    path_preview: {
+      play: string,
+      pause: string,
+      stop: string,
+      play_speed: string,
+      travel_path: string,
+      invert: string,
+      preview_info: string,
+      size: string,
+      estimated_time: string,
+      cut_time: string,
+      rapid_time: string,
+      cut_distance: string,
+      rapid_distance: string,
+      current_position: string,
+      remark: string,
+      start_here: string,
+      end_preview: string,
+    },
   },
   flux_id_login: {
     connection_fail: string,

@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div
+  className="option-block"
+>
+  <div
+    className="label"
+  >
+    Vertical Align
+  </div>
+  <div
+    className="select-container"
+  >
+    <select
+      onChange={[Function]}
+      value={0}
+    >
+      <option
+        key="0"
+        value={0}
+      />
+      <option
+        key="1"
+        value={1}
+      />
+      <option
+        key="2"
+        value={2}
+      />
+    </select>
+  </div>
+</div>
+`;
+
+exports[`should render correctly 2`] = `
+<div
+  className="option-block"
+>
+  <div
+    className="label"
+  >
+    Vertical Align
+  </div>
+  <div
+    className="select-container"
+  >
+    <select
+      onChange={[Function]}
+      value={0}
+    >
+      <option
+        key="0"
+        value={0}
+      />
+      <option
+        key="1"
+        value={1}
+      />
+      <option
+        key="2"
+        value={2}
+      />
+    </select>
+  </div>
+</div>
+`;
+
+exports[`should render correctly 3`] = `
+<div
+  className="option-block"
+>
+  <div
+    className="label"
+  >
+    Vertical Align
+  </div>
+  <div
+    className="select-container"
+  >
+    <select
+      onChange={[Function]}
+      value={0}
+    >
+      <option
+        key="0"
+        value={0}
+      />
+      <option
+        key="1"
+        value={1}
+      />
+      <option
+        key="2"
+        value={2}
+      />
+    </select>
+  </div>
+</div>
+`;

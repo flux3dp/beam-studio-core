@@ -3,6 +3,7 @@ import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
+import { IBatchCommand } from 'interfaces/IHistory';
 
 // TODO: decouple with svgcanvas
 
@@ -98,13 +99,13 @@ const copyElements = async (elems: Element[]): Promise<void> => {
       }
     }
   }
+  clipboard = [...elems];
   try {
     await navigator.clipboard.writeText(clipBoardText);
     console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
     console.error('Async: Could not copy text: ', err);
   }
-  clipboard = [...elems];
 };
 
 const copySelectedElements = async (): Promise<void> => {
@@ -117,9 +118,10 @@ const pasteElements = (
   type: 'mouse' | 'in_place' | 'point',
   x?: number,
   y?: number,
-): void => {
+  isSubCmd = false,
+): { cmd: IBatchCommand, elems: Element[] } => {
   if (!clipboard || !clipboard.length) {
-    return;
+    return null;
   }
 
   const pasted = [];
@@ -148,6 +150,13 @@ const pasteElements = (
     } else {
       drawing.getCurrentLayer().appendChild(copy);
     }
+
+    if (copy.getAttribute('data-textpath-g') === '1') {
+      const newTextPath = copy.querySelector('textPath');
+      const newPath = copy.querySelector('path');
+      newTextPath?.setAttribute('href', `#${newPath?.id}`);
+    }
+
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
     svgCanvas.restoreRefElems(copy);
     svgCanvas.updateElementColor(copy);
@@ -183,9 +192,69 @@ const pasteElements = (
     batchCmd.addSubCommand(cmd);
   }
 
-  svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-  svgCanvas.call('changed', pasted);
+  if (!isSubCmd) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    svgCanvas.call('changed', pasted);
+  }
   svgCanvas.tempGroupSelectedElements();
+  return { cmd: batchCmd, elems: pasted };
+};
+
+/**
+ * Create deep DOM copies (clones) of all selected elements
+ * @param dx dx of the cloned elements
+ * @param dy dy of the cloned elements
+ */
+const cloneSelectedElements = (dx: number, dy: number, isSubCmd = false): IBatchCommand => {
+  const originalClipboard = clipboard ? [...clipboard] : null;
+  const batchCmd = new history.BatchCommand('Clone elements');
+  copySelectedElements();
+  let { cmd } = pasteElements('in_place', null, null, true);
+  if (cmd && !cmd.isEmpty()) {
+    batchCmd.addSubCommand(cmd);
+  }
+  cmd = moveSelectedElements(dx, dy, false);
+  if (cmd && !cmd.isEmpty()) {
+    batchCmd.addSubCommand(cmd);
+  }
+  if (!isSubCmd && !batchCmd.isEmpty()) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    return null;
+  }
+  clipboard = originalClipboard;
+  return batchCmd;
+};
+
+const generateSelectedElementArray = (
+  interval: { dx: number, dy: number },
+  arraySize: { row: number, column: number },
+): IBatchCommand => {
+  const originalClipboard = clipboard ? [...clipboard] : null;
+  const batchCmd = new history.BatchCommand('Grid elements');
+  copySelectedElements();
+  const arrayElements = [...svgCanvas.getSelectedWithoutTempGroup()];
+  for (let i = 0; i < arraySize.column; i += 1) {
+    for (let j = 0; j < arraySize.row; j += 1) {
+      if (i !== 0 || j !== 0) {
+        const { cmd: pasteCmd, elems } = pasteElements('in_place', null, null, true);
+        arrayElements.push(...elems);
+        if (pasteCmd && !pasteCmd.isEmpty()) {
+          batchCmd.addSubCommand(pasteCmd);
+        }
+        const moveCmd = moveSelectedElements([i * interval.dx], [j * interval.dy], false);
+        if (moveCmd && !moveCmd.isEmpty()) {
+          batchCmd.addSubCommand(moveCmd);
+        }
+      }
+    }
+  }
+  svgCanvas.multiSelect(arrayElements);
+  clipboard = originalClipboard;
+  if (!batchCmd.isEmpty()) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    return null;
+  }
+  return batchCmd;
 };
 
 const getCurrentClipboard = (): boolean => (clipboard && clipboard.length > 0);
@@ -196,5 +265,7 @@ export default {
   cutElements,
   cutSelectedElements,
   pasteElements,
+  cloneSelectedElements,
+  generateSelectedElementArray,
   getCurrentClipboard,
 };

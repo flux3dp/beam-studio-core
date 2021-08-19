@@ -1,6 +1,5 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import Alert from 'app/actions/alert-caller';
@@ -11,6 +10,7 @@ import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import {
@@ -620,8 +620,7 @@ class LayerPanel extends React.Component<Props, State> {
       && (drawing.getLayerName(0) === selectedLayers[0]));
     return (
       <div id="layer-and-laser-panel">
-        <div id="layerpanel" onMouseOut={() => this.highlightLayer()}>
-
+        <div id="layerpanel" onMouseOut={() => this.highlightLayer()} onBlur={() => { }}>
           <ContextMenuTrigger id="layer-contextmenu" holdToDisplay={-1}>
             <div id="layerlist_container">
               {this.renderColorPickerPanel()}

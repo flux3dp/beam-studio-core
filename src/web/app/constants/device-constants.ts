@@ -69,8 +69,8 @@ export default {
   UNLOAD_FILAMENT: 'UNLOAD',
   WORKAREA_IN_MM: {
     fbb2b: {
-      maxX: 610,
-      maxY: 406,
+      maxX: 7369,
+      maxY: 4140.5,
     },
     fbb1p: {
       maxX: 600,

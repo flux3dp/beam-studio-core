@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<ChangeLog
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="change-log-dialog"
+        >
+          <div
+            className="header"
+          >
+            <img
+              alt="Beam Studio Logo"
+              src="img/icon.png"
+            />
+            <div
+              className="app"
+            >
+              Beam Studio 1.2.3
+            </div>
+          </div>
+          <div
+            className="title"
+          >
+            Change Logs:
+          </div>
+          <div
+            className="change-log-container"
+          >
+            <div
+              className="change-log-category"
+              key="added"
+            >
+              Added:
+            </div>
+            <div
+              className="change-log-item"
+              key="added-0"
+            >
+              <div
+                className="index"
+              >
+                1.
+              </div>
+              <pre
+                className="log"
+              >
+                Enhance the "Sharpen" function. High-quality photo engraving and make photos engrave result more detailed.
+              </pre>
+            </div>
+            <div
+              className="change-log-item"
+              key="added-1"
+            >
+              <div
+                className="index"
+              >
+                2.
+              </div>
+              <pre
+                className="log"
+              >
+                Added "Rate for Beam Studio" function.
+              </pre>
+            </div>
+            <div
+              className="change-log-category"
+              key="fixed"
+            >
+              Fixed:
+            </div>
+            <div
+              className="change-log-item"
+              key="fixed-0"
+            >
+              <div
+                className="index"
+              >
+                1.
+              </div>
+              <pre
+                className="log"
+              >
+                Increase the speed of import the SVG file.
+              </pre>
+            </div>
+            <div
+              className="change-log-item"
+              key="fixed-1"
+            >
+              <div
+                className="index"
+              >
+                2.
+              </div>
+              <pre
+                className="log"
+              >
+                Increase the speed of the "Disassemble" function.
+              </pre>
+            </div>
+            <div
+              className="change-log-category"
+              key="changed"
+            >
+              Changed:
+            </div>
+            <div
+              className="change-log-item"
+              key="changed-0"
+            >
+              <div
+                className="index"
+              >
+                1.
+              </div>
+              <pre
+                className="log"
+              >
+                Removed the "Text Path Calculation  Optimization" function in the Preference settings and enabled it by default.
+              </pre>
+            </div>
+            <div
+              className="change-log-item"
+              key="changed-1"
+            >
+              <div
+                className="index"
+              >
+                2.
+              </div>
+              <pre
+                className="log"
+              >
+                Changed the object's layer changing rules after grouping.
+- When the selected objects are in the same layer, it won't change the layer after grouping.
+- When the selected objects are not in the same layer, it will change the grouping object's layer to the top layer which selected.
+              </pre>
+            </div>
+          </div>
+          <div
+            className="link"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            See Older Versions
+          </div>
+          <div
+            className="footer"
+          >
+            <button
+              className="btn btn-default primary"
+              onClick={[MockFunction]}
+              type="button"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </View>
+</ChangeLog>
+`;

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly desktop version 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    Software Updates
+  </div>
+  <SelectControl
+    label="Auto Check"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": true,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": false,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+</Fragment>
+`;
+
+exports[`should render correctly web version 1`] = `""`;

@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test workarea should render correctly 1`] = `
+<Fragment>
+  <DummyContextMenuTrigger
+    disable={false}
+    holdToDisplay={-1}
+    id="canvas-contextmenu"
+  >
+    <div
+      className="mac"
+      id="workarea"
+    >
+      <style
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "",
+          }
+        }
+        id="styleoverrides"
+        media="screen"
+        scoped={true}
+        type="text/css"
+      />
+      <div
+        id="svgcanvas"
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+  </DummyContextMenuTrigger>
+  <DummyContextMenu
+    id="canvas-contextmenu"
+  >
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Cut
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Copy
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Paste
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Paste in Place
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    />
+    <div
+      className="seperator"
+    />
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Delete
+    </DummyMenuItem>
+    <div
+      className="seperator"
+    />
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Group
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Ungroup
+    </DummyMenuItem>
+    <div
+      className="seperator"
+    />
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Bring to Front
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Bring Forward
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Send Backward
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Send to Back
+    </DummyMenuItem>
+  </DummyContextMenu>
+</Fragment>
+`;
+
+exports[`test workarea should render correctly 2`] = `
+<Fragment>
+  <DummyContextMenuTrigger
+    disable={true}
+    holdToDisplay={-1}
+    id="canvas-contextmenu"
+  >
+    <div
+      className="mac"
+      id="workarea"
+    >
+      <style
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "",
+          }
+        }
+        id="styleoverrides"
+        media="screen"
+        scoped={true}
+        type="text/css"
+      />
+      <div
+        id="svgcanvas"
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+  </DummyContextMenuTrigger>
+  <DummyContextMenu
+    id="canvas-contextmenu"
+  >
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Cut
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Copy
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Paste
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Paste in Place
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    />
+    <div
+      className="seperator"
+    />
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Delete
+    </DummyMenuItem>
+    <div
+      className="seperator"
+    />
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Group
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={true}
+      onClick={[Function]}
+    >
+      Ungroup
+    </DummyMenuItem>
+    <div
+      className="seperator"
+    />
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Bring to Front
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Bring Forward
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Send Backward
+    </DummyMenuItem>
+    <DummyMenuItem
+      disabled={false}
+      onClick={[Function]}
+    >
+      Send to Back
+    </DummyMenuItem>
+  </DummyContextMenu>
+</Fragment>
+`;

@@ -9,9 +9,11 @@ import ConnectMachineIp from 'app/pages/ConnectMachineIp';
 import ConnectWiFi from 'app/pages/ConnectWiFi';
 import ConnectWired from 'app/pages/ConnectWired';
 import Dialog from 'app/views/dialogs/Dialog';
+import FacebookOAuth from 'app/pages/FacebookOAuth';
 import FluxIdLogin from 'app/pages/FluxIdLogin';
+import GoogleOAuth from 'app/pages/GoogleOAuth';
 import Home from 'app/pages/Home';
-import HomeView from 'app/pages/HomeView';
+import Settings from 'app/pages/Settings';
 import SelectConnectionType from 'app/pages/SelectConnectionType';
 import SkipConnectMachine from 'app/pages/SkipConnectMachine';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
@@ -24,6 +26,8 @@ const wrappedComponent = (
       <AlertsAndProgress />
       <HashRouter>
         <Switch>
+          <Route exact path="/google-auth" component={GoogleOAuth} />
+          <Route exact path="/fb-auth" component={FacebookOAuth} />
           <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
           <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
           <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
@@ -31,7 +35,7 @@ const wrappedComponent = (
           <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
           <Route exact path="/initialize/connect/skip-connect-machine" component={SkipConnectMachine} />
           <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
-          <Route exact path="/studio/settings" component={HomeView} />
+          <Route exact path="/studio/settings" component={Settings} />
           <Route exact path="/studio/beambox" component={Beambox} />
           <Route path="*" component={Home} />
         </Switch>

@@ -25,8 +25,8 @@ WorkareaMap.set('fbb1p', {
 });
 WorkareaMap.set('fbb2b', {
   label: 'Beambox2',
-  width: 6100,
-  height: 4060,
+  width: 7369,
+  height: 4140.5,
 });
 
 export default {

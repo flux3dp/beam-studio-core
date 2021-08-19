@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly desktop version 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    General
+  </div>
+  <SelectControl
+    id="select-lang"
+    label="Language"
+    onChange={[MockFunction]}
+    options={
+      Array [
+        Object {
+          "label": "Deutsche",
+          "selected": false,
+          "value": "de",
+        },
+        Object {
+          "label": "English",
+          "selected": true,
+          "value": "en",
+        },
+        Object {
+          "label": "Español",
+          "selected": false,
+          "value": "es",
+        },
+        Object {
+          "label": "繁體中文",
+          "selected": false,
+          "value": "zh-tw",
+        },
+        Object {
+          "label": "日本語",
+          "selected": false,
+          "value": "ja",
+        },
+        Object {
+          "label": "简体中文",
+          "selected": false,
+          "value": "zh-cn",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    label="Desktop Notifications"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": true,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": false,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+</Fragment>
+`;
+
+exports[`should render correctly web version 1`] = `
+<Fragment>
+  <div
+    className="subtitle"
+  >
+    General
+  </div>
+  <SelectControl
+    id="select-lang"
+    label="Language"
+    onChange={[MockFunction]}
+    options={
+      Array [
+        Object {
+          "label": "Deutsche",
+          "selected": false,
+          "value": "de",
+        },
+        Object {
+          "label": "English",
+          "selected": true,
+          "value": "en",
+        },
+        Object {
+          "label": "Español",
+          "selected": false,
+          "value": "es",
+        },
+        Object {
+          "label": "繁體中文",
+          "selected": false,
+          "value": "zh-tw",
+        },
+        Object {
+          "label": "日本語",
+          "selected": false,
+          "value": "ja",
+        },
+        Object {
+          "label": "简体中文",
+          "selected": false,
+          "value": "zh-cn",
+        },
+      ]
+    }
+  />
+</Fragment>
+`;

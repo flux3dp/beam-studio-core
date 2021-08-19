@@ -163,6 +163,13 @@ const getLineSpacing = (elem: SVGTextElement): string => {
   return '1';
 };
 
+const renderTextPath = (text: SVGTextElement, val?: string) => {
+  if (typeof val === 'string') {
+    const textPath = text.querySelector('textPath');
+    textPath.textContent = val;
+  }
+};
+
 const renderTspan = (text: SVGTextElement, val?: string) => {
   const tspans = Array.from(text.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
   const lines = typeof val === 'string' ? val.split('\x0b') : tspans.map((tspan) => tspan.textContent);
@@ -210,19 +217,31 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
 
 /**
  * Render text element
- * @param text text element
+ * @param elem element
  * @param val text to display, break line with \x0b, use current text content if not provided
  * @param showGrips show grip or not
  */
-const renderMultiLineText = (text: SVGTextElement, val?: string, showGrips?: boolean): void => {
-  if (!text) {
+const renderText = (elem: Element, val?: string, showGrips?: boolean): void => {
+  if (!elem) {
     return;
   }
-  renderTspan(text, val);
-  svgedit.recalculate.recalculateDimensions(text);
+  let textElem = elem;
+  if (elem.getAttribute('data-textpath-g')) {
+    const text = elem.querySelector('text');
+    if (text) {
+      renderTextPath(text, val);
+      textElem = text;
+    }
+  } else if (elem.getAttribute('data-textpath')) {
+    renderTextPath(elem as SVGTextElement, val);
+  } else {
+    // render multiLine Text
+    renderTspan(elem as SVGTextElement, val);
+  }
+  svgedit.recalculate.recalculateDimensions(textElem);
   if (showGrips) {
     const selectorManager = selector.getSelectorManager();
-    selectorManager.requestSelector(text).resize();
+    selectorManager.requestSelector(textElem).resize();
   }
 };
 
@@ -242,18 +261,18 @@ const setBold = (val: boolean): void => {
  * @param val New font family
  * @param isSubCmd Whether this operation is a sub command or a sole command
  */
-const setFontFamily = (val: string, isSubCmd = false): ICommand => {
-  const selectedElements = svgCanvas.getSelectedElems();
+const setFontFamily = (val: string, isSubCmd = false, elems?: Element[]): ICommand => {
+  const elemsToChange = elems || svgCanvas.getSelectedElems();
   let cmd = null;
   if (window.os !== 'MacOS') curText.font_family = val;
   if (isSubCmd) {
-    svgCanvas.undoMgr.beginUndoableChange('font-family', selectedElements);
-    svgCanvas.changeSelectedAttributeNoUndo('font-family', val, selectedElements);
+    svgCanvas.undoMgr.beginUndoableChange('font-family', elemsToChange);
+    svgCanvas.changeSelectedAttributeNoUndo('font-family', val, elemsToChange);
     cmd = svgCanvas.undoMgr.finishUndoableChange();
   } else {
     svgCanvas.changeSelectedAttribute('font-family', val);
   }
-  if (selectedElements[0] && !selectedElements[0].textContent) {
+  if (elemsToChange[0] && !elemsToChange[0].textContent) {
     textActions.setCursor();
   }
   return cmd;
@@ -266,60 +285,59 @@ const setFontFamily = (val: string, isSubCmd = false): ICommand => {
  * @param val New font family
  * @param isSubCmd Whether this operation is a sub command or a sole command
  */
-const setFontFamilyData = (val: string, isSubCmd = false): ICommand => {
-  const selectedElements = svgCanvas.getSelectedElems();
+const setFontFamilyData = (val: string, isSubCmd = false, elems?: Element[]): ICommand => {
+  const elemsToChange = elems || svgCanvas.getSelectedElems();
   let cmd = null;
   curText.font_family = val;
   if (isSubCmd) {
-    svgCanvas.undoMgr.beginUndoableChange('data-font-family', selectedElements);
-    svgCanvas.changeSelectedAttributeNoUndo('data-font-family', val, selectedElements);
+    svgCanvas.undoMgr.beginUndoableChange('data-font-family', elemsToChange);
+    svgCanvas.changeSelectedAttributeNoUndo('data-font-family', val, elemsToChange);
     cmd = svgCanvas.undoMgr.finishUndoableChange();
   } else {
-    svgCanvas.changeSelectedAttribute('data-font-family', val);
+    svgCanvas.changeSelectedAttribute('data-font-family', val, elemsToChange);
   }
   return cmd;
 };
 
-const setFontPostscriptName = (val: string, isSubCmd: boolean): ICommand => {
+const setFontPostscriptName = (val: string, isSubCmd: boolean, elems?: Element[]): ICommand => {
   let cmd = null;
   curText.font_postscriptName = val;
   if (isSubCmd) {
-    const selectedElements = svgCanvas.getSelectedElems();
-    svgCanvas.undoMgr.beginUndoableChange('font-postscript', selectedElements);
-    svgCanvas.changeSelectedAttributeNoUndo('font-postscript', val, selectedElements);
+    const elemsToChange = elems || svgCanvas.getSelectedElems();
+    svgCanvas.undoMgr.beginUndoableChange('font-postscript', elemsToChange);
+    svgCanvas.changeSelectedAttributeNoUndo('font-postscript', val, elemsToChange);
     cmd = svgCanvas.undoMgr.finishUndoableChange();
   } else {
-    svgCanvas.changeSelectedAttribute('font-postscript', val);
+    svgCanvas.changeSelectedAttribute('font-postscript', val, elems);
   }
   return cmd;
 };
 
-const setFontSize = (val: number): void => {
-  const selectedElements = svgCanvas.getSelectedElems();
-  const textElem = selectedElements[0];
+const setFontSize = (val: number, elems?: Element[]): void => {
+  const elemsToChange = elems || svgCanvas.getSelectedElems();
+  const textElem = elemsToChange[0];
   curText.font_size = val;
-  svgCanvas.changeSelectedAttribute('font-size', val);
+  svgCanvas.changeSelectedAttribute('font-size', val, [textElem]);
   textActions.setFontSize(val);
   if (!textElem.textContent) {
     textActions.setCursor();
   }
-  renderMultiLineText(textElem);
+  renderText(textElem);
 };
 
-const setFontWeight = (fontWeight: number, isSubCmd: boolean): ICommand => {
-  const selectedElements = svgCanvas.getSelectedElems();
-  const selected = selectedElements[0];
+const setFontWeight = (fontWeight: number, isSubCmd: boolean, elem?: Element): ICommand => {
+  const textElem = elem || svgCanvas.getSelectedElems()[0];
   let cmd = null;
-  if (selected != null && selected.tagName === 'text' && selectedElements[1] == null) {
+  if (textElem?.tagName === 'text') {
     if (isSubCmd) {
-      svgCanvas.undoMgr.beginUndoableChange('font-weight', [selected]);
-      svgCanvas.changeSelectedAttributeNoUndo('font-weight', fontWeight || 'normal', [selected]);
+      svgCanvas.undoMgr.beginUndoableChange('font-weight', [textElem]);
+      svgCanvas.changeSelectedAttributeNoUndo('font-weight', fontWeight || 'normal', [textElem]);
       cmd = svgCanvas.undoMgr.finishUndoableChange();
     } else {
-      svgCanvas.changeSelectedAttribute('font-weight', fontWeight || 'normal');
+      svgCanvas.changeSelectedAttribute('font-weight', fontWeight || 'normal', [textElem]);
     }
   }
-  if (!selected.textContent) {
+  if (!textElem.textContent) {
     textActions.setCursor();
   }
   return cmd;
@@ -335,38 +353,36 @@ const setIsVertical = (val: boolean): void => {
   textActions.setIsVertical(val);
   const angle = svgedit.utilities.getRotationAngle(elem);
   svgCanvas.setRotationAngle(0, true, elem);
-  renderMultiLineText(elem);
+  renderText(elem);
   svgCanvas.setRotationAngle(angle, true, elem);
   svgEditor.updateContextPanel();
 };
 
-const setItalic = (val: boolean, isSubCmd = false): ICommand => {
-  const selectedElements = svgCanvas.getSelectedElems();
-  const selected = selectedElements[0];
+const setItalic = (val: boolean, isSubCmd = false, elem?: Element): ICommand => {
+  const textElem = elem || svgCanvas.getSelectedElems()[0];
   let cmd = null;
-  if (selected != null && selected.tagName === 'text' && selectedElements[1] == null) {
+  if (textElem?.tagName === 'text') {
     if (isSubCmd) {
-      svgCanvas.undoMgr.beginUndoableChange('font-style', [selected]);
-      svgCanvas.changeSelectedAttributeNoUndo('font-style', val ? 'italic' : 'normal', [selected]);
+      svgCanvas.undoMgr.beginUndoableChange('font-style', [textElem]);
+      svgCanvas.changeSelectedAttributeNoUndo('font-style', val ? 'italic' : 'normal', [textElem]);
       cmd = svgCanvas.undoMgr.finishUndoableChange();
     } else {
-      svgCanvas.changeSelectedAttribute('font-style', val ? 'italic' : 'normal');
+      svgCanvas.changeSelectedAttribute('font-style', val ? 'italic' : 'normal', [textElem]);
     }
   }
-  if (!selectedElements[0].textContent) {
+  if (!textElem.textContent) {
     textActions.setCursor();
   }
   return cmd;
 };
 
-const setLetterSpacing = (val: number): void => {
-  const selectedElements = svgCanvas.getSelectedElems();
-  const elem = selectedElements[0];
-  if (elem != null && elem.tagName === 'text' && selectedElements[1] == null) {
-    svgCanvas.changeSelectedAttribute('letter-spacing', val ? `${val.toString()}em` : '0em');
-    renderMultiLineText(selectedElements[0]);
+const setLetterSpacing = (val: number, elem?: Element): void => {
+  const textElem = elem || svgCanvas.getSelectedElems()[0];
+  if (textElem?.tagName === 'text') {
+    svgCanvas.changeSelectedAttribute('letter-spacing', val ? `${val.toString()}em` : '0em', [textElem]);
+    renderText(textElem);
   }
-  if (!elem.textContent) {
+  if (!textElem.textContent) {
     textActions.setCursor();
   }
 };
@@ -380,7 +396,7 @@ const setLineSpacing = (val: number): void => {
   }
   const angle = svgedit.utilities.getRotationAngle(elem);
   svgCanvas.setRotationAngle(0, true, elem);
-  renderMultiLineText(elem);
+  renderText(elem);
   svgCanvas.setRotationAngle(angle, true, elem);
 };
 
@@ -390,8 +406,8 @@ const setLineSpacing = (val: number): void => {
  */
 const setTextContent = (val: string): void => {
   const selectedElements = svgCanvas.getSelectedElems();
-  const textElem = selectedElements[0];
-  renderMultiLineText(textElem, val, true);
+  const elem = selectedElements[0];
+  renderText(elem, val, true);
   textActions.init();
   textActions.setCursor();
 };
@@ -421,5 +437,5 @@ export default {
   getLetterSpacing,
   setLetterSpacing,
   setTextContent,
-  renderMultiLineText,
+  renderText,
 };

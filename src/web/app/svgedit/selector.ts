@@ -363,6 +363,15 @@ class SelectorManager {
     this.rubberBandBox = null;
   }
 
+  resizeSelectors(elems: Element[]): void {
+    for (let i = 0; i < elems.length; i += 1) {
+      const elem = elems[i];
+      if (this.selectorMap[elem.id] && this.selectorMap[elem.id].inUse) {
+        this.selectorMap[elem.id].resize();
+      }
+    }
+  }
+
   requestSelector(elem: Element, bbox?: BBox): Selector {
     if (!elem) return null;
     if (this.selectorMap[elem.id] && this.selectorMap[elem.id].inUse) {
