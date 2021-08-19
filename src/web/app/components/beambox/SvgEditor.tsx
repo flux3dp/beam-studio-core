@@ -1,13 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
-import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
 import Workarea from 'app/components/beambox/Workarea';
-import ZoomBlock from 'app/components/beambox/ZoomBlock';
-import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
 interface Props {
   isPathPreviewing?: boolean,
@@ -23,17 +19,6 @@ export default class SvgEditor extends React.Component<Props> {
     e.preventDefault();
     e.stopPropagation();
   }
-
-  renderZoomBlock = (): JSX.Element => {
-    const { isPathPreviewing } = this.props;
-    if (isPathPreviewing) return null;
-    return (
-      <ZoomBlock
-        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
-        resetView={svgEditor.resetView}
-      />
-    );
-  };
 
   private renderSvgEditor = () => {
     const { isPathPreviewing } = this.props;
@@ -55,10 +40,6 @@ export default class SvgEditor extends React.Component<Props> {
           <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
         </div>
         <Workarea className={platformClassNames} />
-        <RightPanelContextProvider>
-          <RightPanel />
-        </RightPanelContextProvider>
-        {this.renderZoomBlock()}
         <div id="main_button">
           <div id="main_icon" className="tool_button" title="Main Menu">
             <div id="main_menu">

@@ -5,7 +5,7 @@ import ChangeLog from 'app/components/dialogs/ChangeLog';
 import ConfirmPrompt from 'app/views/dialogs/ConfirmPrompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
-import DocumentPanel from 'app/views/beambox/DocumentPanel/DocumentPanel';
+import DocumentSettings from 'app/components/dialogs/DocumentSettings';
 import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
@@ -81,7 +81,7 @@ export default {
     const unmount = () => popDialogById('docu-setting');
     addDialogComponent('docu-setting',
       <Modal>
-        <DocumentPanel
+        <DocumentSettings
           unmount={unmount}
         />
       </Modal>);

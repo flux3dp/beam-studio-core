@@ -6,16 +6,20 @@ import BeamboxInit from 'implementations/beamboxInit';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import communicator from 'implementations/communicator';
+import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
+import LeftPanel from 'app/components/beambox/left-panel/LeftPanel';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
+import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
 import sentryHelper from 'helpers/sentry-helper';
 import SvgEditor from 'app/components/beambox/SvgEditor';
 import svgEditor from 'app/actions/beambox/svg-editor';
-import TimeEstimationButton from 'app/views/beambox/TimeEstimationButton/TimeEstimationButton';
-import { TimeEstimationButtonContextProvider } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
+import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
+import ZoomBlock from 'app/components/beambox/ZoomBlock';
+import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
 import { TopBarLeftPanelContextProvider } from 'app/contexts/TopBarLeftPanelContext';
-import LeftPanel from 'app/components/beambox/left-panel/LeftPanel';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
@@ -71,6 +75,17 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     return <PathPreview togglePathPreview={this.togglePathPreview} />;
   };
 
+  renderZoomBlock = (): JSX.Element => {
+    const { isPathPreviewing } = this.state;
+    if (isPathPreviewing) return null;
+    return (
+      <ZoomBlock
+        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
+        resetView={svgEditor.resetView}
+      />
+    );
+  };
+
   render(): JSX.Element {
     const { isPathPreviewing } = this.state;
     const activeLang = i18n.getActiveLang();
@@ -86,9 +101,13 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
             togglePathPreview={this.togglePathPreview}
           />
         </TopBarLeftPanelContextProvider>
-        {this.renderTimeEstButton()}
+        <RightPanelContextProvider>
+          <RightPanel />
+        </RightPanelContextProvider>
         <SvgEditor isPathPreviewing={isPathPreviewing} />
+        {this.renderTimeEstButton()}
         {this.renderPathPreview()}
+        {this.renderZoomBlock()}
         <div id="tool-panels-placeholder" />
         <div id="image-trace-panel-placeholder" />
       </div>

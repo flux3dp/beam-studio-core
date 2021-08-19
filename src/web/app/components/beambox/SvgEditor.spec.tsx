@@ -7,14 +7,6 @@ jest.mock('implementations/storage', () => ({
   get: mockGet,
 }));
 
-jest.mock('app/views/beambox/Right-Panels/Right-Panel', () => function DummyRightPanel() {
-  return (
-    <div>
-      This is dummy RightPanel
-    </div>
-  );
-});
-
 jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
   return (
     <div>
@@ -22,27 +14,6 @@ jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
     </div>
   );
 });
-
-jest.mock('app/components/beambox/ZoomBlock', () => function DummyZoomBlock() {
-  return (
-    <div>
-      This is dummy ZoomBlock
-    </div>
-  );
-});
-
-jest.mock('app/views/beambox/Right-Panels/contexts/RightPanelContext', () => ({
-  RightPanelContextProvider: function DummyRightPanelContextProvider(props) {
-    // eslint-disable-next-line react/prop-types
-    const { children } = props;
-    return (
-      <div>
-        This is dummy RightPanelContextProvider
-        {children}
-      </div>
-    );
-  },
-}));
 
 const mockInit = jest.fn();
 jest.mock('app/actions/beambox/svg-editor', () => ({

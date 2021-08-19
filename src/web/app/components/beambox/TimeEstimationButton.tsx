@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
-import { TimeEstimationButtonContext } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
+import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
 
 const LANG = i18n.lang.beambox.time_est_button;
 

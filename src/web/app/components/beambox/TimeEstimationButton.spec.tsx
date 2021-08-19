@@ -23,7 +23,7 @@ jest.mock('app/actions/beambox/export-funcs', () => ({
   estimateTime: mockEstimateTime,
 }));
 
-import { TimeEstimationButtonContext } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonContext';
+import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
 
 import TimeEstimationButton from './TimeEstimationButton';
 
