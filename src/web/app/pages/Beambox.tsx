@@ -37,7 +37,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     };
   }
 
-  async componentDidMount(): Promise<void> {
+  componentDidMount(): void {
     BeamboxGlobalInteraction.attach();
 
     // need to run after svgedit packages loaded, so place it at componentDidMouont
@@ -47,7 +47,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
 
     communicator.send('FRONTEND_READY');
     svgEditor.resetView();
-    await beamboxInit.showStartUpDialogs();
+    beamboxInit.showStartUpDialogs();
   }
 
   componentWillUnmount() {

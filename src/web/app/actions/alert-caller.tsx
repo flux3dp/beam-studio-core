@@ -3,12 +3,18 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IAlert } from 'interfaces/IAlert';
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('alert-progress');
+
+const popUp = (args: IAlert): void => {
+  if (!eventEmitter.listenerCount('POP_UP')) {
+    setTimeout(() => popUp(args), 100);
+  }
+  eventEmitter.emit('POP_UP', args);
+};
+
 export default {
-  popUp: (args: IAlert): void => {
-    eventEmitter.emit('POP_UP', args);
-  },
+  popUp,
   popUpError: (args: IAlert): void => {
-    eventEmitter.emit('POP_UP', {
+    popUp({
       ...args,
       type: alertConstants.SHOW_POPUP_ERROR,
     });
