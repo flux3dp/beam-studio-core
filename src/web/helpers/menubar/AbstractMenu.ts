@@ -27,6 +27,7 @@ export default abstract class AbstractMenu {
       const menuEventListener = menuEventListenerFactory.createMenuEventListener();
 
       menuEventListener.on('MENU_CLICK', (e, menuItem) => {
+        console.log(menuItem);
         const actions: { [key: string]: ((deivce?: IDeviceInfo) => void) } = {
           ...menuActions,
           ...menuDeviceActions,
