@@ -513,7 +513,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         ];
 
         if (opts) {
-          if (opts.model === 'fbb1p') {
+          if (opts.model === 'fbb2b') {
+            args.push('-bb2');
+          } else if (opts.model === 'fbb1p') {
             args.push('-pro');
           } else if (opts.model === 'fbm1') {
             args.push('-beamo');
