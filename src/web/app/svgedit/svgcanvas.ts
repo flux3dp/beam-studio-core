@@ -48,7 +48,6 @@ import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerP
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
-import TimeEstimationButtonController from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Constant from 'app/actions/beambox/constant';
@@ -83,6 +82,7 @@ const ClipperLib = (window as any).ClipperLib;
 const LANG = i18n.lang.beambox;
 
 const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
+const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 
 // Class: SvgCanvas
 // The main SvgCanvas class that manages all SVG-related functions
@@ -7852,7 +7852,7 @@ export default $.SvgCanvas = function (container, config) {
     canvas.changed = hasUnsaveChanged;
     TopBarController.setHasUnsavedChange(hasUnsaveChanged);
     if (shouldClearEstTime) {
-      TimeEstimationButtonController.clearEstimatedTime();
+      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     }
     autoSaveHelper.toggleAutoSave(hasUnsaveChanged);
   }

@@ -14,6 +14,7 @@ import dialog from 'implementations/dialog';
 import Dialog from 'app/actions/dialog-caller';
 import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
@@ -21,7 +22,6 @@ import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
-import { clearEstimatedTime } from 'app/views/beambox/TimeEstimationButton/TimeEstimationButtonController';
 import { getLayerElementByName } from 'helpers/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
@@ -45,6 +45,8 @@ const hiddenOptions = [
   { value: LANG.custom_preset, key: LANG.custom_preset, label: LANG.custom_preset },
   { value: LANG.various_preset, key: LANG.various_preset, label: LANG.various_preset },
 ];
+
+const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 
 interface Props {
   selectedLayers: string[];
@@ -246,7 +248,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const layerData = FnWrapper.getCurrentLayerData();
     const { speed, repeat } = this.state;
     if ((speed !== layerData.speed) || (repeat !== layerData.repeat)) {
-      clearEstimatedTime();
+      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     }
     this.setState({
       speed: layerData.speed,
@@ -288,7 +290,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   handleSpeedChange = (val: number): void => {
     this.setState({ speed: val, configName: CUSTOM_PRESET_CONSTANT });
-    clearEstimatedTime();
+    timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     const { selectedLayers } = this.props;
     selectedLayers.forEach((layerName: string) => {
       writeData(layerName, DataType.speed, val);
@@ -307,7 +309,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   handleRepeatChange = (val: number): void => {
     this.setState({ repeat: val, configName: CUSTOM_PRESET_CONSTANT });
-    clearEstimatedTime();
+    timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     const { selectedLayers } = this.props;
     selectedLayers.forEach((layerName: string) => {
       writeData(layerName, DataType.repeat, val);
@@ -437,7 +439,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           isDefault,
           key,
         } = customizedConfigs;
-        clearEstimatedTime();
+        timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
         this.setState({
           speed,
           power,
