@@ -1,8 +1,10 @@
 /* eslint-disable import/first */
 const mockEmit = jest.fn();
+const mockListenerCount = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
   createEventEmitter: () => ({
     emit: mockEmit,
+    listenerCount: mockListenerCount,
   }),
 }));
 
@@ -15,9 +17,11 @@ describe('test alert-caller', () => {
   });
 
   test('test popUp', () => {
+    mockListenerCount.mockReturnValue(1);
     alertCaller.popUp({
       message: 'completed',
     });
+    expect(mockListenerCount).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_UP', {
       message: 'completed',
@@ -25,9 +29,11 @@ describe('test alert-caller', () => {
   });
 
   test('test popUpError', () => {
+    mockListenerCount.mockReturnValue(1);
     alertCaller.popUpError({
       message: 'failed',
     });
+    expect(mockListenerCount).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'POP_UP', {
       message: 'failed',
