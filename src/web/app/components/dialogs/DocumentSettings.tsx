@@ -42,7 +42,7 @@ interface State {
   enableAutofocus: boolean;
 }
 
-export default class DocumentPanel extends React.PureComponent<Props, State> {
+export default class DocumentSettings extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {

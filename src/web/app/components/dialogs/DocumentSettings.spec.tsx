@@ -79,11 +79,11 @@ getSVGAsync.mockImplementation((callback) => {
   });
 });
 
-import DocumentPanel from './DocumentPanel';
+import DocumentSettings from './DocumentSettings';
 
 test('should render correctly', () => {
   const unmount = jest.fn();
-  const wrapper = shallow(<DocumentPanel
+  const wrapper = shallow(<DocumentSettings
     unmount={unmount}
   />);
   const setState = jest.spyOn(wrapper.instance(), 'setState');
