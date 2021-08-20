@@ -39,16 +39,31 @@ interface State {
   colorPanelTop: number;
   draggingDestIndex?: number;
   draggingLayer?: string;
+  disableScroll? : boolean;
 }
 
 class LayerPanel extends React.Component<Props, State> {
-  constructor(props) {
+  private currentTouchID: number;
+
+  private firstTouchInfo: { pageX: number, pageY: number };
+
+  private startDragTimer: NodeJS.Timeout;
+
+  private draggingScrollTimer: NodeJS.Timeout;
+
+  private draggingScrollDirection = 0;
+
+  private layerListContainerRef: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       colorPanelLayer: null,
       colorPanelLeft: null,
       colorPanelTop: null,
+      draggingDestIndex: null,
     };
+    this.layerListContainerRef = React.createRef();
   }
 
   componentDidMount(): void {
@@ -285,20 +300,19 @@ class LayerPanel extends React.Component<Props, State> {
     });
   };
 
-  onlayerDragStart = (e: React.DragEvent, layerName: string): void => {
+  onLayerDragStart = (layerName: string, e?: React.DragEvent): void => {
     const dragImage = document.getElementById('drag-image') as Element;
-    e.dataTransfer.setDragImage(dragImage, 0, 0);
+    e?.dataTransfer?.setDragImage(dragImage, 0, 0);
     const { selectedLayers, setSelectedLayers } = this.context;
     if (!selectedLayers.includes(layerName)) {
       setSelectedLayers([layerName]);
     }
-
     this.setState({
       draggingLayer: layerName,
     });
   };
 
-  onlayerCenterDragEnter = (layerName: string): void => {
+  onLayerCenterDragEnter = (layerName: string): void => {
     const { selectedLayers } = this.context;
     if (selectedLayers.includes(layerName)) {
       this.setState({ draggingDestIndex: null });
@@ -325,6 +339,91 @@ class LayerPanel extends React.Component<Props, State> {
     });
   };
 
+  preventDefault = (e: TouchEvent) => {
+    e.preventDefault();
+  };
+
+  draggingScroll = () => {
+    const layerListContainer = this.layerListContainerRef.current;
+    if (this.draggingScrollDirection !== 0 && layerListContainer) {
+      if (this.draggingScrollDirection > 0) {
+        layerListContainer.scrollTop += 10;
+      } else {
+        layerListContainer.scrollTop -= 10;
+      }
+    }
+  };
+
+  onLayerTouchStart = (layerName: string, e: React.TouchEvent) => {
+    if (!this.currentTouchID) {
+      this.currentTouchID = e.changedTouches[0].identifier;
+      this.firstTouchInfo = {
+        pageX: e.changedTouches[0].pageX,
+        pageY: e.changedTouches[0].pageY,
+      };
+      this.startDragTimer = setTimeout(() => {
+        this.onLayerDragStart(layerName);
+        this.startDragTimer = null;
+        document.addEventListener('touchmove', this.preventDefault, { passive: false });
+        this.draggingScrollTimer = setInterval(this.draggingScroll, 100);
+      }, 800);
+    }
+  };
+
+  onLayerTouchMove = (e: React.TouchEvent) => {
+    const touch = Array.from(e.changedTouches)
+      .find((t) => t.identifier === this.currentTouchID);
+    if (touch) {
+      const { draggingLayer } = this.state;
+      if (draggingLayer) {
+        const layerListContainer = this.layerListContainerRef.current;
+        const { top, height } = layerListContainer.getBoundingClientRect();
+        if (touch.pageY < top) {
+          this.draggingScrollDirection = -1;
+        } else if (touch.pageY > top + height) {
+          this.draggingScrollDirection = 1;
+        } else {
+          this.draggingScrollDirection = 0;
+          const elem = document.elementFromPoint(touch.pageX, touch.pageY);
+          if (elem.classList.contains('drag-sensor-area')) {
+            const index = Number(elem.getAttribute('data-index'));
+            this.onSensorAreaDragEnter(index);
+          } else if (elem.classList.contains('layer-row')) {
+            const name = elem.getAttribute('data-layer');
+            this.onLayerCenterDragEnter(name);
+          }
+        }
+      } else if (this.startDragTimer) {
+        const { pageX, pageY } = this.firstTouchInfo;
+        if (Math.hypot(touch.pageX - pageX, touch.pageY - pageY) > 10) {
+          clearTimeout(this.startDragTimer);
+          this.startDragTimer = null;
+        }
+      }
+    }
+  };
+
+  onLayerTouchEnd = (e: React.TouchEvent) => {
+    const touch = Array.from(e.changedTouches)
+      .find((t) => t.identifier === this.currentTouchID);
+    if (touch) {
+      if (this.startDragTimer) {
+        clearTimeout(this.startDragTimer);
+        this.startDragTimer = null;
+      }
+      if (this.draggingScrollTimer) {
+        clearTimeout(this.draggingScrollTimer);
+        this.draggingScrollTimer = null;
+      }
+      const { draggingLayer } = this.state;
+      this.currentTouchID = null;
+      if (draggingLayer) {
+        document.removeEventListener('touchmove', this.preventDefault);
+        this.onlayerDragEnd();
+      }
+    }
+  };
+
   layerDoubleClick = (): void => {
     this.renameLayer();
   };
@@ -347,7 +446,7 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  renderColorPickerPanel() {
+  renderColorPickerPanel(): JSX.Element {
     const { colorPanelLayer, colorPanelTop, colorPanelLeft } = this.state;
     if (!colorPanelLayer) {
       return null;
@@ -365,7 +464,7 @@ class LayerPanel extends React.Component<Props, State> {
 
   renderDragBar = () => <div key="drag-bar" className={classNames('drag-bar')} />;
 
-  renderLayerList = () => {
+  renderLayerList = (): JSX.Element => {
     const { selectedLayers } = this.context;
     const { draggingDestIndex } = this.state;
     const items = [];
@@ -403,16 +502,23 @@ class LayerPanel extends React.Component<Props, State> {
             onMouseOver={() => this.highlightLayer(layerName)}
             onMouseOut={() => this.highlightLayer()}
             draggable
-            onDragStart={(e: React.DragEvent) => this.onlayerDragStart(e, layerName)}
-            onDragEnd={() => this.onlayerDragEnd()}
+            onDragStart={(e: React.DragEvent) => this.onLayerDragStart(layerName, e)}
+            onDragEnd={this.onlayerDragEnd}
+            onTouchStart={(e: React.TouchEvent) => this.onLayerTouchStart(layerName, e)}
+            onTouchMove={this.onLayerTouchMove}
+            onTouchEnd={this.onLayerTouchEnd}
+            onFocus={() => { }}
+            onBlur={() => { }}
           >
             <div
               className="drag-sensor-area"
+              data-index={i + 1}
               onDragEnter={() => this.onSensorAreaDragEnter(i + 1)}
             />
             <div
               className="layer-row"
-              onDragEnter={() => this.onlayerCenterDragEnter(layerName)}
+              data-layer={layerName}
+              onDragEnter={() => this.onLayerCenterDragEnter(layerName)}
             >
               <div className="layercolor">
                 <div
@@ -451,6 +557,7 @@ class LayerPanel extends React.Component<Props, State> {
             </div>
             <div
               className="drag-sensor-area"
+              data-index={i}
               onDragEnter={() => this.onSensorAreaDragEnter(i)}
             />
           </div>,
@@ -468,7 +575,7 @@ class LayerPanel extends React.Component<Props, State> {
     );
   };
 
-  render() {
+  render(): JSX.Element {
     if (!svgCanvas) {
       setTimeout(() => {
         this.forceUpdate();
@@ -478,15 +585,21 @@ class LayerPanel extends React.Component<Props, State> {
     const { elem } = this.props;
     const { draggingLayer } = this.state;
     const { selectedLayers, setSelectedLayers } = this.context;
+    const isTouchable = navigator.maxTouchPoints >= 1;
     const isMultiSelecting = selectedLayers.length > 1;
     const drawing = svgCanvas.getCurrentDrawing();
     const isSelectingLast = ((selectedLayers.length === 1)
       && (drawing.getLayerName(0) === selectedLayers[0]));
+
     return (
       <div id="layer-and-laser-panel">
         <div id="layerpanel" onMouseOut={() => this.highlightLayer()} onBlur={() => { }}>
-          <ContextMenuTrigger id="layer-contextmenu" holdToDisplay={-1}>
-            <div id="layerlist_container">
+          <ContextMenuTrigger
+            id="layer-contextmenu"
+            holdToDisplay={isTouchable ? 1000 : -1}
+            hideOnLeaveHoldPosition
+          >
+            <div id="layerlist_container" ref={this.layerListContainerRef}>
               {this.renderColorPickerPanel()}
               {this.renderLayerList()}
             </div>
