@@ -4,7 +4,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 interface ILayerPanelContext {
   selectedLayers: string[];
-  setSelectedLayers: (selectedLayers: string[]) => void,
+  setSelectedLayers: (selectedLayers: string[]) => void;
 }
 
 export const LayerPanelContext = React.createContext<ILayerPanelContext>({
