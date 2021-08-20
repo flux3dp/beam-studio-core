@@ -339,11 +339,11 @@ class LayerPanel extends React.Component<Props, State> {
     });
   };
 
-  preventDefault = (e: TouchEvent) => {
+  preventDefault = (e: TouchEvent): void => {
     e.preventDefault();
   };
 
-  draggingScroll = () => {
+  draggingScroll = (): void => {
     const layerListContainer = this.layerListContainerRef.current;
     if (this.draggingScrollDirection !== 0 && layerListContainer) {
       if (this.draggingScrollDirection > 0) {
@@ -354,7 +354,7 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  onLayerTouchStart = (layerName: string, e: React.TouchEvent) => {
+  onLayerTouchStart = (layerName: string, e: React.TouchEvent): void => {
     if (!this.currentTouchID) {
       this.currentTouchID = e.changedTouches[0].identifier;
       this.firstTouchInfo = {
@@ -370,7 +370,7 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  onLayerTouchMove = (e: React.TouchEvent) => {
+  onLayerTouchMove = (e: React.TouchEvent): void => {
     const touch = Array.from(e.changedTouches)
       .find((t) => t.identifier === this.currentTouchID);
     if (touch) {
@@ -403,7 +403,7 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  onLayerTouchEnd = (e: React.TouchEvent) => {
+  onLayerTouchEnd = (e: React.TouchEvent): void => {
     const touch = Array.from(e.changedTouches)
       .find((t) => t.identifier === this.currentTouchID);
     if (touch) {
@@ -462,7 +462,7 @@ class LayerPanel extends React.Component<Props, State> {
     );
   }
 
-  renderDragBar = () => <div key="drag-bar" className={classNames('drag-bar')} />;
+  renderDragBar = (): JSX.Element => <div key="drag-bar" className={classNames('drag-bar')} />;
 
   renderLayerList = (): JSX.Element => {
     const { selectedLayers } = this.context;
