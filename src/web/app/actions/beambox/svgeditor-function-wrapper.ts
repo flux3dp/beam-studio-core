@@ -45,7 +45,7 @@ const funcs = {
       filters: [
         {
           name: 'Images',
-          extensions: ['png', 'jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'bmp', 'jp2', 'j2k', 'jpf', 'jpx', 'jpm'],
+          extensions: ['png', 'jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'bmp', 'jp2', 'j2k', 'jpf', 'jpx', 'jpm', 'dxf', 'ai', 'pdf', 'svg', 'bvg', 'beam'],
         },
       ],
     });

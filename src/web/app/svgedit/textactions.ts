@@ -103,7 +103,7 @@ class TextActions {
   private getCurtextType(): TextType {
     const { curtext } = this;
     if (!curtext) return TextType.NULL;
-    if (curtext.firstChild && curtext.firstChild.nodeName === 'textPath') return TextType.TEXT_PATH;
+    if (curtext.getAttribute('data-textpath')) return TextType.TEXT_PATH;
     return TextType.MULTI_LINE;
   }
 

@@ -1,15 +1,15 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import * as TutorialController from 'app/views/tutorials/tutorialController';
+import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
-import AlertConstants from 'app/constants/alert-constants';
-import ColorPickerPanel from 'app/views/beambox/ColorPickerPanel';
+import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import Dialog from 'app/actions/dialog-caller';
+import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
-import TutorialConstants from 'app/constants/tutorial-constants';
-import { cloneLayerConfig, initLayerConfig } from 'helpers/laser-config-helper';
+import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
+import { cloneLayerConfig } from 'helpers/laser-config-helper';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -23,10 +23,8 @@ import {
 } from 'helpers/layer-helper';
 
 let svgCanvas;
-let svgEditor;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgEditor = globalSVG.Editor;
 });
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
@@ -45,8 +43,6 @@ interface State {
 }
 
 class LayerPanel extends React.Component<Props, State> {
-  private promptMoveLayerOnce: boolean;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -69,23 +65,6 @@ class LayerPanel extends React.Component<Props, State> {
       this.initMultiSelectedLayer();
     }
   }
-
-  addNewLayer = (): void => {
-    const { setSelectedLayers } = this.context;
-    let i = 1;
-    let uniqName = `${LANG.layers.layer} ${i}`;
-    while (svgCanvas.getCurrentDrawing().hasLayer(uniqName)) {
-      i += 1;
-      uniqName = `${LANG.layers.layer} ${i}`;
-    }
-    svgCanvas.createLayer(uniqName);
-    if (TutorialController.getNextStepRequirement() === TutorialConstants.ADD_NEW_LAYER) {
-      TutorialController.handleNextStep();
-    }
-    svgEditor.updateContextPanel();
-    initLayerConfig(uniqName);
-    setSelectedLayers([uniqName]);
-  };
 
   cloneSelectedLayers = (): void => {
     const { selectedLayers, setSelectedLayers } = this.context;
@@ -167,35 +146,6 @@ class LayerPanel extends React.Component<Props, State> {
         setSelectedLayers([newName]);
       },
     });
-  };
-
-  moveToOtherLayer = (e: React.ChangeEvent): void => {
-    const select = e.target as HTMLSelectElement;
-    const destLayer = select.options[select.selectedIndex].value;
-    const drawing = svgCanvas.getCurrentDrawing();
-    const confirmStr = LANG.notification.QmoveElemsToLayer.replace('%s', destLayer);
-
-    const moveToLayer = (ok) => {
-      if (!ok) {
-        return;
-      }
-      this.promptMoveLayerOnce = true;
-      svgCanvas.moveSelectedToLayer(destLayer);
-      drawing.setCurrentLayer(destLayer);
-      this.forceUpdate();
-    };
-    if (destLayer) {
-      if (this.promptMoveLayerOnce) {
-        moveToLayer(true);
-      } else {
-        Alert.popUp({
-          id: 'move layer',
-          buttonType: AlertConstants.YES_NO,
-          message: confirmStr,
-          onYes: moveToLayer,
-        });
-      }
-    }
   };
 
   initMultiSelectedLayer = (): void => {
@@ -414,46 +364,6 @@ class LayerPanel extends React.Component<Props, State> {
     );
   }
 
-  renderDragImage = () => {
-    const drawing = svgCanvas.getCurrentDrawing();
-    const { selectedLayers } = this.context;
-    const { draggingLayer } = this.state;
-    const layer = drawing.getLayerByName(draggingLayer);
-    if (!draggingLayer || !layer) {
-      return (<div id="drag-image" />);
-    }
-    const isLocked = layer.getAttribute('data-lock') === 'true';
-    const isVis = drawing.getLayerVisibility(draggingLayer);
-    const backLayers = [];
-    for (let i = selectedLayers.length - 1; i >= 1; i -= 1) {
-      backLayers.push(
-        <div className="layer-back" key={i} style={{ top: -10 * i, left: 10 * i }} />,
-      );
-    }
-
-    return (
-      <div id="drag-image">
-        {backLayers}
-        <div className={classNames('layer', 'layersel', { lock: isLocked })}>
-          <div className="drag-sensor-area" />
-          <div className="layer-row">
-            <div className="layercolor">
-              <div style={{ backgroundColor: drawing.getLayerColor(draggingLayer) }} />
-            </div>
-            <div className="layername">{draggingLayer}</div>
-            <div className={classNames('layervis', { layerinvis: !drawing.getLayerVisibility(draggingLayer) })}>
-              <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
-            </div>
-            <div className="layerlock">
-              <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
-            </div>
-          </div>
-          <div className="drag-sensor-area" />
-        </div>
-      </div>
-    );
-  };
-
   renderDragBar = () => <div key="drag-bar" className={classNames('drag-bar')} />;
 
   renderLayerList = () => {
@@ -564,48 +474,6 @@ class LayerPanel extends React.Component<Props, State> {
     );
   };
 
-  renderSelLayerBlock = () => {
-    const { elem } = this.props;
-    const options = [];
-    const drawing = svgCanvas.getCurrentDrawing();
-    const layerCount = drawing.getNumLayers();
-    if (!elem || layerCount === 1) {
-      return null;
-    }
-    const currentLayerName = drawing.getCurrentLayerName();
-    for (let i = layerCount - 1; i >= 0; i -= 1) {
-      const layerName = drawing.getLayerName(i);
-      options.push(
-        <option value={layerName} key={i}>{layerName}</option>,
-      );
-    }
-
-    return (
-      <div className="selLayerBlock controls">
-        <span id="selLayerLabel">{LANG.move_elems_to}</span>
-        <select
-          value={currentLayerName}
-          id="selLayerNames"
-          title="Move selected elements to a different layer"
-          onChange={(e: React.ChangeEvent) => this.moveToOtherLayer(e)}
-          disabled={options.length < 2}
-        >
-          {options}
-        </select>
-      </div>
-    );
-  };
-
-  renderAddLayerButton() {
-    return (
-      <div className="add-layer-btn" onClick={() => this.addNewLayer()}>
-        <div className="bar bar1" />
-        <div className="bar bar2" />
-        <div className="bar bar3" />
-      </div>
-    );
-  }
-
   render() {
     if (!svgCanvas) {
       setTimeout(() => {
@@ -613,7 +481,9 @@ class LayerPanel extends React.Component<Props, State> {
       }, 50);
       return null;
     }
-    const { selectedLayers } = this.context;
+    const { elem } = this.props;
+    const { draggingLayer } = this.state;
+    const { selectedLayers, setSelectedLayers } = this.context;
     const isMultiSelecting = selectedLayers.length > 1;
     const drawing = svgCanvas.getCurrentDrawing();
     const isSelectingLast = ((selectedLayers.length === 1)
@@ -627,9 +497,9 @@ class LayerPanel extends React.Component<Props, State> {
               {this.renderLayerList()}
             </div>
           </ContextMenuTrigger>
-          {this.renderAddLayerButton()}
-          {this.renderSelLayerBlock()}
-          {this.renderDragImage()}
+          <AddLayerButton setSelectedLayers={setSelectedLayers} />
+          <SelLayerBlock elem={elem} />
+          <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
           <ContextMenu id="layer-contextmenu">
             <MenuItem attributes={{ id:"renameLayer" }} disabled={isMultiSelecting} onClick={this.renameLayer}>
               {LANG.layers.rename}
