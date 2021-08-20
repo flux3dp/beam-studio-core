@@ -10,7 +10,7 @@ import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import LeftPanel from 'app/components/beambox/left-panel/LeftPanel';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
-import RightPanel from 'app/views/beambox/Right-Panels/Right-Panel';
+import RightPanel from 'app/components/beambox/right-panel/RightPanel';
 import sentryHelper from 'helpers/sentry-helper';
 import SvgEditor from 'app/components/beambox/SvgEditor';
 import svgEditor from 'app/actions/beambox/svg-editor';
