@@ -15,6 +15,7 @@ const Workarea = () => (
 const mouseDown = jest.fn();
 const mouseMove = jest.fn();
 const mouseUp = jest.fn();
+const doubleClick = jest.fn();
 const getZoom = jest.fn();
 const setZoom = jest.fn();
 
@@ -33,6 +34,7 @@ describe('test textPathEdit', () => {
       mouseDown,
       mouseMove,
       mouseUp,
+      doubleClick,
       getZoom,
       setZoom,
     );
@@ -83,7 +85,7 @@ describe('test textPathEdit', () => {
       ],
     });
     container.dispatchEvent(onePointTouchEnd);
-    expect(mouseUp).toHaveBeenNthCalledWith(1, onePointTouchEnd);
+    expect(mouseUp).toHaveBeenNthCalledWith(1, onePointTouchEnd, false);
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

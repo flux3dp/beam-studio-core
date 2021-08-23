@@ -664,7 +664,7 @@ export default $.SvgCanvas = function (container, config) {
 
   this.setLastClickPoint = (point) => {
     lastClickPoint = point;
-  }
+  };
 
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
@@ -2579,7 +2579,7 @@ export default $.SvgCanvas = function (container, config) {
     // identified, a ChangeElementCommand is created and stored on the stack for those attrs
     // this is done in when we recalculate the selected dimensions()
 
-    var mouseUp = async function (evt, blocked = false) {
+    var mouseUp = async (evt, blocked = false) => {
       if (evt.button === 2) {
         return;
       }
@@ -3114,8 +3114,8 @@ export default $.SvgCanvas = function (container, config) {
       } else if (current_mode === 'textedit') {
         const curtext = textActions.getCurtext();
         if (
-          curtext === mouseTarget ||
-          (mouseTarget?.getAttribute('data-textpath-g') && mouseTarget?.querySelector('text') === curtext)
+          curtext === mouseTarget
+          || (mouseTarget?.getAttribute('data-textpath-g') && mouseTarget?.querySelector('text') === curtext)
         ) {
           textActions.dbClickSelectAll();
         }
@@ -7499,7 +7499,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.calcPathClosed = (pathElem) => {
-    let segList = pathElem.pathSegList._list || pathElem.pathSegList;
+    const segList = pathElem.pathSegList._list || pathElem.pathSegList;
     let [startX, startY, currentX, currentY, isDrawing, isClosed] = [0, 0, 0, 0, false, true];
     for (let i = 0; i < segList.length; i++) {
       let seg = segList[i];
@@ -8698,7 +8698,7 @@ export default $.SvgCanvas = function (container, config) {
         case 'path':
           points = [];
           const segList = elem.pathSegList._list || elem.pathSegList;
-          segList.forEach(seg => {
+          segList.forEach((seg) => {
             if (seg.x) {
               points.push({ x: parseFloat(seg.x), y: parseFloat(seg.y) })
             }
