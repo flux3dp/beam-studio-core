@@ -3,38 +3,29 @@
 exports[`should render correctly in non-preview mode and is web version 1`] = `
 <div
   className="common-tools-container"
-  style={
-    Object {
-      "marginLeft": "150px",
-      "position": "absolute",
-    }
-  }
 >
-  <div
+  <img
+    draggable="false"
+    onClick={[Function]}
+    src="img/left-bar/icon-cursor.svg"
+    title="Undo"
+  />
+  <img
+    draggable="false"
+    onClick={[Function]}
+    src="img/left-bar/icon-cursor.svg"
     style={
       Object {
-        "cursor": "pointer",
+        "transform": "scaleX(-1)",
       }
     }
-  >
-    <img
-      draggable="false"
-      onClick={[Function]}
-      src="img/left-bar/icon-Cursor.svg"
-      title="Undo"
-    />
-    <img
-      draggable="false"
-      onClick={[Function]}
-      src="img/left-bar/icon-Cursor.svg"
-      style={
-        Object {
-          "transform": "rotate(90deg)",
-        }
-      }
-      title="Redo"
-    />
-  </div>
+    title="Redo"
+  />
+  <img
+    draggable="false"
+    onClick={[Function]}
+    src="img/left-bar/icon-trash.svg"
+  />
 </div>
 `;
 

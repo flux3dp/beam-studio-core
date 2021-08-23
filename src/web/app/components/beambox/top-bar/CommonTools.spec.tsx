@@ -21,11 +21,13 @@ jest.mock('helpers/svg-editor-helper', () => ({
 
 const clickUndo = jest.fn();
 const clickRedo = jest.fn();
+const deleteSelected = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Editor: {
       clickUndo,
       clickRedo,
+      deleteSelected,
     },
   });
 });
@@ -59,5 +61,8 @@ describe('should render correctly', () => {
 
     wrapper.find('img').at(1).simulate('click');
     expect(clickRedo).toHaveBeenCalledTimes(1);
+
+    wrapper.find('img').at(2).simulate('click');
+    expect(deleteSelected).toHaveBeenCalledTimes(1);
   });
 });
