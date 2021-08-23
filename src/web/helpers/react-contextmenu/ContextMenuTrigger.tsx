@@ -19,6 +19,7 @@ interface Props {
   renderTag: string,
   mouseButton: number,
   disableIfShiftIsPressed: boolean,
+  hideOnLeaveHoldPosition?: boolean,
 }
 
 export default class ContextMenuTrigger extends Component<Props> {
@@ -116,12 +117,25 @@ export default class ContextMenuTrigger extends Component<Props> {
   };
 
   handleTouchMove = (event) => {
+    const { holdToDisplay, hideOnLeaveHoldPosition } = this.props;
     if (this.touchstartTimeoutId && this.holdStartPosition && event.touches.length > 0) {
       const { holdThreshold } = this.props;
       const { x, y } = this.holdStartPosition;
       const touch = event.touches[0];
       if (Math.hypot(touch.pageX - x, touch.pageY - y) > holdThreshold) {
         clearTimeout(this.touchstartTimeoutId);
+      }
+    }
+    if (holdToDisplay
+      && hideOnLeaveHoldPosition
+      && this.holdStartPosition
+      && event.touches.length > 0
+    ) {
+      const { holdThreshold } = this.props;
+      const { x, y } = this.holdStartPosition;
+      const touch = event.touches[0];
+      if (Math.hypot(touch.pageX - x, touch.pageY - y) > holdThreshold) {
+        hideMenu();
       }
     }
   };
