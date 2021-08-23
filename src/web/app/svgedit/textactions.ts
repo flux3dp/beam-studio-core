@@ -107,6 +107,10 @@ class TextActions {
     return TextType.MULTI_LINE;
   }
 
+  getCurtext() {
+    return this.curtext;
+  }
+
   private calculateChardata() {
     const {
       curtext, textinput, isVertical, textbb, chardata, fontSize,
@@ -537,9 +541,8 @@ class TextActions {
     }
   };
 
-  private dbClickSelectAll = (evt) => {
+  dbClickSelectAll = (): void => {
     this.setSelection(0, this.curtext.textContent.length);
-    $(this).unbind(evt);
   };
 
   private selectWord(evt) {
@@ -560,12 +563,6 @@ class TextActions {
     const m = str.substr(index).match(/^[a-z0-9]+/i);
     const last = (m ? m[0].length : 0) + index;
     this.setSelection(first, last);
-
-    // Set tripleclick
-    $(evt.target).click(this.dbClickSelectAll);
-    setTimeout(() => {
-      $(evt.target).unbind('click', this.dbClickSelectAll);
-    }, 300);
   }
 
   select(elem, x: number, y: number) {

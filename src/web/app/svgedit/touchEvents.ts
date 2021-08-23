@@ -1,3 +1,5 @@
+import Hammer from 'hammerjs';
+
 const calculateTouchCenter = (touches: TouchList) => {
   const center = { x: 0, y: 0 };
   if (touches.length > 0) {
@@ -16,7 +18,8 @@ const setupCanvasTouchEvents = (
   workarea: Element,
   onMouseDown: (e: Event) => void,
   onMouseMove: (e: Event) => void,
-  onMouseUp: (e: Event) => void,
+  onMouseUp: (e: Event, blocked?: boolean) => void,
+  onDoubleClick: (e: Event) => void,
   getZoom: () => number,
   setZoom: (zoom: number, staticPoint: { x: number, y: number }) => void,
 ): void => {
@@ -26,6 +29,8 @@ const setupCanvasTouchEvents = (
   let startZoom = null;
   let currentScale = 1;
   let lastMoveEventTimestamp = 0;
+  let isDoubleTap = false;
+  const mc = new Hammer.Manager(container as HTMLElement);
 
   container.addEventListener('touchstart', (e: TouchEvent) => {
     if (e.touches.length === 1) {
@@ -80,7 +85,8 @@ const setupCanvasTouchEvents = (
     for (let i = 0; i < e.changedTouches.length; i += 1) {
       if (e.changedTouches[i].identifier === firstTouchID) {
         firstTouchID = null;
-        onMouseUp(e);
+        onMouseUp(e, isDoubleTap);
+        isDoubleTap = false;
       }
     }
     if (e.touches.length >= 2) {
@@ -90,6 +96,12 @@ const setupCanvasTouchEvents = (
         top: workarea.scrollTop,
       };
     }
+  });
+
+  mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+  mc.on('doubletap', (e) => {
+    isDoubleTap = true;
+    onDoubleClick(e as unknown as Event);
   });
 };
 
