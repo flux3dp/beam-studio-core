@@ -34,3 +34,9 @@ export interface ITutorial {
   hasNextButton?: boolean,
   dialogStylesAndContents: ITutorialDialog[],
 }
+
+export interface IMediaTutorial {
+  mediaSrc: string,
+  description: string,
+  isVideo?: boolean,
+}
