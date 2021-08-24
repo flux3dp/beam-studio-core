@@ -662,6 +662,10 @@ export default $.SvgCanvas = function (container, config) {
 
   this.getLastClickPoint = () => lastClickPoint;
 
+  this.setLastClickPoint = (point) => {
+    lastClickPoint = point;
+  };
+
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
   textEdit.useDefaultFont();
@@ -1648,6 +1652,7 @@ export default $.SvgCanvas = function (container, config) {
         tlist = svgedit.transformlist.getTransformList(mouseTarget);
       switch (current_mode) {
         case 'select':
+        case 'multiselect':
           started = true;
           current_resize_mode = 'none';
           if (right_click) {
@@ -2574,9 +2579,12 @@ export default $.SvgCanvas = function (container, config) {
     // identified, a ChangeElementCommand is created and stored on the stack for those attrs
     // this is done in when we recalculate the selected dimensions()
 
-    var mouseUp = async function (evt) {
+    var mouseUp = async (evt, blocked = false) => {
       if (evt.button === 2) {
         return;
+      }
+      if (blocked) {
+        started = false;
       }
       var tempJustSelected = justSelected;
       justSelected = null;
@@ -3103,6 +3111,14 @@ export default $.SvgCanvas = function (container, config) {
             pathActions.toEditMode(path);
           }
         }
+      } else if (current_mode === 'textedit') {
+        const curtext = textActions.getCurtext();
+        if (
+          curtext === mouseTarget
+          || (mouseTarget?.getAttribute('data-textpath-g') && mouseTarget?.querySelector('text') === curtext)
+        ) {
+          textActions.dbClickSelectAll();
+        }
       }
 
       if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {
@@ -3137,8 +3153,8 @@ export default $.SvgCanvas = function (container, config) {
     // Added mouseup to the container here.
     // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
     container.addEventListener('click', handleLinkInCanvas);
-    container.addEventListener('dblclick', dblClick);
-    if (navigator.maxTouchPoints > 1) {
+    // iPad or other pads
+    if (navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os)) {
       const workarea = document.getElementById('workarea');
       touchEvents.setupCanvasTouchEvents(
         container,
@@ -3146,6 +3162,7 @@ export default $.SvgCanvas = function (container, config) {
         mouseDown,
         mouseMove,
         mouseUp,
+        dblClick,
         () => svgCanvas.getZoom(),
         (zoom, staticPoint) => call('zoomed', {
           zoomLevel: zoom,
@@ -3157,6 +3174,7 @@ export default $.SvgCanvas = function (container, config) {
       container.addEventListener('mousemove', mouseMove);
       container.addEventListener('mouseup', mouseUp);
       container.addEventListener('mouseenter', mouseEnter);
+      container.addEventListener('dblclick', dblClick);
 
       // TODO(rafaelcastrocouto): User preference for shift key and zoom factor
 
@@ -7481,7 +7499,7 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   this.calcPathClosed = (pathElem) => {
-    let segList = pathElem.pathSegList._list;
+    const segList = pathElem.pathSegList._list || pathElem.pathSegList;
     let [startX, startY, currentX, currentY, isDrawing, isClosed] = [0, 0, 0, 0, false, true];
     for (let i = 0; i < segList.length; i++) {
       let seg = segList[i];
@@ -8679,7 +8697,8 @@ export default $.SvgCanvas = function (container, config) {
           break;
         case 'path':
           points = [];
-          elem.pathSegList._list.forEach(seg => {
+          const segList = elem.pathSegList._list || elem.pathSegList;
+          segList.forEach((seg) => {
             if (seg.x) {
               points.push({ x: parseFloat(seg.x), y: parseFloat(seg.y) })
             }

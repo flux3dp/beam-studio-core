@@ -20,31 +20,28 @@ function CommonTools({ isWeb, isPreviewing }: Props): JSX.Element {
   return (
     <div
       className="common-tools-container"
-      style={{
-        position: 'absolute',
-        marginLeft: '150px',
-      }}
     >
-      <div style={{
-        cursor: 'pointer',
-      }}
-      >
-        <img
-          src="img/left-bar/icon-Cursor.svg"
-          draggable="false"
-          title={LANG.menu.undo}
-          onClick={() => svgEditor.clickUndo()}
-        />
-        <img
-          src="img/left-bar/icon-Cursor.svg"
-          draggable="false"
-          title={LANG.menu.redo}
-          onClick={() => svgEditor.clickRedo()}
-          style={{
-            transform: 'rotate(90deg)',
-          }}
-        />
-      </div>
+      <img
+        src="img/left-bar/icon-cursor.svg"
+        draggable="false"
+        title={LANG.menu.undo}
+        onClick={() => svgEditor.clickUndo()}
+      />
+      <img
+        src="img/left-bar/icon-cursor.svg"
+        draggable="false"
+        title={LANG.menu.redo}
+        onClick={() => svgEditor.clickRedo()}
+        style={{
+          transform: 'scaleX(-1)',
+        }}
+      />
+      <img
+        src="img/left-bar/icon-trash.svg"
+        draggable="false"
+        title={LANG.menu.delete}
+        onClick={() => svgEditor.deleteSelected()}
+      />
     </div>
   );
 }
