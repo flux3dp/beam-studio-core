@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
+/* eslint-disable max-classes-per-file */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable max-classes-per-file */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import classNames from 'classnames';
 import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';

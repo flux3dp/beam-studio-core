@@ -331,6 +331,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
           enableAutoFocus: doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
           enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
           shouldUseFastGradient: false,
+          shouldMockFastGradient: true,
           vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
         },
       );

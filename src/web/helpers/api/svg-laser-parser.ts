@@ -103,6 +103,10 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-fg');
       }
 
+      if (opts.shouldMockFastGradient) {
+        args.push('-mfg');
+      }
+
       if (opts.vectorSpeedConstraint) {
         args.push('-vsc');
       }
