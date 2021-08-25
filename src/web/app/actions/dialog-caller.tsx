@@ -11,7 +11,7 @@ import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
-import MediaTutorial from 'app/views/dialogs/MediaTutorial';
+import MediaTutorial from 'app/components/dialogs/MediaTutorial';
 import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
