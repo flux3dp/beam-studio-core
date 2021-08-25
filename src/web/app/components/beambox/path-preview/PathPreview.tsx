@@ -1479,7 +1479,7 @@ class PathPreview extends React.Component<Props, State> {
     const className = classNames({ mac: window.os === 'MacOS' });
     const { togglePathPreview } = this.props;
     const {
-      width, height, speedLevel, workspace, isInverting,
+      width, height, speedLevel, workspace, isInverting, playState,
     } = this.state;
     const LANG = i18n.lang.beambox.path_preview;
 
@@ -1585,6 +1585,7 @@ class PathPreview extends React.Component<Props, State> {
           cutDist={`${Math.round(this.gcodePreview.g1DistReal)} mm`}
           rapidDist={`${Math.round(this.gcodePreview.g0DistReal)} mm`}
           currentPosition={this.renderPosition()}
+          isStartHereEnabled={playState !== PlayState.PLAY}
           handleStartHere={this.handleStartHere}
           togglePathPreview={togglePathPreview}
         />
