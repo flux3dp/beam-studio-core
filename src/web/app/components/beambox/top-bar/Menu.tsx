@@ -39,12 +39,14 @@ export default function Menu({ email }: Props): JSX.Element {
 
   React.useEffect(() => {
     eventEmitter.on('ENABLE_MENU_ITEM', (items: string[]) => {
-      for (const item of items) {
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i];
         menuItemUpdater[item]?.(false);
       }
     });
     eventEmitter.on('DISABLE_MENU_ITEM', (items: string[]) => {
-      for (const item of items) {
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i];
         menuItemUpdater[item]?.(true);
       }
     });
@@ -198,6 +200,7 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>{menuCms.about_beam_studio}</MenuItem>
         <MenuItem onClick={() => callback('START_TUTORIAL')}>{menuCms.show_start_tutorial}</MenuItem>
         <MenuItem onClick={() => callback('START_UI_INTRO')}>{menuCms.show_ui_intro}</MenuItem>
+        <MenuItem onClick={() => callback('START_GESTURE_INTRO')}>{'tHand Gesture Introduction'}</MenuItem>
         <MenuItem onClick={() => callback('QUESTIONNAIRE')}>{menuCms.questionnaire}</MenuItem>
         <MenuItem onClick={() => callback('CHANGE_LOGS')}>{menuCms.change_logs}</MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.help_center)}>
@@ -211,7 +214,7 @@ export default function Menu({ email }: Props): JSX.Element {
         {
           email == null
             ? (<MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>)
-            : (<MenuItem onClick={() => callback('SIGN_OUT')}>{menuCms.sign_out} ({email})</MenuItem>)
+            : (<MenuItem onClick={() => callback('SIGN_OUT')}>{`${menuCms.sign_out} (${email})`}</MenuItem>)
         }
         <MenuDivider />
         <MenuItem onClick={() => callback('BUG_REPORT')}>{menuCms.bug_report}</MenuItem>

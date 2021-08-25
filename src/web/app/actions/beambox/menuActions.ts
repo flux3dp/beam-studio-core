@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
@@ -12,8 +14,8 @@ import imageEdit from 'helpers/image-edit';
 import OutputError from 'helpers/output-error';
 import Tutorials from 'app/actions/beambox/tutorials';
 import viewMenu from 'helpers/menubar/view';
-import { Buffer } from 'buffer';
 import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
+import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -104,6 +106,7 @@ export default {
     });
   },
   START_UI_INTRO: () => Tutorials.startInterfaceTutorial(() => { }),
+  START_GESTURE_INTRO: (): Promise<void> => Dialog.showMediaTutorial(gestureIntroduction),
   ZOOM_IN: () => svgEditor.zoomIn(),
   ZOOM_OUT: () => svgEditor.zoomOut(),
   FITS_TO_WINDOW: () => svgEditor.resetView(),
