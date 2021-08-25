@@ -1,6 +1,142 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`side panel test should render correctly when disabled 1`] = `
+<div
+  className=""
+  id="path-preview-side-panel"
+>
+  <div
+    className="title"
+  >
+    Preview Information
+  </div>
+  <div
+    className="datas"
+  >
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Size
+      </div>
+      <div
+        className="value"
+      >
+        100 x 100 mm
+      </div>
+    </div>
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Total Time Estimated
+      </div>
+      <div
+        className="value"
+      >
+        60 s
+      </div>
+    </div>
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Cut Time
+      </div>
+      <div
+        className="value"
+      >
+        30 s
+      </div>
+    </div>
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Travel Time
+      </div>
+      <div
+        className="value"
+      >
+        10 s
+      </div>
+    </div>
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Cut Distance
+      </div>
+      <div
+        className="value"
+      >
+        50 mm
+      </div>
+    </div>
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Travel Distance
+      </div>
+      <div
+        className="value"
+      >
+        30 mm
+      </div>
+    </div>
+    <div
+      className="data-block"
+    >
+      <div
+        className="item"
+      >
+        Current Position
+      </div>
+      <div
+        className="value"
+      >
+        50, 50 mm
+      </div>
+    </div>
+  </div>
+  <div
+    className="remark"
+  >
+    * All pieces of information are estimated value for reference.
+  </div>
+  <div
+    className="buttons"
+  >
+    <div
+      className="btn btn-default primary disabled"
+      onClick={null}
+    >
+      Start Here
+    </div>
+    <div
+      className="btn btn-default"
+      onClick={[MockFunction]}
+    >
+      End Preview
+    </div>
+  </div>
+</div>
+`;
+
+exports[`side panel test should render correctly when enabled 1`] = `
 <div
   className=""
   id="path-preview-side-panel"
