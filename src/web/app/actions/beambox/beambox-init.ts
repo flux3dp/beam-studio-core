@@ -20,6 +20,7 @@ import ratingHelper from 'helpers/rating-helper';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
+import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 
@@ -75,11 +76,17 @@ class BeamboxInit {
         await this.onCameraCalibrationSkipped();
       }
     }
+    if (window.FLUX.version === 'web') {
+      const res = await fluxId.getPreference('did_gesture_tutorial', true);
+      if (res && !res.error && !res.value) {
+        await Dialog.showMediaTutorial(gestureIntroduction);
+        await fluxId.setPreference({ did_gesture_tutorial: true });
+      }
+    }
     await this.showTutorial(isNewUser);
     if (!isNewUser) {
       const lastInstalledVersion = storage.get('last-installed-version');
-      // eslint-disable-next-line @typescript-eslint/dot-notation
-      if (window['FLUX'].version !== lastInstalledVersion) {
+      if (window.FLUX.version !== lastInstalledVersion) {
         await this.showChangeLog();
       }
       await this.showQuestionnaire();

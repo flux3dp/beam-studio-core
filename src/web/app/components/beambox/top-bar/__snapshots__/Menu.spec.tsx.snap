@@ -160,6 +160,13 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabindex="-1"
                     >
+                      tHand Gesture Introduction
+                    </li>
+                    <li
+                      class="rc-menu__item"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
                       Feedback Questionnaire
                     </li>
                     <li
@@ -210,10 +217,7 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabindex="-1"
                     >
-                      Sign Out
-                       (
-                      tester@flux3dp.com
-                      )
+                      Sign Out (tester@flux3dp.com)
                     </li>
                     <li
                       class="rc-menu__divider"
@@ -516,6 +520,13 @@ exports[`should render correctly already signed in 1`] = `
                           role="menuitem"
                           tabindex="-1"
                         >
+                          tHand Gesture Introduction
+                        </li>
+                        <li
+                          class="rc-menu__item"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
                           Feedback Questionnaire
                         </li>
                         <li
@@ -566,10 +577,7 @@ exports[`should render correctly already signed in 1`] = `
                           role="menuitem"
                           tabindex="-1"
                         >
-                          Sign Out
-                           (
-                          tester@flux3dp.com
-                          )
+                          Sign Out (tester@flux3dp.com)
                         </li>
                         <li
                           class="rc-menu__divider"
@@ -702,7 +710,7 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Feedback Questionnaire
+                      tHand Gesture Introduction
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -725,7 +733,7 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Change Logs
+                      Feedback Questionnaire
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -748,7 +756,7 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Help Center
+                      Change Logs
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -771,11 +779,34 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
+                      Help Center
+                    </li>
+                  </Memo(MenuItem)>
+                  <Memo(MenuItem)
+                    index={7}
+                    key=".7"
+                    onClick={[Function]}
+                  >
+                    <li
+                      className="rc-menu__item"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onPointerDown={[Function]}
+                      onPointerLeave={[Function]}
+                      onPointerUp={[Function]}
+                      role="menuitem"
+                      tabIndex={-1}
+                    >
                       Contact Us
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".7"
+                    key=".8"
                   >
                     <li
                       className="rc-menu__divider"
@@ -783,8 +814,8 @@ exports[`should render correctly already signed in 1`] = `
                     />
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
-                    index={7}
-                    key=".8"
+                    index={8}
+                    key=".9"
                     onClick={[Function]}
                   >
                     <li
@@ -806,7 +837,7 @@ exports[`should render correctly already signed in 1`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".9"
+                    key=".a"
                   >
                     <li
                       className="rc-menu__divider"
@@ -815,8 +846,8 @@ exports[`should render correctly already signed in 1`] = `
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
                     disabled={false}
-                    index={8}
-                    key=".a"
+                    index={9}
+                    key=".b"
                     onClick={[Function]}
                   >
                     <li
@@ -838,8 +869,8 @@ exports[`should render correctly already signed in 1`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
-                    index={9}
-                    key=".b"
+                    index={10}
+                    key=".c"
                     onClick={[Function]}
                   >
                     <li
@@ -857,14 +888,11 @@ exports[`should render correctly already signed in 1`] = `
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Sign Out
-                       (
-                      tester@flux3dp.com
-                      )
+                      Sign Out (tester@flux3dp.com)
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".c"
+                    key=".d"
                   >
                     <li
                       className="rc-menu__divider"
@@ -872,8 +900,8 @@ exports[`should render correctly already signed in 1`] = `
                     />
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
-                    index={10}
-                    key=".d"
+                    index={11}
+                    key=".e"
                     onClick={[Function]}
                   >
                     <li
@@ -1459,6 +1487,13 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabindex="-1"
                     >
+                      tHand Gesture Introduction
+                    </li>
+                    <li
+                      class="rc-menu__item"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
                       Feedback Questionnaire
                     </li>
                     <li
@@ -1812,6 +1847,13 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                           role="menuitem"
                           tabindex="-1"
                         >
+                          tHand Gesture Introduction
+                        </li>
+                        <li
+                          class="rc-menu__item"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
                           Feedback Questionnaire
                         </li>
                         <li
@@ -1995,7 +2037,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Feedback Questionnaire
+                      tHand Gesture Introduction
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -2018,7 +2060,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Change Logs
+                      Feedback Questionnaire
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -2041,7 +2083,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabIndex={-1}
                     >
-                      Help Center
+                      Change Logs
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
@@ -2064,11 +2106,34 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       role="menuitem"
                       tabIndex={-1}
                     >
+                      Help Center
+                    </li>
+                  </Memo(MenuItem)>
+                  <Memo(MenuItem)
+                    index={7}
+                    key=".7"
+                    onClick={[Function]}
+                  >
+                    <li
+                      className="rc-menu__item"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onPointerDown={[Function]}
+                      onPointerLeave={[Function]}
+                      onPointerUp={[Function]}
+                      role="menuitem"
+                      tabIndex={-1}
+                    >
                       Contact Us
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".7"
+                    key=".8"
                   >
                     <li
                       className="rc-menu__divider"
@@ -2076,8 +2141,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     />
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
-                    index={7}
-                    key=".8"
+                    index={8}
+                    key=".9"
                     onClick={[Function]}
                   >
                     <li
@@ -2099,7 +2164,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".9"
+                    key=".a"
                   >
                     <li
                       className="rc-menu__divider"
@@ -2108,8 +2173,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
                     disabled={false}
-                    index={8}
-                    key=".a"
+                    index={9}
+                    key=".b"
                     onClick={[Function]}
                   >
                     <li
@@ -2131,8 +2196,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
-                    index={9}
-                    key=".b"
+                    index={10}
+                    key=".c"
                     onClick={[Function]}
                   >
                     <li
@@ -2154,7 +2219,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".c"
+                    key=".d"
                   >
                     <li
                       className="rc-menu__divider"
@@ -2162,8 +2227,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     />
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
-                    index={10}
-                    key=".d"
+                    index={11}
+                    key=".e"
                     onClick={[Function]}
                   >
                     <li

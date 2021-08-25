@@ -95,7 +95,7 @@ const handleOAuthLoginSuccess = (data) => {
   }
 };
 
-export const signInWithFBToken = async (fb_token: string) => {
+export const signInWithFBToken = async (fb_token: string): Promise<boolean> => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', { fb_token }, {
     withCredentials: true,
@@ -160,7 +160,7 @@ const getAccessToken = async () => {
   return null;
 };
 
-export const signInWithGoogleCode = async (info): Promise<boolean> => {
+export const signInWithGoogleCode = async (info: { [key: string]: string }): Promise<boolean> => {
   const data = {
     google_code: info.code,
     redirect_uri: info.redirect_url,
@@ -296,6 +296,31 @@ export const submitRating = async (
   return response;
 };
 
+export const getPreference = async (key = '', silent = false) => {
+  const response = await axiosFluxId.get(`software-preference/bxpref/${key}`, {
+    withCredentials: true,
+  }) as ResponseWithError;
+
+  if (response.status === 200) {
+    const { data } = response;
+    return data;
+  }
+  if (!silent) handleErrorMessage(response.error);
+  return response;
+};
+
+export const setPreference = async (value: { [key: string]: any }): Promise<boolean> => {
+  const response = await axiosFluxId.post('software-preference/bxpref', value, {
+    withCredentials: true,
+  }) as ResponseWithError;
+  if (response.status === 200) {
+    const { data } = response;
+    if (data.status === 'ok') return true;
+  }
+
+  return false;
+};
+
 export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
   const response = await axiosFluxId.get(`/api/np/icons/${term}`, {
     params: {
@@ -324,4 +349,6 @@ export const getNPIconByID = async (id: string) => {
 
 export default {
   init,
+  getPreference,
+  setPreference,
 };

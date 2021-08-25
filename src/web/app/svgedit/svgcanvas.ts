@@ -9446,7 +9446,7 @@ export default $.SvgCanvas = function (container, config) {
     };
   };
 
-  this.distHori = function (isSubCmd) {
+  this.distHori = (isSubCmd) => {
     if (tempGroup) {
       let children = this.ungroupTempGroup();
       this.selectOnly(children, false);
@@ -9493,7 +9493,7 @@ export default $.SvgCanvas = function (container, config) {
     return batchCmd;
   };
 
-  this.distVert = function (isSubCmd) {
+  this.distVert = (isSubCmd) => {
     if (tempGroup) {
       let children = this.ungroupTempGroup();
       this.selectOnly(children, false);
