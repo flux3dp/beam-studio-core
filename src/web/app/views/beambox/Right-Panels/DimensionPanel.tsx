@@ -263,6 +263,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>2</sub>
             </div>
             <UnitInput
+              id="x2_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.x2)}
@@ -278,7 +279,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>2</sub>
             </div>
             <UnitInput
-              id="x2_position"
+              id="y2_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.y2)}
@@ -294,7 +295,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>C</sub>
             </div>
             <UnitInput
-              id="y2_position"
+              id="cx_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.cx)}
@@ -310,7 +311,7 @@ class DimensionPanel extends React.Component<Props> {
               <sub>C</sub>
             </div>
             <UnitInput
-              id="cx_position"
+              id="cy_position"
               unit={this.unit}
               className={this.unitInputClass}
               defaultValue={this.getDisplayValue(dimensionValues.cy)}
@@ -403,8 +404,8 @@ class DimensionPanel extends React.Component<Props> {
 
   renderDimensionPanels = (panels: Array<string>): Array<Element> => {
     const ret = [];
-    for (let i = 0; i < panels.length; i += 1) {
-      ret.push(this.renderDimensionPanel(panels[i]));
+    for (let panel of panels) {
+      ret.push(this.renderDimensionPanel(panel));
     }
     return ret;
   };

@@ -237,7 +237,7 @@ class UnitInput extends React.Component<Props, States> {
     className['ui ui-control-unit-input-v2'] = true;
 
     const shouldHideValue = (this.props.displayMultiValue && !this.state.isEditing);
-
+    // console.log(className);
     return (
       <div className={ClassNames(className)}>
         <input

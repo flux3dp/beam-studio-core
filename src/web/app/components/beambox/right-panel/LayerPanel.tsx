@@ -35,6 +35,7 @@ interface Props {
 }
 
 interface State {
+  id?:string,
   colorPanelLayer: string;
   colorPanelLeft: number;
   colorPanelTop: number;

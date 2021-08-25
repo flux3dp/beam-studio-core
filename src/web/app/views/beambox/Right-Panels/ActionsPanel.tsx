@@ -11,6 +11,7 @@ import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { string } from 'prop-types';
 
 let svgCanvas;
 let svgEditor;

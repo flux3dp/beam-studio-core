@@ -10,8 +10,9 @@ import { IProgressDialog } from 'interfaces/IProgress';
 const LANG = i18n.lang;
 
 interface Props {
-  progress: IProgressDialog;
-  popById: (id: string) => void;
+  id?: string;
+  progress: IProgressDialog,
+  onClose?: () => void,
 }
 
 class Progress extends React.Component<Props> {
