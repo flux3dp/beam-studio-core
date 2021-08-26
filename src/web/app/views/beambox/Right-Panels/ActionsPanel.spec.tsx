@@ -66,6 +66,11 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+const mockCheckConnection = jest.fn();
+jest.mock('helpers/api/discover', () => ({
+  checkConnection: mockCheckConnection,
+}));
+
 const getSVGAsync = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,
@@ -180,16 +185,23 @@ describe('should render correctly', () => {
   });
 
   test('text', async () => {
+    Object.defineProperty(window, 'FLUX', {
+      value: {
+        version: 'web',
+      },
+    });
     document.body.innerHTML = '<text id="svg_1" />';
     const wrapper = shallow(<ActionsPanel
       elem={document.getElementById('svg_1')}
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
+    mockCheckConnection.mockReturnValueOnce(true);
     convertTextToPathFluxsvg.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2 });
     wrapper.find('div.btn-container').at(0).simulate('click');
     await tick();
+    expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(openNonstopProgress).toHaveBeenCalledTimes(1);
     expect(openNonstopProgress).toHaveBeenNthCalledWith(1, { id: 'convert-font', message: 'Parsing font... Please wait a second' });
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);

@@ -5,10 +5,16 @@ import toJson from 'enzyme-to-json';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
+    alert: {
+      oops: 'Oops...',
+    },
     beambox: {
       time_est_button: {
         calculate: 'Estimate time',
       },
+    },
+    device_selection: {
+      no_beambox: '#801',
     },
     monitor: {
       hour: 'h',
@@ -16,6 +22,16 @@ jest.mock('helpers/i18n', () => ({
       second: 's',
     },
   },
+}));
+
+const mockPopUp = jest.fn();
+jest.mock('app/actions/alert-caller', () => ({
+  popUp: mockPopUp,
+}));
+
+const mockCheckConnection = jest.fn();
+jest.mock('helpers/api/discover', () => ({
+  checkConnection: mockCheckConnection,
 }));
 
 const mockEstimateTime = jest.fn();
@@ -63,6 +79,41 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     mockEstimateTime.mockResolvedValue(90);
+    wrapper.find('div.time-est-btn').simulate('click');
+    await mockEstimateTime();
+    expect(mockSetEstimatedTime).toHaveBeenCalledTimes(1);
+    expect(mockSetEstimatedTime).toHaveBeenNthCalledWith(1, 90);
+  });
+
+  test('web check connection', async () => {
+    Object.defineProperty(window, 'os', {
+      value: 'MacOS',
+    });
+    Object.defineProperty(window, 'FLUX', {
+      value: {
+        version: 'web',
+      },
+    });
+    const mockSetEstimatedTime = jest.fn();
+    const wrapper = mount(
+      <TimeEstimationButtonContext.Provider value={{
+        setEstimatedTime: mockSetEstimatedTime,
+        estimatedTime: null,
+      }}
+      >
+        <TimeEstimationButton />
+      </TimeEstimationButtonContext.Provider>,
+    );
+
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    mockCheckConnection.mockReturnValueOnce(false);
+    wrapper.find('div.time-est-btn').simulate('click');
+    expect(mockCheckConnection).toHaveBeenCalledTimes(1);
+    expect(mockPopUp).toHaveBeenCalledTimes(1);
+
+    mockEstimateTime.mockResolvedValue(90);
+    mockCheckConnection.mockReturnValueOnce(true);
     wrapper.find('div.time-est-btn').simulate('click');
     await mockEstimateTime();
     expect(mockSetEstimatedTime).toHaveBeenCalledTimes(1);
