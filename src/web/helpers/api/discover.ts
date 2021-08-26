@@ -212,4 +212,6 @@ const initSmartUpnp = async () => {
 };
 initSmartUpnp();
 
+export const checkConnection = (): boolean => ws.currentState === ws.readyState.OPEN;
+
 export default Discover;

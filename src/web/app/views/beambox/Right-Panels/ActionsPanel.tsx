@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import alertCaller from 'app/actions/alert-caller';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -10,6 +11,7 @@ import Progress from 'app/actions/progress-caller';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
+import { checkConnection } from 'helpers/api/discover';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -40,6 +42,13 @@ class ActionsPanel extends React.Component<Props> {
   };
 
   convertTextToPath = async (): Promise<void> => {
+    if (window.FLUX.version === 'web' && !checkConnection()) {
+      alertCaller.popUp({
+        caption: i18n.lang.alert.oops,
+        message: i18n.lang.device_selection.no_beambox,
+      });
+      return;
+    }
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;

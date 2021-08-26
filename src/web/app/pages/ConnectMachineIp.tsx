@@ -12,7 +12,7 @@ import network from 'implementations/network';
 import storage from 'implementations/storage';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-let lang;
+let lang = i18n.lang.initialize;
 const TIMEOUT = 20;
 const ipRex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 
@@ -80,22 +80,22 @@ export default class ConnectMachine extends React.Component<any, State> {
     });
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.checkRpiIp();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     const { didConnectMachine, cameraAvailability } = this.state;
     if (didConnectMachine && (cameraAvailability === null)) {
       this.testCamera();
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.discover.removeListener('connect-machine-ip');
   }
 
-  checkRpiIp = async () => {
+  private checkRpiIp = async () => {
     try {
       const res = await network.dnsLookUpAll('raspberrypi.local');
       res.forEach((ipAddress) => {
@@ -112,7 +112,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     }
   };
 
-  testCamera = async () => {
+  private testCamera = async () => {
     const { device } = this.state;
     try {
       const res = await DeviceMaster.select(device);
@@ -120,17 +120,13 @@ export default class ConnectMachine extends React.Component<any, State> {
         throw new Error('Fail to select device');
       }
       await DeviceMaster.connectCamera();
-      const { imgBlob } = await DeviceMaster.takeOnePicture();
+      await DeviceMaster.takeOnePicture();
       DeviceMaster.disconnectCamera();
-      if (imgBlob.size >= 30) {
-        this.setState({
-          cameraAvailability: true,
-          isTesting: false,
-          hadTested: true,
-        });
-      } else {
-        throw new Error('Blob size too small, something wrong with camera');
-      }
+      this.setState({
+        cameraAvailability: true,
+        isTesting: false,
+        hadTested: true,
+      });
     } catch (e) {
       console.log(e);
       this.setState({
@@ -141,7 +137,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     }
   };
 
-  renderContent = () => {
+  renderContent = (): JSX.Element => {
     const { rpiIp } = this.state;
     const imgSrc = this.isWired ? 'img/init-panel/network-panel-wired.jpg' : 'img/init-panel/network-panel-wireless.jpg';
     return (
@@ -158,7 +154,7 @@ export default class ConnectMachine extends React.Component<any, State> {
               className="ip-input"
               placeholder="192.168.0.1"
               type="text"
-              onKeyDown={(e) => this.handleKeyDown(e)}
+              onKeyDown={this.handleKeyDown}
               defaultValue={rpiIp}
             />
             {this.renderTestInfos()}
@@ -168,7 +164,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     );
   };
 
-  renderTestInfos = () => {
+  renderTestInfos = (): JSX.Element => {
     const {
       machineIp,
       isIpValid,
@@ -201,22 +197,45 @@ export default class ConnectMachine extends React.Component<any, State> {
     return <div className="test-infos" />;
   };
 
-  handleKeyDown = (e) => {
+  private handleKeyDown = (e) => {
     if (e.keyCode === keyCodeConstants.KEY_RETURN) {
       this.startTesting();
     }
   };
 
+  private checkIPFormat = (ip: string): boolean => {
+    const isIPFormatValid = ipRex.test(ip);
+    if (!isIPFormatValid) {
+      this.setState({
+        machineIp: ip,
+        isIpValid: false,
+        testIpInfo: `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.invalid_format}`,
+      });
+    }
+    return isIPFormatValid;
+  };
+
   checkIPExist = async (): Promise<boolean> => {
     const ip = this.ipInput.current.value;
     const { error, isExisting } = await network.checkIPExist(ip, 3);
-    if (error) return null;
-    return isExisting;
+
+    if (!error && !isExisting) {
+      this.setState({
+        machineIp: ip,
+        isIpValid: false,
+        testIpInfo: `${lang.connect_machine_ip.unreachable}`,
+        isTesting: false,
+        hadTested: true,
+      });
+      return false;
+    }
+
+    // if error occur when pinging, continue testing, return null as result unknown
+    return error ? null : true;
   };
 
-  startTesting = async () => {
+  private startTesting = async () => {
     const ip = this.ipInput.current.value;
-    const isIPFormatValid = ipRex.test(ip);
     this.setState({
       isIpValid: null,
       testIpInfo: null,
@@ -225,50 +244,35 @@ export default class ConnectMachine extends React.Component<any, State> {
       cameraAvailability: null,
       device: null,
     });
-    if (!isIPFormatValid) {
-      this.setState({
-        machineIp: ip,
-        isIpValid: false,
-        testIpInfo: `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.invalid_format}`,
-      });
-      return;
-    }
-    if (ip.trim().startsWith('169.254')) {
-      this.setState({
-        machineIp: ip,
-        isIpValid: false,
-        testIpInfo: `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.starts_with_169254}`,
-      });
-      return;
-    }
-    this.discover.poke(ip);
-    this.discover.pokeTcp(ip);
-    this.discover.testTcp(ip);
-    // Ping Target
+
+    // check format
+    if (!this.checkIPFormat(ip)) return;
+
     this.setState({
       isTesting: true,
       hadTested: false,
       machineIp: ip,
     });
+
+    // Ping Target
     const isIpValid = await this.checkIPExist();
-    console.log(isIpValid);
-    if (isIpValid === false) {
-      this.setState({
-        machineIp: ip,
-        isIpValid: false,
-        testIpInfo: `${lang.connect_machine_ip.unreachable}`,
-        isTesting: false,
-        hadTested: true,
-      });
-      return;
-    }
-    // Connecting to Machine
+    if (isIpValid === false) return;
+
     this.setState({
       machineIp: ip,
       isIpValid,
       connectionTestCountDown: TIMEOUT,
     });
 
+    if (window.FLUX.version === 'web') {
+      localStorage.setItem('host', ip);
+      localStorage.setItem('post', '8000');
+    }
+    this.discover.poke(ip);
+    this.discover.pokeTcp(ip);
+    this.discover.testTcp(ip);
+
+    // Connecting to Machine
     clearInterval(this.testCountDown);
     this.testCountDown = setInterval(() => {
       const { isTesting, didConnectMachine, connectionTestCountDown } = this.state;
@@ -288,7 +292,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     }, 1000);
   };
 
-  onFinish = () => {
+  private onFinish = () => {
     const { device, machineIp } = this.state;
     const modelMap = {
       fbm1: 'fbm1',
@@ -317,17 +321,16 @@ export default class ConnectMachine extends React.Component<any, State> {
     window.location.reload();
   };
 
-  renderNextButton = () => {
+  renderNextButton = (): JSX.Element => {
     const { isTesting, hadTested, didConnectMachine } = this.state;
-    let onClick;
-    let label;
+    let onClick = () => { };
+    let label: string;
     let className = classNames('btn-page', 'next', 'primary');
     if (!isTesting && !hadTested) {
       label = lang.next;
       onClick = this.startTesting;
     } else if (isTesting) {
       label = lang.next;
-      onClick = () => { };
       className = classNames('btn-page', 'next', 'primary', 'disabled');
     } else if (hadTested) {
       if (didConnectMachine) {
@@ -345,7 +348,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     );
   };
 
-  renderButtons = () => (
+  renderButtons = (): JSX.Element => (
     <div className="btn-page-container">
       <div className="btn-page" onClick={() => window.history.back()}>
         {lang.back}
@@ -354,7 +357,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     </div>
   );
 
-  render() {
+  render(): JSX.Element {
     const wrapperClassName = { initialization: true };
     const innerContent = this.renderContent();
     const content = (

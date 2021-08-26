@@ -32,3 +32,22 @@ exports[`should render correctly has estimatedTime 1`] = `
   </div>
 </TimeEstimationButton>
 `;
+
+exports[`should render correctly web check connection 1`] = `
+<TimeEstimationButton>
+  <div
+    className="time-est-btn-container"
+  >
+    <div
+      className="time-est-btn"
+      onClick={[Function]}
+      title="Estimate time"
+    >
+      <img
+        draggable="false"
+        src="img/icon-stopwatch.svg"
+      />
+    </div>
+  </div>
+</TimeEstimationButton>
+`;
