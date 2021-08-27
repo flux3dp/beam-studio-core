@@ -33,10 +33,10 @@ export function gcode(drawCommands) {
       attribute vec4 position;
       attribute float g;
       attribute float t;
-      attribute float g0Dist;
+      attribute float g0Time;
       attribute float g1Time;
       varying vec4 color;
-      varying float vg0Dist;
+      varying float vg0Time;
       varying float vg1Time;
       void main() {
         gl_Position = perspective * view * vec4(position.x, position.y + position.a * rotaryScale, position.z, 1);
@@ -56,7 +56,7 @@ export function gcode(drawCommands) {
           color = vec4(1.0, 1.0, 1.0, 1.0);
         else
           color = vec4(0.0, 0.0, 0.0, 1.0);
-        vg0Dist = g0Dist;
+        vg0Time = g0Time;
         vg1Time = g1Time;
       }`,
     frag: `
@@ -65,10 +65,10 @@ export function gcode(drawCommands) {
       uniform float simTime;
       uniform bool showRemaining;
       varying vec4 color;
-      varying float vg0Dist;
+      varying float vg0Time;
       varying float vg1Time;
       void main() {
-        float time = vg1Time + vg0Dist / g0Rate;
+        float time = vg1Time + vg0Time;
         if((time > simTime && !showRemaining) || (time <= simTime && showRemaining))
           discard;
         else
@@ -78,7 +78,7 @@ export function gcode(drawCommands) {
       g: { offset: 0 },
       position: { offset: 4 },
       t: { offset: 20 },
-      g0Dist: { offset: 24 },
+      g0Time: { offset: 24 },
       g1Time: { offset: 28 },
     },
   });
@@ -195,7 +195,7 @@ export class GcodePreview {
         array[i * drawStride * 2 + 3] = z1;
         array[i * drawStride * 2 + 4] = a1;
         array[i * drawStride * 2 + 5] = t;
-        array[i * drawStride * 2 + 6] = g0Dist;
+        array[i * drawStride * 2 + 6] = g0Time;
         array[i * drawStride * 2 + 7] = g1Time;
         const dist = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
         let tc = 0;
@@ -233,7 +233,7 @@ export class GcodePreview {
         array[i * drawStride * 2 + 11] = z2;
         array[i * drawStride * 2 + 12] = a2;
         array[i * drawStride * 2 + 13] = t;
-        array[i * drawStride * 2 + 14] = g0Dist;
+        array[i * drawStride * 2 + 14] = g0Time;
         array[i * drawStride * 2 + 15] = g1Time;
       }
 
