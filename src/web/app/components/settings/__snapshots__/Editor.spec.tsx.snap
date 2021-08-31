@@ -100,6 +100,11 @@ exports[`should render correctly initially no warning 1`] = `
           "selected": false,
           "value": "fbb1p",
         },
+        Object {
+          "label": "Beambox 2",
+          "selected": false,
+          "value": "fbb2b",
+        },
       ]
     }
   />
@@ -361,6 +366,11 @@ exports[`should render correctly initially no warning 2`] = `
           "label": "Beambox Pro",
           "selected": false,
           "value": "fbb1p",
+        },
+        Object {
+          "label": "Beambox 2",
+          "selected": false,
+          "value": "fbb2b",
         },
       ]
     }
@@ -639,6 +649,11 @@ exports[`should render correctly initially no warning 3`] = `
           "selected": false,
           "value": "fbb1p",
         },
+        Object {
+          "label": "Beambox 2",
+          "selected": false,
+          "value": "fbb2b",
+        },
       ]
     }
   />
@@ -915,6 +930,11 @@ exports[`should render correctly initially no warning 4`] = `
           "label": "Beambox Pro",
           "selected": false,
           "value": "fbb1p",
+        },
+        Object {
+          "label": "Beambox 2",
+          "selected": false,
+          "value": "fbb2b",
         },
       ]
     }
