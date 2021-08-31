@@ -286,6 +286,7 @@ export interface ILang {
       wifi: string,
       wired: string,
       ether2ether: string,
+      usb: string,
     },
     connect_wifi: {
       title: string,

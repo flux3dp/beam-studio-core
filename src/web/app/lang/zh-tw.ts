@@ -288,6 +288,7 @@ const lang: ILang = {
       wifi: 'Wi-Fi',
       wired: '有線網路',
       ether2ether: '網路線直連',
+      usb: 'USB 連線',
     },
     connect_wifi: {
       title: '連接 Wi-Fi',
