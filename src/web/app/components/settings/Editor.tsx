@@ -103,14 +103,12 @@ function Editor({
       label: 'Beambox Pro',
       selected: selectedModel === 'fbb1p',
     },
-  ];
-  if (window.FLUX.dev) {
-    modelOptions.push({
+    {
       value: 'fbb2b',
       label: 'Beambox 2',
       selected: selectedModel === 'fbb2b',
-    });
-  }
+    },
+  ];
 
   return (
     <>

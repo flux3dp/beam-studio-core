@@ -10,6 +10,7 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
+import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
 import fileExportHelper from 'helpers/file-export-helper';
@@ -125,6 +126,7 @@ export default class TopBar extends React.Component<Props, State> {
             svgCanvas.setResolution(Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
             svgEditor.resetView();
             PreviewModeBackgroundDrawer.updateCanvasSize();
+            diodeBoundaryDrawer.updateCanvasSize();
             beamboxStore.emitUpdateLaserPanel();
             OpenBottomBoundaryDrawer.update();
             resolve(true);

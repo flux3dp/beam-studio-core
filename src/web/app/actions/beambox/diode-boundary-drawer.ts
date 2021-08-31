@@ -1,13 +1,15 @@
-import Constant from './constant';
-import BeamboxPreference from './beambox-preference';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Constant from 'app/actions/beambox/constant';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 const { $, svgedit } = window;
+const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
-let diodeBoundaryPath;
-let diodeBoundarySvg;
+let diodeBoundaryPath: SVGPathElement;
+let diodeBoundarySvg: SVGSVGElement;
 const createBoundary = () => {
-  diodeBoundarySvg = document.createElementNS(svgedit.NS.SVG, 'svg');
-  diodeBoundaryPath = document.createElementNS(svgedit.NS.SVG, 'path');
+  diodeBoundarySvg = document.createElementNS(svgedit.NS.SVG, 'svg') as unknown as SVGSVGElement;
+  diodeBoundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
   $('#canvasBackground').append(diodeBoundarySvg);
   diodeBoundarySvg.appendChild(diodeBoundaryPath);
   $(diodeBoundarySvg).attr({
@@ -27,6 +29,12 @@ const createBoundary = () => {
     style: 'pointer-events:none',
   });
 };
+
+const updateCanvasSize = () => {
+  const viewBox = `0 0 ${Constant.dimension.getWidth(BeamboxPreference.read('workarea'))} ${Constant.dimension.getHeight(BeamboxPreference.read('workarea'))}`;
+  diodeBoundarySvg?.setAttribute('viewBox', viewBox);
+};
+documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const show = (isDiode = false): void => {
   if (!diodeBoundaryPath) createBoundary();
@@ -57,4 +65,5 @@ const hide = (): void => {
 export default {
   show,
   hide,
+  updateCanvasSize,
 };

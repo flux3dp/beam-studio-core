@@ -23,11 +23,8 @@ const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
   { label: 'Beambox', value: 'fbb1b' },
   { label: 'Beambox Pro', value: 'fbb1p' },
+  { label: 'Beambox2', value: 'fbb2b' },
 ];
-
-if (window.FLUX.dev) {
-  workareaOptions.push({ label: 'Beambox2', value: 'fbb2b' });
-}
 
 interface Props {
   unmount: () => void;

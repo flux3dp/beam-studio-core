@@ -25,8 +25,8 @@ WorkareaMap.set('fbb1p', {
 });
 WorkareaMap.set('fbb2b', {
   label: 'Beambox2',
-  width: 7369,
-  height: 4140.5,
+  width: 7300,
+  height: 4100,
 });
 
 export default {
@@ -83,7 +83,7 @@ export default {
   addonsSupportList: {
     openBottom: ['fbm1'],
     autoFocus: ['fbm1', 'fbb2b'],
-    hybridLaser: ['fbm1'],
+    hybridLaser: ['fbm1', 'fbb2b'],
   },
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
