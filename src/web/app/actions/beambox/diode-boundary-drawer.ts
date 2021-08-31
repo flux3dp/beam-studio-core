@@ -30,7 +30,7 @@ const createBoundary = () => {
   });
 };
 
-const updateCanvasSize = () => {
+const updateCanvasSize = (): void => {
   const viewBox = `0 0 ${Constant.dimension.getWidth(BeamboxPreference.read('workarea'))} ${Constant.dimension.getHeight(BeamboxPreference.read('workarea'))}`;
   diodeBoundarySvg?.setAttribute('viewBox', viewBox);
 };
