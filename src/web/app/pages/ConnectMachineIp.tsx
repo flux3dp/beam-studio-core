@@ -39,6 +39,8 @@ export default class ConnectMachine extends React.Component<any, State> {
 
   private isWired: boolean;
 
+  private isUsb: boolean;
+
   private discover: any;
 
   private testCountDown: NodeJS.Timeout;
@@ -63,6 +65,7 @@ export default class ConnectMachine extends React.Component<any, State> {
     const urlParams = new URLSearchParams(queryString);
 
     this.isWired = urlParams.get('wired') === '1';
+    this.isUsb = urlParams.get('usb') === '1';
 
     this.discover = Discover('connect-machine-ip', (deviceList) => {
       const { isIpValid, didConnectMachine, machineIp } = this.state;
@@ -152,25 +155,34 @@ export default class ConnectMachine extends React.Component<any, State> {
     }
   };
 
+  renderImageContent = (): JSX.Element => {
+    const { isUsb, isWired } = this;
+    if (isUsb) return null;
+    const imgSrc = isWired ? 'img/init-panel/network-panel-wired.jpg' : 'img/init-panel/network-panel-wireless.jpg';
+    return (
+      <div className="image-container">
+        <div className={classNames('hint-circle', 'ip', { wired: isWired })} />
+        <img className="touch-panel-icon" src={imgSrc} draggable="false" />
+      </div>
+    );
+  };
+
   renderContent = (): JSX.Element => {
+    const { isUsb } = this;
     const { rpiIp } = this.state;
-    const imgSrc = this.isWired ? 'img/init-panel/network-panel-wired.jpg' : 'img/init-panel/network-panel-wireless.jpg';
     return (
       <div className="connection-machine-ip">
-        <div className="image-container">
-          <div className={classNames('hint-circle', 'ip', { wired: this.isWired })} />
-          <img className="touch-panel-icon" src={imgSrc} draggable="false" />
-        </div>
+        {this.renderImageContent()}
         <div className="text-container">
           <div className="title">{lang.connect_machine_ip.enter_ip}</div>
           <div className="contents tutorial">
             <input
               ref={this.ipInput}
-              className="ip-input"
+              className={classNames('ip-input', { disabled: isUsb })}
               placeholder="192.168.0.1"
               type="text"
               onKeyDown={this.handleKeyDown}
-              defaultValue={rpiIp}
+              defaultValue={isUsb ? '10.55.0.1' : rpiIp}
             />
             {this.renderTestInfos()}
           </div>

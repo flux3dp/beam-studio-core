@@ -5,7 +5,7 @@ import Modal from 'app/widgets/Modal';
 import storage from 'implementations/storage';
 import windowLocationReload from 'app/actions/windowLocation';
 
-let lang;
+let lang = i18n.lang.initialize;
 
 export default class SelectConnectionType extends React.PureComponent {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class SelectConnectionType extends React.PureComponent {
     lang = i18n.lang.initialize;
   }
 
-  selectConnectionType = (type: 'wifi' | 'wired' | 'ether2ether') => {
+  private selectConnectionType = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb') => {
     // eslint-disable-next-line default-case
     switch (type) {
       case 'wifi':
@@ -25,17 +25,20 @@ export default class SelectConnectionType extends React.PureComponent {
       case 'ether2ether':
         window.location.hash = '#initialize/connect/connect-ethernet';
         break;
+      case 'usb':
+        window.location.hash = '#initialize/connect/connect-machine-ip?usb=1';
+        break;
     }
   };
 
-  renderConnectionTypeContainer = (type: 'wifi' | 'wired' | 'ether2ether') => (
+  renderConnectionTypeContainer = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
     <div className="btn-container">
       <img className="connect-btn-icon" src={`img/init-panel/icon-${type}.svg`} draggable="false" />
       {this.renderConnectionTypeButton(type)}
     </div>
   );
 
-  renderConnectionTypeButton = (type: 'wifi' | 'wired' | 'ether2ether') => (
+  renderConnectionTypeButton = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
     <button
       id={`connect-${type}`}
       type="button"
@@ -53,6 +56,7 @@ export default class SelectConnectionType extends React.PureComponent {
         {this.renderConnectionTypeContainer('wifi')}
         {this.renderConnectionTypeContainer('wired')}
         {this.renderConnectionTypeContainer('ether2ether')}
+        {this.renderConnectionTypeContainer('usb')}
       </div>
     </div>
   );
