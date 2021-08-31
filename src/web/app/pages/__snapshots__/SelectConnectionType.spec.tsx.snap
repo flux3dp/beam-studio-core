@@ -88,6 +88,27 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                 Direct Connection
               </button>
             </div>
+            <div
+              className="btn-container"
+            >
+              <img
+                className="connect-btn-icon"
+                draggable="false"
+                src="img/init-panel/icon-usb.svg"
+              />
+              <button
+                className="btn btn-action"
+                onClick={[Function]}
+                type="button"
+              >
+                USB Connection
+                <span
+                  className="sub"
+                >
+                   (Ultra 60 Only)
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -179,6 +200,27 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                   type="button"
                 >
                   Direct Connection
+                </button>
+              </div>
+              <div
+                className="btn-container"
+              >
+                <img
+                  className="connect-btn-icon"
+                  draggable="false"
+                  src="img/init-panel/icon-usb.svg"
+                />
+                <button
+                  className="btn btn-action"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  USB Connection
+                  <span
+                    className="sub"
+                  >
+                     (Ultra 60 Only)
+                  </span>
                 </button>
               </div>
             </div>
@@ -278,6 +320,27 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                 Direct Connection
               </button>
             </div>
+            <div
+              className="btn-container"
+            >
+              <img
+                className="connect-btn-icon"
+                draggable="false"
+                src="img/init-panel/icon-usb.svg"
+              />
+              <button
+                className="btn btn-action"
+                onClick={[Function]}
+                type="button"
+              >
+                USB Connection
+                <span
+                  className="sub"
+                >
+                   (Ultra 60 Only)
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -369,6 +432,27 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                   type="button"
                 >
                   Direct Connection
+                </button>
+              </div>
+              <div
+                className="btn-container"
+              >
+                <img
+                  className="connect-btn-icon"
+                  draggable="false"
+                  src="img/init-panel/icon-usb.svg"
+                />
+                <button
+                  className="btn btn-action"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  USB Connection
+                  <span
+                    className="sub"
+                  >
+                     (Ultra 60 Only)
+                  </span>
                 </button>
               </div>
             </div>
@@ -468,6 +552,27 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                 Direct Connection
               </button>
             </div>
+            <div
+              className="btn-container"
+            >
+              <img
+                className="connect-btn-icon"
+                draggable="false"
+                src="img/init-panel/icon-usb.svg"
+              />
+              <button
+                className="btn btn-action"
+                onClick={[Function]}
+                type="button"
+              >
+                USB Connection
+                <span
+                  className="sub"
+                >
+                   (Ultra 60 Only)
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -559,6 +664,27 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                   type="button"
                 >
                   Direct Connection
+                </button>
+              </div>
+              <div
+                className="btn-container"
+              >
+                <img
+                  className="connect-btn-icon"
+                  draggable="false"
+                  src="img/init-panel/icon-usb.svg"
+                />
+                <button
+                  className="btn btn-action"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  USB Connection
+                  <span
+                    className="sub"
+                  >
+                     (Ultra 60 Only)
+                  </span>
                 </button>
               </div>
             </div>

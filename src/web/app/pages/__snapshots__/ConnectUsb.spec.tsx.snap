@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Connect-Usb should render correctly 1`] = `
+<View
+  className={
+    Object {
+      "initialization": true,
+    }
+  }
+  content={
+    <div
+      className="connect-machine"
+    >
+      <div
+        className="top-bar"
+      />
+      <div
+        className="btn-page-container"
+      >
+        <div
+          className="btn-page"
+          onClick={[Function]}
+        >
+          Back
+        </div>
+        <div
+          className="btn-page primary"
+          onClick={[Function]}
+        >
+          Next
+        </div>
+      </div>
+      <div
+        className="connection-usb"
+      >
+        <div
+          className="image-container usb"
+        >
+          <div
+            className="circle c1"
+          />
+          <img
+            className="usb-cable-icon"
+            draggable="false"
+            src="img/init-panel/icon-usb-cable.svg"
+          />
+          <div
+            className="circle c2"
+          />
+        </div>
+        <div
+          className="text-container"
+        >
+          <div
+            className="title"
+          >
+            USB Connection
+            <span
+              className="sub"
+            >
+               (Ultra 60 Only)
+            </span>
+          </div>
+          <div
+            className="contents tutorial"
+          >
+            <div>
+              1. Connect the machine with your computer with USB cable.
+            </div>
+            <div>
+              2. Click Next.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+/>
+`;
