@@ -325,6 +325,7 @@ const lang: ILang = {
       tutorial2: '2. 點選 下一步。',
     },
     connect_machine_ip: {
+      check_usb: '确认 USB 连线',
       enter_ip: '请输入您的机器 IP',
       check_ip: '确认 IP',
       invalid_ip: 'IP 错误：',

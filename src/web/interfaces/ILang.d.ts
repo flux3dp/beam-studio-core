@@ -323,6 +323,7 @@ export interface ILang {
       tutorial2: string,
     },
     connect_machine_ip: {
+      check_usb: string,
       enter_ip: string,
       check_ip: string,
       invalid_ip: string,

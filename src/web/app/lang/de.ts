@@ -325,6 +325,7 @@ const lang: ILang = {
       tutorial2: 't2. Click Next.',
     },
     connect_machine_ip: {
+      check_usb: 'tCheck USB Connection',
       enter_ip: 'Geben Sie die IP Ihres Computers ein',
       check_ip: 'Überprüfen der IP-Verfügbarkeit',
       invalid_ip: 'IP ungültig: ',

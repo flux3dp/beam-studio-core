@@ -325,6 +325,7 @@ const lang: ILang = {
       tutorial2: '2. Click Next.',
     },
     connect_machine_ip: {
+      check_usb: 'Check USB Connection',
       enter_ip: 'Enter Your Machine IP',
       check_ip: 'Checking IP availability',
       invalid_ip: 'IP Invalid: ',

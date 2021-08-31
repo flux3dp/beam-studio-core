@@ -197,7 +197,7 @@ export default class ConnectMachine extends React.Component<any, State> {
       <div className={classNames('connection-machine-ip', { usb: isUsb })}>
         {this.renderImageContent()}
         <div className="text-container">
-          <div className="title">{isUsb ? 'Check USB Connection' : lang.connect_machine_ip.enter_ip}</div>
+          <div className="title">{isUsb ? lang.connect_machine_ip.check_usb : lang.connect_machine_ip.enter_ip}</div>
           <div className="contents tutorial">
             <input
               ref={this.ipInput}

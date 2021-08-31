@@ -325,6 +325,7 @@ const lang: ILang = {
       tutorial2: 't2. Click Next.',
     },
     connect_machine_ip: {
+      check_usb: 'tCheck USB Connection',
       enter_ip: 'マシン IP を入力してください',
       check_ip: 'IP 可用性の確認しています',
       invalid_ip: 'IPが無効です：',
