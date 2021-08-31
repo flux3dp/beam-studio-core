@@ -20,18 +20,24 @@ let lang = i18n.lang.initialize;
 const TIMEOUT = 20;
 const ipRex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 
+enum TestState {
+  UNKNOWN = 0,
+  SUCCESS = 1,
+  FAIL = -1,
+}
+
 interface State {
   rpiIp: string;
   machineIp: string;
-  didConnectMachine: boolean;
-  firmwareVersion: string;
-  cameraAvailability: boolean;
+  ipFormapTestState: TestState,
+  pingTestState: TestState;
+  connectionTestState: TestState;
+  cameraTestState: TestState;
   device: IDeviceInfo;
   connectionTestCountDown: number;
   isTesting: boolean;
   hadTested: boolean;
-  isIpValid?: boolean;
-  testIpInfo?: string;
+  firmwareVersion?: string;
 }
 
 export default class ConnectMachine extends React.Component<any, State> {
@@ -43,7 +49,7 @@ export default class ConnectMachine extends React.Component<any, State> {
 
   private discover: any;
 
-  private testCountDown: NodeJS.Timeout;
+  private failTimer: NodeJS.Timeout;
 
   constructor(props) {
     super(props);
@@ -51,9 +57,10 @@ export default class ConnectMachine extends React.Component<any, State> {
     this.state = {
       rpiIp: null,
       machineIp: null,
-      didConnectMachine: null,
-      firmwareVersion: null,
-      cameraAvailability: null,
+      ipFormapTestState: TestState.UNKNOWN,
+      pingTestState: TestState.UNKNOWN,
+      connectionTestState: TestState.UNKNOWN,
+      cameraTestState: TestState.UNKNOWN,
       device: null,
       connectionTestCountDown: TIMEOUT,
       isTesting: false,
@@ -68,13 +75,22 @@ export default class ConnectMachine extends React.Component<any, State> {
     this.isUsb = urlParams.get('usb') === '1';
 
     this.discover = Discover('connect-machine-ip', (deviceList) => {
-      const { isIpValid, didConnectMachine, machineIp } = this.state;
-      const shouldTryConnect = isIpValid || (isIpValid === null);
-      if (shouldTryConnect && didConnectMachine === null && machineIp !== null) {
+      const {
+        ipFormapTestState,
+        pingTestState,
+        connectionTestState,
+        machineIp,
+      } = this.state;
+      if (
+        ipFormapTestState === TestState.SUCCESS
+        && machineIp
+        && pingTestState !== TestState.FAIL
+        && connectionTestState === TestState.UNKNOWN
+      ) {
         for (let i = 0; i < deviceList.length; i += 1) {
           const device = deviceList[i];
           if (device.ipaddr === machineIp) {
-            clearInterval(this.testCountDown);
+            clearInterval(this.failTimer);
             if (window.FLUX.version === 'web' && !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')) {
               alertCaller.popUp({
                 message: sprintf(i18n.lang.update.firmware.too_old_for_web, device.version),
@@ -87,8 +103,8 @@ export default class ConnectMachine extends React.Component<any, State> {
               });
             }
             this.setState({
-              isIpValid: true,
-              didConnectMachine: true,
+              pingTestState: TestState.SUCCESS,
+              connectionTestState: TestState.SUCCESS,
               firmwareVersion: device.version,
               device,
             });
@@ -99,13 +115,20 @@ export default class ConnectMachine extends React.Component<any, State> {
   }
 
   componentDidMount(): void {
-    this.checkRpiIp();
+    if (!this.isUsb) {
+      this.checkRpiIp();
+    } else {
+      this.startTesting();
+    }
   }
 
   componentDidUpdate(): void {
-    const { didConnectMachine, cameraAvailability } = this.state;
-    if (didConnectMachine && (cameraAvailability === null)) {
+    const { connectionTestState, cameraTestState, isTesting } = this.state;
+    if (connectionTestState === TestState.SUCCESS && cameraTestState === TestState.UNKNOWN) {
       this.testCamera();
+    }
+    if (!isTesting) {
+      clearInterval(this.failTimer);
     }
   }
 
@@ -141,14 +164,14 @@ export default class ConnectMachine extends React.Component<any, State> {
       await DeviceMaster.takeOnePicture();
       DeviceMaster.disconnectCamera();
       this.setState({
-        cameraAvailability: true,
+        cameraTestState: TestState.SUCCESS,
         isTesting: false,
         hadTested: true,
       });
     } catch (e) {
       console.log(e);
       this.setState({
-        cameraAvailability: false,
+        cameraTestState: TestState.FAIL,
         isTesting: false,
         hadTested: true,
       });
@@ -171,18 +194,18 @@ export default class ConnectMachine extends React.Component<any, State> {
     const { isUsb } = this;
     const { rpiIp } = this.state;
     return (
-      <div className="connection-machine-ip">
+      <div className={classNames('connection-machine-ip', { usb: isUsb })}>
         {this.renderImageContent()}
         <div className="text-container">
-          <div className="title">{lang.connect_machine_ip.enter_ip}</div>
+          <div className="title">{isUsb ? 'Check USB Connection' : lang.connect_machine_ip.enter_ip}</div>
           <div className="contents tutorial">
             <input
               ref={this.ipInput}
-              className={classNames('ip-input', { disabled: isUsb })}
+              className={classNames('ip-input', { hide: isUsb })}
               placeholder="192.168.0.1"
               type="text"
               onKeyDown={this.handleKeyDown}
-              defaultValue={isUsb ? '10.55.0.1' : rpiIp}
+              defaultValue={rpiIp}
             />
             {this.renderTestInfos()}
           </div>
@@ -191,33 +214,43 @@ export default class ConnectMachine extends React.Component<any, State> {
     );
   };
 
+  renderMachineInfo = (): JSX.Element => {
+    const { connectionTestState, firmwareVersion, cameraTestState } = this.state;
+    if (connectionTestState !== TestState.SUCCESS) return null;
+    let cameraStatus = '';
+    if (cameraTestState !== TestState.UNKNOWN) cameraStatus = cameraTestState > 0 ? 'OK' : 'Fail';
+    return (
+      <>
+        <div id="firmware-test-info" className="test-info">{`${lang.connect_machine_ip.check_firmware}... ${firmwareVersion}`}</div>
+        <div id="camera-test-info" className="test-info">{`${lang.connect_machine_ip.check_camera}... ${cameraStatus}`}</div>
+      </>
+    );
+  };
+
   renderTestInfos = (): JSX.Element => {
     const {
       machineIp,
-      isIpValid,
-      didConnectMachine,
-      testIpInfo,
-      firmwareVersion,
-      cameraAvailability,
+      ipFormapTestState,
+      pingTestState,
+      connectionTestState,
       connectionTestCountDown,
     } = this.state;
     if (machineIp !== null) {
-      const shouldTryConnect = isIpValid || (isIpValid === undefined);
-      const ipStatus = isIpValid ? 'OK' : testIpInfo;
+      let ipStatus = 'OK';
+      if (ipFormapTestState === TestState.FAIL) ipStatus = `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.invalid_format}`;
+      else if (pingTestState === TestState.FAIL) ipStatus = lang.connect_machine_ip.unreachable;
+      else if (ipFormapTestState === TestState.UNKNOWN || pingTestState === TestState.UNKNOWN) ipStatus = '';
       let connectionStatus = `${connectionTestCountDown}s`;
-      let cameraStatus = '';
-      if (didConnectMachine !== null) {
-        connectionStatus = didConnectMachine ? 'OK' : 'Fail';
-      }
-      if (cameraAvailability !== null) {
-        cameraStatus = cameraAvailability ? 'OK' : 'Fail';
-      }
+      if (connectionTestState !== TestState.UNKNOWN) connectionStatus = connectionTestState > 0 ? 'OK' : 'Fail';
       return (
         <div className="test-infos">
           <div id="ip-test-info" className="test-info">{`${lang.connect_machine_ip.check_ip}... ${ipStatus || ''}`}</div>
-          {shouldTryConnect ? <div id="machine-test-info" className="test-info">{`${lang.connect_machine_ip.check_connection}... ${connectionStatus}`}</div> : null}
-          {didConnectMachine ? <div id="firmware-test-info" className="test-info">{`${lang.connect_machine_ip.check_firmware}... ${firmwareVersion}`}</div> : null}
-          {didConnectMachine ? <div id="camera-test-info" className="test-info">{`${lang.connect_machine_ip.check_camera}... ${cameraStatus}`}</div> : null}
+          {
+            ipFormapTestState === TestState.SUCCESS && (pingTestState !== TestState.FAIL)
+              ? <div id="machine-test-info" className="test-info">{`${lang.connect_machine_ip.check_connection}... ${connectionStatus}`}</div>
+              : null
+          }
+          {this.renderMachineInfo()}
         </div>
       );
     }
@@ -235,59 +268,53 @@ export default class ConnectMachine extends React.Component<any, State> {
     if (!isIPFormatValid) {
       this.setState({
         machineIp: ip,
-        isIpValid: false,
-        testIpInfo: `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.invalid_format}`,
+        ipFormapTestState: TestState.FAIL,
       });
     }
     return isIPFormatValid;
   };
 
-  checkIPExist = async (): Promise<boolean> => {
-    const ip = this.ipInput.current.value;
+  checkIPExist = async (ip: string): Promise<TestState> => {
     const { error, isExisting } = await network.checkIPExist(ip, 3);
-
     if (!error && !isExisting) {
       this.setState({
         machineIp: ip,
-        isIpValid: false,
-        testIpInfo: `${lang.connect_machine_ip.unreachable}`,
+        pingTestState: TestState.FAIL,
         isTesting: false,
         hadTested: true,
       });
-      return false;
+      return TestState.FAIL;
     }
-
-    // if error occur when pinging, continue testing, return null as result unknown
-    return error ? null : true;
+    // if error occur when pinging, continue testing, return result unknown
+    return error ? TestState.UNKNOWN : TestState.SUCCESS;
   };
 
   private startTesting = async () => {
-    const ip = this.ipInput.current.value;
+    const ip = this.isUsb ? '10.55.0.1' : this.ipInput.current.value;
     this.setState({
-      isIpValid: null,
-      testIpInfo: null,
-      didConnectMachine: null,
+      ipFormapTestState: TestState.UNKNOWN,
+      connectionTestState: TestState.UNKNOWN,
       firmwareVersion: null,
-      cameraAvailability: null,
+      cameraTestState: TestState.UNKNOWN,
       device: null,
     });
 
     // check format
     if (!this.checkIPFormat(ip)) return;
-
     this.setState({
+      ipFormapTestState: TestState.SUCCESS,
       isTesting: true,
       hadTested: false,
       machineIp: ip,
     });
 
     // Ping Target
-    const isIpValid = await this.checkIPExist();
-    if (isIpValid === false) return;
+    const result = await this.checkIPExist(ip);
+    if (result === TestState.FAIL) return;
 
     this.setState({
       machineIp: ip,
-      isIpValid,
+      pingTestState: result,
       connectionTestCountDown: TIMEOUT,
     });
 
@@ -300,20 +327,19 @@ export default class ConnectMachine extends React.Component<any, State> {
     this.discover.testTcp(ip);
 
     // Connecting to Machine
-    clearInterval(this.testCountDown);
-    this.testCountDown = setInterval(() => {
-      const { isTesting, didConnectMachine, connectionTestCountDown } = this.state;
-      console.log(isTesting, didConnectMachine, connectionTestCountDown);
-      if (isTesting && didConnectMachine === null) {
+    clearInterval(this.failTimer);
+    this.failTimer = setInterval(() => {
+      const { isTesting, connectionTestState, connectionTestCountDown } = this.state;
+      if (isTesting && connectionTestState === TestState.UNKNOWN) {
         if (connectionTestCountDown > 1) {
           this.setState({ connectionTestCountDown: connectionTestCountDown - 1 });
         } else {
           this.setState({
-            didConnectMachine: false,
+            connectionTestState: TestState.FAIL,
             isTesting: false,
             hadTested: true,
           });
-          clearInterval(this.testCountDown);
+          clearInterval(this.failTimer);
         }
       }
     }, 1000);
@@ -349,7 +375,7 @@ export default class ConnectMachine extends React.Component<any, State> {
   };
 
   renderNextButton = (): JSX.Element => {
-    const { isTesting, hadTested, didConnectMachine } = this.state;
+    const { isTesting, hadTested, connectionTestState } = this.state;
     let onClick = () => { };
     let label: string;
     let className = classNames('btn-page', 'next', 'primary');
@@ -360,7 +386,7 @@ export default class ConnectMachine extends React.Component<any, State> {
       label = lang.next;
       className = classNames('btn-page', 'next', 'primary', 'disabled');
     } else if (hadTested) {
-      if (didConnectMachine) {
+      if (connectionTestState === TestState.SUCCESS) {
         label = lang.connect_machine_ip.finish_setting;
         onClick = this.onFinish;
       } else {
