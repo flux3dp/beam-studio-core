@@ -105,7 +105,7 @@ function Editor({
     },
     {
       value: 'fbb2b',
-      label: 'Beambox 2',
+      label: 'Ultra 60',
       selected: selectedModel === 'fbb2b',
     },
   ];
