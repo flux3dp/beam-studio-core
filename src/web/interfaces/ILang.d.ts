@@ -316,6 +316,12 @@ export interface ILang {
       tutorial2_2: string,
       tutorial3: string,
     },
+    connect_usb: {
+      title: string,
+      title_sub: string,
+      tutorial1: string,
+      tutorial2: string,
+    },
     connect_machine_ip: {
       enter_ip: string,
       check_ip: string,

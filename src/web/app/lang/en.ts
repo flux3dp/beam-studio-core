@@ -318,6 +318,12 @@ const lang: ILang = {
       tutorial2_2: ' to make your comuter as a router.',
       tutorial3: '3. Click Next.',
     },
+    connect_usb: {
+      title: 'USB Connection',
+      title_sub: ' (Ultra 60 Only)',
+      tutorial1: '1. Connect the machine with your computer with USB cable.',
+      tutorial2: '2. Click Next.',
+    },
     connect_machine_ip: {
       enter_ip: 'Enter Your Machine IP',
       check_ip: 'Checking IP availability',

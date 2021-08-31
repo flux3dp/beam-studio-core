@@ -318,6 +318,12 @@ const lang: ILang = {
       tutorial2_2: ' para hacer tu switch como un router.',
       tutorial3: '3. Haz clic en Siguiente.',
     },
+    connect_usb: {
+      title: 'tUSB Connection',
+      title_sub: ' t(Ultra 60 Only)',
+      tutorial1: 't1. Connect the machine with your computer with USB cable.',
+      tutorial2: 't2. Click Next.',
+    },
     connect_machine_ip: {
       enter_ip: 'Introduce la IP de tu máquina',
       check_ip: 'Comprobando la disponibilidad de la IP',

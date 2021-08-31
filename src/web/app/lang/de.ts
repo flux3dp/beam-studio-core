@@ -318,6 +318,12 @@ const lang: ILang = {
       tutorial2_2: ', um Ihren Computer als Router zu verwenden',
       tutorial3: '3. Klicken Sie auf "Nächster"',
     },
+    connect_usb: {
+      title: 'tUSB Connection',
+      title_sub: ' t(Ultra 60 Only)',
+      tutorial1: 't1. Connect the machine with your computer with USB cable.',
+      tutorial2: 't2. Click Next.',
+    },
     connect_machine_ip: {
       enter_ip: 'Geben Sie die IP Ihres Computers ein',
       check_ip: 'Überprüfen der IP-Verfügbarkeit',

@@ -6,6 +6,7 @@ import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
 import Beambox from 'app/pages/Beambox';
 import ConnectEthernet from 'app/pages/ConnectEthernet';
 import ConnectMachineIp from 'app/pages/ConnectMachineIp';
+import ConnectUsb from 'app/pages/ConnectUsb';
 import ConnectWiFi from 'app/pages/ConnectWiFi';
 import ConnectWired from 'app/pages/ConnectWired';
 import Dialog from 'app/views/dialogs/Dialog';
@@ -31,6 +32,7 @@ const wrappedComponent = (
           <Route exact path="/fb-auth" component={FacebookOAuth} />
           <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
           <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
+          <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
           <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
           <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
           <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />

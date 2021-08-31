@@ -318,6 +318,12 @@ const lang: ILang = {
       tutorial2_2: 'に従ってコンピュータをルーターにしてください。',
       tutorial3: '3. 「次へ」をクリックしてください。',
     },
+    connect_usb: {
+      title: 'tUSB Connection',
+      title_sub: ' t(Ultra 60 Only)',
+      tutorial1: 't1. Connect the machine with your computer with USB cable.',
+      tutorial2: 't2. Click Next.',
+    },
     connect_machine_ip: {
       enter_ip: 'マシン IP を入力してください',
       check_ip: 'IP 可用性の確認しています',

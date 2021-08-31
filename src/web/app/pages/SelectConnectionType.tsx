@@ -26,7 +26,7 @@ export default class SelectConnectionType extends React.PureComponent {
         window.location.hash = '#initialize/connect/connect-ethernet';
         break;
       case 'usb':
-        window.location.hash = '#initialize/connect/connect-machine-ip?usb=1';
+        window.location.hash = '#initialize/connect/connect-usb';
         break;
     }
   };
@@ -46,6 +46,7 @@ export default class SelectConnectionType extends React.PureComponent {
       onClick={this.selectConnectionType.bind(this, type)}
     >
       {lang.connection_types[type]}
+      {type === 'usb' ? <span className="sub">{lang.connect_usb.title_sub}</span> : null}
     </button>
   );
 

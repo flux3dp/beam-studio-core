@@ -318,6 +318,12 @@ const lang: ILang = {
       tutorial2_2: '使您的電腦同時扮演路由器的角色。',
       tutorial3: '3. 點選 下一步。',
     },
+    connect_usb: {
+      title: 'USB 連線',
+      title_sub: '（僅支援 Ultra 60）',
+      tutorial1: '1. 將您的機器與您的電腦以 USB 線連接。',
+      tutorial2: '2. 點選 下一步。',
+    },
     connect_machine_ip: {
       enter_ip: '請輸入您的機器 IP',
       check_ip: '確認 IP',

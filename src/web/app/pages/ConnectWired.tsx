@@ -13,7 +13,7 @@ interface State {
   showCollapse2: boolean;
 }
 
-export default class ConnectWiFi extends React.PureComponent<any, State> {
+export default class ConnectWired extends React.PureComponent<any, State> {
   constructor(props) {
     super(props);
     updateLang();
