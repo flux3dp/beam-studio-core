@@ -68,7 +68,7 @@ class Module extends React.Component<Props> {
             className={{ half: true }}
           />
           <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
-          <UnitInput 
+          <UnitInput
             id="diode-offset-y-input"
             unit={defaultUnit === 'inches' ? 'in' : 'mm'}
             min={0}
