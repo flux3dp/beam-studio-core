@@ -26,7 +26,7 @@ describe('test progress-caller', () => {
       isProgress: true,
       type: ProgressConstants.NONSTOP,
       caption: 'flux caption',
-    });
+    }, expect.anything());
 
     progressCaller.openNonstopProgress({
       id: '12345',
@@ -40,7 +40,7 @@ describe('test progress-caller', () => {
       type: ProgressConstants.NONSTOP,
       caption: 'flux message',
       message: 'flux message',
-    });
+    }, expect.anything());
   });
 
   test('test openSteppingProgress', () => {

@@ -4,15 +4,17 @@ import { IProgressDialog } from 'interfaces/IProgress';
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('alert-progress');
 export default {
-  openNonstopProgress: (args: IProgressDialog): void => {
+  openNonstopProgress: async (args: IProgressDialog): Promise<void> => {
     if (!args.caption && args.message) {
       // eslint-disable-next-line no-param-reassign
       args.caption = args.message;
     }
-    eventEmitter.emit('OPEN_PROGRESS', {
-      ...args,
-      isProgress: true,
-      type: ProgressConstants.NONSTOP,
+    return new Promise((resolve) => {
+      eventEmitter.emit('OPEN_PROGRESS', {
+        ...args,
+        isProgress: true,
+        type: ProgressConstants.NONSTOP,
+      }, resolve);
     });
   },
   openSteppingProgress: (args: IProgressDialog): void => {

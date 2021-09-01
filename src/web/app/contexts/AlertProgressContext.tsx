@@ -72,7 +72,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     response.idExist = res.length > 0;
   };
 
-  pushToStack = (item: (IAlert | IProgressDialog)): void => {
+  pushToStack = (item: (IAlert | IProgressDialog), callback = () => {}): void => {
     if (item.id) {
       // eslint-disable-next-line no-console
       console.log('alert/progress poped', item.id);
@@ -80,10 +80,10 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     const { alertProgressStack } = this.state;
     this.setState({
       alertProgressStack: [...alertProgressStack, item],
-    });
+    }, callback);
   };
 
-  openProgress = (args: IProgressDialog): void => {
+  openProgress = (args: IProgressDialog, callback = () => { }): void => {
     const {
       id, caption, message, type,
     } = args;
@@ -95,7 +95,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       caption: caption || '',
       message: message || '',
       isProgress: true,
-    });
+    }, callback);
   };
 
   popLastProgress = (): void => {
@@ -130,7 +130,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     this.setState({ alertProgressStack });
   };
 
-  popUp = (args: IAlert): void => {
+  popUp = (args: IAlert, callback = () => {}): void => {
     const { message, type } = args;
     let { caption } = args;
     switch (type) {
@@ -155,7 +155,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       buttons,
       checkboxText: checkbox ? checkbox.text : null,
       checkboxCallbacks: checkbox ? checkbox.callbacks : null,
-    });
+    }, callback);
   };
 
   buttonsGenerator = (args: IAlert): { buttons, checkbox } => {

@@ -18,7 +18,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-const isMac = window.os === 'MacOS';
+const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 interface Props {
   elem: Element;
@@ -72,7 +72,9 @@ class TextOptions extends React.Component<Props, State> {
         elem.setAttribute('font-weight', font.weight ? font.weight : 'normal');
       }
     } else {
-      const family = isMac ? textEdit.getFontFamilyData(elem) : textEdit.getFontFamily(elem);
+      const family = usePostscriptAsFamily
+        ? textEdit.getFontFamilyData(elem)
+        : textEdit.getFontFamily(elem);
       const weight = textEdit.getFontWeight(elem);
       const italic = textEdit.getItalic(elem);
       font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
@@ -137,7 +139,7 @@ class TextOptions extends React.Component<Props, State> {
     batchCmd.addSubCommand(cmd);
     cmd = textEdit.setFontWeight(newFont.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
-    if (isMac) {
+    if (usePostscriptAsFamily) {
       cmd = textEdit.setFontFamily(newFont.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
       cmd = textEdit.setFontFamilyData(family, true, [textElement]);
@@ -233,7 +235,7 @@ class TextOptions extends React.Component<Props, State> {
     const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
-    if (isMac) {
+    if (usePostscriptAsFamily) {
       cmd = textEdit.setFontFamily(font.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }

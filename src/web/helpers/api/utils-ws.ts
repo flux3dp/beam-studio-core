@@ -62,7 +62,7 @@ class UtilsWebSocket extends EventEmitter {
         } else if (status === 'continue') {
           this.ws.send(data);
         } else {
-          console.log('strange message from /ws/opencv', response);
+          console.log('strange message from /ws/utils', response);
         }
       });
       this.ws.send(`upload ${url} ${data.byteLength}`);
@@ -85,6 +85,71 @@ class UtilsWebSocket extends EventEmitter {
         }
       });
       this.ws.send(`pdf2svg ${data.byteLength}`);
+    });
+  }
+
+  async checkExist(path: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response) => {
+        const { status } = response;
+        console.log(response);
+        if (status === 'ok') {
+          this.removeCommandListeners();
+          resolve(response.res);
+        } else {
+          console.log('strange message from /ws/utils', response);
+        }
+      });
+      this.ws.send(`check_exist ${path}`);
+    });
+  }
+
+  async selectFont(fontPath: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response) => {
+        const { status } = response;
+        console.log(response);
+        if (status === 'ok') {
+          this.removeCommandListeners();
+          resolve(true);
+        } else if (status === 'error') {
+          this.removeCommandListeners();
+          resolve(false);
+        } else {
+          console.log('strange message from /ws/utils', response);
+        }
+      });
+      this.ws.send(`select_font ${fontPath}`);
+    });
+  }
+
+  async uploadTo(blob: Blob, path: string) {
+    const data = await blob.arrayBuffer();
+    return new Promise<boolean>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response: { [key: string]: string }) => {
+        const { status } = response;
+        console.log(response);
+        if (['ok', 'fail'].includes(status)) {
+          this.removeCommandListeners();
+          resolve(status === 'ok');
+        } else if (status === 'continue') {
+          this.ws.send(data);
+        } else {
+          console.log('strange message from /ws/utils', response);
+          resolve(false);
+        }
+      });
+      console.log(data);
+      this.ws.send(`upload_to ${data.byteLength} ${path}`);
     });
   }
 }
