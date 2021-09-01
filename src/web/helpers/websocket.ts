@@ -7,9 +7,9 @@ import isJson from 'helpers/is-json';
 import Logger from 'helpers/logger';
 import outputError from 'helpers/output-error';
 
-window['FLUX'].websockets = [];
-window['FLUX'].websockets.list = function () {
-  window['FLUX'].websockets.forEach((conn, i) => {
+window.FLUX.websockets = [];
+window.FLUX.websockets.list = () => {
+  window.FLUX.websockets.forEach((conn, i) => {
     console.log(i, conn.url);
   });
 };
@@ -37,14 +37,15 @@ const readyState = {
 //      onClose       - fired on connection closed
 //      onOpen        - fired on connection connecting
 export default function (options) {
-  const customHost = localStorage.getItem('host');
-  const customPort = localStorage.getItem('port');
   const defaultCallback = () => { };
   const defaultOptions = {
-    hostname: customHost || '127.0.0.1',
     method: '',
+    get hostname() {
+      return localStorage.getItem('host') || '127.0.0.1';
+    },
     get port() {
-      return customPort || window['FLUX'].ghostPort;
+      if (localStorage.getItem('port')) return localStorage.getItem('port');
+      return window.FLUX.version === 'web' ? '8000' : window.FLUX.ghostPort;
     },
     autoReconnect: true,
     ignoreAbnormalDisconnect: false,
@@ -55,7 +56,7 @@ export default function (options) {
     onOpen: defaultCallback,
   };
   let receivedData = [];
-  let ws = null;
+  let ws: WebSocket = null;
   const trimMessage = (origMessage: string): string => {
     const message = origMessage.replace(/"/g, '');
 
@@ -70,7 +71,7 @@ export default function (options) {
     const newOpts = { ...opts };
     for (let i = 0; i < keys.length; i += 1) {
       const name = keys[i];
-      if (name !== 'port' && (typeof opts[name] === 'undefined')) {
+      if (!['port', 'hostname'].includes(name) && (typeof opts[name] === 'undefined')) {
         newOpts[name] = defaultOptions[name];
       }
     }
@@ -83,11 +84,12 @@ export default function (options) {
     log: [],
   };
   const createWebSocket = (createWsOpts) => {
+    const hostName = createWsOpts.hostname || defaultOptions.hostname;
     const port = createWsOpts.port || defaultOptions.port;
-    const url = `ws://${createWsOpts.hostname}:${port}/ws/${createWsOpts.method}`;
+    const url = `ws://${hostName}:${port}/ws/${createWsOpts.method}`;
     if (port === undefined) {
       wsCreateFailedCount += 1;
-      if (wsCreateFailedCount === 100) {
+      if (wsCreateFailedCount === 100 && window.FLUX.version !== 'web') {
         const LANG = i18n.lang.beambox.popup;
         Alert.popById('backend-error');
         Alert.popUp({
@@ -105,10 +107,10 @@ export default function (options) {
     const nodeWs = new WebSocket(url);
     wsCreateFailedCount = 0;
 
-    nodeWs.onerror = (e) => {
+    nodeWs.onerror = () => {
       wsErrorCount += 1;
       // If ws error count exceed certian number Alert user there may be problems with backend
-      if (wsErrorCount === 50) {
+      if (wsErrorCount === 50 && window.FLUX.version !== 'web') {
         const LANG = i18n.lang.beambox.popup;
         Alert.popById('backend-error');
         Alert.popUp({
@@ -168,7 +170,7 @@ export default function (options) {
 
           if (errorStr === 'NOT_EXIST_BAD_NODE') { skipError = true; }
 
-          if (window['FLUX'].allowTracking && !skipError) {
+          if (window.FLUX.allowTracking && !skipError) {
             // window.Raven.captureException(data);
             console.error('WS_ERROR', errorStr);
           }
@@ -192,7 +194,7 @@ export default function (options) {
             return;
           }
 
-          if (window['FLUX'].allowTracking && !skipError) {
+          if (window.FLUX.allowTracking && !skipError) {
             // window.Raven.captureException(data);
             console.error('WS_FATAL', errorStr);
           }
@@ -261,6 +263,9 @@ export default function (options) {
 
   ws = createWebSocket(socketOptions);
   const wsobj = {
+    get currentState() {
+      return ws.readyState;
+    },
     readyState,
     options: socketOptions,
     url: `/ws/${options.method}`,
@@ -325,7 +330,7 @@ export default function (options) {
     },
   };
 
-  window['FLUX'].websockets.push(wsobj);
+  window.FLUX.websockets.push(wsobj);
 
   WsLogger.append(wsLog);
 

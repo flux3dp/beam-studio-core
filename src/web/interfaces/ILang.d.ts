@@ -4,7 +4,9 @@ export interface ILang {
     choose_folder: string,
   },
   buttons: {
-    next: string
+    next: string,
+    back: string,
+    done: string,
   },
   topbar: {
     untitled: string,

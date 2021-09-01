@@ -12,6 +12,7 @@ interface Props {
   rapidDist: string;
   currentPosition: string;
   handleStartHere: () => void;
+  isStartHereEnabled: boolean;
   togglePathPreview: () => void;
 }
 
@@ -24,6 +25,7 @@ function SidePanel({
   rapidDist,
   currentPosition,
   handleStartHere,
+  isStartHereEnabled,
   togglePathPreview,
 }: Props): JSX.Element {
   const LANG = i18n.lang.beambox.path_preview;
@@ -50,7 +52,10 @@ function SidePanel({
         {LANG.remark}
       </div>
       <div className="buttons">
-        <div className="btn btn-default primary" onClick={handleStartHere}>
+        <div
+          className={classNames('btn btn-default primary', { disabled: !isStartHereEnabled })}
+          onClick={isStartHereEnabled ? handleStartHere : null}
+        >
           {LANG.start_here}
         </div>
         <div className="btn btn-default" onClick={togglePathPreview}>

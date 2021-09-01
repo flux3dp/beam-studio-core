@@ -182,7 +182,7 @@ describe('should render correctly', () => {
     wrapper.find('div.rc-menu__item').at(4).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('li.rc-menu__item').at(5).simulate('click');
+    wrapper.find('li.rc-menu__item').at(6).simulate('click');
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenNthCalledWith(1, 'https://helpcenter.flux3dp.com/');
   });

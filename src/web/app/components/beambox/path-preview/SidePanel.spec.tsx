@@ -31,25 +31,52 @@ jest.mock('helpers/i18n', () => ({
 
 import SidePanel from './SidePanel';
 
-test('should render correctly', () => {
-  const handleStartHere = jest.fn();
-  const togglePathPreview = jest.fn();
-  const wrapper = shallow(<SidePanel
-    size="100 x 100 mm"
-    estTime="60 s"
-    lightTime="30 s"
-    rapidTime="10 s"
-    cutDist="50 mm"
-    rapidDist="30 mm"
-    currentPosition="50, 50 mm"
-    handleStartHere={handleStartHere}
-    togglePathPreview={togglePathPreview}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+describe('side panel test', () => {
+  it('should render correctly when enabled', () => {
+    const handleStartHere = jest.fn();
+    const togglePathPreview = jest.fn();
+    const wrapper = shallow(<SidePanel
+      size="100 x 100 mm"
+      estTime="60 s"
+      lightTime="30 s"
+      rapidTime="10 s"
+      cutDist="50 mm"
+      rapidDist="30 mm"
+      currentPosition="50, 50 mm"
+      handleStartHere={handleStartHere}
+      isStartHereEnabled
+      togglePathPreview={togglePathPreview}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
 
-  wrapper.find('div.btn-default').at(0).simulate('click');
-  expect(handleStartHere).toHaveBeenCalledTimes(1);
+    wrapper.find('div.btn-default').at(0).simulate('click');
+    expect(handleStartHere).toHaveBeenCalledTimes(1);
 
-  wrapper.find('div.btn-default').at(1).simulate('click');
-  expect(togglePathPreview).toHaveBeenCalledTimes(1);
+    wrapper.find('div.btn-default').at(1).simulate('click');
+    expect(togglePathPreview).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render correctly when disabled', () => {
+    const handleStartHere = jest.fn();
+    const togglePathPreview = jest.fn();
+    const wrapper = shallow(<SidePanel
+      size="100 x 100 mm"
+      estTime="60 s"
+      lightTime="30 s"
+      rapidTime="10 s"
+      cutDist="50 mm"
+      rapidDist="30 mm"
+      currentPosition="50, 50 mm"
+      handleStartHere={handleStartHere}
+      isStartHereEnabled={false}
+      togglePathPreview={togglePathPreview}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('div.btn-default').at(0).simulate('click');
+    expect(handleStartHere).toHaveBeenCalledTimes(0);
+
+    wrapper.find('div.btn-default').at(1).simulate('click');
+    expect(togglePathPreview).toHaveBeenCalledTimes(1);
+  });
 });
