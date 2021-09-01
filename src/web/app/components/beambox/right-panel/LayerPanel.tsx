@@ -615,19 +615,19 @@ class LayerPanel extends React.Component<Props, State> {
           <SelLayerBlock elem={elem} />
           <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
           <ContextMenu id="layer-contextmenu">
-            <MenuItem attributes={{ id:"renameLayer" }} disabled={isMultiSelecting} onClick={this.renameLayer}>
+            <MenuItem attributes={{ id: 'renameLayer' }} disabled={isMultiSelecting} onClick={this.renameLayer}>
               {LANG.layers.rename}
             </MenuItem>
-            <MenuItem attributes={{ id:"dupelayer" }} onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
-            <MenuItem attributes={{ id:"locklayer" }} onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
-            <MenuItem attributes={{ id:"deletelayer" }} onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
-            <MenuItem attributes={{ id:"merge_down_layer"}} disabled={isMultiSelecting || isSelectingLast} onClick={this.mergeLayer}>
+            <MenuItem attributes={{ id: 'dupelayer' }} onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
+            <MenuItem attributes={{ id: 'locklayer' }} onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
+            <MenuItem attributes={{ id: 'deletelayer' }} onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
+            <MenuItem attributes={{ id: 'merge_down_layer' }} disabled={isMultiSelecting || isSelectingLast} onClick={this.mergeLayer}>
               {LANG.layers.merge_down}
             </MenuItem>
-            <MenuItem attributes={{ id:"merge_all_layer" }} disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
+            <MenuItem attributes={{ id: 'merge_all_layer' }} disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
               {LANG.layers.merge_all}
             </MenuItem>
-            <MenuItem attributes={{ id:"merge_selected_layer" }} disabled={!isMultiSelecting} onClick={this.mergeSelected}>
+            <MenuItem attributes={{ id: 'merge_selected_layer' }} disabled={!isMultiSelecting} onClick={this.mergeSelected}>
               {LANG.layers.merge_selected}
             </MenuItem>
           </ContextMenu>
