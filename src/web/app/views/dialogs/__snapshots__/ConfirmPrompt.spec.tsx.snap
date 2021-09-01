@@ -38,6 +38,7 @@ Enter "NOTED" to proceed.
           <input
             autoFocus={true}
             className="text-input"
+            id="power-caption"
             onKeyDown={[Function]}
             placeholder="NOTED"
             type="text"
@@ -137,6 +138,7 @@ Enter "NOTED" to proceed.
           <input
             autoFocus={true}
             className="text-input"
+            id="power-caption"
             onKeyDown={[Function]}
             placeholder=""
             type="text"

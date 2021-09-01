@@ -18,16 +18,19 @@ exports[`should render correctly 1`] = `
       segments={
         Array [
           Object {
+            "id": "qa-tCorner-seg-item",
             "imgSrc": "img/right-panel/icon-nodetype-0.svg",
             "title": "tCorner",
             "value": 0,
           },
           Object {
+            "id": "qa-tSmooth-seg-item",
             "imgSrc": "img/right-panel/icon-nodetype-1.svg",
             "title": "tSmooth",
             "value": 1,
           },
           Object {
+            "id": "qa-tSymmetry-seg-item",
             "imgSrc": "img/right-panel/icon-nodetype-2.svg",
             "title": "tSymmetry",
             "value": 2,

@@ -5,6 +5,7 @@ exports[`test PathInput should render correctly 1`] = `
   className="path-input with-error"
 >
   <input
+    id="location-input"
     onBlur={[Function]}
     onChange={[Function]}
     onKeyUp={[Function]}
@@ -28,6 +29,7 @@ exports[`test PathInput should render correctly 2`] = `
   className="path-input with-error"
 >
   <input
+    id="location-input"
     onBlur={[Function]}
     onChange={[Function]}
     onKeyUp={[Function]}
@@ -51,6 +53,7 @@ exports[`test PathInput should render correctly 3`] = `
   className="path-input with-error"
 >
   <input
+    id="location-input"
     onBlur={[Function]}
     onChange={[Function]}
     onKeyUp={[Function]}

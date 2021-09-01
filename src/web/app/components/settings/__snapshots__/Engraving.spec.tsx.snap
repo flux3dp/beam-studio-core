@@ -8,6 +8,7 @@ exports[`should render correctly 1`] = `
     Rastering (Scanning)
   </div>
   <SelectControl
+    id="set-fast-gradient"
     label="Speed Optimization"
     onChange={[Function]}
     options={

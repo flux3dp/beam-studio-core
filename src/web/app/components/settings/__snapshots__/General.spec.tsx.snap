@@ -47,6 +47,7 @@ exports[`should render correctly desktop version 1`] = `
     }
   />
   <SelectControl
+    id="set-notifications"
     label="Desktop Notifications"
     onChange={[Function]}
     options={

@@ -18,6 +18,7 @@ exports[`should render correctly no elements 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="hdist"
             onClick={null}
             title="Horizontal Distribute"
           >
@@ -28,6 +29,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="top_align"
             onClick={[MockFunction]}
             title="Top Align"
           >
@@ -38,6 +40,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="middle_align"
             onClick={[MockFunction]}
             title="Middle Align"
           >
@@ -48,6 +51,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="bottom_align"
             onClick={[MockFunction]}
             title="Bottom Align"
           >
@@ -62,6 +66,7 @@ exports[`should render correctly no elements 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="vdist"
             onClick={null}
             title="Vertical Distribute"
           >
@@ -72,6 +77,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="left_align"
             onClick={[MockFunction]}
             title="Left Align"
           >
@@ -82,6 +88,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="center_align"
             onClick={[MockFunction]}
             title="Center Align"
           >
@@ -92,6 +99,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="right_align"
             onClick={[MockFunction]}
             title="Right Align"
           >
@@ -110,6 +118,7 @@ exports[`should render correctly no elements 1`] = `
         >
           <div
             className="tool-btn"
+            id="group"
             onClick={[Function]}
             title="Group"
           >
@@ -120,6 +129,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="ungroup"
             onClick={null}
             title="Ungroup"
           >
@@ -134,6 +144,7 @@ exports[`should render correctly no elements 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="union"
             onClick={null}
             title="Union"
           >
@@ -144,6 +155,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="subtract"
             onClick={null}
             title="Subtract"
           >
@@ -154,6 +166,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="intersect"
             onClick={null}
             title="Intersect"
           >
@@ -164,6 +177,7 @@ exports[`should render correctly no elements 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="difference"
             onClick={null}
             title="Difference"
           >
@@ -228,6 +242,7 @@ exports[`should render correctly one element is g element 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="hdist"
             onClick={null}
             title="Horizontal Distribute"
           >
@@ -238,6 +253,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="top_align"
             onClick={[MockFunction]}
             title="Top Align"
           >
@@ -248,6 +264,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="middle_align"
             onClick={[MockFunction]}
             title="Middle Align"
           >
@@ -258,6 +275,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="bottom_align"
             onClick={[MockFunction]}
             title="Bottom Align"
           >
@@ -272,6 +290,7 @@ exports[`should render correctly one element is g element 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="vdist"
             onClick={null}
             title="Vertical Distribute"
           >
@@ -282,6 +301,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="left_align"
             onClick={[MockFunction]}
             title="Left Align"
           >
@@ -292,6 +312,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="center_align"
             onClick={[MockFunction]}
             title="Center Align"
           >
@@ -302,6 +323,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="right_align"
             onClick={[MockFunction]}
             title="Right Align"
           >
@@ -320,6 +342,7 @@ exports[`should render correctly one element is g element 1`] = `
         >
           <div
             className="tool-btn"
+            id="group"
             onClick={[Function]}
             title="Group"
           >
@@ -330,6 +353,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="ungroup"
             onClick={[Function]}
             title="Ungroup"
           >
@@ -344,6 +368,7 @@ exports[`should render correctly one element is g element 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="union"
             onClick={null}
             title="Union"
           >
@@ -354,6 +379,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="subtract"
             onClick={null}
             title="Subtract"
           >
@@ -364,6 +390,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="intersect"
             onClick={null}
             title="Intersect"
           >
@@ -374,6 +401,7 @@ exports[`should render correctly one element is g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="difference"
             onClick={null}
             title="Difference"
           >
@@ -450,6 +478,7 @@ exports[`should render correctly one element not g element 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="hdist"
             onClick={null}
             title="Horizontal Distribute"
           >
@@ -460,6 +489,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="top_align"
             onClick={[MockFunction]}
             title="Top Align"
           >
@@ -470,6 +500,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="middle_align"
             onClick={[MockFunction]}
             title="Middle Align"
           >
@@ -480,6 +511,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="bottom_align"
             onClick={[MockFunction]}
             title="Bottom Align"
           >
@@ -494,6 +526,7 @@ exports[`should render correctly one element not g element 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="vdist"
             onClick={null}
             title="Vertical Distribute"
           >
@@ -504,6 +537,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="left_align"
             onClick={[MockFunction]}
             title="Left Align"
           >
@@ -514,6 +548,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="center_align"
             onClick={[MockFunction]}
             title="Center Align"
           >
@@ -524,6 +559,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn"
+            id="right_align"
             onClick={[MockFunction]}
             title="Right Align"
           >
@@ -542,6 +578,7 @@ exports[`should render correctly one element not g element 1`] = `
         >
           <div
             className="tool-btn"
+            id="group"
             onClick={[Function]}
             title="Group"
           >
@@ -552,6 +589,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="ungroup"
             onClick={null}
             title="Ungroup"
           >
@@ -566,6 +604,7 @@ exports[`should render correctly one element not g element 1`] = `
         >
           <div
             className="tool-btn disabled"
+            id="union"
             onClick={null}
             title="Union"
           >
@@ -576,6 +615,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="subtract"
             onClick={null}
             title="Subtract"
           >
@@ -586,6 +626,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="intersect"
             onClick={null}
             title="Intersect"
           >
@@ -596,6 +637,7 @@ exports[`should render correctly one element not g element 1`] = `
           </div>
           <div
             className="tool-btn disabled"
+            id="difference"
             onClick={null}
             title="Difference"
           >
@@ -680,6 +722,7 @@ exports[`should render correctly two elements contains other types of elements 1
         >
           <div
             className="tool-btn disabled"
+            id="hdist"
             onClick={null}
             title="Horizontal Distribute"
           >
@@ -690,6 +733,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn"
+            id="top_align"
             onClick={[MockFunction]}
             title="Top Align"
           >
@@ -700,6 +744,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn"
+            id="middle_align"
             onClick={[MockFunction]}
             title="Middle Align"
           >
@@ -710,6 +755,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn"
+            id="bottom_align"
             onClick={[MockFunction]}
             title="Bottom Align"
           >
@@ -724,6 +770,7 @@ exports[`should render correctly two elements contains other types of elements 1
         >
           <div
             className="tool-btn disabled"
+            id="vdist"
             onClick={null}
             title="Vertical Distribute"
           >
@@ -734,6 +781,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn"
+            id="left_align"
             onClick={[MockFunction]}
             title="Left Align"
           >
@@ -744,6 +792,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn"
+            id="center_align"
             onClick={[MockFunction]}
             title="Center Align"
           >
@@ -754,6 +803,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn"
+            id="right_align"
             onClick={[MockFunction]}
             title="Right Align"
           >
@@ -772,6 +822,7 @@ exports[`should render correctly two elements contains other types of elements 1
         >
           <div
             className="tool-btn"
+            id="group"
             onClick={[Function]}
             title="Group"
           >
@@ -782,6 +833,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn disabled"
+            id="ungroup"
             onClick={null}
             title="Ungroup"
           >
@@ -796,6 +848,7 @@ exports[`should render correctly two elements contains other types of elements 1
         >
           <div
             className="tool-btn disabled"
+            id="union"
             onClick={null}
             title="Union"
           >
@@ -806,6 +859,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn disabled"
+            id="subtract"
             onClick={null}
             title="Subtract"
           >
@@ -816,6 +870,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn disabled"
+            id="intersect"
             onClick={null}
             title="Intersect"
           >
@@ -826,6 +881,7 @@ exports[`should render correctly two elements contains other types of elements 1
           </div>
           <div
             className="tool-btn disabled"
+            id="difference"
             onClick={null}
             title="Difference"
           >
@@ -934,6 +990,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
         >
           <div
             className="tool-btn disabled"
+            id="hdist"
             onClick={null}
             title="Horizontal Distribute"
           >
@@ -944,6 +1001,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="top_align"
             onClick={[MockFunction]}
             title="Top Align"
           >
@@ -954,6 +1012,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="middle_align"
             onClick={[MockFunction]}
             title="Middle Align"
           >
@@ -964,6 +1023,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="bottom_align"
             onClick={[MockFunction]}
             title="Bottom Align"
           >
@@ -978,6 +1038,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
         >
           <div
             className="tool-btn disabled"
+            id="vdist"
             onClick={null}
             title="Vertical Distribute"
           >
@@ -988,6 +1049,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="left_align"
             onClick={[MockFunction]}
             title="Left Align"
           >
@@ -998,6 +1060,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="center_align"
             onClick={[MockFunction]}
             title="Center Align"
           >
@@ -1008,6 +1071,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="right_align"
             onClick={[MockFunction]}
             title="Right Align"
           >
@@ -1026,6 +1090,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
         >
           <div
             className="tool-btn"
+            id="group"
             onClick={[Function]}
             title="Group"
           >
@@ -1036,6 +1101,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn disabled"
+            id="ungroup"
             onClick={null}
             title="Ungroup"
           >
@@ -1050,6 +1116,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
         >
           <div
             className="tool-btn"
+            id="union"
             onClick={[Function]}
             title="Union"
           >
@@ -1060,6 +1127,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="subtract"
             onClick={[Function]}
             title="Subtract"
           >
@@ -1070,6 +1138,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="intersect"
             onClick={[Function]}
             title="Intersect"
           >
@@ -1080,6 +1149,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           </div>
           <div
             className="tool-btn"
+            id="difference"
             onClick={[Function]}
             title="Difference"
           >

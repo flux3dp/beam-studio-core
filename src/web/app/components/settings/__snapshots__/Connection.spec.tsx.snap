@@ -21,11 +21,13 @@ exports[`should render correctly invalid ip address is given 1`] = `
     <input
       autoComplete="false"
       defaultValue="192.168.2.2"
+      id="ip-input"
       onBlur={[Function]}
       type="text"
     />
   </Controls>
   <SelectControl
+    id="set-guessing-poke"
     label="Search for machine IP address"
     onChange={[Function]}
     options={
@@ -44,6 +46,7 @@ exports[`should render correctly invalid ip address is given 1`] = `
     }
   />
   <SelectControl
+    id="set-auto-connect"
     label="Automatically select the only machine"
     onChange={[Function]}
     options={

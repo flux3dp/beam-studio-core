@@ -68,6 +68,7 @@ exports[`test Connect-Wired should render correctly 1`] = `
           >
             <div
               className="collapse-title"
+              id="collapse-wired1"
               onClick={[Function]}
             >
               What if the IP is empty?
@@ -87,6 +88,7 @@ exports[`test Connect-Wired should render correctly 1`] = `
           >
             <div
               className="collapse-title"
+              id="collapse-wired2"
               onClick={[Function]}
             >
               What if the IP starts with 169?

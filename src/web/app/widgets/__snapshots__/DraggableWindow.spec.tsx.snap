@@ -5,6 +5,7 @@ exports[`should render correctly 1`] = `
   allowAnyClick={false}
   axis="both"
   bounds="body"
+  cancel={null}
   defaultClassName="react-draggable 123"
   defaultClassNameDragged="react-draggable-dragged"
   defaultClassNameDragging="react-draggable-dragging"
@@ -16,12 +17,16 @@ exports[`should render correctly 1`] = `
   }
   disabled={false}
   enableUserSelectHack={true}
+  grid={null}
   handle=".handle"
+  offsetParent={null}
   onDrag={[Function]}
   onMouseDown={[Function]}
   onStart={[Function]}
   onStop={[Function]}
+  position={null}
   scale={1}
+  transform={null}
 >
   <div>
     <div
