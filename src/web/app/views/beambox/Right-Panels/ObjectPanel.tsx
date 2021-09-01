@@ -51,7 +51,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
     onClick: () => void,
     id:string,
   ): JSX.Element => (
-    <div id={id} className={classNames('tool-btn', { disabled })} onClick={disabled ? null : onClick} title={label} >
+    <div id={id} className={classNames('tool-btn', { disabled })} onClick={disabled ? null : onClick} title={label}>
       <img src={src} draggable={false} />
     </div>
   );

@@ -20,7 +20,6 @@ const propertiesMap = {
 };
 
 interface Props {
-  id?:string,
   buttonTitle: string,
   className: string
   defaultValue: string,

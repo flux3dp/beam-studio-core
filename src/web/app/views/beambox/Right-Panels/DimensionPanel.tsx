@@ -326,7 +326,7 @@ class DimensionPanel extends React.Component<Props> {
               <img src="img/right-panel/icon-rotate.svg" alt="" />
             </div>
             <UnitInput
-              id='rotate'
+              id="rotate"
               unit="deg"
               className={this.unitInputClass}
               defaultValue={dimensionValues.rotation}
@@ -339,7 +339,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">W</div>
             <UnitInput
-              id='width'
+              id="width"
               unit={this.unit}
               className={this.unitInputClass}
               onBlur={() => this.handleSizeBlur()}
@@ -354,7 +354,7 @@ class DimensionPanel extends React.Component<Props> {
           <div className="dimension-container" key={type}>
             <div className="label">H</div>
             <UnitInput
-              id='height'
+              id="height"
               unit={this.unit}
               className={this.unitInputClass}
               onBlur={() => this.handleSizeBlur()}
@@ -404,8 +404,8 @@ class DimensionPanel extends React.Component<Props> {
 
   renderDimensionPanels = (panels: Array<string>): Array<Element> => {
     const ret = [];
-    for (let panel of panels) {
-      ret.push(this.renderDimensionPanel(panel));
+    for (let i = 0; i < panels.length; i += 1) {
+      ret.push(this.renderDimensionPanel(panels[i]));
     }
     return ret;
   };
