@@ -7,6 +7,8 @@ export default {
   },
   buttons: {
     next: 'NEXT',
+    back: 'BACK',
+    done: 'DONE',
   },
   topbar: {
     untitled: 'Untitled',

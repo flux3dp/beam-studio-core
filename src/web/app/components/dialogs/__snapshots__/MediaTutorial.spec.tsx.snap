@@ -1,0 +1,766 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly button groups should work 1`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={[MockFunction]}
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <img
+              src="img/1.png"
+            />
+          </div>
+          <div
+            className="description"
+          >
+            1
+          </div>
+          <div
+            className="step"
+          >
+            1/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "className": "btn-default primary",
+                  "label": "NEXT",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "NEXT",
+                  }
+                }
+                data-test-key="next"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;
+
+exports[`should render correctly button groups should work 2`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={[MockFunction]}
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <img
+              src="img/2.png"
+            />
+          </div>
+          <div
+            className="description"
+          >
+            2
+          </div>
+          <div
+            className="step"
+          >
+            2/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "label": "BACK",
+                  "onClick": [Function],
+                },
+                Object {
+                  "className": "btn-default primary",
+                  "label": "NEXT",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "BACK",
+                  }
+                }
+                data-test-key="back"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "NEXT",
+                  }
+                }
+                data-test-key="next"
+                key="1"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;
+
+exports[`should render correctly button groups should work 3`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={[MockFunction]}
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <img
+              src="img/1.png"
+            />
+          </div>
+          <div
+            className="description"
+          >
+            1
+          </div>
+          <div
+            className="step"
+          >
+            1/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "className": "btn-default primary",
+                  "label": "NEXT",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "NEXT",
+                  }
+                }
+                data-test-key="next"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;
+
+exports[`should render correctly button groups should work 4`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={[MockFunction]}
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <img
+              src="img/2.png"
+            />
+          </div>
+          <div
+            className="description"
+          >
+            2
+          </div>
+          <div
+            className="step"
+          >
+            2/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "label": "BACK",
+                  "onClick": [Function],
+                },
+                Object {
+                  "className": "btn-default primary",
+                  "label": "NEXT",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "BACK",
+                  }
+                }
+                data-test-key="back"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "NEXT",
+                  }
+                }
+                data-test-key="next"
+                key="1"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;
+
+exports[`should render correctly button groups should work 5`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={[MockFunction]}
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <video
+              autoPlay={true}
+              loop={true}
+            >
+              <source
+                src="video/3.webm"
+                type="video/webm"
+              />
+            </video>
+          </div>
+          <div
+            className="description"
+          >
+            3
+          </div>
+          <div
+            className="step"
+          >
+            3/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "label": "BACK",
+                  "onClick": [Function],
+                },
+                Object {
+                  "className": "btn-default primary",
+                  "label": "DONE",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "BACK",
+                  }
+                }
+                data-test-key="back"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "DONE",
+                  }
+                }
+                data-test-key="done"
+                key="1"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;
+
+exports[`should render correctly button groups should work 6`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={
+              [MockFunction] {
+                "calls": Array [
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              }
+            }
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <video
+              autoPlay={true}
+              loop={true}
+            >
+              <source
+                src="video/3.webm"
+                type="video/webm"
+              />
+            </video>
+          </div>
+          <div
+            className="description"
+          >
+            3
+          </div>
+          <div
+            className="step"
+          >
+            3/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "label": "BACK",
+                  "onClick": [Function],
+                },
+                Object {
+                  "className": "btn-default primary",
+                  "label": "DONE",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "BACK",
+                  }
+                }
+                data-test-key="back"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "DONE",
+                  }
+                }
+                data-test-key="done"
+                key="1"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;
+
+exports[`should render correctly close button should work 1`] = `
+<MediaTutorial
+  data={
+    Array [
+      Object {
+        "description": "1",
+        "mediaSrc": "img/1.png",
+      },
+      Object {
+        "description": "2",
+        "mediaSrc": "img/2.png",
+      },
+      Object {
+        "description": "3",
+        "isVideo": true,
+        "mediaSrc": "video/3.webm",
+      },
+    ]
+  }
+  onClose={[MockFunction]}
+>
+  <View>
+    <div
+      className="modal-window"
+    >
+      <div
+        className="modal-background"
+        onClick={[Function]}
+      />
+      <div
+        className="modal-body"
+      >
+        <div
+          className="media-tutorial"
+        >
+          <div
+            className="close-btn"
+            onClick={[MockFunction]}
+          >
+            <img
+              src="img/icon-clear.svg"
+            />
+          </div>
+          <div
+            className="media-container"
+          >
+            <img
+              src="img/1.png"
+            />
+          </div>
+          <div
+            className="description"
+          >
+            1
+          </div>
+          <div
+            className="step"
+          >
+            1/3
+          </div>
+          <ButtonGroup
+            buttons={
+              Array [
+                Object {
+                  "className": "btn-default primary",
+                  "label": "NEXT",
+                  "onClick": [Function],
+                },
+              ]
+            }
+          >
+            <div
+              className="button-group btn-h-group"
+            >
+              <button
+                className="btn btn-default primary"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "NEXT",
+                  }
+                }
+                data-test-key="next"
+                key="0"
+                onClick={[Function]}
+                type="button"
+              />
+            </div>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+  </View>
+</MediaTutorial>
+`;

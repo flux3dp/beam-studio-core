@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import DraggbleWindow from './Draggble-Window';
+import DraggbleWindow from './DraggableWindow';
 
 test('should render correctly', () => {
   const mockOnClose = jest.fn();

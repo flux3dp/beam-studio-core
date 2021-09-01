@@ -1967,9 +1967,10 @@
     return {firstPoint, lastPoint};
   };
 
-  const connectPathSegs = (pathSegs) => {
+  const connectPathSegs = (pathSegs, entities) => {
     for (let i = 0; i < pathSegs.length - 1; i++) {
-      let pathSeg = pathSegs[i];
+      if (entities[i].layer !== entities[i + 1].layer) continue;
+      const pathSeg = pathSegs[i];
       const {firstPoint, lastPoint} = getFirstPointAndLastPoints(pathSeg);
       if (firstPoint[0] === lastPoint[0] && firstPoint[1] === lastPoint[1]) {
         continue;
@@ -1982,7 +1983,7 @@
         pathSegs[i] = [];
       } else if (Math.hypot(firstPoint[0] - nextSegLastPoint[0], firstPoint[1] - nextSegLastPoint[1]) < 1e-7) {
         pathSeg.splice(0, 1);
-        pathSegs[i+1] = [...pathSegs[i+1], ...pathSeg];
+        pathSegs[i + 1] = [...pathSegs[i + 1], ...pathSeg];
         pathSegs[i] = [];
       }
     }
@@ -2049,7 +2050,7 @@
 
     entities = entities.filter((_, i) => (pathSegs[i] && pathSegs[i].length > 0));
     pathSegs = pathSegs.filter((ps) => (ps && ps.length > 0));
-    pathSegs = connectPathSegs(pathSegs);
+    pathSegs = connectPathSegs(pathSegs, entities);
     entities = entities.filter((_, i) => pathSegs[i].length > 0);
     pathSegs = pathSegs.filter((ps) => ps.length > 0);
 

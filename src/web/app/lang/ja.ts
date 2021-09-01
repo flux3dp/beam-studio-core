@@ -7,6 +7,8 @@ export default {
   },
   buttons: {
     next: '次へ',
+    back: '戻る',
+    done: '完了',
   },
   topbar: {
     untitled: '無題',

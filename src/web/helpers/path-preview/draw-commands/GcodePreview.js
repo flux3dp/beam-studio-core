@@ -12,12 +12,17 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Modified by Dean Sung and Kai Tseng, 2021
+//
 
 const parsedStride = 9;
 const drawStride = 8;
+const accX = 4000;
+const accY = 2000;
 
 export function gcode(drawCommands) {
-  let program = drawCommands.compile({
+  const program = drawCommands.compile({
     vert: `
       precision mediump float;
       uniform mat4 perspective;
@@ -28,10 +33,10 @@ export function gcode(drawCommands) {
       attribute vec4 position;
       attribute float g;
       attribute float t;
-      attribute float g0Dist;
+      attribute float g0Time;
       attribute float g1Time;
       varying vec4 color;
-      varying float vg0Dist;
+      varying float vg0Time;
       varying float vg1Time;
       void main() {
         gl_Position = perspective * view * vec4(position.x, position.y + position.a * rotaryScale, position.z, 1);
@@ -51,7 +56,7 @@ export function gcode(drawCommands) {
           color = vec4(1.0, 1.0, 1.0, 1.0);
         else
           color = vec4(0.0, 0.0, 0.0, 1.0);
-        vg0Dist = g0Dist;
+        vg0Time = g0Time;
         vg1Time = g1Time;
       }`,
     frag: `
@@ -60,21 +65,21 @@ export function gcode(drawCommands) {
       uniform float simTime;
       uniform bool showRemaining;
       varying vec4 color;
-      varying float vg0Dist;
+      varying float vg0Time;
       varying float vg1Time;
       void main() {
-        float time = vg1Time + vg0Dist / g0Rate;
+        float time = vg1Time + vg0Time;
         if((time > simTime && !showRemaining) || (time <= simTime && showRemaining))
           discard;
         else
           gl_FragColor = color;
       }`,
     attrs: {
-      g: { offset: 0, },
-      position: { offset: 4, },
-      t: { offset: 20, },
-      g0Dist: { offset: 24, },
-      g1Time: { offset: 28, },
+      g: { offset: 0 },
+      position: { offset: 4 },
+      t: { offset: 20 },
+      g0Time: { offset: 24 },
+      g1Time: { offset: 28 },
     },
   });
   return ({
@@ -121,7 +126,7 @@ export class GcodePreview {
   setParsedGcode(parsed) {
     this.arrayChanged = true;
     this.timeInterval = [];
-    ++this.arrayVersion;
+    this.arrayVersion += 1;
     if (parsed.length < 2 * parsedStride) {
       this.array = null;
       this.g0DistReal = 0;
@@ -133,7 +138,8 @@ export class GcodePreview {
       this.g1Dist = 0;
       this.g1Time = 0;
     } else {
-      let array = new Float32Array((parsed.length - parsedStride) / parsedStride * drawStride * 2);
+      const array = new Float32Array(((parsed.length - parsedStride) / parsedStride)
+                                      * drawStride * 2);
       this.minX = Number.MAX_VALUE;
       this.maxX = -Number.MAX_VALUE;
       this.minY = Number.MAX_VALUE;
@@ -141,28 +147,38 @@ export class GcodePreview {
       this.minA = Number.MAX_VALUE;
       this.maxA = -Number.MAX_VALUE;
 
-      let g0Dist = 0, g0Time = 0, g1Dist = 0, g1Time = 0, g0DistReal = 0, g0TimeReal = 0, g1DistReal = 0, g1TimeReal = 0;
-      for (let i = 0; i < parsed.length / parsedStride - 1; ++i) {
+      let g0Dist = 0;
+      let g0Time = 0;
+      let g1Dist = 0;
+      let g1Time = 0;
+      let g0DistReal = 0;
+      let g0TimeReal = 0;
+      let g1DistReal = 0;
+      let g1TimeReal = 0;
+      let lastFeedrate = 0;
+      let lastDirection = 0;
+
+      for (let i = 0; i < parsed.length / parsedStride - 1; i += 1) {
         // g
-        let x1 = parsed[i * parsedStride + 1];
-        let y1 = parsed[i * parsedStride + 2];
-        let z1 = parsed[i * parsedStride + 3];
+        const x1 = parsed[i * parsedStride + 1];
+        const y1 = parsed[i * parsedStride + 2];
+        const z1 = parsed[i * parsedStride + 3];
         // e
         // f
-        let a1 = parsed[i * parsedStride + 6];
+        const a1 = parsed[i * parsedStride + 6];
         // s
         // t
 
-        let g = parsed[i * parsedStride + 9];
-        let x2 = parsed[i * parsedStride + 10];
-        let y2 = parsed[i * parsedStride + 11];
-        let z2 = parsed[i * parsedStride + 12];
+        const g = parsed[i * parsedStride + 9];
+        const x2 = parsed[i * parsedStride + 10];
+        const y2 = parsed[i * parsedStride + 11];
+        const z2 = parsed[i * parsedStride + 12];
         // e
-        let f = parsed[i * parsedStride + 14];
-        let a2 = parsed[i * parsedStride + 15];
+        const f = parsed[i * parsedStride + 14];
+        const a2 = parsed[i * parsedStride + 15];
 
         // s
-        let t = parsed[i * parsedStride + 8];
+        const t = parsed[i * parsedStride + 8];
 
         if (g) {
           this.minX = Math.min(this.minX, x1, x2);
@@ -179,34 +195,37 @@ export class GcodePreview {
         array[i * drawStride * 2 + 3] = z1;
         array[i * drawStride * 2 + 4] = a1;
         array[i * drawStride * 2 + 5] = t;
-        array[i * drawStride * 2 + 6] = g0Dist;
+        array[i * drawStride * 2 + 6] = g0Time;
         array[i * drawStride * 2 + 7] = g1Time;
+        const dist = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
+        let tc = 0;
+        if (!Number.isNaN(f) && dist !== 0) {
+          const direction = Math.atan2(y2 - y1, x2 - x1);
+          const lastVel = (lastFeedrate * Math.cos(direction - lastDirection));
+          const acc = Math.abs(y2 - y1) > 0 ? accX : accY;
+          tc = (Math.abs(f - lastVel) / acc / 3600) + (dist / f);
+          lastFeedrate = f;
+          lastDirection = direction;
+        }
 
-        let dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
         if (g) {
-          g1Time += dist / f;
+          g1Time += tc;
           g1Dist += dist;
-          g1TimeReal += dist / f;
+          g1TimeReal += tc;
           g1DistReal += dist;
-        } else if (!isNaN(f)) {
+        } else if (!Number.isNaN(f)) {
           if (f === 7500) {
-            g0Time += dist / f;
+            g0Time += tc;
             g0Dist += dist;
           } else {
-            //g1TimeReal += dist / f;
-            //g1DistReal += dist;
-            g1Time += dist / f;
+            g1Time += tc;
             g1Dist += dist;
           }
-          g0TimeReal += dist / f;
+          g0TimeReal += tc;
           g0DistReal += dist;
         }
 
         this.timeInterval.push(g1Time + g0Time);
-
-        /*if (i === 0) {
-          g0Dist += Math.sqrt((x1*x1 + y1*y1));
-        }*/
 
         array[i * drawStride * 2 + 8] = g;
         array[i * drawStride * 2 + 9] = x2;
@@ -214,9 +233,10 @@ export class GcodePreview {
         array[i * drawStride * 2 + 11] = z2;
         array[i * drawStride * 2 + 12] = a2;
         array[i * drawStride * 2 + 13] = t;
-        array[i * drawStride * 2 + 14] = g0Dist;
+        array[i * drawStride * 2 + 14] = g0Time;
         array[i * drawStride * 2 + 15] = g1Time;
       }
+
       this.array = array;
       this.g0Dist = g0Dist;
       this.g0Time = g0Time;
@@ -230,54 +250,61 @@ export class GcodePreview {
   }
 
   getSimTimeInfo(simTime) {
-    //console.log(simTime, '\n', this.timeInterval);
-
     let min = 0;
     let max = this.timeInterval.length;
     let guess;
+    let index = -1;
+    let position = [0, 0];
+    let next = [-1, -1];
 
-    while(min <= max) {
-        guess = Math.floor((max + min) / 2);
+    while (min <= max) {
+      guess = Math.floor((max + min) / 2);
 
-        if (this.timeInterval[guess] < simTime && this.timeInterval[guess+1] > simTime) {
-            const index = guess + 1;
-            const ratio = (simTime - this.timeInterval[guess]) / (this.timeInterval[index] - this.timeInterval[guess]);
-            //console.log('ratio and time: ', ratio, this.timeInterval[index], this.timeInterval[index+1]);
-            //console.log('x1, y1, x2, y2 : ', this.array[index * drawStride * 2 + 1], this.array[index * drawStride * 2 + 2], this.array[index * drawStride * 2 + 9], this.array[index * drawStride * 2 + 10])
-            const x = this.array[index * drawStride * 2 + 1] + (this.array[index * drawStride * 2 + 9] - this.array[index * drawStride * 2 + 1]) * ratio;
-            const y = this.array[index * drawStride * 2 + 2] + (this.array[index * drawStride * 2 + 10] - this.array[index * drawStride * 2 + 2]) * ratio;
-            return {
-              index,
-              position: [x, -y],
-              next: [this.array[index * drawStride * 2 + 9], this.array[index * drawStride * 2 + 10]],
-            };
-        }
-        else if (this.timeInterval[guess] < simTime) {
-            min = guess + 1;
-        }
-        else {
-            max = guess - 1;
-        }
+      if (this.timeInterval[guess] < simTime && this.timeInterval[guess + 1] > simTime) {
+        index = guess + 1;
+        const ratio = (simTime - this.timeInterval[guess])
+                      / (this.timeInterval[index] - this.timeInterval[guess]);
+        const ref = index * drawStride * 2;
+        const x = this.array[ref + 1] + (this.array[ref + 9] - this.array[ref + 1]) * ratio;
+        const y = this.array[ref + 2] + (this.array[ref + 10] - this.array[ref + 2]) * ratio;
+        position = [x, -y];
+        next = [this.array[ref + 9], this.array[ref + 10]];
+        break;
+      } else if (this.timeInterval[guess] < simTime) {
+        min = guess + 1;
+      } else {
+        max = guess - 1;
+      }
     }
 
-    return { index: -1, position: [0, 0], prev: [-1, -1], next: [-1, -1] };
+    return {
+      index,
+      position,
+      next,
+    };
   }
 
-  draw(drawCommands, perspective, view, g0Rate, simTime, rotaryDiameter, isInverting, showTraversal, showRemaining) {
+  draw(
+    drawCommands,
+    perspective,
+    view,
+    g0Rate,
+    simTime,
+    rotaryDiameter,
+    isInverting,
+    showTraversal,
+    showRemaining,
+  ) {
     if (this.drawCommands !== drawCommands) {
       this.drawCommands = drawCommands;
-      if (this.buffer)
-        this.buffer.destroy();
+      if (this.buffer) this.buffer.destroy();
       this.buffer = null;
     }
 
-    if (!this.array)
-      return;
+    if (!this.array) return;
 
-    if (!this.buffer)
-      this.buffer = drawCommands.createBuffer(this.array);
-    else if (this.arrayChanged)
-      this.buffer.setData(this.array);
+    if (!this.buffer) this.buffer = drawCommands.createBuffer(this.array);
+    else if (this.arrayChanged) this.buffer.setData(this.array);
     this.arrayChanged = false;
 
     drawCommands.gcode({
@@ -293,4 +320,4 @@ export class GcodePreview {
       count: this.array.length / drawStride,
     });
   }
-}; // GcodePreview
+}

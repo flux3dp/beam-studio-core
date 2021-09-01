@@ -7,6 +7,8 @@ export default {
   },
   buttons: {
     next: '下一步',
+    back: '上一步',
+    done: '完成',
   },
   topbar: {
     untitled: '无标题',

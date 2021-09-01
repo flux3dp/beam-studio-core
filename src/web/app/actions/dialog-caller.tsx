@@ -11,6 +11,7 @@ import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
+import MediaTutorial from 'app/components/dialogs/MediaTutorial';
 import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
@@ -23,7 +24,7 @@ import { eventEmitter } from 'app/contexts/DialogContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
-import { ITutorial } from 'interfaces/ITutorial';
+import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
 import Tutorial from 'app/views/tutorials/Tutorial';
 
 let svgCanvas;
@@ -284,6 +285,16 @@ export default {
         onClose={() => popDialogById('update-dialog')}
       />);
   },
+  showMediaTutorial: (data: IMediaTutorial[]): Promise<void> => new Promise<void>((resolve) => {
+    addDialogComponent('media-tutorial',
+      <MediaTutorial
+        data={data}
+        onClose={() => {
+          popDialogById('media-tutorial');
+          resolve();
+        }}
+      />);
+  }),
   showLoadingWindow: (): void => {
     const id = 'loading-window';
     if (isIdExist(id)) return;
