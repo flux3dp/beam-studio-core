@@ -11,8 +11,8 @@ const LANG = i18n.lang;
 
 interface Props {
   id?: string;
-  progress: IProgressDialog,
-  onClose?: () => void,
+  progress: IProgressDialog;
+  popById: (id: string) => void;
 }
 
 class Progress extends React.Component<Props> {
