@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import EventEmitter from 'eventemitter3';
 
 import defaultIcons from 'app/constants/noun-project-constants';
-import DraggableWindow from 'app/widgets/Draggble-Window';
+import DraggableWindow from 'app/widgets/DraggableWindow';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import storage from 'implementations/storage';
