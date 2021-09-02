@@ -81,7 +81,7 @@ export default class RightPanel extends React.Component<{}, State> {
     }
     const sideClass = classNames({
       short: window.os === 'Windows' && window.FLUX.version !== 'web',
-      narrow: window.os !== 'MacOS',
+      wide: window.os !== 'MacOS',
     });
     return (
       <div id="right-panel">
