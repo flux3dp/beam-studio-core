@@ -10,6 +10,7 @@ import Constant from 'app/actions/beambox/constant';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
+import requirejsHelper from 'helpers/requirejs-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -17,6 +18,14 @@ let svgedit;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
 
 const LANG = i18n.lang.beambox.tool_panels;
+
+async function setUpSvgNest() {
+  if (window.FLUX.version === 'web') {
+    await requirejsHelper('js/lib/svg-nest/svgnest');
+    await requirejsHelper('js/lib/svg-nest/util/geometryutil');
+    await requirejsHelper('js/lib/svg-nest/util/parallel');
+  }
+}
 
 interface Props {
   onClose: () => void;
@@ -36,6 +45,8 @@ class SvgNestButtons extends React.Component<Props, State> {
     this.state = {
       isWorking: false,
     };
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    if (!window['SvgNest']) setUpSvgNest();
   }
 
   nestElements = (elements: Element[], containerElem?: HTMLElement, config?: any) => {

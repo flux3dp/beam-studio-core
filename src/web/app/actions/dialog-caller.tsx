@@ -18,7 +18,7 @@ import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
-import SvgNestButtons from 'app/views/beambox/Svg-Nest-Buttons';
+import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
