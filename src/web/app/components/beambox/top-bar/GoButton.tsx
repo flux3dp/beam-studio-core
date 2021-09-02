@@ -24,11 +24,11 @@ getSVGAsync((globalSVG) => {
 });
 
 const { $ } = window;
-const lang = i18n.lang;
-const LANG = i18n.lang.topbar;
+const { lang } = i18n;
+const LANG = lang.topbar;
 
 interface Props {
-  isNotMac: boolean;
+  hasText: boolean;
   hasDiscoverdMachine: boolean;
   hasDevice: boolean;
   endPreviewMode: () => void;
@@ -36,7 +36,7 @@ interface Props {
 }
 
 class GoButton extends React.Component<Props> {
-  handleExportClick = async () => {
+  private handleExportClick = async () => {
     const { hasDevice, endPreviewMode, showDeviceList } = this.props;
     endPreviewMode();
 
@@ -54,7 +54,7 @@ class GoButton extends React.Component<Props> {
     showDeviceList('export', (device) => { this.exportTask(device); });
   };
 
-  handleExportAlerts = async () => {
+  private handleExportAlerts = async () => {
     const layers = $('#svgcontent > g.layer').toArray();
 
     const isPowerTooHigh = layers.some((layer) => {
@@ -87,8 +87,8 @@ class GoButton extends React.Component<Props> {
         for (let j = 0; j < paths.length; j += 1) {
           const path = paths[j];
           const fill = $(path).attr('fill');
-          const fill_op = parseFloat($(path).attr('fill-opacity'));
-          if (fill === 'none' || fill === '#FFF' || fill === '#FFFFFF' || fill_op === 0) {
+          const fillOpacity = parseFloat($(path).attr('fill-opacity'));
+          if (fill === 'none' || fill === '#FFF' || fill === '#FFFFFF' || fillOpacity === 0) {
             isTooFastForPath = true;
             tooFastLayers.push(svgCanvas.getCurrentDrawing().getLayerName(i));
             break;
@@ -160,7 +160,7 @@ class GoButton extends React.Component<Props> {
     return true;
   };
 
-  exportTask = (device) => {
+  private exportTask = (device) => {
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
     const allowedWorkareas = Constant.allowedWorkarea[device.model];
     if (currentWorkarea && allowedWorkareas) {
@@ -189,11 +189,11 @@ class GoButton extends React.Component<Props> {
     ExportFuncs.uploadFcode(device);
   };
 
-  render() {
-    const { hasDiscoverdMachine, isNotMac } = this.props;
+  render(): JSX.Element {
+    const { hasDiscoverdMachine, hasText } = this.props;
     return (
       <div className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })} onClick={() => this.handleExportClick()}>
-        {isNotMac ? <div className="go-text">{LANG.export}</div> : null}
+        {hasText ? <div className="go-text">{LANG.export}</div> : null}
         <div className={(classNames('go-btn'))} />
       </div>
     );

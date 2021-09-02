@@ -42,7 +42,7 @@ getSVGAsync((globalSVG) => {
 const { $ } = window;
 const { lang } = i18n;
 const LANG = i18n.lang.topbar;
-const isNotMac = window.os !== 'MacOS';
+const isWhiteTopBar = window.os !== 'MacOS' && window.FLUX.version !== 'web';
 
 interface State {
   hasDiscoverdMachine: boolean;
@@ -361,7 +361,7 @@ export default class TopBar extends React.Component<Props, State> {
     } = this.context;
     const { deviceList } = this;
     return (
-      <div className={classNames('top-bar', { win: isNotMac })}>
+      <div className={classNames('top-bar', { white: isWhiteTopBar })}>
         <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
         <PreviewButton
           isPreviewing={isPreviewing}
@@ -377,7 +377,7 @@ export default class TopBar extends React.Component<Props, State> {
           togglePathPreview={togglePathPreview}
         />
         <GoButton
-          isNotMac={isNotMac}
+          hasText={isWhiteTopBar}
           hasDiscoverdMachine={hasDiscoverdMachine}
           hasDevice={this.deviceList.length > 0}
           endPreviewMode={endPreviewMode}

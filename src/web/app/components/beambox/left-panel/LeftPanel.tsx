@@ -20,7 +20,7 @@ class LeftPanel extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.leftPanelClass = classNames('left-toolbar', { win: window.os === 'Windows' });
+    this.leftPanelClass = classNames('left-toolbar');
   }
 
   componentDidMount(): void {
