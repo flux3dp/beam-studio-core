@@ -216,7 +216,7 @@ export const init = async (): Promise<void> => {
     const data = parseQueryData(dataString);
     signInWithGoogleCode(data);
   });
-  if (storage.get('keep-flux-id-login') || storage.get('new-user')) {
+  if (window.FLUX.version === 'web' || storage.get('keep-flux-id-login') || storage.get('new-user')) {
     // If user is new, keep login status after setting machines.
     if (window.FLUX.version !== 'web') {
       // Init csrftoken for electron
