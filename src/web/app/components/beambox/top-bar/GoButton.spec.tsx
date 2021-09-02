@@ -98,7 +98,7 @@ import GoButton from './GoButton';
 
 test('should render correctly', () => {
   expect(toJson(shallow(<GoButton
-    isNotMac={false}
+    hasText={false}
     hasDiscoverdMachine={false}
     hasDevice
     endPreviewMode={jest.fn()}
@@ -108,7 +108,7 @@ test('should render correctly', () => {
   const endPreviewMode = jest.fn();
   const showDeviceList = jest.fn();
   const wrapper = shallow(<GoButton
-    isNotMac
+    hasText
     hasDiscoverdMachine
     hasDevice
     endPreviewMode={endPreviewMode}

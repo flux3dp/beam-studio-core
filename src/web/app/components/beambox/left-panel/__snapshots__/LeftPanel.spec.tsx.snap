@@ -6,7 +6,7 @@ exports[`should render correctly in path previewing 1`] = `
   togglePathPreview={[MockFunction]}
 >
   <div
-    className="left-toolbar win"
+    className="left-toolbar"
   >
     <div
       className="tool-btn"
@@ -44,7 +44,7 @@ exports[`should render correctly not in path previewing 1`] = `
   togglePathPreview={[MockFunction]}
 >
   <PreviewToolButtonGroup
-    className="left-toolbar win"
+    className="left-toolbar"
     endPreviewMode={[MockFunction]}
     setShouldStartPreviewController={[MockFunction]}
   >
