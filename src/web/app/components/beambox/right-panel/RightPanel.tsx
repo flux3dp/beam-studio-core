@@ -9,10 +9,6 @@ import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contex
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
-const isWeb = window.FLUX.version === 'web';
-const isWin = window.os === 'Windows';
-const isLinux = window.os === 'Linux';
-
 interface State {
   selectedTab: 'layers' | 'objects',
 }
@@ -83,9 +79,13 @@ export default class RightPanel extends React.Component<{}, State> {
     } else {
       content = this.renderObjectPanel();
     }
+    const sideClass = classNames({
+      short: window.os === 'Windows' && window.FLUX.version !== 'web',
+      narrow: window.os !== 'MacOS',
+    });
     return (
       <div id="right-panel">
-        <div id="sidepanels" className={classNames({win: isWin && !isWeb, linux: isLinux && !isWeb, web: isWeb })}>
+        <div id="sidepanels" className={sideClass}>
           <Tab
             mode={mode}
             selectedElement={selectedElement}
