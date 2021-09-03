@@ -60,7 +60,6 @@ const updateUser = (info?, isWebSocialSignIn = false) => {
         email: info.email,
         info,
       };
-      fluxIDEvents.emit('update-user', currentUser);
       if (isWebSocialSignIn && window.FLUX.version === 'web') {
         window.opener.dispatchEvent(new CustomEvent('update-user', {
           detail: {
@@ -74,12 +73,14 @@ const updateUser = (info?, isWebSocialSignIn = false) => {
       }
       Object.assign(currentUser.info, info);
     }
-  } else if (currentUser) {
-    currentUser = null;
-    updateMenu();
-    fluxIDEvents.emit('update-user');
+    fluxIDEvents.emit('update-user', currentUser);
   } else {
+    if (currentUser) {
+      currentUser = null;
+      updateMenu();
+    }
     fluxIDEvents.emit('update-user', null);
+    if (window.FLUX.version === 'web') window.location.hash = '#/initialize/connect/flux-id-login';
   }
 };
 
@@ -321,7 +322,7 @@ export const setPreference = async (value: { [key: string]: any }): Promise<bool
   return false;
 };
 
-export const getNPIconsByTerm = async (term: string, offset: number = 0) => {
+export const getNPIconsByTerm = async (term: string, offset = 0) => {
   const response = await axiosFluxId.get(`/api/np/icons/${term}`, {
     params: {
       offset,

@@ -78,7 +78,7 @@ class BeamboxInit {
     }
     if (window.FLUX.version === 'web') {
       const res = await fluxId.getPreference('did_gesture_tutorial', true);
-      if (res && !res.error && !res.value) {
+      if (res && !res.error && res.status === 'ok' && !res.value) {
         await Dialog.showMediaTutorial(gestureIntroduction);
         await fluxId.setPreference({ did_gesture_tutorial: true });
       }
