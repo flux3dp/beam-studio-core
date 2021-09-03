@@ -266,7 +266,7 @@ export default class ConnectMachine extends React.Component<any, State> {
 
     if (window.FLUX.version === 'web') {
       localStorage.setItem('host', ip);
-      localStorage.setItem('post', '8000');
+      localStorage.setItem('port', '8000');
     }
     this.discover.poke(ip);
     this.discover.pokeTcp(ip);
