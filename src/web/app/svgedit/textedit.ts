@@ -268,10 +268,10 @@ const setFontFamily = (val: string, isSubCmd = false, elems?: Element[]): IComma
   if (!usePostscriptAsFamily) curText.font_family = val;
   if (isSubCmd) {
     svgCanvas.undoMgr.beginUndoableChange('font-family', elemsToChange);
-    svgCanvas.changeSelectedAttributeNoUndo('font-family', val, elemsToChange);
+    svgCanvas.changeSelectedAttributeNoUndo('font-family', `'${val}'`, elemsToChange);
     cmd = svgCanvas.undoMgr.finishUndoableChange();
   } else {
-    svgCanvas.changeSelectedAttribute('font-family', val);
+    svgCanvas.changeSelectedAttribute('font-family', `'${val}'`);
   }
   if (elemsToChange[0] && !elemsToChange[0].textContent) {
     textActions.setCursor();

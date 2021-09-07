@@ -310,14 +310,12 @@ const convertTextToPath = async (
   if (window.FLUX.version === 'web') {
     const postscript = textElement.getAttribute('font-postscript');
 
-    Progress.update('parsing-font', { message: 't取得線上字體中' });
     const res = await fontHelper.getWebFontAndUpload(postscript);
     if (!res) {
       Progress.popById('parsing-font');
       Alert.popUpError({ message: `tUnable to get font ${postscript}` });
       return ConvertResult.CANCEL_OPERATION;
     }
-    Progress.update('parsing-font', { message: LANG.wait_for_parsing_font });
   }
 
   textElement.removeAttribute('stroke-width');

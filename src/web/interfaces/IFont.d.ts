@@ -20,6 +20,7 @@ export interface FontHelper {
   substituteFont: (postscriptName: string, text: string) => FontDescriptor;
   getFontName: (font: FontDescriptor) => string;
   getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
+  getWebFontPreviewUrl: (fontFamily: string) => string | null;
 }
 
 export type FontDescriptorKeys =
