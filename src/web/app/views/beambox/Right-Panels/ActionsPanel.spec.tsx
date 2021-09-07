@@ -13,9 +13,9 @@ jest.mock('implementations/dialog', () => ({
   getFileFromDialog,
 }));
 
-const convertTextToPathFluxsvg = jest.fn();
+const convertTextToPath = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
-  convertTextToPathFluxsvg,
+  convertTextToPath,
 }));
 
 const generateStampBevel = jest.fn();
@@ -197,21 +197,17 @@ describe('should render correctly', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
 
     mockCheckConnection.mockReturnValueOnce(true);
-    convertTextToPathFluxsvg.mockResolvedValueOnce({});
+    convertTextToPath.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2 });
     wrapper.find('div.btn-container').at(0).simulate('click');
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
-    expect(openNonstopProgress).toHaveBeenCalledTimes(1);
-    expect(openNonstopProgress).toHaveBeenNthCalledWith(1, { id: 'convert-font', message: 'Parsing font... Please wait a second' });
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
     expect(calculateTransformedBBox).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     expect(toSelectMode).toHaveBeenCalledTimes(1);
     expect(clearSelection).toHaveBeenCalledTimes(1);
-    expect(convertTextToPathFluxsvg).toHaveBeenCalledTimes(1);
-    expect(convertTextToPathFluxsvg).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'), { x: 1, y: 2 });
-    expect(popById).toHaveBeenCalledTimes(1);
-    expect(popById).toHaveBeenNthCalledWith(1, 'convert-font');
+    expect(convertTextToPath).toHaveBeenCalledTimes(1);
+    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'), { x: 1, y: 2 });
 
     wrapper.find('div.btn-container').at(1).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);

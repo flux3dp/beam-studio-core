@@ -26,7 +26,7 @@ describe('test progress-caller', () => {
       isProgress: true,
       type: ProgressConstants.NONSTOP,
       caption: 'flux caption',
-    });
+    }, expect.anything());
 
     progressCaller.openNonstopProgress({
       id: '12345',
@@ -40,7 +40,7 @@ describe('test progress-caller', () => {
       type: ProgressConstants.NONSTOP,
       caption: 'flux message',
       message: 'flux message',
-    });
+    }, expect.anything());
   });
 
   test('test openSteppingProgress', () => {
@@ -55,7 +55,7 @@ describe('test progress-caller', () => {
       isProgress: true,
       type: ProgressConstants.STEPPING,
       percentage: 100,
-    });
+    }, expect.anything());
 
     progressCaller.openSteppingProgress({
       id: '12345',
@@ -67,7 +67,7 @@ describe('test progress-caller', () => {
       isProgress: true,
       type: ProgressConstants.STEPPING,
       percentage: 0,
-    });
+    }, expect.anything());
   });
 
   test('test popById', () => {

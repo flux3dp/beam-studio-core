@@ -30,6 +30,7 @@ const { $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const LANG = i18n.lang.beambox.object_panels;
+const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 enum SubstituteResult {
   DO_SUB = 2,
@@ -261,13 +262,13 @@ const setTextPostscriptnameIfNeeded = (textElement: Element) => {
   }
 };
 
-const convertTextToPathFluxsvg = async (
+const convertTextToPath = async (
   textElement: Element, bbox, isTempConvert?: boolean,
 ): Promise<ConvertResult> => {
   if (!textElement.textContent) {
     return ConvertResult.CONTINUE;
   }
-  Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
+  await Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
 
   setTextPostscriptnameIfNeeded(textElement);
   let isUnsupported = false;
@@ -282,7 +283,7 @@ const convertTextToPathFluxsvg = async (
       && unSupportedChar.length > 0
     ) {
       isUnsupported = true;
-      const familyName = window.os === 'MacOS' ? textElement.getAttribute('data-font-family') : origFontFamily;
+      const familyName = usePostscriptAsFamily ? textElement.getAttribute('data-font-family') : origFontFamily;
       const doSub = await showSubstitutedFamilyPopup(
         textElement, newFont.family, familyName, unSupportedChar,
       );
@@ -299,12 +300,24 @@ const convertTextToPathFluxsvg = async (
       }
     }
   }
-  if (window.os === 'MacOS') {
+  if (usePostscriptAsFamily) {
     svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
     textElement.setAttribute('font-family', textElement.getAttribute('font-postscript'));
     batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
   }
   console.log(textElement.getAttribute('font-family'), textElement.getAttribute('font-postscript'));
+
+  if (window.FLUX.version === 'web') {
+    const postscript = textElement.getAttribute('font-postscript');
+
+    const res = await fontHelper.getWebFontAndUpload(postscript);
+    if (!res) {
+      Progress.popById('parsing-font');
+      Alert.popUpError({ message: `tUnable to get font ${postscript}` });
+      return ConvertResult.CANCEL_OPERATION;
+    }
+  }
+
   textElement.removeAttribute('stroke-width');
   const isFill = calculateFilled(textElement);
   let color = textElement.getAttribute('stroke');
@@ -397,7 +410,7 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
     const el = texts[i];
     const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
     // eslint-disable-next-line no-await-in-loop
-    const convertRes = await convertTextToPathFluxsvg(el, bbox, true);
+    const convertRes = await convertTextToPath(el, bbox, true);
     if (convertRes === ConvertResult.CANCEL_OPERATION) {
       return false;
     }
@@ -436,116 +449,12 @@ const revertTempConvert = async (): Promise<void> => {
   tempPaths = [];
 };
 
-// <Map> family -> fullName
-// const fontNameMap = (function requestEachFontFullname() {
-//     if (activeLang === 'en') {
-//         return new Map(
-//             availableFontFamilies.map(family => [family, family])
-//         );
-//     }
-
-//     const nameMap = new Map([
-//         ['Hannotate TC', '手扎體-繁'],
-//         ['Hannotate SC', '手扎體-簡'],
-//         ['Hiragino Sans GB', '冬青黑體簡體中文'],
-//         ['STFangsong', '華文仿宋'],
-//         ['STSong', '華文宋體'],
-//         ['STXihei', '華文黑體'],
-//         ['STKaiti', '華文楷體'],
-//         ['Songti TC', '宋體-繁'],
-//         ['Songti SC', '宋體-簡'],
-//         ['Heiti TC', '黑體-繁'],
-//         ['Heiti SC', '黑體-簡'],
-//         ['PingFang HK', '蘋方-繁'],
-//         ['PingFang TC', '蘋方-繁'],
-//         ['PingFang SC', '蘋方-簡'],
-//         ['Xingkai TC', '行楷-繁'],
-//         ['Xingkai SC', '行楷-簡'],
-//         ['Wawati TC', '娃娃體-繁'],
-//         ['Wawati SC', '娃娃體-簡'],
-//         ['LingWai TC', '凌慧體-繁'],
-//         ['LingWai SC', '凌慧體-簡'],
-//         ['Baoli TC', '報隸-繁'],
-//         ['Baoli SC', '報隸-簡'],
-//         ['Yuppy TC', '雅痞-繁'],
-//         ['Yuppy SC', '雅痞-簡'],
-//         ['Yuanti TC', '圓體-繁'],
-//         ['Yuanti SC', '圓體-簡'],
-//         ['Kaiti TC', '楷體-繁'],
-//         ['Kaiti SC', '楷體-簡'],
-//         ['HanziPen TC', '翩翩體-繁'],
-//         ['HanziPen SC', '翩翩體-簡'],
-//         ['Libian TC', '隸變-繁'],
-//         ['Libian SC', '隸變-簡'],
-//         ['Weibei TC', '魏碑-繁'],
-//         ['Weibei SC', '魏碑-簡'],
-//         ['Lantinghei TC', '蘭亭黑-繁'],
-//         ['Lantinghei SC', '蘭亭黑-簡'],
-//         ['Apple LiSung Light', '蘋果儷細宋'],
-
-//         ['SimSun', '宋體'],
-//         ['SimHei', '黑體'],
-//         ['Microsoft YaHei', '微軟雅黑'],
-//         ['Microsoft JhengHei', '微軟正黑體'],
-//         ['NSimSun', '新宋體'],
-//         ['PMingLiU', '新细明體'],
-//         ['MingLiU', '细明體'],
-//         ['DFKai-SB', '標楷體'],
-//         ['FangSong', '仿宋'],
-//         ['KaiTi', '楷體'],
-//         ['FangSong_GB2312', '仿宋_GB2312'],
-//         ['KaiTi_GB2312', '楷體_GB2312'],
-//         ['STHeiti Light [STXihei]', '華文细黑'],
-//         ['STHeiti', '華文黑體'],
-//         ['STKaiti', '華文楷體'],
-//         ['STSong', '華文宋體'],
-//         ['STFangsong', '華文仿宋'],
-//         ['LiHei Pro Medium', '儷黑 Pro'],
-//         ['LiSong Pro Light', '儷宋 Pro'],
-//         ['BiauKai', '標楷體'],
-//         ['Apple LiGothic Medium', '蘋果儷中黑'],
-//         ['Apple LiSung Light', '蘋果儷細宋'],
-
-//         ['PMingLiU', '新細明體'],
-//         ['MingLiU', '細明體'],
-//         ['DFKai-SB', '標楷體'],
-//         ['SimHei', '黑體'],
-//         ['NSimSun', '新宋體'],
-//         ['FangSong', '仿宋'],
-//         ['KaiTi', '楷體'],
-//         ['FangSong_GB2312', '仿宋_GB2312'],
-//         ['KaiTi_GB2312', '楷體_GB2312'],
-//         ['Microsoft JhengHei', '微軟正黑體'],
-//         ['Microsoft YaHei', '微軟雅黑體'],
-
-//         ['LiSu', '隸書'],
-//         ['YouYuan', '幼圓'],
-//         ['STXihei', '華文细黑'],
-//         ['STKaiti', '華文楷體'],
-//         ['STSong', '華文宋體'],
-//         ['STZhongsong', '華文中宋'],
-//         ['STFangsong', '華文仿宋'],
-//         ['FZShuTi', '方正舒體'],
-//         ['FZYaoti', '方正姚體'],
-//         ['STCaiyun', '華文彩云'],
-//         ['STHupo', '華文琥珀'],
-//         ['STLiti', '華文隸書'],
-//         ['STXingkai', '華文行楷'],
-//         ['STXinwei', '華文新魏'],
-//     ]);
-
-//     return new Map(
-//         availableFontFamilies.map(family => {
-//             return [family, nameMap.get(family) || family];
-//         })
-//     );
-// })();
 export default {
   availableFontFamilies,
   fontNameMap,
   requestFontsOfTheFontFamily,
   requestFontByFamilyAndStyle,
-  convertTextToPathFluxsvg,
+  convertTextToPath,
   tempConvertTextToPathAmoungSvgcontent,
   revertTempConvert,
   getFontOfPostscriptName,

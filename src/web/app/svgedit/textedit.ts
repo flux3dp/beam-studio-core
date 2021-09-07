@@ -28,6 +28,7 @@ interface TextAttribute {
 
 const { svgedit } = window;
 const { NS } = svgedit;
+const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 let curText: TextAttribute = {};
 let svgCanvas;
@@ -264,13 +265,13 @@ const setBold = (val: boolean): void => {
 const setFontFamily = (val: string, isSubCmd = false, elems?: Element[]): ICommand => {
   const elemsToChange = elems || svgCanvas.getSelectedElems();
   let cmd = null;
-  if (window.os !== 'MacOS') curText.font_family = val;
+  if (!usePostscriptAsFamily) curText.font_family = val;
   if (isSubCmd) {
     svgCanvas.undoMgr.beginUndoableChange('font-family', elemsToChange);
-    svgCanvas.changeSelectedAttributeNoUndo('font-family', val, elemsToChange);
+    svgCanvas.changeSelectedAttributeNoUndo('font-family', `'${val}'`, elemsToChange);
     cmd = svgCanvas.undoMgr.finishUndoableChange();
   } else {
-    svgCanvas.changeSelectedAttribute('font-family', val);
+    svgCanvas.changeSelectedAttribute('font-family', `'${val}'`);
   }
   if (elemsToChange[0] && !elemsToChange[0].textContent) {
     textActions.setCursor();

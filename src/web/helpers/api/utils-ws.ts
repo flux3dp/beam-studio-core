@@ -42,7 +42,8 @@ class UtilsWebSocket extends EventEmitter {
       this.removeCommandListeners();
       console.log(response);
       if (response.error) {
-        reject(response.error.join(''));
+        if (response.error.join) reject(response.error.join(''));
+        else reject(response.error);
       } else {
         reject();
       }
@@ -62,7 +63,7 @@ class UtilsWebSocket extends EventEmitter {
         } else if (status === 'continue') {
           this.ws.send(data);
         } else {
-          console.log('strange message from /ws/opencv', response);
+          console.log('strange message from /ws/utils', response);
         }
       });
       this.ws.send(`upload ${url} ${data.byteLength}`);
@@ -85,6 +86,76 @@ class UtilsWebSocket extends EventEmitter {
         }
       });
       this.ws.send(`pdf2svg ${data.byteLength}`);
+    });
+  }
+
+  async checkExist(path: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response) => {
+        const { status } = response;
+        console.log(response);
+        if (status === 'ok') {
+          this.removeCommandListeners();
+          resolve(response.res);
+        } else {
+          console.log('strange message from /ws/utils', response);
+        }
+      });
+      this.ws.send(`check_exist ${path}`);
+    });
+  }
+
+  async selectFont(fontPath: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response) => {
+        const { status } = response;
+        console.log(response);
+        if (status === 'ok') {
+          this.removeCommandListeners();
+          resolve(true);
+        } else if (status === 'error') {
+          this.removeCommandListeners();
+          resolve(false);
+        } else {
+          console.log('strange message from /ws/utils', response);
+        }
+      });
+      this.ws.send(`select_font ${fontPath}`);
+    });
+  }
+
+  async uploadTo(blob: Blob, path: string, onProgress?: (progress: number) => void) {
+    const data = await blob.arrayBuffer();
+    return new Promise<boolean>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response: { status: string, progress?: number }) => {
+        const { status } = response;
+        if (['ok', 'fail'].includes(status)) {
+          this.removeCommandListeners();
+          resolve(status === 'ok');
+        } else if (status === 'continue') {
+          let sentLength = 0;
+          while (sentLength < data.byteLength) {
+            const end = Math.min(sentLength + 1000000, data.byteLength);
+            this.ws.send(data.slice(sentLength, end));
+            sentLength = end;
+          }
+        } else if (status === 'progress' && response.progress) {
+          if (onProgress) onProgress(response.progress);
+        } else {
+          console.log('strange message from /ws/utils', response);
+          resolve(false);
+        }
+      });
+      this.ws.send(`upload_to ${data.byteLength} ${path}`);
     });
   }
 }

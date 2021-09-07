@@ -19,17 +19,16 @@ export interface FontHelper {
   getAvailableFonts: () => FontDescriptor[];
   substituteFont: (postscriptName: string, text: string) => FontDescriptor;
   getFontName: (font: FontDescriptor) => string;
+  getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
+  getWebFontPreviewUrl: (fontFamily: string) => string | null;
 }
 
 export type FontDescriptorKeys =
-  'path' |
   'postscriptName' |
   'family' |
   'style' |
   'weight' |
-  'width' |
-  'italic' |
-  'monospace';
+  'italic';
 
 export interface FontDescriptor {
   path?: string;
@@ -40,4 +39,15 @@ export interface FontDescriptor {
   width?: number;
   italic?: boolean;
   monospace?: boolean;
+}
+
+export interface WebFont {
+  family: string,
+  italic: boolean,
+  postscriptName: string,
+  style: string,
+  weight: number,
+  queryString?: string,
+  fileName?: string,
+  supportLangs?: string[],
 }

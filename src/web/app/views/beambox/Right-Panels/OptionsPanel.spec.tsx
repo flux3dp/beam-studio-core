@@ -27,7 +27,7 @@ jest.mock('app/views/beambox/Right-Panels/Options-Blocks/RectOptions', () => fun
   );
 });
 
-jest.mock('app/views/beambox/Right-Panels/Options-Blocks/Text-Options', () => function TextOptions() {
+jest.mock('app/views/beambox/Right-Panels/Options-Blocks/TextOptions', () => function TextOptions() {
   return (
     <div>
       This is dummy TextOptions

@@ -52,15 +52,13 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
-    Progress.openNonstopProgress({ id: 'convert-font', message: LANG.wait_for_parsing_font });
     const bbox = svgCanvas.calculateTransformedBBox(textElem);
     if (textActions.isEditing) {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.convertTextToPathFluxsvg(textElem, bbox);
-    Progress.popById('convert-font');
+    await FontFuncs.convertTextToPath(textElem, bbox);
   };
 
   renderButtons = (

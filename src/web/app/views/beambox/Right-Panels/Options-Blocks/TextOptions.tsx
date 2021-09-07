@@ -3,8 +3,11 @@ import * as React from 'react';
 import classNames from 'classnames';
 import Select from 'react-select';
 
+import fontHelper from 'implementations/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
+import progressCaller from 'app/actions/progress-caller';
+import selector from 'app/svgedit/selector';
 import textEdit from 'app/svgedit/textedit';
 import textPathEdit, { VerticalAlign } from 'app/actions/beambox/textPathEdit';
 import i18n from 'helpers/i18n';
@@ -18,7 +21,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-const isMac = window.os === 'MacOS';
+const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 interface Props {
   elem: Element;
@@ -72,7 +75,9 @@ class TextOptions extends React.Component<Props, State> {
         elem.setAttribute('font-weight', font.weight ? font.weight : 'normal');
       }
     } else {
-      const family = isMac ? textEdit.getFontFamilyData(elem) : textEdit.getFontFamily(elem);
+      const family = usePostscriptAsFamily
+        ? textEdit.getFontFamilyData(elem)
+        : textEdit.getFontFamily(elem);
       const weight = textEdit.getFontWeight(elem);
       const italic = textEdit.getItalic(elem);
       font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
@@ -123,7 +128,15 @@ class TextOptions extends React.Component<Props, State> {
     };
   };
 
-  handleFontFamilyChange = (newFamily) => {
+  waitForWebFont = async () => {
+    const { elem } = this.props;
+    await progressCaller.openNonstopProgress({ id: 'load-font', caption: 't讀取字體中' });
+    await document.fonts.ready;
+    selector.getSelectorManager().resizeSelectors([elem]);
+    progressCaller.popById('load-font');
+  };
+
+  handleFontFamilyChange = async (newFamily) => {
     let family = newFamily;
     if (typeof newFamily === 'object') {
       family = newFamily.value;
@@ -137,7 +150,7 @@ class TextOptions extends React.Component<Props, State> {
     batchCmd.addSubCommand(cmd);
     cmd = textEdit.setFontWeight(newFont.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
-    if (isMac) {
+    if (usePostscriptAsFamily) {
       cmd = textEdit.setFontFamily(newFont.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
       cmd = textEdit.setFontFamilyData(family, true, [textElement]);
@@ -147,6 +160,11 @@ class TextOptions extends React.Component<Props, State> {
       batchCmd.addSubCommand(cmd);
     }
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+
+    if (window.FLUX.version === 'web') {
+      await this.waitForWebFont();
+    }
+
     const newStyle = newFont.style;
     updateDimensionValues({ fontStyle: newStyle });
     this.setState({
@@ -158,15 +176,16 @@ class TextOptions extends React.Component<Props, State> {
 
   renderFontFamilyBlock = (): JSX.Element => {
     const { fontFamily } = this.state;
-    if (window.os === 'MacOS') {
+    if (window.os === 'MacOS' || window.FLUX.version === 'web') {
       const options = FontFuncs.availableFontFamilies.map((option) => {
         const label = FontFuncs.fontNameMap.get(option);
         return { value: option, label };
       });
       const styles = {
-        option: (style, { data }) => ({
-          ...style, fontFamily: data.value,
-        }),
+        option: (style, { data }) => {
+          if (window.FLUX.version === 'web') return style;
+          return { ...style, fontFamily: `'${data.value}'` };
+        },
         input: (style) => ({
           ...style, margin: 0, padding: 0, height: '19px',
         }),
@@ -189,6 +208,13 @@ class TextOptions extends React.Component<Props, State> {
               disabled={isOnlyOneOption}
               options={options}
               styles={styles}
+              formatOptionLabel={(option, labelMeta) => {
+                if (window.FLUX.version === 'web' && labelMeta.context === 'menu') {
+                  const src = fontHelper.getWebFontPreviewUrl(option.value);
+                  if (src) return <img src={src} alt={option.label} draggable="false" />;
+                }
+                return option.label;
+              }}
             />
           </div>
         </div>
@@ -223,7 +249,7 @@ class TextOptions extends React.Component<Props, State> {
     );
   };
 
-  handleFontStyleChange = (val: string): void => {
+  private handleFontStyleChange = async (val: string) => {
     const { updateDimensionValues, updateObjectPanel, textElement } = this.props;
     const { fontFamily } = this.state;
     const font = FontFuncs.requestFontByFamilyAndStyle({
@@ -233,7 +259,7 @@ class TextOptions extends React.Component<Props, State> {
     const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
-    if (isMac) {
+    if (usePostscriptAsFamily) {
       cmd = textEdit.setFontFamily(font.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }
@@ -242,6 +268,11 @@ class TextOptions extends React.Component<Props, State> {
     cmd = textEdit.setFontWeight(font.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+
+    if (window.FLUX.version === 'web') {
+      await this.waitForWebFont();
+    }
+
     updateDimensionValues({ fontStyle: val });
     this.setState({
       fontStyle: val,

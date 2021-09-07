@@ -1953,7 +1953,7 @@ export default $.SvgCanvas = function (container, config) {
           break;
         case 'text':
           started = true;
-          const isMac = window.os === 'MacOS';
+          const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
           const curText = textEdit.getCurText();
           var newText = addSvgElementFromJson({
             element: 'text',
@@ -1966,14 +1966,14 @@ export default $.SvgCanvas = function (container, config) {
               'fill-opacity': curText.fill_opacity,
               'stroke-width': 2,
               'font-size': curText.font_size,
-              'font-family': isMac ? curText.font_postscriptName : curText.font_family,
+              'font-family': usePostscriptAsFamily ? curText.font_postscriptName : curText.font_family,
               'font-postscript': curText.font_postscriptName,
               'text-anchor': curText.text_anchor,
               'xml:space': 'preserve',
               opacity: cur_shape.opacity
             }
           });
-          if (isMac) newText.setAttribute('data-font-family', curText.font_family);
+          if (usePostscriptAsFamily) newText.setAttribute('data-font-family', curText.font_family);
           if (canvas.isUsingLayerColor) {
             canvas.updateElementColor(newText);
           }
@@ -2705,7 +2705,7 @@ export default $.SvgCanvas = function (container, config) {
               if (selected.tagName === 'text') {
                 const curText = textEdit.getCurText();
                 curText.font_size = selected.getAttribute('font-size');
-                if (window.os === 'MacOS') {
+                if (window.os === 'MacOS' && window.FLUX.version !== 'web') {
                   curText.font_family = selected.getAttribute('data-font-family');
                 } else {
                   curText.font_family = selected.getAttribute('font-family');

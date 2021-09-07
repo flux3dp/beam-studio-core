@@ -4,7 +4,7 @@ import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Op
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import PolygonOptions from 'app/views/beambox/Right-Panels/Options-Blocks/PolygonOptions';
 import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptions';
-import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Text-Options';
+import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions';
 
 interface Props {
   elem: Element;
