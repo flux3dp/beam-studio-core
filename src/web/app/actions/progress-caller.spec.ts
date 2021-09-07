@@ -55,7 +55,7 @@ describe('test progress-caller', () => {
       isProgress: true,
       type: ProgressConstants.STEPPING,
       percentage: 100,
-    });
+    }, expect.anything());
 
     progressCaller.openSteppingProgress({
       id: '12345',
@@ -67,7 +67,7 @@ describe('test progress-caller', () => {
       isProgress: true,
       type: ProgressConstants.STEPPING,
       percentage: 0,
-    });
+    }, expect.anything());
   });
 
   test('test popById', () => {

@@ -17,14 +17,14 @@ export default {
       }, resolve);
     });
   },
-  openSteppingProgress: (args: IProgressDialog): void => {
+  openSteppingProgress: (args: IProgressDialog): Promise<void> => new Promise((resolve) => {
     eventEmitter.emit('OPEN_PROGRESS', {
       ...args,
       isProgress: true,
       type: ProgressConstants.STEPPING,
       percentage: args.percentage || 0,
-    });
-  },
+    }, resolve);
+  }),
   popById: (id: string): void => {
     eventEmitter.emit('POP_BY_ID', id);
   },
