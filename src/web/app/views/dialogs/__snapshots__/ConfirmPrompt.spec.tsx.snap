@@ -38,7 +38,7 @@ Enter "NOTED" to proceed.
           <input
             autoFocus={true}
             className="text-input"
-            id="power-caption"
+            id="confirm-prompt-input"
             onKeyDown={[Function]}
             placeholder="NOTED"
             type="text"
@@ -138,7 +138,7 @@ Enter "NOTED" to proceed.
           <input
             autoFocus={true}
             className="text-input"
-            id="power-caption"
+            id="confirm-prompt-input"
             onKeyDown={[Function]}
             placeholder=""
             type="text"

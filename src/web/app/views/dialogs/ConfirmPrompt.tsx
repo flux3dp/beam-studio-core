@@ -77,7 +77,7 @@ function ConfirmPrompt({
         <div className="caption">{caption}</div>
         <pre className="message">{message}</pre>
         <input
-          id="power-caption"
+          id="confirm-prompt-input"
           autoFocus
           ref={inputRef}
           className="text-input"
