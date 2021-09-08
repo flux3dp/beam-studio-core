@@ -482,10 +482,10 @@ export default {
 
     fileReader.readAsArrayBuffer(fcodeBlob);
   },
-  getGcode: async (): Promise<{ gcodeBlob: Blob, gcodeBlobFastGradient: Blob }> => {
+  getGcode: async (): Promise<{ gcodeBlob?: Blob, gcodeBlobFastGradient?: Blob }> => {
     const { gcodeBlob, gcodeBlobFastGradient } = await fetchTaskCode(null, true);
     if (!gcodeBlob) {
-      return null;
+      return { gcodeBlob };
     }
     return { gcodeBlob, gcodeBlobFastGradient };
   },
