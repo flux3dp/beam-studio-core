@@ -38,21 +38,21 @@ describe('should render correctly', () => {
   test('is not web version', () => {
     expect(toJson(shallow(<CommonTools
       isWeb={false}
-      isPreviewing={false}
+      hide={false}
     />))).toMatchSnapshot();
   });
 
-  test('in preview mode', () => {
+  test('hide', () => {
     expect(toJson(shallow(<CommonTools
       isWeb
-      isPreviewing
+      hide
     />))).toMatchSnapshot();
   });
 
-  test('in non-preview mode and is web version', () => {
+  test('not hiding and in web version', () => {
     const wrapper = shallow(<CommonTools
       isWeb
-      isPreviewing={false}
+      hide={false}
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 

@@ -12,29 +12,26 @@ const LANG = i18n.lang.topbar;
 
 interface Props {
   isWeb: boolean;
-  isPreviewing: boolean;
+  hide: boolean;
 }
 
-function CommonTools({ isWeb, isPreviewing }: Props): JSX.Element {
-  if (!isWeb || isPreviewing) return null;
+function CommonTools({ isWeb, hide }: Props): JSX.Element {
+  if (!isWeb || hide) return null;
   return (
     <div
       className="common-tools-container"
     >
       <img
-        src="img/left-bar/icon-cursor.svg"
+        src="img/top-bar/icon-undo.svg"
         draggable="false"
         title={LANG.menu.undo}
         onClick={() => svgEditor.clickUndo()}
       />
       <img
-        src="img/left-bar/icon-cursor.svg"
+        src="img/top-bar/icon-redo.svg"
         draggable="false"
         title={LANG.menu.redo}
         onClick={() => svgEditor.clickRedo()}
-        style={{
-          transform: 'scaleX(-1)',
-        }}
       />
       <img
         src="img/left-bar/icon-trash.svg"
