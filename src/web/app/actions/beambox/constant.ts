@@ -75,7 +75,7 @@ export default {
   },
   allowedWorkarea: {
     fbb2b: ['fbb2b', 'fbb1p', 'fbb1b', 'fbm1'],
-    'laser-b1': ['fbb1p', 'fbb1b', 'fbm1'],
+    'laser-b1': ['fbb2b', 'fbb1p', 'fbb1b', 'fbm1'],
     fbb1p: ['fbb1p', 'fbb1b', 'fbm1'],
     fbb1b: ['fbb1b', 'fbm1'],
     fbm1: ['fbm1'],
