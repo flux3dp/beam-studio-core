@@ -1,17 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import Alert from 'app/actions/alert-caller';
 import checkWebGL from 'helpers/check-webgl';
-import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-
-const { lang } = i18n;
 
 interface Props {
   isPathPreviewing: boolean;
@@ -32,7 +28,7 @@ function PathPreviewButton({
       togglePathPreview();
     }
   };
-  const className = classNames('path-preview-button-container', { highlighted: isPathPreviewing, disabled: !isDeviceConnected && window.FLUX.version === 'web' })
+  const className = classNames('path-preview-button-container', { highlighted: isPathPreviewing, disabled: !isDeviceConnected && window.FLUX.version === 'web' });
   return (
     <div className={className}>
       <div className="path-preview-button" onClick={changeToPathPreviewMode}>
