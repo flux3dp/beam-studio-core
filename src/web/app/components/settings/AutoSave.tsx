@@ -43,7 +43,7 @@ function AutoSave({
         warningText={warnings.autosave_directory}
       >
         <PathInput
-          id="location-input"
+          data-id="location-input"
           buttonTitle={lang.general.choose_folder}
           className={classNames({ 'with-error': !!warnings.autosave_directory })}
           defaultValue={editingAutosaveConfig.directory}
