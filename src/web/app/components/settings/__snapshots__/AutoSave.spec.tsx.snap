@@ -32,10 +32,10 @@ exports[`should render correctly initially no warning 1`] = `
     <PathInput
       buttonTitle="Choose Folder"
       className=""
+      data-id="location-input"
       defaultValue="/MyDocuments"
       forceValidValue={false}
       getValue={[Function]}
-      id="location-input"
       type={1}
     />
   </Controls>
@@ -131,10 +131,10 @@ exports[`should render correctly initially with warning 1`] = `
     <PathInput
       buttonTitle="Choose Folder"
       className="with-error"
+      data-id="location-input"
       defaultValue="/FolderNotExist"
       forceValidValue={false}
       getValue={[Function]}
-      id="location-input"
       type={1}
     />
   </Controls>
