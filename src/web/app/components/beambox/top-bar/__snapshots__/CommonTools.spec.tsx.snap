@@ -1,24 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly in non-preview mode and is web version 1`] = `
+exports[`should render correctly hide 1`] = `""`;
+
+exports[`should render correctly is not web version 1`] = `""`;
+
+exports[`should render correctly not hiding and in web version 1`] = `
 <div
   className="common-tools-container"
 >
   <img
     draggable="false"
     onClick={[Function]}
-    src="img/left-bar/icon-cursor.svg"
+    src="img/top-bar/icon-undo.svg"
     title="Undo"
   />
   <img
     draggable="false"
     onClick={[Function]}
-    src="img/left-bar/icon-cursor.svg"
-    style={
-      Object {
-        "transform": "scaleX(-1)",
-      }
-    }
+    src="img/top-bar/icon-redo.svg"
     title="Redo"
   />
   <img
@@ -28,7 +27,3 @@ exports[`should render correctly in non-preview mode and is web version 1`] = `
   />
 </div>
 `;
-
-exports[`should render correctly in preview mode 1`] = `""`;
-
-exports[`should render correctly is not web version 1`] = `""`;

@@ -21,7 +21,7 @@ const panelMap = {
   polygon: ['x', 'y', 'rot', 'w', 'h', 'lock'],
   rect: ['x', 'y', 'rot', 'w', 'h', 'lock'],
   ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
-  line: ['x1', 'y1', 'rot', 'x2', 'y2'],
+  line: ['x1', 'y1', 'rot', 'x2', 'y2', 'lock'],
   image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
   img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
   text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
@@ -174,7 +174,7 @@ class DimensionPanel extends React.Component<Props> {
 
   handleFixRatio = (): void => {
     const { elem, updateDimensionValues } = this.props;
-    const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true' || false;
+    const isRatioFixed = elem.getAttribute('data-ratiofixed') !== 'false';
     elem.setAttribute('data-ratiofixed', String(!isRatioFixed));
     updateDimensionValues({ isRatioFixed: !isRatioFixed });
     this.forceUpdate();
