@@ -591,7 +591,12 @@ class PathPreview extends React.Component<Props, State> {
   }
 
   updateGcode = async (): Promise<void> => {
+    const { togglePathPreview } = this.props;
     const { gcodeBlob, gcodeBlobFastGradient } = await exportFuncs.getGcode();
+    if (!gcodeBlob) {
+      togglePathPreview();
+      return;
+    }
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const result = (e.target.result as string).split('\n');
