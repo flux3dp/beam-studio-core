@@ -2,7 +2,7 @@
 
 exports[`should render correctly has WebGL no devices connected in web version 1`] = `
 <div
-  className="path-preview-button-container highlighted"
+  className="path-preview-button-container highlighted disabled"
 >
   <div
     className="path-preview-button"
