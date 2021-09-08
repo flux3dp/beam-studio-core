@@ -8,6 +8,7 @@ exports[`should render correctly initially no warning 1`] = `
     Editor
   </div>
   <SelectControl
+    id="set-default-units"
     label="Default Units"
     onChange={[Function]}
     options={
@@ -26,6 +27,7 @@ exports[`should render correctly initially no warning 1`] = `
     }
   />
   <SelectControl
+    id="set-default-font-family"
     label="Default Font"
     onChange={[Function]}
     options={
@@ -49,6 +51,7 @@ exports[`should render correctly initially no warning 1`] = `
     }
   />
   <SelectControl
+    id="set-default-font-style"
     label="Default Font Style"
     onChange={[Function]}
     options={
@@ -77,6 +80,7 @@ exports[`should render correctly initially no warning 1`] = `
     }
   />
   <SelectControl
+    id="set-default-model"
     label="Default Document Setting"
     onChange={[Function]}
     options={
@@ -144,6 +148,7 @@ exports[`should render correctly initially no warning 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-x-input"
       isDoOnInput={false}
       max={400}
       min={0}
@@ -177,6 +182,7 @@ exports[`should render correctly initially no warning 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-y-input"
       isDoOnInput={false}
       max={375}
       min={0}
@@ -189,6 +195,7 @@ exports[`should render correctly initially no warning 1`] = `
     />
   </Controls>
   <SelectControl
+    id="set-bitmap-quality"
     label="Bitmap Previewing Quality"
     onChange={[Function]}
     options={
@@ -208,6 +215,7 @@ exports[`should render correctly initially no warning 1`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
   />
   <SelectControl
+    id="set-anti-aliasing"
     label="Anti-Aliasing"
     onChange={[Function]}
     options={
@@ -227,6 +235,7 @@ exports[`should render correctly initially no warning 1`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
   />
   <SelectControl
+    id="set-continuous-drawingg"
     label="Continuous Drawing"
     onChange={[Function]}
     options={
@@ -246,6 +255,7 @@ exports[`should render correctly initially no warning 1`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
   />
   <SelectControl
+    id="set-simplify-clipper-path"
     label="Optimize the Calculated Path"
     onChange={[Function]}
     options={
@@ -275,6 +285,7 @@ exports[`should render correctly initially no warning 2`] = `
     Editor
   </div>
   <SelectControl
+    id="set-default-units"
     label="Default Units"
     onChange={[Function]}
     options={
@@ -293,6 +304,7 @@ exports[`should render correctly initially no warning 2`] = `
     }
   />
   <SelectControl
+    id="set-default-font-family"
     label="Default Font"
     onChange={[Function]}
     options={
@@ -316,6 +328,7 @@ exports[`should render correctly initially no warning 2`] = `
     }
   />
   <SelectControl
+    id="set-default-font-style"
     label="Default Font Style"
     onChange={[Function]}
     options={
@@ -329,6 +342,7 @@ exports[`should render correctly initially no warning 2`] = `
     }
   />
   <SelectControl
+    id="set-default-model"
     label="Default Document Setting"
     onChange={[Function]}
     options={
@@ -396,6 +410,7 @@ exports[`should render correctly initially no warning 2`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-x-input"
       isDoOnInput={false}
       max={400}
       min={0}
@@ -429,6 +444,7 @@ exports[`should render correctly initially no warning 2`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-y-input"
       isDoOnInput={false}
       max={375}
       min={0}
@@ -441,6 +457,7 @@ exports[`should render correctly initially no warning 2`] = `
     />
   </Controls>
   <SelectControl
+    id="set-bitmap-quality"
     label="Bitmap Previewing Quality"
     onChange={[Function]}
     options={
@@ -460,6 +477,7 @@ exports[`should render correctly initially no warning 2`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
   />
   <SelectControl
+    id="set-anti-aliasing"
     label="Anti-Aliasing"
     onChange={[Function]}
     options={
@@ -479,6 +497,7 @@ exports[`should render correctly initially no warning 2`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
   />
   <SelectControl
+    id="set-continuous-drawingg"
     label="Continuous Drawing"
     onChange={[Function]}
     options={
@@ -498,6 +517,7 @@ exports[`should render correctly initially no warning 2`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
   />
   <SelectControl
+    id="set-simplify-clipper-path"
     label="Optimize the Calculated Path"
     onChange={[Function]}
     options={
@@ -527,6 +547,7 @@ exports[`should render correctly initially no warning 3`] = `
     Editor
   </div>
   <SelectControl
+    id="set-default-units"
     label="Default Units"
     onChange={[Function]}
     options={
@@ -545,6 +566,7 @@ exports[`should render correctly initially no warning 3`] = `
     }
   />
   <SelectControl
+    id="set-default-font-family"
     label="Default Font"
     onChange={[Function]}
     options={
@@ -568,6 +590,7 @@ exports[`should render correctly initially no warning 3`] = `
     }
   />
   <SelectControl
+    id="set-default-font-style"
     label="Default Font Style"
     onChange={[Function]}
     options={
@@ -596,6 +619,7 @@ exports[`should render correctly initially no warning 3`] = `
     }
   />
   <SelectControl
+    id="set-default-model"
     label="Default Document Setting"
     onChange={[Function]}
     options={
@@ -663,6 +687,7 @@ exports[`should render correctly initially no warning 3`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-x-input"
       isDoOnInput={false}
       max={400}
       min={0}
@@ -696,6 +721,7 @@ exports[`should render correctly initially no warning 3`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-y-input"
       isDoOnInput={false}
       max={375}
       min={0}
@@ -708,6 +734,7 @@ exports[`should render correctly initially no warning 3`] = `
     />
   </Controls>
   <SelectControl
+    id="set-bitmap-quality"
     label="Bitmap Previewing Quality"
     onChange={[Function]}
     options={
@@ -727,6 +754,7 @@ exports[`should render correctly initially no warning 3`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
   />
   <SelectControl
+    id="set-anti-aliasing"
     label="Anti-Aliasing"
     onChange={[Function]}
     options={
@@ -746,6 +774,7 @@ exports[`should render correctly initially no warning 3`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
   />
   <SelectControl
+    id="set-continuous-drawingg"
     label="Continuous Drawing"
     onChange={[Function]}
     options={
@@ -765,6 +794,7 @@ exports[`should render correctly initially no warning 3`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
   />
   <SelectControl
+    id="set-simplify-clipper-path"
     label="Optimize the Calculated Path"
     onChange={[Function]}
     options={
@@ -794,6 +824,7 @@ exports[`should render correctly initially no warning 4`] = `
     Editor
   </div>
   <SelectControl
+    id="set-default-units"
     label="Default Units"
     onChange={[Function]}
     options={
@@ -812,6 +843,7 @@ exports[`should render correctly initially no warning 4`] = `
     }
   />
   <SelectControl
+    id="set-default-font-family"
     label="Default Font"
     onChange={[Function]}
     options={
@@ -835,6 +867,7 @@ exports[`should render correctly initially no warning 4`] = `
     }
   />
   <SelectControl
+    id="set-default-font-style"
     label="Default Font Style"
     onChange={[Function]}
     options={
@@ -863,6 +896,7 @@ exports[`should render correctly initially no warning 4`] = `
     }
   />
   <SelectControl
+    id="set-default-model"
     label="Default Document Setting"
     onChange={[Function]}
     options={
@@ -930,6 +964,7 @@ exports[`should render correctly initially no warning 4`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-x-input"
       isDoOnInput={false}
       max={400}
       min={0}
@@ -963,6 +998,7 @@ exports[`should render correctly initially no warning 4`] = `
       displayMultiValue={false}
       forceUsePropsUnit={true}
       getValue={[Function]}
+      id="guide-y-input"
       isDoOnInput={false}
       max={375}
       min={0}
@@ -975,6 +1011,7 @@ exports[`should render correctly initially no warning 4`] = `
     />
   </Controls>
   <SelectControl
+    id="set-bitmap-quality"
     label="Bitmap Previewing Quality"
     onChange={[Function]}
     options={
@@ -994,6 +1031,7 @@ exports[`should render correctly initially no warning 4`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004494995"
   />
   <SelectControl
+    id="set-anti-aliasing"
     label="Anti-Aliasing"
     onChange={[Function]}
     options={
@@ -1013,6 +1051,7 @@ exports[`should render correctly initially no warning 4`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004408956"
   />
   <SelectControl
+    id="set-continuous-drawingg"
     label="Continuous Drawing"
     onChange={[Function]}
     options={
@@ -1032,6 +1071,7 @@ exports[`should render correctly initially no warning 4`] = `
     url="https://support.flux3dp.com/hc/en-us/articles/360004406496"
   />
   <SelectControl
+    id="set-simplify-clipper-path"
     label="Optimize the Calculated Path"
     onChange={[Function]}
     options={

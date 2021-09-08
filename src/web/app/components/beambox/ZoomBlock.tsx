@@ -178,13 +178,13 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
           </div>
         </ContextMenuTrigger>
         <ContextMenu id="zoom-block-contextmenu">
-          <MenuItem onClick={resetView}>{LANG.fit_to_window}</MenuItem>
-          <MenuItem onClick={() => this.setRatio(25)}>25 %</MenuItem>
-          <MenuItem onClick={() => this.setRatio(50)}>50 %</MenuItem>
-          <MenuItem onClick={() => this.setRatio(75)}>75 %</MenuItem>
-          <MenuItem onClick={() => this.setRatio(100)}>100 %</MenuItem>
-          <MenuItem onClick={() => this.setRatio(150)}>150 %</MenuItem>
-          <MenuItem onClick={() => this.setRatio(200)}>200 %</MenuItem>
+          <MenuItem attributes={{ id: 'fit_to_window' }} onClick={resetView}>{LANG.fit_to_window}</MenuItem>
+          <MenuItem attributes={{ id: 'ratio_25%' }} onClick={() => this.setRatio(25)}>25 %</MenuItem>
+          <MenuItem attributes={{ id: 'ratio_50%' }} onClick={() => this.setRatio(50)}>50 %</MenuItem>
+          <MenuItem attributes={{ id: 'ratio_75%' }} onClick={() => this.setRatio(75)}>75 %</MenuItem>
+          <MenuItem attributes={{ id: 'ratio_100%' }} onClick={() => this.setRatio(100)}>100 %</MenuItem>
+          <MenuItem attributes={{ id: 'ratio_150%' }} onClick={() => this.setRatio(150)}>150 %</MenuItem>
+          <MenuItem attributes={{ id: 'ratio_200%' }} onClick={() => this.setRatio(200)}>200 %</MenuItem>
         </ContextMenu>
       </div>
     );

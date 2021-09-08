@@ -68,6 +68,7 @@ exports[`test Connect-Wi-Fi should render correctly 1`] = `
           >
             <div
               className="collapse-title"
+              id="collapse-wifi1"
               onClick={[Function]}
             >
               What if I don't see my Wi-Fi?
@@ -87,6 +88,7 @@ exports[`test Connect-Wi-Fi should render correctly 1`] = `
           >
             <div
               className="collapse-title"
+              id="collapse-wifi2"
               onClick={[Function]}
             >
               What if I don't see any Wi-Fi?

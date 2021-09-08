@@ -8,6 +8,7 @@ exports[`should render correctly initially no warning 1`] = `
     Auto Save
   </div>
   <SelectControl
+    id="set-auto-save"
     label="Auto Save"
     onChange={[Function]}
     options={
@@ -34,6 +35,7 @@ exports[`should render correctly initially no warning 1`] = `
       defaultValue="/MyDocuments"
       forceValidValue={false}
       getValue={[Function]}
+      id="location-input"
       type={1}
     />
   </Controls>
@@ -53,6 +55,7 @@ exports[`should render correctly initially no warning 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="save-every"
       isDoOnInput={false}
       max={60}
       min={1}
@@ -80,6 +83,7 @@ exports[`should render correctly initially no warning 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="number-of-auto-save"
       isDoOnInput={false}
       max={10}
       min={1}
@@ -102,6 +106,7 @@ exports[`should render correctly initially with warning 1`] = `
     Auto Save
   </div>
   <SelectControl
+    id="set-auto-save"
     label="Auto Save"
     onChange={[Function]}
     options={
@@ -129,6 +134,7 @@ exports[`should render correctly initially with warning 1`] = `
       defaultValue="/FolderNotExist"
       forceValidValue={false}
       getValue={[Function]}
+      id="location-input"
       type={1}
     />
   </Controls>
@@ -148,6 +154,7 @@ exports[`should render correctly initially with warning 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="save-every"
       isDoOnInput={false}
       max={60}
       min={1}
@@ -175,6 +182,7 @@ exports[`should render correctly initially with warning 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="number-of-auto-save"
       isDoOnInput={false}
       max={10}
       min={1}

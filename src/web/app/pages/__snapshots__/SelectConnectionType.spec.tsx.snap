@@ -47,6 +47,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
               />
               <button
                 className="btn btn-action"
+                id="connect-wifi"
                 onClick={[Function]}
                 type="button"
               >
@@ -63,6 +64,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
               />
               <button
                 className="btn btn-action"
+                id="connect-wired"
                 onClick={[Function]}
                 type="button"
               >
@@ -79,6 +81,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
               />
               <button
                 className="btn btn-action"
+                id="connect-ether2ether"
                 onClick={[Function]}
                 type="button"
               >
@@ -137,6 +140,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-wifi"
                   onClick={[Function]}
                   type="button"
                 >
@@ -153,6 +157,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-wired"
                   onClick={[Function]}
                   type="button"
                 >
@@ -169,6 +174,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-ether2ether"
                   onClick={[Function]}
                   type="button"
                 >
@@ -231,6 +237,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-wifi"
                 onClick={[Function]}
                 type="button"
               >
@@ -247,6 +254,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-wired"
                 onClick={[Function]}
                 type="button"
               >
@@ -263,6 +271,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-ether2ether"
                 onClick={[Function]}
                 type="button"
               >
@@ -321,6 +330,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-wifi"
                   onClick={[Function]}
                   type="button"
                 >
@@ -337,6 +347,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-wired"
                   onClick={[Function]}
                   type="button"
                 >
@@ -353,6 +364,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-ether2ether"
                   onClick={[Function]}
                   type="button"
                 >
@@ -415,6 +427,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-wifi"
                 onClick={[Function]}
                 type="button"
               >
@@ -431,6 +444,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-wired"
                 onClick={[Function]}
                 type="button"
               >
@@ -447,6 +461,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-ether2ether"
                 onClick={[Function]}
                 type="button"
               >
@@ -505,6 +520,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-wifi"
                   onClick={[Function]}
                   type="button"
                 >
@@ -521,6 +537,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-wired"
                   onClick={[Function]}
                   type="button"
                 >
@@ -537,6 +554,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-ether2ether"
                   onClick={[Function]}
                   type="button"
                 >

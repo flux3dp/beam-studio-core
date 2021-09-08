@@ -26,6 +26,7 @@ function AutoSave({
     <>
       <div className="subtitle">{lang.settings.groups.autosave}</div>
       <SelectControl
+        id="set-auto-save"
         label={lang.settings.autosave_enabled}
         options={autoSaveOptions}
         onChange={(e) => {
@@ -42,6 +43,7 @@ function AutoSave({
         warningText={warnings.autosave_directory}
       >
         <PathInput
+          id="location-input"
           buttonTitle={lang.general.choose_folder}
           className={classNames({ 'with-error': !!warnings.autosave_directory })}
           defaultValue={editingAutosaveConfig.directory}
@@ -67,6 +69,7 @@ function AutoSave({
       </Controls>
       <Controls label={lang.settings.autosave_interval}>
         <UnitInput
+          id="save-every"
           unit={lang.monitor.minute}
           min={1}
           max={60}
@@ -85,6 +88,7 @@ function AutoSave({
       </Controls>
       <Controls label={lang.settings.autosave_number}>
         <UnitInput
+          id="number-of-auto-save"
           min={1}
           max={10}
           decimal={0}

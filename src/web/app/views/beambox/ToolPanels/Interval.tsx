@@ -81,6 +81,7 @@ class Interval extends React.Component<Props, State> {
             <div className="control">
               <span className="text-center header">{LANG.dx}</span>
               <UnitInput
+                id="array_width"
                 min={0}
                 max={Constant.dimension.getWidth(BeamboxPreference.read('workarea')) / Constant.dpmm}
                 unit="mm"
@@ -91,6 +92,7 @@ class Interval extends React.Component<Props, State> {
             <div className="control">
               <span className="text-center header">{LANG.dy}</span>
               <UnitInput
+                id="array_height"
                 min={0}
                 max={Constant.dimension.getHeight(BeamboxPreference.read('workarea')) / Constant.dpmm}
                 unit="mm"

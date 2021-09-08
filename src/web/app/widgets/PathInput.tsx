@@ -105,6 +105,7 @@ const PathInput = ({
   return (
     <div className={classNames('path-input', className)}>
       <input
+        id="location-input"
         type="text"
         value={displayValue}
         onBlur={updateValue}

@@ -187,10 +187,10 @@ export default class ConnectMachine extends React.Component<any, State> {
       }
       return (
         <div className="test-infos">
-          <div className="test-info">{`${lang.connect_machine_ip.check_ip}... ${ipStatus || ''}`}</div>
-          {shouldTryConnect ? <div className="test-info">{`${lang.connect_machine_ip.check_connection}... ${connectionStatus}`}</div> : null}
-          {didConnectMachine ? <div className="test-info">{`${lang.connect_machine_ip.check_firmware}... ${firmwareVersion}`}</div> : null}
-          {didConnectMachine ? <div className="test-info">{`${lang.connect_machine_ip.check_camera}... ${cameraStatus}`}</div> : null}
+          <div id="ip-test-info" className="test-info">{`${lang.connect_machine_ip.check_ip}... ${ipStatus || ''}`}</div>
+          {shouldTryConnect ? <div id="machine-test-info" className="test-info">{`${lang.connect_machine_ip.check_connection}... ${connectionStatus}`}</div> : null}
+          {didConnectMachine ? <div id="firmware-test-info" className="test-info">{`${lang.connect_machine_ip.check_firmware}... ${firmwareVersion}`}</div> : null}
+          {didConnectMachine ? <div id="camera-test-info" className="test-info">{`${lang.connect_machine_ip.check_camera}... ${cameraStatus}`}</div> : null}
         </div>
       );
     }

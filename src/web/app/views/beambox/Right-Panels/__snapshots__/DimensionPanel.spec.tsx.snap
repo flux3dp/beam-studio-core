@@ -25,6 +25,7 @@ exports[`should render correctly image 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="x_position"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -57,6 +58,7 @@ exports[`should render correctly image 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="y_position"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -92,6 +94,7 @@ exports[`should render correctly image 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="rotate"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -124,6 +127,7 @@ exports[`should render correctly image 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="width"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -156,6 +160,7 @@ exports[`should render correctly image 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="height"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -182,6 +187,7 @@ exports[`should render correctly image 1`] = `
   >
     <div
       className="tool-btn"
+      id="horizontal_flip"
       onClick={[Function]}
       title="Horizontal Flip"
     >
@@ -192,6 +198,7 @@ exports[`should render correctly image 1`] = `
     </div>
     <div
       className="tool-btn"
+      id="vertical_flip"
       onClick={[Function]}
       title="Vertical Flip"
     >
@@ -229,6 +236,7 @@ exports[`should render correctly no elements 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="x_position"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -261,6 +269,7 @@ exports[`should render correctly no elements 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="y_position"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -296,6 +305,7 @@ exports[`should render correctly no elements 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="rotate"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -328,6 +338,7 @@ exports[`should render correctly no elements 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="width"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -360,6 +371,7 @@ exports[`should render correctly no elements 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="height"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -376,6 +388,7 @@ exports[`should render correctly no elements 1`] = `
   >
     <div
       className="tool-btn"
+      id="horizontal_flip"
       onClick={[Function]}
       title="Horizontal Flip"
     >
@@ -386,6 +399,7 @@ exports[`should render correctly no elements 1`] = `
     </div>
     <div
       className="tool-btn"
+      id="vertical_flip"
       onClick={[Function]}
       title="Vertical Flip"
     >
@@ -423,6 +437,7 @@ exports[`should render correctly unsupported element 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="x_position"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -455,6 +470,7 @@ exports[`should render correctly unsupported element 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="y_position"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -490,6 +506,7 @@ exports[`should render correctly unsupported element 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="rotate"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -522,6 +539,7 @@ exports[`should render correctly unsupported element 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="width"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -554,6 +572,7 @@ exports[`should render correctly unsupported element 1`] = `
       displayMultiValue={false}
       forceUsePropsUnit={false}
       getValue={[Function]}
+      id="height"
       isDoOnInput={false}
       max={9007199254740991}
       min={-9007199254740991}
@@ -570,6 +589,7 @@ exports[`should render correctly unsupported element 1`] = `
   >
     <div
       className="tool-btn"
+      id="horizontal_flip"
       onClick={[Function]}
       title="Horizontal Flip"
     >
@@ -580,6 +600,7 @@ exports[`should render correctly unsupported element 1`] = `
     </div>
     <div
       className="tool-btn"
+      id="vertical_flip"
       onClick={[Function]}
       title="Vertical Flip"
     >

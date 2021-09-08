@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 interface Props {
   segments: {
+    id?: string;
     imgSrc: string;
     title: string;
     value: number;

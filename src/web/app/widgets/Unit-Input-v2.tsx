@@ -5,6 +5,7 @@ import keyCodeConstants from 'app/constants/keycode-constants';
 import storage from 'implementations/storage';
 
 interface Props {
+  id?:string,
   min?: number,
   max?: number,
   step?: number,
@@ -25,6 +26,7 @@ interface Props {
 }
 
 interface States {
+  id?:string,
   isEditing: boolean,
   displayValue: string | number,
   savedValue: string,
@@ -225,31 +227,40 @@ class UnitInput extends React.Component<Props, States> {
   }
 
   render() {
-    let _renderUnit: string | JSX.Element = '';
-    if (this.props.unit !== '') {
-      _renderUnit = <span className="unit">{this.getLengthUnit()}</span>;
+    const {
+      id,
+      type,
+      step,
+      unit,
+      disabled,
+      className,
+      displayMultiValue,
+    } = this.props;
+    let renderUnit: string | JSX.Element = '';
+    const { isEditing, displayValue } = this.state;
+    if (unit !== '') {
+      renderUnit = <span className="unit">{this.getLengthUnit()}</span>;
     }
 
-    let className = this.props.className;
     className['ui ui-control-unit-input-v2'] = true;
 
-    const shouldHideValue = (this.props.displayMultiValue && !this.state.isEditing);
-
+    const shouldHideValue = (displayMultiValue && !isEditing);
     return (
       <div className={ClassNames(className)}>
         <input
-          type={this.props.type}
-          step={this.props.step}
-          value={shouldHideValue ? '-' : this.state.displayValue}
+          id={id}
+          type={type}
+          step={step}
+          value={shouldHideValue ? '-' : displayValue}
           onFocus={(e) => { this._handleFocus(e) }}
           onBlur={this._handleBlur}
           onKeyUp={this._handleKeyUp}
           onKeyDown={this._handleKeyDown}
           onChange={this._handleChange}
           onInput={this._handleInput}
-          disabled={this.props.disabled}
+          disabled={disabled}
         />
-        {_renderUnit}
+        {renderUnit}
       </div>
     );
   }

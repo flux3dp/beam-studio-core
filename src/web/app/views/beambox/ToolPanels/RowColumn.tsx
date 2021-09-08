@@ -70,6 +70,7 @@ class RowColumn extends React.Component<Props, State> {
             <div className="control">
               <div className="text-center header">{LANG.columns}</div>
               <UnitInput
+                id="columns"
                 min={1}
                 unit=""
                 decimal={0}
@@ -80,6 +81,7 @@ class RowColumn extends React.Component<Props, State> {
             <div className="control">
               <div className="text-center header">{LANG.rows}</div>
               <UnitInput
+                id="rows"
                 min={1}
                 unit=""
                 decimal={0}
