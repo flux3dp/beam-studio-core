@@ -8,19 +8,25 @@ import {
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
+import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
 import i18n from 'helpers/i18n';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 interface Props {
   email: string;
 }
 
+let discover;
+
 export default function Menu({ email }: Props): JSX.Element {
   const eventEmitter = React.useMemo(() => eventEmitterFactory.createEventEmitter('top-bar-menu'), []);
+  const [devices, setDevices] = React.useState<IDeviceInfo[]>([]);
   const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
   const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
   const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(BeamboxPreference.read('use_layer_color'));
+  const [isUsingAntiAliasing, setIsUsingAntiAliasing] = React.useState(BeamboxPreference.read('anti-aliasing') !== false);
   const [shouldZoomWithWindow, changeShouldZoomWithWindow] = React.useState(false);
   const [duplicateDisabled, setDuplicateDisabled] = React.useState(true);
   const [svgEditDisabled, setSvgEditDisabled] = React.useState(true);
@@ -57,10 +63,23 @@ export default function Menu({ email }: Props): JSX.Element {
     };
   });
 
+  React.useEffect(() => {
+    discover = Discover('top-bar-menu', (newDevices: IDeviceInfo[]) => {
+      newDevices.sort((a, b) => (a.name >= b.name ? 1 : -1));
+      if (newDevices.map((d) => d.name).join('') !== devices.map((d) => d.name).join('')) {
+        setDevices(newDevices);
+      }
+    });
+    return () => {
+      discover.removeListener('top-bar-menu');
+    };
+  }, [devices]);
+
   const menuCms = i18n.lang.topbar.menu;
-  const callback = (id: string) => {
+  const callback = (id: string, deviceSerial?: string) => {
     eventEmitter.emit('MENU_CLICK', null, {
       id,
+      serial: deviceSerial,
     });
   };
   const openPage = (url: string) => browser.open(url);
@@ -71,12 +90,43 @@ export default function Menu({ email }: Props): JSX.Element {
     </>
   );
 
+  const deviceMenus = () => {
+    const submenus = [];
+    for (let i = 0; i < devices.length; i += 1) {
+      const { model, name, serial } = devices[i];
+      submenus.push(
+        <SubMenu label={name} key={serial}>
+          <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
+          <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>{menuCms.machine_info}</MenuItem>
+          <MenuDivider />
+          <MenuItem onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}>{menuCms.calibrate_beambox_camera}</MenuItem>
+          {model === 'fbm1' ? <MenuItem onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', serial)}>{menuCms.calibrate_beambox_camera_borderless}</MenuItem> : null}
+          {model === 'fbm1' ? <MenuItem onClick={() => callback('CALIBRATE_DIODE_MODULE', serial)}>{menuCms.calibrate_diode_module}</MenuItem> : null}
+          <MenuDivider />
+          <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>{menuCms.update_firmware}</MenuItem>
+          <SubMenu label={menuCms.download_log}>
+            <MenuItem onClick={() => callback('LOG_NETWORK', serial)}>{menuCms.log.network}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_HARDWARE', serial)}>{menuCms.log.hardware}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_DISCOVER', serial)}>{menuCms.log.discover}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_USB', serial)}>{menuCms.log.usb}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_USBLIST', serial)}>{menuCms.log.usblist}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_CAMERA', serial)}>{menuCms.log.camera}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_CLOUD', serial)}>{menuCms.log.cloud}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_PLAYER', serial)}>{menuCms.log.player}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_ROBOT', serial)}>{menuCms.log.robot}</MenuItem>
+          </SubMenu>
+        </SubMenu>,
+      );
+    }
+    return submenus;
+  };
+
   return (
     <TopBarMenu menuButton={(
-      <img
-        src="img/icon.png"
-        className="icon"
-      />
+      <div className="menu-btn-container">
+        <img className="icon" src="img/logo-line.svg" />
+        <img className="icon-arrow" src="img/icon-arrow-d.svg" />
+      </div>
     )}
     >
       <SubMenu label={menuCms.file}>
@@ -191,10 +241,21 @@ export default function Menu({ email }: Props): JSX.Element {
         >
           {menuCms.show_layer_color}
         </MenuItem>
+        <MenuItem
+          type="checkbox"
+          onClick={() => {
+            callback('ANTI_ALIASING');
+            setIsUsingAntiAliasing(!isUsingAntiAliasing);
+          }}
+          checked={isUsingAntiAliasing}
+        >
+          {menuCms.anti_aliasing}
+        </MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.machines}>
         <MenuItem onClick={() => callback('ADD_NEW_MACHINE')}>{hotkey('add_new_machine')}</MenuItem>
         <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
+        {deviceMenus()}
       </SubMenu>
       <SubMenu label={menuCms.help}>
         <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>{menuCms.about_beam_studio}</MenuItem>

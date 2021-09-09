@@ -17,6 +17,7 @@ let lastSendMessage = 0;
 const BUFFER = 100;
 let timer;
 const SEND_DEVICES_INTERVAL = 5000;
+const CLEAR_DEVICES_INTERVAL = 60000;
 const discoverLogger = Logger('discover');
 let printers = [];
 const dispatchers = [];
@@ -82,19 +83,17 @@ const onMessage = (device) => {
 };
 const poke = (targetIP: string) => {
   if (!targetIP) return;
-  printers = [];
-  devices = {};
   ws.send(JSON.stringify({ cmd: 'poke', ipaddr: targetIP }));
 };
 const pokeTcp = (targetIP: string) => {
   if (!targetIP) return;
-  printers = [];
   ws.send(JSON.stringify({ cmd: 'poketcp', ipaddr: targetIP }));
 };
 const testTcp = (targetIP: string) => {
   if (!targetIP) return;
   ws.send(JSON.stringify({ cmd: 'testtcp', ipaddr: targetIP }));
 };
+
 const pokeIPAddr = storage.get('poke-ip-addr');
 let pokeIPs = (pokeIPAddr ? pokeIPAddr.split(/[,;] ?/) : ['']);
 
@@ -102,6 +101,11 @@ if (pokeIPs[0] === '') {
   storage.set('poke-ip-addr', '192.168.1.1');
   pokeIPs = ['192.168.1.1'];
 }
+
+setInterval(() => {
+  printers = [];
+  devices = {};
+}, CLEAR_DEVICES_INTERVAL);
 
 setInterval(() => {
   if (Date.now() - lastSendMessage > BUFFER) {
