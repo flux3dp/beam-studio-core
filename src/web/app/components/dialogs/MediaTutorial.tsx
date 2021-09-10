@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import ButtonGroup from 'app/widgets/ButtonGroup';
@@ -15,13 +15,20 @@ interface Props {
 function MediaTutorial({ data, onClose }: Props): JSX.Element {
   const LANG = i18n.lang.buttons;
   const [step, setStep] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>();
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [step]);
 
   const { mediaSrc, isVideo, description } = data[step];
 
   const mediaContent = () => {
     if (isVideo) {
       return (
-        <video autoPlay loop>
+        <video autoPlay loop ref={videoRef}>
           <source src={mediaSrc} type="video/webm" />
         </video>
       );
