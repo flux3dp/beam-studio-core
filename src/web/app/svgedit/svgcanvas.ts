@@ -1966,7 +1966,7 @@ export default $.SvgCanvas = function (container, config) {
               'fill-opacity': curText.fill_opacity,
               'stroke-width': 2,
               'font-size': curText.font_size,
-              'font-family': usePostscriptAsFamily ? curText.font_postscriptName : curText.font_family,
+              'font-family': usePostscriptAsFamily ? `'${curText.font_postscriptName}'` : `'${curText.font_family}'`,
               'font-postscript': curText.font_postscriptName,
               'text-anchor': curText.text_anchor,
               'xml:space': 'preserve',
@@ -8226,33 +8226,25 @@ export default $.SvgCanvas = function (container, config) {
         'transform': $(elem).attr('transform') || '',
         'stroke-opacity': $(elem).attr('stroke-opacity') || '1',
         'fill-opacity': $(elem).attr('fill-opacity') || '0',
-      }
-      const dAbs = svgedit.utilities.convertPath(elem);
-      // Make sure all pathseg is abs
-      const segList = elem.pathSegList._parsePath(dAbs);
-
-      let startIndex = 0;
-      for (let i = 0; i < segList.length + 1; i++) {
-        if (i === segList.length || segList[i].pathSegType === 2) {
-          if (i > startIndex + 1) {
-            const d = (SVGPathSegList as any)._pathSegArrayAsString(segList.slice(startIndex, i));
-            const id = getNextId();
-            const path = addSvgElementFromJson({
-              'element': 'path',
-              'attr': {
-                ...attrs,
-                'id': id,
-                'd': d,
-                'vector-effect': 'non-scaling-stroke'
-              }
-            });
-            layer.appendChild(path);
-            newPaths.push(path);
-            batchCmd.addSubCommand(new history.InsertElementCommand(path));
-          }
-          startIndex = i;
-        }
-      }
+      };
+      const dAbs: string = svgedit.utilities.convertPath(elem);
+      dAbs.split('M')
+        .filter((d) => d.length)
+        .forEach((d) => {
+          const id = getNextId();
+          const path = addSvgElementFromJson({
+            element: 'path',
+            attr: {
+              ...attrs,
+              id,
+              d: `M${d}`,
+              'vector-effect': 'non-scaling-stroke',
+            },
+          });
+          layer.appendChild(path);
+          newPaths.push(path);
+          batchCmd.addSubCommand(new history.InsertElementCommand(path));
+        });
       const parent = elem.parentNode;
       const nextSibling = elem.nextSibling;
       parent.removeChild(elem);
@@ -10168,7 +10160,7 @@ export default $.SvgCanvas = function (container, config) {
     const matrix = ts.match(/matrix\(.*?\)/g);
 
     const matr = matrix ? matrix[0].substring(7, matrix[0].length - 1) : '1,0,0,1,0,0';
-    const [a, b, c, d, e, f] = matr.split(',').map(parseFloat);
+    const [a, b, c, d, e, f] = matr.split(/[, ]+/).map(parseFloat);
     obj.x += elemX;
     obj.y += elemY;
     let x = a * obj.x + c * obj.y + e;

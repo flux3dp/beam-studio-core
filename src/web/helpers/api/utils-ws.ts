@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import EventEmitter from 'eventemitter3';
 
+import arrayBuffer from 'helpers/arrayBuffer';
 import Websocket from 'helpers/websocket';
 
 class UtilsWebSocket extends EventEmitter {
@@ -71,7 +72,7 @@ class UtilsWebSocket extends EventEmitter {
   }
 
   async pdfToSvgBlob(file: File): Promise<Blob> {
-    const data = await file.arrayBuffer();
+    const data = await arrayBuffer(file);
     return new Promise((resolve, reject) => {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
@@ -131,7 +132,7 @@ class UtilsWebSocket extends EventEmitter {
   }
 
   async uploadTo(blob: Blob, path: string, onProgress?: (progress: number) => void) {
-    const data = await blob.arrayBuffer();
+    const data = await arrayBuffer(blob);
     return new Promise<boolean>((resolve, reject) => {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
