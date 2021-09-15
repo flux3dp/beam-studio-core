@@ -2,7 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
+import fileExportHelper from 'helpers/file-export-helper';
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
 import { checkConnection } from 'helpers/api/discover';
@@ -18,6 +20,12 @@ const TimeEstimationButton = (): JSX.Element => {
       alertCaller.popUp({
         caption: i18n.lang.alert.oops,
         message: i18n.lang.device_selection.no_beambox,
+        buttonType: alertConstants.CUSTOM_CANCEL,
+        buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
+        callbacks: async () => {
+          const res = await fileExportHelper.toggleUnsavedChangedDialog();
+          if (res) window.location.hash = '#initialize/connect/select-connection-type';
+        },
       });
       return;
     }

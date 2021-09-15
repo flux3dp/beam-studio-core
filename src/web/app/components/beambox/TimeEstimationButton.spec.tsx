@@ -21,6 +21,11 @@ jest.mock('helpers/i18n', () => ({
       minute: 'm',
       second: 's',
     },
+    topbar: {
+      menu: {
+        add_new_machine: 'Machine Setup',
+      },
+    },
   },
 }));
 

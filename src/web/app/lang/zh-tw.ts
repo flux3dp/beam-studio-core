@@ -191,7 +191,7 @@ export default {
     RESOURCE_BUSY: '[RB] 請重新啟動 Delta, 或再試一次',
   },
   device_selection: {
-    no_beambox: '#801 我們在網路上找不到您的機器，\n請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
+    no_beambox: '#801 我們在網路上找不到您的機器，\n此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，\n請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
   },
   update: {
     release_note: '版本訊息:',
