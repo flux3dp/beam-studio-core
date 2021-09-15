@@ -174,9 +174,13 @@ class TextActions {
           if (isVertical) {
             width = i === 0 ? firstRowMaxWidth : lastRowX - start.x;
           }
+          let y: number;
+          if (isVertical) y = start.y - charHeight;
+          else if (svgedit.browser?.isChrome()) y = tspanbb.y;
+          else y = tspanbb.y + charHeight * i;
           chardata[i].push({
             x: start.x,
-            y: isVertical ? start.y - charHeight : tspanbb.y,
+            y,
             width,
             height: charHeight,
           });
@@ -735,9 +739,7 @@ class TextActions {
   newLine = () => {
     const { textinput } = this;
     const oldSelectionStart = textinput.selectionStart;
-    console.log(`${textinput.value.substring(0, textinput.selectionStart)}\u0085${textinput.value.substring(textinput.selectionEnd)}`);
     textinput.value = `${textinput.value.substring(0, textinput.selectionStart)}\u0085${textinput.value.substring(textinput.selectionEnd)}`;
-    console.log(textinput.value);
     textinput.selectionStart = oldSelectionStart + 1;
     textinput.selectionEnd = oldSelectionStart + 1;
   };
