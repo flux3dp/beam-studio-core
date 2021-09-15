@@ -56,7 +56,7 @@ function Prompt({
 
   return (
     <Modal>
-      <div className={classNames('prompt-dialog-container', 'animate__animated', 'animate__bounceIn')}>
+      <div data-id="prompt-container" className={classNames('prompt-dialog-container', 'animate__animated', 'animate__bounceIn')}>
         <div className="caption">{caption}</div>
         <input
           autoFocus

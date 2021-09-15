@@ -58,6 +58,7 @@ class Module extends React.Component<Props> {
         <Controls label={lang.settings.diode_offset}>
           <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
           <UnitInput
+            id="diode-offset-x-input"
             unit={defaultUnit === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
@@ -68,6 +69,7 @@ class Module extends React.Component<Props> {
           />
           <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
           <UnitInput
+            id="diode-offset-y-input"
             unit={defaultUnit === 'inches' ? 'in' : 'mm'}
             min={0}
             max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}

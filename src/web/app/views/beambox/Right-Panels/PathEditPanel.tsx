@@ -49,16 +49,19 @@ function PathEditPanel(): JSX.Element {
               imgSrc: 'img/right-panel/icon-nodetype-0.svg',
               title: 'tCorner',
               value: LINKTYPE_CORNER,
+              id: 'tCorner-seg-item',
             },
             {
               imgSrc: 'img/right-panel/icon-nodetype-1.svg',
               title: 'tSmooth',
               value: LINKTYPE_SMOOTH,
+              id: 'tSmooth-seg-item',
             },
             {
               imgSrc: 'img/right-panel/icon-nodetype-2.svg',
               title: 'tSymmetry',
               value: LINKTYPE_SYMMETRIC,
+              id: 'tSymmetry-seg-item',
             },
           ]}
         />

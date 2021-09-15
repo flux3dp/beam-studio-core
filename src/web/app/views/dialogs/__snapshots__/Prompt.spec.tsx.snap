@@ -21,6 +21,7 @@ exports[`should render correctly 1`] = `
       >
         <div
           className="prompt-dialog-container animate__animated animate__bounceIn"
+          data-id="prompt-container"
         >
           <div
             className="caption"

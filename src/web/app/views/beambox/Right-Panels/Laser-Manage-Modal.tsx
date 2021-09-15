@@ -220,6 +220,7 @@ class LaserManageModal extends React.Component<Props, State> {
       });
       return (
         <div
+          id={config.key}
           draggable
           className={entryClass}
           key={config.name}
@@ -386,10 +387,10 @@ class LaserManageModal extends React.Component<Props, State> {
 
   renderAddButton(): JSX.Element {
     return (
-      <div className="add-btn" onClick={() => this.addConfig()}>
-        <div className="bar bar1" />
-        <div className="bar bar2" />
-        <div className="bar bar3" />
+      <div id="add_btn" className="add-btn" onClick={() => this.addConfig()}>
+        <div id="add_bar1" className="bar bar1" />
+        <div id="add_bar2" className="bar bar2" />
+        <div id="add_bar3" className="bar bar3" />
       </div>
     );
   }
@@ -424,8 +425,8 @@ class LaserManageModal extends React.Component<Props, State> {
               </div>
             </div>
             <div className="operation-buttons">
-              <div className="operation-button" onClick={this.addSelectDefaultsToCustom}>{'>>'}</div>
-              <div className="operation-button" onClick={this.removeDefaultfromCustom}>{'<<'}</div>
+              <div id="addselect" className="operation-button" onClick={this.addSelectDefaultsToCustom}>{'>>'}</div>
+              <div id="removeselect" className="operation-button" onClick={this.removeDefaultfromCustom}>{'<<'}</div>
             </div>
             <div className="config-list-column">
               <div className="title">
@@ -445,6 +446,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.power.text}</span>
                 <UnitInput
+                  id="laser_power"
                   min={1}
                   max={100}
                   disabled={disableControl}
@@ -458,6 +460,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.laser_speed.text}</span>
                 <UnitInput
+                  id="laser_speed"
                   min={3}
                   max={300}
                   disabled={disableControl}
@@ -473,6 +476,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.repeat}</span>
                 <UnitInput
+                  id="laser_repeat"
                   min={1}
                   max={100}
                   disabled={disableControl}
@@ -486,6 +490,7 @@ class LaserManageModal extends React.Component<Props, State> {
               <div className="control">
                 <span className="label">{LANG.z_step}</span>
                 <UnitInput
+                  id="laser_zStep"
                   min={0}
                   max={20}
                   disabled={disableControl}
@@ -501,6 +506,7 @@ class LaserManageModal extends React.Component<Props, State> {
           <div className="footer">
             <div className="left">
               <button
+                id="laser_delete"
                 type="button"
                 className="btn btn-default pull-right"
                 onClick={this.handleDelete}
@@ -508,6 +514,7 @@ class LaserManageModal extends React.Component<Props, State> {
                 {LANG.delete}
               </button>
               <button
+                id="laser_reset"
                 type="button"
                 className="btn btn-default pull-right"
                 onClick={this.handleReset}
@@ -517,6 +524,7 @@ class LaserManageModal extends React.Component<Props, State> {
             </div>
             <div className="right">
               <button
+                id="laser_save_and_exit"
                 type="button"
                 className="btn btn-default primary"
                 onClick={this.handleSaveAndExit}
@@ -524,6 +532,7 @@ class LaserManageModal extends React.Component<Props, State> {
                 {LANG.save_and_exit}
               </button>
               <button
+                id="laser_cancel"
                 type="button"
                 className="btn btn-default pull-right"
                 onClick={onClose}

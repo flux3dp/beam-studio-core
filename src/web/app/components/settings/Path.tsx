@@ -40,16 +40,19 @@ class Path extends React.Component<Props> {
       <>
         <div className="subtitle">{lang.settings.groups.path}</div>
         <SelectControl
+          id="set-vector-speed-contraint"
           label={lang.settings.vector_speed_constraint}
           url={lang.settings.help_center_urls.vector_speed_constraint}
           options={vectorSpeedConstraintOptions}
           onChange={(e) => updateBeamboxPreferenceChange('vector_speed_contraint', e.target.value)}
         />
         <Controls
+          id="set-loop-compensation"
           label={lang.settings.loop_compensation}
           url={lang.settings.help_center_urls.loop_compensation}
         >
           <UnitInput
+            id="loop-input"
             unit={defaultUnit === 'inches' ? 'in' : 'mm'}
             min={0}
             max={20}
@@ -64,6 +67,7 @@ class Path extends React.Component<Props> {
             <div>
               <Controls label={lang.settings.blade_radius}>
                 <UnitInput
+                  id="radius-input"
                   unit={defaultUnit === 'inches' ? 'in' : 'mm'}
                   min={0}
                   max={30}
@@ -75,6 +79,7 @@ class Path extends React.Component<Props> {
                 />
               </Controls>
               <SelectControl
+                id="set-blade-precut"
                 label={lang.settings.blade_precut_switch}
                 options={precutSwitchOptions}
                 onChange={(e) => updateBeamboxPreferenceChange('blade_precut', e.target.value)}
@@ -82,6 +87,7 @@ class Path extends React.Component<Props> {
               <Controls label={lang.settings.blade_precut_position}>
                 <span className="font2" style={{ marginRight: '10px' }}>X</span>
                 <UnitInput
+                  id="precut-x-input"
                   unit={defaultUnit === 'inches' ? 'in' : 'mm'}
                   min={0}
                   max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
@@ -92,6 +98,7 @@ class Path extends React.Component<Props> {
                 />
                 <span className="font2" style={{ marginRight: '10px' }}>Y</span>
                 <UnitInput
+                  id="precut-y-input"
                   unit={defaultUnit === 'inches' ? 'in' : 'mm'}
                   min={0}
                   max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}

@@ -17,6 +17,7 @@ function Update({ isWeb, updateNotificationOptions, updateConfigChange }: Props)
     <>
       <div className="subtitle">{lang.settings.groups.update}</div>
       <SelectControl
+        id="set-auto-update"
         label={lang.settings.check_updates}
         options={updateNotificationOptions}
         onChange={(e) => updateConfigChange('auto_check_update', e.target.value)}

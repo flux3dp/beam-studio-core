@@ -36,6 +36,7 @@ function Camera({
       <div className="subtitle">{lang.settings.groups.camera}</div>
       <Controls label={lang.settings.preview_movement_speed}>
         <UnitInput
+          id="preview-input"
           unit={unit}
           min={3}
           max={300}
@@ -47,6 +48,7 @@ function Camera({
       </Controls>
       <Controls label={lang.settings.preview_movement_speed_hl}>
         <UnitInput
+          id="diode-preview-input"
           unit={unitHL}
           min={3}
           max={300}

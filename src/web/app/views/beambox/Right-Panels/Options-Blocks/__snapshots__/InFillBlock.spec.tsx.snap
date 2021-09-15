@@ -12,6 +12,7 @@ exports[`should render correctly is fillable 1`] = `
   </div>
   <div
     className="onoffswitch"
+    id="infill"
     onClick={[Function]}
   >
     <input
@@ -46,6 +47,7 @@ exports[`should render correctly is fillable 2`] = `
   </div>
   <div
     className="onoffswitch"
+    id="infill"
     onClick={[Function]}
   >
     <input
@@ -80,6 +82,7 @@ exports[`should render correctly is fillable 3`] = `
   </div>
   <div
     className="onoffswitch"
+    id="infill"
     onClick={[Function]}
   >
     <input

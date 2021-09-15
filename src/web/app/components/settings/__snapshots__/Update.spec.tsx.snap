@@ -8,6 +8,7 @@ exports[`should render correctly desktop version 1`] = `
     Software Updates
   </div>
   <SelectControl
+    id="set-auto-update"
     label="Auto Check"
     onChange={[Function]}
     options={
