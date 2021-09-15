@@ -549,7 +549,24 @@ svgedit.utilities.getBBox = function(elem) {
 	default:
 
 		if(elname === 'use') {
-			ret = groupBBFix(selected, true);
+      const xform = elem.getAttribute('data-xform');
+      const x = parseFloat(elem.getAttribute('x') || '0');
+      const y = parseFloat(elem.getAttribute('y') || '0');
+      if (!xform || (!x && !y)) {
+        ret = groupBBFix(selected, true);
+      } else {
+        let obj = selected.getBBox();
+        xform.split(' ').forEach((pair) => {
+          const [key, value] = pair.split('=');
+          if (value === undefined) {
+            return;
+          };
+          obj[key] = parseFloat(value);
+          if (key === 'x') obj.x += x;
+          else if (key === 'y') obj.y += y;
+        });
+        ret = obj;
+      }
 		}
 		if(elname === 'use' || ( elname === 'foreignObject' && svgedit.browser.isWebkit() ) ) {
 			if(!ret) {ret = selected.getBBox();}
