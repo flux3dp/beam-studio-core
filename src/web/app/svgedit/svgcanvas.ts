@@ -8233,13 +8233,13 @@ export default $.SvgCanvas = function (container, config) {
         .forEach((d) => {
           const id = getNextId();
           const path = addSvgElementFromJson({
-            'element': 'path',
-            'attr': {
+            element: 'path',
+            attr: {
               ...attrs,
-              'id': id,
-              'd': `M${d}`,
-              'vector-effect': 'non-scaling-stroke'
-            }
+              id: id,
+              d: `M${d}`,
+              'vector-effect': 'non-scaling-stroke',
+            },
           });
           layer.appendChild(path);
           newPaths.push(path);
