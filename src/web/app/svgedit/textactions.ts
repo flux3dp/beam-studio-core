@@ -119,7 +119,7 @@ class TextActions {
       const tspans = Array.from(curtext.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
       const rowNumbers = tspans.length;
       const charHeight = fontSize;
-      const lines = textinput.value.split('\x0b');
+      const lines = textinput.value.split('\u0085');
       let lastRowX = null;
 
       // No contents
@@ -581,7 +581,7 @@ class TextActions {
     const { curtext } = this;
     const multiLineTextContent = Array.from(curtext.childNodes)
       .filter((child) => ['tspan', 'textPath'].includes(child.nodeName))
-      .map((child) => child.textContent).join('\x0b');
+      .map((child) => child.textContent).join('\u0085');
     this.textinput.value = multiLineTextContent;
   }
 
@@ -735,7 +735,9 @@ class TextActions {
   newLine = () => {
     const { textinput } = this;
     const oldSelectionStart = textinput.selectionStart;
-    textinput.value = `${textinput.value.substring(0, textinput.selectionStart)}\x0b${textinput.value.substring(textinput.selectionEnd)}`;
+    console.log(`${textinput.value.substring(0, textinput.selectionStart)}\u0085${textinput.value.substring(textinput.selectionEnd)}`);
+    textinput.value = `${textinput.value.substring(0, textinput.selectionStart)}\u0085${textinput.value.substring(textinput.selectionEnd)}`;
+    console.log(textinput.value);
     textinput.selectionStart = oldSelectionStart + 1;
     textinput.selectionEnd = oldSelectionStart + 1;
   };
