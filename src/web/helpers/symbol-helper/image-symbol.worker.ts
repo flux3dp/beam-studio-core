@@ -5,7 +5,7 @@ ctx.onmessage = async (e) => {
   if (type === 'svgStringToBlob') {
     const { svgString } = e.data;
     const svgBlob = new Blob([svgString], {
-      type: 'image/svg+xml;charset=utf-8',
+      type: 'image/svg+xml',
     });
     ctx.postMessage(svgBlob, null);
   } else if (type === 'imageDataToBlob') {
