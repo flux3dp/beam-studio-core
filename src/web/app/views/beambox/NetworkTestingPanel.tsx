@@ -21,14 +21,12 @@ interface Props {
   onClose: () => void;
 }
 
-interface State {
-  localIps: string[];
-}
-
-class NetworkTestingPanel extends React.Component<Props, State> {
+class NetworkTestingPanel extends React.Component<Props> {
   private discoveredDevices: IDeviceInfo[];
 
   private discover: any;
+
+  private localIps: string[];
 
   private textInputRef: React.RefObject<HTMLInputElement>;
 
@@ -58,9 +56,7 @@ class NetworkTestingPanel extends React.Component<Props, State> {
     this.discover = Discover('network-testing-panel', (devices) => {
       this.discoveredDevices = devices;
     });
-    this.state = {
-      localIps,
-    };
+    this.localIps = localIps;
     this.textInputRef = React.createRef();
   }
 
@@ -122,7 +118,7 @@ class NetworkTestingPanel extends React.Component<Props, State> {
 
   handleResult(successRate: number, avgRRT: number, quality: number): void {
     const ip = this.getIPValue();
-    const { localIps } = this.state;
+    const { localIps } = this;
     console.log(`success rate: ${successRate}`);
     console.log(`average rrt of success: ${Math.round(100 * avgRRT) / 100} ms`);
     if (successRate > 0) {
@@ -189,22 +185,29 @@ class NetworkTestingPanel extends React.Component<Props, State> {
     onClose();
   }
 
+  renderLocalIP(): JSX.Element {
+    const { localIps } = this;
+    if (!localIps.length && window.FLUX.version === 'web') return null;
+    return (
+      <div className="info">
+        <div className="left-part">
+          {LANG.local_ip}
+        </div>
+        <div className="right-part">
+          {localIps.join(', ')}
+        </div>
+      </div>
+    );
+  }
+
   render(): JSX.Element {
     const { ip, onClose } = this.props;
-    const { localIps } = this.state;
     return (
       <Modal onClose={onClose}>
         <div className="network-testing-panel">
           <section className="main-content">
             <div className="title">{LANG.network_testing}</div>
-            <div className="info">
-              <div className="left-part">
-                {LANG.local_ip}
-              </div>
-              <div className="right-part">
-                {localIps.join(', ')}
-              </div>
-            </div>
+            {this.renderLocalIP()}
             <div className="info">
               <div className="left-part">
                 {LANG.insert_ip}

@@ -159,10 +159,17 @@ class BeamboxInit {
 
   private initDefaultFont(): void {
     const lang = navigator.language;
+    const isWeb = window.FLUX.version === 'web';
     const { os } = window;
-    let defaultFontFamily = os === 'Linux' ? 'Ubuntu' : 'Arial';
-    if (FontConstants[lang] && FontConstants[lang][os]) {
-      defaultFontFamily = FontConstants[lang][os];
+    let defaultFontFamily = 'Arial';
+    if (isWeb) defaultFontFamily = 'Noto Sans';
+    else if (os === 'Linux') defaultFontFamily = 'Ubuntu';
+    if (FontConstants[lang]) {
+      if (isWeb && FontConstants[lang].web) {
+        defaultFontFamily = FontConstants[lang].web;
+      } else if (FontConstants[lang][os]) {
+        defaultFontFamily = FontConstants[lang][os];
+      }
     }
     const fonts = fontHelper.findFonts({ family: defaultFontFamily });
     if (fonts.length > 0) {
@@ -176,7 +183,8 @@ class BeamboxInit {
   }
 
   private async askAndInitSentry(): Promise<void> {
-    if (storage.get('enable-sentry') === undefined) {
+    const enableSentry = storage.get('enable-sentry');
+    if (enableSentry === undefined || enableSentry === '') {
       await new Promise<void>((resolve) => {
         const LANG = i18n.lang;
         Alert.popUp({

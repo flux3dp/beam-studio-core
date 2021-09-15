@@ -194,7 +194,7 @@ interface ISVGConfig {
   }
   text?: {
     stroke_width: 1,
-    font_size: 100,
+    font_size: number,
     font_family: string,
     font_postscriptName: string,
     fill: string,
@@ -421,7 +421,7 @@ const svgEditor = window['svgEditor'] = (function () {
       },
       text: {
         stroke_width: 1,
-        font_size: 100,
+        font_size: window.FLUX.version === 'web' ? 200 : 100,
         font_family: defaultFont ? defaultFont.family : 'Arial',
         font_postscriptName: defaultFont ? defaultFont.postscriptName : 'ArialMT',
         fill: '#fff',
