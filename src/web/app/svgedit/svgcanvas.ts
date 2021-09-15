@@ -10160,7 +10160,7 @@ export default $.SvgCanvas = function (container, config) {
     const matrix = ts.match(/matrix\(.*?\)/g);
 
     const matr = matrix ? matrix[0].substring(7, matrix[0].length - 1) : '1,0,0,1,0,0';
-    const [a, b, c, d, e, f] = matr.split(',').map(parseFloat);
+    const [a, b, c, d, e, f] = matr.split(/[, ]+/).map(parseFloat);
     obj.x += elemX;
     obj.y += elemY;
     let x = a * obj.x + c * obj.y + e;
