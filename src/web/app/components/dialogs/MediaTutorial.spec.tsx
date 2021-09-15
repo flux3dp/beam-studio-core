@@ -34,18 +34,24 @@ const data = [
 describe('should render correctly', () => {
   test('button groups should work', () => {
     const mockOnClose = jest.fn();
+    const mockMediaLoad = jest.fn();
+    window.HTMLMediaElement.prototype.load = mockMediaLoad;
     const wrapper = mount(<MediaTutorial
       data={data}
       onClose={mockOnClose}
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('button[data-test-key="next"]').simulate('click');
+    expect(mockMediaLoad).toHaveBeenCalledTimes(0);
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('button[data-test-key="back"]').simulate('click');
+    expect(mockMediaLoad).toHaveBeenCalledTimes(0);
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('button[data-test-key="next"]').simulate('click');
+    expect(mockMediaLoad).toHaveBeenCalledTimes(0);
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('button[data-test-key="next"]').simulate('click');
+    expect(mockMediaLoad).toHaveBeenCalledTimes(1);
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('button[data-test-key="done"]').simulate('click');
     expect(mockOnClose).toBeCalledTimes(1);

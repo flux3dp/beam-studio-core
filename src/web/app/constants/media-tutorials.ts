@@ -2,24 +2,26 @@ import { IMediaTutorial } from 'interfaces/ITutorial';
 
 export const gestureIntroduction: IMediaTutorial[] = [
   {
-    mediaSrc: 'img/left-bar/icon-cursor.svg',
+    mediaSrc: 'img/touch-drag.svg',
     description: 't2 fingers press and drag to track the canvas',
   },
   {
-    mediaSrc: 'img/icon.png',
+    mediaSrc: 'img/touch-zoom.svg',
     description: 'tPinch to zoom in/out canvas',
   },
   {
-    mediaSrc: 'img/icon.png',
+    isVideo: true,
+    mediaSrc: 'video/touch-select.webm',
     description: 'tTap to Select the Object.',
   },
   {
-    mediaSrc: 'img/icon.png',
+    isVideo: true,
+    mediaSrc: 'video/touch-multiselect.webm',
     description: 'tDrag to Select Multiple Objects.',
   },
   {
     isVideo: true,
-    mediaSrc: 'video/bb_focus.webm',
+    mediaSrc: 'video/touch-contextmenu.webm',
     description: 'Press and Hold Timer to Open Context Menu',
   },
 ];

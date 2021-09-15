@@ -13,6 +13,11 @@ jest.mock('implementations/browser', () => ({
   open,
 }));
 
+const mockDiscoverRemoveListener = jest.fn();
+jest.mock('helpers/api/discover', () => (() => ({
+  removeListener: mockDiscoverRemoveListener,
+})));
+
 const emit = jest.fn();
 const on = jest.fn();
 const removeListener = jest.fn();
@@ -176,7 +181,7 @@ describe('should render correctly', () => {
     const wrapper = mount(<Menu email={undefined} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('img').simulate('click');
+    wrapper.find('div.menu-btn-container').simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.rc-menu__item').at(4).simulate('click');
@@ -192,7 +197,7 @@ describe('should render correctly', () => {
     const wrapper = mount(<Menu email={undefined} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('img').simulate('click');
+    wrapper.find('div.menu-btn-container').simulate('click');
     wrapper.find('div.rc-menu__item').at(2).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
 
@@ -207,7 +212,7 @@ describe('should render correctly', () => {
   test('already signed in', () => {
     read.mockReturnValue(true);
     const wrapper = mount(<Menu email="tester@flux3dp.com" />);
-    wrapper.find('img').simulate('click');
+    wrapper.find('div.menu-btn-container').simulate('click');
     wrapper.find('div.rc-menu__item').at(4).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
   });
