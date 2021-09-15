@@ -8226,25 +8226,25 @@ export default $.SvgCanvas = function (container, config) {
         'transform': $(elem).attr('transform') || '',
         'stroke-opacity': $(elem).attr('stroke-opacity') || '1',
         'fill-opacity': $(elem).attr('fill-opacity') || '0',
-      }
+      };
       const dAbs: string = svgedit.utilities.convertPath(elem);
       dAbs.split('M')
-      .filter((d) => d.length)
-      .forEach((d) => {
-        const id = getNextId();
-        const path = addSvgElementFromJson({
-          'element': 'path',
-          'attr': {
-            ...attrs,
-            'id': id,
-            'd': `M${d}`,
-            'vector-effect': 'non-scaling-stroke'
-          }
+        .filter((d) => d.length)
+        .forEach((d) => {
+          const id = getNextId();
+          const path = addSvgElementFromJson({
+            'element': 'path',
+            'attr': {
+              ...attrs,
+              'id': id,
+              'd': `M${d}`,
+              'vector-effect': 'non-scaling-stroke'
+            }
+          });
+          layer.appendChild(path);
+          newPaths.push(path);
+          batchCmd.addSubCommand(new history.InsertElementCommand(path));
         });
-        layer.appendChild(path);
-        newPaths.push(path);
-        batchCmd.addSubCommand(new history.InsertElementCommand(path));
-      });
       const parent = elem.parentNode;
       const nextSibling = elem.nextSibling;
       parent.removeChild(elem);
