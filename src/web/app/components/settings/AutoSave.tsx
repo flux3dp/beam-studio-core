@@ -9,6 +9,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import { IConfig } from 'interfaces/IAutosave';
 
 interface Props {
+  isWeb: boolean;
   autoSaveOptions: { value: any, label: string, selected: boolean }[];
   editingAutosaveConfig: IConfig;
   warnings: { [key: string]: string };
@@ -16,12 +17,14 @@ interface Props {
 }
 
 function AutoSave({
+  isWeb,
   autoSaveOptions,
   editingAutosaveConfig,
   warnings,
   updateState,
 }: Props): JSX.Element {
-  const lang = i18n.lang;
+  if (isWeb) return null;
+  const { lang } = i18n;
   return (
     <>
       <div className="subtitle">{lang.settings.groups.autosave}</div>
