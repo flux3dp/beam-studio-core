@@ -8236,7 +8236,7 @@ export default $.SvgCanvas = function (container, config) {
             element: 'path',
             attr: {
               ...attrs,
-              id: id,
+              id,
               d: `M${d}`,
               'vector-effect': 'non-scaling-stroke',
             },
