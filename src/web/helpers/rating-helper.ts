@@ -69,6 +69,7 @@ const setDefaultRatingRecord = (): void => {
 };
 
 const init = (): void => {
+  if (window.FLUX.version === 'web') return;
   if (!storage.isExisting('rating-record')) {
     setDefaultRatingRecord();
   } else {
