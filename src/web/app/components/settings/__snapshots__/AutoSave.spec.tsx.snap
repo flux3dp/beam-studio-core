@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should render correctly hide in web 1`] = `""`;
+
 exports[`should render correctly initially no warning 1`] = `
 <Fragment>
   <div

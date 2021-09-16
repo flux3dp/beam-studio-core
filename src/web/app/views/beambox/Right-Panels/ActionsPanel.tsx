@@ -2,12 +2,13 @@ import classNames from 'classnames';
 import React from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
+import fileExportHelper from 'helpers/file-export-helper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
-import Progress from 'app/actions/progress-caller';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
@@ -21,7 +22,7 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {
-  id?:string,
+  id?: string,
   elem: Element,
 }
 
@@ -47,6 +48,12 @@ class ActionsPanel extends React.Component<Props> {
       alertCaller.popUp({
         caption: i18n.lang.alert.oops,
         message: i18n.lang.device_selection.no_beambox,
+        buttonType: alertConstants.CUSTOM_CANCEL,
+        buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
+        callbacks: async () => {
+          const res = await fileExportHelper.toggleUnsavedChangedDialog();
+          if (res) window.location.hash = '#initialize/connect/select-connection-type';
+        },
       });
       return;
     }
@@ -63,7 +70,7 @@ class ActionsPanel extends React.Component<Props> {
   };
 
   renderButtons = (
-    label: string, onClick: () => void, isFullLine?: boolean, id?:string, isDisabled?: boolean,
+    label: string, onClick: () => void, isFullLine?: boolean, id?: string, isDisabled?: boolean,
   ): JSX.Element => {
     const className = classNames('btn', 'btn-default', { disabled: isDisabled });
     return (

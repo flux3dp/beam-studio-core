@@ -21,6 +21,11 @@ jest.mock('helpers/i18n', () => ({
       minute: 'm',
       second: 's',
     },
+    topbar: {
+      menu: {
+        add_new_machine: 'Machine Setup',
+      },
+    },
   },
 }));
 
@@ -37,6 +42,11 @@ jest.mock('helpers/api/discover', () => ({
 const mockEstimateTime = jest.fn();
 jest.mock('app/actions/beambox/export-funcs', () => ({
   estimateTime: mockEstimateTime,
+}));
+
+const mockToggleUnsavedChangedDialog = jest.fn();
+jest.mock('helpers/file-export-helper', () => ({
+  toggleUnsavedChangedDialog: mockToggleUnsavedChangedDialog,
 }));
 
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';

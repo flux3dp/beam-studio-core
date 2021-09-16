@@ -12,6 +12,7 @@ import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
+import fileExportHelper from 'helpers/file-export-helper';
 import FileName from 'app/components/beambox/top-bar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
@@ -224,6 +225,12 @@ export default class TopBar extends React.Component<Props, State> {
       Alert.popUp({
         caption: lang.alert.oops,
         message: lang.device_selection.no_beambox,
+        buttonType: AlertConstants.CUSTOM_CANCEL,
+        buttonLabels: [lang.topbar.menu.add_new_machine],
+        callbacks: async () => {
+          const res = await fileExportHelper.toggleUnsavedChangedDialog();
+          if (res) window.location.hash = '#initialize/connect/select-connection-type';
+        },
       });
     }
   };

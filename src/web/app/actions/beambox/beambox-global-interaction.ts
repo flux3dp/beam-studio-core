@@ -30,9 +30,6 @@ class BeamboxGlobalInteraction {
   onObjectFocus(elems?) {
     menu.enable(['DUPLICATE', 'DELETE', 'PATH']);
     let selectedElements = elems || svgCanvas.getSelectedElems().filter((elem) => elem);
-    if (selectedElements.length > 0 && selectedElements[0].getAttribute('data-tempgroup') === 'true') {
-      selectedElements = Array.from(selectedElements[0].childNodes);
-    }
     if (selectedElements.length === 0) {
       return;
     }
@@ -42,6 +39,9 @@ class BeamboxGlobalInteraction {
       menu.enable(['SVG_EDIT']);
     } else if (selectedElements[0].tagName === 'path') {
       menu.enable(['DECOMPOSE_PATH']);
+    }
+    if (selectedElements.length > 0 && selectedElements[0].getAttribute('data-tempgroup') === 'true') {
+      selectedElements = Array.from(selectedElements[0].childNodes);
     }
     if (selectedElements && selectedElements.length > 0) {
       menu.enable(['GROUP']);

@@ -37,6 +37,7 @@ describe('should render correctly', () => {
   test('initially no warning', () => {
     const updateState = jest.fn();
     const wrapper = shallow(<AutoSave
+      isWeb={false}
       autoSaveOptions={[
         {
           value: 'TRUE',
@@ -115,6 +116,7 @@ describe('should render correctly', () => {
   test('initially with warning', () => {
     const updateState = jest.fn();
     const wrapper = shallow(<AutoSave
+      isWeb={false}
       autoSaveOptions={[
         {
           value: 'TRUE',
@@ -152,5 +154,33 @@ describe('should render correctly', () => {
       warnings: {
       },
     });
+  });
+
+  test('hide in web', () => {
+    const updateState = jest.fn();
+    const wrapper = shallow(<AutoSave
+      isWeb
+      autoSaveOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: false,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: true,
+        },
+      ]}
+      editingAutosaveConfig={{
+        enabled: false,
+        directory: '/MyDocuments',
+        timeInterval: 10,
+        fileNumber: 5,
+      }}
+      warnings={{}}
+      updateState={updateState}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });

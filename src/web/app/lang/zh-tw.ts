@@ -1,6 +1,6 @@
 import { ILang } from 'interfaces/ILang';
 
-export default {
+const lang: ILang = {
   general: {
     wait: '處理中，請稍待',
     choose_folder: '選擇檔案夾',
@@ -191,7 +191,7 @@ export default {
     RESOURCE_BUSY: '[RB] 請重新啟動 Delta, 或再試一次',
   },
   device_selection: {
-    no_beambox: '#801 我們在網路上找不到您的機器，\n請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
+    no_beambox: '#801 我們在網路上找不到您的機器，\n此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，\n請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
   },
   update: {
     release_note: '版本訊息:',
@@ -209,6 +209,7 @@ export default {
       upload_file: '韌體上傳',
       update_success: '韌體更新上傳成功',
       update_fail: '#822 更新失敗',
+      too_old_for_web: '你的版本為 v%s，欲使用線上版的 Beam Studio 請更新至最新韌體。',
     },
     software: {
       checking: '檢查更新中',
@@ -229,7 +230,7 @@ export default {
     updating: '更新中...',
     skip: '跳過此版本',
     preparing: '準備中...',
-    later: '稍候',
+    later: '稍後',
     download: '線上更新',
     cannot_reach_internet: '#823 伺服器無法連接<br/>請確認網路連線',
     install: '下載',
@@ -1273,4 +1274,6 @@ export default {
     },
     tutorial_complete: '介紹完畢，開始創作吧！',
   },
-} as ILang;
+};
+
+export default lang;

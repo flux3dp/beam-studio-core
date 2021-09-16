@@ -258,6 +258,7 @@ class Settings extends React.PureComponent<null, State> {
             updateConfigChange={this.updateConfigChange}
           />
           <AutoSave
+            isWeb={window.FLUX.version === 'web'}
             autoSaveOptions={autoSaveOptions}
             editingAutosaveConfig={editingAutosaveConfig}
             warnings={warnings}

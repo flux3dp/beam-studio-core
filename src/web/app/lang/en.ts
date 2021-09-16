@@ -1,6 +1,6 @@
 import { ILang } from 'interfaces/ILang';
 
-export default {
+const lang: ILang = {
   general: {
     wait: 'Processing, please wait',
     choose_folder: 'Choose Folder',
@@ -209,6 +209,7 @@ export default {
       upload_file: 'Firmware upload (*.bin / *.fxfw)',
       update_success: 'Firmware update successfully uploaded',
       update_fail: '#822 Update Fail',
+      too_old_for_web: 'Your machine firmware version is v%s. In order to use Beam Studio Web, please update to the latest version of firmware.',
     },
     software: {
       checking: 'Checking for Update',
@@ -1273,4 +1274,6 @@ export default {
     },
     tutorial_complete: 'That’s all for the tutorial. Now it’s time to create!',
   },
-} as ILang;
+};
+
+export default lang;
