@@ -1,8 +1,10 @@
+/* eslint-disable react/require-default-props */
 import * as React from 'react';
 
 import browser from 'implementations/browser';
 
 interface Props {
+  id?: string,
   label: string,
   url?: string,
   warningText?: string,
@@ -10,6 +12,7 @@ interface Props {
 }
 
 const Controls = ({
+  id = '',
   label,
   url = '',
   warningText = null,
@@ -37,7 +40,7 @@ const Controls = ({
   };
 
   return (
-    <div className="row-fluid">
+    <div id={id} className="row-fluid">
       <div className="span3 no-left-margin" style={style}>
         <label
           className="font2"

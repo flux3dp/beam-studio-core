@@ -3,6 +3,7 @@
 exports[`should render correctly 1`] = `
 <div
   className="row-fluid"
+  id=""
 >
   <div
     className="span3 no-left-margin"
@@ -39,6 +40,7 @@ exports[`should render correctly 2`] = `
 >
   <div
     className="row-fluid"
+    id=""
   >
     <div
       className="span3 no-left-margin"
