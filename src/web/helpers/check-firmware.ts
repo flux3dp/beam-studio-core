@@ -1,98 +1,97 @@
-import $ from 'jquery';
+import { IDeviceInfo } from 'interfaces/IDevice';
 import versionCompare from './version-compare';
 
 const infoMap = {
-    delta: {
-        firmware: {
-            api_key: 'fluxmonitor',
-            downloadUrl: 'https://s3-us-west-1.amazonaws.com/fluxstudio/fluxfirmware-[version].fxfw'
-        },
-        toolhead: {
-            api_key: 'toolhead',
-            downloadUrl: 'https://s3-us-west-1.amazonaws.com/fluxstudio/fluxhead_v[version].bin'
-        }
+  delta: {
+    firmware: {
+      api_key: 'fluxmonitor',
+      downloadUrl: 'https://s3-us-west-1.amazonaws.com/fluxstudio/fluxfirmware-[version].fxfw',
     },
-    beambox: {
-        firmware: {
-            api_key: 'beambox-firmware',
-            //TODO:
-            downloadUrl: 'https://s3-us-west-1.amazonaws.com/fluxstudio/firmware/beambox/beamboxfirmware-[version].fxfw'
-        },
-    }
+    toolhead: {
+      api_key: 'toolhead',
+      downloadUrl: 'https://s3-us-west-1.amazonaws.com/fluxstudio/fluxhead_v[version].bin',
+    },
+  },
+  beambox: {
+    firmware: {
+      api_key: 'beambox-firmware',
+      downloadUrl: 'https://s3-us-west-1.amazonaws.com/fluxstudio/firmware/beambox/beamboxfirmware-[version].fxfw',
+    },
+  },
 };
 
 function checkMachineSeries(model) {
-    switch (model) {
-        case 'fbb2b':
-        case 'fbb1b':
-        case 'fbb1p':
-        case 'fbm1':
-        case 'darwin-dev':
-        case 'laser-b1':
-            return 'beambox';
-        case 'delta-1':
-        case 'delta-1p':
-            return 'delta';
-        default:
-            throw new Error('unknown model name' + model);
-    }
+  switch (model) {
+    case 'fbb2b':
+    case 'fbb1b':
+    case 'fbb1p':
+    case 'fbm1':
+    case 'darwin-dev':
+    case 'laser-b1':
+      return 'beambox';
+    case 'delta-1':
+    case 'delta-1p':
+      return 'delta';
+    default:
+      throw new Error(`unknown model name${model}`);
+  }
 }
 
 /**
  * check firmware update that has to be pass the printer information here
- *
- * @param {JSON}   printer - printer info
  * @param {STRING} type    - checking type with device(pi)/toolhead(toolhead)
  *
  * @return Promise
  */
 
-export default function(printer, type) {
-    const deferred = $.Deferred();
-    // return deferred.reject if network is unavailable.
-    if (!navigator.onLine) {
-        deferred.reject({
-            needUpdate: true
-        });
-        return deferred.promise();
-    }
-
-    const series = checkMachineSeries(printer.model);
-    const info = infoMap[series][type];
-    const request_data = {
-        feature: 'check_update',
-        key: info['api_key']
-    };
-
-    $.ajax({
-        url: 'https://flux3dp.com/api_entry/',
-        data: request_data
-    })
-        .done(function(response) {
-            console.log(response);
-            try {
-                response.needUpdate =  versionCompare(printer.version, response.latest_version );
-                console.log('response.needUpdate: ', response.needUpdate);
-                response.latestVersion = response.latest_version;
-                if (response.changelog_en) {
-                    response.changelog_en = response.changelog_en.replace(/[\r]/g, '<br/>');
-                }
-                if (response.changelog_zh) {
-                    response.changelog_zh = response.changelog_zh.replace(/[\r]/g, '<br/>');
-                }
-                response.downloadUrl = info['downloadUrl'].replace('[version]', response.latest_version);
-                deferred.resolve(response);
-            } catch {
-                deferred.resolve({
-                    needUpdate: false,
-                });
-            }
-        })
-        .fail(function() {
-            deferred.reject({
-                needUpdate: true
-            });
-        });
-
+export default function (device: IDeviceInfo, type: string) {
+  const deferred = $.Deferred();
+  // return deferred.reject if network is unavailable.
+  if (!navigator.onLine) {
+    deferred.reject({
+      needUpdate: true,
+    });
     return deferred.promise();
-};
+  }
+
+  const series = checkMachineSeries(device.model);
+  const info = infoMap[series][type];
+  const requestData = {
+    feature: 'check_update',
+    key: info.api_key,
+  };
+
+  $.ajax({
+    url: 'https://flux3dp.com/api_entry/',
+    data: requestData,
+  })
+    .done((response) => {
+      // eslint-disable-next-line no-console
+      console.log(response);
+      try {
+        response.needUpdate = versionCompare(device.version, response.latest_version);
+        // eslint-disable-next-line no-console
+        console.log('response.needUpdate: ', response.needUpdate);
+        response.latestVersion = response.latest_version;
+        if (response.changelog_en) {
+          response.changelog_en = response.changelog_en.replace(/[\r]/g, '<br/>');
+        }
+        if (response.changelog_zh) {
+          response.changelog_zh = response.changelog_zh.replace(/[\r]/g, '<br/>');
+        }
+        response.downloadUrl = info.downloadUrl.replace('[version]', response.latest_version);
+        deferred.resolve(response);
+      } catch {
+        deferred.resolve({
+          needUpdate: false,
+        });
+      }
+    })
+    .fail(() => {
+      deferred.resolve({
+        needUpdate: false,
+      });
+    });
+
+  return deferred.promise();
+}
