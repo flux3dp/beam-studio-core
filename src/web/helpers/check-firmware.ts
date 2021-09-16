@@ -37,13 +37,6 @@ function checkMachineSeries(model) {
   }
 }
 
-/**
- * check firmware update that has to be pass the printer information here
- * @param {STRING} type    - checking type with device(pi)/toolhead(toolhead)
- *
- * @return Promise
- */
-
 export default async function checkFirmware(
   device: IDeviceInfo,
   type: string,
