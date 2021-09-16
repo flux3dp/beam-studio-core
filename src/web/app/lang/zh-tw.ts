@@ -229,7 +229,7 @@ export default {
     updating: '更新中...',
     skip: '跳過此版本',
     preparing: '準備中...',
-    later: '稍候',
+    later: '稍後',
     download: '線上更新',
     cannot_reach_internet: '#823 伺服器無法連接<br/>請確認網路連線',
     install: '下載',
