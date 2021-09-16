@@ -3182,6 +3182,13 @@ export default $.SvgCanvas = function (container, config) {
       container.addEventListener('mouseenter', mouseEnter);
       container.addEventListener('dblclick', dblClick);
 
+      if (window.FLUX.version === 'web') {
+        const onWindowScroll = (e) => {
+          if (e.ctrlKey) e.preventDefault();
+        };
+        window.addEventListener('wheel', onWindowScroll, { passive: false });
+        window.addEventListener('DOMMouseScroll', onWindowScroll, { passive: false });
+      }
 
       if (svgedit.browser.isSafari()) {
         window.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -3205,6 +3212,7 @@ export default $.SvgCanvas = function (container, config) {
           }
         });
       }
+
       // TODO(rafaelcastrocouto): User preference for shift key and zoom factor
       $(container).bind('wheel DOMMouseScroll', (() => {
         let targetZoom;
