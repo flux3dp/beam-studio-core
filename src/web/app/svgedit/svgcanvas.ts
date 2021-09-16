@@ -40,6 +40,7 @@ import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move'
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import i18n from 'helpers/i18n';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -516,6 +517,11 @@ export default $.SvgCanvas = function (container, config) {
   }
 
   canvasBackground.setupBackground(curConfig.dimensions, () => svgroot, () => svgcontent);
+
+  if (BeamboxPreference.read('show_guides')) {
+    beamboxStore.emitDrawGuideLines();
+  }
+
   // import from select.js
   selector.init(curConfig, {
     createSVGElement: function (jsonMap) {

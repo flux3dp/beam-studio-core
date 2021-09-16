@@ -3,8 +3,6 @@ import classNames from 'classnames';
 
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import BeamboxInit from 'implementations/beamboxInit';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
 import communicator from 'implementations/communicator';
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
@@ -39,11 +37,6 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
 
   componentDidMount(): void {
     BeamboxGlobalInteraction.attach();
-
-    // need to run after svgedit packages loaded, so place it at componentDidMouont
-    if (BeamboxPreference.read('show_guides')) {
-      beamboxStore.emitDrawGuideLines();
-    }
 
     communicator.send('FRONTEND_READY');
     svgEditor.resetView();
