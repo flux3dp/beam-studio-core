@@ -44,6 +44,11 @@ jest.mock('app/actions/beambox/export-funcs', () => ({
   estimateTime: mockEstimateTime,
 }));
 
+const mockToggleUnsavedChangedDialog = jest.fn();
+jest.mock('helpers/file-export-helper', () => ({
+  toggleUnsavedChangedDialog: mockToggleUnsavedChangedDialog,
+}));
+
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
 
 import TimeEstimationButton from './TimeEstimationButton';
