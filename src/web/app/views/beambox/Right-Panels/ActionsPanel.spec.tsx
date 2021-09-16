@@ -13,6 +13,11 @@ jest.mock('implementations/dialog', () => ({
   getFileFromDialog,
 }));
 
+const toggleUnsavedChangedDialog = jest.fn();
+jest.mock('helpers/file-export-helper', () => ({
+  toggleUnsavedChangedDialog,
+}));
+
 const convertTextToPath = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
   convertTextToPath,
