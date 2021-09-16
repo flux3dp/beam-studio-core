@@ -1,6 +1,6 @@
 import { ILang } from 'interfaces/ILang';
 
-export default {
+const lang: ILang = {
   general: {
     wait: '處理中，請稍待',
     choose_folder: '選擇檔案夾',
@@ -209,6 +209,7 @@ export default {
       upload_file: '韌體上傳',
       update_success: '韌體更新上傳成功',
       update_fail: '#822 更新失敗',
+      too_old_for_web: '你的版本為 v%s，欲使用線上版的 Beam Studio 請更新至最新韌體。',
     },
     software: {
       checking: '檢查更新中',
@@ -1273,4 +1274,6 @@ export default {
     },
     tutorial_complete: '介紹完畢，開始創作吧！',
   },
-} as ILang;
+};
+
+export default lang;

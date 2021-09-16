@@ -1,15 +1,19 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { sprintf } from 'sprintf-js';
 
+import alertCaller from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import DeviceMaster from 'helpers/device-master';
 import dialog from 'app/actions/dialog-caller';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
 import keyCodeConstants from 'app/constants/keycode-constants';
+import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
 import Modal from 'app/widgets/Modal';
 import network from 'implementations/network';
 import storage from 'implementations/storage';
+import versionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 let lang = i18n.lang.initialize;
@@ -68,6 +72,17 @@ export default class ConnectMachine extends React.Component<any, State> {
           const device = deviceList[i];
           if (device.ipaddr === machineIp) {
             clearInterval(this.testCountDown);
+            if (window.FLUX.version === 'web' && !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')) {
+              alertCaller.popUp({
+                message: sprintf(i18n.lang.update.firmware.too_old_for_web, device.version),
+                buttonLabels: [i18n.lang.update.download, i18n.lang.update.later],
+                primaryButtonIndex: 0,
+                callbacks: [
+                  () => menuDeviceActions.UPDATE_FIRMWARE(device),
+                  () => { },
+                ],
+              });
+            }
             this.setState({
               isIpValid: true,
               didConnectMachine: true,

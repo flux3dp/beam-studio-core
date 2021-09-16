@@ -207,6 +207,7 @@ export interface ILang {
       upload_file: string,
       update_success: string,
       update_fail: string,
+      too_old_for_web: string,
     },
     software: {
       checking: string,
