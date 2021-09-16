@@ -1929,7 +1929,7 @@ const svgEditor = window['svgEditor'] = (function () {
             ungroup: el_name === 'g',
           });
         }
-        const isRatioFixed = elem.getAttribute('data-ratiofixed') !== 'false';
+        const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true';
         ObjectPanelController.updateDimensionValues({ isRatioFixed });
       } // if (elem != null)
       else if (multiselected) {
