@@ -43,6 +43,7 @@ var isChrome_ = userAgent.indexOf('Chrome/') >= 0;
 var isWindows_ = userAgent.indexOf('Windows') >= 0;
 var isMac_ = userAgent.indexOf('Macintosh') >= 0;
 var isTouch_ = 'ontouchstart' in window;
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 var supportsSelectors_ = (function() {
 	return !!svg.querySelector;
@@ -160,6 +161,7 @@ svgedit.browser.isWebkit = function() { return isWebkit_; };
 svgedit.browser.isGecko = function() { return isGecko_; };
 svgedit.browser.isIE = function() { return isIE_; };
 svgedit.browser.isChrome = function() { return isChrome_; };
+svgedit.browser.isSafari = function() { return isSafari; };
 svgedit.browser.isWindows = function() { return isWindows_; };
 svgedit.browser.isMac = function() { return isMac_; };
 svgedit.browser.isTouch = function() { return isTouch_; };

@@ -3182,8 +3182,30 @@ export default $.SvgCanvas = function (container, config) {
       container.addEventListener('mouseenter', mouseEnter);
       container.addEventListener('dblclick', dblClick);
 
-      // TODO(rafaelcastrocouto): User preference for shift key and zoom factor
 
+      if (svgedit.browser.isSafari()) {
+        window.addEventListener('gesturestart', (e) => e.preventDefault());
+        window.addEventListener('gesturechange', (e) => e.preventDefault());
+        window.addEventListener('gestureend', (e) => e.preventDefault());
+        let startZoom: number;
+        let currentScale = 1;
+        container.addEventListener('gesturestart', (e) => {
+          startZoom = svgCanvas.getZoom();
+          currentScale = e.scale;
+        });
+        container.addEventListener('gesturechange', (e) => {
+          const { clientX, clientY, scale } = e;
+          if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
+            const newZoom = startZoom * (scale ** 0.5);
+            call('zoomed', {
+              zoomLevel: newZoom,
+              staticPoint: { x: clientX, y: clientY },
+            });
+            currentScale = scale;
+          }
+        });
+      }
+      // TODO(rafaelcastrocouto): User preference for shift key and zoom factor
       $(container).bind('wheel DOMMouseScroll', (() => {
         let targetZoom;
         let timer;
