@@ -24,7 +24,7 @@ type BBox = {
 
 let svgFactory;
 let config;
-const gripRadius = svgedit.browser.isTouch() ? 10 : 4;
+const gripRadius = svgedit.browser.isTouch() ? 8 : 4;
 
 const SELECTOR_MAP_RESERVE_SIZE = 5;
 
@@ -90,7 +90,7 @@ class Selector {
       attr: {
         id: `selectedBox_${elem.id}`,
         fill: 'none',
-        stroke: '#22C',
+        stroke: '#0000FF',
         'stroke-width': '1',
         'stroke-dasharray': '5,5',
         // need to specify this so that the rect is not selectable
@@ -138,15 +138,15 @@ class Selector {
 
     this.rotateGripConnector = document.createElementNS(NS.SVG, 'line') as unknown as SVGLineElement;
     this.rotateGripConnector.setAttribute('id', 'selectorGrip_rotateconnector');
-    this.rotateGripConnector.setAttribute('stroke', '#22c');
+    this.rotateGripConnector.setAttribute('stroke', '#0000FF');
     this.rotateGripConnector.setAttribute('stroke-width', '1');
     this.gripsGroup.appendChild(this.rotateGripConnector);
 
     this.rotateGrip = document.createElementNS(NS.SVG, 'circle') as unknown as SVGCircleElement;
     this.rotateGrip.setAttribute('id', 'selectorGrip_rotate');
     this.rotateGrip.setAttribute('r', gripRadius.toString());
-    this.rotateGrip.setAttribute('fill', 'lime');
-    this.rotateGrip.setAttribute('stroke', '#22c');
+    this.rotateGrip.setAttribute('fill', '#12B700');
+    this.rotateGrip.setAttribute('stroke', '#0000FF');
     this.rotateGrip.setAttribute('stroke-width', '2');
     this.rotateGrip.setAttribute('style', `cursor:url(${config.imgPath}rotate.png) 12 12, auto;`);
     this.gripsGroup.appendChild(this.rotateGrip);
@@ -415,9 +415,9 @@ class SelectorManager {
     if (!this.rubberBandBox) {
       this.rubberBandBox = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
       this.rubberBandBox.setAttribute('id', 'selectorRubberBand');
-      this.rubberBandBox.setAttribute('stroke', '#22c');
+      this.rubberBandBox.setAttribute('stroke', '#0000FF');
       this.rubberBandBox.setAttribute('stroke-width', '0.5');
-      this.rubberBandBox.setAttribute('fill', '#22c');
+      this.rubberBandBox.setAttribute('fill', '#0000FF');
       this.rubberBandBox.setAttribute('fill-opacity', '0.15');
       this.rubberBandBox.setAttribute('display', 'none');
       this.rubberBandBox.setAttribute('style', 'pointer-events:none;will-change: transform, x, y, width, height, scroll-position;');

@@ -27,6 +27,9 @@ var uiStrings = {
 	'pathCtrlPtTooltip': 'Drag control point to adjust curve properties'
 };
 
+const GRIP_SIZE = navigator.maxTouchPoints > 0 ? 8 : 5;
+const CONTROL_GRIP_SIZE = navigator.maxTouchPoints > 0 ? 7 : 4;
+
 var segData = {
 	2: ['x', 'y'],
 	4: ['x', 'y'],
@@ -176,7 +179,7 @@ svgedit.path.addDrawingPoint = function(index, x, y, canvasX, canvasY) {
 		svgedit.utilities.assignAttributes(pointGrip, {
 			'id': 'drawingPoint_' + index,
 			'display': 'none',
-			'r': 5,
+			'r': GRIP_SIZE,
 			'fill': '#ffffff',
 			'stroke': '#0091ff',
 			'stroke-width': 1,
@@ -207,7 +210,7 @@ svgedit.path.addDrawingCtrlGrip = function(id) {
 	svgedit.utilities.assignAttributes(pointGrip, {
 		'id': 'drawingCtrlPoint_' + id,
 		'display': 'none',
-		'r': 4,
+		'r': CONTROL_GRIP_SIZE,
 		'fill': '#ffffff',
 		'stroke': '#0091ff',
 		'stroke-width': 1,
@@ -479,7 +482,7 @@ class PathNodePoint {
 			svgedit.utilities.assignAttributes(point, {
 				'id': id,
 				'display': 'block',
-				'r': 5,
+				'r': GRIP_SIZE,
 				'fill': '#ffffff',
 				'stroke': '#0091ff',
 				'stroke-width': 1,
@@ -779,7 +782,7 @@ class SegmentControlPoint {
 			point = document.createElementNS(NS.SVG, 'circle');
 			svgedit.utilities.assignAttributes(point, {
 				'id': 'ctrlpointgrip_' + id,
-				'r': 4,
+				'r': CONTROL_GRIP_SIZE,
 				'fill': '#ffffff',
 				'stroke': '#0091ff',
 				'stroke-width': 1,

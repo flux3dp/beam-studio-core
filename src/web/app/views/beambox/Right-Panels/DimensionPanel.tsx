@@ -175,7 +175,7 @@ class DimensionPanel extends React.Component<Props> {
 
   handleFixRatio = (): void => {
     const { elem, updateDimensionValues } = this.props;
-    const isRatioFixed = elem.getAttribute('data-ratiofixed') !== 'false';
+    const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true';
     elem.setAttribute('data-ratiofixed', String(!isRatioFixed));
     updateDimensionValues({ isRatioFixed: !isRatioFixed });
     this.forceUpdate();

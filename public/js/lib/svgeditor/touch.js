@@ -28,7 +28,7 @@ function touchHandler(event) {'use strict';
 	}
 }
 
-document.addEventListener('touchstart', touchHandler, true);
-document.addEventListener('touchmove', touchHandler, true);
-document.addEventListener('touchend', touchHandler, true);
-document.addEventListener('touchcancel', touchHandler, true);
+// document.addEventListener('touchstart', touchHandler, true);
+// document.addEventListener('touchmove', touchHandler, true);
+// document.addEventListener('touchend', touchHandler, true);
+// document.addEventListener('touchcancel', touchHandler, true);
