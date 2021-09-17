@@ -1598,9 +1598,8 @@ export default $.SvgCanvas = function (container, config) {
       startMouseY = y * current_zoom;
 
       // real_x/y ignores grid-snap value
-      let real_x = x;
-      let real_y = y;
-      console.log(x, y, startMouseX, startMouseY);
+      const realX = x;
+      const realY = y;
 
       if (curConfig.gridSnapping) {
         x = svgedit.utilities.snapToGrid(x);
@@ -1822,10 +1821,10 @@ export default $.SvgCanvas = function (container, config) {
         case 'fhellipse':
         case 'fhrect':
         case 'fhpath':
-          start.x = real_x;
-          start.y = real_y;
+          start.x = realX;
+          start.y = realY;
           started = true;
-          d_attr = real_x + ',' + real_y + ' ';
+          d_attr = realX + ',' + realY + ' ';
           stroke_w = cur_shape.stroke_width == 0 ? 1 : cur_shape.stroke_width;
           addSvgElementFromJson({
             element: 'polyline',
@@ -1839,10 +1838,10 @@ export default $.SvgCanvas = function (container, config) {
               style: 'pointer-events:none'
             }
           });
-          freehand.minx = real_x;
-          freehand.maxx = real_x;
-          freehand.miny = real_y;
-          freehand.maxy = real_y;
+          freehand.minx = realX;
+          freehand.maxx = realX;
+          freehand.miny = realY;
+          freehand.maxy = realY;
           break;
         case 'image':
           started = true;
@@ -2568,11 +2567,11 @@ export default $.SvgCanvas = function (container, config) {
         return;
       }
       const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
-      let { x, y } = pt;
-      const real_x = x;
-      const real_y = y;
-      const mouse_x = x * current_zoom;
-      const mouse_y = y * current_zoom;
+      const { x, y } = pt;
+      const realX = x;
+      const realY = y;
+      const mouseX = x * current_zoom;
+      const mouseY = y * current_zoom;
 
       let element = svgedit.utilities.getElem(getId());
       let keep = false;
@@ -2609,7 +2608,7 @@ export default $.SvgCanvas = function (container, config) {
           };
           current_mode = 'select';
           TopBarController.setStartPreviewCallback(() => {
-            doPreview(start_x, start_y, real_x, real_y);
+            doPreview(start_x, start_y, realX, realY);
           });
           TopBarController.setShouldStartPreviewController(true);
           return;
@@ -2618,7 +2617,7 @@ export default $.SvgCanvas = function (container, config) {
             rubberBox.setAttribute('display', 'none');
             curBBoxes = [];
           };
-          doPreview(start_x, start_y, real_x, real_y);
+          doPreview(start_x, start_y, realX, realY);
           current_mode = 'select';
         // intentionally fall-through to select here
         case 'resize':
@@ -2626,11 +2625,11 @@ export default $.SvgCanvas = function (container, config) {
           if (current_mode === 'multiselect') {
             curBBoxes = [];
             if ((navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os))
-            && Math.hypot(mouse_x - startMouseX, mouse_y - startMouseY) < 1) {
+            && Math.hypot(mouseX - startMouseX, mouseY - startMouseY) < 1) {
               // in touchable mobile, if almost not moved, select mousedown element
               selectedElements = [tempJustSelected];
             } else {
-              let intersectedElements = getIntersectionList().filter((elem) => {
+              const intersectedElements = getIntersectionList().filter((elem) => {
                 const layer = LayerHelper.getObjectLayer(elem);
                 if (!layer) {
                   return false;
@@ -2709,7 +2708,7 @@ export default $.SvgCanvas = function (container, config) {
               mouseSelectModeCmds.push(cmd);
             }
             // if it was being dragged/resized
-            if (mouse_x !== startMouseX || mouse_y !== startMouseY) {
+            if (mouseX !== startMouseX || mouseY !== startMouseY) {
               var i, len = selectedElements.length;
               if (current_mode === 'resize') {
                 const allSelectedUses = [];
@@ -2923,7 +2922,7 @@ export default $.SvgCanvas = function (container, config) {
           $('#x_align_line').remove();
           $('#y_align_line').remove();
 
-          var res = pathActions.mouseUp(evt, element, mouse_x, mouse_y);
+          var res = pathActions.mouseUp(evt, element, mouseX, mouseY);
           element = res.element;
           keep = res.keep;
           break;
@@ -2937,7 +2936,7 @@ export default $.SvgCanvas = function (container, config) {
         case 'textedit':
           keep = false;
           element = null;
-          textActions.mouseUp(evt, mouse_x, mouse_y);
+          textActions.mouseUp(evt, mouseX, mouseY);
           break;
         case 'rotate':
           keep = true;
@@ -2965,8 +2964,8 @@ export default $.SvgCanvas = function (container, config) {
 
       var ext_result = runExtensions('mouseUp', {
         event: evt,
-        mouse_x: mouse_x,
-        mouse_y: mouse_y,
+        mouse_x: mouseX,
+        mouse_y: mouseY,
         isContinuousDrawing
       }, true);
 
