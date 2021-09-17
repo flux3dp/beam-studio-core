@@ -3,33 +3,29 @@ import classNames from 'classnames';
 import Pickr from '@simonwep/pickr';
 
 import i18n from 'helpers/i18n';
-import { getLayerElementByName } from 'helpers/layer-helper';
 import { useEffect } from 'react';
 
 const LANG = i18n.lang.beambox.photo_edit_panel;
 
 interface Props {
-  layerName: string;
+  originalColor: string;
   top: number;
   left: number;
-  onColorChanged: (newColor: string) => void;
+  onNewColor: (newColor: string) => void;
   onClose: () => void;
 }
-
+let pickr;
 const ColorPickerPanel = ({
-  layerName, top, left, onColorChanged, onClose,
+  originalColor, top, left, onNewColor, onClose,
 }: Props): JSX.Element => {
-  const layer = getLayerElementByName(layerName);
   const width = 200;
-  let pickr;
 
   useEffect(() => {
-    const origColor = layer.getAttribute('data-color') || '#333333';
     pickr = Pickr.create({
       el: '.pickr',
       theme: 'monolith',
       inline: true,
-      default: origColor,
+      default: originalColor,
       swatches: [
       ],
       components: {
@@ -45,10 +41,10 @@ const ColorPickerPanel = ({
         },
       },
     });
-  }, []);
+  }, [originalColor]);
 
   const onApply = () => {
-    onColorChanged(pickr.getColor().toHEXA().toString());
+    onNewColor(pickr.getColor().toHEXA().toString());
     onClose();
   };
 
@@ -61,7 +57,7 @@ const ColorPickerPanel = ({
   const renderfooter = () => (
     <div className="footer">
       {renderFooterButton(LANG.cancel, onClose, classNames('btn', 'btn-default', 'pull-right'))}
-      {renderFooterButton(LANG.okay, () => onApply(), classNames('btn', 'btn-default', 'pull-right', 'primary'))}
+      {renderFooterButton(LANG.okay, onApply, classNames('btn', 'btn-default', 'pull-right', 'primary'))}
     </div>
   );
 

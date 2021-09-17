@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 const create = jest.fn();
 jest.mock('@simonwep/pickr', () => ({
   create,
@@ -14,11 +15,6 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-const getLayerElementByName = jest.fn();
-jest.mock('helpers/layer-helper', () => ({
-  getLayerElementByName,
-}));
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
@@ -26,9 +22,6 @@ import toJson from 'enzyme-to-json';
 import ColorPickerPanel from './ColorPickerPanel';
 
 test('should render correctly', () => {
-  document.body.innerHTML = '<div id="layer1" data-color="#000000" />';
-  const element = document.getElementById('layer1');
-  getLayerElementByName.mockReturnValue(element);
   create.mockReturnValue({
     getColor: () => ({
       toHEXA: () => ({
@@ -37,18 +30,16 @@ test('should render correctly', () => {
     }),
   });
 
-  const onColorChanged = jest.fn();
+  const onNewColor = jest.fn();
   const onClose = jest.fn();
   const wrapper = mount(<ColorPickerPanel
-    layerName="layer 1"
+    originalColor="#000000"
     top={100}
     left={300}
-    onColorChanged={onColorChanged}
+    onNewColor={onNewColor}
     onClose={onClose}
   />);
   expect(toJson(wrapper)).toMatchSnapshot();
-  expect(getLayerElementByName).toHaveBeenCalledTimes(1);
-  expect(getLayerElementByName).toHaveBeenNthCalledWith(1, 'layer 1');
   expect(create).toHaveBeenCalledTimes(1);
   expect(create).toHaveBeenNthCalledWith(1, {
     el: '.pickr',
@@ -70,8 +61,8 @@ test('should render correctly', () => {
   });
 
   wrapper.find('button').at(1).simulate('click');
-  expect(onColorChanged).toHaveBeenCalledTimes(1);
-  expect(onColorChanged).toHaveBeenNthCalledWith(1, '#FFFFFF');
+  expect(onNewColor).toHaveBeenCalledTimes(1);
+  expect(onNewColor).toHaveBeenNthCalledWith(1, '#FFFFFF');
   expect(onClose).toHaveBeenCalledTimes(1);
 
   wrapper.find('button').at(0).simulate('click');

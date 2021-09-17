@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import ConfirmPrompt from 'app/views/dialogs/ConfirmPrompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
@@ -75,6 +76,22 @@ export default {
     addDialogComponent('about-bs',
       <AboutBeamStudio
         onClose={() => popDialogById('about-bs')}
+      />);
+  },
+  showColorPicker: (
+    originalColor: string,
+    left: number,
+    top: number,
+    onNewColor: (color: string) => void,
+  ): void => {
+    if (isIdExist('color-picker')) return;
+    addDialogComponent('color-picker',
+      <ColorPickerPanel
+        originalColor={originalColor}
+        left={left}
+        top={top}
+        onNewColor={onNewColor}
+        onClose={() => popDialogById('color-picker')}
       />);
   },
   showDocumentSettings: (): void => {
