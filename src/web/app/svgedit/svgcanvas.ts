@@ -1824,7 +1824,7 @@ export default $.SvgCanvas = function (container, config) {
           start.x = realX;
           start.y = realY;
           started = true;
-          d_attr = realX + ',' + realY + ' ';
+          d_attr = `${realX},${realY} `;
           stroke_w = cur_shape.stroke_width == 0 ? 1 : cur_shape.stroke_width;
           addSvgElementFromJson({
             element: 'polyline',
@@ -2962,14 +2962,14 @@ export default $.SvgCanvas = function (container, config) {
         svgEditor.updateContextPanel();
       }
 
-      var ext_result = runExtensions('mouseUp', {
+      const extResult = runExtensions('mouseUp', {
         event: evt,
         mouse_x: mouseX,
         mouse_y: mouseY,
         isContinuousDrawing
       }, true);
 
-      $.each(ext_result, function (i, r: any) {
+      $.each(extResult, function (i, r: any) {
         if (r) {
           keep = r.keep || keep;
           element = r.element;
