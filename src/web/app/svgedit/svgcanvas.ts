@@ -1370,7 +1370,8 @@ export default $.SvgCanvas = function (container, config) {
 
       const originalStrokeWidth = elem.getAttribute('stroke-width');
       const originalVectorEffect = elem.getAttribute('vector-effect');
-      elem.setAttribute('stroke-width', 20 / current_zoom);
+      const sensorRadius = svgedit.browser.isTouch() ? 25 : 20;
+      elem.setAttribute('stroke-width', sensorRadius / current_zoom);
       elem.removeAttribute('vector-effect');
       if (elem.isPointInStroke(clickPoint)) {
         mouseTarget = elem;
@@ -1463,8 +1464,8 @@ export default $.SvgCanvas = function (container, config) {
     var d_attr = null,
       start_x = null,
       start_y = null,
-      r_start_x = null,
-      r_start_y = null,
+      startMouseX = null,
+      startMouseY = null,
       init_bbox = {},
       selectedBBox = null,
       freehand = {
@@ -1502,6 +1503,20 @@ export default $.SvgCanvas = function (container, config) {
       },
       THRESHOLD_DIST = 0.8,
       STEP_COUNT = 10;
+
+    const setRubberBoxStart = () => {
+      if (rubberBox == null) {
+        rubberBox = selectorManager.getRubberBandBox();
+      }
+
+      svgedit.utilities.assignAttributes(rubberBox, {
+        x: startMouseX,
+        y: startMouseY,
+        width: 0,
+        height: 0,
+        display: 'inline',
+      }, 100);
+    };
 
     var getBsplinePoint = function (t) {
       var spline = {
@@ -1576,9 +1591,25 @@ export default $.SvgCanvas = function (container, config) {
 
       root_sctm = ($('#svgcontent')[0] as any).getScreenCTM().inverse();
 
-      var pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm),
-        mouse_x = pt.x * current_zoom,
-        mouse_y = pt.y * current_zoom;
+      const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
+      let { x, y } = pt;
+
+      startMouseX = x * current_zoom;
+      startMouseY = y * current_zoom;
+
+      // real_x/y ignores grid-snap value
+      let real_x = x;
+      let real_y = y;
+      console.log(x, y, startMouseX, startMouseY);
+
+      if (curConfig.gridSnapping) {
+        x = svgedit.utilities.snapToGrid(x);
+        y = svgedit.utilities.snapToGrid(y);
+      }
+
+      start_x = x;
+      start_y = y;
+
       var ext_result = null;
 
       evt.preventDefault();
@@ -1602,26 +1633,11 @@ export default $.SvgCanvas = function (container, config) {
       //		if (['select', 'resize'].indexOf(current_mode) == -1) {
       //			setGradient();
       //		}
-      var x = mouse_x / current_zoom;
-      let y = mouse_y / current_zoom;
 
       let mouseTarget = getMouseTarget(evt);
 
       if (mouseTarget.tagName === 'a' && mouseTarget.childNodes.length === 1) {
         mouseTarget = mouseTarget.firstChild;
-      }
-
-      // real_x/y ignores grid-snap value
-      var real_x = x;
-      r_start_x = start_x = x;
-      var real_y = y;
-      r_start_y = start_y = y;
-
-      if (curConfig.gridSnapping) {
-        x = svgedit.utilities.snapToGrid(x);
-        y = svgedit.utilities.snapToGrid(y);
-        start_x = svgedit.utilities.snapToGrid(start_x);
-        start_y = svgedit.utilities.snapToGrid(start_y);
       }
 
       if (mouseTarget === selectorManager.selectorParentGroup && selectedElements[0] != null) {
@@ -1672,22 +1688,6 @@ export default $.SvgCanvas = function (container, config) {
             }
           }
 
-          const setRubberBoxStart = () => {
-            if (rubberBox == null) {
-              rubberBox = selectorManager.getRubberBandBox();
-            }
-            r_start_x *= current_zoom;
-            r_start_y *= current_zoom;
-
-            svgedit.utilities.assignAttributes(rubberBox, {
-              'x': r_start_x,
-              'y': r_start_y,
-              'width': 0,
-              'height': 0,
-              'display': 'inline'
-            }, 100);
-          };
-
           if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
             // preview mode
             clearSelection();
@@ -1701,35 +1701,38 @@ export default $.SvgCanvas = function (container, config) {
           } else {
             const mouseTargetObjectLayer = LayerHelper.getObjectLayer(mouseTarget);
             const isElemTempGroup = mouseTarget.getAttribute('data-tempgroup') === 'true';
-            let layerSelectable = false;
-            if (mouseTargetObjectLayer &&
-              mouseTargetObjectLayer.elem &&
-              mouseTargetObjectLayer.elem.getAttribute('display') !== 'none' &&
-              !mouseTargetObjectLayer.elem.getAttribute('data-lock')) {
-              layerSelectable = true;
-            }
+            const layerSelectable = (mouseTargetObjectLayer
+              && mouseTargetObjectLayer.elem
+              && mouseTargetObjectLayer.elem.getAttribute('display') !== 'none'
+              && !mouseTargetObjectLayer.elem.getAttribute('data-lock'));
             if (mouseTarget !== svgroot && (isElemTempGroup || layerSelectable)) {
               // Mouse down on element
               if (!selectedElements.includes(mouseTarget)) {
                 if (!evt.shiftKey) {
                   clearSelection(true);
                 }
-                addToSelection([mouseTarget]);
-                if (selectedElements.length > 1) {
-                  canvas.tempGroupSelectedElements();
+                if (navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os)) {
+                  // in touchable mobiles, allow multiselect if click on non selected element
+                  // if user doesn't multiselect, select [justSelected] in mouseup
+                  current_mode = 'multiselect';
+                  setRubberBoxStart();
+                } else {
+                  addToSelection([mouseTarget]);
+                  if (selectedElements.length > 1) {
+                    canvas.tempGroupSelectedElements();
+                  }
                 }
                 justSelected = mouseTarget;
                 pathActions.clear();
-              } else {
-                if (evt.shiftKey) {
-                  if (mouseTarget === tempGroup) {
-                    const elemToRemove = getMouseTarget(evt, false);
-                    canvas.removeFromTempGroup(elemToRemove);
-                  } else {
-                    clearSelection();
-                  }
+              } else if (evt.shiftKey) {
+                if (mouseTarget === tempGroup) {
+                  const elemToRemove = getMouseTarget(evt, false);
+                  canvas.removeFromTempGroup(elemToRemove);
+                } else {
+                  clearSelection();
                 }
               }
+
               if (!right_click) {
                 if (evt.altKey) {
                   const cmd = clipboard.cloneSelectedElements(0, 0, true);
@@ -1761,16 +1764,7 @@ export default $.SvgCanvas = function (container, config) {
           break;
         case 'zoom':
           started = true;
-          if (rubberBox == null) {
-            rubberBox = selectorManager.getRubberBandBox();
-          }
-          svgedit.utilities.assignAttributes(rubberBox, {
-            'x': real_x * current_zoom,
-            'y': real_x * current_zoom,
-            'width': 0,
-            'height': 0,
-            'display': 'inline'
-          }, 100);
+          setRubberBoxStart();
           break;
         case 'resize':
           started = true;
@@ -1975,6 +1969,7 @@ export default $.SvgCanvas = function (container, config) {
               'font-family': usePostscriptAsFamily ? `'${curText.font_postscriptName}'` : `'${curText.font_family}'`,
               'font-postscript': curText.font_postscriptName,
               'text-anchor': curText.text_anchor,
+              'data-ratiofixed': true,
               'xml:space': 'preserve',
               opacity: cur_shape.opacity
             }
@@ -1994,7 +1989,7 @@ export default $.SvgCanvas = function (container, config) {
           start_x *= current_zoom;
           start_y *= current_zoom;
           if (canvas.isBezierPathAlignToEdge) {
-            const { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
+            const { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(startMouseX, startMouseY);
             start_x = xMatchPoint ? xMatchPoint.x * current_zoom : start_x;
             start_y = yMatchPoint ? yMatchPoint.y * current_zoom : start_y;
           }
@@ -2097,6 +2092,15 @@ export default $.SvgCanvas = function (container, config) {
         y = svgedit.utilities.snapToGrid(y);
       }
 
+      const updateRubberBox = () => {
+        svgedit.utilities.assignAttributes(rubberBox, {
+          x: Math.min(startMouseX, mouse_x),
+          y: Math.min(startMouseY, mouse_y),
+          width: Math.abs(mouse_x - startMouseX),
+          height: Math.abs(mouse_y - startMouseY),
+        }, 100);
+      };
+
       evt.preventDefault();
       var tlist;
       switch (current_mode) {
@@ -2178,24 +2182,11 @@ export default $.SvgCanvas = function (container, config) {
           break;
         case 'pre_preview':
         case 'preview':
-          real_x *= current_zoom;
-          real_y *= current_zoom;
-          svgedit.utilities.assignAttributes(rubberBox, {
-            'x': Math.min(r_start_x, real_x),
-            'y': Math.min(r_start_y, real_y),
-            'width': Math.abs(real_x - r_start_x),
-            'height': Math.abs(real_y - r_start_y)
-          }, 100);
+        case 'zoom':
+          updateRubberBox();
           break;
         case 'multiselect':
-          real_x *= current_zoom;
-          real_y *= current_zoom;
-          svgedit.utilities.assignAttributes(rubberBox, {
-            'x': Math.min(r_start_x, real_x),
-            'y': Math.min(r_start_y, real_y),
-            'width': Math.abs(real_x - r_start_x),
-            'height': Math.abs(real_y - r_start_y)
-          }, 100);
+          updateRubberBox();
 
           // Stop adding elements to selection when mouse moving
           // Select all intersected elements when mouse up
@@ -2343,16 +2334,6 @@ export default $.SvgCanvas = function (container, config) {
             textActions.init();
           }
           break;
-        case 'zoom':
-          real_x *= current_zoom;
-          real_y *= current_zoom;
-          svgedit.utilities.assignAttributes(rubberBox, {
-            'x': Math.min(r_start_x * current_zoom, real_x),
-            'y': Math.min(r_start_y * current_zoom, real_y),
-            'width': Math.abs(real_x - r_start_x * current_zoom),
-            'height': Math.abs(real_y - r_start_y * current_zoom)
-          }, 100);
-          break;
         case 'text':
           svgedit.utilities.assignAttributes(shape, {
             'x': x,
@@ -2489,8 +2470,6 @@ export default $.SvgCanvas = function (container, config) {
           if (curConfig.gridSnapping) {
             x = svgedit.utilities.snapToGrid(x);
             y = svgedit.utilities.snapToGrid(y);
-            start_x = svgedit.utilities.snapToGrid(start_x);
-            start_y = svgedit.utilities.snapToGrid(start_y);
           }
           if (evt.shiftKey) {
             var path = svgedit.path.path;
@@ -2508,14 +2487,7 @@ export default $.SvgCanvas = function (container, config) {
           }
 
           if (rubberBox && rubberBox.getAttribute('display') !== 'none') {
-            real_x *= current_zoom;
-            real_y *= current_zoom;
-            svgedit.utilities.assignAttributes(rubberBox, {
-              'x': Math.min(r_start_x * current_zoom, real_x),
-              'y': Math.min(r_start_y * current_zoom, real_y),
-              'width': Math.abs(real_x - r_start_x * current_zoom),
-              'height': Math.abs(real_y - r_start_y * current_zoom)
-            }, 100);
+            updateRubberBox();
           }
           if (canvas.isBezierPathAlignToEdge) {
             const { xMatchPoint, yMatchPoint } = canvas.findMatchPoint(mouse_x, mouse_y);
@@ -2527,8 +2499,6 @@ export default $.SvgCanvas = function (container, config) {
 
           break;
         case 'textedit':
-          x *= current_zoom;
-          y *= current_zoom;
           //					if (rubberBox && rubberBox.getAttribute('display') !== 'none') {
           //						svgedit.utilities.assignAttributes(rubberBox, {
           //							'x': Math.min(start_x,x),
@@ -2592,21 +2562,21 @@ export default $.SvgCanvas = function (container, config) {
       if (blocked) {
         started = false;
       }
-      var tempJustSelected = justSelected;
+      const tempJustSelected = justSelected;
       justSelected = null;
       if (!started) {
         return;
       }
-      var pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm),
-        mouse_x = pt.x * current_zoom,
-        mouse_y = pt.y * current_zoom,
-        x = mouse_x / current_zoom,
-        y = mouse_y / current_zoom,
-        element = svgedit.utilities.getElem(getId()),
-        keep = false;
+      const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
+      let { x, y } = pt;
+      const real_x = x;
+      const real_y = y;
+      const mouse_x = x * current_zoom;
+      const mouse_y = y * current_zoom;
 
-      var real_x = x;
-      var real_y = y;
+      let element = svgedit.utilities.getElem(getId());
+      let keep = false;
+
 
       // TODO: Make true when in multi-unit mode
       var useUnit = false; // (curConfig.baseUnit !== 'px');
@@ -2655,19 +2625,24 @@ export default $.SvgCanvas = function (container, config) {
         case 'multiselect':
           if (current_mode === 'multiselect') {
             curBBoxes = [];
-            let intersectedElements = getIntersectionList();
-            intersectedElements = intersectedElements.filter((elem) => {
-              const layer = LayerHelper.getObjectLayer(elem);
-              if (!layer) {
-                return false;
-              }
-              const layerElem = layer.elem;
-              if (layerElem.getAttribute('data-lock') || layerElem.getAttribute('display') === 'none') {
-                return false;
-              }
-              return true;
-            });
-            selectedElements = intersectedElements;
+            if ((navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os))
+            && Math.hypot(mouse_x - startMouseX, mouse_y - startMouseY) < 1) {
+              // in touchable mobile, if almost not moved, select mousedown element
+              selectedElements = [tempJustSelected];
+            } else {
+              let intersectedElements = getIntersectionList().filter((elem) => {
+                const layer = LayerHelper.getObjectLayer(elem);
+                if (!layer) {
+                  return false;
+                }
+                const layerElem = layer.elem;
+                if (layerElem.getAttribute('data-lock') || layerElem.getAttribute('display') === 'none') {
+                  return false;
+                }
+                return true;
+              });
+              selectedElements = intersectedElements;
+            }
             call('selected', selectedElements);
           }
           if (rubberBox != null) {
@@ -2734,7 +2709,7 @@ export default $.SvgCanvas = function (container, config) {
               mouseSelectModeCmds.push(cmd);
             }
             // if it was being dragged/resized
-            if (real_x !== r_start_x || real_y !== r_start_y) {
+            if (mouse_x !== startMouseX || mouse_y !== startMouseY) {
               var i, len = selectedElements.length;
               if (current_mode === 'resize') {
                 const allSelectedUses = [];
@@ -3161,6 +3136,9 @@ export default $.SvgCanvas = function (container, config) {
     container.addEventListener('click', handleLinkInCanvas);
     // iPad or other pads
     if (navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os)) {
+      window.addEventListener('gesturestart', (e) => e.preventDefault());
+      window.addEventListener('gesturechange', (e) => e.preventDefault());
+      window.addEventListener('gestureend', (e) => e.preventDefault());
       const workarea = document.getElementById('workarea');
       touchEvents.setupCanvasTouchEvents(
         container,
