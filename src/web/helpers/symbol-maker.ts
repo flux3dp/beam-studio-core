@@ -298,7 +298,22 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
     imgCanvas.height = img.height;
     const ctx = imgCanvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(img, 0, 0, img.width, img.height);
+    if (svgedit.browser.isSafari()) {
+      ctx.drawImage(
+        img,
+        -parseInt(strokeWidth, 10),
+        -parseInt(strokeWidth, 10),
+        width + parseInt(strokeWidth, 10),
+        height + parseInt(strokeWidth, 10),
+        0,
+        0,
+        img.width,
+        img.height,
+      );
+      img.remove();
+    } else {
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+    }
     const outCanvas = document.createElement('canvas');
     outCanvas.width = Math.max(1, width);
     outCanvas.height = Math.max(1, height);
@@ -306,6 +321,18 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
     outCtx.imageSmoothingEnabled = false;
     outCtx.filter = 'brightness(0%)';
     outCtx.drawImage(imgCanvas, 0, 0, outCanvas.width, outCanvas.height);
+    if (svgedit.browser.isSafari()) {
+      const imageData = outCtx.getImageData(0, 0, outCanvas.width, outCanvas.height);
+      const d = imageData.data;
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i + 3] !== 0) {
+          d[i] = 0; // red
+          d[i + 1] = 0; // green
+          d[i + 2] = 0; // blue
+        }
+      }
+      outCtx.putImageData(imageData, 0, 0);
+    }
     const imageBase64 = outCanvas.toDataURL('image/png');
     const res = await fetch(imageBase64);
     const imageBlob = await res.blob();
@@ -313,6 +340,9 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
     resolve(imageUrl);
   };
   img.src = svgUrl;
+  if (svgedit.browser.isSafari()) {
+    document.body.appendChild(img);
+  }
 });
 
 const svgToImgUrlByShadowWindow = async (data) => new Promise<string>((resolve) => {
@@ -324,9 +354,10 @@ const svgToImgUrlByShadowWindow = async (data) => new Promise<string>((resolve) 
 
 const calculateImageRatio = (bb) => {
   const zoomRatio = Math.max(1, svgCanvas.getZoom());
-  const widthRatio = Math.min(4096, $(window).width() * zoomRatio) / bb.width;
-  const heightRatio = Math.min(4096, $(window).height() * zoomRatio) / bb.height;
-  const imageRatio = (2 * Math.ceil(10000 * Math.min(widthRatio, heightRatio))) / 10000;
+  const widthRatio = Math.min(4096, window.innerWidth * zoomRatio) / bb.width;
+  const heightRatio = Math.min(4096, window.innerHeight * zoomRatio) / bb.height;
+  let imageRatio = (Math.ceil(10000 * Math.min(widthRatio, heightRatio))) / 10000;
+  imageRatio *= svgedit.browser.isSafari() ? 0.95 : 2;
   return imageRatio;
 };
 
@@ -337,39 +368,49 @@ const makeImageSymbol = async (
   const svgdoc = document.getElementById('svgcanvas').ownerDocument;
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<SVGSymbolElement>(async (resolve) => {
-    const tempSvg = svgdoc.createElementNS(NS.SVG, 'svg');
-    const tempUse = svgdoc.createElementNS(NS.SVG, 'use');
-    const tempSymbol = symbol.cloneNode(true) as SVGSymbolElement;
-    tempSvg.appendChild(tempSymbol);
-    tempSvg.appendChild(tempUse);
-    svgedit.utilities.setHref(tempUse, `#${symbol.id}`);
-    const bbText = symbol.getAttribute('data-bbox');
-    let bb: { height: number, width: number, x: number, y: number };
-    if (!bbText) {
-      // Unable to getBBox if <use> not mounted
-      const useElemForBB = svgedit.utilities.findTempUse();
-      svgedit.utilities.setHref(useElemForBB, `#${symbol.id}`);
-      bb = useElemForBB.getBBox();
-      svgedit.utilities.setHref(useElemForBB, '');
-      bb.height = Math.max(1, bb.height);
-      bb.width = Math.max(1, bb.width);
-      const obj = {
-        x: parseFloat(bb.x.toFixed(5)),
-        y: parseFloat(bb.y.toFixed(5)),
-        width: parseFloat(bb.width.toFixed(5)),
-        height: parseFloat(bb.height.toFixed(5)),
-      };
-      symbol.setAttribute('data-bbox', JSON.stringify(obj));
-    } else {
-      bb = JSON.parse(bbText);
-    }
-    const bbObject = {
-      x: bb.x, y: bb.y, width: bb.width, height: bb.height,
+    const generateTempSvg = () => {
+      const tempSvg = svgdoc.createElementNS(NS.SVG, 'svg');
+      const tempUse = svgdoc.createElementNS(NS.SVG, 'use');
+      const tempSymbol = symbol.cloneNode(true) as SVGSymbolElement;
+      tempSvg.appendChild(tempSymbol);
+      tempSvg.appendChild(tempUse);
+      svgedit.utilities.setHref(tempUse, `#${symbol.id}`);
+      return { tempSvg, tempSymbol, tempUse };
     };
+
+    const calculateSVGBBox = () => {
+      const bbText = symbol.getAttribute('data-bbox');
+      let bb: { height: number, width: number, x: number, y: number };
+      if (!bbText) {
+        // Unable to getBBox if <use> not mounted
+        const useElemForBB = svgedit.utilities.findTempUse();
+        svgedit.utilities.setHref(useElemForBB, `#${symbol.id}`);
+        bb = useElemForBB.getBBox();
+        svgedit.utilities.setHref(useElemForBB, '');
+        bb.height = Math.max(1, bb.height);
+        bb.width = Math.max(1, bb.width);
+        const obj = {
+          x: parseFloat(bb.x.toFixed(5)),
+          y: parseFloat(bb.y.toFixed(5)),
+          width: parseFloat(bb.width.toFixed(5)),
+          height: parseFloat(bb.height.toFixed(5)),
+        };
+        symbol.setAttribute('data-bbox', JSON.stringify(obj));
+      } else {
+        bb = JSON.parse(bbText);
+      }
+      const bbObject = {
+        x: bb.x, y: bb.y, width: bb.width, height: bb.height,
+      };
+      return bbObject;
+    };
+
+    const { tempSvg, tempSymbol, tempUse } = generateTempSvg();
+    const bb = calculateSVGBBox();
     const imageRatio = calculateImageRatio(bb);
     const strokeWidth = getStrokeWidth(imageRatio, scale);
-    tempSymbol.setAttribute('x', `${-bbObject.x}`);
-    tempSymbol.setAttribute('y', `${-bbObject.y}`);
+    tempSymbol.setAttribute('x', `${-bb.x}`);
+    tempSymbol.setAttribute('y', `${-bb.y}`);
     const descendants = Array.from(tempSymbol.querySelectorAll('*'));
     descendants.forEach((d) => {
       d.setAttribute('stroke-width', `${strokeWidth}px`);
@@ -390,7 +431,7 @@ const makeImageSymbol = async (
     const imgHeight = Math.max(bb.height * imageRatio, 1);
     const id = getRequestID();
     const param = {
-      id, svgUrl, imgWidth, imgHeight, bb: bbObject, imageRatio, strokeWidth,
+      id, svgUrl, imgWidth, imgHeight, bb, imageRatio, strokeWidth,
     };
     const imageUrl = window.FLUX.version === 'web' ? await svgToImgUrl(param) : await svgToImgUrlByShadowWindow(param);
     URL.revokeObjectURL(svgUrl);
