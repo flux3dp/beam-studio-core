@@ -5620,7 +5620,6 @@ const svgEditor = window['svgEditor'] = (function () {
       editor.importLaserConfig = importLaserConfig;
 
       var importImage = function (e) {
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
         e.stopPropagation();
         e.preventDefault();
         $('#workarea').removeAttr('style');
@@ -5632,7 +5631,6 @@ const svgEditor = window['svgEditor'] = (function () {
         }
         const file = (e.type === 'drop') ? e.dataTransfer.files[0] : this.files[0];
         if (!file) {
-          Progress.popById('loading_image');
           return;
         }
         handleFile(file);
@@ -5655,6 +5653,7 @@ const svgEditor = window['svgEditor'] = (function () {
       };
 
       const handleFile = async (file) => {
+        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
         svgCanvas.clearSelection();
         const fileType = (function () {
           if (file.name.toLowerCase().endsWith('.beam')) {
