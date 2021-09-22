@@ -42,6 +42,7 @@ describe('test textPathEdit', () => {
 
   afterAll(() => {
     wrapper?.detach();
+    jest.useRealTimers();
   });
 
   beforeEach(() => {
@@ -49,6 +50,7 @@ describe('test textPathEdit', () => {
   });
 
   test('test one finger touchEvents', () => {
+    jest.useFakeTimers();
     const container = document.getElementById('svgcanvas');
 
     const onePointTouchStart = new TouchEvent('touchstart', {
@@ -61,6 +63,8 @@ describe('test textPathEdit', () => {
       ],
     });
     container.dispatchEvent(onePointTouchStart);
+    expect(mouseDown).not.toBeCalled();
+    jest.runOnlyPendingTimers();
     expect(mouseDown).toHaveBeenNthCalledWith(1, onePointTouchStart);
 
     const onePointTouchMove = new TouchEvent('touchmove', {
@@ -85,6 +89,8 @@ describe('test textPathEdit', () => {
       ],
     });
     container.dispatchEvent(onePointTouchEnd);
+    expect(mouseUp).not.toBeCalled();
+    jest.runOnlyPendingTimers();
     expect(mouseUp).toHaveBeenNthCalledWith(1, onePointTouchEnd, false);
 
     expect(toJson(wrapper)).toMatchSnapshot();
@@ -92,6 +98,20 @@ describe('test textPathEdit', () => {
 
   test('test two finger touch', () => {
     const container = document.getElementById('svgcanvas');
+
+    const firstPointTouchStart = new TouchEvent('touchstart', {
+      touches: [
+        {
+          identifier: 0,
+          pageX: 10,
+          pageY: 10,
+        } as Touch,
+      ],
+      // @ts-expect-error scale is defined in chrome & safari
+      scale: 1,
+    });
+    container.dispatchEvent(firstPointTouchStart);
+    expect(mouseDown).not.toBeCalled();
 
     const twoPointTouchStart = new TouchEvent('touchstart', {
       touches: [
