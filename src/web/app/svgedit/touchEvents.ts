@@ -13,6 +13,8 @@ const calculateTouchCenter = (touches: TouchList) => {
   return center;
 };
 
+const TOUCH_START_DELAY = 100; // ms
+
 const setupCanvasTouchEvents = (
   container: Element,
   workarea: Element,
@@ -23,6 +25,9 @@ const setupCanvasTouchEvents = (
   getZoom: () => number,
   setZoom: (zoom: number, staticPoint: { x: number, y: number }) => void,
 ): void => {
+  let touchStartTimeout: NodeJS.Timeout;
+  let touchEndTimeout: NodeJS.Timeout;
+  let touchStartTimestamp: number;
   let firstTouchID = null;
   let panStartPosition = null;
   let panStartScroll = { left: 0, top: 0 };
@@ -33,9 +38,12 @@ const setupCanvasTouchEvents = (
   const mc = new Hammer.Manager(container as HTMLElement);
 
   container.addEventListener('touchstart', (e: TouchEvent) => {
+    clearTimeout(touchStartTimeout);
+    clearTimeout(touchEndTimeout);
     if (e.touches.length === 1) {
       firstTouchID = e.touches[0].identifier;
-      onMouseDown(e);
+      touchStartTimestamp = Date.now();
+      touchStartTimeout = setTimeout(() => onMouseDown(e), TOUCH_START_DELAY);
     } else if (e.touches.length >= 2) {
       panStartPosition = calculateTouchCenter(e.touches);
       panStartScroll = {
@@ -53,7 +61,8 @@ const setupCanvasTouchEvents = (
   container.addEventListener('touchmove', (e: TouchEvent) => {
     e.preventDefault();
     if (e.touches.length === 1) {
-      if (e.touches[0].identifier === firstTouchID) {
+      if (e.touches[0].identifier === firstTouchID
+        && Date.now() > touchStartTimestamp + TOUCH_START_DELAY) {
         onMouseMove(e);
       }
     } else if (e.touches.length >= 2) {
@@ -85,7 +94,13 @@ const setupCanvasTouchEvents = (
     for (let i = 0; i < e.changedTouches.length; i += 1) {
       if (e.changedTouches[i].identifier === firstTouchID) {
         firstTouchID = null;
-        onMouseUp(e, isDoubleTap);
+        if (Date.now() > touchStartTimestamp + TOUCH_START_DELAY) {
+          onMouseUp(e, isDoubleTap);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-loop-func
+          touchEndTimeout = setTimeout(() => onMouseUp(e, isDoubleTap),
+            touchStartTimestamp + TOUCH_START_DELAY + 1 - Date.now());
+        }
         isDoubleTap = false;
       }
     }
