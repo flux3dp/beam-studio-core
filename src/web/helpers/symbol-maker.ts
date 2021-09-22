@@ -322,13 +322,14 @@ const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
     outCtx.filter = 'brightness(0%)';
     outCtx.drawImage(imgCanvas, 0, 0, outCanvas.width, outCanvas.height);
     if (svgedit.browser.isSafari()) {
+      // canvas context does not work in safari
       const imageData = outCtx.getImageData(0, 0, outCanvas.width, outCanvas.height);
       const d = imageData.data;
       for (let i = 0; i < d.length; i += 4) {
         if (d[i + 3] !== 0) {
-          d[i] = 0; // red
-          d[i + 1] = 0; // green
-          d[i + 2] = 0; // blue
+          d[i] = 0;
+          d[i + 1] = 0;
+          d[i + 2] = 0;
         }
       }
       outCtx.putImageData(imageData, 0, 0);
