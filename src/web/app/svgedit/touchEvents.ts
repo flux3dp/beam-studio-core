@@ -43,10 +43,7 @@ const setupCanvasTouchEvents = (
     if (e.touches.length === 1) {
       firstTouchID = e.touches[0].identifier;
       touchStartTimestamp = Date.now();
-      touchStartTimeout = setTimeout(() => {
-        onMouseDown(e);
-      }, TOUCH_START_DELAY);
-      // onMouseDown(e);
+      touchStartTimeout = setTimeout(() => onMouseDown(e), TOUCH_START_DELAY);
     } else if (e.touches.length >= 2) {
       panStartPosition = calculateTouchCenter(e.touches);
       panStartScroll = {
@@ -64,10 +61,9 @@ const setupCanvasTouchEvents = (
   container.addEventListener('touchmove', (e: TouchEvent) => {
     e.preventDefault();
     if (e.touches.length === 1) {
-      if (e.touches[0].identifier === firstTouchID) {
-        if (Date.now() > touchStartTimestamp + TOUCH_START_DELAY) {
-          onMouseMove(e);
-        }
+      if (e.touches[0].identifier === firstTouchID
+        && Date.now() > touchStartTimestamp + TOUCH_START_DELAY) {
+        onMouseMove(e);
       }
     } else if (e.touches.length >= 2) {
       const center = calculateTouchCenter(e.touches);
@@ -102,9 +98,8 @@ const setupCanvasTouchEvents = (
           onMouseUp(e, isDoubleTap);
         } else {
           // eslint-disable-next-line @typescript-eslint/no-loop-func
-          touchEndTimeout = setTimeout(() => {
-            onMouseUp(e, isDoubleTap);
-          }, touchStartTimestamp + TOUCH_START_DELAY + 1 - Date.now());
+          touchEndTimeout = setTimeout(() => onMouseUp(e, isDoubleTap),
+            touchStartTimestamp + TOUCH_START_DELAY + 1 - Date.now());
         }
         isDoubleTap = false;
       }
