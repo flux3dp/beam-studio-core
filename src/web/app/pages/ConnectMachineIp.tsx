@@ -290,7 +290,8 @@ export default class ConnectMachine extends React.Component<any, State> {
   };
 
   private startTesting = async () => {
-    const ip = this.isUsb ? '10.55.0.1' : this.ipInput.current.value;
+    const usbConnectionIp = window.os === 'Windows' ? '10.55.0.17' : '10.55.0.1';
+    const ip = this.isUsb ? usbConnectionIp : this.ipInput.current.value;
     this.setState({
       ipFormapTestState: TestState.UNKNOWN,
       connectionTestState: TestState.UNKNOWN,
