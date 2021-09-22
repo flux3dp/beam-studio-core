@@ -2012,7 +2012,7 @@ const svgEditor = window['svgEditor'] = (function () {
         selectedElement: selectedElement,
         multiselected: multiselected
       });
-      if (elems.length === 1 && elems[0].tagName === 'polygon') {
+      if (elems.length === 1 && elems[0]?.tagName === 'polygon') {
         ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
       }
     };

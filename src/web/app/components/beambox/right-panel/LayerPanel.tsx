@@ -36,9 +36,6 @@ interface Props {
 
 interface State {
   id?:string,
-  colorPanelLayer: string;
-  colorPanelLeft: number;
-  colorPanelTop: number;
   draggingDestIndex?: number;
   draggingLayer?: string;
   disableScroll? : boolean;
@@ -60,9 +57,6 @@ class LayerPanel extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      colorPanelLayer: null,
-      colorPanelLeft: null,
-      colorPanelTop: null,
       draggingDestIndex: null,
     };
     this.layerListContainerRef = React.createRef();
@@ -295,11 +289,10 @@ class LayerPanel extends React.Component<Props, State> {
 
   openLayerColorPanel = (e: React.MouseEvent, layerName: string): void => {
     e.stopPropagation();
-    this.setState({
-      colorPanelLayer: layerName,
-      colorPanelLeft: e.clientX,
-      colorPanelTop: e.clientY,
-    });
+    const layer = getLayerElementByName(layerName);
+    const layerColor = layer.getAttribute('data-color') || '#333333';
+    Dialog.showColorPicker(layerColor, e.clientX, e.clientY,
+      (newColor: string) => this.setLayerColor(layerName, newColor));
   };
 
   onLayerDragStart = (layerName: string, e?: React.DragEvent): void => {
@@ -448,22 +441,6 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  renderColorPickerPanel(): JSX.Element {
-    const { colorPanelLayer, colorPanelTop, colorPanelLeft } = this.state;
-    if (!colorPanelLayer) {
-      return null;
-    }
-    return (
-      <ColorPickerPanel
-        layerName={colorPanelLayer}
-        top={colorPanelTop}
-        left={colorPanelLeft}
-        onClose={() => this.setState({ colorPanelLayer: null })}
-        onColorChanged={(newColor: string) => this.setLayerColor(colorPanelLayer, newColor)}
-      />
-    );
-  }
-
   renderDragBar = (): JSX.Element => <div key="drag-bar" className={classNames('drag-bar')} />;
 
   renderLayerList = (): JSX.Element => {
@@ -607,7 +584,6 @@ class LayerPanel extends React.Component<Props, State> {
             hideOnLeaveHoldPosition
           >
             <div id="layerlist_container" ref={this.layerListContainerRef}>
-              {this.renderColorPickerPanel()}
               {this.renderLayerList()}
             </div>
           </ContextMenuTrigger>

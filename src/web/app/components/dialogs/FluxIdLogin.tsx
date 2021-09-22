@@ -21,10 +21,11 @@ const updateLang = () => {
 };
 
 interface Props {
+  silent: boolean;
   onClose: () => void;
 }
 
-const FluxIdLogin = ({ onClose }: Props): JSX.Element => {
+const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   updateLang();
 
   const emailInput = useRef(null);
@@ -106,7 +107,7 @@ const FluxIdLogin = ({ onClose }: Props): JSX.Element => {
     if (res.status === 'ok') {
       // eslint-disable-next-line no-console
       console.log('Log in succeeded', res);
-      alert.popUp({ message: LANG.login_success });
+      if (!silent) alert.popUp({ message: LANG.login_success });
       onClose();
     }
   };

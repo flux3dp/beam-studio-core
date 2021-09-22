@@ -7,10 +7,10 @@ import storage from 'implementations/storage';
 function FluxIdLogin(): JSX.Element {
   useEffect(() => {
     dialog.clearAllDialogComponents();
+    const isReady = storage.get('printer-is-ready');
     dialog.showLoginDialog(() => {
-      const isReady = storage.get('printer-is-ready');
       window.location.hash = isReady ? '#studio/beambox' : '#initialize/connect/select-connection-type';
-    });
+    }, !isReady);
   }, []);
   return <div className="top-bar" />;
 }

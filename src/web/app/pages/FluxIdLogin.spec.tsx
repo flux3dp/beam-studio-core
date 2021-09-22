@@ -10,11 +10,18 @@ jest.mock('app/actions/dialog-caller', () => ({
   showLoginDialog: mockShowLoginDialog,
 }));
 
+const mockGet = jest.fn();
+jest.mock('implementations/storage', () => ({
+  get: mockGet,
+}));
+
 import FluxIdLogin from './FluxIdLogin';
 
 test('should render correctly', () => {
   const wrapper = mount(<FluxIdLogin />);
   expect(toJson(wrapper)).toMatchSnapshot();
   expect(mockClearAllDialogComponents).toHaveBeenCalledTimes(1);
+  expect(mockGet).toHaveBeenCalledTimes(1);
+  expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');
   expect(mockShowLoginDialog).toHaveBeenCalledTimes(1);
 });

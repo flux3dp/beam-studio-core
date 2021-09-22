@@ -2,10 +2,10 @@
 
 exports[`should render correctly 1`] = `
 <ColorPickerPanel
-  layerName="layer 1"
   left={300}
   onClose={[MockFunction]}
-  onColorChanged={[MockFunction]}
+  onNewColor={[MockFunction]}
+  originalColor="#000000"
   top={100}
 >
   <div
