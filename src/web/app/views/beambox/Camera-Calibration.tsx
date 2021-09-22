@@ -334,7 +334,7 @@ const StepRefocus = ({
   }, [isAutoFocus]);
 
   let child = null;
-  let message = LANG.please_refocus.beambox;
+  let message: string;
   if (model === 'beamo') {
     child = (
       <div className="video-container">
@@ -349,7 +349,15 @@ const StepRefocus = ({
       </div>
     );
     message = isAutoFocus ? LANG.please_refocus.beamo_af : LANG.please_refocus.beamo;
+  } else if (model === 'beambox2') {
+    message = LANG.please_refocus.beambox2;
+    child = (
+      <video className="video" ref={videoElem} autoPlay loop>
+        <source src="video/bb2_focus.webm" type="video/webm" />
+      </video>
+    );
   } else {
+    message = LANG.please_refocus.beambox;
     child = (
       <video className="video" ref={videoElem} autoPlay loop muted>
         <source src="video/bb_focus.webm" type="video/webm" />
@@ -801,7 +809,10 @@ class CameraCalibrationComponent extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { device } = this.props;
-    const model = device.model === 'fbm1' ? 'beamo' : 'beambox';
+    const model = {
+      fbm1: 'beamo',
+      fbb2b: 'beambox2',
+    }[device.model] || 'beambox';
     const { currentStep, currentOffset, imgBlobUrl } = this.state;
     let currentStepComponent = null;
     if (currentStep === STEP_ASK_READJUST) {

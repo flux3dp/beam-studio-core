@@ -1184,6 +1184,7 @@ const lang: ILang = {
       beambox: 'プラットフォームを焦点に合わせてください（折り返されたアクリルの高さ）',
       beamo: 'レーザーヘッドを調整して、彫刻オブジェクトに焦点を合わせます（折り返されたアクリルの高さ',
       beamo_af: 'オートフォーカスアドオンのサイドボタンをダブルタップして、プローブを素材にそっと触れさせます。',
+      beambox2: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
     },
     without_af: 'オートフォーカスなし',
     with_af: 'オートフォーカスオン',
