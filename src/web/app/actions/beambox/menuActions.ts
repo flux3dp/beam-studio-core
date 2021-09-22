@@ -61,7 +61,7 @@ export default {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
     if (res) window.location.hash = '#initialize/connect/select-connection-type';
   },
-  SIGN_IN: () => Dialog.showLoginDialog(() => { }),
+  SIGN_IN: () => Dialog.showLoginDialog(),
   IMPORT_EXAMPLE: () => loadExampleFile('examples/badge.bvg'),
   IMPORT_MATERIAL_TESTING_OLD: () => loadExampleFile('examples/mat_test_old.bvg'),
   IMPORT_MATERIAL_TESTING_SIMPLECUT: () => loadExampleFile('examples/mat_test_simple_cut.bvg'),

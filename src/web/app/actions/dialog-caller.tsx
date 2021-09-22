@@ -252,10 +252,11 @@ export default {
         }}
       />);
   },
-  showLoginDialog: (callback?: () => void): void => {
+  showLoginDialog: (callback?: () => void, silent = false): void => {
     if (isIdExist('flux-id-login')) return;
     addDialogComponent('flux-id-login',
       <FluxIdLogin
+        silent={silent}
         onClose={() => {
           popDialogById('flux-id-login');
           if (callback) callback();

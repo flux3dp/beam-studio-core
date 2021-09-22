@@ -65,6 +65,7 @@ describe('should render correctly', () => {
     get.mockReturnValue(false);
     const onClose = jest.fn();
     const wrapper = shallow(<FluxIdLogin
+      silent={false}
       onClose={onClose}
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
@@ -96,6 +97,7 @@ describe('should render correctly', () => {
     window.FLUX.version = 'web';
     const onClose = jest.fn();
     const wrapper = shallow(<FluxIdLogin
+      silent={false}
       onClose={onClose}
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
