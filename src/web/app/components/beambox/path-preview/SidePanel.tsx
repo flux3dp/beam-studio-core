@@ -36,8 +36,13 @@ function SidePanel({
     </div>
   );
 
+  const sideClass = classNames({
+    short: window.os === 'Windows' && window.FLUX.version !== 'web',
+    wide: window.os !== 'MacOS',
+  });
+
   return (
-    <div id="path-preview-side-panel" className={classNames({ win: window.os === 'Windows' })}>
+    <div id="path-preview-side-panel" className={sideClass}>
       <div className="title">{LANG.preview_info}</div>
       <div className="datas">
         {renderDataBlock(LANG.size, size)}
