@@ -44,14 +44,19 @@ class GoButton extends React.Component<Props> {
       handleNextStep();
     }
 
-    if (hasDevice) { // Only when there is usable machine
-      const confirmed = await this.handleExportAlerts();
-      if (!confirmed) {
-        return;
+    const handleExport = async () => {
+      if (hasDevice) { // Only when there is usable machine
+        const confirmed = await this.handleExportAlerts();
+        if (!confirmed) {
+          return;
+        }
       }
-    }
 
-    showDeviceList('export', (device) => { this.exportTask(device); });
+      showDeviceList('export', (device) => this.exportTask(device));
+    };
+
+    if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(handleExport);
+    else handleExport();
   };
 
   private handleExportAlerts = async () => {
@@ -192,7 +197,7 @@ class GoButton extends React.Component<Props> {
   render(): JSX.Element {
     const { hasDiscoverdMachine, hasText } = this.props;
     return (
-      <div className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })} onClick={() => this.handleExportClick()}>
+      <div className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })} onClick={this.handleExportClick}>
         {hasText ? <div className="go-text">{LANG.export}</div> : null}
         <div className={(classNames('go-btn'))} />
       </div>

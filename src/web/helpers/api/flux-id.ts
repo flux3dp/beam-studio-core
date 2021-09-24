@@ -80,9 +80,12 @@ const updateUser = (info?, isWebSocialSignIn = false) => {
       updateMenu();
     }
     fluxIDEvents.emit('update-user', null);
-    if (window.FLUX.version === 'web') window.location.hash = '#/initialize/connect/flux-id-login';
   }
 };
+
+window.addEventListener('update-user', (e: CustomEvent) => {
+  currentUser = e.detail.user;
+});
 
 export const getCurrentUser = (): IUser => currentUser;
 

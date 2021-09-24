@@ -112,10 +112,7 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
     }
   };
 
-  const renderSkipLink = () => {
-    if (window.FLUX.version === 'web') return null;
-    return (<div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>);
-  };
+  const renderSkipLink = () => <div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>;
 
   const renderFooterButtons = () => {
     const signupUrl = LANG.signup_url;
