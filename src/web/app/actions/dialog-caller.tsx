@@ -22,6 +22,7 @@ import RatingPanel from 'app/components/dialogs/RatingPanel';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import { eventEmitter } from 'app/contexts/DialogContext';
+import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
@@ -60,6 +61,22 @@ const showDeviceSelector = (onSelect) => {
     <DeviceSelector
       onSelect={onSelect}
       onClose={() => popDialogById('device-selector')}
+    />);
+};
+
+const showLoginDialog = (callback?: () => void, silent = false): void => {
+  if (isIdExist('flux-id-login')) return;
+  if (window.FLUX.version === 'web' && callback) {
+    window.addEventListener('DISMISS_FLUX_LOGIN', callback);
+  }
+  addDialogComponent('flux-id-login',
+    <FluxIdLogin
+      silent={silent}
+      onClose={() => {
+        window.removeEventListener('DISMISS_FLUX_LOGIN', callback);
+        popDialogById('flux-id-login');
+        if (callback) callback();
+      }}
     />);
 };
 
@@ -252,16 +269,17 @@ export default {
         }}
       />);
   },
-  showLoginDialog: (callback?: () => void, silent = false): void => {
-    if (isIdExist('flux-id-login')) return;
-    addDialogComponent('flux-id-login',
-      <FluxIdLogin
-        silent={silent}
-        onClose={() => {
-          popDialogById('flux-id-login');
-          if (callback) callback();
-        }}
-      />);
+  showLoginDialog,
+  forceLoginWrapper: (callback: () => void | Promise<void>): void => {
+    let user = getCurrentUser();
+    if (!user) {
+      showLoginDialog(() => {
+        user = getCurrentUser();
+        if (user) callback();
+      });
+    } else {
+      callback();
+    }
   },
   showDialogBox: (id: string, style: IDialogBoxStyle, content: string): void => {
     if (isIdExist(id)) return;

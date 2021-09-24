@@ -76,7 +76,10 @@ export default {
   EXPORT_SVG: () => FileExportHelper.exportAsSVG(),
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
   EXPORT_JPG: () => FileExportHelper.exportAsImage('jpg'),
-  EXPORT_FLUX_TASK: () => ExportFuncs.exportFcode(),
+  EXPORT_FLUX_TASK: () => {
+    if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
+    else ExportFuncs.exportFcode();
+  },
   UNDO: () => svgEditor.clickUndo(),
   REDO: () => svgEditor.clickRedo(),
   GROUP: () => FnWrapper.groupSelected(),
