@@ -76,7 +76,7 @@ export default {
   EXPORT_SVG: () => FileExportHelper.exportAsSVG(),
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
   EXPORT_JPG: () => FileExportHelper.exportAsImage('jpg'),
-  EXPORT_FLUX_TASK: () => {
+  EXPORT_FLUX_TASK: (): void => {
     if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
     else ExportFuncs.exportFcode();
   },
