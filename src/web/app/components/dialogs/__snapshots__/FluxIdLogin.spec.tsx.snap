@@ -319,6 +319,12 @@ exports[`should render correctly web version 1`] = `
       >
         Create Your FLUX Account
       </div>
+      <div
+        className="skip"
+        onClick={[Function]}
+      >
+        Work Offline
+      </div>
     </div>
   </div>
 </View>
