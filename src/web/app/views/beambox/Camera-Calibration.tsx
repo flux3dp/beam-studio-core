@@ -233,8 +233,9 @@ const StepPutPaper = (
   { gotoNextStep, onClose }: StepPutPaperProps,
 ) => {
   const video = (
-    <video className="video" autoPlay loop>
+    <video className="video" autoPlay loop muted>
       <source src="video/put_paper.webm" type="video/webm" />
+      <source src="video/put_paper.mp4" type="video/mp4" />
     </video>
   );
 
@@ -329,9 +330,7 @@ const StepRefocus = ({
   const [isCutButtonDisabled, setIsCutButtonDisabled] = useState(false);
   const videoElem = useRef(null);
   useEffect(() => {
-    if (videoElem.current) {
-      videoElem.current.load();
-    }
+    if (videoElem.current) videoElem.current.load();
   }, [isAutoFocus]);
 
   let child = null;
@@ -343,16 +342,18 @@ const StepRefocus = ({
           <div className={classNames('tab', 'left', { selected: !isAutoFocus })} onClick={() => setIsAutoFocus(false)}>{LANG.without_af}</div>
           <div className={classNames('tab', 'right', { selected: isAutoFocus })} onClick={() => setIsAutoFocus(true)}>{LANG.with_af}</div>
         </div>
-        <video className="video" ref={videoElem} autoPlay loop>
+        <video className="video" ref={videoElem} autoPlay loop muted>
           <source src={isAutoFocus ? 'video/autofocus.webm' : 'video/bm_focus.webm'} type="video/webm" />
+          <source src={isAutoFocus ? 'video/autofocus.mp4' : 'video/bm_focus.mp4'} type="video/mp4" />
         </video>
       </div>
     );
     message = isAutoFocus ? LANG.please_refocus.beamo_af : LANG.please_refocus.beamo;
   } else {
     child = (
-      <video className="video" ref={videoElem} autoPlay loop>
+      <video className="video" ref={videoElem} autoPlay loop muted>
         <source src="video/bb_focus.webm" type="video/webm" />
+        <source src="video/bb_focus.mp4" type="video/mp4" />
       </video>
     );
   }

@@ -36,7 +36,10 @@ export interface ITutorial {
 }
 
 export interface IMediaTutorial {
-  mediaSrc: string,
+  mediaSources: {
+    src: string;
+    type: string;
+  }[];
   description: string,
   isVideo?: boolean,
 }

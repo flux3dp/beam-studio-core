@@ -524,16 +524,27 @@ svgedit.utilities.getBBox = function(elem) {
 
 	switch ( elname ) {
 	case 'text':
-		if(selected.textContent === '') {
-      // Some character needed for the selector to use.
-      if (selected.firstChild) selected.firstChild.textContent = ' ';
-			else selected.textContent = ' ';
-			ret = selected.getBBox();
-      if (selected.firstChild) selected.firstChild.textContent = '';
-			else selected.textContent = '';
-		} else {
-			if (selected.getBBox) { ret = selected.getBBox(); }
-		}
+    let emptyContextIndices = [];
+    if (selected.childElementCount > 0) {
+      for (let i = 0; i < selected.children.length; i += 1) {
+        if (selected.children[i].textContent === '') {
+          emptyContextIndices.push(i);
+          selected.children[i].textContent = 'a';
+        }
+      }
+    } else if (selected.textContent === '') {
+      emptyContextIndices.push(0);
+      selected.textContent = 'a';
+    }
+    ret = selected.getBBox(emptyContextIndices);
+    if (selected.childElementCount > 0) {
+      for (let i = 0; i < emptyContextIndices.length; i += 1) {
+        let j = emptyContextIndices[i];
+        selected.children[j].textContent = '';
+      }
+    } else if (emptyContextIndices.length > 0) {
+      selected.textContent = '';
+    }
 		break;
 	case 'path':
 		if(!svgedit.browser.supportsPathBBox()) {
