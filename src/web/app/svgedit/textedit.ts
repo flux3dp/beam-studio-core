@@ -185,7 +185,7 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
       if (tspans[i]) {
         tspan = tspans[i];
       } else {
-        tspan = document.createElementNS(NS.SVG, 'tspan');
+        tspan = document.createElementNS(NS.SVG, 'tspan') as unknown as SVGTextContentElement;
         text.appendChild(tspan);
       }
       tspan.textContent = lines[i];
@@ -204,7 +204,7 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
         tspan.setAttribute('y', y.join(' '));
       } else {
         tspan.setAttribute('x', text.getAttribute('x'));
-        tspan.setAttribute('y', Number(text.getAttribute('y')) + i * lineSpacing * charHeight);
+        tspan.setAttribute('y', (Number(text.getAttribute('y')) + i * lineSpacing * charHeight).toString());
         tspan.textContent = lines[i];
         text.appendChild(tspan);
       }
