@@ -89,8 +89,6 @@ describe('test textPathEdit', () => {
       ],
     });
     container.dispatchEvent(onePointTouchEnd);
-    expect(mouseUp).not.toBeCalled();
-    jest.runOnlyPendingTimers();
     expect(mouseUp).toHaveBeenNthCalledWith(1, onePointTouchEnd, false);
 
     expect(toJson(wrapper)).toMatchSnapshot();
