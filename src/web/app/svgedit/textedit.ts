@@ -204,7 +204,7 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
         tspan.setAttribute('y', y.join(' '));
       } else {
         tspan.setAttribute('x', text.getAttribute('x'));
-        tspan.setAttribute('y', (Number(text.getAttribute('y')) + i * lineSpacing * charHeight).toString());
+        tspan.setAttribute('y', (Number(text.getAttribute('y')) + i * lineSpacing * charHeight).toFixed(2));
         tspan.textContent = lines[i];
         text.appendChild(tspan);
       }
