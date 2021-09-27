@@ -6,16 +6,35 @@ exports[`should render correctly button groups should work 1`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }
@@ -101,16 +120,35 @@ exports[`should render correctly button groups should work 2`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }
@@ -212,16 +250,35 @@ exports[`should render correctly button groups should work 3`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }
@@ -307,16 +364,35 @@ exports[`should render correctly button groups should work 4`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }
@@ -418,16 +494,35 @@ exports[`should render correctly button groups should work 5`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }
@@ -461,10 +556,15 @@ exports[`should render correctly button groups should work 5`] = `
             <video
               autoPlay={true}
               loop={true}
+              muted={true}
             >
               <source
                 src="video/3.webm"
-                type="video/webm"
+                type="image/webm"
+              />
+              <source
+                src="video/3.mp4"
+                type="image/mp4"
               />
             </video>
           </div>
@@ -535,16 +635,35 @@ exports[`should render correctly button groups should work 6`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }
@@ -602,10 +721,15 @@ exports[`should render correctly button groups should work 6`] = `
             <video
               autoPlay={true}
               loop={true}
+              muted={true}
             >
               <source
                 src="video/3.webm"
-                type="video/webm"
+                type="image/webm"
+              />
+              <source
+                src="video/3.mp4"
+                type="image/mp4"
               />
             </video>
           </div>
@@ -676,16 +800,35 @@ exports[`should render correctly close button should work 1`] = `
     Array [
       Object {
         "description": "1",
-        "mediaSrc": "img/1.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/1.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "2",
-        "mediaSrc": "img/2.png",
+        "mediaSources": Array [
+          Object {
+            "src": "img/2.png",
+            "type": "image/png",
+          },
+        ],
       },
       Object {
         "description": "3",
         "isVideo": true,
-        "mediaSrc": "video/3.webm",
+        "mediaSources": Array [
+          Object {
+            "src": "video/3.webm",
+            "type": "image/webm",
+          },
+          Object {
+            "src": "video/3.mp4",
+            "type": "image/mp4",
+          },
+        ],
       },
     ]
   }

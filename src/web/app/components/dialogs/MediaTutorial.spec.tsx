@@ -18,16 +18,23 @@ import MediaTutorial from './MediaTutorial';
 const data = [
   {
     description: '1',
-    mediaSrc: 'img/1.png',
+    mediaSources: [
+      { src: 'img/1.png', type: 'image/png' },
+    ],
   },
   {
     description: '2',
-    mediaSrc: 'img/2.png',
+    mediaSources: [
+      { src: 'img/2.png', type: 'image/png' },
+    ],
   },
   {
     isVideo: true,
     description: '3',
-    mediaSrc: 'video/3.webm',
+    mediaSources: [
+      { src: 'video/3.webm', type: 'image/webm' },
+      { src: 'video/3.mp4', type: 'image/mp4' },
+    ],
   },
 ];
 

@@ -23,17 +23,17 @@ function MediaTutorial({ data, onClose }: Props): JSX.Element {
     }
   }, [step]);
 
-  const { mediaSrc, isVideo, description } = data[step];
+  const { mediaSources, isVideo, description } = data[step];
 
   const mediaContent = () => {
     if (isVideo) {
       return (
-        <video autoPlay loop ref={videoRef}>
-          <source src={mediaSrc} type="video/webm" />
+        <video autoPlay loop muted ref={videoRef}>
+          {mediaSources.map(({ src, type }) => <source src={src} type={type} />)}
         </video>
       );
     }
-    return (<img src={mediaSrc} />);
+    return (<img src={mediaSources[0].src} />);
   };
 
   const buttons: IButton[] = [];
