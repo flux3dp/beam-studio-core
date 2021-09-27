@@ -27,6 +27,23 @@ interface Props {
 }
 
 class ActionsPanel extends React.Component<Props> {
+  private webNeedConnectionWrapper = (cb: () => void | Promise<void>) => {
+    if (window.FLUX.version === 'web' && !checkConnection()) {
+      alertCaller.popUp({
+        caption: i18n.lang.alert.oops,
+        message: i18n.lang.device_selection.no_beambox,
+        buttonType: alertConstants.CUSTOM_CANCEL,
+        buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
+        callbacks: async () => {
+          const res = await fileExportHelper.toggleUnsavedChangedDialog();
+          if (res) window.location.hash = '#initialize/connect/select-connection-type';
+        },
+      });
+      return;
+    }
+    cb();
+  };
+
   replaceImage = async (): Promise<void> => {
     const { elem } = this.props;
     const option = {
@@ -44,19 +61,6 @@ class ActionsPanel extends React.Component<Props> {
   };
 
   convertTextToPath = async (): Promise<void> => {
-    if (window.FLUX.version === 'web' && !checkConnection()) {
-      alertCaller.popUp({
-        caption: i18n.lang.alert.oops,
-        message: i18n.lang.device_selection.no_beambox,
-        buttonType: alertConstants.CUSTOM_CANCEL,
-        buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
-        callbacks: async () => {
-          const res = await fileExportHelper.toggleUnsavedChangedDialog();
-          if (res) window.location.hash = '#initialize/connect/select-connection-type';
-        },
-      });
-      return;
-    }
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
@@ -87,7 +91,9 @@ class ActionsPanel extends React.Component<Props> {
       this.renderButtons(LANG.replace_with, () => this.replaceImage(), true, 'replace_with'),
       this.renderButtons(LANG.trace, () => svgCanvas.imageToSVG(), false, 'trace', isShading),
       this.renderButtons(LANG.grading, () => Dialog.showPhotoEditPanel('curve'), false, 'grading'),
-      this.renderButtons(LANG.sharpen, () => Dialog.showPhotoEditPanel('sharpen'), false, 'sharpen'),
+      this.renderButtons(LANG.sharpen, () => {
+        this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
+      }, false, 'sharpen'),
       this.renderButtons(LANG.crop, () => Dialog.showPhotoEditPanel('crop'), false, 'crop'),
       this.renderButtons(LANG.bevel, () => imageEdit.generateStampBevel(elem), false, 'bevel'),
       this.renderButtons(LANG.invert, () => imageEdit.colorInvert(elem), false, 'invert'),
@@ -98,7 +104,7 @@ class ActionsPanel extends React.Component<Props> {
 
   renderTextActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.convert_to_path, this.convertTextToPath, true, 'convert_to_path'),
+      this.renderButtons(LANG.convert_to_path, () => this.webNeedConnectionWrapper(this.convertTextToPath), true, 'convert_to_path'),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array'),
     ];
     return content;
@@ -113,7 +119,11 @@ class ActionsPanel extends React.Component<Props> {
         textEdit.renderText(text);
         svgCanvas.multiSelect([text, path], true);
       }, true),
-      this.renderButtons(LANG.convert_to_path, this.convertTextToPath, true),
+      this.renderButtons(
+        LANG.convert_to_path,
+        () => this.webNeedConnectionWrapper(this.convertTextToPath),
+        true,
+      ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
     ];
     return content;
