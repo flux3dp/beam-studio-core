@@ -26,7 +26,6 @@ const setupCanvasTouchEvents = (
   setZoom: (zoom: number, staticPoint: { x: number, y: number }) => void,
 ): void => {
   let touchStartTimeout: NodeJS.Timeout;
-  let touchEndTimeout: NodeJS.Timeout;
   let touchStartTimestamp: number;
   let firstTouchID = null;
   let panStartPosition = null;
@@ -39,7 +38,6 @@ const setupCanvasTouchEvents = (
 
   container.addEventListener('touchstart', (e: TouchEvent) => {
     clearTimeout(touchStartTimeout);
-    clearTimeout(touchEndTimeout);
     if (e.touches.length === 1) {
       firstTouchID = e.touches[0].identifier;
       touchStartTimestamp = Date.now();
@@ -97,9 +95,9 @@ const setupCanvasTouchEvents = (
         if (Date.now() > touchStartTimestamp + TOUCH_START_DELAY) {
           onMouseUp(e, isDoubleTap);
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-loop-func
-          touchEndTimeout = setTimeout(() => onMouseUp(e, isDoubleTap),
-            touchStartTimestamp + TOUCH_START_DELAY + 1 - Date.now());
+          clearTimeout(touchStartTimeout);
+          onMouseDown(e);
+          onMouseUp(e, isDoubleTap);
         }
         isDoubleTap = false;
       }

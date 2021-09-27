@@ -2,7 +2,7 @@
 
 exports[`side panel test should render correctly when disabled 1`] = `
 <div
-  className=""
+  className="wide"
   id="path-preview-side-panel"
 >
   <div
@@ -138,7 +138,7 @@ exports[`side panel test should render correctly when disabled 1`] = `
 
 exports[`side panel test should render correctly when enabled 1`] = `
 <div
-  className=""
+  className="wide"
   id="path-preview-side-panel"
 >
   <div
