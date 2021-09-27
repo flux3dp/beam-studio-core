@@ -181,9 +181,7 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
 
   for (let i = 0; i < Math.max(lines.length, tspans.length); i += 1) {
     if (i < lines.length) {
-      // Add a space for empty line to render select bbox
-      if (lines[i] === '') lines[i] = ' ';
-      let tspan;
+      let tspan: SVGTextContentElement;
       if (tspans[i]) {
         tspan = tspans[i];
       } else {

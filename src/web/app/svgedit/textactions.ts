@@ -153,9 +153,8 @@ class TextActions {
         let start;
         let end;
         const tspanbb = svgedit.utilities.getBBox(tspans[i]);
-        if (lines[i] === '') {
-          tspans[i].textContent = ' ';
-        }
+        // temporarily set text content to get bbox
+        if (lines[i] === '') tspans[i].textContent = 'a';
 
         for (let j = 0; j < tspans[i].textContent.length; j += 1) {
           start = tspans[i].getStartPositionOfChar(j);
@@ -176,8 +175,8 @@ class TextActions {
           }
           let y: number;
           if (isVertical) y = start.y - charHeight;
-          else if (svgedit.browser?.isChrome()) y = tspanbb.y;
-          else y = tspanbb.y + charHeight * i;
+          else if (svgedit.browser?.isChrome() && lines[i] !== '') y = tspanbb.y;
+          else y = textbb.y + charHeight * i;
           chardata[i].push({
             x: start.x,
             y,
@@ -192,13 +191,18 @@ class TextActions {
           if (isVertical) {
             width = i === 0 ? firstRowMaxWidth : lastRowX - start.x;
           }
+          let y: number;
+          if (isVertical) y = end.y;
+          else if (svgedit.browser?.isChrome()) y = tspanbb.y;
+          else y = textbb.y + charHeight * i;
           chardata[i].push({
             x: isVertical ? start.x : end.x,
-            y: isVertical ? end.y : tspanbb.y,
+            y,
             width,
             height: isVertical ? 0 : charHeight,
           });
         } else {
+          // set textContent back
           tspans[i].textContent = '';
         }
         lastRowX = start.x;
