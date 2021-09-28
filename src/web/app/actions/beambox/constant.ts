@@ -91,7 +91,7 @@ export default {
   sidePanelsWidth: window.os !== 'MacOS' ? 308 : 292, // px
   topBarHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 70 : 40, // px
   topBarHeightWithoutTitleBar: 40, // px
-  menuberHeight: window.os === 'Windows' ? 30 : 0, // px
+  menuberHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 30 : 0, // px
   layerListHeight: 240, // px
   rulerWidth: 15, // px
 };

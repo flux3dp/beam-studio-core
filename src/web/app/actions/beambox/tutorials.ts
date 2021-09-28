@@ -6,24 +6,22 @@ import Dialog from '../dialog-caller';
 import Discover from '../../../helpers/api/discover';
 
 const LANG = i18n.lang.tutorial;
-const getMachineForTutorial = async () => {
-    return new Promise((resolve) => {
-        let discover = Discover('tutorial', (machines) => {
-            if (machines.length > 0) {
-                resolve(true);
-                discover.removeListener('tutorial');
-                discover = null;
-            }
-        });
-        setTimeout(() => {
-            if (discover) {
-                resolve(false);
-                discover.removeListener('tutorial');
-                discover = null;
-            }
-        }, 3000);
-    });
-};
+const getMachineForTutorial = async () => new Promise((resolve) => {
+  let discover = Discover('tutorial', (machines) => {
+    if (machines.length > 0) {
+      resolve(true);
+      discover.removeListener('tutorial');
+      discover = null;
+    }
+  });
+  setTimeout(() => {
+    if (discover) {
+      resolve(false);
+      discover.removeListener('tutorial');
+      discover = null;
+    }
+  }, 3000);
+});
 
 const startNewUserTutorial = async (callback) => {
     Progress.openNonstopProgress({
