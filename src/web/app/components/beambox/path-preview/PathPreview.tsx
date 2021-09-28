@@ -1589,7 +1589,7 @@ class PathPreview extends React.Component<Props, State> {
           rapidDist={`${Math.round(this.gcodePreview.g0DistReal)} mm`}
           currentPosition={this.renderPosition()}
           isStartHereEnabled={playState !== PlayState.PLAY}
-          handleStartHere={this.handleStartHere}
+          handleStartHere={window.FLUX.version === 'web' ? () => dialogCaller.forceLoginWrapper(this.handleStartHere) : this.handleStartHere}
           togglePathPreview={togglePathPreview}
         />
       </div>

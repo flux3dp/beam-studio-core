@@ -60,12 +60,13 @@ exports[`should render correctly polygon desktop version 1`] = `
   >
     OPTIONS
   </div>
-  <DummyInFillBlock
+  <PolygonOptions
     elem={
       <polygon
         id="polygon"
       />
     }
+    polygonSides={8}
   />
 </div>
 `;

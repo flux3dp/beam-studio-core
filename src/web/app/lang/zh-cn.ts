@@ -111,6 +111,7 @@ const lang: ILang = {
       machines: '机器',
       add_new_machine: '新增或设定机器',
       help_center: '说明中心',
+      show_gesture_tutorial: '触控手势说明',
       show_start_tutorial: '显示新手教学',
       show_ui_intro: '显示界面介绍',
       questionnaire: '问卷回馈',
@@ -209,7 +210,7 @@ const lang: ILang = {
       upload_file: '固件上传',
       update_success: '固件更新上传成功',
       update_fail: '#822 更新失败',
-      too_old_for_web: '你的版本为 v%s，欲使用线上版的 Beam Studio 请更新至最新韧体。',
+      too_old_for_web: '你韧体的版本为 v3.5.1。\n欲使用线上版的 Beam Studio 请更新至最新韧体。',
     },
     software: {
       checking: '检查更新中',
@@ -238,6 +239,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: '版本',
+    credit: 'Beam Studio 的开发仰赖 <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> 开放原始码计画与其他<a target="_blank" href="https://flux3dp.com/credits/">开放原始码的软体</a>的协助才得以完成。',
     ok: '确定',
     file: {
       label: '文件',
@@ -727,6 +729,8 @@ const lang: ILang = {
           bevel: '生成斜角',
           invert: '色彩反转',
           convert_to_path: '转换为路径',
+          fetching_web_font: '取得线上字体中',
+          uploading_font_to_machine: '上传字体到机器中',
           wait_for_parsing_font: '解析字体中...',
           offset: '位移複製',
           array: '阵列',
@@ -1267,6 +1271,13 @@ const lang: ILang = {
       flip: '翻转',
       object_actions: '物件操作',
       end_alert: '请问您是否确定要结束新介面介绍？',
+    },
+    gesture: {
+      pan: '双指平移让画布随着您的手指方向移动。',
+      zoom: '双指靠拢以缩小，或双指分开来放大画布。',
+      click: '点按以选择物件。',
+      drag: '拖曳以多选物件。',
+      hold: '按住一段时间打开选单。',
     },
     links: {
       adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/zh-tw/articles/360001684196',

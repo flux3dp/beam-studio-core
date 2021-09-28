@@ -37,7 +37,7 @@ export default class MonitorTask extends React.PureComponent<Props> {
       backgroundImage: `url(${taskImageURL || defaultImage})`,
       backgroundSize: '100% auto',
       backgroundPosition: '50% 50%',
-      backgroundRepeatY: 'no-repeat',
+      backgroundRepeat: 'no-repeat',
       width: '100%',
       height: '100%',
     };

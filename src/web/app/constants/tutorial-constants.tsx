@@ -30,7 +30,7 @@ const nextStepRequirements = {
   SEND_FILE: 'SEND_FILE',
 };
 
-const isMac = window.os === 'MacOS';
+const isMacOrWeb = window.os === 'MacOS' || window.FLUX.version === 'web';
 
 const adjustFocusLinkClick = () => {
   // TODO: Add adjust focus link for Beambox2
@@ -48,14 +48,14 @@ const NEW_USER_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMac ? 100 : 25, top: calculateTop(10, TopRef.TOPBAR) },
+        position: { left: isMacOrWeb ? 100 : 25, top: calculateTop(10, TopRef.TOPBAR) },
         arrowDirection: 'top',
-        arrowPadding: isMac ? undefined : 9,
+        arrowPadding: isMacOrWeb ? undefined : 9,
       },
-      holePosition: { left: isMac ? 80 : 3, top: calculateTop(0) },
+      holePosition: { left: isMacOrWeb ? 80 : 3, top: calculateTop(0) },
       holeSize: { width: 40, height: 40 },
       hintCircle: {
-        left: isMac ? 82 : 7, top: calculateTop(3), width: 36, height: 36,
+        left: isMacOrWeb ? 82 : 7, top: calculateTop(3), width: 36, height: 36,
       },
       text: LANG.newUser.switch_to_preview_mode,
       nextStepRequirement: nextStepRequirements.TO_PREVIEW_MODE,
@@ -291,7 +291,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       holePosition: { left: 0, top: calculateTop(0) },
       holeSize: {},
       hintCircle: {
-        right: 4, top: calculateTop(3), width: isMac ? 36 : 64, height: isMac ? 36 : 33,
+        right: 4, top: calculateTop(3), width: isMacOrWeb ? 36 : 64, height: isMacOrWeb ? 36 : 33,
       },
       text: LANG.newUser.send_the_file,
       nextStepRequirement: nextStepRequirements.SEND_FILE,
@@ -306,12 +306,12 @@ const INTERFACE_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMac ? 100 : 25, top: calculateTop(10, TopRef.TOPBAR) },
+        position: { left: isMacOrWeb ? 100 : 25, top: calculateTop(10, TopRef.TOPBAR) },
         arrowDirection: 'top',
-        arrowPadding: isMac ? undefined : 9,
+        arrowPadding: isMacOrWeb ? undefined : 9,
       },
       hintCircle: {
-        left: isMac ? 82 : 7, top: calculateTop(3), width: 36, height: 36,
+        left: isMacOrWeb ? 82 : 7, top: calculateTop(3), width: 36, height: 36,
       },
       text: LANG.newInterface.camera_preview,
     },
@@ -485,7 +485,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         right: 5,
         top: calculateTop(216, TopRef.TOPBAR),
         width: Constant.rightPanelWidth - 10,
-        height: 180,
+        height: 205,
       },
       text: LANG.newInterface.object_actions,
     },

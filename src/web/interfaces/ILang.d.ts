@@ -109,6 +109,7 @@ export interface ILang {
       machines: string;
       add_new_machine: string;
       help_center: string;
+      show_gesture_tutorial: string;
       show_start_tutorial: string;
       show_ui_intro: string;
       questionnaire: string;
@@ -236,6 +237,7 @@ export interface ILang {
   },
   topmenu: {
     version: string,
+    credit: string,
     ok: string,
     file: {
       label: string,
@@ -725,6 +727,8 @@ export interface ILang {
           bevel: string,
           invert: string,
           convert_to_path: string,
+          fetching_web_font: string,
+          uploading_font_to_machine: string,
           wait_for_parsing_font: string,
           offset: string,
           array: string,
@@ -1265,6 +1269,13 @@ export interface ILang {
       flip: string,
       object_actions: string,
       end_alert: string,
+    },
+    gesture: {
+      pan: string,
+      zoom: string,
+      click: string,
+      drag: string,
+      hold: string,
     },
     links: {
       adjust_focus_bm: string,

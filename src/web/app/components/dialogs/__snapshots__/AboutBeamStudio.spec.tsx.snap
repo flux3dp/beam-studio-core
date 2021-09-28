@@ -38,6 +38,14 @@ exports[`should render correctly 1`] = `
           >
             Copyright ⓒ 2021 FLUX Inc.
           </div>
+          <div
+            className="credit"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Beam Studio is made possible by the <a target=\\"_blank\\" href=\\"https://github.com/flux3dp/beam-studio\\">Beam Studio</a> open source project and other <a target=\\"_blank\\" href=\\"https://flux3dp.com/credits/\\">open source software</a>.",
+              }
+            }
+          />
           <button
             className="btn btn-default"
             onClick={[MockFunction]}

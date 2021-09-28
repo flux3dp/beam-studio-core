@@ -183,9 +183,7 @@ exports[`should render correctly already signed in 1`] = `
                       class="rc-menu__item"
                       role="menuitem"
                       tabindex="-1"
-                    >
-                      tHand Gesture Introduction
-                    </li>
+                    />
                     <li
                       class="rc-menu__item"
                       role="menuitem"
@@ -242,17 +240,6 @@ exports[`should render correctly already signed in 1`] = `
                       tabindex="-1"
                     >
                       Sign Out (tester@flux3dp.com)
-                    </li>
-                    <li
-                      class="rc-menu__divider"
-                      role="separator"
-                    />
-                    <li
-                      class="rc-menu__item"
-                      role="menuitem"
-                      tabindex="-1"
-                    >
-                      Bug Report
                     </li>
                   </ul>
                 </li>
@@ -543,9 +530,7 @@ exports[`should render correctly already signed in 1`] = `
                           class="rc-menu__item"
                           role="menuitem"
                           tabindex="-1"
-                        >
-                          tHand Gesture Introduction
-                        </li>
+                        />
                         <li
                           class="rc-menu__item"
                           role="menuitem"
@@ -602,17 +587,6 @@ exports[`should render correctly already signed in 1`] = `
                           tabindex="-1"
                         >
                           Sign Out (tester@flux3dp.com)
-                        </li>
-                        <li
-                          class="rc-menu__divider"
-                          role="separator"
-                        />
-                        <li
-                          class="rc-menu__item"
-                          role="menuitem"
-                          tabindex="-1"
-                        >
-                          Bug Report
                         </li>
                       </ul>
                     </li>,
@@ -733,9 +707,7 @@ exports[`should render correctly already signed in 1`] = `
                       onPointerUp={[Function]}
                       role="menuitem"
                       tabIndex={-1}
-                    >
-                      tHand Gesture Introduction
-                    </li>
+                    />
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     index={4}
@@ -913,37 +885,6 @@ exports[`should render correctly already signed in 1`] = `
                       tabIndex={-1}
                     >
                       Sign Out (tester@flux3dp.com)
-                    </li>
-                  </Memo(MenuItem)>
-                  <Memo(MenuDivider)
-                    key=".d"
-                  >
-                    <li
-                      className="rc-menu__divider"
-                      role="separator"
-                    />
-                  </Memo(MenuDivider)>
-                  <Memo(MenuItem)
-                    index={11}
-                    key=".e"
-                    onClick={[Function]}
-                  >
-                    <li
-                      className="rc-menu__item"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      onKeyUp={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseEnter={[Function]}
-                      onMouseLeave={[Function]}
-                      onPointerDown={[Function]}
-                      onPointerLeave={[Function]}
-                      onPointerUp={[Function]}
-                      role="menuitem"
-                      tabIndex={-1}
-                    >
-                      Bug Report
                     </li>
                   </Memo(MenuItem)>
                 </ul>
@@ -1574,9 +1515,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       class="rc-menu__item"
                       role="menuitem"
                       tabindex="-1"
-                    >
-                      tHand Gesture Introduction
-                    </li>
+                    />
                     <li
                       class="rc-menu__item"
                       role="menuitem"
@@ -1633,17 +1572,6 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       tabindex="-1"
                     >
                       Sign In
-                    </li>
-                    <li
-                      class="rc-menu__divider"
-                      role="separator"
-                    />
-                    <li
-                      class="rc-menu__item"
-                      role="menuitem"
-                      tabindex="-1"
-                    >
-                      Bug Report
                     </li>
                   </ul>
                 </li>
@@ -1934,9 +1862,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                           class="rc-menu__item"
                           role="menuitem"
                           tabindex="-1"
-                        >
-                          tHand Gesture Introduction
-                        </li>
+                        />
                         <li
                           class="rc-menu__item"
                           role="menuitem"
@@ -1993,17 +1919,6 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                           tabindex="-1"
                         >
                           Sign In
-                        </li>
-                        <li
-                          class="rc-menu__divider"
-                          role="separator"
-                        />
-                        <li
-                          class="rc-menu__item"
-                          role="menuitem"
-                          tabindex="-1"
-                        >
-                          Bug Report
                         </li>
                       </ul>
                     </li>,
@@ -2124,9 +2039,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       onPointerUp={[Function]}
                       role="menuitem"
                       tabIndex={-1}
-                    >
-                      tHand Gesture Introduction
-                    </li>
+                    />
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     index={4}
@@ -2304,37 +2217,6 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       tabIndex={-1}
                     >
                       Sign In
-                    </li>
-                  </Memo(MenuItem)>
-                  <Memo(MenuDivider)
-                    key=".d"
-                  >
-                    <li
-                      className="rc-menu__divider"
-                      role="separator"
-                    />
-                  </Memo(MenuDivider)>
-                  <Memo(MenuItem)
-                    index={11}
-                    key=".e"
-                    onClick={[Function]}
-                  >
-                    <li
-                      className="rc-menu__item"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      onKeyUp={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseEnter={[Function]}
-                      onMouseLeave={[Function]}
-                      onPointerDown={[Function]}
-                      onPointerLeave={[Function]}
-                      onPointerUp={[Function]}
-                      role="menuitem"
-                      tabIndex={-1}
-                    >
-                      Bug Report
                     </li>
                   </Memo(MenuItem)>
                 </ul>

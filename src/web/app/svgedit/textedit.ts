@@ -191,14 +191,16 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
       tspan.textContent = lines[i];
       tspan.setAttribute('vector-effect', 'non-scaling-stroke');
       if (isVertical) {
-        const x = [];
-        const y = [];
         const xPos = Number(text.getAttribute('x')) - i * lineSpacing * charHeight;
         let yPos = Number(text.getAttribute('y'));
-        for (let j = 0; j < lines[i].length; j += 1) {
+        // Always set first x, y position
+        const x = [xPos.toFixed(2)];
+        const y = [yPos.toFixed(2)];
+        // Add more position if there are more than 2 characters
+        for (let j = 1; j < lines[i].length; j += 1) {
+          yPos += (1 + letterSpacing) * charHeight;// text spacing
           x.push(xPos.toFixed(2));
           y.push(yPos.toFixed(2));
-          yPos += (1 + letterSpacing) * charHeight;// text spacing
         }
         tspan.setAttribute('x', x.join(' '));
         tspan.setAttribute('y', y.join(' '));
