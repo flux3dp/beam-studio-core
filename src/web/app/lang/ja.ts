@@ -111,6 +111,7 @@ const lang: ILang = {
       machines: 'マシン',
       add_new_machine: 'マシン設定',
       help_center: 'ヘルプセンター',
+      show_gesture_tutorial: 'タッチスクリーンジェスチャー説明',
       show_start_tutorial: '初めてのチュートリアルを表示',
       show_ui_intro: 'インターフェイスの紹介を表示',
       questionnaire: 'フィードバックアンケート',
@@ -209,7 +210,7 @@ const lang: ILang = {
       upload_file: 'ファームウェアのアップロード（*.bin / *.fxfw）',
       update_success: 'ファームウェアアップデートが正常にアップロードされました',
       update_fail: '#822 アップデート失敗',
-      too_old_for_web: 'お使いのファームウェアバージョンはv％sです。 Beam Studio Webを使用するには、ファームウェアの最新バージョンに更新してください。',
+      too_old_for_web: '現在のファームウェアバージョンはv%sです。\nオンライン版Beam Studioを使用されたい場合、最新バージョンに更新してください。',
     },
     software: {
       checking: 'アップデートの確認中',
@@ -238,6 +239,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'バージョン',
+    credit: 'Beam Studioの開発は<a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a>オープンソースプロジェクトと他の<a target="_blank" href="https://flux3dp.com/credits/">オープンソースソフトウェア</a>の協力で完成されたものです。',
     ok: 'OK',
     file: {
       label: 'ファイル',
@@ -704,7 +706,7 @@ const lang: ILang = {
         option_panel: {
           fill: 'インフィル',
           rounded_corner: '角丸',
-          sides: 'サイド',
+          sides: '辺の数',
           font_family: 'フォント',
           font_style: 'スタイル',
           font_size: 'サイズ',
@@ -727,6 +729,8 @@ const lang: ILang = {
           bevel: '面取りを生成',
           invert: '色を反転',
           convert_to_path: 'パスに変換',
+          fetching_web_font: 'ウェブフォント読み込み中',
+          uploading_font_to_machine: 'フォントアップロード中',
           wait_for_parsing_font: 'フォントの解析中です… 少々お待ちください',
           offset: 'オフセット',
           array: '配列',
@@ -1267,6 +1271,13 @@ const lang: ILang = {
       flip: 'フリップ',
       object_actions: 'オブジェクトアクション',
       end_alert: '新しいインターフェースの紹介を終了してもよろしいですか？',
+    },
+    gesture: {
+      pan: '二本指でキャンバスをスクロールします。',
+      zoom: '二本指を閉じてキャンバスを縮小し、広げてキャンバスを拡大します。',
+      click: 'タッチしてオブジェクトを選択します。',
+      drag: 'ドラッグして複数のオブジェクトを選択します。',
+      hold: 'ロングプレスしてコンテキストメニューを開きます。',
     },
     links: {
       adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',

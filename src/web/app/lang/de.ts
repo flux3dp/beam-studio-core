@@ -111,6 +111,7 @@ const lang: ILang = {
       machines: 'Maschinen',
       add_new_machine: 'Maschineneinrichtung',
       help_center: 'Hilfezentrum',
+      show_gesture_tutorial: 'Einleitung zur Gesten',
       show_start_tutorial: 'Erstmaliges Tutorial anzeigen',
       show_ui_intro: 'Einführung in die Benutzeroberfläche anzeigen',
       questionnaire: 'Feedback-Fragebogen',
@@ -209,7 +210,7 @@ const lang: ILang = {
       upload_file: 'Firmware-Upload (* .bin / * .fxfw)',
       update_success: 'Firmware-Update erfolgreich hochgeladen',
       update_fail: '#822 Update fehlgeschlagen',
-      too_old_for_web: 'Die Firmware-Version Ihrer Maschine ist v%s. Um Beam Studio Web zu verwenden, aktualisieren Sie bitte auf die neueste Firmware-Version.',
+      too_old_for_web: '"Ihre Firmwarenversion ist zurzeit v%s.\nWenn Sie die Online-version von Beam Studio benutzen möchten, aktualisieren Sie bitte zur neusten Version."',
     },
     software: {
       checking: 'Suche nach Updates',
@@ -238,6 +239,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Ausführung',
+    credit: 'Beam Studio ist dank <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a>Open-Sorce-Projekt sowie anderen <a target="_blank" href="https://flux3dp.com/credits/">Open-Source-Softwares</a> ermöglicht.',
     ok: 'OK',
     file: {
       label: 'Datei',
@@ -727,6 +729,8 @@ const lang: ILang = {
           bevel: 'Fase',
           invert: 'Farbe umkehren',
           convert_to_path: 'In Pfad konvertieren',
+          fetching_web_font: 'Online Schriftstilen herunterladen...',
+          uploading_font_to_machine: 'Schriftenstilen auf das Maschine aufladen...',
           wait_for_parsing_font: 'Schriftart analysieren ... Bitte warten.',
           offset: 'Offset',
           array: 'Anordnung',
@@ -1267,6 +1271,13 @@ const lang: ILang = {
       flip: 'Flip',
       object_actions: 'Objektaktionen',
       end_alert: 'Sind Sie sicher, die neue Einführung in die Benutzeroberfläche zu beenden?',
+    },
+    gesture: {
+      pan: 'Scrollen mit 2 Fingern auf dem Bildschirm.',
+      zoom: 'Ziehen Sie mit 2 Fingern zum Auszoomen auseinander, und ziehen Sie zum Einzoomen aufeinander zu.',
+      click: 'Tippen Sie leicht das Objekt um zu wählen.',
+      drag: 'Legen und ziehen mit einem Finger um mehrere Objekten zu wählen. ',
+      hold: 'Finger lang auf einem Objekt legen um das Kontextmenü zu öffnen.',
     },
     links: {
       adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',

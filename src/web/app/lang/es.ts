@@ -111,6 +111,7 @@ const lang: ILang = {
       machines: 'Máquinas',
       add_new_machine: 'Configuración de la máquina',
       help_center: 'Centro de ayuda',
+      show_gesture_tutorial: 'Instrucciones de gestos táctiles',
       show_start_tutorial: 'Tutorial de inicio ',
       show_ui_intro: 'Mostrar introducción a la interfaz',
       questionnaire: 'Cuestionario de comentarios',
@@ -209,7 +210,7 @@ const lang: ILang = {
       upload_file: 'subir el firmware (*.bin / *.fxfw)',
       update_success: 'La actualización del firmware se ha cargado con éxito',
       update_fail: '#822 Fallo de actualización',
-      too_old_for_web: 'La versión de firmware de su máquina es v% s. Para utilizar Beam Studio Web, actualice a la última versión del firmware.',
+      too_old_for_web: 'La versión actual del firmware de su máquina es v%s.\nSi quiere utilizar la versión en línea de Beam Studio,por favor actualice el firmware de la máquina a la última versión .',
     },
     software: {
       checking: 'Comprobando la actualización',
@@ -238,6 +239,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Versión',
+    credit: 'El desarrollo de Beam Studio se basa en la asistencia del proyecto de código abierto <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> y otro <a target="_blank" href="https://flux3dp.com/credits/">software de código abierto</a>.',
     ok: 'OK',
     file: {
       label: 'Archivo',
@@ -727,6 +729,8 @@ const lang: ILang = {
           bevel: 'Biselar',
           invert: 'Invertir',
           convert_to_path: 'Convertir en trayectoria',
+          fetching_web_font: 'Obteniendo la fuente en línea...',
+          uploading_font_to_machine: 'Cargando la fuente a la máquina ...',
           wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',
           offset: 'Offset',
           array: 'Gama',
@@ -1267,6 +1271,13 @@ const lang: ILang = {
       flip: 'Voltear',
       object_actions: 'Acciones de Objeto',
       end_alert: '¿Estás seguro de terminar la nueva introducción de la UI?',
+    },
+    gesture: {
+      pan: 'Desplácese por el lienzo con dos dedos.',
+      zoom: 'Mueve dos dedos juntos para alejar o separar dos dedos para agrandar el lienzo.',
+      click: 'Toque para seleccionar el objeto.',
+      drag: 'Arrastre para seleccionar los múltiples objetos.',
+      hold: 'Mantenga presionado por un momento para abrir el menú contextual.',
     },
     links: {
       adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',

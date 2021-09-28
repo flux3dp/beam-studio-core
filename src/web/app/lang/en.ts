@@ -111,6 +111,7 @@ const lang: ILang = {
       machines: 'Machines',
       add_new_machine: 'Machine Setup',
       help_center: 'Help Center',
+      show_gesture_tutorial: 'Hand Gesture Introduction',
       show_start_tutorial: 'Show Start Tutorial',
       show_ui_intro: 'Show Interface Introduction',
       questionnaire: 'Feedback Questionnaire',
@@ -209,7 +210,7 @@ const lang: ILang = {
       upload_file: 'Firmware upload (*.bin / *.fxfw)',
       update_success: 'Firmware update successfully uploaded',
       update_fail: '#822 Update Fail',
-      too_old_for_web: 'Your machine firmware version is v%s. In order to use Beam Studio Web, please update to the latest version of firmware.',
+      too_old_for_web: 'Your current machine firmware version is v%s.\nIf you want to use the online version of the Beam Studio, please update the machine firmware to the latest version.',
     },
     software: {
       checking: 'Checking for Update',
@@ -238,6 +239,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Version',
+    credit: 'Beam Studio is made possible by the <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> open source project and other <a target="_blank" href="https://flux3dp.com/credits/">open source software</a>.',
     ok: 'OK',
     file: {
       label: 'File',
@@ -727,6 +729,8 @@ const lang: ILang = {
           bevel: 'Bevel',
           invert: 'Invert',
           convert_to_path: 'Convert to Path',
+          fetching_web_font: 'Getting the online font...',
+          uploading_font_to_machine: 'Uploading font to the machine...',
           wait_for_parsing_font: 'Parsing font... Please wait a second',
           offset: 'Offset',
           array: 'Array',
@@ -1267,6 +1271,13 @@ const lang: ILang = {
       flip: 'Flip',
       object_actions: 'Object Actions',
       end_alert: 'Are you sure to end new UI introduction?',
+    },
+    gesture: {
+      pan: 'Scroll the canvas with two fingers.',
+      zoom: 'Pinch with two fingers to zoom in/out the canvas.',
+      click: 'Tap to select the object.',
+      drag: 'Drag to select the multiple objects.',
+      hold: 'Press and hold to open the context menu.',
     },
     links: {
       adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
