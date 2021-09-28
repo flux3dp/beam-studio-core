@@ -278,8 +278,6 @@ export default function Menu({ email }: Props): JSX.Element {
             ? (<MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>)
             : (<MenuItem onClick={() => callback('SIGN_OUT')}>{`${menuCms.sign_out} (${email})`}</MenuItem>)
         }
-        <MenuDivider />
-        <MenuItem onClick={() => callback('BUG_REPORT')}>{menuCms.bug_report}</MenuItem>
       </SubMenu>
     </TopBarMenu>
   );
