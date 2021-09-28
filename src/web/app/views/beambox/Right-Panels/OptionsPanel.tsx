@@ -27,7 +27,7 @@ function OptionsPanel({
           updateDimensionValues={updateDimensionValues}
         />
       );
-    } else if (elem.tagName.toLowerCase() === 'polygon' && window.FLUX.version === 'web') {
+    } else if (elem.tagName.toLowerCase() === 'polygon') {
       contents = (
         <PolygonOptions
           elem={elem}
