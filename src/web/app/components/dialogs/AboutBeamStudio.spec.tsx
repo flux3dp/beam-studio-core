@@ -1,7 +1,9 @@
+/* eslint-disable import/first */
 jest.mock('helpers/i18n', () => ({
   lang: {
     topmenu: {
       version: 'Version',
+      credit: 'Beam Studio is made possible by the <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> open source project and other <a target="_blank" href="https://flux3dp.com/credits/">open source software</a>.',
       ok: 'OK',
     },
   },

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import * as React from 'react';
 
 import i18n from 'helpers/i18n';
@@ -18,6 +19,7 @@ function AboutBeamStudio({ onClose }: Props): JSX.Element {
         <div className="app-name">Beam Studio</div>
         <div className="version">{`${LANG.version} ${FLUX.version}`}</div>
         <div className="copyright">Copyright ⓒ 2021 FLUX Inc.</div>
+        <div className="credit" dangerouslySetInnerHTML={{ __html: LANG.credit }} />
         <button
           type="button"
           className="btn btn-default"
