@@ -40,12 +40,7 @@ function EngraveDpiSlider({ value, onChange }: Props): JSX.Element {
           value={dpiMap.indexOf(value)}
           onChange={onSliderValueChange}
         />
-        <input
-          className="value"
-          type="text"
-          value={`${LANG[value]} (${dpiValueMap[value]} DPI)`}
-          disabled
-        />
+        <div className="value">{`${LANG[value]} (${dpiValueMap[value]} DPI)`}</div>
       </div>
     </div>
   );
