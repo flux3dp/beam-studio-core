@@ -20,6 +20,7 @@ import ratingHelper from 'helpers/rating-helper';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
+import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
@@ -69,13 +70,7 @@ class BeamboxInit {
   async showStartUpDialogs(): Promise<void> {
     await this.askAndInitSentry();
     const isNewUser = storage.get('new-user');
-    if (isNewUser) {
-      if (await this.askFirstTimeCameraCalibration()) {
-        await this.doFirstTimeCameraCalibration();
-      } else {
-        await this.onCameraCalibrationSkipped();
-      }
-    }
+    const hasMachineConnection = checkConnection();
     if (window.FLUX.version === 'web') {
       const res = await fluxId.getPreference('did_gesture_tutorial', true);
       if (res && !res.error && res.status === 'ok' && !res.value) {
@@ -83,7 +78,8 @@ class BeamboxInit {
         await fluxId.setPreference({ did_gesture_tutorial: true });
       }
     }
-    await this.showTutorial(isNewUser);
+    await this.showFirstCalibrationDialog();
+    if (hasMachineConnection) await this.showTutorial(isNewUser);
     if (!isNewUser) {
       const lastInstalledVersion = storage.get('last-installed-version');
       if (window.FLUX.version !== lastInstalledVersion) {
@@ -207,7 +203,24 @@ class BeamboxInit {
     }
   }
 
-  private askFirstTimeCameraCalibration = () => new Promise((resolve) => {
+  private showFirstCalibrationDialog = async () => {
+    const isNewUser = storage.get('new-user');
+    const hasDoneFirstCali = AlertConfig.read('done-first-cali');
+    const hasMachineConnection = checkConnection();
+    // in web, wait for websocket connection
+    if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) await new Promise((r) => setTimeout(r, 1000));
+    const shouldShow = window.FLUX.version === 'web' ? (hasMachineConnection && !hasDoneFirstCali) : isNewUser;
+    if (shouldShow) {
+      if (await this.askFirstTimeCameraCalibration()) {
+        await this.doFirstTimeCameraCalibration();
+      } else {
+        await this.onCameraCalibrationSkipped();
+      }
+      AlertConfig.write('done-first-cali', true);
+    }
+  };
+
+  private askFirstTimeCameraCalibration = () => new Promise<boolean>((resolve) => {
     Alert.popUp({
       caption: i18n.lang.tutorial.welcome,
       message: i18n.lang.tutorial.suggest_calibrate_camera_first,
