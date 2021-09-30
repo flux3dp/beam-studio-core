@@ -337,6 +337,9 @@ export interface ILang {
       ok: string,
     },
   },
+  error_pages: {
+    screen_size: string,
+  },
   menu: {
     mm: string,
     inches: string,

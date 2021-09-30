@@ -9,6 +9,7 @@ import ConnectMachineIp from 'app/pages/ConnectMachineIp';
 import ConnectWiFi from 'app/pages/ConnectWiFi';
 import ConnectWired from 'app/pages/ConnectWired';
 import Dialog from 'app/views/dialogs/Dialog';
+import Error from 'app/pages/Error';
 import FacebookOAuth from 'app/pages/FacebookOAuth';
 import FluxIdLogin from 'app/pages/FluxIdLogin';
 import GoogleOAuth from 'app/pages/GoogleOAuth';
@@ -37,6 +38,7 @@ const wrappedComponent = (
           <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
           <Route exact path="/studio/settings" component={Settings} />
           <Route exact path="/studio/beambox" component={Beambox} />
+          <Route path="/error/*" component={Error} />
           <Route path="*" component={Home} />
         </Switch>
       </HashRouter>
