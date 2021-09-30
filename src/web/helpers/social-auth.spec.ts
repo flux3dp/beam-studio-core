@@ -24,7 +24,7 @@ describe('test social-auth', () => {
 
       expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');
       expect(window.opener.location.hash).toBe('#initialize/connect/select-connection-type');
-      expect(window.opener.dispatchEvent).not.toHaveBeenCalled();
+      expect(window.opener.dispatchEvent).toHaveBeenCalledTimes(1);
       expect(window.close).toHaveBeenCalledTimes(1);
     });
 
@@ -49,7 +49,7 @@ describe('test social-auth', () => {
       socialAuth(true);
 
       expect(window.opener.location.hash).toBe('#initialize/connect/select-connection-type');
-      expect(window.opener.dispatchEvent).not.toHaveBeenCalled();
+      expect(window.opener.dispatchEvent).toHaveBeenCalledTimes(1);
       expect(window.close).toHaveBeenCalledTimes(1);
     });
 
