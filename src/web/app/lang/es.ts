@@ -339,6 +339,9 @@ const lang: ILang = {
       ok: 'COMIENZA A CREAR',
     },
   },
+  error_pages: {
+    screen_size: 'Please note that Beam Studio may not work optimally on your device. For an optimal experience, it should be a device with a screen width of at least 1024 pixels width.',
+  },
   menu: {
     mm: 'mm',
     inches: 'Pulgadas',

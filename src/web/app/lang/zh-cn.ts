@@ -339,6 +339,9 @@ const lang: ILang = {
       ok: '开始使用',
     },
   },
+  error_pages: {
+    screen_size: '请注意，Beam Studio 无法在您的装置上顺利执行。若要获得最佳使用体验，装置萤幕宽度至少应有 1024 像素。',
+  },
   menu: {
     mm: '毫米',
     inches: '英吋',
