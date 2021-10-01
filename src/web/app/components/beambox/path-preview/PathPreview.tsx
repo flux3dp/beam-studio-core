@@ -792,7 +792,7 @@ class PathPreview extends React.Component<Props, State> {
     if (this.pointers.length && e.pointerType !== this.pointers[0].pointerType) this.pointers = [];
 
     // Does not enable left key dragging when space is not pressed
-    if (e.button === 0 && !this.spaceKey) return;
+    if (e.pointerType !== 'touch' && e.button === 0 && !this.spaceKey) return;
 
     this.pointers.push({
       pointerId: e.pointerId,
@@ -821,7 +821,6 @@ class PathPreview extends React.Component<Props, State> {
     if (Math.abs(dx) >= 10 || Math.abs(dy) >= 10) this.moveStarted = true;
     if (!this.moveStarted) return;
     if (this.adjustingCamera) {
-      const { camera } = this.state;
       // @ts-ignore
       pointer.pageX = e.pageX - p.left;
       pointer.pageY = e.pageY - p.top;
@@ -833,27 +832,30 @@ class PathPreview extends React.Component<Props, State> {
           this.pointers[1].pageX, this.pointers[1].pageY,
         );
         if (this.fingers && this.fingers.num === this.pointers.length) {
-          if (this.pointers.length === 2) {
+          if (this.pointers.length >= 2) {
             const d = distance - this.fingers.distance;
             const origCenterX = this.pointers.reduce((acc, o) => acc + o.origPageX, 0) / this.pointers.length;
             const origCenterY = this.pointers.reduce((acc, o) => acc + o.origPageY, 0) / this.pointers.length;
-            this.zoom(origCenterX, origCenterY, Math.exp(-d / 200));
-          } else if (this.pointers.length === 3) {
-            const dx = centerX - this.fingers.centerX;
-            const dy = centerY - this.fingers.centerY;
-            // @ts-ignore
-            const rot = mat4.mul([],
-              // @ts-ignore
-              mat4.fromRotation([], -dy / 100, vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center))),
-              // @ts-ignore
-              mat4.fromRotation([], -dx / 100, camera.up));
-            this.setCameraAttrs({
-              // @ts-ignore
-              eye: vec3.add([], vec3.transformMat4([], vec3.sub([], camera.eye, camera.center), rot), camera.center),
-              // @ts-ignore
-              up: vec3.normalize([], vec3.transformMat4([], camera.up, rot)),
-            });
+            this.zoom(origCenterX, origCenterY, Math.exp(-d / 200), dx, dy);
           }
+          // we do not this function in path preview
+          // else if (this.pointers.length === 3) {
+          //   const { camera } = this.state;
+          //   const dx = centerX - this.fingers.centerX;
+          //   const dy = centerY - this.fingers.centerY;
+          //   // @ts-ignore
+          //   const rot = mat4.mul([],
+          //     // @ts-ignore
+          //     mat4.fromRotation([], -dy / 100, vec3.cross([], camera.up, vec3.sub([], camera.eye, camera.center))),
+          //     // @ts-ignore
+          //     mat4.fromRotation([], -dx / 100, camera.up));
+          //   this.setCameraAttrs({
+          //     // @ts-ignore
+          //     eye: vec3.add([], vec3.transformMat4([], vec3.sub([], camera.eye, camera.center), rot), camera.center),
+          //     // @ts-ignore
+          //     up: vec3.normalize([], vec3.transformMat4([], camera.up, rot)),
+          //   });
+          // }
         }
         this.fingers = {
           num: this.pointers.length,
@@ -861,11 +863,6 @@ class PathPreview extends React.Component<Props, State> {
           centerY,
           distance,
         };
-      } else {
-        this.fingers = null;
-        if (pointer.button === 0 || pointer.button === 1) {
-          this.pan(dx / 2, dy / 2);
-        }
       }
     }
   };
@@ -1405,7 +1402,7 @@ class PathPreview extends React.Component<Props, State> {
     this.setState({ workspace: { ...workspace, showTraversal: !workspace.showTraversal } });
   };
 
-  zoom(pageX: number, pageY: number, amount: number): void {
+  zoom(pageX: number, pageY: number, amount: number, panX = 0, panY = 0): void {
     if (!this.canvas) return;
     const r = this.canvas.getBoundingClientRect();
     const { camera } = this.state;
@@ -1416,10 +1413,12 @@ class PathPreview extends React.Component<Props, State> {
     const newScale = (vec3.distance(camera.eye, camera.center) * Math.tan(newFovy / 2)) / (r.height / 2);
     const dx = Math.round(pageX - (r.left + r.right) / 2) * (newScale - oldScale);
     const dy = Math.round(-pageY + (r.top + r.bottom) / 2) * (newScale - oldScale);
+    const scaledPanX = panX * newScale;
+    const scaledPanY = panY * newScale;
     // @ts-ignore
-    const adjX = vec3.scale([], vec3.cross([], vec3.normalize([], vec3.sub([], camera.center, camera.eye)), camera.up), -dx);
+    const adjX = vec3.scale([], vec3.cross([], vec3.normalize([], vec3.sub([], camera.center, camera.eye)), camera.up), -dx - scaledPanX);
     // @ts-ignore
-    const adjY = vec3.scale([], camera.up, -dy);
+    const adjY = vec3.scale([], camera.up, -dy - scaledPanY);
     // @ts-ignore
     const adj = vec3.add([], adjX, adjY);
     // @ts-ignore
@@ -1449,7 +1448,6 @@ class PathPreview extends React.Component<Props, State> {
       machineX: settings.machineBottomLeftX,
       machineY: settings.machineBottomLeftY,
     });
-    // console.log(view, width);
     const scale = 2 / width / view[0];
     const scaledDx = dx * scale;
     const scaledDy = dy * scale;
