@@ -244,7 +244,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   updateData = (): void => {
     this.initDefaultConfig();
-    this.updatePresetLayerConfig();
+    this.updateLayerConfigOnModelChange();
     const layerData = FnWrapper.getCurrentLayerData();
     const { speed, repeat } = this.state;
     if ((speed !== layerData.speed) || (repeat !== layerData.repeat)) {
@@ -261,7 +261,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     });
   };
 
-  updatePresetLayerConfig = (): void => {
+  updateLayerConfigOnModelChange = (): void => {
     const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     const drawing = svgCanvas.getCurrentDrawing();
     const layerCount = drawing.getNumLayers();
@@ -284,6 +284,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
             layer.removeAttribute('data-configName');
           }
         }
+      } else if (BeamboxPreference.read('workarea') !== 'fbb2b' && Number(layer.getAttribute('data-speed')) > 300) {
+        layer.setAttribute('data-speed', '300');
       }
     }
   };
@@ -531,7 +533,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       return null;
     };
 
-    const maxValue = 300;
+    const maxValue = BeamboxPreference.read('workarea') === 'fbb2b' ? 900 : 300;
     const minValue = 3;
     const unitDisplay = { mm: 'mm/s', inches: 'in/s' }[this.unit];
     const decimalDisplay = { mm: 1, inches: 2 }[this.unit];

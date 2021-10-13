@@ -68,7 +68,6 @@ export default {
       speed: 10,
     },
   },
-
   BEAMBOX: {
     wood_3mm_cutting: {
       power: 60,
@@ -135,7 +134,6 @@ export default {
       speed: 10,
     },
   },
-
   BEAMBOX_PRO: {
     wood_3mm_cutting: {
       power: 55,
