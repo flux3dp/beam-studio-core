@@ -962,6 +962,7 @@ export default $.SvgCanvas = function (container, config) {
       const path = paths[i];
       path.setAttribute('d', pathActions.convertPath(path));
       pathActions.fixEnd(path);
+      svgedit.recalculate.recalculateDimensions(path);
     }
   };
 
