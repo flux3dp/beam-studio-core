@@ -609,6 +609,7 @@ const lang: ILang = {
         parameters: '選擇參數',
         strength: '功率',
         speed: '速度',
+        acc: 'Acc.',
         speed_contrain_warning: '矢量路径速度将被限制在 20mm/s，您可以在偏好设定解除此限制。',
         repeat: '运行次数',
         add_on: '扩充模组',

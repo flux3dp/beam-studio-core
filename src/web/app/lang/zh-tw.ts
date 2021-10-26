@@ -609,6 +609,7 @@ const lang: ILang = {
         parameters: '選擇參數',
         strength: '功率',
         speed: '速度',
+        acc: '加速度',
         speed_contrain_warning: '向量路徑速度將被限制在 20mm/s ，您可以在偏好設定解除此限制。',
         repeat: '執行次數',
         add_on: '擴充模組',

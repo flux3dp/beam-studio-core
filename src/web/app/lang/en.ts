@@ -609,6 +609,7 @@ const lang: ILang = {
         parameters: 'Parameters',
         strength: 'Power',
         speed: 'Speed',
+        acc: 'Acc.',
         speed_contrain_warning: 'The cutting speed of vector path objects will be constrained to 20 mm/s.You can remove this limit at Preferences Settings.',
         repeat: 'Execute',
         add_on: 'Add-on',

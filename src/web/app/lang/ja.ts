@@ -609,6 +609,7 @@ const lang: ILang = {
         parameters: 'パラメーター',
         strength: '出力',
         speed: '速度',
+        acc: 'Acc.',
         speed_contrain_warning: 'ベクトルパスオブジェクトの切断速度は 20mm/s に制限されます。この制限は[好み]で削除できます。',
         repeat: '実行',
         add_on: '拡張機能',

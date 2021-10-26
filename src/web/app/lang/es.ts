@@ -609,6 +609,7 @@ const lang: ILang = {
         parameters: 'Parámetros',
         strength: 'Poder',
         speed: 'Velocidad',
+        acc: 'Acc.',
         speed_contrain_warning: 'La velocidad de corte de los objetos de trayectoria vectorial se limitará a 20mm/s. Puede eliminar este límite en Configuración de preferencias.',
         repeat: 'Ejecutar',
         add_on: 'Añadir',

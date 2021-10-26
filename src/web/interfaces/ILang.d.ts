@@ -607,6 +607,7 @@ export interface ILang {
         parameters: string,
         strength: string,
         speed: string,
+        acc: string,
         speed_contrain_warning: string,
         repeat: string,
         add_on: string,

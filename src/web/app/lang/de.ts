@@ -609,6 +609,7 @@ const lang: ILang = {
         parameters: 'Parameter',
         strength: 'Leistung',
         speed: 'Geschwindigkeit',
+        acc: 'Acc.',
         speed_contrain_warning: 'Die Schnittgeschwindigkeit von Vektorpfadobjekten wird auf 20mm/s begrenzt. Sie können diese Grenze in den Einstellungen für Einstellungen entfernen.',
         repeat: 'Ausführen',
         add_on: 'Zusatz-Module',

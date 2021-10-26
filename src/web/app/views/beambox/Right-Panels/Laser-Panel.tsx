@@ -54,6 +54,7 @@ interface Props {
 
 interface State {
   speed: number;
+  acc: number;
   power: number;
   repeat: number;
   height: number;
@@ -63,6 +64,7 @@ interface State {
   configName?: string;
   selectedItem?: string;
   hasMultiSpeed?: boolean;
+  hasMultiAcc?: boolean;
   hasMultiPower?: boolean;
   hasMultiRepeat?: boolean;
   hasMultiZStep?: boolean;
@@ -82,6 +84,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     this.initDefaultConfig();
     this.state = {
       speed: 3,
+      acc: 4000,
       power: 1,
       repeat: 1,
       height: -3,
@@ -133,6 +136,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         ...config,
         isDiode: Boolean(config && config.diode && config.diode > 0),
         hasMultiSpeed: false,
+        hasMultiAcc: false,
         hasMultiPower: false,
         hasMultiRepeat: false,
         hasMultiHeight: false,
@@ -296,6 +300,15 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const { selectedLayers } = this.props;
     selectedLayers.forEach((layerName: string) => {
       writeData(layerName, DataType.speed, val);
+      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+    });
+  };
+
+  handleAccChange = (val: number): void => {
+    this.setState({ acc: val, configName: CUSTOM_PRESET_CONSTANT });
+    const { selectedLayers } = this.props;
+    selectedLayers.forEach((layerName: string) => {
+      writeData(layerName, DataType.acc, val);
       writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
   };
@@ -563,6 +576,42 @@ class LaserPanel extends React.PureComponent<Props, State> {
           />
         </div>
         {renderWarningText()}
+      </div>
+    );
+  };
+
+  renderAcc = (): JSX.Element => {
+    const { hasMultiAcc: hasMultipleValue, acc } = this.state;
+
+    const maxValue = 6000;
+    const minValue = 100;
+    const unitDisplay = { mm: 'mm/s2', inches: 'in/s2' }[this.unit];
+    const decimalDisplay = 0;
+    return (
+      <div className="panel">
+        <span className="title">{LANG.speed}</span>
+        <UnitInput
+          id="acc"
+          min={minValue}
+          max={maxValue}
+          unit={unitDisplay}
+          defaultValue={acc}
+          getValue={this.handleAccChange}
+          decimal={decimalDisplay}
+          displayMultiValue={hasMultipleValue}
+        />
+        <div className="slider-container">
+          <input
+            id="acc_value"
+            className={classNames('rainbow-slider')}
+            type="range"
+            min={minValue}
+            max={maxValue}
+            step={100}
+            value={acc}
+            onChange={(e) => this.handleAccChange(Number(e.target.value))}
+          />
+        </div>
       </div>
     );
   };
@@ -906,6 +955,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           </div>
           {strengthPanel}
           {speedPanel}
+          {this.renderAcc()}
           {repeatPanel}
           {modalDialog}
         </div>
