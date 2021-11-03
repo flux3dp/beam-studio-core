@@ -359,13 +359,6 @@ const StepRefocus = ({
   } else {
     message = LANG.please_refocus.beambox;
     child = (
-      <video className="video" ref={videoElem} autoPlay loop>
-        <source src="video/bb2_focus.webm" type="video/webm" />
-      </video>
-    );
-  } else {
-    message = LANG.please_refocus.beambox;
-    child = (
       <video className="video" ref={videoElem} autoPlay loop muted>
         <source src="video/bb_focus.webm" type="video/webm" />
         <source src="video/bb_focus.mp4" type="video/mp4" />
