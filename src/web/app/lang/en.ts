@@ -320,7 +320,7 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'USB Connection',
-      title_sub: ' (Ultra 60 Only)',
+      title_sub: ' (HEXA Only)',
       tutorial1: '1. Connect the machine with your computer with USB cable.',
       tutorial2: '2. Click Next.',
     },
@@ -1184,7 +1184,7 @@ const lang: ILang = {
       beambox: 'Kindly adjust the platform to the focal point (the height of turned down acrylic)',
       beamo: 'Kindly adjust the laser head to focus on the engraving object (the height of turned down acrylic)',
       beamo_af: 'Kindly double-tap the side button of the autofocus add-on and let the probe touch the material softly.',
-      beambox2: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
+      hexa: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
     },
     without_af: 'Without Autofocus',
     with_af: 'With Autofocus',

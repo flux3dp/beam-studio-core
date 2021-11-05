@@ -7,7 +7,7 @@ jest.mock('helpers/i18n', () => ({
     initialize: {
       connect_usb: {
         title: 'USB Connection',
-        title_sub: ' (Ultra 60 Only)',
+        title_sub: ' (HEXA Only)',
         tutorial1: '1. Connect the machine with your computer with USB cable.',
         tutorial2: '2. Click Next.',
       },

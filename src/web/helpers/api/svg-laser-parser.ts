@@ -65,7 +65,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let totalLength = 0;
       let blob;
 
-      if (opts.model === 'fbb2b') {
+      if (opts.model === 'fhexa1') {
         args.push('-bb2');
       } else if (opts.model === 'fbb1p') {
         args.push('-pro');
@@ -517,7 +517,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         ];
 
         if (opts) {
-          if (opts.model === 'fbb2b') {
+          if (opts.model === 'fhexa1') {
             args.push('-bb2');
           } else if (opts.model === 'fbb1p') {
             args.push('-pro');

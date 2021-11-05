@@ -36,7 +36,7 @@ export default class MonitorRelocate extends React.PureComponent<Props, State> {
 
   constructor(props) {
     super(props);
-    this.isBeamboxCamera = ['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fbb2b', 'laser-b1', 'darwin-dev'].includes(this.props.device.model);
+    this.isBeamboxCamera = ['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'darwin-dev'].includes(this.props.device.model);
     this.state = {
       isHd: false,
       currentPosition: {

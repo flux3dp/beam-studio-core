@@ -200,7 +200,7 @@ export default {
       speed: 10,
     },
   },
-  BEAMBOX2: {
+  HEXA: {
     wood_3mm_cutting: {
       power: 55,
       speed: 7,

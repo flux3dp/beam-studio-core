@@ -284,7 +284,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             layer.removeAttribute('data-configName');
           }
         }
-      } else if (BeamboxPreference.read('workarea') !== 'fbb2b' && Number(layer.getAttribute('data-speed')) > 300) {
+      } else if (BeamboxPreference.read('workarea') !== 'fhexa1' && Number(layer.getAttribute('data-speed')) > 300) {
         layer.setAttribute('data-speed', '300');
       }
     }
@@ -533,7 +533,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       return null;
     };
 
-    const maxValue = BeamboxPreference.read('workarea') === 'fbb2b' ? 900 : 300;
+    const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
     const minValue = 3;
     const unitDisplay = { mm: 'mm/s', inches: 'in/s' }[this.unit];
     const decimalDisplay = { mm: 1, inches: 2 }[this.unit];
@@ -667,7 +667,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       fbm1: 'BEAMO',
       fbb1b: 'BEAMBOX',
       fbb1p: 'BEAMBOX_PRO',
-      fbb2b: 'BEAMBOX2',
+      fhexa1: 'HEXA',
     };
     const modelName = modelMap[model] || 'BEAMO';
     if (!RightPanelConstants[modelName][paraName]) {

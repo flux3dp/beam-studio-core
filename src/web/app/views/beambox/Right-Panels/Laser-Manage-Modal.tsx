@@ -69,7 +69,7 @@ class LaserManageModal extends React.Component<Props, State> {
       fbm1: 'BEAMO',
       fbb1b: 'BEAMBOX',
       fbb1p: 'BEAMBOX_PRO',
-      fbb2b: 'BEAMBOX2',
+      fhexa1: 'HEXA',
     };
     const modelName = modelMap[model] || 'BEAMO';
     if (!RightPanelConstants[modelName][name]) {

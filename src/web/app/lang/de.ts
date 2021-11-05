@@ -320,7 +320,7 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'tUSB Connection',
-      title_sub: ' t(Ultra 60 Only)',
+      title_sub: ' t(HEXA Only)',
       tutorial1: 't1. Connect the machine with your computer with USB cable.',
       tutorial2: 't2. Click Next.',
     },
@@ -1184,7 +1184,7 @@ const lang: ILang = {
       beambox: 'Stelle die Plattform bitte auf den Brennpunkt ein (die Höhe des umgedrehten Acryls).',
       beamo: 'Stelle den Laserkopf bitte so ein, dass er auf das Gravurobjekt fokussiert (Höhe des umgedrehten Acryls).',
       beamo_af: 'Tippen Sie bitte zweimal auf die Seitentaste des Autofokus-Add-Ons und lassen Sie die Sonde das Material sanft berühren.',
-      beambox2: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
+      hexa: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
     },
     without_af: 'Ohne Autofukus',
     with_af: 'Mit Autofokus',

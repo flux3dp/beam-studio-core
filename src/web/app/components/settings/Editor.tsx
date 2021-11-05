@@ -104,9 +104,9 @@ function Editor({
       selected: selectedModel === 'fbb1p',
     },
     {
-      value: 'fbb2b',
-      label: 'Ultra 60',
-      selected: selectedModel === 'fbb2b',
+      value: 'fhexa1',
+      label: 'HEXA',
+      selected: selectedModel === 'fhexa1',
     },
   ];
 

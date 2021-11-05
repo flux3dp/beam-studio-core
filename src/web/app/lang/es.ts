@@ -320,7 +320,7 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'tUSB Connection',
-      title_sub: ' t(Ultra 60 Only)',
+      title_sub: ' t(HEXA Only)',
       tutorial1: 't1. Connect the machine with your computer with USB cable.',
       tutorial2: 't2. Click Next.',
     },
@@ -1184,7 +1184,7 @@ const lang: ILang = {
       beambox: 'Por favor, ajusta la plataforma al punto focal (la altura del acrílico rechazado)',
       beamo: 'Por favor, ajusta el cabezal del láser para enfocar el objeto grabado (la altura del acrílico rechazado)',
       beamo_af: 'Toca dos veces el botón de enfoque automático y deja que el de enfoque toque el material con cuidado.',
-      beambox2: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
+      hexa: 'Double click the height adjustment button to rise the honeycomb table up and make the probe touch the engraving material.',
     },
     without_af: 'Sin ajuste de enfoque',
     with_af: 'Con ajuste de enfoque',

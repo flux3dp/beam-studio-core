@@ -25,7 +25,7 @@ jest.mock('helpers/i18n', () => ({
         usb: 'USB Connection',
       },
       connect_usb: {
-        title_sub: ' (Ultra 60 Only)',
+        title_sub: ' (HEXA Only)',
       },
       skip: 'Skip',
       cancel: 'Cancel',

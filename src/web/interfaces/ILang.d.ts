@@ -1182,7 +1182,7 @@ export interface ILang {
       beambox: string,
       beamo: string,
       beamo_af: string,
-      beambox2: string,
+      hexa: string,
     },
     without_af: string,
     with_af: string,

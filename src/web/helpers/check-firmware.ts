@@ -22,7 +22,7 @@ const infoMap = {
 
 function checkMachineSeries(model) {
   switch (model) {
-    case 'fbb2b':
+    case 'fhexa1':
     case 'fbb1b':
     case 'fbb1p':
     case 'fbm1':

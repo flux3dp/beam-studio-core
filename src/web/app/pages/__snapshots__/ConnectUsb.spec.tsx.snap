@@ -58,7 +58,7 @@ exports[`test Connect-Usb should render correctly 1`] = `
             <span
               className="sub"
             >
-               (Ultra 60 Only)
+               (HEXA Only)
             </span>
           </div>
           <div

@@ -68,7 +68,7 @@ export default {
   LOAD_FLEXIBLE_FILAMENT: 'LOADF',
   UNLOAD_FILAMENT: 'UNLOAD',
   WORKAREA_IN_MM: {
-    fbb2b: {
+    fhexa1: {
       maxX: 7369,
       maxY: 4140.5,
     },

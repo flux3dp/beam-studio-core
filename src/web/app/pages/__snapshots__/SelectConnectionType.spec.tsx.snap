@@ -98,6 +98,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
               />
               <button
                 className="btn btn-action"
+                id="connect-usb"
                 onClick={[Function]}
                 type="button"
               >
@@ -105,7 +106,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                 <span
                   className="sub"
                 >
-                   (Ultra 60 Only)
+                   (HEXA Only)
                 </span>
               </button>
             </div>
@@ -212,6 +213,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-usb"
                   onClick={[Function]}
                   type="button"
                 >
@@ -219,7 +221,7 @@ exports[`test Select-Connection-Type should render correctly but not new user 1`
                   <span
                     className="sub"
                   >
-                     (Ultra 60 Only)
+                     (HEXA Only)
                   </span>
                 </button>
               </div>
@@ -330,6 +332,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-usb"
                 onClick={[Function]}
                 type="button"
               >
@@ -337,7 +340,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                 <span
                   className="sub"
                 >
-                   (Ultra 60 Only)
+                   (HEXA Only)
                 </span>
               </button>
             </div>
@@ -444,6 +447,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-usb"
                   onClick={[Function]}
                   type="button"
                 >
@@ -451,7 +455,7 @@ exports[`test Select-Connection-Type should render correctly with new user 1`] =
                   <span
                     className="sub"
                   >
-                     (Ultra 60 Only)
+                     (HEXA Only)
                   </span>
                 </button>
               </div>
@@ -562,6 +566,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
               />
               <button
                 className="btn btn-action"
+                id="connect-usb"
                 onClick={[Function]}
                 type="button"
               >
@@ -569,7 +574,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                 <span
                   className="sub"
                 >
-                   (Ultra 60 Only)
+                   (HEXA Only)
                 </span>
               </button>
             </div>
@@ -676,6 +681,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                 />
                 <button
                   className="btn btn-action"
+                  id="connect-usb"
                   onClick={[Function]}
                   type="button"
                 >
@@ -683,7 +689,7 @@ exports[`test Select-Connection-Type should render correctly with new user 2`] =
                   <span
                     className="sub"
                   >
-                     (Ultra 60 Only)
+                     (HEXA Only)
                   </span>
                 </button>
               </div>

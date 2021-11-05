@@ -38,8 +38,8 @@ exports[`should render correctly 1`] = `
               "value": "fbb1p",
             },
             Object {
-              "label": "Beambox2",
-              "value": "fbb2b",
+              "label": "HEXA",
+              "value": "fhexa1",
             },
           ]
         }
@@ -150,8 +150,8 @@ exports[`should render correctly 2`] = `
               "value": "fbb1p",
             },
             Object {
-              "label": "Beambox2",
-              "value": "fbb2b",
+              "label": "HEXA",
+              "value": "fhexa1",
             },
           ]
         }
@@ -262,8 +262,8 @@ exports[`should render correctly 3`] = `
               "value": "fbb1p",
             },
             Object {
-              "label": "Beambox2",
-              "value": "fbb2b",
+              "label": "HEXA",
+              "value": "fhexa1",
             },
           ]
         }
@@ -374,8 +374,8 @@ exports[`should render correctly 4`] = `
               "value": "fbb1p",
             },
             Object {
-              "label": "Beambox2",
-              "value": "fbb2b",
+              "label": "HEXA",
+              "value": "fhexa1",
             },
           ]
         }
