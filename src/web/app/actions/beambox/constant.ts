@@ -32,8 +32,8 @@ WorkareaMap.set('fhexa1', {
 export default {
   dpmm: 10,
   dimension: {
-    getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model).width,
-    getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model).height,
+    getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model)?.width || 3000,
+    getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
   },
   camera: {
     movementSpeed: {
@@ -74,6 +74,7 @@ export default {
     },
   },
   allowedWorkarea: {
+    'laser-b2': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     'laser-b1': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     fhexa1: ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     fbb1p: ['fbb1p', 'fbb1b', 'fbm1'],
