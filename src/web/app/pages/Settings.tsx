@@ -202,6 +202,15 @@ class Settings extends React.PureComponent<null, State> {
     const isFastGradientOn = this.getBeamboxPreferenceEditingValue('fast_gradient') !== false;
     const fastGradientOptions = this.onOffOptionFactory(isFastGradientOn);
 
+    const isReverseEngraving = this.getBeamboxPreferenceEditingValue('reverse-engraving') === true;
+    const reverseEngravingOptions = this.onOffOptionFactory(
+      isReverseEngraving,
+      OptionValues.TRUE,
+      OptionValues.FALSE,
+      lang.settings.bottom_up,
+      lang.settings.top_down,
+    );
+
     const isVectorSpeedConstrainOn = this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
     const vectorSpeedConstraintOptions = this.onOffOptionFactory(isVectorSpeedConstrainOn);
 
@@ -294,6 +303,7 @@ class Settings extends React.PureComponent<null, State> {
           />
           <Engraving
             fastGradientOptions={fastGradientOptions}
+            reverseEngravingOptions={reverseEngravingOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Path

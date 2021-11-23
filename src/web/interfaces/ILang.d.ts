@@ -387,6 +387,9 @@ export interface ILang {
     default_font_family: string,
     default_font_style: string,
     fast_gradient: string,
+    engraving_direction: string;
+    top_down: string;
+    bottom_up: string;
     vector_speed_constraint: string,
     loop_compensation: string,
     blade_radius: string,
@@ -441,6 +444,7 @@ export interface ILang {
       continuous_drawing: string,
       simplify_clipper_path: string,
       fast_gradient: string,
+      reverse_engraving: string,
       vector_speed_constraint: string,
       loop_compensation: string,
       mask: string,

@@ -116,6 +116,10 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push(`${BeamboxPreference.read('stripe_compensation_y0') || 0},${BeamboxPreference.read('stripe_compensation_interval') || 0},${BeamboxPreference.read('stripe_compensation_power') || 100}`);
       }
 
+      if (BeamboxPreference.read('reverse-engraving')) {
+        args.push('-rev');
+      }
+
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);
