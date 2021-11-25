@@ -13,6 +13,7 @@ export default {
   UNKNOWN: 'UNKNOWN',
   COMPLETED: 'COMPLETED',
   COMPLETING: 'COMPLETING',
+  ALARM: 'ALARM',
   FATAL: 'FATAL',
   OK: 'OK',
   IDLE: 'IDLE',
@@ -118,5 +119,7 @@ export default {
     PREPARING: 68,
     ABORTED: 128,
     ABORTING: 130,
+    ALARM: 256,
+    FATAL: 512,
   },
 };

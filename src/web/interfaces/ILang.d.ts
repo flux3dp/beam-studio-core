@@ -1032,6 +1032,11 @@ export interface ILang {
     HARDWARE_ERROR_DOOR_OPENED: string,
     HARDWARE_ERROR_OVER_TEMPERATURE: string,
     HARDWARE_ERROR_BOTTOM_OPENED: string,
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: string;
+    HARDWARE_ERROR_DRAWER_OPENED: string;
+    HARDWARE_ERROR_FIRE_DETECTED: string;
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: string;
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: string;
     USER_OPERATION_ROTARY_PAUSE: string,
     RESOURCE_BUSY: string,
     DEVICE_ERROR: string,
@@ -1166,6 +1171,8 @@ export interface ILang {
     66: string,
     68: string,
     128: string,
+    256: string;
+    512: string;
     UNKNOWN: string,
   },
   camera_calibration: {

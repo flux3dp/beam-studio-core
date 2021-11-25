@@ -1034,6 +1034,11 @@ const lang: ILang = {
     HARDWARE_ERROR_DOOR_OPENED: '#901 Cierra la puerta para continuar.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Sobrecalentado. Por favor, espera unos minutos.',
     HARDWARE_ERROR_BOTTOM_OPENED: '#903 Tapa Abierta. Cierra la puerta para continuar.',
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: '#910',
+    HARDWARE_ERROR_DRAWER_OPENED: '#911',
+    HARDWARE_ERROR_FIRE_DETECTED: '#912',
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913',
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914',
     USER_OPERATION_ROTARY_PAUSE: 'Por favor, cambia al motor rotativo',
     RESOURCE_BUSY: 'La máquina está ocupada\nSi no está funcionando, por favor reinicia la máquina.',
     DEVICE_ERROR: 'Algo salió mal.\nPor favor, reinicia la máquina', // Deprecated in FW 3.3.1
@@ -1168,6 +1173,8 @@ const lang: ILang = {
     66: 'Completando',
     68: 'Preparando',
     128: 'Abortado',
+    256: 'Alarm',
+    512: 'Fatal',
     UNKNOWN: 'Desconocido',
   },
   camera_calibration: {

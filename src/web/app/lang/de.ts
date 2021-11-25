@@ -1034,6 +1034,11 @@ const lang: ILang = {
     HARDWARE_ERROR_DOOR_OPENED: '#901 schliesse die Tür, um fortzufahren.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Überhitzt. Bitte warten Sie einige Minuten.',
     HARDWARE_ERROR_BOTTOM_OPENED: '#903 Boden offen. Close the door to continue.',
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: '#910',
+    HARDWARE_ERROR_DRAWER_OPENED: '#911',
+    HARDWARE_ERROR_FIRE_DETECTED: '#912',
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913',
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914',
     USER_OPERATION_ROTARY_PAUSE: 'Bitte wechseln Sie zum Rotationsmotor',
     RESOURCE_BUSY: 'Die Maschine ist beschäftigt\nWenn es nicht läuft, starte den Computer neu',
     DEVICE_ERROR: 'Etwas ist schief gelaufen\nBitte starte die Maschine neu', // Deprecated in FW 3.3.1
@@ -1168,6 +1173,8 @@ const lang: ILang = {
     66: 'Abschluss',
     68: 'Vorbereiten',
     128: 'Abgebrochen',
+    256: 'Alarm',
+    512: 'Fatal',
     UNKNOWN: 'Unbekannt',
   },
   camera_calibration: {

@@ -1030,10 +1030,15 @@ const lang: ILang = {
     connecting: '連線中，請稍候',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 主板沒有回應。請聯繫 FLUX 客服。', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 子系統沒有回應。請聯繫 FLUX 客服。', // Deprecated in FW 3.3.1
-    HARDWARE_ERROR_PUMP_ERROR: '#900 水冷未開，請聯繫客服 (02) 2651-3171',
+    HARDWARE_ERROR_PUMP_ERROR: '#900 水冷未開，請聯繫客服。',
     HARDWARE_ERROR_DOOR_OPENED: '#901 門蓋開啟，將門蓋關上以繼續',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 水溫過高，請稍後再繼續',
     HARDWARE_ERROR_BOTTOM_OPENED: '#903 底蓋開啟，將底蓋關上以繼續',
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: '#910 Z 軸歸零失敗',
+    HARDWARE_ERROR_DRAWER_OPENED: '#911 抽屜開啟',
+    HARDWARE_ERROR_FIRE_DETECTED: '#912 火焰偵測異常',
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 氣流偵測異常',
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 未偵測到旋轉軸',
     USER_OPERATION_ROTARY_PAUSE: '請切換旋轉軸馬達開關',
     RESOURCE_BUSY: '機器忙碌中\n如果機器沒有在進行動作， 請重新啟動機器',
     DEVICE_ERROR: '韌體發生錯誤\n請重新啟動機器', // Deprecated in FW 3.3.1
@@ -1168,6 +1173,8 @@ const lang: ILang = {
     66: '完成中',
     68: '準備中',
     128: '已中斷',
+    256: 'Alarm',
+    512: 'Fatal',
     UNKNOWN: '-',
   },
   camera_calibration: {

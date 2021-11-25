@@ -1034,6 +1034,11 @@ const lang: ILang = {
     HARDWARE_ERROR_DOOR_OPENED: '#901 门盖开启，将门盖关上以继续',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 水温过高，请稍后再继续',
     HARDWARE_ERROR_BOTTOM_OPENED: '#903 底盖开启，将底盖关上以继续',
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: '#910',
+    HARDWARE_ERROR_DRAWER_OPENED: '#911',
+    HARDWARE_ERROR_FIRE_DETECTED: '#912',
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913',
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914',
     USER_OPERATION_ROTARY_PAUSE: '请切换旋转轴马达开关',
     RESOURCE_BUSY: '机器忙碌中\n如果机器没有在进行动作， 请重新启动机器',
     DEVICE_ERROR: '固件发生错误\n请重新启动机器', // Deprecated in FW 3.3.1
@@ -1168,6 +1173,8 @@ const lang: ILang = {
     66: '完成中',
     68: '准备中',
     128: '已中断',
+    256: 'Alarm',
+    512: 'Fatal',
     UNKNOWN: '-',
   },
   camera_calibration: {

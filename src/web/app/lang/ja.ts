@@ -1034,6 +1034,11 @@ const lang: ILang = {
     HARDWARE_ERROR_DOOR_OPENED: '#901 続行するにはドアを閉じてください。',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 過熱。数分お待ちください。',
     HARDWARE_ERROR_BOTTOM_OPENED: '#903 ボトムカバーオープン。ドアを閉めて続行します。',
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: '#910',
+    HARDWARE_ERROR_DRAWER_OPENED: '#911',
+    HARDWARE_ERROR_FIRE_DETECTED: '#912',
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913',
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914',
     USER_OPERATION_ROTARY_PAUSE: 'ロータリーモーターに切り替えてください',
     RESOURCE_BUSY: 'マシンはビジーです\n実行されていない場合は、マシンを再起動してください',
     DEVICE_ERROR: '何かがうまくいかなかった\nマシンを再起動してください', // Deprecated in FW 3.3.1
@@ -1168,6 +1173,8 @@ const lang: ILang = {
     66: '完了処理中',
     68: '準備中',
     128: 'アボートしました',
+    256: 'Alarm',
+    512: 'Fatal',
     UNKNOWN: '不明',
   },
   camera_calibration: {
