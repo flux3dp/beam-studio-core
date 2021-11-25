@@ -14,6 +14,7 @@ import Dialog from 'app/actions/dialog-caller';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'implementations/fontHelper';
+import InterProcess from 'helpers/api/inter-process';
 import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
@@ -65,6 +66,9 @@ class BeamboxInit {
     autoSaveHelper.init();
     fluxId.init();
     BeamboxStore.onDrawGuideLines(this.displayGuides);
+
+    // WebSocket for Adobe Illustrator Plug-In
+    InterProcess();
   }
 
   async showStartUpDialogs(): Promise<void> {
