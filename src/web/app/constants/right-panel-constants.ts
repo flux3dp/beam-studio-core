@@ -202,64 +202,64 @@ export default {
   },
   HEXA: {
     wood_3mm_cutting: {
-      power: 55,
-      speed: 7,
+      power: 40,
+      speed: 10,
     },
     wood_5mm_cutting: {
       power: 55,
-      speed: 4,
+      speed: 6,
     },
     wood_engraving: {
-      power: 20,
-      speed: 150,
+      power: 40,
+      speed: 500,
     },
     acrylic_3mm_cutting: {
-      power: 55,
-      speed: 7,
+      power: 45,
+      speed: 10,
     },
     acrylic_5mm_cutting: {
-      power: 55,
-      speed: 4,
+      power: 60,
+      speed: 5,
     },
     acrylic_engraving: {
-      power: 15,
-      speed: 150,
+      power: 35,
+      speed: 400,
     },
     leather_3mm_cutting: {
-      power: 55,
+      power: 50,
       speed: 4,
     },
     leather_5mm_cutting: {
       power: 55,
-      speed: 2,
+      speed: 3,
     },
     leather_engraving: {
-      power: 20,
-      speed: 150,
+      power: 25,
+      speed: 175,
     },
     fabric_3mm_cutting: {
-      power: 35,
+      power: 15,
       speed: 20,
     },
     fabric_5mm_cutting: {
-      power: 35,
-      speed: 20,
+      power: 20,
+      speed: 15,
     },
     fabric_engraving: {
-      power: 15,
-      speed: 150,
+      power: 20,
+      speed: 175,
     },
     rubber_bw_engraving: {
-      power: 40,
-      speed: 150,
+      power: 45,
+      speed: 200,
     },
     glass_bw_engraving: {
       power: 25,
-      speed: 150,
+      speed: 200,
     },
     metal_bw_engraving: {
-      power: 50,
-      speed: 140,
+      power: 25,
+      speed: 150,
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
