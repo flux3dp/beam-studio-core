@@ -1147,7 +1147,7 @@ const lang: ILang = {
     unable_to_start: '#830 Unable to start the task. Please try again. If this happens again, please contact us with bug report:\n',
     camera: {
       camera_cable_unstable: 'It is detected that the camera is transferring photos unstably. Preview can still be performed normally, but there may be the problem of slow preview or timeout.',
-      fail_to_transmit_image: '#845 Something went wrong with image transmission. Please try restarting the machine or contact us.',
+      fail_to_transmit_image: '#845 Something went wrong with image transmission. Please restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">this guide</a>.',
       ws_closed_unexpectly: '#844 Connection to machine camera has been closed unexpectedly.',
       continue_preview: 'Continue',
       abort_preview: 'Abort',

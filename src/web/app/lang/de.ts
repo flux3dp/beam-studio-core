@@ -1147,7 +1147,7 @@ const lang: ILang = {
     unable_to_start: '#830 Die Aufgabe konnte nicht gestartet werden. Bitte versuchen Sie es erneut. Wenn dies erneut geschieht, kontaktieren Sie uns bitte mit einem Fehlerbericht:\n',
     camera: {
       camera_cable_unstable: 'Es wird festgestellt, dass die Kamera Fotos instabil überträgt. Die Vorschau kann weiterhin normal ausgeführt werden, es kann jedoch das Problem einer langsamen Vorschau oder eines Zeitlimits auftreten.',
-      fail_to_transmit_image: '#845 Bei der Bildübertragung ist ein Fehler aufgetreten. Bitte starte Ihre Maschine neu oder kontaktieren Sie uns.',
+      fail_to_transmit_image: '#845 Bei der Bildübertragung ist ein Fehler aufgetreten. Bitte starten Sie Ihren Maschinen oder Beam Studio neu. Wenn dieser Fehler weiterhin besteht, befolgen Sie <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">diese Anleitung</a>.',
       ws_closed_unexpectly: '#844 Die Verbindung zur Maschinenkamera wurde unerwartet geschlossen.',
       continue_preview: 'Fortsetzen',
       abort_preview: 'Abbrechen',

@@ -1147,7 +1147,7 @@ const lang: ILang = {
     unable_to_start: '#830 無法開始工作，如果持續發生，請附上錯誤回報，與我們聯絡:\n',
     camera: {
       camera_cable_unstable: '偵測到相機傳輸照片時不穩定，仍能正常進行相機預覽，但可能會有預覽速度較慢或超時的問題。<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001791895">了解更多</a>',
-      fail_to_transmit_image: '#845 相機傳輸照片異常，請將機器重新開機。如果問題持續發生，請與我們聯絡。',
+      fail_to_transmit_image: '#845 相機傳輸照片異常，請將機器重新開機。如果問題持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/4402756056079">此則引導</a>。',
       ws_closed_unexpectly: '#844 與機器相機的連線無預期的中斷。',
       continue_preview: '繼續預覽',
       abort_preview: '中斷預覽',
