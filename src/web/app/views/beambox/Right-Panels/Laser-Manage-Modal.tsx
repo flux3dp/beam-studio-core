@@ -413,6 +413,9 @@ class LaserManageModal extends React.Component<Props, State> {
     const unitZStepDcimal = { mm: 2, inches: 4 }[this.unit];
     const unitZStepStep = { mm: 0.5, inches: 0.01 }[this.unit];
 
+    const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+    const speedLimit = model === 'fhexa1' ? 900 : 300;
+
     return (
       <Modal>
         <div className="more-config-panel">
@@ -462,7 +465,7 @@ class LaserManageModal extends React.Component<Props, State> {
                 <UnitInput
                   id="laser_speed"
                   min={3}
-                  max={300}
+                  max={speedLimit}
                   disabled={disableControl}
                   unit={speedUnit}
                   getValue={(val) => this.handleUnsavedChange(selectedItem, 'speed', val)}
