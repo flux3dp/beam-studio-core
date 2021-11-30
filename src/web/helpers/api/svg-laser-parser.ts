@@ -67,6 +67,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       if (opts.model === 'fhexa1') {
         args.push('-bb2');
+        args.push('-acc', opts.enableDiode ? '4500' : '5000');
       } else if (opts.model === 'fbb1p') {
         args.push('-pro');
       } else if (opts.model === 'fbm1') {
