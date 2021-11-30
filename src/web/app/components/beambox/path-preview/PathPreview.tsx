@@ -545,6 +545,8 @@ class PathPreview extends React.Component<Props, State> {
     window.removeEventListener('keydown', this.windowKeyDown);
     window.removeEventListener('keyup', this.windowKeyUp);
     window.removeEventListener('resize', this.updateWorkspace);
+
+    documentPanelEventEmitter.off('workarea-change', this.onDeviceChange);
   }
 
   setCameraAttrs = (attrs) => {
