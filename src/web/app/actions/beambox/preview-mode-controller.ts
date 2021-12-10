@@ -88,8 +88,8 @@ class PreviewModeController {
       await DeviceMaster.rawSetFan(false);
       Progress.update('start-preview-mode', { message: LANG.message.turningOffAirPump });
       await DeviceMaster.rawSetAirPump(false);
-      Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await DeviceMaster.rawSetWaterPump(false);
+      Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await DeviceMaster.connectCamera();
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();

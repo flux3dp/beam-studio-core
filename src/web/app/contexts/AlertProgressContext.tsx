@@ -42,6 +42,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
     eventEmitter.on('POP_BY_ID', this.popById.bind(this));
     eventEmitter.on('POP_UP', this.popUp.bind(this));
     eventEmitter.on('CHECK_ID_EXIST', this.checkIdExist.bind(this));
+    eventEmitter.on('CHECK_PROGRESS_EXIST', this.checkProgressExist.bind(this));
   }
 
   componentWillUnmount() {
@@ -70,6 +71,17 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       return itemId === id && !('isProgress' in item);
     });
     response.idExist = res.length > 0;
+  };
+
+  checkProgressExist = (id: string, response: {
+    result: boolean;
+  }): void => {
+    const { alertProgressStack } = this.state;
+    const res = alertProgressStack.filter((item) => {
+      const { id: itemId, isProgress } = item;
+      return itemId === id && isProgress;
+    });
+    response.result = res.length > 0;
   };
 
   pushToStack = (item: (IAlert | IProgressDialog), callback = () => {}): void => {

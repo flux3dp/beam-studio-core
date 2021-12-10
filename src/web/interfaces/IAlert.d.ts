@@ -24,4 +24,5 @@ export interface IAlert {
   };
   checkboxText?: string;
   checkboxCallbacks?: () => void;
+  isProgress?: false;
 }
