@@ -414,6 +414,7 @@ const lang: ILang = {
     default_enable_autofocus_module: '自動對焦預設',
     default_enable_diode_module: '二極體雷射預設',
     diode_offset: '二極體雷射偏移值',
+    diode_one_way_engraving: '二極體雷射單向雕刻',
     share_with_flux: '分享 Beam Studio 分析',
     none: '無',
     close: '關閉',

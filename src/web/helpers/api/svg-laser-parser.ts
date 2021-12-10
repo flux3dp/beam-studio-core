@@ -66,7 +66,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let blob;
 
       if (opts.model === 'fhexa1') {
-        args.push('-bb2');
+        args.push('-hexa');
         args.push('-acc', opts.enableDiode ? '4500' : '5000');
       } else if (opts.model === 'fbb1p') {
         args.push('-pro');
@@ -98,6 +98,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.enableDiode) {
         args.push('-diode');
         args.push(`${BeamboxPreference.read('diode_offset_x') || 0},${BeamboxPreference.read('diode_offset_y') || 0}`);
+        if (BeamboxPreference.read('diode-one-way-engraving')) {
+          args.push('-diode-owe');
+        }
       }
 
       if (opts.shouldUseFastGradient) {

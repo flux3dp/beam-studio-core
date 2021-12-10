@@ -414,6 +414,7 @@ const lang: ILang = {
     default_enable_autofocus_module: '自动对焦预设',
     default_enable_diode_module: '二极管激光预设',
     diode_offset: '二极管激光偏移值',
+    diode_one_way_engraving: '二极管激光单向雕刻',
     share_with_flux: '与 FLUX 分享',
     none: '无',
     close: '关闭',

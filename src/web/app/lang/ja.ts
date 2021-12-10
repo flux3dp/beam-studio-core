@@ -414,6 +414,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'オートフォーカス既定',
     default_enable_diode_module: 'ダイオードレーザー既定',
     diode_offset: 'ダイオードレーザーオフセット',
+    diode_one_way_engraving: 'ダイオードレーザー一方向彫刻',
     share_with_flux: 'Beam Studio Analyticsを共有する',
     none: 'なし',
     close: '閉じる',

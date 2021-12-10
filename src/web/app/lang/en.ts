@@ -414,6 +414,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'Autofocus Default',
     default_enable_diode_module: 'Diode Laser Default',
     diode_offset: 'Diode Laser Offset',
+    diode_one_way_engraving: 'Diode Laser One Way Engraving',
     share_with_flux: 'Share Beam Studio Analytics',
     none: 'None',
     close: 'Close',

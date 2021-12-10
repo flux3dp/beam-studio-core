@@ -232,6 +232,9 @@ class Settings extends React.PureComponent<null, State> {
     const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
     const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
 
+    const isDiodeOneWayEngravingOn = this.getBeamboxPreferenceEditingValue('diode-one-way-engraving');
+    const diodeOneWayEngravingOpts = this.onOffOptionFactory(isDiodeOneWayEngravingOn);
+
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
 
@@ -334,6 +337,7 @@ class Settings extends React.PureComponent<null, State> {
             borderlessModeOptions={borderlessModeOptions}
             autofocusModuleOptions={autofocusModuleOptions}
             diodeModuleOptions={diodeModuleOptions}
+            diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Privacy

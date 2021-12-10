@@ -412,6 +412,7 @@ export interface ILang {
     default_enable_autofocus_module: string,
     default_enable_diode_module: string,
     diode_offset: string,
+    diode_one_way_engraving: string,
     share_with_flux: string,
     none: string,
     close: string,

@@ -414,6 +414,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'Standardeinstellung für Autofokusmodul',
     default_enable_diode_module: 'Diodenlaser Standard',
     diode_offset: 'Diodenlaser Offset',
+    diode_one_way_engraving: 'Diodenlaser-Einweggravur',
     share_with_flux: 'Teilen Sie Beam Studio Analytics',
     none: 'Keiner',
     close: 'Schließen',

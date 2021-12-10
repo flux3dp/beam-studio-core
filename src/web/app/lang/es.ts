@@ -414,6 +414,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'Autoenfoque predeterminado',
     default_enable_diode_module: 'Láser diodo por defecto',
     diode_offset: 'Compensación de láser diodo',
+    diode_one_way_engraving: 'Grabado unidireccional con láser de diodo',
     share_with_flux: 'Compartir Beam Studio Analytics',
     none: 'Ninguno',
     close: 'Cerrar',
