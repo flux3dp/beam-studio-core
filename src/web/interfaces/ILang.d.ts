@@ -717,6 +717,8 @@ export interface ILang {
         difference: string,
         hflip: string,
         vflip: string,
+        lock_aspect: string;
+        unlock_aspect: string;
         option_panel: {
           fill: string,
           rounded_corner: string,

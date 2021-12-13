@@ -719,6 +719,8 @@ const lang: ILang = {
         difference: '相異',
         hflip: '水平翻轉',
         vflip: '垂直翻轉',
+        lock_aspect: '鎖定長寬比',
+        unlock_aspect: '解鎖長寬比',
         option_panel: {
           fill: '填充',
           rounded_corner: '圓角',

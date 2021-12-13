@@ -719,6 +719,8 @@ const lang: ILang = {
         difference: 'Diferencia',
         hflip: 'Volteo horizontal',
         vflip: 'Volteo vertical',
+        lock_aspect: 'Bloquear relación de aspecto',
+        unlock_aspect: 'Desbloquear relación de aspecto',
         option_panel: {
           fill: 'Relleno',
           rounded_corner: 'Esquina redondeada',

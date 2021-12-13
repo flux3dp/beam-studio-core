@@ -719,6 +719,8 @@ const lang: ILang = {
         difference: '差',
         hflip: '左右反転',
         vflip: '上下反転',
+        lock_aspect: '縦横比を固定',
+        unlock_aspect: '縦横比をロック解除',
         option_panel: {
           fill: 'インフィル',
           rounded_corner: '角丸',

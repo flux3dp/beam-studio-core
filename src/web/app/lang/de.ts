@@ -719,6 +719,8 @@ const lang: ILang = {
         difference: 'Ausschluss',
         hflip: 'Horizontal Spiegeln',
         vflip: 'Vertical Spiegeln',
+        lock_aspect: 'Seitenverhältnis sperren',
+        unlock_aspect: 'Seitenverhältni entsperren',
         option_panel: {
           fill: 'Füllen',
           rounded_corner: 'Gerundete Ecke',
