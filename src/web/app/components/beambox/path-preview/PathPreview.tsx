@@ -594,11 +594,14 @@ class PathPreview extends React.Component<Props, State> {
 
   updateGcode = async (): Promise<void> => {
     const { togglePathPreview } = this.props;
+    const svgEditor = document.getElementById('svg_editor');
+    if (svgEditor) svgEditor.style.display = '';
     const { gcodeBlob, gcodeBlobFastGradient } = await exportFuncs.getGcode();
     if (!gcodeBlob) {
       togglePathPreview();
       return;
     }
+    if (svgEditor) svgEditor.style.display = 'none';
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const result = (e.target.result as string).split('\n');
