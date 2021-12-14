@@ -354,6 +354,7 @@ const StepRefocus = ({
     child = (
       <video className="video" ref={videoElem} autoPlay loop>
         <source src="video/bb2_focus.webm" type="video/webm" />
+        <source src="video/bb2_focus.mp4" type="video/mp4" />
       </video>
     );
   } else {
