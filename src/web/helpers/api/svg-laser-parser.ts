@@ -98,7 +98,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.enableDiode) {
         args.push('-diode');
         args.push(`${BeamboxPreference.read('diode_offset_x') || 0},${BeamboxPreference.read('diode_offset_y') || 0}`);
-        if (BeamboxPreference.read('diode-one-way-engraving')) {
+        if (BeamboxPreference.read('diode-one-way-engraving') !== false) {
           args.push('-diode-owe');
         }
       }

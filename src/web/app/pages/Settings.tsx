@@ -232,7 +232,7 @@ class Settings extends React.PureComponent<null, State> {
     const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
     const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
 
-    const isDiodeOneWayEngravingOn = this.getBeamboxPreferenceEditingValue('diode-one-way-engraving');
+    const isDiodeOneWayEngravingOn = this.getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
     const diodeOneWayEngravingOpts = this.onOffOptionFactory(isDiodeOneWayEngravingOn);
 
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
