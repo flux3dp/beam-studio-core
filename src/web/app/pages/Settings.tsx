@@ -304,6 +304,14 @@ class Settings extends React.PureComponent<null, State> {
             fastGradientOptions={fastGradientOptions}
             reverseEngravingOptions={reverseEngravingOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+            paddingAccel={{
+              defaultValue: this.getBeamboxPreferenceEditingValue('padding_accel') || 5000,
+              getValue: (val) => this.updateBeamboxPreferenceChange('padding_accel', val),
+            }}
+            paddingAccelDiode={{
+              defaultValue: this.getBeamboxPreferenceEditingValue('padding_accel_diode') || 4500,
+              getValue: (val) => this.updateBeamboxPreferenceChange('padding_accel_diode', val),
+            }}
           />
           <Path
             selectedModel={selectedModel}

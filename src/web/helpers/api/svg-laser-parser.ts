@@ -67,7 +67,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
-        args.push('-acc', opts.enableDiode ? '4500' : '5000');
+        const accel = BeamboxPreference.read('padding_accel') || 5000;
+        const accelDiode = BeamboxPreference.read('padding_accel_diode') || 4500;
+        args.push('-acc', opts.enableDiode ? accelDiode : accel);
       } else if (opts.model === 'fbb1p') {
         args.push('-pro');
       } else if (opts.model === 'fbm1') {
