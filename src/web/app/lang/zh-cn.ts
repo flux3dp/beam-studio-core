@@ -415,6 +415,7 @@ const lang: ILang = {
     default_enable_diode_module: '二极管激光预设',
     diode_offset: '二极管激光偏移值',
     diode_one_way_engraving: '二极管激光单向雕刻',
+    diode_two_way_warning: '双向出光，速度较快时可能导致雕刻时位置误差，建议预先使用材料进行测试。',
     share_with_flux: '与 FLUX 分享',
     none: '无',
     close: '关闭',

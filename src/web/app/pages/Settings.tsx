@@ -23,12 +23,8 @@ import TextToPath from 'app/components/settings/TextToPath';
 import Update from 'app/components/settings/Update';
 import { IConfig } from 'interfaces/IAutosave';
 import { ILang } from 'interfaces/ILang';
+import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
-
-enum OptionValues {
-  TRUE = 'TRUE',
-  FALSE = 'FALSE',
-}
 
 interface State {
   lang?: ILang;

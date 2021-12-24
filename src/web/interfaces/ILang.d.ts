@@ -413,6 +413,7 @@ export interface ILang {
     default_enable_diode_module: string,
     diode_offset: string,
     diode_one_way_engraving: string,
+    diode_two_way_warning: string;
     share_with_flux: string,
     none: string,
     close: string,

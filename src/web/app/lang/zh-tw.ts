@@ -415,6 +415,7 @@ const lang: ILang = {
     default_enable_diode_module: '二極體雷射預設',
     diode_offset: '二極體雷射偏移值',
     diode_one_way_engraving: '二極體雷射單向雕刻',
+    diode_two_way_warning: '雙向出光，速度較快時可能導致雕刻時位置誤差，建議預先使用材料進行測試。',
     share_with_flux: '分享 Beam Studio 分析',
     none: '無',
     close: '關閉',

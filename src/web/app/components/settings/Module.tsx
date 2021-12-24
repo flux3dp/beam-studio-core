@@ -1,10 +1,12 @@
 import * as React from 'react';
 
+import alert from 'app/actions/alert-caller';
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { OptionValues } from 'app/constants/enums';
 
 interface Props {
   defaultUnit: string;
@@ -30,6 +32,13 @@ const Module = ({
   updateBeamboxPreferenceChange,
 }: Props): JSX.Element => {
   const { lang } = i18n;
+
+  const onDiodeOneWayEngravingChanged = (e) => {
+    if (e.target.value === OptionValues.FALSE) {
+      alert.popUp({ message: lang.settings.diode_two_way_warning });
+    }
+    updateBeamboxPreferenceChange('diode-one-way-engraving', e.target.value);
+  };
 
   return (
     <>
@@ -83,7 +92,7 @@ const Module = ({
         label={lang.settings.diode_one_way_engraving}
         id="default-diode"
         options={diodeOneWayEngravingOpts}
-        onChange={(e) => updateBeamboxPreferenceChange('diode-one-way-engraving', e.target.value)}
+        onChange={onDiodeOneWayEngravingChanged}
       />
     </>
   );
