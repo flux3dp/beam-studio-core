@@ -27,6 +27,7 @@ function Engraving({
   paddingAccelDiode,
 }: Props): JSX.Element {
   const { lang } = i18n;
+  const isDebug = localStorage.getItem('debug');
   return (
     <>
       <div className="subtitle">{lang.settings.groups.engraving}</div>
@@ -43,30 +44,34 @@ function Engraving({
         options={reverseEngravingOptions}
         onChange={(e) => updateBeamboxPreferenceChange('reverse-engraving', e.target.value)}
       />
-      <Controls label="Padding Accel">
-        <UnitInput
-          id="hardware-acceleration"
-          unit="mm/s^2"
-          min={4000}
-          max={12000}
-          decimal={0}
-          defaultValue={paddingAccel.defaultValue}
-          getValue={paddingAccel.getValue}
-          className={{ half: true }}
-        />
-      </Controls>
-      <Controls label="Padding Accel HL">
-        <UnitInput
-          id="hardware-acceleration"
-          unit="mm/s^2"
-          min={4000}
-          max={12000}
-          decimal={0}
-          defaultValue={paddingAccelDiode.defaultValue}
-          getValue={paddingAccelDiode.getValue}
-          className={{ half: true }}
-        />
-      </Controls>
+      {isDebug && (
+        <>
+          <Controls label="Padding Accel">
+            <UnitInput
+              id="hardware-acceleration"
+              unit="mm/s^2"
+              min={4000}
+              max={12000}
+              decimal={0}
+              defaultValue={paddingAccel.defaultValue}
+              getValue={paddingAccel.getValue}
+              className={{ half: true }}
+            />
+          </Controls>
+          <Controls label="Padding Accel HL">
+            <UnitInput
+              id="hardware-acceleration"
+              unit="mm/s^2"
+              min={4000}
+              max={12000}
+              decimal={0}
+              defaultValue={paddingAccelDiode.defaultValue}
+              getValue={paddingAccelDiode.getValue}
+              className={{ half: true }}
+            />
+          </Controls>
+        </>
+      )}
     </>
   );
 }

@@ -67,9 +67,11 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
-        const accel = BeamboxPreference.read('padding_accel') || 5000;
-        const accelDiode = BeamboxPreference.read('padding_accel_diode') || 4500;
-        args.push('-acc', opts.enableDiode ? accelDiode : accel);
+        let accel = 7500;
+        if (localStorage.getItem('debug')) {
+          accel = BeamboxPreference.read('padding_accel') || 7500;
+        }
+        args.push('-acc', accel);
       } else if (opts.model === 'fbb1p') {
         args.push('-pro');
       } else if (opts.model === 'fbm1') {
