@@ -415,7 +415,7 @@ const lang: ILang = {
     default_enable_diode_module: 'ダイオードレーザー既定',
     diode_offset: 'ダイオードレーザーオフセット',
     diode_one_way_engraving: 'ダイオードレーザー一方向彫刻',
-    diode_two_way_warning: 'When speed is too high, there could be some offset then engraving in different direction with diode module. Testing with material and laser parameter before engraving is recommended.',
+    diode_two_way_warning: '二方向で光を発するので、速度が一段と速くなりますが、レーザー照射位置に誤差が生じる可能性があります。そのため、事前に他の材料でテストしておいでください。',
     share_with_flux: 'Beam Studio Analyticsを共有する',
     none: 'なし',
     close: '閉じる',

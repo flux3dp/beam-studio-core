@@ -415,7 +415,7 @@ const lang: ILang = {
     default_enable_diode_module: 'Láser diodo por defecto',
     diode_offset: 'Compensación de láser diodo',
     diode_one_way_engraving: 'Grabado unidireccional con láser de diodo',
-    diode_two_way_warning: 'When speed is too high, there could be some offset then engraving in different direction with diode module. Testing with material and laser parameter before engraving is recommended.',
+    diode_two_way_warning: 'La máquina puede emitir luz en ambas direcciones y la velocidad es más rápida, por lo que puede causar errores de posición durante el grabado. Se recomienda utilizar materiales de prueba primero.',
     share_with_flux: 'Compartir Beam Studio Analytics',
     none: 'Ninguno',
     close: 'Cerrar',

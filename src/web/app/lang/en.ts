@@ -415,7 +415,7 @@ const lang: ILang = {
     default_enable_diode_module: 'Diode Laser Default',
     diode_offset: 'Diode Laser Offset',
     diode_one_way_engraving: 'Diode Laser One Way Engraving',
-    diode_two_way_warning: 'When speed is too high, there could be some error when engraving in different direction with diode module.\nTesting with material and laser parameter before engraving is recommended.',
+    diode_two_way_warning: 'Bidirectional light emitting is faster and probably generate some imprecision on laser engraving position. Recommend to test first.',
     share_with_flux: 'Share Beam Studio Analytics',
     none: 'None',
     close: 'Close',
