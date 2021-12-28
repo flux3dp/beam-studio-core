@@ -1,4 +1,4 @@
-export default {
+const constants = {
   BEAMO: {
     wood_3mm_cutting: {
       power: 45,
@@ -202,86 +202,100 @@ export default {
   },
   HEXA: {
     wood_3mm_cutting: {
-      power: 40,
+      power: 45,
       speed: 10,
     },
     wood_5mm_cutting: {
       power: 55,
       speed: 6,
     },
+    wood_8mm_cutting: {
+      power: 65,
+      speed: 3,
+    },
+    wood_10mm_cutting: {
+      power: 70,
+      speed: 3,
+    },
     wood_engraving: {
-      power: 40,
+      power: 30,
       speed: 500,
     },
     acrylic_3mm_cutting: {
       power: 45,
-      speed: 10,
+      speed: 8,
     },
     acrylic_5mm_cutting: {
-      power: 60,
-      speed: 5,
+      power: 45,
+      speed: 4,
+    },
+    acrylic_8mm_cutting: {
+      power: 68,
+      speed: 3,
+    },
+    acrylic_10mm_cutting: {
+      power: 55,
+      speed: 3,
+      repeat: 2,
     },
     acrylic_engraving: {
-      power: 35,
-      speed: 400,
+      power: 25,
+      speed: 500,
     },
     leather_3mm_cutting: {
-      power: 50,
-      speed: 4,
+      power: 45,
+      speed: 6,
     },
     leather_5mm_cutting: {
       power: 55,
-      speed: 3,
+      speed: 4,
     },
     leather_engraving: {
-      power: 25,
-      speed: 175,
+      power: 20,
+      speed: 180,
     },
     fabric_3mm_cutting: {
       power: 15,
-      speed: 20,
+      speed: 25,
     },
     fabric_5mm_cutting: {
       power: 20,
-      speed: 15,
+      speed: 20,
     },
     fabric_engraving: {
-      power: 20,
-      speed: 175,
+      power: 35,
+      speed: 400,
     },
     rubber_bw_engraving: {
       power: 45,
-      speed: 200,
+      speed: 300,
     },
     glass_bw_engraving: {
-      power: 25,
-      speed: 200,
+      power: 30,
+      speed: 150,
     },
     metal_bw_engraving: {
       power: 25,
-      speed: 150,
-    },
-    stainless_steel_bw_engraving_diode: {
-      power: 100,
-      speed: 10,
+      speed: 200,
     },
   },
-  laserPresetKeys: [
-    'wood_3mm_cutting',
-    'wood_5mm_cutting',
-    'wood_engraving',
-    'acrylic_3mm_cutting',
-    'acrylic_5mm_cutting',
-    'acrylic_engraving',
-    'leather_3mm_cutting',
-    'leather_5mm_cutting',
-    'leather_engraving',
-    'fabric_3mm_cutting',
-    'fabric_5mm_cutting',
-    'fabric_engraving',
-    'rubber_bw_engraving',
-    'glass_bw_engraving',
-    'metal_bw_engraving',
-    'stainless_steel_bw_engraving_diode',
-  ],
 };
+
+export const getParametersSet = (model: string): { [name: string]: { [key: string]: number } } => {
+  const modelMap = {
+    fbm1: 'BEAMO',
+    fbb1b: 'BEAMBOX',
+    fbb1p: 'BEAMBOX_PRO',
+    fhexa1: 'HEXA',
+  };
+  const modelName = modelMap[model] || 'BEAMO';
+  return constants[modelName];
+};
+
+const allKeys = new Set<string>();
+Object.values(constants).forEach((parameterSet) => {
+  Object.keys(parameterSet).forEach((key) => allKeys.add(key));
+});
+export const getAllKeys = (): Set<string> => allKeys;
+
+export default constants;
