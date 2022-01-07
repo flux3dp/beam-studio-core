@@ -48,8 +48,25 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
   });
   let lastOrder = '';
 
+  const setParameter = (loopCompensation = 0) => {
+    if (loopCompensation > 0) {
+      return new Promise<null>((resolve, reject) => {
+        events.onMessage = (data) => {
+          if (data.status === 'ok') {
+            resolve(null);
+          }
+        };
+        events.onError = (data) => {
+          reject(data);
+        };
+        ws.send(['set_params', 'loop_compensation', loopCompensation].join(' '));
+      });
+    }
+    return null;
+  };
+
   return {
-    getTaskCode(names, opts) {
+    async getTaskCode(names, opts) {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => { });
       opts.onFinished = opts.onFinished || (() => { });
@@ -128,6 +145,10 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-rev');
       }
 
+      const loopCompensation = Number(storage.get('loop_compensation') || '0');
+      if (loopCompensation > 0) {
+        await setParameter(loopCompensation);
+      }
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);
@@ -145,11 +166,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           opts.onError(data.message);
         }
       };
-
-      const loopCompensation = Number(storage.get('loop_compensation') || '0');
-      if (loopCompensation > 0) {
-        ws.send(['set_params', 'loop_compensation', loopCompensation].join(' '));
-      }
       ws.send(args.join(' '));
     },
     gcodeToFcode(
