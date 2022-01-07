@@ -84,7 +84,7 @@ export default {
   addonsSupportList: {
     openBottom: ['fbm1'],
     autoFocus: ['fbm1'],
-    hybridLaser: ['fbm1', 'fhexa1'],
+    hybridLaser: ['fbm1'],
   },
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
