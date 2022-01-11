@@ -675,8 +675,6 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     let oldcenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
     let newcenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
     if (angle) {
-      newcenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
-        svgedit.math.transformListToTransform(tlist).matrix);
       if (selected.tagName === 'text') {
         for (var i = 0; i < tlist.numberOfItems; ++i) {
           var xform = tlist.getItem(i);
@@ -687,6 +685,8 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
             break;
           }
         }
+        newcenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
+          svgedit.math.transformListToTransform(tlist).matrix);
         // for text last transform matrix defined its center position before recalculate
         if (tlist.numberOfItems > 0) {
           let lastM = tlist.getItem(tlist.numberOfItems - 1);
@@ -695,6 +695,8 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
           }
         }
       } else {
+        newcenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
+          svgedit.math.transformListToTransform(tlist).matrix);
         var a = angle * Math.PI / 180;
         if ( Math.abs(a) > (1.0e-10) ) {
           var s = Math.sin(a)/(1 - Math.cos(a));
@@ -906,7 +908,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       var m = svgedit.math.transformListToTransform(tlist).matrix;
       var roldt = svgroot.createSVGTransform();
       roldt.setRotate(angle, oldcenter.x, oldcenter.y);
-      var rold = roldt.matrix;
+      var rold = oldRotateMatrix || roldt.matrix;
       var rnew = svgroot.createSVGTransform();
       rnew.setRotate(angle, newcenter.x, newcenter.y);
       var rnew_inv = rnew.matrix.inverse();
