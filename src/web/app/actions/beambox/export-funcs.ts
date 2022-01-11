@@ -249,9 +249,12 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
       isCanceled = true;
     },
   });
-  const { taskCodeBlob, fileTimeCost } = await new Promise((resolve) => {
-    const names = []; // don't know what this is for
-    const codeType = shouldOutputGcode ? 'gcode' : 'fcode';
+
+  const getTaskCode = (codeType: 'gcode' | 'fcode', opts = {}) => new Promise<{
+    fileTimeCost: null | number;
+    taskCodeBlob: Blob | null;
+  }>((resolve) => {
+    const names = [];
     svgeditorParser.getTaskCode(
       names,
       {
@@ -287,55 +290,26 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
         enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
         shouldUseFastGradient,
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
+        ...opts,
       },
     );
   });
+  const taskCodeRes = await getTaskCode(shouldOutputGcode ? 'gcode' : 'fcode');
+  const { taskCodeBlob } = taskCodeRes;
+  let { fileTimeCost } = taskCodeRes;
 
-  let gcodeBlobNoFastGradient;
+  let gcodeBlobNoFastGradient = null;
 
-  if (shouldOutputGcode && shouldUseFastGradient) {
-    gcodeBlobNoFastGradient = await new Promise((resolve) => {
-      const names = []; // don't know what this is for
-      const codeType = shouldOutputGcode ? 'gcode' : 'fcode';
-      svgeditorParser.getTaskCode(
-        names,
-        {
-          onProgressing: (data) => {
-            Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
-          },
-          onFinished: (taskBlob) => {
-            Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
-            resolve(taskBlob);
-          },
-          onError: (message) => {
-            Progress.popById('fetch-task');
-            Alert.popUp({
-              id: 'get-taskcode-error',
-              message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
-              type: AlertConstants.SHOW_POPUP_ERROR,
-              buttonType: AlertConstants.YES_NO,
-              onYes: () => {
-                const svgString = svgCanvas.getSvgString();
-                AwsHelper.uploadToS3('output.bvg', svgString);
-              },
-            });
-            isErrorOccur = true;
-            resolve({
-              taskCodeBlob: null,
-              fileTimeCost: null,
-            });
-          },
-          fileMode: '-f',
-          codeType,
-          model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
-          enableAutoFocus: doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
-          enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
-          shouldUseFastGradient: false,
-          shouldMockFastGradient: true,
-          vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
-        },
-      );
-    });
+  if (shouldOutputGcode) {
+    if (shouldUseFastGradient) {
+      const mockFastGradientRes = await getTaskCode('gcode', {
+        shouldUseFastGradient: false,
+        shouldMockFastGradient: true,
+      });
+      gcodeBlobNoFastGradient = mockFastGradientRes.taskCodeBlob;
+    }
+    const fcodeRes = await getTaskCode('fcode');
+    fileTimeCost = fcodeRes.fileTimeCost;
   }
 
   Progress.popById('fetch-task');
@@ -482,12 +456,17 @@ export default {
 
     fileReader.readAsArrayBuffer(fcodeBlob);
   },
-  getGcode: async (): Promise<{ gcodeBlob?: Blob, gcodeBlobFastGradient?: Blob }> => {
-    const { gcodeBlob, gcodeBlobFastGradient } = await fetchTaskCode(null, true);
+  getGcode: async (): Promise<{
+    gcodeBlob?: Blob;
+    gcodeBlobFastGradient?: Blob | string;
+    fileTimeCost: number;
+  }> => {
+    const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await fetchTaskCode(null, true);
+    console.log(fileTimeCost);
     if (!gcodeBlob) {
-      return { gcodeBlob };
+      return { gcodeBlob, fileTimeCost: 0 };
     }
-    return { gcodeBlob, gcodeBlobFastGradient };
+    return { gcodeBlob, gcodeBlobFastGradient, fileTimeCost: fileTimeCost || 0 };
   },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();

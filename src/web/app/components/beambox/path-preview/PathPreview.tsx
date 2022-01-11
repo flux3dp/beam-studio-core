@@ -457,6 +457,8 @@ class PathPreview extends React.Component<Props, State> {
 
   private simTimeMax: number;
 
+  private timeDisplayRatio: number;
+
   private simInterval: NodeJS.Timeout;
 
   private drawGcodeState: any;
@@ -500,6 +502,7 @@ class PathPreview extends React.Component<Props, State> {
     this.adjustingCamera = false;
     this.gcodePreview = new GcodePreview();
     this.simTimeMax = 1;
+    this.timeDisplayRatio = 1;
 
     this.drawGcodeState = {};
 
@@ -596,7 +599,7 @@ class PathPreview extends React.Component<Props, State> {
     const { togglePathPreview } = this.props;
     const svgEditor = document.getElementById('svg_editor');
     if (svgEditor) svgEditor.style.display = '';
-    const { gcodeBlob, gcodeBlobFastGradient } = await exportFuncs.getGcode();
+    const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await exportFuncs.getGcode();
     if (!gcodeBlob) {
       togglePathPreview();
       return;
@@ -612,6 +615,7 @@ class PathPreview extends React.Component<Props, State> {
         const parsedGcode = parseGcode(this.gcodeString);
         this.gcodePreview.setParsedGcode(parsedGcode);
         this.simTimeMax = Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) * (SIM_TIME_MINUTE) + SIM_TIME_MINUTE / 2;
+        this.timeDisplayRatio = fileTimeCost / (60 * this.simTimeMax);
         this.handleSimTimeChange(this.simTimeMax);
       }
     };
@@ -892,7 +896,7 @@ class PathPreview extends React.Component<Props, State> {
     let h = 0;
     let m = 0;
     let s = 0;
-    let restTime = time;
+    let restTime = time * this.timeDisplayRatio;
 
     if (restTime > 60) {
       h = Math.floor(restTime / 60);
