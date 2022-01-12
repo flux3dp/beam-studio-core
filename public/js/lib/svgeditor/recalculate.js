@@ -673,11 +673,17 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       angle = svgedit.utilities.getRotationAngle(selected);
 
     let oldcenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-    let newcenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    let newCenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    let newCenterWithRotate = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
     if (angle) {
       if (selected.tagName === 'text') {
+        newCenterWithRotate = svgedit.math.transformPoint(
+          box.x + box.width / 2,
+          box.y + box.height / 2,
+          svgedit.math.transformListToTransform(tlist).matrix
+        );
         for (var i = 0; i < tlist.numberOfItems; ++i) {
-          var xform = tlist.getItem(i);
+          xform = tlist.getItem(i);
           if (xform.type == 4) {
             var rm = xform.matrix;
             oldRotateMatrix = rm;
@@ -685,8 +691,11 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
             break;
           }
         }
-        newcenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
-          svgedit.math.transformListToTransform(tlist).matrix);
+        newCenter = svgedit.math.transformPoint(
+          box.x + box.width / 2,
+          box.y + box.height / 2,
+          svgedit.math.transformListToTransform(tlist).matrix
+        );
         // for text last transform matrix defined its center position before recalculate
         if (tlist.numberOfItems > 0) {
           let lastM = tlist.getItem(tlist.numberOfItems - 1);
@@ -695,7 +704,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
           }
         }
       } else {
-        newcenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
+        newCenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
           svgedit.math.transformListToTransform(tlist).matrix);
         var a = angle * Math.PI / 180;
         if ( Math.abs(a) > (1.0e-10) ) {
@@ -825,7 +834,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         if (selected.tagName === 'text') {
           //from [Rm][M] to [Rnew][M'] ==> [M'] = [Rnew]^-1[Rm][M]
           let m = svgedit.math.transformListToTransform(tlist).matrix;
-          newRot.setRotate(angle, newcenter.x, newcenter.y);
+          newRot.setRotate(angle, newCenter.x, newCenter.y);
           let extrat = svgedit.math.matrixMultiply(m.inverse(), newRot.matrix.inverse(), oldRotateMatrix, m);
 
           let children = selected.childNodes;
@@ -844,7 +853,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
           }
           svgedit.coords.remapElement(selected, changes, extrat);
         } else {
-          newRot.setRotate(angle, newcenter.x, newcenter.y);
+          newRot.setRotate(angle, newCenter.x, newCenter.y);
         }
 
         if (tlist.numberOfItems) {
@@ -867,13 +876,13 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     if (operation == 2) {
       if (angle) {
         if (!svgedit.math.hasMatrixTransform(tlist) && selected.tagName !== 'text') {
-          newcenter = {
+          newCenter = {
             x: oldcenter.x + m.e,
             y: oldcenter.y + m.f
           };
         }
         var newRot = svgroot.createSVGTransform();
-        newRot.setRotate(angle, newcenter.x, newcenter.y);
+        newRot.setRotate(angle, newCenter.x, newCenter.y);
         if (tlist.numberOfItems) {
           tlist.insertItemBefore(newRot, 0);
         } else {
@@ -910,7 +919,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       roldt.setRotate(angle, oldcenter.x, oldcenter.y);
       var rold = oldRotateMatrix || roldt.matrix;
       var rnew = svgroot.createSVGTransform();
-      rnew.setRotate(angle, newcenter.x, newcenter.y);
+      rnew.setRotate(angle, newCenterWithRotate.x, newCenterWithRotate.y);
       var rnew_inv = rnew.matrix.inverse();
       var m_inv = m.inverse();
       var extrat = svgedit.math.matrixMultiply(m_inv, rnew_inv, rold, m);
