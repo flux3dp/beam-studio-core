@@ -47,6 +47,14 @@ test('should render correctly', () => {
       },
     ]}
     updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
+    paddingAccel={{
+      defaultValue: 4000,
+      getValue: () => {},
+    }}
+    paddingAccelDiode={{
+      defaultValue: 4000,
+      getValue: () => {},
+    }}
   />);
   expect(toJson(wrapper)).toMatchSnapshot();
 
