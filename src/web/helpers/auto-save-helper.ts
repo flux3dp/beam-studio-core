@@ -42,7 +42,12 @@ const useDefaultConfig = async (): Promise<void> => {
     fileNumber: 5,
     timeInterval: 10,
   };
-  await fs.mkdir(directory, true);
+  try {
+    await fs.mkdir(directory, true);
+  } catch (e) {
+    console.error('Failed to create auto save directory, disabled auto save');
+    defaultConfig.enabled = false;
+  }
   // Create a dumb file to prompt mac permission
   const tempFilePath = fs.join(directory, 'beam-studio auto-save-1.beam');
   fs.writeStream(tempFilePath, 'a');
