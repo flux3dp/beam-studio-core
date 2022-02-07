@@ -1,15 +1,33 @@
 import * as React from 'react';
 
+import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
+import UnitInput from 'app/widgets/Unit-Input-v2';
 
 interface Props {
   fastGradientOptions: { value: any, label: string, selected: boolean }[];
+  reverseEngravingOptions: { value: any, label: string, selected: boolean }[];
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
+  paddingAccel: {
+    defaultValue: number;
+    getValue: (val) => void;
+  };
+  paddingAccelDiode: {
+    defaultValue: number;
+    getValue: (val) => void;
+  };
 }
 
-function Engraving({ fastGradientOptions, updateBeamboxPreferenceChange }: Props): JSX.Element {
-  const lang = i18n.lang;
+function Engraving({
+  fastGradientOptions,
+  reverseEngravingOptions,
+  updateBeamboxPreferenceChange,
+  paddingAccel,
+  paddingAccelDiode,
+}: Props): JSX.Element {
+  const { lang } = i18n;
+  const isDebug = localStorage.getItem('debug');
   return (
     <>
       <div className="subtitle">{lang.settings.groups.engraving}</div>
@@ -20,6 +38,40 @@ function Engraving({ fastGradientOptions, updateBeamboxPreferenceChange }: Props
         options={fastGradientOptions}
         onChange={(e) => updateBeamboxPreferenceChange('fast_gradient', e.target.value)}
       />
+      <SelectControl
+        id="set-reverse-engraving"
+        label={lang.settings.engraving_direction}
+        options={reverseEngravingOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('reverse-engraving', e.target.value)}
+      />
+      {isDebug && (
+        <>
+          <Controls label="Padding Accel">
+            <UnitInput
+              id="hardware-acceleration"
+              unit="mm/s^2"
+              min={4000}
+              max={12000}
+              decimal={0}
+              defaultValue={paddingAccel.defaultValue}
+              getValue={paddingAccel.getValue}
+              className={{ half: true }}
+            />
+          </Controls>
+          <Controls label="Padding Accel HL">
+            <UnitInput
+              id="hardware-acceleration"
+              unit="mm/s^2"
+              min={4000}
+              max={12000}
+              decimal={0}
+              defaultValue={paddingAccelDiode.defaultValue}
+              getValue={paddingAccelDiode.getValue}
+              className={{ half: true }}
+            />
+          </Controls>
+        </>
+      )}
     </>
   );
 }

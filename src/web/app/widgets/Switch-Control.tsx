@@ -58,7 +58,8 @@ class SwitchControl extends React.Component<Props, State> {
       offText = 'OFF',
       default: defaultChecked,
     } = this.props;
-    const { checked } = this.state;
+    let { checked } = this.state;
+    if (isDisabled) checked = defaultChecked;
     return (
       <div className={classNames('controls', { disabled: isDisabled })} data-name={id}>
         <div className="label pull-left">{label}</div>
@@ -72,7 +73,7 @@ class SwitchControl extends React.Component<Props, State> {
                 className="onoffswitch-checkbox"
                 id={id}
                 onChange={this.handleToggle}
-                checked={isDisabled ? defaultChecked : checked}
+                checked={checked}
               />
               <label className="onoffswitch-label" htmlFor={id}>
                 <span className="onoffswitch-inner" />

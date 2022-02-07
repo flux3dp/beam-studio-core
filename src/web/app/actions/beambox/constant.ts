@@ -1,5 +1,5 @@
-export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'Beambox2';
-export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fbb2b';
+export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA';
+export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1';
 
 interface WorkArea {
   label: WorkAreaLabel;
@@ -23,17 +23,17 @@ WorkareaMap.set('fbb1p', {
   width: 6000,
   height: 3750,
 });
-WorkareaMap.set('fbb2b', {
-  label: 'Beambox2',
-  width: 7369,
-  height: 4140.5,
+WorkareaMap.set('fhexa1', {
+  label: 'HEXA',
+  width: 7300,
+  height: 4100,
 });
 
 export default {
   dpmm: 10,
   dimension: {
-    getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model).width,
-    getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model).height,
+    getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model)?.width || 3000,
+    getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
   },
   camera: {
     movementSpeed: {
@@ -74,15 +74,16 @@ export default {
     },
   },
   allowedWorkarea: {
-    fbb2b: ['fbb2b', 'fbb1p', 'fbb1b', 'fbm1'],
-    'laser-b1': ['fbb2b', 'fbb1p', 'fbb1b', 'fbm1'],
+    'laser-b2': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
+    'laser-b1': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
+    fhexa1: ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     fbb1p: ['fbb1p', 'fbb1b', 'fbm1'],
     fbb1b: ['fbb1b', 'fbm1'],
     fbm1: ['fbm1'],
   },
   addonsSupportList: {
     openBottom: ['fbm1'],
-    autoFocus: ['fbm1', 'fbb2b'],
+    autoFocus: ['fbm1'],
     hybridLaser: ['fbm1'],
   },
   leftPanelWidth: 50, // px

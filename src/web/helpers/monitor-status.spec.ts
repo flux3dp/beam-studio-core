@@ -14,7 +14,7 @@ import MonitorStatus from './monitor-status';
 describe('test monitor-status', () => {
   test('getDisplayStatus', () => {
     expect(MonitorStatus.getDisplayStatus('IDLE')).toBe('Ready');
-    expect(MonitorStatus.getDisplayStatus('IDLE1')).toBe('');
+    expect(MonitorStatus.getDisplayStatus('IDLE1')).toBe('IDLE1');
   });
 
   test('isAbortedOrCompleted', () => {

@@ -9,6 +9,7 @@ import {
 } from 'rxjs/operators';
 
 import i18n from 'helpers/i18n';
+import Progress from 'app/actions/progress-caller';
 import rsaKey from 'helpers/rsa-key';
 import VersionChecker from 'helpers/version-checker';
 import Websocket from 'helpers/websocket';
@@ -82,13 +83,22 @@ class Camera {
       .pipe(map(async (blob: Blob) => {
         const isImage = await checkBlobIsImage(blob);
         if (!isImage) {
+          if (!Progress.checkIdExist('connect-camera')) {
+            Progress.openNonstopProgress({
+              id: 'connect-camera',
+              message: LANG.message.connectingCamera,
+              timeout: 3500 * IMAGE_TRANSMISSION_FAIL_THRESHOLD,
+            });
+          }
           if (this.requireFrameRetry < IMAGE_TRANSMISSION_FAIL_THRESHOLD) {
             setTimeout(() => this.ws.send('require_frame'), 500);
             this.requireFrameRetry += 1;
             return null;
           }
+          Progress.popById('connect-camera');
           throw new Error(LANG.message.camera.fail_to_transmit_image);
         }
+        Progress.popById('connect-camera');
         const needCameraCableAlert = this.requireFrameRetry >= CAMERA_CABLE_ALERT_THRESHOLD;
         this.requireFrameRetry = 0;
         const imgBlob = await this.preprocessImage(blob);
@@ -163,10 +173,11 @@ class Camera {
       throw new Error(LANG.message.camera.ws_closed_unexpectly);
     }
     this.ws.send('require_frame');
-    return await this.source
+    const photo = await this.source
       .pipe(take(1))
       .pipe(timeout(TIMEOUT))
       .toPromise();
+    return photo;
   }
 
   getLiveStreamSource() {
@@ -238,7 +249,7 @@ class Camera {
       return preprocessedBlob;
     };
 
-    if (!['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fbb2b', 'laser-b1', 'darwin-dev'].includes(this.device.model)) {
+    if (!['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(this.device.model)) {
       return blob;
     }
     if (!this.shouldCrop) {

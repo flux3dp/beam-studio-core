@@ -10,6 +10,7 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
+import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
 import fileExportHelper from 'helpers/file-export-helper';
@@ -114,7 +115,7 @@ export default class TopBar extends React.Component<Props, State> {
       setStartPreviewCallback,
     } = this.context;
     const workarea = document.getElementById('workarea');
-    if (['fbm1', 'fbb1b', 'fbb1p', 'fbb2b'].includes(device.model) && device.model !== BeamboxPreference.read('workarea')) {
+    if (['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'].includes(device.model) && device.model !== BeamboxPreference.read('workarea')) {
       const res = await new Promise((resolve) => {
         Alert.popUp({
           message: sprintf(lang.beambox.popup.change_workarea_before_preview, device.name),
@@ -125,6 +126,7 @@ export default class TopBar extends React.Component<Props, State> {
             svgCanvas.setResolution(Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
             svgEditor.resetView();
             PreviewModeBackgroundDrawer.updateCanvasSize();
+            diodeBoundaryDrawer.updateCanvasSize();
             beamboxStore.emitUpdateLaserPanel();
             OpenBottomBoundaryDrawer.update();
             resolve(true);

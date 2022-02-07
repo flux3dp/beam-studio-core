@@ -18,10 +18,10 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
-import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { getParametersSet, getAllKeys } from 'app/constants/right-panel-constants';
 import { getLayerElementByName } from 'helpers/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
@@ -39,12 +39,18 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 const PARAMETERS_CONSTANT = 'parameters';
-const defaultLaserOptions = [...RightPanelConstants.laserPresetKeys];
+let defaultLaserOptions = [];
+const allKeys = getAllKeys();
 const hiddenOptions = [
   { value: PARAMETERS_CONSTANT, key: LANG.dropdown.parameters, label: LANG.dropdown.parameters },
   { value: LANG.custom_preset, key: LANG.custom_preset, label: LANG.custom_preset },
   { value: LANG.various_preset, key: LANG.various_preset, label: LANG.various_preset },
 ];
+
+const updateDefaultParameterOptions = (): void => {
+  const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+  defaultLaserOptions = Object.keys(parametersSet);
+};
 
 const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 
@@ -146,6 +152,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   initDefaultConfig = (): void => {
     const { unit } = this;
+    updateDefaultParameterOptions();
     if (!storage.get('defaultLaserConfigsInUse') || !storage.get('customizedLaserConfigs')) {
       const defaultConfigs = defaultLaserOptions.map((e) => {
         const { speed, power, repeat } = this.getDefaultParameters(e);
@@ -178,7 +185,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             customized[i].speed = speed;
             customized[i].power = power;
             customized[i].repeat = repeat || 1;
-          } else {
+          } else if (!allKeys.has(customized[i].key)) {
             delete defaultLaserConfigsInUse[customized[i].key];
             customized.splice(i, 1);
             i -= 1;
@@ -244,7 +251,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   updateData = (): void => {
     this.initDefaultConfig();
-    this.updatePresetLayerConfig();
+    this.updateLayerConfigOnModelChange();
     const layerData = FnWrapper.getCurrentLayerData();
     const { speed, repeat } = this.state;
     if ((speed !== layerData.speed) || (repeat !== layerData.repeat)) {
@@ -261,7 +268,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     });
   };
 
-  updatePresetLayerConfig = (): void => {
+  updateLayerConfigOnModelChange = (): void => {
     const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     const drawing = svgCanvas.getCurrentDrawing();
     const layerCount = drawing.getNumLayers();
@@ -283,7 +290,14 @@ class LaserPanel extends React.PureComponent<Props, State> {
           } else {
             layer.removeAttribute('data-configName');
           }
+        } else if (BeamboxPreference.read('workarea') === 'fhexa1') {
+          const { speed } = config;
+          layer.setAttribute('data-speed', speed);
         }
+      }
+
+      if (BeamboxPreference.read('workarea') !== 'fhexa1' && Number(layer.getAttribute('data-speed')) > 300) {
+        layer.setAttribute('data-speed', '300');
       }
     }
   };
@@ -432,13 +446,16 @@ class LaserPanel extends React.PureComponent<Props, State> {
       const customizedConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => e.name === value);
       if (customizedConfigs) {
         const {
-          speed,
+          speed: dataSpeed,
           power,
           repeat,
           zStep,
           isDefault,
           key,
         } = customizedConfigs;
+        const maxSpeed = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
+        const speed = Math.max(3, Math.min(dataSpeed, maxSpeed));
+
         timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
         this.setState({
           speed,
@@ -467,7 +484,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           }
         } else if (TutorialConstants.SET_PRESET_WOOD_CUTTING
           === TutorialController.getNextStepRequirement()) {
-          if (isDefault && ['wood_3mm_cutting', 'wood_5mm_cutting'].includes(key)) {
+          if (isDefault && ['wood_3mm_cutting', 'wood_5mm_cutting', 'wood_8mm_cutting', 'wood_10mm_cutting'].includes(key)) {
             TutorialController.handleNextStep();
           } else {
             Alert.popUp({
@@ -516,7 +533,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   renderSpeed = (): JSX.Element => {
     const { hasMultiSpeed: hasMultipleValue, speed } = this.state;
-    const hasVector = this.doLayersContainVector();
+    const hasVector = this.checkLayerContainsVector();
     const renderWarningText = (): JSX.Element => {
       if (hasVector && speed > 20 && (BeamboxPreference.read('vector_speed_contraint') !== false)) {
         return (
@@ -531,7 +548,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       return null;
     };
 
-    const maxValue = 300;
+    const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
     const minValue = 3;
     const unitDisplay = { mm: 'mm/s', inches: 'in/s' }[this.unit];
     const decimalDisplay = { mm: 1, inches: 2 }[this.unit];
@@ -660,20 +677,13 @@ class LaserPanel extends React.PureComponent<Props, State> {
   };
 
   getDefaultParameters = (paraName: string): { speed: number, power: number, repeat: number } => {
-    const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    const modelMap = {
-      fbm1: 'BEAMO',
-      fbb1b: 'BEAMBOX',
-      fbb1p: 'BEAMBOX_PRO',
-      fbb2b: 'BEAMBOX2',
-    };
-    const modelName = modelMap[model] || 'BEAMO';
-    if (!RightPanelConstants[modelName][paraName]) {
+    const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+    if (!parametersSet[paraName]) {
       console.error(`Unable to get default preset key: ${paraName}`);
       return { speed: 20, power: 15, repeat: 1 };
     }
-    const { speed, power } = RightPanelConstants[modelName][paraName];
-    const repeat = RightPanelConstants[modelName][paraName].repeat || 1;
+    const { speed, power } = parametersSet[paraName];
+    const repeat = parametersSet[paraName].repeat || 1;
     return { speed, power, repeat };
   };
 
@@ -732,7 +742,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   }
 
-  doLayersContainVector(): boolean {
+  checkLayerContainsVector(): boolean {
     const { selectedLayers } = this.props;
     const layers = selectedLayers.map((layerName: string) => getLayerElementByName(layerName));
 
@@ -867,16 +877,15 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const modalDialog = this.renderModal();
 
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
-    const customizedOptions = (customizedConfigs || customizedConfigs.length > 0)
-      ? customizedConfigs.map((e) => ({
-        value: e.name,
-        key: e.name,
-        label: e.name,
-      })) : null;
-
     let dropdownOptions: { value: string, key: string, label: string }[];
-    if (customizedOptions) {
-      dropdownOptions = customizedOptions;
+    if (customizedConfigs || customizedConfigs.length > 0) {
+      const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+      dropdownOptions = customizedConfigs.filter((p) => !(p.isDefault && !parametersSet[p.key]))
+        .map((e) => ({
+          value: e.name,
+          key: e.name,
+          label: e.name,
+        }));
     } else {
       dropdownOptions = defaultLaserOptions.map((item) => ({
         value: item,

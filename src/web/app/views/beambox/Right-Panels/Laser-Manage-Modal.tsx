@@ -8,13 +8,12 @@ import Dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
 import Modal from 'app/widgets/Modal';
-import RightPanelConstants from 'app/constants/right-panel-constants';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { getParametersSet } from 'app/constants/right-panel-constants';
 import { ILaserConfig, ILaserData, ILaserDataChanges } from 'interfaces/ILaserConfig';
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
-const defaultLaserOptions = RightPanelConstants.laserPresetKeys;
 
 interface Props {
   selectedItem: string;
@@ -44,11 +43,18 @@ class LaserManageModal extends React.Component<Props, State> {
 
   private draggingIndex: number;
 
+  private defaultLaserOptions: string[];
+
+  private parametersSet: { [key: string]: { [name: string]: number } };
+
   constructor(props: Props) {
     super(props);
     this.editingConfigs = storage.get('customizedLaserConfigs') || [];
     this.editingDefaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
     this.unit = storage.get('default-units') || 'mm';
+    const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+    this.parametersSet = parametersSet;
+    this.defaultLaserOptions = Object.keys(parametersSet);
     const selectedConfig = this.editingConfigs.find(
       (e) => e.name === props.selectedItem,
     );
@@ -64,22 +70,14 @@ class LaserManageModal extends React.Component<Props, State> {
   }
 
   getDefaultParameters = (name: string): ILaserData => {
-    const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    const modelMap = {
-      fbm1: 'BEAMO',
-      fbb1b: 'BEAMBOX',
-      fbb1p: 'BEAMBOX_PRO',
-      fbb2b: 'BEAMBOX2',
-    };
-    const modelName = modelMap[model] || 'BEAMO';
-    if (!RightPanelConstants[modelName][name]) {
+    if (!this.parametersSet[name]) {
       // eslint-disable-next-line no-console
       console.error(`Unable to get default preset key: ${name}`);
       return { speed: 20, power: 15, repeat: 1 };
     }
-    const { speed, power } = RightPanelConstants[modelName][name];
-    const repeat = RightPanelConstants[modelName][name].repeat || 1;
-    const zStep = RightPanelConstants[modelName][name].zStep || 0;
+    const { speed, power } = this.parametersSet[name];
+    const repeat = this.parametersSet[name].repeat || 1;
+    const zStep = this.parametersSet[name].zStep || 0;
     return {
       speed, power, repeat, zStep,
     };
@@ -170,7 +168,7 @@ class LaserManageModal extends React.Component<Props, State> {
             displayZStep: nextCustomizedConfig ? nextCustomizedConfig.zStep : 0,
           });
         } else {
-          const i = defaultLaserOptions.findIndex((e) => e === key);
+          const i = this.defaultLaserOptions.findIndex((e) => e === key);
           this.setState({ isSelectingCustomized: false, selectedItem: key },
             () => $('#default-config-list').scrollTop((i) * 20));
         }
@@ -239,12 +237,12 @@ class LaserManageModal extends React.Component<Props, State> {
 
   renderDefaultConfigs = (): JSX.Element[] => {
     const { isSelectingCustomized, selectedItem } = this.state;
-    const defaultConfigs = defaultLaserOptions.map((configName, index) => {
+    const defaultConfigs = this.defaultLaserOptions.map((configName, index) => {
       const inUse = this.editingDefaultLaserConfigsInUse[configName];
       const itemClass = classNames({
         selected: (!isSelectingCustomized && selectedItem === configName),
         'config-entry': true,
-        'no-border': defaultLaserOptions.length >= 8 && index === defaultLaserOptions.length - 1,
+        'no-border': this.defaultLaserOptions.length >= 8 && index === this.defaultLaserOptions.length - 1,
       });
       return (
         <div
@@ -364,7 +362,7 @@ class LaserManageModal extends React.Component<Props, State> {
           displayZStep: nextCustomizedConfig ? nextCustomizedConfig.zStep : 0,
         });
       } else {
-        const firstDefaultConfig = defaultLaserOptions[0];
+        const firstDefaultConfig = this.defaultLaserOptions[0];
         this.handleDefaultConfigClick(firstDefaultConfig);
       }
     }
@@ -412,6 +410,9 @@ class LaserManageModal extends React.Component<Props, State> {
     const zStepUnit = { mm: 'mm', inches: 'in' }[this.unit];
     const unitZStepDcimal = { mm: 2, inches: 4 }[this.unit];
     const unitZStepStep = { mm: 0.5, inches: 0.01 }[this.unit];
+
+    const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+    const speedLimit = model === 'fhexa1' ? 900 : 300;
 
     return (
       <Modal>
@@ -462,7 +463,7 @@ class LaserManageModal extends React.Component<Props, State> {
                 <UnitInput
                   id="laser_speed"
                   min={3}
-                  max={300}
+                  max={speedLimit}
                   disabled={disableControl}
                   unit={speedUnit}
                   getValue={(val) => this.handleUnsavedChange(selectedItem, 'speed', val)}

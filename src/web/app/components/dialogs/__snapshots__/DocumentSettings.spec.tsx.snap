@@ -37,6 +37,10 @@ exports[`should render correctly 1`] = `
               "label": "Beambox Pro",
               "value": "fbb1p",
             },
+            Object {
+              "label": "HEXA",
+              "value": "fhexa1",
+            },
           ]
         }
         value="fbb1b"
@@ -144,6 +148,10 @@ exports[`should render correctly 2`] = `
             Object {
               "label": "Beambox Pro",
               "value": "fbb1p",
+            },
+            Object {
+              "label": "HEXA",
+              "value": "fhexa1",
             },
           ]
         }
@@ -253,6 +261,10 @@ exports[`should render correctly 3`] = `
               "label": "Beambox Pro",
               "value": "fbb1p",
             },
+            Object {
+              "label": "HEXA",
+              "value": "fhexa1",
+            },
           ]
         }
         value="fbb1p"
@@ -360,6 +372,10 @@ exports[`should render correctly 4`] = `
             Object {
               "label": "Beambox Pro",
               "value": "fbb1p",
+            },
+            Object {
+              "label": "HEXA",
+              "value": "fhexa1",
             },
           ]
         }

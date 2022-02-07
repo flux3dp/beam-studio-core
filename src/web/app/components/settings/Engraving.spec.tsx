@@ -34,15 +34,44 @@ test('should render correctly', () => {
         selected: false,
       },
     ]}
+    reverseEngravingOptions={[
+      {
+        value: 'TRUE',
+        label: 'On',
+        selected: true,
+      },
+      {
+        value: 'FALSE',
+        label: 'Off',
+        selected: false,
+      },
+    ]}
     updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
+    paddingAccel={{
+      defaultValue: 4000,
+      getValue: () => {},
+    }}
+    paddingAccelDiode={{
+      defaultValue: 4000,
+      getValue: () => {},
+    }}
   />);
   expect(toJson(wrapper)).toMatchSnapshot();
 
-  wrapper.find('SelectControl').simulate('change', {
+  wrapper.find('SelectControl').at(0).simulate('change', {
     target: {
       value: 'FALSE',
     },
   });
   expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(1);
   expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(1, 'fast_gradient', 'FALSE');
+
+  wrapper.find('SelectControl').at(1).simulate('change', {
+    target: {
+      value: 'FALSE',
+    },
+  });
+
+  expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(2);
+  expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(2, 'reverse-engraving', 'FALSE');
 });

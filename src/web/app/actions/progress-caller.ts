@@ -34,4 +34,11 @@ export default {
   update: (id: string, args: IProgressDialog): void => {
     eventEmitter.emit('UPDATE_PROGRESS', id, args);
   },
+  checkIdExist: (id: string): boolean => {
+    const response = {
+      result: false,
+    };
+    eventEmitter.emit('CHECK_PROGRESS_EXIST', id, response);
+    return response.result;
+  },
 };

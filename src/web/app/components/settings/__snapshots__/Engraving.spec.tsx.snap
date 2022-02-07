@@ -27,5 +27,23 @@ exports[`should render correctly 1`] = `
     }
     url="https://support.flux3dp.com/hc/en-us/articles/360004496235"
   />
+  <SelectControl
+    id="set-reverse-engraving"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": true,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": false,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
 </Fragment>
 `;

@@ -43,6 +43,18 @@ const findKeyInObjectArray = (array: any[], key: string) => {
   return null;
 };
 
+const {
+  IDLE,
+  PAUSED,
+  PAUSED_FROM_STARTING,
+  PAUSING_FROM_STARTING,
+  PAUSED_FROM_RUNNING,
+  PAUSING_FROM_RUNNING,
+  ABORTED,
+  ALARM,
+  FATAL,
+} = DeviceConstants.status;
+
 export const MonitorContext = React.createContext(null);
 
 interface Props {
@@ -236,7 +248,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             console.log('to work mode');
             this.enterWorkingMode();
           }
-        } else if (report.st_id === DeviceConstants.status.IDLE) {
+        } else if (report.st_id === IDLE) {
           if (mode === Mode.WORKING
               || (mode === Mode.CAMERA && this.modeBeforeCamera === Mode.WORKING)) {
             this.exitWorkingMode();
@@ -271,11 +283,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     }
 
     const state = [
-      DeviceConstants.status.PAUSED_FROM_STARTING,
-      DeviceConstants.status.PAUSED_FROM_RUNNING,
-      DeviceConstants.status.ABORTED,
-      DeviceConstants.status.PAUSING_FROM_RUNNING,
-      DeviceConstants.status.PAUSING_FROM_STARTING,
+      PAUSED_FROM_STARTING, PAUSED_FROM_RUNNING, ABORTED, PAUSING_FROM_RUNNING,
+      PAUSING_FROM_STARTING, ALARM, FATAL,
     ];
 
     if (state.includes(report.st_id)) {
@@ -283,13 +292,10 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
       const handleRetry = async () => {
         const pauseStates = [
-          DeviceConstants.status.PAUSED,
-          DeviceConstants.status.PAUSED_FROM_STARTING,
-          DeviceConstants.status.PAUSED_FROM_RUNNING,
-          DeviceConstants.status.PAUSING_FROM_STARTING,
-          DeviceConstants.status.PAUSING_FROM_RUNNING,
+          PAUSED, PAUSED_FROM_STARTING, PAUSED_FROM_RUNNING, PAUSING_FROM_STARTING,
+          PAUSING_FROM_RUNNING,
         ];
-        if (report.st_id === DeviceConstants.status.ABORTED) {
+        if (report.st_id === ABORTED) {
           await DeviceMaster.quit();
           this.onPlay();
         } else if (pauseStates.includes(report.st_id)) {
@@ -332,8 +338,17 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
       const id = error.join('_');
       if (!Alert.checkIdExist(id) && !this.didErrorPopped) {
-        if (error[0] === 'HARDWARE_ERROR' || error[0] === 'USER_OPERATION') {
-          this.didErrorPopped = true;
+        this.didErrorPopped = true;
+        if ([ALARM, FATAL].includes(report.st_id)) {
+          Alert.popUp({
+            id,
+            type: AlertConstants.SHOW_POPUP_ERROR,
+            message: errorMessage,
+            primaryButtonIndex: 0,
+            buttonLabels: [LANG.alert.abort],
+            callbacks: [() => DeviceMaster.stop()],
+          });
+        } else if (error[0] === 'HARDWARE_ERROR' || error[0] === 'USER_OPERATION') {
           Alert.popUp({
             id,
             type: AlertConstants.SHOW_POPUP_ERROR,
@@ -342,7 +357,6 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             onRetry: handleRetry,
           });
         } else {
-          this.didErrorPopped = true;
           Alert.popUp({
             id,
             type: AlertConstants.SHOW_POPUP_ERROR,
@@ -681,7 +695,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     } = this.state;
     this.didErrorPopped = false;
 
-    if (report.st_id === DeviceConstants.status.IDLE) {
+    if (report.st_id === IDLE) {
       const vc = VersionChecker(device.version);
       console.log(device.version);
       if (vc.meetRequirement('RELOCATE_ORIGIN')) {

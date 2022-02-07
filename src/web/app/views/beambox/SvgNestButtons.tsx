@@ -99,15 +99,11 @@ class SvgNestButtons extends React.Component<Props, State> {
       const d = svgedit.utilities.getPathDFromElement(elem);
       if (d) {
         const pointPaths = ClipperLib.dPathtoPointPathsAndScale(d, rotation, 1);
-        // eslint-disable-next-line prefer-destructuring
-        points = pointPaths[0];
-        for (let j = 1; j < pointPaths.length; j += 1) {
-          if (!points.children) {
-            points.children = [];
-          }
-          points.children.push(pointPaths[j]);
+        if (pointPaths.length === 1) {
+          [points] = pointPaths;
         }
-      } else {
+      }
+      if (!points) {
         points = [
           { x: bbox.x, y: bbox.y },
           { x: bbox.x + bbox.width, y: bbox.y },

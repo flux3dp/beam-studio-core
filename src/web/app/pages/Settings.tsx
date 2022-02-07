@@ -23,12 +23,8 @@ import TextToPath from 'app/components/settings/TextToPath';
 import Update from 'app/components/settings/Update';
 import { IConfig } from 'interfaces/IAutosave';
 import { ILang } from 'interfaces/ILang';
+import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
-
-enum OptionValues {
-  TRUE = 'TRUE',
-  FALSE = 'FALSE',
-}
 
 interface State {
   lang?: ILang;
@@ -202,6 +198,15 @@ class Settings extends React.PureComponent<null, State> {
     const isFastGradientOn = this.getBeamboxPreferenceEditingValue('fast_gradient') !== false;
     const fastGradientOptions = this.onOffOptionFactory(isFastGradientOn);
 
+    const isReverseEngraving = this.getBeamboxPreferenceEditingValue('reverse-engraving') === true;
+    const reverseEngravingOptions = this.onOffOptionFactory(
+      isReverseEngraving,
+      OptionValues.TRUE,
+      OptionValues.FALSE,
+      lang.settings.bottom_up,
+      lang.settings.top_down,
+    );
+
     const isVectorSpeedConstrainOn = this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
     const vectorSpeedConstraintOptions = this.onOffOptionFactory(isVectorSpeedConstrainOn);
 
@@ -222,6 +227,9 @@ class Settings extends React.PureComponent<null, State> {
 
     const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
     const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
+
+    const isDiodeOneWayEngravingOn = this.getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
+    const diodeOneWayEngravingOpts = this.onOffOptionFactory(isDiodeOneWayEngravingOn);
 
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
@@ -294,7 +302,16 @@ class Settings extends React.PureComponent<null, State> {
           />
           <Engraving
             fastGradientOptions={fastGradientOptions}
+            reverseEngravingOptions={reverseEngravingOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+            paddingAccel={{
+              defaultValue: this.getBeamboxPreferenceEditingValue('padding_accel') || 5000,
+              getValue: (val) => this.updateBeamboxPreferenceChange('padding_accel', val),
+            }}
+            paddingAccelDiode={{
+              defaultValue: this.getBeamboxPreferenceEditingValue('padding_accel_diode') || 4500,
+              getValue: (val) => this.updateBeamboxPreferenceChange('padding_accel_diode', val),
+            }}
           />
           <Path
             selectedModel={selectedModel}
@@ -324,6 +341,7 @@ class Settings extends React.PureComponent<null, State> {
             borderlessModeOptions={borderlessModeOptions}
             autofocusModuleOptions={autofocusModuleOptions}
             diodeModuleOptions={diodeModuleOptions}
+            diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Privacy

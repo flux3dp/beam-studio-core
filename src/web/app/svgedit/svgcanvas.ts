@@ -1291,6 +1291,7 @@ export default $.SvgCanvas = function (container, config) {
    */
   this.selectAll = () => {
     clearSelection();
+    this.setMode('select');
     const drawing = getCurrentDrawing();
     const allLayers = drawing.all_layers;
     const elemsToSelect = [];

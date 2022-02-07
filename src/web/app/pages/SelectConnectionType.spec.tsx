@@ -22,6 +22,10 @@ jest.mock('helpers/i18n', () => ({
         wifi: 'Wi-Fi',
         wired: 'Wired Network',
         ether2ether: 'Direct Connection',
+        usb: 'USB Connection',
+      },
+      connect_usb: {
+        title_sub: ' (HEXA Only)',
       },
       skip: 'Skip',
       cancel: 'Cancel',
@@ -57,6 +61,9 @@ describe('test Select-Connection-Type', () => {
 
     wrapper.find('.btn-action').at(2).simulate('click');
     expect(window.location.hash).toBe('#initialize/connect/connect-ethernet');
+
+    wrapper.find('.btn-action').at(3).simulate('click');
+    expect(window.location.hash).toBe('#initialize/connect/connect-usb');
 
     wrapper.find('.btn-page').simulate('click');
     expect(mockSet).toHaveBeenCalledTimes(2);

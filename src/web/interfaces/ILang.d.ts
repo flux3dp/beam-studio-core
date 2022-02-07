@@ -286,6 +286,7 @@ export interface ILang {
       wifi: string,
       wired: string,
       ether2ether: string,
+      usb: string,
     },
     connect_wifi: {
       title: string,
@@ -315,7 +316,14 @@ export interface ILang {
       tutorial2_2: string,
       tutorial3: string,
     },
+    connect_usb: {
+      title: string,
+      title_sub: string,
+      tutorial1: string,
+      tutorial2: string,
+    },
     connect_machine_ip: {
+      check_usb: string,
       enter_ip: string,
       check_ip: string,
       invalid_ip: string,
@@ -379,6 +387,9 @@ export interface ILang {
     default_font_family: string,
     default_font_style: string,
     fast_gradient: string,
+    engraving_direction: string;
+    top_down: string;
+    bottom_up: string;
     vector_speed_constraint: string,
     loop_compensation: string,
     blade_radius: string,
@@ -401,6 +412,8 @@ export interface ILang {
     default_enable_autofocus_module: string,
     default_enable_diode_module: string,
     diode_offset: string,
+    diode_one_way_engraving: string,
+    diode_two_way_warning: string;
     share_with_flux: string,
     none: string,
     close: string,
@@ -433,6 +446,7 @@ export interface ILang {
       continuous_drawing: string,
       simplify_clipper_path: string,
       fast_gradient: string,
+      reverse_engraving: string,
       vector_speed_constraint: string,
       loop_compensation: string,
       mask: string,
@@ -631,9 +645,13 @@ export interface ILang {
           mm: {
             wood_3mm_cutting: string,
             wood_5mm_cutting: string,
+            wood_8mm_cutting: string,
+            wood_10mm_cutting: string,
             wood_engraving: string,
             acrylic_3mm_cutting: string,
             acrylic_5mm_cutting: string,
+            acrylic_8mm_cutting: string,
+            acrylic_10mm_cutting: string,
             acrylic_engraving: string,
             leather_3mm_cutting: string,
             leather_5mm_cutting: string,
@@ -649,9 +667,13 @@ export interface ILang {
           inches: {
             wood_3mm_cutting: string,
             wood_5mm_cutting: string,
+            wood_8mm_cutting: string,
+            wood_10mm_cutting: string,
             wood_engraving: string,
             acrylic_3mm_cutting: string,
             acrylic_5mm_cutting: string,
+            acrylic_8mm_cutting: string,
+            acrylic_10mm_cutting: string,
             acrylic_engraving: string,
             leather_3mm_cutting: string,
             leather_5mm_cutting: string,
@@ -704,6 +726,8 @@ export interface ILang {
         difference: string,
         hflip: string,
         vflip: string,
+        lock_aspect: string;
+        unlock_aspect: string;
         option_panel: {
           fill: string,
           rounded_corner: string,
@@ -1020,6 +1044,11 @@ export interface ILang {
     HARDWARE_ERROR_DOOR_OPENED: string,
     HARDWARE_ERROR_OVER_TEMPERATURE: string,
     HARDWARE_ERROR_BOTTOM_OPENED: string,
+    HARDWARE_ERROR_PLATFORM_HOMING_FAILED: string;
+    HARDWARE_ERROR_DRAWER_OPENED: string;
+    HARDWARE_ERROR_FIRE_DETECTED: string;
+    HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: string;
+    HARDWARE_ERROR_ROTARY_NOT_DETECTED: string;
     USER_OPERATION_ROTARY_PAUSE: string,
     RESOURCE_BUSY: string,
     DEVICE_ERROR: string,
@@ -1154,6 +1183,8 @@ export interface ILang {
     66: string,
     68: string,
     128: string,
+    256: string;
+    512: string;
     UNKNOWN: string,
   },
   camera_calibration: {
@@ -1174,6 +1205,7 @@ export interface ILang {
       beambox: string,
       beamo: string,
       beamo_af: string,
+      hexa: string,
     },
     without_af: string,
     with_af: string,

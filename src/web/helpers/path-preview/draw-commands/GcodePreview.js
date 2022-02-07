@@ -18,8 +18,8 @@
 
 const parsedStride = 9;
 const drawStride = 8;
-const accX = 4000;
-const accY = 2000;
+const accX = 4000 * 3600; // mm/min^2
+const accY = 2000 * 3600; // mm/min^2
 
 export function gcode(drawCommands) {
   const program = drawCommands.compile({
@@ -200,11 +200,13 @@ export class GcodePreview {
         const dist = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
         let tc = 0;
         if (!Number.isNaN(f) && dist !== 0) {
+          const acc = Math.abs(y2 - y1) > 0 ? accX : accY;
           const direction = Math.atan2(y2 - y1, x2 - x1);
           const lastVel = (lastFeedrate * Math.cos(direction - lastDirection));
-          const acc = Math.abs(y2 - y1) > 0 ? accX : accY;
-          tc = (Math.abs(f - lastVel) / acc / 3600) + (dist / f);
-          lastFeedrate = f;
+          const estimateVel = (lastVel <= 0) ? Math.min(f, (2 * acc * dist) ** 0.5)
+            : Math.min(f, (lastVel ** 2 + 2 * acc * dist) ** 0.5);
+          tc = (Math.abs(estimateVel - lastVel) / acc) + (dist / estimateVel);
+          lastFeedrate = estimateVel;
           lastDirection = direction;
         }
 

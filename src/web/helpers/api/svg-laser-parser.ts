@@ -48,8 +48,25 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
   });
   let lastOrder = '';
 
+  const setParameter = (loopCompensation = 0) => {
+    if (loopCompensation > 0) {
+      return new Promise<null>((resolve, reject) => {
+        events.onMessage = (data) => {
+          if (data.status === 'ok') {
+            resolve(null);
+          }
+        };
+        events.onError = (data) => {
+          reject(data);
+        };
+        ws.send(['set_params', 'loop_compensation', loopCompensation].join(' '));
+      });
+    }
+    return null;
+  };
+
   return {
-    getTaskCode(names, opts) {
+    async getTaskCode(names, opts) {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => { });
       opts.onFinished = opts.onFinished || (() => { });
@@ -65,8 +82,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let totalLength = 0;
       let blob;
 
-      if (opts.model === 'fbb2b') {
-        args.push('-bb2');
+      if (opts.model === 'fhexa1') {
+        args.push('-hexa');
+        let accel = 7500;
+        if (localStorage.getItem('debug')) {
+          accel = BeamboxPreference.read('padding_accel') || 7500;
+        }
+        args.push('-acc', accel);
       } else if (opts.model === 'fbb1p') {
         args.push('-pro');
       } else if (opts.model === 'fbm1') {
@@ -97,6 +119,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.enableDiode) {
         args.push('-diode');
         args.push(`${BeamboxPreference.read('diode_offset_x') || 0},${BeamboxPreference.read('diode_offset_y') || 0}`);
+        if (BeamboxPreference.read('diode-one-way-engraving') !== false) {
+          args.push('-diode-owe');
+        }
       }
 
       if (opts.shouldUseFastGradient) {
@@ -116,6 +141,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push(`${BeamboxPreference.read('stripe_compensation_y0') || 0},${BeamboxPreference.read('stripe_compensation_interval') || 0},${BeamboxPreference.read('stripe_compensation_power') || 100}`);
       }
 
+      if (BeamboxPreference.read('reverse-engraving')) {
+        args.push('-rev');
+      }
+
+      const loopCompensation = Number(storage.get('loop_compensation') || '0');
+      if (loopCompensation > 0) {
+        await setParameter(loopCompensation);
+      }
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);
@@ -133,11 +166,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           opts.onError(data.message);
         }
       };
-
-      const loopCompensation = Number(storage.get('loop_compensation') || '0');
-      if (loopCompensation > 0) {
-        ws.send(['set_params', 'loop_compensation', loopCompensation].join(' '));
-      }
       ws.send(args.join(' '));
     },
     gcodeToFcode(
@@ -517,7 +545,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         ];
 
         if (opts) {
-          if (opts.model === 'fbb2b') {
+          if (opts.model === 'fhexa1') {
             args.push('-bb2');
           } else if (opts.model === 'fbb1p') {
             args.push('-pro');

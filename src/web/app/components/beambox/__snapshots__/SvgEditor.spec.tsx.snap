@@ -6,10 +6,9 @@ exports[`test svg-editor should render correctly in mac 1`] = `
     <div
       className="mac"
       id="svg_editor"
+      style={Object {}}
     >
-      <div
-        style={Object {}}
-      >
+      <div>
         <div
           className="mac"
           id="rulers"
@@ -993,10 +992,9 @@ exports[`test svg-editor should render correctly in win 1`] = `
     <div
       className=""
       id="svg_editor"
+      style={Object {}}
     >
-      <div
-        style={Object {}}
-      >
+      <div>
         <div
           className=""
           id="rulers"

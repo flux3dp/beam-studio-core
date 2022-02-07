@@ -22,18 +22,19 @@ const infoMap = {
 
 function checkMachineSeries(model) {
   switch (model) {
-    case 'fbb2b':
+    case 'fhexa1':
     case 'fbb1b':
     case 'fbb1p':
     case 'fbm1':
     case 'darwin-dev':
     case 'laser-b1':
+    case 'laser-b2':
       return 'beambox';
     case 'delta-1':
     case 'delta-1p':
       return 'delta';
     default:
-      throw new Error(`unknown model name${model}`);
+      return 'beambox';
   }
 }
 
