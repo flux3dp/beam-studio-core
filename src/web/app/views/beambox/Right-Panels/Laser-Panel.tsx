@@ -251,7 +251,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   updateData = (): void => {
     this.initDefaultConfig();
-    this.updateLayerConfigOnModelChange();
+    this.handleParametersChange();
     const layerData = FnWrapper.getCurrentLayerData();
     const { speed, repeat } = this.state;
     if ((speed !== layerData.speed) || (repeat !== layerData.repeat)) {
@@ -268,7 +268,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     });
   };
 
-  updateLayerConfigOnModelChange = (): void => {
+  handleParametersChange = (): void => {
     const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     const drawing = svgCanvas.getCurrentDrawing();
     const layerCount = drawing.getNumLayers();
@@ -290,9 +290,16 @@ class LaserPanel extends React.PureComponent<Props, State> {
           } else {
             layer.removeAttribute('data-configName');
           }
-        } else if (BeamboxPreference.read('workarea') === 'fhexa1') {
-          const { speed } = config;
+        } else {
+          const {
+            speed, power, repeat, zStep,
+          } = config;
           layer.setAttribute('data-speed', speed);
+          layer.setAttribute('data-strength', power);
+          layer.setAttribute('data-repeat', repeat);
+          if (zStep) {
+            layer.setAttribute('data-zstep', repeat);
+          }
         }
       }
 
@@ -693,7 +700,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <LaserManageModal
         selectedItem={selectedItem}
         initDefaultConfig={this.initDefaultConfig}
-        onClose={() => this.handleCancelModal()}
+        onClose={this.handleCancelModal}
+        onConfigSaved={this.handleParametersChange}
       />
     );
   };
