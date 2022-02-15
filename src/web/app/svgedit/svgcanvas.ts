@@ -678,7 +678,7 @@ export default $.SvgCanvas = function (container, config) {
 
   let drawn_path = null;
 
-  this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
+  this.isUsingLayerColor = BeamboxPreference.read('use_layer_color') !== false;
   this.isBorderlessMode = BeamboxPreference.read('borderless');
 
   // State for save before close warning
