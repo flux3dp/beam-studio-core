@@ -5,7 +5,7 @@ import DeviceConstants from 'app/constants/device-constants';
 import i18n from 'helpers/i18n';
 import MonitorStatus, { ButtonTypes } from 'helpers/monitor-status';
 import { ItemType, Mode } from 'app/constants/monitor-constants';
-import { MonitorContext } from 'app/contexts/Monitor-Context';
+import { MonitorContext } from 'app/contexts/MonitorContext';
 import { IReport } from 'interfaces/IDevice';
 
 const LANG = i18n.lang.monitor;

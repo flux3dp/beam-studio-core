@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MonitorContext } from 'app/contexts/Monitor-Context';
+import { MonitorContext } from 'app/contexts/MonitorContext';
 
 export enum NavBtnType {
   NONE = 0,

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { MonitorContext } from 'app/contexts/Monitor-Context';
+import { MonitorContext } from 'app/contexts/MonitorContext';
 import DeviceMaster from 'helpers/device-master';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
