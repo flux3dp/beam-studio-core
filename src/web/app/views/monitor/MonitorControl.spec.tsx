@@ -18,7 +18,7 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-jest.mock('app/contexts/Monitor-Context', () => ({
+jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 

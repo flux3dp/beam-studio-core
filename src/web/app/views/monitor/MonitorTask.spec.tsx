@@ -26,7 +26,7 @@ jest.mock('helpers/version-checker', () => () => ({
   meetRequirement,
 }));
 
-jest.mock('app/contexts/Monitor-Context', () => ({
+jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-jest.mock('app/contexts/Monitor-Context', () => ({
+jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 
