@@ -84,6 +84,7 @@ statusButtonTypeMap[DeviceConstants.status.FATAL] = {
 
 export default {
   getDisplayStatus: (stLabel: string): string => {
+    const key = stLabel.replace(/^"+|"+$/g, '');
     const statusMap = {
       IDLE: i18n.lang.device.ready,
       INIT: i18n.lang.device.starting,
@@ -100,7 +101,7 @@ export default {
       SCANNING: i18n.lang.device.scanning,
       PREPARING: i18n.lang.device.completed,
     };
-    return statusMap[stLabel] || stLabel || '';
+    return statusMap[key] || stLabel || '';
   },
   isAbortedOrCompleted: (report: IReport): boolean => {
     if (!report) return false;
