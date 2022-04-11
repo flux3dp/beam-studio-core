@@ -2,7 +2,7 @@ export default {
   i18n: {
     default_lang: 'en',
     supported_langs: {
-      de: 'Deutsche',
+      de: 'Deutsch',
       en: 'English',
       es: 'Español',
       'zh-tw': '繁體中文',
