@@ -355,8 +355,8 @@ const lang: ILang = {
     inches: 'Zoll',
   },
   settings: {
-    on: 'Auf',
-    off: 'an',
+    on: 'An',
+    off: 'Aus',
     low: 'Niedrig',
     high: 'Normal',
     caption: 'die Einstellungen',
@@ -437,8 +437,8 @@ const lang: ILang = {
       modules: 'Zusatz-Module',
       privacy: 'Privatsphäre',
     },
-    notification_on: 'Auf',
-    notification_off: 'an',
+    notification_on: 'An',
+    notification_off: 'Aus',
     update_latest: 'Neueste',
     update_beta: 'Beta',
     help_center_urls: {
