@@ -17,9 +17,12 @@ getSVGAsync((globalSVG) => {
 
 const LANG = i18n.lang.beambox.left_panel;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
+const IOS_CANVAS_LIMIT = 16777216;
 
 class PreviewModeBackgroundDrawer {
   canvas: HTMLCanvasElement;
+
+  canvasRatio = 1;
 
   cameraCanvasUrl: string;
 
@@ -31,6 +34,7 @@ class PreviewModeBackgroundDrawer {
 
   constructor() {
     this.canvas = document.createElement('canvas');
+    this.canvasRatio = 1;
     this.cameraCanvasUrl = '';
 
     this.coordinates = {
@@ -44,9 +48,21 @@ class PreviewModeBackgroundDrawer {
     documentPanelEventEmitter.on('workarea-change', this.updateCanvasSize);
   }
 
+  private updateRatio(width: number, height: number) {
+    // if is IOS system (web version), set ratio for canvas limit
+    if (navigator.maxTouchPoints > 1 && window.os === 'MacOS') {
+      if (width * height > IOS_CANVAS_LIMIT) {
+        this.canvasRatio = Math.floor(1000 * (IOS_CANVAS_LIMIT / (width * height))) / 1000;
+      }
+    }
+  }
+
   start(cameraOffset) {
-    this.canvas.width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-    this.canvas.height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+    const width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
+    const height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+    this.updateRatio(width, height);
+    this.canvas.width = Math.round(width * this.canvasRatio);
+    this.canvas.height = Math.round(height * this.canvasRatio);
 
     // { x, y, angle, scaleRatioX, scaleRatioY }
     this.cameraOffset = cameraOffset;
@@ -73,13 +89,17 @@ class PreviewModeBackgroundDrawer {
   }
 
   updateCanvasSize = () => {
+    const oldRatio = this.canvasRatio;
     const newWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
     const newHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+    this.updateRatio(newWidth, newHeight);
     const ctx = this.canvas.getContext('2d');
-    const data = ctx.getImageData(0, 0, newWidth, newHeight);
-    this.canvas.width = newWidth;
-    this.canvas.height = newHeight;
-    ctx.putImageData(data, 0, 0);
+    const data = ctx.getImageData(0, 0,
+      Math.round(newWidth / oldRatio), Math.round(newHeight / oldRatio));
+    this.canvas.width = Math.round(newWidth * this.canvasRatio);
+    this.canvas.height = Math.round(newHeight * this.canvasRatio);
+    ctx.putImageData(data, 0, 0, 0, 0,
+      this.canvas.width, this.canvas.height);
     this.resetBoundary();
     this.canvas.toBlob((blob) => {
       this.drawBlobToBackground(blob);
@@ -173,9 +193,10 @@ class PreviewModeBackgroundDrawer {
         URL.revokeObjectURL(imgUrl);
 
         const regulatedImg = this.cropAndRotateImg(img);
-
-        const dstX = x - regulatedImg.width / 2;
-        const dstY = y - regulatedImg.height / 2;
+        const { width, height } = regulatedImg;
+        const { canvasRatio } = this;
+        const dstX = (x - width / 2) * canvasRatio;
+        const dstY = (y - height / 2) * canvasRatio;
 
         if (dstX > this.coordinates.maxX) {
           this.coordinates.maxX = dstX;
@@ -189,7 +210,7 @@ class PreviewModeBackgroundDrawer {
         if (dstY < this.coordinates.minY) {
           this.coordinates.minY = dstY;
         }
-        this.canvas.getContext('2d').drawImage(regulatedImg, dstX, dstY);
+        this.canvas.getContext('2d').drawImage(regulatedImg, dstX, dstY, width * canvasRatio, height * canvasRatio);
         this.canvas.toBlob((blob) => {
           resolve(blob);
           if (last) {
