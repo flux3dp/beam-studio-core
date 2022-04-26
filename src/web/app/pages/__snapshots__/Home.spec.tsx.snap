@@ -30,7 +30,7 @@ exports[`should render correctly 1`] = `
             options={
               Array [
                 Object {
-                  "label": "Deutsche",
+                  "label": "Deutsch",
                   "selected": false,
                   "value": "de",
                 },
