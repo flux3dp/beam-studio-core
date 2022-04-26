@@ -1315,8 +1315,7 @@ const lang: ILang = {
       hold: '按住一段时间打开选单。',
     },
     links: {
-      adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/zh-tw/articles/360001684196',
-      adjust_focus_bb: 'https://support.flux3dp.com/hc/zh-tw/articles/360001683675',
+      adjust_focus: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
     },
     tutorial_complete: '介绍完毕，开始创作吧！',
   },

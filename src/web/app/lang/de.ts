@@ -1315,8 +1315,7 @@ const lang: ILang = {
       hold: 'Finger lang auf einem Objekt legen um das Kontextmenü zu öffnen.',
     },
     links: {
-      adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
-      adjust_focus_bb: 'https://support.flux3dp.com/hc/en-us/articles/360001683675',
+      adjust_focus: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
     },
     tutorial_complete: 'Das ist alles für das Tutorial. Jetzt ist es Zeit zu erstellen!',
   },
