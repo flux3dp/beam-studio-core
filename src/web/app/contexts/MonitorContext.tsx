@@ -170,7 +170,6 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         if (this.isGettingReport) return;
         this.isGettingReport = true;
         const report = await DeviceMaster.getReport();
-        this.isGettingReport = false;
         this.processReport(report);
       } catch (error) {
         if (error && error.status === 'raw') {
@@ -212,6 +211,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             }
           }
         }
+      } finally {
+        this.isGettingReport = false;
       }
     }, 1500);
   }
@@ -715,7 +716,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           this.setState({ uploadProgress: null });
         } catch (error) {
           this.setState({ uploadProgress: null });
-          Alert.popUp({ type: AlertConstants.SHOW_POPUP_ERROR, message: LANG.message.unable_to_start + error.error.join('_') });
+          Alert.popUp({ type: AlertConstants.SHOW_POPUP_ERROR, message: LANG.message.unable_to_start + error.error?.join('_') });
         }
       } else if (mode === Mode.FILE_PREVIEW) {
         await DeviceMaster.goFromFile(currentPath.join('/'), fileInfo[0]);

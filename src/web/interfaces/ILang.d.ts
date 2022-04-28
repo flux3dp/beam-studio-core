@@ -1313,8 +1313,7 @@ export interface ILang {
       hold: string,
     },
     links: {
-      adjust_focus_bm: string,
-      adjust_focus_bb: string,
+      adjust_focus: string,
     },
     tutorial_complete: string,
   },

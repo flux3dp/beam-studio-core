@@ -15,7 +15,7 @@ import VersionChecker from 'helpers/version-checker';
 import Websocket from 'helpers/websocket';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-const TIMEOUT = 30000;
+const TIMEOUT = 120000;
 const IMAGE_TRANSMISSION_FAIL_THRESHOLD = 20;
 const CAMERA_CABLE_ALERT_THRESHOLD = 10;
 const LANG = i18n.lang;
@@ -87,7 +87,7 @@ class Camera {
             Progress.openNonstopProgress({
               id: 'connect-camera',
               message: LANG.message.connectingCamera,
-              timeout: 3500 * IMAGE_TRANSMISSION_FAIL_THRESHOLD,
+              timeout: TIMEOUT,
             });
           }
           if (this.requireFrameRetry < IMAGE_TRANSMISSION_FAIL_THRESHOLD) {

@@ -678,7 +678,7 @@ export default $.SvgCanvas = function (container, config) {
 
   let drawn_path = null;
 
-  this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
+  this.isUsingLayerColor = BeamboxPreference.read('use_layer_color') !== false;
   this.isBorderlessMode = BeamboxPreference.read('borderless');
 
   // State for save before close warning
@@ -1967,7 +1967,7 @@ export default $.SvgCanvas = function (container, config) {
               'fill-opacity': curText.fill_opacity,
               'stroke-width': 2,
               'font-size': curText.font_size,
-              'font-family': usePostscriptAsFamily ? `'${curText.font_postscriptName}'` : `'${curText.font_family}'`,
+              'font-family': usePostscriptAsFamily ? `'${curText.font_postscriptName}'` : curText.font_family,
               'font-postscript': curText.font_postscriptName,
               'text-anchor': curText.text_anchor,
               'data-ratiofixed': true,

@@ -519,7 +519,7 @@ const lang: ILang = {
         error_when_converting_pdf: '#824 Error when converting PDF to SVG:',
         error_pdf2svg_not_found: '#825 Error: Command pdf2svg not found. Please install pdf2svg with your package manager (e.g., "yum install pdf2svg" or "apt-get install pdf2svg").',
       },
-      ungroup_use: 'This will ungroup imported DXF or SVG. Because the file may contain a great amount of elements, it may take time to ungroup. Are you sure to proceed?',
+      ungroup_use: 'This will ungroup imported DXF or SVG. Because the file might contain a great number of elements, it might take time to ungroup. Are you sure to proceed?',
       vectorize_shading_image: 'Gradient images takes more time to trace and are prone to noise. Please kindly turn off the image gradient before executing.',
       change_workarea_before_preview: 'The workarea of %s does not match the currently set workarea. Do you want to switch current workarea?',
       bug_report: 'Bug Report',
@@ -1315,8 +1315,7 @@ const lang: ILang = {
       hold: 'Press and hold to open the context menu.',
     },
     links: {
-      adjust_focus_bm: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
-      adjust_focus_bb: 'https://support.flux3dp.com/hc/en-us/articles/360001683675',
+      adjust_focus: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
     },
     tutorial_complete: 'That’s all for the tutorial. Now it’s time to create!',
   },

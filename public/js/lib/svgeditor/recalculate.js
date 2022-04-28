@@ -30,6 +30,7 @@ if (!svgedit.recalculate) {
 
 var NS = svgedit.NS;
 var context_;
+const isNegligible = (number) => Math.abs(number) < 1e-7;
 
 // Function: svgedit.recalculate.init
 svgedit.recalculate.init = function(editorContext) {
@@ -95,7 +96,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       } else if (xform.type === 1) {
         if (svgedit.math.isIdentity(xform.matrix)) {
           tlist.removeItem(k);
-        } else if (xform.matrix.a === 1 && xform.matrix.b === 0 && xform.matrix.c === 0 && xform.matrix.d === 1) {
+        } else if (xform.matrix.a === 1 && isNegligible(xform.matrix.b) && isNegligible(xform.matrix.c) && xform.matrix.d === 1) {
           const { e, f } = xform.matrix;
           const translate = svgroot.createSVGTransform();
           translate.setTranslate(e, f);
@@ -164,7 +165,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     default:
       if ((tlist.numberOfItems === 1 && tlist.getItem(0).type === 1)) {
         let matrix = tlist.getItem(0).matrix;
-        if (!matrix.b === 0 || matrix.c !== 0) {
+        if (!isNegligible(matrix.b) || !isNegligible(matrix.c)) {
           return null;
         }
       }
@@ -819,7 +820,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         }
         operation = 1;
         tlist.clear();
-      } else if (matrix.b === 0 && matrix.c === 0) {
+      } else if (isNegligible(matrix.b) && isNegligible(matrix.c)) {
         operation = 3; // scale
         m = matrix;
         tlist.removeItem(0);

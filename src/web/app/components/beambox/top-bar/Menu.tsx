@@ -25,7 +25,7 @@ export default function Menu({ email }: Props): JSX.Element {
   const [devices, setDevices] = React.useState<IDeviceInfo[]>([]);
   const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
   const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
-  const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(BeamboxPreference.read('use_layer_color'));
+  const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(BeamboxPreference.read('use_layer_color') !== false);
   const [isUsingAntiAliasing, setIsUsingAntiAliasing] = React.useState(BeamboxPreference.read('anti-aliasing') !== false);
   const [shouldZoomWithWindow, changeShouldZoomWithWindow] = React.useState(false);
   const [duplicateDisabled, setDuplicateDisabled] = React.useState(true);

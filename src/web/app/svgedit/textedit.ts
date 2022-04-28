@@ -265,7 +265,7 @@ const setBold = (val: boolean): void => {
 const setFontFamily = (val: string, isSubCmd = false, elems?: Element[]): ICommand => {
   const elemsToChange = elems || svgCanvas.getSelectedElems();
   let cmd = null;
-  if (!usePostscriptAsFamily) curText.font_family = val;
+  if (!usePostscriptAsFamily) curText.font_family = `'${val}'`;
   if (isSubCmd) {
     svgCanvas.undoMgr.beginUndoableChange('font-family', elemsToChange);
     svgCanvas.changeSelectedAttributeNoUndo('font-family', `'${val}'`, elemsToChange);

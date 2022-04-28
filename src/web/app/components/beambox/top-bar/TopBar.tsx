@@ -180,7 +180,7 @@ export default class TopBar extends React.Component<Props, State> {
         } else {
           Alert.popUp({
             type: AlertConstants.SHOW_POPUP_ERROR,
-            message: `${LANG.alerts.fail_to_start_preview}<br/>${errMessage}`,
+            message: `${LANG.alerts.fail_to_start_preview}<br/>${errMessage}`,
           });
         }
         setTopBarPreviewMode(false);
@@ -198,12 +198,12 @@ export default class TopBar extends React.Component<Props, State> {
       if (error.message && error.message.startsWith('Camera WS')) {
         Alert.popUp({
           type: AlertConstants.SHOW_POPUP_ERROR,
-          message: `${LANG.alerts.fail_to_connect_with_camera}<br/>${error.message || ''}`,
+          message: `${LANG.alerts.fail_to_connect_with_camera}<br/>${error.message || ''}`,
         });
       } else {
         Alert.popUp({
           type: AlertConstants.SHOW_POPUP_ERROR,
-          message: `${LANG.alerts.fail_to_start_preview}<br/>${error.message || ''}`,
+          message: `${LANG.alerts.fail_to_start_preview}<br/>${error.message || ''}`,
         });
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks

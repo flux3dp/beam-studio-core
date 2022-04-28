@@ -6,7 +6,7 @@ import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import VersionChecker from 'helpers/version-checker';
 import { Mode } from 'app/constants/monitor-constants';
-import { MonitorContext } from 'app/contexts/Monitor-Context';
+import { MonitorContext } from 'app/contexts/MonitorContext';
 
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;

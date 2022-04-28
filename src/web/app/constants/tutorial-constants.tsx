@@ -1,5 +1,4 @@
 import * as React from 'react';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
@@ -34,12 +33,7 @@ const isMacOrWeb = window.os === 'MacOS' || window.FLUX.version === 'web';
 
 const adjustFocusLinkClick = () => {
   // TODO: Add adjust focus link for Beambox2
-  const model = BeamboxPreference.read('model') || 'fbb1b';
-  if (['fbm1'].includes(model)) {
-    browser.open(LANG.links.adjust_focus_bm);
-  } else {
-    browser.open(LANG.links.adjust_focus_bb);
-  }
+  browser.open(LANG.links.adjust_focus);
 };
 
 const NEW_USER_TUTORIAL: ITutorial = {

@@ -19,6 +19,7 @@ interface Props {
   selectedItem: string;
   initDefaultConfig: () => void;
   onClose: () => void;
+  onConfigSaved: () => void;
 }
 
 interface State {
@@ -369,7 +370,7 @@ class LaserManageModal extends React.Component<Props, State> {
   };
 
   handleSaveAndExit = (): void => {
-    const { onClose } = this.props;
+    const { onClose, onConfigSaved } = this.props;
     for (let i = 0; i < this.editingConfigs.length; i += 1) {
       let config = this.editingConfigs[i];
       if (this.unsavedChanges[config.name]) {
@@ -380,6 +381,7 @@ class LaserManageModal extends React.Component<Props, State> {
     this.unsavedChanges = {};
     storage.set('customizedLaserConfigs', this.editingConfigs);
     storage.set('defaultLaserConfigsInUse', this.editingDefaultLaserConfigsInUse);
+    onConfigSaved();
     onClose();
   };
 
