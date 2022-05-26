@@ -674,8 +674,8 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       angle = svgedit.utilities.getRotationAngle(selected);
 
     let oldcenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-    let newCenter = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-    let newCenterWithRotate = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    let newCenter = { ...oldcenter };
+    let newCenterWithRotate = { ...oldcenter };
     if (angle) {
       if (selected.tagName === 'text') {
         newCenterWithRotate = svgedit.math.transformPoint(
@@ -707,6 +707,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       } else {
         newCenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
           svgedit.math.transformListToTransform(tlist).matrix);
+        newCenterWithRotate = { ...newCenter };
         var a = angle * Math.PI / 180;
         if ( Math.abs(a) > (1.0e-10) ) {
           var s = Math.sin(a)/(1 - Math.cos(a));
