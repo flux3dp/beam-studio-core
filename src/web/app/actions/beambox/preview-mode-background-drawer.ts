@@ -52,7 +52,7 @@ class PreviewModeBackgroundDrawer {
     // if is IOS system (web version), set ratio for canvas limit
     if (navigator.maxTouchPoints > 1 && window.os === 'MacOS') {
       if (width * height > IOS_CANVAS_LIMIT) {
-        this.canvasRatio = Math.floor(1000 * (IOS_CANVAS_LIMIT / (width * height))) / 1000;
+        this.canvasRatio = Math.floor(1000 * Math.sqrt(IOS_CANVAS_LIMIT / (width * height))) / 1000;
       }
     }
   }
