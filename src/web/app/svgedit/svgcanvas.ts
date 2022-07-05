@@ -5894,7 +5894,11 @@ export default $.SvgCanvas = function (container, config) {
     }
     function rgbToHex(rgbStr) {
       const rgb = rgbStr.substring(4).split(',');
-      let hex = (Math.floor(parseFloat(rgb[0]) * 2.55) * 65536 + Math.floor(parseFloat(rgb[1]) * 2.55) * 256 + Math.floor(parseFloat(rgb[2]) * 2.55)).toString(16);
+      let hex = (
+        Math.round(parseFloat(rgb[0]) * 2.55) * 65536
+        + Math.round(parseFloat(rgb[1]) * 2.55) * 256
+        + Math.round(parseFloat(rgb[2]) * 2.55)
+      ).toString(16);
       if (hex === 'NaN') {
         hex = '0';
       }

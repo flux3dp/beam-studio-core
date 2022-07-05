@@ -1023,7 +1023,7 @@ const lang: ILang = {
     pausedFromError: 'エラーにより一時停止しました',
     model_name: 'モデル名',
     IP: 'IP',
-    serial_number: 'シリアル番号',
+    serial_number: 'マシン番号',
     firmware_version: 'ファームウェアバージョン',
     UUID: 'UUID',
     select: '選択する',
