@@ -171,13 +171,16 @@ const exportAsSVG = async (): Promise<void> => {
     return;
   }
   svgCanvas.clearSelection();
-  $('g.layer').removeAttr('clip-path');
-  const getContent = () => removeNPElementsWrapper(
-    () => switchSymbolWrapper(
-      () => svgCanvas.getSvgString('mm'),
-    ),
-  );
-  $('g.layer').attr('clip-path', 'url(#scene_mask)');
+  const getContent = () => {
+    $('g.layer').removeAttr('clip-path');
+    const res = removeNPElementsWrapper(
+      () => switchSymbolWrapper(
+        () => svgCanvas.getSvgString('mm'),
+      ),
+    );
+    $('g.layer').attr('clip-path', 'url(#scene_mask)');
+    return res;
+  };
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
 
