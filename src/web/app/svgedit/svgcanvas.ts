@@ -4554,20 +4554,19 @@ export default $.SvgCanvas = function (container, config) {
         var nsuris = {};
 
         // Check elements for namespaces, add if found
-        $(elem).find('*').andSelf().each(function () {
-          var el = this;
+        const allElems = [elem, ...elem.querySelectorAll('*')];
+        allElems.forEach((el: Element) => {
           // for some elements have no attribute
-          var uri = this.namespaceURI;
+          const uri = el.namespaceURI;
           if (uri && !nsuris[uri] && nsMap[uri] && nsMap[uri] !== 'xmlns' && nsMap[uri] !== 'xml') {
             nsuris[uri] = true;
-            out.push(' xmlns:' + nsMap[uri] + '="' + uri + '"');
+            out.push(` xmlns:${nsMap[uri]}="${uri}"`);
           }
-
-          $.each(this.attributes, function (i, attr) {
-            var uri = attr.namespaceURI;
-            if (uri && !nsuris[uri] && nsMap[uri] !== 'xmlns' && nsMap[uri] !== 'xml') {
-              nsuris[uri] = true;
-              out.push(' xmlns:' + nsMap[uri] + '="' + uri + '"');
+          Object.values(el.attributes).forEach((att) => {
+            const attrUri = att.namespaceURI;
+            if (attrUri && !nsuris[attrUri] && nsMap[attrUri] !== 'xmlns' && nsMap[attrUri] !== 'xml') {
+              nsuris[attrUri] = true;
+              out.push(` xmlns:${nsMap[attrUri]}="${attrUri}"`);
             }
           });
         });
