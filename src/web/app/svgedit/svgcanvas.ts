@@ -4560,13 +4560,13 @@ export default $.SvgCanvas = function (container, config) {
           const uri = el.namespaceURI;
           if (uri && !nsuris[uri] && nsMap[uri] && nsMap[uri] !== 'xmlns' && nsMap[uri] !== 'xml') {
             nsuris[uri] = true;
-            out.push(' xmlns:' + nsMap[uri] + '="' + uri + '"');
+            out.push(` xmlns:${nsMap[uri]}="${uri}"`);
           }
-          Object.values(el.attributes).forEach((attr) => {
-            const attrUri = attr.namespaceURI;
+          Object.values(el.attributes).forEach((att) => {
+            const attrUri = att.namespaceURI;
             if (attrUri && !nsuris[attrUri] && nsMap[attrUri] !== 'xmlns' && nsMap[attrUri] !== 'xml') {
               nsuris[attrUri] = true;
-              out.push(' xmlns:' + nsMap[attrUri] + '="' + attrUri + '"');
+              out.push(` xmlns:${nsMap[attrUri]}="${attrUri}"`);
             }
           });
         });
