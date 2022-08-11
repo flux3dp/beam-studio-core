@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 /* eslint-disable max-len */
@@ -1256,7 +1257,6 @@ class PathPreview extends React.Component<Props, State> {
               i += 1;
               continue;
             }
-
             if (cacheIndex > -1) {
               if (fastGradientGcodeList[i].indexOf('F16 3') > -1) {
                 if (startBytesIndex < 0) {
@@ -1267,29 +1267,31 @@ class PathPreview extends React.Component<Props, State> {
 
               if (fastGradientGcodeList[i].indexOf('F16 4') > -1) {
                 const distBytesCalculation = Math.abs((simTimeInfo.position[0] - startX) / (32 * resolution));
-
+                const paddingEmptyBytes = Math.floor(distBytesCalculation);
                 if (engravingLineCount > distBytesCalculation) {
                   modifiedGcodeList = prefix;
 
                   const { U, F, Z } = this.searchParams(fastGradientGcodeList, cacheIndex);
 
-                  if (BeamboxPreference.read('enable-autofocus')) {
+                  if (BeamboxPreference.read('enable-autofocus') && Z > -1) {
                     modifiedGcodeList.push('G1 Z-1.0000');
                     modifiedGcodeList.push(`G1 Z${Z}`);
                   }
 
                   modifiedGcodeList.push(`G1 U${U}`);
                   modifiedGcodeList.push(`G1 F${F}`);
-                  modifiedGcodeList.push(resolutionLine);
+                  if (modifiedGcodeList.lastIndexOf('F16 5') > modifiedGcodeList.lastIndexOf(resolutionLine)) {
+                    modifiedGcodeList.push(resolutionLine);
+                  }
 
-                  for (let j = cacheIndex; j < startBytesIndex + 1; j += 1) {
+                  for (let j = cacheIndex; j < startBytesIndex; j += 1) {
                     modifiedGcodeList.push(fastGradientGcodeList[j]);
                   }
 
-                  for (let c = 0; c < distBytesCalculation; c += 1) {
+                  for (let j = 0; j < paddingEmptyBytes; j += 1) {
                     modifiedGcodeList.push('F16 3 0');
                   }
-                  const fixedIndex = startBytesIndex + Math.floor(distBytesCalculation) - 1;
+                  const fixedIndex = startBytesIndex + paddingEmptyBytes;
                   const matchByteInfo = fastGradientGcodeList[fixedIndex].match(/F16 3 ([-0-9]*)/);
                   const bytesInfo = parseInt(matchByteInfo[1], 10);
                   const smallDist = Math.floor((distBytesCalculation - Math.floor(distBytesCalculation)) * 32);
@@ -1303,7 +1305,7 @@ class PathPreview extends React.Component<Props, State> {
                     }
                   }
 
-                  // @ts-ignore
+                  // eslint-disable-next-line no-bitwise
                   modifiedGcodeList.push(`F16 3 ${bytesInfo & bitwiseOperand}`);
                   modifiedGcodeList = modifiedGcodeList.concat(fastGradientGcodeList.slice(fixedIndex + 1));
 
