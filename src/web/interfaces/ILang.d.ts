@@ -116,6 +116,7 @@ export interface ILang {
       change_logs: string;
       contact: string;
       tutorial: string;
+      design_market: string;
       forum: string;
       software_update: string;
       bug_report: string;
@@ -164,6 +165,7 @@ export interface ILang {
         forum: string;
         downloads: string;
         beam_studio_api: string;
+        design_market: string;
       },
       view: string;
       zoom_in: string;
