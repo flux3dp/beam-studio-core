@@ -19,13 +19,23 @@ import toJson from 'enzyme-to-json';
 
 import AboutBeamStudio from './AboutBeamStudio';
 
-test('should render correctly', () => {
-  const onClose = jest.fn();
-  const wrapper = mount(<AboutBeamStudio
-    onClose={onClose}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+describe('test AboutBeamStudio', () => {
+  beforeAll(() => {
+    jest.spyOn(Date.prototype, 'getFullYear').mockReturnValue(1976);
+  });
 
-  wrapper.find('button.btn-default').simulate('click');
-  expect(onClose).toHaveBeenCalledTimes(1);
+  it('should render correctly', () => {
+    const onClose = jest.fn();
+    const wrapper = mount(<AboutBeamStudio
+      onClose={onClose}
+    />);
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('button.btn-default').simulate('click');
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
 });

@@ -18,7 +18,7 @@ function AboutBeamStudio({ onClose }: Props): JSX.Element {
         <img src="img/icon.png" />
         <div className="app-name">Beam Studio</div>
         <div className="version">{`${LANG.version} ${FLUX.version}`}</div>
-        <div className="copyright">Copyright ⓒ 2021 FLUX Inc.</div>
+        <div className="copyright">{`Copyright ⓒ ${new Date().getFullYear()} FLUX Inc.`}</div>
         <div className="credit" dangerouslySetInnerHTML={{ __html: LANG.credit }} />
         <button
           type="button"
