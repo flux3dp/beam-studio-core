@@ -380,18 +380,20 @@ export default class TopBar extends React.Component<Props, State> {
           setTopBarPreviewMode={setTopBarPreviewMode}
           enterPreviewMode={() => setIsPreviewing(true)}
         />
-        <PathPreviewButton
-          isPathPreviewing={isPathPreviewing}
-          isDeviceConnected={deviceList.length > 0}
-          togglePathPreview={togglePathPreview}
-        />
-        <GoButton
-          hasText={isWhiteTopBar}
-          hasDiscoverdMachine={hasDiscoverdMachine}
-          hasDevice={this.deviceList.length > 0}
-          endPreviewMode={endPreviewMode}
-          showDeviceList={this.showDeviceList}
-        />
+        <div className="right">
+          <PathPreviewButton
+            isPathPreviewing={isPathPreviewing}
+            isDeviceConnected={deviceList.length > 0}
+            togglePathPreview={togglePathPreview}
+          />
+          <GoButton
+            hasText={isWhiteTopBar}
+            hasDiscoverdMachine={hasDiscoverdMachine}
+            hasDevice={this.deviceList.length > 0}
+            endPreviewMode={endPreviewMode}
+            showDeviceList={this.showDeviceList}
+          />
+        </div>
         {this.renderDeviceList()}
         <ElementTitle selectedElem={selectedElem} />
         {this.renderHint()}
