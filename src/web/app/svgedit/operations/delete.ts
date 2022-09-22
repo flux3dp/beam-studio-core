@@ -54,13 +54,27 @@ export const deleteElements = (elems: Element[], isSub = false): IBatchCommand =
         }
       }
       if (shouldDeleteRef) {
-        const ref = $(svgCanvas.getHref(elem)).toArray()[0];
+        const ref = $(svgCanvas.getHref(elem)).toArray()[0] as SVGSymbolElement;
         if (ref) {
-          parent = ref.parentNode;
+          parent = ref.parentNode as Element;
           nextSibling = ref.nextSibling;
           parent.removeChild(ref);
           deletedElems.push(ref); // for the copy
           batchCmd.addSubCommand(new history.RemoveElementCommand(ref, nextSibling, parent));
+
+          const relatedSymbolIds = [ref.getAttribute('data-image-symbol'), ref.getAttribute('data-origin-symbol')];
+          relatedSymbolIds.filter((id) => id).forEach((id) => {
+            const element = document.getElementById(id);
+            if (element) {
+              parent = element.parentNode as Element;
+              nextSibling = element.nextSibling;
+              parent.removeChild(element);
+              deletedElems.push(element); // for the copy
+              batchCmd.addSubCommand(
+                new history.RemoveElementCommand(element, nextSibling, parent),
+              );
+            }
+          });
         }
       }
     }

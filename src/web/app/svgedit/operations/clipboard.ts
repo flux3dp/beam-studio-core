@@ -157,6 +157,35 @@ const pasteElements = (
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
 
+    if (copy.tagName === 'use') {
+      const refId = svgCanvas.getHref(copy);
+      const refElement = document.querySelector(refId);
+      const copiedRef: SVGSymbolElement = refElement.cloneNode(true);
+      refElement.parentNode.appendChild(copiedRef);
+      const originalSymbolId = copiedRef.getAttribute('data-origin-symbol');
+      const imageSymbolId = copiedRef.getAttribute('data-image-symbol');
+      if (originalSymbolId && document.getElementById(originalSymbolId)) {
+        // copied ref is image symbol, need to copy original symbol as well
+        const originalSymbol = document.getElementById(originalSymbolId);
+        const copiedOriginalSymbol = originalSymbol.cloneNode(true) as Element;
+        originalSymbol.parentNode.appendChild(copiedOriginalSymbol);
+        copiedOriginalSymbol.id = drawing.getNextId();
+        copiedRef.id = `${copiedOriginalSymbol.id}_image`;
+        copiedRef.setAttribute('data-origin-symbol', copiedOriginalSymbol.id);
+        copiedOriginalSymbol.setAttribute('data-image-symbol', copiedRef.id);
+      } else if (imageSymbolId && document.getElementById(imageSymbolId)) {
+        // copied ref is origin symbol, need to copy image symbol as well
+        const imageSymbol = document.getElementById(imageSymbolId);
+        const copiedImageSymbol = imageSymbol.cloneNode(true) as Element;
+        imageSymbol.parentNode.appendChild(copiedImageSymbol);
+        copiedRef.id = drawing.getNextId();
+        copiedImageSymbol.id = `${copiedRef.id}_image`;
+        copiedRef.setAttribute('data-image-symbol', copiedImageSymbol.id);
+        copiedImageSymbol.setAttribute('data-origin-symbol', copiedRef.id);
+      } else copiedRef.id = drawing.getNextId();
+      svgedit.utilities.setHref(copy, `#${copiedRef.id}`);
+    }
+
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
     svgCanvas.restoreRefElems(copy);
     svgCanvas.updateElementColor(copy);
