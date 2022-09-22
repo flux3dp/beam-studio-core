@@ -612,6 +612,7 @@ const lang: ILang = {
         multi_layer: '多个图层',
         parameters: '選擇參數',
         strength: '功率',
+        low_power_warning: '功率较低时（低于 10 %），有可能不出光。',
         speed: '速度',
         speed_contrain_warning: '矢量路径速度将被限制在 20mm/s，您可以在偏好设定解除此限制。',
         repeat: '运行次数',

@@ -612,6 +612,7 @@ const lang: ILang = {
         multi_layer: 'Mehrere Schichten',
         parameters: 'Parameter',
         strength: 'Leistung',
+        low_power_warning: 'Niedrigere Laserleistung (unter 10 %) emittiert das Laserlicht möglicherweise nicht.',
         speed: 'Geschwindigkeit',
         speed_contrain_warning: 'Die Schnittgeschwindigkeit von Vektorpfadobjekten wird auf 20mm/s begrenzt. Sie können diese Grenze in den Einstellungen für Einstellungen entfernen.',
         repeat: 'Ausführen',

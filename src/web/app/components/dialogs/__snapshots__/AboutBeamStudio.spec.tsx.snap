@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`test AboutBeamStudio should render correctly 1`] = `
 <AboutBeamStudio
   onClose={[MockFunction]}
 >
@@ -36,7 +36,7 @@ exports[`should render correctly 1`] = `
           <div
             className="copyright"
           >
-            Copyright ⓒ 2021 FLUX Inc.
+            Copyright ⓒ 1976 FLUX Inc.
           </div>
           <div
             className="credit"
