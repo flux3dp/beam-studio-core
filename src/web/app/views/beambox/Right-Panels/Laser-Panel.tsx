@@ -534,6 +534,14 @@ class LaserPanel extends React.PureComponent<Props, State> {
             onChange={(e) => this.handleStrengthChange(parseInt(e.target.value, 10))}
           />
         </div>
+        {power < 10 && (
+          <div className="warning">
+            <div className="warning-icon">!</div>
+            <div className="warning-text">
+              {LANG.low_power_warning}
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -544,7 +552,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const renderWarningText = (): JSX.Element => {
       if (hasVector && speed > 20 && (BeamboxPreference.read('vector_speed_contraint') !== false)) {
         return (
-          <div className="speed-warning">
+          <div className="warning">
             <div className="warning-icon">!</div>
             <div className="warning-text">
               {LANG.speed_contrain_warning}

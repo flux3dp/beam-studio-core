@@ -612,6 +612,7 @@ const lang: ILang = {
         multi_layer: 'Capas múltiples',
         parameters: 'Parámetros',
         strength: 'Poder',
+        low_power_warning: 'Es posible que la potencia del láser más baja (menos del 10 %) no emita la luz del láser.',
         speed: 'Velocidad',
         speed_contrain_warning: 'La velocidad de corte de los objetos de trayectoria vectorial se limitará a 20mm/s. Puede eliminar este límite en Configuración de preferencias.',
         repeat: 'Ejecutar',
