@@ -270,6 +270,9 @@ export default function Menu({ email }: Props): JSX.Element {
         </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />
+        <MenuItem onClick={() => openPage(menuCms.link.design_market)}>
+          {menuCms.design_market}
+        </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
         <MenuDivider />
         <MenuItem disabled={email === null} onClick={() => callback('MANAGE_ACCOUNT')}>{menuCms.manage_account}</MenuItem>

@@ -220,6 +220,11 @@ exports[`should render correctly already signed in 1`] = `
                       class="rc-menu__item"
                       role="menuitem"
                       tabindex="-1"
+                    />
+                    <li
+                      class="rc-menu__item"
+                      role="menuitem"
+                      tabindex="-1"
                     >
                       Community Forum
                     </li>
@@ -567,6 +572,11 @@ exports[`should render correctly already signed in 1`] = `
                           class="rc-menu__item"
                           role="menuitem"
                           tabindex="-1"
+                        />
+                        <li
+                          class="rc-menu__item"
+                          role="menuitem"
+                          tabindex="-1"
                         >
                           Community Forum
                         </li>
@@ -828,12 +838,33 @@ exports[`should render correctly already signed in 1`] = `
                       onPointerUp={[Function]}
                       role="menuitem"
                       tabIndex={-1}
+                    />
+                  </Memo(MenuItem)>
+                  <Memo(MenuItem)
+                    index={9}
+                    key=".a"
+                    onClick={[Function]}
+                  >
+                    <li
+                      className="rc-menu__item"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onPointerDown={[Function]}
+                      onPointerLeave={[Function]}
+                      onPointerUp={[Function]}
+                      role="menuitem"
+                      tabIndex={-1}
                     >
                       Community Forum
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".a"
+                    key=".b"
                   >
                     <li
                       className="rc-menu__divider"
@@ -842,8 +873,8 @@ exports[`should render correctly already signed in 1`] = `
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
                     disabled={false}
-                    index={9}
-                    key=".b"
+                    index={10}
+                    key=".c"
                     onClick={[Function]}
                   >
                     <li
@@ -865,8 +896,8 @@ exports[`should render correctly already signed in 1`] = `
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
-                    index={10}
-                    key=".c"
+                    index={11}
+                    key=".d"
                     onClick={[Function]}
                   >
                     <li
@@ -1552,6 +1583,11 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       class="rc-menu__item"
                       role="menuitem"
                       tabindex="-1"
+                    />
+                    <li
+                      class="rc-menu__item"
+                      role="menuitem"
+                      tabindex="-1"
                     >
                       Community Forum
                     </li>
@@ -1899,6 +1935,11 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                           class="rc-menu__item"
                           role="menuitem"
                           tabindex="-1"
+                        />
+                        <li
+                          class="rc-menu__item"
+                          role="menuitem"
+                          tabindex="-1"
                         >
                           Community Forum
                         </li>
@@ -2160,12 +2201,33 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       onPointerUp={[Function]}
                       role="menuitem"
                       tabIndex={-1}
+                    />
+                  </Memo(MenuItem)>
+                  <Memo(MenuItem)
+                    index={9}
+                    key=".a"
+                    onClick={[Function]}
+                  >
+                    <li
+                      className="rc-menu__item"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onPointerDown={[Function]}
+                      onPointerLeave={[Function]}
+                      onPointerUp={[Function]}
+                      role="menuitem"
+                      tabIndex={-1}
                     >
                       Community Forum
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuDivider)
-                    key=".a"
+                    key=".b"
                   >
                     <li
                       className="rc-menu__divider"
@@ -2174,8 +2236,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                   </Memo(MenuDivider)>
                   <Memo(MenuItem)
                     disabled={false}
-                    index={9}
-                    key=".b"
+                    index={10}
+                    key=".c"
                     onClick={[Function]}
                   >
                     <li
@@ -2197,8 +2259,8 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                     </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
-                    index={10}
-                    key=".c"
+                    index={11}
+                    key=".d"
                     onClick={[Function]}
                   >
                     <li
