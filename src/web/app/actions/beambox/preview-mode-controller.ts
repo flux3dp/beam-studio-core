@@ -407,7 +407,7 @@ class PreviewModeController {
 
   // just for getPhotoAfterMoveTo()
   async getPhotoFromMachine() {
-    const { imgBlob, needCameraCableAlert } = await DeviceMaster.takeOnePicture();
+    const { imgBlob, needCameraCableAlert } = await DeviceMaster.takeOnePicture() ?? {};
     if (!imgBlob) {
       throw new Error(LANG.message.camera.ws_closed_unexpectly);
     } else if (needCameraCableAlert && !AlertConfig.read('skip_camera_cable_alert')) {
