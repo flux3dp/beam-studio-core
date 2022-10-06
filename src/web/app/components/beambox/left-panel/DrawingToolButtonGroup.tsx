@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import browser from 'implementations/browser';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 
@@ -24,7 +25,7 @@ const DrawingToolButton = ({
 
 const DrawingToolButtonGroup = ({ className }: {
   className: string;
-}) => {
+}): JSX.Element => {
   const [activeButton, setActiveButton] = React.useState('cursor');
   const renderToolButton = (
     iconName: string,
@@ -53,6 +54,7 @@ const DrawingToolButtonGroup = ({ className }: {
       {renderToolButton('polygon', 'Polygon', LANG.label.polygon, FnWrapper.insertPolygon)}
       {renderToolButton('line', 'Line', `${LANG.label.line} (\\)`, FnWrapper.insertLine)}
       {renderToolButton('draw', 'Pen', `${LANG.label.pen} (P)`, FnWrapper.insertPath)}
+      {renderToolButton('dm', 'Design Market', 'Design Market', () => browser.open(i18n.lang.topbar.menu.link.design_market))}
     </div>
   );
 };
