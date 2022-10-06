@@ -22,6 +22,11 @@ jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
   insertPolygon: mockInsertPolygon,
 }));
 
+const mockOpen = jest.fn();
+jest.mock('implementations/browser', () => ({
+  open: mockOpen,
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     beambox: {
@@ -35,6 +40,13 @@ jest.mock('helpers/i18n', () => ({
           oval: 'Oval',
           polygon: 'Polygon',
           pen: 'Pen',
+        },
+      },
+    },
+    topbar: {
+      menu: {
+        link: {
+          design_market: 'https://dmkt.io',
         },
       },
     },
@@ -82,4 +94,9 @@ test('should render correctly', () => {
   wrapper.find('#left-Cursor').simulate('click');
   expect(toJson(wrapper)).toMatchSnapshot();
   expect(mockUseSelectTool).toHaveBeenCalledTimes(1);
+
+  wrapper.find('#left-DM').simulate('click');
+  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(mockOpen).toHaveBeenCalledTimes(1);
+  expect(mockOpen).toHaveBeenLastCalledWith('https://dmkt.io');
 });

@@ -54,7 +54,7 @@ const DrawingToolButtonGroup = ({ className }: {
       {renderToolButton('polygon', 'Polygon', LANG.label.polygon, FnWrapper.insertPolygon)}
       {renderToolButton('line', 'Line', `${LANG.label.line} (\\)`, FnWrapper.insertLine)}
       {renderToolButton('draw', 'Pen', `${LANG.label.pen} (P)`, FnWrapper.insertPath)}
-      {renderToolButton('dm', 'Design Market', 'Design Market', () => browser.open(i18n.lang.topbar.menu.link.design_market))}
+      {renderToolButton('dm', 'DM', 'Design Market', () => browser.open(i18n.lang.topbar.menu.link.design_market))}
     </div>
   );
 };
