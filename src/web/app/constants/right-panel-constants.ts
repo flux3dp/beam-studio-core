@@ -202,36 +202,39 @@ const constants = {
   },
   HEXA: {
     wood_3mm_cutting: {
-      power: 45,
-      speed: 10,
+      power: 40,
+      speed: 6,
     },
     wood_5mm_cutting: {
-      power: 55,
-      speed: 6,
+      power: 65,
+      speed: 3,
     },
     wood_8mm_cutting: {
       power: 65,
       speed: 3,
+      repeat: 2,
     },
     wood_10mm_cutting: {
-      power: 70,
+      power: 65,
       speed: 3,
+      repeat: 3,
     },
     wood_engraving: {
       power: 30,
       speed: 500,
     },
     acrylic_3mm_cutting: {
-      power: 45,
-      speed: 8,
+      power: 40,
+      speed: 6,
     },
     acrylic_5mm_cutting: {
-      power: 45,
-      speed: 4,
+      power: 55,
+      speed: 3,
     },
     acrylic_8mm_cutting: {
-      power: 68,
+      power: 50,
       speed: 3,
+      repeat: 2,
     },
     acrylic_10mm_cutting: {
       power: 55,
@@ -243,12 +246,12 @@ const constants = {
       speed: 500,
     },
     leather_3mm_cutting: {
-      power: 45,
+      power: 40,
       speed: 6,
     },
     leather_5mm_cutting: {
       power: 55,
-      speed: 4,
+      speed: 3,
     },
     leather_engraving: {
       power: 20,
