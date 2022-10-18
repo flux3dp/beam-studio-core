@@ -832,12 +832,12 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       operation = 4; // rotation
       if (angle) {
         var newRot = svgroot.createSVGTransform();
-        //if text contents changes text
+        // when text contents changes text
         if (selected.tagName === 'text') {
           //from [Rm][M] to [Rnew][M'] ==> [M'] = [Rnew]^-1[Rm][M]
-          let m = svgedit.math.transformListToTransform(tlist).matrix;
-          newRot.setRotate(angle, newCenter.x, newCenter.y);
-          let extrat = svgedit.math.matrixMultiply(m.inverse(), newRot.matrix.inverse(), oldRotateMatrix, m);
+          const m = svgedit.math.transformListToTransform(tlist).matrix;
+          newRot.setRotate(angle, newCenterWithRotate.x, newCenterWithRotate.y);
+          const extrat = svgedit.math.matrixMultiply(m.inverse(), newRot.matrix.inverse(), oldRotateMatrix, m);
 
           let children = selected.childNodes;
           let c = children.length;
@@ -855,7 +855,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
           }
           svgedit.coords.remapElement(selected, changes, extrat);
         } else {
-          newRot.setRotate(angle, newCenter.x, newCenter.y);
+          newRot.setRotate(angle, newCenterWithRotate.x, newCenterWithRotate.y);
         }
 
         if (tlist.numberOfItems) {
