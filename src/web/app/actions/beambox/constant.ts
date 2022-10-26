@@ -93,6 +93,6 @@ export default {
   topBarHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 70 : 40, // px
   topBarHeightWithoutTitleBar: 40, // px
   menuberHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 30 : 0, // px
-  layerListHeight: 240, // px
+  layerListHeight: 400, // px
   rulerWidth: 15, // px
 };
