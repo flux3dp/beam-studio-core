@@ -387,7 +387,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         right: 10,
         top: calculateTop(42, TopRef.TOPBAR),
         width: Constant.rightPanelWidth - 15,
-        height: 236,
+        height: Constant.layerListHeight - 4,
       },
       text: LANG.newInterface.layer_controls,
     },
