@@ -1110,6 +1110,7 @@ const lang: ILang = {
     stop: '停止',
     save: '储存',
     dont_save: '不要储存',
+    learn_more: '了解更多',
   },
   caption: {
     connectionTimeout: '连接逾时',
@@ -1227,6 +1228,7 @@ const lang: ILang = {
     calibrate_done: '校正相机完成<br/>使用时请正确对焦以取得良好的预览效果。',
     hint_red_square: '请将红框对齐切割出来的方块',
     hint_adjust_parameters: '由这些参数来调整红框的位置，旋转与大小',
+    zendesk_link: 'https://support.flux3dp.com/hc/zh-tw/articles/360001811416',
   },
   diode_calibration: {
     update_firmware_msg1: '您的固件版本不支援此功能。请先更新 Beambox 的固件至 v',
@@ -1252,6 +1254,7 @@ const lang: ILang = {
     calibrate_done: '校正完成<br/>二极管激光模组偏移值已自动储存。',
     hint_red_square: '请将红框对齐切割出来的方块',
     hint_adjust_parameters: '由这些参数来调整红框的位置',
+    zendesk_link: 'https://support.flux3dp.com/hc/zh-tw/articles/360001811416',
   },
   input_machine_password: {
     require_password: '"%s" 需要密码',

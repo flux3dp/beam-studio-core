@@ -1110,6 +1110,7 @@ const lang: ILang = {
     stop: 'Halt',
     save: 'Speichern',
     dont_save: 'Nicht speichern',
+    learn_more: 'Erfahren Sie mehr',
   },
   caption: {
     connectionTimeout: 'Verbindungs-Timeout',
@@ -1227,6 +1228,7 @@ const lang: ILang = {
     calibrate_done: 'Kalibrierung abgeschlossen. Eine bessere Kameragenauigkeit ist gegeben, wenn genau fokussiert wird.',
     hint_red_square: 'Bitte richten Sie das Äußere des roten Quadrats am ausgeschnittenen Quadrat aus.',
     hint_adjust_parameters: 'Verwende diese Parameter, um das rote Quadrat anzupassen',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   diode_calibration: {
     update_firmware_msg1: 'Ihre Firmware unterstützt diese Funktion nicht. Bitte aktualisieren Sie die Firmware auf v',
@@ -1252,6 +1254,7 @@ const lang: ILang = {
     calibrate_done: 'Kalibrierung durchgeführt. Offset des Diodenlasermodul wurde gespeichert.',
     hint_red_square: 'Bitte richten Sie das Äußere des roten Quadrats am ausgeschnittenen Quadrat aus.',
     hint_adjust_parameters: 'Verwende diese Parameter zur Einstellung des roten Quadrats',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',

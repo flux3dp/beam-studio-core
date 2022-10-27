@@ -1108,6 +1108,7 @@ export interface ILang {
     stop: string,
     save: string,
     dont_save: string,
+    learn_more: string;
   },
   caption: {
     connectionTimeout: string,
@@ -1225,6 +1226,7 @@ export interface ILang {
     calibrate_done: string,
     hint_red_square: string,
     hint_adjust_parameters: string,
+    zendesk_link: string;
   },
   diode_calibration: {
     update_firmware_msg1: string,
@@ -1250,6 +1252,7 @@ export interface ILang {
     calibrate_done: string,
     hint_red_square: string,
     hint_adjust_parameters: string,
+    zendesk_link: string;
   },
   input_machine_password: {
     require_password: string,

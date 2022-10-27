@@ -1110,6 +1110,7 @@ const lang: ILang = {
     stop: 'Parar',
     save: 'Guardar',
     dont_save: 'No guardar...',
+    learn_more: 'Aprende más',
   },
   caption: {
     connectionTimeout: 'Tiempo de espera de la conexión',
@@ -1227,6 +1228,7 @@ const lang: ILang = {
     calibrate_done: 'Calibración realizada. La precisión de la cámara es mejor cuando se enfoca con precisión.',
     hint_red_square: 'Favor de alinear el contorno del cuadro rojo con el cuadro punteado.',
     hint_adjust_parameters: 'Usa estos parámetros para ajustar el cuadro rojo',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   diode_calibration: {
     update_firmware_msg1: 'tu firmware no es compatible con esta función. Por favor, actualiza el firmware a v',
@@ -1252,6 +1254,7 @@ const lang: ILang = {
     calibrate_done: 'Calibración realizada. Se ha guardado el desplazamiento módulo láser de diodo.',
     hint_red_square: 'Por favor, alinea el cuadrado rojo con el cuadrado cortado',
     hint_adjust_parameters: 'Usa estos parámetros para ajustar el cuadro rojo',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   input_machine_password: {
     require_password: '"%s" requiere una contraseña',

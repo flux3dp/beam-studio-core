@@ -1110,6 +1110,7 @@ const lang: ILang = {
     stop: '停止',
     save: '保存する',
     dont_save: '保存しない',
+    learn_more: 'もっと詳しく知る',
   },
   caption: {
     connectionTimeout: '接続タイムアウト',
@@ -1227,6 +1228,7 @@ const lang: ILang = {
     calibrate_done: '較正が完了しました。正確に焦点を合わせると、カメラの精度が向上します。',
     hint_red_square: '赤い枠の外側をカットした枠に合わせてください。',
     hint_adjust_parameters: 'これらのパラメーターを使用して、赤い正方形を調整します',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   diode_calibration: {
     update_firmware_msg1: 'ファームウェアはこの機能をサポートしていません。ファームウェアを v',
@@ -1252,6 +1254,7 @@ const lang: ILang = {
     calibrate_done: '較正が完了しました。ダイオードレーザーオフセットを保存しました。',
     hint_red_square: '赤い枠の外側をカットした枠に合わせてください。',
     hint_adjust_parameters: 'これらのパラメーターを使用して、赤い正方形を調整します',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   input_machine_password: {
     require_password: '「%s」にはパスワードが必要です。',

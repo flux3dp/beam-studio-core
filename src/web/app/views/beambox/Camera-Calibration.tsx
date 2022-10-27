@@ -8,6 +8,7 @@ import alert from 'app/actions/alert-caller';
 import Alert from 'app/widgets/Alert';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'implementations/browser';
 import CameraCalibration from 'helpers/api/camera-calibration';
 import CheckDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
@@ -31,6 +32,7 @@ getSVGAsync((globalSVG) => {
 
 const { useState, useEffect, useRef } = React;
 const LANG = i18n.lang.camera_calibration;
+const LANG_ALERT = i18n.lang.alert;
 
 const cameraCalibrationWebSocket = CameraCalibration();
 
@@ -200,15 +202,22 @@ const StepAskReadjust = (
             gotoNextStep(STEP_BEFORE_ANALYZE_PICTURE);
           } catch (error) {
             console.log(error);
+            const errorMessage = error instanceof Error
+              ? error.message : DeviceErrorHandler.translate(error);
             alert.popUp({
-              id: 'menu-item',
+              id: 'camera-cali-err',
               type: alertConstants.SHOW_POPUP_ERROR,
-              message: `#815 ${(error.message || DeviceErrorHandler.translate(error) || 'Fail to cut and capture')}`,
-              callbacks: async () => {
-                const report = await DeviceMaster.getReport();
-                device.st_id = report.st_id;
-                await CheckDeviceStatus(device, false, true);
-              },
+              message: `#815 ${errorMessage || 'Fail to capture'}`,
+              buttonLabels: [LANG_ALERT.ok, LANG_ALERT.learn_more],
+              callbacks: [
+                async () => {
+                  const report = await DeviceMaster.getReport();
+                  device.st_id = report.st_id;
+                  await CheckDeviceStatus(device, false, true);
+                },
+                () => browser.open(LANG.zendesk_link),
+              ],
+              primaryButtonIndex: 0,
             });
           } finally {
             progress.popById('taking-picture');
@@ -388,15 +397,22 @@ const StepRefocus = ({
             } catch (error) {
               setIsCutButtonDisabled(false);
               console.log(error);
+              const errorMessage = error instanceof Error
+                ? error.message : DeviceErrorHandler.translate(error);
               alert.popUp({
-                id: 'menu-item',
+                id: 'camera-cali-err',
                 type: alertConstants.SHOW_POPUP_ERROR,
-                message: `#815 ${(error.message || DeviceErrorHandler.translate(error) || 'Fail to cut and capture')}`,
-                callbacks: async () => {
-                  const report = await DeviceMaster.getReport();
-                  device.st_id = report.st_id;
-                  await CheckDeviceStatus(device, false, true);
-                },
+                message: `#815 ${errorMessage || 'Fail to cut and capture'}`,
+                buttonLabels: [LANG_ALERT.ok, LANG_ALERT.learn_more],
+                callbacks: [
+                  async () => {
+                    const report = await DeviceMaster.getReport();
+                    device.st_id = report.st_id;
+                    await CheckDeviceStatus(device, false, true);
+                  },
+                  () => browser.open(LANG.zendesk_link),
+                ],
+                primaryButtonIndex: 0,
               });
             }
           },
