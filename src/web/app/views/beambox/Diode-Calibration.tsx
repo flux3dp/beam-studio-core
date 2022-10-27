@@ -5,6 +5,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import AlertDialog from 'app/widgets/AlertDialog';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'implementations/browser';
 import CheckDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
 import DeviceErrorHandler from 'helpers/device-error-handler';
@@ -19,6 +20,7 @@ import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const LANG = i18n.lang.diode_calibration;
+const LANG_ALERT = i18n.lang.alert;
 
 // View render the following steps
 const STEP_ASK_READJUST = Symbol('STEP_ASK_READJUST');
@@ -257,15 +259,22 @@ class DiodeCalibration extends React.Component<Props, State> {
                   this.updateCurrentStep(STEP_ANALYZE);
                 } catch (error) {
                   console.log(error);
+                  const errorMessage = error instanceof Error
+                    ? error.message : DeviceErrorHandler.translate(error);
                   Alert.popUp({
-                    id: 'menu-item',
+                    id: 'diode-cali-err',
                     type: AlertConstants.SHOW_POPUP_ERROR,
-                    message: `#815 ${(error.message || DeviceErrorHandler.translate(error) || 'Fail to capture')}`,
-                    callbacks: async () => {
-                      const report = await DeviceMaster.getReport();
-                      device.st_id = report.st_id;
-                      await CheckDeviceStatus(device, false, true);
-                    },
+                    message: `#815 ${errorMessage || 'Fail to capture'}`,
+                    buttonLabels: [LANG_ALERT.ok, LANG_ALERT.learn_more],
+                    callbacks: [
+                      async () => {
+                        const report = await DeviceMaster.getReport();
+                        device.st_id = report.st_id;
+                        await CheckDeviceStatus(device, false, true);
+                      },
+                      () => browser.open(LANG.zendesk_link),
+                    ],
+                    primaryButtonIndex: 0,
                   });
                 } finally {
                   Progress.popById('taking-picture');
@@ -335,15 +344,22 @@ class DiodeCalibration extends React.Component<Props, State> {
               } catch (error) {
                 this.setState({ isCutButtonDisabled: false });
                 console.log(error);
+                const errorMessage = error instanceof Error
+                  ? error.message : DeviceErrorHandler.translate(error);
                 Alert.popUp({
-                  id: 'menu-item',
+                  id: 'diode-cali-err',
                   type: AlertConstants.SHOW_POPUP_ERROR,
-                  message: `#815 ${(error.message || DeviceErrorHandler.translate(error) || 'Fail to cut and capture')}`,
-                  callbacks: async () => {
-                    const report = await DeviceMaster.getReport();
-                    device.st_id = report.st_id;
-                    await CheckDeviceStatus(device, false, true);
-                  },
+                  message: `#815 ${errorMessage || 'Fail to cut and capture'}`,
+                  buttonLabels: [LANG_ALERT.ok, LANG_ALERT.learn_more],
+                  callbacks: [
+                    async () => {
+                      const report = await DeviceMaster.getReport();
+                      device.st_id = report.st_id;
+                      await CheckDeviceStatus(device, false, true);
+                    },
+                    () => browser.open(LANG.zendesk_link),
+                  ],
+                  primaryButtonIndex: 0,
                 });
               }
             },

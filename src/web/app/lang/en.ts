@@ -1110,6 +1110,7 @@ const lang: ILang = {
     stop: 'Stop',
     save: 'Save',
     dont_save: 'Don\'t Save',
+    learn_more: 'Learn More',
   },
   caption: {
     connectionTimeout: 'Connection timeout',
@@ -1227,6 +1228,7 @@ const lang: ILang = {
     calibrate_done: 'Calibration done. Better camera accurency is given when focus precisely.',
     hint_red_square: 'Please align the outside of the red square with the cut square.',
     hint_adjust_parameters: 'Use these parameters to adjust the red square',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   diode_calibration: {
     update_firmware_msg1: 'Your firmware does not support this function. Please update firmware to v',
@@ -1252,6 +1254,7 @@ const lang: ILang = {
     calibrate_done: 'Calibration done. Offset of diode laser module has been saved.',
     hint_red_square: 'Please align the outside of the red square with the cut square.',
     hint_adjust_parameters: 'Use these parameters to adjust the red square',
+    zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
   },
   input_machine_password: {
     require_password: '"%s" requires a password',
