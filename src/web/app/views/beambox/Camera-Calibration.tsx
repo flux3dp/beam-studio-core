@@ -396,6 +396,7 @@ const StepRefocus = ({
               gotoNextStep(STEP_BEFORE_ANALYZE_PICTURE);
             } catch (error) {
               setIsCutButtonDisabled(false);
+              console.log(error);
               const errorMessage = error instanceof Error
                 ? error.message : DeviceErrorHandler.translate(error);
               alert.popUp({
