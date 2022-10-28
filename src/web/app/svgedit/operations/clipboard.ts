@@ -142,8 +142,8 @@ const copyRef = (useElement: SVGUseElement) => {
     copiedRef.setAttribute('data-image-symbol', copiedImageSymbol.id);
     copiedImageSymbol.setAttribute('data-origin-symbol', copiedRef.id);
   } else copiedRef.id = drawing.getNextId();
-  symbolMaker.reRenderImageSymbol(useElement);
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
+  symbolMaker.reRenderImageSymbol(useElement);
 };
 
 const pasteElements = (
@@ -188,7 +188,7 @@ const pasteElements = (
       const newPath = copy.querySelector('path');
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
-
+    console.log(copy, copy.querySelectorAll('use'));
     if (copy.tagName === 'use') copyRef(copy);
     else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => copyRef(use));
 

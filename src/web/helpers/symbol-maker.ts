@@ -454,10 +454,11 @@ const makeImageSymbol = async (
     } else {
       const image = imageSymbol.firstChild as SVGElement;
       const oldImageUrl = image.getAttribute('href');
-      URL.revokeObjectURL(oldImageUrl);
       image.setAttribute('width', String(bb.width));
       image.setAttribute('height', String(bb.height));
       image.setAttribute('href', imageUrl);
+      const defs = svgedit.utilities.findDefs();
+      if (!defs.querySelector(`image[href="${oldImageUrl}"]`)) URL.revokeObjectURL(oldImageUrl);
     }
     resolve(imageSymbol);
   });
