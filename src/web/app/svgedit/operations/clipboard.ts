@@ -116,6 +116,16 @@ const copySelectedElements = async (): Promise<void> => {
 };
 
 const copyRef = (useElement: SVGUseElement) => {
+  const updateSymbolStyle = (symbol: SVGSymbolElement, oldId: string) => {
+    const styles = symbol.querySelectorAll('style');
+    for (let i = 0; i < styles.length; i += 1) {
+      const style = styles[i];
+      const { textContent } = style;
+      const newContent = textContent.replace(RegExp(oldId, 'g'), symbol.id);
+      style.textContent = newContent;
+    }
+  };
+
   const drawing = svgCanvas.getCurrentDrawing();
   const refId = svgCanvas.getHref(useElement);
   const refElement = document.querySelector(refId);
@@ -126,9 +136,10 @@ const copyRef = (useElement: SVGUseElement) => {
   if (originalSymbolId && document.getElementById(originalSymbolId)) {
     // copied ref is image symbol, need to copy original symbol as well
     const originalSymbol = document.getElementById(originalSymbolId);
-    const copiedOriginalSymbol = originalSymbol.cloneNode(true) as Element;
+    const copiedOriginalSymbol = originalSymbol.cloneNode(true) as SVGSymbolElement;
     originalSymbol.parentNode.appendChild(copiedOriginalSymbol);
     copiedOriginalSymbol.id = drawing.getNextId();
+    updateSymbolStyle(copiedOriginalSymbol, originalSymbol.id);
     copiedRef.id = `${copiedOriginalSymbol.id}_image`;
     copiedRef.setAttribute('data-origin-symbol', copiedOriginalSymbol.id);
     copiedOriginalSymbol.setAttribute('data-image-symbol', copiedRef.id);
@@ -138,10 +149,14 @@ const copyRef = (useElement: SVGUseElement) => {
     const copiedImageSymbol = imageSymbol.cloneNode(true) as Element;
     imageSymbol.parentNode.appendChild(copiedImageSymbol);
     copiedRef.id = drawing.getNextId();
+    updateSymbolStyle(copiedRef, refId);
     copiedImageSymbol.id = `${copiedRef.id}_image`;
     copiedRef.setAttribute('data-image-symbol', copiedImageSymbol.id);
     copiedImageSymbol.setAttribute('data-origin-symbol', copiedRef.id);
-  } else copiedRef.id = drawing.getNextId();
+  } else {
+    copiedRef.id = drawing.getNextId();
+    updateSymbolStyle(copiedRef, refId);
+  }
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
   symbolMaker.reRenderImageSymbol(useElement);
 };
@@ -188,7 +203,6 @@ const pasteElements = (
       const newPath = copy.querySelector('path');
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
-    console.log(copy, copy.querySelectorAll('use'));
     if (copy.tagName === 'use') copyRef(copy);
     else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => copyRef(use));
 
