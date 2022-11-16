@@ -1223,9 +1223,9 @@ const lang: ILang = {
     show_last_config: 'Show Last Result',
     use_last_config: 'Use Last Calibration Value',
     taking_picture: 'Taking Picture...',
-    analyze_result_fail: 'Fail to analyze captured image.<br/>Please make sure:<br/>1. Captured picture fully coverd with white paper.<br/>2. The platform is focus properly.',
+    analyze_result_fail: 'Fail to analyze captured image.<br/>Please make sure:<br/>1. Captured picture fully covered with white paper.<br/>2. The platform is focus properly.',
     drawing_calibration_image: 'Drawing calibration image...',
-    calibrate_done: 'Calibration done. Better camera accurency is given when focus precisely.',
+    calibrate_done: 'Calibration done. Better camera accuracy is given when focus precisely.',
     hint_red_square: 'Please align the outside of the red square with the cut square.',
     hint_adjust_parameters: 'Use these parameters to adjust the red square',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
@@ -1269,7 +1269,7 @@ const lang: ILang = {
     ask_retry_calibration: 'Would you like to calibrate the camera again?',
     skipped_camera_calibration: 'You have skipped the camera calibration. You can calibrate the camera anytime from the menu bar (Menu > Machine > [Your Machine] > Calibrate Camera).',
     needNewUserTutorial: 'Would you like to start a tutorial?',
-    needNewInterfaceTutorial: 'Would you like to start a tutorial for Beam Studio’s new interface?',
+    needNewInterfaceTutorial: 'Would you like to start a tutorial for Beam Studio\'s new interface?',
     next: 'NEXT',
     look_for_machine: 'Searching machine for tutorial...',
     unable_to_find_machine: 'Unable to find machine for Tutorial. Do you want to go to connection setting page, retry or skip tutorial?',
@@ -1323,7 +1323,7 @@ const lang: ILang = {
     links: {
       adjust_focus: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
     },
-    tutorial_complete: 'That’s all for the tutorial. Now it’s time to create!',
+    tutorial_complete: 'That\'s all for the tutorial. Now it\'s time to create!',
   },
 };
 
