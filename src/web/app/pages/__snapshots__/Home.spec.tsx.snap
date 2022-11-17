@@ -59,6 +59,16 @@ exports[`should render correctly 1`] = `
                   "selected": false,
                   "value": "zh-cn",
                 },
+                Object {
+                  "label": "Français",
+                  "selected": false,
+                  "value": "fr",
+                },
+                Object {
+                  "label": "Nederlands",
+                  "selected": false,
+                  "value": "nl",
+                },
               ]
             }
           />

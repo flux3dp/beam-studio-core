@@ -8,6 +8,8 @@ export default {
       'zh-tw': '繁體中文',
       ja: '日本語',
       'zh-cn': '简体中文',
+      fr: 'Français',
+      nl: 'Nederlands',
     },
   },
 

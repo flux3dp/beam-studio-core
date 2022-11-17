@@ -773,6 +773,18 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               >
                 簡中
               </option>
+              <option
+                id="lang_fr"
+                value="fr"
+              >
+                Français
+              </option>
+              <option
+                id="lang_nl"
+                value="nl"
+              >
+                Nederlands
+              </option>
             </select>
           </label>
           <label>
@@ -1758,6 +1770,18 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 value="zh-CN"
               >
                 簡中
+              </option>
+              <option
+                id="lang_fr"
+                value="fr"
+              >
+                Français
+              </option>
+              <option
+                id="lang_nl"
+                value="nl"
+              >
+                Nederlands
               </option>
             </select>
           </label>

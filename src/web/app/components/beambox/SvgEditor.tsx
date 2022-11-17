@@ -389,6 +389,12 @@ export default class SvgEditor extends React.Component<Props> {
                   <option id="lang_zh-CN" value="zh-CN">
                     簡中
                   </option>
+                  <option id="lang_fr" value="fr">
+                    Français
+                  </option>
+                  <option id="lang_nl" value="nl">
+                    Nederlands
+                  </option>
                 </select>
               </label>
               <label>
