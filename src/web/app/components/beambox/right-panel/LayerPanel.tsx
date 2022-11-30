@@ -3,7 +3,6 @@ import classNames from 'classnames';
 
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
-import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';

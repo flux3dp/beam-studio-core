@@ -109,7 +109,7 @@ interface ISVGEditor {
   curPrefs: ISVGPref
   disableUI: (featList: any) => void
   getExifRotationFlag: any
-  importSvg: (file: any, args: { skipVersionWarning?: boolean, skipByLayer?: boolean }) => Promise<void>
+  importSvg: (file: any, args: { skipByLayer?: boolean }) => Promise<void>
   init: () => void
   loadFromDataURI: (str: any) => void
   loadFromURL: (url: any, opts?: any) => void
@@ -261,7 +261,7 @@ const svgEditor = window['svgEditor'] = (function () {
     curPrefs: null,
     disableUI: (featList: any) => { },
     getExifRotationFlag: null,
-    importSvg: async (file: any, args: { skipVersionWarning?: boolean, skipByLayer?: boolean } = {}) => { },
+    importSvg: async (file: any, args: { skipByLayer?: boolean } = {}) => { },
     init: () => { },
     loadFromDataURI: (str: any) => { },
     loadFromURL: (url: any, opts: any) => { },
@@ -5256,9 +5256,9 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.readSVG = readSVG;
-      const importSvg = async (file: File, args: { skipVersionWarning?: boolean, skipByLayer?: boolean, isFromNounProject?: boolean, isFromAI?: boolean } = {}) => {
+      const importSvg = async (file: File, args: { skipByLayer?: boolean, isFromNounProject?: boolean, isFromAI?: boolean } = {}) => {
         async function importAs(type) {
-          const result = await svgWebSocket.uploadPlainSVG(file, args.skipVersionWarning);
+          const result = await svgWebSocket.uploadPlainSVG(file);
           if (result !== 'ok') {
             Progress.popById('loading_image');
             switch (result) {
@@ -5716,10 +5716,7 @@ const svgEditor = window['svgEditor'] = (function () {
               Object.assign(blob, {
                 name: file.name,
               });
-              importSvg(blob as File, {
-                skipVersionWarning: true,
-                skipByLayer: true,
-              });
+              importSvg(blob as File, { skipByLayer: true });
             } else {
               Progress.popById('loading_image');
               Alert.popUp({
