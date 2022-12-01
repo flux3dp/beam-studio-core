@@ -322,7 +322,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       ws.send(args.join(' '));
       return $deferred.promise();
     },
-    uploadPlainSVG(file, skipVersionWarning = false) {
+    uploadPlainSVG(file) {
       const $deferred = $.Deferred();
       const warningCollection = [];
 
@@ -394,27 +394,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             }
             allImageValid = false;
             $deferred.resolve('invalid_path');
-          }
-        }
-        let version;
-        const LANG = i18n.lang.beambox.popup;
-        if (!skipVersionWarning && !AlertConfig.read('skip_svg_version_warning')) {
-          const matchSVG = svgString.match(/<svg[^>]*>/g)[0];
-          if (matchSVG) {
-            version = matchSVG.match(/ version="([^"]+)"/);
-            if (version) {
-              const versionString = version[1];
-              if (versionString === '1.1') {
-                Alert.popUp({
-                  type: AlertConstants.SHOW_POPUP_WARNING,
-                  message: LANG.svg_1_1_waring,
-                  checkbox: {
-                    text: LANG.dont_show_again,
-                    callbacks: () => AlertConfig.write('skip_svg_version_warning', true),
-                  },
-                });
-              }
-            }
           }
         }
         if (allImageValid && hasPath && !AlertConfig.read('skip_image_path_warning')) {

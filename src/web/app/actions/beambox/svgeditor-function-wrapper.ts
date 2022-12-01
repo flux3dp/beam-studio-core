@@ -53,16 +53,18 @@ const funcs = {
     funcs.useSelectTool();
   },
   insertSvg(svgString: string, callback: () => void): void {
-    svgEditor.importSvg(
-      new Blob([svgString], { type: 'text/plain' }),
-      { skipVersionWarning: true, isFromAI: true },
-    );
+    svgEditor.importSvg(new Blob([svgString], { type: 'text/plain' }), { isFromAI: true });
 
     setTimeout(callback, 1500);
   },
   insertImage(
-    insertedImageSrc, cropData, preCrop, sizeFactor = 1, threshold = 255, imageTrace = false,
-  ) {
+    insertedImageSrc: string,
+    cropData: { x: number; y: number; width: number; height: number; },
+    preCrop: { offsetX: number; offsetY: number; },
+    sizeFactor = 1,
+    threshold = 255,
+    imageTrace = false,
+  ): void {
     // let's insert the new image until we know its dimensions
     const insertNewImage = function (img, cropData, preCrop, sizeFactor, threshold) {
       const { x, y, width, height } = cropData;
