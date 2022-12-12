@@ -1164,7 +1164,7 @@ const lang: ILang = {
     camera: {
       camera_cable_unstable: 'Er is gedetecteerd dat de camera foto\'s instabiel overdraagt. Preview kan nog steeds normaal worden uitgevoerd, maar er kan het probleem zijn van een langzame preview of time-out.',
       fail_to_transmit_image: '#845 Er is iets misgegaan met de beeldoverdracht. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">deze handleiding</a>.',
-      ws_closed_unexpectly: '#844 Verbinding met machinecamera is onverwacht gesloten.',
+      ws_closed_unexpectly: '#844 Verbinding met machinecamera is onverwacht gesloten. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">deze handleiding</a>.',
       continue_preview: 'Doorgaan',
       abort_preview: 'Afbreken',
     },

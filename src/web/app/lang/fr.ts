@@ -1164,7 +1164,7 @@ const lang: ILang = {
     camera: {
       camera_cable_unstable: 'Il est détecté que l\'appareil photo transfère des photos de manière instable. L\'aperçu peut toujours être effectué normalement, mais il peut y avoir un problème d\'aperçu lent ou de délai d\'attente.',
       fail_to_transmit_image: '#845 Quelque chose s\'est mal passé avec la transmission d\'image. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">ce guide</a>.',
-      ws_closed_unexpectly: '#844 La connexion à la caméra de la machine a été fermée de manière inattendue.',
+      ws_closed_unexpectly: '#844 La connexion à la caméra de la machine a été fermée de manière inattendue. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">ce guide</a>.',
       continue_preview: 'Continuer',
       abort_preview: 'Avorter',
     },
