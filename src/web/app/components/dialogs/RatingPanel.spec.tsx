@@ -5,7 +5,7 @@ jest.mock('helpers/i18n', () => ({
         title: 'Enjoy Beam Studio?',
         description: 'If you like Beam Studio, we would greatly appreciate it if you could rate us.',
         dont_show_again: 'Don\'t Show this next time.',
-        thank_you: 'Thank You!',
+        thank_you: 'Thank You for the feedback!',
       },
     },
   },

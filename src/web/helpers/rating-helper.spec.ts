@@ -43,7 +43,7 @@ describe('test rating-helper', () => {
         version: '1.0.0',
         score: 0,
         isVoted: false,
-        isIgored: false,
+        isIgnored: false,
       });
     });
 
@@ -59,7 +59,7 @@ describe('test rating-helper', () => {
         version: '1.0.0',
         score: 0,
         isVoted: false,
-        isIgored: false,
+        isIgnored: false,
       });
     });
 
@@ -67,7 +67,7 @@ describe('test rating-helper', () => {
       isExisting.mockReturnValue(true);
       get.mockReturnValue({
         version: '1.0.0',
-        isIgored: true,
+        isIgnored: true,
       });
       RatingHelper.init();
       expect(showRatingDialog).not.toHaveBeenCalled();
@@ -131,13 +131,13 @@ describe('test rating-helper', () => {
 
   test('test setNotShowing', () => {
     get.mockReturnValue({
-      isIgored: false,
+      isIgnored: false,
     });
     RatingHelper.setNotShowing();
     expect(set).toHaveBeenCalledTimes(1);
     expect(set).toHaveBeenNthCalledWith(1, 'rating-record', {
       version: '1.0.0',
-      isIgored: true,
+      isIgnored: true,
     });
   });
 });

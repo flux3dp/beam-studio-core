@@ -508,7 +508,7 @@ const lang: ILang = {
       svg_1_1_waring: '此檔案標示之 SVG 版本為 1.1 版，可能有潛在的不相容風險。',
       svg_image_path_waring: '此檔案內含有以路徑讀取的圖片，可能會有讀取失敗的風險。請在做圖匯出 SVG 時，當點陣圖相關選項改成嵌入。',
       dxf_version_waring: '此 DXF 檔版本非 2013 版，可能有潛在的不相容風險。',
-      dont_show_again: '別再顯示此提醒',
+      dont_show_again: '不再顯示此提醒',
       convert_to_path_fail: '轉換成路徑失敗。',
       save_unsave_changed: '請問是否要儲存未儲存的變更，否則變更將會遺失？',
       dxf_bounding_box_size_over: '圖像超出工作範圍，請在 CAD 軟體中將圖像放置於原點附近，或確定圖檔單位是否正確設定。',
@@ -918,8 +918,8 @@ const lang: ILang = {
     rating_panel: {
       title: '喜歡 Beam Studio 嗎？',
       description: '如果您喜歡 Beam Studio，請給我們評分，我們將不勝感激。',
-      dont_show_again: '別再顯示此提醒',
-      thank_you: '謝謝您',
+      dont_show_again: '不再顯示此提醒',
+      thank_you: '謝謝您的回饋',
     },
     svg_editor: {
       unnsupported_file_type: 'Beam Studio 不直接支援此檔案格式。請先輸出成圖片檔或 SVG 格式',
@@ -980,7 +980,7 @@ const lang: ILang = {
     learn_more: '更多資訊',
   },
   change_logs: {
-    change_log: '更新日誌：',
+    change_log: '更新日誌',
     added: '新增：',
     fixed: '修正：',
     changed: '更改：',
