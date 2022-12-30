@@ -7,7 +7,9 @@ import AlertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
+import {
+  Button, Form, Input, InputRef, Modal,
+} from 'antd';
 import network from 'implementations/network';
 import os from 'implementations/os';
 import Progress from 'app/actions/progress-caller';
@@ -28,7 +30,7 @@ class NetworkTestingPanel extends React.Component<Props> {
 
   private localIps: string[];
 
-  private textInputRef: React.RefObject<HTMLInputElement>;
+  private textInputRef: React.RefObject<InputRef>;
 
   constructor(props: Props) {
     super(props);
@@ -84,7 +86,8 @@ class NetworkTestingPanel extends React.Component<Props> {
     this.discover.testTcp(ip);
     Progress.openSteppingProgress({
       id: 'network-testing',
-      message: `${LANG.testing} - 0%`,
+      caption: `${LANG.network_testing}`,
+      message: `${LANG.testing}`,
     });
     const {
       err,
@@ -95,7 +98,6 @@ class NetworkTestingPanel extends React.Component<Props> {
     } = await network.networkTest(ip, TEST_TIME, (percentage) => {
       Progress.update('network-testing', {
         percentage,
-        message: `${LANG.testing} - ${percentage}%`,
       });
     });
     Progress.popById('network-testing');
@@ -169,7 +171,7 @@ class NetworkTestingPanel extends React.Component<Props> {
   }
 
   getIPValue = (): string => {
-    const { value } = this.textInputRef.current;
+    const { value } = this.textInputRef.current.input;
     return value.replace(' ', '');
   };
 
@@ -189,55 +191,47 @@ class NetworkTestingPanel extends React.Component<Props> {
     const { localIps } = this;
     if (!localIps.length && window.FLUX.version === 'web') return null;
     return (
-      <div className="info">
-        <div className="left-part">
-          {LANG.local_ip}
-        </div>
-        <div className="right-part">
-          {localIps.join(', ')}
-        </div>
-      </div>
+      <Form.Item label={LANG.local_ip}>
+        {localIps.join(', ')}
+      </Form.Item>
     );
   }
 
   render(): JSX.Element {
     const { ip, onClose } = this.props;
+    const show = true;
     return (
-      <Modal onClose={onClose}>
-        <div className="network-testing-panel">
-          <section className="main-content">
-            <div className="title">{LANG.network_testing}</div>
-            {this.renderLocalIP()}
-            <div className="info">
-              <div className="left-part">
-                {LANG.insert_ip}
-              </div>
-              <div className="right-part">
-                <input
-                  ref={this.textInputRef}
-                  defaultValue={ip || ''}
-                  onKeyDown={this.onInputKeydown}
-                />
-              </div>
-            </div>
-          </section>
-          <section className="footer">
-            <button
-              type="button"
-              className="btn btn-default pull-right"
+      <Modal
+        open={show}
+        title={LANG.network_testing}
+        onCancel={onClose}
+        centered
+        footer={(
+          <div>
+            <Button
               onClick={onClose}
             >
               {LANG.end}
-            </button>
-            <button
-              type="button"
-              className="btn btn-default pull-right primary"
+            </Button>
+            <Button
+              type="primary"
               onClick={this.onStart}
             >
               {LANG.start}
-            </button>
-          </section>
-        </div>
+            </Button>
+          </div>
+      )}
+      >
+        <Form>
+          {this.renderLocalIP()}
+          <Form.Item label={LANG.insert_ip}>
+            <Input
+              ref={this.textInputRef}
+              defaultValue={ip || ''}
+              onKeyDown={this.onInputKeydown}
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     );
   }

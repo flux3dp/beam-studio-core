@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
@@ -20,36 +20,39 @@ import SelectConnectionType from 'app/pages/SelectConnectionType';
 import SkipConnectMachine from 'app/pages/SkipConnectMachine';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
 import { DialogContextProvider } from 'app/contexts/DialogContext';
+import { StyleProvider } from '@ant-design/cssinjs';
 
 const wrappedComponent = (
   <AlertProgressContextProvider>
     <DialogContextProvider>
-      <Dialog />
-      <AlertsAndProgress />
-      <HashRouter>
-        <Switch>
-          <Route exact path="/google-auth" component={GoogleOAuth} />
-          <Route exact path="/fb-auth" component={FacebookOAuth} />
-          <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
-          <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
-          <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
-          <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
-          <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
-          <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
-          <Route exact path="/initialize/connect/skip-connect-machine" component={SkipConnectMachine} />
-          <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
-          <Route exact path="/studio/settings" component={Settings} />
-          <Route exact path="/studio/beambox" component={Beambox} />
-          <Route path="/error/*" component={Error} />
-          <Route path="*" component={Home} />
-        </Switch>
-      </HashRouter>
+      <StyleProvider hashPriority="high">
+        <Dialog />
+        <AlertsAndProgress />
+        <HashRouter>
+          <Switch>
+            <Route exact path="/google-auth" component={GoogleOAuth} />
+            <Route exact path="/fb-auth" component={FacebookOAuth} />
+            <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
+            <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
+            <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
+            <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
+            <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
+            <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
+            <Route exact path="/initialize/connect/skip-connect-machine" component={SkipConnectMachine} />
+            <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
+            <Route exact path="/studio/settings" component={Settings} />
+            <Route exact path="/studio/beambox" component={Beambox} />
+            <Route path="/error/*" component={Error} />
+            <Route path="*" component={Home} />
+          </Switch>
+        </HashRouter>
+      </StyleProvider>
     </DialogContextProvider>
   </AlertProgressContextProvider>
 );
 
 const router = (container) => {
-  ReactDOM.render(wrappedComponent, container);
+  render(wrappedComponent, container);
 };
 
 export default router;
