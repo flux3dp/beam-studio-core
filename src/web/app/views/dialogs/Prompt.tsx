@@ -43,6 +43,7 @@ function Prompt({
     <Modal
       open={VISIBLE}
       title={caption}
+      centered
       modalRender={modalRender}
       onOk={() => {
         const inputElem = inputRef.current;
