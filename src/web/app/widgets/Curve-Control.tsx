@@ -326,8 +326,18 @@ export default class CurveControl extends React.PureComponent<Props, State> {
     const curve = this.renderCurve();
     const controlPointsRects = this.renderControlPoints();
     return (
-      <div className="curve-control-container">
+      <div
+        style={{
+          width: 260,
+          height: 260,
+        }}
+      >
         <svg
+          style={{
+            border: '2px solid #b3b3b3',
+            width: 260,
+            height: 260,
+          }}
           className="curve-control-svg"
           onMouseDown={this.onBackgroundMouseDown}
           onMouseMove={this.onMouseMove}
