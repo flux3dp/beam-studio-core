@@ -9,7 +9,9 @@ import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
-import Modal from 'app/widgets/Modal';
+import {
+  Button, Col, Modal, Row,
+} from 'antd';
 import OpenCVWebSocket from 'helpers/api/open-cv';
 import Progress from 'app/actions/progress-caller';
 import SliderControl from 'app/widgets/Slider-Control';
@@ -449,43 +451,55 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
     let panelContent = null;
     let rightWidth = 40;
+    let title = '';
     switch (mode) {
       case 'sharpen':
         panelContent = this.renderSharpenPanel();
+        title = LANG.sharpen;
         rightWidth = 390;
         break;
       case 'curve':
         panelContent = this.renderCurvePanel();
+        title = LANG.curve;
         rightWidth = 390;
         break;
       default:
         break;
     }
     const maxAllowableWidth = window.innerWidth - rightWidth;
-    const maxAllowableHieght = window.innerHeight - 2 * Constants.topBarHeightWithoutTitleBar - 180;
-    const containerStyle = (imageWidth / maxAllowableWidth > imageHeight / maxAllowableHieght)
-      ? { width: `${maxAllowableWidth}px` } : { height: `${maxAllowableHieght}px` };
+    const maxAllowableHeight = window.innerHeight - 2 * Constants.topBarHeightWithoutTitleBar - 180;
+    const imgSizeStyle = (imageWidth / maxAllowableWidth > imageHeight / maxAllowableHeight)
+      ? { width: maxAllowableWidth } : { height: maxAllowableHeight };
+    const imgWidth = imgSizeStyle.width
+      ? maxAllowableWidth
+      : imgSizeStyle.height * (imageWidth / imageHeight);
     const onImgLoad = () => {
       if (mode === 'crop' && !isCropping) {
         this.handleStartCrop();
       }
     };
     return (
-      <Modal>
-        <div className="photo-edit-panel">
-          <div className="main-content">
-            <div className="image-container" style={containerStyle}>
-              <img
-                id="original-image"
-                style={containerStyle}
-                src={isShowingOriginal ? this.compareBase64 : displayBase64}
-                onLoad={() => onImgLoad()}
-              />
-            </div>
+      <Modal
+        open
+        centered
+        width={imgWidth + rightWidth}
+        title={title}
+        footer={this.renderPhotoEditFooter()}
+        onCancel={this.handleGoBack}
+      >
+        <Row gutter={10}>
+          <Col flex={`1 1 ${imgSizeStyle.width}`}>
+            <img
+              id="original-image"
+              style={imgSizeStyle}
+              src={isShowingOriginal ? this.compareBase64 : displayBase64}
+              onLoad={() => onImgLoad()}
+            />
+          </Col>
+          <Col flex={`1 1 ${mode === 'crop' ? 0 : 260}px`}>
             {panelContent}
-          </div>
-          {this.renderPhotoEditFooter()}
-        </div>
+          </Col>
+        </Row>
       </Modal>
     );
   }
@@ -506,7 +520,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
       <div className="right-part">
         <div className="scroll-bar-container sharpen">
           <div className="sub-functions with-slider">
-            <div className="title">{LANG.sharpen}</div>
             <SliderControl
               id="sharpen-intensity"
               label={LANG.sharpness}
@@ -539,14 +552,11 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const updateCurveFunction = (curvefunction) => this.updateCurveFunction(curvefunction);
     const handleCurve = () => this.handleCurve(true);
     return (
-      <div className="right-part">
-        <div className="curve-panel">
-          <div className="title">{LANG.curve}</div>
-          <CurveControl
-            updateCurveFunction={updateCurveFunction}
-            updateImage={handleCurve}
-          />
-        </div>
+      <div style={{ width: 260, height: 260 }}>
+        <CurveControl
+          updateCurveFunction={updateCurveFunction}
+          updateImage={handleCurve}
+        />
       </div>
     );
   }
@@ -554,61 +564,48 @@ class PhotoEditPanel extends React.Component<Props, State> {
   renderPhotoEditFooter(): JSX.Element {
     const { mode } = this.props;
     const { srcHistory } = this.state;
-    const previewButton = {
-      label: LANG.compare,
-      onMouseDown: () => this.setState({ isShowingOriginal: true }),
-      onMouseUp: () => this.setState({ isShowingOriginal: false }),
-      onMouseLeave: () => this.setState({ isShowingOriginal: false }),
-      className: 'btn btn-default pull-left',
+    const previewButton = (
+      <Button
+        onMouseDown={() => this.setState({ isShowingOriginal: true })}
+        onMouseUp={() => this.setState({ isShowingOriginal: false })}
+        onMouseLeave={() => this.setState({ isShowingOriginal: false })}
+        type="dashed"
+      >
+        {LANG.compare}
+      </Button>
+    );
+    const handleOk = () => {
+      if (mode === 'sharpen') {
+        this.handleSharp(false);
+      } else if (mode === 'crop') {
+        this.handleCrop(true);
+      } else if (mode === 'curve') {
+        this.handleCurve(false);
+      }
     };
-    const buttons: IButton[] = [
-      {
-        label: LANG.cancel,
-        onClick: () => this.handleCancel(),
-        className: 'btn btn-default pull-right',
-      },
-    ];
-    if (mode === 'sharpen') {
-      buttons.push(...[
-        previewButton,
-        {
-          label: LANG.okay,
-          onClick: () => this.handleSharp(false),
-          className: 'btn btn-default pull-right primary',
-        },
-      ]);
-    } else if (mode === 'crop') {
-      const disableGoBack = srcHistory.length === 0;
-      buttons.push(...[
-        {
-          label: LANG.okay,
-          onClick: () => this.handleCrop(true),
-          className: 'btn btn-default pull-right primary',
-        },
-        {
-          label: LANG.apply,
-          onClick: () => this.handleCrop(),
-          className: 'btn btn-default pull-right',
-        },
-        {
-          label: LANG.back,
-          onClick: disableGoBack ? () => { } : () => this.handleGoBack(),
-          className: classNames('btn btn-default pull-right', { disabled: disableGoBack }),
-        },
-      ]);
-    } else if (mode === 'curve') {
-      buttons.push(...[
-        previewButton,
-        {
-          label: LANG.okay,
-          onClick: () => this.handleCurve(false),
-          className: 'btn btn-default pull-right primary',
-        },
-      ]);
-    }
+
+    const cancelButton = (
+      <Button
+        onClick={() => this.handleCancel()}
+      >
+        {LANG.cancel}
+      </Button>
+    );
+    const okButton = (
+      <Button
+        onClick={() => handleOk()}
+        type="primary"
+      >
+        {LANG.okay}
+      </Button>
+    );
     return (
-      <div className="footer">
-        <ButtonGroup buttons={buttons} />
+      <div>
+        {previewButton}
+        {' '}
+        {cancelButton}
+        {' '}
+        {okButton}
       </div>
     );
   }
