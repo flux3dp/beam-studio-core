@@ -6,7 +6,6 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import communicator from 'implementations/communicator';
 import fontHelper from 'implementations/fontHelper';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
@@ -71,7 +70,7 @@ if (fontNameMapObj.navigatorLang !== navigator.language) {
 const fontNameMap = new Map<string, string>();
 const availableFontFamilies = (function requestAvailableFontFamilies() {
   // get all available fonts in user PC
-  const fonts = communicator.sendSync('GET_AVAILABLE_FONTS');
+  const fonts = fontHelper.getAvailableFonts();
   fonts.forEach((font) => {
     if (!fontNameMap.get(font.family)) {
       let fontName = font.family;
@@ -131,11 +130,12 @@ const init = () => {
 init();
 
 const requestFontsOfTheFontFamily = memoize((family) => {
-  const fonts = communicator.sendSync('FIND_FONTS', { family });
+  const fonts = fontHelper.findFonts({ family });
   return Array.from(fonts);
 });
+
 const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
-  const font = communicator.sendSync('FIND_FONT', {
+  const font = fontHelper.findFont({
     family: opts.family,
     style: opts.style,
     weight: opts.weight,
