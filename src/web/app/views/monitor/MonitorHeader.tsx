@@ -13,6 +13,9 @@ interface Props {
   navBtnType: NavBtnType,
 }
 
+/**
+ * @deprecated The method should not be used
+ */
 class MonitorHeader extends React.PureComponent<Props> {
   renderNavigationBtn(): JSX.Element {
     const { onNavigationBtnClick } = this.context;

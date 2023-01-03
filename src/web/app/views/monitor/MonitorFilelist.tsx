@@ -6,8 +6,11 @@ import AlertConstants from 'app/constants/alert-constants';
 import DeviceConstants from 'app/constants/device-constants';
 import { ItemType } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
-import FileItem from './widgets/FileItem';
 import DeviceMaster from 'helpers/device-master';
+import { HomeOutlined } from '@ant-design/icons';
+
+import { Breadcrumb, Divider } from 'antd';
+import FileItem from './widgets/FileItem';
 
 interface Props {
   path: string,
@@ -19,10 +22,21 @@ interface State {
   fileInfos: { [key: string]: any },
 }
 
+const REGULAR_STYLE = {
+  width: 80,
+  height: 80,
+  textAlign: 'center',
+};
+
+const SELECTED_STYLE = {
+  ...REGULAR_STYLE,
+  color: 'white',
+  background: '#0099CC',
+};
 class MonitorFilelist extends React.Component<Props, State> {
   private isUSBExist: boolean;
 
-  private willUnmount: boolean = false;
+  private willUnmount = false;
 
   constructor(props) {
     super(props);
@@ -59,16 +73,6 @@ class MonitorFilelist extends React.Component<Props, State> {
     this.willUnmount = true;
   }
 
-  checkUSBFolderExistance = async () => {
-    try {
-      const res = await DeviceMaster.ls('USB');
-      console.log(res);
-      this.isUSBExist = true;
-    } catch (error) {
-      this.isUSBExist = false;
-    }
-  }
-
   async getFolderContent() {
     const { path } = this.props;
     const res = await DeviceMaster.ls(path);
@@ -101,31 +105,46 @@ class MonitorFilelist extends React.Component<Props, State> {
   async getFileInfos() {
     const { path } = this.props;
     const { files, fileInfos } = this.state;
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files.length; i += 1) {
       if (this.willUnmount) {
         return;
       }
       const file = files[i];
+      // eslint-disable-next-line no-await-in-loop
       const res = await DeviceMaster.fileInfo(path, file);
       fileInfos[file] = res;
       this.setState({ fileInfos });
     }
   }
 
+  checkUSBFolderExistance = async () => {
+    try {
+      const res = await DeviceMaster.ls('USB');
+      console.log(res);
+      this.isUSBExist = true;
+    } catch (error) {
+      this.isUSBExist = false;
+    }
+  };
+
   renderFolders() {
     const { directories } = this.state;
     const { onHighlightItem, onSelectFolder, highlightedItem } = this.context;
     const { path } = this.props;
     const folderElements = directories.map((folder: string) => {
+      const selected = highlightedItem.type === ItemType.FOLDER && highlightedItem.name === folder;
       return (
         <div
-          className="folder"
+          className={classNames('folder', { selected })}
           key={`${path}/${folder}`}
           qa-foldername={folder}
           onClick={() => onHighlightItem({ name: folder, type: ItemType.FOLDER })}
           onDoubleClick={() => onSelectFolder(folder)}
         >
-          <div className={classNames('name', { 'selected': highlightedItem.type === ItemType.FOLDER && highlightedItem.name === folder })}>
+          <div className="image-wrapper">
+            <img src="img/folder.svg" />
+          </div>
+          <div className={classNames('name', { selected })}>
             {folder}
           </div>
         </div>
@@ -152,20 +171,36 @@ class MonitorFilelist extends React.Component<Props, State> {
           fileInfo={fileInfos[file]}
           isSelected={highlightedItem.name === file && highlightedItem.type === ItemType.FILE}
         />
-      )
+      );
     });
     return fileElements;
   }
 
   render() {
+    const { path } = this.props;
+    const { onSelectFolder } = this.context;
     return (
       <div className="wrapper">
-        {this.renderFolders()}
-        {this.renderFiles()}
+        <Breadcrumb>
+          <Breadcrumb.Item key={0} onClick={() => onSelectFolder('', true)} href="">
+            <a href="a" onClick={(e) => e.preventDefault()}><HomeOutlined /></a>
+          </Breadcrumb.Item>
+          {
+            path.split('/').filter((v) => v !== '').map((folder, i) => (
+              <Breadcrumb.Item key={folder} onClick={() => onSelectFolder(path.split('/').slice(0, i + 1).join('/'), true)} href="">
+                <a href="a" onClick={(e) => e.preventDefault()}>{ folder }</a>
+              </Breadcrumb.Item>
+            ))
+          }
+        </Breadcrumb>
+        <div className="file-monitor-v2">
+          {this.renderFolders()}
+          {this.renderFiles()}
+        </div>
       </div>
     );
   }
-};
+}
 MonitorFilelist.contextType = MonitorContext;
 
 export default MonitorFilelist;

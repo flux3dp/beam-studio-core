@@ -3,10 +3,14 @@ import React from 'react';
 
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
-import MonitorStatus from 'helpers/monitor-status';
-import VersionChecker from 'helpers/version-checker';
+import DeviceConstants from 'app/constants/device-constants';
 import { Mode } from 'app/constants/monitor-constants';
-import { MonitorContext } from 'app/contexts/MonitorContext';
+import { useMonitorContext } from 'app/contexts/MonitorContext';
+import {
+  Col, Progress, Row, Tag,
+} from 'antd';
+import { ClockCircleOutlined, FileOutlined } from '@ant-design/icons';
+import MonitorControl from './MonitorControl';
 
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;
@@ -15,77 +19,85 @@ interface Props {
   deviceVersion: string;
 }
 
-export default class MonitorTask extends React.PureComponent<Props> {
-  getJobTime(): string {
-    const { taskTime } = this.context;
+const MonitorTask = (props: Props): JSX.Element => {
+  const {
+    taskTime, mode, report, uploadProgress, taskImageURL, fileInfo, previewTask,
+  } = useMonitorContext();
+
+  const getJobTime = (): string => {
+    if (mode === Mode.WORKING && report && report.prog) {
+      const timeLeft = FormatDuration(taskTime * (1 - report.prog));
+      return `${timeLeft} ${i18n.lang.monitor.left}`;
+    }
     return taskTime ? FormatDuration(taskTime) : null;
-  }
+  };
 
-  getProgress(): string {
-    const { mode, report } = this.context;
-    if (mode !== Mode.WORKING || MonitorStatus.isAbortedOrCompleted(report)) {
-      return '';
+  const renderProgress = (): JSX.Element => {
+    if (uploadProgress !== null) {
+      return <Progress percent={Number(uploadProgress)} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />;
     }
-    return report.prog !== undefined ? `${(report.prog * 100).toFixed(1)}%` : '';
-  }
+    if (!report) return null;
 
-  renderImage(): JSX.Element {
-    const { taskImageURL } = this.context;
-    const divStyle = {
-      borderRadius: '2px',
-      backgroundColor: '#F0F0F0',
-      backgroundImage: `url(${taskImageURL || defaultImage})`,
-      backgroundSize: '100% auto',
-      backgroundPosition: '50% 50%',
-      backgroundRepeat: 'no-repeat',
-      width: '100%',
-      height: '100%',
-    };
-    return (<div style={divStyle} />);
-  }
+    if (report.st_id === DeviceConstants.status.COMPLETED) {
+      return <Progress percent={100} />;
+    }
 
-  renderRelocateButton(): JSX.Element {
-    const { mode, relocateOrigin, startRelocate } = this.context;
-    const { deviceVersion } = this.props;
-    const vc = VersionChecker(deviceVersion);
-    if ([Mode.PREVIEW, Mode.FILE_PREVIEW].includes(mode) && vc.meetRequirement('RELOCATE_ORIGIN')) {
-      return (
-        <div className="btn-relocate-container">
-          <div className="btn-relocate" onClick={startRelocate}>
-            <img src="img/beambox/icon-target.svg" />
-            {(relocateOrigin.x !== 0 || relocateOrigin.y !== 0)
-              ? <div className="relocate-origin">{`(${relocateOrigin.x}, ${relocateOrigin.y})`}</div>
-              : null}
+    if (!report.prog) {
+      return null;
+    }
+
+    const percentageDone = Number((report.prog * 100).toFixed(1));
+    if (report.st_id === DeviceConstants.status.ABORTED) {
+      return <Progress percent={percentageDone} status="exception" />;
+    }
+
+    return <Progress percent={percentageDone} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />;
+  };
+
+  const renderFileInfo = (): JSX.Element => {
+    const fileName = fileInfo ? fileInfo[0] : previewTask?.fileName;
+    return (
+      <div className="monitor-left-text">
+        <FileOutlined />
+        &nbsp;
+        {fileName || LANG.monitor.task.BEAMBOX}
+      </div>
+    );
+  };
+
+  const render = (): JSX.Element => (
+    <div className="task">
+      <div style={{ position: 'relative', marginBottom: 10 }}>
+        <img style={{ width: '100%', border: '1px solid #CCC' }} src={taskImageURL || defaultImage} />
+        <div className="monitor-task-info-bar">
+          <Row>
+            <Col span={12}>
+              {renderFileInfo()}
+            </Col>
+            <Col span={12}>
+              <div className="monitor-right-text">
+                <ClockCircleOutlined />
+                &nbsp;
+                {getJobTime()}
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </div>
+      { /* renderRelocateButton() */ }
+      <Row>
+        <Col span={12}>
+          {renderProgress()}
+        </Col>
+        <Col span={12}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <MonitorControl />
           </div>
-        </div>
-      );
-    }
-    return null;
-  }
+        </Col>
+      </Row>
+    </div>
+  );
+  return render();
+};
 
-  renderInfo(): JSX.Element {
-    const { report } = this.context;
-    const infoClass = classNames('status-info', 'running', { hide: MonitorStatus.isAbortedOrCompleted(report) });
-    return (
-      <div className={infoClass}>
-        <div className="verticle-align">
-          <div>{LANG.monitor.task.BEAMBOX}</div>
-          <div className="status-info-duration">{this.getJobTime()}</div>
-        </div>
-        {this.renderRelocateButton()}
-        <div className="status-info-progress">{this.getProgress()}</div>
-      </div>
-    );
-  }
-
-  render(): JSX.Element {
-    return (
-      <div className="task">
-        {this.renderImage()}
-        {this.renderInfo()}
-      </div>
-    );
-  }
-}
-
-MonitorTask.contextType = MonitorContext;
+export default MonitorTask;

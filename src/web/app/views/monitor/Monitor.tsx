@@ -1,187 +1,130 @@
 import * as React from 'react';
-import classNames from 'classnames';
-
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
-import Modal from 'app/widgets/Modal';
-import { MonitorContext } from 'app/contexts/MonitorContext';
+import { Modal, Tabs } from 'antd';
+import { useMonitorContext } from 'app/contexts/MonitorContext';
 import { Mode } from 'app/constants/monitor-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import MonitorStatus from 'helpers/monitor-status';
+import {
+  CameraOutlined, FileOutlined, FolderOutlined, PictureOutlined,
+} from '@ant-design/icons';
 import MonitorCamera from './MonitorCamera';
-import MonitorControl from './MonitorControl';
 import MonitorFilelist from './MonitorFilelist';
-import MonitorHeader, { NavBtnType } from './MonitorHeader';
 import MonitorInfo from './MonitorInfo';
 import MonitorRelocate from './MonitorRelocate';
 import MonitorTask from './MonitorTask';
-
-let LANG = i18n.lang;
-
-const updateLang = () => {
-  LANG = i18n.lang;
-};
 
 interface Props {
   mode?: string;
   device: IDeviceInfo
 }
 
-export default class Monitor extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    updateLang();
-  }
+const Monitor = (props: Props): JSX.Element => {
+  const context = useMonitorContext();
+  const LANG = i18n.lang;
 
-  renderHeader(): JSX.Element {
-    const { device } = this.props;
-    const {
-      currentPath, mode, previewTask, report,
-    } = this.context;
-
-    let navBtnType = NavBtnType.BACK;
-    if (mode === Mode.PREVIEW) {
-      navBtnType = NavBtnType.FOLDER;
-    } else if (mode === Mode.FILE && currentPath.length === 0 && !previewTask) {
-      navBtnType = NavBtnType.NONE;
-    } else if (mode === Mode.WORKING) {
-      if (MonitorStatus.isAbortedOrCompleted(report)) {
-        navBtnType = NavBtnType.BACK;
-      } else {
-        navBtnType = NavBtnType.NONE;
-      }
-    }
-
-    return (
-      <MonitorHeader
-        name={device.name}
-        navBtnType={navBtnType}
-      />
-    );
-  }
-
-  renderFileList(): JSX.Element {
-    const { currentPath } = this.context;
+  const renderFileList = (): JSX.Element => {
+    const { currentPath } = context;
     const path = currentPath.join('/');
     return (
       <MonitorFilelist
         path={path}
       />
     );
-  }
+  };
 
-  renderTask(): JSX.Element {
-    const { device } = this.props;
+  const renderTask = (): JSX.Element => {
+    const { device } = props;
     return (
       <MonitorTask
         deviceVersion={device.version}
       />
     );
-  }
+  };
 
-  renderCamera(): JSX.Element {
-    const { device } = this.props;
+  const renderCamera = (): JSX.Element => {
+    const { device } = props;
     return (
       <MonitorCamera
         device={device}
       />
     );
-  }
+  };
 
-  renderRelocate(): JSX.Element {
-    const { device } = this.props;
+  const renderRelocate = (): JSX.Element => {
+    const { device } = props;
     return (
       <MonitorRelocate
         device={device}
       />
     );
-  }
+  };
 
-  renderInfo(): JSX.Element {
-    const { report, uploadProgress } = this.context;
-    const getStatusText = () => {
-      if (uploadProgress !== null) {
-        return LANG.device.uploading;
-      }
+  const render = (): JSX.Element => {
+    const { device } = props;
+    const {
+      onClose, mode, report, setMonitorMode, taskImageURL
+    } = context;
 
-      if (isObjectEmpty(report)) {
-        return LANG.monitor.connecting;
-      }
+    const monitorMode = [Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)
+      ? Mode.PREVIEW : mode;
 
-      if (report.st_label) {
-        const displayStatus = MonitorStatus.getDisplayStatus(report.st_label);
-        return displayStatus;
-      }
-      return '';
-    };
-
-    const getInfoProgressText = () => {
-      const {
-        mode, taskTime, downloadProgress,
-      } = this.context;
-
-      if (uploadProgress !== null) {
-        return `${LANG.monitor.processing} ${uploadProgress}%`;
-      }
-
-      if (downloadProgress !== null) {
-        return `${LANG.monitor.processing} ${Math.floor(((downloadProgress.size - downloadProgress.left) / downloadProgress.size) * 100)}%`;
-      }
-
-      if (!taskTime
-          || mode !== Mode.WORKING
-          || !report.prog
-          || MonitorStatus.isAbortedOrCompleted(report)) {
-        return '';
-      }
-
-      const percentageDone = Math.floor(report.prog * 100);
-      const timeLeft = FormatDuration(taskTime * (1 - report.prog));
-
-      return `${percentageDone}%, ${timeLeft} ${i18n.lang.monitor.left}`;
-    };
-
-    return (
-      <MonitorInfo
-        status={getStatusText()}
-        progress={getInfoProgressText()}
-      />
-    );
-  }
-
-  render(): JSX.Element {
-    const { mode } = this.context;
-    let body: JSX.Element;
-    if (mode === Mode.FILE) {
-      body = this.renderFileList();
-    } else if ([Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)) {
-      body = this.renderTask();
-    } else if (mode === Mode.CAMERA) {
-      body = this.renderCamera();
-    } else if (mode === Mode.CAMERA_RELOCATE) {
-      body = this.renderRelocate();
-    }
-
-    return (
-      <Modal>
-        <div className="flux-monitor">
-          <div className="main">
-            {this.renderHeader()}
-            <div className="body">
-              <div className="device-content">
-                {body}
-              </div>
+    const tabItems = [
+      {
+        label: (
+          <div>
+            <FolderOutlined />
+            {LANG.topmenu.file.label}
+          </div>
+        ),
+        key: Mode.FILE,
+        children: renderFileList(),
+      },
+      {
+        label: (
+          <div>
+            <CameraOutlined />
+            {LANG.monitor.camera}
+          </div>
+        ),
+        key: Mode.CAMERA,
+        children: renderCamera(),
+      },
+    ];
+    if (taskImageURL) {
+      tabItems.unshift(
+        {
+          label: (
+            <div>
+              <PictureOutlined />
+              {LANG.monitor.taskTab}
             </div>
-            <MonitorControl />
-          </div>
-          <div className={classNames('sub', { hide: false })}>
-            {this.renderInfo()}
-          </div>
-        </div>
+          ),
+          key: Mode.PREVIEW,
+          children: (
+            <div>
+              {renderTask()}
+            </div>
+          ),
+        }
+      );
+    }
+    // body = this.renderRelocate();
+    return (
+      <Modal
+        open
+        centered
+        onCancel={onClose}
+        title={`${device.name} - ${report ? MonitorStatus.getDisplayStatus(report.st_label) : LANG.monitor.connecting}`}
+        footer={null}
+      >
+        <Tabs activeKey={monitorMode} items={tabItems} onChange={(key) => setMonitorMode(key)} />
       </Modal>
     );
-  }
-}
+  };
+  return render();
+};
 
-Monitor.contextType = MonitorContext;
+export default Monitor;

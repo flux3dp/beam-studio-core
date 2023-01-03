@@ -1040,6 +1040,7 @@ export interface ILang {
     stop: string,
     record: string,
     camera: string,
+    taskTab: string,
     connecting: string,
     HARDWARE_ERROR_MAINBOARD_ERROR: string,
     HARDWARE_ERROR_SUBSYSTEM_ERROR: string,
@@ -1052,6 +1053,7 @@ export interface ILang {
     HARDWARE_ERROR_FIRE_DETECTED: string;
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: string;
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: string;
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: string,
     USER_OPERATION_ROTARY_PAUSE: string,
     RESOURCE_BUSY: string,
     DEVICE_ERROR: string,
