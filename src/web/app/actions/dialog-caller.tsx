@@ -115,11 +115,9 @@ export default {
     if (isIdExist('docu-setting')) return;
     const unmount = () => popDialogById('docu-setting');
     addDialogComponent('docu-setting',
-      <Modal>
-        <DocumentSettings
-          unmount={unmount}
-        />
-      </Modal>);
+      <DocumentSettings
+        unmount={unmount}
+      />);
   },
   showDxfDpiSelector: (defaultValue: number): Promise<number> => new Promise<number>((resolve) => {
     addDialogComponent('dxf-dpi-select',

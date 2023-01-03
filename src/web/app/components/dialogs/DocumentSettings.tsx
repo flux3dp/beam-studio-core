@@ -3,13 +3,14 @@ import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
-import DropDownControl from 'app/widgets/Dropdown-Control';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
+import {
+  Col,
+  Form, Modal, Row, Select, Switch,
+} from 'antd';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
-import SwitchControl from 'app/widgets/Switch-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -118,82 +119,100 @@ export default class DocumentSettings extends React.PureComponent<Props, State> 
     const doesSupportHybrid = constant.addonsSupportList.hybridLaser.includes(workarea);
     const doesSupportAutofocus = constant.addonsSupportList.autoFocus.includes(workarea);
     return (
-      <Modal onClose={unmount}>
-        <div className="document-panel">
-          <section className="main-content">
-            <div className="title">{LANG.document_settings}</div>
-            <EngraveDpiSlider
-              value={engraveDpi}
-              onChange={this.handleEngraveDpiChange}
-            />
-            <DropDownControl
-              id="workarea_dropdown"
-              label={LANG.workarea}
-              options={workareaOptions}
-              value={workarea}
+      <Modal
+        open
+        centered
+        title={LANG.document_settings}
+        onCancel={unmount}
+        onOk={() => {
+          this.save();
+          unmount();
+        }}
+        cancelText={LANG.cancel}
+        okText={LANG.save}
+      >
+        <Form
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
+          <EngraveDpiSlider
+            value={engraveDpi}
+            onChange={this.handleEngraveDpiChange}
+          />
+          <Form.Item
+            name="workarea"
+            initialValue={workarea}
+            label={LANG.workarea}
+          >
+            <Select
+              bordered
               onChange={this.handleWorkareaChange}
-            />
-            <div className="sub-title">{LANG.add_on}</div>
-            <SwitchControl
-              id="rotary_mode"
-              name="rotary_mode"
-              onText={LANG.enable}
-              offText={LANG.disable}
-              label={LANG.rotary_mode}
-              default={rotaryMode}
-              onChange={this.handleRotaryModeChange}
-            />
-            <SwitchControl
-              id="borderless_mode"
-              name="borderless_mode"
-              onText={LANG.enable}
-              offText={LANG.disable}
-              label={LANG.borderless_mode}
-              default={doesSupportOpenBottom && borderlessMode}
-              isDisabled={!doesSupportOpenBottom}
-              onChange={this.handleBorderlessModeChange}
-            />
-            <SwitchControl
-              id="autofocus-module"
-              name="autofocus-module"
-              onText={LANG.enable}
-              offText={LANG.disable}
-              label={LANG.enable_autofocus}
-              default={doesSupportAutofocus && enableAutofocus}
-              isDisabled={!doesSupportAutofocus}
-              onChange={this.handleAutofocusModuleChange}
-            />
-            <SwitchControl
-              id="diode_module"
-              name="diode_module"
-              onText={LANG.enable}
-              offText={LANG.disable}
-              label={LANG.enable_diode}
-              default={doesSupportHybrid && enableDiode}
-              isDisabled={!doesSupportHybrid}
-              onChange={this.handleDiodeModuleChange}
-            />
-          </section>
-          <section className="footer">
-            <button
-              className="btn btn-default pull-right"
-              type="button"
-              onClick={unmount}
             >
-              {LANG.cancel}
-            </button>
-            <button
-              className="btn btn-default primary pull-right"
-              type="button"
-              onClick={() => {
-                this.save();
-                unmount();
-              }}
-            >
-              {LANG.save}
-            </button>
-          </section>
-        </div>
+              {
+                workareaOptions.map((option) => (
+                  <Select.Option value={option.value}>
+                    {option.label}
+                  </Select.Option>
+                ))
+              }
+            </Select>
+          </Form.Item>
+          <strong>{LANG.add_on}</strong>
+          <Row>
+            <Col span={12}>
+              <Form.Item
+                name="rotary_mode"
+                initialValue={rotaryMode}
+                label={LANG.rotary_mode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  defaultChecked={rotaryMode}
+                  onChange={this.handleRotaryModeChange}
+                />
+              </Form.Item>
+              <Form.Item
+                name="borderless_mode"
+                initialValue={doesSupportOpenBottom && borderlessMode}
+                label={LANG.borderless_mode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  defaultChecked={doesSupportOpenBottom && borderlessMode}
+                  disabled={!doesSupportOpenBottom}
+                  onChange={this.handleBorderlessModeChange}
+                />
+              </Form.Item>
+
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="autofocus-module"
+                initialValue={doesSupportAutofocus && enableAutofocus}
+                label={LANG.enable_autofocus}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  defaultChecked={doesSupportAutofocus && enableAutofocus}
+                  disabled={!doesSupportAutofocus}
+                  onChange={this.handleAutofocusModuleChange}
+                />
+              </Form.Item>
+              <Form.Item
+                name="diode_module"
+                initialValue={doesSupportHybrid && enableDiode}
+                label={LANG.enable_diode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  defaultChecked={doesSupportHybrid && enableDiode}
+                  disabled={!doesSupportHybrid}
+                  onChange={this.handleDiodeModuleChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
       </Modal>
     );
   }
