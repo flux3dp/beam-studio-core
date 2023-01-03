@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 // import Alert from 'app/widgets/Alert';
 // import Progress from 'app/widgets/Progress';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
+import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 import { Button, Modal, Progress } from 'antd';
@@ -11,7 +12,7 @@ import browser from 'implementations/browser';
 import Draggable from 'react-draggable';
 
 interface Props {
-  className?: string;
+  className: string;
 }
 
 const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
@@ -68,11 +69,14 @@ const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
           dangerouslySetInnerHTML={{ __html: message }}
         />
       )
-      : <pre className="message">{message}</pre>;
+      : <div className="message">{message}</div>;
   };
 
   if (alertData.isProgress) {
-    const progress = alertData as IProgressDialog;
+    let { percentage } = alertData as IProgressDialog;
+    if (alertData.type === ProgressConstants.NONSTOP) {
+      percentage = 1;
+    }
     return (
       <Modal
         style={{
@@ -93,7 +97,8 @@ const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
       >
         {renderMessage()}
         <Progress
-          percent={Number(Number(progress.percentage).toFixed(2))}
+          status="active"
+          percent={Number(Number(percentage).toFixed(2))}
           strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
         />
       </Modal>
