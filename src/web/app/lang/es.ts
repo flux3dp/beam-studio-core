@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: 'Detente',
     record: 'Grabar',
     camera: 'Cámara',
+    taskTab: 'Tarea',
     connecting: 'Conectando, por favor espere...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Error Crítico: Placa principal desconectada. Por favor, contacta con el soporte de FLUX.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Error crítico: sistema sin respuesta. Por favor contacta al Soporte de FLUX.', // Deprecated in FW 3.3.1

@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: '停止',
     record: 'RECORD',
     camera: '相機',
+    taskTab: '工作',
     connecting: '連線中，請稍候',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 主板沒有回應。請聯繫 FLUX 客服。', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 子系統沒有回應。請聯繫 FLUX 客服。', // Deprecated in FW 3.3.1
@@ -1054,6 +1055,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 火焰偵測異常',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 氣流偵測異常',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 未偵測到旋轉軸',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 歸零 PULL-OFF 失敗',
     USER_OPERATION_ROTARY_PAUSE: '請切換旋轉軸馬達開關',
     RESOURCE_BUSY: '機器忙碌中\n如果機器沒有在進行動作， 請重新啟動機器',
     DEVICE_ERROR: '韌體發生錯誤\n請重新啟動機器', // Deprecated in FW 3.3.1
@@ -1087,7 +1089,7 @@ const lang: ILang = {
       DRAW: '數位繪圖',
       CUT: '貼紙切割',
       VINYL: '貼紙切割',
-      BEAMBOX: '雷射雕刻',
+      BEAMBOX: '雷射工作',
       'N/A': '自由模式',
     },
   },

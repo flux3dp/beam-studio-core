@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: '停止',
     record: 'RECORD',
     camera: '相机',
+    taskTab: '工作',
     connecting: '连接中，请稍候',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 主板没有回应。请联系 FLUX 客服。', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 子系统没有回应。请联系 FLUX 客服。', // Deprecated in FW 3.3.1

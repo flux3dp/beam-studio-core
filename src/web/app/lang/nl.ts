@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: 'Hou op',
     record: 'Dossier',
     camera: 'Camera',
+    taskTab: 'Taak',
     connecting: 'Bezig met verbinden, even geduld...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kritieke fout: moederbord offline. Neem contact op met FLUX-ondersteuning.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kritieke fout: subsysteem reageert niet. Neem contact op met FLUX-ondersteuning.', // Deprecated in FW 3.3.1

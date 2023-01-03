@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: 'Stop',
     record: 'Record',
     camera: 'Camera',
+    taskTab: 'Task',
     connecting: 'Connecting, please wait...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Critical Error: Mainboard offline. Please contact FLUX Support.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Critical Error: Subsystem no response. Please contact FLUX Support.', // Deprecated in FW 3.3.1
@@ -1054,6 +1055,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Flame sensor anomalous',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Airflow sensor anomalous',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 No rotary module detected',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Failed',
     USER_OPERATION_ROTARY_PAUSE: 'Please switch to the rotary motor',
     RESOURCE_BUSY: 'The machine is busy\nIf it is not running, please restart the machine',
     DEVICE_ERROR: 'Something went wrong\nPlease restart the machine', // Deprecated in FW 3.3.1

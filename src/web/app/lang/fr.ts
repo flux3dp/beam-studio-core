@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: 'Arrêter',
     record: 'Enregistrement',
     camera: 'Caméra',
+    taskTab: 'Tâche',
     connecting: 'Connexion, veuillez patienter...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Erreur critique : Carte mère hors ligne. Veuillez contacter le support FLUX.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Erreur critique : Sous-système sans réponse. Veuillez contacter le support FLUX.', // Deprecated in FW 3.3.1

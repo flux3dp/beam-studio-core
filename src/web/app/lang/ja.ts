@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: '停止',
     record: '記録',
     camera: 'カメラ',
+    taskTab: 'タスク',
     connecting: '接続しています。お待ちください…',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 重大なエラー：メインボードがオフラインです。 FLUXサポートにお問い合わせください。', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 重大なエラー：サブシステムが応答しません。 FLUXサポートにお問い合わせください。', // Deprecated in FW 3.3.1

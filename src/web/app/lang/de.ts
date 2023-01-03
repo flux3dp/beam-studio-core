@@ -1042,6 +1042,7 @@ const lang: ILang = {
     stop: 'Halt',
     record: 'Aufzeichnung',
     camera: 'Kamera',
+    taskTab: 'Datei',
     connecting: 'Verbindung wird hergestellt. Bitte warten...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kritischer Fehler: Mainboard offline. Bitte wenden Sie sich an den FLUX Support.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kritischer Fehler: Subsystem keine Antwort. Bitte wenden Sie sich an den FLUX Support', // Deprecated in FW 3.3.1
