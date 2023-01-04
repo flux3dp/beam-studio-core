@@ -21,10 +21,12 @@ const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
 
   const { alertProgressStack, popFromStack, popById } = React.useContext(AlertProgressContext);
 
+  const DraggableElement: any = Draggable;
+
   const modalRender = (modal): JSX.Element => (
-    <Draggable>
+    <DraggableElement>
       {modal}
-    </Draggable>
+    </DraggableElement>
   );
 
   useEffect(() => {
@@ -42,81 +44,89 @@ const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
   });
 
   if (alertProgressStack.length === 0) return <div />;
-  const alertData: IAlert = alertProgressStack[0] as IAlert;
-  const footer = alertData?.buttons?.map((button) => {
-    const buttonType = button.className.includes('primary') ? 'primary' : 'default';
+  const alertModals = alertProgressStack.map((alertData: IAlert) => {
+    const footer = alertData?.buttons?.map((button) => {
+      const buttonType = button.className.includes('primary') ? 'primary' : 'default';
+      return (
+        <Button
+          key={button.label}
+          onClick={() => {
+            button.onClick();
+            popFromStack();
+          }}
+          type={buttonType}
+        >
+          {button.label}
+        </Button>
+      );
+    });
+
+    const renderMessage = (): JSX.Element => {
+      const { message } = alertData;
+      return typeof message === 'string'
+        // eslint-disable-next-line react/no-danger
+        ? (
+          <div
+            className="message"
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
+        )
+        : <div className="message">{message}</div>;
+    };
+
+    if (alertData.isProgress) {
+      let { percentage } = alertData as IProgressDialog;
+      if (alertData.type === ProgressConstants.NONSTOP) {
+        percentage = 1;
+      }
+      return (
+        <Modal
+          style={{
+            minWidth: 520,
+          }}
+          open={alertProgressStack.length > 0}
+          title={alertData.caption}
+          onCancel={() => {
+            popById(alertData.id);
+            alertData.onCancel();
+          }}
+          centered
+          footer={footer}
+          closable={false}
+          cancelText={LANG.alert.cancel}
+          okButtonProps={{ style: { display: 'none' } }}
+          modalRender={modalRender}
+        >
+          {renderMessage()}
+          <Progress
+            status="active"
+            percent={Number(Number(percentage).toFixed(2))}
+            strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+          />
+        </Modal>
+      );
+    }
+
     return (
-      <Button
-        key={button.label}
-        onClick={() => {
-          button.onClick();
-          popFromStack();
-        }}
-        type={buttonType}
+      <Modal
+        key={alertData.id || Math.random()}
+        open={alertProgressStack.length > 0}
+        title={alertData.caption}
+        modalRender={modalRender}
+        footer={footer}
+        closable={false}
+        centered
+        onCancel={popFromStack}
       >
-        {button.label}
-      </Button>
+        {renderMessage()}
+      </Modal>
     );
   });
 
-  const renderMessage = (): JSX.Element => {
-    const { message } = alertData;
-    return typeof message === 'string'
-      // eslint-disable-next-line react/no-danger
-      ? (
-        <pre
-          className="message"
-          dangerouslySetInnerHTML={{ __html: message }}
-        />
-      )
-      : <div className="message">{message}</div>;
-  };
-
-  if (alertData.isProgress) {
-    let { percentage } = alertData as IProgressDialog;
-    if (alertData.type === ProgressConstants.NONSTOP) {
-      percentage = 1;
-    }
-    return (
-      <Modal
-        style={{
-          minWidth: 520,
-        }}
-        open={alertProgressStack.length > 0}
-        title={alertData.caption}
-        onCancel={() => {
-          popById(alertData.id);
-          alertData.onCancel();
-        }}
-        centered
-        footer={footer}
-        closable={false}
-        cancelText={LANG.alert.cancel}
-        okButtonProps={{ style: { display: 'none' } }}
-        modalRender={modalRender}
-      >
-        {renderMessage()}
-        <Progress
-          status="active"
-          percent={Number(Number(percentage).toFixed(2))}
-          strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
-        />
-      </Modal>
-    );
-  }
-
   return (
-    <Modal
-      open={alertProgressStack.length > 0}
-      title={alertData.caption}
-      modalRender={modalRender}
-      footer={footer}
-      closable={false}
-      centered
-      onCancel={popFromStack}
-    >
-      {renderMessage()}
-    </Modal>
+    <div>
+      {alertModals}
+    </div>
   );
 
   /*
