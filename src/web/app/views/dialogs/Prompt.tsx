@@ -15,6 +15,7 @@ const VISIBLE = true;
 interface Props {
   caption: string;
   message?: string;
+  placeholder?: string;
   defaultValue?: string;
   onYes: (value?: string) => void;
   onCancel?: (value?: string) => void;
@@ -30,7 +31,7 @@ const modalRender = (modal): JSX.Element => (
 );
 
 function Prompt({
-  caption, message, defaultValue = '', onYes, onCancel = () => { }, onClose,
+  caption, message, placeholder, defaultValue = '', onYes, onCancel = () => { }, onClose,
 }: Props): JSX.Element {
   const inputRef = React.useRef<InputRef>(null);
 
@@ -68,6 +69,7 @@ function Prompt({
         className="text-input"
         type="text"
         onKeyDown={handleKeyDown}
+        placeholder={placeholder}
         defaultValue={defaultValue}
       />
     </Modal>

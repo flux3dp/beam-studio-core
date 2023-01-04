@@ -3,17 +3,14 @@ import * as React from 'react';
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
 import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
-import ConfirmPrompt from 'app/views/dialogs/ConfirmPrompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
-import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
-import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
@@ -230,11 +227,11 @@ export default {
     const id = `prompt-${promptIndex}`;
     promptIndex = (promptIndex + 1) % 10000;
     addDialogComponent(id,
-      <ConfirmPrompt
+      <Prompt
         caption={args.caption}
         message={args.message}
-        confirmValue={args.confirmValue}
-        onConfirmed={() => resolve(true)}
+        placeholder={args.confirmValue}
+        onYes={(value) => resolve(value === args.confirmValue)}
         onCancel={() => resolve(false)}
         onClose={() => popDialogById(id)}
       />);
@@ -253,7 +250,6 @@ export default {
   showInputLightbox: (id: string, args: IInputLightBox): void => {
     addDialogComponent(id,
       <InputLightBox
-        isOpen
         caption={args.caption}
         type={args.type || 'TEXT_INPUT'}
         inputHeader={args.inputHeader}
