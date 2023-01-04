@@ -17,6 +17,7 @@ export interface IDialogBoxStyle {
 
 export interface IPrompt {
   caption?: string,
+  message?: string,
   defaultValue?: string,
   onYes?: (value?: string) => void,
   onCancel?: () => void,

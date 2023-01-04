@@ -4,7 +4,7 @@ import { IButton } from './IButton';
 export interface IAlert {
   id?: string;
   type?: string;
-  message: string;
+  message: string | JSX.Element;
   caption?: string;
   iconUrl?: string;
   children?: Element;
