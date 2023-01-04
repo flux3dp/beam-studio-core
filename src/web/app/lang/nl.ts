@@ -1154,7 +1154,7 @@ const lang: ILang = {
     unsupport_win_version: 'De huidige versie van het besturingssysteem %s ondersteunt mogelijk bepaalde functies niet. Gelieve vriendelijk te updaten naar de laatste versie.',
     need_password: 'Wachtwoord nodig om verbinding te maken met de machine',
     unavailableWorkarea: '#804 Huidig werkgebied overschrijdt het werkgebied van deze machine. Controleer het werkgebied van de geselecteerde machine of stel het werkgebied in via Bewerken > Documentinstelling.',
-    please_enter_dpi: 'Voer a.u.b. de eenheid van uw bestand in',
+    please_enter_dpi: 'Voer a.u.b. de eenheid van uw bestand in (mm)',
     auth_error: '#820 Auth-fout: update Beam Studio en machinefirmware naar de nieuwste versie.',
     usb_unplugged: 'USB-verbinding is verbroken. Controleer uw USB-verbinding',
     uploading_fcode: 'FC-code uploaden',

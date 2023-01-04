@@ -1154,7 +1154,7 @@ const lang: ILang = {
     unsupport_win_version: 'La versión actual del sistema operativo %s puede que no soporte algunas funciones. Por favor, actualiza a la última versión.',
     need_password: 'Necesita una contraseña para conectarse a la máquina',
     unavailableWorkarea: '#804 El área de trabajo actual excede el área de trabajo de esta máquina. Por favor, comprueba el área de trabajo de la máquina seleccionada o establece el área de trabajo desde Edición > Configuración de documentos.',
-    please_enter_dpi: 'Por favor, introduce la unidad de tu archivo',
+    please_enter_dpi: 'Por favor, introduce la unidad de tu archivo (in mm)',
     auth_error: '#820 Error de Autenticación: Por favor, actualiza Beam Studio y el firmware de la máquina a la última versión.',
     usb_unplugged: 'La conexión USB se ha perdido. Por favor, comprueba tu conexión USB',
     uploading_fcode: 'subir el FCode',

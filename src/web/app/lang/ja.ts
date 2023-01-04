@@ -1154,7 +1154,7 @@ const lang: ILang = {
     unsupport_win_version: '現在の Windows OSバージョンX ％s は一部の機能をサポートしていない場合があります。最新のバージョンに更新してください。',
     need_password: 'マシンに接続するには、パスワードが必要です',
     unavailableWorkarea: '#804 セットした作業領域がマシンの作業領域を超えます。マシンの作業領域を確認や[編集]>[ドキュメント設定]で作業領域をセットくださいい。',
-    please_enter_dpi: 'ファイルの単位を入力してください',
+    please_enter_dpi: 'ファイルの単位を入力してください (in mm)',
     auth_error: '#820 認証エラー：Beam Studioとマシンのファームウェアを最新バージョンに更新してください。',
     usb_unplugged: 'USB接続が失われました。USB接続を確認してください。',
     uploading_fcode: 'FCodeのアップロード中',

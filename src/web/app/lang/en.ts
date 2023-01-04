@@ -1055,7 +1055,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Flame sensor anomalous',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Airflow sensor anomalous',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 No rotary module detected',
-    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Failed',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Please switch to the rotary motor',
     RESOURCE_BUSY: 'The machine is busy\nIf it is not running, please restart the machine',
     DEVICE_ERROR: 'Something went wrong\nPlease restart the machine', // Deprecated in FW 3.3.1
@@ -1155,7 +1155,7 @@ const lang: ILang = {
     unsupport_win_version: 'Current OS Version %s may not support some functions. Please kindly update to the latest version.',
     need_password: 'Need Password to Connect to the Machine',
     unavailableWorkarea: '#804 Current workarea exceeds the workarea of this machine. Please check the workarea of selected machine or set workarea from Edit > Document Setting.',
-    please_enter_dpi: 'Please enter the Unit of your file',
+    please_enter_dpi: 'Please enter the Unit of your file (in mm)',
     auth_error: '#820 Auth Error: Please update Beam Studio and machine firmware to latest version.',
     usb_unplugged: 'USB connection is lost. Please check your USB connection',
     uploading_fcode: 'Uploading FCode',

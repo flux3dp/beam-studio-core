@@ -1154,7 +1154,7 @@ const lang: ILang = {
     unsupport_win_version: 'La version actuelle du système d\'exploitation %s peut ne pas prendre en charge certaines fonctions. Veuillez effectuer une mise à jour vers la dernière version.',
     need_password: 'Mot de passe nécessaire pour se connecter à la machine',
     unavailableWorkarea: '#804 La zone de travail actuelle dépasse la zone de travail de cette machine. Veuillez vérifier la zone de travail de la machine sélectionnée ou définir la zone de travail depuis Edit > Document Setting.',
-    please_enter_dpi: 'Veuillez entrer l\'unité de votre fichier',
+    please_enter_dpi: 'Veuillez entrer l\'unité de votre fichier (in mm)',
     auth_error: '#820 Erreur d\'authentification : Veuillez mettre à jour Beam Studio et le micrologiciel de la machine à la dernière version.',
     usb_unplugged: 'La connexion USB est perdue. Veuillez vérifier votre connexion USB.',
     uploading_fcode: 'Téléchargement du FCode',

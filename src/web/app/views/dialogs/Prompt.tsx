@@ -14,20 +14,23 @@ const VISIBLE = true;
 
 interface Props {
   caption: string;
+  message?: string;
   defaultValue?: string;
   onYes: (value?: string) => void;
   onCancel?: (value?: string) => void;
   onClose: () => void;
 }
 
+const DraggableElement: any = Draggable;
+
 const modalRender = (modal): JSX.Element => (
-  <Draggable>
+  <DraggableElement>
     {modal}
-  </Draggable>
+  </DraggableElement>
 );
 
 function Prompt({
-  caption, defaultValue = '', onYes, onCancel = () => { }, onClose,
+  caption, message, defaultValue = '', onYes, onCancel = () => { }, onClose,
 }: Props): JSX.Element {
   const inputRef = React.useRef<InputRef>(null);
 
@@ -58,6 +61,7 @@ function Prompt({
       okText={LANG.ok2}
       cancelText={LANG.cancel}
     >
+      <p>{message}</p>
       <Input
         autoFocus
         ref={inputRef}

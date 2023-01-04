@@ -1155,7 +1155,7 @@ const lang: ILang = {
     unsupport_win_version: '目前系統版本 %s 較舊，部分功能可能無法使用，請更新到最新版。',
     need_password: '需要密碼與機器建立連線',
     unavailableWorkarea: '#804 目前設定的工作範圍超過目標機器的工作範圍。請確認選擇的機器型號，或從 編輯 > 文件設定 更改工作範圍。',
-    please_enter_dpi: '請輸入該檔案的單位長度',
+    please_enter_dpi: '請輸入該檔案的單位長度 (公釐)',
     auth_error: '#820 認證失敗：請將 Beam Studio 以及機器韌體更新至最新版。',
     usb_unplugged: 'USB 連線逾時，請確認與機器的連接',
     uploading_fcode: '正在上傳 fcode',

@@ -121,19 +121,20 @@ export default {
   },
   showDxfDpiSelector: (defaultValue: number): Promise<number> => new Promise<number>((resolve) => {
     addDialogComponent('dxf-dpi-select',
-      <Modal>
-        <DxfDpiSelector
-          defaultDpiValue={defaultValue}
-          onSubmit={(val: number) => {
-            popDialogById('dxf-dpi-select');
-            resolve(val);
-          }}
-          onCancel={() => {
-            popDialogById('dxf-dpi-select');
-            resolve(null);
-          }}
-        />
-      </Modal>);
+      <Prompt
+        caption={i18n.lang.message.please_enter_dpi}
+        message="1, 2.54, 25.4, 72, 96, ...etc."
+        defaultValue={defaultValue.toString()}
+        onYes={(val: string) => {
+          popDialogById('dxf-dpi-select');
+          resolve(Number(val));
+        }}
+        onCancel={() => {
+          popDialogById('dxf-dpi-select');
+          resolve(null);
+        }}
+        onClose={() => popDialogById('dxf-dpi-select')}
+      />);
   }),
   showNetworkTestingPanel: (ip?: string): void => {
     if (isIdExist('network-test')) return;
@@ -216,6 +217,7 @@ export default {
     addDialogComponent(id,
       <Prompt
         caption={args.caption}
+        message={args.message}
         defaultValue={args.defaultValue}
         onYes={args.onYes}
         onCancel={args.onCancel}
