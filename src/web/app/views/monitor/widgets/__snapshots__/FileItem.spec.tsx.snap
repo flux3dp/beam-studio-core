@@ -11,7 +11,7 @@ exports[`should render correctly fileInfo has NO blob 1`] = `
   isSelected={true}
 >
   <div
-    className="file"
+    className="file selected"
     data-filename="abc.txt"
     data-test-key="abc.txt"
     onClick={[Function]}
