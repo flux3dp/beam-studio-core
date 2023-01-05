@@ -4,8 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
-import ShowablePasswordInput from 'app/widgets/ShowablePasswordInput';
+import {
+  Button, Divider, Form, Input, InputRef, Modal, Result, Space,
+} from 'antd';
 import storage from 'implementations/storage';
 import {
   externalLinkFBSignIn,
@@ -28,8 +29,8 @@ interface Props {
 const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   updateLang();
 
-  const emailInput = useRef(null);
-  const passwordInput = useRef(null);
+  const emailInput = useRef<InputRef>(null);
+  const passwordInput = useRef<InputRef>(null);
   const rememberMeCheckbox = useRef(null);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(!!storage.get('keep-flux-id-login'));
 
@@ -54,38 +55,9 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
     </div>
   );
 
-  const renderSeperator = () => <div className="sep">or</div>;
-
-  const renderLoginInputs = () => {
-    const lostPasswordUrl = LANG.lost_password_url;
-    return (
-      <div className="login-inputs">
-        <input
-          id="email-input"
-          type="text"
-          placeholder={LANG.email}
-          ref={emailInput}
-          onKeyDown={(e: React.KeyboardEvent) => e.stopPropagation()}
-        />
-        <ShowablePasswordInput
-          id="password-input"
-          ref={passwordInput}
-          placeholder={LANG.password}
-        />
-        <div className="options">
-          <div className="remember-me" onClick={() => setIsRememberMeChecked(!isRememberMeChecked)}>
-            <input ref={rememberMeCheckbox} type="checkbox" checked={isRememberMeChecked} onChange={() => { }} />
-            <div>{LANG.remember_me}</div>
-          </div>
-          <div className="forget-password" onClick={() => browser.open(lostPasswordUrl)}>{LANG.forget_password}</div>
-        </div>
-      </div>
-    );
-  };
-
   const handleLogin = async () => {
-    const email = emailInput.current.value;
-    const password = passwordInput.current.value;
+    const email = emailInput.current.input.value;
+    const password = passwordInput.current.input.value;
     await signOut();
     const res = await signIn({
       email,
@@ -107,32 +79,60 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
     if (res.status === 'ok') {
       // eslint-disable-next-line no-console
       console.log('Log in succeeded', res);
-      if (!silent) alert.popUp({ message: LANG.login_success });
+      if (!silent) {
+        alert.popUp({
+          message: (
+            <Result
+              status="success"
+              title={LANG.login_success}
+            />
+          ),
+        });
+      }
       onClose();
     }
   };
 
-  const renderSkipLink = () => <div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>;
-
-  const renderFooterButtons = () => {
-    const signupUrl = LANG.signup_url;
-    return (
-      <div className="footer">
-        <div className={classNames('button', 'primary')} onClick={handleLogin}>{LANG.login}</div>
-        <div className={classNames('button')} onClick={() => browser.open(signupUrl)}>{LANG.register}</div>
-        {renderSkipLink()}
-      </div>
-    );
-  };
-
   return (
-    <Modal>
+    <Modal
+      open
+      centered
+      title={LANG.login}
+      footer={null}
+      onCancel={onClose}
+      width={400}
+    >
       <div className="flux-login">
-        <div className="title">{LANG.login}</div>
         {renderOAuthContent()}
-        {renderSeperator()}
-        {renderLoginInputs()}
-        {renderFooterButtons()}
+        <Divider>or</Divider>
+        <Form className="login-inputs">
+          <Form.Item name="email-input">
+            <Input
+              ref={emailInput}
+              onKeyDown={(e: React.KeyboardEvent) => e.stopPropagation()}
+              placeholder={LANG.email}
+            />
+          </Form.Item>
+          <Form.Item name="password-input">
+            <Input.Password
+              ref={passwordInput}
+              onKeyDown={(e: React.KeyboardEvent) => e.stopPropagation()}
+              placeholder={LANG.password}
+            />
+          </Form.Item>
+          <div className="options">
+            <div className="remember-me" onClick={() => setIsRememberMeChecked(!isRememberMeChecked)}>
+              <input ref={rememberMeCheckbox} type="checkbox" checked={isRememberMeChecked} onChange={() => { }} />
+              <div>{LANG.remember_me}</div>
+            </div>
+            <div className="forget-password" onClick={() => browser.open(LANG.lost_password_url)}>{LANG.forget_password}</div>
+          </div>
+        </Form>
+        <Space className="footer" direction="vertical">
+          <Button block type="primary" onClick={handleLogin}>{LANG.login}</Button>
+          <Button block type="default" onClick={() => browser.open(LANG.signup_url)}>{LANG.register}</Button>
+          <div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>
+        </Space>
       </div>
     </Modal>
   );
