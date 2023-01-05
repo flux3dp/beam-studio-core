@@ -68,7 +68,7 @@ const MonitorTask = (props: Props): JSX.Element => {
   const render = (): JSX.Element => (
     <div className="task">
       <div style={{ position: 'relative', marginBottom: 10 }}>
-        <img style={{ width: '100%', border: '1px solid #CCC' }} src={taskImageURL || defaultImage} />
+        <img style={{ width: '100%', outline: '1px solid #BBB', outlineOffset: -1 }} src={taskImageURL || defaultImage} />
         <div className="monitor-task-info-bar">
           <Row>
             <Col span={12}>
