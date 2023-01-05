@@ -52,6 +52,9 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   popFromStack = (): void => {
     const { alertProgressStack } = this.state;
     alertProgressStack.pop();
+    this.setState({
+      alertProgressStack,
+    });
     this.forceUpdate();
   };
 
@@ -87,7 +90,7 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   pushToStack = (item: (IAlert | IProgressDialog), callback = () => {}): void => {
     if (item.id) {
       // eslint-disable-next-line no-console
-      console.log('alert/progress poped', item.id);
+      console.log('alert/progress pushed', item.id);
     }
     const { alertProgressStack } = this.state;
     this.setState({
