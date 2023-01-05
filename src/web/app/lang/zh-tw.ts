@@ -38,7 +38,7 @@ const lang: ILang = {
       fail_to_start_preview: '#803 啟動相機預覽失敗，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       fail_to_connect_with_camera: '#803 與機器相機建立連線時失敗，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       power_too_high: '功率過高',
-      power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
+      power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。<br/>輸入「知道了」以繼續。',
       power_too_high_confirm: '知道了',
     },
     hint: {
@@ -194,7 +194,7 @@ const lang: ILang = {
     RESOURCE_BUSY: '[RB] 請重新啟動 Delta, 或再試一次',
   },
   device_selection: {
-    no_beambox: '#801 我們在網路上找不到您的機器，\n此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，\n請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
+    no_beambox: '#801 我們在網路上找不到您的機器，<br/>此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，<br/>請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
   },
   update: {
     release_note: '版本訊息:',
@@ -212,7 +212,7 @@ const lang: ILang = {
       upload_file: '韌體上傳',
       update_success: '韌體更新上傳成功',
       update_fail: '#822 更新失敗',
-      too_old_for_web: '你韌體的版本為 v%s。\n欲使用線上版的 Beam Studio 請更新至最新韌體。',
+      too_old_for_web: '你韌體的版本為 v%s。<br/>欲使用線上版的 Beam Studio 請更新至最新韌體。',
     },
     software: {
       checking: '檢查更新中',
@@ -491,9 +491,9 @@ const lang: ILang = {
       loading_image: '載入圖片中，請稍候...',
       no_support_text: 'Beam Studio 目前不支援由外部匯入文字標籤，請由向量繪圖軟體將文字轉成路徑後再匯入。',
       speed_too_high_lower_the_quality: '在此雕刻解析度使用過快的速度，可能導致漸層雕刻的品質較差。',
-      too_fast_for_path: '含有路徑物件的圖層速度過快，可能導致切割時位置誤差。\n不建議超過在切割路徑時超過 20mm/s 。',
-      too_fast_for_path_and_constrain: '以下圖層： %s\n含有向量路徑物件且速度超過 20mm/s，為維持雕刻的精度，向量路徑速度將被限制在 20mm/s ，您可以在偏好設定解除此限制。',
-      both_power_and_speed_too_high: '雷射管在高功率下耗損較快，使用低功率可以延長雷試管使用壽命。\n並且在此雕刻解析度使用過快的速度可能導致漸層雕刻的品質較差。',
+      too_fast_for_path: '含有路徑物件的圖層速度過快，可能導致切割時位置誤差。<br/>不建議超過在切割路徑時超過 20mm/s 。',
+      too_fast_for_path_and_constrain: '以下圖層： <strong>%s</strong><br/>含有向量路徑物件且速度超過 20mm/s，為維持雕刻的精度，向量路徑速度將被限制在 20mm/s ，您可以在偏好設定解除此限制。',
+      both_power_and_speed_too_high: '雷射管在高功率下耗損較快，使用低功率可以延長雷試管使用壽命。<br/>並且在此雕刻解析度使用過快的速度可能導致漸層雕刻的品質較差。',
       should_update_firmware_to_continue: '#814 您的韌體版本不支援最新的軟體改善。為了更良好的使用經驗與雕刻品質，請先更新 Beambox 的韌體以繼續。 (主選單 > 機器 > [ Your Beambox ] > 韌體更新)',
       more_than_two_object: '太多物件，只支援兩物件操作',
       not_support_object_type: '不支援的物件類型',
@@ -832,9 +832,9 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: '解析字體中...',
       text_to_path: {
-        font_substitute_pop: '文字:『%s』中含有當前字體:『%s』不支援的字元: %s，\n將替換成以下字體:『%s』。',
+        font_substitute_pop: '文字: <strong>%s</strong> 中含有當前字體: <strong>%s</strong> 不支援的字元: %s，<br/>將替換成以下字體: <strong>%s</strong>。',
         check_thumbnail_warning: '轉換文字時出現字體不支援的情形，請在送出工作前，再次檢查預覽圖確認文字是否如預期轉換。',
-        error_when_parsing_text: '文字轉換路徑時發生錯誤：\n%s',
+        error_when_parsing_text: '文字轉換路徑時發生錯誤：<br/>%s',
         use_current_font: '使用當前字體',
       },
       lock_desc: '縮放時固定比例 (SHIFT)',
@@ -860,7 +860,7 @@ const lang: ILang = {
         sharp: '尖角',
         round: '圓角',
         fail_message: '生成偏移物件失敗',
-        not_support_message: '選取物件中含有不支援的類型：\n圖片、群組、文字、匯入圖檔。',
+        not_support_message: '選取物件中含有不支援的類型：<br/>圖片、群組、文字、匯入圖檔。',
       },
       _nest: {
         start_nest: '開始排列',
@@ -1057,12 +1057,12 @@ const lang: ILang = {
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 未偵測到旋轉軸',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 歸零 PULL-OFF 失敗',
     USER_OPERATION_ROTARY_PAUSE: '請切換旋轉軸馬達開關',
-    RESOURCE_BUSY: '機器忙碌中\n如果機器沒有在進行動作， 請重新啟動機器',
-    DEVICE_ERROR: '韌體發生錯誤\n請重新啟動機器', // Deprecated in FW 3.3.1
-    NO_RESPONSE: '#905 連接主板時發生錯誤\n請重新啟動機器',
+    RESOURCE_BUSY: '機器忙碌中<br/>如果機器沒有在進行動作， 請重新啟動機器',
+    DEVICE_ERROR: '韌體發生錯誤<br/>請重新啟動機器', // Deprecated in FW 3.3.1
+    NO_RESPONSE: '#905 連接主板時發生錯誤<br/>請重新啟動機器',
     SUBSYSTEM_ERROR: '#402 子系統沒有回應。請聯繫 FLUX 客服。',
-    HARDWARE_FAILURE: '韌體發生錯誤\n請重新啟動機器', // Deprecated in FW 3.3.1
-    MAINBOARD_OFFLINE: '#905 連接主板時發生錯誤\n請重新啟動機器',
+    HARDWARE_FAILURE: '韌體發生錯誤<br/>請重新啟動機器', // Deprecated in FW 3.3.1
+    MAINBOARD_OFFLINE: '#905 連接主板時發生錯誤<br/>請重新啟動機器',
     bug_report: '下載錯誤回報檔案',
     processing: '處理中',
     savingPreview: '正在產生預覽圖',
@@ -1162,7 +1162,7 @@ const lang: ILang = {
     cant_connect_to_device: '#827 無法連結機器，請確認機器是否開啟，以及與機器的連結方式',
     unable_to_find_machine: '無法連接到機器 ',
     disconnected: '連線不穩，請確認機器連線狀況並稍後再試一次',
-    unable_to_start: '#830 無法開始工作，如果持續發生，請附上錯誤回報，與我們聯絡:\n',
+    unable_to_start: '#830 無法開始工作，如果持續發生，請附上錯誤回報，與我們聯絡:<br/>',
     camera: {
       camera_cable_unstable: '偵測到相機傳輸照片時不穩定，仍能正常進行相機預覽，但可能會有預覽速度較慢或超時的問題。<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001791895">了解更多</a>',
       fail_to_transmit_image: '#845 相機傳輸照片異常，請將機器重新開機。如果問題持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/4402756056079">此則引導</a>。',
@@ -1266,7 +1266,7 @@ const lang: ILang = {
   tutorial: {
     skip: '跳過教學',
     welcome: '歡迎使用',
-    suggest_calibrate_camera_first: '提醒您：\n第一次使用請先進行相機校正。並在每次使用時將平台對焦，以取得最好的效果。',
+    suggest_calibrate_camera_first: '提醒您：<br/>第一次使用請先進行相機校正。並在每次使用時將平台對焦，以取得最好的效果。',
     camera_calibration_failed: '相機校正失敗',
     ask_retry_calibration: '請問是否重新執行相機校正？',
     skipped_camera_calibration: '已跳過相機校正引導，您可從隨時從上方選單「機器」>「您的機器名稱」>「校正相機」進行相機校正。',
