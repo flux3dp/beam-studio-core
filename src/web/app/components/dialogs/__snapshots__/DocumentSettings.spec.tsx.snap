@@ -1,227 +1,285 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<View
-  onClose={[MockFunction]}
+<Modal
+  cancelText="Cancel"
+  centered={true}
+  okText="Save"
+  onCancel={[MockFunction]}
+  onOk={[Function]}
+  open={true}
+  title="Document Settings"
 >
-  <div
-    className="document-panel"
+  <ForwardRef(InternalForm)
+    labelCol={
+      Object {
+        "span": 6,
+      }
+    }
+    wrapperCol={
+      Object {
+        "span": 18,
+      }
+    }
   >
-    <section
-      className="main-content"
+    <EngraveDpiSlider
+      onChange={[Function]}
+      value="medium"
+    />
+    <InternalFormItem
+      initialValue="fbb1b"
+      label="Working Area"
+      name="workarea"
     >
-      <div
-        className="title"
+      <ForwardRef(InternalSelect)
+        bordered={true}
+        onChange={[Function]}
       >
-        Document Settings
-      </div>
-      <EngraveDpiSlider
-        onChange={[Function]}
-        value="medium"
-      />
-      <DropDownControl
-        id="workarea_dropdown"
-        label="Working Area"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "beamo",
-              "value": "fbm1",
-            },
-            Object {
-              "label": "Beambox",
-              "value": "fbb1b",
-            },
-            Object {
-              "label": "Beambox Pro",
-              "value": "fbb1p",
-            },
-            Object {
-              "label": "HEXA",
-              "value": "fhexa1",
-            },
-          ]
-        }
-        value="fbb1b"
-      />
-      <div
-        className="sub-title"
+        <Option
+          value="fbm1"
+        >
+          beamo
+        </Option>
+        <Option
+          value="fbb1b"
+        >
+          Beambox
+        </Option>
+        <Option
+          value="fbb1p"
+        >
+          Beambox Pro
+        </Option>
+        <Option
+          value="fhexa1"
+        >
+          HEXA
+        </Option>
+      </ForwardRef(InternalSelect)>
+    </InternalFormItem>
+    <strong>
+      Add-ons
+    </strong>
+    <Row>
+      <Col
+        span={12}
       >
-        Add-ons
-      </div>
-      <SwitchControl
-        default={false}
-        id="rotary_mode"
-        label="Rotary"
-        name="rotary_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="borderless_mode"
-        isDisabled={true}
-        label="Open Bottom"
-        name="borderless_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="autofocus-module"
-        isDisabled={true}
-        label="Autofocus"
-        name="autofocus-module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="diode_module"
-        isDisabled={true}
-        label="Diode Laser"
-        name="diode_module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-    </section>
-    <section
-      className="footer"
-    >
-      <button
-        className="btn btn-default pull-right"
-        onClick={[MockFunction]}
-        type="button"
+        <InternalFormItem
+          initialValue={false}
+          label="Rotary"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="rotary_mode"
+        >
+          <Switch
+            defaultChecked={false}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+        <InternalFormItem
+          initialValue={false}
+          label="Open Bottom"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="borderless_mode"
+        >
+          <Switch
+            defaultChecked={false}
+            disabled={true}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+      </Col>
+      <Col
+        span={12}
       >
-        Cancel
-      </button>
-      <button
-        className="btn btn-default primary pull-right"
-        onClick={[Function]}
-        type="button"
-      >
-        Save
-      </button>
-    </section>
-  </div>
-</View>
+        <InternalFormItem
+          initialValue={false}
+          label="Autofocus"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="autofocus-module"
+        >
+          <Switch
+            defaultChecked={false}
+            disabled={true}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+        <InternalFormItem
+          initialValue={false}
+          label="Diode Laser"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="diode_module"
+        >
+          <Switch
+            defaultChecked={false}
+            disabled={true}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+      </Col>
+    </Row>
+  </ForwardRef(InternalForm)>
+</Modal>
 `;
 
 exports[`should render correctly 2`] = `
-<View
-  onClose={[MockFunction]}
+<Modal
+  cancelText="Cancel"
+  centered={true}
+  okText="Save"
+  onCancel={[MockFunction]}
+  onOk={[Function]}
+  open={true}
+  title="Document Settings"
 >
-  <div
-    className="document-panel"
+  <ForwardRef(InternalForm)
+    labelCol={
+      Object {
+        "span": 6,
+      }
+    }
+    wrapperCol={
+      Object {
+        "span": 18,
+      }
+    }
   >
-    <section
-      className="main-content"
+    <EngraveDpiSlider
+      onChange={[Function]}
+      value="high"
+    />
+    <InternalFormItem
+      initialValue="fbb1b"
+      label="Working Area"
+      name="workarea"
     >
-      <div
-        className="title"
+      <ForwardRef(InternalSelect)
+        bordered={true}
+        onChange={[Function]}
       >
-        Document Settings
-      </div>
-      <EngraveDpiSlider
-        onChange={[Function]}
-        value="high"
-      />
-      <DropDownControl
-        id="workarea_dropdown"
-        label="Working Area"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "beamo",
-              "value": "fbm1",
-            },
-            Object {
-              "label": "Beambox",
-              "value": "fbb1b",
-            },
-            Object {
-              "label": "Beambox Pro",
-              "value": "fbb1p",
-            },
-            Object {
-              "label": "HEXA",
-              "value": "fhexa1",
-            },
-          ]
-        }
-        value="fbb1b"
-      />
-      <div
-        className="sub-title"
+        <Option
+          value="fbm1"
+        >
+          beamo
+        </Option>
+        <Option
+          value="fbb1b"
+        >
+          Beambox
+        </Option>
+        <Option
+          value="fbb1p"
+        >
+          Beambox Pro
+        </Option>
+        <Option
+          value="fhexa1"
+        >
+          HEXA
+        </Option>
+      </ForwardRef(InternalSelect)>
+    </InternalFormItem>
+    <strong>
+      Add-ons
+    </strong>
+    <Row>
+      <Col
+        span={12}
       >
-        Add-ons
-      </div>
-      <SwitchControl
-        default={false}
-        id="rotary_mode"
-        label="Rotary"
-        name="rotary_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="borderless_mode"
-        isDisabled={true}
-        label="Open Bottom"
-        name="borderless_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="autofocus-module"
-        isDisabled={true}
-        label="Autofocus"
-        name="autofocus-module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="diode_module"
-        isDisabled={true}
-        label="Diode Laser"
-        name="diode_module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-    </section>
-    <section
-      className="footer"
-    >
-      <button
-        className="btn btn-default pull-right"
-        onClick={[MockFunction]}
-        type="button"
+        <InternalFormItem
+          initialValue={false}
+          label="Rotary"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="rotary_mode"
+        >
+          <Switch
+            defaultChecked={false}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+        <InternalFormItem
+          initialValue={false}
+          label="Open Bottom"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="borderless_mode"
+        >
+          <Switch
+            defaultChecked={false}
+            disabled={true}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+      </Col>
+      <Col
+        span={12}
       >
-        Cancel
-      </button>
-      <button
-        className="btn btn-default primary pull-right"
-        onClick={[Function]}
-        type="button"
-      >
-        Save
-      </button>
-    </section>
-  </div>
-</View>
+        <InternalFormItem
+          initialValue={false}
+          label="Autofocus"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="autofocus-module"
+        >
+          <Switch
+            defaultChecked={false}
+            disabled={true}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+        <InternalFormItem
+          initialValue={false}
+          label="Diode Laser"
+          labelCol={
+            Object {
+              "offset": 0,
+              "span": 12,
+            }
+          }
+          name="diode_module"
+        >
+          <Switch
+            defaultChecked={false}
+            disabled={true}
+            onChange={[Function]}
+          />
+        </InternalFormItem>
+      </Col>
+    </Row>
+  </ForwardRef(InternalForm)>
+</Modal>
 `;
 
 exports[`should render correctly 3`] = `

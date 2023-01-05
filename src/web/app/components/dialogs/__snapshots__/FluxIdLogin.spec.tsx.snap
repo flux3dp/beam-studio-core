@@ -1,15 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly desktop version 1`] = `
-<View>
+<Modal
+  centered={true}
+  footer={null}
+  onCancel={[MockFunction]}
+  open={true}
+  title="Login"
+  width={400}
+>
   <div
     className="flux-login"
   >
-    <div
-      className="title"
-    >
-      Login
-    </div>
     <div
       className="oauth"
     >
@@ -26,24 +28,28 @@ exports[`should render correctly desktop version 1`] = `
         Continue with Google
       </div>
     </div>
-    <div
-      className="sep"
-    >
+    <Divider>
       or
-    </div>
-    <div
+    </Divider>
+    <ForwardRef(InternalForm)
       className="login-inputs"
     >
-      <input
-        id="email-input"
-        onKeyDown={[Function]}
-        placeholder="Email"
-        type="text"
-      />
-      <ForwardRef
-        id="password-input"
-        placeholder="Password"
-      />
+      <InternalFormItem
+        name="email-input"
+      >
+        <ForwardRef
+          onKeyDown={[Function]}
+          placeholder="Email"
+        />
+      </InternalFormItem>
+      <InternalFormItem
+        name="password-input"
+      >
+        <Password
+          onKeyDown={[Function]}
+          placeholder="Password"
+        />
+      </InternalFormItem>
       <div
         className="options"
       >
@@ -67,43 +73,48 @@ exports[`should render correctly desktop version 1`] = `
           Forgot Password?
         </div>
       </div>
-    </div>
-    <div
+    </ForwardRef(InternalForm)>
+    <Space
       className="footer"
+      direction="vertical"
     >
-      <div
-        className="button primary"
+      <Button
+        block={true}
         onClick={[Function]}
+        type="primary"
       >
         Login
-      </div>
-      <div
-        className="button"
+      </Button>
+      <Button
+        block={true}
         onClick={[Function]}
+        type="default"
       >
         Create Your FLUX Account
-      </div>
+      </Button>
       <div
         className="skip"
         onClick={[Function]}
       >
         Work Offline
       </div>
-    </div>
+    </Space>
   </div>
-</View>
+</Modal>
 `;
 
 exports[`should render correctly desktop version 2`] = `
-<View>
+<Modal
+  centered={true}
+  footer={null}
+  onCancel={[MockFunction]}
+  open={true}
+  title="Login"
+  width={400}
+>
   <div
     className="flux-login"
   >
-    <div
-      className="title"
-    >
-      Login
-    </div>
     <div
       className="oauth"
     >
@@ -144,24 +155,28 @@ exports[`should render correctly desktop version 2`] = `
         Continue with Google
       </div>
     </div>
-    <div
-      className="sep"
-    >
+    <Divider>
       or
-    </div>
-    <div
+    </Divider>
+    <ForwardRef(InternalForm)
       className="login-inputs"
     >
-      <input
-        id="email-input"
-        onKeyDown={[Function]}
-        placeholder="Email"
-        type="text"
-      />
-      <ForwardRef
-        id="password-input"
-        placeholder="Password"
-      />
+      <InternalFormItem
+        name="email-input"
+      >
+        <ForwardRef
+          onKeyDown={[Function]}
+          placeholder="Email"
+        />
+      </InternalFormItem>
+      <InternalFormItem
+        name="password-input"
+      >
+        <Password
+          onKeyDown={[Function]}
+          placeholder="Password"
+        />
+      </InternalFormItem>
       <div
         className="options"
       >
@@ -185,43 +200,48 @@ exports[`should render correctly desktop version 2`] = `
           Forgot Password?
         </div>
       </div>
-    </div>
-    <div
+    </ForwardRef(InternalForm)>
+    <Space
       className="footer"
+      direction="vertical"
     >
-      <div
-        className="button primary"
+      <Button
+        block={true}
         onClick={[Function]}
+        type="primary"
       >
         Login
-      </div>
-      <div
-        className="button"
+      </Button>
+      <Button
+        block={true}
         onClick={[Function]}
+        type="default"
       >
         Create Your FLUX Account
-      </div>
+      </Button>
       <div
         className="skip"
         onClick={[Function]}
       >
         Work Offline
       </div>
-    </div>
+    </Space>
   </div>
-</View>
+</Modal>
 `;
 
 exports[`should render correctly web version 1`] = `
-<View>
+<Modal
+  centered={true}
+  footer={null}
+  onCancel={[MockFunction]}
+  open={true}
+  title="Login"
+  width={400}
+>
   <div
     className="flux-login"
   >
-    <div
-      className="title"
-    >
-      Login
-    </div>
     <div
       className="oauth"
     >
@@ -262,24 +282,28 @@ exports[`should render correctly web version 1`] = `
         Continue with Google
       </div>
     </div>
-    <div
-      className="sep"
-    >
+    <Divider>
       or
-    </div>
-    <div
+    </Divider>
+    <ForwardRef(InternalForm)
       className="login-inputs"
     >
-      <input
-        id="email-input"
-        onKeyDown={[Function]}
-        placeholder="Email"
-        type="text"
-      />
-      <ForwardRef
-        id="password-input"
-        placeholder="Password"
-      />
+      <InternalFormItem
+        name="email-input"
+      >
+        <ForwardRef
+          onKeyDown={[Function]}
+          placeholder="Email"
+        />
+      </InternalFormItem>
+      <InternalFormItem
+        name="password-input"
+      >
+        <Password
+          onKeyDown={[Function]}
+          placeholder="Password"
+        />
+      </InternalFormItem>
       <div
         className="options"
       >
@@ -303,29 +327,32 @@ exports[`should render correctly web version 1`] = `
           Forgot Password?
         </div>
       </div>
-    </div>
-    <div
+    </ForwardRef(InternalForm)>
+    <Space
       className="footer"
+      direction="vertical"
     >
-      <div
-        className="button primary"
+      <Button
+        block={true}
         onClick={[Function]}
+        type="primary"
       >
         Login
-      </div>
-      <div
-        className="button"
+      </Button>
+      <Button
+        block={true}
         onClick={[Function]}
+        type="default"
       >
         Create Your FLUX Account
-      </div>
+      </Button>
       <div
         className="skip"
         onClick={[Function]}
       >
         Work Offline
       </div>
-    </div>
+    </Space>
   </div>
-</View>
+</Modal>
 `;
