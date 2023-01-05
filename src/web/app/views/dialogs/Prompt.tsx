@@ -8,6 +8,7 @@ import keyCodeConstants from 'app/constants/keycode-constants';
 import { Input, InputRef, Modal } from 'antd';
 import lang from 'app/lang/de';
 import Draggable from 'react-draggable';
+import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
 
 const LANG = i18n.lang.alert;
 const VISIBLE = true;
@@ -39,7 +40,6 @@ function Prompt({
     if (e.keyCode === keyCodeConstants.KEY_RETURN) {
       onYes(inputRef.current.input.value);
       onClose();
-      e.stopPropagation();
     }
   };
 
@@ -63,15 +63,19 @@ function Prompt({
       cancelText={LANG.cancel}
     >
       <p>{message}</p>
-      <Input
-        autoFocus
-        ref={inputRef}
-        className="text-input"
-        type="text"
-        onKeyDown={handleKeyDown}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-      />
+      <InputKeyWrapper inputRef={inputRef}>
+        <Input
+          autoFocus
+          ref={inputRef}
+          className="text-input"
+          type="text"
+          onFocus={() => setEditingInput()}
+          onBlur={() => setStopEditingInput()}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+        />
+      </InputKeyWrapper>
     </Modal>
   );
 }
