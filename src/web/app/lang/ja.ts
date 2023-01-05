@@ -1037,6 +1037,7 @@ const lang: ILang = {
   monitor: {
     monitor: 'モニター',
     go: '開始',
+    resume: '再開',
     start: '開始',
     pause: '一時停止',
     stop: '停止',
