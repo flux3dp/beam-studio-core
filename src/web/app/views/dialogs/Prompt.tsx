@@ -1,12 +1,8 @@
 /* eslint-disable react/require-default-props */
-import classNames from 'classnames';
 import React from 'react';
-
-import ButtonGroup from 'app/widgets/ButtonGroup';
 import i18n from 'helpers/i18n';
 import keyCodeConstants from 'app/constants/keycode-constants';
 import { Input, InputRef, Modal } from 'antd';
-import lang from 'app/lang/de';
 import Draggable from 'react-draggable';
 import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
 

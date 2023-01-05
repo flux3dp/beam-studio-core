@@ -1,21 +1,18 @@
 import * as React from 'react';
-import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
-import isObjectEmpty from 'helpers/is-object-empty';
 import { Modal, Tabs } from 'antd';
 import { useMonitorContext } from 'app/contexts/MonitorContext';
 import { Mode } from 'app/constants/monitor-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import MonitorStatus from 'helpers/monitor-status';
 import {
-  CameraOutlined, FileOutlined, FolderOutlined, PictureOutlined,
+  CameraOutlined, FolderOutlined, PictureOutlined,
 } from '@ant-design/icons';
+import Draggable from 'react-draggable';
 import MonitorCamera from './MonitorCamera';
 import MonitorFilelist from './MonitorFilelist';
-import MonitorInfo from './MonitorInfo';
 import MonitorRelocate from './MonitorRelocate';
 import MonitorTask from './MonitorTask';
-import Draggable from 'react-draggable';
 
 interface Props {
   mode?: string;
@@ -73,7 +70,7 @@ const Monitor = (props: Props): JSX.Element => {
   const render = (): JSX.Element => {
     const { device } = props;
     const {
-      onClose, mode, report, setMonitorMode, taskImageURL
+      onClose, mode, report, setMonitorMode, taskImageURL,
     } = context;
 
     const monitorMode = [Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)
@@ -116,7 +113,7 @@ const Monitor = (props: Props): JSX.Element => {
               {renderTask()}
             </div>
           ),
-        }
+        },
       );
     }
     // body = this.renderRelocate();

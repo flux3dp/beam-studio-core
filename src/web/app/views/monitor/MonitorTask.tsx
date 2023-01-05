@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import FormatDuration from 'helpers/duration-formatter';
@@ -7,7 +6,7 @@ import DeviceConstants from 'app/constants/device-constants';
 import { Mode } from 'app/constants/monitor-constants';
 import { useMonitorContext } from 'app/contexts/MonitorContext';
 import {
-  Col, Progress, Row, Tag,
+  Col, Progress, Row,
 } from 'antd';
 import { ClockCircleOutlined, FileOutlined } from '@ant-design/icons';
 import MonitorControl from './MonitorControl';
