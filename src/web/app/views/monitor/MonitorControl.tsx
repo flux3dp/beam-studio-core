@@ -27,7 +27,7 @@ const MonitorControl = (): JSX.Element => {
         return (
           <Button key={type} disabled={!enabled} type="primary" onClick={onPlay}>
             <PlayCircleFilled />
-            {LANG.go}
+            {(report.st_id === DeviceConstants.status.PAUSED) ? LANG.resume : LANG.go}
           </Button>
         );
       case ButtonTypes.PAUSE:

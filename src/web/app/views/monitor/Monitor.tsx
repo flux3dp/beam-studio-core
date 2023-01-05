@@ -15,6 +15,7 @@ import MonitorFilelist from './MonitorFilelist';
 import MonitorInfo from './MonitorInfo';
 import MonitorRelocate from './MonitorRelocate';
 import MonitorTask from './MonitorTask';
+import Draggable from 'react-draggable';
 
 interface Props {
   mode?: string;
@@ -24,6 +25,13 @@ interface Props {
 const Monitor = (props: Props): JSX.Element => {
   const context = useMonitorContext();
   const LANG = i18n.lang;
+  const DraggableElement: any = Draggable;
+
+  const modalRender = (modal): JSX.Element => (
+    <DraggableElement>
+      {modal}
+    </DraggableElement>
+  );
 
   const renderFileList = (): JSX.Element => {
     const { currentPath } = context;
@@ -116,6 +124,7 @@ const Monitor = (props: Props): JSX.Element => {
       <Modal
         open
         centered
+        modalRender={modalRender}
         onCancel={onClose}
         title={`${device.name} - ${report ? MonitorStatus.getDisplayStatus(report.st_label) : LANG.monitor.connecting}`}
         footer={null}

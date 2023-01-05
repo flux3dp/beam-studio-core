@@ -1035,6 +1035,7 @@ export interface ILang {
   monitor: {
     monitor: string,
     go: string,
+    resume: string,
     start: string,
     pause: string,
     stop: string,
