@@ -141,6 +141,7 @@ exports[`should render correctly 1`] = `
                           <div
                             class="ant-modal-body"
                           >
+                            <p />
                             <input
                               class="ant-input css-dev-only-do-not-override-acm2ia text-input"
                               type="text"
@@ -544,6 +545,7 @@ exports[`should render correctly 1`] = `
                                       <div
                                         className="ant-modal-body"
                                       >
+                                        <p />
                                         <ForwardRef
                                           autoFocus={true}
                                           className="text-input"

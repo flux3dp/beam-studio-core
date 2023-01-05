@@ -1,119 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test InputLightbox 1`] = `
-<View
-  className={
+<Modal
+  cancelText="Resolution"
+  centered={true}
+  okButtonProps={
     Object {
-      "modal-input-lightbox": true,
-      "shadow-modal": true,
+      "disabled": true,
     }
   }
-  content={
-    <form
-      className="form"
-      onSubmit={[Function]}
-    >
-      <DummyImageAlertDialog
-        buttons={
-          Array [
-            Object {
-              "dataAttrs": Object {
-                "ga-event": "cancel",
-              },
-              "label": "Resolution",
-              "onClick": [Function],
-            },
-            Object {
-              "className": "primary btn-default btn-disabled",
-              "dataAttrs": Object {
-                "ga-event": "confirm",
-              },
-              "label": "UPLOAD",
-              "onClick": [Function],
-            },
-          ]
-        }
-        caption="Firmware upload (*.bin / *.fxfw)"
-        message={
-          <label
-            className="control"
-          >
-            
-            <input
-              autoFocus={true}
-              defaultValue=""
-              maxLength={255}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              type="file"
-            />
-          </label>
-        }
+  okText="UPLOAD"
+  onCancel={[Function]}
+  onOk={[Function]}
+  open={true}
+  title="Firmware upload (*.bin / *.fxfw)"
+>
+  <ForwardRef(InternalForm)>
+    <p />
+    <InternalFormItem>
+      <ForwardRef
+        autoFocus={true}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        type="file"
       />
-    </form>
-  }
-  disabledEscapeOnBackground={false}
-/>
+    </InternalFormItem>
+  </ForwardRef(InternalForm)>
+</Modal>
 `;
 
 exports[`test InputLightbox 2`] = `
-<View
-  className={
+<Modal
+  cancelText="Resolution"
+  centered={true}
+  okButtonProps={
     Object {
-      "modal-input-lightbox": true,
-      "shadow-modal": true,
+      "disabled": true,
     }
   }
-  content={
-    <form
-      className="form"
-      onSubmit={[Function]}
-    >
-      <DummyImageAlertDialog
-        buttons={
-          Array [
-            Object {
-              "dataAttrs": Object {
-                "ga-event": "cancel",
-              },
-              "label": "Resolution",
-              "onClick": [Function],
-            },
-            Object {
-              "className": "primary btn-default btn-disabled",
-              "dataAttrs": Object {
-                "ga-event": "confirm",
-              },
-              "label": "CONNECT",
-              "onClick": [Function],
-            },
-          ]
-        }
-        caption="ABCDE requires a password"
-        message={
-          <label
-            className="control"
-          >
-            <span
-              className="inputHeader"
-            >
-              Password
-            </span>
-            <input
-              autoFocus={true}
-              defaultValue=""
-              maxLength={255}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              type="password"
-            />
-          </label>
-        }
+  okText="CONNECT"
+  onCancel={[Function]}
+  onOk={[Function]}
+  open={true}
+  title="ABCDE requires a password"
+>
+  <ForwardRef(InternalForm)>
+    <p>
+      Password
+    </p>
+    <InternalFormItem>
+      <ForwardRef
+        autoFocus={true}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        type="password"
       />
-    </form>
-  }
-  disabledEscapeOnBackground={false}
-/>
+    </InternalFormItem>
+  </ForwardRef(InternalForm)>
+</Modal>
 `;
