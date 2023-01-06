@@ -338,7 +338,8 @@ const lang: ILang = {
       check_firmware: 'ファームウェアバージョンの確認しています',
       check_camera: 'カメラの可用性を確認しています',
       retry: '再試行',
-      finish_setting: '設定完了',
+      succeeded_message: '接続に成功しました 🎉',
+      finish_setting: '作り始めます！',
     },
     connecting: '接続中…',
     setting_completed: {

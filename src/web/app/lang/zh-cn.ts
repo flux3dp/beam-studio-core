@@ -338,7 +338,8 @@ const lang: ILang = {
       check_firmware: '确认韧体版本',
       check_camera: '确认相机',
       retry: '重试',
-      finish_setting: '结束设定',
+      succeeded_message: '连线成功 🎉',
+      finish_setting: '开始创作',
     },
     connecting: '连接中',
     setting_completed: {

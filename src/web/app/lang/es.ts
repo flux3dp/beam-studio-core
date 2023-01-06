@@ -338,6 +338,7 @@ const lang: ILang = {
       check_firmware: 'Comprobando la versión del firmware',
       check_camera: 'Comprobando la disponibilidad de la cámara',
       retry: 'Reintentar',
+      succeeded_message: 'Conectado con éxito 🎉',
       finish_setting: 'Finalizar el ajuste',
     },
     connecting: 'Conectando...',

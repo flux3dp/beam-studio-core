@@ -338,7 +338,8 @@ const lang: ILang = {
       check_firmware: '確認韌體版本',
       check_camera: '確認相機',
       retry: '重試',
-      finish_setting: '結束設定',
+      succeeded_message: '連線成功 🎉',
+      finish_setting: '開始創作',
     },
     connecting: '連接中',
     setting_completed: {
