@@ -336,6 +336,7 @@ export interface ILang {
       check_firmware: string,
       check_camera: string,
       retry: string,
+      succeeded_message: string,
       finish_setting: string,
     },
     connecting: string,
