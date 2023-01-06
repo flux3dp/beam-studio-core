@@ -450,7 +450,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     } = this.state;
 
     let panelContent = null;
-    let rightWidth = 40;
+    let rightWidth = 60;
     let title = '';
     switch (mode) {
       case 'sharpen':
@@ -462,6 +462,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
         panelContent = this.renderCurvePanel();
         title = LANG.curve;
         rightWidth = 390;
+        break;
+      case 'crop':
+        title = LANG.crop;
         break;
       default:
         break;
@@ -561,7 +564,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     );
   }
 
-  renderPhotoEditFooter(): JSX.Element {
+  renderPhotoEditFooter(): JSX.Element[] {
     const { mode } = this.props;
     const { srcHistory } = this.state;
     const previewButton = (
@@ -599,15 +602,11 @@ class PhotoEditPanel extends React.Component<Props, State> {
         {LANG.okay}
       </Button>
     );
-    return (
-      <div>
-        {previewButton}
-        {' '}
-        {cancelButton}
-        {' '}
-        {okButton}
-      </div>
-    );
+    return [
+      previewButton,
+      cancelButton,
+      okButton,
+    ];
   }
 
   render(): JSX.Element {
