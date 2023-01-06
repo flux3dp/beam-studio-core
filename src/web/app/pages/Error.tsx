@@ -5,9 +5,6 @@ import LangEn from 'app/lang/en';
 import LangZHCN from 'app/lang/zh-cn';
 import LangZHTW from 'app/lang/zh-tw';
 
-/**
-   * @deprecated The method should not be used
-   */
 function Error(): JSX.Element {
   const hashFragments = window.location.hash.split('/');
   const reason = hashFragments[hashFragments.length - 1];
