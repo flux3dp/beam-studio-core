@@ -51,8 +51,8 @@ const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
         <Button
           key={button.label}
           onClick={() => {
-            button.onClick();
             popFromStack();
+            button.onClick();
           }}
           type={buttonType}
         >
