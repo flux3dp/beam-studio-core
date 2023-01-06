@@ -11,11 +11,7 @@ import i18n from 'helpers/i18n';
 import browser from 'implementations/browser';
 import Draggable from 'react-draggable';
 
-interface Props {
-  className: string;
-}
-
-const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
+const AlertsAndProgress = (): JSX.Element => {
   const LANG = i18n.lang;
   const messageRef = useRef<HTMLPreElement>();
 

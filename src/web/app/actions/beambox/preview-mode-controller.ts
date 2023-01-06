@@ -9,6 +9,8 @@ import { sprintf } from 'sprintf-js';
 import VersionChecker from 'helpers/version-checker';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { message } from 'antd';
+import progressConstants from 'app/constants/progress-constants';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 import PreviewModeBackgroundDrawer from './preview-mode-background-drawer';
@@ -229,6 +231,11 @@ class PreviewModeController {
 
     for (let i = 0; i < points.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
+      Progress.openMessage({
+        caption: 'camera-preview',
+        message: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
+        timeout: 20,
+      });
       const result = await this.preview(points[i][0], points[i][1], (i === points.length - 1));
 
       if (!result) {
@@ -236,6 +243,12 @@ class PreviewModeController {
         return;
       }
     }
+    Progress.openMessage({
+      caption: 'camera-preview',
+      type: progressConstants.SUCCEEDED,
+      message: '相機預覽完成',
+      timeout: 3,
+    });
     callback();
   }
 

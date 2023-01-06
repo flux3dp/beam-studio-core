@@ -21,7 +21,7 @@ import SkipConnectMachine from 'app/pages/SkipConnectMachine';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
 import { DialogContextProvider } from 'app/contexts/DialogContext';
 import { StyleProvider } from '@ant-design/cssinjs';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, message, theme } from 'antd';
 
 import enUS from 'antd/locale/en_US';
 import deDE from 'antd/locale/de_DE';
@@ -32,7 +32,8 @@ import frFR from 'antd/locale/fr_FR';
 import zhTW from 'antd/locale/zh_TW';
 import koKR from 'antd/locale/ko_KR';
 import jaJP from 'antd/locale/ja_JP';
-import { Select } from 'antd';
+
+const { defaultAlgorithm, darkAlgorithm } = theme;
 
 const localeMap = {
   'nl-NL': nlNL,
@@ -48,39 +49,46 @@ const localeMap = {
 
 console.log('Loading language', navigator.language);
 
-const wrappedComponent = (
-  <AlertProgressContextProvider>
-    <DialogContextProvider>
-      <ConfigProvider locale={localeMap[navigator.language]}>
-        <StyleProvider hashPriority="high">
-          <Dialog />
-          <AlertsAndProgress />
-          <HashRouter>
-            <Switch>
-              <Route exact path="/google-auth" component={GoogleOAuth} />
-              <Route exact path="/fb-auth" component={FacebookOAuth} />
-              <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
-              <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
-              <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
-              <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
-              <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
-              <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
-              <Route exact path="/initialize/connect/skip-connect-machine" component={SkipConnectMachine} />
-              <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
-              <Route exact path="/studio/settings" component={Settings} />
-              <Route exact path="/studio/beambox" component={Beambox} />
-              <Route path="/error/*" component={Error} />
-              <Route path="*" component={Home} />
-            </Switch>
-          </HashRouter>
-        </StyleProvider>
-      </ConfigProvider>
-    </DialogContextProvider>
-  </AlertProgressContextProvider>
-);
+const App = (): JSX.Element => {
+  const [messageApi, contextHolder] = message.useMessage();
+  return (
+    <AlertProgressContextProvider messageApi={messageApi}>
+      <DialogContextProvider>
+        <ConfigProvider
+          theme={{ algorithm: defaultAlgorithm }}
+          locale={localeMap[navigator.language]}
+        >
+          <StyleProvider hashPriority="high">
+            <Dialog />
+            <AlertsAndProgress />
+            {contextHolder}
+            <HashRouter>
+              <Switch>
+                <Route exact path="/google-auth" component={GoogleOAuth} />
+                <Route exact path="/fb-auth" component={FacebookOAuth} />
+                <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
+                <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
+                <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
+                <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
+                <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
+                <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
+                <Route exact path="/initialize/connect/skip-connect-machine" component={SkipConnectMachine} />
+                <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
+                <Route exact path="/studio/settings" component={Settings} />
+                <Route exact path="/studio/beambox" component={Beambox} />
+                <Route path="/error/*" component={Error} />
+                <Route path="*" component={Home} />
+              </Switch>
+            </HashRouter>
+          </StyleProvider>
+        </ConfigProvider>
+      </DialogContextProvider>
+    </AlertProgressContextProvider>
+  );
+};
 
 const router = (container) => {
-  render(wrappedComponent, container);
+  render(<App />, container);
 };
 
 export default router;
