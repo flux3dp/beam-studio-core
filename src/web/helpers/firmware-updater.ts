@@ -9,6 +9,7 @@ import i18n from 'helpers/i18n';
 import InputLightboxConstants from 'app/constants/input-lightbox-constants';
 import Progress from 'app/actions/progress-caller';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 
 export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
   const { lang } = i18n;
@@ -61,10 +62,11 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
     req.open('GET', response.downloadUrl, true);
     req.responseType = 'blob';
 
-    Progress.openMessage({
-      caption: 'downloading-firmware',
-      message: i18n.lang.update.software.checking,
-      timeout: 10,
+    MessageCaller.openMessage({
+      key: 'downloading-firmware',
+      level: MessageLevel.LOADING,
+      content: i18n.lang.update.software.checking,
+      duration: 10,
     });
 
     req.onload = function onload() {

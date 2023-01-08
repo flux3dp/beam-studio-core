@@ -7,6 +7,8 @@ import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 import { MessageInstance } from 'antd/es/message/interface';
+import { IMessage } from 'interfaces/IMessage';
+import { MessageLevel } from 'app/actions/message-caller';
 
 const LANG = i18n.lang.alert;
 
@@ -119,24 +121,30 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
     }, callback);
   };
 
-  openMessage = (args: IProgressDialog, callback = () => { }): void => {
+  openMessage = (args: IMessage, callback = () => { }): void => {
     const {
-      id, caption, message, type, timeout,
+      level,
     } = args;
 
     const { messageApi } = this.props;
-    if (type === ProgressConstants.SUCCEEDED) {
-      messageApi.success({
-        key: caption,
-        content: message,
-        duration: timeout,
-      });
-    } else {
-      messageApi.loading({
-        key: caption,
-        content: message,
-        duration: timeout,
-      })
+    switch (level) {
+      case MessageLevel.SUCCESS:
+        messageApi.success(args);
+        break;
+      case MessageLevel.LOADING:
+        messageApi.loading(args);
+        break;
+      case MessageLevel.WARNING:
+        messageApi.warning(args);
+        break;
+      case MessageLevel.ERROR:
+        messageApi.error(args);
+        break;
+      case MessageLevel.INFO:
+        messageApi.info(args);
+        break;
+      default:
+        break;
     }
   };
 
