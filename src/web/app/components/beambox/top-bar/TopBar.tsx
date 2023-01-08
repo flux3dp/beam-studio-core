@@ -19,7 +19,7 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import i18n from 'helpers/i18n';
 import Menu from 'app/components/beambox/top-bar/Menu';
-import { Modal } from 'antd';
+import { Modal, Popover } from 'antd';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
 import PreviewButton from 'app/components/beambox/top-bar/PreviewButton';
@@ -33,7 +33,6 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
-import { Popover } from 'antd';
 
 let svgCanvas;
 let svgEditor;
