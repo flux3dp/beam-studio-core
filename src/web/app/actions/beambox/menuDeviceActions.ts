@@ -14,6 +14,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
+import progressConstants from 'app/constants/progress-constants';
 
 const { lang } = i18n;
 
@@ -40,7 +41,13 @@ const executeFirmwareUpdate = async (printer, type) => {
       const latestVersion = currentPrinter.version;
       const { caption, message } = lang.update.firmware.latest_firmware;
 
-      if (!response.needUpdate) {
+      Progress.openMessage({
+        caption: 'checking-firmware',
+        message: i18n.lang.update.software.checking,
+        type: progressConstants.SUCCEEDED,
+        timeout: 1,
+      });
+      if (!response.needUpdate && false) {
         Alert.popUp({
           id: 'latest-firmware',
           message: `${message} (v${latestVersion})`,
@@ -75,6 +82,11 @@ const executeFirmwareUpdate = async (printer, type) => {
       });
     } else {
       Progress.popById('check-status');
+      Progress.openMessage({
+        caption: 'checking-firmware',
+        message: i18n.lang.update.software.checking,
+        timeout: 10,
+      });
       updateFirmware();
     }
   };

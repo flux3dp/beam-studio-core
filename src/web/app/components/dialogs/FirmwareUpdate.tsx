@@ -2,11 +2,11 @@
 import React from 'react';
 import { sprintf } from 'sprintf-js';
 
-import ButtonGroup from 'app/widgets/ButtonGroup';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
+import { Button, Modal } from 'antd';
 import storage from 'implementations/storage';
 
+const LANG = i18n.lang.update;
 interface Props {
   deviceName: string;
   deviceModel: string;
@@ -32,51 +32,6 @@ class FirmwareUpdate extends React.Component<Props> {
     onClose();
   };
 
-  getButtons = (later: string, download: string, upload: string): {
-    label: string,
-    dataAttrs: {
-      [key: string]: string,
-    },
-    onClick: () => void,
-  }[] => {
-    const {
-      onClose = () => { },
-      onDownload = () => { },
-      onInstall = () => { },
-    } = this.props;
-
-    const laterButton = {
-      label: later,
-      dataAttrs: {
-        'ga-event': 'update-firmware-later',
-      },
-      onClick: onClose,
-    };
-    const downloadButton = {
-      label: download,
-      dataAttrs: {
-        'ga-event': 'download-firmware-later',
-      },
-      onClick: () => {
-        onDownload();
-        onClose();
-      },
-    };
-    const installButton = {
-      label: upload,
-      dataAttrs: {
-        'ga-event': 'install-new-firmware',
-      },
-      className: 'btn-default primary',
-      onClick: () => {
-        onInstall();
-        onClose();
-      },
-    };
-
-    return [laterButton, downloadButton, installButton];
-  };
-
   render(): JSX.Element {
     const {
       deviceName = '',
@@ -84,50 +39,47 @@ class FirmwareUpdate extends React.Component<Props> {
       latestVersion = '',
       currentVersion = '',
       releaseNote = '',
+      onClose = () => { },
+      onDownload = () => { },
+      onInstall = () => { },
     } = this.props;
 
-    const {
-      lang: {
-        update: {
-          firmware: {
-            caption,
-            message_pattern_1,
-            message_pattern_2,
-          },
-          release_note,
-          later,
-          download,
-          upload,
-        },
-      },
-    } = i18n;
-    const content = (
-      <div className="update-wrapper">
-        <h2 className="caption">{caption}</h2>
-        <article className="update-brief">
-          <p>{sprintf(message_pattern_1, deviceName)}</p>
-          <p>{sprintf(message_pattern_2, deviceModel, latestVersion, currentVersion)}</p>
-        </article>
-        <h4 className="release-note-caption">{release_note}</h4>
-        <div
-          className="release-note-content"
-          dangerouslySetInnerHTML={{
-            __html: releaseNote,
-          }}
-        />
-        <div className="action-button">
-          <ButtonGroup buttons={this.getButtons(later, download, upload)} />
-        </div>
-      </div>
-    );
-    const className = {
-      'modal-update': true,
-      'shadow-modal': true,
-    };
-
     return (
-      // eslint-disable-next-line react/no-string-refs
-      <Modal ref="modal" className={className} content={content} />
+      <Modal
+        open
+        centered
+        title={LANG.firmware.caption}
+        footer={
+          [
+            <Button onClick={onClose}>
+              {LANG.later}
+            </Button>,
+            <Button onClick={() => { onInstall(); onClose(); }}>
+              {LANG.upload}
+            </Button>,
+            <Button type="primary" onClick={() => { onDownload(); onClose(); }}>
+              {LANG.download}
+            </Button>,
+          ]
+        }
+      >
+        <div className="update-wrapper">
+          <article className="update-brief">
+            <p>{sprintf(LANG.firmware.message_pattern_1, deviceName)}</p>
+            <p>
+              {sprintf(LANG.firmware.message_pattern_2, deviceModel,
+                latestVersion, currentVersion)}
+            </p>
+          </article>
+          <h4 className="release-note-caption">{LANG.release_note}</h4>
+          <div
+            className="release-note-content"
+            dangerouslySetInnerHTML={{
+              __html: releaseNote,
+            }}
+          />
+        </div>
+      </Modal>
     );
   }
 }

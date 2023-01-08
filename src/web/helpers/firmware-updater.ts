@@ -32,12 +32,17 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
   const uploadToDevice = async (file) => {
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      Progress.openSteppingProgress({ id: 'update-firmware', message: `${lang.update.updating} (0%)` });
+      Progress.openSteppingProgress({
+        id: 'update-firmware',
+        caption: lang.topbar.menu.update_firmware,
+        message: lang.update.updating,
+      });
       try {
         await doUpdate(file, (r) => {
           const percentage = Number(r.percentage || 0).toFixed(2);
           Progress.update('update-firmware', {
-            message: `${lang.update.updating} (${percentage}%)`,
+            caption: lang.topbar.menu.update_firmware,
+            message: lang.update.updating,
             percentage,
           });
         });
@@ -55,6 +60,12 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
     // get firmware from flux3dp website.
     req.open('GET', response.downloadUrl, true);
     req.responseType = 'blob';
+
+    Progress.openMessage({
+      caption: 'downloading-firmware',
+      message: i18n.lang.update.software.checking,
+      timeout: 10,
+    });
 
     req.onload = function onload() {
       if (this.status === 200) {
