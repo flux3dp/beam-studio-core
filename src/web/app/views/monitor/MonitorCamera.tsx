@@ -8,7 +8,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 const hdChecked = {};
 
 const getImageSize = (url: string, onSize: (size: number[]) => void) => {
-  var img = new Image();
+  const img = new Image();
   img.onload = () => {
     onSize([img.naturalWidth, img.naturalHeight]);
   };
@@ -54,7 +54,7 @@ export default class MonitorCamera extends React.PureComponent<Props, State> {
     const cameraImage = document.getElementById('camera-image');
     if (!cameraImage) return;
 
-    let url = URL.createObjectURL(imgBlob);
+    const url = URL.createObjectURL(imgBlob);
     if (device) {
       if (!hdChecked[device.serial]) {
         getImageSize(url, (size: number[]) => {
@@ -75,14 +75,14 @@ export default class MonitorCamera extends React.PureComponent<Props, State> {
       URL.revokeObjectURL(originalUrl);
     }
     cameraImage.setAttribute('src', url);
-  }
+  };
 
   render() {
     const { isHd } = this.state;
     const className = classNames('camera-image', { 'beambox-camera': this.isBeamboxCamera, hd: isHd });
     return (
-      <div className='camera'>
-        <img id={'camera-image'} className={className} />
+      <div className="camera">
+        <img id="camera-image" className={className} />
       </div>
     );
   }

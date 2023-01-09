@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import ButtonGroup from 'app/widgets/ButtonGroup';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
+import { Button, Modal } from 'antd';
 import { IButton } from 'interfaces/IButton';
 import { IMediaTutorial } from 'interfaces/ITutorial';
 
@@ -36,30 +36,29 @@ function MediaTutorial({ data, onClose }: Props): JSX.Element {
     return (<img src={mediaSources[0].src} />);
   };
 
-  const buttons: IButton[] = [];
+  const footer = [];
   if (step !== 0) {
-    buttons.push({ label: LANG.back, onClick: () => setStep(step - 1) });
+    footer.push(<Button onClick={() => setStep(step - 1)}>{LANG.back}</Button>);
   }
   if (step === data.length - 1) {
-    buttons.push({ label: LANG.done, onClick: () => onClose(), className: 'btn-default primary' });
+    footer.push(<Button type="primary" onClick={onClose}>{LANG.done}</Button>);
   } else {
-    buttons.push({ label: LANG.next, onClick: () => setStep(step + 1), className: 'btn-default primary' });
+    footer.push(<Button type="primary" onClick={() => setStep(step + 1)}>{LANG.next}</Button>);
   }
 
   return (
-    <Modal>
+    <Modal
+      open
+      centered
+      onCancel={onClose}
+      footer={footer}
+    >
       <div className="media-tutorial">
-        <div className={classNames('close-btn')} onClick={onClose}>
-          <img src="img/icon-clear.svg" />
-        </div>
         <div className="media-container">
           {mediaContent()}
         </div>
         <div className="description">{description}</div>
         <div className="step">{`${step + 1}/${data.length}`}</div>
-        <ButtonGroup
-          buttons={buttons}
-        />
       </div>
     </Modal>
   );

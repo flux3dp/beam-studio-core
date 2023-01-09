@@ -9,11 +9,11 @@ import { sprintf } from 'sprintf-js';
 import VersionChecker from 'helpers/version-checker';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { message } from 'antd';
-import progressConstants from 'app/constants/progress-constants';
+import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 import PreviewModeBackgroundDrawer from './preview-mode-background-drawer';
+import MessageCaller, { MessageLevel } from '../message-caller';
 
 const { $ } = window;
 const LANG = i18n.lang;
@@ -31,7 +31,7 @@ class PreviewModeController {
 
   isLineCheckEnabled: boolean;
 
-  cameraOffset: { x: number, y: number, angle: number, scaleRatioX: number, scaleRatioY: number };
+  cameraOffset: CameraParameters;
 
   lastPosition: number[];
 
@@ -49,10 +49,10 @@ class PreviewModeController {
     this.errorCallback = () => {};
   }
 
-  async start(selectedDeivce, errCallback) {
+  async start(device, errCallback) {
     await this.reset();
 
-    const res = await DeviceMaster.select(selectedDeivce);
+    const res = await DeviceMaster.select(device);
     if (!res.success) {
       return;
     }
@@ -60,7 +60,7 @@ class PreviewModeController {
     try {
       Progress.openNonstopProgress({
         id: 'start-preview-mode',
-        message: sprintf(LANG.message.connectingMachine, selectedDeivce.name),
+        message: sprintf(LANG.message.connectingMachine, device.name),
         timeout: 30000,
       });
       await this.retrieveCameraOffset();
@@ -79,7 +79,7 @@ class PreviewModeController {
       await DeviceMaster.rawSetRotary(false);
       Progress.update('start-preview-mode', { message: LANG.message.homing });
       await DeviceMaster.rawHome();
-      const vc = VersionChecker(selectedDeivce.version);
+      const vc = VersionChecker(device.version);
       if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
         await DeviceMaster.rawStartLineCheckMode();
         this.isLineCheckEnabled = true;
@@ -96,8 +96,8 @@ class PreviewModeController {
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
 
-      this.storedDevice = selectedDeivce;
-      DeviceMaster.setDeviceControlReconnectOnClose(selectedDeivce);
+      this.storedDevice = device;
+      DeviceMaster.setDeviceControlReconnectOnClose(device);
       this.errorCallback = errCallback;
       this.isPreviewModeOn = true;
     } catch (error) {
@@ -231,10 +231,11 @@ class PreviewModeController {
 
     for (let i = 0; i < points.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      Progress.openMessage({
-        caption: 'camera-preview',
-        message: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
-        timeout: 20,
+      MessageCaller.openMessage({
+        key: 'camera-preview',
+        content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
+        level: MessageLevel.LOADING,
+        duration: 20,
       });
       const result = await this.preview(points[i][0], points[i][1], (i === points.length - 1));
 
@@ -243,11 +244,11 @@ class PreviewModeController {
         return;
       }
     }
-    Progress.openMessage({
-      caption: 'camera-preview',
-      type: progressConstants.SUCCEEDED,
-      message: '相機預覽完成',
-      timeout: 3,
+    MessageCaller.openMessage({
+      key: 'camera-preview',
+      level: MessageLevel.SUCCESS,
+      content: '相機預覽完成',
+      duration: 3,
     });
     callback();
   }
@@ -261,8 +262,18 @@ class PreviewModeController {
     return this.isPreviewModeOn;
   }
 
-  getCameraOffset() {
+  getCameraOffset(): CameraParameters {
     return this.cameraOffset;
+  }
+
+  getCameraOffsetStandard(): CameraConfig {
+    return {
+      X: this.cameraOffset.x,
+      Y: this.cameraOffset.y,
+      R: this.cameraOffset.angle,
+      SX: this.cameraOffset.scaleRatioX,
+      SY: this.cameraOffset.scaleRatioY,
+    };
   }
 
   // helper functions

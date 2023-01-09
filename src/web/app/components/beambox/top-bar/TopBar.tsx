@@ -19,7 +19,7 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import i18n from 'helpers/i18n';
 import Menu from 'app/components/beambox/top-bar/Menu';
-import Modal from 'app/widgets/Modal';
+import { Modal, Popover } from 'antd';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
 import PreviewButton from 'app/components/beambox/top-bar/PreviewButton';
@@ -48,7 +48,8 @@ const isWhiteTopBar = window.os !== 'MacOS' && window.FLUX.version !== 'web';
 
 interface State {
   hasDiscoverdMachine: boolean;
-  shouldShowDeviceList: boolean;
+  showPopoverDeviceList: boolean;
+  showCameraDeviceList: boolean;
   deviceListType?: string | null;
   selectDeviceCallback: (device?: IDeviceInfo) => void;
 }
@@ -68,7 +69,8 @@ export default class TopBar extends React.Component<Props, State> {
     this.deviceList = [];
     this.state = {
       hasDiscoverdMachine: false,
-      shouldShowDeviceList: false,
+      showPopoverDeviceList: false,
+      showCameraDeviceList: false,
       selectDeviceCallback: () => { },
     };
   }
@@ -77,14 +79,14 @@ export default class TopBar extends React.Component<Props, State> {
     this.discover = Discover(
       'top-bar',
       (deviceList) => {
-        const { hasDiscoverdMachine, shouldShowDeviceList } = this.state;
+        const { hasDiscoverdMachine, showPopoverDeviceList } = this.state;
         const filteredList = deviceList.filter((device) => device.serial !== 'XXXXXXXXXX');
         filteredList.sort((deviceA, deviceB) => deviceA.name.localeCompare(deviceB.name));
         this.deviceList = filteredList;
         if ((filteredList.length > 0) !== hasDiscoverdMachine) {
           this.setState({ hasDiscoverdMachine: filteredList.length > 0 });
         }
-        if (shouldShowDeviceList) this.forceUpdate();
+        if (showPopoverDeviceList) this.forceUpdate();
       },
     );
   }
@@ -218,11 +220,19 @@ export default class TopBar extends React.Component<Props, State> {
         this.handleSelectDevice(deviceList[0], (device) => selectDeviceCallback(device));
         return;
       }
-      this.setState({
-        shouldShowDeviceList: true,
-        deviceListType: type,
-        selectDeviceCallback,
-      });
+      if (type === 'export') {
+        this.setState({
+          showPopoverDeviceList: true,
+          deviceListType: type,
+          selectDeviceCallback,
+        });
+      } else {
+        this.setState({
+          showCameraDeviceList: true,
+          deviceListType: type,
+          selectDeviceCallback,
+        });
+      }
     } else {
       Alert.popUp({
         caption: lang.alert.oops,
@@ -247,7 +257,7 @@ export default class TopBar extends React.Component<Props, State> {
 
   hideDeviceList = (): void => {
     this.setState({
-      shouldShowDeviceList: false,
+      showPopoverDeviceList: false,
       selectDeviceCallback: () => { },
     });
   };
@@ -278,10 +288,7 @@ export default class TopBar extends React.Component<Props, State> {
 
   renderDeviceList(): JSX.Element {
     const { deviceList } = this;
-    const { shouldShowDeviceList, selectDeviceCallback, deviceListType } = this.state;
-    if (!shouldShowDeviceList) {
-      return null;
-    }
+    const { selectDeviceCallback, deviceListType } = this.state;
     const status = lang.machine_status;
     let progress;
     const options = deviceList.map((device) => {
@@ -300,7 +307,10 @@ export default class TopBar extends React.Component<Props, State> {
       return (
         <li
           key={device.uuid}
-          onClick={() => this.handleSelectDevice(device, (d) => selectDeviceCallback(d))}
+          onClick={() => this.handleSelectDevice(device, (d) => {
+            selectDeviceCallback(d);
+            this.setState({ showCameraDeviceList: false });
+          })}
           data-test-key={device.serial}
         >
           <label className="name">{device.name}</label>
@@ -317,20 +327,15 @@ export default class TopBar extends React.Component<Props, State> {
 
     const list = (options.length > 0) ? options : (<div key="spinner-roller" className="spinner-roller spinner-roller-reverse" />);
     const menuClass = classNames('menu', deviceListType);
+    // onClose={() => {
+    //   this.resetStartPreviewCallback();
+    // }}
     return (
-      <Modal
-        onClose={() => {
-          this.resetStartPreviewCallback();
-          this.hideDeviceList();
-        }}
-      >
-        <div className={menuClass}>
-          <div className={classNames('arrow', { 'arrow-left': deviceListType === 'camera', 'arrow-right': deviceListType === 'export' })} />
-          <div className="device-list">
-            <ul>{list}</ul>
-          </div>
+      <div className={menuClass}>
+        <div className="device-list">
+          <ul>{list}</ul>
         </div>
-      </Modal>
+      </div>
     );
   }
 
@@ -358,7 +363,7 @@ export default class TopBar extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.props;
-    const { hasDiscoverdMachine } = this.state;
+    const { hasDiscoverdMachine, showPopoverDeviceList, showCameraDeviceList } = this.state;
     const {
       isPreviewing,
       fileName,
@@ -386,15 +391,32 @@ export default class TopBar extends React.Component<Props, State> {
             isDeviceConnected={deviceList.length > 0}
             togglePathPreview={togglePathPreview}
           />
-          <GoButton
-            hasText={isWhiteTopBar}
-            hasDiscoverdMachine={hasDiscoverdMachine}
-            hasDevice={this.deviceList.length > 0}
-            endPreviewMode={endPreviewMode}
-            showDeviceList={this.showDeviceList}
-          />
+          <Popover
+            content={this.renderDeviceList()}
+            trigger="click"
+            open={showPopoverDeviceList}
+            placement="bottomRight"
+            onOpenChange={(value) => this.setState({ showPopoverDeviceList: value })}
+          >
+            <GoButton
+              hasText={isWhiteTopBar}
+              hasDiscoverdMachine={hasDiscoverdMachine}
+              hasDevice={this.deviceList.length > 0}
+              endPreviewMode={endPreviewMode}
+              showDeviceList={this.showDeviceList}
+            />
+          </Popover>
         </div>
-        {this.renderDeviceList()}
+        <Modal
+          open={showCameraDeviceList}
+          onCancel={() => this.setState({ showCameraDeviceList: false })}
+          closable={false}
+          centered
+          width={385}
+          footer={null}
+        >
+          {this.renderDeviceList()}
+        </Modal>
         <ElementTitle selectedElem={selectedElem} />
         {this.renderHint()}
         {this.renderMenu()}

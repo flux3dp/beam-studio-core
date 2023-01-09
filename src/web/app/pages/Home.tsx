@@ -6,9 +6,6 @@ import menu from 'implementations/menu';
 import Modal from 'app/widgets/Modal';
 import SelectView from 'app/widgets/Select';
 
-/**
-   * @deprecated The method should not be used
-   */
 function Home(): JSX.Element {
   const [lang, changeLang] = React.useState(i18n.lang);
   const getLanguageOptions = () => {

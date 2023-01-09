@@ -14,6 +14,9 @@ interface Props {
   onClose: () => void;
 }
 
+/**
+   * @deprecated The method should not be used
+   */
 const DeviceSelector = ({ onSelect, onClose }: Props) => {
   const [deviceList, setDeviceList] = useState([]);
   useEffect(() => {

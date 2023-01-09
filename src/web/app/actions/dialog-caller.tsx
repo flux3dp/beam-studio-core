@@ -53,14 +53,6 @@ const popDialogById = (id: string): void => {
 
 let promptIndex = 0;
 
-const showDeviceSelector = (onSelect) => {
-  addDialogComponent('device-selector',
-    <DeviceSelector
-      onSelect={onSelect}
-      onClose={() => popDialogById('device-selector')}
-    />);
-};
-
 const showLoginDialog = (callback?: () => void, silent = false): void => {
   if (isIdExist('flux-id-login')) return;
   if (window.FLUX.version === 'web' && callback) {

@@ -8,7 +8,8 @@ import dialog from 'implementations/dialog';
 import firmwareUpdater from 'helpers/firmware-updater';
 import i18n from 'helpers/i18n';
 import MonitorController from 'app/actions/monitor-controller';
-import Progress from 'app/actions/progress-caller';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
@@ -40,7 +41,13 @@ const executeFirmwareUpdate = async (printer, type) => {
       const latestVersion = currentPrinter.version;
       const { caption, message } = lang.update.firmware.latest_firmware;
 
-      if (!response.needUpdate) {
+      MessageCaller.openMessage({
+        key: 'checking-firmware',
+        content: i18n.lang.update.software.checking,
+        level: MessageLevel.SUCCESS,
+        duration: 1,
+      });
+      if (!response.needUpdate && false) {
         Alert.popUp({
           id: 'latest-firmware',
           message: `${message} (v${latestVersion})`,
@@ -65,16 +72,22 @@ const executeFirmwareUpdate = async (printer, type) => {
     }
   };
   const checkStatus = () => {
-    Progress.openNonstopProgress({ id: 'check-status', caption: lang.update.preparing });
+    ProgressCaller.openNonstopProgress({ id: 'check-status', caption: lang.update.preparing });
     if (type === 'toolhead') {
       DeviceMaster.enterMaintainMode().then(() => {
         setTimeout(() => {
-          Progress.popById('check-status');
+          ProgressCaller.popById('check-status');
           updateFirmware();
         }, 3000);
       });
     } else {
-      Progress.popById('check-status');
+      ProgressCaller.popById('check-status');
+      MessageCaller.openMessage({
+        key: 'checking-firmware',
+        level: MessageLevel.LOADING,
+        content: i18n.lang.update.software.checking,
+        duration: 10,
+      });
       updateFirmware();
     }
   };
@@ -98,20 +111,20 @@ const getLog = async (printer, log: string) => {
   try {
     const res = await DeviceMaster.select(printer);
     if (res.success) {
-      Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
+      ProgressCaller.openSteppingProgress({ id: 'get_log', message: 'downloading' });
       try {
         const file = await DeviceMaster.downloadLog(log,
           async (progress: { completed: number, size: number }) => {
-            Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
+            ProgressCaller.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
           });
-        Progress.popById('get_log');
+        ProgressCaller.popById('get_log');
         const getContent = async () => (file[1] as Blob);
         await dialog.writeFileDialog(getContent, log, log, [{
           name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
           extensions: ['log'],
         }]);
       } catch (errorData) {
-        Progress.popById('get_log');
+        ProgressCaller.popById('get_log');
         const msg = errorData === 'canceled'
           ? lang.topmenu.device.download_log_canceled : lang.topmenu.device.download_log_error;
         Alert.popUp({

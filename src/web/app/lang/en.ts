@@ -317,7 +317,7 @@ const lang: ILang = {
       tutorial2_a_text: 'this guide',
       tutorial2_a_href_mac: 'https://support.flux3dp.com/hc/en-us/articles/360001517076',
       tutorial2_a_href_win: 'https://support.flux3dp.com/hc/en-us/articles/360001507715',
-      tutorial2_2: ' to make your comuter as a router.',
+      tutorial2_2: ' to make your computer as a router.',
       tutorial3: '3. Click Next.',
     },
     connect_usb: {

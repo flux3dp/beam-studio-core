@@ -4,6 +4,9 @@ import menuActions from 'app/actions/beambox/menuActions';
 import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
 import menuEventListenerFactory from 'implementations/menuEventListenerFactory';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import i18n from 'helpers/i18n';
+import { sprintf } from 'sprintf-js';
 
 const MENU_ITEMS = ['IMPORT', 'EXPORT_FLUX_TASK', 'SAVE_SCENE',
   'UNDO', 'DUPLICATE', 'PHOTO_EDIT', 'DOCUMENT_SETTING', 'CLEAR_SCENE',
@@ -27,7 +30,7 @@ export default abstract class AbstractMenu {
       const menuEventListener = menuEventListenerFactory.createMenuEventListener();
 
       menuEventListener.on('MENU_CLICK', (e, menuItem) => {
-        const actions: { [key: string]: ((deivce?: IDeviceInfo) => void) } = {
+        const actions: { [key: string]: ((device?: IDeviceInfo) => void) } = {
           ...menuActions,
           ...menuDeviceActions,
           ...customMenuActionProvider.getCustomMenuActions(),
@@ -42,9 +45,26 @@ export default abstract class AbstractMenu {
           } else {
             const callback = {
               timeout: 20000,
-              onSuccess: (device) => actions[menuItem.id](device),
-              onTimeout: () => console.log('select device timeout'),
+              onSuccess: (device) => {
+                actions[menuItem.id](device);
+              },
+              onTimeout: () => {
+                MessageCaller.openMessage({
+                  key: 'select-device',
+                  content: i18n.lang.message.connectionTimeout,
+                  level: MessageLevel.ERROR,
+                  duration: 10,
+                });
+                console.log('select device timeout');
+              },
             };
+
+            MessageCaller.openMessage({
+              key: 'select-device',
+              content: sprintf(i18n.lang.message.connectingMachine, menuItem.machineName),
+              level: MessageLevel.LOADING,
+              duration: 20,
+            });
 
             DeviceMaster.getDeviceBySerial(menuItem.serial, callback);
           }
