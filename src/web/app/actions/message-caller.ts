@@ -17,8 +17,8 @@ const MessageCaller = {
       ...args,
     }, resolve);
   }),
-  popById: (id: string): void => {
-    eventEmitter.emit('POP_BY_ID', id);
+  closeMessage: (id: string): void => {
+    eventEmitter.emit('CLOSE_MESSAGE', id);
   },
   checkIdExist: (id: string): boolean => {
     const response = {

@@ -45,6 +45,7 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
   componentDidMount() {
     eventEmitter.on('OPEN_PROGRESS', this.openProgress.bind(this));
     eventEmitter.on('OPEN_MESSAGE', this.openMessage.bind(this));
+    eventEmitter.on('CLOSE_MESSAGE', this.closeMessage.bind(this));
     eventEmitter.on('POP_LAST_PROGRESS', this.popLastProgress.bind(this));
     eventEmitter.on('UPDATE_PROGRESS', this.updateProgress.bind(this));
     eventEmitter.on('POP_BY_ID', this.popById.bind(this));
@@ -121,7 +122,13 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
     }, callback);
   };
 
-  openMessage = (args: IMessage, callback = () => { }): void => {
+  closeMessage = (id: string): void => {
+    const { messageApi } = this.props;
+    console.log('destroy', id);
+    messageApi.destroy(id);
+  };
+
+  openMessage = (args: IMessage): void => {
     const {
       level,
     } = args;
