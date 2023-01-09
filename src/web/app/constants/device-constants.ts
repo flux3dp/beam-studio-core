@@ -122,4 +122,8 @@ export default {
     ALARM: 256,
     FATAL: 512,
   },
+  Model: {
+    Beamo: 'fbm1',
+    HEXA: 'fhexa1',
+  },
 };

@@ -9,6 +9,7 @@ import { sprintf } from 'sprintf-js';
 import VersionChecker from 'helpers/version-checker';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 import PreviewModeBackgroundDrawer from './preview-mode-background-drawer';
@@ -30,7 +31,7 @@ class PreviewModeController {
 
   isLineCheckEnabled: boolean;
 
-  cameraOffset: { x: number, y: number, angle: number, scaleRatioX: number, scaleRatioY: number };
+  cameraOffset: CameraParameters;
 
   lastPosition: number[];
 
@@ -261,8 +262,18 @@ class PreviewModeController {
     return this.isPreviewModeOn;
   }
 
-  getCameraOffset() {
+  getCameraOffset(): CameraParameters {
     return this.cameraOffset;
+  }
+
+  getCameraOffsetStandard(): CameraConfig {
+    return {
+      X: this.cameraOffset.x,
+      Y: this.cameraOffset.y,
+      R: this.cameraOffset.angle,
+      SX: this.cameraOffset.scaleRatioX,
+      SY: this.cameraOffset.scaleRatioY,
+    };
   }
 
   // helper functions

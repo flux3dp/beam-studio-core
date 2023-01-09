@@ -44,7 +44,7 @@ export default abstract class AbstractMenu {
             actions[menuItem.id]();
           } else {
             const callback = {
-              timeout: 5000,
+              timeout: 20000,
               onSuccess: (device) => {
                 actions[menuItem.id](device);
               },
@@ -53,7 +53,7 @@ export default abstract class AbstractMenu {
                   key: 'select-device',
                   content: i18n.lang.message.connectionTimeout,
                   level: MessageLevel.ERROR,
-                  duration: 5,
+                  duration: 10,
                 });
                 console.log('select device timeout');
               },
@@ -61,7 +61,7 @@ export default abstract class AbstractMenu {
 
             MessageCaller.openMessage({
               key: 'select-device',
-              content: sprintf(i18n.lang.message.connectingMachine, menuItem.serial),
+              content: sprintf(i18n.lang.message.connectingMachine, menuItem.machineName),
               level: MessageLevel.LOADING,
               duration: 20,
             });
