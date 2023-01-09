@@ -53,6 +53,7 @@ class RatingPanel extends React.Component<Props, State> {
     const { checkboxChecked } = this.state;
     return (
       <div className="main-content">
+        <div>{LANG.description}</div>
         <Rate onChange={(star: number) => this.setState({ star })} />
         <Form>
           <Form.Item label={LANG.dont_show_again}>
@@ -88,7 +89,6 @@ class RatingPanel extends React.Component<Props, State> {
         onCancel={this.onCancel}
         onOk={() => (isFinished ? this.onCancel() : this.onSubmit(star))}
       >
-        {LANG.description}
         {this.renderPanel()}
       </Modal>
     );

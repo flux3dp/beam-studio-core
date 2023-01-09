@@ -182,13 +182,24 @@ class MonitorFilelist extends React.Component<Props, State> {
     return (
       <div className="wrapper">
         <Breadcrumb>
-          <Breadcrumb.Item key={0} onClick={() => onSelectFolder('', true)} href="">
-            <a href="a" onClick={(e) => e.preventDefault()}><HomeOutlined /></a>
+          <Breadcrumb.Item
+            key={0}
+            onClick={(e) => { e.preventDefault(); onSelectFolder('', true); }}
+            href="a"
+          >
+            <HomeOutlined />
           </Breadcrumb.Item>
           {
             path.split('/').filter((v) => v !== '').map((folder, i) => (
-              <Breadcrumb.Item key={folder} onClick={() => onSelectFolder(path.split('/').slice(0, i + 1).join('/'), true)} href="">
-                <a href="a" onClick={(e) => e.preventDefault()}>{ folder }</a>
+              <Breadcrumb.Item
+                key={folder}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSelectFolder(path.split('/').slice(0, i + 1).join('/'), true)
+                }}
+                href="a"
+              >
+                { folder }
               </Breadcrumb.Item>
             ))
           }
