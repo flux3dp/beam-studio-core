@@ -46,7 +46,7 @@ export default abstract class AbstractMenu {
             const callback = {
               timeout: 20000,
               onSuccess: (device) => {
-                MessageCaller.closeMessage('select-device');
+                setTimeout(() => MessageCaller.closeMessage('select-device'), 500);
                 actions[menuItem.id](device);
               },
               onTimeout: () => {
