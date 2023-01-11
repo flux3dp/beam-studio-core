@@ -1213,7 +1213,6 @@ svgedit.path.Path.prototype.deleteSeg = function(index) {
 	this.segs.forEach((seg, i) => {
 		seg.index = i;
 	});
-	console.log(this);
 };
 
 svgedit.path.Path.prototype.subpathIsClosed = function(index) {
@@ -1476,6 +1475,9 @@ svgedit.path.getPath_ = function(elem) {
 svgedit.path.removePath_ = function(id) {
 	if (id in pathData) {delete pathData[id];}
 };
+svgedit.path.getPath = svgedit.path.getPath_;
+svgedit.path.removePath = svgedit.path.removePath_;
+
 var newcx, newcy, oldcx, oldcy, angle;
 var getRotVals = function(x, y) {
 	var dx = x - oldcx;
