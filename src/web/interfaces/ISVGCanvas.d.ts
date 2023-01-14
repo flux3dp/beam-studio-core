@@ -58,7 +58,7 @@ export default interface ISVGCanvas {
   findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint, yMatchPoint: IPoint };
   setHref: (elem: SVGImageElement, href: string) => void;
   leaveContext: () => void;
-  opac_animation: SVGAnimateElement;
+  opacityAnimation: SVGAnimateElement;
   pathActions: any;
   reorientGrads: (elem: SVGElement, matrix: SVGMatrix) => void;
   removeFromTempGroup: (elem: SVGElement) => void;

@@ -1276,6 +1276,20 @@ svgedit.path.Path.prototype.updateAllNodes = function() {
 	return this;
 };
 
+svgedit.path.Path.prototype.endChanges = function(text, isSub = false) {
+  const { elem, last_d } = this;
+  elem.setAttribute('d', svgedit.utilities.convertPath(elem));
+  const cmd = new svgedit.path.ChangeElementCommand(elem, {
+    d: last_d,
+  }, text);
+  if (!isSub) {
+    svgCanvas.addCommandToHistory(cmd);
+  }
+  svgCanvas.call('changed', [elem]);
+  return isSub ? cmd : null;
+};
+
+
 svgedit.path.Path.prototype.createControlPointsAtGrip = function(index) {
 	const nodePoint = this.nodePoints[index];
 	let segChanges = nodePoint.createControlPoints();
