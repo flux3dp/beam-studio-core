@@ -1574,13 +1574,17 @@ const mouseUp = async (evt, blocked = false) => {
     isContinuousDrawing,
   }, true);
 
+  let startedFlag = svgCanvas.getStarted();
+
   $.each(extResult, (i, r: any) => {
     if (r) {
       keep = r.keep || keep;
       element = r.element;
-      svgCanvas.unsafeAccess.setStarted(r.started || started);
+      startedFlag = r.started || startedFlag;
     }
   });
+
+  svgCanvas.unsafeAccess.setStarted(startedFlag);
 
   if (!keep && element != null) {
     svgCanvas.getCurrentDrawing().releaseId(svgCanvas.getId());
@@ -1656,7 +1660,7 @@ const mouseUp = async (evt, blocked = false) => {
       }
     }, duration * 1000);
   }
-  if (isContinuousDrawing && currentMode !== 'textedit') {
+  if (isContinuousDrawing && svgCanvas.getCurrentMode() !== 'textedit') {
     svgCanvas.clearSelection();
   }
 
