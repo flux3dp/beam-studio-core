@@ -338,7 +338,7 @@ class Selector {
 
 svgedit.select.Selector = Selector;
 
-class SelectorManager {
+export class SelectorManager {
   public selectorParentGroup: SVGGElement;
 
   private rubberBandBox: SVGRectElement;
