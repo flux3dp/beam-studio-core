@@ -631,7 +631,7 @@ svgedit.utilities.getPathDFromSegments = function(pathSegments) {
 		//var pts = parseFloat(seg[1]);
 		d += seg[0];
 		for (i = 0; i < pts.length; i+=2) {
-			d += (pts[i] +','+pts[i+1]) + ' ';
+			d += (pts[i].toFixed(5) +','+pts[i+1].toFixed(5)) + ' ';
 		}
 	});
 
@@ -1504,4 +1504,12 @@ svgedit.utilities.getMatrixFromTransformAttr = function(str) {
 	}
 
 	return matrix;
+};
+
+String.prototype.format = function () {
+  let a = this;
+  for (let k in arguments) {
+    a = a.replace('{' + k + '}', arguments[k]);
+  }
+  return a;
 };
