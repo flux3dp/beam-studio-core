@@ -14,6 +14,7 @@ import Draggable from 'react-draggable';
 const AlertsAndProgress = (): JSX.Element => {
   const LANG = i18n.lang;
   const messageRef = useRef<HTMLPreElement>();
+  const randomId = useRef(Math.random());
 
   const { alertProgressStack, popFromStack, popById } = React.useContext(AlertProgressContext);
 
@@ -77,7 +78,7 @@ const AlertsAndProgress = (): JSX.Element => {
       }
       return (
         <Modal
-          key={`${Math.random()}-${alertData.id}`}
+          key={`${randomId}-${alertData.id}`}
           style={{
             minWidth: 520,
           }}
@@ -106,7 +107,7 @@ const AlertsAndProgress = (): JSX.Element => {
 
     return (
       <Modal
-        key={`${Math.random()}-${alertData.id}`}
+        key={`${randomId}-${alertData.id}`}
         open={alertProgressStack.length > 0}
         title={alertData.caption}
         modalRender={modalRender}
