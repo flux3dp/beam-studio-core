@@ -773,7 +773,7 @@ const clear = (remove?: boolean) => {
     firstCtrl = null;
     svgCanvas.unsafeAccess.setStarted(false);
   } else if (svgCanvas.getCurrentMode() === 'pathedit') {
-    svgCanvas.toSelectMode();
+    toSelectMode(svgedit.path.path.elem);
   }
   if (svgedit.path.path) {
     svgedit.path.path.init().show(false);

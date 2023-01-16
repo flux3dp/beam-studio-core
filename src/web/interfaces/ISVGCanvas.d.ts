@@ -78,7 +78,6 @@ export default interface ISVGCanvas {
   setCurrentStyleProperties: (key: string, val: string | number) => void;
   sensorAreaInfo: { x: number, y: number, dx: number, dy: number, elem: SVGElement };
   textActions: any;
-  toSelectMode: () => void;
   tempGroupSelectedElements: () => SVGElement[];
   updateElementColor: (elem: SVGElement) => void;
   undoMgr: IUndoManager;
