@@ -891,6 +891,10 @@ class SegmentControlPoint {
 	}
 }
 
+const isCollinear = (x1, y1, x2, y2, x3, y3) => {
+  return Math.abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) <= 0.0001;
+}
+
 svgedit.path.Path = function(elem) {
 	if (!elem || elem.tagName !== 'path') {
 		throw 'svgedit.path.Path constructed without a <path> element';
@@ -1048,7 +1052,21 @@ svgedit.path.Path.prototype.init = function() {
 	for (let i = 0; i < this.nodePoints.length; i++) {
 		if (nodeTypes[i]) {
 			this.nodePoints[i].linkType = nodeTypes[i];
-		}
+		} else {
+      const node = this.nodePoints[i];
+      const a = node.controlPoints[0];
+      const b = node.controlPoints[1];
+      if (a && b) {
+        if (isCollinear(a.x, a.y, node.x, node.y, b.x, b.y)) {
+          node.linkType = LINKTYPE_SMOOTH;
+          const dA = Math.hypot(a.x - node.x, a.y - node.y)
+          const dB = Math.hypot(b.x - node.x, b.y - node.y);
+          if (Math.abs(dA - dB) <= 0.0001) {
+            node.linkType = LINKTYPE_SYMMETRIC;
+          }
+        }
+      }
+    }
 	}
 	this.clearSelection();
 	return this;
