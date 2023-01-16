@@ -682,7 +682,7 @@ svgedit.utilities.getPathDFromElement = function(elem) {
 			d = 'M' + elem.getAttribute('points');
 			break;
 		case 'polygon':
-			d = 'M' + elem.getAttribute('points').replace(/ /g, ' L') + ' Z';
+			d = 'M' + elem.getAttribute('points').trim().replace(/ /g, ' L') + ' Z';
 			break;
 		case 'rect':
 			var r = $(elem).attr(['rx', 'ry']);
@@ -834,6 +834,7 @@ svgedit.utilities.convertToPath = function(elem, attrs, addSvgElementFromJson, p
 	}
 
 	var d = svgedit.utilities.getPathDFromElement(elem);
+  console.log('d', d);
 	if (d) {
 		path.setAttribute('d', d);
 
