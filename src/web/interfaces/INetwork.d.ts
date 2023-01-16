@@ -7,14 +7,6 @@ export interface INetwork {
     address: string,
     family: number,
   }[]>;
-  listSerialPorts: () => Promise<{
-    path: string;
-  }[]>;
-  createSerialPort: (path: string, options?: {
-    baudRate?: number;
-    dataBits?: number;
-    lock?: boolean;
-  }, callback?: any) => SerialPort;
   checkIPExist: (ip: string, trial: number) => Promise<{ error?: string, isExisting: boolean }>,
   networkTest: (
     ip: string,
