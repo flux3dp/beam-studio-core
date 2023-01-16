@@ -27,20 +27,28 @@ exports[`should render correctly 1`] = `
     <div
       className="footer"
     >
-      <button
-        className="btn btn-default pull-right"
+      <Button
         onClick={[MockFunction]}
-        type="button"
       >
-        Cancel
-      </button>
-      <button
-        className="btn btn-default pull-right primary"
+        <button
+          onClick={[MockFunction]}
+          type="button"
+        >
+          Cancel
+        </button>
+      </Button>
+      <Button
         onClick={[Function]}
-        type="button"
+        type="primary"
       >
-        Okay
-      </button>
+        <button
+          className="primary"
+          onClick={[Function]}
+          type="button"
+        >
+          Okay
+        </button>
+      </Button>
     </div>
   </div>
 </ColorPickerPanel>

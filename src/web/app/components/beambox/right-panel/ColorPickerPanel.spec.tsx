@@ -4,6 +4,10 @@ jest.mock('@simonwep/pickr', () => ({
   create,
 }));
 
+jest.mock('antd', () => ({
+  Button: ({ onClick, type, children }: any) => <button className={type} onClick={onClick} type="button">{children}</button>,
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     beambox: {
