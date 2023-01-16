@@ -4,7 +4,11 @@ import selector from 'app/svgedit/selector';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import * as paper from 'paper';
-import ISVGCanvas from '../../../interfaces/ISVGCanvas';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import PathNodePoint from 'app/svgedit/path/PathNodePoint';
+import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
+import { ISVGPath } from 'interfaces/ISVGPath';
+import Segment from '../path/Segment';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -14,7 +18,12 @@ getSVGAsync((globalSVG) => {
 
 const { svgedit } = window;
 const { NS } = svgedit;
+
+// Assign ts module to legacy svgedit.path
 svgedit.path.ChangeElementCommand = history.ChangeElementCommand;
+svgedit.path.SegmentControlPoint = SegmentControlPoint;
+svgedit.path.Segment = Segment;
+svgedit.path.PathNodePoint = PathNodePoint;
 
 // Functions relating to editing path elements
 let subpath = false;
@@ -24,6 +33,7 @@ let firstCtrl;
 let previousMode = 'select';
 let modeOnMouseDown = '';
 let hasMoved = false;
+let hasCreatedPoint = false;
 let drawnPath = null;
 let currentMouseX;
 let currentMouseY;
@@ -102,6 +112,26 @@ const smoothPolylineIntoPath = (element) => {
   return element;
 };
 
+const getCurveLocationByPaperjs = (
+  x: number,
+  y: number,
+  elem: SVGPathElement,
+) => {
+  const proj = new paper.Project(document.createElement('canvas'));
+  const items = proj.importSVG(`<svg>${elem.outerHTML}</svg>`);
+  const obj1 = items.children[0] as paper.Shape | paper.Path | paper.CompoundPath;
+  const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
+  const location = path1.getNearestLocation({ x, y });
+  const result = {
+    point: location.point,
+    curveIndex: location.curve.index,
+    segmentIndex: location.segment.index,
+    time: location.time,
+    raw: location,
+  };
+  return result;
+};
+
 const finishPath = (toEditMode = true) => {
   const xAlignLine = document.getElementById('x_align_line');
   if (xAlignLine) xAlignLine.remove();
@@ -154,6 +184,7 @@ const toEditMode = (element): void => {
   svgCanvas.clearSelection();
   svgedit.path.path.show(true).update();
   svgedit.path.path.oldbbox = svgedit.utilities.getBBox(svgedit.path.path.elem);
+  $(svgedit.path.path.elem).attr('cursor', 'copy'); // Set path cursor type
   subpath = false;
 };
 
@@ -161,8 +192,8 @@ const toSelectMode = (elem): void => {
   const selPath = (elem === svgedit.path.path.elem);
   svgCanvas.unsafeAccess.setCurrentMode(previousMode);
   const currentMode = svgCanvas.getCurrentMode();
-
   if (currentMode === 'select') {
+    $(svgedit.path.path.elem).attr('cursor', ''); // Unset path cursor type
     $('.tool-btn').removeClass('active');
     $('#left-Cursor').addClass('active');
   } else if (currentMode === 'path') {
@@ -199,6 +230,9 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
   if (xAlignLine) xAlignLine.remove();
   const yAlignLine = document.getElementById('y_align_line');
   if (yAlignLine) yAlignLine.remove();
+  let x = startX / currentZoom;
+  let y = startY / currentZoom;
+  console.log('current zoom', currentZoom);
 
   modeOnMouseDown = currentMode;
 
@@ -208,8 +242,6 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
     currentMouseX = startX;
     currentMouseY = startY;
 
-    let x = currentMouseX / currentZoom;
-    let y = currentMouseY / currentZoom;
     let stretchy = svgedit.utilities.getElem('path_stretch_line');
     newPoint = [x, y];
     if (svgCanvas.isBezierPathAlignToEdge) {
@@ -387,40 +419,54 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
     }
   } else if (currentMode === 'pathedit') {
     // TODO: Make sure currentPath isn't null at this point
+    const selectedPath: ISVGPath = svgedit.path.path;
     if (!svgedit.path.path) return null;
 
-    svgedit.path.path.storeD();
+    selectedPath.storeD();
 
     const { id } = evt.target as SVGElement;
     let pointIndex;
-    if (id.substr(0, 14) === 'pathpointgrip_') {
+    if (id.startsWith('pathpointgrip_')) {
       pointIndex = parseInt(id.substr(14), 10);
-      svgedit.path.path.selectedPointIndex = pointIndex;
-      svgedit.path.path.dragging = [startX, startY];
-      const point = svgedit.path.path.nodePoints[pointIndex];
+      selectedPath.selectedPointIndex = pointIndex;
+      selectedPath.dragging = [startX, startY];
+      const point = selectedPath.nodePoints[pointIndex];
 
       if (!evt.shiftKey) {
         // if not selected: select this point only
-        if (!point.isSelected || svgedit.path.path.selectedControlPoint) {
-          svgedit.path.path.clearSelection();
-          svgedit.path.path.addPtsToSelection(pointIndex);
+        if (!point.isSelected || selectedPath.selectedControlPoint) {
+          selectedPath.clearSelection();
+          selectedPath.addPtsToSelection(pointIndex);
         }
-      } else if (point.isSelected && !svgedit.path.path.selectedControlPoint) {
-        svgedit.path.path.removePtFromSelection(pointIndex);
+      } else if (point.isSelected && !selectedPath.selectedControlPoint) {
+        selectedPath.removePtFromSelection(pointIndex);
       } else {
-        svgedit.path.path.addPtsToSelection(pointIndex);
+        selectedPath.addPtsToSelection(pointIndex);
       }
       svgEditor.updateContextPanel();
-    } else if (id.indexOf('ctrlpointgrip_') === 0) {
+    } else if (id.startsWith('ctrlpointgrip_')) {
       svgedit.path.path.dragging = [startX, startY];
 
       const parts = id.split('_')[1].split('c');
       svgedit.path.path.selectCtrlPoint(parts[0], parts[1]);
       svgEditor.updateContextPanel();
     }
-
+    // Clicked on the path
+    if (id === selectedPath.elem.id) {
+      console.log('mousedown on path');
+      // TODO: Fix bugs on compound segments
+      const result = getCurveLocationByPaperjs(x, y, selectedPath.elem);
+      const curveRawSegs = selectedPath.segs.filter((seg) => seg.item.pathSegType >= 4);
+      const segIndex = curveRawSegs[result.curveIndex].index;
+      selectedPath.addSeg(segIndex, 1 - result.time);
+      selectedPath.init().addPtsToSelection([segIndex]);
+      selectedPath.endChanges('Clone path node(s)');
+      selectedPath.show(true).update();
+      hasCreatedPoint = true;
+      return null;
+    }
     // Start selection box
-    if (!svgedit.path.path.dragging) {
+    if (!selectedPath.dragging) {
       const rubberBox = svgCanvas.getRubberBox();
       if (rubberBox == null) {
         const selectorManager = selector.getSelectorManager();
@@ -533,7 +579,9 @@ const mouseMove = (mouseX: number, mouseY: number) => {
     return;
   }
   // if we are dragging a point, let's move it
-  if (svgedit.path.path.dragging) {
+  if (hasCreatedPoint) {
+    console.log('created point');
+  } else if (svgedit.path.path.dragging) {
     const pt = svgedit.path.getPointFromGrip({
       x: svgedit.path.path.dragging[0],
       y: svgedit.path.path.dragging[1],
@@ -552,13 +600,13 @@ const mouseMove = (mouseX: number, mouseY: number) => {
     }
   } else {
     svgedit.path.path.selected_pts = [];
+    const rbb = svgCanvas.getRubberBox().getBBox();
     svgedit.path.path.eachSeg(function (i) {
       if (!this.next && !this.prev) {
         return;
       }
 
       const { item } = this;
-      const rbb = svgCanvas.getRubberBox().getBBox();
 
       const pt = svgedit.path.getGripPt(this);
       const ptBb = {
@@ -601,8 +649,9 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
   }
 
   // Edit mode
-
-  if (svgedit.path.path.dragging) {
+  if (hasCreatedPoint) {
+    hasCreatedPoint = false;
+  } else if (svgedit.path.path.dragging) {
     console.log('Dragging stop');
     const lastPt = svgedit.path.path.selectedPointIndex;
 
@@ -623,7 +672,6 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
       }
     }
   } else if (rubberBox && rubberBox.getAttribute('display') !== 'none') {
-    console.log('Display stop');
     // Done with multi-node-select
     rubberBox.setAttribute('display', 'none');
 
@@ -631,10 +679,8 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
         && Number(rubberBox.getAttribute('height')) <= 2) {
       toSelectMode(evt.target);
     }
-
     // else, move back to select mode
   } else {
-    console.log('to select mode');
     toSelectMode(evt.target);
   }
   hasMoved = false;
@@ -864,25 +910,26 @@ const linkControlPoints = (linkPoints) => {
 };
 
 const clonePathNode = () => {
-  svgedit.path.path.storeD();
+  const selectedPath: ISVGPath = svgedit.path.path;
+  selectedPath.storeD();
 
-  const selPts = svgedit.path.path.selected_pts;
-  const { segs } = svgedit.path.path;
+  const selPts = selectedPath.selected_pts;
+  const { segs } = selectedPath;
 
   let i = selPts.length;
-  const nums = [];
+  const indices = [];
 
   while (i) {
     i -= 1;
     const pt = selPts[i];
-    svgedit.path.path.addSeg(pt);
+    selectedPath.addSeg(pt, 0.5);
 
-    nums.push(pt + i);
-    nums.push(pt + i + 1);
+    indices.push(pt + i);
+    indices.push(pt + i + 1);
   }
-  svgedit.path.path.init().addPtsToSelection(nums);
+  selectedPath.init().addPtsToSelection(indices);
 
-  svgedit.path.path.endChanges('Clone path node(s)');
+  selectedPath.endChanges('Clone path node(s)');
 };
 
 const opencloseSubPath = () => {
