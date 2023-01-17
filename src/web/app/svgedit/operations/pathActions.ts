@@ -1224,6 +1224,19 @@ const setSharp = () => {
   selectedPath.show(true).update();
 };
 
+const disconnectNode = () => {
+  const selectedPath: ISVGPath = svgedit.path.path;
+  const selection = selectedPath.selected_pts;
+  selectedPath.storeD();
+  const [selectedIndex] = selection;
+  const newSegIndex = selectedPath.disconnectNode(selectedPath.nodePoints[selectedIndex].prevSeg?.index);
+  selectedPath.endChanges('Disconnect');
+  selectedPath.init();
+  const newNodeIndex = selectedPath.segs[newSegIndex].endPoint?.index || 0;
+  selectedPath.addPtsToSelection([newNodeIndex]);
+  selectedPath.show(true).update();
+};
+
 const pathActions = {
   mouseDown,
   mouseUp,
@@ -1251,6 +1264,7 @@ const pathActions = {
   setRound,
   setSharp,
   hasDrawingPath: (): boolean => !!drawnPath,
+  disconnectNode,
   // Convert a path to one with only absolute or relative values
   convertPath: svgedit.utilities.convertPath,
 };
