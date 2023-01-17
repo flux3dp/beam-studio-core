@@ -1,10 +1,11 @@
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
   ISVGPath,
-  ISVGControlPoint,
+  IPathNodePoint,
+  ISegmentControlPoint,
 } from 'interfaces/ISVGPath';
 
-import { LINKTYPE_SMOOTH, LINKTYPE_CORNER, LINKTYPE_SYMMETRIC, NodeLinkType } from 'app/constants/link-type-constants';
+import { LINKTYPE_SMOOTH, LINKTYPE_CORNER, NodeLinkType } from 'app/constants/link-type-constants';
 
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import SegmentControlPoint from './SegmentControlPoint';
@@ -19,7 +20,7 @@ const { svgedit } = window;
 const { NS } = svgedit;
 const GRIP_SIZE = navigator.maxTouchPoints > 0 ? 8 : 6;
 
-export default class PathNodePoint {
+export default class PathNodePoint implements IPathNodePoint {
   x: number;
 
   y: number;
@@ -36,7 +37,7 @@ export default class PathNodePoint {
 
   path: ISVGPath;
 
-  controlPoints: ISVGControlPoint[];
+  controlPoints: ISegmentControlPoint[];
 
   linkType: number;
 
@@ -46,7 +47,7 @@ export default class PathNodePoint {
 
   elem: SVGElement;
 
-  constructor(x, y, seg, path) {
+  constructor(x: number, y: number, seg: Segment, path: ISVGPath) {
     this.x = x;
     this.y = y;
     this.mSeg = null; // M segment
@@ -64,21 +65,21 @@ export default class PathNodePoint {
     this.linkType = LINKTYPE_CORNER;
   }
 
-  setMSeg(seg): void {
+  setMSeg(seg: Segment): void {
     this.mSeg = seg;
   }
 
-  setPrevSeg(seg): void {
+  setPrevSeg(seg: Segment): void {
     this.prevSeg = seg;
   }
 
-  addControlPoint(cp: ISVGControlPoint): void {
+  addControlPoint(cp: ISegmentControlPoint): void {
     // eslint-disable-next-line no-param-reassign
     cp.nodePoint = this;
     this.controlPoints.push(cp);
   }
 
-  getDisplayPosition(x = this.x, y = this.y) {
+  getDisplayPosition(x = this.x, y = this.y): { x: number, y: number } {
     let out = { x, y };
     if (this.path.matrix) {
       out = svgedit.math.transformPoint(this.x, this.y, this.path.matrix);
@@ -88,7 +89,7 @@ export default class PathNodePoint {
     return out;
   }
 
-  show() {
+  show(): void {
     const pointGripContainer = svgedit.path.getGripContainer();
     const id = `pathpointgrip_${this.index}`;
     let point = svgedit.utilities.getElem(id);
@@ -125,7 +126,7 @@ export default class PathNodePoint {
     this.elem = point;
   }
 
-  hide() {
+  hide(): void {
     const id = `pathpointgrip_${this.index}`;
     const point = svgedit.utilities.getElem(id);
     if (point) {
@@ -138,7 +139,7 @@ export default class PathNodePoint {
     });
   }
 
-  update() {
+  update(): void {
     const id = `pathpointgrip_${this.index}`;
     const point = svgedit.utilities.getElem(id);
     const { x, y } = this.getDisplayPosition();
@@ -176,7 +177,7 @@ export default class PathNodePoint {
     });
   }
 
-  move(dx, dy) {
+  move(dx: number, dy: number) {
     const segChanges = {};
     this.x += dx;
     this.y += dy;
@@ -268,7 +269,7 @@ export default class PathNodePoint {
     return segChanges;
   }
 
-  delete() {
+  delete(): any {
     const segChanges = {};
     let segIndexToRemove;
     if (this.mSeg) {

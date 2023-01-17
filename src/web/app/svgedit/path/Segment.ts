@@ -1,12 +1,14 @@
-import { INodePoint, ISVGControlPoint, ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
+import {
+  IPathNodePoint, ISegment, ISVGPath, ISVGPathSeg,
+} from 'interfaces/ISVGPath';
 import SegmentControlPoint from './SegmentControlPoint';
 
 const { svgedit } = window;
 
-export default class Segement {
-  startPoint: INodePoint;
+export default class Segment implements ISegment {
+  startPoint: IPathNodePoint;
 
-  endPoint: INodePoint;
+  endPoint: IPathNodePoint;
 
   type: number;
 
@@ -19,6 +21,10 @@ export default class Segement {
   ptgrip: boolean;
 
   path: ISVGPath;
+
+  next?: Segment;
+
+  prev?: Segment;
 
   constructor(index: number, item: ISVGPathSeg) {
     this.index = index;
@@ -44,7 +50,7 @@ export default class Segement {
   }
 
   getNodePointAndControlPoints(): {
-    nodePoint: INodePoint,
+    nodePoint: IPathNodePoint,
     controlPoints: SegmentControlPoint[]
   } | Record<string, never> {
     const pathSeg = this.item;
