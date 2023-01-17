@@ -644,7 +644,7 @@ const mouseMove = (mouseX: number, mouseY: number) => {
       seg.select(intersected);
       // Note that addPtsToSelection is not being run
       if (intersected) {
-        selectedPoints.push(seg.index);
+        selectedPoints.push(seg.endPoint.index);
       }
     });
     selectedPath.selected_pts = selectedPoints;
