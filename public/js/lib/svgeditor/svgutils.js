@@ -834,7 +834,6 @@ svgedit.utilities.convertToPath = function(elem, attrs, addSvgElementFromJson, p
 	}
 
 	var d = svgedit.utilities.getPathDFromElement(elem);
-  console.log('d', d);
 	if (d) {
 		path.setAttribute('d', d);
 
