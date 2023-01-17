@@ -156,30 +156,26 @@ let mouseSelectModeCmds;
 // - when we are in select mode, select the element, remember the position
 // and do nothing else
 const mouseDown = (evt: MouseEvent) => {
-  const started = svgCanvas.getStarted();
-  let currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
   const selectedElements = svgCanvas.getSelectedElements();
+  const started = svgCanvas.getStarted();
   const svgRoot = svgCanvas.getRoot();
-  if (svgCanvas.spaceKey || evt.button === 1) {
-    return;
-  }
-  mouseSelectModeCmds = [];
-
   const rightClick = evt.button === 2;
+  let currentMode = svgCanvas.getCurrentMode();
+  let extensionResult = null;
 
   svgCanvas.setRootScreenMatrix(($('#svgcontent')[0] as any).getScreenCTM().inverse());
-
   const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, svgCanvas.getRootScreenMatrix());
   let { x, y } = pt;
-
   startMouseX = x * currentZoom;
   startMouseY = y * currentZoom;
-
-  // realX/y ignores grid-snap value
-  const realX = x;
+  const realX = x; // realX/Y ignores grid-snap value
   const realY = y;
+
+  if (svgCanvas.spaceKey || evt.button === 1) return;
+
+  mouseSelectModeCmds = [];
 
   if (svgCanvas.getCurrentConfig().gridSnapping) {
     x = svgedit.utilities.snapToGrid(x);
@@ -189,14 +185,10 @@ const mouseDown = (evt: MouseEvent) => {
   startX = x;
   startY = y;
 
-  let extensionResult = null;
-
   evt.preventDefault();
   (document.activeElement as HTMLElement).blur();
   if (rightClick) {
-    if (started) {
-      return;
-    }
+    if (started) return;
     if (currentMode === 'path') {
       svgCanvas.pathActions.finishPath(false);
       $('#workarea').css('cursor', 'default');
