@@ -126,6 +126,7 @@ const getCurveLocationByPaperjs = (
     point: location.point,
     curveIndex: location.curve.index,
     segmentIndex: location.segment.index,
+    pathIndex: location.path.index,
     time: location.time,
     raw: location,
   };
@@ -453,13 +454,29 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
     }
     // Clicked on the path
     if (id === selectedPath.elem.id) {
-      console.log('mousedown on path');
+      console.log('Create new node point / segment');
       // TODO: Fix bugs on compound segments
       const result = getCurveLocationByPaperjs(x, y, selectedPath.elem);
-      const curveRawSegs = selectedPath.segs.filter((seg) => seg.item.pathSegType >= 4);
-      const segIndex = curveRawSegs[result.curveIndex].index;
+      // TODO: Cache compound path seg index
+      let pushNew = true;
+      const pathToSegIndices = [];
+      selectedPath.segs.forEach((seg) => {
+        console.log(seg.index, seg.item.toString());
+        if (seg.item.pathSegType < 4) {
+          if (pushNew) {
+            pathToSegIndices.push(seg.index);
+            pushNew = false;
+          } else {
+            pathToSegIndices[pathToSegIndices.length - 1] = seg.index;
+          }
+        } else {
+          pushNew = true;
+        }
+      });
+      const segIndex = pathToSegIndices[result.pathIndex] + 1 + result.curveIndex;
       selectedPath.addSeg(segIndex, 1 - result.time);
-      selectedPath.init().addPtsToSelection([segIndex]);
+      const nodeIndex = selectedPath.segs[segIndex].endPoint.index;
+      selectedPath.init().addPtsToSelection([nodeIndex]);
       selectedPath.endChanges('Clone path node(s)');
       selectedPath.show(true).update();
       hasCreatedPoint = true;
@@ -580,7 +597,6 @@ const mouseMove = (mouseX: number, mouseY: number) => {
   }
   // if we are dragging a point, let's move it
   if (hasCreatedPoint) {
-    console.log('created point');
   } else if (svgedit.path.path.dragging) {
     const pt = svgedit.path.getPointFromGrip({
       x: svgedit.path.path.dragging[0],
@@ -652,7 +668,6 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
   if (hasCreatedPoint) {
     hasCreatedPoint = false;
   } else if (svgedit.path.path.dragging) {
-    console.log('Dragging stop');
     const lastPt = svgedit.path.path.selectedPointIndex;
 
     svgedit.path.path.dragging = false;
