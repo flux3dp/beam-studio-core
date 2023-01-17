@@ -12,40 +12,40 @@ export interface ISVGPathSeg {
   clone: () => ISVGPathSeg;
 }
 
-export interface ISVGSegment {
-  startPoint: INodePoint;
-  endPoint: INodePoint;
-  next: ISVGSegment;
-  prev: ISVGSegment;
+export interface ISegment {
+  startPoint: IPathNodePoint;
+  endPoint: IPathNodePoint;
+  next?: ISegment;
+  prev?: ISegment;
   type: number;
   index: number;
   item: ISVGPathSeg;
-  controlPoints: ISVGControlPoint[];
+  controlPoints: ISegmentControlPoint[];
   select: (isSelected: boolean) => void;
 }
 
-export interface ISVGControlPoint {
+export interface ISegmentControlPoint {
   x: number;
   y: number;
   index: number;
-  seg: ISVGSegment;
-  nodePoint: INodePoint;
+  seg: ISegment;
+  nodePoint: IPathNodePoint;
   moveAbs: (x: number, y: number) => any; // Return changes
   hide: () => void;
   show: () => void;
   update: () => void;
 }
 
-export interface INodePoint {
+export interface IPathNodePoint {
   x: number;
   y: number;
-  mSeg: ISVGSegment;
-  prevSeg?: ISVGSegment;
-  nextSeg?: ISVGSegment;
-  next: INodePoint;
-  prev: INodePoint;
+  mSeg: ISegment;
+  prevSeg?: ISegment;
+  nextSeg?: ISegment;
+  next: IPathNodePoint;
+  prev: IPathNodePoint;
   path: ISVGPath;
-  controlPoints: ISVGControlPoint[];
+  controlPoints: ISegmentControlPoint[];
   linkType: number;
   isSelected: boolean;
   index: number;
@@ -55,14 +55,15 @@ export interface INodePoint {
 
 export interface ISVGPath {
   elem: SVGPathElement;
-  segs: ISVGSegment[];
+  segs: ISegment[];
   selected_pts: number[];
   selectedPointIndex: number;
-  selectedControlPoint: ISVGControlPoint;
-  nodePoints: INodePoint[];
-  first_seg: ISVGSegment;
+  selectedControlPoint: ISegmentControlPoint;
+  nodePoints: IPathNodePoint[];
+  first_seg: ISegment;
   matrix: SVGMatrix;
-  dragging: number[];
+  dragging: number[] | boolean;
+  dragctrl: boolean;
   addPtsToSelection: (index: number | number[]) => void;
   addSeg: (index: number, interpolation: number) => void;
   clearSelection: () => void;

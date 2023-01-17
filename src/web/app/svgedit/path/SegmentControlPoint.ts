@@ -1,6 +1,6 @@
 import { LINKTYPE_SMOOTH, LINKTYPE_CORNER } from 'app/constants/link-type-constants';
 
-import { INodePoint, ISVGSegment } from 'interfaces/ISVGPath';
+import { IPathNodePoint, ISegment } from 'interfaces/ISVGPath';
 
 const { svgedit } = window;
 const { NS } = svgedit;
@@ -11,11 +11,11 @@ export default class SegmentControlPoint {
 
   y: number;
 
-  seg: ISVGSegment;
+  seg: ISegment;
 
   index: number;
 
-  nodePoint: INodePoint;
+  nodePoint: IPathNodePoint;
 
   controlPointsLinkType: number;
 
@@ -23,7 +23,7 @@ export default class SegmentControlPoint {
 
   elem: SVGElement;
 
-  constructor(x: number, y: number, seg: ISVGSegment, index: number) {
+  constructor(x: number, y: number, seg: ISegment, index: number) {
     this.x = x;
     this.y = y;
     this.seg = seg;
@@ -32,7 +32,7 @@ export default class SegmentControlPoint {
     this.controlPointsLinkType = 0; //
   }
 
-  setSelected(isSelected: boolean) {
+  setSelected(isSelected: boolean): void {
     const id = `${this.seg.index}c${this.index}`;
     const point = svgedit.utilities.getElem(`ctrlpointgrip_${id}`);
     this.isSelected = isSelected;
@@ -135,7 +135,7 @@ export default class SegmentControlPoint {
     return point;
   }
 
-  update() {
+  update(): void {
     const id = `${this.seg.index}c${this.index}`;
     const { x, y } = svgedit.path.getGripPosition(this.x, this.y);
     const nodePointPosition = this.nodePoint ? this.nodePoint.getDisplayPosition() : { x, y };
@@ -175,7 +175,7 @@ export default class SegmentControlPoint {
     }
   }
 
-  removeFromNodePoint() {
+  removeFromNodePoint(): void {
     const { nodePoint } = this;
     nodePoint.controlPoints = nodePoint.controlPoints.filter((cp) => cp !== this);
   }
