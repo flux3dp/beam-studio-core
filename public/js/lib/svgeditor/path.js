@@ -633,6 +633,74 @@ svgedit.path.Path.prototype.stripCurveFromSegment = function(index) {
   this.applySegChanges(segChanges);
 };
 
+svgedit.path.Path.prototype.disconnectNode = function(segIndex) {
+  // Get subpath starting and closing segment
+  // Find subpath closing
+  let closingSegId = -1;
+  for (let i = segIndex; i < this.segs.length; i++) {
+    closingSegId = i;
+    if (this.segs[i].item.pathSegType < 4) {
+      closingSegId = i - 1;
+      break;
+    }
+  }
+  // Find subpath starting
+  let startingSegId = -1;
+  for (let i = segIndex; i >= 0; i--) {
+    if (this.segs[i].item.pathSegType < 4) {
+      startingSegId = i;
+      break;
+    }
+  }
+  if (startingSegId < 0) {
+    console.error('Unable to find starting seg');
+    return;
+  }
+
+  if (![2, 3].includes(this.segs[startingSegId].item.pathSegType)) {
+    console.error('The starting segment must be a MoveTo command');
+    return;
+  }
+
+  const pathSize = closingSegId - startingSegId;
+
+  if (pathSize < 1) {
+    console.error('Cannot find valid subpath');
+  }
+
+  if (this.segs[startingSegId + 1].startPoint.index === this.segs[closingSegId].endPoint?.index) {
+    // The subpath is closed, starts from the current node, and then ends at current node
+    console.log('Disconnecting closed path by', segIndex, 'from', startingSegId, 'to', closingSegId);
+    const selectedSeg = this.segs[segIndex].item;
+
+    const segChanges = {};
+    const p = [`${startingSegId}->${segIndex}`];
+
+    segChanges[startingSegId] = { pathSegType: 2, x: selectedSeg.x, y: selectedSeg.y };
+
+    const tailSize = closingSegId - segIndex + 1;
+    for (let j = 1; j <= pathSize; j++) {
+      const srcIndex = j < tailSize ? segIndex + j : startingSegId + 1 + (j - tailSize);
+      const src = this.segs[srcIndex].item;
+      const { pathSegType, x, y, x1, y1, x2, y2 } = src;
+      p.push(`${startingSegId + j}->${srcIndex}`);
+      segChanges[startingSegId + j] = { pathSegType, x, y, x1, y1, x2, y2 };
+    }
+    this.applySegChanges(segChanges);
+    if (this.segs[closingSegId + 1].item.pathSegType == 1) {
+      this.deleteSeg(closingSegId + 1);
+    }
+    return closingSegId;
+  } else {
+    // The subpath is open, starts from the start node to current node, and move to current node, then ends at the end node
+    console.log('Disconnecting open path', startingSegId, closingSegId);
+    const selectedSeg = this.segs[segIndex].item;
+    const newMoveSeg = this.elem.createSVGPathSegMovetoAbs(selectedSeg.x, selectedSeg.y);
+    svgedit.path.insertItemBefore(this.elem, newMoveSeg, segIndex + 1);
+    return segIndex;
+  }
+};
+
 svgedit.path.Path.prototype.onDelete = function(textEdit, textPathEdit) {
 	if (this.selectedControlPoint) {
 		this.deleteCtrlPoint();
