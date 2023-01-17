@@ -321,4 +321,16 @@ export default class PathNodePoint implements IPathNodePoint {
     }
     return { segChanges, segIndexToRemove };
   }
+
+  isSharp(): boolean {
+    const a = this.prevSeg && [4, 8].includes(this.prevSeg.item.pathSegType);
+    const b = this.nextSeg && [4, 8].includes(this.nextSeg.item.pathSegType);
+    return a || b;
+  }
+
+  isRound(): boolean {
+    const a = this.prevSeg && [6, 8].includes(this.prevSeg.item.pathSegType);
+    const b = this.nextSeg && [6, 8].includes(this.nextSeg.item.pathSegType);
+    return a || b;
+  }
 }

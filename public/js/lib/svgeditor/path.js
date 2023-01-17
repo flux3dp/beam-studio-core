@@ -616,6 +616,23 @@ svgedit.path.Path.prototype.addSeg = function(index, interpolation = 0.5) {
 	svgedit.path.insertItemBefore(this.elem, newseg, index);
 };
 
+svgedit.path.Path.prototype.stripCurveFromSegment = function(index) {
+  let seg = this.segs[index];
+	if (!seg.next) {return;}
+
+	let nextSeg = seg.next;
+  const segChanges = {};
+	if ([6, 8].includes(seg.item.pathSegType)) {
+    const { x, y } = seg.endPoint;
+    segChanges[index] = { pathSegType: 4, x, y };
+  }
+  if ([6, 8].includes(nextSeg.item.pathSegType)) {
+    const { x, y } = nextSeg.endPoint;
+    segChanges[nextSeg.index] = { pathSegType: 4, x, y };
+  }
+  this.applySegChanges(segChanges);
+};
+
 svgedit.path.Path.prototype.onDelete = function(textEdit, textPathEdit) {
 	if (this.selectedControlPoint) {
 		this.deleteCtrlPoint();

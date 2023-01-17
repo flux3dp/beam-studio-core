@@ -51,6 +51,8 @@ export interface IPathNodePoint {
   index: number;
   setSelected: (isSelected: boolean) => void;
   getDisplayPosition: () => { x: number, y: number };
+  isSharp: () => boolean;
+  isRound: () => boolean;
 }
 
 export interface ISVGPath {
@@ -67,6 +69,7 @@ export interface ISVGPath {
   addPtsToSelection: (index: number | number[]) => void;
   addSeg: (index: number, interpolation: number) => void;
   clearSelection: () => void;
+  createControlPointsAtGrip: (index: number) => void;
   endChanges: (log: string) => void;
   init: () => ISVGPath;
   removePtFromSelection: (index: number) => void;
@@ -75,4 +78,5 @@ export interface ISVGPath {
   update: () => void;
   moveCtrl: (x: number, y: number) => void;
   movePts: (x: number, y: number) => void;
+  stripCurveFromSegment: (index: number) => void;
 }

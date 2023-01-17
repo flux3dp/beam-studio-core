@@ -484,7 +484,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       const nodeIndex = isLastSeg ? (seg.startPoint.index + 1) : seg.endPoint.index;
       console.log('Inserted Node Index', nodeIndex);
       selectedPath.init().addPtsToSelection([nodeIndex]);
-      selectedPath.endChanges('Clone path node(s)');
+      selectedPath.endChanges('Add path node');
       selectedPath.show(true).update();
       hasCreatedPoint = true;
       return null;
@@ -1204,6 +1204,26 @@ const handleHistoryEvent = (eventType: string, cmd: ICommand) => {
   }
 };
 
+const setRound = () => {
+  // Todo fix too many new undo commands
+  const selectedPath: ISVGPath = svgedit.path.path;
+  selectedPath.selected_pts.forEach((nodeIndex) => {
+    selectedPath.createControlPointsAtGrip(nodeIndex);
+  });
+};
+
+const setSharp = () => {
+  const selectedPath: ISVGPath = svgedit.path.path;
+  selectedPath.storeD();
+  const selection = selectedPath.selected_pts;
+  selection.forEach((nodeIndex) => {
+    selectedPath.stripCurveFromSegment(nodeIndex);
+  });
+  selectedPath.endChanges('Switch node type');
+  selectedPath.init().addPtsToSelection(selection);
+  selectedPath.show(true).update();
+};
+
 const pathActions = {
   mouseDown,
   mouseUp,
@@ -1228,6 +1248,8 @@ const pathActions = {
   moveNode,
   fixEnd,
   handleHistoryEvent,
+  setRound,
+  setSharp,
   hasDrawingPath: (): boolean => !!drawnPath,
   // Convert a path to one with only absolute or relative values
   convertPath: svgedit.utilities.convertPath,
