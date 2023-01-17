@@ -589,8 +589,8 @@ svgedit.path.Path.prototype.addSeg = function(index, interpolation = 0.5) {
 	var newseg, new_x, new_y;
 	switch(seg.item.pathSegType) {
 	case 4:
-		new_x = seg.item.x * t + prev.item.x * (1 - t);
-		new_y = seg.item.y * t + prev.item.y * (1 - t);
+		new_x = seg.item.x * (1-t) + prev.item.x * t;
+		new_y = seg.item.y * (1-t) + prev.item.y * t;
 		newseg = this.elem.createSVGPathSegLinetoAbs(new_x, new_y);
 		break;
 	case 6: //make it a curved segment to preserve the shape (WRS)
@@ -846,12 +846,12 @@ svgedit.path.Path.prototype.applySegChanges = function(segChanges) {
 
 // Move selected points
 svgedit.path.Path.prototype.movePts = function(d_x, d_y) {
-	let i = this.selected_pts.length;
-	while(i--) {
-		var nodePoint = this.nodePoints[this.selected_pts[i]];
+	this.selected_pts.forEach((nodeIndex) => {
+    if (nodeIndex == this.nodePoints.length) nodeIndex = 0;
+		const nodePoint = this.nodePoints[nodeIndex];
 		const segChanges = nodePoint.move(d_x, d_y);
 		this.applySegChanges(segChanges);
-	}
+  });
 };
 
 svgedit.path.Path.prototype.moveCtrl = function(d_x, d_y) {
