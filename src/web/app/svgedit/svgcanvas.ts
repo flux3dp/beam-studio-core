@@ -420,7 +420,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else if (eventType === EventTypes.AFTER_APPLY || eventType === EventTypes.AFTER_UNAPPLY) {
         try {
           var elems = cmd.elements();
-          canvas.pathActions.clear();
+          canvas.pathActions.handleHistoryEvent(eventType, cmd);
           elems.forEach((elem) => cmdElements.add(elem));
           var cmdType = cmd.type();
           var isApply = (eventType === EventTypes.AFTER_APPLY);

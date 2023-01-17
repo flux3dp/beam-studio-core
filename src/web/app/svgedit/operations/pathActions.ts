@@ -1,3 +1,4 @@
+import { ICommand } from 'interfaces/IHistory';
 import history from 'app/svgedit/history';
 import shortcuts from 'helpers/shortcuts';
 import selector from 'app/svgedit/selector';
@@ -233,7 +234,6 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
   if (yAlignLine) yAlignLine.remove();
   let x = startX / currentZoom;
   let y = startY / currentZoom;
-  console.log('current zoom', currentZoom);
 
   modeOnMouseDown = currentMode;
 
@@ -480,9 +480,9 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       selectedPath.addSeg(segIndex, 1 - result.time);
       const seg = selectedPath.segs[segIndex];
       const isLastSeg = (segIndex === pathToSegIndices[result.pathIndex + 1] - 1);
-      console.log("Seg", isLastSeg, seg.startPoint.index, seg.endPoint.index);
+      console.log('Selected Seg', isLastSeg, seg.startPoint.index, seg.endPoint.index);
       const nodeIndex = isLastSeg ? (seg.startPoint.index + 1) : seg.endPoint.index;
-      console.log("Node Index", nodeIndex);
+      console.log('Inserted Node Index', nodeIndex);
       selectedPath.init().addPtsToSelection([nodeIndex]);
       selectedPath.endChanges('Clone path node(s)');
       selectedPath.show(true).update();
@@ -673,25 +673,26 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
   }
 
   // Edit mode
+  const selectedPath: ISVGPath = svgedit.path.path;
   if (hasCreatedPoint) {
     hasCreatedPoint = false;
-  } else if (svgedit.path.path.dragging) {
-    const lastPt = svgedit.path.path.selectedPointIndex;
+  } else if (selectedPath.dragging) {
+    const lastPt = selectedPath.selectedPointIndex;
 
-    svgedit.path.path.dragging = false;
-    svgedit.path.path.dragctrl = false;
-    svgedit.path.path.update();
+    selectedPath.dragging = false;
+    selectedPath.dragctrl = false;
+    selectedPath.update();
 
     if (hasMoved) {
-      svgedit.path.path.endChanges('Move path point(s)');
+      selectedPath.endChanges('Move path point(s)');
     } else if (!evt.shiftKey) {
       const { id } = evt.target as SVGElement;
-      if (id.substr(0, 14) === 'pathpointgrip_') {
+      if (id.startsWith('pathpointgrip_')) {
         // Select this point if not moved
         const pointIndex = parseInt(id.substr(14), 10);
-        svgedit.path.path.selectedPointIndex = pointIndex;
-        svgedit.path.path.clearSelection();
-        svgedit.path.path.addPtsToSelection(pointIndex);
+        selectedPath.selectedPointIndex = pointIndex;
+        selectedPath.clearSelection();
+        selectedPath.addPtsToSelection(pointIndex);
       }
     }
   } else if (rubberBox && rubberBox.getAttribute('display') !== 'none') {
@@ -1186,6 +1187,23 @@ const simplifyPath = (elem: SVGPathElement | any) => {
   return d;
 };
 
+const handleHistoryEvent = (eventType: string, cmd: ICommand) => {
+  const EventTypes = history.HistoryEventTypes;
+  if (eventType === EventTypes.AFTER_APPLY || eventType === EventTypes.AFTER_UNAPPLY) {
+    // Only cares for updating nodes in pathedit mode
+    if (svgedit.path.path
+        && svgCanvas.getCurrentMode() === 'pathedit'
+        && cmd.elem === svgedit.path.path.elem) {
+      const selectedPath: ISVGPath = svgedit.path.path;
+      selectedPath.init();
+      selectedPath.show(true).update();
+    } else {
+      // Exit pathEditing mode if the command is not related to selectedPath
+      clear();
+    }
+  }
+};
+
 const pathActions = {
   mouseDown,
   mouseUp,
@@ -1209,6 +1227,7 @@ const pathActions = {
   smoothPolylineIntoPath,
   moveNode,
   fixEnd,
+  handleHistoryEvent,
   hasDrawingPath: (): boolean => !!drawnPath,
   // Convert a path to one with only absolute or relative values
   convertPath: svgedit.utilities.convertPath,
