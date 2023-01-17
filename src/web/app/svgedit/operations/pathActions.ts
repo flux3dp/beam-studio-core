@@ -510,6 +510,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
 
 const mouseMove = (mouseX: number, mouseY: number) => {
   const currentZoom = svgCanvas.getCurrentZoom();
+  const selectedPath: ISVGPath = svgedit.path.path;
   hasMoved = true;
   if (modeOnMouseDown === 'path') {
     if (!drawnPath) {
@@ -602,36 +603,35 @@ const mouseMove = (mouseX: number, mouseY: number) => {
     }
     return;
   }
-  // if we are dragging a point, let's move it
   if (hasCreatedPoint) {
-  } else if (svgedit.path.path.dragging) {
+    // has created a node point
+  } else if (selectedPath.dragging) {
+    // if we are dragging a point, let's move it
     const pt = svgedit.path.getPointFromGrip({
-      x: svgedit.path.path.dragging[0],
-      y: svgedit.path.path.dragging[1],
-    }, svgedit.path.path);
+      x: selectedPath.dragging[0],
+      y: selectedPath.dragging[1],
+    }, selectedPath);
     const mpt = svgedit.path.getPointFromGrip({
       x: mouseX,
       y: mouseY,
-    }, svgedit.path.path);
+    }, selectedPath);
     const diffX = mpt.x - pt.x;
     const diffY = mpt.y - pt.y;
-    svgedit.path.path.dragging = [mouseX, mouseY];
-    if (svgedit.path.path.selectedControlPoint) {
-      svgedit.path.path.moveCtrl(diffX, diffY);
+    selectedPath.dragging = [mouseX, mouseY];
+    if (selectedPath.selectedControlPoint) {
+      selectedPath.moveCtrl(diffX, diffY);
     } else {
-      svgedit.path.path.movePts(diffX, diffY);
+      selectedPath.movePts(diffX, diffY);
     }
   } else {
-    svgedit.path.path.selected_pts = [];
+    // select multiple points
+    const selectedPoints = [];
     const rbb = svgCanvas.getRubberBox().getBBox();
-    svgedit.path.path.eachSeg(function (i) {
-      if (!this.next && !this.prev) {
+    selectedPath.segs.forEach((seg) => {
+      if (!seg.next && !seg.prev) {
         return;
       }
-
-      const { item } = this;
-
-      const pt = svgedit.path.getGripPt(this);
+      const pt = svgedit.path.getGripPt(seg);
       const ptBb = {
         x: pt.x,
         y: pt.y,
@@ -639,14 +639,15 @@ const mouseMove = (mouseX: number, mouseY: number) => {
         height: 0,
       };
 
-      const sel = svgedit.math.rectsIntersect(rbb, ptBb);
+      const intersected = svgedit.math.rectsIntersect(rbb, ptBb);
 
-      this.select(sel);
+      seg.select(intersected);
       // Note that addPtsToSelection is not being run
-      if (sel) {
-        svgedit.path.path.selected_pts.push(this.index);
+      if (intersected) {
+        selectedPoints.push(seg.index);
       }
     });
+    selectedPath.selected_pts = selectedPoints;
   }
 };
 
@@ -1143,7 +1144,7 @@ const smoothByPaperjs = (elem: SVGPathElement) => {
   const proj = new paper.Project(document.createElement('canvas'));
   const items = proj.importSVG(`<svg>${elem.outerHTML}</svg>`);
   const path = items.children[0] as paper.Path;
-  path.simplify(10);
+  path.simplify(1);
   const svg = proj.exportSVG() as SVGElement;
   const group = svg.children[0];
   const group2 = group.children[0];

@@ -27,7 +27,9 @@ export default class Segement {
     this.controlPoints = [];
   }
 
-  select() {}
+  select(isSelected: boolean): void {
+    this.endPoint.setSelected(isSelected);
+  }
 
   update(): void {
     if (this.ptgrip) {
