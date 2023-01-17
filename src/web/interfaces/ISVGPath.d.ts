@@ -15,10 +15,13 @@ export interface ISVGPathSeg {
 export interface ISVGSegment {
   startPoint: INodePoint;
   endPoint: INodePoint;
+  next: ISVGSegment;
+  prev: ISVGSegment;
   type: number;
   index: number;
   item: ISVGPathSeg;
   controlPoints: ISVGControlPoint[];
+  select: (isSelected: boolean) => void;
 }
 
 export interface ISVGControlPoint {
@@ -46,6 +49,7 @@ export interface INodePoint {
   linkType: number;
   isSelected: boolean;
   index: number;
+  setSelected: (isSelected: boolean) => void;
   getDisplayPosition: () => { x: number, y: number };
 }
 
@@ -66,6 +70,8 @@ export interface ISVGPath {
   init: () => ISVGPath;
   removePtFromSelection: (index: number) => void;
   storeD: () => void;
-  show: (dispaly: boolean) => ISVGPath;
+  show: (display: boolean) => ISVGPath;
   update: () => void;
+  moveCtrl: (x: number, y: number) => void;
+  movePts: (x: number, y: number) => void;
 }
