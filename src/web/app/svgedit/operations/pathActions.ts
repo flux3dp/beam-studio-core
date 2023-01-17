@@ -128,7 +128,7 @@ const getCurveLocationByPaperjs = (
     segmentIndex: location.segment.index,
     pathIndex: location.path.index,
     time: location.time,
-    raw: location,
+    // raw: location,
   };
   return result;
 };
@@ -461,7 +461,6 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       let pushNew = true;
       const pathToSegIndices = [];
       selectedPath.segs.forEach((seg) => {
-        console.log(seg.index, seg.item.toString());
         if (seg.item.pathSegType < 4) {
           if (pushNew) {
             pathToSegIndices.push(seg.index);
@@ -473,9 +472,17 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
           pushNew = true;
         }
       });
+      if (pathToSegIndices.length === 2) {
+        // Hotfix for paperjs behavior, when the path is not a compound path, the path index is 1
+        result.pathIndex -= 1;
+      }
       const segIndex = pathToSegIndices[result.pathIndex] + 1 + result.curveIndex;
       selectedPath.addSeg(segIndex, 1 - result.time);
-      const nodeIndex = selectedPath.segs[segIndex].endPoint.index;
+      const seg = selectedPath.segs[segIndex];
+      const isLastSeg = (segIndex === pathToSegIndices[result.pathIndex + 1] - 1);
+      console.log("Seg", isLastSeg, seg.startPoint.index, seg.endPoint.index);
+      const nodeIndex = isLastSeg ? (seg.startPoint.index + 1) : seg.endPoint.index;
+      console.log("Node Index", nodeIndex);
       selectedPath.init().addPtsToSelection([nodeIndex]);
       selectedPath.endChanges('Clone path node(s)');
       selectedPath.show(true).update();

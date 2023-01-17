@@ -4,7 +4,7 @@ import {
   ISVGControlPoint,
 } from 'interfaces/ISVGPath';
 
-import { LINKTYPE_SMOOTH, LINKTYPE_CORNER } from 'app/constants/link-type-constants';
+import { LINKTYPE_SMOOTH, LINKTYPE_CORNER, LINKTYPE_SYMMETRIC, NodeLinkType } from 'app/constants/link-type-constants';
 
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import SegmentControlPoint from './SegmentControlPoint';
@@ -155,17 +155,16 @@ export default class PathNodePoint {
     });
   }
 
-  setHighlight(isHighlighted) {
+  setHighlight(isHighlighted: boolean): void {
     const id = `pathpointgrip_${this.index}`;
-    const point = svgedit.utilities.getElem(id);
+    const point = document.getElementById(id);
+    if (!point) this.show();
     if (point) {
-      svgedit.utilities.assignAttributes(point, {
-        fill: isHighlighted ? '#0091ff' : '#ffffff',
-      });
+      point.setAttribute('fill', isHighlighted ? '#0091ff' : '#ffffff');
     }
   }
 
-  setSelected(isSelected) {
+  setSelected(isSelected: boolean) : void {
     this.isSelected = isSelected;
     this.setHighlight(isSelected);
     this.controlPoints.forEach((cp) => {
@@ -255,7 +254,7 @@ export default class PathNodePoint {
     return segChanges;
   }
 
-  setNodeType(newType) {
+  setNodeType(newType: NodeLinkType): any {
     const segChanges = {};
     this.linkType = newType;
     if (this.controlPoints.length === 2 && newType !== LINKTYPE_CORNER) {
