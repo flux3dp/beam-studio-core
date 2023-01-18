@@ -725,5 +725,11 @@
         return svgedit.utilities.copyElem(el, getNextIdClosure);
     };
 
+    svgedit.draw.Drawing.prototype.copyElemData = function (elData) {
+      var self = this;
+      var getNextIdClosure = function () { return self.getNextId(); };
+      return svgedit.utilities.copyElemData(elData, getNextIdClosure);
+    };
+
 
 })();

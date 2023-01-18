@@ -6,6 +6,51 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 import { IBatchCommand } from 'interfaces/IHistory';
 
+interface ClipboardElement {
+  namespaceURI: string;
+  nodeName: string;
+  innerHTML: string;
+  childNodes: ClipboardElement[];
+  nodeType: number;
+  nodeValue: string;
+  dataGSVG?: string,
+  dataSymbol?: string,
+  attributes: {
+    namespaceURI: string,
+    nodeName: string,
+    value: string,
+  }[];
+}
+
+const serializeElement = (el: Element) => {
+  const {
+    namespaceURI, nodeName, innerHTML, nodeType, nodeValue,
+  } = el;
+  const result: ClipboardElement = {
+    namespaceURI,
+    nodeName,
+    innerHTML,
+    nodeType,
+    nodeValue,
+    dataGSVG: $.data(el, 'gsvg'),
+    dataSymbol: $.data(el, 'symbol'),
+    childNodes: [],
+    attributes: [],
+  };
+  for (let i = 0; i < el.attributes.length; i += 1) {
+    const att = el.attributes[i];
+    result.attributes.push({
+      namespaceURI: att.namespaceURI,
+      nodeName: att.nodeName,
+      value: att.value,
+    });
+  }
+  el.childNodes.forEach((node) => {
+    result.childNodes.push(serializeElement(node as Element));
+  });
+  return result;
+};
+
 // TODO: decouple with svgcanvas
 
 const { svgedit } = window;
@@ -20,6 +65,7 @@ const cutElements = async (elems: Element[]): Promise<void> => {
   const batchCmd = new history.BatchCommand('Cut Elements');
   const len = elems.length;
   const selectedCopy = []; // elems is being deleted
+  const serializedData = [];
   const layerDict = {};
   let layerCount = 0;
   let clipBoardText = 'BS Cut: ';
@@ -54,9 +100,11 @@ const cutElements = async (elems: Element[]): Promise<void> => {
   if (layerCount === 1) {
     for (let i = 0; i < selectedCopy.length; i += 1) {
       selectedCopy[i].removeAttribute('data-origin-layer');
+      serializedData.push(serializeElement(selectedCopy[i]));
     }
   }
   try {
+    clipBoardText = JSON.stringify(serializedData);
     await navigator.clipboard.writeText(clipBoardText);
     console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
@@ -79,6 +127,7 @@ const cutSelectedElements = async (): Promise<void> => {
 
 const copyElements = async (elems: Element[]): Promise<void> => {
   const layerDict = {};
+  const serializedData = [];
   let layerCount = 0;
   let clipBoardText = 'BS Copy: ';
   for (let i = 0; i < elems.length && elems[i]; i += 1) {
@@ -97,11 +146,13 @@ const copyElements = async (elems: Element[]): Promise<void> => {
     for (let i = 0; i < elems.length; i += 1) {
       if (elems[i]) {
         elems[i].removeAttribute('data-origin-layer');
+        serializedData.push(serializeElement(elems[i]));
       }
     }
   }
   clipboard = [...elems];
   try {
+    clipBoardText = JSON.stringify(serializedData);
     await navigator.clipboard.writeText(clipBoardText);
     console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
@@ -274,6 +325,92 @@ const cloneSelectedElements = (dx: number, dy: number, isSubCmd = false): IBatch
   return batchCmd;
 };
 
+const pasteFromNativeClipboard = async (
+  type: 'mouse' | 'in_place' | 'point',
+  x?: number,
+  y?: number,
+  isSubCmd = false,
+): Promise<{ cmd: IBatchCommand, elems: Element[] }> => {
+  if (clipboard?.length) {
+    return pasteElements(type, x, y, isSubCmd);
+  }
+  const pasted = [];
+  const batchCmd = new history.BatchCommand('Paste elements');
+  const drawing = svgCanvas.getCurrentDrawing();
+  const clipText = await navigator.clipboard.readText();
+  if (!clipText.startsWith('[{')) return;
+  const deserializedData = JSON.parse(clipText);
+
+  // Move elements to lastClickPoint
+  for (let i = 0; i < deserializedData.length; i += 1) {
+    const elemData = deserializedData[i];
+    const copy = drawing.copyElemData(elemData);
+
+    // See if elem with elem ID is in the DOM already
+    if (!svgedit.utilities.getElem(elemData.id)) {
+      copy.id = elemData.id;
+    }
+
+    pasted.push(copy);
+    if (copy.getAttribute('data-origin-layer') && clipboard.length > 1) {
+      const layer = drawing.getLayerByName(copy.getAttribute('data-origin-layer'))
+        || drawing.getCurrentLayer();
+      layer.appendChild(copy);
+    } else {
+      drawing.getCurrentLayer().appendChild(copy);
+    }
+
+    if (copy.getAttribute('data-textpath-g') === '1') {
+      const newTextPath = copy.querySelector('textPath');
+      const newPath = copy.querySelector('path');
+      newTextPath?.setAttribute('href', `#${newPath?.id}`);
+    }
+    if (copy.tagName === 'use') copyRef(copy);
+    else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => copyRef(use));
+
+    batchCmd.addSubCommand(new history.InsertElementCommand(copy));
+    svgCanvas.restoreRefElems(copy);
+    svgCanvas.updateElementColor(copy);
+  }
+
+  svgCanvas.selectOnly(pasted, true);
+
+  if (type !== 'in_place') {
+    let ctrX: number;
+    let ctrY: number;
+
+    if (type === 'mouse') {
+      const lastClickPoint = svgCanvas.getLastClickPoint();
+      ctrX = lastClickPoint.x;
+      ctrY = lastClickPoint.y;
+    } else if (type === 'point') {
+      ctrX = x;
+      ctrY = y;
+    }
+
+    const bbox = svgCanvas.getStrokedBBox(pasted);
+    const cx = ctrX - (bbox.x + bbox.width / 2);
+    const cy = ctrY - (bbox.y + bbox.height / 2);
+    const dx = [];
+    const dy = [];
+
+    pasted.forEach(() => {
+      dx.push(cx);
+      dy.push(cy);
+    });
+
+    const cmd = moveSelectedElements(dx, dy, false);
+    batchCmd.addSubCommand(cmd);
+  }
+
+  if (!isSubCmd) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    svgCanvas.call('changed', pasted);
+  }
+  svgCanvas.tempGroupSelectedElements();
+  return { cmd: batchCmd, elems: pasted };
+};
+
 const generateSelectedElementArray = (
   interval: { dx: number, dy: number },
   arraySize: { row: number, column: number },
@@ -313,7 +450,7 @@ export default {
   copySelectedElements,
   cutElements,
   cutSelectedElements,
-  pasteElements,
+  pasteElements: pasteFromNativeClipboard,
   cloneSelectedElements,
   generateSelectedElementArray,
   getCurrentClipboard,
