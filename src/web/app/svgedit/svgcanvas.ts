@@ -35,7 +35,7 @@ import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
 import touchEvents from 'app/svgedit/touchEvents';
-import { deleteSelectedElements } from 'app/svgedit/operations/delete';
+import { deleteElements, deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
 import Alert from 'app/actions/alert-caller';
@@ -5260,9 +5260,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
     path.addEventListener('mouseover', this.handleGenerateSensorArea);
     path.addEventListener('mouseleave', this.handleGenerateSensorArea);
-    batchCmd.addSubCommand(new history.InsertElementCommand(path));
-    let cmd = deleteSelectedElements(true);
-    if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     this.selectOnly([g], false);
     let gBBox = g.getBBox();
     if (imgBBox.width !== gBBox.width) {
@@ -5291,6 +5288,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       this.updateElementColor(path);
     }
     this.selectOnly([path], true);
+    batchCmd.addSubCommand(new history.InsertElementCommand(path));
+    let cmd = deleteElements([img]);
+    if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     addCommandToHistory(batchCmd);
     Progress.popById('vectorize-image');
   };
