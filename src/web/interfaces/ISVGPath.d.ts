@@ -79,4 +79,5 @@ export interface ISVGPath {
   moveCtrl: (x: number, y: number) => void;
   movePts: (x: number, y: number) => void;
   stripCurveFromSegment: (index: number) => void;
+  disconnectNode: (index: number) => number;
 }
