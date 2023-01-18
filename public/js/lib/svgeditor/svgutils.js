@@ -1287,6 +1287,52 @@ svgedit.utilities.copyElem = function(el, getNextId) {
 	return new_el;
 };
 
+/**
+ * Create a clone of an element, updating its ID and its children's IDs when needed
+ * @param {Element} elData - DOM element to clone
+ * @param {function()} getNextId - function the get the next unique ID.
+ * @returns {Element}
+ */
+svgedit.utilities.copyElemData = function(elData, getNextId) {
+	// manually create a copy of the element
+	var new_el = document.createElementNS(elData.namespaceURI, elData.nodeName);
+	$.each(elData.attributes, function(i, attr) {
+		new_el.setAttributeNS(attr.namespaceURI, attr.nodeName, attr.value);
+	});
+	// set the copied element's new id
+	new_el.removeAttribute('id');
+	new_el.id = getNextId();
+
+	// Opera's "d" value needs to be reset for Opera/Win/non-EN
+	// Also needed for webkit (else does not keep curved segments on clone)
+	if (svgedit.browser.isWebkit() && elData.nodeName == 'path') {
+		// new_el.setAttribute('d', elData.d);
+	}
+
+	// now create copies of all children
+	$.each(elData.childNodes, function(i, childData) {
+		switch(childData.nodeType) {
+			case 1: // element node
+				new_el.appendChild(svgedit.utilities.copyElemData(childData, getNextId));
+				break;
+			case 3: // text node
+				new_el.textContent = childData.nodeValue;
+				break;
+			default:
+				break;
+		}
+	});
+
+	if (elData.dataGSVG) {
+		$(new_el).data('gsvg', new_el.firstChild);
+	} else if (elData.dataSymbol) {
+		var ref = elData.dataSymbol;
+		$(new_el).data('ref', ref).data('symbol', ref);
+	} else if (new_el.tagName == 'image') {
+		svgedit.utilities.preventClickDefault(new_el);
+	}
+	return new_el;
+};
 
 /**
  * TODO: refactor callers in convertPath to use getPathDFromSegments instead of this function.
