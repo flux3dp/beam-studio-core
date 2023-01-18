@@ -106,7 +106,7 @@ const cutElements = async (elems: Element[]): Promise<void> => {
   try {
     clipBoardText = JSON.stringify(serializedData);
     await navigator.clipboard.writeText(clipBoardText);
-    console.log('Write to clipboard was successful!', clipBoardText);
+    // console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
     console.error('Async: Could not copy text: ', err);
   }
@@ -154,7 +154,7 @@ const copyElements = async (elems: Element[]): Promise<void> => {
   try {
     clipBoardText = JSON.stringify(serializedData);
     await navigator.clipboard.writeText(clipBoardText);
-    console.log('Write to clipboard was successful!', clipBoardText);
+    // console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
     console.error('Async: Could not copy text: ', err);
   }
