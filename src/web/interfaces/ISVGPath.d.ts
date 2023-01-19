@@ -1,3 +1,5 @@
+import { NodeLinkType } from 'app/constants/link-type-constants';
+
 export interface ISVGPathSeg {
   x: number;
   y: number;
@@ -21,7 +23,13 @@ export interface ISegment {
   index: number;
   item: ISVGPathSeg;
   controlPoints: ISegmentControlPoint[];
+  ptgrip: boolean;
+  path: ISVGPath;
   select: (isSelected: boolean) => void;
+  update: () => void;
+  getNodePointAndControlPoints: () => {
+    nodePoint: IPathNodePoint, controlPoints: ISegmentControlPoint[]
+  } | Record<string, never>;
 }
 
 export interface ISegmentControlPoint {
@@ -30,10 +38,18 @@ export interface ISegmentControlPoint {
   index: number;
   seg: ISegment;
   nodePoint: IPathNodePoint;
+  elem: SVGElement;
+  controlPointsLinkType: number;
+  isSelected: boolean;
   moveAbs: (x: number, y: number) => any; // Return changes
   hide: () => void;
   show: () => void;
   update: () => void;
+  delete: () => any;
+  setSelected: (isSelected: boolean) => void;
+  move: (dx: number, dy: number) => any;
+  moveLinkedControlPoint: () => any;
+  removeFromNodePoint: () => void;
 }
 
 export interface IPathNodePoint {
@@ -46,13 +62,25 @@ export interface IPathNodePoint {
   prev: IPathNodePoint;
   path: ISVGPath;
   controlPoints: ISegmentControlPoint[];
-  linkType: number;
+  linkType: NodeLinkType;
   isSelected: boolean;
   index: number;
+  elem: SVGElement;
   setSelected: (isSelected: boolean) => void;
   getDisplayPosition: () => { x: number, y: number };
   isSharp: () => boolean;
   isRound: () => boolean;
+  addControlPoint: (point: ISegmentControlPoint) => void;
+  setPrevSeg: (prev: ISegment) => void;
+  setMSeg: (prev: ISegment) => void;
+  setHighlight: (highlight: boolean) => void;
+  update: () => void;
+  show: () => void;
+  hide: () => void;
+  delete: () => void;
+  move: (dx: number, dy: number) => any;
+  createControlPoints: () => any;
+  setNodeType: (type: NodeLinkType) => void;
 }
 
 export interface ISVGPath {
@@ -60,7 +88,7 @@ export interface ISVGPath {
   segs: ISegment[];
   selected_pts: number[];
   selectedPointIndex: number;
-  selectedControlPoint: ISegmentControlPoint;
+  selectedControlPoint?: ISegmentControlPoint;
   nodePoints: IPathNodePoint[];
   first_seg: ISegment;
   matrix: SVGMatrix;

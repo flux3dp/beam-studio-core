@@ -1,15 +1,16 @@
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 import history from 'app/svgedit/history';
 import shortcuts from 'helpers/shortcuts';
 import selector from 'app/svgedit/selector';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import * as paper from 'paper';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { ISVGPath } from 'interfaces/ISVGPath';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
-import { ISVGPath } from 'interfaces/ISVGPath';
 import Segment from '../path/Segment';
+import Path from '../path/Path';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -25,6 +26,7 @@ svgedit.path.ChangeElementCommand = history.ChangeElementCommand;
 svgedit.path.SegmentControlPoint = SegmentControlPoint;
 svgedit.path.Segment = Segment;
 svgedit.path.PathNodePoint = PathNodePoint;
+svgedit.path.Path = Path;
 
 // Functions relating to editing path elements
 let subpath = false;
@@ -420,7 +422,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
     }
   } else if (currentMode === 'pathedit') {
     // TODO: Make sure currentPath isn't null at this point
-    const selectedPath: ISVGPath = svgedit.path.path;
+    const selectedPath: Path = svgedit.path.path;
     if (!svgedit.path.path) return null;
 
     selectedPath.storeD();
@@ -472,11 +474,13 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
           pushNew = true;
         }
       });
-      if (pathToSegIndices.length === 2) {
+      if (pathToSegIndices.length <= 2) {
         // Hotfix for paperjs behavior, when the path is not a compound path, the path index is 1
         result.pathIndex -= 1;
       }
       const segIndex = pathToSegIndices[result.pathIndex] + 1 + result.curveIndex;
+      console.log("Path2Seg Indicies", pathToSegIndices);
+      console.log("Selected Seg Index", segIndex);
       selectedPath.addSeg(segIndex, 1 - result.time);
       const seg = selectedPath.segs[segIndex];
       const isLastSeg = (segIndex === pathToSegIndices[result.pathIndex + 1] - 1);
