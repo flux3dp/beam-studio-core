@@ -3739,7 +3739,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       case 'path':
         $('#left-Pen').addClass('active');
         break;
-    };
+    }
   };
 
   // Group: Element Styling
@@ -4391,7 +4391,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const fillableTags = ['rect', 'ellipse', 'path', 'text', 'polygon', 'g'];
     if (!fillableTags.includes(elem.tagName)) {
       return false;
-    };
+    }
     if (elem.tagName === 'g') {
       const childNodes = elem.childNodes;
       for (let i = 0; i < childNodes.length; i++) {
@@ -4449,7 +4449,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         isAnyFilled: false,
         isAllFilled: false
       };
-    };
+    }
     if (elem.tagName === 'g') {
       const childNodes = elem.childNodes;
       let isAnyFilled;
@@ -4975,7 +4975,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     if (dir === 0) {
       dist *= -1;
-    };
+    }
     let isContainNotSupportTag = false;
     const co = new ClipperLib.ClipperOffset(2, 0.25);
     elems.forEach(elem => {
@@ -6574,7 +6574,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               const delta = a * d - b * c;
               x = (d * x - c * y + c * f - d * e) / delta;
               y = (-b * x + a * y - a * f + b * e) / delta;
-            };
+            }
             centers.push({ x, y });
             topElem.childNodes.forEach((e: Element) => {
               stack.push({ elem: e });
@@ -7015,7 +7015,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const [key, value] = pair.split('=');
         if (value === undefined) {
           return;
-        };
+        }
         obj[key] = parseFloat(value);
       });
     } else {
@@ -7046,7 +7046,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const [key, value] = pair.split('=');
         if (value === undefined) {
           return;
-        };
+        }
         obj[key] = parseFloat(value);
       });
     } else {
@@ -7100,7 +7100,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const y = t.matrix.b * p.x + t.matrix.d * p.y + t.matrix.f;
         return { x, y };
       });
-    };
+    }
     let [minX, minY, maxX, maxY] = [points[0].x, points[0].y, points[0].x, points[0].y];
     points.forEach(p => {
       minX = Math.min(p.x, minX);
