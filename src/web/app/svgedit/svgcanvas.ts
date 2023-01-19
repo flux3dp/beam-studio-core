@@ -10,6 +10,8 @@
 /* eslint-disable vars-on-top */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-var */
+/* eslint-disable func-names */
+
 /*globals $, svgedit, svgCanvas, jsPDF*/
 /*jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true */
 /*
@@ -410,7 +412,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       cmdElements.clear();
     }
     cmdDepth += 1;
-  }
+  };
 
   const onAfter = () => {
     cmdDepth -= 1;
@@ -419,7 +421,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       call('changed', elems);
       cmdElements.clear();
     }
-  }
+  };
 
   canvas.undoMgr = new history.UndoManager({
     renderText: textEdit.renderText,
@@ -691,7 +693,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // State for save before close warning
   canvas.changed = false;
 
-  this.clearBoundingBox = () => { curBBoxes = []; }
+  this.clearBoundingBox = () => { curBBoxes = []; };
   this.getContainer = () => container;
   this.getContentElem = () => svgcontent;
   this.getCurrentConfig = () => curConfig;
@@ -715,8 +717,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.getTempGroup = () => tempGroup;
   this.setGoodImage = function (val) { last_good_img_url = val; };
   this.setRootScreenMatrix = (matrix: SVGMatrix) => { root_sctm = matrix; };
-  this.setCurrentResizeMode = (mode: string) => { current_resize_mode = mode };
-  this.setCurrentStyleProperties = (key: string, value: string | number) => { cur_properties[key] = value };
+  this.setCurrentResizeMode = (mode: string) => { current_resize_mode = mode; };
+  this.setCurrentStyleProperties = (key: string, value: string | number) => { cur_properties[key] = value; };
   this.setLastClickPoint = (point) => { lastClickPoint = point; };
   this.setRotaryMode = (val) => rotaryMode = val;
   this.setRotaryDisplayCoord = (val) => BeamboxPreference.write('rotary_y_coord', val);
@@ -1265,7 +1267,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (elems.length > 1) {
       this.tempGroupSelectedElements();
     }
-  }
+  };
 
   // TODO: could use slice here to make this faster?
   // TODO: should the 'selected' handler
@@ -1354,7 +1356,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
       svgEditor.updateContextPanel();
     }
-  }
+  };
 
   /**
    * Gets the desired element from a mouse event
@@ -1386,7 +1388,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       y: pt.y - 50,
       width: 100,
       height: 100,
-    }
+    };
     const intersectList = getIntersectionList(selectionRegion).reverse();
     curBBoxes = [];
     const clickPoint = svgcontent.createSVGPoint();
@@ -1504,7 +1506,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         mouse_y = pt.y * current_zoom;
       this.sensorAreaInfo = { x: mouse_x, y: mouse_y, dx: 0, dy: 0, elem: evt.target };
     }
-  }
+  };
 
   MouseInteractions.register(this);
 
@@ -1909,7 +1911,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }
     return ret;
-  }
+  };
 
 
   // Function: embedImage
@@ -2119,7 +2121,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               resolve(false);
               break;
           }
-        }
+        };
         img.src = svgUrl;
       } catch (err) {
         reject(err);
@@ -2506,7 +2508,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }
     return res.join('');
-  }
+  };
 
   //
   // Function: setSvgString
@@ -2716,7 +2718,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (layer) {
       const childNodes = Array.from(layer.childNodes);
       const isEmpty = childNodes.every((node: Element) => {
-        return ['title', 'filter'].includes(node.tagName)
+        return ['title', 'filter'].includes(node.tagName);
       });
       if (isEmpty) {
         console.log('default layer is empty. delete it!');
@@ -2726,7 +2728,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         LayerPanelController.updateLayerPanel();
       }
     }
-  }
+  };
 
   // Function: importSvgString
   // This function imports the input SVG XML as a <symbol> in the <defs>, then adds a
@@ -2912,7 +2914,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   canvas.resetRandomColors = () => {
     randomColors = ['#333333', '#3F51B5', '#F44336', '#FFC107', '#8BC34A', '#2196F3', '#009688', '#FF9800', '#CDDC39', '#00BCD4', '#FFEB3B', '#E91E63', '#673AB7', '#03A9F4', '#9C27B0', '#607D8B', '#9E9E9E'];
-  }
+  };
 
   var getRandomLayerColor = canvas.getRandomLayerColor = function () {
     if (randomColors.length === 0) {
@@ -3053,7 +3055,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         tempGroup.appendChild(elems[j]);
       }
     }
-  }
+  };
 
   // Function: setLayerVisibility
   // Sets the visibility of the layer. If the layer name is not valid, this function return
@@ -3163,7 +3165,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         r: parseInt(res[1], 16),
         g: parseInt(res[2], 16),
         b: parseInt(res[3], 16),
-      }
+      };
     }
     return { r: 0, g: 0, b: 0 };
   };
@@ -3201,7 +3203,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       colorFilter.appendChild(colorMatrix);
       layer.appendChild(colorFilter);
     }
-  }
+  };
 
   this.updateLayerColor = function (layer) {
     const color = this.isUsingLayerColor ? $(layer).attr('data-color') : '#000';
@@ -3218,7 +3220,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.updateElementColor = function (elem) {
     const color = this.isUsingLayerColor ? $(LayerHelper.getObjectLayer(elem).elem).attr('data-color') : '#000';
     this.setElementsColor([elem], color);
-  }
+  };
 
   this.setElementsColor = function (elems, color) {
     let descendants = [...elems];
@@ -3268,7 +3270,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         //console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
       }
     }
-  }
+  };
 
   // Function: leaveContext
   // Return from a group context to the regular kind, make any previously
@@ -3364,7 +3366,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       this.selectOnly(children, false);
     }
     return selectedElements;
-  }
+  };
 
   // Function: getResolution
   // Returns the current dimensions and zoom level in an object
@@ -3839,10 +3841,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     while (i--) {
       var og = existing_grads[i];
       if (grad.tagName === 'linearGradient') {
-        if (grad.getAttribute('x1') != og.getAttribute('x1') ||
-          grad.getAttribute('y1') != og.getAttribute('y1') ||
-          grad.getAttribute('x2') != og.getAttribute('x2') ||
-          grad.getAttribute('y2') != og.getAttribute('y2')) {
+        if (grad.getAttribute('x1') !== og.getAttribute('x1') ||
+          grad.getAttribute('y1') !== og.getAttribute('y1') ||
+          grad.getAttribute('x2') !== og.getAttribute('x2') ||
+          grad.getAttribute('y2') !== og.getAttribute('y2')) {
           continue;
         }
       } else {
@@ -3930,7 +3932,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       }
     }
-  }
+  };
 
   // Function: setPaint
   // Set a color/gradient to a fill/stroke
@@ -4406,7 +4408,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     return elem.tagName === 'path' ? this.calcPathClosed(elem) : true;
-  }
+  };
 
   this.calcPathClosed = (pathElem) => {
     const segList = pathElem.pathSegList._list || pathElem.pathSegList;
@@ -4443,7 +4445,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       isClosed = false;
     }
     return isClosed;
-  }
+  };
 
   this.calcElemFilledInfo = (elem) => {
     let fillableTags = ['rect', 'ellipse', 'path', 'text', 'polygon', 'g'];
@@ -4476,7 +4478,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       isAnyFilled: isFilled,
       isAllFilled: isFilled
     };
-  }
+  };
 
   this.setElemsFill = function (elems) {
     let batchCmd = new history.BatchCommand('set elems fill');
@@ -4497,14 +4499,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else if (elem.tagName === 'g') {
         this.setElemsFill(elem.childNodes);
       } else {
-        console.log(`Not support type: ${elem.tagName}`)
+        console.log(`Not support type: ${elem.tagName}`);
       }
     }
     if (TutorialController.getNextStepRequirement() === TutorialConstants.INFILL) {
       TutorialController.handleNextStep();
     }
     if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
-  }
+  };
 
   this.setElementFill = function (elem, color) {
     let batchCmd = new history.BatchCommand('set elem fill');
@@ -4518,7 +4520,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     cmd = canvas.undoMgr.finishUndoableChange();
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     return batchCmd;
-  }
+  };
 
   this.setElemsUnfill = function (elems) {
     let batchCmd = new history.BatchCommand('set elems unfill');
@@ -4539,11 +4541,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else if (elem.tagName === 'g') {
         this.setElemsUnfill(elem.childNodes);
       } else {
-        console.log(`Not support type: ${elem.tagName}`)
+        console.log(`Not support type: ${elem.tagName}`);
       }
     }
     if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
-  }
+  };
 
   this.setElementUnfill = function (elem, color) {
     let batchCmd = new history.BatchCommand('set elem unfill');
@@ -4561,7 +4563,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     cmd = canvas.undoMgr.finishUndoableChange();
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     return batchCmd;
-  }
+  };
 
   // Function: makeHyperlink
   // Wraps the selected element(s) in an anchor element or converts group to one
@@ -4783,11 +4785,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     }
     autoSaveHelper.toggleAutoSave(hasUnsaveChanged);
-  }
+  };
 
   this.getHasUnsaveChanged = () => {
     return canvas.changed;
-  }
+  };
 
   // Function: getLatestImportFileName
   // Get latest imported file name
@@ -4800,13 +4802,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     } else {
       $('#svgcanvas').trigger('mouseup'); //update file title
     }
-  }
+  };
 
   // Function: getLatestImportFileName
   // Get latest imported file name
   this.getLatestImportFileName = function () {
     return this.latestImportFileName;
-  }
+  };
 
   this.updateRecentFiles = (filePath) => {
     let recentFiles = storage.get('recent_files') || [];
@@ -4822,7 +4824,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     storage.set('recent_files', recentFiles);
     recentMenuUpdater.update();
-  }
+  };
 
   recentMenuUpdater.update();
 
@@ -4912,7 +4914,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!isSubCmd) addCommandToHistory(batchCmd);
     this.selectOnly([element], true);
     return batchCmd;
-  }
+  };
 
   this.simplifyPath = (elems) => {
     if (tempGroup) {
@@ -4978,7 +4980,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const scale = 100;
 
     if (dir === 0) {
-      dist *= -1
+      dist *= -1;
     };
     let isContainNotSupportTag = false;
     let co = new ClipperLib.ClipperOffset(2, 0.25);
@@ -5324,7 +5326,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       const wireframe = $(elem).data('wireframe');
       let transform = $(elem).attr('transform') || '';
-      const translate = `translate(${$(elem).attr('x') || 0},${$(elem).attr('y') || 0})`
+      const translate = `translate(${$(elem).attr('x') || 0},${$(elem).attr('y') || 0})`;
       transform = `${transform} ${translate}`;
       const href = this.getHref(elem);
       const svg = $(href).toArray()[0];
@@ -5406,14 +5408,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (batchCmd && !batchCmd.isEmpty()) {
       addCommandToHistory(batchCmd);
     }
-  }
+  };
 
   this.toggleBezierPathAlignToEdge = () => {
     const isBezierPathAlignToEdge = !(this.isBezierPathAlignToEdge || false);
     this.isBezierPathAlignToEdge = isBezierPathAlignToEdge;
     $('#x_align_line').remove();
     $('#y_align_line').remove();
-  }
+  };
 
   this.drawAlignLine = function (x, y, xMatchPoint, yMatchPoint) {
     let xAlignLine = svgedit.utilities.getElem('x_align_line');
@@ -5429,7 +5431,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         });
         svgedit.utilities.getElem('svgcontent').appendChild(xAlignLine);
       }
-      xAlignLine.setAttribute('d', `M ${xMatchPoint.x} ${xMatchPoint.y} L ${xMatchPoint.x} ${yMatchPoint ? yMatchPoint.y : y / current_zoom}`)
+      xAlignLine.setAttribute('d', `M ${xMatchPoint.x} ${xMatchPoint.y} L ${xMatchPoint.x} ${yMatchPoint ? yMatchPoint.y : y / current_zoom}`);
       xAlignLine.setAttribute('display', 'inline');
     } else {
       if (xAlignLine) {
@@ -5449,14 +5451,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         });
         svgedit.utilities.getElem('svgcontent').appendChild(yAlignLine);
       }
-      yAlignLine.setAttribute('d', `M ${yMatchPoint.x} ${yMatchPoint.y} L ${xMatchPoint ? xMatchPoint.x : x / current_zoom} ${yMatchPoint.y}`)
+      yAlignLine.setAttribute('d', `M ${yMatchPoint.x} ${yMatchPoint.y} L ${xMatchPoint ? xMatchPoint.x : x / current_zoom} ${yMatchPoint.y}`);
       yAlignLine.setAttribute('display', 'inline');
     } else {
       if (yAlignLine) {
         yAlignLine.setAttribute('display', 'none');
       }
     }
-  }
+  };
 
   this.findMatchPoint = function (x, y) {
     const FUZZY_RANGE = 7;
@@ -5479,7 +5481,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           if (m === array.length - 1) {
             return m;
           } else if (array[m + 1] > val) {
-            return array[m + 1] + array[m] > 2 * val ? m : m + 1
+            return array[m + 1] + array[m] > 2 * val ? m : m + 1;
           } else {
             l = m + 1;
           }
@@ -5488,9 +5490,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (u === array.length - 1) {
         return u;
       } else {
-        return array[u + 1] + array[u] > 2 * val ? u : u + 1
+        return array[u + 1] + array[u] > 2 * val ? u : u + 1;
       }
-    }
+    };
     if (!this.pathAlignPointsSortByX || !this.pathAlignPointsSortByY) {
       return {};
     }
@@ -5501,7 +5503,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     nearestY = this.pathAlignPointsSortByY[nearestY];
     let yMatchPoint = nearestY ? (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE ? nearestY : null) : null;
     return { xMatchPoint, yMatchPoint };
-  }
+  };
 
   this.collectAlignPoints = () => {
     let elems = [];
@@ -5595,7 +5597,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           const segList = elem.pathSegList._list || elem.pathSegList;
           segList.forEach((seg) => {
             if (seg.x) {
-              points.push({ x: parseFloat(seg.x), y: parseFloat(seg.y) })
+              points.push({ x: parseFloat(seg.x), y: parseFloat(seg.y) });
             }
           });
           break;
@@ -6116,9 +6118,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (nextSibling) {
         targetLayer.insertBefore(elem, nextSibling);
       } else {
-        targetLayer.appendChild(elem)
+        targetLayer.appendChild(elem);
       }
-      elem.removeAttribute('data-next-sibling')
+      elem.removeAttribute('data-next-sibling');
     } else {
       targetLayer.appendChild(elem);
     }
@@ -6192,9 +6194,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           if (nextSibling) {
             targetLayer.insertBefore(elem, nextSibling);
           } else {
-            targetLayer.appendChild(elem)
+            targetLayer.appendChild(elem);
           }
-          elem.removeAttribute('data-next-sibling')
+          elem.removeAttribute('data-next-sibling');
         } else {
           targetLayer.appendChild(elem);
         }
@@ -6595,7 +6597,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       svgEditor.updateContextPanel();
     }
     addCommandToHistory(batchCmd);
-  }
+  };
 
   this.flipElementWithRespectToCenter = async function (elem, center, flipPara) {
     let batchCmd = new history.BatchCommand('Flip Single Element');
@@ -6649,7 +6651,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     cmd = moveElements([dx], [dy], [elem], false);
     batchCmd.addSubCommand(cmd);
     return batchCmd;
-  }
+  };
 
   this._flipImage = async function (image, horizon = 1, vertical = 1) {
     let batchCmd = new history.BatchCommand('Flip image');
@@ -7032,7 +7034,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     obj.x += elemX;
     obj.y += elemY;
     return obj;
-  }
+  };
 
   this.getSvgRealLocation = function (elem) {
     if (elem.tagName === 'text') {
@@ -7143,7 +7145,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
 
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  }
+  };
 
   this.moveElemPosition = function (dx, dy, elem) {
     if (elem === null) {
