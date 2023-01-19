@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable quote-props */
 /* eslint-disable no-continue */
@@ -1062,12 +1063,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     // only remove the real rotational transform if present (i.e. at index=0)
     if (tlist.numberOfItems > 0) {
       var xform = tlist.getItem(0);
-      if (xform.type == 4) {
+      if (String(xform.type) === '4') {
         tlist.removeItem(0);
       }
     }
     // find R_nc and insert it
-    if (val != 0) {
+    if (val !== 0) {
       var center = svgedit.math.transformPoint(cx, cy, svgedit.math.transformListToTransform(tlist).matrix);
       var R_nc = svgroot.createSVGTransform();
       R_nc.setRotate(val, center.x, center.y);
@@ -1766,7 +1767,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           }
 
           // only serialize attributes we don't use internally
-          if (attrVal != '' && attr_names.indexOf(attr.localName) === -1) {
+          if (attrVal && attr_names.indexOf(attr.localName) === -1) {
 
             if (!attr.namespaceURI || nsMap[attr.namespaceURI]) {
               out.push(' ');
@@ -1791,7 +1792,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           if (moz_attrs.indexOf(attr.localName) >= 0) {
             continue;
           }
-          if (attrVal != '') {
+          if (attrVal) {
             if (attrVal.indexOf('pointer-events') === 0) {
               continue;
             }
@@ -1846,8 +1847,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               break;
             case 3: // text node
               // to keep the spaces before a line
-              var str = elem.tagName === 'tspan' ? child.nodeValue : child.nodeValue.replace(/^\s+|\s+$/g, '');
-              if (str != '') {
+              const str = elem.tagName === 'tspan' ? child.nodeValue : child.nodeValue.replace(/^\s+|\s+$/g, '');
+              if (str) {
                 bOneLine = true;
                 out.push(String(toXml(str)));
               }
@@ -2135,7 +2136,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // this BEFORE calling svgCanvas.setSvgString
   //
   this.randomizeIds = function (enableRandomization) {
-    if (arguments.length > 0 && enableRandomization == false) {
+    if (arguments.length > 0 && !enableRandomization) {
       svgedit.draw.randomizeIds(false, getCurrentDrawing());
     } else {
       svgedit.draw.randomizeIds(true, getCurrentDrawing());
@@ -4372,7 +4373,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     var selected = selectedElements[0];
     if (selected != null && selected.tagName === 'rect') {
       var r = selected.getAttribute('rx');
-      if (r != val) {
+      if (String(r) !== String(val)) {
         selected.setAttribute('rx', val);
         selected.setAttribute('ry', val);
         addCommandToHistory(new history.ChangeElementCommand(selected, {
@@ -4726,7 +4727,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           var n = tlist.numberOfItems;
           while (n--) {
             var xform = tlist.getItem(n);
-            if (xform.type == 4) {
+            if (String(xform.type) === '4') {
               // remove old rotate
               tlist.removeItem(n);
 
@@ -4864,7 +4865,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const clipType = modemap[mode];
     let succeeded = true;
     let d = '';
-    if (len === 2) {
+    if (len === 2 || true) {
       let base = selectedElements[0].outerHTML;
       for (let i = len - 1; i >= 1; i -= 1) {
         d = pathActions.booleanOperationByPaperjs(
@@ -5105,7 +5106,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const batchCmd = new history.BatchCommand('Decompose Image');
     elems = elems || selectedElements;
     elems.forEach(elem => {
-      if (!elem || elem.tagName != 'path') {
+      if (!elem || elem.tagName !== 'path') {
         return;
       }
       const angle = svgedit.utilities.getRotationAngle(elem);
@@ -6296,7 +6297,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       t = t.parentNode.appendChild(t);
     }
 
-    if (oldNextSibling != t.nextSibling) {
+    if (oldNextSibling !== t.nextSibling) {
       addCommandToHistory(new history.MoveElementCommand(t, oldNextSibling, oldParent, 'Move ' + dir));
       call('changed', [t]);
     }
@@ -6934,7 +6935,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     } else {
       var i = all_elems.length;
       while (i--) {
-        if (all_elems[i] == cur_elem) {
+        if (all_elems[i] === cur_elem) {
           num = next ? i - 1 : i + 1;
           if (num >= all_elems.length) {
             num = 0;
