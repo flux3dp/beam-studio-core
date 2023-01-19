@@ -1,3 +1,15 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable object-shorthand */
+/* eslint-disable no-tabs */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-template */
+/* eslint-disable no-multi-assign */
+/* eslint-disable vars-on-top */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-var */
 /*globals $, svgedit, svgCanvas, jsPDF*/
 /*jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true */
 /*
@@ -668,11 +680,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     // Rotary Mode
     rotaryMode = BeamboxPreference.read('rotary_mode');
 
-  this.getLastClickPoint = () => lastClickPoint;
-
-  this.setLastClickPoint = (point) => {
-    lastClickPoint = point;
-  };
 
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
@@ -686,24 +693,31 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.clearBoundingBox = () => { curBBoxes = []; }
   this.getContainer = () => container;
+  this.getContentElem = () => svgcontent;
   this.getCurrentConfig = () => curConfig;
+  this.getCurrentGroup = () => current_group;
   this.getCurrentMode = () => current_mode;
   this.getCurrentResizeMode = () => current_resize_mode;
   this.getCurrentShape = () => cur_shape;
-  this.getCurrentGroup = () => current_group;
   this.getCurrentZoom = () => current_zoom;
+  this.getGoodImage = () => last_good_img_url;
+  this.getLastClickPoint = () => lastClickPoint;
+  this.getMode = function () { return current_mode; };
   this.getRoot = () => svgroot;
+  this.getRootElem = () => svgroot;
   this.getRootScreenMatrix = () => root_sctm;
+  this.getRotaryDisplayCoord = () => BeamboxPreference.read('rotary_y_coord') || 5;
+  this.getRotaryMode = () => rotaryMode;
   this.getRubberBox = () => rubberBox;
+  this.getSelectedElems = () => selectedElements;
   this.getStarted = () => started;
-  this.getSelectedElements = () => selectedElements;
   this.getStartTransform = () => startTransform;
   this.getTempGroup = () => tempGroup;
-  this.getRotaryMode = () => rotaryMode;
-  this.getRotaryDisplayCoord = () => BeamboxPreference.read('rotary_y_coord') || 5;
+  this.setGoodImage = function (val) { last_good_img_url = val; };
   this.setRootScreenMatrix = (matrix: SVGMatrix) => { root_sctm = matrix; };
   this.setCurrentResizeMode = (mode: string) => { current_resize_mode = mode };
   this.setCurrentStyleProperties = (key: string, value: string | number) => { cur_properties[key] = value };
+  this.setLastClickPoint = (point) => { lastClickPoint = point; };
   this.setRotaryMode = (val) => rotaryMode = val;
   this.setRotaryDisplayCoord = (val) => BeamboxPreference.write('rotary_y_coord', val);
 
@@ -1929,14 +1943,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }).attr('src', val);
   };
 
-  // Function: setGoodImage
-  // Sets a given URL to be a "last good image" URL
-  this.setGoodImage = function (val) {
-    last_good_img_url = val;
-  };
-
-  this.getGoodImage = () => last_good_img_url;
-
   this.open = function () {
     // Nothing by default, handled by optional widget/extension
   };
@@ -2849,7 +2855,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       let dataXform = '';
 
       if (it) {
-        dataXform = `x=0 y=0 width=${bb.width} height=${bb.height}`
+        dataXform = `x=0 y=0 width=${bb.width} height=${bb.height}`;
       } else {
         $.each(bb, function (key: string, value) {
           dataXform = `${dataXform}${key}=${value} `;
@@ -3352,30 +3358,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Alias function
   this.linkControlPoints = pathActions.linkControlPoints;
 
-  // Function: getContentElem
-  // Returns the content DOM element
-  this.getContentElem = function () {
-    return svgcontent;
-  };
-
-  // Function: getRootElem
-  // Returns the root DOM element
-  this.getRootElem = function () {
-    return svgroot;
-  };
-
-  // Function: getSelectedElems
-  // Returns the array with selected DOM elements
-  this.getSelectedElems = function () {
-    return selectedElements;
-  };
-
-  // Function: getTempGroup
-  // Returns flag denoted the state of temp group
-  this.getTempGroup = function () {
-    return tempGroup;
-  };
-
   this.getSelectedWithoutTempGroup = () => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
@@ -3714,12 +3696,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     pathActions.zoomChange(oldZoom);
     zoomBlockEventEmitter.emit('UPDATE_ZOOM_BLOCK');
     runExtensions('zoomChanged', zoomlevel);
-  };
-
-  // Function: getMode
-  // Returns the current editor mode string
-  this.getMode = function () {
-    return current_mode;
   };
 
   // Function: setMode
