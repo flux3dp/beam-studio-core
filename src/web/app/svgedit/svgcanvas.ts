@@ -15,8 +15,8 @@
 /* eslint-disable no-var */
 /* eslint-disable func-names */
 
-/*globals $, svgedit, svgCanvas, jsPDF*/
-/*jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true */
+/* globals $, svgedit, svgCanvas, jsPDF */
+/* jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true  */
 /*
  * svgcanvas.js
  *
@@ -147,7 +147,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     '<feMergeNode in="SourceGraphic"/>' +
     '</feMerge>' +
     '</filter>' +
-    //(BeamboxPreference.read('enable_mask') ? ('<clipPath id="scene_mask"><rect x="0" y="0" width="' + dimensions[0] + '" height="' + dimensions[1] + '" /></clipPath>') : '') +
+    // (BeamboxPreference.read('enable_mask') ? ('<clipPath id="scene_mask"><rect x="0" y="0" width="' + dimensions[0] + '" height="' + dimensions[1] + '" /></clipPath>') : '') +
     '</defs>' +
     '</svg>').documentElement, true);
   container.appendChild(svgroot);
@@ -491,7 +491,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             // have a featured detection for correct 'use' behavior?
             // ——————————
             // Remove & Re-add hack for Webkit (issue 775)
-            //if (cmd.elem.tagName === 'use' && svgedit.browser.isWebkit()) {
+            // if (cmd.elem.tagName === 'use' && svgedit.browser.isWebkit()) {
             //	var elem = cmd.elem;
             //	if (!elem.getAttribute('x') && !elem.getAttribute('y')) {
             //		var parent = elem.parentNode;
@@ -499,7 +499,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             //		parent.removeChild(elem);
             //		parent.insertBefore(elem, sib);
             //	}
-            //}
+            // }
           } else if (cmdType === BatchCommand.type()) {
             if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)'].includes(cmd.text)) {
               canvas.identifyLayers();
@@ -1787,7 +1787,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         for (i = attrs.length - 1; i >= 0; i--) {
           attr = attrs.item(i);
           var attrVal = toXml(attr.value);
-          //remove bogus attributes added by Gecko
+          // remove bogus attributes added by Gecko
           if (moz_attrs.indexOf(attr.localName) >= 0) {
             continue;
           }
@@ -2045,11 +2045,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       var docTitle = getDocumentTitle();
       doc.setProperties({
         title: docTitle
-        /*,
+        /* ,
               subject: '',
               author: '',
               keywords: '',
-              creator: ''*/
+              creator: '' */
       });
       var issues = getIssues();
       var str = that.svgCanvasToString();
@@ -2751,7 +2751,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const use_el = svgdoc.createElementNS(NS.SVG, 'use');
       use_el.id = getNextId();
       setHref(use_el, '#' + symbol.id);
-      //switch currentLayer, and create layer if necessary
+      // switch currentLayer, and create layer if necessary
       if ((type === 'layer' && layerName) || (type === 'color' && symbol.getAttribute('data-color') || (type === 'image-trace'))) {
 
         const color = symbol.getAttribute('data-color');
@@ -2990,7 +2990,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.setCurrentLayer = function (name) {
     var result = getCurrentDrawing().setCurrentLayer(svgedit.utilities.toXml(name));
     if (result) {
-      //clearSelection();
+      // clearSelection();
     }
     return result;
   };
@@ -3261,7 +3261,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const shadow_root = $(href).toArray();
         descendants.push(...shadow_root);
       } else {
-        //console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
+        // console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
       }
     }
   };
@@ -4791,7 +4791,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (window.os === 'Windows' && window.titlebar) {
       window.titlebar.updateTitle(fileName);
     } else {
-      $('#svgcanvas').trigger('mouseup'); //update file title
+      $('#svgcanvas').trigger('mouseup'); // update file title
     }
   };
 
@@ -5290,7 +5290,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!confirm) {
       return;
     }
-    //Wait for alert close
+    // Wait for alert close
     await new Promise((resolve) => setTimeout(resolve, 20));
     const batchCmd = new history.BatchCommand('Disassemble Use');
     for (let i = 0; i < elems.length; ++i) {
@@ -6567,7 +6567,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             let { x, y } = centers[centers.length - 1];
             for (let i = 0; i < tlist.numberOfItems; i++) {
               const t = tlist.getItem(i);
-              //type 4 does not matter
+              // type 4 does not matter
               if (t.type === 4) {
                 continue;
               }
@@ -7236,7 +7236,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         break;
     }
 
-    startTransform = selected.getAttribute('transform'); //???maybe non need
+    startTransform = selected.getAttribute('transform'); // ???maybe non need
 
     const tlist = svgedit.transformlist.getTransformList(selected);
     const left = realLocation.x;
@@ -7284,7 +7284,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const selected = selectedElements[0];
     const realLocation = this.getSvgRealLocation(selected);
 
-    startTransform = selected.getAttribute('transform'); //???maybe non need
+    startTransform = selected.getAttribute('transform'); // ???maybe non need
 
     const tlist = svgedit.transformlist.getTransformList(selected);
     const left = realLocation.x;
