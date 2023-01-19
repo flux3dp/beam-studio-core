@@ -9,6 +9,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { ISVGPath } from 'interfaces/ISVGPath';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
+import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import Segment from '../path/Segment';
 import Path from '../path/Path';
 
@@ -18,7 +19,7 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const { svgedit } = window;
+const { svgedit, ClipperLib } = window;
 const { NS } = svgedit;
 
 // Assign ts module to legacy svgedit.path
@@ -1161,6 +1162,36 @@ const smoothByPaperjs = (elem: SVGPathElement) => {
   return d;
 };
 
+const smoothByFitPath = (elem: SVGPathElement) => {
+  const scale = 100;
+  const dpath = elem.getAttribute('d');
+  const bbox = svgedit.utilities.getBBox(elem);
+  const rotation = {
+    angle: svgedit.utilities.getRotationAngle(elem),
+    cx: bbox.x + bbox.width / 2,
+    cy: bbox.y + bbox.height / 2,
+  };
+  const result = [];
+  const paths = ClipperLib.dPathtoPointPathsAndScale(dpath, rotation, scale);
+  paths.forEach((path) => {
+    result.push('M');
+    const points = path.map((p) => ({
+      x: Math.floor(100 * (p.X / scale)) / 100, y: Math.floor(100 * (p.Y / scale)) / 100,
+    }));
+    const segs = BezierFitCurve.fitPath(points);
+    for (let j = 0; j < segs.length; j += 1) {
+      const seg = segs[j];
+      if (j === 0) {
+        result.push(`${seg.points[0].x},${seg.points[0].y}`);
+      }
+      const pointsString = seg.points.slice(1).map((p) => `${p.x},${p.y}`).join(' ');
+      result.push(`${seg.type}${pointsString}`);
+    }
+    result.push('Z');
+  });
+  return result.join('');
+};
+
 const booleanOperationByPaperjs = (
   baseHTML: string,
   elem2: SVGPathElement,
@@ -1188,7 +1219,7 @@ const booleanOperationByPaperjs = (
 };
 
 const simplifyPath = (elem: SVGPathElement | any) => {
-  const d = smoothByPaperjs(elem);
+  const d = smoothByFitPath(elem);
   return d;
 };
 
