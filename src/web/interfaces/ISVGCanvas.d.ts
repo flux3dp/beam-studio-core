@@ -1,3 +1,4 @@
+import { Units } from 'helpers/units';
 import { IBatchCommand, ICommand, IUndoManager } from 'interfaces/IHistory';
 import IShapeStyle from 'interfaces/IShapeStyle';
 import ISVGConfig from 'interfaces/ISVGConfig';
@@ -9,83 +10,138 @@ export interface IPoint {
   y: number
 }
 
+interface IRect {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+}
+
 export default interface ISVGCanvas {
-  addedNew: boolean;
   addAlignPoint: (x: number, y: number) => void;
-  addToSelection: (elemsToAdd: SVGElement[], showGrips?: boolean, noCall?: boolean) => void;
-  addSvgElementFromJson: (obj: {
-    element: string,
-    curStyles?: boolean,
-    attr: any,
-  }) => SVGElement;
   addCommandToHistory: (command: ICommand) => void;
+  addedNew: boolean;
+  addExtension: any;
+  addSvgElementFromJson: (obj: { element: string, curStyles?: boolean, attr: any, }) => SVGElement;
+  addToSelection: (elemsToAdd: SVGElement[], showGrips?: boolean, noCall?: boolean) => void;
+  alignSelectedElements(type: 'l' | 'c' | 'r' | 't' | 'm' | 'b', relativeTo: 'selected' | 'largest' | 'smallest' | 'page'): void;
+  assignAttributes(element: HTMLElement, args: any): void;
+  bind: (eventName: string, callback: boolean | ((win: any, elem: any) => void)) => void;
+  calculateTransformedBBox(elem: Element): IRect;
   call: (eventName: string, args?: SVGElement[] | any) => void;
+  changeSelectedAttribute(attr: string, val: string | number): void;
   cleanupElement: (elem: SVGElement) => void;
-  clearSelection: (noCall?: boolean) => void;
-  clearBoundingBox: () => void;
   clear: () => void;
+  clearBoundingBox: () => void;
+  clearSelection: (noCall?: boolean) => void;
+  contentH: number;
+  contentW: number;
+  convertToNum(attr: string, val: number): number;
+  createLayer: (layerName: string, historyRecordingService?: any, hexCode?: string) => void;
+  currentFilePath: string;
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;
-  isBezierPathAlignToEdge: boolean;
-  isUsingLayerColor: boolean;
-  getId: () => string;
-  getNextId: () => string;
+  embedImage(url: string, callback: (dataURI: string) => void): void;
+  findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint, yMatchPoint: IPoint };
+  getColor: (key: string) => string;
   getContainer: () => SVGElement,
   getCurrentConfig: () => ISVGConfig,
-  getCurrentShape: () => IShapeStyle,
   getCurrentDrawing: () => ISVGDrawing;
   getCurrentGroup: () => SVGGElement;
   getCurrentMode: () => string,
-  getCurrentZoom: () => number, // New getter for current_zoom
-  getZoom: () => number, // Old getter for current_zoom
   getCurrentResizeMode: () => string,
-  getStarted: () => boolean,
-  getRubberBox: () => SVGRectElement,
+  getCurrentShape: () => IShapeStyle,
+  getCurrentZoom: () => number, // New getter for current_zoom
+  getDocumentTitle: () => string;
+  getGoodImage: () => string;
+  getHref: (elem: SVGElement) => string;
+  getId: () => string;
+  getIntersectionList: () => SVGElement[];
+  getLatestImportFileName(): string;
+  getMode: () => string;
+  getMouseTarget: (evt: MouseEvent, allowTempGroup?: boolean) => SVGElement;
+  getNextId: () => string;
+  getPaintOpacity: (pickerType: string) => number;
+  getRefElem(refString: string): Element;
   getRoot: () => SVGSVGElement,
   getRootScreenMatrix: () => SVGMatrix;
-  getMouseTarget: (evt: MouseEvent, allowTempGroup?: boolean) => SVGElement;
-  getIntersectionList: () => SVGElement[];
+  getRotationAngle(elem: Element): void;
+  getRubberBox: () => SVGRectElement,
   getSelectedElements: () => SVGElement[];
+  getStarted: () => boolean,
   getStartTransform: () => any;
-  getGoodImage: () => string;
-  getSvgRealLocation: (elem: SVGElement) => {
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  };
+  getStrokedBBox(elems: Element[]): IRect;
+  getSvgRealLocation: (elem: SVGElement) => IRect;
+  getSvgString: () => string;
   getTempGroup: () => SVGGElement;
-  findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint, yMatchPoint: IPoint };
-  setHref: (elem: SVGImageElement, href: string) => void;
+  getTitle: () => string;
+  getZoom: () => number, // Old getter for current_zoom
+  groupSelectedElements: () => void;
+  importSvgString(modifiedSvgString: string, type: 'color' | 'layer' | 'none', layerName: string): void;
+  isBezierPathAlignToEdge: boolean;
+  isUsingLayerColor: boolean;
   leaveContext: () => void;
+  makeHyperlink(url: string): void;
+  moveDownSelectedElement(): void;
+  moveSelectedToLayer(destLayer: string): void;
+  moveTopBottomSelected(direction: 'top' | 'bottom'): void;
+  moveUpSelectedElement(): void;
   opacityAnimation: SVGAnimateElement;
+  open: () => void;
   pathActions: any;
-  reorientGrads: (elem: SVGElement, matrix: SVGMatrix) => void;
-  removeFromTempGroup: (elem: SVGElement) => void;
-  removeFromSelection: (elems: SVGElement[]) => void;
-  resetOrientation: (elem: SVGElement) => void;
-  runExtensions: (eventName: string, args: any, returnArray?: boolean) => any;
+  randomizeIds(enableRandomization: boolean): string;
+  ready: (arg0: () => void) => any;
   recalculateAllSelectedDimensions: (isSubCommand?: boolean) => IBatchCommand;
-  setCurrentResizeMode: (mode: string) => void;
-  setMode: (mode: string) => void;
-  setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;
+  removeDefaultLayerIfEmpty(): void;
+  removeFromSelection: (elems: SVGElement[]) => void;
+  removeFromTempGroup: (elem: SVGElement) => void;
+  renameCurrentLayer: (layerName: string) => void;
+  reorientGrads: (elem: SVGElement, matrix: SVGMatrix) => void;
+  resetOrientation: (elem: SVGElement) => void;
+  runExtensions: (eventName: string, args?: any, returnArray?: boolean) => any;
+  selectAll: () => void;
   selectOnly: (elems: SVGElement[], showGrips?: boolean) => void;
-  setCurrentLayer: (layerName: string) => void;
-  setRootScreenMatrix: (matrix: SVGMatrix) => void;
   selectorManager: SelectorManager;
-  spaceKey: boolean;
-  setLastClickPoint: (point: { x: number, y: number }) => void;
-  setCurrentStyleProperties: (key: string, val: string | number) => void;
   sensorAreaInfo: { x: number, y: number, dx: number, dy: number, elem: SVGElement };
-  textActions: any;
+  setBackground: (color: string, url: string) => void;
+  setBlur(blurValue: number, shouldComplete: boolean): void;
+  setBlurNoUndo(blurValue: number): void;
+  setColor: (pickerType: string, color: string, preventUndo?: boolean) => void;
+  setConfig(curConfig: ISVGConfig): void;
+  setContext(element: Element): void;
+  setCurrentLayer: (layerName: string) => boolean;
+  setCurrentResizeMode: (mode: string) => void;
+  setCurrentStyleProperties: (key: string, val: string | number) => void;
+  setHasUnsavedChange(hasUnsavedChange: boolean): void;
+  setHref: (elem: SVGImageElement | SVGElement, href: string) => void;
+  setImageURL: (url: string) => void;
+  setLastClickPoint: (point: { x: number, y: number }) => void;
+  setLatestImportFileName(fileName: string): void;
+  setMode: (mode: string) => void;
+  setOpacity: (opacity: number) => void;
+  setPaint(picker: string, paint: any): void;
+  setPaintOpacity: (pickerType: string, opacity: number, preventUndo?: boolean) => void;
+  setRootScreenMatrix: (matrix: SVGMatrix) => void;
+  setRotaryMode: (rotaryMode: boolean) => void;
+  setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;
+  setStrokeAttr(attrKey: string, value: string): void;
+  setStrokeWidth(width: number): void;
+  setSvgString: (content: string) => boolean;
+  setUiStrings(allStrings: Record<string, string>): void;
+  setZoom: (zoom: number) => void;
+  spaceKey: boolean;
+  svgToString(elem: Element, indent: number, units?: Units): string;
   tempGroupSelectedElements: () => SVGElement[];
-  updateElementColor: (elem: SVGElement) => void;
+  textActions: any;
   undoMgr: IUndoManager;
+  ungroupSelectedElement(): void;
+  updateCanvas: (width: number, height: number) => void;
+  updateElementColor: (elem: Element) => void;
+  updateRecentFiles(path: string): void;
   unsafeAccess: {
     setCurrentMode: (v: string) => void,
     setRubberBox: (v: SVGRectElement) => void,
     setStarted: (v: boolean) => void,
-    setMode: (v: string) => void;
     setSelectedElements: (elems: SVGElement[]) => void;
     setStartTransform: (transform: any) => void;
   };
