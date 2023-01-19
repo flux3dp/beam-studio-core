@@ -5138,9 +5138,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (!elem || elem.tagName != 'path') {
         return;
       }
-      let newPaths = [];
       const angle = svgedit.utilities.getRotationAngle(elem);
       this.setRotationAngle(0, true, elem);
+      const dAbs: string = svgedit.utilities.convertPath(elem);
+      const subPaths = dAbs.split('M').filter((d) => d.length);
+      if (subPaths.length === 1) return;
+      let newPaths = [];
       const layer = LayerHelper.getObjectLayer(elem).elem;
       const attrs = {
         'stroke': $(elem).attr('stroke') || '#333333',
@@ -5149,24 +5152,21 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         'stroke-opacity': $(elem).attr('stroke-opacity') || '1',
         'fill-opacity': $(elem).attr('fill-opacity') || '0',
       };
-      const dAbs: string = svgedit.utilities.convertPath(elem);
-      dAbs.split('M')
-        .filter((d) => d.length)
-        .forEach((d) => {
-          const id = getNextId();
-          const path = addSvgElementFromJson({
-            element: 'path',
-            attr: {
-              ...attrs,
-              id,
-              d: `M${d}`,
-              'vector-effect': 'non-scaling-stroke',
-            },
-          });
-          layer.appendChild(path);
-          newPaths.push(path);
-          batchCmd.addSubCommand(new history.InsertElementCommand(path));
+      subPaths.forEach((d) => {
+        const id = getNextId();
+        const path = addSvgElementFromJson({
+          element: 'path',
+          attr: {
+            ...attrs,
+            id,
+            d: `M${d}`,
+            'vector-effect': 'non-scaling-stroke',
+          },
         });
+        layer.appendChild(path);
+        newPaths.push(path);
+        batchCmd.addSubCommand(new history.InsertElementCommand(path));
+      });
       const parent = elem.parentNode;
       const nextSibling = elem.nextSibling;
       parent.removeChild(elem);
@@ -5181,6 +5181,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
     if (!batchCmd.isEmpty()) {
       addCommandToHistory(batchCmd);
+    } else {
+      Alert.popUpError({
+        caption: 'Unable to decompose',
+        message: 'The path contains only one sub-path.',
+      });
     }
     if (allNewPaths.length > 0) {
       selectOnly(allNewPaths, false);
