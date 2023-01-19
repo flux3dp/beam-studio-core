@@ -16,6 +16,7 @@ import touchEvents from 'app/svgedit/touchEvents';
 import textEdit from 'app/svgedit/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
 import ISVGCanvas from '../../../interfaces/ISVGCanvas';
+import { MouseButtons } from 'app/constants/mouse-constants';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -161,7 +162,7 @@ const mouseDown = (evt: MouseEvent) => {
   const selectedElements = svgCanvas.getSelectedElements();
   const started = svgCanvas.getStarted();
   const svgRoot = svgCanvas.getRoot();
-  const rightClick = evt.button === 2;
+  const rightClick = evt.button === MouseButtons.Right;
   let currentMode = svgCanvas.getCurrentMode();
   let extensionResult = null;
 
@@ -173,7 +174,7 @@ const mouseDown = (evt: MouseEvent) => {
   const realX = x; // realX/Y ignores grid-snap value
   const realY = y;
 
-  if (svgCanvas.spaceKey || evt.button === 1) return;
+  if (svgCanvas.spaceKey || evt.button === MouseButtons.Mid) return;
 
   mouseSelectModeCmds = [];
 
@@ -765,7 +766,7 @@ const mouseMove = (evt: MouseEvent) => {
   const rubberBox = svgCanvas.getRubberBox();
   const svgRoot = svgCanvas.getRoot();
 
-  if (evt.button === 1 || svgCanvas.spaceKey) {
+  if (evt.button === MouseButtons.Mid || svgCanvas.spaceKey) {
     return;
   }
 
@@ -1139,7 +1140,7 @@ const mouseMove = (evt: MouseEvent) => {
 // identified, a ChangeElementCommand is created and stored on the stack for those attrs
 // this is done in when we recalculate the selected dimensions()
 
-const mouseUp = async (evt, blocked = false) => {
+const mouseUp = async (evt: MouseEvent, blocked = false) => {
   const started = svgCanvas.getStarted();
   const currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();
@@ -1147,8 +1148,9 @@ const mouseUp = async (evt, blocked = false) => {
   let selectedElements = svgCanvas.getSelectedElements();
   const rubberBox = svgCanvas.getRubberBox();
   const screenMatrix = svgCanvas.getRootScreenMatrix();
+  const rightClick = evt.button === MouseButtons.Right;
 
-  if (evt.button === 2) {
+  if (rightClick) {
     return;
   }
   if (blocked) {
@@ -1660,7 +1662,7 @@ const mouseUp = async (evt, blocked = false) => {
 };
 
 const mouseEnter = (evt: MouseEvent) => {
-  if (svgCanvas.getStarted() && (evt.buttons & 1) === 0) {
+  if (svgCanvas.getStarted() && (evt.buttons & MouseButtons.Mid) === 0) {
     mouseUp(evt);
   }
 };
