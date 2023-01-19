@@ -37,7 +37,7 @@ const serializeElement = (el: Element) => {
     childNodes: [],
     attributes: [],
   };
-  for (let i = 0; i < el.attributes.length; i += 1) {
+  for (let i = 0; i < el.attributes?.length; i += 1) {
     const att = el.attributes[i];
     result.attributes.push({
       namespaceURI: att.namespaceURI,
@@ -45,7 +45,7 @@ const serializeElement = (el: Element) => {
       value: att.value,
     });
   }
-  el.childNodes.forEach((node) => {
+  el.childNodes?.forEach((node) => {
     result.childNodes.push(serializeElement(node as Element));
   });
   return result;
