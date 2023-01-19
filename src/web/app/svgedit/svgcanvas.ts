@@ -682,7 +682,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Rotary Mode
   let rotaryMode = BeamboxPreference.read('rotary_mode');
 
-
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
   textEdit.useDefaultFont();
@@ -950,7 +949,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     $(g).append(elem).data('gsvg', elem)[0].id = getNextId();
   };
 
-
   // Set scope for these functions
   var getId, getNextId;
 
@@ -1044,7 +1042,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //	$(svgroot).children().each(cb);
   // };
 
-
   // Function: setRotationAngle
   // Removes any old rotations if present, prepends a new rotation at the
   // transformed center
@@ -1132,7 +1129,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return batchCmd;
   };
 
-
   // Debug tool to easily see the current matrix in the browser's console
   var logMatrix = function (m) {
     console.log([m.a, m.b, m.c, m.d, m.e, m.f]);
@@ -1172,7 +1168,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   // TODO: do we need to worry about selectedBBoxes here?
-
 
   // Function: addToSelection
   // Adds a list of elements to the selection. The 'selected' handler is then called.
@@ -1912,7 +1907,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     return ret;
   };
-
 
   // Function: embedImage
   // Converts a given image file to a data URL when possible, then runs a given callback
@@ -3396,7 +3390,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return curConfig.gridSnapping;
   };
 
-
   // Function: getVersion
   // Returns a string which describes the revision number of SvgCanvas.
   this.getVersion = function () {
@@ -4370,7 +4363,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     addCommandToHistory(batchCmd);
   };
 
-
   // Function: setRectRadius
   // Sets the rx & ry values to the selected rect element to change its corner radius
   //
@@ -4617,7 +4609,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     return path;
   };
-
 
   // Function: changeSelectedAttributeNoUndo
   // This function makes the changes to the elements. It does not add the change
@@ -5684,7 +5675,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       setHref(group, url);
     }
     batchCmd.addSubCommand(new history.InsertElementCommand(group));
-
 
     for (let i = 0; i < selectedElements.length; i++) {
       let elem = selectedElements[i];
@@ -6962,7 +6952,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.clear();
 
-
   // DEPRECATED: getPrivateMethods
   // Since all methods are/should be public somehow, this function should be removed
 
@@ -7290,7 +7279,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       return batchCmd;
     }
   };
-
 
   this.zoomSvgElem = function (zoomScale) {
     const selected = selectedElements[0];
