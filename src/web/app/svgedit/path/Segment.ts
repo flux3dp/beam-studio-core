@@ -26,6 +26,8 @@ export default class Segment implements ISegment {
 
   prev?: Segment;
 
+  mate?: Segment;
+
   constructor(index: number, item: ISVGPathSeg) {
     this.index = index;
     this.item = item;
@@ -60,10 +62,10 @@ export default class Segment implements ISegment {
     const nodePoint = new svgedit.path.PathNodePoint(pathSeg.x, pathSeg.y, this, this.path);
     const controlPoints = [];
     if (pathSeg.pathSegType === 6) {
-      controlPoints.push(new svgedit.path.SegmentControlPoint(pathSeg.x1, pathSeg.y1, this, 1));
-      controlPoints.push(new svgedit.path.SegmentControlPoint(pathSeg.x2, pathSeg.y2, this, 2));
+      controlPoints.push(new SegmentControlPoint(pathSeg.x1, pathSeg.y1, this, 1));
+      controlPoints.push(new SegmentControlPoint(pathSeg.x2, pathSeg.y2, this, 2));
     } else if (pathSeg.pathSegType === 8) {
-      controlPoints.push(new svgedit.path.SegmentControlPoint(pathSeg.x1, pathSeg.y1, this, 1));
+      controlPoints.push(new SegmentControlPoint(pathSeg.x1, pathSeg.y1, this, 1));
     }
     this.controlPoints = controlPoints;
     return { nodePoint, controlPoints };

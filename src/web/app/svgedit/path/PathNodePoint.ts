@@ -39,7 +39,7 @@ export default class PathNodePoint implements IPathNodePoint {
 
   controlPoints: ISegmentControlPoint[];
 
-  linkType: number;
+  linkType: NodeLinkType;
 
   isSelected: boolean;
 
@@ -201,7 +201,7 @@ export default class PathNodePoint implements IPathNodePoint {
     return segChanges;
   }
 
-  createControlPoints() {
+  createControlPoints(): any {
     const segChanges = {};
     const newControlPoints = [];
     // Segments that end here

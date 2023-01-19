@@ -44,7 +44,7 @@ export default class SegmentControlPoint {
     }
   }
 
-  move(dx: number, dy: number) {
+  move(dx: number, dy: number): any {
     const segChanges = {};
     this.x += dx;
     this.y += dy;
@@ -66,7 +66,7 @@ export default class SegmentControlPoint {
     return segChanges;
   }
 
-  moveLinkedControlPoint() {
+  moveLinkedControlPoint(): void {
     const segChanges = {};
     const { nodePoint } = this;
     if (nodePoint) {
@@ -180,7 +180,7 @@ export default class SegmentControlPoint {
     nodePoint.controlPoints = nodePoint.controlPoints.filter((cp) => cp !== this);
   }
 
-  delete() {
+  delete(): any {
     const { seg } = this;
     const segItem = seg.item;
     let changes = {};
