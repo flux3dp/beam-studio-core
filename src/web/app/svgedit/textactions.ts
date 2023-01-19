@@ -9,6 +9,7 @@ import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteElements, deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 
 enum TextType {
   NULL = 0,
@@ -24,7 +25,7 @@ interface BBox {
   angle?: number;
 }
 
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const { svgedit } = window;

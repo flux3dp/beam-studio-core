@@ -67,7 +67,7 @@ export default interface ISVGCanvas {
   getRootScreenMatrix: () => SVGMatrix;
   getRotationAngle(elem: Element): void;
   getRubberBox: () => SVGRectElement,
-  getSelectedElements: () => SVGElement[];
+  getSelectedElems: () => SVGElement[];
   getStarted: () => boolean,
   getStartTransform: () => any;
   getStrokedBBox(elems: Element[]): IRect;
