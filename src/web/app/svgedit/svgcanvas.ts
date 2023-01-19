@@ -2098,7 +2098,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return new Promise((resolve, reject) => {
       try {
         const [width, height] = dimensions;
-        const canvas = document.createElement("canvas");
+        const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
@@ -5202,7 +5202,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const angle = svgedit.utilities.getRotationAngle(img);
     const imgUrl = await new Promise((resolve) => {
       ImageData(
-        $(img).attr("origImage"),
+        $(img).attr('origImage'),
         {
           height: $(img).height(),
           width: $(img).width(),
@@ -5428,7 +5428,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           stroke: '#FA6161',
           'stroke-width': '0.5',
           fill: 'none',
-          'vector-effect': "non-scaling-stroke"
+          'vector-effect': 'non-scaling-stroke'
         });
         svgedit.utilities.getElem('svgcontent').appendChild(xAlignLine);
       }
@@ -5448,7 +5448,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           stroke: '#FA6161',
           'stroke-width': '0.5',
           fill: 'none',
-          'vector-effect': "non-scaling-stroke"
+          'vector-effect': 'non-scaling-stroke'
         });
         svgedit.utilities.getElem('svgcontent').appendChild(yAlignLine);
       }
