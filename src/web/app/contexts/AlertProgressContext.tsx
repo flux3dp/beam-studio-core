@@ -34,6 +34,8 @@ interface Props {
   messageApi: MessageInstance;
 }
 
+const generateRandomKey = () => Math.floor(10000000 * Math.random());
+
 export class AlertProgressContextProvider extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -103,7 +105,7 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
     }
     const { alertProgressStack } = this.state;
     this.setState({
-      alertProgressStack: [...alertProgressStack, item],
+      alertProgressStack: [...alertProgressStack, { ...item, key: generateRandomKey() }],
     }, callback);
   };
 

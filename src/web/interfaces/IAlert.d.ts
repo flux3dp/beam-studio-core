@@ -3,6 +3,7 @@ import { IButton } from './IButton';
 
 export interface IAlert {
   id?: string;
+  key?: number;
   type?: string;
   message: string | JSX.Element;
   caption?: string;

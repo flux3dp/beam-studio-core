@@ -11,10 +11,11 @@ import i18n from 'helpers/i18n';
 import browser from 'implementations/browser';
 import Draggable from 'react-draggable';
 
+const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
+
 const AlertsAndProgress = (): JSX.Element => {
   const LANG = i18n.lang;
   const messageRef = useRef<HTMLPreElement>();
-  const randomId = useRef(Math.random());
 
   const { alertProgressStack, popFromStack, popById } = React.useContext(AlertProgressContext);
 
@@ -41,8 +42,52 @@ const AlertsAndProgress = (): JSX.Element => {
   });
 
   if (alertProgressStack.length === 0) return <div />;
-  const alertModals = alertProgressStack.map((alertData: IAlert) => {
-    const footer = alertData?.buttons?.map((button) => {
+  const alertModals = alertProgressStack.map((data) => {
+    const renderMessage = (): JSX.Element => {
+      const { message } = data;
+      return typeof message === 'string'
+        // eslint-disable-next-line react/no-danger
+        ? (
+          <div
+            className="message"
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
+        )
+        : <div className="message">{message}</div>;
+    };
+    if (isProgress(data)) {
+      let { percentage } = data;
+      if (data.type === ProgressConstants.NONSTOP) {
+        percentage = 1;
+      }
+      return (
+        <Modal
+          key={`${data.key}-${data.id}`}
+          style={{
+            minWidth: 520,
+          }}
+          open={alertProgressStack.length > 0}
+          title={data.caption}
+          onCancel={() => {
+            popById(data.id);
+            data.onCancel();
+          }}
+          centered
+          closable={false}
+          cancelText={LANG.alert.cancel}
+          okButtonProps={{ style: { display: 'none' } }}
+          modalRender={modalRender}
+        >
+          {renderMessage()}
+          <Progress
+            status="active"
+            percent={Number(Number(percentage).toFixed(2))}
+            strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+          />
+        </Modal>
+      );
+    }
+    const footer = data?.buttons.map((button) => {
       const buttonType = button.className.includes('primary') ? 'primary' : 'default';
       return (
         <Button
@@ -58,58 +103,11 @@ const AlertsAndProgress = (): JSX.Element => {
       );
     });
 
-    const renderMessage = (): JSX.Element => {
-      const { message } = alertData;
-      return typeof message === 'string'
-        // eslint-disable-next-line react/no-danger
-        ? (
-          <div
-            className="message"
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
-        )
-        : <div className="message">{message}</div>;
-    };
-
-    if (alertData.isProgress) {
-      let { percentage } = alertData as IProgressDialog;
-      if (alertData.type === ProgressConstants.NONSTOP) {
-        percentage = 1;
-      }
-      return (
-        <Modal
-          key={`${randomId.current}-${alertData.id}`}
-          style={{
-            minWidth: 520,
-          }}
-          open={alertProgressStack.length > 0}
-          title={alertData.caption}
-          onCancel={() => {
-            popById(alertData.id);
-            alertData.onCancel();
-          }}
-          centered
-          footer={footer}
-          closable={false}
-          cancelText={LANG.alert.cancel}
-          okButtonProps={{ style: { display: 'none' } }}
-          modalRender={modalRender}
-        >
-          {renderMessage()}
-          <Progress
-            status="active"
-            percent={Number(Number(percentage).toFixed(2))}
-            strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
-          />
-        </Modal>
-      );
-    }
-
     return (
       <Modal
-        key={`${randomId.current}-${alertData.id}`}
+        key={`${data.key}-${data.id}`}
         open={alertProgressStack.length > 0}
-        title={alertData.caption}
+        title={data.caption}
         modalRender={modalRender}
         footer={footer}
         closable={false}

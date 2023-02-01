@@ -5,6 +5,7 @@ export interface IProgress {
 
 export interface IProgressDialog {
   id?: string,
+  key?: number;
   type?: string,
   caption?: string,
   message?: string,
