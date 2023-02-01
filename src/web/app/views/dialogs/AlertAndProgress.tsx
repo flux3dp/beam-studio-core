@@ -78,7 +78,7 @@ const AlertsAndProgress = (): JSX.Element => {
       }
       return (
         <Modal
-          key={`${randomId}-${alertData.id}`}
+          key={`${randomId.current}-${alertData.id}`}
           style={{
             minWidth: 520,
           }}
@@ -107,7 +107,7 @@ const AlertsAndProgress = (): JSX.Element => {
 
     return (
       <Modal
-        key={`${randomId}-${alertData.id}`}
+        key={`${randomId.current}-${alertData.id}`}
         open={alertProgressStack.length > 0}
         title={alertData.caption}
         modalRender={modalRender}
