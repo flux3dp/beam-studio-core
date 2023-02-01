@@ -4,7 +4,7 @@ import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import {
-  Modal, Button, FormInstance, Form, InputRef, Input, Table, Popconfirm, InputNumber, Space,
+  Modal, Button, FormInstance, Form, Input, Table, InputNumber, Space,
 } from 'antd';
 import storage from 'implementations/storage';
 import {
@@ -19,7 +19,6 @@ const LANG = i18n.lang.beambox.layer_color_config_panel;
 
 const formatHexColor = (input: string): string | null => {
   const val = input.replace(/ +/, '');
-  let res;
   const matchHex6 = val.match(/#[0-9A-F]{6}\b/i);
   if (matchHex6) {
     return matchHex6[0].toUpperCase();
@@ -63,8 +62,8 @@ interface EditableCellProps {
   dataIndex: keyof ColorConfig;
   record: ColorConfig;
   unit: string;
-  min: number,
-  max: number,
+  min: number;
+  max: number;
   validator: (val: string) => string;
   handleSave: (record: ColorConfig) => void;
 }
@@ -95,11 +94,11 @@ const EditableCell = ({
 }: EditableCellProps) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
-  const form = useContext(EditableContext)!;
+  const form = useContext(EditableContext);
 
   useEffect(() => {
     if (editing) {
-      inputRef.current!.focus();
+      inputRef.current?.focus();
     }
   }, [editing]);
 
@@ -141,7 +140,7 @@ const EditableCell = ({
           },
         ]}
       >
-        { max ? (
+        {max ? (
           <InputNumber
             size="small"
             ref={inputRef}
@@ -151,7 +150,7 @@ const EditableCell = ({
             min={min}
             max={max}
             formatter={(value) => `${value} ${unit}`}
-            parser={(value) => Number(value!.replace(unit, ''))}
+            parser={(value) => Number(value?.replace(unit, ''))}
           />
         ) : (
           <Input
@@ -176,20 +175,16 @@ const EditableCell = ({
       </div>
     );
   }
-  const colorBlock = (dataIndex === 'color') ? (
-    <div style={{ background: record.color }} className="config-color-block" />
-  ) : null;
 
   return (
     <td {...restProps}>
       <InputKeyWrapper inputRef={inputRef}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {colorBlock}
+          {dataIndex === 'color' && <div style={{ background: record.color }} className="config-color-block" />}
           {childNode}
         </div>
       </InputKeyWrapper>
     </td>
-
   );
 };
 
@@ -200,10 +195,9 @@ type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 const LayerColorConfigPanel = (props: Props): JSX.Element => {
   const [displayAddPanel, setDisplayAddPanel] = useState(false);
   const { onClose } = props;
-  const [configs, setConfigs] = useState([] as ColorConfig[]);
 
-  const layerColorConfigSettings = storage.get('layer-color-config') as unknown as {
-    array: ColorConfig[],
+  const layerColorConfigSettings = storage.get('layer-color-config') as {
+    array: ColorConfig[];
   };
 
   const initConfigs = layerColorConfigSettings?.array || [...DefaultColorConfigs];
@@ -231,9 +225,11 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
 
   const columns: (ColumnTypes[number] & {
     editable?: boolean;
-    dataIndex: string,
-    unit?: string, min?: number, max?: number,
-    validator?: (val: string) => string,
+    dataIndex: string;
+    unit?: string;
+    min?: number;
+    max?: number;
+    validator?: (val: string) => string;
   })[] = [
     {
       title: LANG.color,
@@ -273,10 +269,7 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
       title: '',
       dataIndex: 'operation',
       render: (_, record: { key: React.Key }) => (
-        <Button
-          type="text"
-          onClick={() => handleDelete(record.key)}
-        >
+        <Button type="text" onClick={() => handleDelete(record.key)}>
           <DeleteFilled />
         </Button>
       ),
@@ -295,7 +288,7 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
     };
   });
 
-  const hasColor = (color: string) => configs.some((v) => v.color === color);
+  const hasColor = (color: string) => dataSource.some((v) => v.color === color);
 
   const onResetDefault = () => {
     Alert.popUp({
@@ -322,9 +315,15 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
   };
 
   const renderFooter = () => [
-    <Button key="reset" type="dashed" onClick={onResetDefault}>{LANG.default}</Button>,
-    <Button key="cancel" onClick={onClose}>{LANG.cancel}</Button>,
-    <Button key="save" type="primary" onClick={onSave}>{LANG.save}</Button>,
+    <Button key="reset" type="dashed" onClick={onResetDefault}>
+      {LANG.default}
+    </Button>,
+    <Button key="cancel" onClick={onClose}>
+      {LANG.cancel}
+    </Button>,
+    <Button key="save" type="primary" onClick={onSave}>
+      {LANG.save}
+    </Button>,
   ];
 
   const handleAddConfig = (config: ColorConfig) => {
@@ -339,19 +338,13 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
         message: LANG.in_use,
       });
     } else {
-      configs.push(config);
+      setDataSource((prev) => [...prev, { key: config.color, ...config }]);
       setDisplayAddPanel(false);
     }
   };
 
   const render = () => (
-    <Modal
-      open
-      centered
-      onCancel={onClose}
-      title={LANG.layer_color_config}
-      footer={renderFooter()}
-    >
+    <Modal open centered onCancel={onClose} title={LANG.layer_color_config} footer={renderFooter()}>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button type="primary" onClick={() => setDisplayAddPanel(true)}>
           <PlusCircleFilled />
