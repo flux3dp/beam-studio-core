@@ -1,23 +1,22 @@
 import * as React from 'react';
-import {
-  useState, useRef, useEffect, useContext,
-} from 'react';
 import { Modal, Segmented } from 'antd';
-import i18n from 'helpers/i18n';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import Constant from 'app/actions/beambox/constant';
-import Progress from 'app/actions/progress-caller';
+import { useState, useRef, useEffect, useContext } from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import DeviceErrorHandler from 'helpers/device-error-handler';
-import DeviceMaster from 'helpers/device-master';
 import Browser from 'implementations/browser';
 import CheckDeviceStatus from 'helpers/check-device-status';
-import { doGetOffsetFromPicture } from 'helpers/camera-calibration-helper';
-import { CameraConfig, STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
+import Constant from 'app/actions/beambox/constant';
+import DeviceConstants from 'app/constants/device-constants';
+import DeviceErrorHandler from 'helpers/device-error-handler';
+import DeviceMaster from 'helpers/device-master';
+import i18n from 'helpers/i18n';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import Progress from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
 import { CalibrationContext } from 'app/contexts/CalibrationContext';
-import DeviceConstants from 'app/constants/device-constants';
+import { CameraConfig, STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
+import { doGetOffsetFromPicture } from 'helpers/camera-calibration-helper';
 
 const LANG = i18n.lang.camera_calibration;
 const LANG_ALERT = i18n.lang.alert;

@@ -1,20 +1,12 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
+import { Button, Divider, Form, Input, InputRef, Modal, Result, Space } from 'antd';
 
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
-import {
-  Button, Divider, Form, Input, InputRef, Modal, Result, Space,
-} from 'antd';
 import storage from 'implementations/storage';
-import {
-  externalLinkFBSignIn,
-  externalLinkGoogleSignIn,
-  fluxIDEvents,
-  signIn,
-  signOut,
-} from 'helpers/api/flux-id';
+import { externalLinkFBSignIn, externalLinkGoogleSignIn, fluxIDEvents, signIn, signOut } from 'helpers/api/flux-id';
 
 let LANG = i18n.lang.flux_id_login;
 const updateLang = () => {
@@ -32,7 +24,9 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   const emailInput = useRef<InputRef>(null);
   const passwordInput = useRef<InputRef>(null);
   const rememberMeCheckbox = useRef(null);
-  const [isRememberMeChecked, setIsRememberMeChecked] = useState(!!storage.get('keep-flux-id-login'));
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(
+    !!storage.get('keep-flux-id-login'),
+  );
 
   useEffect(() => {
     const checkbox = rememberMeCheckbox.current;
@@ -81,12 +75,7 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
       console.log('Log in succeeded', res);
       if (!silent) {
         alert.popUp({
-          message: (
-            <Result
-              status="success"
-              title={LANG.login_success}
-            />
-          ),
+          message: <Result status="success" title={LANG.login_success} />,
         });
       }
       onClose();
@@ -94,14 +83,7 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   };
 
   return (
-    <Modal
-      open
-      centered
-      title={LANG.login}
-      footer={null}
-      onCancel={onClose}
-      width={400}
-    >
+    <Modal open centered title={LANG.login} footer={null} onCancel={onClose} width={400}>
       <div className="flux-login">
         {renderOAuthContent()}
         <Divider>or</Divider>
@@ -121,17 +103,33 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
             />
           </Form.Item>
           <div className="options">
-            <div className="remember-me" onClick={() => setIsRememberMeChecked(!isRememberMeChecked)}>
-              <input ref={rememberMeCheckbox} type="checkbox" checked={isRememberMeChecked} onChange={() => { }} />
+            <div
+              className="remember-me"
+              onClick={() => setIsRememberMeChecked(!isRememberMeChecked)}
+            >
+              <input
+                ref={rememberMeCheckbox}
+                type="checkbox"
+                checked={isRememberMeChecked}
+                onChange={() => {}}
+              />
               <div>{LANG.remember_me}</div>
             </div>
-            <div className="forget-password" onClick={() => browser.open(LANG.lost_password_url)}>{LANG.forget_password}</div>
+            <div className="forget-password" onClick={() => browser.open(LANG.lost_password_url)}>
+              {LANG.forget_password}
+            </div>
           </div>
         </Form>
         <Space className="footer" direction="vertical">
-          <Button block type="primary" onClick={handleLogin}>{LANG.login}</Button>
-          <Button block type="default" onClick={() => browser.open(LANG.signup_url)}>{LANG.register}</Button>
-          <div className="skip" onClick={() => onClose()}>{LANG.work_offline}</div>
+          <Button block type="primary" onClick={handleLogin}>
+            {LANG.login}
+          </Button>
+          <Button block type="default" onClick={() => browser.open(LANG.signup_url)}>
+            {LANG.register}
+          </Button>
+          <div className="skip" onClick={() => onClose()}>
+            {LANG.work_offline}
+          </div>
         </Space>
       </div>
     </Modal>

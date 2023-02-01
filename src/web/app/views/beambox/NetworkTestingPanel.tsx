@@ -1,15 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
+import { Button, Form, Input, InputRef, Modal } from 'antd';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
-import {
-  Button, Form, Input, InputRef, Modal,
-} from 'antd';
 import network from 'implementations/network';
 import os from 'implementations/os';
 import Progress from 'app/actions/progress-caller';

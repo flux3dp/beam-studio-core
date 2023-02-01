@@ -1,11 +1,12 @@
-import storage from 'implementations/storage';
-import { IDeviceInfo } from 'interfaces/IDevice';
 import React, { createContext, useState } from 'react';
+
+import storage from 'implementations/storage';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import DeviceMaster from 'helpers/device-master';
 import {
-  CameraConfig, DEFAULT_CAMERA_OFFSET, STEP_ASK_READJUST, STEP_PUT_PAPER,
+  CameraConfig,DEFAULT_CAMERA_OFFSET, STEP_ASK_READJUST, STEP_PUT_PAPER,
 } from 'app/constants/camera-calibration-constants';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 interface CalibrationContextType {
   borderless: boolean;

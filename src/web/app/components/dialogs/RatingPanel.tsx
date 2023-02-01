@@ -1,9 +1,7 @@
 import * as React from 'react';
+import { Checkbox, Form, Modal, Rate } from 'antd';
 
 import i18n from 'helpers/i18n';
-import {
-  Checkbox, Form, Modal, Rate,
-} from 'antd';
 import RatingHelper from 'helpers/rating-helper';
 
 const LANG = i18n.lang.beambox.rating_panel;

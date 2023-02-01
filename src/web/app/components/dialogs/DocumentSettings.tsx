@@ -6,10 +6,7 @@ import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import i18n from 'helpers/i18n';
-import {
-  Col,
-  Form, Modal, Row, Select, Switch,
-} from 'antd';
+import { Col, Form, Modal, Row, Select, Switch } from 'antd';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
