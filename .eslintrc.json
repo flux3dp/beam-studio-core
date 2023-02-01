@@ -42,6 +42,10 @@
     "jsx-a11y/alt-text": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/control-has-associated-label": "off",
-    "jsx-a11y/no-autofocus": "off"
+    "jsx-a11y/no-autofocus": "off",
+    "max-len": ["error", { "code": 120 }],
+    "object-curly-newline": ["error", {
+      "ImportDeclaration": "never"
+    }]
   }
 }

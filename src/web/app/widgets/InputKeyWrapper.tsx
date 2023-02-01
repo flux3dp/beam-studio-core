@@ -7,8 +7,8 @@ interface Props {
   inputRef: React.MutableRefObject<InputRef>;
 }
 
-export const setEditingInput = () => communicator.send('SET_EDITING_STANDARD_INPUT', true);
-export const setStopEditingInput = () => communicator.send('SET_EDITING_STANDARD_INPUT', false);
+export const setEditingInput = (): void => communicator.send('SET_EDITING_STANDARD_INPUT', true);
+export const setStopEditingInput = (): void => communicator.send('SET_EDITING_STANDARD_INPUT', false);
 
 const InputKeyWrapper = (props: Props): JSX.Element => {
   const { children, inputRef } = props;
@@ -16,7 +16,7 @@ const InputKeyWrapper = (props: Props): JSX.Element => {
   const keyFilter = (e: React.KeyboardEvent): void => {
     if (e.metaKey && ['a', 'z', 'x', 'c', 'v'].includes(e.key)) {
       if (e.key === 'a') {
-        inputRef?.current!.focus({
+        inputRef.current?.focus({
           cursor: 'all',
         });
         e.stopPropagation();

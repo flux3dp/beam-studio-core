@@ -1,10 +1,9 @@
 import * as React from 'react';
+import { Form, Input, InputRef, Modal } from 'antd';
+import { useRef, useState } from 'react';
+
 import Constants from 'app/constants/input-lightbox-constants';
 import i18n from 'helpers/i18n';
-import {
-  Form, Input, InputRef, Modal,
-} from 'antd';
-import { useRef, useState } from 'react';
 
 interface Props {
   type: string;
@@ -17,26 +16,11 @@ interface Props {
   onSubmit: (value: string) => void | Promise<void>;
 }
 
-interface State {
-  allowSubmit: boolean;
-}
-
 const INPUT_TYPE_MAP = {
   [Constants.TYPE_TEXT]: 'text',
   [Constants.TYPE_NUMBER]: 'number',
   [Constants.TYPE_PASSWORD]: 'password',
   [Constants.TYPE_FILE]: 'file',
-};
-
-const defaultProps: Props = {
-  type: Constants.TYPE_TEXT,
-  maxLength: 255,
-  inputHeader: '',
-  defaultValue: '',
-  confirmText: '',
-  caption: '',
-  onClose() { },
-  onSubmit() { },
 };
 
 const InputLightBox = (props: Props): JSX.Element => {

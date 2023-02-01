@@ -1,13 +1,12 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import DeviceConstants from 'app/constants/device-constants';
 import i18n from 'helpers/i18n';
 import MonitorStatus, { ButtonTypes } from 'helpers/monitor-status';
 import { Mode } from 'app/constants/monitor-constants';
-import { MonitorContext, useMonitorContext } from 'app/contexts/MonitorContext';
+import { useMonitorContext } from 'app/contexts/MonitorContext';
 import { Button, Space } from 'antd';
-import { CloseCircleFilled, PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
+import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
 
 const LANG = i18n.lang.monitor;
 
@@ -49,7 +48,7 @@ const MonitorControl = (): JSX.Element => {
       default:
         return null;
     }
-  }
+  };
 
   // const renderRelocateButton = (): JSX.Element => {
   //   const { isMaintainMoving, onRelocate } = this.context;

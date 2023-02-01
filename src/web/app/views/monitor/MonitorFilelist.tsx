@@ -9,7 +9,7 @@ import { MonitorContext } from 'app/contexts/MonitorContext';
 import DeviceMaster from 'helpers/device-master';
 import { HomeOutlined } from '@ant-design/icons';
 
-import { Breadcrumb, Divider } from 'antd';
+import { Breadcrumb } from 'antd';
 import FileItem from './widgets/FileItem';
 
 interface Props {
@@ -22,23 +22,12 @@ interface State {
   fileInfos: { [key: string]: any },
 }
 
-const REGULAR_STYLE = {
-  width: 80,
-  height: 80,
-  textAlign: 'center',
-};
-
-const SELECTED_STYLE = {
-  ...REGULAR_STYLE,
-  color: 'white',
-  background: '#0099CC',
-};
 class MonitorFilelist extends React.Component<Props, State> {
   private isUSBExist: boolean;
 
   private willUnmount = false;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.isUSBExist = false;
     this.state = {
@@ -48,7 +37,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     };
   }
 
-  async componentDidMount() {
+  async componentDidMount(): Promise<void> {
     const { path } = this.props;
     if (path === '') {
       await this.checkUSBFolderExistance();
@@ -57,7 +46,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     await this.getFileInfos();
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps: Props): Promise<void> {
     const { path } = this.props;
     const { shouldUpdateFileList, setShouldUpdateFileList } = this.context;
     if (path !== prevProps.path || shouldUpdateFileList) {
@@ -69,11 +58,11 @@ class MonitorFilelist extends React.Component<Props, State> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.willUnmount = true;
   }
 
-  async getFolderContent() {
+  async getFolderContent(): Promise<void> {
     const { path } = this.props;
     const res = await DeviceMaster.ls(path);
     if (res.error) {
@@ -102,7 +91,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     });
   }
 
-  async getFileInfos() {
+  async getFileInfos(): Promise<void> {
     const { path } = this.props;
     const { files, fileInfos } = this.state;
     for (let i = 0; i < files.length; i += 1) {
@@ -117,7 +106,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     }
   }
 
-  checkUSBFolderExistance = async () => {
+  checkUSBFolderExistance = async (): Promise<void> => {
     try {
       const res = await DeviceMaster.ls('USB');
       console.log(res);
@@ -127,7 +116,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     }
   };
 
-  renderFolders() {
+  renderFolders(): JSX.Element[] {
     const { directories } = this.state;
     const { onHighlightItem, onSelectFolder, highlightedItem } = this.context;
     const { path } = this.props;
@@ -154,7 +143,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     return folderElements;
   }
 
-  renderFiles() {
+  renderFiles(): JSX.Element[] {
     const { files, fileInfos } = this.state;
     const { highlightedItem } = this.context;
     const { path } = this.props;
@@ -176,7 +165,7 @@ class MonitorFilelist extends React.Component<Props, State> {
     return fileElements;
   }
 
-  render() {
+  render(): JSX.Element {
     const { path } = this.props;
     const { onSelectFolder } = this.context;
     return (
@@ -195,7 +184,7 @@ class MonitorFilelist extends React.Component<Props, State> {
                 key={folder}
                 onClick={(e) => {
                   e.preventDefault();
-                  onSelectFolder(path.split('/').slice(0, i + 1).join('/'), true)
+                  onSelectFolder(path.split('/').slice(0, i + 1).join('/'), true);
                 }}
                 href="a"
               >

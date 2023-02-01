@@ -47,7 +47,7 @@ const executeFirmwareUpdate = async (printer, type) => {
         level: MessageLevel.SUCCESS,
         duration: 1,
       });
-      if (!response.needUpdate && false) {
+      if (!response.needUpdate) {
         Alert.popUp({
           id: 'latest-firmware',
           message: `${message} (v${latestVersion})`,

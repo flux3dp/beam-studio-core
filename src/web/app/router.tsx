@@ -33,7 +33,7 @@ import zhTW from 'antd/locale/zh_TW';
 import koKR from 'antd/locale/ko_KR';
 import jaJP from 'antd/locale/ja_JP';
 
-const { defaultAlgorithm, darkAlgorithm } = theme;
+const { defaultAlgorithm } = theme;
 
 const localeMap = {
   'nl-NL': nlNL,

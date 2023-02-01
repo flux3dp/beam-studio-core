@@ -74,7 +74,7 @@ const init = (): void => {
     setDefaultRatingRecord();
   } else {
     const record = getRecord();
-    console.log("Rating Record", record);
+    console.log('Rating Record', record);
     if (localStorage.getItem('debug')) {
       Dialog.showRatingDialog(setVoted);
     }

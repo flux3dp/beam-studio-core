@@ -24,7 +24,7 @@ function AboutBeamStudio({ onClose }: Props): JSX.Element {
     >
       <Row gutter={10}>
         <Col span={7}>
-          <img width={150} src="img/icon.png" style={{float: 'left'}} />
+          <img width={150} src="img/icon.png" style={{ float: 'left' }} />
         </Col>
         <Col span={12}>
           <strong>Beam Studio</strong>

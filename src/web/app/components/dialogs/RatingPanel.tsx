@@ -10,12 +10,12 @@ const LANG = i18n.lang.beambox.rating_panel;
 
 interface Props {
   onClose: () => void;
-  onSubmit: (score :number) => void;
+  onSubmit: (score: number) => void;
 }
 
 interface State {
   star?: number;
-  tempStar?: number,
+  tempStar?: number;
   checkboxChecked: boolean;
   isFinished: boolean;
 }
@@ -72,7 +72,8 @@ class RatingPanel extends React.Component<Props, State> {
     if (isFinished) {
       return (
         <strong>
-          🙏 {LANG.thank_you}
+          🙏
+          {LANG.thank_you}
         </strong>
       );
     }

@@ -318,9 +318,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           const vc = VersionChecker(device.version);
           const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
           Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
-          const logFiles = await DeviceMaster.getLogsTexts([playerLogName, 'fluxrobotd.log'], (progress: { completed: number, size: number }) => {
-            Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
-          });
+          const logFiles = await DeviceMaster.getLogsTexts(
+            [playerLogName, 'fluxrobotd.log'],
+            (progress: { completed: number, size: number }) => Progress.update('get_log', {
+              message: 'downloading',
+              percentage: (progress.completed / progress.size) * 100,
+            }),
+          );
           Progress.popById('get_log');
           this.startReport();
           const logKeys = Object.keys(logFiles);
@@ -735,7 +739,10 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           this.setState({ uploadProgress: null });
         } catch (error) {
           this.setState({ uploadProgress: null });
-          Alert.popUp({ type: AlertConstants.SHOW_POPUP_ERROR, message: LANG.message.unable_to_start + error.error?.join('_') });
+          Alert.popUp({
+            type: AlertConstants.SHOW_POPUP_ERROR,
+            message: LANG.message.unable_to_start + error.error?.join('_'),
+          });
         }
       } else if (mode === Mode.FILE_PREVIEW) {
         await DeviceMaster.goFromFile(currentPath.join('/'), fileInfo[0]);

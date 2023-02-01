@@ -1,18 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import i18n from 'helpers/i18n';
 import * as React from 'react';
+import { Button, Form, FormInstance, Input, InputNumber, Modal, Space, Table } from 'antd';
+import { DeleteFilled, PlusCircleFilled } from '@ant-design/icons';
+import { useContext, useEffect, useRef, useState } from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import {
-  Modal, Button, FormInstance, Form, Input, Table, InputNumber, Space,
-} from 'antd';
-import storage from 'implementations/storage';
-import {
-  useContext, useEffect, useRef, useState,
-} from 'react';
-import { DeleteFilled, PlusCircleFilled } from '@ant-design/icons';
-import { ColorConfig, DefaultColorConfigs } from 'app/constants/color-constants';
 import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
+import i18n from 'helpers/i18n';
+import storage from 'implementations/storage';
+import { ColorConfig, DefaultColorConfigs } from 'app/constants/color-constants';
+
 import AddColorConfigModal from '../dialogs/AddColorConfigModal';
 
 const LANG = i18n.lang.beambox.layer_color_config_panel;

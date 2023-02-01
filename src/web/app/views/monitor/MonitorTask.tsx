@@ -5,20 +5,14 @@ import i18n from 'helpers/i18n';
 import DeviceConstants from 'app/constants/device-constants';
 import { Mode } from 'app/constants/monitor-constants';
 import { useMonitorContext } from 'app/contexts/MonitorContext';
-import {
-  Col, Progress, Row,
-} from 'antd';
+import { Col, Progress, Row } from 'antd';
 import { ClockCircleOutlined, FileOutlined } from '@ant-design/icons';
 import MonitorControl from './MonitorControl';
 
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;
 
-interface Props {
-  deviceVersion: string;
-}
-
-const MonitorTask = (props: Props): JSX.Element => {
+const MonitorTask = (): JSX.Element => {
   const {
     taskTime, mode, report, uploadProgress, taskImageURL, fileInfo, previewTask,
   } = useMonitorContext();
@@ -33,7 +27,13 @@ const MonitorTask = (props: Props): JSX.Element => {
 
   const renderProgress = (): JSX.Element => {
     if (uploadProgress !== null) {
-      return <Progress percent={Number(uploadProgress)} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />;
+      return (
+        <Progress
+          percent={Number(uploadProgress)}
+          status="active"
+          strokeColor={{ from: '#108ee9', to: '#87d068' }}
+        />
+      );
     }
     if (!report) return null;
 
@@ -50,7 +50,13 @@ const MonitorTask = (props: Props): JSX.Element => {
       return <Progress percent={percentageDone} status="exception" />;
     }
 
-    return <Progress percent={percentageDone} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />;
+    return (
+      <Progress
+        percent={percentageDone}
+        status="active"
+        strokeColor={{ from: '#108ee9', to: '#87d068' }}
+      />
+    );
   };
 
   const renderFileInfo = (): JSX.Element => {
@@ -67,12 +73,13 @@ const MonitorTask = (props: Props): JSX.Element => {
   const render = (): JSX.Element => (
     <div className="task">
       <div style={{ position: 'relative', marginBottom: 10 }}>
-        <img style={{ width: '100%', outline: '1px solid #BBB', outlineOffset: -1 }} src={taskImageURL || defaultImage} />
+        <img
+          style={{ width: '100%', outline: '1px solid #BBB', outlineOffset: -1 }}
+          src={taskImageURL || defaultImage}
+        />
         <div className="monitor-task-info-bar">
           <Row>
-            <Col span={12}>
-              {renderFileInfo()}
-            </Col>
+            <Col span={12}>{renderFileInfo()}</Col>
             <Col span={12}>
               <div className="monitor-right-text">
                 <ClockCircleOutlined />
@@ -83,11 +90,9 @@ const MonitorTask = (props: Props): JSX.Element => {
           </Row>
         </div>
       </div>
-      { /* renderRelocateButton() */ }
+      {/* renderRelocateButton() */}
       <Row>
-        <Col span={12}>
-          {renderProgress()}
-        </Col>
+        <Col span={12}>{renderProgress()}</Col>
         <Col span={12}>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <MonitorControl />

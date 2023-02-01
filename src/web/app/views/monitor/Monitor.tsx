@@ -40,14 +40,7 @@ const Monitor = (props: Props): JSX.Element => {
     );
   };
 
-  const renderTask = (): JSX.Element => {
-    const { device } = props;
-    return (
-      <MonitorTask
-        deviceVersion={device.version}
-      />
-    );
-  };
+  const renderTask = (): JSX.Element => <MonitorTask />;
 
   const renderCamera = (): JSX.Element => {
     const { device } = props;
