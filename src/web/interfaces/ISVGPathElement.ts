@@ -1,10 +1,11 @@
 import { ISVGPath, ISVGPathSeg } from './ISVGPath';
 
-interface ISVGPathSegList {
+export interface ISVGPathSegList {
   numberOfItems: number;
   getItem: (index: number) => ISVGPathSeg;
   removeItem: (index: number) => void;
   appendItem: (item: ISVGPathSeg) => void;
+  clear: () => void;
 }
 
 export default interface ISVGPathElement extends SVGPathElement {

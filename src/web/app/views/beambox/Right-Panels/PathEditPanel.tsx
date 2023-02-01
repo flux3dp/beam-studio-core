@@ -5,9 +5,10 @@ import SegmentedControl from 'app/widgets/SegmentedControl';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { Button, Divider, Space } from 'antd';
 import { ISVGPath } from 'interfaces/ISVGPath';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 
 let svgedit;
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => { svgedit = globalSVG.Edit; svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.path_edit_panel;
@@ -27,11 +28,10 @@ function PathEditPanel(): JSX.Element {
     let containsRoundNodes = false;
     const isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
     let selectedNodeTypes = [];
+    const selectedNodes = currentPath?.selected_pts
+      .map((index) => currentPath.nodePoints[index])
+      .filter((point) => point);;
     if (currentPath) {
-      const selectedNodes = currentPath.selected_pts
-        .map((index) => currentPath.nodePoints[index])
-        .filter((point) => point);
-
       containsSharpNodes = selectedNodes.some((node) => node.isSharp());
       containsRoundNodes = selectedNodes.some((node) => node.isRound());
 
@@ -82,7 +82,10 @@ function PathEditPanel(): JSX.Element {
           <Button disabled={!containsSharpNodes} onClick={() => svgCanvas.pathActions.setRound()} size="small">
             Round
           </Button>
-          <Button onClick={() => svgCanvas.pathActions.disconnectNode()} size="small">
+          <Button disabled={ selectedNodes?.length !== 2 } onClick={() => svgCanvas.pathActions.connectNodes()} size="small">
+            Connect
+          </Button>
+          <Button disabled={ selectedNodes?.length !== 1 } onClick={() => svgCanvas.pathActions.disconnectNode()} size="small">
             Disconnect
           </Button>
         </Space>

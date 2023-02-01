@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 import history from 'app/svgedit/history';
@@ -6,10 +7,11 @@ import selector from 'app/svgedit/selector';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import * as paper from 'paper';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { ISVGPath } from 'interfaces/ISVGPath';
+import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
+import ISVGPathElement, { ISVGPathSegList } from 'interfaces/ISVGPathElement';
 import Segment from '../path/Segment';
 import Path from '../path/Path';
 
@@ -1144,6 +1146,180 @@ const fixEnd = (elem): void => {
   elem.setAttribute('d', svgedit.utilities.convertPath(elem));
 };
 
+const pathDSegment = (
+  letter: string,
+  points: Array<number[]>,
+  morePoints?: number[],
+  lastPoint?: number[],
+): string => {
+  $.each(points, (i, pnt) => {
+    points[i] = svgedit.units.shortFloat(pnt);
+  });
+  let segment = letter + points.join(' ');
+  if (morePoints) {
+    segment += ` ${morePoints.join(' ')}`;
+  }
+  if (lastPoint) {
+    segment += ` ${svgedit.units.shortFloat(lastPoint)}`;
+  }
+  return segment;
+};
+
+// this is how we map paths to our preferred relative segment types
+const pathMap = [0, 'z', 'M', 'm', 'L', 'l', 'C', 'c', 'Q', 'q', 'A', 'a', 'H', 'h', 'V', 'v', 'S', 's', 'T', 't'];
+
+const convertPathSegToDPath = (segList: ISVGPathSeg[], toRel: boolean) => {
+  let i;
+  const len = segList.length;
+  let curx = 0; let
+    cury = 0;
+  let d = '';
+  let lastMove = null;
+
+  for (i = 0; i < len; i += 1) {
+    const seg = segList[i];
+    // if these properties are not in the segment, set them to zero
+    let x = seg.x || 0;
+    let y = seg.y || 0;
+    let x1 = seg.x1 || 0;
+    let y1 = seg.y1 || 0;
+    let x2 = seg.x2 || 0;
+    let y2 = seg.y2 || 0;
+
+    const type = seg.pathSegType;
+    let letter = pathMap[type][`to${toRel ? 'Lower' : 'Upper'}Case`]();
+
+    switch (type) {
+      case 1: // z,Z closepath (Z/z)
+        curx = lastMove ? lastMove[0] : 0;
+        cury = lastMove ? lastMove[1] : 0;
+        d += 'z';
+        break;
+      case 12: // absolute horizontal line (H)
+        x -= curx;
+      case 13: // relative horizontal line (h)
+        if (toRel) {
+          curx += x;
+          letter = 'l';
+        } else {
+          x += curx;
+          curx = x;
+          letter = 'L';
+        }
+        // Convert to "line" for easier editing
+        d += pathDSegment(letter, [[x, cury]]);
+        break;
+      case 14: // absolute vertical line (V)
+        y -= cury;
+      case 15: // relative vertical line (v)
+        if (toRel) {
+          cury += y;
+          letter = 'l';
+        } else {
+          y += cury;
+          cury = y;
+          letter = 'L';
+        }
+        // Convert to "line" for easier editing
+        d += pathDSegment(letter, [[curx, y]]);
+        break;
+      case 2: // absolute move (M)
+      case 4: // absolute line (L)
+      case 18: // absolute smooth quad (T)
+        x -= curx;
+        y -= cury;
+      case 5: // relative line (l)
+      case 3: // relative move (m)
+        // If the last segment was a "z", this must be relative to
+        if (lastMove && segList[i - 1].pathSegType === 1 && !toRel) {
+          [curx, cury] = lastMove;
+        }
+
+      case 19: // relative smooth quad (t)
+        if (toRel) {
+          curx += x;
+          cury += y;
+        } else {
+          x += curx;
+          y += cury;
+          curx = x;
+          cury = y;
+        }
+        if (type === 2 || type === 3) { lastMove = [curx, cury]; }
+
+        d += pathDSegment(letter, [[x, y]]);
+        break;
+      case 6: // absolute cubic (C)
+        x -= curx; x1 -= curx; x2 -= curx;
+        y -= cury; y1 -= cury; y2 -= cury;
+      case 7: // relative cubic (c)
+        if (toRel) {
+          curx += x;
+          cury += y;
+        } else {
+          x += curx; x1 += curx; x2 += curx;
+          y += cury; y1 += cury; y2 += cury;
+          curx = x;
+          cury = y;
+        }
+        d += pathDSegment(letter, [[x1, y1], [x2, y2], [x, y]]);
+        break;
+      case 8: // absolute quad (Q)
+        x -= curx; x1 -= curx;
+        y -= cury; y1 -= cury;
+      case 9: // relative quad (q)
+        if (toRel) {
+          curx += x;
+          cury += y;
+        } else {
+          x += curx; x1 += curx;
+          y += cury; y1 += cury;
+          curx = x;
+          cury = y;
+        }
+        d += pathDSegment(letter, [[x1, y1], [x, y]]);
+        break;
+      case 10: // absolute elliptical arc (A)
+        x -= curx;
+        y -= cury;
+      case 11: // relative elliptical arc (a)
+        if (toRel) {
+          curx += x;
+          cury += y;
+        } else {
+          x += curx;
+          y += cury;
+          curx = x;
+          cury = y;
+        }
+        d += pathDSegment(letter, [[seg.r1, seg.r2]], [
+          seg.angle,
+          (seg.largeArcFlag ? 1 : 0),
+          (seg.sweepFlag ? 1 : 0),
+        ], [x, y]);
+        break;
+      case 16: // absolute smooth cubic (S)
+        x -= curx; x2 -= curx;
+        y -= cury; y2 -= cury;
+      case 17: // relative smooth cubic (s)
+        if (toRel) {
+          curx += x;
+          cury += y;
+        } else {
+          x += curx; x2 += curx;
+          y += cury; y2 += cury;
+          curx = x;
+          cury = y;
+        }
+        d += pathDSegment(letter, [[x2, y2], [x, y]]);
+        break;
+      default:
+        break;
+    } // switch on path segment type
+  } // for each segment
+  return d;
+};
+
 const smoothByPaperjs = (elem: SVGPathElement) => {
   const originD = elem.getAttribute('d');
   // paper.setup();
@@ -1159,6 +1335,19 @@ const smoothByPaperjs = (elem: SVGPathElement) => {
   console.log('Compress', ((d.length / originD.length) * 100).toFixed(2));
   elem.setAttribute('d', d);
   return d;
+};
+
+const reverseDPath = (dPath: string) => {
+  // paper.setup();
+  const proj = new paper.Project(document.createElement('canvas'));
+  const items = proj.importSVG(`<svg><path x="0" y="0" d="${dPath}" /></svg>`);
+  const path = items.children[0] as paper.Path;
+  path.reverse();
+  const svg = proj.exportSVG() as SVGElement;
+  const group = svg.children[0];
+  const group2 = group.children[0];
+  const svgPath = group2.children[0] as ISVGPathElement;
+  return svgPath.pathSegList;
 };
 
 const smoothByFitPath = (elem: SVGPathElement) => {
@@ -1259,6 +1448,19 @@ const setSharp = () => {
   selectedPath.show(true).update();
 };
 
+const connectNodes = () => {
+  const selectedPath: ISVGPath = svgedit.path.path;
+  const selection = selectedPath.selected_pts;
+  selectedPath.storeD();
+  const [pt1, pt2] = selection;
+  const newSegIndex = selectedPath.connectNodes(pt1, pt2);
+  selectedPath.endChanges('connect');
+  selectedPath.init();
+  const newNodeIndex = selectedPath.segs[newSegIndex].endPoint?.index || 0;
+  selectedPath.addPtsToSelection([newNodeIndex]);
+  selectedPath.show(true).update();
+};
+
 const disconnectNode = () => {
   const selectedPath: ISVGPath = svgedit.path.path;
   const selection = selectedPath.selected_pts;
@@ -1299,7 +1501,10 @@ const pathActions = {
   setRound,
   setSharp,
   hasDrawingPath: (): boolean => !!drawnPath,
+  connectNodes,
   disconnectNode,
+  convertPathSegToDPath,
+  reverseDPath,
   // Convert a path to one with only absolute or relative values
   convertPath: svgedit.utilities.convertPath,
 };

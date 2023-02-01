@@ -295,6 +295,13 @@ svgedit.path.replacePathSeg = function(type, index, pts, elem) {
 	return seg;
 };
 
+svgedit.path.createPathSeg = function(type, pts, elem) {
+	const path = elem || svgedit.path.path.elem;
+	const func = 'createSVGPathSeg' + pathFuncs[type];
+	const seg = path[func].apply(path, pts);
+	return seg;
+};
+
 svgedit.path.getSegSelector = function(seg, update) {
 	var index = seg.index;
 	var segLine = svgedit.utilities.getElem('segline_' + index);

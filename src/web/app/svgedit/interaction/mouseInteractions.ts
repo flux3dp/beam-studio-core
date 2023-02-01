@@ -15,8 +15,8 @@ import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHints
 import touchEvents from 'app/svgedit/touchEvents';
 import textEdit from 'app/svgedit/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
-import ISVGCanvas from '../../../interfaces/ISVGCanvas';
 import { MouseButtons } from 'app/constants/mouse-constants';
+import ISVGCanvas from '../../../interfaces/ISVGCanvas';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -159,7 +159,7 @@ let mouseSelectModeCmds;
 const mouseDown = (evt: MouseEvent) => {
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
-  const selectedElements = svgCanvas.getSelectedElements();
+  const selectedElements = svgCanvas.getSelectedElems();
   const started = svgCanvas.getStarted();
   const svgRoot = svgCanvas.getRoot();
   const rightClick = evt.button === MouseButtons.Right;
@@ -372,13 +372,13 @@ const mouseDown = (evt: MouseEvent) => {
           }
         };
 
-        mouseTarget.style['vectorEffect'] = 'non-scaling-stroke';
+        mouseTarget.style.vectorEffect = 'non-scaling-stroke';
         delayedStroke(mouseTarget);
 
         const all = mouseTarget.getElementsByTagName('*') as HTMLCollectionOf<SVGElement>;
         const len = all.length;
         for (i = 0; i < len; i += 1) {
-          all[i].style['vectorEffect'] = 'non-scaling-stroke';
+          all[i].style.vectorEffect = 'non-scaling-stroke';
           delayedStroke(all[i]);
         }
       }
@@ -748,7 +748,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
   }
 
   svgCanvas.selectorManager.requestSelector(selected).resize();
-  svgCanvas.call('transition', svgCanvas.getSelectedElements());
+  svgCanvas.call('transition', svgCanvas.getSelectedElems());
   ObjectPanelController.updateObjectPanel();
   if (svgedit.utilities.getElem('text_cursor')) {
     svgCanvas.textActions.init();
@@ -762,7 +762,7 @@ const mouseMove = (evt: MouseEvent) => {
   const currentMode = svgCanvas.getCurrentMode();
   const currentZoom = svgCanvas.getCurrentZoom();
   const currentConfig = svgCanvas.getCurrentConfig();
-  const selectedElements = svgCanvas.getSelectedElements();
+  const selectedElements = svgCanvas.getSelectedElems();
   const rubberBox = svgCanvas.getRubberBox();
   const svgRoot = svgCanvas.getRoot();
 
@@ -1145,7 +1145,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
   const currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
-  let selectedElements = svgCanvas.getSelectedElements();
+  let selectedElements = svgCanvas.getSelectedElems();
   const rubberBox = svgCanvas.getRubberBox();
   const screenMatrix = svgCanvas.getRootScreenMatrix();
   const rightClick = evt.button === MouseButtons.Right;

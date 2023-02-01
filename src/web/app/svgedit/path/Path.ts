@@ -3,8 +3,8 @@
 import { LINKTYPE_SMOOTH, LINKTYPE_SYMMETRIC } from 'app/constants/link-type-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { ISVGPath } from 'interfaces/ISVGPath';
-import ISVGPathElement from 'interfaces/ISVGPathElement';
+import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
+import ISVGPathElement, { ISVGPathSegList } from 'interfaces/ISVGPathElement';
 import PathNodePoint from './PathNodePoint';
 import Segment from './Segment';
 import SegmentControlPoint from './SegmentControlPoint';
@@ -287,72 +287,157 @@ export default class Path implements ISVGPath {
     this.applySegChanges(segChanges);
   }
 
-  disconnectNode(segIndex: number): number {
-    // Get subpath starting and closing segment
-    // Find subpath closing
-    let closingSegId = -1;
-    for (let i = segIndex; i < this.segs.length; i += 1) {
-      closingSegId = i;
+  findSubpath(segIndex: number): {
+    startingIndex: number,
+    closingIndex: number,
+    pathSize: number,
+    isHead: boolean
+  } {
+    // Starts with a move command and ends without closing command
+    let closingIndex = this.segs.length - 1;
+    for (let i = segIndex + 1; i < this.segs.length; i += 1) {
+      closingIndex = i;
       if (this.segs[i].item.pathSegType < 4) {
-        closingSegId = i - 1;
+        closingIndex = i - 1;
         break;
       }
     }
     // Find subpath starting
-    let startingSegId = -1;
+    let startingIndex = -1;
     for (let i = segIndex; i >= 0; i -= 1) {
       if (this.segs[i].item.pathSegType < 4) {
-        startingSegId = i;
+        startingIndex = i;
         break;
       }
     }
-    if (startingSegId < 0) {
-      console.error('Unable to find starting seg');
-      return -1;
+    if (startingIndex < 0) {
+      throw new Error(`Unable to find starting seg from ${segIndex}`);
     }
 
-    if (![2, 3].includes(this.segs[startingSegId].item.pathSegType)) {
-      console.error('The starting segment must be a MoveTo command');
-      return -1;
+    if (![2, 3].includes(this.segs[startingIndex].item.pathSegType)) {
+      throw new Error('The starting segment must be a MoveTo command');
     }
-
-    const pathSize = closingSegId - startingSegId;
+    const pathSize = closingIndex - startingIndex;
 
     if (pathSize < 1) {
-      console.error('Cannot find valid subpath');
+      throw new Error(`Cannot find valid subpath from index ${segIndex} ${startingIndex}~${closingIndex}`);
     }
 
-    if (this.segs[startingSegId + 1].startPoint.index === this.segs[closingSegId].endPoint?.index) {
+    const isHead = startingIndex === segIndex;
+
+    return {
+      startingIndex, closingIndex, pathSize, isHead,
+    };
+  }
+
+  buildPathSegs(subpath: {
+    startingIndex: number,
+    closingIndex: number,
+    pathSize: number,
+    isHead: boolean
+  }, reverse: boolean): ISVGPathSeg[] {
+    const pathSegs: ISVGPathSeg[] = [];
+    console.log('Build path segs', subpath, reverse);
+    if (reverse) {
+      // Move to segment end point
+      for (let i = subpath.startingIndex; i <= subpath.closingIndex; i += 1) {
+        pathSegs.push(this.segs[i].item);
+      }
+      console.log('Raw segs', pathSegs);
+      const dPath = svgCanvas.pathActions.convertPathSegToDPath(pathSegs);
+      console.log('Before', dPath);
+      const reversed = svgCanvas.pathActions.reverseDPath(dPath) as ISVGPathSegList;
+
+      const results = [];
+      for (let i = 0; i < reversed.numberOfItems; i += 1) {
+        results.push(reversed.getItem(i));
+      }
+      console.log('After', results);
+      return results;
+    }
+
+    for (let i = subpath.startingIndex; i <= subpath.closingIndex; i += 1) {
+      pathSegs.push(this.segs[i].item);
+    }
+    return pathSegs;
+  }
+
+  connectNodes(pt1: number, pt2: number): number {
+    const segList = this.elem.pathSegList as unknown as ISVGPathSegList;
+
+    // Build pathseg list of subpath1, with pt1 as tail
+    const subpath1 = this.findSubpath(pt1);
+    const subpath1PathSegs = this.buildPathSegs(subpath1, subpath1.isHead);
+    // Build pathseg list of subpath2, with pt2 as head
+    const subpath2 = this.findSubpath(pt2);
+    let subpath2PathSegs;
+    if (subpath2.startingIndex === subpath1.startingIndex) {
+      // If subpath2 === subpath1, just close the subpath1 at the end
+      // todo, check if subpath1 ends with pt1
+      subpath2PathSegs = [svgedit.path.createPathSeg(1)];
+    } else {
+      // Replace MoveTo subpath2 start into LineTo
+      subpath2PathSegs = this.buildPathSegs(subpath2, !subpath2.isHead);
+      const firstSeg = subpath2PathSegs[0];
+      subpath2PathSegs[0] = svgedit.path.createPathSeg(4, [firstSeg.x, firstSeg.y], this.elem);
+    }
+    // Get all rest pathsegs
+    const restPathSegs = this.segs.filter((seg, i) => (
+      (i > subpath1.closingIndex || i < subpath1.startingIndex)
+      && (i > subpath2.closingIndex || i < subpath2.startingIndex)
+    )).map((seg) => seg.item);
+    // Rebuild pathSeg
+    segList.clear();
+    subpath1PathSegs.forEach((pathSeg) => segList.appendItem(pathSeg));
+    subpath2PathSegs.forEach((pathSeg) => segList.appendItem(pathSeg));
+    restPathSegs.forEach((pathSeg) => segList.appendItem(pathSeg));
+    // Rebuild segment items
+    this.init();
+    return 0;
+  }
+
+  disconnectNode(segIndex: number): number {
+    // Get subpath starting and closing segment
+    // Find subpath closing
+    const subpath = this.findSubpath(segIndex);
+    if (!subpath) return -1;
+    const {
+      startingIndex,
+      closingIndex,
+      pathSize,
+    } = subpath;
+
+    if (this.segs[startingIndex + 1].startPoint.index === this.segs[closingIndex].endPoint?.index) {
       // The subpath is closed, starts from the current node, and then ends at current node
-      console.log('Disconnecting closed path by', segIndex, 'from', startingSegId, 'to', closingSegId);
+      console.log('Disconnecting closed path by', segIndex, 'from', startingIndex, 'to', closingIndex);
       const selectedSeg = this.segs[segIndex].item;
 
       const segChanges = {};
-      const p = [`${startingSegId}->${segIndex}`];
+      const p = [`${startingIndex}->${segIndex}`];
 
-      segChanges[startingSegId] = { pathSegType: 2, x: selectedSeg.x, y: selectedSeg.y };
+      segChanges[startingIndex] = { pathSegType: 2, x: selectedSeg.x, y: selectedSeg.y };
 
-      const tailSize = closingSegId - segIndex + 1;
+      const tailSize = closingIndex - segIndex + 1;
       for (let j = 1; j <= pathSize; j += 1) {
-        const srcIndex = j < tailSize ? segIndex + j : startingSegId + 1 + (j - tailSize);
+        const srcIndex = j < tailSize ? segIndex + j : startingIndex + 1 + (j - tailSize);
         const src = this.segs[srcIndex].item;
         const {
           pathSegType, x, y, x1, y1, x2, y2,
         } = src;
-        p.push(`${startingSegId + j}->${srcIndex}`);
-        segChanges[startingSegId + j] = {
+        p.push(`${startingIndex + j}->${srcIndex}`);
+        segChanges[startingIndex + j] = {
           pathSegType, x, y, x1, y1, x2, y2,
         };
       }
       this.applySegChanges(segChanges);
-      if (this.segs[closingSegId + 1].item.pathSegType === 1) {
-        this.deleteSeg(closingSegId + 1);
+      if (this.segs[closingIndex + 1].item.pathSegType === 1) {
+        this.deleteSeg(closingIndex + 1);
       }
-      return closingSegId;
+      return closingIndex;
     }
     // The subpath is open, starts from the start node to current node,
     // and move to current node, then ends at the end node
-    console.log('Disconnecting open path', startingSegId, closingSegId);
+    console.log('Disconnecting open path', startingIndex, closingIndex);
     const selectedSeg = this.segs[segIndex].item;
     const newMoveSeg = this.elem.createSVGPathSegMovetoAbs(selectedSeg.x, selectedSeg.y);
     svgedit.path.insertItemBefore(this.elem, newMoveSeg, segIndex + 1);
