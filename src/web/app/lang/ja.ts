@@ -1057,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 火炎センサー異常',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 エアフローセンサー異常',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 ロータリーモジュールが検出されません',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'ロータリーモーターに切り替えてください',
     RESOURCE_BUSY: 'マシンはビジーです\n実行されていない場合は、マシンを再起動してください',
     DEVICE_ERROR: '何かがうまくいかなかった\nマシンを再起動してください', // Deprecated in FW 3.3.1

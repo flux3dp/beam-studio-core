@@ -1057,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Sensor de llama anómalo',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Sensor de flujo de aire anómalo',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 No se detectó módulo giratorio',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Por favor, cambia al motor rotativo',
     RESOURCE_BUSY: 'La máquina está ocupada\nSi no está funcionando, por favor reinicia la máquina.',
     DEVICE_ERROR: 'Algo salió mal.\nPor favor, reinicia la máquina', // Deprecated in FW 3.3.1

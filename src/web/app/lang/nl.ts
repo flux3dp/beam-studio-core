@@ -1057,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Vlamsensor abnormaal',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Luchtstroomsensor abnormaal',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Geen draaimodule gedetecteerd',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Schakel over naar de roterende motor',
     RESOURCE_BUSY: 'De machine is bezig.\nAls het stopt, start de machine dan opnieuw op!',
     DEVICE_ERROR: 'Er is iets fout gegaan. Start de machine opnieuw op.', // Deprecated in FW 3.3.1

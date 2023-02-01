@@ -1057,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 火焰侦测异常',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 气流侦测异常',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 未侦测到旋转轴',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 归零 PULL-OFF 失败',
     USER_OPERATION_ROTARY_PAUSE: '请切换旋转轴马达开关',
     RESOURCE_BUSY: '机器忙碌中\n如果机器没有在进行动作， 请重新启动机器',
     DEVICE_ERROR: '固件发生错误\n请重新启动机器', // Deprecated in FW 3.3.1
