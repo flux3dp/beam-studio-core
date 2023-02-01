@@ -9,6 +9,11 @@ export interface ISVGPathSeg {
   y2: number;
   type: number;
   pathSegType: number;
+  r1?: number,
+  r2?: number,
+  angle?: number,
+  largeArcFlag?: boolean,
+  sweepFlag?: boolean,
   toString: () => string;
   _asPathString: () => string;
   clone: () => ISVGPathSeg;
@@ -108,4 +113,5 @@ export interface ISVGPath {
   movePts: (x: number, y: number) => void;
   stripCurveFromSegment: (index: number) => void;
   disconnectNode: (index: number) => number;
+  connectNodes: (pt1: number, pt2: number) => number;
 }
