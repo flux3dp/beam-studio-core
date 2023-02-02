@@ -47,12 +47,12 @@ function Prompt({
       modalRender={modalRender}
       onOk={() => {
         const inputElem = inputRef.current;
-        onYes(inputElem.input.value);
+        onYes(inputElem?.input?.value);
         onClose();
       }}
       onCancel={() => {
         const inputElem = inputRef.current;
-        onCancel?.(inputElem.input.value);
+        onCancel?.(inputElem?.input?.value);
         onClose();
       }}
       okText={LANG.ok2}

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import DeviceConstants from 'app/constants/device-constants';
 import i18n from 'helpers/i18n';
 import MonitorStatus, { ButtonTypes } from 'helpers/monitor-status';
 import { Mode } from 'app/constants/monitor-constants';
-import { useMonitorContext } from 'app/contexts/MonitorContext';
+import { MonitorContext } from 'app/contexts/MonitorContext';
 import { Button, Space } from 'antd';
 import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
 
@@ -17,7 +17,7 @@ const MonitorControl = (): JSX.Element => {
     onStop,
     mode,
     report,
-  } = useMonitorContext();
+  } = useContext(MonitorContext);
   const mapButtonTypeToElement = (type: ButtonTypes): JSX.Element => {
     const enabled = type % 2 === 1;
     switch (type) {

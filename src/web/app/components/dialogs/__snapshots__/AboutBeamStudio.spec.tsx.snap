@@ -4,58 +4,90 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
 <AboutBeamStudio
   onClose={[MockFunction]}
 >
-  <View
-    onClose={[MockFunction]}
+  <Modal
+    cancelButtonProps={
+      Object {
+        "style": Object {
+          "display": "none",
+        },
+      }
+    }
+    centered={true}
+    okText="OK"
+    onCancel={[MockFunction]}
+    onOk={[MockFunction]}
+    open={true}
   >
-    <div
-      className="modal-window"
-    >
-      <div
-        className="modal-background"
-        onClick={[Function]}
-      />
-      <div
-        className="modal-body"
+    <div>
+      Dummy Modal
+      <p>
+        props: 
+        {"open":true,"centered":true,"okText":"OK","cancelButtonProps":{"style":{"display":"none"}}}
+      </p>
+      <Row
+        gutter={10}
       >
-        <div
-          className="about-beam-studio"
-        >
-          <img
-            src="img/icon.png"
-          />
-          <div
-            className="app-name"
+        <div>
+          Dummy Row
+          <p>
+            props: 
+            {"gutter":10}
+          </p>
+          <Col
+            span={7}
           >
-            Beam Studio
-          </div>
-          <div
-            className="version"
+            <div>
+              Dummy Col
+              <p>
+                props: 
+                {"span":7}
+              </p>
+              <img
+                src="img/icon.png"
+                style={
+                  Object {
+                    "float": "left",
+                  }
+                }
+                width={150}
+              />
+            </div>
+          </Col>
+          <Col
+            span={12}
           >
-            Version 1.2.3
-          </div>
-          <div
-            className="copyright"
-          >
-            Copyright ⓒ 1976 FLUX Inc.
-          </div>
-          <div
-            className="credit"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "Beam Studio is made possible by the <a target=\\"_blank\\" href=\\"https://github.com/flux3dp/beam-studio\\">Beam Studio</a> open source project and other <a target=\\"_blank\\" href=\\"https://flux3dp.com/credits/\\">open source software</a>.",
-              }
-            }
-          />
-          <button
-            className="btn btn-default"
-            onClick={[MockFunction]}
-            type="button"
-          >
-            OK
-          </button>
+            <div>
+              Dummy Col
+              <p>
+                props: 
+                {"span":12}
+              </p>
+              <strong>
+                Beam Studio
+              </strong>
+              <div
+                className="version"
+              >
+                Version 1.2.3
+              </div>
+              <div
+                className="copyright"
+              >
+                Copyright ⓒ 1976 FLUX Inc.
+              </div>
+              <div
+                className="credit"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Beam Studio is made possible by the <a target=\\"_blank\\" href=\\"https://github.com/flux3dp/beam-studio\\">Beam Studio</a> open source project and other <a target=\\"_blank\\" href=\\"https://flux3dp.com/credits/\\">open source software</a>.",
+                  }
+                }
+              />
+            </div>
+          </Col>
         </div>
-      </div>
+      </Row>
     </div>
-  </View>
+  </Modal>
 </AboutBeamStudio>
 `;

@@ -1,7 +1,12 @@
-/* eslint-disable import/first */
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { render } from '@testing-library/react';
+
+import AlertConstants from 'app/constants/alert-constants';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import ProgressConstants from 'app/constants/progress-constants';
+import { MessageLevel } from 'app/actions/message-caller';
+
+import { AlertProgressContextProvider, AlertProgressContext } from './AlertProgressContext';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -19,29 +24,36 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-import AlertConstants from 'app/constants/alert-constants';
-import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import ProgressConstants from 'app/constants/progress-constants';
-import { AlertProgressContextProvider, AlertProgressContext } from './AlertProgressContext';
+const mockMessageApi = {
+  destroy: jest.fn(),
+  success: jest.fn(),
+  loading: jest.fn(),
+  warning: jest.fn(),
+  error: jest.fn(),
+  info: jest.fn(),
+};
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('alert-progress');
 const Children = () => {
-  const context = React.useContext(AlertProgressContext);
+  const { alertProgressStack } = React.useContext(AlertProgressContext);
   return (
     <>
-      {context.alertProgressStack}
+      {alertProgressStack.map((d) => {
+        const { key, ...dataWithoutKey } = d;
+        return JSON.stringify(dataWithoutKey);
+      })}
     </>
   );
 };
 
 test('should render correctly', () => {
-  const wrapper = shallow(
-    <AlertProgressContextProvider>
+  const { container, unmount } = render(
+    <AlertProgressContextProvider messageApi={mockMessageApi as any}>
       <Children />
     </AlertProgressContextProvider>,
   );
-  expect(toJson(wrapper)).toMatchSnapshot();
-  expect(eventEmitter.eventNames().length).toBe(7);
+  expect(container).toMatchSnapshot();
+  expect(eventEmitter.eventNames().length).toBe(9);
 
   eventEmitter.emit('OPEN_PROGRESS', {
     id: 'check-status',
@@ -56,22 +68,22 @@ test('should render correctly', () => {
     isProgress: true,
     percentage: 0,
   });
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
   eventEmitter.emit('UPDATE_PROGRESS', 'get_log1', {
     percentage: 100,
   });
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
   eventEmitter.emit('UPDATE_PROGRESS', 'get_log', {
     percentage: 100,
   });
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
   eventEmitter.emit('UPDATE_PROGRESS', 'check-status', {
     message: 'prepared',
   });
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
   // type: 'SHOW_POPUP_INFO' + button type: 'YES_NO'
   eventEmitter.emit('POP_UP', {
@@ -141,10 +153,10 @@ test('should render correctly', () => {
     ],
     primaryButtonIndex: 1,
   });
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
   eventEmitter.emit('POP_BY_ID', 'machine-info');
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
   const response = {
     idExist: false,
@@ -155,8 +167,11 @@ test('should render correctly', () => {
   expect(response.idExist).toBeFalsy();
 
   eventEmitter.emit('POP_LAST_PROGRESS');
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
-  wrapper.unmount();
+  eventEmitter.emit('OPEN_MESSAGE', { level: MessageLevel.INFO });
+  expect(mockMessageApi.info).toBeCalledTimes(1);
+
+  unmount();
   expect(eventEmitter.eventNames().length).toBe(0);
 });

@@ -1,7 +1,11 @@
-/* eslint-disable import/first */
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import DeviceConstants from 'app/constants/device-constants';
+import { Mode } from 'app/constants/monitor-constants';
+import { MonitorContext } from 'app/contexts/MonitorContext';
+
+import MonitorControl from './MonitorControl';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -22,222 +26,131 @@ jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 
-import MonitorControl from './MonitorControl';
+const onPlay = jest.fn();
+const onPause = jest.fn();
+const onStop = jest.fn();
 
-describe('should render correctly', () => {
+describe('test MonitorControl', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  test('mode is FILE', () => {
-    const onUpload = jest.fn();
-    const onDownload = jest.fn();
-    const toggleCamera = jest.fn();
-    MonitorControl.contextType = React.createContext({
-      mode: 'FILE',
-      isMaintainMoving: false,
-      currentPath: [],
-      highlightedItem: {},
-      report: {
-        st_id: 1,
-      },
-      onUpload,
-      toggleCamera,
-      onRelocate: jest.fn(),
-      onPlay: jest.fn(),
-      onPause: jest.fn(),
-      onStop: jest.fn(),
-      onDownload,
-      endRelocate: jest.fn(),
-    });
-    const wrapper = mount(<MonitorControl />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-
-    wrapper.find('div.controls.left').simulate('click');
-    expect(onUpload).toHaveBeenCalledTimes(1);
-    wrapper.find('input.upload-control').simulate('change');
-    expect(onUpload).toHaveBeenCalledTimes(2);
-
-    wrapper.find('div.controls.center').simulate('click');
-    expect(onDownload).toHaveBeenCalledTimes(1);
-
-    wrapper.find('div.controls.right').simulate('click');
-    expect(toggleCamera).toHaveBeenCalledTimes(1);
+  it('should render correctly mode is preview', () => {
+    const { container } = render(
+      <MonitorContext.Provider
+        value={
+          {
+            mode: Mode.PREVIEW,
+            onPlay,
+            onPause,
+            onStop,
+            report: { st_id: DeviceConstants.status.IDLE },
+          } as any
+        }
+      >
+        <MonitorControl />
+      </MonitorContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
   });
 
-  test('mode is PREVIEW', () => {
-    MonitorControl.contextType = React.createContext({
-      mode: 'PREVIEW',
-      isMaintainMoving: false,
-      currentPath: [],
-      highlightedItem: {},
-      report: {
-        st_id: 0,
-      },
-      onUpload: jest.fn(),
-      toggleCamera: jest.fn(),
-      onRelocate: jest.fn(),
-      onPlay: jest.fn(),
-      onPause: jest.fn(),
-      onStop: jest.fn(),
-      onDownload: jest.fn(),
-      endRelocate: jest.fn(),
-    });
-    const wrapper = mount(<MonitorControl />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+  it('should render correctly mode is working', () => {
+    const { container, rerender } = render(
+      <MonitorContext.Provider
+        value={
+          {
+            mode: Mode.WORKING,
+            onPlay,
+            onPause,
+            onStop,
+            report: { st_id: DeviceConstants.status.INIT },
+          } as any
+        }
+      >
+        <MonitorControl />
+      </MonitorContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+
+    rerender(
+      <MonitorContext.Provider
+        value={
+          {
+            mode: Mode.WORKING,
+            onPlay,
+            onPause,
+            onStop,
+            report: { st_id: DeviceConstants.status.RUNNING },
+          } as any
+        }
+      >
+        <MonitorControl />
+      </MonitorContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+
+    rerender(
+      <MonitorContext.Provider
+        value={
+          {
+            mode: Mode.WORKING,
+            onPlay,
+            onPause,
+            onStop,
+            report: { st_id: DeviceConstants.status.PAUSED },
+          } as any
+        }
+      >
+        <MonitorControl />
+      </MonitorContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
   });
 
-  test('mode is FILE_PREVIEW', () => {
-    MonitorControl.contextType = React.createContext({
-      mode: 'FILE_PREVIEW',
-      isMaintainMoving: false,
-      currentPath: [],
-      highlightedItem: {},
-      report: {
-        st_id: 1,
-      },
-      onUpload: jest.fn(),
-      toggleCamera: jest.fn(),
-      onRelocate: jest.fn(),
-      onPlay: jest.fn(),
-      onPause: jest.fn(),
-      onStop: jest.fn(),
-      onDownload: jest.fn(),
-      endRelocate: jest.fn(),
-    });
-    const wrapper = mount(<MonitorControl />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+  test('play button in preview mode', () => {
+    const { getByText } = render(
+      <MonitorContext.Provider
+        value={
+          {
+            mode: Mode.PREVIEW,
+            onPlay,
+            onPause,
+            onStop,
+            report: { st_id: DeviceConstants.status.IDLE },
+          } as any
+        }
+      >
+        <MonitorControl />
+      </MonitorContext.Provider>
+    );
+    expect(onPlay).not.toBeCalled();
+    fireEvent.click(getByText('Start'));
+    expect(onPlay).toBeCalledTimes(1);
   });
 
-  describe('mode is WORKING', () => {
-    test('ButtonTypes.DISABLED_STOP and ButtonTypes.DISABLED_PLAY', () => {
-      MonitorControl.contextType = React.createContext({
-        mode: 'WORKING',
-        isMaintainMoving: false,
-        currentPath: [],
-        highlightedItem: {},
-        report: {},
-        onUpload: jest.fn(),
-        toggleCamera: jest.fn(),
-        onRelocate: jest.fn(),
-        onPlay: jest.fn(),
-        onPause: jest.fn(),
-        onStop: jest.fn(),
-        onDownload: jest.fn(),
-        endRelocate: jest.fn(),
-      });
-      const wrapper = mount(<MonitorControl />);
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
+  test('pause and stop in working mode', () => {
+    const { getByText } = render(
+      <MonitorContext.Provider
+        value={
+          {
+            mode: Mode.WORKING,
+            onPlay,
+            onPause,
+            onStop,
+            report: { st_id: DeviceConstants.status.RUNNING },
+          } as any
+        }
+      >
+        <MonitorControl />
+      </MonitorContext.Provider>
+    );
 
-    test('ButtonTypes.STOP and ButtonTypes.PAUSE', () => {
-      MonitorControl.contextType = React.createContext({
-        mode: 'WORKING',
-        isMaintainMoving: false,
-        currentPath: [],
-        highlightedItem: {},
-        report: {
-          st_id: 16,
-        },
-        onUpload: jest.fn(),
-        toggleCamera: jest.fn(),
-        onRelocate: jest.fn(),
-        onPlay: jest.fn(),
-        onPause: jest.fn(),
-        onStop: jest.fn(),
-        onDownload: jest.fn(),
-        endRelocate: jest.fn(),
-      });
-      const wrapper = mount(<MonitorControl />);
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
+    expect(onPause).not.toBeCalled();
+    fireEvent.click(getByText('Pause'));
+    expect(onPause).toBeCalledTimes(1);
 
-    test('ButtonTypes.STOP and ButtonTypes.PLAY', () => {
-      MonitorControl.contextType = React.createContext({
-        mode: 'WORKING',
-        isMaintainMoving: false,
-        currentPath: [],
-        highlightedItem: {},
-        report: {
-          st_id: 32,
-        },
-        onUpload: jest.fn(),
-        toggleCamera: jest.fn(),
-        onRelocate: jest.fn(),
-        onPlay: jest.fn(),
-        onPause: jest.fn(),
-        onStop: jest.fn(),
-        onDownload: jest.fn(),
-        endRelocate: jest.fn(),
-      });
-      const wrapper = mount(<MonitorControl />);
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
-
-    test('ButtonTypes.DISABLED_STOP and ButtonTypes.DISABLED_PAUSE', () => {
-      MonitorControl.contextType = React.createContext({
-        mode: 'WORKING',
-        isMaintainMoving: false,
-        currentPath: [],
-        highlightedItem: {},
-        report: {
-          st_id: 130,
-        },
-        onUpload: jest.fn(),
-        toggleCamera: jest.fn(),
-        onRelocate: jest.fn(),
-        onPlay: jest.fn(),
-        onPause: jest.fn(),
-        onStop: jest.fn(),
-        onDownload: jest.fn(),
-        endRelocate: jest.fn(),
-      });
-      const wrapper = mount(<MonitorControl />);
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
-  });
-
-  test('mode is CAMERA', () => {
-    MonitorControl.contextType = React.createContext({
-      mode: 'CAMERA',
-      isMaintainMoving: false,
-      currentPath: [],
-      highlightedItem: {},
-      report: {},
-      onUpload: jest.fn(),
-      toggleCamera: jest.fn(),
-      onRelocate: jest.fn(),
-      onPlay: jest.fn(),
-      onPause: jest.fn(),
-      onStop: jest.fn(),
-      onDownload: jest.fn(),
-      endRelocate: jest.fn(),
-    });
-    const wrapper = mount(<MonitorControl />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-
-  test('mode is CAMERA_RELOCATE', () => {
-    const onRelocate = jest.fn();
-    MonitorControl.contextType = React.createContext({
-      mode: 'CAMERA_RELOCATE',
-      isMaintainMoving: false,
-      currentPath: [],
-      highlightedItem: {},
-      report: {},
-      onUpload: jest.fn(),
-      toggleCamera: jest.fn(),
-      onRelocate,
-      onPlay: jest.fn(),
-      onPause: jest.fn(),
-      onStop: jest.fn(),
-      onDownload: jest.fn(),
-      endRelocate: jest.fn(),
-    });
-    const wrapper = mount(<MonitorControl />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-
-    wrapper.find('div.controls.right').simulate('click');
-    expect(onRelocate).toHaveBeenCalledTimes(1);
+    expect(onStop).not.toBeCalled();
+    fireEvent.click(getByText('Stop'));
+    expect(onStop).toBeCalledTimes(1);
   });
 });

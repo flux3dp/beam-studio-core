@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import i18n from 'helpers/i18n';
 import { Modal, Tabs } from 'antd';
-import { useMonitorContext } from 'app/contexts/MonitorContext';
+import { MonitorContext } from 'app/contexts/MonitorContext';
 import { Mode } from 'app/constants/monitor-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import MonitorStatus from 'helpers/monitor-status';
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const Monitor = (props: Props): JSX.Element => {
-  const context = useMonitorContext();
+  const context = useContext(MonitorContext);
   const LANG = i18n.lang;
   const DraggableElement: any = Draggable;
 
@@ -119,7 +119,7 @@ const Monitor = (props: Props): JSX.Element => {
         title={`${device.name} - ${report ? MonitorStatus.getDisplayStatus(report.st_label) : LANG.monitor.connecting}`}
         footer={null}
       >
-        <Tabs activeKey={monitorMode} items={tabItems} onChange={(key) => setMonitorMode(key)} />
+        <Tabs activeKey={monitorMode} items={tabItems} onChange={(key: Mode) => setMonitorMode(key)} />
       </Modal>
     );
   };

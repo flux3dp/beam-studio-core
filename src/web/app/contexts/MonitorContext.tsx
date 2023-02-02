@@ -19,7 +19,6 @@ import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IProgress } from 'interfaces/IProgress';
 import { ItemType, Mode } from 'app/constants/monitor-constants';
-import { useContext } from 'react';
 
 let LANG = i18n.lang;
 const updateLang = () => {
@@ -91,8 +90,23 @@ interface State {
   isMaintainMoving?: boolean;
 }
 
-export const MonitorContext = React.createContext(null);
-export const useMonitorContext = () => useContext<State>(MonitorContext);
+interface Context extends State {
+  onClose: () => void;
+  onNavigationBtnClick: () => void;
+  onHighlightItem: (item: { name: string, type: ItemType }) => void;
+  onSelectFolder: (folderName: string, absolute?: boolean) => void;
+  onSelectFile: (fileName: string, fileInfo: any) => Promise<void>;
+  setShouldUpdateFileList: (val: boolean) => void;
+  onDeleteFile: () => void;
+  onMaintainMoveStart: () => void;
+  onMaintainMoveEnd: (x: number, y: number) => void;
+  setMonitorMode: (value: Mode) => void;
+  onPlay: () => void;
+  onPause: () => void;
+  onStop: () => void;
+}
+
+export const MonitorContext = React.createContext<Context>(null);
 
 export class MonitorContextProvider extends React.Component<Props, State> {
   didErrorPopped: boolean;
@@ -323,7 +337,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             (progress: { completed: number, size: number }) => Progress.update('get_log', {
               message: 'downloading',
               percentage: (progress.completed / progress.size) * 100,
-            }),
+            })
           );
           Progress.popById('get_log');
           this.startReport();
@@ -786,24 +800,17 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   render(): JSX.Element {
     const { onClose, children } = this.props;
     const {
-      enterWorkingMode,
-      toggleCamera,
-      startRelocate,
-      endRelocate,
       onNavigationBtnClick,
       onHighlightItem,
       onSelectFolder,
       onSelectFile,
       setShouldUpdateFileList,
-      onUpload,
-      onDownload,
       onDeleteFile,
       onPlay,
       onPause,
       onStop,
       onMaintainMoveStart,
       onMaintainMoveEnd,
-      onRelocate,
       setMonitorMode,
     } = this;
     return (
@@ -811,24 +818,17 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         value={{
           onClose,
           ...this.state,
-          enterWorkingMode,
-          toggleCamera,
-          startRelocate,
-          endRelocate,
           onNavigationBtnClick,
           onHighlightItem,
           onSelectFolder,
           onSelectFile,
           setShouldUpdateFileList,
-          onUpload,
-          onDownload,
           onDeleteFile,
           onPlay,
           onPause,
           onStop,
           onMaintainMoveStart,
           onMaintainMoveEnd,
-          onRelocate,
           setMonitorMode,
         }}
       >

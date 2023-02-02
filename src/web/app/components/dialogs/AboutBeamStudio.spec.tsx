@@ -3,10 +3,35 @@ jest.mock('helpers/i18n', () => ({
   lang: {
     topmenu: {
       version: 'Version',
-      credit: 'Beam Studio is made possible by the <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> open source project and other <a target="_blank" href="https://flux3dp.com/credits/">open source software</a>.',
+      credit:
+        'Beam Studio is made possible by the <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> open source project and other <a target="_blank" href="https://flux3dp.com/credits/">open source software</a>.',
       ok: 'OK',
     },
   },
+}));
+
+jest.mock('antd', () => ({
+  Col: ({ children, ...props }: any) => (
+    <div>
+      Dummy Col
+      <p>props: {JSON.stringify(props)}</p>
+      {children}
+    </div>
+  ),
+  Modal: ({ children, ...props }: any) => (
+    <div>
+      Dummy Modal
+      <p>props: {JSON.stringify(props)}</p>
+      {children}
+    </div>
+  ),
+  Row: ({ children, ...props }: any) => (
+    <div>
+      Dummy Row
+      <p>props: {JSON.stringify(props)}</p>
+      {children}
+    </div>
+  ),
 }));
 
 window.FLUX = {
@@ -26,13 +51,8 @@ describe('test AboutBeamStudio', () => {
 
   it('should render correctly', () => {
     const onClose = jest.fn();
-    const wrapper = mount(<AboutBeamStudio
-      onClose={onClose}
-    />);
+    const wrapper = mount(<AboutBeamStudio onClose={onClose} />);
     expect(toJson(wrapper)).toMatchSnapshot();
-
-    wrapper.find('button.btn-default').simulate('click');
-    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   afterAll(() => {

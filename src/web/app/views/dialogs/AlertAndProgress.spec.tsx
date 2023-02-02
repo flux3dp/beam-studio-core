@@ -1,38 +1,57 @@
-/* eslint-disable import/first */
 import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { render } from '@testing-library/react';
 
-jest.mock('app/widgets/Alert', () => function DummyAlert() {
-  return (
-    <div>
-      This is dummy Alert
-    </div>
-  );
-});
+import AlertAndProgress from './AlertAndProgress';
 
-jest.mock('app/widgets/Progress', () => function DummyProgress() {
-  return (
+jest.mock('antd', () => ({
+  Button: ({ children, ...props }: any) => (
     <div>
-      This is dummy Progress
+      Dummy Button
+      <p>props: {JSON.stringify(props)}</p>
+      {children}
     </div>
-  );
-});
+  ),
+  Modal: ({ children, ...props }: any) => (
+    <div>
+      Dummy Modal
+      {children}
+    </div>
+  ),
+  Progress: ({ children, ...props }: any) => (
+    <div>
+      Dummy Progress
+      <p>props: {JSON.stringify(props)}</p>
+      {children}
+    </div>
+  ),
+}));
+
+jest.mock('helpers/i18n', () => ({
+  lang: {
+    alert: {
+      cancel: 'Cancel',
+    },
+  },
+}));
 
 jest.mock('app/contexts/AlertProgressContext', () => ({
   AlertProgressContext: React.createContext({
     alertProgressStack: [{
+      id: 'alert',
       message: 'Yes or No',
       caption: 'Hello World',
       iconUrl: 'https://www.flux3dp.com/icon.svg',
       buttons: [{
         title: 'Yes',
+        label: 'Yes',
       }, {
         title: 'No',
+        label: 'No',
       }],
       checkboxText: 'Select',
       checkboxCallbacks: jest.fn(),
     }, {
+      id: 'progress',
       isProgress: true,
     }],
     popFromStack: jest.fn(),
@@ -40,10 +59,7 @@ jest.mock('app/contexts/AlertProgressContext', () => ({
   }),
 }));
 
-import AlertAndProgress from './AlertAndProgress';
-
 test('should render correctly', () => {
-  expect(toJson(mount(
-    <AlertAndProgress className="flux" />,
-  ))).toMatchSnapshot();
+  const { container } = render(<AlertAndProgress />);
+  expect(container).toMatchSnapshot();
 });

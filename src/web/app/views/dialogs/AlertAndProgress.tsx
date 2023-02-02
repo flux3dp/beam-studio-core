@@ -1,15 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-
-// import Alert from 'app/widgets/Alert';
-// import Progress from 'app/widgets/Progress';
-import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
-import ProgressConstants from 'app/constants/progress-constants';
-import { IAlert } from 'interfaces/IAlert';
-import { IProgressDialog } from 'interfaces/IProgress';
 import { Button, Modal, Progress } from 'antd';
-import i18n from 'helpers/i18n';
+
 import browser from 'implementations/browser';
 import Draggable from 'react-draggable';
+import i18n from 'helpers/i18n';
+import ProgressConstants from 'app/constants/progress-constants';
+import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
+import { IAlert } from 'interfaces/IAlert';
+import { IProgressDialog } from 'interfaces/IProgress';
 
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
 
@@ -88,7 +86,7 @@ const AlertsAndProgress = (): JSX.Element => {
       );
     }
     const footer = data?.buttons.map((button) => {
-      const buttonType = button.className.includes('primary') ? 'primary' : 'default';
+      const buttonType = button.className?.includes('primary') ? 'primary' : 'default';
       return (
         <Button
           key={button.label}
@@ -124,46 +122,6 @@ const AlertsAndProgress = (): JSX.Element => {
       {alertModals}
     </div>
   );
-
-  /*
-  const components = alertProgressStack.map((alertOrProgress, index) => {
-    if (index === alertProgressStack.length - 1
-      && document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-    if ('isProgress' in alertOrProgress) {
-      const progress = alertOrProgress as IProgressDialog;
-      progressCount += 1;
-      return (
-        <Progress
-          key={`progress-${progressCount}`}
-          progress={progress}
-          popById={popById}
-        />
-      );
-    }
-    alertCount += 1;
-    const alert = alertOrProgress as IAlert;
-    return (
-      <Alert
-        key={`alert-${alertCount}`}
-        caption={alert.caption}
-        iconUrl={alert.iconUrl}
-        message={alert.message}
-        checkboxText={alert.checkboxText}
-        checkboxCallbacks={alert.checkboxCallbacks}
-        buttons={alert.buttons}
-        animationClass={classNames('animate__animated', 'animate__bounceIn')}
-        onClose={popFromStack}
-      />
-    );
-  });
-
-  return (
-    <div className={classNames('alerts-container', className)}>
-      {components}
-    </div>
-  ); */
 };
 
 export default AlertsAndProgress;

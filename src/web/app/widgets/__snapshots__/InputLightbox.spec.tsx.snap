@@ -1,63 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test InputLightbox 1`] = `
-<Modal
-  cancelText="Resolution"
-  centered={true}
-  okButtonProps={
-    Object {
-      "disabled": true,
-    }
-  }
-  okText="UPLOAD"
-  onCancel={[Function]}
-  onOk={[Function]}
-  open={true}
-  title="Firmware upload (*.bin / *.fxfw)"
->
-  <ForwardRef(InternalForm)>
-    <p />
-    <InternalFormItem>
-      <ForwardRef
-        autoFocus={true}
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        type="file"
-      />
-    </InternalFormItem>
-  </ForwardRef(InternalForm)>
-</Modal>
+exports[`test InputLightbox should render correctly when type is file 1`] = `
+<div>
+  <div>
+    Dummy Modal
+    <p>
+      props: 
+      {"open":true,"centered":true,"title":"Firmware upload (*.bin / *.fxfw)","cancelText":"Resolution","okText":"UPLOAD","okButtonProps":{"disabled":true}}
+    </p>
+    <div>
+      Dummy Form
+      <p>
+        header
+      </p>
+      <div>
+        Dummy FormItem
+        <p>
+          props: 
+          {}
+        </p>
+        <div>
+          Dummy Input
+          <p>
+            props: 
+            {"type":"file","defaultValue":"","autoFocus":true,"maxLength":100}
+          </p>
+          <p>
+            ref: 
+            {}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
 
-exports[`test InputLightbox 2`] = `
-<Modal
-  cancelText="Resolution"
-  centered={true}
-  okButtonProps={
-    Object {
-      "disabled": true,
-    }
-  }
-  okText="CONNECT"
-  onCancel={[Function]}
-  onOk={[Function]}
-  open={true}
-  title="ABCDE requires a password"
->
-  <ForwardRef(InternalForm)>
+exports[`test InputLightbox should render correctly when type is password 1`] = `
+<div>
+  <div>
+    Dummy Modal
     <p>
-      Password
+      props: 
+      {"open":true,"centered":true,"title":"ABCDE requires a password","cancelText":"Resolution","okText":"CONNECT","okButtonProps":{"disabled":true}}
     </p>
-    <InternalFormItem>
-      <ForwardRef
-        autoFocus={true}
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        type="password"
-      />
-    </InternalFormItem>
-  </ForwardRef(InternalForm)>
-</Modal>
+    <div>
+      Dummy Form
+      <p>
+        Password
+      </p>
+      <div>
+        Dummy FormItem
+        <p>
+          props: 
+          {}
+        </p>
+        <div>
+          Dummy Input
+          <p>
+            props: 
+            {"type":"password","defaultValue":"","autoFocus":true,"maxLength":100}
+          </p>
+          <p>
+            ref: 
+            {}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
