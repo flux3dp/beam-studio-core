@@ -24,9 +24,7 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   const emailInput = useRef<InputRef>(null);
   const passwordInput = useRef<InputRef>(null);
   const rememberMeCheckbox = useRef(null);
-  const [isRememberMeChecked, setIsRememberMeChecked] = useState(
-    !!storage.get('keep-flux-id-login'),
-  );
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(!!storage.get('keep-flux-id-login'));
 
   useEffect(() => {
     const checkbox = rememberMeCheckbox.current;
@@ -40,10 +38,10 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
 
   const renderOAuthContent = () => (
     <div className="oauth">
-      <div className={classNames('button facebook')} onClick={externalLinkFBSignIn}>
+      <div className={classNames('button', 'facebook')} onClick={externalLinkFBSignIn}>
         Continue with Facebook
       </div>
-      <div className={classNames('button google')} onClick={externalLinkGoogleSignIn}>
+      <div className={classNames('button', 'google')} onClick={externalLinkGoogleSignIn}>
         Continue with Google
       </div>
     </div>

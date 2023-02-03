@@ -1,55 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<ColorPickerPanel
-  left={300}
-  onClose={[MockFunction]}
-  onNewColor={[MockFunction]}
-  originalColor="#000000"
-  top={100}
->
+<div>
   <div
-    className="color-picker-panel"
-    style={
-      Object {
-        "left": 100,
-        "top": 100,
-      }
-    }
+    class="color-picker-panel"
+    style="top: 100px; left: 100px;"
   >
     <div
-      className="modal-background"
-      onClick={[MockFunction]}
+      class="modal-background"
     />
     <div
-      className="pickr"
+      class="pickr"
     />
     <div
-      className="footer"
+      class="footer"
     >
-      <Button
-        onClick={[MockFunction]}
+      <button
+        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+        type="button"
       >
-        <button
-          onClick={[MockFunction]}
-          type="button"
-        >
+        <span>
           Cancel
-        </button>
-      </Button>
-      <Button
-        onClick={[Function]}
-        type="primary"
+        </span>
+      </button>
+      <button
+        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+        type="button"
       >
-        <button
-          className="primary"
-          onClick={[Function]}
-          type="button"
-        >
+        <span>
           Okay
-        </button>
-      </Button>
+        </span>
+      </button>
     </div>
   </div>
-</ColorPickerPanel>
+</div>
 `;

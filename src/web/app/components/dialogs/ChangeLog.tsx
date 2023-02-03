@@ -24,7 +24,7 @@ function ChangeLog({ onClose }: Props): JSX.Element {
             <div className="change-log-item" key={`${key}-${i}`}>
               <span className="index">{`${i + 1}.`}</span>
               <span className="log">{CHANGES[key][i]}</span>
-            </div>,
+            </div>
           );
         }
       }

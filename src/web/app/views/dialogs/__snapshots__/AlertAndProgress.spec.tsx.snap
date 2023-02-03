@@ -1,29 +1,172 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<div>
+<body>
   <div>
-    <div>
-      Dummy Modal
+    <div />
+  </div>
+  <div>
+    <div
+      class="ant-modal-root css-dev-only-do-not-override-ixblex"
+    >
       <div
-        class="message"
-      >
-        Yes or No
-      </div>
-    </div>
-    <div>
-      Dummy Modal
-      <div
-        class="message"
+        class="ant-modal-mask"
       />
-      <div>
-        Dummy Progress
-        <p>
-          props: 
-          {"status":"active","percent":null,"strokeColor":{"0%":"#108ee9","100%":"#87d068"}}
-        </p>
+      <div
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
+      >
+        <div
+          aria-labelledby="test-id"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-ixblex"
+          role="dialog"
+          style="width: 520px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content react-draggable"
+            style="transform: translate(0px,0px);"
+          >
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                Hello World
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <div
+                class="message"
+              >
+                Yes or No
+              </div>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  Yes
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  No
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div>
+    <div
+      class="ant-modal-root css-dev-only-do-not-override-ixblex"
+    >
+      <div
+        class="ant-modal-mask"
+      />
+      <div
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
+      >
+        <div
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-ixblex"
+          role="dialog"
+          style="min-width: 520px; width: 520px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content react-draggable"
+            style="transform: translate(0px,0px);"
+          >
+            <div
+              class="ant-modal-body"
+            >
+              <div
+                class="message"
+              />
+              <div
+                class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-ixblex"
+                role="progressbar"
+              >
+                <div
+                  class="ant-progress-outer"
+                >
+                  <div
+                    class="ant-progress-inner"
+                  >
+                    <div
+                      class="ant-progress-bg"
+                      style="width: 0%; height: 8px;"
+                    />
+                  </div>
+                </div>
+                <span
+                  class="ant-progress-text"
+                  title="0%"
+                >
+                  0%
+                </span>
+              </div>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  Cancel
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                style="display: none;"
+                type="button"
+              >
+                <span>
+                  OK
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 `;

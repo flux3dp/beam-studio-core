@@ -1,93 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test AboutBeamStudio should render correctly 1`] = `
-<AboutBeamStudio
-  onClose={[MockFunction]}
->
-  <Modal
-    cancelButtonProps={
-      Object {
-        "style": Object {
-          "display": "none",
-        },
-      }
-    }
-    centered={true}
-    okText="OK"
-    onCancel={[MockFunction]}
-    onOk={[MockFunction]}
-    open={true}
-  >
-    <div>
-      Dummy Modal
-      <p>
-        props: 
-        {"open":true,"centered":true,"okText":"OK","cancelButtonProps":{"style":{"display":"none"}}}
-      </p>
-      <Row
-        gutter={10}
+<body>
+  <div />
+  <div>
+    <div
+      class="ant-modal-root css-dev-only-do-not-override-ixblex"
+    >
+      <div
+        class="ant-modal-mask"
+      />
+      <div
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
       >
-        <div>
-          Dummy Row
-          <p>
-            props: 
-            {"gutter":10}
-          </p>
-          <Col
-            span={7}
+        <div
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-ixblex"
+          role="dialog"
+          style="width: 520px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content"
           >
-            <div>
-              Dummy Col
-              <p>
-                props: 
-                {"span":7}
-              </p>
-              <img
-                src="img/icon.png"
-                style={
-                  Object {
-                    "float": "left",
-                  }
-                }
-                width={150}
-              />
-            </div>
-          </Col>
-          <Col
-            span={12}
-          >
-            <div>
-              Dummy Col
-              <p>
-                props: 
-                {"span":12}
-              </p>
-              <strong>
-                Beam Studio
-              </strong>
-              <div
-                className="version"
+            <button
+              aria-label="Close"
+              class="ant-modal-close"
+              type="button"
+            >
+              <span
+                class="ant-modal-close-x"
               >
-                Version 1.2.3
-              </div>
+                <span
+                  aria-label="close"
+                  class="anticon anticon-close ant-modal-close-icon"
+                  role="img"
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="close"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                    />
+                  </svg>
+                </span>
+              </span>
+            </button>
+            <div
+              class="ant-modal-body"
+            >
               <div
-                className="copyright"
+                class="ant-row css-dev-only-do-not-override-ixblex"
+                style="margin-left: -5px; margin-right: -5px;"
               >
-                Copyright ⓒ 1976 FLUX Inc.
+                <div
+                  class="ant-col ant-col-7 css-dev-only-do-not-override-ixblex"
+                  style="padding-left: 5px; padding-right: 5px;"
+                >
+                  <img
+                    src="img/icon.png"
+                    style="float: left;"
+                    width="150"
+                  />
+                </div>
+                <div
+                  class="ant-col ant-col-12 css-dev-only-do-not-override-ixblex"
+                  style="padding-left: 5px; padding-right: 5px;"
+                >
+                  <strong>
+                    Beam Studio
+                  </strong>
+                  <div
+                    class="version"
+                  >
+                    Version undefined
+                  </div>
+                  <div
+                    class="copyright"
+                  >
+                    Copyright ⓒ 1976 FLUX Inc.
+                  </div>
+                  <div
+                    class="credit"
+                  >
+                    credit
+                  </div>
+                </div>
               </div>
-              <div
-                className="credit"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "Beam Studio is made possible by the <a target=\\"_blank\\" href=\\"https://github.com/flux3dp/beam-studio\\">Beam Studio</a> open source project and other <a target=\\"_blank\\" href=\\"https://flux3dp.com/credits/\\">open source software</a>.",
-                  }
-                }
-              />
             </div>
-          </Col>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                style="display: none;"
+                type="button"
+              >
+                <span>
+                  Cancel
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                type="button"
+              >
+                <span>
+                  OK
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
         </div>
-      </Row>
+      </div>
     </div>
-  </Modal>
-</AboutBeamStudio>
+  </div>
+</body>
 `;

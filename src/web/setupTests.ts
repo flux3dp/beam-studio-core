@@ -1,4 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import '@testing-library/jest-dom/extend-expect';
+
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';
 import $ from 'jquery';
@@ -7,29 +9,29 @@ import { enableFetchMocks } from 'jest-fetch-mock';
 declare global {
   interface Window {
     electron?: {
-      ipc: any,
-      events: { [key: string]: string; },
-      remote: any,
-    },
+      ipc: any;
+      events: { [key: string]: string };
+      remote: any;
+    };
     FLUX: {
-      allowTracking: boolean,
-      backendAlive: boolean,
-      debug: boolean,
-      dev: boolean,
-      ghostPort: number,
-      logfile?: any,
-      timestamp: number,
-      version: string,
-      websockets: any,
-    },
-    os: 'MacOS' | 'Windows' | 'Linux' | 'others',
-    requirejs: (deps: string[], callback: (...modules: any[]) => void) => void,
-    $: any,
-    jQuery: any,
-    svgedit: any,
-    svgCanvas: any,
-    svgEditor: any,
-    titlebar?: any,
+      allowTracking: boolean;
+      backendAlive: boolean;
+      debug: boolean;
+      dev: boolean;
+      ghostPort: number;
+      logfile?: any;
+      timestamp: number;
+      version: string;
+      websockets: any;
+    };
+    os: 'MacOS' | 'Windows' | 'Linux' | 'others';
+    requirejs: (deps: string[], callback: (...modules: any[]) => void) => void;
+    $: any;
+    jQuery: any;
+    svgedit: any;
+    svgCanvas: any;
+    svgEditor: any;
+    titlebar?: any;
     polygonAddSides: () => void;
     polygonDecreaseSides: () => void;
   }
@@ -68,3 +70,14 @@ Object.defineProperty(window, 'svgedit', {
   },
   writable: true,
 });
+if (!window.matchMedia) {
+  Object.defineProperty(global.window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: (query) => ({
+      matches: query.includes('max-width'),
+      addListener: () => {},
+      removeListener: () => {},
+    }),
+  });
+}

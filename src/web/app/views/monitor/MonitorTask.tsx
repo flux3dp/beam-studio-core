@@ -1,12 +1,13 @@
-import React from 'react';
-
-import FormatDuration from 'helpers/duration-formatter';
-import i18n from 'helpers/i18n';
-import DeviceConstants from 'app/constants/device-constants';
-import { Mode } from 'app/constants/monitor-constants';
-import { useMonitorContext } from 'app/contexts/MonitorContext';
+import React, { useContext } from 'react';
 import { Col, Progress, Row } from 'antd';
 import { ClockCircleOutlined, FileOutlined } from '@ant-design/icons';
+
+import DeviceConstants from 'app/constants/device-constants';
+import FormatDuration from 'helpers/duration-formatter';
+import i18n from 'helpers/i18n';
+import { Mode } from 'app/constants/monitor-constants';
+import { MonitorContext } from 'app/contexts/MonitorContext';
+
 import MonitorControl from './MonitorControl';
 
 const defaultImage = 'img/ph_l.png';
@@ -15,7 +16,7 @@ const LANG = i18n.lang;
 const MonitorTask = (): JSX.Element => {
   const {
     taskTime, mode, report, uploadProgress, taskImageURL, fileInfo, previewTask,
-  } = useMonitorContext();
+  } = useContext(MonitorContext);
 
   const getJobTime = (): string => {
     if (mode === Mode.WORKING && report && report.prog) {
@@ -70,7 +71,7 @@ const MonitorTask = (): JSX.Element => {
     );
   };
 
-  const render = (): JSX.Element => (
+  return (
     <div className="task">
       <div style={{ position: 'relative', marginBottom: 10 }}>
         <img
@@ -101,7 +102,6 @@ const MonitorTask = (): JSX.Element => {
       </Row>
     </div>
   );
-  return render();
 };
 
 export default MonitorTask;

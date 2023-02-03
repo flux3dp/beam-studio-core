@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
-
-import ButtonGroup from 'app/widgets/ButtonGroup';
-import i18n from 'helpers/i18n';
 import { Button, Modal } from 'antd';
-import { IButton } from 'interfaces/IButton';
+
+import i18n from 'helpers/i18n';
 import { IMediaTutorial } from 'interfaces/ITutorial';
 
 interface Props {
@@ -29,7 +26,7 @@ function MediaTutorial({ data, onClose }: Props): JSX.Element {
     if (isVideo) {
       return (
         <video autoPlay loop muted ref={videoRef}>
-          {mediaSources.map(({ src, type }) => <source src={src} type={type} />)}
+          {mediaSources.map(({ src, type }) => <source key={src} src={src} type={type} />)}
         </video>
       );
     }
@@ -38,12 +35,12 @@ function MediaTutorial({ data, onClose }: Props): JSX.Element {
 
   const footer = [];
   if (step !== 0) {
-    footer.push(<Button onClick={() => setStep(step - 1)}>{LANG.back}</Button>);
+    footer.push(<Button key="back" onClick={() => setStep(step - 1)}>{LANG.back}</Button>);
   }
   if (step === data.length - 1) {
-    footer.push(<Button type="primary" onClick={onClose}>{LANG.done}</Button>);
+    footer.push(<Button key="done" type="primary" onClick={onClose}>{LANG.done}</Button>);
   } else {
-    footer.push(<Button type="primary" onClick={() => setStep(step + 1)}>{LANG.next}</Button>);
+    footer.push(<Button key="next" type="primary" onClick={() => setStep(step + 1)}>{LANG.next}</Button>);
   }
 
   return (

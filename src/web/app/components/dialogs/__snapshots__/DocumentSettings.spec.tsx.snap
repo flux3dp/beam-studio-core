@@ -1,507 +1,789 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<Modal
-  cancelText="Cancel"
-  centered={true}
-  okText="Save"
-  onCancel={[MockFunction]}
-  onOk={[Function]}
-  open={true}
-  title="Document Settings"
->
-  <ForwardRef(InternalForm)
-    labelCol={
-      Object {
-        "span": 6,
-      }
-    }
-    wrapperCol={
-      Object {
-        "span": 18,
-      }
-    }
-  >
-    <EngraveDpiSlider
-      onChange={[Function]}
-      value="medium"
-    />
-    <InternalFormItem
-      initialValue="fbb1b"
-      label="Working Area"
-      name="workarea"
-    >
-      <ForwardRef(InternalSelect)
-        bordered={true}
-        onChange={[Function]}
-      >
-        <Option
-          value="fbm1"
+exports[`test DocumentSettings should render correctly 1`] = `
+<div>
+  <div>
+    Dummy Modal
+    <p>
+      title: 
+      Document Settings
+    </p>
+    <div>
+      Dummy Form
+      <div>
+        DummyEngraveDpiSlider
+        <p>
+          value: 
+          medium
+        </p>
+        <button
+          type="button"
         >
-          beamo
-        </Option>
-        <Option
-          value="fbb1b"
-        >
-          Beambox
-        </Option>
-        <Option
-          value="fbb1p"
-        >
-          Beambox Pro
-        </Option>
-        <Option
-          value="fhexa1"
-        >
-          HEXA
-        </Option>
-      </ForwardRef(InternalSelect)>
-    </InternalFormItem>
-    <strong>
-      Add-ons
-    </strong>
-    <Row>
-      <Col
-        span={12}
-      >
-        <InternalFormItem
-          initialValue={false}
-          label="Rotary"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="rotary_mode"
-        >
-          <Switch
-            defaultChecked={false}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-        <InternalFormItem
-          initialValue={false}
-          label="Open Bottom"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="borderless_mode"
-        >
-          <Switch
-            defaultChecked={false}
-            disabled={true}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-      </Col>
-      <Col
-        span={12}
-      >
-        <InternalFormItem
-          initialValue={false}
-          label="Autofocus"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="autofocus-module"
-        >
-          <Switch
-            defaultChecked={false}
-            disabled={true}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-        <InternalFormItem
-          initialValue={false}
-          label="Diode Laser"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="diode_module"
-        >
-          <Switch
-            defaultChecked={false}
-            disabled={true}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-      </Col>
-    </Row>
-  </ForwardRef(InternalForm)>
-</Modal>
-`;
-
-exports[`should render correctly 2`] = `
-<Modal
-  cancelText="Cancel"
-  centered={true}
-  okText="Save"
-  onCancel={[MockFunction]}
-  onOk={[Function]}
-  open={true}
-  title="Document Settings"
->
-  <ForwardRef(InternalForm)
-    labelCol={
-      Object {
-        "span": 6,
-      }
-    }
-    wrapperCol={
-      Object {
-        "span": 18,
-      }
-    }
-  >
-    <EngraveDpiSlider
-      onChange={[Function]}
-      value="high"
-    />
-    <InternalFormItem
-      initialValue="fbb1b"
-      label="Working Area"
-      name="workarea"
-    >
-      <ForwardRef(InternalSelect)
-        bordered={true}
-        onChange={[Function]}
-      >
-        <Option
-          value="fbm1"
-        >
-          beamo
-        </Option>
-        <Option
-          value="fbb1b"
-        >
-          Beambox
-        </Option>
-        <Option
-          value="fbb1p"
-        >
-          Beambox Pro
-        </Option>
-        <Option
-          value="fhexa1"
-        >
-          HEXA
-        </Option>
-      </ForwardRef(InternalSelect)>
-    </InternalFormItem>
-    <strong>
-      Add-ons
-    </strong>
-    <Row>
-      <Col
-        span={12}
-      >
-        <InternalFormItem
-          initialValue={false}
-          label="Rotary"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="rotary_mode"
-        >
-          <Switch
-            defaultChecked={false}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-        <InternalFormItem
-          initialValue={false}
-          label="Open Bottom"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="borderless_mode"
-        >
-          <Switch
-            defaultChecked={false}
-            disabled={true}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-      </Col>
-      <Col
-        span={12}
-      >
-        <InternalFormItem
-          initialValue={false}
-          label="Autofocus"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="autofocus-module"
-        >
-          <Switch
-            defaultChecked={false}
-            disabled={true}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-        <InternalFormItem
-          initialValue={false}
-          label="Diode Laser"
-          labelCol={
-            Object {
-              "offset": 0,
-              "span": 12,
-            }
-          }
-          name="diode_module"
-        >
-          <Switch
-            defaultChecked={false}
-            disabled={true}
-            onChange={[Function]}
-          />
-        </InternalFormItem>
-      </Col>
-    </Row>
-  </ForwardRef(InternalForm)>
-</Modal>
-`;
-
-exports[`should render correctly 3`] = `
-<View
-  onClose={[MockFunction]}
->
-  <div
-    className="document-panel"
-  >
-    <section
-      className="main-content"
-    >
-      <div
-        className="title"
-      >
-        Document Settings
+          change dpi
+        </button>
       </div>
-      <EngraveDpiSlider
-        onChange={[Function]}
-        value="high"
-      />
-      <DropDownControl
-        id="workarea_dropdown"
-        label="Working Area"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "beamo",
-              "value": "fbm1",
-            },
-            Object {
-              "label": "Beambox",
-              "value": "fbb1b",
-            },
-            Object {
-              "label": "Beambox Pro",
-              "value": "fbb1p",
-            },
-            Object {
-              "label": "HEXA",
-              "value": "fhexa1",
-            },
-          ]
-        }
-        value="fbb1p"
-      />
-      <div
-        className="sub-title"
-      >
+      <div>
+        Dummy FormItem
+        <p>
+          name: 
+          workarea
+        </p>
+        <div>
+          Dummy Select
+          <button
+            type="button"
+          >
+            change workarea
+          </button>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbm1
+            </p>
+            beamo
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1b
+            </p>
+            Beambox
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1p
+            </p>
+            Beambox Pro
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fhexa1
+            </p>
+            HEXA
+          </div>
+        </div>
+      </div>
+      <strong>
         Add-ons
+      </strong>
+      <div
+        class="row"
+      >
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              rotary_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                undefined
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              borderless_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                true
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              autofocus-module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                true
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              diode_module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                true
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <SwitchControl
-        default={false}
-        id="rotary_mode"
-        label="Rotary"
-        name="rotary_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="borderless_mode"
-        isDisabled={true}
-        label="Open Bottom"
-        name="borderless_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="autofocus-module"
-        isDisabled={true}
-        label="Autofocus"
-        name="autofocus-module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="diode_module"
-        isDisabled={true}
-        label="Diode Laser"
-        name="diode_module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-    </section>
-    <section
-      className="footer"
+    </div>
+    <button
+      type="button"
     >
-      <button
-        className="btn btn-default pull-right"
-        onClick={[MockFunction]}
-        type="button"
-      >
-        Cancel
-      </button>
-      <button
-        className="btn btn-default primary pull-right"
-        onClick={[Function]}
-        type="button"
-      >
-        Save
-      </button>
-    </section>
+      Save
+    </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
   </div>
-</View>
+</div>
 `;
 
-exports[`should render correctly 4`] = `
-<View
-  onClose={[MockFunction]}
->
-  <div
-    className="document-panel"
-  >
-    <section
-      className="main-content"
-    >
-      <div
-        className="title"
-      >
-        Document Settings
+exports[`test DocumentSettings should render correctly 2`] = `
+<div>
+  <div>
+    Dummy Modal
+    <p>
+      title: 
+      Document Settings
+    </p>
+    <div>
+      Dummy Form
+      <div>
+        DummyEngraveDpiSlider
+        <p>
+          value: 
+          high
+        </p>
+        <button
+          type="button"
+        >
+          change dpi
+        </button>
       </div>
-      <EngraveDpiSlider
-        onChange={[Function]}
-        value="high"
-      />
-      <DropDownControl
-        id="workarea_dropdown"
-        label="Working Area"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "beamo",
-              "value": "fbm1",
-            },
-            Object {
-              "label": "Beambox",
-              "value": "fbb1b",
-            },
-            Object {
-              "label": "Beambox Pro",
-              "value": "fbb1p",
-            },
-            Object {
-              "label": "HEXA",
-              "value": "fhexa1",
-            },
-          ]
-        }
-        value="fbb1p"
-      />
-      <div
-        className="sub-title"
-      >
+      <div>
+        Dummy FormItem
+        <p>
+          name: 
+          workarea
+        </p>
+        <div>
+          Dummy Select
+          <button
+            type="button"
+          >
+            change workarea
+          </button>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbm1
+            </p>
+            beamo
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1b
+            </p>
+            Beambox
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1p
+            </p>
+            Beambox Pro
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fhexa1
+            </p>
+            HEXA
+          </div>
+        </div>
+      </div>
+      <strong>
         Add-ons
+      </strong>
+      <div
+        class="row"
+      >
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              rotary_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                undefined
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              borderless_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                true
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              autofocus-module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                true
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              diode_module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                true
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <SwitchControl
-        default={true}
-        id="rotary_mode"
-        label="Rotary"
-        name="rotary_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="borderless_mode"
-        isDisabled={true}
-        label="Open Bottom"
-        name="borderless_mode"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="autofocus-module"
-        isDisabled={true}
-        label="Autofocus"
-        name="autofocus-module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-      <SwitchControl
-        default={false}
-        id="diode_module"
-        isDisabled={true}
-        label="Diode Laser"
-        name="diode_module"
-        offText="Disable"
-        onChange={[Function]}
-        onText="Enable"
-      />
-    </section>
-    <section
-      className="footer"
+    </div>
+    <button
+      type="button"
     >
-      <button
-        className="btn btn-default pull-right"
-        onClick={[MockFunction]}
-        type="button"
-      >
-        Cancel
-      </button>
-      <button
-        className="btn btn-default primary pull-right"
-        onClick={[Function]}
-        type="button"
-      >
-        Save
-      </button>
-    </section>
+      Save
+    </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
   </div>
-</View>
+</div>
+`;
+
+exports[`test DocumentSettings should render correctly 3`] = `
+<div>
+  <div>
+    Dummy Modal
+    <p>
+      title: 
+      Document Settings
+    </p>
+    <div>
+      Dummy Form
+      <div>
+        DummyEngraveDpiSlider
+        <p>
+          value: 
+          high
+        </p>
+        <button
+          type="button"
+        >
+          change dpi
+        </button>
+      </div>
+      <div>
+        Dummy FormItem
+        <p>
+          name: 
+          workarea
+        </p>
+        <div>
+          Dummy Select
+          <button
+            type="button"
+          >
+            change workarea
+          </button>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbm1
+            </p>
+            beamo
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1b
+            </p>
+            Beambox
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1p
+            </p>
+            Beambox Pro
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fhexa1
+            </p>
+            HEXA
+          </div>
+        </div>
+      </div>
+      <strong>
+        Add-ons
+      </strong>
+      <div
+        class="row"
+      >
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              rotary_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                undefined
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              borderless_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                false
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              autofocus-module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                false
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              diode_module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                false
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      type="button"
+    >
+      Save
+    </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+`;
+
+exports[`test DocumentSettings should render correctly 4`] = `
+<div>
+  <div>
+    Dummy Modal
+    <p>
+      title: 
+      Document Settings
+    </p>
+    <div>
+      Dummy Form
+      <div>
+        DummyEngraveDpiSlider
+        <p>
+          value: 
+          high
+        </p>
+        <button
+          type="button"
+        >
+          change dpi
+        </button>
+      </div>
+      <div>
+        Dummy FormItem
+        <p>
+          name: 
+          workarea
+        </p>
+        <div>
+          Dummy Select
+          <button
+            type="button"
+          >
+            change workarea
+          </button>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbm1
+            </p>
+            beamo
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1b
+            </p>
+            Beambox
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fbb1p
+            </p>
+            Beambox Pro
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              fhexa1
+            </p>
+            HEXA
+          </div>
+        </div>
+      </div>
+      <strong>
+        Add-ons
+      </strong>
+      <div
+        class="row"
+      >
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              rotary_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                true
+              </p>
+              <p>
+                disabled: 
+                undefined
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              borderless_mode
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                false
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          Dummy Col
+          <p>
+            props: 
+            {"span":12}
+          </p>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              autofocus-module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                false
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+          <div>
+            Dummy FormItem
+            <p>
+              name: 
+              diode_module
+            </p>
+            <div>
+              Dummy Switch
+              <p>
+                checked: 
+                false
+              </p>
+              <p>
+                disabled: 
+                false
+              </p>
+              <button
+                type="button"
+              >
+                change
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      type="button"
+    >
+      Save
+    </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
 `;

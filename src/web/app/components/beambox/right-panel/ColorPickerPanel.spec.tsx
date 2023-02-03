@@ -1,11 +1,11 @@
-/* eslint-disable import/first */
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import ColorPickerPanel from './ColorPickerPanel';
+
 const create = jest.fn();
 jest.mock('@simonwep/pickr', () => ({
-  create,
-}));
-
-jest.mock('antd', () => ({
-  Button: ({ onClick, type, children }: any) => <button className={type} onClick={onClick} type="button">{children}</button>,
+  create: (...args) => create(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -19,12 +19,6 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-
-import ColorPickerPanel from './ColorPickerPanel';
-
 test('should render correctly', () => {
   create.mockReturnValue({
     getColor: () => ({
@@ -36,22 +30,24 @@ test('should render correctly', () => {
 
   const onNewColor = jest.fn();
   const onClose = jest.fn();
-  const wrapper = mount(<ColorPickerPanel
-    originalColor="#000000"
-    top={100}
-    left={300}
-    onNewColor={onNewColor}
-    onClose={onClose}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+
+  const { container, getByText } = render(
+    <ColorPickerPanel
+      originalColor="#000000"
+      top={100}
+      left={300}
+      onNewColor={onNewColor}
+      onClose={onClose}
+    />
+  );
+  expect(container).toMatchSnapshot();
   expect(create).toHaveBeenCalledTimes(1);
   expect(create).toHaveBeenNthCalledWith(1, {
     el: '.pickr',
     theme: 'monolith',
     inline: true,
     default: '#000000',
-    swatches: [
-    ],
+    swatches: [],
     components: {
       preview: true,
       opacity: false,
@@ -64,14 +60,14 @@ test('should render correctly', () => {
     },
   });
 
-  wrapper.find('button').at(1).simulate('click');
+  fireEvent.click(getByText('Okay'));
   expect(onNewColor).toHaveBeenCalledTimes(1);
   expect(onNewColor).toHaveBeenNthCalledWith(1, '#FFFFFF');
   expect(onClose).toHaveBeenCalledTimes(1);
 
-  wrapper.find('button').at(0).simulate('click');
+  fireEvent.click(getByText('Cancel'));
   expect(onClose).toHaveBeenCalledTimes(2);
 
-  wrapper.find('div.modal-background').simulate('click');
+  fireEvent.click(container.querySelector('div.modal-background'));
   expect(onClose).toHaveBeenCalledTimes(3);
 });

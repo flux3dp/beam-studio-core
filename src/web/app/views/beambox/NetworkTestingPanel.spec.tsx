@@ -1,12 +1,5 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-
-const mockPoke = jest.fn();
-const mockPokeTcp = jest.fn();
-const mockTestTcp = jest.fn();
-const mockRemoveDiscover = jest.fn();
-const mockNetworkTest = jest.fn();
+import React from 'react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 import NetworkTestingPanel from './NetworkTestingPanel';
 
@@ -28,35 +21,42 @@ jest.mock('helpers/i18n', () => ({
         test_completed: 'Test Completed',
         test_fail: 'Test Failed',
         cannot_connect_1: '#840 Fail to connect to target IP.',
-        cannot_connect_2: '#840 Fail to connect to target IP. Please make sure that the target is in the same network.',
+        cannot_connect_2:
+          '#840 Fail to connect to target IP. Please make sure that the target is in the same network.',
         network_unhealthy: '#841 Connection quality <70 or average response time >100ms',
-        device_not_on_list: '#842 The machine is not on the list, but the connection Quality is >70 and the average response time is <100ms',
+        device_not_on_list: 'device_not_on_list',
         hint_device_often_on_list: 'The machine is often not found on the list?',
         link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
         hint_connect_failed_when_sending_job: 'Failed to connect when sending a job?',
-        link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+        link_connect_failed_when_sending_job:
+          'https://support.flux3dp.com/hc/en-us/articles/360001841656',
         hint_connect_camera_timeout: 'Timeout occurs when starting camera preview?',
         link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
         cannot_get_local: 'Access to local IP address failed.',
         fail_to_start_network_test: '#817 Fail to start network testing.',
-        linux_permission_hint: 'This error usually occurs due to insufficient permissions.\nKindly run "sudo beam-studio --no-sandbox" in terminal to obtain permissions and perform network testing.',
+        linux_permission_hint: 'linux_permission_hint',
       },
     },
   },
 }));
 
+const mockNetworkTest = jest.fn();
 jest.mock('implementations/network', () => ({
-  networkTest: mockNetworkTest,
+  networkTest: (...args) => mockNetworkTest(...args),
 }));
 
+const mockPoke = jest.fn();
+const mockPokeTcp = jest.fn();
+const mockTestTcp = jest.fn();
+const mockRemoveDiscover = jest.fn();
 jest.mock('helpers/api/discover', () => {
   const ins = {
-    poke: mockPoke,
-    pokeTcp: mockPokeTcp,
-    testTcp: mockTestTcp,
-    removeListener: mockRemoveDiscover,
+    poke: (ip: string) => mockPoke(ip),
+    pokeTcp: (ip: string) => mockPokeTcp(ip),
+    testTcp: (ip: string) => mockTestTcp(ip),
+    removeListener: (id: string) => mockRemoveDiscover(id),
   };
-  return (id: string) => ins;
+  return () => ins;
 });
 
 jest.mock('implementations/os', () => ({
@@ -71,42 +71,41 @@ jest.mock('implementations/os', () => ({
   }),
 }));
 
-test('should render correctly', () => {
-  const onClose = jest.fn();
-  const wrapper = mount(<NetworkTestingPanel
-    onClose={onClose}
-    ip="192.168.68.163"
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
-  expect(wrapper.find('input').instance().value).toBe('192.168.68.163');
+const mockOnClose = jest.fn();
+describe('test NetworkTestingPanel', () => {
+  it('should render correctly', async () => {
+    const { baseElement, getByText, unmount } = render(
+      <NetworkTestingPanel onClose={mockOnClose} ip="192.168.68.163" />
+    );
+    expect(baseElement).toMatchSnapshot();
+    expect(baseElement.querySelector('input')).toHaveValue('192.168.68.163');
 
-  wrapper.find('input').simulate('keyDown', {
-    keyCode: 13,
-    key: 'Enter',
+    mockNetworkTest.mockResolvedValue({ successRate: 90, avgRRT: 30, quality: 70 });
+    fireEvent.keyDown(baseElement.querySelector('input'), { key: 'Enter' });
+    expect(mockNetworkTest).toHaveBeenCalledTimes(1);
+    expect(mockNetworkTest).toHaveBeenLastCalledWith('192.168.68.163', 30000, expect.any(Function));
+    expect(mockPoke).toHaveBeenCalledTimes(1);
+    expect(mockPoke).toHaveBeenLastCalledWith('192.168.68.163');
+    expect(mockPokeTcp).toHaveBeenCalledTimes(1);
+    expect(mockPokeTcp).toHaveBeenLastCalledWith('192.168.68.163');
+    expect(mockTestTcp).toHaveBeenCalledTimes(1);
+    expect(mockTestTcp).toHaveBeenLastCalledWith('192.168.68.163');
+
+    baseElement.querySelector('input').value = '192.168.68.3';
+    await act(async () => {
+      fireEvent.click(getByText('Start'));
+    });
+    expect(mockNetworkTest).toHaveBeenCalledTimes(2);
+    expect(mockNetworkTest).toHaveBeenLastCalledWith('192.168.68.3', 30000, expect.any(Function));
+    expect(mockPoke).toHaveBeenCalledTimes(2);
+    expect(mockPoke).toHaveBeenLastCalledWith('192.168.68.3');
+    expect(mockPokeTcp).toHaveBeenCalledTimes(2);
+    expect(mockPokeTcp).toHaveBeenLastCalledWith('192.168.68.3');
+    expect(mockTestTcp).toHaveBeenCalledTimes(2);
+    expect(mockTestTcp).toHaveBeenLastCalledWith('192.168.68.3');
+
+    expect(mockRemoveDiscover).not.toBeCalled();
+    unmount();
+    expect(mockRemoveDiscover).toHaveBeenCalledTimes(1);
   });
-  expect(mockNetworkTest).toHaveBeenCalledTimes(1);
-  expect(mockNetworkTest).toHaveBeenNthCalledWith(1, '192.168.68.163', 30000, expect.any(Function));
-  expect(mockPoke).toHaveBeenCalledTimes(1);
-  expect(mockPoke).toHaveBeenNthCalledWith(1, '192.168.68.163');
-  expect(mockPokeTcp).toHaveBeenCalledTimes(1);
-  expect(mockPokeTcp).toHaveBeenNthCalledWith(1, '192.168.68.163');
-  expect(mockTestTcp).toHaveBeenCalledTimes(1);
-  expect(mockTestTcp).toHaveBeenNthCalledWith(1, '192.168.68.163');
-
-  wrapper.find('input').instance().value = '192.168.68.3';
-  wrapper.find('input').simulate('keyDown', {
-    keyCode: 13,
-    key: 'Enter',
-  });
-  expect(mockNetworkTest).toHaveBeenCalledTimes(2);
-  expect(mockNetworkTest).toHaveBeenNthCalledWith(2, '192.168.68.3', 30000, expect.any(Function));
-  expect(mockPoke).toHaveBeenCalledTimes(2);
-  expect(mockPoke).toHaveBeenNthCalledWith(2, '192.168.68.3');
-  expect(mockPokeTcp).toHaveBeenCalledTimes(2);
-  expect(mockPokeTcp).toHaveBeenNthCalledWith(2, '192.168.68.3');
-  expect(mockTestTcp).toHaveBeenCalledTimes(2);
-  expect(mockTestTcp).toHaveBeenNthCalledWith(2, '192.168.68.3');
-
-  wrapper.unmount();
-  expect(mockRemoveDiscover).toHaveBeenCalledTimes(1);
 });

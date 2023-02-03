@@ -59,9 +59,7 @@ const InputLightBox = (props: Props): JSX.Element => {
   const inputKeyUp = (e: React.KeyboardEvent | React.ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget as HTMLInputElement;
     const targetFiles = target.files || [];
-    setAllowSubmit(
-      target.value.length > 0 || (targetFiles.length || 0) > 0,
-    );
+    setAllowSubmit(target.value.length > 0 || (targetFiles.length || 0) > 0);
   };
 
   const inputType = INPUT_TYPE_MAP[type] || 'text';

@@ -3,29 +3,6 @@ import { render } from '@testing-library/react';
 
 import AlertAndProgress from './AlertAndProgress';
 
-jest.mock('antd', () => ({
-  Button: ({ children, ...props }: any) => (
-    <div>
-      Dummy Button
-      <p>props: {JSON.stringify(props)}</p>
-      {children}
-    </div>
-  ),
-  Modal: ({ children, ...props }: any) => (
-    <div>
-      Dummy Modal
-      {children}
-    </div>
-  ),
-  Progress: ({ children, ...props }: any) => (
-    <div>
-      Dummy Progress
-      <p>props: {JSON.stringify(props)}</p>
-      {children}
-    </div>
-  ),
-}));
-
 jest.mock('helpers/i18n', () => ({
   lang: {
     alert: {
@@ -60,6 +37,6 @@ jest.mock('app/contexts/AlertProgressContext', () => ({
 }));
 
 test('should render correctly', () => {
-  const { container } = render(<AlertAndProgress />);
-  expect(container).toMatchSnapshot();
+  const { baseElement } = render(<AlertAndProgress />);
+  expect(baseElement).toMatchSnapshot();
 });

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Checkbox, Form, Modal, Rate } from 'antd';
 
 import i18n from 'helpers/i18n';
@@ -11,87 +11,52 @@ interface Props {
   onSubmit: (score: number) => void;
 }
 
-interface State {
-  star?: number;
-  tempStar?: number;
-  checkboxChecked: boolean;
-  isFinished: boolean;
-}
+const RatingPanel = ({ onClose, onSubmit }: Props): JSX.Element => {
+  const [star, setStar] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
-class RatingPanel extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      checkboxChecked: false,
-      isFinished: false,
-      star: 0,
-    };
-  }
-
-  onSubmit = (score: number): void => {
-    const { onSubmit } = this.props;
-
+  const handleSubmit = (score: number) => {
     onSubmit(score);
-    this.setState({ isFinished: true });
+    setIsFinished(true);
   };
 
-  onCancel = (): void => {
-    const { checkboxChecked } = this.state;
-    const { onClose } = this.props;
-
-    if (checkboxChecked) {
+  const handleCancel = () => {
+    if (isCheckboxChecked) {
       RatingHelper.setNotShowing();
     }
-
     onClose();
   };
 
-  renderMainContent(): JSX.Element {
-    const { checkboxChecked } = this.state;
-    return (
-      <div className="main-content">
-        <div>{LANG.description}</div>
-        <Rate onChange={(star: number) => this.setState({ star })} />
-        <Form>
-          <Form.Item label={LANG.dont_show_again}>
-            <Checkbox
-              checked={checkboxChecked}
-              onChange={(e) => this.setState({ checkboxChecked: e.target.checked })}
-            />
-          </Form.Item>
-        </Form>
-      </div>
-    );
-  }
-
-  renderPanel(): JSX.Element {
-    const { isFinished } = this.state;
-    if (isFinished) {
-      return (
+  return (
+    <Modal
+      open
+      centered
+      title={`👨‍🚀 ${LANG.title}`}
+      onCancel={handleCancel}
+      onOk={() => (isFinished ? handleCancel() : handleSubmit(star))}
+    >
+      {isFinished ? (
         <strong>
           🙏
           {LANG.thank_you}
         </strong>
-      );
-    }
-    return this.renderMainContent();
-  }
-
-  render(): JSX.Element {
-    const { star, isFinished } = this.state;
-    return (
-      <Modal
-        open
-        centered
-        title={`👨‍🚀 ${LANG.title}`}
-        onCancel={this.onCancel}
-        onOk={() => (isFinished ? this.onCancel() : this.onSubmit(star))}
-      >
-        {this.renderPanel()}
-      </Modal>
-    );
-  }
-}
+      ) : (
+        <div className="main-content">
+          <div>{LANG.description}</div>
+          <Rate onChange={(val) => setStar(val)} />
+          <Form>
+            <Form.Item label={LANG.dont_show_again}>
+              <Checkbox
+                checked={isCheckboxChecked}
+                onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+              />
+            </Form.Item>
+          </Form>
+        </div>
+      )}
+    </Modal>
+  );
+};
 
 export default RatingPanel;

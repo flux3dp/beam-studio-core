@@ -1,44 +1,9 @@
 import * as React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import Constants from 'app/constants/input-lightbox-constants';
 
 import InputLightbox from './InputLightbox';
-
-jest.mock('antd', () => ({
-  get Form() {
-    const mockFormItem = ({ children, ...props }: any) => (
-      <div>
-        Dummy FormItem
-        <p>props: {JSON.stringify(props)}</p>
-        {children}
-      </div>
-    );
-    const mockForm = ({ children }: any) => (
-      <div>
-        Dummy Form
-        {children}
-      </div>
-    );
-    mockForm.Item = mockFormItem;
-    return mockForm;
-  },
-  Modal: ({ children, ...props }: any) => (
-    <div>
-      Dummy Modal
-      <p>props: {JSON.stringify(props)}</p>
-      {children}
-    </div>
-  ),
-  Input: React.forwardRef(({ children, ...props }: any, ref) => (
-    <div>
-      Dummy Input
-      <p>props: {JSON.stringify(props)}</p>
-      <p>ref: {JSON.stringify(ref)}</p>
-      {children}
-    </div>
-  )),
-}));
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -53,12 +18,19 @@ jest.mock(
   'app/widgets/AlertDialog',
   () => function DummyImageAlertDialog() {
     return <div>This is dummy AlertDialog</div>;
-  },
+  }
 );
 
+const mockOnSubmit = jest.fn();
+const mockOnClose = jest.fn();
+
 describe('test InputLightbox', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should render correctly when type is file', () => {
-    const { container } = render(
+    const { baseElement, getByText } = render(
       <InputLightbox
         defaultValue=""
         inputHeader="header"
@@ -66,15 +38,25 @@ describe('test InputLightbox', () => {
         maxLength={100}
         type={Constants.TYPE_FILE}
         confirmText="UPLOAD"
-        onSubmit={jest.fn()}
-        onClose={jest.fn()}
-      />,
+        onSubmit={mockOnSubmit}
+        onClose={mockOnClose}
+      />
     );
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
+    const input = baseElement.querySelector('input') as HTMLInputElement;
+    const filesGetter = jest.spyOn(input, 'files', 'get');
+    const mockFile = new File(['mock-file'], 'mock-file');
+    filesGetter.mockReturnValue([mockFile] as any);
+    fireEvent.change(input);
+    expect(mockOnSubmit).not.toBeCalled();
+    fireEvent.click(getByText('UPLOAD'));
+    expect(mockOnSubmit).toBeCalledTimes(1);
+    expect(mockOnClose).toBeCalledTimes(1);
+    expect(mockOnClose).toHaveBeenLastCalledWith('submit');
   });
 
   it('should render correctly when type is password', () => {
-    const { container } = render(
+    const { baseElement, getByText } = render(
       <InputLightbox
         defaultValue=""
         inputHeader="Password"
@@ -82,10 +64,17 @@ describe('test InputLightbox', () => {
         maxLength={100}
         type={Constants.TYPE_PASSWORD}
         confirmText="CONNECT"
-        onSubmit={jest.fn()}
-        onClose={jest.fn()}
-      />,
+        onSubmit={mockOnSubmit}
+        onClose={mockOnClose}
+      />
     );
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.change(baseElement.querySelector('input'), { target: { value: 'pAssw0rd' } });
+    expect(mockOnSubmit).not.toBeCalled();
+    fireEvent.click(getByText('CONNECT'));
+    expect(mockOnSubmit).toBeCalledTimes(1);
+    expect(mockOnSubmit).toHaveBeenLastCalledWith('pAssw0rd');
+    expect(mockOnClose).toBeCalledTimes(1);
+    expect(mockOnClose).toHaveBeenLastCalledWith('submit');
   });
 });
