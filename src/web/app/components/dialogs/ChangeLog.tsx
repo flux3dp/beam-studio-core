@@ -3,7 +3,7 @@ import React from 'react';
 import browser from 'implementations/browser';
 import changelog from 'implementations/changelog';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
+import { Modal } from 'antd';
 
 const LANG = i18n.lang.change_logs;
 
@@ -18,13 +18,13 @@ function ChangeLog({ onClose }: Props): JSX.Element {
     // eslint-disable-next-line no-restricted-syntax
     for (const key of Object.keys(CHANGES)) {
       if (CHANGES[key].length > 0) {
-        logs.push(<div className="change-log-category" key={key}>{LANG[key]}</div>);
+        logs.push(<strong className="change-log-category" key={key}>{LANG[key]}</strong>);
         for (let i = 0; i < CHANGES[key].length; i += 1) {
           logs.push(
             <div className="change-log-item" key={`${key}-${i}`}>
-              <div className="index">{`${i + 1}.`}</div>
-              <pre className="log">{CHANGES[key][i]}</pre>
-            </div>,
+              <span className="index">{`${i + 1}.`}</span>
+              <span className="log">{CHANGES[key][i]}</span>
+            </div>
           );
         }
       }
@@ -42,7 +42,10 @@ function ChangeLog({ onClose }: Props): JSX.Element {
     const { version } = window.FLUX;
     if (version === 'web') return null;
     return (
-      <div className="app">{`Beam Studio ${version.replace('-', ' ')}`}</div>
+      <div className="app">
+        {`📖 Beam Studio ${version.replace('-', ' ')} `}
+        {LANG.change_log}
+      </div>
     );
   };
 
@@ -51,34 +54,16 @@ function ChangeLog({ onClose }: Props): JSX.Element {
   };
 
   return (
-    <Modal>
-      <div className="change-log-dialog">
-        <div className="header">
-          <img src="img/icon.png" alt="Beam Studio Logo" />
-          {renderVersion()}
-        </div>
-        <div className="title">{LANG.change_log}</div>
-        <div className="change-log-container">
-          {changeLogs}
-        </div>
-        <div
-          role="button"
-          tabIndex={0}
-          className="link"
-          onKeyDown={handleLink}
-          onClick={handleLink}
-        >
-          {LANG.see_older_version}
-        </div>
-        <div className="footer">
-          <button
-            type="button"
-            className="btn btn-default primary"
-            onClick={onClose}
-          >
-            OK
-          </button>
-        </div>
+    <Modal
+      open
+      centered
+      title={renderVersion()}
+      cancelText={LANG.see_older_version}
+      onCancel={handleLink}
+      onOk={onClose}
+    >
+      <div className="change-log-container">
+        {changeLogs}
       </div>
     </Modal>
   );

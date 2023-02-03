@@ -21,6 +21,9 @@ interface State {
   checkboxChecked: boolean;
 }
 
+/**
+   * @deprecated The method should not be used
+   */
 class Alert extends React.Component<Props, State> {
   private messageRef: React.RefObject<HTMLPreElement>;
 

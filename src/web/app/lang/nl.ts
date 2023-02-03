@@ -338,6 +338,7 @@ const lang: ILang = {
       check_firmware: 'Firmwareversie controleren',
       check_camera: 'Beschikbaarheid van camera controleren',
       retry: 'Opnieuw proberen',
+      succeeded_message: 'Succesvol verbonden 🎉',
       finish_setting: 'Instelling voltooien',
     },
     connecting: 'Verbinden...',
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'MONITOR',
     go: 'Begin',
+    resume: 'Hervatten',
     start: 'Begin',
     pause: 'Pauze',
     stop: 'Hou op',
     record: 'Dossier',
     camera: 'Camera',
+    taskTab: 'Taak',
     connecting: 'Bezig met verbinden, even geduld...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kritieke fout: moederbord offline. Neem contact op met FLUX-ondersteuning.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kritieke fout: subsysteem reageert niet. Neem contact op met FLUX-ondersteuning.', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Vlamsensor abnormaal',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Luchtstroomsensor abnormaal',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Geen draaimodule gedetecteerd',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Schakel over naar de roterende motor',
     RESOURCE_BUSY: 'De machine is bezig.\nAls het stopt, start de machine dan opnieuw op!',
     DEVICE_ERROR: 'Er is iets fout gegaan. Start de machine opnieuw op.', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: 'De huidige versie van het besturingssysteem %s ondersteunt mogelijk bepaalde functies niet. Gelieve vriendelijk te updaten naar de laatste versie.',
     need_password: 'Wachtwoord nodig om verbinding te maken met de machine',
     unavailableWorkarea: '#804 Huidig werkgebied overschrijdt het werkgebied van deze machine. Controleer het werkgebied van de geselecteerde machine of stel het werkgebied in via Bewerken > Documentinstelling.',
-    please_enter_dpi: 'Voer a.u.b. de eenheid van uw bestand in',
+    please_enter_dpi: 'Voer a.u.b. de eenheid van uw bestand in (mm)',
     auth_error: '#820 Auth-fout: update Beam Studio en machinefirmware naar de nieuwste versie.',
     usb_unplugged: 'USB-verbinding is verbroken. Controleer uw USB-verbinding',
     uploading_fcode: 'FC-code uploaden',

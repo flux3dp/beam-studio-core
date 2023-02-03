@@ -9,7 +9,7 @@ export default {
   showMonitor: (
     device: IDeviceInfo,
     mode: Mode = Mode.FILE,
-    previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number },
+    previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string },
   ): void => {
     Dialog.addDialogComponent('monitor',
       <MonitorContextProvider

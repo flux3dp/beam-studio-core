@@ -5,6 +5,9 @@ interface Props {
   id: string;
 }
 
+/**
+ * @deprecated The method should not be used
+ */
 // eslint-disable-next-line max-len
 const ShowablePasswordInput = forwardRef<HTMLInputElement, Props>(({ placeholder, id }: Props, ref: any) => {
   const [visible, setVisible] = useState(false);

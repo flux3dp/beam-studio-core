@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   preset: "ts-jest",
   testMatch: [
     "**/?(*.)+(spec|test).(ts|tsx)"

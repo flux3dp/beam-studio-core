@@ -12,78 +12,76 @@ export enum ButtonTypes {
   DISABLED_STOP = 6,
 }
 
-const statusButtonTypeMap: { [status: number]: { left: number; mid: number; } } = {};
-statusButtonTypeMap[DeviceConstants.status.INIT] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.STARTING] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.RESUME_TO_STARTING] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.RUNNING] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.RESUME_TO_RUNNING] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.PAUSED] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.PAUSED_FROM_STARTING] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.PAUSING_FROM_STARTING] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.DISABLED_PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.PAUSED_FROM_RUNNING] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.PAUSING_FROM_RUNNING] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.DISABLED_PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.COMPLETED] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.COMPLETING] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.PREPARING] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.ABORTED] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.ABORTING] = {
-  left: ButtonTypes.DISABLED_STOP,
-  mid: ButtonTypes.DISABLED_PAUSE,
-};
-statusButtonTypeMap[DeviceConstants.status.ALARM] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.DISABLED_PLAY,
-};
-statusButtonTypeMap[DeviceConstants.status.FATAL] = {
-  left: ButtonTypes.STOP,
-  mid: ButtonTypes.DISABLED_PLAY,
-};
+const statusButtonTypeMap: { [status: number]: ButtonTypes[] } = {};
+statusButtonTypeMap[DeviceConstants.status.INIT] = [
+  ButtonTypes.DISABLED_PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.STARTING] = [
+  ButtonTypes.DISABLED_PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.RESUME_TO_STARTING] = [
+  ButtonTypes.DISABLED_STOP,
+  ButtonTypes.DISABLED_PAUSE,
+];
+statusButtonTypeMap[DeviceConstants.status.RUNNING] = [
+  ButtonTypes.STOP,
+  ButtonTypes.PAUSE,
+];
+statusButtonTypeMap[DeviceConstants.status.RESUME_TO_RUNNING] = [
+  ButtonTypes.DISABLED_STOP,
+  ButtonTypes.DISABLED_PAUSE,
+];
+statusButtonTypeMap[DeviceConstants.status.PAUSED] = [
+  ButtonTypes.STOP,
+  ButtonTypes.PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.PAUSED_FROM_STARTING] = [
+  ButtonTypes.STOP,
+  ButtonTypes.PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.PAUSING_FROM_STARTING] = [
+  ButtonTypes.STOP,
+  ButtonTypes.DISABLED_PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.PAUSED_FROM_RUNNING] = [
+  ButtonTypes.STOP,
+  ButtonTypes.PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.PAUSING_FROM_RUNNING] = [
+  ButtonTypes.STOP,
+  ButtonTypes.DISABLED_PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.COMPLETED] = [
+  ButtonTypes.PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.COMPLETING] = [
+  ButtonTypes.DISABLED_STOP,
+  ButtonTypes.DISABLED_PAUSE,
+];
+statusButtonTypeMap[DeviceConstants.status.PREPARING] = [
+  ButtonTypes.DISABLED_STOP,
+  ButtonTypes.DISABLED_PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.ABORTED] = [
+  ButtonTypes.DISABLED_STOP,
+  ButtonTypes.PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.ABORTING] = [
+  ButtonTypes.DISABLED_STOP,
+  ButtonTypes.DISABLED_PAUSE,
+];
+statusButtonTypeMap[DeviceConstants.status.ALARM] = [
+  ButtonTypes.STOP,
+  ButtonTypes.DISABLED_PLAY,
+];
+statusButtonTypeMap[DeviceConstants.status.FATAL] = [
+  ButtonTypes.STOP,
+  ButtonTypes.DISABLED_PLAY,
+];
 
 export default {
   getDisplayStatus: (stLabel: string): string => {
+    if (!stLabel) return '';
     const key = stLabel.replace(/^"+|"+$/g, '');
     const statusMap = {
       IDLE: i18n.lang.device.ready,
@@ -110,20 +108,14 @@ export default {
       || report.st_id === DeviceConstants.status.COMPLETED
     );
   },
-  getControlButtonType: (report: IReport): { left: number; mid: number; } => {
+  getControlButtonType: (report: IReport): ButtonTypes[] => {
     if (!report) {
-      return {
-        left: ButtonTypes.DISABLED_STOP,
-        mid: ButtonTypes.DISABLED_PLAY,
-      };
+      return [];
     }
     if (statusButtonTypeMap[report.st_id]) {
       return statusButtonTypeMap[report.st_id];
     }
-    return {
-      left: ButtonTypes.DISABLED_STOP,
-      mid: ButtonTypes.DISABLED_PLAY,
-    };
+    return [];
   },
   allowedCameraStatus: [
     DeviceConstants.status.IDLE,

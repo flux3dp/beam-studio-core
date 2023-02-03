@@ -1,402 +1,376 @@
-import i18n from 'helpers/i18n';
+/* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
+import { Button, Form, FormInstance, Input, InputNumber, Modal, Space, Table } from 'antd';
+import { DeleteFilled, PlusCircleFilled } from '@ant-design/icons';
+import { useContext, useEffect, useRef, useState } from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import Modal from 'app/widgets/Modal';
+import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
+import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
-import UnitInput from 'app/widgets/Unit-Input-v2';
-import ValidationTextInput from 'app/widgets/Validation-Text-Input';
+import { ColorConfig, DefaultColorConfigs } from 'app/constants/color-constants';
+
+import AddColorConfigModal from '../dialogs/AddColorConfigModal';
 
 const LANG = i18n.lang.beambox.layer_color_config_panel;
-let defaultSettings = [
-    {color: '#FF0000', power: 15, speed: 50, repeat: 1},
-    {color: '#FFFF00', power: 15, speed: 50, repeat: 1},
-    {color: '#00FF00', power: 15, speed: 50, repeat: 1},
-    {color: '#00FFFF', power: 15, speed: 50, repeat: 1},
-    {color: '#0000FF', power: 15, speed: 50, repeat: 1},
-    {color: '#FF00FF', power: 15, speed: 50, repeat: 1},
-    {color: '#800000', power: 15, speed: 50, repeat: 1},
-    {color: '#808000', power: 15, speed: 50, repeat: 1},
-    {color: '#008000', power: 15, speed: 50, repeat: 1},
-    {color: '#008080', power: 15, speed: 50, repeat: 1},
-    {color: '#000080', power: 15, speed: 50, repeat: 1},
-    {color: '#800080', power: 15, speed: 50, repeat: 1},
-    {color: '#CCCCCC', power: 15, speed: 50, repeat: 1},
-    {color: '#808080', power: 15, speed: 50, repeat: 1},
-    {color: '#000000', power: 15, speed: 50, repeat: 1}
-];
+
+const formatHexColor = (input: string): string | null => {
+  const val = input.replace(/ +/, '');
+  const matchHex6 = val.match(/#[0-9A-F]{6}\b/i);
+  if (matchHex6) {
+    return matchHex6[0].toUpperCase();
+  }
+
+  const matchHex3 = val.match(/#[0-9A-F]{3}\b/i);
+  if (matchHex3) {
+    return matchHex3[0].replace(/#([0-9A-F])([0-9A-F])([0-9A-F])/i, '#$1$1$2$2$3$3').toUpperCase();
+  }
+
+  const matchRGB = val.match(/(rgb)?\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)(?!.)/i);
+  if (matchRGB) {
+    const rgb = matchRGB[0].match(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/)[0].split(',');
+    let hex = (parseInt(rgb[0], 10) * 65536
+              + parseInt(rgb[1], 10) * 256
+              + parseInt(rgb[2], 10)).toString(16);
+    if (hex === 'NaN') {
+      hex = '0';
+    }
+    while (hex.length < 6) {
+      hex = `0${hex}`;
+    }
+    return `#${hex}`.toUpperCase();
+  }
+  return null;
+};
+
+const EditableContext = React.createContext<FormInstance<any> | null>(null);
+interface EditableRowProps {
+  index: number;
+}
 
 interface Props {
   onClose: () => void;
 }
 
-interface State {
-  newColor?: string;
-  isDisplayingModal: boolean;
+interface EditableCellProps {
+  title: React.ReactNode;
+  editable: boolean;
+  children: React.ReactNode;
+  dataIndex: keyof ColorConfig;
+  record: ColorConfig;
+  unit: string;
+  min: number;
+  max: number;
+  validator: (val: string) => string;
+  handleSave: (record: ColorConfig) => void;
 }
 
-class LayerColorConfigPanel extends React.Component<Props, State> {
-  private layerColorConfig: any;
+const EditableRow = ({ index, ...props }: EditableRowProps) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form} component={false} size="small">
+      <EditableContext.Provider value={form}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
+  );
+};
 
-  private layerColorConfigDict: any;
+const EditableCell = ({
+  title,
+  editable,
+  children,
+  dataIndex,
+  unit,
+  min,
+  max,
+  record,
+  validator,
+  handleSave,
+  ...restProps
+}: EditableCellProps) => {
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef(null);
+  const form = useContext(EditableContext);
 
-  private newPower: number;
-
-  private newSpeed: number;
-
-  private newRepeat: number;
-
-    constructor(props) {
-        super(props);
-        // TODO: make config interface
-        let layerColorConfig = storage.get('layer-color-config') as unknown as {
-            array: any,
-            dict: any
-        };
-        if (layerColorConfig) {
-            this.layerColorConfig = layerColorConfig.array;
-            this.layerColorConfigDict = layerColorConfig.dict;
-        } else {
-            this.layerColorConfig = [...defaultSettings];
-            let i = 0;
-            this.layerColorConfigDict = this.layerColorConfig.reduce((acc, cur) => ({...acc, [cur.color]: i++}), {});
-        }
-        this.state = {
-            isDisplayingModal: false
-        }
+  useEffect(() => {
+    if (editing) {
+      inputRef.current?.focus();
     }
+  }, [editing]);
 
-    _close() {
-        this.props.onClose();
+  const toggleEdit = () => {
+    setEditing(!editing);
+    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+  };
+
+  const save = async () => {
+    try {
+      const values = await form.validateFields();
+      toggleEdit();
+      handleSave({ ...record, ...values });
+    } catch (errInfo) {
+      console.log('Save failed:', errInfo);
     }
+  };
 
-    _renderMainContent() {
-        let configItems = [];
+  let childNode = children;
 
-        for (let i = 0; i < this.layerColorConfig.length; i++) {
-            configItems.push(this._renderLayerColorConfigItem(this.layerColorConfig[i], i));
-        }
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{ margin: 0 }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+          {
+            validator: (_, value: string) => {
+              if (!validator) return Promise.resolve();
+              if (formatHexColor(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject();
+            },
+          },
+        ]}
+      >
+        {max ? (
+          <InputNumber
+            size="small"
+            ref={inputRef}
+            keyboard
+            onPressEnter={save}
+            onBlur={save}
+            min={min}
+            max={max}
+            formatter={(value) => `${value} ${unit}`}
+            parser={(value) => Number(value?.replace(unit, ''))}
+          />
+        ) : (
+          <Input
+            size="small"
+            ref={inputRef}
+            onPressEnter={save}
+            onFocus={() => setEditingInput()}
+            onBlur={(e) => {
+              setStopEditingInput();
+              form.setFieldsValue({ [dataIndex]: formatHexColor(e.target.value) });
+              save();
+            }}
+            suffix={unit}
+          />
+        )}
+      </Form.Item>
+    ) : (
+      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onClick={toggleEdit}>
+        {children}
+        &nbsp;
+        {unit}
+      </div>
+    );
+  }
 
-        return (
-            <div className='main-content'>
-                {configItems}
-                {this._renderAddConfigButton()}
-            </div>
-        );
+  return (
+    <td {...restProps}>
+      <InputKeyWrapper inputRef={inputRef}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {dataIndex === 'color' && <div style={{ background: record.color }} className="config-color-block" />}
+          {childNode}
+        </div>
+      </InputKeyWrapper>
+    </td>
+  );
+};
+
+type DataType = ColorConfig & { key: React.Key };
+type EditableTableProps = Parameters<typeof Table>[0];
+type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
+
+const LayerColorConfigPanel = (props: Props): JSX.Element => {
+  const [displayAddPanel, setDisplayAddPanel] = useState(false);
+  const { onClose } = props;
+
+  const layerColorConfigSettings = storage.get('layer-color-config') as {
+    array: ColorConfig[];
+  };
+
+  const initConfigs = layerColorConfigSettings?.array || [...DefaultColorConfigs];
+
+  const [dataSource, setDataSource] = useState<DataType[]>(initConfigs.map((config) => ({
+    key: config.color,
+    ...config,
+  })));
+
+  const handleDelete = (key: React.Key) => {
+    const newData = dataSource.filter((item) => item.key !== key);
+    setDataSource(newData);
+  };
+
+  const handleSave = (row: DataType) => {
+    const newData = [...dataSource];
+    const index = newData.findIndex((item) => row.key === item.key);
+    const item = newData[index];
+    newData.splice(index, 1, {
+      ...item,
+      ...row,
+    });
+    setDataSource(newData);
+  };
+
+  const columns: (ColumnTypes[number] & {
+    editable?: boolean;
+    dataIndex: string;
+    unit?: string;
+    min?: number;
+    max?: number;
+    validator?: (val: string) => string;
+  })[] = [
+    {
+      title: LANG.color,
+      dataIndex: 'color',
+      editable: true,
+      validator: (value) => formatHexColor(value) || value,
+      width: '130px',
+    },
+    {
+      title: LANG.speed,
+      dataIndex: 'speed',
+      editable: true,
+      min: 0,
+      max: 900,
+      unit: 'mm/s',
+      width: '60px',
+    },
+    {
+      title: LANG.power,
+      dataIndex: 'power',
+      editable: true,
+      min: 0,
+      max: 100,
+      unit: '%',
+      width: '60px',
+    },
+    {
+      title: LANG.repeat,
+      dataIndex: 'repeat',
+      editable: true,
+      min: 0,
+      max: 999,
+      unit: '',
+      width: '60px',
+    },
+    {
+      title: '',
+      dataIndex: 'operation',
+      render: (_, record: { key: React.Key }) => (
+        <Button type="text" onClick={() => handleDelete(record.key)}>
+          <DeleteFilled />
+        </Button>
+      ),
+    },
+  ].map((col) => {
+    if (!col.editable) {
+      return col;
     }
+    return {
+      ...col,
+      onCell: (record: DataType) => ({
+        record,
+        ...col,
+        handleSave,
+      }),
+    };
+  });
 
-    _renderLayerColorConfigItem(item, index) {
-        return (
-            <div className='config-item' key={index}>
-                <div className='color-block' style={{backgroundColor: item.color}}>
-                </div>
-                <div className='color-hex'>
-                    <ValidationTextInput
-                        defaultValue={item.color}
-                        validation={(val) => this.validateColorInput(val, index)}
-                        getValue={(val) => {this._handleColorInputValue(val, index)}}
-                    />
-                </div>
-                <div className='text'>
-                    {LANG.power}
-                </div>
-                <UnitInput
-                    className={{power: true}}
-                    min={1}
-                    max={100}
-                    unit="%"
-                    defaultValue={item.power}
-                    getValue={(val) => {this._handleInputValue(val, 'power', index)}}
-                    decimal={1}
-                />
-                <div className='text'>
-                    {LANG.speed}
-                </div>
-                <UnitInput
-                    className={{speed: true}}
-                    min={3}
-                    max={300}
-                    unit="mm/s"
-                    defaultValue={item.speed}
-                    getValue={(val) => {this._handleInputValue(val, 'speed', index)}}
-                    decimal={1}
-                />
-                <div className='text'>
-                    {LANG.repeat}
-                </div>
-                <UnitInput
-                    className={{repeat: true}}
-                    min={1}
-                    max={10}
-                    unit=""
-                    defaultValue={item.repeat}
-                    getValue={(val) => {this._handleInputValue(val, 'repeat', index)}}
-                    decimal={0}
-                />
-                <div className='text remove' onClick={(e) => {this._handleRemoveConfig(index)}}>
-                    <i className='fa fa-trash-o'/>
-                </div>
-            </div>
-        );
+  const hasColor = (color: string) => dataSource.some((v) => v.color === color);
+
+  const onResetDefault = () => {
+    Alert.popUp({
+      buttonType: AlertConstants.YES_NO,
+      message: LANG.sure_to_reset,
+      onYes: () => {
+        setDataSource(DefaultColorConfigs.map((config) => ({
+          key: config.color,
+          ...config,
+        })));
+      },
+    });
+  };
+
+  const onSave = () => {
+    const backwardCompatibleConfigDict = {};
+    dataSource.forEach((config, index) => {
+      backwardCompatibleConfigDict[config.color] = index;
+    });
+    const configData = { array: dataSource, dict: backwardCompatibleConfigDict };
+    console.log(configData);
+    storage.set('layer-color-config', configData);
+    onClose();
+  };
+
+  const renderFooter = () => [
+    <Button key="reset" type="dashed" onClick={onResetDefault}>
+      {LANG.default}
+    </Button>,
+    <Button key="cancel" onClick={onClose}>
+      {LANG.cancel}
+    </Button>,
+    <Button key="save" type="primary" onClick={onSave}>
+      {LANG.save}
+    </Button>,
+  ];
+
+  const handleAddConfig = (config: ColorConfig) => {
+    if (!config.color) {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: LANG.no_input,
+      });
+    } else if (hasColor(config.color)) {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: LANG.in_use,
+      });
+    } else {
+      setDataSource((prev) => [...prev, { key: config.color, ...config }]);
+      setDisplayAddPanel(false);
     }
+  };
 
-    _renderAddConfigButton() {
-        return (
-            <div className='config-item'>
-                <div className='add-config' onClick={this._displayAddConfigPanel.bind(this)}>
-                    <span className='plus'>
-                        {'+'}
-                    </span>
-                    <span>
-                        {LANG.add_config}
-                    </span>
-                </div>
-            </div>
-        )
-    }
-
-    validateColorInput(val, index) {
-        val = val.replace(/ +/,'');
-        let res;
-        let matchHex6 = val.match(/#[0-9A-F]{6}\b/i);
-        if (matchHex6) {
-            res = matchHex6[0].toUpperCase();
-        }
-
-        if (!res) {
-            let matchHex3 = val.match(/#[0-9A-F]{3}\b/i);
-            if (matchHex3) {
-                res = matchHex3[0].replace(/#([0-9A-F])([0-9A-F])([0-9A-F])/i, '#$1$1$2$2$3$3').toUpperCase();
-            }
-        }
-        if (!res) {
-            let matchRGB = val.match(/(rgb)?\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)(?!.)/i);
-            if (matchRGB) {
-                matchRGB = matchRGB[0].match(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/)[0].split(',');
-                let hex = (parseInt(matchRGB[0]) * 65536 + parseInt(matchRGB[1]) * 256 + parseInt(matchRGB[2])).toString(16);
-                if (hex === 'NaN') {
-                    hex = '0';
-                }
-                while (hex.length < 6) {
-                    hex = '0' + hex;
-                }
-                res = `#${hex}`.toUpperCase();
-            }
-        }
-        if (res && this.layerColorConfigDict[res] === undefined) {
-            return res;
-        } else if (res && this.layerColorConfigDict[res] !== index) {
-            Alert.popUp({
-                type: AlertConstants.SHOW_POPUP_ERROR,
-                message: LANG.in_use
-            });
-        }
-
-        return false;
-    }
-
-    _handleColorInputValue(val, index) {
-        if (this.layerColorConfigDict[val] === undefined) {
-            this.layerColorConfigDict[val] = index;
-            delete this.layerColorConfigDict[this.layerColorConfig[index].color];
-            this.layerColorConfig[index].color = val;
-            this.setState(this.state);
-        } else if (this.layerColorConfigDict[val] !== index) {
-            Alert.popUp({
-                type: AlertConstants.SHOW_POPUP_ERROR,
-                message: LANG.in_use
-            });
-            this.setState(this.state);
-        }
-    }
-
-    _handleInputValue(val, key, index) {
-        this.layerColorConfig[index][key] = val;
-    }
-
-    _handleRemoveConfig(index) {
-        Alert.popUp({
-            buttonType: AlertConstants.YES_NO,
-            message: LANG.sure_to_delete,
-            onYes: () => {
-                delete this.layerColorConfigDict[this.layerColorConfig[index].color];
-                this.layerColorConfig.splice(index, 1);
-                for (let i = index; i < this.layerColorConfig.length; i++) {
-                    this.layerColorConfigDict[this.layerColorConfig[i].color] -= 1;
-                }
-                this.setState(this.state);
-            }
-        });
-    }
-
-    _displayAddConfigPanel() {
-        this.newPower = 15;
-        this.newSpeed = 50;
-        this.newRepeat = 1;
-        this.setState({
-            newColor: '',
-            isDisplayingModal: true
-        });
-    }
-
-    _renderFooter() {
-        return (
-            <div className="footer">
-                {this._renderButton('pull-left', () => this._onResetDefault(), LANG.default)}
-                {this._renderButton('pull-right', () => this._onCancel(), LANG.cancel)}
-                {this._renderButton('pull-right primary', () => this._onSave(), LANG.save)}
-            </div>
-        );
-    }
-
-    _onResetDefault() {
-        Alert.popUp({
-            buttonType: AlertConstants.YES_NO,
-            message: LANG.sure_to_reset,
-            onYes: () => {
-                this.layerColorConfig = [...defaultSettings];
-                let i = 0;
-                this.layerColorConfigDict = this.layerColorConfig.reduce((acc, cur) => ({...acc, [cur.color]: i++}), {});
-                this.setState(this.state);
-            }
-        });
-    }
-
-    _onSave() {
-        storage.set('layer-color-config', {array: this.layerColorConfig, dict: this.layerColorConfigDict});
-        this._close();
-    }
-
-    _onCancel() {
-        this._close();
-    }
-
-    _renderButton(className: string, onClick: React.MouseEventHandler, label: string, disabled?: boolean) {
-        className = `btn btn-default ${className}`;
-        if (disabled) {
-            className += ' disabled';
-        }
-        return (
-            <button
-                className={className}
-                onClick={onClick}
-                disabled={disabled}
-            >{label}
-            </button>
-        )
-    }
-
-    _renderAddConfigModal() {
-        if (this.state.isDisplayingModal){
-            return (
-                <Modal onClose={() => {}}>
-                    <div className='add-config-panel'>
-                        <div className='title'>
-                            {LANG.add_config}
-                        </div>
-                        <div className='input-column'>
-                            <div className='color-block' style={{backgroundColor: this.state.newColor}}>
-                            </div>
-                            <div className='name color'>
-                                {`${LANG.color} :`}
-                            </div>
-                            <ValidationTextInput
-                                defaultValue={this.state.newColor}
-                                validation={(val) => this.validateColorInput(val, -1)}
-                                getValue={(val) => {this.setState({newColor: val})}}
-                            />
-                        </div>
-                        <div className='input-column'>
-                            <div className='name'>
-                                {`${LANG.power} :`}
-                            </div>
-                            <UnitInput
-                                className={{power: true}}
-                                min={1}
-                                max={100}
-                                unit="%"
-                                defaultValue={this.newPower}
-                                getValue={(val) => {this.newPower = val}}
-                                decimal={1}
-                            />
-                        </div>
-                        <div className='input-column'>
-                            <div className='name'>
-                                {`${LANG.speed} :`}
-                            </div>
-                            <UnitInput
-                                className={{speed: true}}
-                                min={3}
-                                max={300}
-                                unit="mm/s"
-                                defaultValue={this.newSpeed}
-                                getValue={(val) => {this.newSpeed = val}}
-                                decimal={1}
-                            />
-                        </div>
-                        <div className='input-column'>
-                            <div className='name'>
-                                {`${LANG.repeat} :`}
-                            </div>
-                            <UnitInput
-                                className={{repeat: true}}
-                                min={1}
-                                max={10}
-                                unit=""
-                                defaultValue={this.newRepeat}
-                                getValue={(val) => {this.newRepeat = val}}
-                                decimal={0}
-                            />
-                        </div>
-                        <div className='footer'>
-                            {this._renderButton('pull-right', () => {this._handleAddConfig()}, LANG.add)}
-                            {this._renderButton('pull-right', () => {this.setState({isDisplayingModal: false})}, LANG.cancel)}
-                        </div>
-                    </div>
-                </Modal>
-            )
-        } else {
-            return null;
-        }
-    }
-
-    _handleAddConfig() {
-        if (!this.state.newColor) {
-            Alert.popUp({
-                type: AlertConstants.SHOW_POPUP_ERROR,
-                message: LANG.no_input,
-            });
-        } else if (this.layerColorConfigDict[this.state.newColor] !== undefined) {
-            Alert.popUp({
-                type: AlertConstants.SHOW_POPUP_ERROR,
-                message: LANG.in_use,
-            });
-        } else {
-            this.layerColorConfig.push({
-                color: this.state.newColor,
-                power: this.newPower,
-                speed: this.newSpeed,
-                repeat: this.newRepeat});
-            this.layerColorConfigDict[this.state.newColor] = this.layerColorConfig.length - 1;
-            this.setState({isDisplayingModal: false});
-        }
-    }
-
-    render() {
-        return (
-            <Modal onClose={() => {}}>
-                <div className='layer-color-config-panel'>
-                    <div className='title'>
-                        {LANG.layer_color_config}
-                    </div>
-                    {this._renderMainContent()}
-                    {this._renderFooter()}
-                    {this._renderAddConfigModal()}
-                </div>
-            </Modal>
-        );
-    }
+  const render = () => (
+    <Modal open centered onCancel={onClose} title={LANG.layer_color_config} footer={renderFooter()}>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Button type="primary" onClick={() => setDisplayAddPanel(true)}>
+          <PlusCircleFilled />
+          {LANG.add_config}
+        </Button>
+        <Table
+          pagination={{ pageSize: 8 }}
+          size="small"
+          components={{
+            body: {
+              row: EditableRow,
+              cell: EditableCell,
+            },
+          }}
+          rowClassName={() => 'editable-row'}
+          bordered
+          dataSource={dataSource}
+          columns={columns as ColumnTypes}
+        />
+        <AddColorConfigModal
+          displayAddPanel={displayAddPanel}
+          setDisplayAddPanel={setDisplayAddPanel}
+          handleAddConfig={handleAddConfig}
+        />
+      </Space>
+    </Modal>
+  );
+  return render();
 };
 
 export default LayerColorConfigPanel;
-

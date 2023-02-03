@@ -338,6 +338,7 @@ const lang: ILang = {
       check_firmware: 'Firmware-Version überprüfen',
       check_camera: 'Überprüfung der Kameraverfügbarkeit',
       retry: 'Wiederholen',
+      succeeded_message: 'Erfolgreich verbunden 🎉',
       finish_setting: 'Einstellung beenden',
     },
     connecting: 'Anschließen...',
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'MONITOR',
     go: 'Start',
+    resume: 'Weitermachen',
     start: 'Start',
     pause: 'Pause',
     stop: 'Halt',
     record: 'Aufzeichnung',
     camera: 'Kamera',
+    taskTab: 'Datei',
     connecting: 'Verbindung wird hergestellt. Bitte warten...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kritischer Fehler: Mainboard offline. Bitte wenden Sie sich an den FLUX Support.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kritischer Fehler: Subsystem keine Antwort. Bitte wenden Sie sich an den FLUX Support', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Flammensensor anomal',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Luftstromsensor anomal',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Kein Drehmodul erkannt',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Bitte wechseln Sie zum Rotationsmotor',
     RESOURCE_BUSY: 'Die Maschine ist beschäftigt\nWenn es nicht läuft, starte den Computer neu',
     DEVICE_ERROR: 'Etwas ist schief gelaufen\nBitte starte die Maschine neu', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: 'Die aktuelle Betriebssystemversion %s unterstützt möglicherweise einige Funktionen nicht. Bitte aktualisieren Sie auf die neueste Version.',
     need_password: 'Benötigen Passwort für die Verbindung mit der Maschine',
     unavailableWorkarea: '#804 Der aktuelle Arbeitsbereich übersteigt den Arbeitsbereich dieser Maschine. Bitte überprüfe den Arbeitsbereich des ausgewählten Geräts oder stelle den Arbeitsbereich über Bearbeiten > Dokumenteinstellung ein.',
-    please_enter_dpi: 'Bitte geben Sie die Einheit Ihrer Datei ein',
+    please_enter_dpi: 'Bitte geben Sie die Einheit Ihrer Datei ein (in mm)',
     auth_error: '#820 Auth-Fehler: Bitte aktualisieren Sie Beam Studio und die Firmware des Computers auf die neueste Version.',
     usb_unplugged: 'Die USB-Verbindung ist verloren gegangen. Bitte überprüfe Ihre USB-Verbindung',
     uploading_fcode: 'FCode hochladen',

@@ -9,6 +9,7 @@ import i18n from 'helpers/i18n';
 import InputLightboxConstants from 'app/constants/input-lightbox-constants';
 import Progress from 'app/actions/progress-caller';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 
 export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
   const { lang } = i18n;
@@ -32,12 +33,17 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
   const uploadToDevice = async (file) => {
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      Progress.openSteppingProgress({ id: 'update-firmware', message: `${lang.update.updating} (0%)` });
+      Progress.openSteppingProgress({
+        id: 'update-firmware',
+        caption: lang.topbar.menu.update_firmware,
+        message: lang.update.updating,
+      });
       try {
         await doUpdate(file, (r) => {
           const percentage = Number(r.percentage || 0).toFixed(2);
           Progress.update('update-firmware', {
-            message: `${lang.update.updating} (${percentage}%)`,
+            caption: lang.topbar.menu.update_firmware,
+            message: lang.update.updating,
             percentage,
           });
         });
@@ -55,6 +61,13 @@ export default (response, device: IDeviceInfo, forceUpdate?: boolean): void => {
     // get firmware from flux3dp website.
     req.open('GET', response.downloadUrl, true);
     req.responseType = 'blob';
+
+    MessageCaller.openMessage({
+      key: 'downloading-firmware',
+      level: MessageLevel.LOADING,
+      content: i18n.lang.update.software.checking,
+      duration: 10,
+    });
 
     req.onload = function onload() {
       if (this.status === 200) {

@@ -338,6 +338,7 @@ const lang: ILang = {
       check_firmware: 'Comprobando la versión del firmware',
       check_camera: 'Comprobando la disponibilidad de la cámara',
       retry: 'Reintentar',
+      succeeded_message: 'Conectado con éxito 🎉',
       finish_setting: 'Finalizar el ajuste',
     },
     connecting: 'Conectando...',
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'MONITOR',
     go: 'Comienza',
+    resume: 'Reanudar',
     start: 'Comienza',
     pause: 'Pausa',
     stop: 'Detente',
     record: 'Grabar',
     camera: 'Cámara',
+    taskTab: 'Tarea',
     connecting: 'Conectando, por favor espere...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Error Crítico: Placa principal desconectada. Por favor, contacta con el soporte de FLUX.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Error crítico: sistema sin respuesta. Por favor contacta al Soporte de FLUX.', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Sensor de llama anómalo',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Sensor de flujo de aire anómalo',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 No se detectó módulo giratorio',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Por favor, cambia al motor rotativo',
     RESOURCE_BUSY: 'La máquina está ocupada\nSi no está funcionando, por favor reinicia la máquina.',
     DEVICE_ERROR: 'Algo salió mal.\nPor favor, reinicia la máquina', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: 'La versión actual del sistema operativo %s puede que no soporte algunas funciones. Por favor, actualiza a la última versión.',
     need_password: 'Necesita una contraseña para conectarse a la máquina',
     unavailableWorkarea: '#804 El área de trabajo actual excede el área de trabajo de esta máquina. Por favor, comprueba el área de trabajo de la máquina seleccionada o establece el área de trabajo desde Edición > Configuración de documentos.',
-    please_enter_dpi: 'Por favor, introduce la unidad de tu archivo',
+    please_enter_dpi: 'Por favor, introduce la unidad de tu archivo (in mm)',
     auth_error: '#820 Error de Autenticación: Por favor, actualiza Beam Studio y el firmware de la máquina a la última versión.',
     usb_unplugged: 'La conexión USB se ha perdido. Por favor, comprueba tu conexión USB',
     uploading_fcode: 'subir el FCode',

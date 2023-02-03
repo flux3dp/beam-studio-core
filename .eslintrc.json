@@ -42,6 +42,19 @@
     "jsx-a11y/alt-text": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/control-has-associated-label": "off",
-    "jsx-a11y/no-autofocus": "off"
+    "jsx-a11y/no-autofocus": "off",
+    "max-len": ["error", { "code": 120 }],
+    "object-curly-newline": ["error", {
+      "ImportDeclaration": {"consistent": true}
+    }],
+    "react/jsx-one-expression-per-line": "off",
+    "comma-dangle": ["error", {
+        "arrays": "only-multiline",
+        "objects": "only-multiline",
+        "imports": "only-multiline",
+        "exports": "only-multiline",
+        "functions": "only-multiline"
+    }],
+    "@typescript-eslint/comma-dangle": "off"
   }
 }

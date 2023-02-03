@@ -7,11 +7,16 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
-import Modal from 'app/widgets/Modal';
+import {
+  Button, Col, Modal, Row, Space,
+} from 'antd';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getParametersSet } from 'app/constants/right-panel-constants';
 import { ILaserConfig, ILaserData, ILaserDataChanges } from 'interfaces/ILaserConfig';
+import {
+  DeleteFilled, LeftOutlined, PlusCircleFilled, RightOutlined,
+} from '@ant-design/icons';
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 
@@ -385,21 +390,57 @@ class LaserManageModal extends React.Component<Props, State> {
     onClose();
   };
 
-  renderAddButton(): JSX.Element {
+  renderFooter(): JSX.Element {
+    const { onClose } = this.props;
     return (
-      <div id="add_btn" className="add-btn" onClick={() => this.addConfig()}>
-        <div id="add_bar1" className="bar bar1" />
-        <div id="add_bar2" className="bar bar2" />
-        <div id="add_bar3" className="bar bar3" />
-      </div>
+      <Row justify="space-between">
+        <Col span={12}>
+          <Space align="start" style={{ width: '100%' }}>
+            <Button
+              key="laser_delete"
+              type="primary"
+              danger
+              onClick={this.handleDelete}
+            >
+              <DeleteFilled />
+              {LANG.delete}
+            </Button>
+            <Button
+              key="laser_reset"
+              type="dashed"
+              danger
+              onClick={this.handleReset}
+            >
+              {LANG.reset}
+            </Button>
+          </Space>
+        </Col>
+        <Col span={12}>
+          <Space>
+            <Button
+              key="laser_save_and_exit"
+              type="primary"
+              onClick={this.handleSaveAndExit}
+            >
+              {LANG.save_and_exit}
+            </Button>
+            <Button
+              key="laser_cancel"
+              onClick={onClose}
+            >
+              {LANG.cancel}
+            </Button>
+          </Space>
+        </Col>
+      </Row>
     );
   }
 
   render(): JSX.Element {
-    const { onClose } = this.props;
     const {
       isSelectingCustomized, selectedItem, displaySpeed, displayPower, displayRepeat, displayZStep,
     } = this.state;
+    const { onClose } = this.props;
     const selectedConfig = this.editingConfigs.find((e) => e.name === selectedItem);
     const disableControl = Boolean(!isSelectingCustomized)
     || Boolean(!selectedConfig)
@@ -417,32 +458,46 @@ class LaserManageModal extends React.Component<Props, State> {
     const speedLimit = model === 'fhexa1' ? 900 : 300;
 
     return (
-      <Modal>
+      <Modal
+        open
+        centered
+        footer={this.renderFooter()}
+        title={LANG.more}
+        onCancel={onClose}
+      >
         <div className="more-config-panel">
-          <div className="title">{LANG.more}</div>
-          <div className="config-list-columns">
-            <div className="config-list-column">
-              <div className="title">{LANG.default}</div>
+          <Row>
+            <Col span={11}>
+              <div style={{ lineHeight: '32px' }}>
+                <strong>{LANG.default}</strong>
+              </div>
               <div id="default-config-list" className="config-list">
                 {defaultConfigs}
               </div>
-            </div>
-            <div className="operation-buttons">
-              <div id="addselect" className="operation-button" onClick={this.addSelectDefaultsToCustom}>{'>>'}</div>
-              <div id="removeselect" className="operation-button" onClick={this.removeDefaultfromCustom}>{'<<'}</div>
-            </div>
-            <div className="config-list-column">
-              <div className="title">
+            </Col>
+            <Col span={2}>
+              <Space align="center" style={{ width: '100%', height: '100%' }}>
+                <div style={{ width: '100%', textAlign: 'center' }}>
+                  <Button size="small" onClick={this.addSelectDefaultsToCustom}><RightOutlined /></Button>
+                  <Button size="small" onClick={this.removeDefaultfromCustom}><LeftOutlined /></Button>
+                </div>
+              </Space>
+            </Col>
+            <Col span={11}>
+              <strong>
                 {LANG.customized}
-                {this.renderAddButton()}
-              </div>
+                <Button type="text" onClick={() => this.addConfig()}><PlusCircleFilled /></Button>
+              </strong>
               <div id="custom-config-list" className="config-list">
                 {customizedConfigs}
               </div>
-            </div>
-          </div>
-          <div className="config-name">
-            {isSelectingCustomized ? selectedItem : LANG.dropdown[this.unit][selectedItem]}
+            </Col>
+          </Row>
+          <div>
+            <br />
+            <strong>
+              {isSelectingCustomized ? selectedItem : LANG.dropdown[this.unit][selectedItem]}
+            </strong>
           </div>
           <div className={classNames('controls', { disable: disableControl })}>
             <div className="controls-column">
@@ -504,44 +559,6 @@ class LaserManageModal extends React.Component<Props, State> {
                   step={unitZStepStep}
                 />
               </div>
-            </div>
-          </div>
-          <div className="footer">
-            <div className="left">
-              <button
-                id="laser_delete"
-                type="button"
-                className="btn btn-default pull-right"
-                onClick={this.handleDelete}
-              >
-                {LANG.delete}
-              </button>
-              <button
-                id="laser_reset"
-                type="button"
-                className="btn btn-default pull-right"
-                onClick={this.handleReset}
-              >
-                {LANG.reset}
-              </button>
-            </div>
-            <div className="right">
-              <button
-                id="laser_save_and_exit"
-                type="button"
-                className="btn btn-default primary"
-                onClick={this.handleSaveAndExit}
-              >
-                {LANG.save_and_exit}
-              </button>
-              <button
-                id="laser_cancel"
-                type="button"
-                className="btn btn-default pull-right"
-                onClick={onClose}
-              >
-                {LANG.cancel}
-              </button>
             </div>
           </div>
         </div>

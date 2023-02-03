@@ -1,56 +1,125 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { useEffect, useRef } from 'react';
+import { Button, Modal, Progress } from 'antd';
 
-import Alert from 'app/widgets/Alert';
-import Progress from 'app/widgets/Progress';
+import browser from 'implementations/browser';
+import Draggable from 'react-draggable';
+import i18n from 'helpers/i18n';
+import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 
-interface Props {
-  className?: string;
-}
+const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
 
-const AlertsAndProgress = ({ className = '' }: Props): JSX.Element => {
+const AlertsAndProgress = (): JSX.Element => {
+  const LANG = i18n.lang;
+  const messageRef = useRef<HTMLPreElement>();
+
   const { alertProgressStack, popFromStack, popById } = React.useContext(AlertProgressContext);
-  let alertCount = 0;
-  let progressCount = 0;
-  const components = alertProgressStack.map((alertOrProgress, index) => {
-    if (index === alertProgressStack.length - 1
-      && document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
+
+  const DraggableElement: any = Draggable;
+
+  const modalRender = (modal): JSX.Element => (
+    <DraggableElement>
+      {modal}
+    </DraggableElement>
+  );
+
+  useEffect(() => {
+    const message = messageRef.current as Element;
+    if (message) {
+      const aElements = message.querySelectorAll('a');
+      for (let i = 0; i < aElements.length; i += 1) {
+        const a = aElements[i];
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          browser.open(a.getAttribute('href'));
+        });
+      }
     }
-    if ('isProgress' in alertOrProgress) {
-      const progress = alertOrProgress as IProgressDialog;
-      progressCount += 1;
+  });
+
+  if (alertProgressStack.length === 0) return <div />;
+  const alertModals = alertProgressStack.map((data) => {
+    const renderMessage = (): JSX.Element => {
+      const { message } = data;
+      return typeof message === 'string'
+        // eslint-disable-next-line react/no-danger
+        ? (
+          <div
+            className="message"
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
+        )
+        : <div className="message">{message}</div>;
+    };
+    if (isProgress(data)) {
+      let { percentage } = data;
+      if (data.type === ProgressConstants.NONSTOP) {
+        percentage = 1;
+      }
       return (
-        <Progress
-          key={`progress-${progressCount}`}
-          progress={progress}
-          popById={popById}
-        />
+        <Modal
+          key={`${data.key}-${data.id}`}
+          style={{
+            minWidth: 520,
+          }}
+          open={alertProgressStack.length > 0}
+          title={data.caption}
+          onCancel={() => {
+            popById(data.id);
+            data.onCancel();
+          }}
+          centered
+          closable={false}
+          cancelText={LANG.alert.cancel}
+          okButtonProps={{ style: { display: 'none' } }}
+          modalRender={modalRender}
+        >
+          {renderMessage()}
+          <Progress
+            status="active"
+            percent={Number(Number(percentage).toFixed(2))}
+            strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+          />
+        </Modal>
       );
     }
-    alertCount += 1;
-    const alert = alertOrProgress as IAlert;
+    const footer = data?.buttons.map((button) => {
+      const buttonType = button.className?.includes('primary') ? 'primary' : 'default';
+      return (
+        <Button
+          key={button.label}
+          onClick={() => {
+            popFromStack();
+            button.onClick();
+          }}
+          type={buttonType}
+        >
+          {button.label}
+        </Button>
+      );
+    });
+
     return (
-      <Alert
-        key={`alert-${alertCount}`}
-        caption={alert.caption}
-        iconUrl={alert.iconUrl}
-        message={alert.message}
-        checkboxText={alert.checkboxText}
-        checkboxCallbacks={alert.checkboxCallbacks}
-        buttons={alert.buttons}
-        animationClass={classNames('animate__animated', 'animate__bounceIn')}
-        onClose={popFromStack}
-      />
+      <Modal
+        key={`${data.key}-${data.id}`}
+        open={alertProgressStack.length > 0}
+        title={data.caption}
+        modalRender={modalRender}
+        footer={footer}
+        closable={false}
+        centered
+        onCancel={popFromStack}
+      >
+        {renderMessage()}
+      </Modal>
     );
   });
 
   return (
-    <div className={classNames('alerts-container', className)}>
-      {components}
+    <div>
+      {alertModals}
     </div>
   );
 };

@@ -55,11 +55,9 @@ const {
   FATAL,
 } = DeviceConstants.status;
 
-export const MonitorContext = React.createContext(null);
-
 interface Props {
   mode: Mode;
-  previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number };
+  previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string };
   device: IDeviceInfo;
   onClose: () => void;
 }
@@ -72,13 +70,13 @@ interface State {
     name?: string;
   };
   fileInfo: any[];
-  previewTask: { fcodeBlob: Blob, taskImageURL: string, taskTime: number };
+  previewTask: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string };
   workingTask: any,
   taskImageURL: string | null;
   taskTime: number | null;
   report: IReport;
   uploadProgress: number | null;
-  downloadProgress: number | null;
+  downloadProgress: { left: number, size: number } | null;
   shouldUpdateFileList: boolean;
   currentPosition: { x: number, y: number };
   relocateOrigin: { x: number, y: number };
@@ -91,6 +89,24 @@ interface State {
   };
   isMaintainMoving?: boolean;
 }
+
+interface Context extends State {
+  onClose: () => void;
+  onNavigationBtnClick: () => void;
+  onHighlightItem: (item: { name: string, type: ItemType }) => void;
+  onSelectFolder: (folderName: string, absolute?: boolean) => void;
+  onSelectFile: (fileName: string, fileInfo: any) => Promise<void>;
+  setShouldUpdateFileList: (val: boolean) => void;
+  onDeleteFile: () => void;
+  onMaintainMoveStart: () => void;
+  onMaintainMoveEnd: (x: number, y: number) => void;
+  setMonitorMode: (value: Mode) => void;
+  onPlay: () => void;
+  onPause: () => void;
+  onStop: () => void;
+}
+
+export const MonitorContext = React.createContext<Context>(null);
 
 export class MonitorContextProvider extends React.Component<Props, State> {
   didErrorPopped: boolean;
@@ -241,11 +257,12 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       const key = keys[i];
       if (currentReport[key] === undefined
           || JSON.stringify(currentReport[key]) !== JSON.stringify(report[key])) {
-        console.log(key, 'changed');
+        // console.log(key, 'changed');
         if (report.st_id > 0 && (mode !== Mode.WORKING || key === 'session')) {
           const keepsCameraMode = (mode === Mode.CAMERA
             && MonitorStatus.allowedCameraStatus.includes(report.st_id));
-          if (!keepsCameraMode) {
+          const keepsFileMode = mode === Mode.FILE_PREVIEW || mode === Mode.FILE;
+          if (!keepsCameraMode && !keepsFileMode) {
             console.log('to work mode');
             this.enterWorkingMode();
           }
@@ -266,7 +283,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
     let { error } = report;
     error = (error instanceof Array ? error : [error]);
-    console.log(error);
+    console.error(error);
     if (error[0] === 'TIMEOUT') {
       try {
         await DeviceMaster.reconnect();
@@ -315,9 +332,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           const vc = VersionChecker(device.version);
           const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
           Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
-          const logFiles = await DeviceMaster.getLogsTexts([playerLogName, 'fluxrobotd.log'], (progress: { completed: number, size: number }) => {
-            Progress.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
-          });
+          const logFiles = await DeviceMaster.getLogsTexts(
+            [playerLogName, 'fluxrobotd.log'],
+            (progress: { completed: number, size: number }) => Progress.update('get_log', {
+              message: 'downloading',
+              percentage: (progress.completed / progress.size) * 100,
+            })
+          );
           Progress.popById('get_log');
           this.startReport();
           const logKeys = Object.keys(logFiles);
@@ -409,7 +430,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
   exitWorkingMode = (): void => {
     const { mode, fileInfo, previewTask } = this.state;
-    console.log(fileInfo);
+    console.warn(fileInfo);
     if (previewTask) {
       this.setState({
         mode: mode === Mode.CAMERA ? Mode.CAMERA : Mode.PREVIEW,
@@ -506,6 +527,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     });
   };
 
+  /**
+   * @deprecated The method should not be used
+   */
   onNavigationBtnClick = (): void => {
     const {
       mode, currentPath, previewTask, report,
@@ -546,16 +570,29 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         || highlightedItem.name !== item.name
         || highlightedItem.type !== item.type) {
       this.setState({ highlightedItem: item });
+    } else {
+      this.setState({ highlightedItem: {} });
     }
   };
 
-  onSelectFolder = (folderName: string): void => {
-    const { currentPath } = this.state;
-    currentPath.push(folderName);
+  setMonitorMode = (value: Mode): void => {
+    this.setState({ mode: value });
+  };
+
+  onSelectFolder = (folderName: string, absolute = false): void => {
+    let { currentPath } = this.state;
+    if (!absolute) {
+      currentPath.push(folderName);
+    } else if (folderName === '') {
+      currentPath = [];
+    } else {
+      currentPath = folderName.split('/');
+    }
     this.setState({
       currentPath,
       highlightedItem: {},
     });
+    console.info('Current Path', currentPath);
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -566,7 +603,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     if (!info) {
       info = await DeviceMaster.fileInfo(path, fileName);
     }
-    console.log(info);
+    console.info(info);
     const { imageBlob, taskTime } = this.getTaskInfo(info);
     let taskImageURL = null;
     if (imageBlob) {
@@ -716,7 +753,10 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           this.setState({ uploadProgress: null });
         } catch (error) {
           this.setState({ uploadProgress: null });
-          Alert.popUp({ type: AlertConstants.SHOW_POPUP_ERROR, message: LANG.message.unable_to_start + error.error?.join('_') });
+          Alert.popUp({
+            type: AlertConstants.SHOW_POPUP_ERROR,
+            message: LANG.message.unable_to_start + error.error?.join('_'),
+          });
         }
       } else if (mode === Mode.FILE_PREVIEW) {
         await DeviceMaster.goFromFile(currentPath.join('/'), fileInfo[0]);
@@ -760,48 +800,36 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   render(): JSX.Element {
     const { onClose, children } = this.props;
     const {
-      enterWorkingMode,
-      toggleCamera,
-      startRelocate,
-      endRelocate,
       onNavigationBtnClick,
       onHighlightItem,
       onSelectFolder,
       onSelectFile,
       setShouldUpdateFileList,
-      onUpload,
-      onDownload,
       onDeleteFile,
       onPlay,
       onPause,
       onStop,
       onMaintainMoveStart,
       onMaintainMoveEnd,
-      onRelocate,
+      setMonitorMode,
     } = this;
     return (
       <MonitorContext.Provider
         value={{
           onClose,
           ...this.state,
-          enterWorkingMode,
-          toggleCamera,
-          startRelocate,
-          endRelocate,
           onNavigationBtnClick,
           onHighlightItem,
           onSelectFolder,
           onSelectFile,
           setShouldUpdateFileList,
-          onUpload,
-          onDownload,
           onDeleteFile,
           onPlay,
           onPause,
           onStop,
           onMaintainMoveStart,
           onMaintainMoveEnd,
-          onRelocate,
+          setMonitorMode,
         }}
       >
         {children}

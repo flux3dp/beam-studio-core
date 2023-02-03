@@ -1,4 +1,5 @@
 import React from 'react';
+import { Col, Form, Input, Row, Slider } from 'antd';
 
 import i18n from 'helpers/i18n';
 
@@ -24,25 +25,26 @@ function EngraveDpiSlider({ value, onChange }: Props): JSX.Element {
     ultra: 1000,
   };
 
-  const onSliderValueChange = (e) => {
-    onChange(dpiMap[e.target.value]);
+  const onSliderValueChange = (num: number) => {
+    onChange(dpiMap[num]);
   };
 
   return (
-    <div className="controls">
-      <div className="control">
-        <span className="label pull-left">{LANG.engrave_dpi}</span>
-        <input
-          className="slider"
-          type="range"
-          min={0}
-          max={3}
-          value={dpiMap.indexOf(value)}
-          onChange={onSliderValueChange}
-        />
-        <div className="value">{`${LANG[value]} (${dpiValueMap[value]} DPI)`}</div>
-      </div>
-    </div>
+    <Form.Item label={LANG.engrave_dpi}>
+      <Row>
+        <Col span={16}>
+          <Slider
+            min={0}
+            max={3}
+            value={dpiMap.indexOf(value)}
+            onChange={onSliderValueChange}
+          />
+        </Col>
+        <Col span={8}>
+          <Input value={`${LANG[value]} (${dpiValueMap[value]} DPI)`} disabled />
+        </Col>
+      </Row>
+    </Form.Item>
   );
 }
 

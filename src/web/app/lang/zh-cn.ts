@@ -338,7 +338,8 @@ const lang: ILang = {
       check_firmware: '确认韧体版本',
       check_camera: '确认相机',
       retry: '重试',
-      finish_setting: '结束设定',
+      succeeded_message: '连线成功 🎉',
+      finish_setting: '开始创作',
     },
     connecting: '连接中',
     setting_completed: {
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'MONITOR',
     go: '开始',
+    resume: '繼續',
     start: '开始',
     pause: '暂停',
     stop: '停止',
     record: 'RECORD',
     camera: '相机',
+    taskTab: '工作',
     connecting: '连接中，请稍候',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 主板没有回应。请联系 FLUX 客服。', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 子系统没有回应。请联系 FLUX 客服。', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 火焰侦测异常',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 气流侦测异常',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 未侦测到旋转轴',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 归零 PULL-OFF 失败',
     USER_OPERATION_ROTARY_PAUSE: '请切换旋转轴马达开关',
     RESOURCE_BUSY: '机器忙碌中\n如果机器没有在进行动作， 请重新启动机器',
     DEVICE_ERROR: '固件发生错误\n请重新启动机器', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: '目前系统版本 %s 较旧，部分功能可能无法使用，请更新到最新版。',
     need_password: '需要密码与机器创建连接',
     unavailableWorkarea: '#804 目前设定的工作范围超过目标机器的工作范围。请确认选择的机器型号，或从 编辑 > 文件设定 更改工作范围。',
-    please_enter_dpi: '请输入该文件的 dpi',
+    please_enter_dpi: '请输入该文件的 dpi (in mm)',
     auth_error: '#820 认证失败：请将 Beam Studio 以及机器韧体更新至最新版。',
     usb_unplugged: 'USB 连接逾时，请确认与机器的连接',
     uploading_fcode: '正在上传 fcode',
@@ -1225,7 +1229,7 @@ const lang: ILang = {
     taking_picture: '截取图片中...',
     analyze_result_fail: '校正失败<br/>请确认:<br/>1. 校正图片完整画在 A4 纸上<br/>2. 已旋转升降平台旋钮，直到轻触焦距螺丝，完成对焦',
     drawing_calibration_image: '绘制校正图片中...',
-    calibrate_done: '校正相机完成<br/>使用时请正确对焦以取得良好的预览效果。',
+    calibrate_done: '校正相机完成！使用时请正确对焦以取得良好的预览效果。',
     hint_red_square: '请将红框对齐切割出来的方块',
     hint_adjust_parameters: '由这些参数来调整红框的位置，旋转与大小',
     zendesk_link: 'https://support.flux3dp.com/hc/zh-tw/articles/360001811416',
@@ -1251,7 +1255,7 @@ const lang: ILang = {
     dy: '垂直位移',
     drawing_calibration_image: '绘制校正图片中...',
     taking_picture: '截取图片中...',
-    calibrate_done: '校正完成<br/>二极管激光模组偏移值已自动储存。',
+    calibrate_done: '校正完成！二极管激光模组偏移值已自动储存。',
     hint_red_square: '请将红框对齐切割出来的方块',
     hint_adjust_parameters: '由这些参数来调整红框的位置',
     zendesk_link: 'https://support.flux3dp.com/hc/zh-tw/articles/360001811416',

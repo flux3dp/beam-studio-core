@@ -34,7 +34,7 @@ const lang: ILang = {
       dxf: 'DXF Object',
     },
     alerts: {
-      start_preview_timeout: '#803 Timeout has occured when starting preview mode. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
+      start_preview_timeout: '#803 Timeout has occurred when starting preview mode. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
       fail_to_start_preview: '#803 Fail to start preview mode. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
       fail_to_connect_with_camera: '#803 Failed to establish connection with machine camera. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
       power_too_high: 'POWER TOO HIGH',
@@ -187,8 +187,8 @@ const lang: ILang = {
     no_vcredist: 'Please install Visual C++ Redistributable 2015<br/>That can be downloaded on flux3dp.com',
   },
   generic_error: {
-    UNKNOWN_ERROR: '[UE] Unknown error occured. Please restart Beam Studio and the machine.',
-    OPERATION_ERROR: '[OE] A status conflict occured, please retry the action.',
+    UNKNOWN_ERROR: '[UE] Unknown error occurred. Please restart Beam Studio and the machine.',
+    OPERATION_ERROR: '[OE] A status conflict occurred, please retry the action.',
     SUBSYSTEM_ERROR: '[SE] Error when machine firmware executing the task. Please restart the machine.',
     UNKNOWN_COMMAND: '[UC] Please update the Device Firmware',
     RESOURCE_BUSY: '[RB] Please restart  the machine, or try again',
@@ -317,7 +317,7 @@ const lang: ILang = {
       tutorial2_a_text: 'this guide',
       tutorial2_a_href_mac: 'https://support.flux3dp.com/hc/en-us/articles/360001517076',
       tutorial2_a_href_win: 'https://support.flux3dp.com/hc/en-us/articles/360001507715',
-      tutorial2_2: ' to make your comuter as a router.',
+      tutorial2_2: ' to make your computer as a router.',
       tutorial3: '3. Click Next.',
     },
     connect_usb: {
@@ -338,7 +338,8 @@ const lang: ILang = {
       check_firmware: 'Checking firmware version',
       check_camera: 'Checking camera availability',
       retry: 'Retry',
-      finish_setting: 'Finish Setting',
+      succeeded_message: 'Successfully connected 🎉',
+      finish_setting: 'Start Creating!',
     },
     connecting: 'Connecting...',
     setting_completed: {
@@ -502,7 +503,7 @@ const lang: ILang = {
       import_file_contain_invalid_path: '#808 Imported SVG file contains invalid image path. Please make sure all image files exist or embed image in the file',
       import_file_error_ask_for_upload: 'Failed to Imported SVG file. Are you willing to provide file to develop team for bug report ?',
       upload_file_too_large: '#819 File is too large for upload.',
-      successfully_uploaded: 'File upload successed.',
+      successfully_uploaded: 'File upload succeeded.',
       upload_failed: '#819 File upload failed.',
       or_turn_off_borderless_mode: ' Or turn off Open Bottom mode.',
       svg_1_1_waring: 'The version of this SVG file is v 1.1, there might be potential incompatibility problems.',
@@ -511,12 +512,12 @@ const lang: ILang = {
       dont_show_again: 'Don\'t Show this next time.',
       convert_to_path_fail: 'Failed to convert to path.',
       save_unsave_changed: 'Do you want to save unsaved changes?',
-      dxf_bounding_box_size_over: 'Drawing size is out of workarea. Please move your drawing closer to origin in your CAD softwate, or make sure that the unit is set correctly.',
+      dxf_bounding_box_size_over: 'Drawing size is out of workarea. Please move your drawing closer to origin in your CAD software, or make sure that the unit is set correctly.',
       progress: {
         uploading: 'Uploading',
         calculating: 'Calculating',
       },
-      backend_connect_failed_ask_to_upload: '#802 Errors keeps occuring when trying to connect to the backend. Do you want to upload your bug report log?',
+      backend_connect_failed_ask_to_upload: '#802 Errors keeps occurring when trying to connect to the backend. Do you want to upload your bug report log?',
       pdf2svg: {
         error_when_converting_pdf: '#824 Error when converting PDF to SVG:',
         error_pdf2svg_not_found: '#825 Error: Command pdf2svg not found. Please install pdf2svg with your package manager (e.g., "yum install pdf2svg" or "apt-get install pdf2svg").',
@@ -832,9 +833,9 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Parsing font... Please wait a second',
       text_to_path: {
-        font_substitute_pop: 'Text: "%s" contains below characters which are not supported by current font: "%s".\n%s\nWould you like to use "%s" as substitution?',
-        check_thumbnail_warning: 'Some texts were changed to other Fonts when parsing texts to paths and some character may not converted normally.\nPlease check preview image again before sending task.',
-        error_when_parsing_text: 'Error when coverting text to path:\n%s',
+        font_substitute_pop: 'Text: <strong>%s</strong> contains characters <strong>%s</strong> which are not supported by current font: <strong>%s</strong>. <br/>Would you like to use <strong>%s</strong> as substitution?',
+        check_thumbnail_warning: 'Some texts were changed to other fonts when parsing texts to paths and some character may not converted normally.\nPlease check preview image again before sending task.',
+        error_when_parsing_text: 'Error when converting text to path:\n%s',
         use_current_font: 'Use Current Font',
       },
       lock_desc: 'Preserve the ratio of width and height (SHIFT)',
@@ -976,7 +977,7 @@ const lang: ILang = {
     search: 'Search',
     clear: 'Clear',
     export_svg_title: 'Unable to Export SVG',
-    export_svg_warning: 'This project contains objects that are protected by the intellectual property law. Therefore Beam Studio will automatically exclude these objects during the export. You can still save your project within Beam Studio Scene (.beam format) to keep your all datas. Do you still want to export?',
+    export_svg_warning: 'This project contains objects that are protected by the intellectual property law. Therefore Beam Studio will automatically exclude these objects during the export. You can still save your project within Beam Studio Scene (.beam format) to keep your entire data. Do you still want to export?',
     learn_more: 'Learn More',
   },
   change_logs: {
@@ -1014,7 +1015,7 @@ const lang: ILang = {
     preparing: 'Preparing',
     resuming: 'Resuming',
     scanning: 'Scanning',
-    occupied: 'Mantaining',
+    occupied: 'Maintaining',
     running: 'Working',
     uploading: 'Uploading',
     processing: 'Processing',
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'MONITOR',
     go: 'Start',
+    resume: 'Resume',
     start: 'Start',
     pause: 'Pause',
     stop: 'Stop',
     record: 'Record',
     camera: 'Camera',
+    taskTab: 'Task',
     connecting: 'Connecting, please wait...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Critical Error: Mainboard offline. Please contact FLUX Support.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Critical Error: Subsystem no response. Please contact FLUX Support.', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Flame sensor anomalous',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Airflow sensor anomalous',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 No rotary module detected',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Please switch to the rotary motor',
     RESOURCE_BUSY: 'The machine is busy\nIf it is not running, please restart the machine',
     DEVICE_ERROR: 'Something went wrong\nPlease restart the machine', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: 'Current OS Version %s may not support some functions. Please kindly update to the latest version.',
     need_password: 'Need Password to Connect to the Machine',
     unavailableWorkarea: '#804 Current workarea exceeds the workarea of this machine. Please check the workarea of selected machine or set workarea from Edit > Document Setting.',
-    please_enter_dpi: 'Please enter the Unit of your file',
+    please_enter_dpi: 'Please enter the Unit of your file (in mm)',
     auth_error: '#820 Auth Error: Please update Beam Studio and machine firmware to latest version.',
     usb_unplugged: 'USB connection is lost. Please check your USB connection',
     uploading_fcode: 'Uploading FCode',

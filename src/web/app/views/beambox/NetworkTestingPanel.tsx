@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable react/sort-comp */
-import * as React from 'react';
+import React from 'react';
+import { Button, Form, Input, InputRef, Modal } from 'antd';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
 import network from 'implementations/network';
 import os from 'implementations/os';
 import Progress from 'app/actions/progress-caller';
@@ -28,7 +28,7 @@ class NetworkTestingPanel extends React.Component<Props> {
 
   private localIps: string[];
 
-  private textInputRef: React.RefObject<HTMLInputElement>;
+  private textInputRef: React.RefObject<InputRef>;
 
   constructor(props: Props) {
     super(props);
@@ -84,20 +84,18 @@ class NetworkTestingPanel extends React.Component<Props> {
     this.discover.testTcp(ip);
     Progress.openSteppingProgress({
       id: 'network-testing',
-      message: `${LANG.testing} - 0%`,
+      caption: `${LANG.network_testing}`,
+      message: `${LANG.testing}`,
     });
-    const {
-      err,
-      reason,
-      successRate,
-      avgRRT,
-      quality,
-    } = await network.networkTest(ip, TEST_TIME, (percentage) => {
-      Progress.update('network-testing', {
-        percentage,
-        message: `${LANG.testing} - ${percentage}%`,
-      });
-    });
+    const { err, reason, successRate, avgRRT, quality } = await network.networkTest(
+      ip,
+      TEST_TIME,
+      (percentage) => {
+        Progress.update('network-testing', {
+          percentage,
+        });
+      }
+    );
     Progress.popById('network-testing');
     if (err === 'CREATE_SESSION_FAILED') {
       let message = `${LANG.fail_to_start_network_test}\n${reason}`;
@@ -122,7 +120,9 @@ class NetworkTestingPanel extends React.Component<Props> {
     console.log(`success rate: ${successRate}`);
     console.log(`average rrt of success: ${Math.round(100 * avgRRT) / 100} ms`);
     if (successRate > 0) {
-      let message = `${LANG.connection_quality} : ${quality}\n${LANG.average_response} : ${Math.round(100 * avgRRT) / 100} ms`;
+      let message = `${LANG.connection_quality} : ${quality}\n${LANG.average_response} : ${
+        Math.round(100 * avgRRT) / 100
+      } ms`;
       let children = null;
       if (quality < 70 || avgRRT > 100) {
         message = `${LANG.network_unhealthy}\n${message}`;
@@ -131,9 +131,18 @@ class NetworkTestingPanel extends React.Component<Props> {
       } else {
         children = (
           <div className="hint-container network-testing">
-            <div className="hint" onClick={() => browser.open(LANG.link_device_often_on_list)}>{LANG.hint_device_often_on_list}</div>
-            <div className="hint" onClick={() => browser.open(LANG.link_connect_failed_when_sending_job)}>{LANG.hint_connect_failed_when_sending_job}</div>
-            <div className="hint" onClick={() => browser.open(LANG.link_connect_camera_timeout)}>{LANG.hint_connect_camera_timeout}</div>
+            <div className="hint" onClick={() => browser.open(LANG.link_device_often_on_list)}>
+              {LANG.hint_device_often_on_list}
+            </div>
+            <div
+              className="hint"
+              onClick={() => browser.open(LANG.link_connect_failed_when_sending_job)}
+            >
+              {LANG.hint_connect_failed_when_sending_job}
+            </div>
+            <div className="hint" onClick={() => browser.open(LANG.link_connect_camera_timeout)}>
+              {LANG.hint_connect_camera_timeout}
+            </div>
           </div>
         );
       }
@@ -169,7 +178,7 @@ class NetworkTestingPanel extends React.Component<Props> {
   }
 
   getIPValue = (): string => {
-    const { value } = this.textInputRef.current;
+    const { value } = this.textInputRef.current.input;
     return value.replace(' ', '');
   };
 
@@ -188,56 +197,40 @@ class NetworkTestingPanel extends React.Component<Props> {
   renderLocalIP(): JSX.Element {
     const { localIps } = this;
     if (!localIps.length && window.FLUX.version === 'web') return null;
-    return (
-      <div className="info">
-        <div className="left-part">
-          {LANG.local_ip}
-        </div>
-        <div className="right-part">
-          {localIps.join(', ')}
-        </div>
-      </div>
-    );
+    return <Form.Item label={LANG.local_ip}>{localIps.join(', ')}</Form.Item>;
   }
 
   render(): JSX.Element {
     const { ip, onClose } = this.props;
+    const show = true;
+
+    const renderModalFooter = () => (
+      <div>
+        <Button onClick={onClose}>{LANG.end}</Button>
+        <Button type="primary" onClick={this.onStart}>
+          {LANG.start}
+        </Button>
+      </div>
+    );
+
     return (
-      <Modal onClose={onClose}>
-        <div className="network-testing-panel">
-          <section className="main-content">
-            <div className="title">{LANG.network_testing}</div>
-            {this.renderLocalIP()}
-            <div className="info">
-              <div className="left-part">
-                {LANG.insert_ip}
-              </div>
-              <div className="right-part">
-                <input
-                  ref={this.textInputRef}
-                  defaultValue={ip || ''}
-                  onKeyDown={this.onInputKeydown}
-                />
-              </div>
-            </div>
-          </section>
-          <section className="footer">
-            <button
-              type="button"
-              className="btn btn-default pull-right"
-              onClick={onClose}
-            >
-              {LANG.end}
-            </button>
-            <button
-              type="button"
-              className="btn btn-default pull-right primary"
-              onClick={this.onStart}
-            >
-              {LANG.start}
-            </button>
-          </section>
-        </div>
+      <Modal
+        open={show}
+        title={LANG.network_testing}
+        onCancel={onClose}
+        centered
+        footer={renderModalFooter()}
+      >
+        <Form>
+          {this.renderLocalIP()}
+          <Form.Item label={LANG.insert_ip}>
+            <Input
+              ref={this.textInputRef}
+              defaultValue={ip || ''}
+              onKeyDown={this.onInputKeydown}
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     );
   }

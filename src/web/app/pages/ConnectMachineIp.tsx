@@ -218,11 +218,16 @@ export default class ConnectMachine extends React.Component<any, State> {
     const { connectionTestState, firmwareVersion, cameraTestState } = this.state;
     if (connectionTestState !== TestState.SUCCESS) return null;
     let cameraStatus = '';
-    if (cameraTestState !== TestState.UNKNOWN) cameraStatus = cameraTestState > 0 ? 'OK' : 'Fail';
+    if (cameraTestState !== TestState.UNKNOWN) cameraStatus = cameraTestState > 0 ? 'OK ✅' : 'Fail';
+    let succeededMessage = '';
+    if (cameraTestState > 0) {
+      succeededMessage = lang.connect_machine_ip.succeeded_message;
+    }
     return (
       <>
         <div id="firmware-test-info" className="test-info">{`${lang.connect_machine_ip.check_firmware}... ${firmwareVersion}`}</div>
         <div id="camera-test-info" className="test-info">{`${lang.connect_machine_ip.check_camera}... ${cameraStatus}`}</div>
+        <div className="test-info">{succeededMessage}</div>
       </>
     );
   };
@@ -236,12 +241,12 @@ export default class ConnectMachine extends React.Component<any, State> {
       connectionTestCountDown,
     } = this.state;
     if (machineIp !== null) {
-      let ipStatus = 'OK';
+      let ipStatus = 'OK ✅';
       if (ipFormapTestState === TestState.FAIL) ipStatus = `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.invalid_format}`;
       else if (pingTestState === TestState.FAIL) ipStatus = lang.connect_machine_ip.unreachable;
       else if (ipFormapTestState === TestState.UNKNOWN || pingTestState === TestState.UNKNOWN) ipStatus = '';
       let connectionStatus = `${connectionTestCountDown}s`;
-      if (connectionTestState !== TestState.UNKNOWN) connectionStatus = connectionTestState > 0 ? 'OK' : 'Fail';
+      if (connectionTestState !== TestState.UNKNOWN) connectionStatus = connectionTestState > 0 ? 'OK ✅' : 'Fail';
       return (
         <div className="test-infos">
           <div id="ip-test-info" className="test-info">{`${lang.connect_machine_ip.check_ip}... ${ipStatus || ''}`}</div>

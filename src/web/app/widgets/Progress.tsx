@@ -15,6 +15,9 @@ interface Props {
   popById: (id: string) => void;
 }
 
+/**
+ * @deprecated The method should not be used
+ */
 class Progress extends React.Component<Props> {
   private closeTimeout: NodeJS.Timeout;
 

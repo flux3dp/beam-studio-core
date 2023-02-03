@@ -1,6 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import Pickr from '@simonwep/pickr';
+import { Button } from 'antd';
 
 import i18n from 'helpers/i18n';
 import { useEffect } from 'react';
@@ -48,24 +48,18 @@ const ColorPickerPanel = ({
     onClose();
   };
 
-  const renderFooterButton = (label, onClick, className) => (
-    <button type="button" className={className} onClick={onClick}>
-      {label}
-    </button>
-  );
-
-  const renderfooter = () => (
-    <div className="footer">
-      {renderFooterButton(LANG.cancel, onClose, classNames('btn', 'btn-default', 'pull-right'))}
-      {renderFooterButton(LANG.okay, onApply, classNames('btn', 'btn-default', 'pull-right', 'primary'))}
-    </div>
-  );
-
   return (
     <div className="color-picker-panel" style={{ top, left: left - width }}>
       <div className="modal-background" onClick={onClose} />
       <div className="pickr" />
-      {renderfooter()}
+      <div className="footer">
+        <Button onClick={onClose}>
+          {LANG.cancel}
+        </Button>
+        <Button onClick={onApply} type="primary">
+          {LANG.okay}
+        </Button>
+      </div>
     </div>
   );
 };

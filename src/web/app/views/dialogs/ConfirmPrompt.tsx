@@ -17,6 +17,9 @@ interface Props {
   onCancel: () => void;
 }
 
+/**
+   * @deprecated The method should not be used
+   */
 function ConfirmPrompt({
   caption, message, confirmValue,
   onCancel, onClose, onConfirmed,

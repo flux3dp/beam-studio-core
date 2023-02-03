@@ -12,6 +12,9 @@ interface Props {
   onCancel: () => void;
 }
 
+/**
+   * @deprecated The method should not be used
+   */
 const DxfDpiSelector = ({ defaultDpiValue, onSubmit, onCancel }: Props): JSX.Element => {
   const submitValue = () => {
     const dpi = Number($('#dpi-input').val());

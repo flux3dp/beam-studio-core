@@ -1,93 +1,115 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<Prompt
-  caption="New Preset Name"
-  defaultValue=""
-  onCancel={[MockFunction]}
-  onClose={[MockFunction]}
-  onYes={[MockFunction]}
->
-  <View>
+exports[`test Prompt should render correctly 1`] = `
+<body>
+  <div />
+  <div>
     <div
-      className="modal-window"
+      class="ant-modal-root css-dev-only-do-not-override-ixblex"
     >
       <div
-        className="modal-background"
-        onClick={[Function]}
+        class="ant-modal-mask"
       />
       <div
-        className="modal-body"
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
       >
         <div
-          className="prompt-dialog-container animate__animated animate__bounceIn"
-          data-id="prompt-container"
+          aria-labelledby="test-id"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-ixblex"
+          role="dialog"
+          style="width: 520px;"
         >
           <div
-            className="caption"
-          >
-            New Preset Name
-          </div>
-          <input
-            autoFocus={true}
-            className="text-input"
-            defaultValue=""
-            onKeyDown={[Function]}
-            type="text"
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
           />
           <div
-            className="footer"
+            class="ant-modal-content react-draggable"
+            style="transform: translate(0px,0px);"
           >
-            <ButtonGroup
-              buttons={
-                Array [
-                  Object {
-                    "className": "btn-default primary",
-                    "label": "OK",
-                    "onClick": [Function],
-                  },
-                  Object {
-                    "className": "btn-default",
-                    "label": "Cancel",
-                    "onClick": [Function],
-                  },
-                ]
-              }
-              className="btn-right"
+            <button
+              aria-label="Close"
+              class="ant-modal-close"
+              type="button"
+            >
+              <span
+                class="ant-modal-close-x"
+              >
+                <span
+                  aria-label="close"
+                  class="anticon anticon-close ant-modal-close-icon"
+                  role="img"
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="close"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                    />
+                  </svg>
+                </span>
+              </span>
+            </button>
+            <div
+              class="ant-modal-header"
             >
               <div
-                className="button-group btn-right"
+                class="ant-modal-title"
+                id="test-id"
               >
-                <button
-                  className="btn btn-default primary"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "OK",
-                    }
-                  }
-                  data-test-key="ok"
-                  key="0"
-                  onClick={[Function]}
-                  type="button"
-                />
-                <button
-                  className="btn btn-default"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Cancel",
-                    }
-                  }
-                  data-test-key="cancel"
-                  key="1"
-                  onClick={[Function]}
-                  type="button"
+                New Preset Name
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <p />
+              <div>
+                <input
+                  class="ant-input css-dev-only-do-not-override-ixblex text-input"
+                  type="text"
+                  value=""
                 />
               </div>
-            </ButtonGroup>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  Cancel
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                type="button"
+              >
+                <span>
+                  OK
+                </span>
+              </button>
+            </div>
           </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
         </div>
       </div>
     </div>
-  </View>
-</Prompt>
+  </div>
+</body>
 `;

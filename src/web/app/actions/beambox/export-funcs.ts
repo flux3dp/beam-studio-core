@@ -180,7 +180,11 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   let isErrorOccur = false;
   let isCanceled = false;
   SymbolMaker.switchImageSymbolForAll(false);
-  Progress.openNonstopProgress({ id: 'convert-text', message: lang.beambox.bottom_right_panel.convert_text_to_path_before_export });
+  Progress.openNonstopProgress({
+    id: 'convert-text',
+    caption: i18n.lang.beambox.popup.progress.calculating,
+    message: lang.beambox.bottom_right_panel.convert_text_to_path_before_export,
+  });
   const res = await FontFuncs.tempConvertTextToPathAmoungSvgcontent();
   Progress.popById('convert-text');
   if (!res) {
@@ -190,6 +194,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   const { uploadFile, thumbnailBlobURL } = await prepareFileWrappedFromSvgStringAndThumbnail();
   Progress.openSteppingProgress({
     id: 'upload-scene',
+    caption: i18n.lang.beambox.popup.progress.calculating,
     message: '',
     onCancel: async () => {
       svgeditorParser.interruptCalculation();
@@ -203,10 +208,18 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     engraveDpi: BeamboxPreference.read('engrave_dpi'),
     enableMask: BeamboxPreference.read('enable_mask') || BeamboxPreference.read('borderless'),
     onProgressing: (data) => {
-      Progress.update('upload-scene', { message: data.message, percentage: data.percentage * 100 });
+      Progress.update('upload-scene', {
+        caption: i18n.lang.beambox.popup.progress.calculating,
+        message: data.message,
+        percentage: data.percentage * 100,
+      });
     },
     onFinished: () => {
-      Progress.update('upload-scene', { message: lang.message.uploading_fcode, percentage: 100 });
+      Progress.update('upload-scene', {
+        caption: i18n.lang.beambox.popup.progress.calculating,
+        message: lang.message.uploading_fcode,
+        percentage: 100,
+      });
     },
     onError: (message) => {
       if (isCanceled) return;
@@ -408,10 +421,12 @@ const openTaskInDeviceMonitor = (
   taskImageURL: string,
   taskTime: number,
 ): void => {
+  const fileName = svgCanvas.getLatestImportFileName() || i18n.lang.topbar.untitled;
   MonitorController.showMonitor(device, Mode.PREVIEW, {
     fcodeBlob,
     taskImageURL,
     taskTime,
+    fileName,
   });
 };
 

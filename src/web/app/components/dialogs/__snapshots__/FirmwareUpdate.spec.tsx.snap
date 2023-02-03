@@ -1,78 +1,138 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test update dialog should render correctly 1`] = `
-<View
-  className={
-    Object {
-      "modal-update": true,
-      "shadow-modal": true,
-    }
-  }
-  content={
+<body>
+  <div />
+  <div>
     <div
-      className="update-wrapper"
+      class="ant-modal-root css-dev-only-do-not-override-ixblex"
     >
-      <h2
-        className="caption"
-      >
-        A Firmware Update to the machine is available
-      </h2>
-      <article
-        className="update-brief"
-      >
-        <p>
-          "flux" is now ready for firmware update.
-        </p>
-        <p>
-          Beamo Firmware v1.0.1 is now available - You have v1.0.0.
-        </p>
-      </article>
-      <h4
-        className="release-note-caption"
-      >
-        Release Note:
-      </h4>
       <div
-        className="release-note-content"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "fix bugs",
-          }
-        }
+        class="ant-modal-mask"
       />
       <div
-        className="action-button"
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
       >
-        <ButtonGroup
-          buttons={
-            Array [
-              Object {
-                "dataAttrs": Object {
-                  "ga-event": "update-firmware-later",
-                },
-                "label": "LATER",
-                "onClick": [MockFunction],
-              },
-              Object {
-                "dataAttrs": Object {
-                  "ga-event": "download-firmware-later",
-                },
-                "label": "ONLINE UPDATE",
-                "onClick": [Function],
-              },
-              Object {
-                "className": "btn-default primary",
-                "dataAttrs": Object {
-                  "ga-event": "install-new-firmware",
-                },
-                "label": "UPLOAD",
-                "onClick": [Function],
-              },
-            ]
-          }
-        />
+        <div
+          aria-labelledby="test-id"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-ixblex"
+          role="dialog"
+          style="width: 520px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content"
+          >
+            <button
+              aria-label="Close"
+              class="ant-modal-close"
+              type="button"
+            >
+              <span
+                class="ant-modal-close-x"
+              >
+                <span
+                  aria-label="close"
+                  class="anticon anticon-close ant-modal-close-icon"
+                  role="img"
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="close"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                    />
+                  </svg>
+                </span>
+              </span>
+            </button>
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                A Firmware Update to the machine is available
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <div
+                class="update-wrapper"
+              >
+                <article
+                  class="update-brief"
+                >
+                  <p>
+                    "flux" is now ready for firmware update.
+                  </p>
+                  <p>
+                    Beamo Firmware v1.0.1 is now available - You have v1.0.0.
+                  </p>
+                </article>
+                <h4
+                  class="release-note-caption"
+                >
+                  Release Note:
+                </h4>
+                <div
+                  class="release-note-content"
+                >
+                  fix bugs
+                </div>
+              </div>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  LATER
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  UPLOAD
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                type="button"
+              >
+                <span>
+                  ONLINE UPDATE
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
       </div>
     </div>
-  }
-/>
+  </div>
+</body>
 `;

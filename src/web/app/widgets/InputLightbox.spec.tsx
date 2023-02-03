@@ -1,7 +1,9 @@
-/* eslint-disable import/first */
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { fireEvent, render } from '@testing-library/react';
+
+import Constants from 'app/constants/input-lightbox-constants';
+
+import InputLightbox from './InputLightbox';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -12,33 +14,67 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-jest.mock('app/widgets/AlertDialog', () => function DummyImageAlertDialog() {
-  return (
-    <div>
-      This is dummy AlertDialog
-    </div>
-  );
-});
+jest.mock(
+  'app/widgets/AlertDialog',
+  () => function DummyImageAlertDialog() {
+    return <div>This is dummy AlertDialog</div>;
+  }
+);
 
-import Constants from 'app/constants/input-lightbox-constants';
+const mockOnSubmit = jest.fn();
+const mockOnClose = jest.fn();
 
-import InputLightbox from './InputLightbox';
+describe('test InputLightbox', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
 
-test('test InputLightbox', () => {
-  expect(toJson(shallow(<InputLightbox
-    caption="Firmware upload (*.bin / *.fxfw)"
-    type={Constants.TYPE_FILE}
-    confirmText="UPLOAD"
-    onSubmit={jest.fn()}
-    onClose={jest.fn()}
-  />))).toMatchSnapshot();
+  it('should render correctly when type is file', () => {
+    const { baseElement, getByText } = render(
+      <InputLightbox
+        defaultValue=""
+        inputHeader="header"
+        caption="Firmware upload (*.bin / *.fxfw)"
+        maxLength={100}
+        type={Constants.TYPE_FILE}
+        confirmText="UPLOAD"
+        onSubmit={mockOnSubmit}
+        onClose={mockOnClose}
+      />
+    );
+    expect(baseElement).toMatchSnapshot();
+    const input = baseElement.querySelector('input') as HTMLInputElement;
+    const filesGetter = jest.spyOn(input, 'files', 'get');
+    const mockFile = new File(['mock-file'], 'mock-file');
+    filesGetter.mockReturnValue([mockFile] as any);
+    fireEvent.change(input);
+    expect(mockOnSubmit).not.toBeCalled();
+    fireEvent.click(getByText('UPLOAD'));
+    expect(mockOnSubmit).toBeCalledTimes(1);
+    expect(mockOnClose).toBeCalledTimes(1);
+    expect(mockOnClose).toHaveBeenLastCalledWith('submit');
+  });
 
-  expect(toJson(shallow(<InputLightbox
-    caption="ABCDE requires a password"
-    type={Constants.TYPE_PASSWORD}
-    inputHeader="Password"
-    confirmText="CONNECT"
-    onSubmit={jest.fn()}
-    onClose={jest.fn()}
-  />))).toMatchSnapshot();
+  it('should render correctly when type is password', () => {
+    const { baseElement, getByText } = render(
+      <InputLightbox
+        defaultValue=""
+        inputHeader="Password"
+        caption="ABCDE requires a password"
+        maxLength={100}
+        type={Constants.TYPE_PASSWORD}
+        confirmText="CONNECT"
+        onSubmit={mockOnSubmit}
+        onClose={mockOnClose}
+      />
+    );
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.change(baseElement.querySelector('input'), { target: { value: 'pAssw0rd' } });
+    expect(mockOnSubmit).not.toBeCalled();
+    fireEvent.click(getByText('CONNECT'));
+    expect(mockOnSubmit).toBeCalledTimes(1);
+    expect(mockOnSubmit).toHaveBeenLastCalledWith('pAssw0rd');
+    expect(mockOnClose).toBeCalledTimes(1);
+    expect(mockOnClose).toHaveBeenLastCalledWith('submit');
+  });
 });

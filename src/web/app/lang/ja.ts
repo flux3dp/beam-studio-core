@@ -338,7 +338,8 @@ const lang: ILang = {
       check_firmware: 'ファームウェアバージョンの確認しています',
       check_camera: 'カメラの可用性を確認しています',
       retry: '再試行',
-      finish_setting: '設定完了',
+      succeeded_message: '接続に成功しました 🎉',
+      finish_setting: '作り始めます！',
     },
     connecting: '接続中…',
     setting_completed: {
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'モニター',
     go: '開始',
+    resume: '再開',
     start: '開始',
     pause: '一時停止',
     stop: '停止',
     record: '記録',
     camera: 'カメラ',
+    taskTab: 'タスク',
     connecting: '接続しています。お待ちください…',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 重大なエラー：メインボードがオフラインです。 FLUXサポートにお問い合わせください。', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 重大なエラー：サブシステムが応答しません。 FLUXサポートにお問い合わせください。', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 火炎センサー異常',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 エアフローセンサー異常',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 ロータリーモジュールが検出されません',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'ロータリーモーターに切り替えてください',
     RESOURCE_BUSY: 'マシンはビジーです\n実行されていない場合は、マシンを再起動してください',
     DEVICE_ERROR: '何かがうまくいかなかった\nマシンを再起動してください', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: '現在の Windows OSバージョンX ％s は一部の機能をサポートしていない場合があります。最新のバージョンに更新してください。',
     need_password: 'マシンに接続するには、パスワードが必要です',
     unavailableWorkarea: '#804 セットした作業領域がマシンの作業領域を超えます。マシンの作業領域を確認や[編集]>[ドキュメント設定]で作業領域をセットくださいい。',
-    please_enter_dpi: 'ファイルの単位を入力してください',
+    please_enter_dpi: 'ファイルの単位を入力してください (in mm)',
     auth_error: '#820 認証エラー：Beam Studioとマシンのファームウェアを最新バージョンに更新してください。',
     usb_unplugged: 'USB接続が失われました。USB接続を確認してください。',
     uploading_fcode: 'FCodeのアップロード中',

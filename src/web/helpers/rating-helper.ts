@@ -9,7 +9,7 @@ interface IRecord {
   score: number,
   version: string,
   isVoted: boolean,
-  isIgored: boolean,
+  isIgnored: boolean,
   user?: string,
 }
 
@@ -25,7 +25,7 @@ const setNotShowing = (): void => {
   setRecord({
     ...record,
     version: window['FLUX'].version,
-    isIgored: true,
+    isIgnored: true,
   });
 };
 
@@ -63,7 +63,7 @@ const setDefaultRatingRecord = (): void => {
     version: window['FLUX'].version,
     score: 0,
     isVoted: false,
-    isIgored: false,
+    isIgnored: false,
   };
   storage.set('rating-record', defaultRecord);
 };
@@ -74,6 +74,7 @@ const init = (): void => {
     setDefaultRatingRecord();
   } else {
     const record = getRecord();
+    console.log('Rating Record', record);
     if (localStorage.getItem('debug')) {
       Dialog.showRatingDialog(setVoted);
     }
@@ -83,7 +84,7 @@ const init = (): void => {
       return;
     }
 
-    if (record.isIgored || record.isVoted) {
+    if (record.isIgnored || record.isVoted) {
       return;
     }
 

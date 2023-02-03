@@ -1,4 +1,8 @@
-/* eslint-disable import/first */
+import DeviceConstants from 'app/constants/device-constants';
+import { IReport } from 'interfaces/IDevice';
+
+import MonitorStatus, { ButtonTypes } from './monitor-status';
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     device: {
@@ -6,10 +10,6 @@ jest.mock('helpers/i18n', () => ({
     },
   },
 }));
-
-import { IReport } from 'interfaces/IDevice';
-
-import MonitorStatus from './monitor-status';
 
 describe('test monitor-status', () => {
   test('getDisplayStatus', () => {
@@ -19,33 +19,31 @@ describe('test monitor-status', () => {
 
   test('isAbortedOrCompleted', () => {
     expect(MonitorStatus.isAbortedOrCompleted(null)).toBeFalsy();
-    expect(MonitorStatus.isAbortedOrCompleted({
-      st_id: 128,
-    } as IReport)).toBeTruthy();
-    expect(MonitorStatus.isAbortedOrCompleted({
-      st_id: 64,
-    } as IReport)).toBeTruthy();
-    expect(MonitorStatus.isAbortedOrCompleted({
-      st_id: 66,
-    } as IReport)).toBeFalsy();
+    expect(
+      MonitorStatus.isAbortedOrCompleted({
+        st_id: DeviceConstants.status.ABORTED,
+      } as IReport)
+    ).toBeTruthy();
+    expect(
+      MonitorStatus.isAbortedOrCompleted({
+        st_id: DeviceConstants.status.COMPLETED,
+      } as IReport)
+    ).toBeTruthy();
+    expect(
+      MonitorStatus.isAbortedOrCompleted({
+        st_id: DeviceConstants.status.COMPLETING,
+      } as IReport)
+    ).toBeFalsy();
   });
 
   test('getControlButtonType', () => {
-    expect(MonitorStatus.getControlButtonType(null)).toEqual({
-      left: 6,
-      mid: 2,
-    });
-    expect(MonitorStatus.getControlButtonType({
-      st_id: 1,
-    } as IReport)).toEqual({
-      left: 6,
-      mid: 4,
-    });
-    expect(MonitorStatus.getControlButtonType({
-      st_id: 2,
-    } as IReport)).toEqual({
-      left: 6,
-      mid: 2,
-    });
+    expect(MonitorStatus.getControlButtonType(null)).toEqual([]);
+    expect(MonitorStatus.getControlButtonType({ st_id: DeviceConstants.status.INIT } as IReport)).toEqual([
+      ButtonTypes.DISABLED_PLAY,
+    ]);
+    expect(MonitorStatus.getControlButtonType({ st_id: DeviceConstants.status.RUNNING } as IReport)).toEqual([
+      ButtonTypes.STOP,
+      ButtonTypes.PAUSE,
+    ]);
   });
 });

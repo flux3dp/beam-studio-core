@@ -3,17 +3,14 @@ import * as React from 'react';
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
 import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
-import ConfirmPrompt from 'app/views/dialogs/ConfirmPrompt';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
-import DxfDpiSelector from 'app/views/beambox/DxfDpiSelector';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
-import Modal from 'app/widgets/Modal';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
@@ -55,14 +52,6 @@ const popDialogById = (id: string): void => {
 };
 
 let promptIndex = 0;
-
-const showDeviceSelector = (onSelect) => {
-  addDialogComponent('device-selector',
-    <DeviceSelector
-      onSelect={onSelect}
-      onClose={() => popDialogById('device-selector')}
-    />);
-};
 
 const showLoginDialog = (callback?: () => void, silent = false): void => {
   if (isIdExist('flux-id-login')) return;
@@ -115,27 +104,26 @@ export default {
     if (isIdExist('docu-setting')) return;
     const unmount = () => popDialogById('docu-setting');
     addDialogComponent('docu-setting',
-      <Modal>
-        <DocumentSettings
-          unmount={unmount}
-        />
-      </Modal>);
+      <DocumentSettings
+        unmount={unmount}
+      />);
   },
   showDxfDpiSelector: (defaultValue: number): Promise<number> => new Promise<number>((resolve) => {
     addDialogComponent('dxf-dpi-select',
-      <Modal>
-        <DxfDpiSelector
-          defaultDpiValue={defaultValue}
-          onSubmit={(val: number) => {
-            popDialogById('dxf-dpi-select');
-            resolve(val);
-          }}
-          onCancel={() => {
-            popDialogById('dxf-dpi-select');
-            resolve(null);
-          }}
-        />
-      </Modal>);
+      <Prompt
+        caption={i18n.lang.message.please_enter_dpi}
+        message="1, 2.54, 25.4, 72, 96, ...etc."
+        defaultValue={defaultValue.toString()}
+        onYes={(val: string) => {
+          popDialogById('dxf-dpi-select');
+          resolve(Number(val));
+        }}
+        onCancel={() => {
+          popDialogById('dxf-dpi-select');
+          resolve(null);
+        }}
+        onClose={() => popDialogById('dxf-dpi-select')}
+      />);
   }),
   showNetworkTestingPanel: (ip?: string): void => {
     if (isIdExist('network-test')) return;
@@ -218,6 +206,7 @@ export default {
     addDialogComponent(id,
       <Prompt
         caption={args.caption}
+        message={args.message}
         defaultValue={args.defaultValue}
         onYes={args.onYes}
         onCancel={args.onCancel}
@@ -230,11 +219,11 @@ export default {
     const id = `prompt-${promptIndex}`;
     promptIndex = (promptIndex + 1) % 10000;
     addDialogComponent(id,
-      <ConfirmPrompt
+      <Prompt
         caption={args.caption}
         message={args.message}
-        confirmValue={args.confirmValue}
-        onConfirmed={() => resolve(true)}
+        placeholder={args.confirmValue}
+        onYes={(value) => resolve(value === args.confirmValue)}
         onCancel={() => resolve(false)}
         onClose={() => popDialogById(id)}
       />);
@@ -253,7 +242,6 @@ export default {
   showInputLightbox: (id: string, args: IInputLightBox): void => {
     addDialogComponent(id,
       <InputLightBox
-        isOpen
         caption={args.caption}
         type={args.type || 'TEXT_INPUT'}
         inputHeader={args.inputHeader}

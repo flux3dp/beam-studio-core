@@ -1,178 +1,214 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<ChangeLog
-  onClose={[MockFunction]}
->
-  <View>
+exports[`test ChangeLog should render correctly 1`] = `
+<body>
+  <div />
+  <div>
     <div
-      className="modal-window"
+      class="ant-modal-root css-dev-only-do-not-override-ixblex"
     >
       <div
-        className="modal-background"
-        onClick={[Function]}
+        class="ant-modal-mask"
       />
       <div
-        className="modal-body"
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
       >
         <div
-          className="change-log-dialog"
+          aria-labelledby="test-id"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-ixblex"
+          role="dialog"
+          style="width: 520px;"
         >
           <div
-            className="header"
-          >
-            <img
-              alt="Beam Studio Logo"
-              src="img/icon.png"
-            />
-            <div
-              className="app"
-            >
-              Beam Studio 1.2.3
-            </div>
-          </div>
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
           <div
-            className="title"
-          >
-            Change Logs:
-          </div>
-          <div
-            className="change-log-container"
-          >
-            <div
-              className="change-log-category"
-              key="added"
-            >
-              Added:
-            </div>
-            <div
-              className="change-log-item"
-              key="added-0"
-            >
-              <div
-                className="index"
-              >
-                1.
-              </div>
-              <pre
-                className="log"
-              >
-                Enhance the "Sharpen" function. High-quality photo engraving and make photos engrave result more detailed.
-              </pre>
-            </div>
-            <div
-              className="change-log-item"
-              key="added-1"
-            >
-              <div
-                className="index"
-              >
-                2.
-              </div>
-              <pre
-                className="log"
-              >
-                Added "Rate for Beam Studio" function.
-              </pre>
-            </div>
-            <div
-              className="change-log-category"
-              key="fixed"
-            >
-              Fixed:
-            </div>
-            <div
-              className="change-log-item"
-              key="fixed-0"
-            >
-              <div
-                className="index"
-              >
-                1.
-              </div>
-              <pre
-                className="log"
-              >
-                Increase the speed of import the SVG file.
-              </pre>
-            </div>
-            <div
-              className="change-log-item"
-              key="fixed-1"
-            >
-              <div
-                className="index"
-              >
-                2.
-              </div>
-              <pre
-                className="log"
-              >
-                Increase the speed of the "Disassemble" function.
-              </pre>
-            </div>
-            <div
-              className="change-log-category"
-              key="changed"
-            >
-              Changed:
-            </div>
-            <div
-              className="change-log-item"
-              key="changed-0"
-            >
-              <div
-                className="index"
-              >
-                1.
-              </div>
-              <pre
-                className="log"
-              >
-                Removed the "Text Path Calculation  Optimization" function in the Preference settings and enabled it by default.
-              </pre>
-            </div>
-            <div
-              className="change-log-item"
-              key="changed-1"
-            >
-              <div
-                className="index"
-              >
-                2.
-              </div>
-              <pre
-                className="log"
-              >
-                Changed the object's layer changing rules after grouping.
-- When the selected objects are in the same layer, it won't change the layer after grouping.
-- When the selected objects are not in the same layer, it will change the grouping object's layer to the top layer which selected.
-              </pre>
-            </div>
-          </div>
-          <div
-            className="link"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="button"
-            tabIndex={0}
-          >
-            See Older Versions
-          </div>
-          <div
-            className="footer"
+            class="ant-modal-content"
           >
             <button
-              className="btn btn-default primary"
-              onClick={[MockFunction]}
+              aria-label="Close"
+              class="ant-modal-close"
               type="button"
             >
-              OK
+              <span
+                class="ant-modal-close-x"
+              >
+                <span
+                  aria-label="close"
+                  class="anticon anticon-close ant-modal-close-icon"
+                  role="img"
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="close"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                    />
+                  </svg>
+                </span>
+              </span>
             </button>
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                <div
+                  class="app"
+                >
+                  📖 Beam Studio 1.2.3 
+                  Change Logs:
+                </div>
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <div
+                class="change-log-container"
+              >
+                <strong
+                  class="change-log-category"
+                >
+                  Added:
+                </strong>
+                <div
+                  class="change-log-item"
+                >
+                  <span
+                    class="index"
+                  >
+                    1.
+                  </span>
+                  <span
+                    class="log"
+                  >
+                    Enhance the "Sharpen" function. High-quality photo engraving and make photos engrave result more detailed.
+                  </span>
+                </div>
+                <div
+                  class="change-log-item"
+                >
+                  <span
+                    class="index"
+                  >
+                    2.
+                  </span>
+                  <span
+                    class="log"
+                  >
+                    Added "Rate for Beam Studio" function.
+                  </span>
+                </div>
+                <strong
+                  class="change-log-category"
+                >
+                  Fixed:
+                </strong>
+                <div
+                  class="change-log-item"
+                >
+                  <span
+                    class="index"
+                  >
+                    1.
+                  </span>
+                  <span
+                    class="log"
+                  >
+                    Increase the speed of import the SVG file.
+                  </span>
+                </div>
+                <div
+                  class="change-log-item"
+                >
+                  <span
+                    class="index"
+                  >
+                    2.
+                  </span>
+                  <span
+                    class="log"
+                  >
+                    Increase the speed of the "Disassemble" function.
+                  </span>
+                </div>
+                <strong
+                  class="change-log-category"
+                >
+                  Changed:
+                </strong>
+                <div
+                  class="change-log-item"
+                >
+                  <span
+                    class="index"
+                  >
+                    1.
+                  </span>
+                  <span
+                    class="log"
+                  >
+                    changed: 1
+                  </span>
+                </div>
+                <div
+                  class="change-log-item"
+                >
+                  <span
+                    class="index"
+                  >
+                    2.
+                  </span>
+                  <span
+                    class="log"
+                  >
+                    changed: 2
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                type="button"
+              >
+                <span>
+                  See Older Versions
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                type="button"
+              >
+                <span>
+                  OK
+                </span>
+              </button>
+            </div>
           </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
         </div>
       </div>
     </div>
-  </View>
-</ChangeLog>
+  </div>
+</body>
 `;

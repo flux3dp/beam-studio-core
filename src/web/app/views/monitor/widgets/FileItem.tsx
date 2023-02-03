@@ -28,7 +28,7 @@ export default class FileItem extends React.Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    for (let key in nextProps) {
+    for (const key in nextProps) {
       if (nextProps[key] !== this.props[key]) {
         if (key === 'fileInfo') {
           const { fileInfo } = nextProps;
@@ -62,27 +62,29 @@ export default class FileItem extends React.Component<Props> {
     const { imgSrc } = this;
     const { onHighlightItem, onSelectFile, onDeleteFile } = this.context;
     const { fileName, fileInfo, isSelected } = this.props;
-    const fileNameClass = classNames('name', { 'selected': isSelected });
-    const iNameClass = classNames('fa', 'fa-times-circle-o', { 'selected': isSelected });
+    const iNameClass = classNames('fa', 'fa-times-circle-o', { selected: isSelected });
     return (
       <div
         title={fileName}
-        className="file"
+        className={classNames('file', { selected: isSelected })}
         data-test-key={fileName}
         data-filename={fileName}
         onClick={() => onHighlightItem({ name: fileName, type: ItemType.FILE })}
-        onDoubleClick={() => onSelectFile(fileName, fileInfo)}>
+        onDoubleClick={() => onSelectFile(fileName, fileInfo)}
+      >
         <div className="image-wrapper">
           <img src={imgSrc || DEFAULT_IMAGE} onError={this.onImageError} />
-          <i className={iNameClass}
-            onClick={onDeleteFile}></i>
+          <i
+            className={iNameClass}
+            onClick={onDeleteFile}
+          />
         </div>
-        <div className={fileNameClass}>
-          {fileName.length > maxFileNameLength ? fileName.substring(0, maxFileNameLength) + '...' : fileName}
+        <div className={classNames('name', { selected: isSelected })}>
+          {fileName.length > maxFileNameLength ? `${fileName.substring(0, maxFileNameLength)}...` : fileName}
         </div>
       </div>
     );
   }
-};
+}
 
 FileItem.contextType = MonitorContext;

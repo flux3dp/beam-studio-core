@@ -1,17 +1,18 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import FluxIdLogin from './FluxIdLogin';
 
 const popUpError = jest.fn();
 const popUp = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
-  popUpError,
-  popUp,
+  popUpError: (...args) => popUpError(...args),
+  popUp: (...args) => popUp(...args),
 }));
 
 const open = jest.fn();
 jest.mock('implementations/browser', () => ({
-  open,
+  open: (...args) => open(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -40,66 +41,61 @@ jest.mock('helpers/i18n', () => ({
 const get = jest.fn();
 const set = jest.fn();
 jest.mock('implementations/storage', () => ({
-  get,
-  set,
+  get: (...args) => get(...args),
+  set: (...args) => set(...args),
 }));
 
 const externalLinkFBSignIn = jest.fn();
 const externalLinkGoogleSignIn = jest.fn();
-const fluxIDEvents = jest.fn();
+const mockFluxIdEventsOn = jest.fn();
+const mockRemoveListener = jest.fn();
 const signIn = jest.fn();
 const signOut = jest.fn();
 jest.mock('helpers/api/flux-id', () => ({
-  externalLinkFBSignIn,
-  externalLinkGoogleSignIn,
-  fluxIDEvents,
-  signIn,
-  signOut,
+  externalLinkFBSignIn: (...args) => externalLinkFBSignIn(...args),
+  externalLinkGoogleSignIn: (...args) => externalLinkGoogleSignIn(...args),
+  fluxIDEvents: {
+    on: (...args) => mockFluxIdEventsOn(...args),
+    removeListener: (...args) => mockRemoveListener(...args),
+  },
+  signIn: (...args) => signIn(...args),
+  signOut: (...args) => signOut(...args),
 }));
-
-// eslint-disable-next-line import/first
-import FluxIdLogin from './FluxIdLogin';
 
 describe('should render correctly', () => {
   test('desktop version', async () => {
     get.mockReturnValue(false);
     const onClose = jest.fn();
-    const wrapper = shallow(<FluxIdLogin
-      silent={false}
-      onClose={onClose}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { baseElement, getByText } = render(<FluxIdLogin silent={false} onClose={onClose} />);
+    expect(baseElement).toMatchSnapshot();
     expect(get).toHaveBeenCalledTimes(1);
     expect(get).toHaveBeenNthCalledWith(1, 'keep-flux-id-login');
 
-    wrapper.find('div.facebook').simulate('click');
+    fireEvent.click(baseElement.querySelector('div.facebook'));
     expect(externalLinkFBSignIn).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.google').simulate('click');
+    fireEvent.click(baseElement.querySelector('div.google'));
     expect(externalLinkGoogleSignIn).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.remember-me').simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.click(baseElement.querySelector('div.remember-me'));
+    expect(baseElement).toMatchSnapshot();
 
-    wrapper.find('div.forget-password').simulate('click');
+    fireEvent.click(baseElement.querySelector('div.forget-password'));
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenNthCalledWith(1, 'https://store.flux3dp.com/my-account/lost-password/');
 
-    wrapper.find('div.button').at(3).simulate('click');
+    fireEvent.click(getByText('Create Your FLUX Account'));
     expect(open).toHaveBeenCalledTimes(2);
     expect(open).toHaveBeenNthCalledWith(2, 'https://store.flux3dp.com/my-account/#sign-up');
 
-    wrapper.find('div.skip').simulate('click');
+    fireEvent.click(baseElement.querySelector('div.skip'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   test('web version', () => {
     window.FLUX.version = 'web';
     const onClose = jest.fn();
-    const wrapper = shallow(<FluxIdLogin
-      silent={false}
-      onClose={onClose}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { baseElement } = render(<FluxIdLogin silent={false} onClose={onClose} />);
+    expect(baseElement).toMatchSnapshot();
   });
 });

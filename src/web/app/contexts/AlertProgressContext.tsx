@@ -6,6 +6,9 @@ import i18n from 'helpers/i18n';
 import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
+import { MessageInstance } from 'antd/es/message/interface';
+import { IMessage } from 'interfaces/IMessage';
+import { MessageLevel } from 'app/actions/message-caller';
 
 const LANG = i18n.lang.alert;
 
@@ -27,8 +30,14 @@ interface State {
   alertProgressStack: (IAlert | IProgressDialog)[],
 }
 
-export class AlertProgressContextProvider extends React.Component<unknown, State> {
-  constructor(props: unknown) {
+interface Props {
+  messageApi: MessageInstance;
+}
+
+const generateRandomKey = () => Math.floor(10000000 * Math.random());
+
+export class AlertProgressContextProvider extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       alertProgressStack: [],
@@ -37,6 +46,8 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
 
   componentDidMount() {
     eventEmitter.on('OPEN_PROGRESS', this.openProgress.bind(this));
+    eventEmitter.on('OPEN_MESSAGE', this.openMessage.bind(this));
+    eventEmitter.on('CLOSE_MESSAGE', this.closeMessage.bind(this));
     eventEmitter.on('POP_LAST_PROGRESS', this.popLastProgress.bind(this));
     eventEmitter.on('UPDATE_PROGRESS', this.updateProgress.bind(this));
     eventEmitter.on('POP_BY_ID', this.popById.bind(this));
@@ -52,6 +63,9 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   popFromStack = (): void => {
     const { alertProgressStack } = this.state;
     alertProgressStack.pop();
+    this.setState({
+      alertProgressStack,
+    });
     this.forceUpdate();
   };
 
@@ -87,11 +101,11 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
   pushToStack = (item: (IAlert | IProgressDialog), callback = () => {}): void => {
     if (item.id) {
       // eslint-disable-next-line no-console
-      console.log('alert/progress poped', item.id);
+      console.log('alert/progress pushed', item.id);
     }
     const { alertProgressStack } = this.state;
     this.setState({
-      alertProgressStack: [...alertProgressStack, item],
+      alertProgressStack: [...alertProgressStack, { ...item, key: generateRandomKey() }],
     }, callback);
   };
 
@@ -108,6 +122,39 @@ export class AlertProgressContextProvider extends React.Component<unknown, State
       message: message || '',
       isProgress: true,
     }, callback);
+  };
+
+  closeMessage = (id: string): void => {
+    const { messageApi } = this.props;
+    console.log('destroy', id);
+    messageApi.destroy(id);
+  };
+
+  openMessage = (args: IMessage): void => {
+    const {
+      level,
+    } = args;
+
+    const { messageApi } = this.props;
+    switch (level) {
+      case MessageLevel.SUCCESS:
+        messageApi.success(args);
+        break;
+      case MessageLevel.LOADING:
+        messageApi.loading(args);
+        break;
+      case MessageLevel.WARNING:
+        messageApi.warning(args);
+        break;
+      case MessageLevel.ERROR:
+        messageApi.error(args);
+        break;
+      case MessageLevel.INFO:
+        messageApi.info(args);
+        break;
+      default:
+        break;
+    }
   };
 
   popLastProgress = (): void => {

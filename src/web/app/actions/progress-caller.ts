@@ -25,6 +25,12 @@ export default {
       percentage: args.percentage || 0,
     }, resolve);
   }),
+  openMessage: (args: IProgressDialog): Promise<void> => new Promise((resolve) => {
+    eventEmitter.emit('OPEN_MESSAGE', {
+      ...args,
+      isProgress: true,
+    }, resolve);
+  }),
   popById: (id: string): void => {
     eventEmitter.emit('POP_BY_ID', id);
   },

@@ -338,6 +338,7 @@ const lang: ILang = {
       check_firmware: 'Vérification de la version du firmware',
       check_camera: 'Vérification de la disponibilité de la caméra',
       retry: 'Réessayer',
+      succeeded_message: 'Connecté avec succès 🎉',
       finish_setting: 'Terminer le réglage',
     },
     connecting: 'Connexion...',
@@ -1037,11 +1038,13 @@ const lang: ILang = {
   monitor: {
     monitor: 'MONITEUR',
     go: 'Démarrer',
+    resume: 'Resume',
     start: 'Démarrer',
     pause: 'Suspendre',
     stop: 'Arrêter',
     record: 'Enregistrement',
     camera: 'Caméra',
+    taskTab: 'Tâche',
     connecting: 'Connexion, veuillez patienter...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Erreur critique : Carte mère hors ligne. Veuillez contacter le support FLUX.', // Deprecated in FW 3.3.1
     HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Erreur critique : Sous-système sans réponse. Veuillez contacter le support FLUX.', // Deprecated in FW 3.3.1
@@ -1054,6 +1057,7 @@ const lang: ILang = {
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Capteur de flamme anormal',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Capteur de débit d\'air anormal',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Aucun module rotatif détecté',
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off Error',
     USER_OPERATION_ROTARY_PAUSE: 'Veuillez passer au moteur rotatif',
     RESOURCE_BUSY: 'La machine est occupée.\nS\'il ne fonctionne pas, veuillez redémarrer la machine.',
     DEVICE_ERROR: 'Quelque chose a mal tourné.\nVeuillez redémarrer la machine', // Deprecated in FW 3.3.1
@@ -1153,7 +1157,7 @@ const lang: ILang = {
     unsupport_win_version: 'La version actuelle du système d\'exploitation %s peut ne pas prendre en charge certaines fonctions. Veuillez effectuer une mise à jour vers la dernière version.',
     need_password: 'Mot de passe nécessaire pour se connecter à la machine',
     unavailableWorkarea: '#804 La zone de travail actuelle dépasse la zone de travail de cette machine. Veuillez vérifier la zone de travail de la machine sélectionnée ou définir la zone de travail depuis Edit > Document Setting.',
-    please_enter_dpi: 'Veuillez entrer l\'unité de votre fichier',
+    please_enter_dpi: 'Veuillez entrer l\'unité de votre fichier (in mm)',
     auth_error: '#820 Erreur d\'authentification : Veuillez mettre à jour Beam Studio et le micrologiciel de la machine à la dernière version.',
     usb_unplugged: 'La connexion USB est perdue. Veuillez vérifier votre connexion USB.',
     uploading_fcode: 'Téléchargement du FCode',
