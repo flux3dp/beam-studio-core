@@ -411,7 +411,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   canvas.undoMgr = new history.UndoManager({
     renderText: textEdit.renderText,
-    handleHistoryEvent: function (eventType, cmd) {
+    handleHistoryEvent: (eventType, cmd) => {
       const EventTypes = history.HistoryEventTypes;
       // TODO: handle setBlurOffsets.
       if (eventType === EventTypes.BEFORE_UNAPPLY || eventType === EventTypes.BEFORE_APPLY) {
@@ -611,62 +611,59 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   // Object to contain image data for raster images that were found encodable
-  var encodableImages = {},
+  const encodableImages = {};
 
-    // String with image URL of last loadable image
-    last_good_img_url = curConfig.imgPath + 'logo.png',
+  let last_good_img_url = curConfig.imgPath + 'logo.png';
 
-    // Array with current disabled elements (for in-group editing)
-    disabled_elems = [],
+  // Array with current disabled elements (for in-group editing)
+  let disabled_elems = [];
 
-    // Object with save options
-    save_options: { [key: string]: any } = {
-      round_digits: 5
-    },
+  // Object with save options
+  const save_options: { [key: string]: any } = {
+    round_digits: 5
+  };
 
-    // Boolean indicating whether or not a dragging action has been started
-    started = false,
+  let started = false;
 
-    // String with an element's initial transform attribute value
-    startTransform = null,
+  // String with an element's initial transform attribute value
+  let startTransform = null;
 
-    // String indicating the current editor mode
-    current_mode = 'select',
+  // String indicating the current editor mode
+  let current_mode = 'select';
 
-    // String with the current direction in which an element is being resized
-    current_resize_mode = 'none',
+  // String with the current direction in which an element is being resized
+  let current_resize_mode = 'none';
 
-    // Object with IDs for imported files, to see if one was already added
-    import_ids = {},
+  // Object with IDs for imported files, to see if one was already added
+  const import_ids = {};
 
-    // Current text style properties
-    cur_text = all_properties.text,
+  // Current text style properties
+  const cur_text = all_properties.text;
 
-    // Current general properties
-    cur_properties = cur_shape,
+  // Current general properties
+  let cur_properties = cur_shape;
 
-    // Array with selected elements' Bounding box object
-    //	selectedBBoxes = new Array(1),
+  // Array with selected elements' Bounding box object
+  //	selectedBBoxes = new Array(1),
 
-    // The DOM element that was just selected
+  // The DOM element that was just selected
 
-    // DOM element for selection rectangle drawn by the user
-    rubberBox: SVGRectElement = null,
+  // DOM element for selection rectangle drawn by the user
+  let rubberBox: SVGRectElement = null;
 
-    // Array of current BBoxes, used in getIntersectionList().
-    curBBoxes = [],
+  let curBBoxes = [];
 
-    // Object to contain all included extensions
-    extensions = {},
+  // Object to contain all included extensions
+  const extensions = {};
 
-    // Canvas point for the most recent right click
-    lastClickPoint = null,
+  // Canvas point for the most recent right click
+  let lastClickPoint = null;
 
-    // Map of deleted reference elements
-    removedElements = {},
+  // Map of deleted reference elements
+  const removedElements = {};
 
-    // Rotary Mode
-    rotaryMode = BeamboxPreference.read('rotary_mode');
+  // Rotary Mode
+  let rotaryMode = BeamboxPreference.read('rotary_mode');
 
   this.getLastClickPoint = () => lastClickPoint;
 
@@ -1348,7 +1345,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * @param {boolean} allowTempGroup (deafult true) allow to return temp group, else return child of temp group
    * @returns {Element} mouse target element
    */
-  var getMouseTarget = this.getMouseTarget = function (evt, allowTempGroup = true) {
+  const getMouseTarget = function (evt, allowTempGroup = true) {
     if (evt == null) {
       return null;
     }
@@ -1475,6 +1472,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     return mouseTarget;
   };
+  this.getMouseTarget = getMouseTarget;
 
   // Function: handleGenerateSensorArea
   // handle for pure contour elements, enlarge sensor area;

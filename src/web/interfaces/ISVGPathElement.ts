@@ -1,4 +1,4 @@
-import { ISVGPath, ISVGPathSeg } from './ISVGPath';
+import { ISVGPathSeg } from './ISVGPath';
 
 interface ISVGPathSegList {
   numberOfItems: number;
