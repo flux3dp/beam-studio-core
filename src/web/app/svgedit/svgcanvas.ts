@@ -5093,6 +5093,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const points = solution_paths[i].map(p => {
           return { x: Math.floor(100 * (p.X / scale)) / 100, y: Math.floor(100 * (p.Y / scale)) / 100 };
         });
+        // TODO: use simplifyPath
         const segs = BezierFitCurve.fitPath(points);
         for (let j = 0; j < segs.length; j++) {
           const seg = segs[j];
@@ -6126,13 +6127,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * remove elemt from temp group
    * @param {Element} elem element to remove
    */
-  this.removeFromTempGroup = (elem) => {
+  this.removeFromTempGroup = (elem: Element) => {
     if (!tempGroup || !tempGroup.contains(elem)) {
       return;
     }
     const originalLayer = getCurrentDrawing().getLayerByName(elem.getAttribute('data-original-layer'));
     const currentLayer = getCurrentDrawing().getCurrentLayer();
     const targetLayer = originalLayer || currentLayer;
+    if (elem.nextSibling && (elem.nextSibling as Element).getAttribute('data-imageborder') === 'true') elem.nextSibling.remove();
     let nextSiblingId = elem.getAttribute('data-next-sibling');
     if (nextSiblingId) {
       nextSiblingId = nextSiblingId.replace('#', '\\#');

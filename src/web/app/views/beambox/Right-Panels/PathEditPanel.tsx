@@ -82,7 +82,7 @@ function PathEditPanel(): JSX.Element {
           <Button disabled={!containsSharpNodes} onClick={() => svgCanvas.pathActions.setRound()} size="small">
             Round
           </Button>
-          <Button onClick={() => svgCanvas.pathActions.disconnectNode()} size="small">
+          <Button disabled={isDisabled} onClick={() => svgCanvas.pathActions.disconnectNode()} size="small">
             Disconnect
           </Button>
         </Space>

@@ -78,9 +78,10 @@ const STEP_COUNT = 10;
 
 const setRubberBoxStart = () => {
   const selectorManager = selector.getSelectorManager();
-  const rubberBox = svgCanvas.getRubberBox();
+  let rubberBox = svgCanvas.getRubberBox();
   if (rubberBox == null) {
-    svgCanvas.unsafeAccess.setRubberBox(selectorManager.getRubberBandBox());
+    rubberBox = selectorManager.getRubberBandBox();
+    svgCanvas.unsafeAccess.setRubberBox(rubberBox);
   }
 
   svgedit.utilities.assignAttributes(rubberBox, {

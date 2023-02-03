@@ -455,6 +455,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       svgEditor.updateContextPanel();
     }
     // Clicked on the path
+    // TODO: handle sensor area
     if (id === selectedPath.elem.id) {
       console.log('Create new node point / segment');
       // TODO: Fix bugs on compound segments
@@ -479,8 +480,8 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         result.pathIndex -= 1;
       }
       const segIndex = pathToSegIndices[result.pathIndex] + 1 + result.curveIndex;
-      console.log("Path2Seg Indicies", pathToSegIndices);
-      console.log("Selected Seg Index", segIndex);
+      console.log('Path2Seg Indicies', pathToSegIndices);
+      console.log('Selected Seg Index', segIndex);
       selectedPath.addSeg(segIndex, 1 - result.time);
       const seg = selectedPath.segs[segIndex];
       const isLastSeg = (segIndex === pathToSegIndices[result.pathIndex + 1] - 1);
