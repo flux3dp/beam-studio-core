@@ -1,48 +1,97 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<div
-  id="pathedit-panel"
->
+<div>
   <div
-    className="node-type-panel"
+    id="pathedit-panel"
   >
     <div
-      className="title"
+      class="node-type-panel"
     >
-      NODE TYPE
+      <div
+        class="title"
+      >
+        NODE TYPE
+      </div>
+      <div
+        class="segmented-control"
+      >
+        <div
+          class="seg-item selected"
+          title="tCorner"
+        >
+          <img
+            class="seg-item-image"
+            src="img/right-panel/icon-nodetype-0.svg"
+          />
+        </div>
+        <div
+          class="seg-item"
+          title="tSmooth"
+        >
+          <img
+            class="seg-item-image"
+            src="img/right-panel/icon-nodetype-1.svg"
+          />
+        </div>
+        <div
+          class="seg-item"
+          title="tSymmetry"
+        >
+          <img
+            class="seg-item-image"
+            src="img/right-panel/icon-nodetype-2.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="ant-divider css-dev-only-do-not-override-ixblex ant-divider-horizontal"
+        role="separator"
+      />
+      <div
+        class="ant-space css-dev-only-do-not-override-ixblex ant-space-horizontal ant-space-align-center"
+      >
+        <div
+          class="ant-space-item"
+          style="margin-right: 8px;"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default ant-btn-sm"
+            disabled=""
+            type="button"
+          >
+            <span>
+              Sharp
+            </span>
+          </button>
+        </div>
+        <div
+          class="ant-space-item"
+          style="margin-right: 8px;"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default ant-btn-sm"
+            type="button"
+          >
+            <span>
+              Round
+            </span>
+          </button>
+        </div>
+        <div
+          class="ant-space-item"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default ant-btn-sm"
+            type="button"
+          >
+            <span>
+              Disconnect
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
-    <SegmentedControl
-      isDisabled={false}
-      onChanged={[Function]}
-      segments={
-        Array [
-          Object {
-            "id": "tCorner-seg-item",
-            "imgSrc": "img/right-panel/icon-nodetype-0.svg",
-            "title": "tCorner",
-            "value": 0,
-          },
-          Object {
-            "id": "tSmooth-seg-item",
-            "imgSrc": "img/right-panel/icon-nodetype-1.svg",
-            "title": "tSmooth",
-            "value": 1,
-          },
-          Object {
-            "id": "tSymmetry-seg-item",
-            "imgSrc": "img/right-panel/icon-nodetype-2.svg",
-            "title": "tSymmetry",
-            "value": 2,
-          },
-        ]
-      }
-      selectedIndexes={
-        Array [
-          0,
-        ]
-      }
-    />
   </div>
 </div>
 `;
