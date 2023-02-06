@@ -1419,10 +1419,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     if (mouseTarget === svgroot) {
-      const mouse_x = pt.x * current_zoom;
-      const mouse_y = pt.y * current_zoom;
+      const mouseX = pt.x * current_zoom;
+      const mouseY = pt.y * current_zoom;
       if (canvas.sensorAreaInfo && !PreviewModeController.isPreviewMode()) {
-        let dist = Math.hypot(canvas.sensorAreaInfo.x - mouse_x, canvas.sensorAreaInfo.y - mouse_y);
+        const dist = Math.hypot(canvas.sensorAreaInfo.x - mouseX, canvas.sensorAreaInfo.y - mouseY);
         if (dist < SENSOR_AREA_RADIUS) {
           mouseTarget = canvas.sensorAreaInfo.elem;
         }
