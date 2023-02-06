@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable max-len */
 import React from 'react';
-import Icon, { HomeOutlined } from '@ant-design/icons';
+import Icon from '@ant-design/icons';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
-import { Space } from 'antd';
 
 const CropSvg = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em">
@@ -72,56 +73,56 @@ const SeparateSvg = () => (
 
 const DivideSvg = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-    <path d="M 12 3 C 10.35499 3 9 4.3549904 9 6 C 9 7.6450096 10.35499 9 12 9 C 13.64501 9 15 7.6450096 15 6 C 15 4.3549904 13.64501 3 12 3 z M 12 5 C 12.564129 5 13 5.4358706 13 6 C 13 6.5641294 12.564129 7 12 7 C 11.435871 7 11 6.5641294 11 6 C 11 5.4358706 11.435871 5 12 5 z M 4 11 L 4 13 L 20 13 L 20 11 L 4 11 z M 12 15 C 10.35499 15 9 16.35499 9 18 C 9 19.64501 10.35499 21 12 21 C 13.64501 21 15 19.64501 15 18 C 15 16.35499 13.64501 15 12 15 z M 12 17 C 12.564129 17 13 17.435871 13 18 C 13 18.564129 12.564129 19 12 19 C 11.435871 19 11 18.564129 11 18 C 11 17.435871 11.435871 17 12 17 z"></path>
+    <path d="M 12 3 C 10.35499 3 9 4.3549904 9 6 C 9 7.6450096 10.35499 9 12 9 C 13.64501 9 15 7.6450096 15 6 C 15 4.3549904 13.64501 3 12 3 z M 12 5 C 12.564129 5 13 5.4358706 13 6 C 13 6.5641294 12.564129 7 12 7 C 11.435871 7 11 6.5641294 11 6 C 11 5.4358706 11.435871 5 12 5 z M 4 11 L 4 13 L 20 13 L 20 11 L 4 11 z M 12 15 C 10.35499 15 9 16.35499 9 18 C 9 19.64501 10.35499 21 12 21 C 13.64501 21 15 19.64501 15 18 C 15 16.35499 13.64501 15 12 15 z M 12 17 C 12.564129 17 13 17.435871 13 18 C 13 18.564129 12.564129 19 12 19 C 11.435871 19 11 18.564129 11 18 C 11 17.435871 11.435871 17 12 17 z" />
   </svg>
 );
 
 const commonStyle = { marginRight: '0.2em' };
 
-export const CropIcon = (props: Partial<CustomIconComponentProps>) => (
+export const CropIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={CropSvg} style={commonStyle} {...props} />
 );
 
-export const GrayscaleIcon = (props: Partial<CustomIconComponentProps>) => (
+export const GrayscaleIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={GraycaleSvg} style={commonStyle} {...props} />
 );
 
-export const InvertIcon = (props: Partial<CustomIconComponentProps>) => (
+export const InvertIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={InvertSvg} style={commonStyle} {...props} />
 );
 
-export const ArrayIcon = (props: Partial<CustomIconComponentProps>) => (
+export const ArrayIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={ArraySvg} style={commonStyle} {...props} />
 );
 
-export const SharpenIcon = (props: Partial<CustomIconComponentProps>) => (
+export const SharpenIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={SharpenSvg} style={commonStyle} {...props} />
 );
 
-export const BevelIcon = (props: Partial<CustomIconComponentProps>) => (
+export const BevelIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={BevelSvg} style={commonStyle} {...props} />
 );
 
-export const TraceIcon = (props: Partial<CustomIconComponentProps>) => (
+export const TraceIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={TraceSvg} style={commonStyle} {...props} />
 );
 
-export const ReplaceIcon = (props: Partial<CustomIconComponentProps>) => (
+export const ReplaceIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={ReplaceSvg} style={commonStyle} {...props} />
 );
 
-export const PenIcon = (props: Partial<CustomIconComponentProps>) => (
+export const PenIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={PenSvg} style={commonStyle} {...props} />
 );
 
-export const OffsetIcon = (props: Partial<CustomIconComponentProps>) => (
+export const OffsetIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={OffsetSvg} style={commonStyle} {...props} />
 );
 
-export const SeparateIcon = (props: Partial<CustomIconComponentProps>) => (
+export const SeparateIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={SeparateSvg} style={commonStyle} {...props} />
 );
 
-export const DivideIcon = (props: Partial<CustomIconComponentProps>) => (
+export const DivideIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={DivideSvg} style={commonStyle} {...props} />
 );
