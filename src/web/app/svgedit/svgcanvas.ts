@@ -1482,16 +1482,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (evt.target.id.match(/grip/i) || evt.target.id.includes('stretch')) {
         return;
       }
-      const root_sctm = ($('#svgcontent')[0] as any).getScreenCTM().inverse();
-      let pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm),
-        mouse_x = pt.x * current_zoom,
-        mouse_y = pt.y * current_zoom;
-      this.sensorAreaInfo = { x: mouse_x, y: mouse_y, dx: 0, dy: 0, elem: evt.target };
+      const rootSctm = ($('#svgcontent')[0] as any).getScreenCTM().inverse();
+      const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, rootSctm);
+      const mouseX = pt.x * current_zoom;
+      const mouseY = pt.y * current_zoom;
+      this.sensorAreaInfo = { x: mouseX, y: mouseY, dx: 0, dy: 0, elem: evt.target };
     }
-  }
+  };
 
   MouseInteractions.register(this);
-
 
   canvas.textActions = textActions;
 
@@ -2860,7 +2859,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const newDoc = svgedit.utilities.text2xml(xmlString);
     svgCanvas.prepareSvg(newDoc);
     const svg = svgdoc.adoptNode(newDoc.documentElement);
-    const { symbols, confirmedType } = parseSvg(batchCmd, this, svg, _type);
+    const { symbols } = parseSvg(batchCmd, this, svg, _type);
 
     const use_elements = (await Promise.all(symbols.map(async (symbol) => await appendUseElement(symbol, _type, layerName)))).filter((elem) => elem);
     use_elements.forEach(elem => {
@@ -4893,9 +4892,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const clipType = modemap[mode];
     let succeeded = true;
     let d = '';
-    if (len == 2 || true) {
+    if (len === 2) {
       let base = selectedElements[0].outerHTML;
-      for (let i = len - 1; i >= 1; --i) {
+      for (let i = len - 1; i >= 1; i -= 1) {
         d = pathActions.booleanOperationByPaperjs(
           base,
           selectedElements[i],
@@ -4938,17 +4937,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.simplifyPath = (elems) => {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
-    let batchCmd = new history.BatchCommand('Simplify Path');
+    const batchCmd = new history.BatchCommand('Simplify Path');
     const newElements = [];
     elems = elems || selectedElements;
-    elems.filter(elem => elem?.tagName == 'path').forEach(elem => {
+    elems.filter((elem) => elem?.tagName === 'path').forEach((elem) => {
       const attrs = {
-        'stroke': $(elem).attr('stroke') || '#333333',
-        'fill': $(elem).attr('fill') || 'none',
-        'transform': $(elem).attr('transform') || '',
+        stroke: $(elem).attr('stroke') || '#333333',
+        fill: $(elem).attr('fill') || 'none',
+        transform: $(elem).attr('transform') || '',
         'stroke-opacity': $(elem).attr('stroke-opacity') || '1',
         'fill-opacity': $(elem).attr('fill-opacity') || '0',
       };
@@ -4966,9 +4965,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
       newElements.push(newPathElement);
       batchCmd.addSubCommand(new history.InsertElementCommand(newPathElement));
-      console.log("Path compressed", (d.length / originD.length).toFixed(3));
+      console.log('Path compressed', (d.length / originD.length).toFixed(3));
     });
-    let cmd = deleteSelectedElements(true);
+    const cmd = deleteSelectedElements(true);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     this.selectOnly(newElements, true);
     addCommandToHistory(batchCmd);
@@ -5142,7 +5141,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const dAbs: string = svgedit.utilities.convertPath(elem);
       const subPaths = dAbs.split('M').filter((d) => d.length);
       if (subPaths.length === 1) return;
-      let newPaths = [];
+      const newPaths = [];
       const layer = LayerHelper.getObjectLayer(elem).elem;
       const attrs = {
         'stroke': $(elem).attr('stroke') || '#333333',
@@ -5188,7 +5187,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     if (allNewPaths.length > 0) {
       selectOnly(allNewPaths, false);
-      let g = this.tempGroupSelectedElements();
+      this.tempGroupSelectedElements();
     }
   };
 
@@ -5293,7 +5292,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     this.selectOnly([path], true);
     batchCmd.addSubCommand(new history.InsertElementCommand(path));
-    let cmd = deleteElements([img]);
+    const cmd = deleteElements([img]);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     addCommandToHistory(batchCmd);
     Progress.popById('vectorize-image');
@@ -6132,7 +6131,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const originalLayer = getCurrentDrawing().getLayerByName(elem.getAttribute('data-original-layer'));
     const currentLayer = getCurrentDrawing().getCurrentLayer();
     const targetLayer = originalLayer || currentLayer;
-    if (elem.nextSibling && (elem.nextSibling as Element).getAttribute('data-imageborder') === 'true') elem.nextSibling.remove();
+    if (elem.nextSibling && (elem.nextSibling as Element).getAttribute('data-imageborder') === 'true') {
+      elem.nextSibling.remove();
+    }
     let nextSiblingId = elem.getAttribute('data-next-sibling');
     if (nextSiblingId) {
       nextSiblingId = nextSiblingId.replace('#', '\\#');

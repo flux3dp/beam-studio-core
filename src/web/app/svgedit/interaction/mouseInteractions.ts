@@ -3,7 +3,6 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer-helper';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
@@ -15,7 +14,8 @@ import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHints
 import touchEvents from 'app/svgedit/touchEvents';
 import textEdit from 'app/svgedit/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
-import ISVGCanvas from '../../../interfaces/ISVGCanvas';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
 
 let svgEditor;
@@ -575,7 +575,10 @@ const mouseDown = (evt: MouseEvent) => {
       if (!svgCanvas.getTempGroup()) {
         svgCanvas.undoMgr.beginUndoableChange('transform', selectedElements);
       } else {
-        svgCanvas.undoMgr.beginUndoableChange('transform', Array.from(svgCanvas.getTempGroup().childNodes as unknown as SVGElement[]));
+        svgCanvas.undoMgr.beginUndoableChange(
+          'transform',
+          Array.from(svgCanvas.getTempGroup().childNodes as unknown as SVGElement[])
+        );
       }
       break;
     default:
@@ -1336,18 +1339,16 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
             }
           }
           svgCanvas.unsafeAccess.setCurrentMode('select');
-        }
-        // no change in position/size, so maybe we should move to pathedit
-        else {
+        } else {
+          // no change in position/size, so maybe we should move to pathedit
           svgCanvas.unsafeAccess.setCurrentMode('select');
           t = evt.target;
           if (selectedElements[0].nodeName === 'path'
             && selectedElements[1] == null) {
             // if it was a path
             svgCanvas.pathActions.select(selectedElements[0]);
-          }
-          // else, if it was selected and this is a shift-click, remove it from selection
-          else if (evt.shiftKey) {
+          } else if (evt.shiftKey) {
+            // else, if it was selected and this is a shift-click, remove it from selection
             if (tempJustSelected !== t) {
               svgCanvas.removeFromSelection([t]);
             }
