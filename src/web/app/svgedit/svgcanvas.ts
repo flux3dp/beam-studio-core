@@ -4863,27 +4863,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const batchCmd = new history.BatchCommand(`${mode} Elements`);
     const modemap = { 'intersect': 0, 'union': 1, 'diff': 2, 'xor': 3 };
     const clipType = modemap[mode];
-    let succeeded = true;
     let d = '';
-    if (len === 2 || true) {
-      let base = selectedElements[0].outerHTML;
-      for (let i = len - 1; i >= 1; i -= 1) {
-        d = pathActions.booleanOperationByPaperjs(
-          base,
-          selectedElements[i],
-          clipType
-        );
-        base = `<path d="${d}" />`;
-      }
-      succeeded = true;
+    let basePathText = selectedElements[0].outerHTML;
+    for (let i = len - 1; i >= 1; i -= 1) {
+      d = pathActions.booleanOperationByPaperjs(
+        basePathText,
+        selectedElements[i],
+        clipType
+      );
+      basePathText = `<path d="${d}" />`;
     }
 
-    if (!succeeded) {
-      console.log('Clipper not succeeded');
-      return;
-    }
-
-    const base = selectedElements[len - 1];
     const element = addSvgElementFromJson({
       element: 'path',
       curStyles: false,
@@ -4891,8 +4881,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         id: getNextId(),
         d,
         stroke: '#000',
-        fill: base.getAttribute('fill'),
-        'fill-opacity': base.getAttribute('fill-opacity'),
+        fill: basePathText.getAttribute('fill'),
+        'fill-opacity': basePathText.getAttribute('fill-opacity'),
         opacity: cur_shape.opacity
       }
     });
