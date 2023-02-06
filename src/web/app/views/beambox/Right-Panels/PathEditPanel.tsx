@@ -3,9 +3,12 @@ import * as React from 'react';
 import i18n from 'helpers/i18n';
 import SegmentedControl from 'app/widgets/SegmentedControl';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { Button, Divider, Space } from 'antd';
+import { ISVGPath } from 'interfaces/ISVGPath';
 
 let svgedit;
-getSVGAsync((globalSVG) => { svgedit = globalSVG.Edit; });
+let svgCanvas;
+getSVGAsync((globalSVG) => { svgedit = globalSVG.Edit; svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.path_edit_panel;
 
@@ -19,13 +22,19 @@ function PathEditPanel(): JSX.Element {
   };
 
   const renderNodeTypePanel = (): JSX.Element => {
-    const currentPath = svgedit.path.path;
+    const currentPath: ISVGPath = svgedit.path.path;
+    let containsSharpNodes = false;
+    let containsRoundNodes = false;
     const isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
     let selectedNodeTypes = [];
     if (currentPath) {
       const selectedNodes = currentPath.selected_pts
         .map((index) => currentPath.nodePoints[index])
         .filter((point) => point);
+
+      containsSharpNodes = selectedNodes.some((node) => node.isSharp());
+      containsRoundNodes = selectedNodes.some((node) => node.isRound());
+
       selectedNodes.forEach((node) => {
         if (node) {
           selectedNodeTypes.push(node.linkType);
@@ -65,6 +74,18 @@ function PathEditPanel(): JSX.Element {
             },
           ]}
         />
+        <Divider />
+        <Space>
+          <Button disabled={!containsRoundNodes} onClick={() => svgCanvas.pathActions.setSharp()} size="small">
+            Sharp
+          </Button>
+          <Button disabled={!containsSharpNodes} onClick={() => svgCanvas.pathActions.setRound()} size="small">
+            Round
+          </Button>
+          <Button disabled={isDisabled} onClick={() => svgCanvas.pathActions.disconnectNode()} size="small">
+            Disconnect
+          </Button>
+        </Space>
       </div>
     );
   };

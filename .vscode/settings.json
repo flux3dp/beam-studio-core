@@ -1,24 +1,32 @@
 {
     "cSpell.words": [
         "authed",
+        "bbox",
         "beamo",
         "borderless",
         "Elems",
+        "fhpath",
         "Filelist",
         "fluxghost",
         "FLUXMONITOR",
         "hexa",
+        "ISVG",
         "Lightbox",
         "lsusb",
+        "pathedit",
         "Showable",
         "sprintf",
+        "svgcanvas",
         "svgedit",
         "svgroot",
         "taskcode",
+        "Touchpad",
+        "transformlist",
         "ungroup",
         "Ungrouping",
         "unnotified",
         "unsupport",
-        "workarea"
+        "workarea",
+        "xform"
     ]
 }

@@ -1,7 +1,8 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import PathEditPanel from './PathEditPanel';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -17,43 +18,68 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-const getSVGAsync = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync,
-}));
-
 const setSelectedNodeType = jest.fn();
-getSVGAsync
-  .mockImplementation((callback) => {
-    callback({
-      Edit: {
+const mockSetSharp = jest.fn();
+const mockSetRound = jest.fn();
+const mockDisconnectNode = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) => callback({
+    Edit: {
+      path: {
         path: {
-          path: {
-            setSelectedNodeType,
-            selected_pts: [2],
-            nodePoints: [{
+          setSelectedNodeType: (...args) => setSelectedNodeType(...args),
+          selected_pts: [2],
+          nodePoints: [
+            {
               index: 0,
               linkType: 0,
-            }, {
+              isSharp: () => true,
+              isRound: () => false,
+            },
+            {
               index: 1,
               linkType: 0,
-            }, {
+              isSharp: () => true,
+              isRound: () => false,
+            },
+            {
               index: 2,
               linkType: 0,
-            }],
-          },
+              isSharp: () => true,
+              isRound: () => false,
+            },
+          ],
         },
       },
-    });
-  });
-
-import PathEditPanel from './PathEditPanel';
+    },
+    Canvas: {
+      pathActions: {
+        setSharp: (...args) => mockSetSharp(...args),
+        setRound: (...args) => mockSetRound(...args),
+        disconnectNode: (...args) => mockDisconnectNode(...args),
+      }
+    }
+  }),
+}));
 
 test('should render correctly', () => {
-  const wrapper = shallow(<PathEditPanel />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container, getByText, getByTitle } = render(<PathEditPanel />);
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('SegmentedControl').props().onChanged(1);
-  expect(setSelectedNodeType).toHaveBeenCalledTimes(1);
-  expect(setSelectedNodeType).toHaveBeenNthCalledWith(1, 1);
+  expect(setSelectedNodeType).not.toBeCalled();
+  fireEvent.click(getByTitle('tSmooth'));
+  expect(setSelectedNodeType).toBeCalledTimes(1);
+  expect(setSelectedNodeType).toHaveBeenLastCalledWith(1);
+
+  expect(mockSetRound).not.toBeCalled();
+  fireEvent.click(getByText('Round'));
+  expect(mockSetRound).toBeCalledTimes(1);
+
+  expect(mockSetSharp).not.toBeCalled();
+  fireEvent.click(getByText('Sharp'));
+  expect(mockSetRound).toBeCalledTimes(1);
+
+  expect(mockDisconnectNode).not.toBeCalled();
+  fireEvent.click(getByText('Disconnect'));
+  expect(mockDisconnectNode).toBeCalledTimes(1);
 });
