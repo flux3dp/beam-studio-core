@@ -128,11 +128,14 @@ const getCurveLocationByPaperjs = (
   const obj1 = items.children[0] as paper.Shape | paper.Path | paper.CompoundPath;
   const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
   const location = path1.getNearestLocation({ x, y });
+  const isCompound = location.path.parent instanceof paper.CompoundPath;
+
   const result = {
     point: location.point,
     curveIndex: location.curve.index,
     segmentIndex: location.segment.index,
-    pathIndex: location.path.index,
+    // Hotfix for paperjs behavior, when the path is not a compound path, the path index is 1
+    pathIndex: isCompound ? location.path.index : location.path.index - 1,
     time: location.time,
     // raw: location,
   };
@@ -460,14 +463,12 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
     // Clicked on the path
     // TODO: handle sensor area
     if (id === selectedPath.elem.id) {
-      console.log('Create new node point / segment');
-      // TODO: Fix bugs on compound segments
       const result = getCurveLocationByPaperjs(x, y, selectedPath.elem);
       // TODO: Cache compound path seg index
       let pushNew = true;
       const pathToSegIndices = [];
       selectedPath.segs.forEach((seg) => {
-        if (seg.item.pathSegType < 4) {
+        if (seg.item.pathSegType < 4 && seg.item.pathSegType > 1) {
           if (pushNew) {
             pathToSegIndices.push(seg.index);
             pushNew = false;
@@ -478,10 +479,6 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
           pushNew = true;
         }
       });
-      if (pathToSegIndices.length <= 2) {
-        // Hotfix for paperjs behavior, when the path is not a compound path, the path index is 1
-        result.pathIndex -= 1;
-      }
       const segIndex = pathToSegIndices[result.pathIndex] + 1 + result.curveIndex;
       console.log('Path2Seg Indicies', pathToSegIndices);
       console.log('Selected Seg Index', segIndex);
@@ -685,8 +682,6 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
   if (hasCreatedPoint) {
     hasCreatedPoint = false;
   } else if (selectedPath.dragging) {
-    const lastPt = selectedPath.selectedPointIndex;
-
     selectedPath.dragging = false;
     selectedPath.dragctrl = false;
     selectedPath.update();
