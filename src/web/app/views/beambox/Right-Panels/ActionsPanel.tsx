@@ -14,8 +14,19 @@ import textEdit from 'app/svgedit/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { checkConnection } from 'helpers/api/discover';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ArrayIcon, BevelIcon, CropIcon, DivideIcon, GrayscaleIcon, InvertIcon, OffsetIcon, PenIcon, ReplaceIcon, SeparateIcon, SharpenIcon, TraceIcon } from 'app/icons/icons';
-import { EditOutlined } from '@ant-design/icons';
+import {
+  ArrayIcon,
+  BevelIcon,
+  CropIcon,
+  DivideIcon,
+  GrayscaleIcon,
+  InvertIcon, OffsetIcon,
+  PenIcon,
+  ReplaceIcon,
+  SeparateIcon,
+  SharpenIcon,
+  TraceIcon,
+} from 'app/icons/icons';
 
 let svgCanvas;
 let svgEditor;
@@ -85,7 +96,11 @@ class ActionsPanel extends React.Component<Props> {
   ): JSX.Element => {
     const className = classNames('btn', 'btn-default', { disabled: isDisabled });
     return (
-      <div className={classNames('btn-container', { full: isFullLine, half: !isFullLine })} onClick={() => onClick()} key={label}>
+      <div
+        className={classNames('btn-container', { full: isFullLine, half: !isFullLine })}
+        onClick={onClick}
+        key={label}
+      >
         <button id={id} type="button" className={className}>
           {icon}
           {label}
@@ -100,7 +115,12 @@ class ActionsPanel extends React.Component<Props> {
     const content = [
       this.renderButtons(LANG.replace_with, () => this.replaceImage(), true, 'replace_with', false, <ReplaceIcon />),
       this.renderButtons(LANG.trace, () => svgCanvas.imageToSVG(), false, 'trace', isShading, <TraceIcon />),
-      this.renderButtons(LANG.grading, () => Dialog.showPhotoEditPanel('curve'), false, 'grading', false, <GrayscaleIcon />),
+      this.renderButtons(LANG.grading,
+        () => Dialog.showPhotoEditPanel('curve'),
+        false,
+        'grading',
+        false,
+        <GrayscaleIcon />),
       this.renderButtons(LANG.sharpen, () => {
         this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
       }, false, 'sharpen', false, <SharpenIcon />),
@@ -114,7 +134,14 @@ class ActionsPanel extends React.Component<Props> {
 
   renderTextActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.convert_to_path, () => this.webNeedConnectionWrapper(this.convertTextToPath), true, 'convert_to_path', false, <TraceIcon />),
+      this.renderButtons(
+        LANG.convert_to_path,
+        () => this.webNeedConnectionWrapper(this.convertTextToPath),
+        true,
+        'convert_to_path',
+        false,
+        <TraceIcon />,
+      ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
     return content;
@@ -142,8 +169,12 @@ class ActionsPanel extends React.Component<Props> {
   renderPathActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const content = [
-      this.renderButtons(LANG.edit_path, () => svgCanvas.pathActions.toEditMode(elem), true, 'edit_path', false, <PenIcon />),
-      this.renderButtons(LANG.decompose_path, () => svgCanvas.decomposePath(), true, 'decompose_path', false, <DivideIcon />),
+      this.renderButtons(
+        LANG.edit_path, () => svgCanvas.pathActions.toEditMode(elem), true, 'edit_path', false, <PenIcon />,
+      ),
+      this.renderButtons(
+        LANG.decompose_path, () => svgCanvas.decomposePath(), true, 'decompose_path', false, <DivideIcon />,
+      ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
       this.renderButtons('Simplify', () => svgCanvas.simplifyPath(), true, 'simplify'),
@@ -154,7 +185,9 @@ class ActionsPanel extends React.Component<Props> {
   renderRectActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const content = [
-      this.renderButtons(LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />),
+      this.renderButtons(
+        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+      ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
@@ -164,7 +197,9 @@ class ActionsPanel extends React.Component<Props> {
   renderEllipseActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const content = [
-      this.renderButtons(LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />),
+      this.renderButtons(
+        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+      ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
@@ -174,7 +209,9 @@ class ActionsPanel extends React.Component<Props> {
   renderPolygonActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const content = [
-      this.renderButtons(LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />),
+      this.renderButtons(
+        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+      ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
@@ -184,7 +221,9 @@ class ActionsPanel extends React.Component<Props> {
   renderLineActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const content = [
-      this.renderButtons(LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />),
+      this.renderButtons(
+        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+      ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
@@ -193,7 +232,9 @@ class ActionsPanel extends React.Component<Props> {
 
   renderUseActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false, 'disassemble_use', false, <SeparateIcon />),
+      this.renderButtons(
+        LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false, 'disassemble_use', false, <SeparateIcon />,
+      ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
     return content;
@@ -213,7 +254,9 @@ class ActionsPanel extends React.Component<Props> {
 
     const appendOptionalButtons = (buttons: JSX.Element[]) => {
       const text = children.find((child) => child.nodeName === 'text') as Element;
-      const pathLike = children.find((child) => ['path', 'ellipse', 'line', 'polygon', 'rect'].includes(child.nodeName)) as Element;
+      const pathLike = children.find(
+        (child) => ['path', 'ellipse', 'line', 'polygon', 'rect'].includes(child.nodeName)
+      ) as Element;
       if (children.length === 2 && text && pathLike) {
         buttons.push(this.renderButtons(LANG.create_textpath, () => {
           svgCanvas.ungroupTempGroup();
@@ -232,7 +275,9 @@ class ActionsPanel extends React.Component<Props> {
     appendOptionalButtons(content);
     content = [
       ...content,
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', !supportOffset, <OffsetIcon />),
+      this.renderButtons(
+        LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', !supportOffset, <OffsetIcon />,
+      ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
     return content;

@@ -6127,7 +6127,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     // Look for parent "a"
     if (g.tagName === 'g' || g.tagName === 'a') {
-
       const batchCmd = new history.BatchCommand('Ungroup Temp Group');
       const cmd = pushGroupProperties(g, true);
       if (cmd) {
@@ -6303,6 +6302,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const realLocation = this.getSvgRealLocation(elem);
         centerX = realLocation.x + realLocation.width / 2;
         centerY = realLocation.y + realLocation.height / 2;
+        break;
+      default:
         break;
     }
     return {
@@ -7157,6 +7158,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         } else {
           tlist.appendItem(xform);
         }
+        break;
+      default:
         break;
     }
 
