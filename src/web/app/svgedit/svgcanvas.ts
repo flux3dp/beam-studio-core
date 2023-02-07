@@ -1797,10 +1797,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             if (elem.tagName === 'path' && attr.localName === 'd') {
               attrVal = pathActions.convertPath(elem, true);
             }
-            if (!Number.isNaN(attrVal)) {
-              attrVal = svgedit.units.shortFloat(attrVal);
+            const floatValue = svgedit.units.shortFloat(attrVal);
+            if (!Number.isNaN(floatValue)) {
+              attrVal = floatValue;
             } else if (unitRe.test(attrVal)) {
-              attrVal = svgedit.units.shortFloat(attrVal) + unit;
+              attrVal = floatValue + unit;
             }
 
             // Embed images when saving
