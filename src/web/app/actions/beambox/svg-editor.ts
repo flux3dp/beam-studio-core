@@ -64,6 +64,7 @@ import { IFont } from 'interfaces/IFont';
 import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -285,7 +286,8 @@ const svgEditor = window['svgEditor'] = (function () {
     pressedKey = [];
   });
 
-  var svgCanvas, urldata,
+  let svgCanvas: ISVGCanvas;
+  var urldata,
     Utils = window['svgedit'].utilities,
     isReady = false,
     customExportImage = false,

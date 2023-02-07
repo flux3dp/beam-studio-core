@@ -1,5 +1,22 @@
-/*globals $, svgedit, svgCanvas, jsPDF*/
-/*jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true */
+/* eslint-disable no-console */
+/* eslint-disable max-len */
+/* eslint-disable quote-props */
+/* eslint-disable no-continue */
+/* eslint-disable operator-linebreak */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable object-shorthand */
+/* eslint-disable no-tabs */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-template */
+/* eslint-disable no-multi-assign */
+/* eslint-disable vars-on-top */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-var */
+/* eslint-disable func-names */
+
+/* jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true  */
 /*
  * svgcanvas.js
  *
@@ -34,7 +51,6 @@ import historyRecording from 'app/svgedit/historyrecording';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
-import touchEvents from 'app/svgedit/touchEvents';
 import { deleteElements, deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -49,7 +65,6 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
-import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Constant from 'app/actions/beambox/constant';
@@ -63,7 +78,6 @@ import laserConfigHelper from 'helpers/laser-config-helper';
 import * as LayerHelper from 'helpers/layer-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import storage from 'implementations/storage';
-import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
@@ -130,7 +144,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     '<feMergeNode in="SourceGraphic"/>' +
     '</feMerge>' +
     '</filter>' +
-    //(BeamboxPreference.read('enable_mask') ? ('<clipPath id="scene_mask"><rect x="0" y="0" width="' + dimensions[0] + '" height="' + dimensions[1] + '" /></clipPath>') : '') +
+    // (BeamboxPreference.read('enable_mask') ? ('<clipPath id="scene_mask"><rect x="0" y="0" width="' + dimensions[0] + '" height="' + dimensions[1] + '" /></clipPath>') : '') +
     '</defs>' +
     '</svg>').documentElement, true);
   container.appendChild(svgroot);
@@ -398,7 +412,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       cmdElements.clear();
     }
     cmdDepth += 1;
-  }
+  };
 
   const onAfter = () => {
     cmdDepth -= 1;
@@ -407,7 +421,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       call('changed', elems);
       cmdElements.clear();
     }
-  }
+  };
 
   canvas.undoMgr = new history.UndoManager({
     renderText: textEdit.renderText,
@@ -474,7 +488,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             // have a featured detection for correct 'use' behavior?
             // ——————————
             // Remove & Re-add hack for Webkit (issue 775)
-            //if (cmd.elem.tagName === 'use' && svgedit.browser.isWebkit()) {
+            // if (cmd.elem.tagName === 'use' && svgedit.browser.isWebkit()) {
             //	var elem = cmd.elem;
             //	if (!elem.getAttribute('x') && !elem.getAttribute('y')) {
             //		var parent = elem.parentNode;
@@ -482,7 +496,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             //		parent.removeChild(elem);
             //		parent.insertBefore(elem, sib);
             //	}
-            //}
+            // }
           } else if (cmdType === BatchCommand.type()) {
             if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)'].includes(cmd.text)) {
               canvas.identifyLayers();
@@ -665,12 +679,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Rotary Mode
   let rotaryMode = BeamboxPreference.read('rotary_mode');
 
-  this.getLastClickPoint = () => lastClickPoint;
-
-  this.setLastClickPoint = (point) => {
-    lastClickPoint = point;
-  };
-
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
   textEdit.useDefaultFont();
@@ -681,26 +689,33 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // State for save before close warning
   canvas.changed = false;
 
-  this.clearBoundingBox = () => { curBBoxes = []; }
+  this.clearBoundingBox = () => { curBBoxes = []; };
   this.getContainer = () => container;
+  this.getContentElem = () => svgcontent;
   this.getCurrentConfig = () => curConfig;
+  this.getCurrentGroup = () => current_group;
   this.getCurrentMode = () => current_mode;
   this.getCurrentResizeMode = () => current_resize_mode;
   this.getCurrentShape = () => cur_shape;
-  this.getCurrentGroup = () => current_group;
   this.getCurrentZoom = () => current_zoom;
+  this.getGoodImage = () => last_good_img_url;
+  this.getLastClickPoint = () => lastClickPoint;
+  this.getMode = function () { return current_mode; };
   this.getRoot = () => svgroot;
+  this.getRootElem = () => svgroot;
   this.getRootScreenMatrix = () => root_sctm;
+  this.getRotaryDisplayCoord = () => BeamboxPreference.read('rotary_y_coord') || 5;
+  this.getRotaryMode = () => rotaryMode;
   this.getRubberBox = () => rubberBox;
+  this.getSelectedElems = () => selectedElements;
   this.getStarted = () => started;
-  this.getSelectedElements = () => selectedElements;
   this.getStartTransform = () => startTransform;
   this.getTempGroup = () => tempGroup;
-  this.getRotaryMode = () => rotaryMode;
-  this.getRotaryDisplayCoord = () => BeamboxPreference.read('rotary_y_coord') || 5;
+  this.setGoodImage = function (val) { last_good_img_url = val; };
   this.setRootScreenMatrix = (matrix: SVGMatrix) => { root_sctm = matrix; };
-  this.setCurrentResizeMode = (mode: string) => { current_resize_mode = mode };
-  this.setCurrentStyleProperties = (key: string, value: string | number) => { cur_properties[key] = value };
+  this.setCurrentResizeMode = (mode: string) => { current_resize_mode = mode; };
+  this.setCurrentStyleProperties = (key: string, value: string | number) => { cur_properties[key] = value; };
+  this.setLastClickPoint = (point) => { lastClickPoint = point; };
   this.setRotaryMode = (val) => rotaryMode = val;
   this.setRotaryDisplayCoord = (val) => BeamboxPreference.write('rotary_y_coord', val);
 
@@ -931,7 +946,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     $(g).append(elem).data('gsvg', elem)[0].id = getNextId();
   };
 
-
   // Set scope for these functions
   var getId, getNextId;
 
@@ -1025,7 +1039,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //	$(svgroot).children().each(cb);
   // };
 
-
   // Function: setRotationAngle
   // Removes any old rotations if present, prepends a new rotation at the
   // transformed center
@@ -1046,12 +1059,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     // only remove the real rotational transform if present (i.e. at index=0)
     if (tlist.numberOfItems > 0) {
       var xform = tlist.getItem(0);
-      if (xform.type == 4) {
+      if (String(xform.type) === '4') {
         tlist.removeItem(0);
       }
     }
     // find R_nc and insert it
-    if (val != 0) {
+    if (val !== 0) {
       var center = svgedit.math.transformPoint(cx, cy, svgedit.math.transformListToTransform(tlist).matrix);
       var R_nc = svgroot.createSVGTransform();
       R_nc.setRotate(val, center.x, center.y);
@@ -1113,7 +1126,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return batchCmd;
   };
 
-
   // Debug tool to easily see the current matrix in the browser's console
   var logMatrix = function (m) {
     console.log([m.a, m.b, m.c, m.d, m.e, m.f]);
@@ -1153,7 +1165,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   // TODO: do we need to worry about selectedBBoxes here?
-
 
   // Function: addToSelection
   // Adds a list of elements to the selection. The 'selected' handler is then called.
@@ -1248,7 +1259,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (elems.length > 1) {
       this.tempGroupSelectedElements();
     }
-  }
+  };
 
   // TODO: could use slice here to make this faster?
   // TODO: should the 'selected' handler
@@ -1337,7 +1348,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
       svgEditor.updateContextPanel();
     }
-  }
+  };
 
   /**
    * Gets the desired element from a mouse event
@@ -1361,7 +1372,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     const root_sctm = ($('#svgcontent')[0] as any).getScreenCTM().inverse();
-    let pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
+    const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, root_sctm);
 
     // bbox center at x, y width, hieght 10px
     const selectionRegion = {
@@ -1369,7 +1380,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       y: pt.y - 50,
       width: 100,
       height: 100,
-    }
+    };
     const intersectList = getIntersectionList(selectionRegion).reverse();
     curBBoxes = [];
     const clickPoint = svgcontent.createSVGPoint();
@@ -1678,15 +1689,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.svgToString = function (elem, indent, unit: Units = 'pt') {
     const out = [];
     const toXml = svgedit.utilities.toXml;
-    const unit_re = new RegExp('^-?[\\d\\.]+' + unit + '$');
+    const unitRe = new RegExp('^-?[\\d\\.]+' + unit + '$');
     if (elem) {
       cleanupElement(elem);
-      var attrs = elem.attributes,
-        attr,
-        i,
-        childs = elem.childNodes;
+      const attrs = elem.attributes;
+      let attr;
+      const childs = elem.childNodes;
 
-      for (i = 0; i < indent; i++) {
+      for (let i = 0; i < indent; i++) {
         out.push(' ');
       }
       out.push('<');
@@ -1740,11 +1750,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           });
         });
 
-        i = attrs.length;
-        var attr_names = ['width', 'height', 'xmlns', 'x', 'y', 'viewBox', 'id', 'overflow'];
+        let i = attrs.length;
+        const attrNames = ['width', 'height', 'xmlns', 'x', 'y', 'viewBox', 'id', 'overflow'];
         while (i--) {
           attr = attrs.item(i);
-          var attrVal = toXml(attr.value);
+          const attrVal = toXml(attr.value);
 
           // Namespaces have already been dealt with, so skip
           if (attr.nodeName.indexOf('xmlns:') === 0) {
@@ -1752,8 +1762,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           }
 
           // only serialize attributes we don't use internally
-          if (attrVal != '' && attr_names.indexOf(attr.localName) === -1) {
-
+          if (attrVal && attrNames.indexOf(attr.localName) === -1) {
             if (!attr.namespaceURI || nsMap[attr.namespaceURI]) {
               out.push(' ');
               out.push(attr.nodeName);
@@ -1766,18 +1775,18 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else {
         // Skip empty defs
         if (elem.nodeName === 'defs' && !elem.firstChild) {
-          return;
+          return '';
         }
 
-        var moz_attrs = ['-moz-math-font-style', '_moz-math-font-style'];
-        for (i = attrs.length - 1; i >= 0; i--) {
+        const mozAttrs = ['-moz-math-font-style', '_moz-math-font-style'];
+        for (let i = attrs.length - 1; i >= 0; i--) {
           attr = attrs.item(i);
-          var attrVal = toXml(attr.value);
-          //remove bogus attributes added by Gecko
-          if (moz_attrs.indexOf(attr.localName) >= 0) {
+          let attrVal = toXml(attr.value);
+          // remove bogus attributes added by Gecko
+          if (mozAttrs.indexOf(attr.localName) >= 0) {
             continue;
           }
-          if (attrVal != '') {
+          if (attrVal) {
             if (attrVal.indexOf('pointer-events') === 0) {
               continue;
             }
@@ -1788,10 +1797,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             if (elem.tagName === 'path' && attr.localName === 'd') {
               attrVal = pathActions.convertPath(elem, true);
             }
-            if (!isNaN(attrVal)) {
-              attrVal = svgedit.units.shortFloat(attrVal);
-            } else if (unit_re.test(attrVal)) {
-              attrVal = svgedit.units.shortFloat(attrVal) + unit;
+            const floatValue = svgedit.units.shortFloat(attrVal);
+            if (!Number.isNaN(floatValue)) {
+              attrVal = floatValue;
+            } else if (unitRe.test(attrVal)) {
+              attrVal = floatValue + unit;
             }
 
             // Embed images when saving
@@ -1823,8 +1833,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         indent++;
         var bOneLine = false;
 
-        for (i = 0; i < childs.length; i++) {
-          var child = childs.item(i);
+        for (let i = 0; i < childs.length; i++) {
+          const child = childs.item(i);
           switch (child.nodeType) {
             case 1: // element node
               out.push('\n');
@@ -1832,8 +1842,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               break;
             case 3: // text node
               // to keep the spaces before a line
-              var str = elem.tagName === 'tspan' ? child.nodeValue : child.nodeValue.replace(/^\s+|\s+$/g, '');
-              if (str != '') {
+              const str = elem.tagName === 'tspan' ? child.nodeValue : child.nodeValue.replace(/^\s+|\s+$/g, '');
+              if (str) {
                 bOneLine = true;
                 out.push(String(toXml(str)));
               }
@@ -1852,12 +1862,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               out.push(child.data);
               out.push('-->');
               break;
-          } // switch on node type
+            default:
+              break;
+          }
         }
         indent--;
         if (!bOneLine) {
           out.push('\n');
-          for (i = 0; i < indent; i++) {
+          for (let i = 0; i < indent; i++) {
             out.push(' ');
           }
         }
@@ -1880,10 +1892,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // String or Binary containing image ids and image sources
   this.getImageSource = async () => {
     const images = $('#svgcontent').find('image').toArray();
-    let ret = {};
+    const ret = {};
     for (let i = 0; i < images.length; i++) {
-      let blobUrl = images[i].getAttributeNS(null, 'origImage');
-      let id = images[i].getAttributeNS(null, 'id');
+      const blobUrl = images[i].getAttributeNS(null, 'origImage');
+      const id = images[i].getAttributeNS(null, 'id');
       if (blobUrl) {
         const res = await fetch(blobUrl);
         const blob = await res.blob();
@@ -1892,8 +1904,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }
     return ret;
-  }
-
+  };
 
   // Function: embedImage
   // Converts a given image file to a data URL when possible, then runs a given callback
@@ -1925,14 +1936,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }).attr('src', val);
   };
-
-  // Function: setGoodImage
-  // Sets a given URL to be a "last good image" URL
-  this.setGoodImage = function (val) {
-    last_good_img_url = val;
-  };
-
-  this.getGoodImage = () => last_good_img_url;
 
   this.open = function () {
     // Nothing by default, handled by optional widget/extension
@@ -2040,11 +2043,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       var docTitle = getDocumentTitle();
       doc.setProperties({
         title: docTitle
-        /*,
+        /* ,
               subject: '',
               author: '',
               keywords: '',
-              creator: ''*/
+              creator: '' */
       });
       var issues = getIssues();
       var str = that.svgCanvasToString();
@@ -2087,30 +2090,30 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return new Promise((resolve, reject) => {
       try {
         const [width, height] = dimensions;
-        let canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        let ctx = canvas.getContext('2d');
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        const ctx = tempCanvas.getContext('2d');
         const svgUrl = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgString);
-        let img = new Image();
+        const img = new Image();
         img.onload = function () {
           ctx.drawImage(img, 0, 0);
           URL.revokeObjectURL(svgUrl);
           switch (type) {
             case 'png':
-              resolve(canvas.toDataURL('image/png'));
+              resolve(tempCanvas.toDataURL('image/png'));
               break;
             case 'jpg':
               ctx.globalCompositeOperation = 'destination-over';
               ctx.fillStyle = 'white';
               ctx.fillRect(0, 0, width, height);
-              resolve(canvas.toDataURL('image/jpeg', 1.0));
+              resolve(tempCanvas.toDataURL('image/jpeg', 1.0));
               break;
             default:
               resolve(false);
               break;
           }
-        }
+        };
         img.src = svgUrl;
       } catch (err) {
         reject(err);
@@ -2130,7 +2133,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // this BEFORE calling svgCanvas.setSvgString
   //
   this.randomizeIds = function (enableRandomization) {
-    if (arguments.length > 0 && enableRandomization == false) {
+    if (arguments.length > 0 && !enableRandomization) {
       svgedit.draw.randomizeIds(false, getCurrentDrawing());
     } else {
       svgedit.draw.randomizeIds(true, getCurrentDrawing());
@@ -2497,7 +2500,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }
     return res.join('');
-  }
+  };
 
   //
   // Function: setSvgString
@@ -2679,8 +2682,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       addCommandToHistory(batchCmd);
       call('changed', [svgcontent]);
-      const layers = $('#svgcontent > g.layer').toArray();
-      layers.forEach(layer => {
+      const layers: SVGGElement[] = $('#svgcontent > g.layer').toArray();
+      layers.forEach((layer) => {
         this.updateLayerColor(layer);
         const childNodes = Array.from(layer.childNodes);
         while (childNodes.length > 0) {
@@ -2700,15 +2703,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return true;
   };
 
-  let removeDefaultLayerIfEmpty = this.removeDefaultLayerIfEmpty = () => {
+  const removeDefaultLayerIfEmpty = this.removeDefaultLayerIfEmpty = () => {
     const defaultLayerName = LANG.right_panel.layer_panel.layer1;
     const drawing = getCurrentDrawing();
     const layer = drawing.getLayerByName(defaultLayerName);
     if (layer) {
       const childNodes = Array.from(layer.childNodes);
-      const isEmpty = childNodes.every((node: Element) => {
-        return ['title', 'filter'].includes(node.tagName)
-      });
+      const isEmpty = childNodes.every((node: Element) => ['title', 'filter'].includes(node.tagName));
       if (isEmpty) {
         console.log('default layer is empty. delete it!');
         svgCanvas.setCurrentLayer(defaultLayerName);
@@ -2717,7 +2718,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         LayerPanelController.updateLayerPanel();
       }
     }
-  }
+  };
 
   // Function: importSvgString
   // This function imports the input SVG XML as a <symbol> in the <defs>, then adds a
@@ -2743,12 +2744,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (!symbol) {
         return null;
       }
-      const use_el = svgdoc.createElementNS(NS.SVG, 'use');
-      use_el.id = getNextId();
-      setHref(use_el, '#' + symbol.id);
-      //switch currentLayer, and create layer if necessary
-      if ((type === 'layer' && layerName) || (type === 'color' && symbol.getAttribute('data-color') || (type === 'image-trace'))) {
-
+      const useEl = svgdoc.createElementNS(NS.SVG, 'use');
+      useEl.id = getNextId();
+      setHref(useEl, '#' + symbol.id);
+      // switch currentLayer, and create layer if necessary
+      if ((type === 'layer' && layerName) || ((type === 'color' && symbol.getAttribute('data-color')) || (type === 'image-trace'))) {
         const color = symbol.getAttribute('data-color');
         if (type === 'image-trace') {
           layerName = 'Traced Path';
@@ -2763,13 +2763,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           layer.color = color;
 
           if (type === 'layer' && layerName) {
-            let matchPara = layerName.match(/#([-SP0-9\.]*\b)/i);
+            const matchPara = layerName.match(/#([-SP0-9\.]*\b)/i);
             if (matchPara) {
-              let matchPower = matchPara[1].match(/P([-0-9\.]*)/i);
-              let matchSpeed = matchPara[1].match(/S([-0-9\.]*)/i);
+              const matchPower = matchPara[1].match(/P([-0-9\.]*)/i);
+              const matchSpeed = matchPara[1].match(/S([-0-9\.]*)/i);
               let parsePower = matchPower ? parseFloat(matchPower[1]) : NaN;
               let parseSpeed = matchSpeed ? parseFloat(matchSpeed[1]) : NaN;
-              let laserConst = LANG.right_panel.laser_panel;
+              const laserConst = LANG.right_panel.laser_panel;
               if (!isNaN(parsePower)) {
                 parsePower = Math.round(parsePower * 10) / 10;
                 parsePower = Math.max(Math.min(parsePower, laserConst.power.max), laserConst.power.min);
@@ -2782,9 +2782,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               }
             }
           } else if (type === 'color') {
-            let layerColorConfig = storage.get('layer-color-config') || {};
-            let index = layerColorConfig.dict ? layerColorConfig.dict[layerName] : undefined;
-            let laserConst = LANG.right_panel.laser_panel;
+            const layerColorConfig = storage.get('layer-color-config') || {};
+            const index = layerColorConfig.dict ? layerColorConfig.dict[layerName] : undefined;
+            const laserConst = LANG.right_panel.laser_panel;
             if (index !== undefined) {
               $(layer).attr('data-strength', Math.max(Math.min(layerColorConfig.array[index].power, laserConst.power.max), laserConst.power.min));
               $(layer).attr('data-speed', Math.max(Math.min(layerColorConfig.array[index].speed, laserConst.laser_speed.max), laserConst.laser_speed.min));
@@ -2797,20 +2797,20 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         svgCanvas.setCurrentLayer(layerName);
       }
 
-      getCurrentDrawing().getCurrentLayer().appendChild(use_el);
+      getCurrentDrawing().getCurrentLayer().appendChild(useEl);
 
-      $(use_el).data('symbol', symbol).data('ref', symbol);
+      $(useEl).data('symbol', symbol).data('ref', symbol);
 
-      use_el.setAttribute('data-symbol', symbol);
-      use_el.setAttribute('data-ref', symbol);
-      use_el.setAttribute('data-svg', true);
-      use_el.setAttribute('data-ratiofixed', true);
+      useEl.setAttribute('data-symbol', symbol);
+      useEl.setAttribute('data-ref', symbol);
+      useEl.setAttribute('data-svg', true);
+      useEl.setAttribute('data-ratiofixed', true);
 
       if (type === 'nolayer') {
-        use_el.setAttribute('data-wireframe', true);
-        let iterationStack = [symbol];
+        useEl.setAttribute('data-wireframe', true);
+        const iterationStack = [symbol];
         while (iterationStack.length > 0) {
-          let node = iterationStack.pop();
+          const node = iterationStack.pop();
           if (node.nodeType === 1 && node.tagName !== 'STYLE') {
             if (!['g', 'tspan'].includes(node.tagName)) {
               node.setAttribute('data-wireframe', true);
@@ -2822,9 +2822,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       }
 
-      batchCmd.addSubCommand(new history.InsertElementCommand(use_el));
+      batchCmd.addSubCommand(new history.InsertElementCommand(useEl));
 
-      return use_el;
+      return useEl;
     }
     function rgbToHex(rgbStr) {
       const rgb = rgbStr.substring(4).split(',');
@@ -2846,7 +2846,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       let dataXform = '';
 
       if (it) {
-        dataXform = `x=0 y=0 width=${bb.width} height=${bb.height}`
+        dataXform = `x=0 y=0 width=${bb.width} height=${bb.height}`;
       } else {
         $.each(bb, function (key: string, value) {
           dataXform = `${dataXform}${key}=${value} `;
@@ -2903,7 +2903,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   canvas.resetRandomColors = () => {
     randomColors = ['#333333', '#3F51B5', '#F44336', '#FFC107', '#8BC34A', '#2196F3', '#009688', '#FF9800', '#CDDC39', '#00BCD4', '#FFEB3B', '#E91E63', '#673AB7', '#03A9F4', '#9C27B0', '#607D8B', '#9E9E9E'];
-  }
+  };
 
   var getRandomLayerColor = canvas.getRandomLayerColor = function () {
     if (randomColors.length === 0) {
@@ -2920,8 +2920,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Parameters:
   // name - The given name
   this.createLayer = function (name, hrService, hexCode) {
-    let drawing = getCurrentDrawing();
-    let new_layer = drawing.createLayer(name, historyRecordingService(hrService));
+    const drawing = getCurrentDrawing();
+    const newLayer = drawing.createLayer(name, historyRecordingService(hrService));
     if (drawing.layer_map[name]) {
       if (name && name.indexOf('#') === 0) {
         drawing.layer_map[name].setColor(name);
@@ -2931,10 +2931,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         drawing.layer_map[name].setColor(getRandomLayerColor());
       }
     }
-    this.updateLayerColorFilter(new_layer);
+    this.updateLayerColorFilter(newLayer);
     clearSelection();
-    call('changed', [new_layer]);
-    return new_layer;
+    call('changed', [newLayer]);
+    return newLayer;
   };
 
   /**
@@ -2985,7 +2985,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.setCurrentLayer = function (name) {
     var result = getCurrentDrawing().setCurrentLayer(svgedit.utilities.toXml(name));
     if (result) {
-      //clearSelection();
+      // clearSelection();
     }
     return result;
   };
@@ -3044,7 +3044,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         tempGroup.appendChild(elems[j]);
       }
     }
-  }
+  };
 
   // Function: setLayerVisibility
   // Sets the visibility of the layer. If the layer name is not valid, this function return
@@ -3099,7 +3099,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     // loop for each selected element and move it
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
 
@@ -3147,14 +3147,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     call('changed', [svgcontent]);
   };
 
-  let hexToRgb = (hexColorCode) => {
-    let res = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColorCode);
+  const hexToRgb = (hexColorCode) => {
+    const res = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColorCode);
     if (res) {
       return {
         r: parseInt(res[1], 16),
         g: parseInt(res[2], 16),
         b: parseInt(res[3], 16),
-      }
+      };
     }
     return { r: 0, g: 0, b: 0 };
   };
@@ -3162,7 +3162,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.updateLayerColorFilter = (layer) => {
     const color = this.isUsingLayerColor ? $(layer).attr('data-color') : '#000';
     const { r, g, b } = hexToRgb(color);
-    let filter = Array.from(layer.childNodes).filter((child: Element) => child.tagName === 'filter')[0] as Element;
+    const filter = Array.from(layer.childNodes).filter((child: Element) => child.tagName === 'filter')[0] as Element;
     if (filter) {
       filter.setAttribute('id', `filter${color}`);
       let colorMatrix = Array.from(filter.childNodes).filter((child: Element) => child.tagName === 'feColorMatrix')[0] as Element;
@@ -3192,7 +3192,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       colorFilter.appendChild(colorMatrix);
       layer.appendChild(colorFilter);
     }
-  }
+  };
 
   this.updateLayerColor = function (layer) {
     const color = this.isUsingLayerColor ? $(layer).attr('data-color') : '#000';
@@ -3209,10 +3209,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.updateElementColor = function (elem) {
     const color = this.isUsingLayerColor ? $(LayerHelper.getObjectLayer(elem).elem).attr('data-color') : '#000';
     this.setElementsColor([elem], color);
-  }
+  };
 
   this.setElementsColor = function (elems, color) {
-    let descendants = [...elems];
+    const descendants = [...elems];
     let svg_by_color = 0;
     let svg_by_layer = false;
     while (descendants.length > 0) {
@@ -3256,10 +3256,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const shadow_root = $(href).toArray();
         descendants.push(...shadow_root);
       } else {
-        //console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
+        // console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
       }
     }
-  }
+  };
 
   // Function: leaveContext
   // Return from a group context to the regular kind, make any previously
@@ -3349,37 +3349,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Alias function
   this.linkControlPoints = pathActions.linkControlPoints;
 
-  // Function: getContentElem
-  // Returns the content DOM element
-  this.getContentElem = function () {
-    return svgcontent;
-  };
-
-  // Function: getRootElem
-  // Returns the root DOM element
-  this.getRootElem = function () {
-    return svgroot;
-  };
-
-  // Function: getSelectedElems
-  // Returns the array with selected DOM elements
-  this.getSelectedElems = function () {
-    return selectedElements;
-  };
-
-  // Function: getTempGroup
-  // Returns flag denoted the state of temp group
-  this.getTempGroup = function () {
-    return tempGroup;
-  };
-
   this.getSelectedWithoutTempGroup = () => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     return selectedElements;
-  }
+  };
 
   // Function: getResolution
   // Returns the current dimensions and zoom level in an object
@@ -3408,7 +3384,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.getSnapToGrid = function () {
     return curConfig.gridSnapping;
   };
-
 
   // Function: getVersion
   // Returns a string which describes the revision number of SvgCanvas.
@@ -3713,12 +3688,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     runExtensions('zoomChanged', zoomlevel);
   };
 
-  // Function: getMode
-  // Returns the current editor mode string
-  this.getMode = function () {
-    return current_mode;
-  };
-
   // Function: setMode
   // Sets the editor's mode to the given string
   //
@@ -3762,7 +3731,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       case 'path':
         $('#left-Pen').addClass('active');
         break;
-    };
+    }
   };
 
   // Group: Element Styling
@@ -3860,19 +3829,19 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     while (i--) {
       var og = existing_grads[i];
       if (grad.tagName === 'linearGradient') {
-        if (grad.getAttribute('x1') != og.getAttribute('x1') ||
-          grad.getAttribute('y1') != og.getAttribute('y1') ||
-          grad.getAttribute('x2') != og.getAttribute('x2') ||
-          grad.getAttribute('y2') != og.getAttribute('y2')) {
+        if (grad.getAttribute('x1') !== og.getAttribute('x1') ||
+          grad.getAttribute('y1') !== og.getAttribute('y1') ||
+          grad.getAttribute('x2') !== og.getAttribute('x2') ||
+          grad.getAttribute('y2') !== og.getAttribute('y2')) {
           continue;
         }
       } else {
-        var grad_attrs = $(grad).attr(rad_attrs);
-        var og_attrs = $(og).attr(rad_attrs);
+        const gradAttrs = $(grad).attr(rad_attrs);
+        const ogAttrs = $(og).attr(rad_attrs);
+        let diff = false;
 
-        var diff = false;
         $.each(rad_attrs, function (i, attr) {
-          if (grad_attrs[attr] != og_attrs[attr]) {
+          if (gradAttrs[attr] !== ogAttrs[attr]) {
             diff = true;
           }
         });
@@ -3895,9 +3864,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         var stop = stops[j];
         var ostop = ostops[j];
 
-        if (stop.getAttribute('offset') != ostop.getAttribute('offset') ||
-          stop.getAttribute('stop-opacity') != ostop.getAttribute('stop-opacity') ||
-          stop.getAttribute('stop-color') != ostop.getAttribute('stop-color')) {
+        if (stop.getAttribute('offset') !== ostop.getAttribute('offset') ||
+          stop.getAttribute('stop-opacity') !== ostop.getAttribute('stop-opacity') ||
+          stop.getAttribute('stop-color') !== ostop.getAttribute('stop-color')) {
           break;
         }
       }
@@ -3951,7 +3920,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       }
     }
-  }
+  };
 
   // Function: setPaint
   // Set a color/gradient to a fill/stroke
@@ -4389,7 +4358,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     addCommandToHistory(batchCmd);
   };
 
-
   // Function: setRectRadius
   // Sets the rx & ry values to the selected rect element to change its corner radius
   //
@@ -4399,7 +4367,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     var selected = selectedElements[0];
     if (selected != null && selected.tagName === 'rect') {
       var r = selected.getAttribute('rx');
-      if (r != val) {
+      if (String(r) !== String(val)) {
         selected.setAttribute('rx', val);
         selected.setAttribute('ry', val);
         addCommandToHistory(new history.ChangeElementCommand(selected, {
@@ -4412,12 +4380,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.isElemFillable = (elem) => {
-    let fillableTags = ['rect', 'ellipse', 'path', 'text', 'polygon', 'g'];
+    const fillableTags = ['rect', 'ellipse', 'path', 'text', 'polygon', 'g'];
     if (!fillableTags.includes(elem.tagName)) {
       return false;
-    };
+    }
     if (elem.tagName === 'g') {
-      let childNodes = elem.childNodes;
+      const childNodes = elem.childNodes;
       for (let i = 0; i < childNodes.length; i++) {
         if (!this.isElemFillable(childNodes[i])) {
           return false;
@@ -4427,13 +4395,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     return elem.tagName === 'path' ? this.calcPathClosed(elem) : true;
-  }
+  };
 
   this.calcPathClosed = (pathElem) => {
     const segList = pathElem.pathSegList._list || pathElem.pathSegList;
     let [startX, startY, currentX, currentY, isDrawing, isClosed] = [0, 0, 0, 0, false, true];
     for (let i = 0; i < segList.length; i++) {
-      let seg = segList[i];
+      const seg = segList[i];
       switch (seg.pathSegType) {
         case 1:
           [currentX, currentY] = [startX, startY];
@@ -4464,22 +4432,22 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       isClosed = false;
     }
     return isClosed;
-  }
+  };
 
   this.calcElemFilledInfo = (elem) => {
-    let fillableTags = ['rect', 'ellipse', 'path', 'text', 'polygon', 'g'];
+    const fillableTags = ['rect', 'ellipse', 'path', 'text', 'polygon', 'g'];
     if (!fillableTags.includes(elem.tagName)) {
       return {
         isAnyFilled: false,
         isAllFilled: false
       };
-    };
+    }
     if (elem.tagName === 'g') {
-      let childNodes = elem.childNodes;
+      const childNodes = elem.childNodes;
       let isAnyFilled;
       let isAllFilled = true;
       for (let i = 0; i < childNodes.length; i++) {
-        let childFilledInfo = this.calcElemFilledInfo(childNodes[i]);
+        const childFilledInfo = this.calcElemFilledInfo(childNodes[i]);
         if (childFilledInfo.isAnyFilled) {
           isAnyFilled = true;
         }
@@ -4492,15 +4460,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
       return { isAnyFilled, isAllFilled };
     }
-    let isFilled = (Number.parseFloat(elem.getAttribute('fill-opacity')) !== 0) && $(elem).attr('fill') !== 'none';
+    const isFilled = (Number.parseFloat(elem.getAttribute('fill-opacity')) !== 0) && $(elem).attr('fill') !== 'none';
     return {
       isAnyFilled: isFilled,
       isAllFilled: isFilled
     };
-  }
+  };
 
   this.setElemsFill = function (elems) {
-    let batchCmd = new history.BatchCommand('set elems fill');
+    const batchCmd = new history.BatchCommand('set elems fill');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
       if (elem == null) {
@@ -4513,22 +4481,22 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           continue;
         }
         const color = $(elem).attr('stroke') || '#333';
-        let cmd = this.setElementFill(elem, color);
+        const cmd = this.setElementFill(elem, color);
         if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       } else if (elem.tagName === 'g') {
         this.setElemsFill(elem.childNodes);
       } else {
-        console.log(`Not support type: ${elem.tagName}`)
+        console.log(`Not support type: ${elem.tagName}`);
       }
     }
     if (TutorialController.getNextStepRequirement() === TutorialConstants.INFILL) {
       TutorialController.handleNextStep();
     }
     if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
-  }
+  };
 
   this.setElementFill = function (elem, color) {
-    let batchCmd = new history.BatchCommand('set elem fill');
+    const batchCmd = new history.BatchCommand('set elem fill');
     let cmd;
     canvas.undoMgr.beginUndoableChange('fill', [elem]);
     elem.setAttribute('fill', color);
@@ -4539,10 +4507,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     cmd = canvas.undoMgr.finishUndoableChange();
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     return batchCmd;
-  }
+  };
 
   this.setElemsUnfill = function (elems) {
-    let batchCmd = new history.BatchCommand('set elems unfill');
+    const batchCmd = new history.BatchCommand('set elems unfill');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
       if (elem == null) {
@@ -4555,19 +4523,19 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           continue;
         }
         const color = $(elem).attr('fill') || '#333';
-        let cmd = this.setElementUnfill(elem, color);
+        const cmd = this.setElementUnfill(elem, color);
         if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       } else if (elem.tagName === 'g') {
         this.setElemsUnfill(elem.childNodes);
       } else {
-        console.log(`Not support type: ${elem.tagName}`)
+        console.log(`Not support type: ${elem.tagName}`);
       }
     }
     if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
-  }
+  };
 
   this.setElementUnfill = function (elem, color) {
-    let batchCmd = new history.BatchCommand('set elem unfill');
+    const batchCmd = new history.BatchCommand('set elem unfill');
     let cmd;
     canvas.undoMgr.beginUndoableChange('stroke', [elem]);
     elem.setAttribute('stroke', color);
@@ -4582,7 +4550,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     cmd = canvas.undoMgr.finishUndoableChange();
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     return batchCmd;
-  }
+  };
 
   // Function: makeHyperlink
   // Wraps the selected element(s) in an anchor element or converts group to one
@@ -4636,7 +4604,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     return path;
   };
-
 
   // Function: changeSelectedAttributeNoUndo
   // This function makes the changes to the elements. It does not add the change
@@ -4754,7 +4721,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           var n = tlist.numberOfItems;
           while (n--) {
             var xform = tlist.getItem(n);
-            if (xform.type == 4) {
+            if (String(xform.type) === '4') {
               // remove old rotate
               tlist.removeItem(n);
 
@@ -4804,11 +4771,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     }
     autoSaveHelper.toggleAutoSave(hasUnsaveChanged);
-  }
+  };
 
-  this.getHasUnsaveChanged = () => {
-    return canvas.changed;
-  }
+  this.getHasUnsaveChanged = () => canvas.changed;
 
   // Function: getLatestImportFileName
   // Get latest imported file name
@@ -4819,31 +4784,31 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (window.os === 'Windows' && window.titlebar) {
       window.titlebar.updateTitle(fileName);
     } else {
-      $('#svgcanvas').trigger('mouseup'); //update file title
+      $('#svgcanvas').trigger('mouseup'); // update file title
     }
-  }
+  };
 
   // Function: getLatestImportFileName
   // Get latest imported file name
   this.getLatestImportFileName = function () {
     return this.latestImportFileName;
-  }
+  };
 
   this.updateRecentFiles = (filePath) => {
-    let recentFiles = storage.get('recent_files') || [];
+    const recentFiles = storage.get('recent_files') || [];
     const i = recentFiles.indexOf(filePath);
     if (i > 0) {
       recentFiles.splice(i, 1);
       recentFiles.unshift(filePath);
     } else if (i < 0) {
-      let l = recentFiles.unshift(filePath);
+      const l = recentFiles.unshift(filePath);
       if (l > 10) {
         recentFiles.pop();
       }
     }
     storage.set('recent_files', recentFiles);
     recentMenuUpdater.update();
-  }
+  };
 
   recentMenuUpdater.update();
 
@@ -4861,7 +4826,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    */
   this.booleanOperationSelectedElements = function (mode, isSubCmd = false) {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     let len = selectedElements.length;
@@ -4887,30 +4852,20 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
       return;
     }
-    let batchCmd = new history.BatchCommand(`${mode} Elements`);
+    const batchCmd = new history.BatchCommand(`${mode} Elements`);
     const modemap = { 'intersect': 0, 'union': 1, 'diff': 2, 'xor': 3 };
     const clipType = modemap[mode];
-    let succeeded = true;
     let d = '';
-    if (len === 2) {
-      let base = selectedElements[0].outerHTML;
-      for (let i = len - 1; i >= 1; i -= 1) {
-        d = pathActions.booleanOperationByPaperjs(
-          base,
-          selectedElements[i],
-          clipType
-        );
-        base = `<path d="${d}" />`;
-      }
-      succeeded = true;
+    let basePathText = selectedElements[0].outerHTML;
+    for (let i = len - 1; i >= 1; i -= 1) {
+      d = pathActions.booleanOperationByPaperjs(
+        basePathText,
+        selectedElements[i],
+        clipType
+      );
+      basePathText = `<path d="${d}" />`;
     }
 
-    if (!succeeded) {
-      console.log('Clipper not succeeded');
-      return;
-    }
-
-    const base = selectedElements[len - 1];
     const element = addSvgElementFromJson({
       element: 'path',
       curStyles: false,
@@ -4918,8 +4873,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         id: getNextId(),
         d,
         stroke: '#000',
-        fill: base.getAttribute('fill'),
-        'fill-opacity': base.getAttribute('fill-opacity'),
+        fill: basePathText.getAttribute('fill'),
+        'fill-opacity': basePathText.getAttribute('fill-opacity'),
         opacity: cur_shape.opacity
       }
     });
@@ -4928,12 +4883,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       this.updateElementColor(element);
     }
     batchCmd.addSubCommand(new history.InsertElementCommand(element));
-    let cmd = deleteSelectedElements(true);
+    const cmd = deleteSelectedElements(true);
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     if (!isSubCmd) addCommandToHistory(batchCmd);
     this.selectOnly([element], true);
     return batchCmd;
-  }
+  };
 
   this.simplifyPath = (elems) => {
     if (tempGroup) {
@@ -4990,19 +4945,19 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       setTimeout(() => resolve(), 100);
     });
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     elems = elems || selectedElements;
-    let batchCmd = new history.BatchCommand('Create Offset Elements');
+    const batchCmd = new history.BatchCommand('Create Offset Elements');
     let solution_paths = [];
     const scale = 100;
 
     if (dir === 0) {
-      dist *= -1
-    };
+      dist *= -1;
+    }
     let isContainNotSupportTag = false;
-    let co = new ClipperLib.ClipperOffset(2, 0.25);
+    const co = new ClipperLib.ClipperOffset(2, 0.25);
     elems.forEach(elem => {
       if (!elem) {
         return;
@@ -5014,7 +4969,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
       const dpath = svgedit.utilities.getPathDFromElement(elem);
       const bbox = svgedit.utilities.getBBox(elem);
-      let rotation = {
+      const rotation = {
         angle: svgedit.utilities.getRotationAngle(elem),
         cx: bbox.x + bbox.width / 2,
         cy: bbox.y + bbox.height / 2
@@ -5041,8 +4996,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     co.Execute(solution_paths, Math.abs(dist * scale));
     if (dir === 1) {
       if (solution_paths.length > 0) {
-        let clipper = new ClipperLib.Clipper();
-        let res = [solution_paths[0]];
+        const clipper = new ClipperLib.Clipper();
+        const res = [solution_paths[0]];
         let succeeded = true;
         for (let i = 1; i < solution_paths.length; i++) {
           clipper.AddPaths(res, ClipperLib.PolyType.ptSubject, true);
@@ -5126,14 +5081,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.decomposePath = (elems) => {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
-    let allNewPaths = [];
-    let batchCmd = new history.BatchCommand('Decompose Image');
+    const allNewPaths = [];
+    const batchCmd = new history.BatchCommand('Decompose Image');
     elems = elems || selectedElements;
     elems.forEach(elem => {
-      if (!elem || elem.tagName != 'path') {
+      if (!elem || elem.tagName !== 'path') {
         return;
       }
       const angle = svgedit.utilities.getRotationAngle(elem);
@@ -5172,7 +5127,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       if (newPaths.length > 0) {
         selectOnly(newPaths, false);
-        let g = this.tempGroupSelectedElements();
+        const g = this.tempGroupSelectedElements();
         this.setRotationAngle(angle, true, g);
         allNewPaths.push(...newPaths);
       }
@@ -5212,7 +5167,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
       return;
     }
-    let batchCmd = new history.BatchCommand('Vectorize Image');
+    const batchCmd = new history.BatchCommand('Vectorize Image');
     Progress.openNonstopProgress({
       id: 'vectorize-image',
       message: LANG.photo_edit_panel.processing,
@@ -5221,7 +5176,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const angle = svgedit.utilities.getRotationAngle(img);
     const imgUrl = await new Promise((resolve) => {
       ImageData(
-        $(img).attr("origImage"),
+        $(img).attr('origImage'),
         {
           height: $(img).height(),
           width: $(img).width(),
@@ -5276,7 +5231,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const dy = (imgBBox.y + 0.5 * imgBBox.height) - (gBBox.y + 0.5 * gBBox.height);
     let d = '';
     for (let i = 0; i < g.childNodes.length; i++) {
-      let child = g.childNodes[i];
+      const child = g.childNodes[i];
       if (child.getAttribute('opacity') !== '0') {
         d += child.getAttribute('d');
       }
@@ -5318,9 +5273,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!confirm) {
       return;
     }
-    //Wait for alert close
+    // Wait for alert close
     await new Promise((resolve) => setTimeout(resolve, 20));
-    let batchCmd = new history.BatchCommand('Disassemble Use');
+    const batchCmd = new history.BatchCommand('Disassemble Use');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
       if (!elem || elem.tagName !== 'use') {
@@ -5346,17 +5301,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       const wireframe = $(elem).data('wireframe');
       let transform = $(elem).attr('transform') || '';
-      const translate = `translate(${$(elem).attr('x') || 0},${$(elem).attr('y') || 0})`
+      const translate = `translate(${$(elem).attr('x') || 0},${$(elem).attr('y') || 0})`;
       transform = `${transform} ${translate}`;
       const href = this.getHref(elem);
       const svg = $(href).toArray()[0];
-      let children = [...Array.from(svg.childNodes).reverse()];
-      let g = document.createElementNS(svgedit.NS.SVG, 'g');
+      const children = [...Array.from(svg.childNodes).reverse()];
+      const g = document.createElementNS(svgedit.NS.SVG, 'g');
       g.setAttribute('id', getNextId());
       g.setAttribute('transform', transform);
       while (children.length > 0) {
-        let topChild = children.pop() as Element;
-        let copy = drawing.copyElem(topChild);
+        const topChild = children.pop() as Element;
+        const copy = drawing.copyElem(topChild);
         if (topChild.tagName !== 'defs') {
           g.appendChild(copy);
         }
@@ -5402,7 +5357,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       batchCmd.addSubCommand(new history.InsertElementCommand(g));
       batchCmd.addSubCommand(new history.RemoveElementCommand(elem, elem.nextSibling, elem.parentNode));
       elem.parentNode.removeChild(elem);
-      let angle = svgedit.utilities.getRotationAngle(g);
+      const angle = svgedit.utilities.getRotationAngle(g);
       if (angle) canvas.setRotationAngle(0, true, g);
       svgedit.recalculate.recalculateDimensions(g);
       if (angle) canvas.setRotationAngle(angle, true, g);
@@ -5428,14 +5383,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (batchCmd && !batchCmd.isEmpty()) {
       addCommandToHistory(batchCmd);
     }
-  }
+  };
 
   this.toggleBezierPathAlignToEdge = () => {
     const isBezierPathAlignToEdge = !(this.isBezierPathAlignToEdge || false);
     this.isBezierPathAlignToEdge = isBezierPathAlignToEdge;
     $('#x_align_line').remove();
     $('#y_align_line').remove();
-  }
+  };
 
   this.drawAlignLine = function (x, y, xMatchPoint, yMatchPoint) {
     let xAlignLine = svgedit.utilities.getElem('x_align_line');
@@ -5447,11 +5402,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           stroke: '#FA6161',
           'stroke-width': '0.5',
           fill: 'none',
-          'vector-effect': "non-scaling-stroke"
+          'vector-effect': 'non-scaling-stroke'
         });
         svgedit.utilities.getElem('svgcontent').appendChild(xAlignLine);
       }
-      xAlignLine.setAttribute('d', `M ${xMatchPoint.x} ${xMatchPoint.y} L ${xMatchPoint.x} ${yMatchPoint ? yMatchPoint.y : y / current_zoom}`)
+      xAlignLine.setAttribute('d', `M ${xMatchPoint.x} ${xMatchPoint.y} L ${xMatchPoint.x} ${yMatchPoint ? yMatchPoint.y : y / current_zoom}`);
       xAlignLine.setAttribute('display', 'inline');
     } else {
       if (xAlignLine) {
@@ -5467,18 +5422,18 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           stroke: '#FA6161',
           'stroke-width': '0.5',
           fill: 'none',
-          'vector-effect': "non-scaling-stroke"
+          'vector-effect': 'non-scaling-stroke'
         });
         svgedit.utilities.getElem('svgcontent').appendChild(yAlignLine);
       }
-      yAlignLine.setAttribute('d', `M ${yMatchPoint.x} ${yMatchPoint.y} L ${xMatchPoint ? xMatchPoint.x : x / current_zoom} ${yMatchPoint.y}`)
+      yAlignLine.setAttribute('d', `M ${yMatchPoint.x} ${yMatchPoint.y} L ${xMatchPoint ? xMatchPoint.x : x / current_zoom} ${yMatchPoint.y}`);
       yAlignLine.setAttribute('display', 'inline');
     } else {
       if (yAlignLine) {
         yAlignLine.setAttribute('display', 'none');
       }
     }
-  }
+  };
 
   this.findMatchPoint = function (x, y) {
     const FUZZY_RANGE = 7;
@@ -5493,45 +5448,37 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       let m;
       while (u > l) {
         m = Math.floor(l + 0.5 * (u - l));
-        if (array[m] === val) {
-          return m;
-        } else if (array[m] > val) {
+        if (array[m] === val) return m;
+        if (array[m] > val) {
           u = m - 1;
         } else {
-          if (m === array.length - 1) {
-            return m;
-          } else if (array[m + 1] > val) {
-            return array[m + 1] + array[m] > 2 * val ? m : m + 1
-          } else {
-            l = m + 1;
-          }
+          if (m === array.length - 1) return m;
+          if (array[m + 1] > val) return array[m + 1] + array[m] > 2 * val ? m : m + 1;
+          l = m + 1;
         }
       }
-      if (u === array.length - 1) {
-        return u;
-      } else {
-        return array[u + 1] + array[u] > 2 * val ? u : u + 1
-      }
-    }
+      if (u === array.length - 1) return u;
+      return array[u + 1] + array[u] > 2 * val ? u : u + 1;
+    };
     if (!this.pathAlignPointsSortByX || !this.pathAlignPointsSortByY) {
       return {};
     }
     let nearestX = bsFindNearest(this.pathAlignPointsSortByX.map((p) => p.x), x / current_zoom);
     nearestX = this.pathAlignPointsSortByX[nearestX];
-    let xMatchPoint = nearestX ? (Math.abs(nearestX.x * current_zoom - x) < FUZZY_RANGE ? nearestX : null) : null;
+    const xMatchPoint = (nearestX && (Math.abs(nearestX.x * current_zoom - x) < FUZZY_RANGE)) ? nearestX : null;
     let nearestY = bsFindNearest(this.pathAlignPointsSortByY.map((p) => p.y), y / current_zoom);
     nearestY = this.pathAlignPointsSortByY[nearestY];
-    let yMatchPoint = nearestY ? (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE ? nearestY : null) : null;
+    const yMatchPoint = (nearestY && (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE)) ? nearestY : null;
     return { xMatchPoint, yMatchPoint };
-  }
+  };
 
   this.collectAlignPoints = () => {
-    let elems = [];
+    const elems = [];
     const layers = $('#svgcontent > g.layer').toArray();
     layers.forEach(layer => {
       elems.push(...layer.childNodes);
     });
-    let points = [];
+    const points = [];
     while (elems.length > 0) {
       const elem = elems.pop();
       points.push(...this.getElemAlignPoints(elem));
@@ -5592,8 +5539,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           break;
         case 'ellipse':
           points = [];
-          let a = 0.5 * bbox.width;
-          let b = 0.5 * bbox.height;
+          const a = 0.5 * bbox.width;
+          const b = 0.5 * bbox.height;
           let theta = Math.atan2(-b * Math.tan(angle), a);
           points.push({ x: center.x + a * Math.cos(theta), y: center.y + b * Math.sin(theta) });
           theta = Math.atan2(b * Math.tan(angle), -a);
@@ -5617,7 +5564,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           const segList = elem.pathSegList._list || elem.pathSegList;
           segList.forEach((seg) => {
             if (seg.x) {
-              points.push({ x: parseFloat(seg.x), y: parseFloat(seg.y) })
+              points.push({ x: parseFloat(seg.x), y: parseFloat(seg.y) });
             }
           });
           break;
@@ -5644,7 +5591,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    */
   this.groupSelectedElements = function (type, urlArg) {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
 
@@ -5672,7 +5619,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     var batchCmd = new history.BatchCommand(cmd_str);
 
-    let layerNames = [];
+    const layerNames = [];
     for (let i = 0; i < selectedElements.length; i++) {
       let elem = selectedElements[i];
       if (elem.parentNode.tagName === 'a' && elem.parentNode.childNodes.length === 1) {
@@ -5703,7 +5650,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       setHref(group, url);
     }
     batchCmd.addSubCommand(new history.InsertElementCommand(group));
-
 
     for (let i = 0; i < selectedElements.length; i++) {
       let elem = selectedElements[i];
@@ -5936,7 +5882,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // significant recalculations to apply group's transforms, etc to its children
   this.ungroupSelectedElement = function (isSubCmd = false) {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     var g = selectedElements[0];
@@ -6141,9 +6087,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (nextSibling) {
         targetLayer.insertBefore(elem, nextSibling);
       } else {
-        targetLayer.appendChild(elem)
+        targetLayer.appendChild(elem);
       }
-      elem.removeAttribute('data-next-sibling')
+      elem.removeAttribute('data-next-sibling');
     } else {
       targetLayer.appendChild(elem);
     }
@@ -6182,9 +6128,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     // Look for parent "a"
     if (g.tagName === 'g' || g.tagName === 'a') {
-
-      let batchCmd = new history.BatchCommand('Ungroup Temp Group');
-      let cmd = pushGroupProperties(g, true);
+      const batchCmd = new history.BatchCommand('Ungroup Temp Group');
+      const cmd = pushGroupProperties(g, true);
       if (cmd) {
         batchCmd.addSubCommand(cmd);
       }
@@ -6217,9 +6162,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           if (nextSibling) {
             targetLayer.insertBefore(elem, nextSibling);
           } else {
-            targetLayer.appendChild(elem)
+            targetLayer.appendChild(elem);
           }
-          elem.removeAttribute('data-next-sibling')
+          elem.removeAttribute('data-next-sibling');
         } else {
           targetLayer.appendChild(elem);
         }
@@ -6249,14 +6194,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Move selected element up in layer
   this.moveUpSelectedElement = function () {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
-    let selected = selectedElements[0];
+    const selected = selectedElements[0];
     if (selected != null) {
       let t = selected;
-      let oldParent = t.parentNode;
-      let oldNextSibling = t.nextSibling;
+      const oldParent = t.parentNode;
+      const oldNextSibling = t.nextSibling;
       let nextSibling = t.nextSibling;
       if (nextSibling) {
         nextSibling = nextSibling.nextSibling;
@@ -6275,15 +6220,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Move selected element back in layer
   this.moveDownSelectedElement = function () {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
-    let selected = selectedElements[0];
+    const selected = selectedElements[0];
     if (selected != null) {
       let t = selected;
-      let oldParent = t.parentNode;
-      let oldNextSibling = t.nextSibling;
-      let prevSibling = t.previousSibling;
+      const oldParent = t.parentNode;
+      const oldNextSibling = t.nextSibling;
+      const prevSibling = t.previousSibling;
       if (prevSibling && !['title', 'filter'].includes(prevSibling.tagName)) {
         t = t.parentNode.insertBefore(t, prevSibling);
         // If the element actually moved position, add the command and fire the changed
@@ -6303,7 +6248,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // dir - String that's either 'top' or 'bottom'
   this.moveTopBottomSelected = function (dir) {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     var selected = selectedElements[0];
@@ -6325,7 +6270,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       t = t.parentNode.appendChild(t);
     }
 
-    if (oldNextSibling != t.nextSibling) {
+    if (oldNextSibling !== t.nextSibling) {
       addCommandToHistory(new history.MoveElementCommand(t, oldNextSibling, oldParent, 'Move ' + dir));
       call('changed', [t]);
     }
@@ -6355,9 +6300,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       case 'path':
       case 'use':
       case 'text':
-        let realLocation = this.getSvgRealLocation(elem);
+        const realLocation = this.getSvgRealLocation(elem);
         centerX = realLocation.x + realLocation.width / 2;
         centerY = realLocation.y + realLocation.height / 2;
+        break;
+      default:
         break;
     }
     return {
@@ -6368,7 +6315,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.distHori = (isSubCmd) => {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
 
@@ -6399,7 +6346,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     for (let i = 1; i < len - 1; i++) {
       const x = this.getCenter(realSelectedElements[i]).x;
-      let cmd = moveElements([minX + dx * i - x], [0], [realSelectedElements[i]], false);
+      const cmd = moveElements([minX + dx * i - x], [0], [realSelectedElements[i]], false);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
       }
@@ -6415,7 +6362,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.distVert = (isSubCmd) => {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
 
@@ -6446,7 +6393,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     for (let i = 1; i < len - 1; i++) {
       const y = this.getCenter(realSelectedElements[i]).y;
-      let cmd = moveElements([0], [minY + dy * i - y], [realSelectedElements[i]], false);
+      const cmd = moveElements([0], [minY + dy * i - y], [realSelectedElements[i]], false);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
       }
@@ -6462,7 +6409,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.distEven = function () {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     const centerXs = [];
@@ -6490,7 +6437,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
       const elem = realSelectedElements[i];
 
-      let center = this.getCenter(elem);
+      const center = this.getCenter(elem);
       centerXs[i] = center.x;
       centerYs[i] = center.y;
       if (center.x < minX) {
@@ -6554,7 +6501,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         break;
       }
     }
-    let batchCmd = new history.BatchCommand('Flip Elements');
+    const batchCmd = new history.BatchCommand('Flip Elements');
 
     for (let i = 0; i < len; ++i) {
       const elem = selectedElements[i];
@@ -6571,9 +6518,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       startTransform = elem.getAttribute('transform'); // maybe not need
 
       let cmd;
-      let stack: { elem?: Element, originalAngle?: number }[] = [{ elem }];
+      const stack: { elem?: Element, originalAngle?: number }[] = [{ elem }];
       while (stack.length > 0) {
-        let { elem: topElem, originalAngle } = stack.pop();
+        const { elem: topElem, originalAngle } = stack.pop();
         if (topElem.tagName !== 'g') {
           cmd = await this.flipElementWithRespectToCenter(topElem, centers[centers.length - 1], flipPara);
           if (cmd && !cmd.isEmpty()) {
@@ -6581,7 +6528,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           }
         } else {
           if (originalAngle == null) {
-            let angle = svgedit.utilities.getRotationAngle(topElem);
+            const angle = svgedit.utilities.getRotationAngle(topElem);
             if (angle !== 0) {
               canvas.undoMgr.beginUndoableChange('transform', [topElem]);
               canvas.setRotationAngle(0, true, topElem);
@@ -6596,15 +6543,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             let { x, y } = centers[centers.length - 1];
             for (let i = 0; i < tlist.numberOfItems; i++) {
               const t = tlist.getItem(i);
-              //type 4 does not matter
+              // type 4 does not matter
               if (t.type === 4) {
                 continue;
               }
-              let { a, b, c, d, e, f } = t.matrix;
+              const { a, b, c, d, e, f } = t.matrix;
               const delta = a * d - b * c;
               x = (d * x - c * y + c * f - d * e) / delta;
               y = (-b * x + a * y - a * f + b * e) / delta;
-            };
+            }
             centers.push({ x, y });
             topElem.childNodes.forEach((e: Element) => {
               stack.push({ elem: e });
@@ -6620,10 +6567,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       svgEditor.updateContextPanel();
     }
     addCommandToHistory(batchCmd);
-  }
+  };
 
   this.flipElementWithRespectToCenter = async function (elem, center, flipPara) {
-    let batchCmd = new history.BatchCommand('Flip Single Element');
+    const batchCmd = new history.BatchCommand('Flip Single Element');
 
     const angle = svgedit.utilities.getRotationAngle(elem);
     canvas.undoMgr.beginUndoableChange('transform', [elem]);
@@ -6646,9 +6593,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const dy = flipPara.vertical < 0 ? 2 * (center.y - cy) : 0;
     const tlist = svgedit.transformlist.getTransformList(elem);
     if (elem.tagName !== 'image') {
-      let translateOrigin = svgroot.createSVGTransform();
-      let scale = svgroot.createSVGTransform();
-      let translateBack = svgroot.createSVGTransform();
+      const translateOrigin = svgroot.createSVGTransform();
+      const scale = svgroot.createSVGTransform();
+      const translateBack = svgroot.createSVGTransform();
 
       translateOrigin.setTranslate(-cx, -cy);
       scale.setScale(flipPara.horizon, flipPara.vertical);
@@ -6674,10 +6621,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     cmd = moveElements([dx], [dy], [elem], false);
     batchCmd.addSubCommand(cmd);
     return batchCmd;
-  }
+  };
 
   this._flipImage = async function (image, horizon = 1, vertical = 1) {
-    let batchCmd = new history.BatchCommand('Flip image');
+    const batchCmd = new history.BatchCommand('Flip image');
     if (horizon === 1 && vertical === 1) {
       return;
     }
@@ -6725,7 +6672,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // "selected", "largest", "smallest", "page"
   this.alignSelectedElements = function (type, relativeTo) {
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     var i, elem;
@@ -6948,7 +6895,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.cycleElement = function (next) {
     var num;
     if (tempGroup) {
-      let children = this.ungroupTempGroup();
+      const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
     var cur_elem = selectedElements[0];
@@ -6963,7 +6910,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     } else {
       var i = all_elems.length;
       while (i--) {
-        if (all_elems[i] == cur_elem) {
+        if (all_elems[i] === cur_elem) {
           num = next ? i - 1 : i + 1;
           if (num >= all_elems.length) {
             num = 0;
@@ -6980,7 +6927,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.clear();
-
 
   // DEPRECATED: getPrivateMethods
   // Since all methods are/should be public somehow, this function should be removed
@@ -7046,7 +6992,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const [key, value] = pair.split('=');
         if (value === undefined) {
           return;
-        };
+        }
         obj[key] = parseFloat(value);
       });
     } else {
@@ -7057,7 +7003,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     obj.x += elemX;
     obj.y += elemY;
     return obj;
-  }
+  };
 
   this.getSvgRealLocation = function (elem) {
     if (elem.tagName === 'text') {
@@ -7077,7 +7023,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const [key, value] = pair.split('=');
         if (value === undefined) {
           return;
-        };
+        }
         obj[key] = parseFloat(value);
       });
     } else {
@@ -7131,7 +7077,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const y = t.matrix.b * p.x + t.matrix.d * p.y + t.matrix.f;
         return { x, y };
       });
-    };
+    }
     let [minX, minY, maxX, maxY] = [points[0].x, points[0].y, points[0].x, points[0].y];
     points.forEach(p => {
       minX = Math.min(p.x, minX);
@@ -7143,7 +7089,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.calculateRotatedBBox = (bbox, angle) => {
-    let points = [
+    const points = [
       { x: bbox.x, y: bbox.y },
       { x: bbox.x + bbox.width, y: bbox.y },
       { x: bbox.x, y: bbox.y + bbox.height },
@@ -7168,7 +7114,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
 
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  }
+  };
 
   this.moveElemPosition = function (dx, dy, elem) {
     if (elem === null) {
@@ -7204,8 +7150,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
         break;
       case 'use':
-        let xform = svgroot.createSVGTransform();
-        let tlist = svgedit.transformlist.getTransformList(elem);
+        const xform = svgroot.createSVGTransform();
+        const tlist = svgedit.transformlist.getTransformList(elem);
 
         xform.setTranslate(dx, dy);
         if (tlist.numberOfItems) {
@@ -7213,6 +7159,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         } else {
           tlist.appendItem(xform);
         }
+        break;
+      default:
         break;
     }
 
@@ -7235,8 +7183,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         break;
     }
 
-    let xform = svgroot.createSVGTransform();
-    let tlist = svgedit.transformlist.getTransformList(selected);
+    const xform = svgroot.createSVGTransform();
+    const tlist = svgedit.transformlist.getTransformList(selected);
 
     xform.setTranslate(dx, dy);
     if (tlist.numberOfItems) {
@@ -7251,7 +7199,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
   // refer to resize behavior in mouseup mousemove mousedown
   this.setSvgElemSize = function (para, val, undoable) {
-    let batchCmd = new history.BatchCommand('set size');
+    const batchCmd = new history.BatchCommand('set size');
     const selected = selectedElements[0];
     if (!selected) return;
     const realLocation = this.getSvgRealLocation(selected);
@@ -7266,16 +7214,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         break;
     }
 
-    startTransform = selected.getAttribute('transform'); //???maybe non need
+    startTransform = selected.getAttribute('transform'); // ???maybe non need
 
     const tlist = svgedit.transformlist.getTransformList(selected);
     const left = realLocation.x;
     const top = realLocation.y;
 
     // update the transform list with translate,scale,translate
-    let translateOrigin = svgroot.createSVGTransform();
-    let scale = svgroot.createSVGTransform();
-    let translateBack = svgroot.createSVGTransform();
+    const translateOrigin = svgroot.createSVGTransform();
+    const scale = svgroot.createSVGTransform();
+    const translateBack = svgroot.createSVGTransform();
 
     translateOrigin.setTranslate(-left, -top);
     scale.setScale(sx, sy);
@@ -7297,7 +7245,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     selectorManager.requestSelector(selected).show(true);
 
-    let cmd = svgedit.recalculate.recalculateDimensions(selected);
+    const cmd = svgedit.recalculate.recalculateDimensions(selected);
     svgEditor.updateContextPanel();
     if (cmd && !cmd.isEmpty()) {
       batchCmd.addSubCommand(cmd);
@@ -7310,21 +7258,20 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-
   this.zoomSvgElem = function (zoomScale) {
     const selected = selectedElements[0];
     const realLocation = this.getSvgRealLocation(selected);
 
-    startTransform = selected.getAttribute('transform'); //???maybe non need
+    startTransform = selected.getAttribute('transform'); // ???maybe non need
 
     const tlist = svgedit.transformlist.getTransformList(selected);
     const left = realLocation.x;
     const top = realLocation.y;
 
     // update the transform list with translate,scale,translate
-    let translateOrigin = svgroot.createSVGTransform();
-    let scale = svgroot.createSVGTransform();
-    let translateBack = svgroot.createSVGTransform();
+    const translateOrigin = svgroot.createSVGTransform();
+    const scale = svgroot.createSVGTransform();
+    const translateBack = svgroot.createSVGTransform();
 
     translateOrigin.setTranslate(-left, -top);
     scale.setScale(zoomScale, zoomScale);

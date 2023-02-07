@@ -12,21 +12,26 @@
         "hexa",
         "ISVG",
         "Lightbox",
+        "LINKTYPE",
         "lsusb",
         "pathedit",
         "Showable",
         "sprintf",
         "svgcanvas",
+        "svgcontent",
+        "svgdoc",
         "svgedit",
         "svgroot",
         "taskcode",
         "Touchpad",
         "transformlist",
+        "undoable",
         "ungroup",
         "Ungrouping",
         "unnotified",
         "unsupport",
         "workarea",
-        "xform"
+        "xform",
+        "XLINK"
     ]
 }

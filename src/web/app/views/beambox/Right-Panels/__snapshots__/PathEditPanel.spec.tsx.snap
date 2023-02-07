@@ -80,6 +80,20 @@ exports[`should render correctly 1`] = `
         </div>
         <div
           class="ant-space-item"
+          style="margin-right: 8px;"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default ant-btn-sm"
+            disabled=""
+            type="button"
+          >
+            <span>
+              Connect
+            </span>
+          </button>
+        </div>
+        <div
+          class="ant-space-item"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default ant-btn-sm"
