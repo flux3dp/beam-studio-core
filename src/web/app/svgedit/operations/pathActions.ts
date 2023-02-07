@@ -11,7 +11,7 @@ import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
-import ISVGPathElement, { ISVGPathSegList } from 'interfaces/ISVGPathElement';
+import ISVGPathElement from 'interfaces/ISVGPathElement';
 import Segment from '../path/Segment';
 import Path from '../path/Path';
 

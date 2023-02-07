@@ -16,7 +16,6 @@
 /* eslint-disable no-var */
 /* eslint-disable func-names */
 
-/* globals $, svgedit, svgCanvas, jsPDF */
 /* jslint vars: true, eqeq: true, todo: true, bitwise: true, continue: true, forin: true  */
 /*
  * svgcanvas.js
@@ -52,7 +51,6 @@ import historyRecording from 'app/svgedit/historyrecording';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/textactions';
 import textEdit from 'app/svgedit/textedit';
-import touchEvents from 'app/svgedit/touchEvents';
 import { deleteElements, deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -67,7 +65,6 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
-import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Constant from 'app/actions/beambox/constant';
@@ -81,7 +78,6 @@ import laserConfigHelper from 'helpers/laser-config-helper';
 import * as LayerHelper from 'helpers/layer-helper';
 import requirejsHelper from 'helpers/requirejs-helper';
 import storage from 'implementations/storage';
-import shortcuts from 'helpers/shortcuts';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
@@ -1693,15 +1689,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.svgToString = function (elem, indent, unit: Units = 'pt') {
     const out = [];
     const toXml = svgedit.utilities.toXml;
-    const unit_re = new RegExp('^-?[\\d\\.]+' + unit + '$');
+    const unitRe = new RegExp('^-?[\\d\\.]+' + unit + '$');
     if (elem) {
       cleanupElement(elem);
-      var attrs = elem.attributes,
-        attr,
-        i,
-        childs = elem.childNodes;
+      const attrs = elem.attributes;
+      let attr;
+      const childs = elem.childNodes;
 
-      for (i = 0; i < indent; i++) {
+      for (let i = 0; i < indent; i++) {
         out.push(' ');
       }
       out.push('<');
@@ -1755,11 +1750,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           });
         });
 
-        i = attrs.length;
-        var attr_names = ['width', 'height', 'xmlns', 'x', 'y', 'viewBox', 'id', 'overflow'];
+        let i = attrs.length;
+        const attrNames = ['width', 'height', 'xmlns', 'x', 'y', 'viewBox', 'id', 'overflow'];
         while (i--) {
           attr = attrs.item(i);
-          var attrVal = toXml(attr.value);
+          const attrVal = toXml(attr.value);
 
           // Namespaces have already been dealt with, so skip
           if (attr.nodeName.indexOf('xmlns:') === 0) {
@@ -1767,8 +1762,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           }
 
           // only serialize attributes we don't use internally
-          if (attrVal && attr_names.indexOf(attr.localName) === -1) {
-
+          if (attrVal && attrNames.indexOf(attr.localName) === -1) {
             if (!attr.namespaceURI || nsMap[attr.namespaceURI]) {
               out.push(' ');
               out.push(attr.nodeName);
@@ -1781,15 +1775,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else {
         // Skip empty defs
         if (elem.nodeName === 'defs' && !elem.firstChild) {
-          return;
+          return '';
         }
 
-        var moz_attrs = ['-moz-math-font-style', '_moz-math-font-style'];
-        for (i = attrs.length - 1; i >= 0; i--) {
+        const mozAttrs = ['-moz-math-font-style', '_moz-math-font-style'];
+        for (let i = attrs.length - 1; i >= 0; i--) {
           attr = attrs.item(i);
-          var attrVal = toXml(attr.value);
+          let attrVal = toXml(attr.value);
           // remove bogus attributes added by Gecko
-          if (moz_attrs.indexOf(attr.localName) >= 0) {
+          if (mozAttrs.indexOf(attr.localName) >= 0) {
             continue;
           }
           if (attrVal) {
@@ -1803,9 +1797,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             if (elem.tagName === 'path' && attr.localName === 'd') {
               attrVal = pathActions.convertPath(elem, true);
             }
-            if (!isNaN(attrVal)) {
+            if (!Number.isNaN(attrVal)) {
               attrVal = svgedit.units.shortFloat(attrVal);
-            } else if (unit_re.test(attrVal)) {
+            } else if (unitRe.test(attrVal)) {
               attrVal = svgedit.units.shortFloat(attrVal) + unit;
             }
 
@@ -1838,8 +1832,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         indent++;
         var bOneLine = false;
 
-        for (i = 0; i < childs.length; i++) {
-          var child = childs.item(i);
+        for (let i = 0; i < childs.length; i++) {
+          const child = childs.item(i);
           switch (child.nodeType) {
             case 1: // element node
               out.push('\n');
@@ -1867,12 +1861,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               out.push(child.data);
               out.push('-->');
               break;
-          } // switch on node type
+            default:
+              break;
+          }
         }
         indent--;
         if (!bOneLine) {
           out.push('\n');
-          for (i = 0; i < indent; i++) {
+          for (let i = 0; i < indent; i++) {
             out.push(' ');
           }
         }
@@ -2093,10 +2089,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return new Promise((resolve, reject) => {
       try {
         const [width, height] = dimensions;
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        const ctx = tempCanvas.getContext('2d');
         const svgUrl = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgString);
         const img = new Image();
         img.onload = function () {
@@ -2104,13 +2100,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           URL.revokeObjectURL(svgUrl);
           switch (type) {
             case 'png':
-              resolve(canvas.toDataURL('image/png'));
+              resolve(tempCanvas.toDataURL('image/png'));
               break;
             case 'jpg':
               ctx.globalCompositeOperation = 'destination-over';
               ctx.fillStyle = 'white';
               ctx.fillRect(0, 0, width, height);
-              resolve(canvas.toDataURL('image/jpeg', 1.0));
+              resolve(tempCanvas.toDataURL('image/jpeg', 1.0));
               break;
             default:
               resolve(false);
@@ -2685,8 +2681,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       addCommandToHistory(batchCmd);
       call('changed', [svgcontent]);
-      const layers = $('#svgcontent > g.layer').toArray();
-      layers.forEach(layer => {
+      const layers: SVGGElement[] = $('#svgcontent > g.layer').toArray();
+      layers.forEach((layer) => {
         this.updateLayerColor(layer);
         const childNodes = Array.from(layer.childNodes);
         while (childNodes.length > 0) {
@@ -2712,9 +2708,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const layer = drawing.getLayerByName(defaultLayerName);
     if (layer) {
       const childNodes = Array.from(layer.childNodes);
-      const isEmpty = childNodes.every((node: Element) => {
-        return ['title', 'filter'].includes(node.tagName);
-      });
+      const isEmpty = childNodes.every((node: Element) => ['title', 'filter'].includes(node.tagName));
       if (isEmpty) {
         console.log('default layer is empty. delete it!');
         svgCanvas.setCurrentLayer(defaultLayerName);
@@ -2749,12 +2743,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (!symbol) {
         return null;
       }
-      const use_el = svgdoc.createElementNS(NS.SVG, 'use');
-      use_el.id = getNextId();
-      setHref(use_el, '#' + symbol.id);
+      const useEl = svgdoc.createElementNS(NS.SVG, 'use');
+      useEl.id = getNextId();
+      setHref(useEl, '#' + symbol.id);
       // switch currentLayer, and create layer if necessary
-      if ((type === 'layer' && layerName) || (type === 'color' && symbol.getAttribute('data-color') || (type === 'image-trace'))) {
-
+      if ((type === 'layer' && layerName) || ((type === 'color' && symbol.getAttribute('data-color')) || (type === 'image-trace'))) {
         const color = symbol.getAttribute('data-color');
         if (type === 'image-trace') {
           layerName = 'Traced Path';
@@ -2803,17 +2796,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         svgCanvas.setCurrentLayer(layerName);
       }
 
-      getCurrentDrawing().getCurrentLayer().appendChild(use_el);
+      getCurrentDrawing().getCurrentLayer().appendChild(useEl);
 
-      $(use_el).data('symbol', symbol).data('ref', symbol);
+      $(useEl).data('symbol', symbol).data('ref', symbol);
 
-      use_el.setAttribute('data-symbol', symbol);
-      use_el.setAttribute('data-ref', symbol);
-      use_el.setAttribute('data-svg', true);
-      use_el.setAttribute('data-ratiofixed', true);
+      useEl.setAttribute('data-symbol', symbol);
+      useEl.setAttribute('data-ref', symbol);
+      useEl.setAttribute('data-svg', true);
+      useEl.setAttribute('data-ratiofixed', true);
 
       if (type === 'nolayer') {
-        use_el.setAttribute('data-wireframe', true);
+        useEl.setAttribute('data-wireframe', true);
         const iterationStack = [symbol];
         while (iterationStack.length > 0) {
           const node = iterationStack.pop();
@@ -2828,9 +2821,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       }
 
-      batchCmd.addSubCommand(new history.InsertElementCommand(use_el));
+      batchCmd.addSubCommand(new history.InsertElementCommand(useEl));
 
-      return use_el;
+      return useEl;
     }
     function rgbToHex(rgbStr) {
       const rgb = rgbStr.substring(4).split(',');
@@ -2927,7 +2920,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // name - The given name
   this.createLayer = function (name, hrService, hexCode) {
     const drawing = getCurrentDrawing();
-    const new_layer = drawing.createLayer(name, historyRecordingService(hrService));
+    const newLayer = drawing.createLayer(name, historyRecordingService(hrService));
     if (drawing.layer_map[name]) {
       if (name && name.indexOf('#') === 0) {
         drawing.layer_map[name].setColor(name);
@@ -2937,10 +2930,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         drawing.layer_map[name].setColor(getRandomLayerColor());
       }
     }
-    this.updateLayerColorFilter(new_layer);
+    this.updateLayerColorFilter(newLayer);
     clearSelection();
-    call('changed', [new_layer]);
-    return new_layer;
+    call('changed', [newLayer]);
+    return newLayer;
   };
 
   /**
@@ -3842,12 +3835,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           continue;
         }
       } else {
-        var grad_attrs = $(grad).attr(rad_attrs);
-        var og_attrs = $(og).attr(rad_attrs);
+        const gradAttrs = $(grad).attr(rad_attrs);
+        const ogAttrs = $(og).attr(rad_attrs);
+        let diff = false;
 
-        var diff = false;
         $.each(rad_attrs, function (i, attr) {
-          if (grad_attrs[attr] !== og_attrs[attr]) {
+          if (gradAttrs[attr] !== ogAttrs[attr]) {
             diff = true;
           }
         });
@@ -4779,9 +4772,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     autoSaveHelper.toggleAutoSave(hasUnsaveChanged);
   };
 
-  this.getHasUnsaveChanged = () => {
-    return canvas.changed;
-  };
+  this.getHasUnsaveChanged = () => canvas.changed;
 
   // Function: getLatestImportFileName
   // Get latest imported file name
@@ -5456,35 +5447,27 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       let m;
       while (u > l) {
         m = Math.floor(l + 0.5 * (u - l));
-        if (array[m] === val) {
-          return m;
-        } else if (array[m] > val) {
+        if (array[m] === val) return m;
+        if (array[m] > val) {
           u = m - 1;
         } else {
-          if (m === array.length - 1) {
-            return m;
-          } else if (array[m + 1] > val) {
-            return array[m + 1] + array[m] > 2 * val ? m : m + 1;
-          } else {
-            l = m + 1;
-          }
+          if (m === array.length - 1) return m;
+          if (array[m + 1] > val) return array[m + 1] + array[m] > 2 * val ? m : m + 1;
+          l = m + 1;
         }
       }
-      if (u === array.length - 1) {
-        return u;
-      } else {
-        return array[u + 1] + array[u] > 2 * val ? u : u + 1;
-      }
+      if (u === array.length - 1) return u;
+      return array[u + 1] + array[u] > 2 * val ? u : u + 1;
     };
     if (!this.pathAlignPointsSortByX || !this.pathAlignPointsSortByY) {
       return {};
     }
     let nearestX = bsFindNearest(this.pathAlignPointsSortByX.map((p) => p.x), x / current_zoom);
     nearestX = this.pathAlignPointsSortByX[nearestX];
-    const xMatchPoint = nearestX ? (Math.abs(nearestX.x * current_zoom - x) < FUZZY_RANGE ? nearestX : null) : null;
+    const xMatchPoint = (nearestX && (Math.abs(nearestX.x * current_zoom - x) < FUZZY_RANGE)) ? nearestX : null;
     let nearestY = bsFindNearest(this.pathAlignPointsSortByY.map((p) => p.y), y / current_zoom);
     nearestY = this.pathAlignPointsSortByY[nearestY];
-    const yMatchPoint = nearestY ? (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE ? nearestY : null) : null;
+    const yMatchPoint = (nearestY && (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE)) ? nearestY : null;
     return { xMatchPoint, yMatchPoint };
   };
 
