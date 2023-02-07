@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-case-declarations */
-import { LINKTYPE_SMOOTH, LINKTYPE_SYMMETRIC } from 'app/constants/link-type-constants';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
 import ISVGPathElement, { ISVGPathSegList } from 'interfaces/ISVGPathElement';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { LINKTYPE_SMOOTH, LINKTYPE_SYMMETRIC } from 'app/constants/link-type-constants';
+import { ICommand } from 'interfaces/IHistory';
+import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
+
 import PathNodePoint from './PathNodePoint';
 import Segment from './Segment';
 import SegmentControlPoint from './SegmentControlPoint';
@@ -41,7 +43,7 @@ export default class Path implements ISVGPath {
 
   dragctrl: boolean;
 
-  last_d: string;
+  lastD: string;
 
   imatrix: SVGMatrix;
 
@@ -233,7 +235,7 @@ export default class Path implements ISVGPath {
     const t = interpolation;
     // Adds a new segment
     const seg = this.segs[index];
-    if (!seg.prev) { return; }
+    if (!seg.prev) return;
 
     const { prev } = seg;
     let newseg;
@@ -449,6 +451,7 @@ export default class Path implements ISVGPath {
       this.deleteCtrlPoint();
       this.endChanges('Delete Path Control Point');
     } else if (this.selected_pts.length > 0) {
+      this.selected_pts.sort();
       for (let i = this.selected_pts.length - 1; i >= 0; i -= 1) {
         const index = this.selected_pts[i];
         this.deleteNodePoint(index);
@@ -508,7 +511,7 @@ export default class Path implements ISVGPath {
     this.deleteSeg(segIndexToRemove);
   }
 
-  deleteSeg(index) {
+  deleteSeg(index): void {
     const seg = this.segs[index];
     if (!seg) {
       return;
@@ -582,7 +585,7 @@ export default class Path implements ISVGPath {
   }
 
   storeD(): void {
-    this.last_d = this.elem.getAttribute('d');
+    this.lastD = this.elem.getAttribute('d');
   }
 
   show(y) {
@@ -615,11 +618,11 @@ export default class Path implements ISVGPath {
     return this;
   }
 
-  endChanges(text, isSub = false) {
-    const { elem, last_d } = this;
+  endChanges(text: string, isSub = false): ICommand | null {
+    const { elem, lastD } = this;
     elem.setAttribute('d', svgedit.utilities.convertPath(elem));
     const cmd = new svgedit.path.ChangeElementCommand(elem, {
-      d: last_d,
+      d: lastD,
     }, text);
     if (!isSub) {
       svgCanvas.addCommandToHistory(cmd);
@@ -711,7 +714,7 @@ export default class Path implements ISVGPath {
   }
 
   addPtsToSelection(indexes) {
-    if (!$.isArray(indexes)) {
+    if (!Array.isArray(indexes)) {
       indexes = [indexes];
     }
     for (let i = 0; i < indexes.length; i += 1) {
@@ -723,7 +726,6 @@ export default class Path implements ISVGPath {
       }
     }
     this.selectedControlPoint = null;
-    this.selected_pts.sort();
     const isSelectingOnePoint = this.selected_pts.length <= 1;
     for (let i = 0; i < this.selected_pts.length; i += 1) {
       const index = this.selected_pts[i];
@@ -736,8 +738,6 @@ export default class Path implements ISVGPath {
       }
     }
     svgCanvas.pathActions.canDeleteNodes = true;
-
-    svgCanvas.pathActions.closed_subpath = this.subpathIsClosed(this.selected_pts[0]);
   }
 
   removePtFromSelection(nodeIndex: number): void {
