@@ -451,11 +451,7 @@ export default class Path implements ISVGPath {
       this.deleteCtrlPoint();
       this.endChanges('Delete Path Control Point');
     } else if (this.selected_pts.length > 0) {
-      this.selected_pts.sort();
-      for (let i = this.selected_pts.length - 1; i >= 0; i -= 1) {
-        const index = this.selected_pts[i];
-        this.deleteNodePoint(index);
-      }
+      this.deleteNodePoints(this.selected_pts);
       this.clearSelection();
       if (this.segs.length > 0) {
         this.endChanges('Delete Path Node Point(s)');
@@ -498,46 +494,40 @@ export default class Path implements ISVGPath {
     }
   }
 
-  deleteNodePoint(index): void {
+  deleteNodePoints(indices: number[]): void {
+    // sort in descending order
+    const sortedIndices = [...indices].sort((a, b) => b - a);
     this.hideAllNodes();
-    const nodePoint = this.nodePoints[index];
-    const { segChanges, segIndexToRemove } = nodePoint.delete();
-    this.applySegChanges(segChanges);
-    this.nodePoints.splice(index, 1);
+    for (let i = 0; i < sortedIndices.length; i += 1) {
+      const nodePoint = this.nodePoints[sortedIndices[i]];
+      const { segChanges, segIndexToRemove } = nodePoint.delete();
+      this.applySegChanges(segChanges);
+      this.nodePoints.splice(sortedIndices[i], 1);
+      this.deleteSeg(segIndexToRemove);
+    }
+    this.nodePoints = this.nodePoints.filter((node) => node.prevSeg || node.nextSeg);
     this.nodePoints.forEach((node, i) => {
       node.index = i;
       node.show();
     });
-    this.deleteSeg(segIndexToRemove);
   }
 
-  deleteSeg(index): void {
+  private deleteSeg(index: number): void {
     const seg = this.segs[index];
-    if (!seg) {
-      return;
-    }
+    if (!seg) return;
     if (seg.endPoint && seg.endPoint.prevSeg === seg) {
-      if (seg.prev.type !== 2) {
-        seg.endPoint.setPrevSeg(seg.prev);
-      } else {
-        seg.endPoint.setPrevSeg(null);
-      }
+      if (seg.prev.type !== 2) seg.endPoint.setPrevSeg(seg.prev);
+      else seg.endPoint.setPrevSeg(null);
     }
-    if (seg.startPoint && seg.startPoint.nextSeg === seg) {
-      seg.startPoint.nextSeg = seg.next;
-    }
+    if (seg.startPoint && seg.startPoint.nextSeg === seg) seg.startPoint.nextSeg = seg.next;
     seg.controlPoints.forEach((cp) => {
       if (cp.seg === seg) {
         cp.removeFromNodePoint();
         cp.hide();
       }
     });
-    if (seg.prev) {
-      seg.prev.next = seg.next;
-    }
-    if (seg.next) {
-      seg.next.prev = seg.prev;
-    }
+    if (seg.prev) seg.prev.next = seg.next;
+    if (seg.next) seg.next.prev = seg.prev;
 
     // Clean Up M or Mz seg
     if (index > 0 && this.segs[index - 1].type === 2) {
