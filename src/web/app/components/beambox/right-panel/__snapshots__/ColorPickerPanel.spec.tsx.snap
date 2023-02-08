@@ -16,7 +16,7 @@ exports[`should render correctly 1`] = `
       class="footer"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
         type="button"
       >
         <span>
@@ -24,7 +24,7 @@ exports[`should render correctly 1`] = `
         </span>
       </button>
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
         type="button"
       >
         <span>
