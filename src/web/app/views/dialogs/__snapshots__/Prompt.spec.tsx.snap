@@ -5,7 +5,7 @@ exports[`test Prompt should render correctly 1`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-ixblex"
+      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
     >
       <div
         class="ant-modal-mask"
@@ -17,7 +17,7 @@ exports[`test Prompt should render correctly 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-ixblex"
+          class="ant-modal css-dev-only-do-not-override-j0nf2s"
           role="dialog"
           style="width: 520px;"
         >
@@ -75,7 +75,7 @@ exports[`test Prompt should render correctly 1`] = `
               <p />
               <div>
                 <input
-                  class="ant-input css-dev-only-do-not-override-ixblex text-input"
+                  class="ant-input css-dev-only-do-not-override-j0nf2s text-input"
                   type="text"
                   value=""
                 />
@@ -85,7 +85,7 @@ exports[`test Prompt should render correctly 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
                 type="button"
               >
                 <span>
@@ -93,7 +93,7 @@ exports[`test Prompt should render correctly 1`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
                 type="button"
               >
                 <span>

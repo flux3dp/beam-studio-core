@@ -7,7 +7,7 @@ exports[`should render correctly 1`] = `
   </div>
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-ixblex"
+      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
     >
       <div
         class="ant-modal-mask"
@@ -19,7 +19,7 @@ exports[`should render correctly 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-ixblex"
+          class="ant-modal css-dev-only-do-not-override-j0nf2s"
           role="dialog"
           style="width: 520px;"
         >
@@ -55,7 +55,7 @@ exports[`should render correctly 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
                 type="button"
               >
                 <span>
@@ -63,7 +63,7 @@ exports[`should render correctly 1`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
                 type="button"
               >
                 <span>
@@ -83,7 +83,7 @@ exports[`should render correctly 1`] = `
   </div>
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-ixblex"
+      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
     >
       <div
         class="ant-modal-mask"
@@ -94,7 +94,7 @@ exports[`should render correctly 1`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-ixblex"
+          class="ant-modal css-dev-only-do-not-override-j0nf2s"
           role="dialog"
           style="min-width: 520px; width: 520px;"
         >
@@ -114,7 +114,7 @@ exports[`should render correctly 1`] = `
                 class="message"
               />
               <div
-                class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-ixblex"
+                class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-j0nf2s"
                 role="progressbar"
               >
                 <div
@@ -141,7 +141,7 @@ exports[`should render correctly 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
                 type="button"
               >
                 <span>
@@ -149,7 +149,7 @@ exports[`should render correctly 1`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
                 style="display: none;"
                 type="button"
               >

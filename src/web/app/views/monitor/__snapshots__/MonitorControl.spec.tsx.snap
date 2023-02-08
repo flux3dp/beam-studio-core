@@ -3,13 +3,13 @@
 exports[`test MonitorControl should render correctly mode is preview 1`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-ixblex ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-j0nf2s ant-space-horizontal ant-space-align-center"
   >
     <div
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
         type="button"
       >
         <span
@@ -43,13 +43,13 @@ exports[`test MonitorControl should render correctly mode is preview 1`] = `
 exports[`test MonitorControl should render correctly mode is working 1`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-ixblex ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-j0nf2s ant-space-horizontal ant-space-align-center"
   >
     <div
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
         disabled=""
         type="button"
       >
@@ -84,14 +84,14 @@ exports[`test MonitorControl should render correctly mode is working 1`] = `
 exports[`test MonitorControl should render correctly mode is working 2`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-ixblex ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-j0nf2s ant-space-horizontal ant-space-align-center"
   >
     <div
       class="ant-space-item"
       style="margin-right: 8px;"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
         type="button"
       >
         <span
@@ -122,7 +122,7 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
         type="button"
       >
         <span
@@ -156,14 +156,14 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
 exports[`test MonitorControl should render correctly mode is working 3`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-ixblex ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-j0nf2s ant-space-horizontal ant-space-align-center"
   >
     <div
       class="ant-space-item"
       style="margin-right: 8px;"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
         type="button"
       >
         <span
@@ -194,7 +194,7 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
         type="button"
       >
         <span
