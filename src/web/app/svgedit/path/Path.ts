@@ -738,7 +738,7 @@ export default class Path implements ISVGPath {
     const nodePoint = this.nodePoints[nodeIndex];
     nodePoint.setSelected(false);
     this.selected_pts.splice(pos, 1);
-    const isSelectingOnePoint = this.selected_pts.length <= 1;
+    const isSelectingOnePoint = this.selected_pts.length === 1;
     if (isSelectingOnePoint) {
       const i = this.selected_pts[0];
       const np = this.nodePoints[i];

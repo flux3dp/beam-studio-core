@@ -22,31 +22,32 @@ function PathEditPanel(): JSX.Element {
     svgedit.path.path.setSelectedNodeType(newType);
   };
 
-  const renderNodeTypePanel = (): JSX.Element => {
-    const currentPath: ISVGPath = svgedit.path.path;
-    let containsSharpNodes = false;
-    let containsRoundNodes = false;
-    const isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
-    let selectedNodeTypes = [];
-    const selectedNodes = currentPath?.selected_pts
-      .map((index) => currentPath.nodePoints[index])
-      .filter((point) => point);
-    if (currentPath) {
-      containsSharpNodes = selectedNodes.some((node) => node.isSharp());
-      containsRoundNodes = selectedNodes.some((node) => node.isRound());
-
-      selectedNodes.forEach((node) => {
-        if (node) {
-          selectedNodeTypes.push(node.linkType);
-        }
-      });
-      selectedNodeTypes = [...new Set(selectedNodeTypes)];
-      selectedNodeTypes.sort();
-      if (selectedNodeTypes.length > 1) {
-        selectedNodeTypes = [];
+  const currentPath: ISVGPath = svgedit.path.path;
+  let containsSharpNodes = false;
+  let containsRoundNodes = false;
+  const isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
+  let selectedNodeTypes = [];
+  const selectedNodes = currentPath?.selected_pts
+    .map((index) => currentPath.nodePoints[index])
+    .filter((point) => point);
+  if (currentPath) {
+    containsSharpNodes = selectedNodes.some((node) => node.isSharp());
+    containsRoundNodes = selectedNodes.some((node) => node.isRound());
+    selectedNodes.forEach((node) => {
+      if (node) {
+        selectedNodeTypes.push(node.linkType);
       }
+    });
+    selectedNodeTypes = [...new Set(selectedNodeTypes)];
+    selectedNodeTypes.sort();
+    if (selectedNodeTypes.length > 1) {
+      selectedNodeTypes = [];
     }
-    return (
+  }
+
+  const canDisconnect = selectedNodes?.length === 1 && selectedNodes[0].prev && selectedNodes[0].next;
+  return (
+    <div id="pathedit-panel">
       <div className="node-type-panel">
         <div className="title">{LANG.node_type}</div>
         <SegmentedControl
@@ -90,20 +91,14 @@ function PathEditPanel(): JSX.Element {
             Connect
           </Button>
           <Button
-            disabled={selectedNodes?.length !== 1}
-            onClick={() => svgCanvas.pathActions.disconnectNode()}
+            disabled={!canDisconnect}
+            onClick={svgCanvas.pathActions.disconnectNode}
             size="small"
           >
             Disconnect
           </Button>
         </Space>
       </div>
-    );
-  };
-
-  return (
-    <div id="pathedit-panel">
-      {renderNodeTypePanel()}
     </div>
   );
 }

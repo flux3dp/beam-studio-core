@@ -31,9 +31,9 @@ export default class PathNodePoint implements IPathNodePoint {
 
   nextSeg?: Segment;
 
-  next: PathNodePoint;
+  next: PathNodePoint | null;
 
-  prev: PathNodePoint;
+  prev: PathNodePoint | null;
 
   path: ISVGPath;
 
