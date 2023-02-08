@@ -1355,7 +1355,7 @@ class PathPreview extends React.Component<Props, State> {
             U, F, Z, isEngraving,
           } = this.searchParams(fastGradientGcodeList, target);
 
-          if (BeamboxPreference.read('enable-autofocus')) {
+          if (BeamboxPreference.read('enable-autofocus') && Z > 0) {
             preparation.push('G1 Z-1.0000');
             preparation.push(`G1 Z${Z}`);
           }
