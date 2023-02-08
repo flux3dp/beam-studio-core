@@ -35,18 +35,24 @@ jest.mock('helpers/svg-editor-helper', () => ({
               linkType: 0,
               isSharp: () => true,
               isRound: () => false,
+              prev: 'mock-p2',
+              next: 'mock-p1'
             },
             {
               index: 1,
               linkType: 0,
               isSharp: () => true,
               isRound: () => false,
+              prev: 'mock-p0',
+              next: 'mock-p2'
             },
             {
               index: 2,
               linkType: 0,
               isSharp: () => true,
               isRound: () => false,
+              prev: 'mock-p1',
+              next: 'mock-p0'
             },
           ],
         },

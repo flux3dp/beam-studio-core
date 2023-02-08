@@ -295,7 +295,10 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         svgCanvas.updateElementColor(drawnPath);
       }
       // set stretchy line to first point
-      stretchy.setAttribute('d', ['M', ...wrapPrecision([currentMouseX, currentMouseY, currentMouseX, currentMouseY])].join(' '));
+      stretchy.setAttribute(
+        'd',
+        ['M', ...wrapPrecision([currentMouseX, currentMouseY, currentMouseX, currentMouseY])].join(' ')
+      );
       index = subpath ? svgedit.path.path.segs.length : 0;
       svgedit.path.addDrawingPoint(index, currentMouseX, currentMouseY, x, y);
       shortcuts.off(['esc']);
@@ -705,9 +708,11 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
     if (Number(rubberBox.getAttribute('width')) <= 2
         && Number(rubberBox.getAttribute('height')) <= 2) {
       toSelectMode(evt.target);
+    } else {
+      svgEditor.updateContextPanel();
     }
-    // else, move back to select mode
   } else {
+    // else, move back to select mode
     toSelectMode(evt.target);
   }
   hasMoved = false;
@@ -1388,7 +1393,7 @@ const booleanOperationByPaperjs = (
   const obj2 = items.children[1] as paper.Shape | paper.Path | paper.CompoundPath;
   const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
   const path2 = (obj2 instanceof paper.Shape) ? obj2.toPath() : obj2.clone();
-  const result = path1[operation](path2);
+  path1[operation](path2);
   obj1.remove();
   obj2.remove();
   path1.remove();

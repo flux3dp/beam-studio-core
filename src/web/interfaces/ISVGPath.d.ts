@@ -63,8 +63,8 @@ export interface IPathNodePoint {
   mSeg: ISegment;
   prevSeg?: ISegment;
   nextSeg?: ISegment;
-  next: IPathNodePoint;
-  prev: IPathNodePoint;
+  next: IPathNodePoint | null;
+  prev: IPathNodePoint | null;
   path: ISVGPath;
   controlPoints: ISegmentControlPoint[];
   linkType: NodeLinkType;
