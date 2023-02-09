@@ -5,7 +5,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -17,7 +17,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -72,16 +72,16 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
               class="ant-modal-body"
             >
               <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-j0nf2s"
+                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
               >
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-j0nf2s"
+                  class="ant-form-item css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-j0nf2s"
+                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-form-item-label css-dev-only-do-not-override-j0nf2s"
+                      class="ant-col ant-form-item-label css-dev-only-do-not-override-hash"
                     >
                       <label
                         class=""
@@ -91,7 +91,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                       </label>
                     </div>
                     <div
-                      class="ant-col ant-form-item-control css-dev-only-do-not-override-j0nf2s"
+                      class="ant-col ant-form-item-control css-dev-only-do-not-override-hash"
                     >
                       <div
                         class="ant-form-item-control-input"
@@ -106,13 +106,13 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-j0nf2s"
+                  class="ant-form-item css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-j0nf2s"
+                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-form-item-label css-dev-only-do-not-override-j0nf2s"
+                      class="ant-col ant-form-item-label css-dev-only-do-not-override-hash"
                     >
                       <label
                         class=""
@@ -122,7 +122,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                       </label>
                     </div>
                     <div
-                      class="ant-col ant-form-item-control css-dev-only-do-not-override-j0nf2s"
+                      class="ant-col ant-form-item-control css-dev-only-do-not-override-hash"
                     >
                       <div
                         class="ant-form-item-control-input"
@@ -131,7 +131,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                           class="ant-form-item-control-input-content"
                         >
                           <input
-                            class="ant-input css-dev-only-do-not-override-j0nf2s"
+                            class="ant-input css-dev-only-do-not-override-hash"
                             type="text"
                             value="192.168.68.163"
                           />
@@ -147,7 +147,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
             >
               <div>
                 <button
-                  class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                   type="button"
                 >
                   <span>
@@ -155,7 +155,7 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                   </span>
                 </button>
                 <button
-                  class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                   type="button"
                 >
                   <span>

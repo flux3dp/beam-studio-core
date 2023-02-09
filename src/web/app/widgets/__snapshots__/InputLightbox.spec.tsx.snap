@@ -5,7 +5,7 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -17,7 +17,7 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -72,19 +72,19 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
               class="ant-modal-body"
             >
               <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-j0nf2s"
+                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
               >
                 <p>
                   header
                 </p>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-j0nf2s"
+                  class="ant-form-item css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-j0nf2s"
+                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-form-item-control css-dev-only-do-not-override-j0nf2s"
+                      class="ant-col ant-form-item-control css-dev-only-do-not-override-hash"
                     >
                       <div
                         class="ant-form-item-control-input"
@@ -93,7 +93,7 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
                           class="ant-form-item-control-input-content"
                         >
                           <input
-                            class="ant-input css-dev-only-do-not-override-j0nf2s"
+                            class="ant-input css-dev-only-do-not-override-hash"
                             maxlength="100"
                             type="file"
                             value=""
@@ -109,7 +109,7 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
@@ -117,7 +117,7 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 disabled=""
                 type="button"
               >
@@ -144,7 +144,7 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -156,7 +156,7 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -211,19 +211,19 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
               class="ant-modal-body"
             >
               <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-j0nf2s"
+                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
               >
                 <p>
                   Password
                 </p>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-j0nf2s"
+                  class="ant-form-item css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-j0nf2s"
+                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-form-item-control css-dev-only-do-not-override-j0nf2s"
+                      class="ant-col ant-form-item-control css-dev-only-do-not-override-hash"
                     >
                       <div
                         class="ant-form-item-control-input"
@@ -232,7 +232,7 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
                           class="ant-form-item-control-input-content"
                         >
                           <input
-                            class="ant-input css-dev-only-do-not-override-j0nf2s"
+                            class="ant-input css-dev-only-do-not-override-hash"
                             maxlength="100"
                             type="password"
                             value=""
@@ -248,7 +248,7 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
@@ -256,7 +256,7 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 disabled=""
                 type="button"
               >

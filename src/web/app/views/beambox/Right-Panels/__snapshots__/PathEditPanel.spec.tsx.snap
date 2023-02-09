@@ -45,18 +45,18 @@ exports[`should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="ant-divider css-dev-only-do-not-override-j0nf2s ant-divider-horizontal"
+        class="ant-divider css-dev-only-do-not-override-hash ant-divider-horizontal"
         role="separator"
       />
       <div
-        class="ant-space css-dev-only-do-not-override-j0nf2s ant-space-horizontal ant-space-align-center"
+        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
       >
         <div
           class="ant-space-item"
           style="margin-right: 8px;"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default ant-btn-sm"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
             disabled=""
             type="button"
           >
@@ -70,7 +70,7 @@ exports[`should render correctly 1`] = `
           style="margin-right: 8px;"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default ant-btn-sm"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
             type="button"
           >
             <span>
@@ -83,7 +83,7 @@ exports[`should render correctly 1`] = `
           style="margin-right: 8px;"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default ant-btn-sm"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
             disabled=""
             type="button"
           >
@@ -96,7 +96,7 @@ exports[`should render correctly 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default ant-btn-sm"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
             type="button"
           >
             <span>
