@@ -5,7 +5,7 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -16,7 +16,7 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -61,11 +61,11 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
               class="ant-modal-body"
             >
               <div
-                class="ant-row css-dev-only-do-not-override-j0nf2s"
+                class="ant-row css-dev-only-do-not-override-hash"
                 style="margin-left: -5px; margin-right: -5px;"
               >
                 <div
-                  class="ant-col ant-col-7 css-dev-only-do-not-override-j0nf2s"
+                  class="ant-col ant-col-7 css-dev-only-do-not-override-hash"
                   style="padding-left: 5px; padding-right: 5px;"
                 >
                   <img
@@ -75,7 +75,7 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
                   />
                 </div>
                 <div
-                  class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+                  class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   style="padding-left: 5px; padding-right: 5px;"
                 >
                   <strong>
@@ -103,7 +103,7 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 style="display: none;"
                 type="button"
               >
@@ -112,7 +112,7 @@ exports[`test AboutBeamStudio should render correctly 1`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>

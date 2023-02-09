@@ -5,7 +5,7 @@ exports[`should MediaTutorial cancel button should work 1`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -16,7 +16,7 @@ exports[`should MediaTutorial cancel button should work 1`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -86,7 +86,7 @@ exports[`should MediaTutorial cancel button should work 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>
@@ -112,7 +112,7 @@ exports[`should MediaTutorial next step should work 1`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -123,7 +123,7 @@ exports[`should MediaTutorial next step should work 1`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -193,7 +193,7 @@ exports[`should MediaTutorial next step should work 1`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>
@@ -219,7 +219,7 @@ exports[`should MediaTutorial next step should work 2`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -230,7 +230,7 @@ exports[`should MediaTutorial next step should work 2`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -300,7 +300,7 @@ exports[`should MediaTutorial next step should work 2`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
@@ -308,7 +308,7 @@ exports[`should MediaTutorial next step should work 2`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>
@@ -334,7 +334,7 @@ exports[`should MediaTutorial next step should work 3`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -345,7 +345,7 @@ exports[`should MediaTutorial next step should work 3`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -415,7 +415,7 @@ exports[`should MediaTutorial next step should work 3`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>
@@ -441,7 +441,7 @@ exports[`should MediaTutorial next step should work 4`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -452,7 +452,7 @@ exports[`should MediaTutorial next step should work 4`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -522,7 +522,7 @@ exports[`should MediaTutorial next step should work 4`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
@@ -530,7 +530,7 @@ exports[`should MediaTutorial next step should work 4`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>
@@ -556,7 +556,7 @@ exports[`should MediaTutorial next step should work 5`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -567,7 +567,7 @@ exports[`should MediaTutorial next step should work 5`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -647,7 +647,7 @@ exports[`should MediaTutorial next step should work 5`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
@@ -655,7 +655,7 @@ exports[`should MediaTutorial next step should work 5`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>
@@ -681,7 +681,7 @@ exports[`should MediaTutorial next step should work 6`] = `
   <div />
   <div>
     <div
-      class="ant-modal-root css-dev-only-do-not-override-j0nf2s"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
         class="ant-modal-mask"
@@ -692,7 +692,7 @@ exports[`should MediaTutorial next step should work 6`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-j0nf2s"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px;"
         >
@@ -772,7 +772,7 @@ exports[`should MediaTutorial next step should work 6`] = `
               class="ant-modal-footer"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-default"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
@@ -780,7 +780,7 @@ exports[`should MediaTutorial next step should work 6`] = `
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-j0nf2s ant-btn-primary"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
                 type="button"
               >
                 <span>

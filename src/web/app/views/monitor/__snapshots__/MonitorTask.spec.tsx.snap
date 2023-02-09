@@ -16,10 +16,10 @@ exports[`should render correctly should render correctly 1`] = `
         class="monitor-task-info-bar"
       >
         <div
-          class="ant-row css-dev-only-do-not-override-j0nf2s"
+          class="ant-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
           >
             <div
               class="monitor-left-text"
@@ -48,7 +48,7 @@ exports[`should render correctly should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
           >
             <div
               class="monitor-right-text"
@@ -83,13 +83,13 @@ exports[`should render correctly should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="ant-row css-dev-only-do-not-override-j0nf2s"
+      class="ant-row css-dev-only-do-not-override-hash"
     >
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
       >
         <div
-          class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-j0nf2s"
+          class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
           role="progressbar"
         >
           <div
@@ -113,7 +113,7 @@ exports[`should render correctly should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
       >
         <div
           style="display: flex; justify-content: flex-end;"
@@ -144,10 +144,10 @@ exports[`should render correctly should render correctly when completed 1`] = `
         class="monitor-task-info-bar"
       >
         <div
-          class="ant-row css-dev-only-do-not-override-j0nf2s"
+          class="ant-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
           >
             <div
               class="monitor-left-text"
@@ -176,7 +176,7 @@ exports[`should render correctly should render correctly when completed 1`] = `
             </div>
           </div>
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
           >
             <div
               class="monitor-right-text"
@@ -210,13 +210,13 @@ exports[`should render correctly should render correctly when completed 1`] = `
       </div>
     </div>
     <div
-      class="ant-row css-dev-only-do-not-override-j0nf2s"
+      class="ant-row css-dev-only-do-not-override-hash"
     >
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
       >
         <div
-          class="ant-progress ant-progress-line ant-progress-status-success ant-progress-show-info ant-progress-default css-dev-only-do-not-override-j0nf2s"
+          class="ant-progress ant-progress-line ant-progress-status-success ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
           role="progressbar"
         >
           <div
@@ -257,7 +257,7 @@ exports[`should render correctly should render correctly when completed 1`] = `
         </div>
       </div>
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-j0nf2s"
+        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
       >
         <div
           style="display: flex; justify-content: flex-end;"
