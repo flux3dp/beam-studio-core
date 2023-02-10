@@ -23,11 +23,6 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-const render = jest.fn();
-jest.mock('app/actions/beambox/imageTracePanelController', () => ({
-  render,
-}));
-
 const isClean = jest.fn();
 const resetCoordinates = jest.fn();
 const clear = jest.fn();
