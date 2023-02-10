@@ -81,7 +81,7 @@ const funcs = {
           style: 'pointer-events:inherit',
           preserveAspectRatio: 'none',
           'data-threshold': threshold,
-          'data-shading': true,
+          'data-shading': false,
           origImage: img.src,
         },
       });
@@ -91,7 +91,7 @@ const funcs = {
         width,
         grayscale: {
           is_rgba: true,
-          is_shading: true,
+          is_shading: false,
           threshold,
           is_svg: false,
         },
