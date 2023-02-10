@@ -59,28 +59,28 @@ const funcs = {
   },
   insertImage(
     insertedImageSrc: string,
-    cropData: { x: number; y: number; width: number; height: number; },
-    preCrop: { offsetX: number; offsetY: number; },
-    sizeFactor = 1,
+    dimension: { x: number; y: number; width: number; height: number; },
     threshold = 255,
-    imageTrace = false,
   ): void {
-    // let's insert the new image until we know its dimensions
-    const insertNewImage = function (img, cropData, preCrop, sizeFactor, threshold) {
-      const { x, y, width, height } = cropData;
-      const { offsetX, offsetY } = preCrop;
-      const scale = (imageTrace ? 1 : 3.5277777);
+    const img = new Image();
+    const layerName = LANG.right_panel.layer_panel.layer_bitmap;
+
+    img.src = insertedImageSrc;
+    img.style.opacity = '0';
+    img.onload = () => {
+      if (!svgCanvas.setCurrentLayer(layerName)) svgCanvas.createLayer(layerName);
+      const { x, y, width, height } = dimension;
       const newImage = svgCanvas.addSvgElementFromJson({
         element: 'image',
         attr: {
-          x: (offsetX + x) * scale,
-          y: (offsetY + y) * scale,
-          width: width * scale * sizeFactor,
-          height: height * scale * sizeFactor,
+          x,
+          y,
+          width,
+          height,
           id: svgCanvas.getNextId(),
           style: 'pointer-events:inherit',
           preserveAspectRatio: 'none',
-          'data-threshold': parseInt(threshold, 10),
+          'data-threshold': threshold,
           'data-shading': true,
           origImage: img.src,
         },
@@ -92,32 +92,18 @@ const funcs = {
         grayscale: {
           is_rgba: true,
           is_shading: true,
-          threshold: parseInt(threshold, 10),
+          threshold,
           is_svg: false,
         },
         onComplete(result) {
           svgCanvas.setHref(newImage, result.pngBase64);
         },
       });
-
+      svgCanvas.updateElementColor(newImage);
       svgCanvas.selectOnly([newImage]);
 
       window['updateContextPanel']();
       $('#dialog_box').hide();
-    };
-
-    // create dummy img so we know the default dimensions
-    const img = new Image();
-    const layerName = LANG.right_panel.layer_panel.layer_bitmap;
-
-    img.src = insertedImageSrc;
-    img.style.opacity = '0';
-    img.onload = () => {
-      if (!svgCanvas.setCurrentLayer(layerName)) {
-        svgCanvas.createLayer(layerName);
-      }
-
-      insertNewImage(img, cropData, preCrop, sizeFactor, threshold);
     };
   },
 

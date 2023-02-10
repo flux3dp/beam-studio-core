@@ -230,13 +230,13 @@ class PreviewModeController {
     })();
 
     for (let i = 0; i < points.length; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
       MessageCaller.openMessage({
         key: 'camera-preview',
         content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
         level: MessageLevel.LOADING,
         duration: 20,
       });
+      // eslint-disable-next-line no-await-in-loop
       const result = await this.preview(points[i][0], points[i][1], (i === points.length - 1));
 
       if (!result) {

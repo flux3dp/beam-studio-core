@@ -195,22 +195,26 @@ class PreviewModeBackgroundDrawer {
         const regulatedImg = this.cropAndRotateImg(img);
         const { width, height } = regulatedImg;
         const { canvasRatio } = this;
-        const dstX = (x - width / 2) * canvasRatio;
-        const dstY = (y - height / 2) * canvasRatio;
+        const minX = Math.max((x - width / 2) * canvasRatio, 0);
+        const maxX = (x + width / 2) * canvasRatio;
+        const minY = Math.max((y - height / 2) * canvasRatio, 0);
+        const maxY = (y + height / 2) * canvasRatio;
 
-        if (dstX > this.coordinates.maxX) {
-          this.coordinates.maxX = dstX;
+        if (maxX > this.coordinates.maxX) {
+          this.coordinates.maxX = maxX;
         }
-        if (dstX < this.coordinates.minX) {
-          this.coordinates.minX = dstX;
+        if (minX < this.coordinates.minX) {
+          this.coordinates.minX = minX;
         }
-        if (dstY > this.coordinates.maxY) {
-          this.coordinates.maxY = dstY;
+        if (maxY > this.coordinates.maxY) {
+          this.coordinates.maxY = maxY;
         }
-        if (dstY < this.coordinates.minY) {
-          this.coordinates.minY = dstY;
+        if (minY < this.coordinates.minY) {
+          this.coordinates.minY = minY;
         }
-        this.canvas.getContext('2d').drawImage(regulatedImg, dstX, dstY, width * canvasRatio, height * canvasRatio);
+        console.log(this.canvas.width, this.canvas.height);
+        this.canvas.getContext('2d').drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
+        // this.canvas.getContext('2d').drawImage(regulatedImg, 0, 0, this.canvas.width, this.canvas.height);
         this.canvas.toBlob((blob) => {
           resolve(blob);
           if (last) {
@@ -326,7 +330,10 @@ class PreviewModeBackgroundDrawer {
     borderPattern.appendChild(patternLine);
 
     boundaryGroup.appendChild(borderTop);
-    if (BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+    if (
+      BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+    ) {
       const {
         hybridBorder,
         hybridDescText,
