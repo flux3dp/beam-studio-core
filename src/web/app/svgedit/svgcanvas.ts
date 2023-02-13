@@ -7198,7 +7198,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   };
   // refer to resize behavior in mouseup mousemove mousedown
-  this.setSvgElemSize = function (para, val, undoable) {
+  this.setSvgElemSize = function (para: string, val: number, addToHistory = false) {
     const batchCmd = new history.BatchCommand('set size');
     const selected = selectedElements[0];
     if (!selected) return;
@@ -7251,9 +7251,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       batchCmd.addSubCommand(cmd);
     }
     if (!batchCmd.isEmpty()) {
-      if (undoable) {
-        addCommandToHistory(batchCmd);
-      }
+      if (addToHistory) addCommandToHistory(batchCmd);
       return batchCmd;
     }
   };

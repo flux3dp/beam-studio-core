@@ -115,7 +115,7 @@ class DimensionPanel extends React.Component<Props> {
     return cmd;
   };
 
-  handleSizeChange = (type: string, val: number): void => {
+  handleSizeChange = (type: 'width' | 'height' | 'rx' | 'ry', val: number): void => {
     const batchCmd = HistoryCommandFactory.createBatchCommand('Object Panel Size Change');
     const { updateDimensionValues, getDimensionValues } = this.props;
     const response = {
@@ -392,7 +392,12 @@ class DimensionPanel extends React.Component<Props> {
         );
       case 'lock':
         return (
-          <div className="dimension-lock" title={isRatioFixed ? LANG.unlock_aspect : LANG.lock_aspect} key={type} onClick={() => this.handleFixRatio()}>
+          <div
+            className="dimension-lock"
+            title={isRatioFixed ? LANG.unlock_aspect : LANG.lock_aspect}
+            key={type}
+            onClick={() => this.handleFixRatio()}
+          >
             <img src={isRatioFixed ? 'img/right-panel/icon-lock.svg' : 'img/right-panel/icon-unlock.svg'} alt="" />
           </div>
         );
@@ -412,10 +417,20 @@ class DimensionPanel extends React.Component<Props> {
 
   renderFlipButtons = (): JSX.Element => (
     <div className="flip-btn-container">
-      <div id="horizontal_flip" className="tool-btn" onClick={() => svgCanvas.flipSelectedElements(-1, 1)} title={LANG.hflip}>
+      <div
+        id="horizontal_flip"
+        className="tool-btn"
+        onClick={() => svgCanvas.flipSelectedElements(-1, 1)}
+        title={LANG.hflip}
+      >
         <img src="img/right-panel/icon-hflip.svg" alt="" />
       </div>
-      <div id="vertical_flip" className="tool-btn" onClick={() => svgCanvas.flipSelectedElements(1, -1)} title={LANG.vflip}>
+      <div
+        id="vertical_flip"
+        className="tool-btn"
+        onClick={() => svgCanvas.flipSelectedElements(1, -1)}
+        title={LANG.vflip}
+      >
         <img src="img/right-panel/icon-vflip.svg" alt="" />
       </div>
     </div>

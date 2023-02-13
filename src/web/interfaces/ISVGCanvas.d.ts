@@ -22,9 +22,12 @@ export default interface ISVGCanvas {
   addCommandToHistory: (command: ICommand) => void;
   addedNew: boolean;
   addExtension: any;
-  addSvgElementFromJson: (obj: { element: string, curStyles?: boolean, attr: any, }) => SVGElement;
+  addSvgElementFromJson<T = SVGElement>(obj: { element: string, curStyles?: boolean, attr: any, }): T;
   addToSelection: (elemsToAdd: SVGElement[], showGrips?: boolean, noCall?: boolean) => void;
-  alignSelectedElements(type: 'l' | 'c' | 'r' | 't' | 'm' | 'b', relativeTo: 'selected' | 'largest' | 'smallest' | 'page'): void;
+  alignSelectedElements(
+    type: 'l' | 'c' | 'r' | 't' | 'm' | 'b',
+    relativeTo: 'selected' | 'largest' | 'smallest' | 'page'
+  ): void;
   assignAttributes(element: HTMLElement, args: any): void;
   bind: (eventName: string, callback: boolean | ((win: any, elem: any) => void)) => void;
   calculateTransformedBBox(elem: Element): IRect;
@@ -77,6 +80,7 @@ export default interface ISVGCanvas {
   getTitle: () => string;
   getZoom: () => number, // Old getter for current_zoom
   groupSelectedElements: () => void;
+  handleGenerateSensorArea: (evt: MouseEvent) => void;
   importSvgString(modifiedSvgString: string, type: 'color' | 'layer' | 'none', layerName: string): void;
   isBezierPathAlignToEdge: boolean;
   isUsingLayerColor: boolean;
@@ -126,6 +130,7 @@ export default interface ISVGCanvas {
   setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;
   setStrokeAttr(attrKey: string, value: string): void;
   setStrokeWidth(width: number): void;
+  setSvgElemSize: (type: 'width' | 'height' | 'rx' | 'ry', val: number, addToHistory?: boolean) => IBatchCommand | null;
   setSvgString: (content: string) => boolean;
   setUiStrings(allStrings: Record<string, string>): void;
   setZoom: (zoom: number) => void;

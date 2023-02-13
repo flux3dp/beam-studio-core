@@ -3,7 +3,6 @@ import classNames from 'classnames';
 
 import beamboxStore from 'app/stores/beambox-store';
 import i18n from 'helpers/i18n';
-import ImageTracePanelController from 'app/actions/beambox/imageTracePanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -56,9 +55,6 @@ const PreviewToolButtonGroup = ({
   );
 
   const startImageTrace = () => {
-    if (!document.getElementById('image-trace-panel-outer')) {
-      ImageTracePanelController.render();
-    }
     endPreviewMode();
     svgCanvas.clearSelection();
     beamboxStore.emitShowCropper();
