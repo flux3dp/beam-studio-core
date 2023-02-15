@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
+
+import ConnectUsb from './ConnectUsb';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -17,12 +18,9 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-// eslint-disable-next-line import/first
-import ConnectUsb from './ConnectUsb';
-
-describe('test Connect-Usb', () => {
+describe('test ConnectUsb', () => {
   test('should render correctly', () => {
-    const wrapper = shallow(<ConnectUsb />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ConnectUsb />);
+    expect(container).toMatchSnapshot();
   });
 });

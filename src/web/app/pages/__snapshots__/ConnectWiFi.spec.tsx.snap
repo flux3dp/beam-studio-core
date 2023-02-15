@@ -1,112 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Connect-Wi-Fi should render correctly 1`] = `
-<View
-  className={
-    Object {
-      "initialization": true,
-    }
-  }
-  content={
+exports[`test ConnectWiFi should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
     <div
-      className="connect-machine"
+      class="top-bar"
+    />
+    <div
+      class="btns"
     >
       <div
-        className="top-bar"
-      />
-      <div
-        className="btn-page-container"
+        class="btn"
       >
-        <div
-          className="btn-page"
-          onClick={[Function]}
-        >
-          Back
-        </div>
-        <div
-          className="btn-page primary"
-          onClick={[Function]}
-        >
-          Next
-        </div>
+        Back
       </div>
       <div
-        className="connection-wifi"
+        class="btn primary"
+      >
+        Next
+      </div>
+    </div>
+    <div
+      class="main"
+    >
+      <div
+        class="image"
       >
         <div
-          className="image-container"
+          class="hint"
+        />
+        <img
+          draggable="false"
+          src="img/init-panel/touch-panel-en.jpg"
+        />
+      </div>
+      <div
+        class="text"
+      >
+        <div
+          class="title"
         >
-          <div
-            className="hint-circle"
-          />
-          <img
-            className="touch-panel-icon"
-            draggable="false"
-            src="img/init-panel/touch-panel-en.jpg"
-          />
+          Connecting to Wi-Fi
         </div>
         <div
-          className="text-container"
+          class="contents tutorial"
+        >
+          <div>
+            1. Go to Touch Panel &gt; Click "Network" &gt; "Connect to WiFi".
+          </div>
+          <div>
+            2. Select and connect your prefered Wi-Fi.
+          </div>
+        </div>
+        <div
+          class="ant-collapse ant-collapse-icon-position-start css-dev-only-do-not-override-hash"
+          role="tablist"
         >
           <div
-            className="title"
-          >
-            Connecting to Wi-Fi
-          </div>
-          <div
-            className="contents tutorial"
-          >
-            <div>
-              1. Go to Touch Panel &gt; Click "Network" &gt; "Connect to WiFi".
-            </div>
-            <div>
-              2. Select and connect your prefered Wi-Fi.
-            </div>
-          </div>
-          <div
-            className="contents what-if collapsed"
+            class="ant-collapse-item"
           >
             <div
-              className="collapse-title"
-              id="collapse-wifi1"
-              onClick={[Function]}
+              aria-disabled="false"
+              aria-expanded="false"
+              class="ant-collapse-header"
+              role="tab"
+              tabindex="0"
             >
-              What if I don't see my Wi-Fi?
               <div
-                className="collapse-arrow"
-              />
-            </div>
-            <div
-              className="collapse-contents"
-            >
-              1. The Wi-Fi encryption mode should be WPA2 or no password.
-2. The encryption mode can be set in the Wi-Fi router administration interface. If the router doesn’t support WPA2 and you need help picking out the right router, please contact FLUX Support.
+                class="ant-collapse-expand-icon"
+              >
+                <span
+                  aria-label="right"
+                  class="anticon anticon-right ant-collapse-arrow"
+                  role="img"
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="right"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <span
+                class="ant-collapse-header-text"
+              >
+                What if I don't see my Wi-Fi?
+              </span>
             </div>
           </div>
           <div
-            className="contents what-if collapsed"
+            class="ant-collapse-item"
           >
             <div
-              className="collapse-title"
-              id="collapse-wifi2"
-              onClick={[Function]}
+              aria-disabled="false"
+              aria-expanded="false"
+              class="ant-collapse-header"
+              role="tab"
+              tabindex="0"
             >
-              What if I don't see any Wi-Fi?
               <div
-                className="collapse-arrow"
-              />
-            </div>
-            <div
-              className="collapse-contents"
-            >
-              1. Make sure the Wi-Fi dongle is fully plugged in.
-2. If there is no MAC Address of the wireless network on the touchscreen, please contact FLUX Support.
-3. The Wi-Fi channel should be 2.4Ghz (5Ghz is not supported).
+                class="ant-collapse-expand-icon"
+              >
+                <span
+                  aria-label="right"
+                  class="anticon anticon-right ant-collapse-arrow"
+                  role="img"
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="right"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    viewBox="64 64 896 896"
+                    width="1em"
+                  >
+                    <path
+                      d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <span
+                class="ant-collapse-header-text"
+              >
+                What if I don't see any Wi-Fi?
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  }
-/>
+  </div>
+</div>
 `;

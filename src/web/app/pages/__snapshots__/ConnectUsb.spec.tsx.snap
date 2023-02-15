@@ -1,79 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Connect-Usb should render correctly 1`] = `
-<View
-  className={
-    Object {
-      "initialization": true,
-    }
-  }
-  content={
+exports[`test ConnectUsb should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
     <div
-      className="connect-machine"
+      class="top-bar"
+    />
+    <div
+      class="btns"
     >
       <div
-        className="top-bar"
-      />
-      <div
-        className="btn-page-container"
+        class="btn"
       >
-        <div
-          className="btn-page"
-          onClick={[Function]}
-        >
-          Back
-        </div>
-        <div
-          className="btn-page primary"
-          onClick={[Function]}
-        >
-          Next
-        </div>
+        Back
       </div>
       <div
-        className="connection-usb"
+        class="btn primary"
+      >
+        Next
+      </div>
+    </div>
+    <div
+      class="main"
+    >
+      <div
+        class="image"
       >
         <div
-          className="image-container usb"
+          class="circle c1"
+        />
+        <img
+          draggable="false"
+          src="img/init-panel/icon-usb-cable.svg"
+        />
+        <div
+          class="circle c2"
+        />
+      </div>
+      <div
+        class="text"
+      >
+        <div
+          class="title"
         >
-          <div
-            className="circle c1"
-          />
-          <img
-            className="usb-cable-icon"
-            draggable="false"
-            src="img/init-panel/icon-usb-cable.svg"
-          />
-          <div
-            className="circle c2"
-          />
+          USB Connection
+          <span
+            class="sub"
+          >
+             (HEXA Only)
+          </span>
         </div>
         <div
-          className="text-container"
+          class="contents tutorial"
         >
-          <div
-            className="title"
-          >
-            USB Connection
-            <span
-              className="sub"
-            >
-               (HEXA Only)
-            </span>
+          <div>
+            1. Connect the machine with your computer with USB cable.
           </div>
-          <div
-            className="contents tutorial"
-          >
-            <div>
-              1. Connect the machine with your computer with USB cable.
-            </div>
-            <div>
-              2. Click Next.
-            </div>
+          <div>
+            2. Click Next.
           </div>
         </div>
       </div>
     </div>
-  }
-/>
+  </div>
+</div>
 `;

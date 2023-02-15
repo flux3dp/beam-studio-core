@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
+
+import ConnectWifi from './ConnectWiFi';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -10,9 +11,9 @@ jest.mock('helpers/i18n', () => ({
         tutorial1: '1. Go to Touch Panel > Click "Network" > "Connect to WiFi".',
         tutorial2: '2. Select and connect your prefered Wi-Fi.',
         what_if_1: 'What if I don\'t see my Wi-Fi?',
-        what_if_1_content: '1. The Wi-Fi encryption mode should be WPA2 or no password.\n2. The encryption mode can be set in the Wi-Fi router administration interface. If the router doesn’t support WPA2 and you need help picking out the right router, please contact FLUX Support.',
+        what_if_1_content: 'what_if_1_content',
         what_if_2: 'What if I don\'t see any Wi-Fi?',
-        what_if_2_content: '1. Make sure the Wi-Fi dongle is fully plugged in.\n2. If there is no MAC Address of the wireless network on the touchscreen, please contact FLUX Support.\n3. The Wi-Fi channel should be 2.4Ghz (5Ghz is not supported).',
+        what_if_2_content: 'what_if_2_content',
       },
       next: 'Next',
       back: 'Back',
@@ -21,11 +22,10 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import ConnectWifi from './ConnectWiFi';
 
-describe('test Connect-Wi-Fi', () => {
+describe('test ConnectWiFi', () => {
   test('should render correctly', () => {
-    const wrapper = shallow(<ConnectWifi />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ConnectWifi />);
+    expect(container).toMatchSnapshot();
   });
 });

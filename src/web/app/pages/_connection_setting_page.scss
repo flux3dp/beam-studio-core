@@ -1,0 +1,161 @@
+@keyframes pulse {
+  0% {
+    transform: (scale(0.8));
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+@mixin container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  color: #808080;
+  position: relative;
+  z-index: 0;
+  width: 100%;
+
+  .top-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 40px;
+    background-color: #333333;
+    -webkit-app-region: drag;
+  }
+
+  .main {
+    margin-top: 150px;
+    height: 480px;
+
+    .image {
+      float: left;
+      width: 200px;
+
+      .circle {
+        width: 98px;
+        height: 98px;
+        border-radius: 50px;
+        z-index: -1;
+        position: relative;
+        animation: pulse 4s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
+      }
+
+      .c1 {
+        background-color: #f7b500;
+      }
+
+      .c2 {
+        background-color: #0091ff;
+      }
+    }
+
+    .text {
+      margin-left: 80px;
+      width: 500px;
+      float: right;
+
+      .title {
+        font-size: 30px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        color: #333333;
+        padding-bottom: 25px;
+
+        .sub {
+          font-size: 18px;
+        }
+      }
+
+      .contents {
+        font-size: 12px;
+        line-height: 23px;
+        letter-spacing: 0.1px;
+        white-space: pre;
+        color: #999999;
+
+        a {
+          color: #999999;
+        }
+
+        .link {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+
+        &.tutorial {
+          padding-bottom: 25px;
+        }
+
+        &.collapse {
+          white-space: unset;
+        }
+      }
+    }
+  }
+
+  .btns {
+    position: absolute;
+    right: 60px;
+    bottom: 55px;
+    display: flex;
+
+    .btn {
+      cursor: pointer;
+      height: 72px;
+      padding: 0px 20px;
+      margin-left: 35px;
+      font-size: 27px;
+      line-height: 72px;
+      font-weight: bold;
+      color: #333333;
+
+      &.primary {
+        border-radius: 8px;
+        background-color: #333333;
+        color: #f8f8f8;
+      }
+
+      &.disabled {
+        cursor: unset;
+        opacity: 0.3;
+      }
+
+      .left-arrow {
+        float: left;
+        border-style: solid;
+        border-color: transparent #333333 transparent transparent;
+        border-width: 13px 21px 13px 0;
+        margin: 6.5px 20px 6.5px 0;
+      }
+
+      .right-arrow {
+        float: right;
+        border-style: solid;
+        border-color: transparent transparent transparent #333333;
+        border-width: 13px 0 13px 21px;
+        margin: 6.5px 0 6.5px 20px;
+      }
+
+      &:hover:not(.disabled) {
+        border-radius: 8px;
+        background-color: #333333;
+        color: #f8f8f8;
+        .left-arrow {
+          border-color: transparent #f8f8f8 transparent transparent;
+        }
+        .right-arrow {
+          border-color: transparent transparent transparent #f8f8f8;
+        }
+        &.primary {
+          background-color: #000000;
+          color: #f8f8f8;
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,11 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import ConnectEthernet from './ConnectEthernet';
 
 const mockOpen = jest.fn();
 jest.mock('implementations/browser', () => ({
-  open: mockOpen,
+  open: (url) => mockOpen(url),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -26,10 +27,7 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-// eslint-disable-next-line import/first
-import ConnectEthernet from './ConnectEthernet';
-
-describe('test Connect-Ethernet', () => {
+describe('test ConnectEthernet', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -38,10 +36,11 @@ describe('test Connect-Ethernet', () => {
     Object.defineProperty(window, 'os', {
       value: 'MacOS',
     });
-    const wrapper = mount(<ConnectEthernet />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<ConnectEthernet />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('span').simulate('click');
+    expect(mockOpen).not.toBeCalled();
+    fireEvent.click(getByText('this guide'));
     expect(mockOpen).toHaveBeenCalledTimes(1);
     expect(mockOpen).toHaveBeenNthCalledWith(1, 'https://support.flux3dp.com/hc/en-us/articles/360001517076');
   });
@@ -50,10 +49,11 @@ describe('test Connect-Ethernet', () => {
     Object.defineProperty(window, 'os', {
       value: 'Windows',
     });
-    const wrapper = mount(<ConnectEthernet />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<ConnectEthernet />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('span').simulate('click');
+    expect(mockOpen).not.toBeCalled();
+    fireEvent.click(getByText('this guide'));
     expect(mockOpen).toHaveBeenCalledTimes(1);
     expect(mockOpen).toHaveBeenNthCalledWith(1, 'https://support.flux3dp.com/hc/en-us/articles/360001507715');
   });
