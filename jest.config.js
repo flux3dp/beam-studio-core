@@ -4,6 +4,9 @@ module.exports = {
   testMatch: [
     "**/?(*.)+(spec|test).(ts|tsx)"
   ],
+  moduleNameMapper: {
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+  },
   collectCoverageFrom: [
     "src/**/*.(ts|tsx)",
     "!src/web/setupTests.ts",
