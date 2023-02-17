@@ -4866,6 +4866,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       basePathText = `<path d="${d}" />`;
     }
 
+    const base = selectedElements[0];
     const element = addSvgElementFromJson({
       element: 'path',
       curStyles: false,
@@ -4873,8 +4874,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         id: getNextId(),
         d,
         stroke: '#000',
-        fill: basePathText.getAttribute('fill'),
-        'fill-opacity': basePathText.getAttribute('fill-opacity'),
+        fill: base.getAttribute('fill'),
+        'fill-opacity': base.getAttribute('fill-opacity'),
         opacity: cur_shape.opacity
       }
     });
