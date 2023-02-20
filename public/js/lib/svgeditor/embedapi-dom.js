@@ -5,7 +5,7 @@ var initEmbed;
 // Todo: Get rid of frame.contentWindow dependencies so can be more easily adjusted to work cross-domain
 
 $(function () {'use strict';
-    
+
     var svgCanvas = null;
     var frame;
 
@@ -34,20 +34,11 @@ $(function () {'use strict';
     function saveSvg() {
         svgCanvas.getSvgString()(handleSvgData);
     }
-    
-    function exportPNG() {
-        var str = frame.contentWindow.svgEditor.uiStrings.notification.loadingImage;
 
-        var exportWindow = window.open(
-            'data:text/html;charset=utf-8,' + encodeURIComponent('<title>' + str + '</title><h1>' + str + '</h1>'),
-            'svg-edit-exportWindow'
-        );
-        svgCanvas.rasterExport('PNG', null, exportWindow.name);
-    }
-    
+
     function exportPDF() {
         var str = frame.contentWindow.svgEditor.uiStrings.notification.loadingImage;
-        
+
 		/**
         // If you want to handle the PDF blob yourself, do as follows
 		svgCanvas.bind('exportedPDF', function (win, data) {
@@ -56,18 +47,17 @@ $(function () {'use strict';
 		svgCanvas.exportPDF(); // Accepts two args: optionalWindowName supplied back to bound exportPDF handler and optionalOutputType (defaults to dataurlstring)
         return;
         */
-		
+
         var exportWindow = window.open(
             'data:text/html;charset=utf-8,' + encodeURIComponent('<title>' + str + '</title><h1>' + str + '</h1>'),
             'svg-edit-exportWindow'
         );
 		svgCanvas.exportPDF(exportWindow.name);
     }
-    
+
     // Add event handlers
     $('#load').click(loadSvg);
     $('#save').click(saveSvg);
-    $('#exportPNG').click(exportPNG);
     $('#exportPDF').click(exportPDF);
     $('body').append(
         $('<iframe src="svg-editor.html?extensions=ext-xdomain-messaging.js' +
