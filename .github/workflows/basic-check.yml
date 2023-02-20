@@ -20,9 +20,13 @@ jobs:
   eslint-check:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.13'
+          cache: 'yarn'
       - uses: actions/checkout@v3
       - name: Eslint check
-        uses: reviewdog/action-eslint@v1.16
+        uses: reviewdog/action-eslint@v1
   web-e2e:
     needs: [unit-tests-and-coverage, eslint-check]
     runs-on: ubuntu-latest
