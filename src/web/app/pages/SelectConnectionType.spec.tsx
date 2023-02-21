@@ -1,17 +1,18 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import SelectConnectionType from './SelectConnectionType';
 
 const mockShowLoadingWindow = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
-  showLoadingWindow: mockShowLoadingWindow,
+  showLoadingWindow: (...args) => mockShowLoadingWindow(...args),
 }));
 
 const mockGet = jest.fn();
 const mockSet = jest.fn();
 jest.mock('implementations/storage', () => ({
-  get: mockGet,
-  set: mockSet,
+  get: (...args) => mockGet(...args),
+  set: (...args) => mockSet(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -34,12 +35,9 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 const mockWindowLocationReload = jest.fn();
-jest.mock('app/actions/windowLocation', () => mockWindowLocationReload);
+jest.mock('app/actions/windowLocation', () => () => mockWindowLocationReload());
 
-// eslint-disable-next-line import/first
-import SelectConnectionType from './SelectConnectionType';
-
-describe('test Select-Connection-Type', () => {
+describe('test SelectConnectionType', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -47,30 +45,30 @@ describe('test Select-Connection-Type', () => {
   test('should render correctly with new user', () => {
     mockGet.mockReturnValue(false);
 
-    const wrapper = mount(<SelectConnectionType />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<SelectConnectionType />);
+    expect(container).toMatchSnapshot();
     expect(mockGet).toHaveBeenCalledTimes(1);
     expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');
     expect(mockSet).not.toHaveBeenCalled();
 
-    wrapper.find('.btn-action').at(0).simulate('click');
+    fireEvent.click(getByText('Wi-Fi'));
     expect(window.location.hash).toBe('#initialize/connect/connect-wi-fi');
 
-    wrapper.find('.btn-action').at(1).simulate('click');
+    fireEvent.click(getByText('Wired Network'));
     expect(window.location.hash).toBe('#initialize/connect/connect-wired');
 
-    wrapper.find('.btn-action').at(2).simulate('click');
+    fireEvent.click(getByText('Direct Connection'));
     expect(window.location.hash).toBe('#initialize/connect/connect-ethernet');
 
-    wrapper.find('.btn-action').at(3).simulate('click');
+    fireEvent.click(getByText('USB Connection'));
     expect(window.location.hash).toBe('#initialize/connect/connect-usb');
 
-    wrapper.find('.btn-page').simulate('click');
+    fireEvent.click(getByText('Skip'));
     expect(mockSet).toHaveBeenCalledTimes(2);
     expect(mockSet).toHaveBeenNthCalledWith(1, 'new-user', true);
     expect(mockSet).toHaveBeenNthCalledWith(2, 'printer-is-ready', true);
     expect(mockShowLoadingWindow).toHaveBeenCalledTimes(1);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
     expect(window.location.hash).toBe('#studio/beambox');
     expect(mockWindowLocationReload).toHaveBeenCalled();
   });
@@ -78,13 +76,13 @@ describe('test Select-Connection-Type', () => {
   test('should render correctly but not new user', () => {
     mockGet.mockReturnValue(true);
 
-    const wrapper = mount(<SelectConnectionType />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<SelectConnectionType />);
+    expect(container).toMatchSnapshot();
     expect(mockGet).toHaveBeenCalledTimes(1);
     expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');
     expect(mockSet).not.toHaveBeenCalled();
 
-    wrapper.find('.btn-page').simulate('click');
+    fireEvent.click(getByText('Cancel'));
     expect(mockSet).toHaveBeenCalledTimes(1);
     expect(mockSet).toHaveBeenNthCalledWith(1, 'printer-is-ready', true);
   });

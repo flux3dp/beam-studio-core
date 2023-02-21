@@ -1,68 +1,33 @@
-import * as React from 'react';
+import classNames from 'classnames';
+import React, { useEffect, useMemo } from 'react';
+
 import dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
 import storage from 'implementations/storage';
 import windowLocationReload from 'app/actions/windowLocation';
 
+import styles from './SelectConnectionType.module.scss';
+
 let lang = i18n.lang.initialize;
+const updateLang = () => {
+  lang = i18n.lang.initialize;
+};
 
-export default class SelectConnectionType extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    lang = i18n.lang.initialize;
-  }
+const TYPE_URL_MAP = {
+  wifi: '#initialize/connect/connect-wi-fi',
+  wired: '#initialize/connect/connect-wired',
+  ether2ether: '#initialize/connect/connect-ethernet',
+  usb: '#initialize/connect/connect-usb',
+};
 
-  private selectConnectionType = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb') => {
-    // eslint-disable-next-line default-case
-    switch (type) {
-      case 'wifi':
-        window.location.hash = '#initialize/connect/connect-wi-fi';
-        break;
-      case 'wired':
-        window.location.hash = '#initialize/connect/connect-wired';
-        break;
-      case 'ether2ether':
-        window.location.hash = '#initialize/connect/connect-ethernet';
-        break;
-      case 'usb':
-        window.location.hash = '#initialize/connect/connect-usb';
-        break;
-    }
-  };
+const SelectConnectionType = (): JSX.Element => {
+  useEffect(() => {
+    updateLang();
+  }, []);
 
-  renderConnectionTypeContainer = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
-    <div className="btn-container">
-      <img className="connect-btn-icon" src={`img/init-panel/icon-${type}.svg`} draggable="false" />
-      {this.renderConnectionTypeButton(type)}
-    </div>
-  );
+  const isNewUser = useMemo(() => !storage.get('printer-is-ready'), []);
 
-  renderConnectionTypeButton = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
-    <button
-      id={`connect-${type}`}
-      type="button"
-      className="btn btn-action"
-      onClick={this.selectConnectionType.bind(this, type)}
-    >
-      {lang.connection_types[type]}
-      {type === 'usb' ? <span className="sub">{lang.connect_usb.title_sub}</span> : null}
-    </button>
-  );
-
-  renderSelectConnectTypeStep = () => (
-    <div className="select-connection-type">
-      <h1 className="main-title">{lang.select_connection_type}</h1>
-      <div className="btn-h-group">
-        {this.renderConnectionTypeContainer('wifi')}
-        {this.renderConnectionTypeContainer('wired')}
-        {this.renderConnectionTypeContainer('ether2ether')}
-        {this.renderConnectionTypeContainer('usb')}
-      </div>
-    </div>
-  );
-
-  clickButton = (isNewUser: boolean) => {
+  const handleBtnClick = () => {
     if (isNewUser) {
       storage.set('new-user', true);
     }
@@ -72,32 +37,49 @@ export default class SelectConnectionType extends React.PureComponent {
     windowLocationReload();
   };
 
-  renderButtons = () => {
-    const isNewUser = !storage.get('printer-is-ready');
-    return (
-      <div className="btn-page-container">
-        <div className="btn-page primary" onClick={this.clickButton.bind(this, isNewUser)}>
+  const handleConnectionTypeClick = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb') => {
+    const url = TYPE_URL_MAP[type];
+    window.location.hash = url;
+  };
+
+  const renderConnectionTypeButton = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
+    <button
+      id={`connect-${type}`}
+      type="button"
+      className={classNames('btn', styles.btn)}
+      onClick={() => handleConnectionTypeClick(type)}
+    >
+      {lang.connection_types[type]}
+      {type === 'usb' ? <span className={styles.sub}>{lang.connect_usb.title_sub}</span> : null}
+    </button>
+  );
+
+  const renderConnectionTypeContainer = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
+    <div className={styles['btn-container']}>
+      <img className={styles.icon} src={`img/init-panel/icon-${type}.svg`} draggable="false" />
+      {renderConnectionTypeButton(type)}
+    </div>
+  );
+
+  return (
+    <div className={styles.container}>
+      <div className={styles['top-bar']} />
+      <div className={styles.btns}>
+        <div className={classNames(styles.btn, styles.primary)} onClick={handleBtnClick}>
           {isNewUser ? lang.skip : lang.cancel}
         </div>
       </div>
-    );
-  };
-
-  render() {
-    const wrapperClassName = {
-      initialization: true,
-    };
-    const innerContent = this.renderSelectConnectTypeStep();
-    const content = (
-      <div className="connect-machine">
-        <div className="top-bar" />
-        {this.renderButtons()}
-        {innerContent}
+      <div className={styles.main}>
+        <h1 className={styles.title}>{lang.select_connection_type}</h1>
+        <div className={styles.btns}>
+          {renderConnectionTypeContainer('wifi')}
+          {renderConnectionTypeContainer('wired')}
+          {renderConnectionTypeContainer('ether2ether')}
+          {renderConnectionTypeContainer('usb')}
+        </div>
       </div>
-    );
+    </div>
+  );
+};
 
-    return (
-      <Modal className={wrapperClassName} content={content} />
-    );
-  }
-}
+export default SelectConnectionType;

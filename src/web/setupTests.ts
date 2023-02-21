@@ -82,7 +82,7 @@ if (!window.matchMedia) {
   });
 }
 
-const antdCssDevOnlyRegex = /css-dev-only-do-not-override-([A-Za-z0-9]{6})/g;
+const antdCssDevOnlyRegex = /css-dev-only-do-not-override-([A-Za-z0-9]*)/g;
 expect.addSnapshotSerializer({
   test: (val) => typeof val === 'string' && !!val.match(antdCssDevOnlyRegex),
   print: (val: string) => `"${val.replace(antdCssDevOnlyRegex, 'css-dev-only-do-not-override-hash')}"`,

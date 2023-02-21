@@ -120,21 +120,19 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     ...config,
   };
 
-  // Array with width/height of canvas
-  var dimensions = curConfig.dimensions;
-
   var canvas = this;
   const pathActions = PathActions(this);
+  this.contentW = curConfig.dimensions[0];
+  this.contentH = curConfig.dimensions[1];
 
   // "document" element associated with the container (same as window.document using default svg-editor.js)
   // NOTE: This is not actually a SVG document, but a HTML document.
   var svgdoc = container.ownerDocument;
   this.svgdoc = svgdoc;
-
   // This is a container for the document being edited, not the document itself.
   var svgroot = svgdoc.importNode(svgedit.utilities.text2xml(
     '<svg id="svgroot" xmlns="' + NS.SVG + '" xlinkns="' + NS.XLINK + '" ' +
-    'width="' + dimensions[0] + '" height="' + dimensions[1] + '" x="' + dimensions[0] + '" y="' + dimensions[1] + '" overflow="visible">' +
+    'width="' + this.contentW + '" height="' + this.contentH + '" x="' + this.contentW + '" y="' + this.contentH + '" overflow="visible">' +
     '<defs>' +
     '<filter id="canvashadow" filterUnits="objectBoundingBox">' +
     '<feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>' +
@@ -157,14 +155,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     while (svgcontent.firstChild) {
       svgcontent.removeChild(svgcontent.firstChild);
     }
-
     // TODO: Clear out all other attributes first?
     $(svgcontent).attr({
       id: 'svgcontent',
-      width: dimensions[0],
-      height: dimensions[1],
-      x: dimensions[0],
-      y: dimensions[1],
+      width: canvas.contentW,
+      height: canvas.contentH,
+      x: canvas.contentW,
+      y: canvas.contentH,
       overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
       xmlns: NS.SVG,
       'xmlns:se': NS.SE,
@@ -1798,7 +1795,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               attrVal = pathActions.convertPath(elem, true);
             }
             const floatValue = svgedit.units.shortFloat(attrVal);
-            if (!Number.isNaN(floatValue)) {
+            if (!Number.isNaN(Number(attrVal))) {
               attrVal = floatValue;
             } else if (unitRe.test(attrVal)) {
               attrVal = floatValue + unit;
@@ -1990,44 +1987,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return issues;
   }
 
-  // Function: rasterExport
-  // Generates a Data URL based on the current image, then calls "exported"
-  // with an object including the string, image information, and any issues found
-  this.rasterExport = function (imgType, quality, exportWindowName) {
-    var mimeType = 'image/' + imgType.toLowerCase();
-    var issues = getIssues();
-    var str = this.svgCanvasToString();
-
-    svgedit.utilities.buildCanvgCallback(function () {
-      var type = imgType || 'PNG';
-      if (!$('#export_canvas').length) {
-        $('<canvas>', {
-          id: 'export_canvas'
-        }).hide().appendTo('body');
-      }
-      var c = $('#export_canvas')[0] as HTMLCanvasElement;
-      c.width = svgCanvas.contentW;
-      c.height = svgCanvas.contentH;
-
-      (window as any).canvg(c, str, {
-        renderCallback: function () {
-          var dataURLType = (type === 'ICO' ? 'BMP' : type).toLowerCase();
-          var datauri = quality ? c.toDataURL('image/' + dataURLType, quality) : c.toDataURL('image/' + dataURLType);
-
-          call('exported', {
-            datauri: datauri,
-            svg: str,
-            issues: issues,
-            type: imgType,
-            mimeType: mimeType,
-            quality: quality,
-            exportWindowName: exportWindowName
-          });
-        }
-      });
-    })();
-  };
-
   this.exportPDF = function (exportWindowName, outputType) {
     var that = this;
     svgedit.utilities.buildJSPDFCallback(function () {
@@ -2089,7 +2048,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.svgStringToImage = function (type, svgString) {
     return new Promise((resolve, reject) => {
       try {
-        const [width, height] = dimensions;
+        const width = canvas.contentW;
+        const height = canvas.contentH;
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = width;
         tempCanvas.height = height;
