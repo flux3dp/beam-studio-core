@@ -155,7 +155,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     while (svgcontent.firstChild) {
       svgcontent.removeChild(svgcontent.firstChild);
     }
-    console.log(canvas.contentW, canvas.contentH);
     // TODO: Clear out all other attributes first?
     $(svgcontent).attr({
       id: 'svgcontent',
