@@ -1796,7 +1796,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               attrVal = pathActions.convertPath(elem, true);
             }
             const floatValue = svgedit.units.shortFloat(attrVal);
-            if (!Number.isNaN(floatValue)) {
+            if (!Number.isNaN(Number(attrVal))) {
               attrVal = floatValue;
             } else if (unitRe.test(attrVal)) {
               attrVal = floatValue + unit;
