@@ -23,11 +23,13 @@ jest.mock('app/actions/beambox/font-funcs', () => ({
   convertTextToPath,
 }));
 
+const mockTraceImage = jest.fn();
 const generateStampBevel = jest.fn();
 const colorInvert = jest.fn();
 jest.mock('helpers/image-edit', () => ({
   generateStampBevel,
   colorInvert,
+  traceImage: (...args) => mockTraceImage(...args),
 }));
 
 const openNonstopProgress = jest.fn();
@@ -84,7 +86,6 @@ jest.mock('helpers/svg-editor-helper', () => ({
 const calculateTransformedBBox = jest.fn();
 const clearSelection = jest.fn();
 const convertToPath = jest.fn();
-const imageToSVG = jest.fn();
 const decomposePath = jest.fn();
 const disassembleUse2Group = jest.fn();
 const replaceBitmap = jest.fn();
@@ -100,7 +101,6 @@ getSVGAsync.mockImplementation((callback) => {
       calculateTransformedBBox,
       clearSelection,
       convertToPath,
-      imageToSVG,
       decomposePath,
       disassembleUse2Group,
       pathActions,
@@ -163,7 +163,7 @@ describe('should render correctly', () => {
     expect(replaceBitmap).not.toHaveBeenCalled();
 
     wrapper.find('div.btn-container').at(1).simulate('click');
-    expect(imageToSVG).toHaveBeenCalledTimes(1);
+    expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(2).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);

@@ -1,23 +1,30 @@
+import alertCaller from 'app/actions/alert-caller';
 import history from 'app/svgedit/history';
-import progress from 'app/actions/progress-caller';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import imageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
+import progress from 'app/actions/progress-caller';
+import requirejsHelper from 'helpers/requirejs-helper';
+import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
+import { moveElements } from 'app/svgedit/operations/move';
 
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
+let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
+  svgedit = globalSVG.Edit;
 });
 
-const getSelectedElem = () => {
+const getSelectedElem = (): SVGImageElement => {
   const selectedElements = svgCanvas.getSelectedElems();
   const len = selectedElements.length;
   if (len > 1) {
     return null;
   }
-  const element = selectedElements[0] as Element;
+  const element = selectedElements[0] as SVGImageElement;
   if (element.tagName !== 'image') {
     return null;
   }
@@ -78,7 +85,7 @@ const addBatchCommand = (
   return batchCommand;
 };
 
-const colorInvert = async (elem?: Element): Promise<void> => {
+const colorInvert = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
   progress.openNonstopProgress({
@@ -100,7 +107,7 @@ const colorInvert = async (elem?: Element): Promise<void> => {
   progress.popById('photo-edit-processing');
 };
 
-const generateStampBevel = async (elem?: Element): Promise<void> => {
+const generateStampBevel = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
   progress.openNonstopProgress({
@@ -122,7 +129,84 @@ const generateStampBevel = async (elem?: Element): Promise<void> => {
   progress.popById('photo-edit-processing');
 };
 
+const traceImage = async (img?: SVGImageElement): Promise<void> => {
+  const element = img || getSelectedElem();
+  if (!element) return;
+  const { imgUrl, shading, threshold } = getImageAttributes(element);
+  if (shading) {
+    alertCaller.popUp({
+      message: i18n.lang.beambox.popup.vectorize_shading_image,
+    });
+    return;
+  }
+  progress.openNonstopProgress({
+    id: 'vectorize-image',
+    message: i18n.lang.beambox.photo_edit_panel.processing,
+  });
+  const ImageTracer = await requirejsHelper('imagetracer');
+  const batchCmd = new history.BatchCommand('Vectorize Image');
+  const imgBBox = element.getBBox();
+  const angle = svgedit.utilities.getRotationAngle(element);
+  const grayScaleUrl = await new Promise((resolve) => imageData(
+    imgUrl,
+    {
+      width: Number(element.getAttribute('width')),
+      height: Number(element.getAttribute('height')),
+      grayscale: {
+        is_rgba: true,
+        is_shading: false,
+        threshold: shading ? 128 : threshold,
+        is_svg: false
+      },
+      onComplete: (result) => resolve(result.pngBase64),
+    }
+  ));
+  const svgStr = (await new Promise<string>((resolve) => ImageTracer.imageToSVG(grayScaleUrl, (str) => resolve(str))))
+    .replace(/<\/?svg[^>]*>/g, '');
+  const gId = svgCanvas.getNextId();
+  const g = svgCanvas.addSvgElementFromJson<SVGGElement>({ element: 'g', attr: { id: gId } });
+  ImageTracer.appendSVGString(svgStr, gId);
+
+  const path = svgCanvas.addSvgElementFromJson({
+    element: 'path',
+    attr: {
+      id: svgCanvas.getNextId(),
+      fill: '#000000',
+      'stroke-width': 1,
+      'vector-effect': 'non-scaling-stroke',
+    }
+  });
+  svgCanvas.selectOnly([g]);
+  let gBBox = g.getBBox();
+  if (imgBBox.width !== gBBox.width) svgCanvas.setSvgElemSize('width', imgBBox.width);
+  if (imgBBox.height !== gBBox.height) svgCanvas.setSvgElemSize('height', imgBBox.height);
+  gBBox = g.getBBox();
+  const dx = (imgBBox.x + 0.5 * imgBBox.width) - (gBBox.x + 0.5 * gBBox.width);
+  const dy = (imgBBox.y + 0.5 * imgBBox.height) - (gBBox.y + 0.5 * gBBox.height);
+  let d = '';
+  for (let i = 0; i < g.childNodes.length; i += 1) {
+    const child = g.childNodes[i] as SVGPathElement;
+    if (child.getAttribute('opacity') !== '0') {
+      d += child.getAttribute('d');
+    }
+    child.remove();
+    i -= 1;
+  }
+  g.remove();
+  path.setAttribute('d', d);
+  moveElements([dx], [dy], [path], false);
+  svgCanvas.setRotationAngle(angle, true, path);
+  if (svgCanvas.isUsingLayerColor) svgCanvas.updateElementColor(path);
+  svgCanvas.selectOnly([path], true);
+  batchCmd.addSubCommand(new history.InsertElementCommand(path));
+  const cmd = deleteElements([img], true);
+  if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+  svgCanvas.addCommandToHistory(batchCmd);
+  progress.popById('vectorize-image');
+};
+
 export default {
   colorInvert,
   generateStampBevel,
+  traceImage,
 };

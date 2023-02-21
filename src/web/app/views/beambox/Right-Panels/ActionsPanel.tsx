@@ -114,19 +114,22 @@ class ActionsPanel extends React.Component<Props> {
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = [
       this.renderButtons(LANG.replace_with, () => this.replaceImage(), true, 'replace_with', false, <ReplaceIcon />),
-      this.renderButtons(LANG.trace, () => svgCanvas.imageToSVG(), false, 'trace', isShading, <TraceIcon />),
-      this.renderButtons(LANG.grading,
-        () => Dialog.showPhotoEditPanel('curve'),
-        false,
-        'grading',
-        false,
-        <GrayscaleIcon />),
+      this.renderButtons(
+        LANG.trace, () => imageEdit.traceImage(elem as SVGImageElement), false, 'trace', isShading, <TraceIcon />,
+      ),
+      this.renderButtons(
+        LANG.grading, () => Dialog.showPhotoEditPanel('curve'), false, 'grading', false, <GrayscaleIcon />
+      ),
       this.renderButtons(LANG.sharpen, () => {
         this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
       }, false, 'sharpen', false, <SharpenIcon />),
       this.renderButtons(LANG.crop, () => Dialog.showPhotoEditPanel('crop'), false, 'crop', false, <CropIcon />),
-      this.renderButtons(LANG.bevel, () => imageEdit.generateStampBevel(elem), false, 'bevel', false, <BevelIcon />),
-      this.renderButtons(LANG.invert, () => imageEdit.colorInvert(elem), false, 'invert', false, <InvertIcon />),
+      this.renderButtons(
+        LANG.bevel, () => imageEdit.generateStampBevel(elem as SVGImageElement), false, 'bevel', false, <BevelIcon />
+      ),
+      this.renderButtons(
+        LANG.invert, () => imageEdit.colorInvert(elem as SVGImageElement), false, 'invert', false, <InvertIcon />
+      ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
     ];
     return content;
@@ -271,7 +274,7 @@ class ActionsPanel extends React.Component<Props> {
         }, true));
       }
     };
-    let content = [];
+    let content: JSX.Element[] = [];
     appendOptionalButtons(content);
     content = [
       ...content,
@@ -285,7 +288,7 @@ class ActionsPanel extends React.Component<Props> {
 
   render(): JSX.Element {
     const { elem } = this.props;
-    let content = null;
+    let content: JSX.Element[] | null = null;
     if (elem) {
       const tagName = elem.tagName.toLowerCase();
       if (tagName === 'image' || tagName === 'img') {
