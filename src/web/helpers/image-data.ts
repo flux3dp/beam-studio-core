@@ -16,8 +16,8 @@ export default (source, opts) => {
   opts.type = opts.type || 'image/png';
 
   const img = new Image();
-  let canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
   const onload = async (e) => {
     const size = {
       width: opts.width || e.target.naturalWidth,
@@ -30,8 +30,9 @@ export default (source, opts) => {
     const rotationFlag = svgEditor.getExifRotationFlag(arrayBuffer);
 
     // DownSampling
-    const isSettingDownsampling = BeamboxPreference.read('image_downsampling') || (BeamboxPreference.read('image_downsampling') === undefined);
-    if (isSettingDownsampling) {
+    const shouldDownSample = BeamboxPreference.read('image_downsampling')
+      || (BeamboxPreference.read('image_downsampling') === undefined);
+    if (shouldDownSample) {
       if (!opts.isFullResolution) {
         const longSide = Math.max(size.width, size.height);
         const downRatio = Math.min(1, (1.5 * window.innerWidth) / longSide);
@@ -118,8 +119,6 @@ export default (source, opts) => {
       blob: new Blob([imageData.data], { type: opts.type }),
       pngBase64,
     });
-
-    canvas = null;
 
     // remove event
     img.removeEventListener('load', onload, false);
