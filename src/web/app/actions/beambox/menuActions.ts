@@ -31,7 +31,11 @@ const loadExampleFile = async (path: string) => {
   const res = await FileExportHelper.toggleUnsavedChangedDialog();
   if (!res) return;
   const oReq = new XMLHttpRequest();
-  oReq.open('GET', window.FLUX.version === 'web' ? `https://beam-studio-web.s3.ap-northeast-1.amazonaws.com/${path}` : path, true);
+  oReq.open(
+    'GET',
+    window.FLUX.version === 'web' ? `https://beam-studio-web.s3.ap-northeast-1.amazonaws.com/${path}` : path,
+    true
+  );
   oReq.responseType = 'blob';
 
   oReq.onload = async function onload() {
@@ -91,7 +95,7 @@ export default {
   IMAGE_CROP: () => Dialog.showPhotoEditPanel('crop'),
   IMAGE_INVERT: () => imageEdit.colorInvert(),
   IMAGE_STAMP: () => imageEdit.generateStampBevel(),
-  IMAGE_VECTORIZE: () => svgCanvas.imageToSVG(),
+  IMAGE_VECTORIZE: () => imageEdit.traceImage(),
   IMAGE_CURVE: () => Dialog.showPhotoEditPanel('curve'),
   ALIGN_TO_EDGES: () => svgCanvas.toggleBezierPathAlignToEdge(),
   DISASSEMBLE_USE: () => svgCanvas.disassembleUse2Group(),
