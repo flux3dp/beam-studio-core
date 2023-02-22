@@ -3,8 +3,10 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
+const mockShowCropPanel = jest.fn();
 const showPhotoEditPanel = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
+  showCropPanel: (...args) => mockShowCropPanel(...args),
   showPhotoEditPanel,
 }));
 
@@ -174,8 +176,7 @@ describe('should render correctly', () => {
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
     wrapper.find('div.btn-container').at(4).simulate('click');
-    expect(showPhotoEditPanel).toHaveBeenCalledTimes(3);
-    expect(showPhotoEditPanel).toHaveBeenNthCalledWith(3, 'crop');
+    expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
     wrapper.find('div.btn-container').at(5).simulate('click');
     expect(generateStampBevel).toHaveBeenCalledTimes(1);

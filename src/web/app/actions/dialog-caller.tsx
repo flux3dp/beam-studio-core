@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
-import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
+import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
+import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
@@ -66,6 +67,14 @@ const showLoginDialog = (callback?: () => void, silent = false): void => {
         popDialogById('flux-id-login');
         if (callback) callback();
       }}
+    />);
+};
+
+const showDeviceSelector = (onSelect) => {
+  addDialogComponent('device-selector',
+    <DeviceSelector
+      onSelect={onSelect}
+      onClose={() => popDialogById('device-selector')}
     />);
 };
 
@@ -140,19 +149,21 @@ export default {
         onClose={() => popDialogById('noun-project')}
       />);
   },
+  showCropPanel: (): void => {
+    if (isIdExist('image-crop')) return;
+    const selectedElements = svgCanvas.getSelectedElems();
+    if (selectedElements.length !== 1) return;
+    const element = selectedElements[0];
+    const src = element.getAttribute('origImage') || element.getAttribute('xlink:href');
+    addDialogComponent(
+      'image-crop',
+      <CropPanel src={src} image={element} onClose={() => popDialogById('image-crop')} />
+    );
+  },
   showPhotoEditPanel: (mode: PhotoEditMode): void => {
     if (isIdExist('photo-edit')) return;
     const selectedElements = svgCanvas.getSelectedElems();
-    let len = selectedElements.length;
-    for (let i = 0; i < selectedElements.length; i += 1) {
-      if (!selectedElements[i]) {
-        len = i;
-        break;
-      }
-    }
-    if (len > 1) {
-      return;
-    }
+    if (selectedElements.length !== 1) return;
     const element = selectedElements[0];
     const src = element.getAttribute('origImage') || element.getAttribute('xlink:href');
     addDialogComponent('photo-edit',

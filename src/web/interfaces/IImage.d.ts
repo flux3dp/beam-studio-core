@@ -1,8 +1,10 @@
+import Jimp from 'jimp';
+
 export interface IImageProcessor {
   MIME_PNG: string;
   BLEND_OVERLAY: string;
   AUTO: number;
-  read: (data: Buffer) => any;
+  read: (data: Buffer) => Promise<Jimp>;
 }
 
 export interface IImageDataResult {
