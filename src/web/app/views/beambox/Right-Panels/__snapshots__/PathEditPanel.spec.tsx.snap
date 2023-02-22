@@ -50,10 +50,11 @@ exports[`should render correctly 1`] = `
       />
       <div
         class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+        style="flex-wrap: wrap; margin-bottom: -8px;"
       >
         <div
           class="ant-space-item"
-          style="margin-right: 8px;"
+          style="margin-right: 8px; padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
@@ -67,7 +68,7 @@ exports[`should render correctly 1`] = `
         </div>
         <div
           class="ant-space-item"
-          style="margin-right: 8px;"
+          style="margin-right: 8px; padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
@@ -80,7 +81,7 @@ exports[`should render correctly 1`] = `
         </div>
         <div
           class="ant-space-item"
-          style="margin-right: 8px;"
+          style="margin-right: 8px; padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
@@ -94,6 +95,7 @@ exports[`should render correctly 1`] = `
         </div>
         <div
           class="ant-space-item"
+          style="padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"

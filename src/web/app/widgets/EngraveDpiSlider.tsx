@@ -31,8 +31,8 @@ function EngraveDpiSlider({ value, onChange }: Props): JSX.Element {
 
   return (
     <Form.Item label={LANG.engrave_dpi}>
-      <Row>
-        <Col span={16}>
+      <Row gutter={[8, 0]}>
+        <Col span={12}>
           <Slider
             min={0}
             max={3}
@@ -40,7 +40,7 @@ function EngraveDpiSlider({ value, onChange }: Props): JSX.Element {
             onChange={onSliderValueChange}
           />
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <Input value={`${LANG[value]} (${dpiValueMap[value]} DPI)`} disabled />
         </Col>
       </Row>

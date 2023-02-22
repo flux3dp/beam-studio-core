@@ -9,7 +9,10 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 
 let svgedit;
 let svgCanvas: ISVGCanvas;
-getSVGAsync((globalSVG) => { svgedit = globalSVG.Edit; svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgedit = globalSVG.Edit;
+  svgCanvas = globalSVG.Canvas;
+});
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.path_edit_panel;
 
@@ -25,7 +28,7 @@ function PathEditPanel(): JSX.Element {
   const currentPath: ISVGPath = svgedit.path.path;
   let containsSharpNodes = false;
   let containsRoundNodes = false;
-  const isDisabled = (!currentPath || currentPath.selected_pts.length === 0);
+  const isDisabled = !currentPath || currentPath.selected_pts.length === 0;
   let selectedNodeTypes = [];
   const selectedNodes = currentPath?.selected_pts
     .map((index) => currentPath.nodePoints[index])
@@ -45,7 +48,9 @@ function PathEditPanel(): JSX.Element {
     }
   }
 
+  const canConnect = selectedNodes?.length === 2 && selectedNodes.every((point) => !point.prevSeg || !point.nextSeg);
   const canDisconnect = selectedNodes?.length === 1 && selectedNodes[0].prev && selectedNodes[0].next;
+
   return (
     <div id="pathedit-panel">
       <div className="node-type-panel">
@@ -76,16 +81,24 @@ function PathEditPanel(): JSX.Element {
           ]}
         />
         <Divider />
-        <Space>
-          <Button disabled={!containsRoundNodes} onClick={() => svgCanvas.pathActions.setSharp()} size="small">
+        <Space wrap>
+          <Button
+            disabled={!containsRoundNodes}
+            onClick={() => svgCanvas.pathActions.setSharp()}
+            size="small"
+          >
             Sharp
           </Button>
-          <Button disabled={!containsSharpNodes} onClick={() => svgCanvas.pathActions.setRound()} size="small">
+          <Button
+            disabled={!containsSharpNodes}
+            onClick={() => svgCanvas.pathActions.setRound()}
+            size="small"
+          >
             Round
           </Button>
           <Button
-            disabled={selectedNodes?.length !== 2}
-            onClick={() => svgCanvas.pathActions.connectNodes()}
+            disabled={!canConnect}
+            onClick={svgCanvas.pathActions.connectNodes}
             size="small"
           >
             Connect
