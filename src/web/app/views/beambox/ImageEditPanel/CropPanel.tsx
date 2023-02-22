@@ -142,6 +142,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
   const handleUndo = async () => {
     if (historyRef.current.length === 1) return;
+    progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
     const { blobUrl: currentUrl } = historyRef.current.pop();
     URL.revokeObjectURL(currentUrl);
     const { blobUrl: newUrl, dimension } = historyRef.current[historyRef.current.length - 1];

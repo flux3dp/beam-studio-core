@@ -172,4 +172,74 @@ describe('test CropPanel', () => {
     expect(mockRevokeObjectURL).toHaveBeenNthCalledWith(1, 'mock-url-1');
     expect(mockRevokeObjectURL).toHaveBeenNthCalledWith(2, 'mock-url-2');
   });
+
+  test('apply and go back', async () => {
+    mockCropPreprocess.mockResolvedValue({
+      blobUrl: 'mock-url-1',
+      dimension: { x: 0, y: 0, width: 100, height: 100 },
+      originalWidth: 200,
+      originalHeight: 200,
+    });
+    mockCalculateBase64.mockResolvedValueOnce('mock-base64-1').mockResolvedValueOnce('mock-base64-2');
+    const { baseElement, getByText, unmount } = render(
+      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+    );
+    await waitFor(() => {
+      expect(mockPopById).toBeCalledTimes(1);
+      expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
+    });
+    await new Promise((r) => setTimeout(r));
+    const mockCropperInstance = {
+      destroy: jest.fn(),
+      getData: jest.fn(),
+    };
+    mockCropper.mockImplementation(() => mockCropperInstance);
+    // apply
+    const img = baseElement.querySelector('img');
+    fireEvent.load(img);
+    expect(mockCropper).toBeCalledTimes(1);
+    expect(mockCropper).toHaveBeenLastCalledWith(img, {
+      autoCropArea: 1,
+      zoomable: false,
+      viewMode: 2,
+      minCropBoxWidth: 1,
+      minCropBoxHeight: 1,
+    });
+    expect(mockCropperInstance.destroy).not.toBeCalled();
+    const mockImageNatureWidth = jest.spyOn(img, 'naturalWidth', 'get');
+    mockImageNatureWidth.mockReturnValue(100);
+    const mockImageNatureHeight = jest.spyOn(img, 'naturalHeight', 'get');
+    mockImageNatureHeight.mockReturnValue(100);
+    mockCropperInstance.getData.mockReturnValueOnce({ x: 10, y: 10, width: 80, height: 80 });
+    mockCropImage.mockResolvedValueOnce('mock-url-2');
+    await act(async () => {
+      fireEvent.click(getByText('apply'));
+      await new Promise((r) => setTimeout(r));
+    });
+    expect(mockCropperInstance.getData).toBeCalledTimes(1);
+    expect(mockOpenNonstopProgress).toBeCalledTimes(2);
+    expect(mockCropImage).toBeCalledTimes(1);
+    expect(mockCropImage).toHaveBeenLastCalledWith('mock-url-1', 10, 10, 80, 80);
+    expect(mockCalculateBase64).toBeCalledTimes(2);
+    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-2', true, 125);
+    expect(mockPopById).toBeCalledTimes(2);
+
+    mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');
+    expect(mockRevokeObjectURL).not.toBeCalled();
+    await act(async () => {
+      fireEvent.click(getByText('back'));
+      await new Promise((r) => setTimeout(r));
+    });
+    expect(mockOpenNonstopProgress).toBeCalledTimes(3);
+    expect(mockRevokeObjectURL).toBeCalledTimes(1);
+    expect(mockRevokeObjectURL).toHaveBeenLastCalledWith('mock-url-2');
+    expect(mockPopById).toBeCalledTimes(3);
+
+    expect(mockOnClose).not.toBeCalled();
+    fireEvent.click(getByText('cancel'));
+    expect(mockOnClose).toBeCalledTimes(1);
+    unmount();
+    expect(mockRevokeObjectURL).toBeCalledTimes(2);
+    expect(mockRevokeObjectURL).toHaveBeenLastCalledWith('mock-url-1');
+  });
 });
