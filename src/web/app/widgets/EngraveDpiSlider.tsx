@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, Input, Row, Slider, Space } from 'antd';
+import { Col, Form, Input, Row, Slider } from 'antd';
 
 import i18n from 'helpers/i18n';
 
