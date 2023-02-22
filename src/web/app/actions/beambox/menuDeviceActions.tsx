@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import checkDeviceStatus from 'helpers/check-device-status';
@@ -146,7 +148,15 @@ export default {
     }
   },
   MACHINE_INFO: (device) => {
-    const info = `${lang.device.model_name}: ${device.model.toUpperCase()}\n${lang.device.IP}: ${device.ipaddr}\n${lang.device.serial_number}: ${device.serial}\n${lang.device.firmware_version}: ${device.version}\n${lang.device.UUID}: ${device.uuid}`;
+    const info = (
+      <div>
+        <div>{lang.device.model_name}: {device.model.toUpperCase()}</div>
+        <div>{lang.device.IP}: {device.ipaddr}</div>
+        <div>{lang.device.serial_number}: {device.serial}</div>
+        <div>{lang.device.firmware_version}: {device.version}</div>
+        <div>{lang.device.UUID}: {device.uuid}</div>
+      </div>
+    );
     Alert.popUp({
       id: 'machine-info',
       type: AlertConstants.SHOW_POPUP_INFO,
