@@ -8,7 +8,6 @@ import MonitorStatus from 'helpers/monitor-status';
 import {
   CameraOutlined, FolderOutlined, PictureOutlined,
 } from '@ant-design/icons';
-import Draggable from 'react-draggable';
 import MonitorCamera from './MonitorCamera';
 import MonitorFilelist from './MonitorFilelist';
 import MonitorRelocate from './MonitorRelocate';
@@ -22,13 +21,6 @@ interface Props {
 const Monitor = (props: Props): JSX.Element => {
   const context = useContext(MonitorContext);
   const LANG = i18n.lang;
-  const DraggableElement: any = Draggable;
-
-  const modalRender = (modal): JSX.Element => (
-    <DraggableElement>
-      {modal}
-    </DraggableElement>
-  );
 
   const renderFileList = (): JSX.Element => {
     const { currentPath } = context;
@@ -114,7 +106,6 @@ const Monitor = (props: Props): JSX.Element => {
       <Modal
         open
         centered
-        modalRender={modalRender}
         onCancel={onClose}
         title={`${device.name} - ${report ? MonitorStatus.getDisplayStatus(report.st_label) : LANG.monitor.connecting}`}
         footer={null}
