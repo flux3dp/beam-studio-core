@@ -198,13 +198,13 @@ svgedit.math.getMatrix = function (elem) {
  * Returns a 45 degree angle coordinate associated with the two given
  * coordinates
  * @param {number} x1 - First coordinate's x value
- * @param {number} x2 - Second coordinate's x value
  * @param {number} y1 - First coordinate's y value
+ * @param {number} x2 - Second coordinate's x value
  * @param {number} y2 - Second coordinate's y value
+ * @param {number} snap - Snap unit (rad)
  * @returns {AngleCoord}
 */
-svgedit.math.snapToAngle = function (x1, y1, x2, y2) {
-	var snap = Math.PI / 2; // 90 degrees
+svgedit.math.snapToAngle = function (x1, y1, x2, y2, snap = Math.PI / 2) {
 	var dx = x2 - x1;
 	var dy = y2 - y1;
 	var angle = Math.atan2(dy, dx);

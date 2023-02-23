@@ -41,8 +41,6 @@ let modeOnMouseDown = '';
 let hasMoved = false;
 let hasCreatedPoint = false;
 let drawnPath = null;
-let currentMouseX;
-let currentMouseY;
 
 const wrapPrecision = (data: number[]) => data.map((d) => d.toFixed(5));
 
@@ -242,14 +240,14 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
   if (yAlignLine) yAlignLine.remove();
   let x = startX / currentZoom;
   let y = startY / currentZoom;
+  let mouseX = startX;
+  let mouseY = startY;
 
   modeOnMouseDown = currentMode;
 
   if (currentMode === 'path') {
     const isContinuousDrawing = BeamboxPreference.read('continuous_drawing');
     previousMode = isContinuousDrawing ? 'path' : 'select';
-    currentMouseX = startX;
-    currentMouseY = startY;
 
     let stretchy = svgedit.utilities.getElem('path_stretch_line');
     newPoint = [x, y];
@@ -259,8 +257,8 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
     if (svgCanvas.getCurrentConfig().gridSnapping) {
       x = svgedit.utilities.snapToGrid(x);
       y = svgedit.utilities.snapToGrid(y);
-      currentMouseX = svgedit.utilities.snapToGrid(currentMouseX);
-      currentMouseY = svgedit.utilities.snapToGrid(currentMouseY);
+      mouseX = svgedit.utilities.snapToGrid(mouseX);
+      mouseY = svgedit.utilities.snapToGrid(mouseY);
     }
 
     if (!stretchy) {
@@ -297,10 +295,10 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       // set stretchy line to first point
       stretchy.setAttribute(
         'd',
-        ['M', ...wrapPrecision([currentMouseX, currentMouseY, currentMouseX, currentMouseY])].join(' ')
+        ['M', ...wrapPrecision([mouseX, mouseY, mouseX, mouseY])].join(' ')
       );
       index = subpath ? svgedit.path.path.segs.length : 0;
-      svgedit.path.addDrawingPoint(index, currentMouseX, currentMouseY, x, y);
+      svgedit.path.addDrawingPoint(index, mouseX, mouseY, x, y);
       shortcuts.off(['esc']);
       shortcuts.on(['esc'], () => finishPath(!isContinuousDrawing));
     } else {
@@ -395,11 +393,12 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         const last = drawnPath.pathSegList.getItem(num - 1);
         const lastx = last.x;
         const lasty = last.y;
-
         if (evt.shiftKey) {
-          const xya = svgedit.math.snapToAngle(lastx, lasty, x, y);
+          const xya = svgedit.math.snapToAngle(lastx, lasty, x, y, Math.PI / 4);
           x = xya.x;
           y = xya.y;
+          mouseX = x * currentZoom;
+          mouseY = y * currentZoom;
         }
 
         // Use the segment defined by stretchy
@@ -420,12 +419,12 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         drawnPath.pathSegList.appendItem(newSegment);
 
         // set stretchy line to latest point
-        stretchy.setAttribute('d', ['M', currentMouseX, currentMouseY, currentMouseX, currentMouseY].join(' '));
+        stretchy.setAttribute('d', ['M', mouseX, mouseY, mouseX, mouseY].join(' '));
         index = num;
         if (subpath) {
           index += svgedit.path.path.segs.length;
         }
-        svgedit.path.addDrawingPoint(index, currentMouseX, currentMouseY, x, y);
+        svgedit.path.addDrawingPoint(index, mouseX, mouseY, x, y);
       }
       // keep = true;
     }
@@ -513,7 +512,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       }, 100);
     }
   }
-  return null;
+  return { x: mouseX, y: mouseY };
 };
 
 const mouseMove = (mouseX: number, mouseY: number) => {
@@ -1450,6 +1449,7 @@ const setSharp = () => {
 };
 
 const connectNodes = () => {
+  // TODO: Fix when connecting same segment
   const selectedPath: ISVGPath = svgedit.path.path;
   const selection = selectedPath.selected_pts;
   selectedPath.storeD();

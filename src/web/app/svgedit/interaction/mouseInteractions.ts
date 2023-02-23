@@ -245,8 +245,6 @@ const mouseDown = (evt: MouseEvent) => {
   }
 
   svgCanvas.unsafeAccess.setStartTransform(mouseTarget.getAttribute('transform'));
-  let i;
-  let strokeWidth: number;
   currentMode = svgCanvas.getCurrentMode();
   switch (currentMode) {
     case 'select':
@@ -316,7 +314,7 @@ const mouseDown = (evt: MouseEvent) => {
                 mouseSelectModeCmds.push(cmd);
               }
             }
-            for (i = 0; i < selectedElements.length; i += 1) {
+            for (let i = 0; i < selectedElements.length; i += 1) {
               // insert a dummy transform so if the element(s) are moved it will have
               // a transform to use for its translate
               if (selectedElements[i] == null) {
@@ -378,7 +376,7 @@ const mouseDown = (evt: MouseEvent) => {
 
         const all = mouseTarget.getElementsByTagName('*') as HTMLCollectionOf<SVGElement>;
         const len = all.length;
-        for (i = 0; i < len; i += 1) {
+        for (let i = 0; i < len; i += 1) {
           all[i].style.vectorEffect = 'non-scaling-stroke';
           delayedStroke(all[i]);
         }
@@ -391,7 +389,6 @@ const mouseDown = (evt: MouseEvent) => {
       start.y = realY;
       svgCanvas.unsafeAccess.setStarted(true);
       newDPath = `${realX},${realY} `;
-      strokeWidth = currentShape.stroke_width === 0 ? 1 : currentShape.stroke_width;
       svgCanvas.addSvgElementFromJson({
         element: 'polyline',
         curStyles: true,
@@ -560,7 +557,9 @@ const mouseDown = (evt: MouseEvent) => {
         startX = xMatchPoint ? xMatchPoint.x * currentZoom : startX;
         startY = yMatchPoint ? yMatchPoint.y * currentZoom : startY;
       }
-      svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
+      const { x: newX, y: newY } = svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
+      startX = newX;
+      startY = newY;
       svgCanvas.unsafeAccess.setStarted(true);
       break;
     case 'textedit':
@@ -775,7 +774,7 @@ const mouseMove = (evt: MouseEvent) => {
   }
 
   svgCanvas.setRootScreenMatrix(($('#svgcontent')[0] as any).getScreenCTM().inverse());
-  let i; let xya; let c; let cx; let cy; let dx; let dy; let len; let angle; let box;
+  let c; let cx; let cy; let dx; let dy; let len; let angle; let box;
   let selected = selectedElements[0];
   const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, svgCanvas.getRootScreenMatrix());
   const mouseX = pt.x * currentZoom;
@@ -846,14 +845,14 @@ const mouseMove = (evt: MouseEvent) => {
         }
 
         if (evt.shiftKey) {
-          xya = svgedit.math.snapToAngle(startX, startY, x, y);
+          const xya = svgedit.math.snapToAngle(startX, startY, x, y);
           dx = xya.x - startX;
           dy = xya.y - startY;
         }
 
         if (dx !== 0 || dy !== 0) {
           len = selectedElements.length;
-          for (i = 0; i < len; i += 1) {
+          for (let i = 0; i < len; i += 1) {
             selected = selectedElements[i];
             if (selected == null) {
               break;
@@ -943,7 +942,7 @@ const mouseMove = (evt: MouseEvent) => {
       let y2 = y;
 
       if (evt.shiftKey) {
-        xya = svgedit.math.snapToAngle(startX, startY, x2, y2);
+        const xya = svgedit.math.snapToAngle(startX, startY, x2, y2, Math.PI / 4);
         x2 = xya.x;
         y2 = xya.y;
       }
@@ -1029,7 +1028,7 @@ const mouseMove = (evt: MouseEvent) => {
       end.x = realX;
       end.y = realY;
       if (controllPoint2.x && controllPoint2.y) {
-        for (i = 0; i < STEP_COUNT - 1; i += 1) {
+        for (let i = 0; i < STEP_COUNT - 1; i += 1) {
           parameter = i / STEP_COUNT;
           nextParameter = (i + 1) / STEP_COUNT;
           bSpline = getBsplinePoint(nextParameter);
@@ -1070,16 +1069,9 @@ const mouseMove = (evt: MouseEvent) => {
       }
       if (evt.shiftKey) {
         const { path } = svgedit.path;
-        let x1; let
-          y1;
-        if (path) {
-          x1 = path.dragging ? path.dragging[0] : startX;
-          y1 = path.dragging ? path.dragging[1] : startY;
-        } else {
-          x1 = startX;
-          y1 = startY;
-        }
-        xya = svgedit.math.snapToAngle(x1, y1, x, y);
+        const x1 = path?.dragging ? path.dragging[0] : startX;
+        const y1 = path?.dragging ? path.dragging[1] : startY;
+        const xya = svgedit.math.snapToAngle(x1, y1, x, y, Math.PI / 4);
         x = xya.x;
         y = xya.y;
       }
