@@ -72,7 +72,6 @@ exports[`test Prompt should render correctly 1`] = `
             <div
               class="ant-modal-body"
             >
-              <p />
               <div>
                 <input
                   class="ant-input css-dev-only-do-not-override-hash text-input"
