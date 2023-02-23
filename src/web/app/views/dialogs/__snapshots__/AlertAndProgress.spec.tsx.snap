@@ -29,8 +29,7 @@ exports[`should render correctly 1`] = `
             tabindex="0"
           />
           <div
-            class="ant-modal-content react-draggable"
-            style="transform: translate(0px,0px);"
+            class="ant-modal-content"
           >
             <div
               class="ant-modal-header"
@@ -104,8 +103,7 @@ exports[`should render correctly 1`] = `
             tabindex="0"
           />
           <div
-            class="ant-modal-content react-draggable"
-            style="transform: translate(0px,0px);"
+            class="ant-modal-content"
           >
             <div
               class="ant-modal-body"

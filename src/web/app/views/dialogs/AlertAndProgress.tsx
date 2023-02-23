@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Modal, Progress } from 'antd';
 
 import browser from 'implementations/browser';
-import Draggable from 'react-draggable';
 import i18n from 'helpers/i18n';
 import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
@@ -16,14 +15,6 @@ const AlertsAndProgress = (): JSX.Element => {
   const messageRef = useRef<HTMLPreElement>();
 
   const { alertProgressStack, popFromStack, popById } = React.useContext(AlertProgressContext);
-
-  const DraggableElement: any = Draggable;
-
-  const modalRender = (modal): JSX.Element => (
-    <DraggableElement>
-      {modal}
-    </DraggableElement>
-  );
 
   useEffect(() => {
     const message = messageRef.current as Element;
@@ -74,7 +65,6 @@ const AlertsAndProgress = (): JSX.Element => {
           closable={false}
           cancelText={LANG.alert.cancel}
           okButtonProps={{ style: { display: 'none' } }}
-          modalRender={modalRender}
         >
           {renderMessage()}
           <Progress
@@ -106,7 +96,6 @@ const AlertsAndProgress = (): JSX.Element => {
         key={`${data.key}-${data.id}`}
         open={alertProgressStack.length > 0}
         title={data.caption}
-        modalRender={modalRender}
         footer={footer}
         closable={false}
         centered

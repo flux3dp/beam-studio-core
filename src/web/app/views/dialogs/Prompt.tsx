@@ -1,10 +1,10 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
+import { Input, InputRef, Modal } from 'antd';
+
+import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
 import i18n from 'helpers/i18n';
 import keyCodeConstants from 'app/constants/keycode-constants';
-import { Input, InputRef, Modal } from 'antd';
-import Draggable from 'react-draggable';
-import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
 
 const LANG = i18n.lang.alert;
 const VISIBLE = true;
@@ -18,14 +18,6 @@ interface Props {
   onCancel?: (value?: string) => void;
   onClose: () => void;
 }
-
-const DraggableElement: any = Draggable;
-
-const modalRender = (modal): JSX.Element => (
-  <DraggableElement>
-    {modal}
-  </DraggableElement>
-);
 
 function Prompt({
   caption, message, placeholder, defaultValue = '', onYes, onCancel = () => { }, onClose,
@@ -45,7 +37,6 @@ function Prompt({
       open={VISIBLE}
       title={caption}
       centered
-      modalRender={modalRender}
       onOk={() => {
         const inputElem = inputRef.current;
         onYes(inputElem?.input?.value);
