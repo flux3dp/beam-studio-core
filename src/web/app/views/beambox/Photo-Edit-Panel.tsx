@@ -1,8 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import Cropper from 'cropperjs';
 
-import ButtonGroup from 'app/widgets/ButtonGroup';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
 import history from 'app/svgedit/history';
@@ -16,7 +14,6 @@ import OpenCVWebSocket from 'helpers/api/open-cv';
 import Progress from 'app/actions/progress-caller';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { IButton } from 'interfaces/IButton';
 import { IImageDataResult } from 'interfaces/IImage';
 import imageProcessor from 'implementations/imageProcessor';
 
@@ -32,7 +29,7 @@ const updateLang = () => {
   LANG = i18n.lang.beambox.photo_edit_panel;
 };
 
-export type PhotoEditMode = 'sharpen' | 'crop' | 'curve';
+export type PhotoEditMode = 'sharpen' | 'curve';
 
 interface Props {
   element: HTMLElement,
@@ -51,8 +48,6 @@ interface State {
   displaySrc: string;
   sharpness: number;
   sharpRadius: number;
-  srcHistory: string[],
-  isCropping: boolean;
   threshold: string;
   shading: boolean;
   displayBase64: string,
@@ -60,39 +55,23 @@ interface State {
   isShowingOriginal: boolean;
 }
 
-interface Dimension {
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-}
+// TODO: refactor this component, seperate different function into different component
 
 class PhotoEditPanel extends React.Component<Props, State> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private cropper: any;
-
   private compareBase64: string;
 
   private curvefunction: (n: number) => number;
-
-  private cropDimensionHistory: Dimension[];
-
-  private currentCropDimension: Dimension;
 
   constructor(props: Props) {
     super(props);
     updateLang();
     const { element, src } = this.props;
-    this.cropper = null;
-    this.cropDimensionHistory = [];
     this.state = {
       origSrc: src,
       previewSrc: src,
       displaySrc: src,
       sharpness: 0,
       sharpRadius: 1,
-      srcHistory: [],
-      isCropping: false,
       threshold: $(element).attr('data-threshold'),
       shading: (element.getAttribute('data-shading') === 'true'),
       displayBase64: null,
@@ -103,7 +82,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
   componentDidMount(): void {
     const { mode, unmount } = this.props;
-    if (!['sharpen', 'crop', 'curve'].includes(mode)) {
+    if (!['sharpen', 'curve'].includes(mode)) {
       unmount();
       return;
     }
@@ -127,7 +106,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
       id: 'photo-edit-processing',
       message: LANG.processing,
     });
-    const { mode } = this.props;
     const { origSrc } = this.state;
     let imgBlobUrl = origSrc;
     try {
@@ -143,16 +121,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         }
         imgBlobUrl = await jimpHelper.imageToUrl(image);
       }
-      if (['sharpen', 'curve'].includes(mode)) {
-        setCompareBase64(imgBlobUrl);
-      } else if (mode === 'crop') {
-        this.currentCropDimension = {
-          x: 0,
-          y: 0,
-          w: image.bitmap.width,
-          h: image.bitmap.height,
-        };
-      }
+      setCompareBase64(imgBlobUrl);
       this.setState({
         origWidth,
         origHeight,
@@ -170,24 +139,15 @@ class PhotoEditPanel extends React.Component<Props, State> {
   }
 
   handleCancel(): void {
-    const { displaySrc, srcHistory } = this.state;
+    const { displaySrc } = this.state;
     const { unmount } = this.props;
-    let src = displaySrc;
-    while (srcHistory.length > 0) {
-      URL.revokeObjectURL(src);
-      src = srcHistory.pop();
-    }
+    URL.revokeObjectURL(displaySrc);
     unmount();
   }
 
   async handleComplete(): Promise<void> {
     const clearHistory = () => {
-      const { srcHistory, previewSrc, origSrc } = this.state;
-      let src = '';
-      while (srcHistory.length > 0) {
-        URL.revokeObjectURL(src);
-        src = srcHistory.pop();
-      }
+      const { previewSrc, origSrc } = this.state;
       if (previewSrc !== origSrc) {
         URL.revokeObjectURL(previewSrc);
       }
@@ -197,8 +157,8 @@ class PhotoEditPanel extends React.Component<Props, State> {
       id: 'photo-edit-processing',
       message: LANG.processing,
     });
-    const { displaySrc, origWidth, origHeight } = this.state;
-    const { element, mode, unmount } = this.props;
+    const { displaySrc } = this.state;
+    const { element, unmount } = this.props;
     const batchCmd = new history.BatchCommand('Photo edit');
 
     const handleSetAttribute = (attr: string, value) => {
@@ -211,18 +171,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
     };
 
     handleSetAttribute('origImage', displaySrc);
-    if (mode === 'crop') {
-      const { w, h } = this.currentCropDimension;
-      if (origWidth !== w) {
-        const ratio = w / origWidth;
-        handleSetAttribute('width', parseFloat($(element).attr('width')) * ratio);
-      }
-      if (origHeight !== h) {
-        const ratio = h / origHeight;
-        handleSetAttribute('height', parseFloat($(element).attr('height')) * ratio);
-      }
-    }
-
     clearHistory();
     const result = await this.calculateImageData(displaySrc);
     handleSetAttribute('xlink:href', result.pngBase64);
@@ -266,101 +214,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
       console.log('Error when sharpening image', error);
       Progress.popById('photo-edit-processing');
     }
-  }
-
-  handleStartCrop = (): void => {
-    const { isCropping } = this.state;
-    if (isCropping) {
-      return;
-    }
-    const image = document.getElementById('original-image') as HTMLImageElement;
-    this.cropper = new Cropper(
-      image,
-      {
-        autoCropArea: 1,
-        zoomable: false,
-        viewMode: 0,
-        // targetWidth: image.width,
-        // targetHeight: image.height,
-      },
-    );
-    this.setState({ isCropping: true });
-  };
-
-  async handleCrop(complete = false): Promise<void> {
-    const { displaySrc, origSrc, srcHistory } = this.state;
-    const image = document.getElementById('original-image') as HTMLImageElement;
-    const cropData = this.cropper.getData();
-    let x = Math.max(0, Math.round(cropData.x));
-    let y = Math.max(0, Math.round(cropData.y));
-    let w = Math.min(image.naturalWidth - x, Math.round(cropData.width));
-    let h = Math.min(image.naturalHeight - y, Math.round(cropData.height));
-    if (x === 0 && y === 0 && w === image.naturalWidth && h === image.naturalHeight && !complete) {
-      return;
-    }
-    const imgBlobUrl = complete ? origSrc : displaySrc;
-    Progress.openNonstopProgress({
-      id: 'photo-edit-processing',
-      message: LANG.processing,
-    });
-    if (complete) {
-      const { origWidth, origHeight } = this.state;
-      const resizedW = this.cropDimensionHistory.length > 0
-        ? this.cropDimensionHistory[0].w : this.currentCropDimension.w;
-      const resizedH = this.cropDimensionHistory.length > 0
-        ? this.cropDimensionHistory[0].h : this.currentCropDimension.h;
-      const ratio = origWidth > origHeight
-        ? origWidth / resizedW : origHeight / resizedH;
-      for (let i = 0; i < this.cropDimensionHistory.length; i += 1) {
-        const dim = this.cropDimensionHistory[i];
-        x += dim.x;
-        y += dim.y;
-      }
-      x += this.currentCropDimension.x;
-      y += this.currentCropDimension.y;
-      w = Math.floor(w * ratio);
-      h = Math.floor(h * ratio);
-      x = Math.floor(x * ratio);
-      y = Math.floor(y * ratio);
-    }
-    const newImgUrl = await jimpHelper.cropImage(imgBlobUrl, x, y, w, h);
-    if (newImgUrl) {
-      srcHistory.push(displaySrc);
-      this.cropDimensionHistory.push(this.currentCropDimension);
-      this.currentCropDimension = {
-        x, y, w, h,
-      };
-      this.destroyCropper();
-      this.setState({
-        displaySrc: newImgUrl,
-        srcHistory,
-        isCropping: false,
-        isImageDataGenerated: false,
-        imageWidth: w,
-        imageHeight: h,
-      }, () => {
-        Progress.popById('photo-edit-processing');
-        if (complete) {
-          Progress.openNonstopProgress({
-            id: 'photo-edit-processing',
-            message: LANG.processing,
-          });
-          setTimeout(() => this.handleComplete(), 500);
-        }
-      });
-    } else {
-      Progress.popById('photo-edit-processing');
-    }
-  }
-
-  destroyCropper(): void {
-    if (this.cropper) {
-      this.cropper.destroy();
-    }
-  }
-
-  updateCurveFunction(curvefunction: (n: number) => number): void {
-    this.curvefunction = curvefunction;
   }
 
   async handleCurve(isPreview: boolean): Promise<void> {
@@ -407,6 +260,10 @@ class PhotoEditPanel extends React.Component<Props, State> {
     });
   };
 
+  updateCurveFunction(curvefunction: (n: number) => number): void {
+    this.curvefunction = curvefunction;
+  }
+
   async calculateImageData(src: string): Promise<IImageDataResult> {
     const { shading, threshold } = this.state;
     return new Promise<IImageDataResult>((resolve) => {
@@ -425,28 +282,10 @@ class PhotoEditPanel extends React.Component<Props, State> {
     });
   }
 
-  handleGoBack(): void {
-    const { isCropping, displaySrc, srcHistory } = this.state;
-    if (isCropping) {
-      this.destroyCropper();
-    }
-    URL.revokeObjectURL(displaySrc);
-    const src = srcHistory.pop();
-    this.currentCropDimension = this.cropDimensionHistory.pop();
-    const { w, h } = this.currentCropDimension;
-    this.setState({
-      displaySrc: src,
-      isCropping: false,
-      isImageDataGenerated: false,
-      imageWidth: w,
-      imageHeight: h,
-    });
-  }
-
   renderPhotoEditeModal(): JSX.Element {
     const { mode } = this.props;
     const {
-      imageWidth, imageHeight, isCropping, isShowingOriginal, displayBase64,
+      imageWidth, imageHeight, isShowingOriginal, displayBase64,
     } = this.state;
 
     let panelContent = null;
@@ -463,9 +302,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
         title = LANG.curve;
         rightWidth = 390;
         break;
-      case 'crop':
-        title = LANG.crop;
-        break;
       default:
         break;
     }
@@ -476,11 +312,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const imgWidth = imgSizeStyle.width
       ? maxAllowableWidth
       : imgSizeStyle.height * (imageWidth / imageHeight);
-    const onImgLoad = () => {
-      if (mode === 'crop' && !isCropping) {
-        this.handleStartCrop();
-      }
-    };
     return (
       <Modal
         open
@@ -488,7 +319,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         width={imgWidth + rightWidth}
         title={title}
         footer={this.renderPhotoEditFooter()}
-        onCancel={this.handleGoBack}
+        onCancel={this.handleCancel}
       >
         <Row gutter={10}>
           <Col flex={`1 1 ${imgSizeStyle.width}`}>
@@ -496,10 +327,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
               id="original-image"
               style={imgSizeStyle}
               src={isShowingOriginal ? this.compareBase64 : displayBase64}
-              onLoad={() => onImgLoad()}
             />
           </Col>
-          <Col flex={`1 1 ${mode === 'crop' ? 0 : 260}px`}>
+          <Col flex="1 1 260px">
             {panelContent}
           </Col>
         </Row>
@@ -566,7 +396,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
   renderPhotoEditFooter(): JSX.Element[] {
     const { mode } = this.props;
-    const { srcHistory } = this.state;
     const previewButton = (
       <Button
         onMouseDown={() => this.setState({ isShowingOriginal: true })}
@@ -580,8 +409,6 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const handleOk = () => {
       if (mode === 'sharpen') {
         this.handleSharp(false);
-      } else if (mode === 'crop') {
-        this.handleCrop(true);
       } else if (mode === 'curve') {
         this.handleCurve(false);
       }
@@ -611,7 +438,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { mode } = this.props;
-    if (['sharpen', 'crop', 'curve'].includes(mode)) {
+    if (['sharpen', 'curve'].includes(mode)) {
       return this.renderPhotoEditeModal();
     }
     return null;

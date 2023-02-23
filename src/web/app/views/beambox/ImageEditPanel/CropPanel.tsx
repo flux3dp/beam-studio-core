@@ -1,0 +1,188 @@
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import Cropper from 'cropperjs';
+import { Button, Modal } from 'antd';
+
+import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
+import handleFinish from 'helpers/image-edit-panel/handle-finish';
+import jimpHelper from 'helpers/jimp-helper';
+import progressCaller from 'app/actions/progress-caller';
+import useI18n from 'helpers/useI18n';
+import { CropperDimension, cropPreprocess } from 'helpers/image-edit-panel/preprocess';
+
+interface Props {
+  src: string;
+  image: SVGImageElement;
+  onClose: () => void;
+}
+
+interface HistoryItem {
+  dimension: CropperDimension;
+  blobUrl: string;
+}
+
+const MODAL_PADDING_X = 80;
+const MODAL_PADDING_Y = 170;
+
+const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
+  const lang = useI18n();
+  const t = lang.beambox.photo_edit_panel;
+  const cropperRef = useRef<Cropper>(null);
+  const previewImageRef = useRef<HTMLImageElement>(null);
+  const originalSizeRef = useRef({ width: 0, height: 0 });
+  const historyRef = useRef<HistoryItem[]>([]);
+  const { isShading, threshold } = useMemo(() => ({
+    isShading: image.getAttribute('data-shading') === 'true',
+    threshold: parseInt(image.getAttribute('data-threshold'), 10),
+  }), [image]);
+  const [state, setState] = useState({
+    blobUrl: src,
+    displayBase64: '',
+    width: 0,
+    height: 0,
+  });
+
+  const preprocess = async () => {
+    progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
+    const { blobUrl, dimension, originalWidth, originalHeight } = await cropPreprocess(src);
+    const { width, height } = dimension;
+    originalSizeRef.current = { width: originalWidth, height: originalHeight };
+    historyRef.current.push({ dimension, blobUrl });
+    const displayBase64 = await calculateBase64(blobUrl, isShading, threshold);
+    setState({ blobUrl, displayBase64, width, height });
+    progressCaller.popById('photo-edit-processing');
+  };
+
+  const cleanUpHistory = () => {
+    for (let i = 0; i < historyRef.current.length; i += 1) {
+      const { blobUrl } = historyRef.current[i];
+      if (blobUrl !== src) URL.revokeObjectURL(blobUrl);
+    }
+  };
+
+  useEffect(() => {
+    preprocess();
+    return () => {
+      cleanUpHistory();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const startCropper = () => {
+    if (cropperRef.current) cropperRef.current.destroy();
+    cropperRef.current = new Cropper(previewImageRef.current, {
+      autoCropArea: 1,
+      zoomable: false,
+      viewMode: 2,
+      minCropBoxWidth: 1,
+      minCropBoxHeight: 1,
+    });
+  };
+
+  const getDimensionFromCropper = () => {
+    const cropData = cropperRef.current.getData();
+    const previewImage = previewImageRef.current;
+    const x = Math.round(cropData.x);
+    const y = Math.round(cropData.y);
+    const width = Math.min(previewImage.naturalWidth - x, Math.round(cropData.width));
+    const height = Math.min(previewImage.naturalHeight - y, Math.round(cropData.height));
+    return { x, y, width, height };
+  };
+
+  const handleComplete = async () => {
+    if (!cropperRef.current) return;
+    let { x, y, width, height } = getDimensionFromCropper();
+    const { width: resizedW, height: resizedH } = historyRef.current[0].dimension;
+    const { x: currentX, y: currentY } = historyRef.current[historyRef.current.length - 1].dimension;
+    const { width: originalWidth, height: originalHeight } = originalSizeRef.current;
+    const ratio = originalWidth > originalHeight ? originalWidth / resizedW : originalHeight / resizedH;
+    x += currentX;
+    y += currentY;
+    x = Math.floor(x * ratio);
+    y = Math.floor(y * ratio);
+    width = Math.floor(width * ratio);
+    height = Math.floor(height * ratio);
+    if (width === originalWidth && height === originalHeight) {
+      onClose();
+      return;
+    }
+    progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
+    const result = await jimpHelper.cropImage(src, x, y, width, height);
+    const base64 = await calculateBase64(result, isShading, threshold);
+    const newWidth = parseFloat(image.getAttribute('width')) * (width / originalWidth);
+    const newHeight = parseFloat(image.getAttribute('height')) * (height / originalHeight);
+    handleFinish(image, result, base64, newWidth, newHeight);
+    progressCaller.popById('photo-edit-processing');
+    onClose();
+  };
+
+  const { blobUrl } = state;
+  const handleApply = async () => {
+    if (!cropperRef.current) return;
+    const { x, y, width, height } = getDimensionFromCropper();
+    const previewImage = previewImageRef.current;
+    if (x === 0 && y === 0 && width === previewImage.naturalWidth && height === previewImage.naturalHeight) return;
+    progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
+    const result = await jimpHelper.cropImage(blobUrl, x, y, width, height);
+    if (result) {
+      const displayBase64 = await calculateBase64(result, isShading, threshold);
+      const { dimension } = historyRef.current[historyRef.current.length - 1];
+      historyRef.current.push({
+        blobUrl: result,
+        dimension: {
+          x: dimension.x + x,
+          y: dimension.y + y,
+          width,
+          height,
+        },
+      });
+      setState({ blobUrl: result, displayBase64, width, height });
+    }
+    progressCaller.popById('photo-edit-processing');
+  };
+
+  const handleUndo = async () => {
+    if (historyRef.current.length === 1) return;
+    progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
+    const { blobUrl: currentUrl } = historyRef.current.pop();
+    URL.revokeObjectURL(currentUrl);
+    const { blobUrl: newUrl, dimension } = historyRef.current[historyRef.current.length - 1];
+    const { width, height } = dimension;
+    const displayBase64 = await calculateBase64(newUrl, isShading, threshold);
+    setState({ blobUrl: newUrl, displayBase64, width, height });
+    progressCaller.popById('photo-edit-processing');
+  };
+
+  const renderFooter = () => (
+    <>
+      <Button onClick={onClose}>{t.cancel}</Button>
+      <Button onClick={handleUndo} disabled={historyRef.current.length <= 1}>{t.back}</Button>
+      <Button onClick={handleApply}>{t.apply}</Button>
+      <Button type="primary" onClick={handleComplete}>{t.okay}</Button>
+    </>
+  );
+  const { width, height, displayBase64 } = state;
+  const maxWidth = window.innerWidth - MODAL_PADDING_X;
+  const maxHieght = window.innerHeight - MODAL_PADDING_Y;
+  const isWideImage = (width / maxWidth > height / maxHieght);
+
+  return (
+    <Modal
+      open
+      centered
+      maskClosable={false}
+      title={t.crop}
+      width={isWideImage ? maxWidth : undefined}
+      onCancel={onClose}
+      footer={renderFooter()}
+    >
+      <img
+        ref={previewImageRef}
+        src={displayBase64}
+        style={isWideImage ? { width: `${maxWidth}px` } : { height: `${maxHieght}px` }}
+        onLoad={startCropper}
+      />
+    </Modal>
+  );
+};
+
+export default CropPanel;

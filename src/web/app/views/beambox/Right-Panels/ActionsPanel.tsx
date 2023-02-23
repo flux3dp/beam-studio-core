@@ -123,7 +123,7 @@ class ActionsPanel extends React.Component<Props> {
       this.renderButtons(LANG.sharpen, () => {
         this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
       }, false, 'sharpen', false, <SharpenIcon />),
-      this.renderButtons(LANG.crop, () => Dialog.showPhotoEditPanel('crop'), false, 'crop', false, <CropIcon />),
+      this.renderButtons(LANG.crop, () => Dialog.showCropPanel(), false, 'crop', false, <CropIcon />),
       this.renderButtons(
         LANG.bevel, () => imageEdit.generateStampBevel(elem as SVGImageElement), false, 'bevel', false, <BevelIcon />
       ),
