@@ -92,7 +92,7 @@ export default {
   DUPLICATE: () => FnWrapper.cloneSelectedElement(),
   OFFSET: () => svgEditor.triggerOffsetTool(),
   IMAGE_SHARPEN: () => Dialog.showPhotoEditPanel('sharpen'),
-  IMAGE_CROP: () => Dialog.showPhotoEditPanel('crop'),
+  IMAGE_CROP: () => Dialog.showCropPanel(),
   IMAGE_INVERT: () => imageEdit.colorInvert(),
   IMAGE_STAMP: () => imageEdit.generateStampBevel(),
   IMAGE_VECTORIZE: () => imageEdit.traceImage(),
