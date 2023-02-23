@@ -128,15 +128,16 @@ export const cloneLayerByName = (layerName: string, newLayerName: string): IComm
 
 export const cloneSelectedLayers = (layerNames: string[]): string[] => {
   sortLayerNamesByPosition(layerNames);
-  const newSelectLayers = [];
+  const newSelectLayers: string[] = [];
   const drawing = svgCanvas.getCurrentDrawing();
   const batchCmd = new history.BatchCommand('Clone Layer(s)');
   for (let i = 0; i < layerNames.length; i += 1) {
-    let newName = `${layerNames[i]} copy`;
+    const baseName = `${layerNames[i]} copy`;
+    let newName = baseName;
     let j = 0;
     while (drawing.hasLayer(newName)) {
       j += 1;
-      newName = `${newName} ${j}`;
+      newName = `${baseName} ${j}`;
     }
     const cmd = cloneLayerByName(layerNames[i], newName);
     if (cmd) {
@@ -149,7 +150,7 @@ export const cloneSelectedLayers = (layerNames: string[]): string[] => {
   }
   drawing.identifyLayers();
   svgCanvas.clearSelection();
-  return newSelectLayers as string[];
+  return newSelectLayers;
 };
 
 export const setLayerLock = (layerName: string, isLocked: boolean): void => {
