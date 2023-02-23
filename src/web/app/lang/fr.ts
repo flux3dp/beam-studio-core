@@ -38,7 +38,7 @@ const lang: ILang = {
       fail_to_start_preview: '#803 Le mode de prévisualisation n\'a pas pu être lancé. Veuillez redémarrer votre machine et Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
       fail_to_connect_with_camera: '#803 Impossible d\'établir la connexion avec la caméra de la machine. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
       power_too_high: 'PUISSANCE TROP ÉLEVÉE',
-      power_too_high_msg: 'L\'utilisation d\'une puissance laser plus faible (inférieure à 70 %) permet de prolonger la durée de vie du tube laser. Entrez "NOTED" pour continuer.',
+      power_too_high_msg: 'L\'utilisation d\'une puissance laser plus faible (inférieure à 70 %) permet de prolonger la durée de vie du tube laser.\nEntrez "NOTED" pour continuer.',
       power_too_high_confirm: 'NOTED',
     },
     hint: {

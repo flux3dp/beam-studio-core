@@ -38,7 +38,7 @@ const lang: ILang = {
       fail_to_start_preview: '#803 啟動相機預覽失敗，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       fail_to_connect_with_camera: '#803 與機器相機建立連線時失敗，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       power_too_high: '功率過高',
-      power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。<br/>輸入「知道了」以繼續。',
+      power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
       power_too_high_confirm: '知道了',
     },
     hint: {

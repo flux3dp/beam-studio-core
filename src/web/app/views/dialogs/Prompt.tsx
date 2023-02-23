@@ -31,6 +31,7 @@ function Prompt({
   caption, message, placeholder, defaultValue = '', onYes, onCancel = () => { }, onClose,
 }: Props): JSX.Element {
   const inputRef = React.useRef<InputRef>(null);
+  const messageContent = typeof message === 'string' ? message.split('\n').map((t) => <p key={t}>{t}</p>) : message;
 
   const handleKeyDown = (e: React.KeyboardEvent): void => {
     if (e.keyCode === keyCodeConstants.KEY_RETURN) {
@@ -58,7 +59,7 @@ function Prompt({
       okText={LANG.ok2}
       cancelText={LANG.cancel}
     >
-      <p>{message}</p>
+      {messageContent}
       <InputKeyWrapper inputRef={inputRef}>
         <Input
           autoFocus

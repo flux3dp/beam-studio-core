@@ -38,7 +38,7 @@ const lang: ILang = {
       fail_to_start_preview: '#803 Kan de voorbeeldmodus niet starten. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze gids</a>.',
       fail_to_connect_with_camera: '#803 Kan geen verbinding maken met de machinecamera. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
       power_too_high: 'VERMOGEN TE HOOG',
-      power_too_high_msg: 'Het gebruik van een lager laservermogen (minder dan 70%) verlengt de levensduur van de laserbuis. Voer "OPGEMERKT" in om door te gaan.',
+      power_too_high_msg: 'Het gebruik van een lager laservermogen (minder dan 70%) verlengt de levensduur van de laserbuis.\nVoer "OPGEMERKT" in om door te gaan.',
       power_too_high_confirm: 'OK',
     },
     hint: {
