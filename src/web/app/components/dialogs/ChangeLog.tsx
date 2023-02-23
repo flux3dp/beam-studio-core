@@ -3,7 +3,7 @@ import React from 'react';
 import browser from 'implementations/browser';
 import changelog from 'implementations/changelog';
 import i18n from 'helpers/i18n';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 
 const LANG = i18n.lang.change_logs;
 
@@ -58,9 +58,11 @@ function ChangeLog({ onClose }: Props): JSX.Element {
       open
       centered
       title={renderVersion()}
-      cancelText={LANG.see_older_version}
-      onCancel={handleLink}
-      onOk={onClose}
+      onCancel={onClose}
+      footer={[
+        <Button key="older-version" onClick={handleLink}>{LANG.see_older_version}</Button>,
+        <Button type="primary" key="ok" onClick={onClose}>OK</Button>,
+      ]}
     >
       <div className="change-log-container">
         {changeLogs}

@@ -123,23 +123,13 @@ export interface ILang {
       dashboard: string;
       machine_info: string;
       network_testing: string;
-      toolhead_info: string;
-      change_material: string;
-      run_leveling: string;
       commands: string;
       update_firmware: string;
-      update_delta: string;
-      update_toolhead: string;
       using_beam_studio_api: string;
       set_as_default: string;
-      calibrate_origin: string;
       calibrate_beambox_camera: string;
       calibrate_beambox_camera_borderless: string;
       calibrate_diode_module: string;
-      movement_test: string;
-      turn_on_laser: string;
-      auto_leveling_clean: string;
-      set_toolhead_temperature: string;
       manage_account: string;
       sign_in: string;
       sign_out: string;
@@ -189,7 +179,6 @@ export interface ILang {
     OPERATION_ERROR: string,
     SUBSYSTEM_ERROR: string,
     UNKNOWN_COMMAND: string,
-    RESOURCE_BUSY: string,
   },
   device_selection: {
     no_beambox: string,
@@ -1079,16 +1068,9 @@ export interface ILang {
     prepareRelocate: string,
     extensionNotSupported: string,
     fileExistContinue: string,
-    confirmGToF: string,
     confirmFileDelete: string,
     ask_reconnect: string,
     task: {
-      EXTRUDER: string,
-      PRINT: string,
-      LASER: string,
-      DRAW: string,
-      CUT: string,
-      VINYL: string,
       BEAMBOX: string,
       'N/A': string,
     },

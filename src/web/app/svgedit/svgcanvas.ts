@@ -304,8 +304,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   var matrixMultiply = canvas.matrixMultiply = svgedit.math.matrixMultiply;
   var hasMatrixTransform = canvas.hasMatrixTransform = svgedit.math.hasMatrixTransform;
   var transformListToTransform = canvas.transformListToTransform = svgedit.math.transformListToTransform;
-  var snapToAngle = svgedit.math.snapToAngle;
-  var getMatrix = svgedit.math.getMatrix;
   const SENSOR_AREA_RADIUS = 10;
 
   // initialize from units.js
