@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Col, Form, Modal, Row, Select, Switch } from 'antd';
 
@@ -9,6 +10,8 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+import styles from './DocumentSettings.module.scss';
 
 let svgCanvas;
 let svgEditor;
@@ -104,7 +107,6 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           <Col span={12}>
             <Form.Item
               name="rotary_mode"
-              initialValue={rotaryMode}
               label={LANG.rotary_mode}
               labelCol={{ span: 12, offset: 0 }}
             >
@@ -112,7 +114,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Form.Item>
             <Form.Item
               name="borderless_mode"
-              initialValue={doesSupportOpenBottom && borderlessMode}
+              className={classNames({ [styles.disabled]: !doesSupportOpenBottom })}
               label={LANG.borderless_mode}
               labelCol={{ span: 12, offset: 0 }}
             >
@@ -126,7 +128,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           <Col span={12}>
             <Form.Item
               name="autofocus-module"
-              initialValue={doesSupportAutofocus && enableAutofocus}
+              className={classNames({ [styles.disabled]: !doesSupportAutofocus })}
               label={LANG.enable_autofocus}
               labelCol={{ span: 12, offset: 0 }}
             >
@@ -138,7 +140,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Form.Item>
             <Form.Item
               name="diode_module"
-              initialValue={doesSupportHybrid && enableDiode}
+              className={classNames({ [styles.disabled]: !doesSupportHybrid })}
               label={LANG.enable_diode}
               labelCol={{ span: 12, offset: 0 }}
             >
