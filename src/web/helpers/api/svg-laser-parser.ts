@@ -136,11 +136,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-vsc');
       }
 
-      if (BeamboxPreference.read('stripe_compensation')) {
-        args.push('-strpcom');
-        args.push(`${BeamboxPreference.read('stripe_compensation_y0') || 0},${BeamboxPreference.read('stripe_compensation_interval') || 0},${BeamboxPreference.read('stripe_compensation_power') || 100}`);
-      }
-
       if (BeamboxPreference.read('reverse-engraving')) {
         args.push('-rev');
       }
@@ -525,7 +520,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
         if (opts) {
           if (opts.model === 'fhexa1') {
-            args.push('-bb2');
+            args.push('-hexa');
           } else if (opts.model === 'fbb1p') {
             args.push('-pro');
           } else if (opts.model === 'fbm1') {
