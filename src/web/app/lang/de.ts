@@ -761,6 +761,7 @@ const lang: ILang = {
           edit_path: 'Pfad bearbeiten',
           disassembling: 'Zerlegen ...',
           ungrouping: 'Gruppierung aufheben...',
+          simplify: 'Vereinfachen',
         },
         path_edit_panel: {
           node_type: 'Knotentyp',

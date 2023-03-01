@@ -761,6 +761,7 @@ const lang: ILang = {
           edit_path: 'Modifier le chemin',
           disassembling: 'Désassembler...',
           ungrouping: 'Dégrouper...',
+          simplify: 'Simplifier',
         },
         path_edit_panel: {
           node_type: 'TYPE DE NODE',
