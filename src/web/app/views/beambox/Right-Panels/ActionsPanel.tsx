@@ -180,7 +180,7 @@ class ActionsPanel extends React.Component<Props> {
       ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
-      this.renderButtons('Simplify', () => svgCanvas.simplifyPath(), true, 'simplify'),
+      this.renderButtons(LANG.simplify, () => svgCanvas.simplifyPath(), true, 'simplify'),
     ];
     return content;
   };

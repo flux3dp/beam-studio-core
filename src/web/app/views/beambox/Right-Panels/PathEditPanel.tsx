@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { Button, Divider, Space } from 'antd';
 
 import i18n from 'helpers/i18n';
 import SegmentedControl from 'app/widgets/SegmentedControl';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { Button, Divider, Space } from 'antd';
-import { ISVGPath } from 'interfaces/ISVGPath';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ISVGPath } from 'interfaces/ISVGPath';
+import { PathConnectIcon, PathDisconnectIcon, PathRoundIcon, PathSharpIcon } from 'app/icons/icons';
 
 let svgedit;
 let svgCanvas: ISVGCanvas;
@@ -87,6 +88,7 @@ function PathEditPanel(): JSX.Element {
             onClick={() => svgCanvas.pathActions.setSharp()}
             size="small"
           >
+            <PathSharpIcon />
             Sharp
           </Button>
           <Button
@@ -94,6 +96,7 @@ function PathEditPanel(): JSX.Element {
             onClick={() => svgCanvas.pathActions.setRound()}
             size="small"
           >
+            <PathRoundIcon />
             Round
           </Button>
           <Button
@@ -101,6 +104,7 @@ function PathEditPanel(): JSX.Element {
             onClick={svgCanvas.pathActions.connectNodes}
             size="small"
           >
+            <PathConnectIcon />
             Connect
           </Button>
           <Button
@@ -108,6 +112,7 @@ function PathEditPanel(): JSX.Element {
             onClick={svgCanvas.pathActions.disconnectNode}
             size="small"
           >
+            <PathDisconnectIcon />
             Disconnect
           </Button>
         </Space>
