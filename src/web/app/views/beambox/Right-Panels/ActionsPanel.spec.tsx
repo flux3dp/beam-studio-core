@@ -68,6 +68,7 @@ jest.mock('helpers/i18n', () => ({
             disassemble_use: 'Disassemble',
             disassembling: 'Disassembling...',
             ungrouping: 'Ungrouping...',
+            simplify: 'simplify',
           },
         },
       },
