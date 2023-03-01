@@ -761,7 +761,7 @@ const lang: ILang = {
           edit_path: '編輯路徑',
           disassembling: '解散中...',
           ungrouping: '解散群組中...',
-          simplify: '簡化路徑',
+          simplify: '路徑優化',
         },
         path_edit_panel: {
           node_type: '節點類型',

@@ -20,11 +20,13 @@ import {
   CropIcon,
   DivideIcon,
   GrayscaleIcon,
-  InvertIcon, OffsetIcon,
+  InvertIcon,
+  OffsetIcon,
   PenIcon,
   ReplaceIcon,
   SeparateIcon,
   SharpenIcon,
+  SimplifyIcon,
   TraceIcon,
 } from 'app/icons/icons';
 
@@ -180,7 +182,7 @@ class ActionsPanel extends React.Component<Props> {
       ),
       this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
-      this.renderButtons(LANG.simplify, () => svgCanvas.simplifyPath(), true, 'simplify'),
+      this.renderButtons(LANG.simplify, () => svgCanvas.simplifyPath(), true, 'simplify', false, <SimplifyIcon />),
     ];
     return content;
   };

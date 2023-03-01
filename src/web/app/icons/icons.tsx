@@ -34,9 +34,9 @@ const InvertSvg = () => (
 const ArraySvg = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="12 12 24 24">
     <g transform="translate(-1093.717 -1787.408)">
-      <path d="M673.33,231.507a3.45,3.45,0,1,0,3.45,3.45A3.45,3.45,0,0,0,673.33,231.507Z" transform="translate(439.168 1571.445)" fill="none" stroke="#8c8c8c" strokeWidth="2" />
-      <path d="M673.33,231.507a3.45,3.45,0,1,0,3.45,3.45A3.45,3.45,0,0,0,673.33,231.507Z" transform="translate(449.606 1571.445)" fill="none" stroke="#8c8c8c" strokeWidth="2" />
-      <path d="M673.33,231.507a3.45,3.45,0,1,0,3.45,3.45A3.45,3.45,0,0,0,673.33,231.507Z" transform="translate(439.168 1581.457)" fill="none" stroke="#8c8c8c" strokeWidth="2" />
+      <path d="M673.33,231.507a3.45,3.45,0,1,0,3.45,3.45A3.45,3.45,0,0,0,673.33,231.507Z" transform="translate(439.168 1571.445)" fill="none" stroke="#5c5c5c" strokeWidth="2" />
+      <path d="M673.33,231.507a3.45,3.45,0,1,0,3.45,3.45A3.45,3.45,0,0,0,673.33,231.507Z" transform="translate(449.606 1571.445)" fill="none" stroke="#5c5c5c" strokeWidth="2" />
+      <path d="M673.33,231.507a3.45,3.45,0,1,0,3.45,3.45A3.45,3.45,0,0,0,673.33,231.507Z" transform="translate(439.168 1581.457)" fill="none" stroke="#5c5c5c" strokeWidth="2" />
     </g>
   </svg>
 );
@@ -125,6 +125,28 @@ const DivideSvg = () => (
       <path d="M9.024,16.449a2.342,2.342,0,1,1,2.342-2.342,2.345,2.345,0,0,1-2.342,2.342" transform="translate(-0.04 1.408)" fill="#fff" />
       <path d="M9.132,12.879a1.334,1.334,0,1,0,1.335,1.335,1.337,1.337,0,0,0-1.335-1.335m0-2.015a3.349,3.349,0,1,1-3.35,3.35,3.35,3.35,0,0,1,3.35-3.35" transform="translate(-0.148 1.3)" fill="#5c5c5c" />
     </g>
+  </svg>
+);
+
+const SimplifySvg = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="12 12 24 24">
+    <ellipse cx="1.515" cy="1.515" rx="1.515" ry="1.515" transform="translate(14.021 30.959)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.478" cy="1.478" rx="1.478" ry="1.478" transform="translate(30.948 30.996)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.478" cy="1.478" rx="1.478" ry="1.478" transform="translate(30.986 16.966) rotate(-90)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.478" cy="1.478" rx="1.478" ry="1.478" transform="translate(25.052 17.004) rotate(180)" fill="none" stroke="#bcbcbc" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.515" cy="1.515" rx="1.515" ry="1.515" transform="translate(30.948 33.894) rotate(-90)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.478" cy="1.478" rx="1.478" ry="1.478" transform="translate(17.052 17.004) rotate(180)" fill="none" stroke="#969696" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.478" cy="1.478" rx="1.478" ry="1.478" transform="translate(25.052 17.004) rotate(180)" fill="none" stroke="#969696" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.515" cy="1.515" rx="1.515" ry="1.515" transform="translate(17.052 14.106) rotate(90)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <ellipse cx="1.478" cy="1.478" rx="1.478" ry="1.478" transform="translate(17.052 25.526) rotate(180)" fill="none" stroke="#969696" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="5.278" transform="translate(25.67 32.474)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="13.448" transform="translate(17.052 32.474)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line y1="9.363" transform="translate(32.464 21.5)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="5.278" transform="translate(32.464 22.244) rotate(-90)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="5.241" transform="translate(30.948 15.526) rotate(180)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="5.278" transform="translate(22.33 15.526) rotate(180)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="5.241" transform="translate(15.536 17.137) rotate(90)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
+    <line x2="5.278" transform="translate(15.536 25.756) rotate(90)" fill="none" stroke="#484949" strokeMiterlimit="10" strokeWidth="1.5" />
   </svg>
 );
 
@@ -227,6 +249,10 @@ export const SeparateIcon = (props: Partial<CustomIconComponentProps>): JSX.Elem
 
 export const DivideIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={DivideSvg} style={commonStyle} {...props} />
+);
+
+export const SimplifyIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
+  <Icon component={SimplifySvg} style={commonStyle} {...props} />
 );
 
 export const PathConnectIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
