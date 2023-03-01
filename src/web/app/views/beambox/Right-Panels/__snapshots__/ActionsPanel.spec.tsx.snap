@@ -401,7 +401,7 @@ exports[`should render correctly path 1`] = `
     </div>
     <div
       className="btn-container full"
-      key="Simplify"
+      key="simplify"
       onClick={[Function]}
     >
       <button
@@ -409,7 +409,8 @@ exports[`should render correctly path 1`] = `
         id="simplify"
         type="button"
       >
-        Simplify
+        <SimplifyIcon />
+        simplify
       </button>
     </div>
   </div>

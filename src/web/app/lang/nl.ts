@@ -761,6 +761,7 @@ const lang: ILang = {
           edit_path: 'Pad bewerken',
           disassembling: 'Demontage...',
           ungrouping: 'Groepering opheffen...',
+          simplify: 'Makkelijker maken',
         },
         path_edit_panel: {
           node_type: 'Knooppunttype',

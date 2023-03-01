@@ -761,6 +761,7 @@ const lang: ILang = {
           edit_path: 'パス編集',
           disassembling: '逆アセンブル中…',
           ungrouping: 'グループ解除中…',
+          simplify: '簡略化',
         },
         path_edit_panel: {
           node_type: 'ノードタイプ',

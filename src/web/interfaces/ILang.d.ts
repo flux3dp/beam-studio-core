@@ -759,6 +759,7 @@ export interface ILang {
           create_textpath: string,
           detach_path: string,
           edit_path: string,
+          simplify: string;
         },
         path_edit_panel: {
           node_type: string,
