@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-continue */
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { sprintf } from 'sprintf-js';
 
@@ -32,6 +32,9 @@ import {
   writeData,
 } from 'helpers/layer-config-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
+
+import PowerBlock from './LaserPanel/PowerBlock';
+import SpeedBlock from './LaserPanel/SpeedBlock';
 
 let svgCanvas;
 let svgEditor;
@@ -503,98 +506,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  renderStrength = (): JSX.Element => {
-    const { hasMultiPower: hasMultipleValue, power } = this.state;
-    const maxValue = 100;
-    const minValue = 1;
-    return (
-      <div className="panel">
-        <span className="title">{LANG.strength}</span>
-        <UnitInput
-          id="power"
-          min={minValue}
-          max={maxValue}
-          unit="%"
-          defaultValue={power}
-          getValue={this.handleStrengthChange}
-          decimal={1}
-          displayMultiValue={hasMultipleValue}
-        />
-        <div className="slider-container">
-          <input
-            id="power_value"
-            className="rainbow-slider"
-            type="range"
-            min={minValue}
-            max={maxValue}
-            step={1}
-            value={power}
-            onChange={(e) => this.handleStrengthChange(parseInt(e.target.value, 10))}
-          />
-        </div>
-        {power < 10 && (
-          <div className="warning">
-            <div className="warning-icon">!</div>
-            <div className="warning-text">
-              {LANG.low_power_warning}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  renderSpeed = (): JSX.Element => {
-    const { hasMultiSpeed: hasMultipleValue, speed } = this.state;
-    const hasVector = this.checkLayerContainsVector();
-    const renderWarningText = (): JSX.Element => {
-      if (hasVector && speed > 20 && (BeamboxPreference.read('vector_speed_contraint') !== false)) {
-        return (
-          <div className="warning">
-            <div className="warning-icon">!</div>
-            <div className="warning-text">
-              {LANG.speed_contrain_warning}
-            </div>
-          </div>
-        );
-      }
-      return null;
-    };
-
-    const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
-    const minValue = 3;
-    const unitDisplay = { mm: 'mm/s', inches: 'in/s' }[this.unit];
-    const decimalDisplay = { mm: 1, inches: 2 }[this.unit];
-    return (
-      <div className="panel">
-        <span className="title">{LANG.speed}</span>
-        <UnitInput
-          id="speed"
-          min={minValue}
-          max={maxValue}
-          unit={unitDisplay}
-          defaultValue={speed}
-          getValue={this.handleSpeedChange}
-          decimal={decimalDisplay}
-          displayMultiValue={hasMultipleValue}
-        />
-        <div className="slider-container">
-          <input
-            id="speed_value"
-            className={classNames('rainbow-slider', { 'speed-for-vector': hasVector })}
-            type="range"
-            min={minValue}
-            max={maxValue}
-            step={1}
-            value={speed}
-            onChange={(e) => this.handleSpeedChange(Number(e.target.value))}
-          />
-        </div>
-        {renderWarningText()}
-      </div>
-    );
-  };
-
   renderRepeat = (): JSX.Element => {
     const { repeat, hasMultiRepeat: hasMultipleValue } = this.state;
     return (
@@ -765,55 +676,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   }
 
-  checkLayerContainsVector(): boolean {
-    const { selectedLayers } = this.props;
-    const layers = selectedLayers.map((layerName: string) => getLayerElementByName(layerName));
-
-    const doElementContainVector = (elem: Element) => {
-      const vectors = elem.querySelectorAll('path, rect, ellipse, polygon, line, text');
-      let ret = false;
-      for (let i = 0; i < vectors.length; i += 1) {
-        const vector = vectors[i];
-        const fill = vector.getAttribute('fill');
-        const fillOpacity = vector.getAttribute('fill-opacity');
-        if (fill === 'none' || fill === '#FFF' || fill === '#FFFFFF' || fillOpacity === '0') {
-          ret = true;
-          break;
-        }
-      }
-      return ret;
-    };
-
-    let ret = false;
-    for (let i = 0; i < layers.length; i += 1) {
-      const layer = layers[i];
-      if (!layer) continue;
-      if (doElementContainVector(layer)) {
-        ret = true;
-        break;
-      }
-      const uses = layer.querySelectorAll('use');
-      for (let j = 0; j < uses.length; j += 1) {
-        const use = uses[j];
-        const href = use.getAttribute('xlink:href');
-        let symbol = document.querySelector(href);
-        if (symbol) {
-          const originalSymbolID = symbol.getAttribute('data-origin-symbol');
-          if (originalSymbolID) {
-            const originalSymbol = document.getElementById(originalSymbolID);
-            if (originalSymbol) symbol = originalSymbol;
-          }
-          if (symbol.getAttribute('data-wireframe') === 'true' || doElementContainVector(symbol)) {
-            ret = true;
-            break;
-          }
-        }
-      }
-      if (ret) break;
-    }
-    return ret;
-  }
-
   renderLayerParameterButtons = (): JSX.Element => (
     <div className="layer-param-buttons">
       <div className="left">
@@ -886,6 +748,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   render(): JSX.Element {
     const { selectedLayers } = this.props;
+    const { power, hasMultiPower, speed, hasMultiSpeed } = this.state;
     let displayName = '';
     if (selectedLayers.length === 1) {
       // eslint-disable-next-line prefer-destructuring
@@ -894,8 +757,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
       displayName = LANG.multi_layer;
     }
 
-    const speedPanel = this.renderSpeed();
-    const strengthPanel = this.renderStrength();
     const repeatPanel = this.renderRepeat();
     const modalDialog = this.renderModal();
 
@@ -934,8 +795,13 @@ class LaserPanel extends React.PureComponent<Props, State> {
             />
             {this.renderAddPresetButton()}
           </div>
-          {strengthPanel}
-          {speedPanel}
+          <PowerBlock power={power} hasMultipleValue={hasMultiPower} onChange={this.handleStrengthChange} />
+          <SpeedBlock
+            layerNames={selectedLayers}
+            speed={speed}
+            hasMultipleValue={hasMultiSpeed}
+            onChange={this.handleSpeedChange}
+          />
           {repeatPanel}
           {modalDialog}
         </div>
