@@ -30,7 +30,7 @@ import {
   getLayerConfig,
   getLayersConfig,
   writeData,
-} from 'helpers/laser-config-helper';
+} from 'helpers/layer-config-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
 let svgCanvas;
