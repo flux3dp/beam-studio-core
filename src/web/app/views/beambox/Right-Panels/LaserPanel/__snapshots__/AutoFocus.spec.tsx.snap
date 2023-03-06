@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test AutoFocus should render correctly when height is less than 0 1`] = `
+<div>
+  <div
+    class="panel checkbox"
+  >
+    <span
+      class="title"
+    >
+      focus_adjustment
+    </span>
+    <input
+      readonly=""
+      type="checkbox"
+    />
+  </div>
+</div>
+`;
+
+exports[`test AutoFocus should render correctly when repeat is larger than 1 1`] = `
+<div>
+  <div
+    class="panel checkbox"
+  >
+    <span
+      class="title"
+    >
+      focus_adjustment
+    </span>
+    <input
+      checked=""
+      readonly=""
+      type="checkbox"
+    />
+  </div>
+  <div
+    class="panel without-drag"
+  >
+    <span
+      class="title"
+    >
+      height
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        height
+      </p>
+      <p>
+        min: 
+        0.01
+      </p>
+      <p>
+        max: 
+        20
+      </p>
+      <p>
+        unit: 
+        mm
+      </p>
+      <p>
+        defaultValue: 
+        3
+      </p>
+      <p>
+        decimal: 
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+      <button
+        type="button"
+      >
+        change-
+        height
+      </button>
+    </div>
+  </div>
+  <div
+    class="panel without-drag"
+  >
+    <span
+      class="title"
+    >
+      z_step
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        z_step
+      </p>
+      <p>
+        min: 
+        0
+      </p>
+      <p>
+        max: 
+        20
+      </p>
+      <p>
+        unit: 
+        mm
+      </p>
+      <p>
+        defaultValue: 
+        0
+      </p>
+      <p>
+        decimal: 
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+      <button
+        type="button"
+      >
+        change-
+        z_step
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test AutoFocus should render correctly when repeat is less than 1 1`] = `
+<div>
+  <div
+    class="panel checkbox"
+  >
+    <span
+      class="title"
+    >
+      focus_adjustment
+    </span>
+    <input
+      checked=""
+      readonly=""
+      type="checkbox"
+    />
+  </div>
+  <div
+    class="panel without-drag"
+  >
+    <span
+      class="title"
+    >
+      height
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        height
+      </p>
+      <p>
+        min: 
+        0.01
+      </p>
+      <p>
+        max: 
+        20
+      </p>
+      <p>
+        unit: 
+        mm
+      </p>
+      <p>
+        defaultValue: 
+        3
+      </p>
+      <p>
+        decimal: 
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+      <button
+        type="button"
+      >
+        change-
+        height
+      </button>
+    </div>
+  </div>
+</div>
+`;

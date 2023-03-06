@@ -20,9 +20,7 @@ import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getParametersSet, getAllKeys } from 'app/constants/right-panel-constants';
-import { getLayerElementByName } from 'helpers/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
   CUSTOM_PRESET_CONSTANT,
@@ -33,7 +31,9 @@ import {
 } from 'helpers/layer-config-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
+import AutoFocus from './LaserPanel/AutoFocus';
 import PowerBlock from './LaserPanel/PowerBlock';
+import RepeatBlock from './LaserPanel/RepeatBlock';
 import SpeedBlock from './LaserPanel/SpeedBlock';
 
 let svgCanvas;
@@ -242,14 +242,10 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   importLaserConfig = async (): Promise<void> => {
     const dialogOptions = {
-      filters: [
-        { name: 'JSON', extensions: ['json', 'JSON'] },
-      ],
+      filters: [{ name: 'JSON', extensions: ['json', 'JSON'] }],
     };
     const fileBlob = await dialog.getFileFromDialog(dialogOptions);
-    if (fileBlob) {
-      svgEditor.importLaserConfig(fileBlob);
-    }
+    if (fileBlob) svgEditor.importLaserConfig(fileBlob);
   };
 
   updateData = (): void => {
@@ -294,9 +290,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             layer.removeAttribute('data-configName');
           }
         } else {
-          const {
-            speed, power, repeat, zStep,
-          } = config;
+          const { speed, power, repeat, zStep } = config;
           layer.setAttribute('data-speed', speed);
           layer.setAttribute('data-strength', power);
           layer.setAttribute('data-repeat', repeat);
@@ -316,7 +310,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     this.setState({ speed: val, configName: CUSTOM_PRESET_CONSTANT });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
+    selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.speed, val);
       writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
@@ -325,7 +319,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
   handleStrengthChange = (val: number): void => {
     this.setState({ power: val, configName: CUSTOM_PRESET_CONSTANT });
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
+    selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.strength, val);
       writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
@@ -335,7 +329,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     this.setState({ repeat: val, configName: CUSTOM_PRESET_CONSTANT });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
+    selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.repeat, val);
       writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
@@ -346,23 +340,19 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const val = -height;
     this.setState({ height: val });
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
-      writeData(layerName, DataType.height, val);
-    });
+    selectedLayers.forEach((layerName) => writeData(layerName, DataType.height, val));
   };
 
   handleHeightChange = (val: number): void => {
     this.setState({ height: val });
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
-      writeData(layerName, DataType.height, val);
-    });
+    selectedLayers.forEach((layerName) => writeData(layerName, DataType.height, val));
   };
 
   handleZStepChange = (val: number): void => {
     this.setState({ zStep: val, configName: CUSTOM_PRESET_CONSTANT });
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
+    selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.zstep, val);
       writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
@@ -373,9 +363,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const val = !isDiode;
     this.setState({ isDiode: val });
     const { selectedLayers } = this.props;
-    selectedLayers.forEach((layerName: string) => {
-      writeData(layerName, DataType.diode, val ? 1 : 0);
-    });
+    selectedLayers.forEach((layerName) => writeData(layerName, DataType.diode, val ? 1 : 0));
   };
 
   handleSaveConfig = (name: string): void => {
@@ -385,41 +373,15 @@ class LaserPanel extends React.PureComponent<Props, State> {
     const { selectedLayers } = this.props;
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
     if (!customizedConfigs || customizedConfigs.length < 1) {
-      storage.set('customizedLaserConfigs', [{
-        name,
-        speed,
-        power,
-        repeat,
-        zStep,
-      }]);
-
-      selectedLayers.forEach((layerName: string) => {
-        writeData(layerName, DataType.configName, name);
-      });
-
-      this.setState({
-        configName: name,
-        selectedItem: name,
-      });
+      storage.set('customizedLaserConfigs', [{ name, speed, power, repeat, zStep }]);
+      selectedLayers.forEach((layerName) => writeData(layerName, DataType.configName, name));
+      this.setState({ configName: name, selectedItem: name });
     } else {
       const index = customizedConfigs.findIndex((e) => e.name === name);
       if (index < 0) {
-        storage.set('customizedLaserConfigs', customizedConfigs.concat([{
-          name,
-          speed,
-          power,
-          repeat,
-          zStep,
-        }]));
-
-        selectedLayers.forEach((layerName: string) => {
-          writeData(layerName, DataType.configName, name);
-        });
-
-        this.setState({
-          configName: name,
-          selectedItem: name,
-        });
+        storage.set('customizedLaserConfigs', customizedConfigs.concat([{ name, speed, power, repeat, zStep }]));
+        selectedLayers.forEach((layerName) => writeData(layerName, DataType.configName, name));
+        this.setState({ configName: name, selectedItem: name });
       } else {
         Alert.popUp({
           type: AlertConstants.SHOW_POPUP_ERROR,
@@ -504,90 +466,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
         console.error('No such value', value);
       }
     }
-  };
-
-  renderRepeat = (): JSX.Element => {
-    const { repeat, hasMultiRepeat: hasMultipleValue } = this.state;
-    return (
-      <div className="panel without-drag">
-        <span className="title">{LANG.repeat}</span>
-        <UnitInput
-          id="repeat"
-          min={0}
-          max={100}
-          unit={LANG.times}
-          defaultValue={repeat}
-          getValue={this.handleRepeatChange}
-          decimal={0}
-          displayMultiValue={hasMultipleValue}
-        />
-      </div>
-    );
-  };
-
-  renderEnableHeight = (): JSX.Element => {
-    const { height } = this.state;
-    if (
-      BeamboxPreference.read('enable-autofocus')
-      && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))
-    ) {
-      return (
-        <div className="panel checkbox" onClick={this.toggleEnableHeight}>
-          <span className="title">{LANG.focus_adjustment}</span>
-          <input type="checkbox" checked={height > 0} onChange={() => { }} />
-        </div>
-      );
-    }
-    return null;
-  };
-
-  renderHeight = (): JSX.Element => {
-    const { height, hasMultiHeight: hasMultipleValue } = this.state;
-    if (!BeamboxPreference.read('enable-autofocus')
-      || !Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))
-      || height < 0
-    ) {
-      return null;
-    }
-    return (
-      <div className="panel without-drag">
-        <span className="title">{LANG.height}</span>
-        <UnitInput
-          id="height"
-          min={0.01}
-          max={20}
-          unit="mm"
-          defaultValue={height}
-          getValue={this.handleHeightChange}
-          displayMultiValue={hasMultipleValue}
-        />
-      </div>
-    );
-  };
-
-  renderZStep = (): JSX.Element => {
-    const {
-      repeat, height, zStep, hasMultiZStep: hasMultipleValue,
-    } = this.state;
-    if (!BeamboxPreference.read('enable-autofocus') || repeat <= 1 || height < 0
-      || !Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))
-    ) {
-      return null;
-    }
-    return (
-      <div className="panel without-drag">
-        <span className="title">{LANG.z_step}</span>
-        <UnitInput
-          id="z_step"
-          min={0}
-          max={20}
-          unit="mm"
-          defaultValue={zStep}
-          getValue={this.handleZStepChange}
-          displayMultiValue={hasMultipleValue}
-        />
-      </div>
-    );
   };
 
   renderDiode = (): JSX.Element => {
@@ -724,12 +602,13 @@ class LaserPanel extends React.PureComponent<Props, State> {
   }
 
   renderAddOnBlock = (): JSX.Element => {
-    const enableHeightPanel = this.renderEnableHeight();
-    const heightPanel = this.renderHeight();
-    const zStepPanel = this.renderZStep();
+    const { repeat, height, hasMultiHeight, zStep, hasMultiZStep } = this.state;
+
+    const isAutoFocusEnabled = BeamboxPreference.read('enable-autofocus')
+      && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'));
     const diodePanel = this.renderDiode();
 
-    if (!enableHeightPanel && !diodePanel) {
+    if (!isAutoFocusEnabled && !diodePanel) {
       return null;
     }
 
@@ -737,9 +616,18 @@ class LaserPanel extends React.PureComponent<Props, State> {
       <div className="addon-block">
         <div className="label">{LANG.add_on}</div>
         <div className="addon-setting">
-          {enableHeightPanel}
-          {heightPanel}
-          {zStepPanel}
+          {isAutoFocusEnabled && (
+            <AutoFocus
+              height={height}
+              hasMultiHeight={hasMultiHeight}
+              repeat={repeat}
+              zStep={zStep}
+              hasMultiZStep={hasMultiZStep}
+              onToggle={this.toggleEnableHeight}
+              onHeightChange={this.handleHeightChange}
+              onZStepChange={this.handleZStepChange}
+            />
+          )}
           {diodePanel}
         </div>
       </div>
@@ -748,7 +636,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   render(): JSX.Element {
     const { selectedLayers } = this.props;
-    const { power, hasMultiPower, speed, hasMultiSpeed } = this.state;
+    const { power, hasMultiPower, speed, hasMultiSpeed, repeat, hasMultiRepeat } = this.state;
     let displayName = '';
     if (selectedLayers.length === 1) {
       // eslint-disable-next-line prefer-destructuring
@@ -757,7 +645,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
       displayName = LANG.multi_layer;
     }
 
-    const repeatPanel = this.renderRepeat();
     const modalDialog = this.renderModal();
 
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
@@ -802,7 +689,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             hasMultipleValue={hasMultiSpeed}
             onChange={this.handleSpeedChange}
           />
-          {repeatPanel}
+          <RepeatBlock val={repeat} hasMultipleValue={hasMultiRepeat} onChange={this.handleRepeatChange} />
           {modalDialog}
         </div>
         {this.renderAddOnBlock()}
