@@ -61,56 +61,35 @@ test('test laser-config-helper', () => {
   });
 
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
-    speed: 20,
-    hasMultiSpeed: false,
-    power: 15,
-    hasMultiPower: false,
-    repeat: 1,
-    hasMultiRepeat: false,
-    height: -3,
-    hasMultiHeight: false,
-    zStep: 1,
-    hasMultiZStep: true,
-    diode: 0,
-    hasMultiDiode: false,
-    configName: '',
-    hasMultiConfigName: false,
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: -3, hasMultiValue: false },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 0, hasMultiValue: false },
+    configName: { value: '', hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.diode, 2);
   writeData('layer 1', DataType.height, -1);
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
-    speed: 20,
-    hasMultiSpeed: false,
-    power: 15,
-    hasMultiPower: false,
-    repeat: 1,
-    hasMultiRepeat: false,
-    height: -1,
-    hasMultiHeight: true,
-    zStep: 1,
-    hasMultiZStep: true,
-    diode: 1,
-    hasMultiDiode: true,
-    configName: '',
-    hasMultiConfigName: false,
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: -1, hasMultiValue: true },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 1, hasMultiValue: true },
+    configName: { value: '', hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.height, 1);
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
-    speed: 20,
-    hasMultiSpeed: false,
-    power: 15,
-    hasMultiPower: false,
-    repeat: 1,
-    hasMultiRepeat: false,
-    height: 1,
-    hasMultiHeight: true,
-    zStep: 1,
-    hasMultiZStep: true,
-    diode: 1,
-    hasMultiDiode: true,
-    configName: '',
-    hasMultiConfigName: false,
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: 1, hasMultiValue: true },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 1, hasMultiValue: true },
+    configName: { value: '', hasMultiValue: false },
   });
 });

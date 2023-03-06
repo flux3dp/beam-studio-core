@@ -35,6 +35,7 @@ import AutoFocus from './LaserPanel/AutoFocus';
 import PowerBlock from './LaserPanel/PowerBlock';
 import RepeatBlock from './LaserPanel/RepeatBlock';
 import SpeedBlock from './LaserPanel/SpeedBlock';
+import Diode from './LaserPanel/Diode';
 
 let svgCanvas;
 let svgEditor;
@@ -68,18 +69,17 @@ interface State {
   height: number;
   zStep: number;
   isDiode: boolean;
-  didDocumentSettingsChanged: boolean;
   configName?: string;
+  didDocumentSettingsChanged: boolean;
   selectedItem?: string;
   hasMultiSpeed?: boolean;
   hasMultiPower?: boolean;
   hasMultiRepeat?: boolean;
+  hasMultiHeight?: boolean;
   hasMultiZStep?: boolean;
   hasMultiDiode?: boolean;
   hasMultiConfigName?: boolean;
   modal?: string;
-  strength?: number;
-  hasMultiHeight?: boolean;
 }
 
 class LaserPanel extends React.PureComponent<Props, State> {
@@ -129,7 +129,13 @@ class LaserPanel extends React.PureComponent<Props, State> {
       const config = getLayersConfig(selectedLayers);
       const currentLayerConfig = getLayerConfig(currentLayerName);
       return {
-        ...config,
+        hasMultiSpeed: config.speed.hasMultiValue,
+        hasMultiPower: config.power.hasMultiValue,
+        hasMultiRepeat: config.repeat.hasMultiValue,
+        hasMultiHeight: config.height.hasMultiValue,
+        hasMultiZStep: config.zStep.hasMultiValue,
+        hasMultiDiode: config.diode.hasMultiValue,
+        hasMultiConfigName: config.configName.hasMultiValue,
         ...currentLayerConfig,
         isDiode: Boolean(currentLayerConfig
           && currentLayerConfig.diode
@@ -468,22 +474,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  renderDiode = (): JSX.Element => {
-    const { isDiode } = this.state;
-    if (
-      BeamboxPreference.read('enable-diode')
-      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
-    ) {
-      return (
-        <div className="panel checkbox" onClick={this.toggleDiode}>
-          <span className="title">{LANG.diode}</span>
-          <input type="checkbox" checked={isDiode} onChange={() => { }} />
-        </div>
-      );
-    }
-    return null;
-  };
-
   getDefaultParameters = (paraName: string): { speed: number, power: number, repeat: number } => {
     const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
     if (!parametersSet[paraName]) {
@@ -602,13 +592,14 @@ class LaserPanel extends React.PureComponent<Props, State> {
   }
 
   renderAddOnBlock = (): JSX.Element => {
-    const { repeat, height, hasMultiHeight, zStep, hasMultiZStep } = this.state;
+    const { repeat, height, hasMultiHeight, zStep, hasMultiZStep, isDiode } = this.state;
 
     const isAutoFocusEnabled = BeamboxPreference.read('enable-autofocus')
       && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'));
-    const diodePanel = this.renderDiode();
+    const isDiodeEnabled = BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'));
 
-    if (!isAutoFocusEnabled && !diodePanel) {
+    if (!isAutoFocusEnabled && !isDiodeEnabled) {
       return null;
     }
 
@@ -628,7 +619,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
               onZStepChange={this.handleZStepChange}
             />
           )}
-          {diodePanel}
+          <Diode value={isDiode} onToggle={this.toggleDiode} />
         </div>
       </div>
     );
