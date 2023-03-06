@@ -491,13 +491,11 @@ class LaserPanel extends React.PureComponent<Props, State> {
           }
         } else if (TutorialConstants.SET_PRESET_WOOD_CUTTING
           === TutorialController.getNextStepRequirement()) {
-          if (isDefault && ['wood_3mm_cutting', 'wood_5mm_cutting', 'wood_8mm_cutting', 'wood_10mm_cutting'].includes(key)) {
-            TutorialController.handleNextStep();
-          } else {
-            Alert.popUp({
-              message: i18n.lang.tutorial.newUser.please_select_wood_cutting,
-            });
-          }
+          if (
+            isDefault
+            && ['wood_3mm_cutting', 'wood_5mm_cutting', 'wood_8mm_cutting', 'wood_10mm_cutting'].includes(key)
+          ) TutorialController.handleNextStep();
+          else Alert.popUp({ message: i18n.lang.tutorial.newUser.please_select_wood_cutting });
         }
       } else {
         console.error('No such value', value);
@@ -618,7 +616,10 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   renderEnableHeight = (): JSX.Element => {
     const { height } = this.state;
-    if (BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))) {
+    if (
+      BeamboxPreference.read('enable-autofocus')
+      && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))
+    ) {
       return (
         <div className="panel checkbox" onClick={this.toggleEnableHeight}>
           <span className="title">{LANG.focus_adjustment}</span>
@@ -680,7 +681,10 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   renderDiode = (): JSX.Element => {
     const { isDiode } = this.state;
-    if (BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+    if (
+      BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+    ) {
       return (
         <div className="panel checkbox" onClick={this.toggleDiode}>
           <span className="title">{LANG.diode}</span>
@@ -751,7 +755,10 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   updateDiodeBoundary(): void {
     const { isDiode } = this.state;
-    if (BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+    if (
+      BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+    ) {
       DiodeBoundaryDrawer.show(isDiode);
     } else {
       DiodeBoundaryDrawer.hide();
