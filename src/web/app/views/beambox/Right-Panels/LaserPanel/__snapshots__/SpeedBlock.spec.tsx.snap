@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    />
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        speed
+      </p>
+      <p>
+        min: 
+        3
+      </p>
+      <p>
+        max: 
+        300
+      </p>
+      <p>
+        unit: 
+        mm/s
+      </p>
+      <p>
+        defaultValue: 
+        87
+      </p>
+      <p>
+        decimal: 
+        1
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <div
+      class="slider-container"
+    >
+      <input
+        class="rainbow-slider speed-for-vector"
+        id="speed_value"
+        max="300"
+        min="3"
+        step="1"
+        type="range"
+        value="87"
+      />
+    </div>
+    <div
+      class="warning"
+    >
+      <div
+        class="warning-icon"
+      >
+        !
+      </div>
+      <div
+        class="warning-text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    />
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        speed
+      </p>
+      <p>
+        min: 
+        3
+      </p>
+      <p>
+        max: 
+        300
+      </p>
+      <p>
+        unit: 
+        in/s
+      </p>
+      <p>
+        defaultValue: 
+        87
+      </p>
+      <p>
+        decimal: 
+        2
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <div
+      class="slider-container"
+    >
+      <input
+        class="rainbow-slider"
+        id="speed_value"
+        max="300"
+        min="3"
+        step="1"
+        type="range"
+        value="87"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    />
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        speed
+      </p>
+      <p>
+        min: 
+        3
+      </p>
+      <p>
+        max: 
+        300
+      </p>
+      <p>
+        unit: 
+        mm/s
+      </p>
+      <p>
+        defaultValue: 
+        87
+      </p>
+      <p>
+        decimal: 
+        1
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <div
+      class="slider-container"
+    >
+      <input
+        class="rainbow-slider"
+        id="speed_value"
+        max="300"
+        min="3"
+        step="1"
+        type="range"
+        value="87"
+      />
+    </div>
+  </div>
+</div>
+`;
