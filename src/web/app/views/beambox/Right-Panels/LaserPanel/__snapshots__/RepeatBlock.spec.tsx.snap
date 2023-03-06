@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test RepeatBlock should render correctly 1`] = `
+<div>
+  <div
+    class="panel without-drag"
+  >
+    <span
+      class="title"
+    >
+      repeat
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        repeat
+      </p>
+      <p>
+        min: 
+        0
+      </p>
+      <p>
+        max: 
+        100
+      </p>
+      <p>
+        unit: 
+      </p>
+      <p>
+        defaultValue: 
+        3
+      </p>
+      <p>
+        decimal: 
+        0
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+      <button
+        type="button"
+      >
+        change
+      </button>
+    </div>
+  </div>
+</div>
+`;
