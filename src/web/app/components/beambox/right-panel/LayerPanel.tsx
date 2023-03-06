@@ -8,7 +8,7 @@ import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/LaserPanel';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
-import { cloneLayerConfig } from 'helpers/layer-config-helper';
+import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -19,7 +19,7 @@ import {
   setLayersLock,
   mergeSelectedLayers,
   moveLayersToPosition,
-} from 'helpers/layer-helper';
+} from 'helpers/layer/layer-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {

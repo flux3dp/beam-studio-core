@@ -5,7 +5,7 @@
 import beamboxStore from 'app/stores/beambox-store';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import Websocket from 'helpers/websocket';
-import { DataType, writeData } from 'helpers/layer-config-helper';
+import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 
 export default function () {
   var ws = Websocket({

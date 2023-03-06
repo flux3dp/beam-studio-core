@@ -41,11 +41,6 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-const getLayerElementByName = jest.fn();
-jest.mock('helpers/layer-helper', () => ({
-  getLayerElementByName,
-}));
-
 jest.mock('app/constants/tutorial-constants', () => ({
   TO_LAYER_PANEL: 'TO_LAYER_PANEL',
 }));
