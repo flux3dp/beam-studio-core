@@ -5,7 +5,7 @@ import {
   getLayersConfig,
   initLayerConfig,
   writeData,
-} from './laser-config-helper';
+} from './layer-config-helper';
 
 test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 0')).toBeNull();

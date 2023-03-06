@@ -8,7 +8,7 @@ import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/Laser-Panel';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
-import { cloneLayerConfig } from 'helpers/laser-config-helper';
+import { cloneLayerConfig } from 'helpers/layer-config-helper';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
