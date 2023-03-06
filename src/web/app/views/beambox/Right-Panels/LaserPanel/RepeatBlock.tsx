@@ -4,7 +4,7 @@ import React from 'react';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 
-import styles from './RepeatBlock.module.scss';
+import styles from './Block.module.scss';
 
 interface Props {
   val: number;

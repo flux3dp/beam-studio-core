@@ -7,7 +7,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import storage from 'implementations/storage';
 
-import styles from './SpeedBlock.module.scss';
+import styles from './Block.module.scss';
 
 interface Props {
   layerNames: string[];
