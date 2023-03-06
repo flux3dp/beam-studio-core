@@ -7,8 +7,8 @@ jest.mock('helpers/useI18n', () => () => ({
   beambox: {
     right_panel: {
       laser_panel: {
-        strength: 'strength',
-        low_power_warning: 'low_power_warning',
+        speed: 'speed',
+        speed_contrain_warning: 'speed_contrain_warning',
       },
     },
   },

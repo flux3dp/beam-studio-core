@@ -7,7 +7,9 @@ exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
   >
     <span
       class="title"
-    />
+    >
+      speed
+    </span>
     <div>
       MockUnitInput
       <p>
@@ -16,7 +18,7 @@ exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
       </p>
       <p>
         min: 
-        3
+        1
       </p>
       <p>
         max: 
@@ -38,19 +40,15 @@ exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
         displayMultiValue: 
       </p>
     </div>
-    <div
-      class="slider-container"
-    >
-      <input
-        class="rainbow-slider speed-for-vector"
-        id="speed_value"
-        max="300"
-        min="3"
-        step="1"
-        type="range"
-        value="87"
-      />
-    </div>
+    <input
+      class="speed-for-vector"
+      id="speed_value"
+      max="300"
+      min="1"
+      step="1"
+      type="range"
+      value="87"
+    />
     <div
       class="warning"
     >
@@ -61,7 +59,9 @@ exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
       </div>
       <div
         class="warning-text"
-      />
+      >
+        speed_contrain_warning
+      </div>
     </div>
   </div>
 </div>
@@ -74,7 +74,9 @@ exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
   >
     <span
       class="title"
-    />
+    >
+      speed
+    </span>
     <div>
       MockUnitInput
       <p>
@@ -83,7 +85,7 @@ exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
       </p>
       <p>
         min: 
-        3
+        1
       </p>
       <p>
         max: 
@@ -105,19 +107,15 @@ exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
         displayMultiValue: 
       </p>
     </div>
-    <div
-      class="slider-container"
-    >
-      <input
-        class="rainbow-slider"
-        id="speed_value"
-        max="300"
-        min="3"
-        step="1"
-        type="range"
-        value="87"
-      />
-    </div>
+    <input
+      class=""
+      id="speed_value"
+      max="300"
+      min="1"
+      step="1"
+      type="range"
+      value="87"
+    />
   </div>
 </div>
 `;
@@ -129,7 +127,9 @@ exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
   >
     <span
       class="title"
-    />
+    >
+      speed
+    </span>
     <div>
       MockUnitInput
       <p>
@@ -138,7 +138,7 @@ exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
       </p>
       <p>
         min: 
-        3
+        1
       </p>
       <p>
         max: 
@@ -160,19 +160,15 @@ exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
         displayMultiValue: 
       </p>
     </div>
-    <div
-      class="slider-container"
-    >
-      <input
-        class="rainbow-slider"
-        id="speed_value"
-        max="300"
-        min="3"
-        step="1"
-        type="range"
-        value="87"
-      />
-    </div>
+    <input
+      class=""
+      id="speed_value"
+      max="300"
+      min="1"
+      step="1"
+      type="range"
+      value="87"
+    />
   </div>
 </div>
 `;
