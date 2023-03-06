@@ -1,3 +1,5 @@
+import { ILayerConfig } from 'interfaces/ILayerConfig';
+
 const getLayerElementByName = (layerName: string) => {
   const allLayers = Array.from(document.querySelectorAll('g.layer'));
   const layer = allLayers.find((l) => {
@@ -50,23 +52,23 @@ export const writeData = (layerName: string, dataType: DataType, value: number |
 const getMultiSelectData = (
   layers: Element[],
   dataType: DataType,
-): { data: string | number; hasMultiValue: boolean } => {
-  let data;
+): { value: string | number; hasMultiValue: boolean } => {
+  let value;
   let hasMultiValue = false;
   for (let i = 0; i < layers.length; i += 1) {
     const layer = layers[i];
     if (layer) {
-      if (data === undefined) {
-        data = getData(layer, dataType);
-      } else if (data !== getData(layer, dataType)) {
+      if (value === undefined) {
+        value = getData(layer, dataType);
+      } else if (value !== getData(layer, dataType)) {
         hasMultiValue = true;
         if ([DataType.height].includes(dataType)) {
-          data = Math.max(data, getData(layer, dataType) as number);
-          if (data > 0) {
+          value = Math.max(value, getData(layer, dataType) as number);
+          if (value > 0) {
             break;
           }
         } else if ([DataType.diode].includes(dataType)) {
-          data = 1;
+          value = 1;
           break;
         } else {
           break;
@@ -74,7 +76,7 @@ const getMultiSelectData = (
       }
     }
   }
-  return { data, hasMultiValue };
+  return { value, hasMultiValue };
 };
 
 export const initLayerConfig = (layerName: string): void => {
@@ -126,43 +128,24 @@ export const getLayerConfig = (layerName: string) => {
   };
 };
 
-export const getLayersConfig = (layerNames: string[]) => {
+export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const layers = layerNames.map((layerName) => getLayerElementByName(layerName));
-  const { data: speed, hasMultiValue: hasMultiSpeed } = getMultiSelectData(layers, DataType.speed);
-  const { data: power, hasMultiValue: hasMultiPower } = getMultiSelectData(
-    layers,
-    DataType.strength
-  );
-  const { data: repeat, hasMultiValue: hasMultiRepeat } = getMultiSelectData(
-    layers,
-    DataType.repeat
-  );
-  const { data: height, hasMultiValue: hasMultiHeight } = getMultiSelectData(
-    layers,
-    DataType.height
-  );
-  const { data: zStep, hasMultiValue: hasMultiZStep } = getMultiSelectData(layers, DataType.zstep);
-  const { data: diode, hasMultiValue: hasMultiDiode } = getMultiSelectData(layers, DataType.diode);
-  const { data: configName, hasMultiValue: hasMultiConfigName } = getMultiSelectData(
-    layers,
-    DataType.configName
-  );
+  const speedData = getMultiSelectData(layers, DataType.speed);
+  const powerData = getMultiSelectData(layers, DataType.strength);
+  const repeatData = getMultiSelectData(layers, DataType.repeat);
+  const heightData = getMultiSelectData(layers, DataType.height);
+  const zStepData = getMultiSelectData(layers, DataType.zstep);
+  const diodeData = getMultiSelectData(layers, DataType.diode);
+  const configNameData = getMultiSelectData(layers, DataType.configName);
 
   return {
-    speed,
-    hasMultiSpeed,
-    power,
-    hasMultiPower,
-    repeat,
-    hasMultiRepeat,
-    height,
-    hasMultiHeight,
-    zStep,
-    hasMultiZStep,
-    diode,
-    hasMultiDiode,
-    configName,
-    hasMultiConfigName,
+    speed: speedData,
+    power: powerData,
+    repeat: repeatData,
+    height: heightData,
+    zStep: zStepData,
+    diode: diodeData,
+    configName: configNameData,
   };
 };
 
