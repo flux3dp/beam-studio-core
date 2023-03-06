@@ -1,6 +1,6 @@
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
-import { cloneLayerConfig } from 'helpers/layer-config-helper';
+import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 

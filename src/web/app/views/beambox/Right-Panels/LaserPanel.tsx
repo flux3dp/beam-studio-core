@@ -28,7 +28,7 @@ import {
   getLayerConfig,
   getLayersConfig,
   writeData,
-} from 'helpers/layer-config-helper';
+} from 'helpers/layer/layer-config-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
 import AutoFocus from './LaserPanel/AutoFocus';
