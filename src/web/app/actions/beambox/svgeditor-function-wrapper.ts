@@ -107,6 +107,7 @@ const funcs = {
     };
   },
 
+  // TODO: refactor this into layer config helper
   getCurrentLayerData() {
     const drawing = svgCanvas.getCurrentDrawing();
     const currentLayer = drawing.getCurrentLayer();
@@ -118,6 +119,7 @@ const funcs = {
       zStep: currentLayer.getAttribute('data-zstep'),
       isDiode: currentLayer.getAttribute('data-diode'),
       configName: currentLayer.getAttribute('data-configName'),
+      type: currentLayer.getAttribute('data-type'),
     };
 
     return layerData;
