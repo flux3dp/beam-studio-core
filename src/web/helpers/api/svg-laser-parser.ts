@@ -90,6 +90,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-pro');
       } else if (opts.model === 'fbm1') {
         args.push('-beamo');
+      } else if (opts.model === 'ador') {
+        args.push('-ador');
       }
       if (opts.codeType === 'gcode') {
         args.push('-gc');
@@ -521,6 +523,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             args.push('-pro');
           } else if (opts.model === 'fbm1') {
             args.push('-beamo');
+          } else if (opts.model === 'ador') {
+            args.push('-ador');
           }
 
           switch (opts.engraveDpi) {

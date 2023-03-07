@@ -28,6 +28,7 @@ const workareaOptions = [
   { label: 'Beambox', value: 'fbb1b' },
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
+  { label: 'Ador', value: 'ador' },
 ];
 
 interface Props {
