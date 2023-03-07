@@ -20,6 +20,7 @@ export enum DataType {
   zstep = 'zstep',
   diode = 'diode',
   configName = 'configName',
+  type = 'type', // 1: laser, 2: printer
 }
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -32,6 +33,7 @@ const defaultConfig = {
   zstep: 0,
   diode: 0,
   configName: '',
+  type: 1,
 };
 
 const getData = (layer: Element, dataType: DataType) => {
@@ -87,6 +89,7 @@ export const initLayerConfig = (layerName: string): void => {
   writeData(layerName, DataType.zstep, defaultConfig.zstep);
   writeData(layerName, DataType.diode, defaultConfig.diode);
   writeData(layerName, DataType.configName, defaultConfig.configName);
+  writeData(layerName, DataType.type, defaultConfig.type);
 };
 
 export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string): void => {
@@ -101,6 +104,7 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     writeData(targetLayerName, DataType.zstep, getData(baseLayer, DataType.zstep));
     writeData(targetLayerName, DataType.diode, getData(baseLayer, DataType.diode));
     writeData(targetLayerName, DataType.configName, getData(baseLayer, DataType.configName));
+    writeData(targetLayerName, DataType.type, getData(baseLayer, DataType.type));
   }
 };
 
@@ -116,6 +120,7 @@ export const getLayerConfig = (layerName: string) => {
   const zStep = getData(layer, DataType.zstep);
   const diode = getData(layer, DataType.diode);
   const configName = getData(layer, DataType.configName);
+  const type = getData(layer, DataType.type);
 
   return {
     speed,
@@ -125,6 +130,7 @@ export const getLayerConfig = (layerName: string) => {
     zStep,
     diode,
     configName,
+    type,
   };
 };
 
@@ -137,6 +143,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const zStepData = getMultiSelectData(layers, DataType.zstep);
   const diodeData = getMultiSelectData(layers, DataType.diode);
   const configNameData = getMultiSelectData(layers, DataType.configName);
+  const typeData = getMultiSelectData(layers, DataType.type);
 
   return {
     speed: speedData,
@@ -146,6 +153,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
     zStep: zStepData,
     diode: diodeData,
     configName: configNameData,
+    type: typeData,
   };
 };
 
