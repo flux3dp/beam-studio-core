@@ -93,6 +93,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-pro');
       } else if (opts.model === 'fbm1') {
         args.push('-beamo');
+      } else if (opts.model === 'ador') {
+        args.push('-ador');
       }
       if (opts.codeType === 'gcode') {
         args.push('-gc');
@@ -103,7 +105,10 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
       }
 
-      if (i18n.getActiveLang() === 'zh-cn' && BeamboxPreference.read('blade_radius') && BeamboxPreference.read('blade_radius') > 0) {
+      if (
+        i18n.getActiveLang() === 'zh-cn'
+        && BeamboxPreference.read('blade_radius') && BeamboxPreference.read('blade_radius') > 0
+      ) {
         args.push('-blade');
         args.push(BeamboxPreference.read('blade_radius'));
         if (BeamboxPreference.read('blade_precut')) {
@@ -525,6 +530,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             args.push('-pro');
           } else if (opts.model === 'fbm1') {
             args.push('-beamo');
+          } else if (opts.model === 'ador') {
+            args.push('-ador');
           }
 
           switch (opts.engraveDpi) {
