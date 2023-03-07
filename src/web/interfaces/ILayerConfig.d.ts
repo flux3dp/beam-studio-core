@@ -11,4 +11,5 @@ export interface ILayerConfig {
   zStep: Config;
   diode: Config;
   configName: Config;
+  type: Config;
 }

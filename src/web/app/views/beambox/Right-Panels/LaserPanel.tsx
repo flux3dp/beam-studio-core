@@ -10,7 +10,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
-import dialog from 'implementations/dialog';
 import Dialog from 'app/actions/dialog-caller';
 import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
@@ -32,14 +31,15 @@ import {
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
 import AutoFocus from './LaserPanel/AutoFocus';
+import ConfigOperations from './LaserPanel/ConfigOperations';
+import Diode from './LaserPanel/Diode';
+import LayerType from './LaserPanel/LayerType';
 import PowerBlock from './LaserPanel/PowerBlock';
 import RepeatBlock from './LaserPanel/RepeatBlock';
 import SpeedBlock from './LaserPanel/SpeedBlock';
-import Diode from './LaserPanel/Diode';
 
 let svgCanvas;
-let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 const PARAMETERS_CONSTANT = 'parameters';
@@ -69,6 +69,7 @@ interface State {
   height: number;
   zStep: number;
   isDiode: boolean;
+  type: number;
   configName?: string;
   didDocumentSettingsChanged: boolean;
   selectedItem?: string;
@@ -96,6 +97,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       height: -3,
       zStep: 0,
       isDiode: false,
+      type: 1,
       didDocumentSettingsChanged: false,
     };
   }
@@ -225,35 +227,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  exportLaserConfigs = async (): Promise<void> => {
-    const isLinux = window.os === 'Linux';
-    const getContent = () => {
-      const laserConfig = {} as {
-        customizedLaserConfigs?: ILaserConfig[];
-        defaultLaserConfigsInUse?: { [name: string]: boolean };
-      };
-
-      laserConfig.customizedLaserConfigs = storage.get('customizedLaserConfigs');
-      laserConfig.defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse');
-      return JSON.stringify(laserConfig);
-    };
-    await dialog.writeFileDialog(getContent, LANG.export_config, isLinux ? '.json' : '', [{
-      name: window.os === 'MacOS' ? 'JSON (*.json)' : 'JSON',
-      extensions: ['json'],
-    }, {
-      name: i18n.lang.topmenu.file.all_files,
-      extensions: ['*'],
-    }]);
-  };
-
-  importLaserConfig = async (): Promise<void> => {
-    const dialogOptions = {
-      filters: [{ name: 'JSON', extensions: ['json', 'JSON'] }],
-    };
-    const fileBlob = await dialog.getFileFromDialog(dialogOptions);
-    if (fileBlob) svgEditor.importLaserConfig(fileBlob);
-  };
-
   updateData = (): void => {
     this.initDefaultConfig();
     this.handleParametersChange();
@@ -270,6 +243,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
       zStep: layerData.zStep,
       isDiode: parseInt(layerData.isDiode, 10) > 0,
       didDocumentSettingsChanged: true,
+      type: Number(layerData.type),
     });
   };
 
@@ -362,6 +336,12 @@ class LaserPanel extends React.PureComponent<Props, State> {
       writeData(layerName, DataType.zstep, val);
       writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
+  };
+
+  handleLayerTypeChange = (val: number): void => {
+    this.setState({ type: val });
+    const { selectedLayers } = this.props;
+    selectedLayers.forEach((layerName) => writeData(layerName, DataType.type, val));
   };
 
   toggleDiode = (): void => {
@@ -544,24 +524,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   }
 
-  renderLayerParameterButtons = (): JSX.Element => (
-    <div className="layer-param-buttons">
-      <div className="left">
-        <div className="icon-button" title={LANG.dropdown.import} onClick={this.importLaserConfig}>
-          <img src="img/right-panel/icon-import.svg" />
-        </div>
-        <div className="icon-button" title={LANG.dropdown.export} onClick={this.exportLaserConfigs}>
-          <img src="img/right-panel/icon-export.svg" />
-        </div>
-      </div>
-      <div className="right">
-        <div className="icon-button" title={LANG.dropdown.more} onClick={() => this.setState({ modal: 'more' })}>
-          <img src="img/right-panel/icon-setting.svg" />
-        </div>
-      </div>
-    </div>
-  );
-
   renderAddPresetButton(): JSX.Element {
     const { selectedLayers } = this.props;
     const isDiabled = selectedLayers.length !== 1;
@@ -627,7 +589,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   render(): JSX.Element {
     const { selectedLayers } = this.props;
-    const { power, hasMultiPower, speed, hasMultiSpeed, repeat, hasMultiRepeat } = this.state;
+    const { power, hasMultiPower, speed, hasMultiSpeed, repeat, hasMultiRepeat, type } = this.state;
     let displayName = '';
     if (selectedLayers.length === 1) {
       // eslint-disable-next-line prefer-destructuring
@@ -662,7 +624,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           {sprintf(LANG.preset_setting, displayName)}
         </div>
         <div className="layerparams">
-          {this.renderLayerParameterButtons()}
+          <ConfigOperations onMoreClick={() => this.setState({ modal: 'more' })} />
           <div className="preset-dropdown-containter">
             <DropdownControl
               id="laser-config-dropdown"
@@ -673,6 +635,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             />
             {this.renderAddPresetButton()}
           </div>
+          <LayerType value={type} onChange={this.handleLayerTypeChange} />
           <PowerBlock power={power} hasMultipleValue={hasMultiPower} onChange={this.handleStrengthChange} />
           <SpeedBlock
             layerNames={selectedLayers}
