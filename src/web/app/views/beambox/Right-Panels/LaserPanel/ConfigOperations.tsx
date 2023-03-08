@@ -50,7 +50,6 @@ const exportLaserConfigs = async (): Promise<void> => {
   );
 };
 
-// TODO: add unit test change class to module.scss
 const ConfigOperations = ({ onMoreClick }: Props): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel.dropdown;
