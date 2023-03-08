@@ -19,8 +19,6 @@ import i18n from 'helpers/i18n';
 import LaserManageModal from 'app/views/beambox/Right-Panels/Laser-Manage-Modal';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import { getParametersSet, getAllKeys } from 'app/constants/right-panel-constants';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
@@ -28,6 +26,9 @@ import {
   getLayersConfig,
   writeData,
 } from 'helpers/layer/layer-config-helper';
+import { getParametersSet } from 'app/constants/right-panel-constants';
+import { getDefaultPresetData, updateDefaultPresetData } from 'helpers/presets/preset-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
 import AutoFocus from './LaserPanel/AutoFocus';
@@ -43,18 +44,11 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
 const PARAMETERS_CONSTANT = 'parameters';
-let defaultLaserOptions = [];
-const allKeys = getAllKeys();
 const hiddenOptions = [
   { value: PARAMETERS_CONSTANT, key: LANG.dropdown.parameters, label: LANG.dropdown.parameters },
   { value: LANG.custom_preset, key: LANG.custom_preset, label: LANG.custom_preset },
   { value: LANG.various_preset, key: LANG.various_preset, label: LANG.various_preset },
 ];
-
-const updateDefaultParameterOptions = (): void => {
-  const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
-  defaultLaserOptions = Object.keys(parametersSet);
-};
 
 const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 
@@ -86,10 +80,12 @@ interface State {
 class LaserPanel extends React.PureComponent<Props, State> {
   private unit: string;
 
+  private defaultLaserOptions: string[];
+
   constructor(props: Props) {
     super(props);
     this.unit = storage.get('default-units') || 'mm';
-    this.initDefaultConfig();
+    this.updateDefaultPreset();
     this.state = {
       speed: 3,
       power: 1,
@@ -161,74 +157,12 @@ class LaserPanel extends React.PureComponent<Props, State> {
     return null;
   }
 
-  initDefaultConfig = (): void => {
-    const { unit } = this;
-    updateDefaultParameterOptions();
-    if (!storage.get('defaultLaserConfigsInUse') || !storage.get('customizedLaserConfigs')) {
-      const defaultConfigs = defaultLaserOptions.map((e) => {
-        const { speed, power, repeat } = this.getDefaultParameters(e);
-        return {
-          name: LANG.dropdown[unit][e],
-          speed,
-          power,
-          repeat,
-          isDefault: true,
-          key: e,
-        };
-      });
-      let customizedLaserConfigs = storage.get('customizedLaserConfigs') || [];
-      customizedLaserConfigs = customizedLaserConfigs.filter((config) => !config.isDefault);
-      customizedLaserConfigs = defaultConfigs.concat(customizedLaserConfigs);
-      const defaultLaserConfigsInUse = {};
-      defaultLaserOptions.forEach((e) => {
-        defaultLaserConfigsInUse[e] = true;
-      });
-      storage.set('customizedLaserConfigs', customizedLaserConfigs);
-      storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
-    } else {
-      const customized = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
-      const defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse') || {};
-      for (let i = 0; i < customized.length; i += 1) {
-        if (customized[i].isDefault) {
-          if (defaultLaserOptions.includes(customized[i].key)) {
-            const { speed, power, repeat } = this.getDefaultParameters(customized[i].key);
-            customized[i].name = LANG.dropdown[unit][customized[i].key];
-            customized[i].speed = speed;
-            customized[i].power = power;
-            customized[i].repeat = repeat || 1;
-          } else if (!allKeys.has(customized[i].key)) {
-            delete defaultLaserConfigsInUse[customized[i].key];
-            customized.splice(i, 1);
-            i -= 1;
-          }
-        }
-      }
-      const newPreset = defaultLaserOptions.filter(
-        (option) => defaultLaserConfigsInUse[option] === undefined,
-      );
-      newPreset.forEach((preset) => {
-        if (defaultLaserOptions.includes(preset)) {
-          const { speed, power, repeat } = this.getDefaultParameters(preset);
-          customized.push({
-            name: LANG.dropdown[unit][preset],
-            speed,
-            power,
-            repeat,
-            isDefault: true,
-            key: preset,
-          });
-          defaultLaserConfigsInUse[preset] = true;
-        } else {
-          delete defaultLaserConfigsInUse[preset];
-        }
-      });
-      storage.set('customizedLaserConfigs', customized);
-      storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
-    }
+  updateDefaultPreset = (): void => {
+    this.defaultLaserOptions = updateDefaultPresetData();
   };
 
   updateData = (): void => {
-    this.initDefaultConfig();
+    this.updateDefaultPreset();
     this.handleParametersChange();
     const layerData = FnWrapper.getCurrentLayerData();
     const { speed, repeat } = this.state;
@@ -261,8 +195,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
       if (configIndex >= 0) {
         const config = customizedLaserConfigs[configIndex];
         if (config.isDefault) {
-          if (defaultLaserOptions.includes(config.key)) {
-            const { speed, power, repeat } = this.getDefaultParameters(config.key);
+          if (this.defaultLaserOptions.includes(config.key)) {
+            const { speed, power, repeat } = getDefaultPresetData(config.key);
             layer.setAttribute('data-speed', speed);
             layer.setAttribute('data-strength', power);
             layer.setAttribute('data-repeat', repeat);
@@ -454,23 +388,12 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  getDefaultParameters = (paraName: string): { speed: number, power: number, repeat: number } => {
-    const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
-    if (!parametersSet[paraName]) {
-      console.error(`Unable to get default preset key: ${paraName}`);
-      return { speed: 20, power: 15, repeat: 1 };
-    }
-    const { speed, power } = parametersSet[paraName];
-    const repeat = parametersSet[paraName].repeat || 1;
-    return { speed, power, repeat };
-  };
-
   renderMoreModal = (): JSX.Element => {
     const { selectedItem } = this.state;
     return (
       <LaserManageModal
         selectedItem={selectedItem}
-        initDefaultConfig={this.initDefaultConfig}
+        initDefaultConfig={this.updateDefaultPreset}
         onClose={this.handleCancelModal}
         onConfigSaved={this.handleParametersChange}
       />
@@ -532,19 +455,12 @@ class LaserPanel extends React.PureComponent<Props, State> {
         className={classNames('add-preset-btn', { disabled: isDiabled })}
         onClick={() => {
           if (isDiabled) return;
-
           Dialog.promptDialog({
             caption: LANG.dropdown.save,
             onYes: (name) => {
               const newName = name.trim();
-              if (!newName) {
-                return;
-              }
-              this.handleSaveConfig(newName);
-            },
-            onCancel: () => {
-              this.handleCancelModal();
-            },
+              if (newName) this.handleSaveConfig(newName);
+            }
           });
         }}
       >
@@ -555,12 +471,10 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   renderAddOnBlock = (): JSX.Element => {
     const { repeat, height, hasMultiHeight, zStep, hasMultiZStep, isDiode } = this.state;
-
     const isAutoFocusEnabled = BeamboxPreference.read('enable-autofocus')
       && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'));
     const isDiodeEnabled = BeamboxPreference.read('enable-diode')
       && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'));
-
     if (!isAutoFocusEnabled && !isDiodeEnabled) {
       return null;
     }
@@ -611,7 +525,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           label: e.name,
         }));
     } else {
-      dropdownOptions = defaultLaserOptions.map((item) => ({
+      dropdownOptions = this.defaultLaserOptions.map((item) => ({
         value: item,
         key: item,
         label: (LANG.dropdown[this.unit][item] ? LANG.dropdown[this.unit][item] : item),
