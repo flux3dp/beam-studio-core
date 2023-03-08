@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test ConfigOperations should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div>
+      <div
+        class="button"
+        title="import"
+      >
+        <img
+          src="img/right-panel/icon-import.svg"
+        />
+      </div>
+      <div
+        class="button"
+        title="export"
+      >
+        <img
+          src="img/right-panel/icon-export.svg"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="button"
+        title="more"
+      >
+        <img
+          src="img/right-panel/icon-setting.svg"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
