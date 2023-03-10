@@ -1183,6 +1183,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       }
     };
     if (PreviewModeController.isPreviewMode()) {
+      // TODO disable previewRegion for ador
       if (startX === realX && startY === realY) {
         PreviewModeController.preview(realX, realY, true, () => callback());
       } else {

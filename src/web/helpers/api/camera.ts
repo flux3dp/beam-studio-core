@@ -249,6 +249,8 @@ class Camera {
       return preprocessedBlob;
     };
 
+    // TODO: handle ador
+    return blob;
     if (!['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(this.device.model)) {
       return blob;
     }

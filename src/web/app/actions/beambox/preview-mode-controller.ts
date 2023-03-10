@@ -65,33 +65,33 @@ class PreviewModeController {
       });
       await this.retrieveCameraOffset();
 
-      Progress.update('start-preview-mode', { message: LANG.message.gettingLaserSpeed });
-      const laserSpeed = await DeviceMaster.getLaserSpeed();
+      // Progress.update('start-preview-mode', { message: LANG.message.gettingLaserSpeed });
+      // const laserSpeed = await DeviceMaster.getLaserSpeed();
 
-      if (Number(laserSpeed.value) !== 1) {
-        this.originalSpeed = Number(laserSpeed.value);
-        Progress.update('start-preview-mode', { message: LANG.message.settingLaserSpeed });
-        await DeviceMaster.setLaserSpeed(1);
-      }
-      Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
-      await DeviceMaster.enterRawMode();
-      Progress.update('start-preview-mode', { message: LANG.message.exitingRotaryMode });
-      await DeviceMaster.rawSetRotary(false);
-      Progress.update('start-preview-mode', { message: LANG.message.homing });
-      await DeviceMaster.rawHome();
-      const vc = VersionChecker(device.version);
-      if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
-        await DeviceMaster.rawStartLineCheckMode();
-        this.isLineCheckEnabled = true;
-      } else {
-        this.isLineCheckEnabled = false;
-      }
-      Progress.update('start-preview-mode', { message: LANG.message.turningOffFan });
-      await DeviceMaster.rawSetFan(false);
-      Progress.update('start-preview-mode', { message: LANG.message.turningOffAirPump });
-      await DeviceMaster.rawSetAirPump(false);
-      await DeviceMaster.rawSetWaterPump(false);
-      Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
+      // if (Number(laserSpeed.value) !== 1) {
+      //   this.originalSpeed = Number(laserSpeed.value);
+      //   Progress.update('start-preview-mode', { message: LANG.message.settingLaserSpeed });
+      //   await DeviceMaster.setLaserSpeed(1);
+      // }
+      // Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
+      // await DeviceMaster.enterRawMode();
+      // Progress.update('start-preview-mode', { message: LANG.message.exitingRotaryMode });
+      // await DeviceMaster.rawSetRotary(false);
+      // Progress.update('start-preview-mode', { message: LANG.message.homing });
+      // await DeviceMaster.rawHome();
+      // const vc = VersionChecker(device.version);
+      // if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
+      //   await DeviceMaster.rawStartLineCheckMode();
+      //   this.isLineCheckEnabled = true;
+      // } else {
+      //   this.isLineCheckEnabled = false;
+      // }
+      // Progress.update('start-preview-mode', { message: LANG.message.turningOffFan });
+      // await DeviceMaster.rawSetFan(false);
+      // Progress.update('start-preview-mode', { message: LANG.message.turningOffAirPump });
+      // await DeviceMaster.rawSetAirPump(false);
+      // await DeviceMaster.rawSetWaterPump(false);
+      // Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await DeviceMaster.connectCamera();
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
@@ -127,18 +127,18 @@ class PreviewModeController {
       DeviceMaster.setDeviceControlDefaultCloseListener(storedDevice);
       const res = await DeviceMaster.select(storedDevice);
       if (res.success) {
-        if (DeviceMaster.currentControlMode !== 'raw') {
-          await DeviceMaster.enterRawMode();
-        }
-        if (this.isLineCheckEnabled) {
-          await DeviceMaster.rawEndLineCheckMode();
-        }
-        await DeviceMaster.rawLooseMotor();
-        await DeviceMaster.endRawMode();
-        if (this.originalSpeed !== 1) {
-          await DeviceMaster.setLaserSpeed(this.originalSpeed);
-          this.originalSpeed = 1;
-        }
+        // if (DeviceMaster.currentControlMode !== 'raw') {
+        //   await DeviceMaster.enterRawMode();
+        // }
+        // if (this.isLineCheckEnabled) {
+        //   await DeviceMaster.rawEndLineCheckMode();
+        // }
+        // await DeviceMaster.rawLooseMotor();
+        // await DeviceMaster.endRawMode();
+        // if (this.originalSpeed !== 1) {
+        //   await DeviceMaster.setLaserSpeed(this.originalSpeed);
+        //   this.originalSpeed = 1;
+        // }
         DeviceMaster.kick();
       }
     }
@@ -392,14 +392,14 @@ class PreviewModeController {
     movement.f = feedrate; // firmware will used limited x, y speed still
 
     const selectRes = await DeviceMaster.select(this.storedDevice);
-    if (!selectRes.success) {
-      return null;
-    }
-    const moveRes = await DeviceMaster.rawMove(movement);
-    if (moveRes) {
-      console.log('Preview raw move respond: ', moveRes.text);
-    }
-    await this.waitUntilEstimatedMovementTime(movementX, movementY);
+    // if (!selectRes.success) {
+    //   return null;
+    // }
+    // const moveRes = await DeviceMaster.rawMove(movement);
+    // if (moveRes) {
+    //   console.log('Preview raw move respond: ', moveRes.text);
+    // }
+    // await this.waitUntilEstimatedMovementTime(movementX, movementY);
 
     const imgUrl = await this.getPhotoFromMachine();
 

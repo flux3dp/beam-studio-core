@@ -80,9 +80,13 @@ class PreviewModeBackgroundDrawer {
   }
 
   async draw(imgUrl, x, y, last = false, callBack = () => { }) {
-    const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last, callBack);
-
-    this.backgroundDrawerSubject.next(p);
+    if (BeamboxPreference.read('workarea') === 'ador') {
+      const p = this.preprocessAdorImg(imgUrl, last, callBack);
+      this.backgroundDrawerSubject.next(p);
+    } else {
+      const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last, callBack);
+      this.backgroundDrawerSubject.next(p);
+    }
     // await p;
     // if you want to know the time when image transfer to Blob,
     // which is almost the same time background is drawn.
@@ -183,6 +187,20 @@ class PreviewModeBackgroundDrawer {
     svgCanvas.setBackground('#fff', this.cameraCanvasUrl);
   }
 
+  preprocessAdorImg = async (imgUrl: string, last = false, callBack = () => { }) => new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      this.canvas.getContext('2d').drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.canvas.toBlob((blob) => {
+        resolve(blob);
+        if (last) {
+          setTimeout(callBack, 1000);
+        }
+      });
+    };
+    img.src = imgUrl;
+  });
+
   prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last = false, callBack = () => { }) {
     const img = new Image();
     img.src = imgUrl;
@@ -214,7 +232,6 @@ class PreviewModeBackgroundDrawer {
         }
         console.log(this.canvas.width, this.canvas.height);
         this.canvas.getContext('2d').drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
-        // this.canvas.getContext('2d').drawImage(regulatedImg, 0, 0, this.canvas.width, this.canvas.height);
         this.canvas.toBlob((blob) => {
           resolve(blob);
           if (last) {
