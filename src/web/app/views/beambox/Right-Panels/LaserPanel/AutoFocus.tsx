@@ -3,15 +3,14 @@ import React from 'react';
 
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
+import { IConfig } from 'interfaces/ILayerConfig';
 
 import styles from './Block.module.scss';
 
 interface Props {
-  height: number;
-  hasMultiHeight: boolean;
-  repeat: number;
-  zStep: number;
-  hasMultiZStep: boolean;
+  height: IConfig<number>,
+  repeat: IConfig<number>,
+  zStep: IConfig<number>,
   onToggle: () => void;
   onHeightChange: (val: number) => void;
   onZStepChange: (val: number) => void;
@@ -19,10 +18,8 @@ interface Props {
 
 const AutoFocus = ({
   height,
-  hasMultiHeight,
   repeat,
   zStep,
-  hasMultiZStep,
   onToggle,
   onHeightChange,
   onZStepChange,
@@ -34,9 +31,9 @@ const AutoFocus = ({
     <>
       <div className={classNames(styles.panel, styles.checkbox)} onClick={onToggle}>
         <span className={styles.title}>{t.focus_adjustment}</span>
-        <input type="checkbox" checked={height > 0} readOnly />
+        <input type="checkbox" checked={height.value > 0} readOnly />
       </div>
-      {height > 0 ? (
+      {height.value > 0 ? (
         <div className={classNames(styles.panel, styles['without-drag'])}>
           <span className={styles.title}>{t.height}</span>
           <UnitInput
@@ -45,13 +42,13 @@ const AutoFocus = ({
             min={0.01}
             max={20}
             unit="mm"
-            defaultValue={height}
+            defaultValue={height.value}
             getValue={onHeightChange}
-            displayMultiValue={hasMultiHeight}
+            displayMultiValue={height.hasMultiValue}
           />
         </div>
       ) : null}
-      {repeat > 1 && height > 0 ? (
+      {repeat.value > 1 && height.value > 0 ? (
         <div className={classNames(styles.panel, styles['without-drag'])}>
           <span className={styles.title}>{t.z_step}</span>
           <UnitInput
@@ -60,9 +57,9 @@ const AutoFocus = ({
             min={0}
             max={20}
             unit="mm"
-            defaultValue={zStep}
+            defaultValue={zStep.value}
             getValue={onZStepChange}
-            displayMultiValue={hasMultiZStep}
+            displayMultiValue={zStep.hasMultiValue}
           />
         </div>
       ) : null}
