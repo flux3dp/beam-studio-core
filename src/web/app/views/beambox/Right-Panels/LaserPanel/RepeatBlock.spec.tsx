@@ -33,14 +33,14 @@ const mockOnChange = jest.fn();
 describe('test RepeatBlock', () => {
   it('should render correctly', () => {
     const { container } = render(
-      <RepeatBlock val={3} hasMultipleValue={false} onChange={mockOnChange} />
+      <RepeatBlock repeat={{ value: 3 }} onChange={mockOnChange} />
     );
     expect(container).toMatchSnapshot();
   });
 
   test('onChange should work', () => {
     const { getByText } = render(
-      <RepeatBlock val={3} hasMultipleValue={false} onChange={mockOnChange} />
+      <RepeatBlock repeat={{ value: 3 }} onChange={mockOnChange} />
     );
     expect(mockOnChange).not.toBeCalled();
     fireEvent.click(getByText('change'));

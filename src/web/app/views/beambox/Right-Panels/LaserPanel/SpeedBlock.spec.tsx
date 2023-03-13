@@ -53,7 +53,7 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={87} hasMultipleValue={false} onChange={mockOnChange} />
+      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(mockDoLayersContainsVector).toBeCalledTimes(1);
     expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer']);
@@ -69,7 +69,7 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={87} hasMultipleValue={false} onChange={mockOnChange} />
+      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(container).toMatchSnapshot();
   });
@@ -79,7 +79,7 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(true);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={87} hasMultipleValue={false} onChange={mockOnChange} />
+      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(container).toMatchSnapshot();
     expect(mockPrefRead).toBeCalledTimes(2);
@@ -92,7 +92,7 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={87} hasMultipleValue={false} onChange={mockOnChange} />
+      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(mockOnChange).not.toBeCalled();
     const input = container.querySelector('input');

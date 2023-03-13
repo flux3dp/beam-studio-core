@@ -51,10 +51,10 @@ export const writeData = (layerName: string, dataType: DataType, value: number |
   layer.setAttribute(`data-${dataType}`, String(value));
 };
 
-const getMultiSelectData = (
+const getMultiSelectData = <T = number>(
   layers: Element[],
   dataType: DataType,
-): { value: string | number; hasMultiValue: boolean } => {
+): { value: T; hasMultiValue: boolean } => {
   let value;
   let hasMultiValue = false;
   for (let i = 0; i < layers.length; i += 1) {
@@ -108,29 +108,29 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
   }
 };
 
-export const getLayerConfig = (layerName: string) => {
+export const getLayerConfig = (layerName: string): ILayerConfig => {
   const layer = getLayerElementByName(layerName);
   if (!layer) {
     return null;
   }
-  const speed = getData(layer, DataType.speed);
-  const power = getData(layer, DataType.strength);
-  const repeat = getData(layer, DataType.repeat);
-  const height = getData(layer, DataType.height);
-  const zStep = getData(layer, DataType.zstep);
-  const diode = getData(layer, DataType.diode);
-  const configName = getData(layer, DataType.configName);
-  const type = getData(layer, DataType.type);
+  const speed = getData(layer, DataType.speed) as number;
+  const power = getData(layer, DataType.strength) as number;
+  const repeat = getData(layer, DataType.repeat) as number;
+  const height = getData(layer, DataType.height) as number;
+  const zStep = getData(layer, DataType.zstep) as number;
+  const diode = getData(layer, DataType.diode) as number;
+  const configName = getData(layer, DataType.configName) as string;
+  const type = getData(layer, DataType.type) as number;
 
   return {
-    speed,
-    power,
-    repeat,
-    height,
-    zStep,
-    diode,
-    configName,
-    type,
+    speed: { value: speed },
+    power: { value: power },
+    repeat: { value: repeat },
+    height: { value: height },
+    zStep: { value: zStep },
+    diode: { value: diode },
+    configName: { value: configName },
+    type: { value: type },
   };
 };
 
@@ -142,7 +142,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const heightData = getMultiSelectData(layers, DataType.height);
   const zStepData = getMultiSelectData(layers, DataType.zstep);
   const diodeData = getMultiSelectData(layers, DataType.diode);
-  const configNameData = getMultiSelectData(layers, DataType.configName);
+  const configNameData = getMultiSelectData<string>(layers, DataType.configName);
   const typeData = getMultiSelectData(layers, DataType.type);
 
   return {

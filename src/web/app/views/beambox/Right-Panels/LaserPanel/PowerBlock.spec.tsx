@@ -33,21 +33,21 @@ const mockOnChange = jest.fn();
 describe('test PowerBlock', () => {
   it('should render correctly', () => {
     const { container } = render(
-      <PowerBlock power={87} hasMultipleValue={false} onChange={mockOnChange} />
+      <PowerBlock power={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(container).toMatchSnapshot();
   });
 
   it('should render correctly whe power is low', () => {
     const { container } = render(
-      <PowerBlock power={7} hasMultipleValue={false} onChange={mockOnChange} />
+      <PowerBlock power={{ value: 7 }} onChange={mockOnChange} />
     );
     expect(container).toMatchSnapshot();
   });
 
   test('onChange should work', () => {
     const { container } = render(
-      <PowerBlock power={87} hasMultipleValue={false} onChange={mockOnChange} />
+      <PowerBlock power={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(mockOnChange).not.toBeCalled();
     const input = container.querySelector('input');

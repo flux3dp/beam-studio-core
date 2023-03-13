@@ -1,15 +1,15 @@
-interface Config {
-  value: number | string;
-  hasMultiValue: boolean;
+export interface IConfig<T> {
+  value: T;
+  hasMultiValue?: boolean;
 }
 
 export interface ILayerConfig {
-  speed: Config;
-  power: Config;
-  repeat: Config;
-  height: Config;
-  zStep: Config;
-  diode: Config;
-  configName: Config;
-  type: Config;
+  speed: IConfig<number>;
+  power: IConfig<number>;
+  repeat: IConfig<number>;
+  height: IConfig<number>;
+  zStep: IConfig<number>;
+  diode: IConfig<number>;
+  configName: IConfig<string>;
+  type: IConfig<number>;
 }
