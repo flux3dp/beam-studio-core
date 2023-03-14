@@ -94,6 +94,7 @@ exports[`should render correctly should render correctly 1`] = `
         >
           <div
             class="ant-progress-outer"
+            style="width: 100%; height: 8px;"
           >
             <div
               class="ant-progress-inner"
@@ -221,6 +222,7 @@ exports[`should render correctly should render correctly when completed 1`] = `
         >
           <div
             class="ant-progress-outer"
+            style="width: 100%; height: 8px;"
           >
             <div
               class="ant-progress-inner"
