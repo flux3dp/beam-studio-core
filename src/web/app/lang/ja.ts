@@ -406,6 +406,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'オートフォーカス既定',
     default_enable_diode_module: 'ダイオードレーザー既定',
     diode_offset: 'ダイオードレーザーオフセット',
+    autofocus_offset: 'オートフォーカスオフセット',
     diode_one_way_engraving: 'ダイオードレーザー一方向彫刻',
     diode_two_way_warning: '二方向で光を発するので、速度が一段と速くなりますが、レーザー照射位置に誤差が生じる可能性があります。そのため、事前に他の材料でテストしておいでください。',
     share_with_flux: 'Beam Studio Analyticsを共有する',

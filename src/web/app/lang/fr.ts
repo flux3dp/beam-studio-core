@@ -406,6 +406,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'Autofocus par défaut',
     default_enable_diode_module: 'Laser à diode par défaut',
     diode_offset: 'Décalage diode laser',
+    autofocus_offset: 'Décalage de Autofocus',
     diode_one_way_engraving: 'Gravure laser à diode dans un sens',
     diode_two_way_warning: 'L\'émission de lumière bidirectionnelle est plus rapide et génère probablement une certaine imprécision sur la position de la gravure laser. Il est recommandé de faire un essai préalable.',
     share_with_flux: 'Partager Beam Studio Analytics',

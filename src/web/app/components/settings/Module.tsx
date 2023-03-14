@@ -15,6 +15,7 @@ interface Props {
   diodeOffsetY: number;
   borderlessModeOptions: { value: any, label: string, selected: boolean }[];
   autofocusModuleOptions: { value: any, label: string, selected: boolean }[];
+  autofocusOffset: number;
   diodeModuleOptions: { value: any, label: string, selected: boolean }[];
   diodeOneWayEngravingOpts: { value: boolean; label: string; selected: boolean }[];
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
@@ -27,6 +28,7 @@ const Module = ({
   diodeOffsetY,
   borderlessModeOptions,
   autofocusModuleOptions,
+  autofocusOffset,
   diodeModuleOptions,
   diodeOneWayEngravingOpts,
   updateBeamboxPreferenceChange,
@@ -94,6 +96,19 @@ const Module = ({
         options={diodeOneWayEngravingOpts}
         onChange={onDiodeOneWayEngravingChanged}
       />
+      <Controls label={lang.settings.autofocus_offset}>
+        <UnitInput
+          id="autofocus-offset-input"
+          unit={defaultUnit === 'inches' ? 'in' : 'mm'}
+          min={-10}
+          max={10}
+          defaultValue={autofocusOffset || 0}
+          step={defaultUnit === 'inches' ? 0.1 : 1}
+          getValue={(val) => updateBeamboxPreferenceChange('af-offset', val)}
+          forceUsePropsUnit
+          className={{ half: true }}
+        />
+      </Controls>
     </>
   );
 };
