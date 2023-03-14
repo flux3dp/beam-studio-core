@@ -67,6 +67,14 @@ exports[`test DocumentSettings should render correctly 1`] = `
             </p>
             HEXA
           </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              ador
+            </p>
+            Ador
+          </div>
         </div>
       </div>
       <strong>
@@ -263,6 +271,14 @@ exports[`test DocumentSettings should render correctly 2`] = `
               fhexa1
             </p>
             HEXA
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              ador
+            </p>
+            Ador
           </div>
         </div>
       </div>
@@ -461,6 +477,14 @@ exports[`test DocumentSettings should render correctly 3`] = `
             </p>
             HEXA
           </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              ador
+            </p>
+            Ador
+          </div>
         </div>
       </div>
       <strong>
@@ -657,6 +681,14 @@ exports[`test DocumentSettings should render correctly 4`] = `
               fhexa1
             </p>
             HEXA
+          </div>
+          <div>
+            Dummy SelectOption
+            <p>
+              value: 
+              ador
+            </p>
+            Ador
           </div>
         </div>
       </div>
