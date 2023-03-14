@@ -340,6 +340,7 @@ class Settings extends React.PureComponent<null, State> {
             diodeOffsetY={this.getBeamboxPreferenceEditingValue('diode_offset_y')}
             borderlessModeOptions={borderlessModeOptions}
             autofocusModuleOptions={autofocusModuleOptions}
+            autofocusOffset={this.getBeamboxPreferenceEditingValue('af-offset')}
             diodeModuleOptions={diodeModuleOptions}
             diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
@@ -353,7 +354,9 @@ class Settings extends React.PureComponent<null, State> {
             <b>{lang.settings.reset_now}</b>
           </div>
           <div className="clearfix" />
-          <div className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>{lang.settings.done}</div>
+          <div className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>
+            {lang.settings.done}
+          </div>
           <div className="btn btn-cancel" onClick={this.handleCancel}>{lang.settings.cancel}</div>
         </div>
       </div>

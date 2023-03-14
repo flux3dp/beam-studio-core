@@ -24,12 +24,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
   parserOpts = parserOpts || {};
 
   const apiMethod = {
-    laser: 'svg-laser-parser',
     svgeditor: 'svgeditor-laser-parser',
-    draw: 'pen-svg-parser',
-    cut: 'svg-vinyl-parser',
-    mill: 'svg-vinyl-parser',
-  }[parserOpts.type || 'laser'];
+  }[parserOpts.type || 'svgeditor'];
   const events: { onMessage: (data?) => void, onError: (data?) => void } = {
     onMessage: () => { },
     onError: () => { },
@@ -103,7 +99,10 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
       }
 
-      if (i18n.getActiveLang() === 'zh-cn' && BeamboxPreference.read('blade_radius') && BeamboxPreference.read('blade_radius') > 0) {
+      if (
+        i18n.getActiveLang() === 'zh-cn'
+        && BeamboxPreference.read('blade_radius') && BeamboxPreference.read('blade_radius') > 0
+      ) {
         args.push('-blade');
         args.push(BeamboxPreference.read('blade_radius'));
         if (BeamboxPreference.read('blade_precut')) {
@@ -114,6 +113,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       if (opts.enableAutoFocus) {
         args.push('-af');
+        if (BeamboxPreference.read('af-offset')) args.push(BeamboxPreference.read('af-offset'));
       }
 
       if (opts.enableDiode) {
@@ -394,9 +394,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         if (allImageValid && hasPath && !AlertConfig.read('skip_image_path_warning')) {
           Alert.popUp({
             type: AlertConstants.SHOW_POPUP_WARNING,
-            message: LANG.svg_image_path_waring,
+            message: i18n.lang.beambox.popup.svg_image_path_waring,
             checkbox: {
-              text: LANG.dont_show_again,
+              text: i18n.lang.beambox.popup.dont_show_again,
               callbacks: () => AlertConfig.write('skip_image_path_warning', true),
             },
           });

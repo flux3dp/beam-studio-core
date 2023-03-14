@@ -406,6 +406,7 @@ const lang: ILang = {
     default_enable_autofocus_module: 'Standaard autofocus',
     default_enable_diode_module: 'Diode Laser Standaard',
     diode_offset: 'Diode laseroffset',
+    autofocus_offset: 'Autofocus Verschuiving',
     diode_one_way_engraving: 'Diodelaser in één richting graveren',
     diode_two_way_warning: 'Bidirectionele lichtuitstraling is sneller en genereert waarschijnlijk enige onnauwkeurigheid op de lasergravurepositie. Aanraden om eerst te testen.',
     share_with_flux: 'Beam Studio Analytics delen',
