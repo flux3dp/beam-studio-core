@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PresetsList should render correctly 1`] = `
+<div>
+  <div
+    class="ant-col ant-col-11 css-dev-only-do-not-override-hash"
+  >
+    <div
+      class="title"
+    >
+      <strong>
+        default
+      </strong>
+    </div>
+    <div
+      class="list"
+    >
+      <div
+        class="item selected"
+      >
+        <div
+          class="name"
+        >
+          preset1
+        </div>
+        <span
+          class="sub"
+        >
+          inuse
+        </span>
+      </div>
+      <div
+        class="item"
+      >
+        <div
+          class="name"
+        >
+          preset2
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

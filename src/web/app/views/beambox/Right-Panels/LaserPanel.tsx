@@ -15,7 +15,7 @@ import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
-import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManageModal';
+import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import layerConfigHelper, {
@@ -359,7 +359,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
         selectedItem={selectedItem}
         initDefaultConfig={this.updateDefaultPreset}
         onClose={this.handleCancelModal}
-        onConfigSaved={this.handleParametersChange}
+        onSave={this.handleParametersChange}
       />
     );
   };
