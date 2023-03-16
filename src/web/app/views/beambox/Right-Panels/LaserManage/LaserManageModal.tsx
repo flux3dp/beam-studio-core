@@ -5,6 +5,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
+import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import ArrowButtons from './ArrowButtons';
 import Context, { getInitState, reducer } from './Context';
@@ -15,12 +16,11 @@ import PresetsList from './PresetsList';
 
 interface Props {
   selectedItem: string;
-  initDefaultConfig: () => void;
   onClose: () => void;
   onSave: () => void;
 }
 
-const LaserManageModal = ({ selectedItem, initDefaultConfig, onClose, onSave }: Props): JSX.Element => {
+const LaserManageModal = ({ selectedItem, onClose, onSave }: Props): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, null, () => getInitState(selectedItem));
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -32,7 +32,7 @@ const LaserManageModal = ({ selectedItem, initDefaultConfig, onClose, onSave }: 
       message: t.sure_to_reset,
       onYes: () => {
         storage.removeAt('defaultLaserConfigsInUse');
-        initDefaultConfig();
+        updateDefaultPresetData();
         dispatch({ type: 'reset' });
       },
     });

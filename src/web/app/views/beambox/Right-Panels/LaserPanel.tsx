@@ -26,7 +26,7 @@ import layerConfigHelper, {
   writeData,
 } from 'helpers/layer/layer-config-helper';
 import { getParametersSet } from 'app/constants/right-panel-constants';
-import { getDefaultPresetData, updateDefaultPresetData } from 'helpers/presets/preset-helper';
+import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
@@ -64,12 +64,10 @@ interface State extends ILayerConfig {
 class LaserPanel extends React.PureComponent<Props, State> {
   private unit: string;
 
-  private defaultLaserOptions: string[];
-
   constructor(props: Props) {
     super(props);
     this.unit = storage.get('default-units') || 'mm';
-    this.updateDefaultPreset();
+    updateDefaultPresetData();
     this.state = {
       speed: { value: 3 },
       power: { value: 1 },
@@ -129,12 +127,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
     return null;
   }
 
-  updateDefaultPreset = (): void => {
-    this.defaultLaserOptions = updateDefaultPresetData();
-  };
-
   updateData = (): void => {
-    this.updateDefaultPreset();
+    updateDefaultPresetData();
     this.handleParametersChange();
     const drawing = svgCanvas.getCurrentDrawing();
     const currentLayerName = drawing.getCurrentLayerName();
@@ -151,6 +145,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   handleParametersChange = (): void => {
     const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
+    const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
     const drawing = svgCanvas.getCurrentDrawing();
     const layerCount = drawing.getNumLayers();
     for (let i = 0; i < layerCount; i += 1) {
@@ -163,8 +158,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
       if (configIndex >= 0) {
         const config = customizedLaserConfigs[configIndex];
         if (config.isDefault) {
-          if (this.defaultLaserOptions.includes(config.key)) {
-            const { speed, power, repeat } = getDefaultPresetData(config.key);
+          if (parametersSet[config.key]) {
+            const { speed, power, repeat } = parametersSet[config.key];
             layer.setAttribute('data-speed', speed);
             layer.setAttribute('data-strength', power);
             layer.setAttribute('data-repeat', repeat);
@@ -181,7 +176,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
           }
         }
       }
-
       if (BeamboxPreference.read('workarea') !== 'fhexa1' && Number(layer.getAttribute('data-speed')) > 300) {
         layer.setAttribute('data-speed', '300');
       }
@@ -349,8 +343,10 @@ class LaserPanel extends React.PureComponent<Props, State> {
     Dialog.addDialogComponent('laser-manage-modal', (
       <LaserManageModal
         selectedItem={selectedItem}
-        initDefaultConfig={this.updateDefaultPreset}
-        onClose={() => Dialog.popDialogById('laser-manage-modal')}
+        onClose={() => {
+          Dialog.popDialogById('laser-manage-modal');
+          this.forceUpdate();
+        }}
         onSave={this.handleParametersChange}
       />
     ));
@@ -449,7 +445,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
     let dropdownOptions: { value: string, key: string, label: string }[];
-    if (customizedConfigs || customizedConfigs.length > 0) {
+    if (customizedConfigs) {
       const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
       dropdownOptions = customizedConfigs.filter((p) => !(p.isDefault && !parametersSet[p.key]))
         .map((e) => ({
@@ -458,10 +454,11 @@ class LaserPanel extends React.PureComponent<Props, State> {
           label: e.name,
         }));
     } else {
-      dropdownOptions = this.defaultLaserOptions.map((item) => ({
-        value: item,
-        key: item,
-        label: (LANG.dropdown[this.unit][item] ? LANG.dropdown[this.unit][item] : item),
+      const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+      dropdownOptions = Object.keys(parametersSet).map((key) => ({
+        value: key,
+        key,
+        label: (LANG.dropdown[this.unit][key] ? LANG.dropdown[this.unit][key] : key),
       }));
     }
 
