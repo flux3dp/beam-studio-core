@@ -15,7 +15,7 @@ import DiodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
-import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManageModal';
+import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import storage from 'implementations/storage';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import layerConfigHelper, {
@@ -59,7 +59,6 @@ interface Props {
 interface State extends ILayerConfig {
   didDocumentSettingsChanged: boolean;
   selectedItem?: string;
-  modal?: string;
 }
 
 class LaserPanel extends React.PureComponent<Props, State> {
@@ -282,10 +281,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  handleCancelModal = (): void => {
-    this.setState({ modal: '' });
-  };
-
   handleParameterTypeChanged = (value: string): void => {
     if (value === PARAMETERS_CONSTANT) {
       this.forceUpdate();
@@ -300,9 +295,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
             return;
           }
           this.handleSaveConfig(newName);
-        },
-        onCancel: () => {
-          this.handleCancelModal();
         },
       });
     } else {
@@ -352,26 +344,16 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  renderMoreModal = (): JSX.Element => {
+  handleOpenManageModal = (): void => {
     const { selectedItem } = this.state;
-    return (
+    Dialog.addDialogComponent('laser-manage-modal', (
       <LaserManageModal
         selectedItem={selectedItem}
         initDefaultConfig={this.updateDefaultPreset}
-        onClose={this.handleCancelModal}
-        onConfigSaved={this.handleParametersChange}
+        onClose={() => Dialog.popDialogById('laser-manage-modal')}
+        onSave={this.handleParametersChange}
       />
-    );
-  };
-
-  renderModal = (): JSX.Element => {
-    const { modal } = this.state;
-    switch (modal) {
-      case 'more':
-        return this.renderMoreModal();
-      default:
-        return null;
-    }
+    ));
   };
 
   getDefaultLaserOptions = (): string => {
@@ -465,8 +447,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
       displayName = LANG.multi_layer;
     }
 
-    const modalDialog = this.renderModal();
-
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
     let dropdownOptions: { value: string, key: string, label: string }[];
     if (customizedConfigs || customizedConfigs.length > 0) {
@@ -491,7 +471,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           {sprintf(LANG.preset_setting, displayName)}
         </div>
         <div className="layerparams">
-          <ConfigOperations onMoreClick={() => this.setState({ modal: 'more' })} />
+          <ConfigOperations onMoreClick={this.handleOpenManageModal} />
           <div className="preset-dropdown-containter">
             <DropdownControl
               id="laser-config-dropdown"
@@ -510,7 +490,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
             onChange={this.handleSpeedChange}
           />
           <RepeatBlock repeat={repeat} onChange={this.handleRepeatChange} />
-          {modalDialog}
         </div>
         {this.renderAddOnBlock()}
       </div>
