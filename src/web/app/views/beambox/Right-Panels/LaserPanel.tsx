@@ -145,7 +145,8 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   handleParametersChange = (): void => {
     const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
-    const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+    const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+    const parametersSet = getParametersSet(workarea);
     const drawing = svgCanvas.getCurrentDrawing();
     const layerCount = drawing.getNumLayers();
     for (let i = 0; i < layerCount; i += 1) {
@@ -176,7 +177,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
           }
         }
       }
-      if (BeamboxPreference.read('workarea') !== 'fhexa1' && Number(layer.getAttribute('data-speed')) > 300) {
+      if (workarea !== 'fhexa1' && Number(layer.getAttribute('data-speed')) > 300) {
         layer.setAttribute('data-speed', '300');
       }
     }
@@ -280,61 +281,40 @@ class LaserPanel extends React.PureComponent<Props, State> {
       this.forceUpdate();
       return;
     }
-    if (value === 'save') {
-      Dialog.promptDialog({
-        caption: LANG.dropdown.save,
-        onYes: (name) => {
-          const newName = name.trim();
-          if (!newName) {
-            return;
-          }
-          this.handleSaveConfig(newName);
-        },
+
+    const customizedConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => e.name === value);
+    if (customizedConfigs) {
+      const { speed: dataSpeed, power, repeat, zStep, isDefault, key } = customizedConfigs;
+      const maxSpeed = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
+      const speed = Math.max(3, Math.min(dataSpeed, maxSpeed));
+
+      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
+      this.setState({
+        speed: { value: speed },
+        power: { value: power },
+        repeat: { value: repeat || 1 },
+        zStep: { value: zStep || 0 },
+        selectedItem: value,
       });
-    } else {
-      const customizedConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => e.name === value);
-      if (customizedConfigs) {
-        const { speed: dataSpeed, power, repeat, zStep, isDefault, key } = customizedConfigs;
-        const maxSpeed = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
-        const speed = Math.max(3, Math.min(dataSpeed, maxSpeed));
+      const { selectedLayers } = this.props;
+      selectedLayers.forEach((layerName: string) => {
+        writeData(layerName, DataType.speed, speed);
+        writeData(layerName, DataType.strength, power);
+        writeData(layerName, DataType.repeat, repeat || 1);
+        writeData(layerName, DataType.zstep, zStep || 0);
+        writeData(layerName, DataType.configName, value);
+      });
 
-        timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-        this.setState({
-          speed: { value: speed },
-          power: { value: power },
-          repeat: { value: repeat || 1 },
-          zStep: { value: zStep || 0 },
-          selectedItem: value,
-        });
-        const { selectedLayers } = this.props;
-        selectedLayers.forEach((layerName: string) => {
-          writeData(layerName, DataType.speed, speed);
-          writeData(layerName, DataType.strength, power);
-          writeData(layerName, DataType.repeat, repeat || 1);
-          writeData(layerName, DataType.zstep, zStep || 0);
-          writeData(layerName, DataType.configName, value);
-        });
-
-        if (TutorialConstants.SET_PRESET_WOOD_ENGRAVING
-          === TutorialController.getNextStepRequirement()) {
-          if (isDefault && ['wood_engraving'].includes(key)) {
-            TutorialController.handleNextStep();
-          } else {
-            Alert.popUp({
-              message: i18n.lang.tutorial.newUser.please_select_wood_engraving,
-            });
-          }
-        } else if (TutorialConstants.SET_PRESET_WOOD_CUTTING
-          === TutorialController.getNextStepRequirement()) {
-          if (
-            isDefault
-            && ['wood_3mm_cutting', 'wood_5mm_cutting', 'wood_8mm_cutting', 'wood_10mm_cutting'].includes(key)
-          ) TutorialController.handleNextStep();
-          else Alert.popUp({ message: i18n.lang.tutorial.newUser.please_select_wood_cutting });
-        }
-      } else {
-        console.error('No such value', value);
+      const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = TutorialConstants;
+      if (SET_PRESET_WOOD_ENGRAVING === TutorialController.getNextStepRequirement()) {
+        if (isDefault && key === 'wood_engraving') TutorialController.handleNextStep();
+        else Alert.popUp({ message: i18n.lang.tutorial.newUser.please_select_wood_engraving });
+      } else if (SET_PRESET_WOOD_CUTTING === TutorialController.getNextStepRequirement()) {
+        if (isDefault && /^wood_[\d]+mm_cutting$/.test(key)) TutorialController.handleNextStep();
+        else Alert.popUp({ message: i18n.lang.tutorial.newUser.please_select_wood_cutting });
       }
+    } else {
+      console.error('No such value', value);
     }
   };
 

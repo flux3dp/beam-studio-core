@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import { createContext, Dispatch } from 'react';
 
 import i18n from 'helpers/i18n';
 import isObjectEmpty from 'helpers/is-object-empty';
@@ -138,10 +138,11 @@ const changeAction = (state: State, payload: ChangePayload): State => {
 
 const addConfigAction = (state: State, payload: AddConfigPayload): State => {
   const { name } = payload;
-  const { configs } = state;
+  const configs = [...state.configs];
   configs.push({ name, speed: 20, power: 15, repeat: 1, zStep: 0 });
   return {
     ...state,
+    configs,
     selectedItem: { name, isCustomized: true },
     displayValues: { speed: 20, power: 15, repeat: 1, zStep: 0 },
   };
@@ -149,7 +150,7 @@ const addConfigAction = (state: State, payload: AddConfigPayload): State => {
 
 const swapConfigAction = (state: State, payload: SwapConfigPayload): State => {
   const { orig, dist } = payload;
-  const { configs } = state;
+  const configs = [...state.configs];
   [configs[orig], configs[dist]] = [configs[dist], configs[orig]];
   return {
     ...state,
@@ -273,4 +274,4 @@ interface Context {
   dispatch: Dispatch<Action>;
 }
 
-export default React.createContext<Context>({} as Context);
+export default createContext<Context>({} as Context);
