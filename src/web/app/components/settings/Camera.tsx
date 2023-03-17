@@ -30,7 +30,7 @@ function Camera({
     getValue: getValueHL,
   },
 }: Props): JSX.Element {
-  const lang = i18n.lang;
+  const { lang } = i18n;
   return (
     <>
       <div className="subtitle">{lang.settings.groups.camera}</div>

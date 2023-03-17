@@ -11,3 +11,8 @@ export const getNextStepRequirement = (): string => {
   eventEmitter.emit('GET_NEXT_STEP_REQUIREMENT', response);
   return response.nextStepRequirement;
 };
+
+export default {
+  handleNextStep,
+  getNextStepRequirement,
+};

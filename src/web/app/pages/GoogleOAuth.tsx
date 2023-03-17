@@ -2,7 +2,7 @@ import socialAuth from 'helpers/social-auth';
 import { signInWithGoogleCode } from 'helpers/api/flux-id';
 
 function GoogleOAuth(): JSX.Element {
-  const [_, ...params] = window.location.hash.split('?');
+  const [, ...params] = window.location.hash.split('?');
   const [codeParam, redirectdUrlParam] = params.join('?').split('&');
   signInWithGoogleCode({
     code: codeParam.split('=')[1],
