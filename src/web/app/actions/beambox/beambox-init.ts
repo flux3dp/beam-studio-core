@@ -212,7 +212,9 @@ class BeamboxInit {
     const hasDoneFirstCali = AlertConfig.read('done-first-cali');
     const hasMachineConnection = checkConnection();
     // in web, wait for websocket connection
-    if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) await new Promise((r) => setTimeout(r, 1000));
+    if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) {
+      await new Promise((r) => setTimeout(r, 1000));
+    }
     const shouldShow = window.FLUX.version === 'web' ? (hasMachineConnection && !hasDoneFirstCali) : isNewUser;
     if (shouldShow) {
       if (await this.askFirstTimeCameraCalibration()) {

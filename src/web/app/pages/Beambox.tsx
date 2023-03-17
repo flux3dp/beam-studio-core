@@ -8,6 +8,7 @@ import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import LeftPanel from 'app/components/beambox/left-panel/LeftPanel';
 import ImageTracePanel from 'app/views/beambox/ImageTracePanel/ImageTracePanel';
+import openFileHelper from 'helpers/open-file-helper';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import RightPanel from 'app/components/beambox/right-panel/RightPanel';
 import sentryHelper from 'helpers/sentry-helper';
@@ -42,6 +43,7 @@ export default class Beambox extends React.Component<Record<string, never>, Stat
     communicator.send('FRONTEND_READY');
     svgEditor.resetView();
     beamboxInit.showStartUpDialogs();
+    openFileHelper.loadOpenFile();
   }
 
   componentWillUnmount() {
