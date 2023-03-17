@@ -57,7 +57,6 @@ interface Props {
 }
 
 interface State extends ILayerConfig {
-  didDocumentSettingsChanged: boolean;
   selectedItem?: string;
 }
 
@@ -77,7 +76,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
       diode: { value: 0 },
       type: { value: 1 },
       configName: { value: '' },
-      didDocumentSettingsChanged: false,
     };
   }
 
@@ -88,13 +86,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(): void {
-    const { didDocumentSettingsChanged } = this.state;
-    if (didDocumentSettingsChanged) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ didDocumentSettingsChanged: false });
-    } else {
-      this.updateDiodeBoundary();
-    }
+    this.updateDiodeBoundary();
   }
 
   componentWillUnmount(): void {
@@ -139,7 +131,6 @@ class LaserPanel extends React.PureComponent<Props, State> {
     }
     this.setState({
       ...layerData,
-      didDocumentSettingsChanged: true,
     });
   };
 
