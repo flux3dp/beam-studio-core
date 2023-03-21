@@ -15,7 +15,7 @@ getSVGAsync((globalSVG) => {
 const loadOpenFile = async (): Promise<void> => {
   const path = communicator.sendSync('GET_OPEN_FILE');
   if (path) {
-    const fetchPath = path.replaceAll('#', '%23');
+    const fetchPath = path.replace(/#/g, '%23');
     const resp = await fetch(fetchPath);
     const fileBlob = await resp.blob();
     const file = new File([fileBlob], path, { type: fileBlob.type });
