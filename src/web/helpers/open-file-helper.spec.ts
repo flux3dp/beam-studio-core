@@ -18,8 +18,7 @@ const mockFetch = jest.fn();
 describe('test openFileHelper', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    // @ts-expect-error mocking fetch
-    global.fetch = mockFetch;
+    window.fetch = mockFetch;
   });
 
   it('should do nothing if no path returned', async () => {
