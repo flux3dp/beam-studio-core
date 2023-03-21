@@ -1,90 +1,72 @@
-import React from 'react';
 import classNames from 'classnames';
+import React, { SyntheticEvent, useContext, useEffect, useState } from 'react';
 
+import deviceMaster from 'helpers/device-master';
 import { ItemType } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
+
+import styles from './FileItem.module.scss';
 
 const maxFileNameLength = 12;
 const DEFAULT_IMAGE = 'img/ph_s.png';
 
 interface Props {
-  fileName: string,
-  fileInfo: { [key: string]: any },
-  isSelected: boolean,
+  path: string;
+  fileName: string;
+  isSelected: boolean;
 }
 
-export default class FileItem extends React.Component<Props> {
-  private imgSrc: string;
+interface State {
+  imgSrc?: string;
+  fileInfo?: [string, { [key: string]: string | number }, Blob, { [key: string]: string | number }];
+}
 
-  constructor(props: Props) {
-    super(props);
-    this.imgSrc = null;
-    const { fileInfo } = this.props;
-    this.createImgURL(fileInfo);
-  }
+const onImageError = (evt: SyntheticEvent<HTMLImageElement>) => {
+  // eslint-disable-next-line no-param-reassign
+  evt.currentTarget.src = 'img/ph_s.png';
+};
 
-  componentWillUnmount() {
-    this.revokeImgURL();
-  }
+const FileItem = ({ path, fileName, isSelected }: Props): JSX.Element => {
+  const [state, setState] = useState<State>({});
 
-  shouldComponentUpdate(nextProps: Props) {
-    for (const key in nextProps) {
-      if (nextProps[key] !== this.props[key]) {
-        if (key === 'fileInfo') {
-          const { fileInfo } = nextProps;
-          this.revokeImgURL();
-          this.createImgURL(fileInfo);
-        }
-        return true;
+  useEffect(() => {
+    const getStates = async () => {
+      const res = await deviceMaster.fileInfo(path, fileName);
+      let imgSrc: string;
+      if (res && res[2] instanceof Blob) {
+        imgSrc = URL.createObjectURL(res[2]);
       }
-    }
-    return false;
-  }
+      if (state.imgSrc) URL.revokeObjectURL(state.imgSrc);
+      setState({ imgSrc, fileInfo: res });
+    };
+    getStates();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path, fileName]);
 
-  createImgURL(fileInfo) {
-    if (fileInfo && fileInfo[2] instanceof Blob) {
-      this.imgSrc = URL.createObjectURL(fileInfo[2]);
-    }
-  }
+  const { onHighlightItem, onSelectFile, onDeleteFile } = useContext(MonitorContext);
+  const { imgSrc, fileInfo } = state;
 
-  revokeImgURL() {
-    if (this.imgSrc) {
-      URL.revokeObjectURL(this.imgSrc);
-      this.imgSrc = null;
-    }
-  }
-
-  onImageError(evt) {
-    evt.target.src = 'img/ph_s.png';
-  }
-
-  render() {
-    const { imgSrc } = this;
-    const { onHighlightItem, onSelectFile, onDeleteFile } = this.context;
-    const { fileName, fileInfo, isSelected } = this.props;
-    const iNameClass = classNames('fa', 'fa-times-circle-o', { selected: isSelected });
-    return (
-      <div
-        title={fileName}
-        className={classNames('file', { selected: isSelected })}
-        data-test-key={fileName}
-        data-filename={fileName}
-        onClick={() => onHighlightItem({ name: fileName, type: ItemType.FILE })}
-        onDoubleClick={() => onSelectFile(fileName, fileInfo)}
-      >
-        <div className="image-wrapper">
-          <img src={imgSrc || DEFAULT_IMAGE} onError={this.onImageError} />
-          <i
-            className={iNameClass}
-            onClick={onDeleteFile}
-          />
-        </div>
-        <div className={classNames('name', { selected: isSelected })}>
-          {fileName.length > maxFileNameLength ? `${fileName.substring(0, maxFileNameLength)}...` : fileName}
-        </div>
+  return (
+    <div
+      title={fileName}
+      className={classNames(styles.container)}
+      data-test-key={fileName}
+      data-filename={fileName}
+      onClick={() => onHighlightItem({ name: fileName, type: ItemType.FILE })}
+      onDoubleClick={() => onSelectFile(fileName, fileInfo)}
+    >
+      <div className={classNames(styles['img-container'], { [styles.selected]: isSelected })}>
+        <img src={imgSrc || DEFAULT_IMAGE} onError={onImageError} />
+        <i
+          className={classNames('fa', 'fa-times-circle-o')}
+          onClick={onDeleteFile}
+        />
       </div>
-    );
-  }
-}
+      <div className={classNames(styles.name, { [styles.selected]: isSelected })}>
+        {fileName.length > maxFileNameLength ? `${fileName.substring(0, maxFileNameLength)}...` : fileName}
+      </div>
+    </div>
+  );
+};
 
-FileItem.contextType = MonitorContext;
+export default FileItem;
