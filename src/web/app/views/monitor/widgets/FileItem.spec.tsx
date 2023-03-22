@@ -37,9 +37,10 @@ describe('should render correctly', () => {
         onHighlightItem: mockOnHighlightItem,
         onSelectFile: mockOnSelectFile,
         onDeleteFile: mockOnDeleteFile,
+        highlightedItem: { name: 'file', type: 'FILE' }
       } as any}
       >
-        <FileItem path="path" fileName="file" isSelected />
+        <FileItem path="path" fileName="file" />
       </MonitorContext.Provider>
     );
     await waitFor(() => {
@@ -56,9 +57,10 @@ describe('should render correctly', () => {
         onHighlightItem: mockOnHighlightItem,
         onSelectFile: mockOnSelectFile,
         onDeleteFile: mockOnDeleteFile,
+        highlightedItem: { name: 'file2', type: 'FILE' }
       } as any}
       >
-        <FileItem path="path2" fileName="file2" isSelected />
+        <FileItem path="path2" fileName="file2" />
       </MonitorContext.Provider>
     );
 
@@ -86,9 +88,10 @@ describe('should render correctly', () => {
         onHighlightItem: mockOnHighlightItem,
         onSelectFile: mockOnSelectFile,
         onDeleteFile: mockOnDeleteFile,
+        highlightedItem: { name: 'file', type: 'FILE' }
       } as any}
       >
-        <FileItem path="path" fileName="file" isSelected />
+        <FileItem path="path" fileName="file" />
       </MonitorContext.Provider>
     );
     await waitFor(() => {

@@ -13,7 +13,6 @@ const DEFAULT_IMAGE = 'img/ph_s.png';
 interface Props {
   path: string;
   fileName: string;
-  isSelected: boolean;
 }
 
 interface State {
@@ -26,7 +25,7 @@ const onImageError = (evt: SyntheticEvent<HTMLImageElement>) => {
   evt.currentTarget.src = 'img/ph_s.png';
 };
 
-const FileItem = ({ path, fileName, isSelected }: Props): JSX.Element => {
+const FileItem = ({ path, fileName }: Props): JSX.Element => {
   const [state, setState] = useState<State>({});
 
   useEffect(() => {
@@ -43,9 +42,9 @@ const FileItem = ({ path, fileName, isSelected }: Props): JSX.Element => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, fileName]);
 
-  const { onHighlightItem, onSelectFile, onDeleteFile } = useContext(MonitorContext);
+  const { highlightedItem, onHighlightItem, onSelectFile, onDeleteFile } = useContext(MonitorContext);
   const { imgSrc, fileInfo } = state;
-
+  const isSelected = highlightedItem.name === fileName && highlightedItem.type === ItemType.FILE;
   return (
     <div
       title={fileName}
