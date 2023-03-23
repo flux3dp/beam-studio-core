@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import { ItemType } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
