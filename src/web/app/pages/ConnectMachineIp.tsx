@@ -1,358 +1,153 @@
-import * as React from 'react';
 import classNames from 'classnames';
+import React, { KeyboardEventHandler, useEffect, useMemo, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import DeviceMaster from 'helpers/device-master';
-import dialog from 'app/actions/dialog-caller';
+import checkCamera from 'helpers/device/check-camera';
+import checkIPFormat from 'helpers/check-ip-format';
+import checkRpiIp from 'helpers/check-rpi-ip';
 import Discover from 'helpers/api/discover';
-import i18n from 'helpers/i18n';
-import keyCodeConstants from 'app/constants/keycode-constants';
+import dialogCaller from 'app/actions/dialog-caller';
 import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
-import Modal from 'app/widgets/Modal';
 import network from 'implementations/network';
 import storage from 'implementations/storage';
+import TestInfo from 'app/components/settings/connection/TestInfo';
+import TestState, { isTesting } from 'app/constants/connection-test';
+import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-let lang = i18n.lang.initialize;
-const TIMEOUT = 20;
-const ipRex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
+import styles from './ConnectMachineIp.module.scss';
 
-enum TestState {
-  UNKNOWN = 0,
-  SUCCESS = 1,
-  FAIL = -1,
-}
+// TODO: add test
+const ConnectMachineIp = (): JSX.Element => {
+  const lang = useI18n();
+  const [ipValue, setIpValue] = useState('');
+  const [state, setState] = useState<{
+    testState: TestState;
+    countDownDisplay: number;
+    device: IDeviceInfo | null;
+  }>({
+    testState: TestState.NONE,
+    countDownDisplay: 0,
+    device: null,
+  });
+  const countDown = useRef(0);
+  const intervalId = useRef(0);
+  const discoveredDevicesRef = useRef<IDeviceInfo[]>([]);
 
-interface State {
-  rpiIp: string;
-  machineIp: string;
-  ipFormapTestState: TestState,
-  pingTestState: TestState;
-  connectionTestState: TestState;
-  cameraTestState: TestState;
-  device: IDeviceInfo;
-  connectionTestCountDown: number;
-  isTesting: boolean;
-  hadTested: boolean;
-  firmwareVersion?: string;
-}
-
-export default class ConnectMachine extends React.Component<any, State> {
-  private ipInput: React.RefObject<HTMLInputElement>;
-
-  private isWired: boolean;
-
-  private isUsb: boolean;
-
-  private discover: any;
-
-  private failTimer: NodeJS.Timeout;
-
-  constructor(props) {
-    super(props);
-    lang = i18n.lang.initialize;
-    this.state = {
-      rpiIp: null,
-      machineIp: null,
-      ipFormapTestState: TestState.UNKNOWN,
-      pingTestState: TestState.UNKNOWN,
-      connectionTestState: TestState.UNKNOWN,
-      cameraTestState: TestState.UNKNOWN,
-      device: null,
-      connectionTestCountDown: TIMEOUT,
-      isTesting: false,
-      hadTested: false,
+  useEffect(() => {
+    checkRpiIp().then((ip) => {
+      if (ip) setIpValue(ip);
+    });
+    return () => {
+      clearInterval(intervalId.current);
     };
-    this.ipInput = React.createRef();
+  }, []);
 
+  const discoverer = useMemo(() => Discover('connect-machine-ip', (devices) => {
+    discoveredDevicesRef.current = devices;
+  }), []);
+  useEffect(() => () => discoverer.removeListener('connect-machine-ip'), [discoverer]);
+
+  const { isWired, isUsb } = useMemo(() => {
     const queryString = window.location.hash.split('?')[1] || '';
     const urlParams = new URLSearchParams(queryString);
+    return {
+      isWired: urlParams.get('wired') === '1',
+      isUsb: urlParams.get('usb') === '1',
+    };
+  }, []);
+  const usbConnectionIp = useMemo(() => (window.os === 'Windows' ? '10.55.0.17' : '10.55.0.1'), []);
+  const testingIp = isUsb ? usbConnectionIp : ipValue;
 
-    this.isWired = urlParams.get('wired') === '1';
-    this.isUsb = urlParams.get('usb') === '1';
+  const testIpFormat = () => {
+    const res = checkIPFormat(testingIp);
+    if (!res) setState((prev) => ({ ...prev, testState: TestState.IP_FORMAT_ERROR }));
+    return res;
+  };
 
-    this.discover = Discover('connect-machine-ip', (deviceList) => {
-      const {
-        ipFormapTestState,
-        pingTestState,
-        connectionTestState,
-        machineIp,
-      } = this.state;
-      if (
-        ipFormapTestState === TestState.SUCCESS
-        && machineIp
-        && pingTestState !== TestState.FAIL
-        && connectionTestState === TestState.UNKNOWN
-      ) {
-        for (let i = 0; i < deviceList.length; i += 1) {
-          const device = deviceList[i];
-          if (device.ipaddr === machineIp) {
-            clearInterval(this.failTimer);
-            if (window.FLUX.version === 'web' && !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')) {
+  const testIpReachability = async () => {
+    setState((prev) => ({ ...prev, testState: TestState.IP_TESTING }));
+    const { error, isExisting } = await network.checkIPExist(testingIp, 3);
+    if (!error && !isExisting) {
+      setState((prev) => ({ ...prev, testState: TestState.IP_UNREACHABLE }));
+      return false;
+    }
+    return true;
+  };
+
+  const testConnection = async () => {
+    countDown.current = 30;
+    setState({
+      countDownDisplay: countDown.current,
+      device: null,
+      testState: TestState.CONNECTION_TESTING,
+    });
+    return new Promise<IDeviceInfo>((resolve) => {
+      intervalId.current = setInterval(() => {
+        if (countDown.current > 0) {
+          const device = discoveredDevicesRef.current.find((d) => d.ipaddr === testingIp);
+          if (device) {
+            if (
+              window.FLUX.version === 'web'
+              && !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')
+            ) {
               alertCaller.popUp({
-                message: sprintf(i18n.lang.update.firmware.too_old_for_web, device.version),
-                buttonLabels: [i18n.lang.update.download, i18n.lang.update.later],
+                message: sprintf(lang.update.firmware.too_old_for_web, device.version),
+                buttonLabels: [lang.update.download, lang.update.later],
                 primaryButtonIndex: 0,
-                callbacks: [
-                  () => menuDeviceActions.UPDATE_FIRMWARE(device),
-                  () => { },
-                ],
+                callbacks: [() => menuDeviceActions.UPDATE_FIRMWARE(device), () => {}],
               });
             }
-            this.setState({
-              pingTestState: TestState.SUCCESS,
-              connectionTestState: TestState.SUCCESS,
-              firmwareVersion: device.version,
-              device,
-            });
+            setState((prev) => ({ ...prev, device }));
+            clearInterval(intervalId.current);
+            resolve(device);
+          } else {
+            countDown.current -= 1;
+            setState((prev) => ({
+              ...prev,
+              countDownDisplay: countDown.current,
+              testState: countDown.current > 0 ? TestState.CONNECTION_TESTING : TestState.CONNECTION_TEST_FAILED,
+            }));
+            if (countDown.current <= 0) {
+              clearInterval(intervalId.current);
+              resolve(null);
+            }
           }
-        }
-      }
-    });
-  }
-
-  componentDidMount(): void {
-    if (!this.isUsb) {
-      this.checkRpiIp();
-    } else {
-      this.startTesting();
-    }
-  }
-
-  componentDidUpdate(): void {
-    const { connectionTestState, cameraTestState, isTesting } = this.state;
-    if (connectionTestState === TestState.SUCCESS && cameraTestState === TestState.UNKNOWN) {
-      this.testCamera();
-    }
-    if (!isTesting) {
-      clearInterval(this.failTimer);
-    }
-  }
-
-  componentWillUnmount(): void {
-    this.discover.removeListener('connect-machine-ip');
-  }
-
-  private checkRpiIp = async () => {
-    try {
-      const res = await network.dnsLookUpAll('raspberrypi.local');
-      res.forEach((ipAddress) => {
-        if (ipAddress.family === 4) {
-          this.setState({ rpiIp: ipAddress.address });
-        }
-      });
-    } catch (e) {
-      if (e.toString().includes('ENOTFOUND')) {
-        console.log('DNS server not found raspberrypi.local');
-      } else {
-        console.log(`Error when dns looking up raspberrypi:\n${e}`);
-      }
-    }
-  };
-
-  private testCamera = async () => {
-    const { device } = this.state;
-    try {
-      const res = await DeviceMaster.select(device);
-      if (!res.success) {
-        throw new Error('Fail to select device');
-      }
-      await DeviceMaster.connectCamera();
-      await DeviceMaster.takeOnePicture();
-      DeviceMaster.disconnectCamera();
-      this.setState({
-        cameraTestState: TestState.SUCCESS,
-        isTesting: false,
-        hadTested: true,
-      });
-    } catch (e) {
-      console.log(e);
-      this.setState({
-        cameraTestState: TestState.FAIL,
-        isTesting: false,
-        hadTested: true,
-      });
-    }
-  };
-
-  renderImageContent = (): JSX.Element => {
-    const { isUsb, isWired } = this;
-    if (isUsb) return null;
-    const imgSrc = isWired ? 'img/init-panel/network-panel-wired.jpg' : 'img/init-panel/network-panel-wireless.jpg';
-    return (
-      <div className="image-container">
-        <div className={classNames('hint-circle', 'ip', { wired: isWired })} />
-        <img className="touch-panel-icon" src={imgSrc} draggable="false" />
-      </div>
-    );
-  };
-
-  renderContent = (): JSX.Element => {
-    const { isUsb } = this;
-    const { rpiIp } = this.state;
-    return (
-      <div className={classNames('connection-machine-ip', { usb: isUsb })}>
-        {this.renderImageContent()}
-        <div className="text-container">
-          <div className="title">{isUsb ? lang.connect_machine_ip.check_usb : lang.connect_machine_ip.enter_ip}</div>
-          <div className="contents tutorial">
-            <input
-              ref={this.ipInput}
-              className={classNames('ip-input', { hide: isUsb })}
-              placeholder="192.168.0.1"
-              type="text"
-              onKeyDown={this.handleKeyDown}
-              defaultValue={rpiIp}
-            />
-            {this.renderTestInfos()}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  renderMachineInfo = (): JSX.Element => {
-    const { connectionTestState, firmwareVersion, cameraTestState } = this.state;
-    if (connectionTestState !== TestState.SUCCESS) return null;
-    let cameraStatus = '';
-    if (cameraTestState !== TestState.UNKNOWN) cameraStatus = cameraTestState > 0 ? 'OK ✅' : 'Fail';
-    let succeededMessage = '';
-    if (cameraTestState > 0) {
-      succeededMessage = lang.connect_machine_ip.succeeded_message;
-    }
-    return (
-      <>
-        <div id="firmware-test-info" className="test-info">{`${lang.connect_machine_ip.check_firmware}... ${firmwareVersion}`}</div>
-        <div id="camera-test-info" className="test-info">{`${lang.connect_machine_ip.check_camera}... ${cameraStatus}`}</div>
-        <div className="test-info">{succeededMessage}</div>
-      </>
-    );
-  };
-
-  renderTestInfos = (): JSX.Element => {
-    const {
-      machineIp,
-      ipFormapTestState,
-      pingTestState,
-      connectionTestState,
-      connectionTestCountDown,
-    } = this.state;
-    if (machineIp !== null) {
-      let ipStatus = 'OK ✅';
-      if (ipFormapTestState === TestState.FAIL) ipStatus = `${lang.connect_machine_ip.invalid_ip}${lang.connect_machine_ip.invalid_format}`;
-      else if (pingTestState === TestState.FAIL) ipStatus = lang.connect_machine_ip.unreachable;
-      else if (ipFormapTestState === TestState.UNKNOWN || pingTestState === TestState.UNKNOWN) ipStatus = '';
-      let connectionStatus = `${connectionTestCountDown}s`;
-      if (connectionTestState !== TestState.UNKNOWN) connectionStatus = connectionTestState > 0 ? 'OK ✅' : 'Fail';
-      return (
-        <div className="test-infos">
-          <div id="ip-test-info" className="test-info">{`${lang.connect_machine_ip.check_ip}... ${ipStatus || ''}`}</div>
-          {
-            ipFormapTestState === TestState.SUCCESS && (pingTestState !== TestState.FAIL)
-              ? <div id="machine-test-info" className="test-info">{`${lang.connect_machine_ip.check_connection}... ${connectionStatus}`}</div>
-              : null
-          }
-          {this.renderMachineInfo()}
-        </div>
-      );
-    }
-    return <div className="test-infos" />;
-  };
-
-  private handleKeyDown = (e) => {
-    if (e.keyCode === keyCodeConstants.KEY_RETURN) {
-      this.startTesting();
-    }
-  };
-
-  private checkIPFormat = (ip: string): boolean => {
-    const isIPFormatValid = ipRex.test(ip);
-    if (!isIPFormatValid) {
-      this.setState({
-        machineIp: ip,
-        ipFormapTestState: TestState.FAIL,
-      });
-    }
-    return isIPFormatValid;
-  };
-
-  checkIPExist = async (ip: string): Promise<TestState> => {
-    const { error, isExisting } = await network.checkIPExist(ip, 3);
-    if (!error && !isExisting) {
-      this.setState({
-        machineIp: ip,
-        pingTestState: TestState.FAIL,
-        isTesting: false,
-        hadTested: true,
-      });
-      return TestState.FAIL;
-    }
-    // if error occur when pinging, continue testing, return result unknown
-    return error ? TestState.UNKNOWN : TestState.SUCCESS;
-  };
-
-  private startTesting = async () => {
-    const usbConnectionIp = window.os === 'Windows' ? '10.55.0.17' : '10.55.0.1';
-    const ip = this.isUsb ? usbConnectionIp : this.ipInput.current.value;
-    this.setState({
-      ipFormapTestState: TestState.UNKNOWN,
-      connectionTestState: TestState.UNKNOWN,
-      firmwareVersion: null,
-      cameraTestState: TestState.UNKNOWN,
-      device: null,
-    });
-
-    // check format
-    if (!this.checkIPFormat(ip)) return;
-    this.setState({
-      ipFormapTestState: TestState.SUCCESS,
-      isTesting: true,
-      hadTested: false,
-      machineIp: ip,
-    });
-
-    // Ping Target
-    const result = await this.checkIPExist(ip);
-    if (result === TestState.FAIL) return;
-
-    this.setState({
-      machineIp: ip,
-      pingTestState: result,
-      connectionTestCountDown: TIMEOUT,
-    });
-
-    if (window.FLUX.version === 'web') {
-      localStorage.setItem('host', ip);
-      localStorage.setItem('port', '8000');
-    }
-    this.discover.poke(ip);
-    this.discover.pokeTcp(ip);
-    this.discover.testTcp(ip);
-
-    // Connecting to Machine
-    clearInterval(this.failTimer);
-    this.failTimer = setInterval(() => {
-      const { isTesting, connectionTestState, connectionTestCountDown } = this.state;
-      if (isTesting && connectionTestState === TestState.UNKNOWN) {
-        if (connectionTestCountDown > 1) {
-          this.setState({ connectionTestCountDown: connectionTestCountDown - 1 });
         } else {
-          this.setState({
-            connectionTestState: TestState.FAIL,
-            isTesting: false,
-            hadTested: true,
-          });
-          clearInterval(this.failTimer);
+          clearInterval(intervalId.current);
+          resolve(null);
         }
-      }
-    }, 1000);
+      }, 1000) as unknown as number;
+    });
   };
 
-  private onFinish = () => {
-    const { device, machineIp } = this.state;
+  const testCamera = async (device: IDeviceInfo) => {
+    setState((prev) => ({ ...prev, testState: TestState.CAMERA_TESTING }));
+    const res = await checkCamera(device);
+
+    setState((prev) => ({
+      ...prev,
+      testState: res ? TestState.TEST_COMPLETED : TestState.CAMERA_TEST_FAILED,
+    }));
+  };
+
+  const handleStartTest = async () => {
+    const { testState } = state;
+    if (isTesting(testState)) return;
+    let res = testIpFormat();
+    if (!res) return;
+    res = await testIpReachability();
+    if (!res) return;
+    const device = await testConnection();
+    if (!device) return;
+    testCamera(device);
+  };
+
+  const onFinish = () => {
+    const { device } = state;
     const modelMap = {
       fbm1: 'fbm1',
       fbb1b: 'fbb1b',
@@ -364,71 +159,87 @@ export default class ConnectMachine extends React.Component<any, State> {
     BeamboxPreference.write('workarea', model);
     let pokeIPs = storage.get('poke-ip-addr');
     pokeIPs = (pokeIPs ? pokeIPs.split(/[,;] ?/) : []);
-    if (!pokeIPs.includes(machineIp)) {
+    if (!pokeIPs.includes(device.ipaddr)) {
       if (pokeIPs.length > 19) {
         pokeIPs = pokeIPs.slice(pokeIPs.length - 19, pokeIPs.length);
       }
-      pokeIPs.push(machineIp);
+      pokeIPs.push(device.ipaddr);
       storage.set('poke-ip-addr', pokeIPs.join(','));
     }
     if (!storage.get('printer-is-ready')) {
       storage.set('new-user', true);
     }
     storage.set('printer-is-ready', true);
-    dialog.showLoadingWindow();
+    dialogCaller.showLoadingWindow();
     window.location.hash = '#studio/beambox';
     window.location.reload();
   };
 
-  renderNextButton = (): JSX.Element => {
-    const { isTesting, hadTested, connectionTestState } = this.state;
-    let onClick = () => { };
-    let label: string;
-    let className = classNames('btn-page', 'next', 'primary');
-    if (!isTesting && !hadTested) {
-      label = lang.next;
-      onClick = this.startTesting;
-    } else if (isTesting) {
-      label = lang.next;
-      className = classNames('btn-page', 'next', 'primary', 'disabled');
-    } else if (hadTested) {
-      if (connectionTestState === TestState.SUCCESS) {
-        label = lang.connect_machine_ip.finish_setting;
-        onClick = this.onFinish;
-      } else {
-        label = lang.retry;
-        onClick = this.startTesting;
-      }
+  const renderNextBtn = () => {
+    const { testState } = state;
+    let label = lang.initialize.next;
+    let handleClick: () => void = handleStartTest;
+    if ([TestState.CAMERA_TEST_FAILED, TestState.TEST_COMPLETED].includes(testState)) {
+      label = lang.initialize.connect_machine_ip.finish_setting;
+      handleClick = onFinish;
+    } else if (!isTesting(testState) && testState !== TestState.NONE) {
+      label = lang.initialize.retry;
     }
+
     return (
-      <div className={className} onClick={() => onClick()}>
+      <div
+        className={classNames(styles.btn, styles.primary, { [styles.disabled]: isTesting(testState) })}
+        onClick={handleClick}
+      >
         {label}
       </div>
     );
   };
 
-  renderButtons = (): JSX.Element => (
-    <div className="btn-page-container">
-      <div className="btn-page" onClick={() => window.history.back()}>
-        {lang.back}
+  const handleInputKeyDown: KeyboardEventHandler = (e) => {
+    if (e.key === 'Enter') handleStartTest();
+  };
+
+  const { testState, countDownDisplay, device } = state;
+  const touchPanelSrc = `img/init-panel/network-panel-${isWired ? 'wired' : 'wireless'}.jpg`;
+  return (
+    <div className={styles.container}>
+      <div className={styles['top-bar']} />
+      <div className={styles.btns}>
+        <div className={styles.btn} onClick={() => window.history.back()}>
+          {lang.initialize.back}
+        </div>
+        {renderNextBtn()}
       </div>
-      {this.renderNextButton()}
+      <div className={styles.main}>
+        <div className={styles.image}>
+          <div className={classNames(styles.hint, { [styles.wired]: isWired })} />
+          <img src={touchPanelSrc} draggable="false" />
+        </div>
+        <div className={styles.text}>
+          <div className={styles.title}>
+            {isUsb ? lang.initialize.connect_machine_ip.check_usb : lang.initialize.connect_machine_ip.enter_ip}
+          </div>
+          {!isUsb
+            ? (
+              <input
+                className={classNames(styles.input)}
+                value={ipValue}
+                onChange={(e) => setIpValue(e.currentTarget.value)}
+                placeholder="192.168.0.1"
+                type="text"
+                onKeyDown={handleInputKeyDown}
+              />
+            ) : null}
+          <TestInfo
+            testState={testState}
+            connectionCountDown={countDownDisplay}
+            firmwareVersion={device?.version}
+          />
+        </div>
+      </div>
     </div>
   );
+};
 
-  render(): JSX.Element {
-    const wrapperClassName = { initialization: true };
-    const innerContent = this.renderContent();
-    const content = (
-      <div className="connect-machine">
-        <div className="top-bar" />
-        {this.renderButtons()}
-        {innerContent}
-      </div>
-    );
-
-    return (
-      <Modal className={wrapperClassName} content={content} />
-    );
-  }
-}
+export default ConnectMachineIp;
