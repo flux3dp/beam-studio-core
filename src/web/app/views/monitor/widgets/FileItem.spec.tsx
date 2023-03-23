@@ -1,94 +1,120 @@
-/* eslint-disable import/first */
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+
+import { MonitorContext } from 'app/contexts/MonitorContext';
+
+import FileItem from './FileItem';
 
 jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 
-import FileItem from './FileItem';
+const mockFileInfo = jest.fn();
+jest.mock('helpers/device-master', () => ({
+  fileInfo: (...args) => mockFileInfo(...args),
+}));
+
+const mockOnHighlightItem = jest.fn();
+const mockOnSelectFile = jest.fn();
+const mockOnDeleteFile = jest.fn();
+
+const mockCreateObjectURL = jest.fn();
+const mockRevokeObjectURL = jest.fn();
 
 describe('should render correctly', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.resetAllMocks();
+    global.URL.createObjectURL = mockCreateObjectURL;
+    global.URL.revokeObjectURL = mockRevokeObjectURL;
   });
 
-  test('fileInfo has NO blob', () => {
-    const onHighlightItem = jest.fn();
-    const onSelectFile = jest.fn();
-    const onDeleteFile = jest.fn();
-    FileItem.contextType = React.createContext({
-      onHighlightItem,
-      onSelectFile,
-      onDeleteFile,
+  it('should render correctly', async () => {
+    const mockData = ['mock-file', { author: 'flux' }, new Blob(['123'])];
+    mockFileInfo.mockResolvedValue(mockData);
+    mockCreateObjectURL.mockReturnValue('mock-url');
+    const { container, rerender } = render(
+      <MonitorContext.Provider value={{
+        onHighlightItem: mockOnHighlightItem,
+        onSelectFile: mockOnSelectFile,
+        onDeleteFile: mockOnDeleteFile,
+        highlightedItem: { name: 'file', type: 'FILE' }
+      } as any}
+      >
+        <FileItem path="path" fileName="file" />
+      </MonitorContext.Provider>
+    );
+    await waitFor(() => {
+      expect(mockFileInfo).toBeCalledTimes(1);
+      expect(mockFileInfo).toHaveBeenLastCalledWith('path', 'file');
+      expect(mockCreateObjectURL).toBeCalledTimes(1);
+      expect(mockCreateObjectURL).toHaveBeenLastCalledWith(mockData[2]);
     });
-    const wrapper = mount(<FileItem
-      fileName="abc.txt"
-      fileInfo={{
-        author: 'flux',
-      }}
-      isSelected
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
+    expect(container.querySelector('img').getAttribute('src')).toEqual('mock-url');
 
-    wrapper.find('div.file').simulate('click');
-    expect(onHighlightItem).toHaveBeenCalledTimes(1);
-    expect(onHighlightItem).toHaveBeenNthCalledWith(1, {
-      name: 'abc.txt',
-      type: 'FILE',
+    rerender(
+      <MonitorContext.Provider value={{
+        onHighlightItem: mockOnHighlightItem,
+        onSelectFile: mockOnSelectFile,
+        onDeleteFile: mockOnDeleteFile,
+        highlightedItem: { name: 'file2', type: 'FILE' }
+      } as any}
+      >
+        <FileItem path="path2" fileName="file2" />
+      </MonitorContext.Provider>
+    );
+
+    const mockData2 = ['mock-file', { author: 'flux' }, new Blob(['456'])];
+    mockFileInfo.mockResolvedValue(mockData);
+    mockCreateObjectURL.mockReturnValue('mock-url2');
+    await waitFor(() => {
+      expect(mockFileInfo).toBeCalledTimes(2);
+      expect(mockFileInfo).toHaveBeenLastCalledWith('path2', 'file2');
+      expect(mockCreateObjectURL).toBeCalledTimes(2);
+      expect(mockCreateObjectURL).toHaveBeenLastCalledWith(mockData2[2]);
+      expect(mockRevokeObjectURL).toBeCalledTimes(1);
+      expect(mockRevokeObjectURL).toHaveBeenLastCalledWith('mock-url');
     });
-
-    wrapper.find('div.file').simulate('doubleclick');
-    expect(onSelectFile).toHaveBeenCalledTimes(1);
-    expect(onSelectFile).toHaveBeenNthCalledWith(1, 'abc.txt', {
-      author: 'flux',
-    });
-
-    wrapper.find('i.fa-times-circle-o').simulate('click');
-    expect(onDeleteFile).toHaveBeenCalledTimes(1);
-
-    const shouldComponentUpdate = wrapper.instance().shouldComponentUpdate({
-      fileName: 'abc.txt',
-      fileInfo: {
-        author: 'flux',
-      },
-      isSelected: true,
-    }, {
-      fileName: 'abc.txt',
-      fileInfo: {
-        author: 'flux',
-      },
-      isSelected: true,
-    });
-    expect(shouldComponentUpdate).toBeTruthy();
+    expect(container).toMatchSnapshot();
+    expect(container.querySelector('img').getAttribute('src')).toEqual('mock-url2');
   });
 
-  test('fileInfo has blob', () => {
-    global.URL.createObjectURL = jest.fn().mockReturnValue('xxx.yyy.zzz');
-    FileItem.contextType = React.createContext({
-      onHighlightItem: jest.fn(),
-      onSelectFile: jest.fn(),
-      onDeleteFile: jest.fn(),
+  test('context events should work', async () => {
+    const mockData = ['mock-file', { author: 'flux' }, new Blob(['123'])];
+    mockFileInfo.mockResolvedValue(mockData);
+    mockCreateObjectURL.mockReturnValue('mock-url');
+    const { container } = render(
+      <MonitorContext.Provider value={{
+        onHighlightItem: mockOnHighlightItem,
+        onSelectFile: mockOnSelectFile,
+        onDeleteFile: mockOnDeleteFile,
+        highlightedItem: { name: 'file', type: 'FILE' }
+      } as any}
+      >
+        <FileItem path="path" fileName="file" />
+      </MonitorContext.Provider>
+    );
+    await waitFor(() => {
+      expect(mockFileInfo).toBeCalledTimes(1);
+      expect(mockFileInfo).toHaveBeenLastCalledWith('path', 'file');
+      expect(mockCreateObjectURL).toBeCalledTimes(1);
+      expect(mockCreateObjectURL).toHaveBeenLastCalledWith(mockData[2]);
     });
-    const fileInfoBlob = new Blob();
-    const wrapper = mount(<FileItem
-      fileName="abcdefghijklm.txt"
-      fileInfo={{
-        author: 'flux',
-        2: fileInfoBlob,
-      }}
-      isSelected={false}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-    expect(global.URL.createObjectURL).toHaveBeenCalledTimes(1);
-    expect(global.URL.createObjectURL).toHaveBeenNthCalledWith(1, fileInfoBlob);
-    expect(wrapper.instance().imgSrc).toBe('xxx.yyy.zzz');
 
-    global.URL.revokeObjectURL = jest.fn();
-    wrapper.instance().revokeImgURL();
-    expect(global.URL.revokeObjectURL).toHaveBeenCalledTimes(1);
-    expect(global.URL.revokeObjectURL).toHaveBeenNthCalledWith(1, 'xxx.yyy.zzz');
-    expect(wrapper.instance().imgSrc).toBeNull();
+    const divContainer = container.querySelector('.container');
+    expect(mockOnHighlightItem).not.toBeCalled();
+    fireEvent.click(divContainer);
+    expect(mockOnHighlightItem).toBeCalledTimes(1);
+    expect(mockOnHighlightItem).toHaveBeenLastCalledWith({ name: 'file', type: 'FILE' });
+
+    expect(mockOnSelectFile).not.toBeCalled();
+    fireEvent.doubleClick(divContainer);
+    expect(mockOnSelectFile).toBeCalledTimes(1);
+    expect(mockOnSelectFile).toHaveBeenLastCalledWith('file', mockData);
+
+    const icon = container.querySelector('i');
+    expect(mockOnDeleteFile).not.toBeCalled();
+    fireEvent.click(icon);
+    expect(mockOnDeleteFile).toBeCalledTimes(1);
   });
 });

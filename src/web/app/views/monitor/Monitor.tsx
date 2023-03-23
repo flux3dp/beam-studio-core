@@ -26,9 +26,7 @@ const Monitor = (props: Props): JSX.Element => {
     const { currentPath } = context;
     const path = currentPath.join('/');
     return (
-      <MonitorFilelist
-        path={path}
-      />
+      <MonitorFilelist path={path} />
     );
   };
 

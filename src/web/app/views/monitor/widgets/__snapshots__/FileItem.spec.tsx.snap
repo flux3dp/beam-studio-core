@@ -1,80 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly fileInfo has NO blob 1`] = `
-<FileItem
-  fileInfo={
-    Object {
-      "author": "flux",
-    }
-  }
-  fileName="abc.txt"
-  isSelected={true}
->
+exports[`should render correctly should render correctly 1`] = `
+<div>
   <div
-    className="file selected"
-    data-filename="abc.txt"
-    data-test-key="abc.txt"
-    onClick={[Function]}
-    onDoubleClick={[Function]}
-    title="abc.txt"
+    class="container"
+    data-filename="file"
+    data-test-key="file"
+    title="file"
   >
     <div
-      className="image-wrapper"
+      class="img-container selected"
     >
       <img
-        onError={[Function]}
-        src="img/ph_s.png"
+        src="mock-url"
       />
       <i
-        className="fa fa-times-circle-o selected"
-        onClick={[MockFunction]}
+        class="fa fa-times-circle-o"
       />
     </div>
     <div
-      className="name selected"
+      class="name selected"
     >
-      abc.txt
+      file
     </div>
   </div>
-</FileItem>
+</div>
 `;
 
-exports[`should render correctly fileInfo has blob 1`] = `
-<FileItem
-  fileInfo={
-    Object {
-      "2": Blob {},
-      "author": "flux",
-    }
-  }
-  fileName="abcdefghijklm.txt"
-  isSelected={false}
->
+exports[`should render correctly should render correctly 2`] = `
+<div>
   <div
-    className="file"
-    data-filename="abcdefghijklm.txt"
-    data-test-key="abcdefghijklm.txt"
-    onClick={[Function]}
-    onDoubleClick={[Function]}
-    title="abcdefghijklm.txt"
+    class="container"
+    data-filename="file2"
+    data-test-key="file2"
+    title="file2"
   >
     <div
-      className="image-wrapper"
+      class="img-container selected"
     >
       <img
-        onError={[Function]}
-        src="xxx.yyy.zzz"
+        src="mock-url2"
       />
       <i
-        className="fa fa-times-circle-o"
-        onClick={[MockFunction]}
+        class="fa fa-times-circle-o"
       />
     </div>
     <div
-      className="name"
+      class="name selected"
     >
-      abcdefghijkl...
+      file2
     </div>
   </div>
-</FileItem>
+</div>
 `;
