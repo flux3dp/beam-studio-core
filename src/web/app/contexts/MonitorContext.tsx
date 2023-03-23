@@ -92,10 +92,10 @@ interface State {
 
 interface Context extends State {
   onClose: () => void;
-  onNavigationBtnClick: () => void;
   onHighlightItem: (item: { name: string, type: ItemType }) => void;
   onSelectFolder: (folderName: string, absolute?: boolean) => void;
   onSelectFile: (fileName: string, fileInfo: any) => Promise<void>;
+  uploadFile: (file: File) => Promise<void>;
   setShouldUpdateFileList: (val: boolean) => void;
   onDeleteFile: () => void;
   onMaintainMoveStart: () => void;
@@ -527,43 +527,6 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     });
   };
 
-  /**
-   * @deprecated The method should not be used
-   */
-  onNavigationBtnClick = (): void => {
-    const {
-      mode, currentPath, previewTask, report,
-    } = this.state;
-    if (mode === Mode.FILE) {
-      if (currentPath.length > 0) {
-        currentPath.pop();
-        this.setState({
-          currentPath,
-          highlightedItem: {},
-        });
-      } else if (previewTask) {
-        console.log(previewTask.taskImageURL);
-        this.setState({
-          mode: Mode.PREVIEW,
-          taskImageURL: previewTask.taskImageURL,
-          taskTime: previewTask.taskTime,
-        });
-      }
-    } else if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW) {
-      this.setState({
-        mode: Mode.FILE,
-        fileInfo: null,
-        highlightedItem: {},
-      });
-    } else if (mode === Mode.CAMERA) {
-      this.toggleCamera();
-    } else if (mode === Mode.CAMERA_RELOCATE) {
-      this.endRelocate();
-    } else if (mode === Mode.WORKING && MonitorStatus.isAbortedOrCompleted(report)) {
-      DeviceMaster.quit();
-    }
-  };
-
   onHighlightItem = (item: { name: string, type: ItemType }): void => {
     const { highlightedItem } = this.state;
     if (!highlightedItem
@@ -622,75 +585,78 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     this.setState({ shouldUpdateFileList: val });
   };
 
-  onUpload = async (e: React.ChangeEvent): Promise<void> => {
-    const fileElem = e.target as HTMLInputElement;
-    if (fileElem.files.length > 0) {
-      const doesFileExistInDirectory = async (path: string, fileName: string) => {
-        const name = fileName.replace('.gcode', '.fc');
-        try {
-          const res = await DeviceMaster.fileInfo(path, name);
-          if (!res.error || res.error.length === 0) {
-            console.log(res.error, res.error.length === 0);
-            return true;
-          }
-          return false;
-        } catch (error) {
-          return false;
-        }
-      };
-      const { currentPath } = this.state;
-      const path = currentPath.join('/');
-      const fileToBeUpload = fileElem.files[0];
-      const fileExist = await doesFileExistInDirectory(path, fileToBeUpload.name.replace(/ /g, '_'));
+  private doesFileExistInDirectory = async (path: string, fileName: string) => {
+    const name = fileName.replace('.gcode', '.fc');
+    try {
+      const res = await DeviceMaster.fileInfo(path, name);
+      if (!res.error || res.error.length === 0) {
+        console.log(res.error, res.error.length === 0);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  };
 
-      const doUpload = (file: File) => {
-        this.setState({ uploadProgress: 0 });
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onload = async () => {
-          const fileInfo = file.name.split('.');
-          const ext = fileInfo[fileInfo.length - 1];
-          let type;
-          let isValid = false;
-
-          if (ext === 'fc') {
-            type = { type: 'application/fcode' };
-            isValid = true;
-          } else if (ext === 'gcode') {
-            type = { type: 'text/gcode' };
-            isValid = true;
-          }
-
-          if (isValid) {
-            const blob = new Blob([reader.result], type);
-
-            await DeviceMaster.uploadToDirectory(blob, path, file.name, (progress: IProgress) => {
-              const p = Math.floor((progress.step / progress.total) * 100);
-              this.setState({ uploadProgress: p });
-            });
-
-            this.setState({ uploadProgress: null });
-            this.setShouldUpdateFileList(true);
-          } else {
-            Alert.popUp({
-              type: AlertConstants.SHOW_POPUP_INFO,
-              message: LANG.monitor.extensionNotSupported,
-            });
-          }
-        };
-      };
-
-      if (fileExist) {
+  uploadFile = async (file: File): Promise<void> => {
+    const { currentPath } = this.state;
+    const path = currentPath.join('/');
+    const fileExist = await this.doesFileExistInDirectory(path, file.name.replace(/ /g, '_'));
+    if (fileExist) {
+      const res = await new Promise((resolve) => {
         Alert.popUp({
           type: AlertConstants.SHOW_POPUP_INFO,
           message: LANG.monitor.fileExistContinue,
           buttonType: AlertConstants.YES_NO,
-          onYes: () => doUpload(fileToBeUpload),
+          onYes: () => resolve(true),
+          onNo: () => resolve(false),
         });
-      } else {
-        doUpload(fileToBeUpload);
-      }
+      });
+      if (!res) return;
     }
+
+    this.setState({ uploadProgress: 0 });
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = async () => {
+      const fileInfo = file.name.split('.');
+      const ext = fileInfo[fileInfo.length - 1];
+      let type;
+      let isValid = false;
+
+      if (ext === 'fc') {
+        type = { type: 'application/fcode' };
+        isValid = true;
+      } else if (ext === 'gcode') {
+        type = { type: 'text/gcode' };
+        isValid = true;
+      }
+
+      if (isValid) {
+        const blob = new Blob([reader.result], type);
+        await DeviceMaster.uploadToDirectory(blob, path, file.name, (progress: IProgress) => {
+          const p = Math.floor((progress.step / progress.total) * 100);
+          this.setState({ uploadProgress: p });
+        });
+
+        this.setState({ uploadProgress: null });
+        this.setShouldUpdateFileList(true);
+      } else {
+        Alert.popUp({
+          type: AlertConstants.SHOW_POPUP_INFO,
+          message: LANG.monitor.extensionNotSupported,
+        });
+      }
+    };
+  };
+
+  showUploadDialog = async (): Promise<void> => {
+    const file = await dialog.getFileFromDialog({
+      filters: [{ name: 'task', extensions: ['fc'] }],
+    }) as File;
+    if (!file) return;
+    this.uploadFile(file);
   };
 
   onDownload = async (): Promise<void> => {
@@ -800,11 +766,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   render(): JSX.Element {
     const { onClose, children } = this.props;
     const {
-      onNavigationBtnClick,
       onHighlightItem,
       onSelectFolder,
       onSelectFile,
       setShouldUpdateFileList,
+      uploadFile,
       onDeleteFile,
       onPlay,
       onPause,
@@ -818,11 +784,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         value={{
           onClose,
           ...this.state,
-          onNavigationBtnClick,
           onHighlightItem,
           onSelectFolder,
           onSelectFile,
           setShouldUpdateFileList,
+          uploadFile,
           onDeleteFile,
           onPlay,
           onPause,

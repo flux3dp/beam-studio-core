@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useRef, useState } from 'react';
+import React, { DragEventHandler, memo, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import DeviceConstants from 'app/constants/device-constants';
@@ -15,11 +15,19 @@ interface Props {
 }
 
 const MonitorFilelist = ({ path }: Props): JSX.Element => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const doUsbExist = useRef<boolean | undefined>(undefined);
   const [contents, setContents] = useState<{ path?: string; directories: string[]; files: string[] }>({
     directories: [], files: []
   });
-  const { shouldUpdateFileList, setShouldUpdateFileList } = useContext(MonitorContext);
+  const { shouldUpdateFileList, setShouldUpdateFileList, uploadFile } = useContext(MonitorContext);
+
+  const preventDefaultEvent: DragEventHandler<HTMLDivElement> = useCallback((e) => e.preventDefault(), []);
+
+  const handleContainerDrop: DragEventHandler<HTMLDivElement> = (e) => {
+    const [file] = e.dataTransfer.files;
+    if (file && file.name.endsWith('.fc')) uploadFile(file);
+  };
 
   const checkUsbDirectoryExistance = async () => {
     try {
@@ -64,7 +72,13 @@ const MonitorFilelist = ({ path }: Props): JSX.Element => {
   return (
     <div>
       <Breadcrumbs />
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        ref={containerRef}
+        onDragEnter={preventDefaultEvent}
+        onDragOver={preventDefaultEvent}
+        onDrop={handleContainerDrop}
+      >
         {contentsPath === path ? directories.map((folder: string) => (
           <DirectoryItem key={`${path}/${folder}`} name={folder} />
         )) : null}

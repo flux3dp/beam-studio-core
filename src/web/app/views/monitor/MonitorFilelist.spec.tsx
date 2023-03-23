@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { MonitorContext } from 'app/contexts/MonitorContext';
 
@@ -26,6 +26,7 @@ jest.mock('helpers/device-master', () => ({
 }));
 
 const mockSetShouldUpdateFileList = jest.fn();
+const mockUploadFile = jest.fn();
 describe('test MonitorFilelist', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -136,5 +137,31 @@ describe('test MonitorFilelist', () => {
       expect(mockPopUpError).toHaveBeenLastCalledWith({ id: 'ls error', message: 'error' });
     });
     expect(container).toMatchSnapshot();
+  });
+
+  test('drop event should work', async () => {
+    mockLs.mockResolvedValueOnce({
+      directories: ['da', 'db', 'dc'],
+      files: ['fa', 'fb', 'fc'],
+    });
+
+    const { container } = render(
+      <MonitorContext.Provider value={{ shouldUpdateFileList: false, uploadFile: mockUploadFile } as any}>
+        <MonitorFilelist path="path" />
+      </MonitorContext.Provider>
+    );
+    await waitFor(() => {
+      expect(mockLs).toBeCalledTimes(1);
+      expect(mockLs).toHaveBeenLastCalledWith('path');
+    });
+    const mockFile1 = new File(['mock-file-1'], 'mock-file.beam');
+    const mockFile2 = new File(['mock-file-2'], 'mock-file.fc');
+    const divContainer = container.querySelector('.container');
+    fireEvent.drop(divContainer, { dataTransfer: { files: [mockFile1] } });
+    expect(mockUploadFile).not.toBeCalled();
+
+    fireEvent.drop(divContainer, { dataTransfer: { files: [mockFile2] } });
+    expect(mockUploadFile).toBeCalledTimes(1);
+    expect(mockUploadFile).toHaveBeenLastCalledWith(mockFile2);
   });
 });
