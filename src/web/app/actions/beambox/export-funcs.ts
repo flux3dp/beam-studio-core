@@ -144,7 +144,9 @@ const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
   svgedit.utilities.moveDefsIntoSvgContent();
   const [thumbnail, thumbnailBlobURL] = await fetchThumbnail();
   svgedit.utilities.moveDefsOutfromSvgContent();
-  Progress.openNonstopProgress({ id: 'retreive-image-data', message: lang.beambox.bottom_right_panel.retreive_image_data });
+  Progress.openNonstopProgress({
+    id: 'retreive-image-data', message: lang.beambox.bottom_right_panel.retreive_image_data,
+  });
   await updateImageResolution(true);
   Progress.popById('retreive-image-data');
   const svgString = svgCanvas.getSvgString();
@@ -206,7 +208,6 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   await svgeditorParser.uploadToSvgeditorAPI([uploadFile], {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
     engraveDpi: BeamboxPreference.read('engrave_dpi'),
-    enableMask: BeamboxPreference.read('enable_mask') || BeamboxPreference.read('borderless'),
     onProgressing: (data) => {
       Progress.update('upload-scene', {
         caption: i18n.lang.beambox.popup.progress.calculating,
