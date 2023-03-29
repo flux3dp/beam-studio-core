@@ -9,6 +9,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
@@ -115,7 +116,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.enableAutoFocus) {
         args.push('-af');
       }
-
       if (opts.enableDiode) {
         args.push('-diode');
         args.push(`${BeamboxPreference.read('diode_offset_x') || 0},${BeamboxPreference.read('diode_offset_y') || 0}`);
@@ -123,27 +123,18 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           args.push('-diode-owe');
         }
       }
-
-      if (opts.shouldUseFastGradient) {
-        args.push('-fg');
+      const isBorderLess = BeamboxPreference.read('borderless')
+        && constant.addonsSupportList.openBottom.includes(opts.model);
+      if (BeamboxPreference.read('enable_mask') || isBorderLess) {
+        args.push('-mask');
+        const clipRect = [0, 0, 0, 0]; // top right bottom left
+        if (isBorderLess) clipRect[1] = constant.borderless.safeDistance.X;
+        args.push(clipRect.join(','));
       }
-
-      if (opts.shouldMockFastGradient) {
-        args.push('-mfg');
-      }
-
-      if (opts.vectorSpeedConstraint) {
-        args.push('-vsc');
-      }
-
-      if (BeamboxPreference.read('stripe_compensation')) {
-        args.push('-strpcom');
-        args.push(`${BeamboxPreference.read('stripe_compensation_y0') || 0},${BeamboxPreference.read('stripe_compensation_interval') || 0},${BeamboxPreference.read('stripe_compensation_power') || 100}`);
-      }
-
-      if (BeamboxPreference.read('reverse-engraving')) {
-        args.push('-rev');
-      }
+      if (opts.shouldUseFastGradient) args.push('-fg');
+      if (opts.shouldMockFastGradient) args.push('-mfg');
+      if (opts.vectorSpeedConstraint) args.push('-vsc');
+      if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) {
@@ -569,9 +560,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             default:
               args.push('-mdpi');
               break;
-          }
-          if (opts.enableMask) {
-            args.push('-mask');
           }
         }
         ws.send(args.join(' '));
