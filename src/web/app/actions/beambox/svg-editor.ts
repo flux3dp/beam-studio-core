@@ -1841,8 +1841,6 @@ const svgEditor = window['svgEditor'] = (function () {
             case 'g':
             case 'use':
               $('#container_panel').show();
-              var title = svgCanvas.getTitle();
-
               if ((el_name === 'use') && ($(elem).attr('data-xform'))) {
                 const location = svgCanvas.getSvgRealLocation(elem);
                 ObjectPanelController.updateDimensionValues({

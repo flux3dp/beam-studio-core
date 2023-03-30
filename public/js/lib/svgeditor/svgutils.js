@@ -1295,7 +1295,7 @@ svgedit.utilities.copyElem = function(el, getNextId) {
  */
 svgedit.utilities.copyElemData = function(elData, getNextId) {
 	// manually create a copy of the element
-	var new_el = document.createElementNS(elData.namespaceURI, elData.nodeName);
+	var new_el = document.createElementNS(elData.namespaceURI, elData.nodeName?.toLowerCase());
 	$.each(elData.attributes, function(i, attr) {
 		new_el.setAttributeNS(attr.namespaceURI, attr.nodeName, attr.value);
 	});
