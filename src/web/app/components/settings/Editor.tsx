@@ -19,6 +19,7 @@ interface Props {
   antiAliasingOptions: { value: any, label: string, selected: boolean }[];
   continuousDrawingOptions: { value: any, label: string, selected: boolean }[];
   simplifyClipperPath: { value: any, label: string, selected: boolean }[];
+  enableLowSpeedOptions: { value: any, label: string, selected: boolean }[];
   updateConfigChange: (id: StorageKey, newVal: any) => void;
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
   updateModel: (selectedModel: WorkAreaModel) => void;
@@ -34,6 +35,7 @@ function Editor({
   antiAliasingOptions,
   continuousDrawingOptions,
   simplifyClipperPath,
+  enableLowSpeedOptions,
   updateConfigChange,
   updateBeamboxPreferenceChange,
   updateModel,
@@ -213,6 +215,12 @@ function Editor({
         url={lang.settings.help_center_urls.simplify_clipper_path}
         options={simplifyClipperPath}
         onChange={(e) => updateBeamboxPreferenceChange('simplify_clipper_path', e.target.value)}
+      />
+      <SelectControl
+        id="set-enable-low-speed"
+        label={lang.settings.enable_low_speed}
+        options={enableLowSpeedOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('enable-low-speed', e.target.value)}
       />
     </>
   );
