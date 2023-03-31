@@ -70,7 +70,7 @@ export default {
   UNLOAD_FILAMENT: 'UNLOAD',
   WORKAREA_IN_MM: {
     fhexa1: {
-      maxX: 730,
+      maxX: 750,
       maxY: 410,
     },
     fbb1p: {
@@ -90,7 +90,7 @@ export default {
       maxY: 210,
     },
     'laser-b2': {
-      maxX: 730,
+      maxX: 750,
       maxY: 410,
     },
   },
