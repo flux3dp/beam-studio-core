@@ -29,7 +29,7 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d };
   }, []);
-  const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
+  const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 450;
 
   const hasVector = doLayersContainsVector(layerNames);
 
