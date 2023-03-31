@@ -25,7 +25,7 @@ WorkareaMap.set('fbb1p', {
 });
 WorkareaMap.set('fhexa1', {
   label: 'HEXA',
-  width: 7300,
+  width: 7500,
   height: 4100,
 });
 
