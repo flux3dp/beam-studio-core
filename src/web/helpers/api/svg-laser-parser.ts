@@ -88,7 +88,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-acc', accel);
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
-      // else if (opts.model === 'ador') args.push('-ador');
+      else if (opts.model === 'ador') args.push('-ador');
 
       if (opts.codeType === 'gcode') {
         args.push('-gc');
@@ -518,7 +518,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          // else if (opts.model === 'ador') args.push('-ador');
+          else if (opts.model === 'ador') args.push('-ador');
 
           switch (opts.engraveDpi) {
             case 'low':

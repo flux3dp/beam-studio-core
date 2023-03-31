@@ -34,7 +34,7 @@ import { ILayerConfig } from 'interfaces/ILayerConfig';
 import AutoFocus from './LaserPanel/AutoFocus';
 import ConfigOperations from './LaserPanel/ConfigOperations';
 import Diode from './LaserPanel/Diode';
-// import LayerType from './LaserPanel/LayerType';
+import LayerType from './LaserPanel/LayerType';
 import PowerBlock from './LaserPanel/PowerBlock';
 import RepeatBlock from './LaserPanel/RepeatBlock';
 import SpeedBlock from './LaserPanel/SpeedBlock';
@@ -450,7 +450,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             />
             {this.renderAddPresetButton()}
           </div>
-          {/* <LayerType value={type.value} onChange={this.handleLayerTypeChange} /> */}
+          <LayerType value={type.value} onChange={this.handleLayerTypeChange} />
           <PowerBlock power={power} onChange={this.handleStrengthChange} />
           <SpeedBlock
             layerNames={selectedLayers}
