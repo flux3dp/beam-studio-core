@@ -107,22 +107,6 @@ const funcs = {
     };
   },
 
-  getCurrentLayerData() {
-    const drawing = svgCanvas.getCurrentDrawing();
-    const currentLayer = drawing.getCurrentLayer();
-    const layerData = {
-      speed: currentLayer.getAttribute('data-speed'),
-      power: currentLayer.getAttribute('data-strength'),
-      repeat: currentLayer.getAttribute('data-repeat'),
-      height: currentLayer.getAttribute('data-height'),
-      zStep: currentLayer.getAttribute('data-zstep'),
-      isDiode: currentLayer.getAttribute('data-diode'),
-      configName: currentLayer.getAttribute('data-configName'),
-    };
-
-    return layerData;
-  },
-
   // top menu
   groupSelected(): void {
     svgCanvas.groupSelectedElements();

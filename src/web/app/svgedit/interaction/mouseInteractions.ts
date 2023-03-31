@@ -2,7 +2,7 @@
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
-import * as LayerHelper from 'helpers/layer-helper';
+import * as LayerHelper from 'helpers/layer/layer-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';

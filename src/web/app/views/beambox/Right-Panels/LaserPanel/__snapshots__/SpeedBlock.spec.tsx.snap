@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    >
+      speed
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        speed
+      </p>
+      <p>
+        min: 
+        1
+      </p>
+      <p>
+        max: 
+        300
+      </p>
+      <p>
+        unit: 
+        mm/s
+      </p>
+      <p>
+        defaultValue: 
+        87
+      </p>
+      <p>
+        decimal: 
+        1
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <input
+      class="speed-for-vector"
+      id="speed_value"
+      max="300"
+      min="1"
+      step="1"
+      type="range"
+      value="87"
+    />
+    <div
+      class="warning"
+    >
+      <div
+        class="warning-icon"
+      >
+        !
+      </div>
+      <div
+        class="warning-text"
+      >
+        speed_contrain_warning
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    >
+      speed
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        speed
+      </p>
+      <p>
+        min: 
+        1
+      </p>
+      <p>
+        max: 
+        300
+      </p>
+      <p>
+        unit: 
+        in/s
+      </p>
+      <p>
+        defaultValue: 
+        87
+      </p>
+      <p>
+        decimal: 
+        2
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <input
+      class=""
+      id="speed_value"
+      max="300"
+      min="1"
+      step="1"
+      type="range"
+      value="87"
+    />
+  </div>
+</div>
+`;
+
+exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    >
+      speed
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        speed
+      </p>
+      <p>
+        min: 
+        1
+      </p>
+      <p>
+        max: 
+        300
+      </p>
+      <p>
+        unit: 
+        mm/s
+      </p>
+      <p>
+        defaultValue: 
+        87
+      </p>
+      <p>
+        decimal: 
+        1
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <input
+      class=""
+      id="speed_value"
+      max="300"
+      min="1"
+      step="1"
+      type="range"
+      value="87"
+    />
+  </div>
+</div>
+`;

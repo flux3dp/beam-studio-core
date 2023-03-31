@@ -4,7 +4,7 @@ import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { initLayerConfig } from 'helpers/laser-config-helper';
+import { initLayerConfig } from 'helpers/layer/layer-config-helper';
 
 let svgCanvas;
 let svgEditor;

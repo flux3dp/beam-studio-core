@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Diode should render correctly 1`] = `
+<div>
+  <div
+    class="panel checkbox"
+  >
+    <span
+      class="title"
+    >
+      diode
+    </span>
+    <input
+      checked=""
+      readonly=""
+      type="checkbox"
+    />
+  </div>
+</div>
+`;

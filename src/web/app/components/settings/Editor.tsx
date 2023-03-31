@@ -108,6 +108,11 @@ function Editor({
       label: 'HEXA',
       selected: selectedModel === 'fhexa1',
     },
+    // {
+    //   value: 'ador',
+    //   label: 'Ador',
+    //   selected: selectedModel === 'ador',
+    // },
   ];
 
   return (

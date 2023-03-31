@@ -1,6 +1,6 @@
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
-import { cloneLayerConfig } from 'helpers/laser-config-helper';
+import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 
@@ -175,7 +175,9 @@ export const mergeLayer = (
 ) : IBatchCommand => {
   const baseLayer = getLayerElementByName(baseLayerName);
   if (baseLayer) {
-    const firstChildOfBase = Array.from(baseLayer.childNodes).find((node: Element) => !['title', 'filter'].includes(node.tagName));
+    const firstChildOfBase = Array.from(baseLayer.childNodes).find(
+      (node: Element) => !['title', 'filter'].includes(node.tagName)
+    );
     const batchCmd: IBatchCommand = new history.BatchCommand(`Merge into ${baseLayer}`);
     for (let i = 0; i < layersToBeMerged.length; i += 1) {
       const layer = getLayerElementByName(layersToBeMerged[i]);

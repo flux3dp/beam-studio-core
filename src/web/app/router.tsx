@@ -17,7 +17,6 @@ import GoogleOAuth from 'app/pages/GoogleOAuth';
 import Home from 'app/pages/Home';
 import Settings from 'app/pages/Settings';
 import SelectConnectionType from 'app/pages/SelectConnectionType';
-import SkipConnectMachine from 'app/pages/SkipConnectMachine';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
 import { DialogContextProvider } from 'app/contexts/DialogContext';
 import { StyleProvider } from '@ant-design/cssinjs';
@@ -72,7 +71,6 @@ const App = (): JSX.Element => {
                 <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
                 <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
                 <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
-                <Route exact path="/initialize/connect/skip-connect-machine" component={SkipConnectMachine} />
                 <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
                 <Route exact path="/studio/settings" component={Settings} />
                 <Route exact path="/studio/beambox" component={Beambox} />

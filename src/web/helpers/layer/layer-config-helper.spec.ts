@@ -1,0 +1,125 @@
+import {
+  cloneLayerConfig,
+  DataType,
+  getLayerConfig,
+  getLayersConfig,
+  initLayerConfig,
+  writeData,
+} from './layer-config-helper';
+
+test('test laser-config-helper', () => {
+  expect(getLayerConfig('layer 0')).toBeNull();
+
+  document.body.innerHTML = `
+    <g class="layer"></g>
+    <g class="layer"><title>layer 1</title></g>
+    <g class="layer"><title>layer 2</title></g>
+    <g class="layer"><title>layer 3</title></g>
+  `;
+  initLayerConfig('layer 1');
+  expect(getLayerConfig('layer 1')).toEqual({
+    speed: { value: 20 },
+    power: { value: 15 },
+    repeat: { value: 1 },
+    height: { value: -3 },
+    zStep: { value: 0 },
+    diode: { value: 0 },
+    configName: { value: '' },
+    type: { value: 1 },
+  });
+
+  writeData('layer 1', DataType.zstep, 1);
+  expect(getLayerConfig('layer 1')).toEqual({
+    speed: { value: 20 },
+    power: { value: 15 },
+    repeat: { value: 1 },
+    height: { value: -3 },
+    zStep: { value: 1 },
+    diode: { value: 0 },
+    configName: { value: '' },
+    type: { value: 1 },
+  });
+
+  cloneLayerConfig('layer 2', 'layer 0');
+  expect(getLayerConfig('layer 2')).toEqual({
+    speed: { value: 20 },
+    power: { value: 15 },
+    repeat: { value: 1 },
+    height: { value: -3 },
+    zStep: { value: 0 },
+    diode: { value: 0 },
+    configName: { value: '' },
+    type: { value: 1 },
+  });
+
+  cloneLayerConfig('layer 3', 'layer 1');
+  expect(getLayerConfig('layer 3')).toEqual({
+    speed: { value: 20 },
+    power: { value: 15 },
+    repeat: { value: 1 },
+    height: { value: -3 },
+    zStep: { value: 1 },
+    diode: { value: 0 },
+    configName: { value: '' },
+    type: { value: 1 },
+  });
+
+  expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: -3, hasMultiValue: false },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 0, hasMultiValue: false },
+    configName: { value: '', hasMultiValue: false },
+    type: { value: 1, hasMultiValue: false },
+  });
+
+  writeData('layer 1', DataType.diode, 1);
+  writeData('layer 1', DataType.height, -1);
+  expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: -1, hasMultiValue: true },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 1, hasMultiValue: true },
+    configName: { value: '', hasMultiValue: false },
+    type: { value: 1, hasMultiValue: false },
+  });
+
+  writeData('layer 1', DataType.height, 1);
+  expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: 1, hasMultiValue: true },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 1, hasMultiValue: true },
+    configName: { value: '', hasMultiValue: false },
+    type: { value: 1, hasMultiValue: false },
+  });
+
+  writeData('layer 1', DataType.type, 2);
+  expect(getLayerConfig('layer 1')).toEqual({
+    speed: { value: 20 },
+    power: { value: 15 },
+    repeat: { value: 1 },
+    height: { value: 1 },
+    zStep: { value: 1 },
+    diode: { value: 1 },
+    configName: { value: '' },
+    type: { value: 2 },
+  });
+
+  expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: 1, hasMultiValue: true },
+    zStep: { value: 1, hasMultiValue: true },
+    diode: { value: 1, hasMultiValue: true },
+    configName: { value: '', hasMultiValue: false },
+    type: { value: 2, hasMultiValue: true },
+  });
+});
