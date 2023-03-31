@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import history from 'app/svgedit/history';
-import selector from 'app/svgedit/selector';
 import symbolMaker from 'helpers/symbol-maker';
+import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -32,8 +32,6 @@ const serializeElement = (el: Element) => {
     innerHTML,
     nodeType,
     nodeValue,
-    dataGSVG: $.data(el, 'gsvg'),
-    dataSymbol: $.data(el, 'symbol'),
     childNodes: [],
     attributes: [],
   };
@@ -52,108 +50,50 @@ const serializeElement = (el: Element) => {
 };
 
 // TODO: decouple with svgcanvas
-
 const { svgedit } = window;
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
-let clipboard;
+let clipboard: Element[];
+let refClipboard: { [useId: string]: Element };
 
-const cutElements = async (elems: Element[]): Promise<void> => {
-  const selectorManager = selector.getSelectorManager();
-  const batchCmd = new history.BatchCommand('Cut Elements');
-  const len = elems.length;
-  const selectedCopy = []; // elems is being deleted
-  const serializedData = [];
-  const layerDict = {};
-  let layerCount = 0;
-  let clipBoardText = 'BS Cut: ';
-
-  for (let i = 0; i < len && elems[i]; i += 1) {
-    const elem = elems[i];
-
-    const layerName = $(elem.parentNode).find('title').text();
-    elem.setAttribute('data-origin-layer', layerName);
-
-    clipBoardText += `${elem.getAttribute('id')}, `;
-    if (!layerDict[layerName]) {
-      layerDict[layerName] = true;
-      layerCount += 1;
-    }
-
-    // this will unselect the element and remove the selectedOutline
-    selectorManager.releaseSelector(elem);
-
-    // Remove the path if present.
-    // eslint-disable-next-line no-underscore-dangle
-    svgedit.path.removePath_(elem.id);
-
-    const { nextSibling } = elem;
-    const parent = elem.parentNode;
-    parent.removeChild(elem);
-    selectedCopy.push(elem); // for the copy
-    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
-  }
-
-  // If there is only one layer selected, don't force user to paste on the same layer
-  if (layerCount === 1) {
-    for (let i = 0; i < selectedCopy.length; i += 1) {
-      selectedCopy[i].removeAttribute('data-origin-layer');
-      serializedData.push(serializeElement(selectedCopy[i]));
-    }
-  }
-  try {
-    clipBoardText = JSON.stringify(serializedData);
-    await navigator.clipboard.writeText(clipBoardText);
-    // console.log('Write to clipboard was successful!', clipBoardText);
-  } catch (err) {
-    console.error('Async: Could not copy text: ', err);
-  }
-
-  if (!batchCmd.isEmpty()) {
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-  }
-  svgCanvas.call('changed', selectedCopy);
-  svgCanvas.clearSelection();
-
-  clipboard = selectedCopy;
-};
-
-const cutSelectedElements = async (): Promise<void> => {
-  const selectedElems = svgCanvas.getSelectedWithoutTempGroup();
-  await cutElements(selectedElems);
+const addRefToClipboard = (useElement: SVGUseElement) => {
+  const symbolId = svgedit.utilities.getHref(useElement);
+  let symbolElement = document.querySelector(symbolId);
+  symbolElement = document.getElementById(symbolElement?.getAttribute('data-origin-symbol')) || symbolElement;
+  if (symbolElement) refClipboard[symbolId] = symbolElement;
 };
 
 const copyElements = async (elems: Element[]): Promise<void> => {
-  const layerDict = {};
-  const serializedData = [];
+  const layerNames = new Set<string>();
+  const serializedData = { elements: [], refs: {} };
   let layerCount = 0;
-  let clipBoardText = 'BS Copy: ';
-  for (let i = 0; i < elems.length && elems[i]; i += 1) {
+  refClipboard = {};
+  for (let i = 0; i < elems.length; i += 1) {
     const elem = elems[i];
     const layerName = $(elem.parentNode).find('title').text();
     elem.setAttribute('data-origin-layer', layerName);
-    clipBoardText += `${elem.getAttribute('id')}, `;
-    if (!layerDict[layerName]) {
-      layerDict[layerName] = true;
+    if (elem.tagName === 'use') addRefToClipboard(elem as SVGUseElement);
+    else Array.from(elem.querySelectorAll('use')).forEach((use: SVGUseElement) => addRefToClipboard(use));
+    if (!layerNames.has(layerName)) {
+      layerNames.add(layerName);
       layerCount += 1;
     }
   }
 
   // If there is only one layer selected, don't force user to paste on the same layer
-  if (layerCount === 1) {
-    for (let i = 0; i < elems.length; i += 1) {
-      if (elems[i]) {
-        elems[i].removeAttribute('data-origin-layer');
-        serializedData.push(serializeElement(elems[i]));
-      }
-    }
+  if (layerCount === 1) elems.forEach((elem) => elem?.removeAttribute('data-origin-layer'));
+  elems.forEach((elem) => serializedData.elements.push(serializeElement(elem)));
+  const keys = Object.keys(refClipboard);
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    serializedData.refs[key] = serializeElement(refClipboard[key]);
   }
   clipboard = [...elems];
   try {
-    clipBoardText = JSON.stringify(serializedData);
-    await navigator.clipboard.writeText(clipBoardText);
+    const clipBoardText = JSON.stringify(serializedData);
+    await navigator.clipboard.writeText(`BX clip:${clipBoardText}`);
     // console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
     console.error('Async: Could not copy text: ', err);
@@ -166,50 +106,66 @@ const copySelectedElements = async (): Promise<void> => {
   svgCanvas.tempGroupSelectedElements();
 };
 
-const copyRef = (useElement: SVGUseElement) => {
-  const updateSymbolStyle = (symbol: SVGSymbolElement, oldId: string) => {
-    const styles = symbol.querySelectorAll('style');
-    for (let i = 0; i < styles.length; i += 1) {
-      const style = styles[i];
-      const { textContent } = style;
-      const newContent = textContent.replace(RegExp(oldId, 'g'), symbol.id);
-      style.textContent = newContent;
-    }
-  };
+const cutElements = async (elems: Element[]): Promise<void> => {
+  const batchCmd = new history.BatchCommand('Cut Elements');
+  await copyElements(elems);
+  const cmd = deleteElements(elems, true);
+  if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+  if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+};
 
-  const drawing = svgCanvas.getCurrentDrawing();
-  const refId = svgCanvas.getHref(useElement);
-  const refElement = document.querySelector(refId);
-  const copiedRef: SVGSymbolElement = refElement.cloneNode(true);
-  refElement.parentNode.appendChild(copiedRef);
-  const originalSymbolId = copiedRef.getAttribute('data-origin-symbol');
-  const imageSymbolId = copiedRef.getAttribute('data-image-symbol');
-  if (originalSymbolId && document.getElementById(originalSymbolId)) {
-    // copied ref is image symbol, need to copy original symbol as well
-    const originalSymbol = document.getElementById(originalSymbolId);
-    const copiedOriginalSymbol = originalSymbol.cloneNode(true) as SVGSymbolElement;
-    originalSymbol.parentNode.appendChild(copiedOriginalSymbol);
-    copiedOriginalSymbol.id = drawing.getNextId();
-    updateSymbolStyle(copiedOriginalSymbol, originalSymbol.id);
-    copiedRef.id = `${copiedOriginalSymbol.id}_image`;
-    copiedRef.setAttribute('data-origin-symbol', copiedOriginalSymbol.id);
-    copiedOriginalSymbol.setAttribute('data-image-symbol', copiedRef.id);
-  } else if (imageSymbolId && document.getElementById(imageSymbolId)) {
-    // copied ref is origin symbol, need to copy image symbol as well
-    const imageSymbol = document.getElementById(imageSymbolId);
-    const copiedImageSymbol = imageSymbol.cloneNode(true) as Element;
-    imageSymbol.parentNode.appendChild(copiedImageSymbol);
-    copiedRef.id = drawing.getNextId();
-    updateSymbolStyle(copiedRef, refId);
-    copiedImageSymbol.id = `${copiedRef.id}_image`;
-    copiedRef.setAttribute('data-image-symbol', copiedImageSymbol.id);
-    copiedImageSymbol.setAttribute('data-origin-symbol', copiedRef.id);
-  } else {
-    copiedRef.id = drawing.getNextId();
-    updateSymbolStyle(copiedRef, refId);
+const cutSelectedElements = async (): Promise<void> => {
+  const selectedElems = svgCanvas.getSelectedWithoutTempGroup();
+  await cutElements(selectedElems);
+};
+
+const updateSymbolStyle = (symbol: SVGSymbolElement, oldId: string) => {
+  const styles = symbol.querySelectorAll('style, STYLE');
+  for (let i = 0; i < styles.length; i += 1) {
+    const style = styles[i];
+    const { textContent } = style;
+    const newContent = textContent.replace(RegExp(oldId, 'g'), symbol.id);
+    style.textContent = newContent;
   }
+};
+
+const applyNativeClipboard = async () => {
+  const clipboardData = await navigator.clipboard.readText();
+  if (!clipboardData.startsWith('BX clip:')) return;
+  const drawing = svgCanvas.getCurrentDrawing();
+  const data = JSON.parse(clipboardData.substring(8));
+  const { elements, refs } = data;
+  refClipboard = {};
+  const keys = Object.keys(refs);
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    const symbolElemData = refs[key];
+    const id = symbolElemData.attributes.find((attr) => attr.nodeName === 'id')?.value;
+    const newSymbol = drawing.copyElemData(symbolElemData);
+    updateSymbolStyle(newSymbol, id);
+    refClipboard[key] = newSymbol;
+  }
+  const newClipBoard = [];
+  for (let i = 0; i < elements.length; i += 1) {
+    const element = elements[i];
+    newClipBoard.push(drawing.copyElemData(element));
+  }
+};
+
+const pasteRef = (useElement: SVGUseElement) => {
+  const drawing = svgCanvas.getCurrentDrawing();
+  const symbolId = svgedit.utilities.getHref(useElement);
+  const refElement = refClipboard[symbolId];
+  const copiedRef = refElement.cloneNode(true) as SVGSymbolElement;
+  copiedRef.id = drawing.getNextId();
+  copiedRef.setAttribute('data-image-symbol', `${copiedRef.id}_image`);
+  updateSymbolStyle(copiedRef, refElement.id);
+  const defs = svgedit.utilities.findDefs();
+  defs.appendChild(copiedRef);
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
-  symbolMaker.reRenderImageSymbol(useElement);
+  symbolMaker.reRenderImageSymbol(useElement).then(() => {
+    svgCanvas.updateElementColor(useElement);
+  });
 };
 
 const pasteElements = (
@@ -217,10 +173,8 @@ const pasteElements = (
   x?: number,
   y?: number,
   isSubCmd = false,
-): { cmd: IBatchCommand, elems: Element[] } => {
-  if (!clipboard || !clipboard.length) {
-    return null;
-  }
+): { cmd: IBatchCommand, elems: Element[] } | null => {
+  if (!clipboard || !clipboard.length) return null;
 
   const pasted = [];
   const batchCmd = new history.BatchCommand('Paste elements');
@@ -254,8 +208,8 @@ const pasteElements = (
       const newPath = copy.querySelector('path');
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
-    if (copy.tagName === 'use') copyRef(copy);
-    else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => copyRef(use));
+    if (copy.tagName === 'use') pasteRef(copy);
+    else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => pasteRef(use));
 
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
     svgCanvas.restoreRefElems(copy);
@@ -305,11 +259,13 @@ const pasteElements = (
  * @param dx dx of the cloned elements
  * @param dy dy of the cloned elements
  */
-const cloneSelectedElements = (dx: number, dy: number, isSubCmd = false): IBatchCommand => {
+const cloneSelectedElements = (dx: number, dy: number, isSubCmd = false): IBatchCommand | null => {
   const originalClipboard = clipboard ? [...clipboard] : null;
   const batchCmd = new history.BatchCommand('Clone elements');
   copySelectedElements();
-  let { cmd } = pasteElements('in_place', null, null, true);
+  const pasteRes = pasteElements('in_place', null, null, true);
+  if (!pasteRes) return null;
+  let { cmd } = pasteRes;
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
   }
@@ -330,85 +286,13 @@ const pasteFromNativeClipboard = async (
   x?: number,
   y?: number,
   isSubCmd = false,
-): Promise<{ cmd: IBatchCommand, elems: Element[] }> => {
+): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
   if (clipboard?.length) {
     return pasteElements(type, x, y, isSubCmd);
   }
-  const pasted = [];
-  const batchCmd = new history.BatchCommand('Paste elements');
-  const drawing = svgCanvas.getCurrentDrawing();
-  const clipText = await navigator.clipboard.readText();
-  if (!clipText.startsWith('[{')) return;
-  const deserializedData = JSON.parse(clipText);
-
-  // Move elements to lastClickPoint
-  for (let i = 0; i < deserializedData.length; i += 1) {
-    const elemData = deserializedData[i];
-    const copy = drawing.copyElemData(elemData);
-
-    // See if elem with elem ID is in the DOM already
-    if (!svgedit.utilities.getElem(elemData.id)) {
-      copy.id = elemData.id;
-    }
-
-    pasted.push(copy);
-    if (copy.getAttribute('data-origin-layer') && clipboard.length > 1) {
-      const layer = drawing.getLayerByName(copy.getAttribute('data-origin-layer'))
-        || drawing.getCurrentLayer();
-      layer.appendChild(copy);
-    } else {
-      drawing.getCurrentLayer().appendChild(copy);
-    }
-
-    if (copy.getAttribute('data-textpath-g') === '1') {
-      const newTextPath = copy.querySelector('textPath');
-      const newPath = copy.querySelector('path');
-      newTextPath?.setAttribute('href', `#${newPath?.id}`);
-    }
-    if (copy.tagName === 'use') copyRef(copy);
-    else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => copyRef(use));
-
-    batchCmd.addSubCommand(new history.InsertElementCommand(copy));
-    svgCanvas.restoreRefElems(copy);
-    svgCanvas.updateElementColor(copy);
-  }
-
-  svgCanvas.selectOnly(pasted, true);
-
-  if (type !== 'in_place') {
-    let ctrX: number;
-    let ctrY: number;
-
-    if (type === 'mouse') {
-      const lastClickPoint = svgCanvas.getLastClickPoint();
-      ctrX = lastClickPoint.x;
-      ctrY = lastClickPoint.y;
-    } else if (type === 'point') {
-      ctrX = x;
-      ctrY = y;
-    }
-
-    const bbox = svgCanvas.getStrokedBBox(pasted);
-    const cx = ctrX - (bbox.x + bbox.width / 2);
-    const cy = ctrY - (bbox.y + bbox.height / 2);
-    const dx = [];
-    const dy = [];
-
-    pasted.forEach(() => {
-      dx.push(cx);
-      dy.push(cy);
-    });
-
-    const cmd = moveSelectedElements(dx, dy, false);
-    batchCmd.addSubCommand(cmd);
-  }
-
-  if (!isSubCmd) {
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    svgCanvas.call('changed', pasted);
-  }
-  svgCanvas.tempGroupSelectedElements();
-  return { cmd: batchCmd, elems: pasted };
+  await applyNativeClipboard();
+  if (!clipboard?.length) return null;
+  return pasteElements(type, x, y, isSubCmd);
 };
 
 const generateSelectedElementArray = (
@@ -422,25 +306,21 @@ const generateSelectedElementArray = (
   for (let i = 0; i < arraySize.column; i += 1) {
     for (let j = 0; j < arraySize.row; j += 1) {
       if (i !== 0 || j !== 0) {
-        const { cmd: pasteCmd, elems } = pasteElements('in_place', null, null, true);
+        const pasteRes = pasteElements('in_place', null, null, true);
+        // eslint-disable-next-line no-continue
+        if (!pasteRes) continue;
+        const { cmd: pasteCmd, elems } = pasteRes;
         arrayElements.push(...elems);
-        if (pasteCmd && !pasteCmd.isEmpty()) {
-          batchCmd.addSubCommand(pasteCmd);
-        }
+        if (pasteCmd && !pasteCmd.isEmpty()) batchCmd.addSubCommand(pasteCmd);
         const moveCmd = moveSelectedElements([i * interval.dx], [j * interval.dy], false);
-        if (moveCmd && !moveCmd.isEmpty()) {
-          batchCmd.addSubCommand(moveCmd);
-        }
+        if (moveCmd && !moveCmd.isEmpty()) batchCmd.addSubCommand(moveCmd);
       }
     }
   }
   svgCanvas.multiSelect(arrayElements);
   clipboard = originalClipboard;
-  if (!batchCmd.isEmpty()) {
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    return null;
-  }
-  return batchCmd;
+  if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  return null;
 };
 
 const getCurrentClipboard = (): boolean => (clipboard && clipboard.length > 0);
