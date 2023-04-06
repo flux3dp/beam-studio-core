@@ -50,7 +50,7 @@ describe('test SpeedBlock', () => {
 
   it('should render correctly when unit is mm', () => {
     mockStorageGet.mockReturnValueOnce('mm');
-    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true);
+    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
       <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
@@ -59,14 +59,15 @@ describe('test SpeedBlock', () => {
     expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer']);
     expect(mockStorageGet).toBeCalledTimes(1);
     expect(mockStorageGet).toHaveBeenLastCalledWith('default-units');
-    expect(mockPrefRead).toBeCalledTimes(1);
-    expect(mockPrefRead).toHaveBeenLastCalledWith('workarea');
+    expect(mockPrefRead).toBeCalledTimes(2);
+    expect(mockPrefRead).toHaveBeenNthCalledWith(1, 'workarea');
+    expect(mockPrefRead).toHaveBeenNthCalledWith(2, 'enable-low-speed');
     expect(container).toMatchSnapshot();
   });
 
   it('should render correctly when unit is inches', () => {
     mockStorageGet.mockReturnValueOnce('inches');
-    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true);
+    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
       <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
@@ -76,20 +77,34 @@ describe('test SpeedBlock', () => {
 
   it('should render correctly when has vector warning', () => {
     mockStorageGet.mockReturnValueOnce('mm');
-    mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true);
+    mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(true);
     const { container } = render(
       <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
     );
     expect(container).toMatchSnapshot();
+    expect(mockPrefRead).toBeCalledTimes(3);
+    expect(mockPrefRead).toHaveBeenNthCalledWith(1, 'workarea');
+    expect(mockPrefRead).toHaveBeenNthCalledWith(2, 'enable-low-speed');
+    expect(mockPrefRead).toHaveBeenNthCalledWith(3, 'vector_speed_contraint');
+  });
+
+  it('should render correctly when has low speed warning', () => {
+    mockStorageGet.mockReturnValueOnce('mm');
+    mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true).mockReturnValueOnce(true);
+    mockDoLayersContainsVector.mockReturnValue(true);
+    const { container } = render(
+      <SpeedBlock layerNames={['layer']} speed={{ value: 1 }} onChange={mockOnChange} />
+    );
+    expect(container).toMatchSnapshot();
     expect(mockPrefRead).toBeCalledTimes(2);
     expect(mockPrefRead).toHaveBeenNthCalledWith(1, 'workarea');
-    expect(mockPrefRead).toHaveBeenNthCalledWith(2, 'vector_speed_contraint');
+    expect(mockPrefRead).toHaveBeenNthCalledWith(2, 'enable-low-speed');
   });
 
   test('onChange should work', () => {
     mockStorageGet.mockReturnValueOnce('mm');
-    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true);
+    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
       <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />

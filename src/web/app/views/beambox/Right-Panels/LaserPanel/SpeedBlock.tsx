@@ -28,13 +28,13 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
     return { display, decimal: d };
   }, []);
   const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
-  const minValue = BeamboxPreference.read('enable-low-speed') ? 1 : 3;
-
+  const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
+  const minValue = enableLowSpeed ? 1 : 3;
   const hasVector = doLayersContainsVector(layerNames);
   let warningText = '';
   if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
     warningText = t.speed_contrain_warning;
-  } else if (value < 3) {
+  } else if (value < 3 && enableLowSpeed) {
     warningText = t.low_speed_warning;
   }
 
