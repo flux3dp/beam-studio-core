@@ -279,6 +279,24 @@ exports[`should render correctly initially no warning 1`] = `
     }
     url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
   />
+  <SelectControl
+    id="set-enable-low-speed"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
 </Fragment>
 `;
 
@@ -545,6 +563,24 @@ exports[`should render correctly initially no warning 2`] = `
       ]
     }
     url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
+  />
+  <SelectControl
+    id="set-enable-low-speed"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
   />
 </Fragment>
 `;
@@ -828,6 +864,24 @@ exports[`should render correctly initially no warning 3`] = `
     }
     url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
   />
+  <SelectControl
+    id="set-enable-low-speed"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
 </Fragment>
 `;
 
@@ -1109,6 +1163,24 @@ exports[`should render correctly initially no warning 4`] = `
       ]
     }
     url="https://support.flux3dp.com/hc/en-us/articles/360004407276"
+  />
+  <SelectControl
+    id="set-enable-low-speed"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        Object {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
   />
 </Fragment>
 `;
