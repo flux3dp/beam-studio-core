@@ -16,8 +16,6 @@ interface Props {
   onChange: (val: number) => void;
 }
 
-const MIN_VALUE = 1;
-
 const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -30,8 +28,15 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
     return { display, decimal: d };
   }, []);
   const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
-
+  const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
+  const minValue = enableLowSpeed ? 1 : 3;
   const hasVector = doLayersContainsVector(layerNames);
+  let warningText = '';
+  if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
+    warningText = t.speed_contrain_warning;
+  } else if (value < 3 && enableLowSpeed) {
+    warningText = t.low_speed_warning;
+  }
 
   return (
     <div className={styles.panel}>
@@ -39,28 +44,29 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
       <UnitInput
         id="speed"
         className={{ [styles.input]: true }}
-        min={MIN_VALUE}
+        min={minValue}
         max={maxValue}
         unit={displayUnit}
         defaultValue={value}
         getValue={onChange}
         decimal={decimal}
         displayMultiValue={hasMultiValue}
+        step={10 ** -decimal}
       />
       <input
         id="speed_value"
         className={classNames({ [styles['speed-for-vector']]: hasVector })}
         type="range"
-        min={MIN_VALUE}
+        min={minValue}
         max={maxValue}
-        step={1}
+        step={0.1}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
       />
-      {hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false ? (
+      {warningText ? (
         <div className={styles.warning}>
           <div className={styles['warning-icon']}>!</div>
-          <div className={styles['warning-text']}>{t.speed_contrain_warning}</div>
+          <div className={styles['warning-text']}>{warningText}</div>
         </div>
       ) : null}
     </div>

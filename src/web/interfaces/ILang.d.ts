@@ -397,6 +397,7 @@ export interface ILang {
     single_object: string,
     grouped_objects: string,
     simplify_clipper_path: string,
+    enable_low_speed: string;
     mask: string,
     text_path_calc_optimization: string,
     font_substitute: string,
@@ -604,6 +605,7 @@ export interface ILang {
         low_power_warning: string;
         speed: string,
         speed_contrain_warning: string,
+        low_speed_warning: string;
         repeat: string,
         add_on: string,
         focus_adjustment: string,

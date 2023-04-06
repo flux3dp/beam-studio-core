@@ -174,6 +174,18 @@ describe('should render correctly', () => {
           selected: true,
         },
       ]}
+      enableLowSpeedOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: false,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: true,
+        },
+      ]}
       updateConfigChange={updateConfigChange}
       updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
       updateModel={updateModel}
@@ -264,12 +276,20 @@ describe('should render correctly', () => {
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(6);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(6, 'simplify_clipper_path', 'TRUE');
 
-    wrapper.find('UnitInput').at(0).props().getValue(1);
+    wrapper.find('SelectControl').at(9).simulate('change', {
+      target: {
+        value: 'TRUE',
+      },
+    });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(7);
-    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(7, 'guide_x0', 1);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(7, 'enable-low-speed', 'TRUE');
+
+    wrapper.find('UnitInput').at(0).props().getValue(1);
+    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(8);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(8, 'guide_x0', 1);
 
     wrapper.find('UnitInput').at(1).props().getValue(2);
-    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(8);
-    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(8, 'guide_y0', 2);
+    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(9);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(9, 'guide_y0', 2);
   });
 });

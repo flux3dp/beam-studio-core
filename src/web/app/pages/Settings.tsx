@@ -234,6 +234,9 @@ class Settings extends React.PureComponent<null, State> {
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
 
+    const isLowSpeedEnabled = this.getBeamboxPreferenceEditingValue('enable-low-speed');
+    const enableLowSpeedOptions = this.onOffOptionFactory(isLowSpeedEnabled);
+
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
@@ -276,13 +279,15 @@ class Settings extends React.PureComponent<null, State> {
             speed={{
               unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
               decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
-              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed') || cameraMovementSpeed) / 60,
+              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed')
+                || cameraMovementSpeed) / 60,
               getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
             }}
             speedHL={{
               unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
               decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
-              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') || (cameraMovementSpeed * 0.6)) / 60,
+              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl')
+                || (cameraMovementSpeed * 0.6)) / 60,
               getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
             }}
           />
@@ -296,6 +301,7 @@ class Settings extends React.PureComponent<null, State> {
             antiAliasingOptions={antiAliasingOptions}
             continuousDrawingOptions={continuousDrawingOptions}
             simplifyClipperPath={simplifyClipperPath}
+            enableLowSpeedOptions={enableLowSpeedOptions}
             updateConfigChange={this.updateConfigChange}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
             updateModel={(newModel) => this.setState({ selectedModel: newModel })}
