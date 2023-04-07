@@ -1,22 +1,18 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'antd';
+
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import useI18n from 'helpers/useI18n';
 import ValidationTextInput from 'app/widgets/Validation-Text-Input';
-import i18n from 'helpers/i18n';
-import { useState } from 'react';
 import { ColorConfig } from 'app/constants/color-constants';
 
-const LANG = i18n.lang.beambox.layer_color_config_panel;
-
 interface Props {
-  displayAddPanel: boolean;
-  setDisplayAddPanel: (value: boolean) => void;
+  onClose: () => void;
   handleAddConfig: (config: ColorConfig) => void;
 }
 
-const AddColorConfigModal = (props: Props): JSX.Element => {
-  const { displayAddPanel, setDisplayAddPanel, handleAddConfig } = props;
-
+const AddColorConfigModal = ({ onClose, handleAddConfig }: Props): JSX.Element => {
+  const lang = useI18n().beambox.layer_color_config_panel;
   const [newColor, setNewColor] = useState('#FFFFFF');
   let newPower = 50;
   let newSpeed = 10;
@@ -24,22 +20,22 @@ const AddColorConfigModal = (props: Props): JSX.Element => {
 
   return (
     <Modal
-      open={displayAddPanel}
-      title={LANG.add_config}
-      okText={LANG.add}
+      open
+      title={lang.add_config}
+      okText={lang.add}
       onOk={() => handleAddConfig({
         color: newColor,
         power: newPower,
         speed: newSpeed,
         repeat: newRepeat,
       })}
-      onCancel={() => setDisplayAddPanel(false)}
+      onCancel={onClose}
     >
       <div className="add-config-panel">
         <div className="input-column">
           <div className="color-block" style={{ backgroundColor: newColor }} />
           <div className="name color">
-            {`${LANG.color} :`}
+            {`${lang.color} :`}
           </div>
           <ValidationTextInput
             defaultValue={newColor}
@@ -49,7 +45,7 @@ const AddColorConfigModal = (props: Props): JSX.Element => {
         </div>
         <div className="input-column">
           <div className="name">
-            {`${LANG.power} :`}
+            {`${lang.power} :`}
           </div>
           <UnitInput
             className={{ power: true }}
@@ -63,7 +59,7 @@ const AddColorConfigModal = (props: Props): JSX.Element => {
         </div>
         <div className="input-column">
           <div className="name">
-            {`${LANG.speed} :`}
+            {`${lang.speed} :`}
           </div>
           <UnitInput
             className={{ speed: true }}
@@ -77,7 +73,7 @@ const AddColorConfigModal = (props: Props): JSX.Element => {
         </div>
         <div className="input-column">
           <div className="name">
-            {`${LANG.repeat} :`}
+            {`${lang.repeat} :`}
           </div>
           <UnitInput
             className={{ repeat: true }}

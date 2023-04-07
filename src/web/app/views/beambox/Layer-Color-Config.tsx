@@ -362,11 +362,12 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
           dataSource={dataSource}
           columns={columns as ColumnTypes}
         />
-        <AddColorConfigModal
-          displayAddPanel={displayAddPanel}
-          setDisplayAddPanel={setDisplayAddPanel}
-          handleAddConfig={handleAddConfig}
-        />
+        {displayAddPanel && (
+          <AddColorConfigModal
+            onClose={() => setDisplayAddPanel(false)}
+            handleAddConfig={handleAddConfig}
+          />
+        )}
       </Space>
     </Modal>
   );
