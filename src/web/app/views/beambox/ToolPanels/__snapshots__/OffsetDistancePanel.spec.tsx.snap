@@ -32,7 +32,7 @@ exports[`should render correctly default unit is inches 1`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             defaultValue={100}
             disabled={false}
             displayMultiValue={false}
@@ -87,7 +87,7 @@ exports[`should render correctly default unit is inches 2`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             defaultValue={100}
             disabled={false}
             displayMultiValue={false}
@@ -142,7 +142,7 @@ exports[`should render correctly default unit is inches 3`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             defaultValue={50}
             disabled={false}
             displayMultiValue={false}
@@ -197,7 +197,7 @@ exports[`should render correctly default unit is mm 1`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             defaultValue={100}
             disabled={false}
             displayMultiValue={false}
@@ -252,7 +252,7 @@ exports[`should render correctly default unit is mm 2`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             defaultValue={100}
             disabled={false}
             displayMultiValue={false}

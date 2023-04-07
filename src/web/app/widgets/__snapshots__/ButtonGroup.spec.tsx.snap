@@ -27,7 +27,7 @@ exports[`should render correctly has buttons 1`] = `
   <button
     className="btn btn-default"
     dangerouslySetInnerHTML={
-      Object {
+      {
         "__html": "button-label",
       }
     }

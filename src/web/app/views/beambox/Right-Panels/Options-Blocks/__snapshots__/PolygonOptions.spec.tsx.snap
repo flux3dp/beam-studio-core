@@ -16,7 +16,7 @@ exports[`should render correctly 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "option-input": true,
         }
       }
@@ -59,7 +59,7 @@ exports[`should render correctly 2`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "option-input": true,
         }
       }
@@ -106,7 +106,7 @@ exports[`should render correctly 3`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "option-input": true,
         }
       }
@@ -153,7 +153,7 @@ exports[`should render correctly 4`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "option-input": true,
         }
       }

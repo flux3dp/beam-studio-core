@@ -36,7 +36,7 @@ exports[`should render correctly 1`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={3}
             disabled={false}
@@ -64,7 +64,7 @@ exports[`should render correctly 1`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={10}
             disabled={false}
@@ -124,7 +124,7 @@ exports[`should render correctly 2`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={2}
             disabled={false}
@@ -152,7 +152,7 @@ exports[`should render correctly 2`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={10}
             disabled={false}
@@ -212,7 +212,7 @@ exports[`should render correctly 3`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={2}
             disabled={false}
@@ -240,7 +240,7 @@ exports[`should render correctly 3`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={9}
             disabled={false}

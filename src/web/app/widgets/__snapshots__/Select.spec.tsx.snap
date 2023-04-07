@@ -4,7 +4,7 @@ exports[`test Select should render correctly 1`] = `
 <select
   className="test123"
   defaultValue={
-    Array [
+    [
       "en",
       "jp",
     ]
@@ -14,7 +14,7 @@ exports[`test Select should render correctly 1`] = `
   name="select-lang"
   onChange={[MockFunction]}
   value={
-    Array [
+    [
       "en",
       "jp",
     ]

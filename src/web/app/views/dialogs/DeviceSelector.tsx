@@ -1,43 +1,35 @@
-import * as React from 'react';
+import { Modal } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
-import Modal from 'app/widgets/Modal';
 import { IDeviceInfo } from 'interfaces/IDevice';
-
-const { useEffect, useState } = React;
-
-let _discover = null;
 
 interface Props {
   onSelect: (device: IDeviceInfo) => void;
   onClose: () => void;
 }
 
-/**
-   * @deprecated The method should not be used
-   */
-const DeviceSelector = ({ onSelect, onClose }: Props) => {
+// TODO: change spinner to antd spinner, change styles to modules.scss
+const DeviceSelector = ({ onSelect, onClose }: Props): JSX.Element => {
   const [deviceList, setDeviceList] = useState([]);
-  useEffect(() => {
-    _discover = discover('device-selector', (discoverdDevices) => {
-      discoverdDevices = discoverdDevices.filter((device) => device.serial !== 'XXXXXXXXXX');
-      discoverdDevices.sort((deviceA, deviceB) => deviceA.name.localeCompare(deviceB.name));
-      setDeviceList(discoverdDevices);
-    });
-    return () => {
-      _discover.removeListener('device-selector');
-    }
-  }, []);
+  const discoverer = useMemo(() => discover('device-selector', (discoverdDevices) => {
+    const filteredDevices = discoverdDevices.filter((device) => device.serial !== 'XXXXXXXXXX');
+    filteredDevices.sort((deviceA, deviceB) => deviceA.name.localeCompare(deviceB.name));
+    setDeviceList(filteredDevices);
+  }), []);
+  useEffect(() => () => {
+    discoverer.removeListener('device-selector');
+  }, [discoverer]);
 
-  let status = i18n.lang.machine_status;
-  let list = deviceList.length > 0 ? deviceList.map((device: IDeviceInfo) => {
-    let statusText = status[device.st_id] || status.UNKNOWN;
-    let img = `img/icon_${device.source === 'h2h' ? 'usb' : 'wifi'}.svg`;
+  const status = i18n.lang.machine_status;
+  const list = deviceList.length > 0 ? deviceList.map((device: IDeviceInfo) => {
+    const statusText = status[device.st_id] || status.UNKNOWN;
+    const img = `img/icon_${device.source === 'h2h' ? 'usb' : 'wifi'}.svg`;
     let progress = '';
 
-    if (16 === device.st_id && 'number' === typeof device.st_prog) {
-      progress = (device.st_prog * 100).toFixed(1) + '%';
+    if (device.st_id === 16 && typeof device.st_prog === 'number') {
+      progress = `${(device.st_prog * 100).toFixed(1)}%`;
     }
 
     return (
@@ -47,7 +39,7 @@ const DeviceSelector = ({ onSelect, onClose }: Props) => {
           onSelect(device);
           onClose();
         }}
-        data-test-key={device.serial}
+        data-testid={device.serial}
       >
         <label className="name">{device.name}</label>
         <label className="status">{statusText}</label>
@@ -62,26 +54,22 @@ const DeviceSelector = ({ onSelect, onClose }: Props) => {
   }) : (<div key="spinner-roller" className="spinner-roller spinner-roller-reverse" />);
 
   return (
-    <Modal>
-      <div className='device-selector'>
-        <div className='title'>{i18n.lang.select_device.select_device}</div>
-        <div className="device-list">
-          <ul>{list}</ul>
-        </div>
-        <div className='footer'>
-          <button
-            className='btn btn-default'
-            onClick={() => {
-              onSelect(null);
-              onClose()
-            }}
-          >
-            {i18n.lang.alert.cancel}
-          </button>
-        </div>
+    <Modal
+      open
+      closable={false}
+      centered
+      onCancel={() => {
+        onSelect(null);
+        onClose();
+      }}
+      width={385}
+      footer={null}
+    >
+      <div className="device-list">
+        <ul>{list}</ul>
       </div>
     </Modal>
-  )
+  );
 };
 
 export default DeviceSelector;

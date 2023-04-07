@@ -14,13 +14,13 @@ exports[`should render correctly initially no warning 1`] = `
     label="Auto Save"
     onChange={[Function]}
     options={
-      Array [
-        Object {
+      [
+        {
           "label": "On",
           "selected": false,
           "value": "TRUE",
         },
-        Object {
+        {
           "label": "Off",
           "selected": true,
           "value": "FALSE",
@@ -47,7 +47,7 @@ exports[`should render correctly initially no warning 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "half": true,
         }
       }
@@ -75,7 +75,7 @@ exports[`should render correctly initially no warning 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "half": true,
         }
       }
@@ -112,13 +112,13 @@ exports[`should render correctly initially with warning 1`] = `
     label="Auto Save"
     onChange={[Function]}
     options={
-      Array [
-        Object {
+      [
+        {
           "label": "On",
           "selected": false,
           "value": "TRUE",
         },
-        Object {
+        {
           "label": "Off",
           "selected": true,
           "value": "FALSE",
@@ -146,7 +146,7 @@ exports[`should render correctly initially with warning 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "half": true,
         }
       }
@@ -174,7 +174,7 @@ exports[`should render correctly initially with warning 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "half": true,
         }
       }

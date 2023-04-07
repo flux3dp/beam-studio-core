@@ -5,7 +5,7 @@ exports[`should render correctly type is gridArray 1`] = `
   className="tool-panels en"
   id="beamboxToolPanel"
   style={
-    Object {
+    {
       "bottom": 10,
       "left": undefined,
       "position": "absolute",
@@ -75,7 +75,7 @@ exports[`should render correctly type is nest 1`] = `
   className="tool-panels en"
   id="beamboxToolPanel"
   style={
-    Object {
+    {
       "bottom": 10,
       "left": undefined,
       "position": "absolute",
@@ -116,7 +116,7 @@ exports[`should render correctly type is nest 1`] = `
   <DummyNestGAPanel
     key="nestGA"
     nestOptions={
-      Object {
+      {
         "generations": 3,
         "population": 10,
         "rotations": 1,
@@ -153,7 +153,7 @@ exports[`should render correctly type is offset 1`] = `
   className="tool-panels en"
   id="beamboxToolPanel"
   style={
-    Object {
+    {
       "bottom": 10,
       "left": undefined,
       "position": "absolute",

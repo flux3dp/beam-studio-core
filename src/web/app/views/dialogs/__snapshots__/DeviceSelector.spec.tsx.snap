@@ -1,52 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly no devices 1`] = `
-<DeviceSelector
-  onClose={[MockFunction]}
-  onSelect={[MockFunction]}
->
-  <View>
+<body>
+  <div />
+  <div>
     <div
-      className="modal-window"
+      class="ant-modal-root css-dev-only-do-not-override-hash"
     >
       <div
-        className="modal-background"
-        onClick={[Function]}
+        class="ant-modal-mask"
       />
       <div
-        className="modal-body"
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
       >
         <div
-          className="device-selector"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-hash"
+          role="dialog"
+          style="width: 385px;"
         >
           <div
-            className="title"
-          >
-            Select Device
-          </div>
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
           <div
-            className="device-list"
+            class="ant-modal-content"
           >
-            <ul>
-              <div
-                className="spinner-roller spinner-roller-reverse"
-                key="spinner-roller"
-              />
-            </ul>
-          </div>
-          <div
-            className="footer"
-          >
-            <button
-              className="btn btn-default"
-              onClick={[Function]}
+            <div
+              class="ant-modal-body"
             >
-              Cancel
-            </button>
+              <div
+                class="device-list"
+              >
+                <ul>
+                  <div
+                    class="spinner-roller spinner-roller-reverse"
+                  />
+                </ul>
+              </div>
+            </div>
           </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
         </div>
       </div>
     </div>
-  </View>
-</DeviceSelector>
+  </div>
+</body>
+`;
+
+exports[`should render correctly no devices 2`] = `
+<body>
+  <div />
+  <div>
+    <div
+      class="ant-modal-root css-dev-only-do-not-override-hash"
+    >
+      <div
+        class="ant-modal-mask"
+      />
+      <div
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
+      >
+        <div
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-hash"
+          role="dialog"
+          style="width: 385px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content"
+          >
+            <div
+              class="ant-modal-body"
+            >
+              <div
+                class="device-list"
+              >
+                <ul>
+                  <li
+                    data-testid="serial"
+                  >
+                    <label
+                      class="name"
+                    >
+                      name
+                    </label>
+                    <label
+                      class="status"
+                    >
+                      Initiating
+                    </label>
+                    <label
+                      class="progress"
+                    />
+                    <label
+                      class="connection-type"
+                    >
+                      <div
+                        class="type"
+                      >
+                        <img
+                          src="img/icon_wifi.svg"
+                        />
+                      </div>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 `;

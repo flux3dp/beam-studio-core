@@ -16,7 +16,7 @@ exports[`should render correctly unit is inches 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "option-input": true,
         }
       }
@@ -62,7 +62,7 @@ exports[`should render correctly unit is not inches 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "option-input": true,
         }
       }

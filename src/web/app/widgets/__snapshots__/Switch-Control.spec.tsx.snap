@@ -69,13 +69,13 @@ exports[`test Switch-Control should render correctly 2`] = `
   offText="Disable"
   onChange={
     [MockFunction] {
-      "calls": Array [
-        Array [
+      "calls": [
+        [
           false,
         ],
       ],
-      "results": Array [
-        Object {
+      "results": [
+        {
           "type": "return",
           "value": undefined,
         },

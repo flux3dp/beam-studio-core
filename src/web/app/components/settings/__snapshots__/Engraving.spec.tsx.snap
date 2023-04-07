@@ -12,13 +12,13 @@ exports[`should render correctly 1`] = `
     label="Speed Optimization"
     onChange={[Function]}
     options={
-      Array [
-        Object {
+      [
+        {
           "label": "On",
           "selected": true,
           "value": "TRUE",
         },
-        Object {
+        {
           "label": "Off",
           "selected": false,
           "value": "FALSE",
@@ -31,13 +31,13 @@ exports[`should render correctly 1`] = `
     id="set-reverse-engraving"
     onChange={[Function]}
     options={
-      Array [
-        Object {
+      [
+        {
           "label": "On",
           "selected": true,
           "value": "TRUE",
         },
-        Object {
+        {
           "label": "Off",
           "selected": false,
           "value": "FALSE",

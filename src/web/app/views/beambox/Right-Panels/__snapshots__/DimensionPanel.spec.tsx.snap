@@ -16,7 +16,7 @@ exports[`should render correctly image 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -49,7 +49,7 @@ exports[`should render correctly image 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -85,7 +85,7 @@ exports[`should render correctly image 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -118,7 +118,7 @@ exports[`should render correctly image 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -151,7 +151,7 @@ exports[`should render correctly image 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -227,7 +227,7 @@ exports[`should render correctly no elements 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -260,7 +260,7 @@ exports[`should render correctly no elements 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -296,7 +296,7 @@ exports[`should render correctly no elements 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -329,7 +329,7 @@ exports[`should render correctly no elements 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -362,7 +362,7 @@ exports[`should render correctly no elements 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -428,7 +428,7 @@ exports[`should render correctly unsupported element 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -461,7 +461,7 @@ exports[`should render correctly unsupported element 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -497,7 +497,7 @@ exports[`should render correctly unsupported element 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -530,7 +530,7 @@ exports[`should render correctly unsupported element 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }
@@ -563,7 +563,7 @@ exports[`should render correctly unsupported element 1`] = `
     <UnitInput
       abbr={false}
       className={
-        Object {
+        {
           "dimension-input": true,
         }
       }

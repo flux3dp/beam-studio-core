@@ -33,13 +33,13 @@ exports[`should render correctly 1`] = `
           id="select-offset-dir"
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Outward",
                 "selected": true,
                 "value": 1,
               },
-              Object {
+              {
                 "label": "Inward",
                 "selected": false,
                 "value": 0,
@@ -86,13 +86,13 @@ exports[`should render correctly 2`] = `
           id="select-offset-dir"
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Outward",
                 "selected": true,
                 "value": 1,
               },
-              Object {
+              {
                 "label": "Inward",
                 "selected": false,
                 "value": 0,
@@ -139,13 +139,13 @@ exports[`should render correctly 3`] = `
           id="select-offset-dir"
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Outward",
                 "selected": false,
                 "value": 1,
               },
-              Object {
+              {
                 "label": "Inward",
                 "selected": true,
                 "value": 0,
