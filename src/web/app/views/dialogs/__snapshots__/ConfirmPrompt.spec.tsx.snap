@@ -5,7 +5,7 @@ exports[`should render correctly has confirmValue 1`] = `
   caption="POWER TOO HIGH"
   confirmValue="NOTED"
   message="Using lower laser power (under 70%) will extends laser tube's lifetime.
-Enter \\"NOTED\\" to proceed."
+Enter "NOTED" to proceed."
   onCancel={[MockFunction]}
   onClose={[MockFunction]}
   onConfirmed={[MockFunction]}
@@ -48,13 +48,13 @@ Enter "NOTED" to proceed.
           >
             <ButtonGroup
               buttons={
-                Array [
-                  Object {
+                [
+                  {
                     "className": "btn-default primary",
                     "label": "OK",
                     "onClick": [Function],
                   },
-                  Object {
+                  {
                     "className": "btn-default",
                     "label": "Cancel",
                     "onClick": [Function],
@@ -69,7 +69,7 @@ Enter "NOTED" to proceed.
                 <button
                   className="btn btn-default primary"
                   dangerouslySetInnerHTML={
-                    Object {
+                    {
                       "__html": "OK",
                     }
                   }
@@ -81,7 +81,7 @@ Enter "NOTED" to proceed.
                 <button
                   className="btn btn-default"
                   dangerouslySetInnerHTML={
-                    Object {
+                    {
                       "__html": "Cancel",
                     }
                   }
@@ -105,7 +105,7 @@ exports[`should render correctly no confirmValue 1`] = `
   caption="POWER TOO HIGH"
   confirmValue=""
   message="Using lower laser power (under 70%) will extends laser tube's lifetime.
-Enter \\"NOTED\\" to proceed."
+Enter "NOTED" to proceed."
   onCancel={[MockFunction]}
   onClose={[MockFunction]}
   onConfirmed={[MockFunction]}
@@ -148,13 +148,13 @@ Enter "NOTED" to proceed.
           >
             <ButtonGroup
               buttons={
-                Array [
-                  Object {
+                [
+                  {
                     "className": "btn-default primary",
                     "label": "OK",
                     "onClick": [Function],
                   },
-                  Object {
+                  {
                     "className": "btn-default",
                     "label": "Cancel",
                     "onClick": [Function],
@@ -169,7 +169,7 @@ Enter "NOTED" to proceed.
                 <button
                   className="btn btn-default primary"
                   dangerouslySetInnerHTML={
-                    Object {
+                    {
                       "__html": "OK",
                     }
                   }
@@ -181,7 +181,7 @@ Enter "NOTED" to proceed.
                 <button
                   className="btn btn-default"
                   dangerouslySetInnerHTML={
-                    Object {
+                    {
                       "__html": "Cancel",
                     }
                   }

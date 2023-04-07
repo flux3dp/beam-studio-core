@@ -33,13 +33,13 @@ exports[`should render correctly 1`] = `
           id="select-offset-corner"
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Sharp",
                 "selected": true,
                 "value": "sharp",
               },
-              Object {
+              {
                 "label": "Round",
                 "selected": false,
                 "value": "round",
@@ -86,13 +86,13 @@ exports[`should render correctly 2`] = `
           id="select-offset-corner"
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Sharp",
                 "selected": true,
                 "value": "sharp",
               },
-              Object {
+              {
                 "label": "Round",
                 "selected": false,
                 "value": "round",
@@ -139,13 +139,13 @@ exports[`should render correctly 3`] = `
           id="select-offset-corner"
           onChange={[Function]}
           options={
-            Array [
-              Object {
+            [
+              {
                 "label": "Sharp",
                 "selected": false,
                 "value": "sharp",
               },
-              Object {
+              {
                 "label": "Round",
                 "selected": true,
                 "value": "round",

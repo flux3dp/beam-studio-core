@@ -1,16 +1,17 @@
 import React, { useContext } from 'react';
-import i18n from 'helpers/i18n';
 import { Modal, Tabs } from 'antd';
-import { MonitorContext } from 'app/contexts/MonitorContext';
-import { Mode } from 'app/constants/monitor-constants';
-import { IDeviceInfo } from 'interfaces/IDevice';
+import { CameraOutlined, FolderOutlined, PictureOutlined } from '@ant-design/icons';
+
 import MonitorStatus from 'helpers/monitor-status';
-import {
-  CameraOutlined, FolderOutlined, PictureOutlined,
-} from '@ant-design/icons';
+import useI18n from 'helpers/useI18n';
+import { Mode } from 'app/constants/monitor-constants';
+import { MonitorContext } from 'app/contexts/MonitorContext';
+import { IDeviceInfo } from 'interfaces/IDevice';
+
 import MonitorCamera from './MonitorCamera';
 import MonitorFilelist from './MonitorFilelist';
-import MonitorRelocate from './MonitorRelocate';
+// import MonitorRelocate from './MonitorRelocate';
+import MonitorTabExtraContent from './MonitorTabExtraContent';
 import MonitorTask from './MonitorTask';
 
 interface Props {
@@ -19,43 +20,19 @@ interface Props {
 }
 
 const Monitor = (props: Props): JSX.Element => {
-  const context = useContext(MonitorContext);
-  const LANG = i18n.lang;
+  const { device } = props;
+  const { currentPath, mode, onClose, report, setMonitorMode, taskImageURL } = useContext(MonitorContext);
+  const LANG = useI18n();
 
-  const renderFileList = (): JSX.Element => {
-    const { currentPath } = context;
-    const path = currentPath.join('/');
-    return (
-      <MonitorFilelist path={path} />
-    );
-  };
-
-  const renderTask = (): JSX.Element => <MonitorTask />;
-
-  const renderCamera = (): JSX.Element => {
-    const { device } = props;
-    return (
-      <MonitorCamera
-        device={device}
-      />
-    );
-  };
-
-  const renderRelocate = (): JSX.Element => {
-    const { device } = props;
-    return (
-      <MonitorRelocate
-        device={device}
-      />
-    );
-  };
+  // const renderRelocate = (): JSX.Element => {
+  //   return (
+  //     <MonitorRelocate
+  //       device={device}
+  //     />
+  //   );
+  // };
 
   const render = (): JSX.Element => {
-    const { device } = props;
-    const {
-      onClose, mode, report, setMonitorMode, taskImageURL,
-    } = context;
-
     const monitorMode = [Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)
       ? Mode.PREVIEW : mode;
 
@@ -68,7 +45,7 @@ const Monitor = (props: Props): JSX.Element => {
           </div>
         ),
         key: Mode.FILE,
-        children: renderFileList(),
+        children: <MonitorFilelist path={currentPath.join('/')} />,
       },
       {
         label: (
@@ -78,7 +55,7 @@ const Monitor = (props: Props): JSX.Element => {
           </div>
         ),
         key: Mode.CAMERA,
-        children: renderCamera(),
+        children: <MonitorCamera device={device} />,
       },
     ];
     if (taskImageURL) {
@@ -93,13 +70,12 @@ const Monitor = (props: Props): JSX.Element => {
           key: Mode.PREVIEW,
           children: (
             <div>
-              {renderTask()}
+              <MonitorTask />
             </div>
           ),
         },
       );
     }
-    // body = this.renderRelocate();
     return (
       <Modal
         open
@@ -108,7 +84,12 @@ const Monitor = (props: Props): JSX.Element => {
         title={`${device.name} - ${report ? MonitorStatus.getDisplayStatus(report.st_label) : LANG.monitor.connecting}`}
         footer={null}
       >
-        <Tabs activeKey={monitorMode} items={tabItems} onChange={(key: Mode) => setMonitorMode(key)} />
+        <Tabs
+          activeKey={monitorMode}
+          items={tabItems}
+          onChange={(key: Mode) => setMonitorMode(key)}
+          tabBarExtraContent={<MonitorTabExtraContent />}
+        />
       </Modal>
     );
   };

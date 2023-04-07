@@ -1,3 +1,8 @@
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import DeviceSelector from './DeviceSelector';
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     machine_status: {
@@ -33,13 +38,7 @@ jest.mock('helpers/i18n', () => ({
 }));
 
 const mockDiscover = jest.fn();
-jest.mock('helpers/api/discover', () => mockDiscover);
-
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-
-import DeviceSelector from './DeviceSelector';
+jest.mock('helpers/api/discover', () => (...args) => mockDiscover(...args));
 
 describe('should render correctly', () => {
   afterEach(() => {
@@ -54,19 +53,33 @@ describe('should render correctly', () => {
 
     const mockOnSelect = jest.fn();
     const mockOnClose = jest.fn();
-    const wrapper = mount(<DeviceSelector
-      onSelect={mockOnSelect}
-      onClose={mockOnClose}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { baseElement, getByTestId, unmount } = render(
+      <DeviceSelector
+        onSelect={mockOnSelect}
+        onClose={mockOnClose}
+      />
+    );
+    expect(baseElement).toMatchSnapshot();
     expect(mockDiscover).toHaveBeenCalledTimes(1);
+    expect(mockDiscover).toHaveBeenLastCalledWith('device-selector', expect.anything());
+    const [, discoverListener] = mockDiscover.mock.calls[0];
+    const mockDevice = {
+      st_id: 1,
+      uuid: 'uuid',
+      serial: 'serial',
+      name: 'name',
+    };
+    discoverListener([mockDevice]);
+    expect(baseElement).toMatchSnapshot();
 
-    wrapper.find('button.btn-default').simulate('click');
-    expect(mockOnSelect).toHaveBeenCalledTimes(1);
-    expect(mockOnSelect).toHaveBeenNthCalledWith(1, null);
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
+    expect(mockOnSelect).not.toBeCalled();
+    expect(mockOnClose).not.toBeCalled();
+    fireEvent.click(getByTestId('serial'));
+    expect(mockOnSelect).toBeCalledTimes(1);
+    expect(mockOnSelect).toHaveBeenLastCalledWith(mockDevice);
+    expect(mockOnClose).toBeCalledTimes(1);
 
-    wrapper.unmount();
+    unmount();
     expect(mockRemoveListener).toHaveBeenCalledTimes(1);
     expect(mockRemoveListener).toHaveBeenNthCalledWith(1, 'device-selector');
   });

@@ -5,7 +5,7 @@ exports[`test textPathEdit test one finger touchEvents 1`] = `
   <div
     id="workarea"
     style={
-      Object {
+      {
         "height": 100,
         "width": 100,
       }
@@ -14,7 +14,7 @@ exports[`test textPathEdit test one finger touchEvents 1`] = `
     <div
       id="svgcanvas"
       style={
-        Object {
+        {
           "height": 300,
           "width": 300,
         }
@@ -33,7 +33,7 @@ exports[`test textPathEdit test two finger touch 1`] = `
   <div
     id="workarea"
     style={
-      Object {
+      {
         "height": 100,
         "width": 100,
       }
@@ -42,7 +42,7 @@ exports[`test textPathEdit test two finger touch 1`] = `
     <div
       id="svgcanvas"
       style={
-        Object {
+        {
           "height": 300,
           "width": 300,
         }
@@ -61,7 +61,7 @@ exports[`test textPathEdit test two finger touch 2`] = `
   <div
     id="workarea"
     style={
-      Object {
+      {
         "height": 100,
         "width": 100,
       }
@@ -70,7 +70,7 @@ exports[`test textPathEdit test two finger touch 2`] = `
     <div
       id="svgcanvas"
       style={
-        Object {
+        {
           "height": 300,
           "width": 300,
         }

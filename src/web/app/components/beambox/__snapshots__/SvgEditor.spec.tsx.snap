@@ -6,7 +6,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
     <div
       className="mac"
       id="svg_editor"
-      style={Object {}}
+      style={{}}
     >
       <div>
         <div
@@ -62,7 +62,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 <li
                   id="tool_open"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -77,7 +77,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 <li
                   id="tool_import"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -155,7 +155,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           />
           <div
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -219,7 +219,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           />
           <div
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -1004,7 +1004,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
     <div
       className=""
       id="svg_editor"
-      style={Object {}}
+      style={{}}
     >
       <div>
         <div
@@ -1060,7 +1060,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 <li
                   id="tool_open"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -1075,7 +1075,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 <li
                   id="tool_import"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -1153,7 +1153,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
           />
           <div
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -1217,7 +1217,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
           />
           <div
             style={
-              Object {
+              {
                 "display": "none",
               }
             }

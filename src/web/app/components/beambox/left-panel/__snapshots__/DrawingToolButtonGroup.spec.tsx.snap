@@ -51,7 +51,7 @@ exports[`should render correctly 1`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -121,7 +121,7 @@ exports[`should render correctly 2`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -191,7 +191,7 @@ exports[`should render correctly 3`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -261,7 +261,7 @@ exports[`should render correctly 4`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -331,7 +331,7 @@ exports[`should render correctly 5`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -401,7 +401,7 @@ exports[`should render correctly 6`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -471,7 +471,7 @@ exports[`should render correctly 7`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -541,7 +541,7 @@ exports[`should render correctly 8`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn active"
@@ -611,7 +611,7 @@ exports[`should render correctly 9`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -681,7 +681,7 @@ exports[`should render correctly 10`] = `
     iconName="line"
     id="left-Line"
     onClick={[Function]}
-    title="Line (\\\\)"
+    title="Line (\\)"
   />
   <DrawingToolButton
     className="tool-btn"

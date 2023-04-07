@@ -4,7 +4,7 @@ exports[`should render correctly 1`] = `
 <div
   className="dialog-box-container"
   style={
-    Object {
+    {
       "bottom": NaN,
       "right": NaN,
     }
@@ -13,7 +13,7 @@ exports[`should render correctly 1`] = `
   <div
     className="dialog-box-arrow top"
     style={
-      Object {
+      {
         "borderColor": "transparent transparent black transparent",
         "borderWidth": "0 10px 10px 10px",
         "right": 30,

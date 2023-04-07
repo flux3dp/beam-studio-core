@@ -3,8 +3,8 @@
 exports[`should render correctly desktop version 1`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [],
+    {
+      "dialogComponents": [],
     }
   }
 >
@@ -15,21 +15,21 @@ exports[`should render correctly desktop version 1`] = `
 exports[`should render correctly desktop version 2`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [
-        Object {
+    {
+      "dialogComponents": [
+        {
           "component": <div>
             Hello World
           </div>,
           "id": "12345",
         },
-        Object {
+        {
           "component": <span>
             Hello Flux
           </span>,
           "id": "67890",
         },
-        Object {
+        {
           "component": <span>
             Flux Login
           </span>,
@@ -46,15 +46,15 @@ exports[`should render correctly desktop version 2`] = `
 exports[`should render correctly desktop version 3`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [
-        Object {
+    {
+      "dialogComponents": [
+        {
           "component": <div>
             Hello World
           </div>,
           "id": "12345",
         },
-        Object {
+        {
           "component": <span>
             Flux Login
           </span>,
@@ -71,15 +71,15 @@ exports[`should render correctly desktop version 3`] = `
 exports[`should render correctly desktop version 4`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [
-        Object {
+    {
+      "dialogComponents": [
+        {
           "component": <div>
             Hello World
           </div>,
           "id": "12345",
         },
-        Object {
+        {
           "component": <span>
             Flux Login
           </span>,
@@ -96,8 +96,8 @@ exports[`should render correctly desktop version 4`] = `
 exports[`should render correctly desktop version 5`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [],
+    {
+      "dialogComponents": [],
     }
   }
 >
@@ -108,9 +108,9 @@ exports[`should render correctly desktop version 5`] = `
 exports[`should render correctly web version 1`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [
-        Object {
+    {
+      "dialogComponents": [
+        {
           "component": <span>
             Flux Login
           </span>,
@@ -127,8 +127,8 @@ exports[`should render correctly web version 1`] = `
 exports[`should render correctly web version 2`] = `
 <ContextProvider
   value={
-    Object {
-      "dialogComponents": Array [],
+    {
+      "dialogComponents": [],
     }
   }
 >

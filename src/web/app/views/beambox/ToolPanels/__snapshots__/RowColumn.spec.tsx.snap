@@ -36,7 +36,7 @@ exports[`should render correctly invalid row and column input 1`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={1}
           disabled={false}
@@ -65,7 +65,7 @@ exports[`should render correctly invalid row and column input 1`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={1}
           disabled={false}
@@ -125,7 +125,7 @@ exports[`should render correctly valid input 1`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={3}
           disabled={false}
@@ -154,7 +154,7 @@ exports[`should render correctly valid input 1`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={2}
           disabled={false}
@@ -214,7 +214,7 @@ exports[`should render correctly valid input 2`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={3}
           disabled={false}
@@ -243,7 +243,7 @@ exports[`should render correctly valid input 2`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={2}
           disabled={false}
@@ -303,7 +303,7 @@ exports[`should render correctly valid input 3`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={2}
           disabled={false}
@@ -332,7 +332,7 @@ exports[`should render correctly valid input 3`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={3}
           disabled={false}
@@ -392,7 +392,7 @@ exports[`should render correctly valid input 4`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={4}
           disabled={false}
@@ -421,7 +421,7 @@ exports[`should render correctly valid input 4`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={3}
           disabled={false}
@@ -481,7 +481,7 @@ exports[`should render correctly valid input 5`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={4}
           disabled={false}
@@ -510,7 +510,7 @@ exports[`should render correctly valid input 5`] = `
         </div>
         <UnitInput
           abbr={false}
-          className={Object {}}
+          className={{}}
           decimal={0}
           defaultValue={5}
           disabled={false}

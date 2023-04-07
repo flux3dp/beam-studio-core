@@ -7,7 +7,7 @@ exports[`should render correctly 1`] = `
   <div
     className="modal-background"
     style={
-      Object {
+      {
         "top": "calc(100% - 10px)",
       }
     }
@@ -15,7 +15,7 @@ exports[`should render correctly 1`] = `
   <div
     className="modal-background"
     style={
-      Object {
+      {
         "bottom": "calc(100% - 10px)",
       }
     }
@@ -23,7 +23,7 @@ exports[`should render correctly 1`] = `
   <div
     className="modal-background"
     style={
-      Object {
+      {
         "left": "calc(100% - 20px)",
       }
     }
@@ -31,7 +31,7 @@ exports[`should render correctly 1`] = `
   <div
     className="modal-background"
     style={
-      Object {
+      {
         "right": "calc(100% - 20px)",
       }
     }

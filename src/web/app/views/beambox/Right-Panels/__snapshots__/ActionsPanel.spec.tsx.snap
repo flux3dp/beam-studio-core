@@ -347,6 +347,7 @@ exports[`should render correctly path 1`] = `
   >
     <div
       className="btn-container full"
+      key="edit_path"
       onClick={[Function]}
     >
       <button
@@ -355,6 +356,7 @@ exports[`should render correctly path 1`] = `
         type="button"
       >
         <PenIcon />
+        edit_path
       </button>
     </div>
     <div

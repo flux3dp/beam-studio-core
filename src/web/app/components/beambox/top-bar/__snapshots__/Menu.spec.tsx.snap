@@ -54,7 +54,7 @@ exports[`should render correctly already signed in 1`] = `
       <Memo(MenuList)
         align="start"
         anchorRef={
-          Object {
+          {
             "current": <div
               class="menu-btn-container"
             >
@@ -71,7 +71,7 @@ exports[`should render correctly already signed in 1`] = `
         }
         ariaLabel="Menu"
         containerRef={
-          Object {
+          {
             "current": <div
               class="rc-menu-container"
             >
@@ -255,7 +255,7 @@ exports[`should render correctly already signed in 1`] = `
         direction="bottom"
         isOpen={true}
         menuItemFocus={
-          Object {
+          {
             "position": "initial",
           }
         }
@@ -272,7 +272,7 @@ exports[`should render correctly already signed in 1`] = `
           onKeyDown={[Function]}
           role="menu"
           style={
-            Object {
+            {
               "left": "0px",
               "top": "0px",
             }
@@ -475,7 +475,7 @@ exports[`should render correctly already signed in 1`] = `
               <Memo(MenuList)
                 align="start"
                 anchorRef={
-                  Object {
+                  {
                     "current": <div
                       aria-expanded="true"
                       aria-haspopup="true"
@@ -489,7 +489,7 @@ exports[`should render correctly already signed in 1`] = `
                 }
                 ariaLabel="Help"
                 containerRef={
-                  Object {
+                  {
                     "current": <li
                       class="rc-menu__submenu"
                       role="presentation"
@@ -606,7 +606,7 @@ exports[`should render correctly already signed in 1`] = `
                 isDisabled={false}
                 isOpen={true}
                 menuItemFocus={
-                  Object {
+                  {
                     "position": "initial",
                   }
                 }
@@ -622,7 +622,7 @@ exports[`should render correctly already signed in 1`] = `
                   onKeyDown={[Function]}
                   role="menu"
                   style={
-                    Object {
+                    {
                       "left": "0px",
                       "top": "0px",
                     }
@@ -1034,7 +1034,7 @@ exports[`should render correctly open the browser and reach the correct page 2`]
       <Memo(MenuList)
         align="start"
         anchorRef={
-          Object {
+          {
             "current": <div
               class="menu-btn-container"
             >
@@ -1051,7 +1051,7 @@ exports[`should render correctly open the browser and reach the correct page 2`]
         }
         ariaLabel="Menu"
         containerRef={
-          Object {
+          {
             "current": <div
               class="rc-menu-container"
             >
@@ -1139,7 +1139,7 @@ exports[`should render correctly open the browser and reach the correct page 2`]
         direction="bottom"
         isOpen={true}
         menuItemFocus={
-          Object {
+          {
             "position": "initial",
           }
         }
@@ -1156,7 +1156,7 @@ exports[`should render correctly open the browser and reach the correct page 2`]
           onKeyDown={[Function]}
           role="menu"
           style={
-            Object {
+            {
               "left": "0px",
               "top": "0px",
             }
@@ -1417,7 +1417,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
       <Memo(MenuList)
         align="start"
         anchorRef={
-          Object {
+          {
             "current": <div
               class="menu-btn-container"
             >
@@ -1434,7 +1434,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
         }
         ariaLabel="Menu"
         containerRef={
-          Object {
+          {
             "current": <div
               class="rc-menu-container"
             >
@@ -1618,7 +1618,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
         direction="bottom"
         isOpen={true}
         menuItemFocus={
-          Object {
+          {
             "position": "initial",
           }
         }
@@ -1635,7 +1635,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
           onKeyDown={[Function]}
           role="menu"
           style={
-            Object {
+            {
               "left": "0px",
               "top": "0px",
             }
@@ -1838,7 +1838,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
               <Memo(MenuList)
                 align="start"
                 anchorRef={
-                  Object {
+                  {
                     "current": <div
                       aria-expanded="true"
                       aria-haspopup="true"
@@ -1852,7 +1852,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                 }
                 ariaLabel="Help"
                 containerRef={
-                  Object {
+                  {
                     "current": <li
                       class="rc-menu__submenu"
                       role="presentation"
@@ -1969,7 +1969,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                 isDisabled={false}
                 isOpen={true}
                 menuItemFocus={
-                  Object {
+                  {
                     "position": "initial",
                   }
                 }
@@ -1985,7 +1985,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                   onKeyDown={[Function]}
                   role="menu"
                   style={
-                    Object {
+                    {
                       "left": "0px",
                       "top": "0px",
                     }
@@ -2397,7 +2397,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
       <Memo(MenuList)
         align="start"
         anchorRef={
-          Object {
+          {
             "current": <div
               class="menu-btn-container"
             >
@@ -2414,7 +2414,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
         }
         ariaLabel="Menu"
         containerRef={
-          Object {
+          {
             "current": <div
               class="rc-menu-container"
             >
@@ -2593,7 +2593,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
         direction="bottom"
         isOpen={true}
         menuItemFocus={
-          Object {
+          {
             "position": "initial",
           }
         }
@@ -2610,7 +2610,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
           onKeyDown={[Function]}
           role="menu"
           style={
-            Object {
+            {
               "left": "0px",
               "top": "0px",
             }
@@ -2735,7 +2735,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
               <Memo(MenuList)
                 align="start"
                 anchorRef={
-                  Object {
+                  {
                     "current": <div
                       aria-expanded="true"
                       aria-haspopup="true"
@@ -2749,7 +2749,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                 }
                 ariaLabel="View"
                 containerRef={
-                  Object {
+                  {
                     "current": <li
                       class="rc-menu__submenu"
                       role="presentation"
@@ -2861,7 +2861,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                 isDisabled={false}
                 isOpen={true}
                 menuItemFocus={
-                  Object {
+                  {
                     "position": "initial",
                   }
                 }
@@ -2877,7 +2877,7 @@ exports[`should render correctly test checkbox menu item 2`] = `
                   onKeyDown={[Function]}
                   role="menu"
                   style={
-                    Object {
+                    {
                       "left": "0px",
                       "top": "0px",
                     }
@@ -3253,7 +3253,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
       <Memo(MenuList)
         align="start"
         anchorRef={
-          Object {
+          {
             "current": <div
               class="menu-btn-container"
             >
@@ -3270,7 +3270,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
         }
         ariaLabel="Menu"
         containerRef={
-          Object {
+          {
             "current": <div
               class="rc-menu-container"
             >
@@ -3449,7 +3449,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
         direction="bottom"
         isOpen={false}
         menuItemFocus={
-          Object {
+          {
             "position": "initial",
           }
         }
@@ -3466,7 +3466,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
           onKeyDown={[Function]}
           role="menu"
           style={
-            Object {
+            {
               "left": "0px",
               "top": "0px",
             }
@@ -3591,7 +3591,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
               <Memo(MenuList)
                 align="start"
                 anchorRef={
-                  Object {
+                  {
                     "current": <div
                       aria-expanded="false"
                       aria-haspopup="true"
@@ -3605,7 +3605,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                 }
                 ariaLabel="View"
                 containerRef={
-                  Object {
+                  {
                     "current": <li
                       class="rc-menu__submenu"
                       role="presentation"
@@ -3717,7 +3717,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                 isDisabled={false}
                 isOpen={false}
                 menuItemFocus={
-                  Object {
+                  {
                     "position": "initial",
                   }
                 }
@@ -3733,7 +3733,7 @@ exports[`should render correctly test checkbox menu item 3`] = `
                   onKeyDown={[Function]}
                   role="menu"
                   style={
-                    Object {
+                    {
                       "left": "0px",
                       "top": "0px",
                     }

@@ -16,7 +16,7 @@ exports[`should render correctly 1`] = `
       onChange={[Function]}
       step={100}
       style={
-        Object {
+        {
           "--percentage": "50%",
         }
       }

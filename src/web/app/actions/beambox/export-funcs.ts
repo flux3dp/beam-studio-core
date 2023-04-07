@@ -300,8 +300,16 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
         fileMode: '-f',
         codeType,
         model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
-        enableAutoFocus: doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
-        enableDiode: doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
+        enableAutoFocus: (
+          doesSupportDiodeAndAF
+          && BeamboxPreference.read('enable-autofocus')
+          && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))
+        ),
+        enableDiode: (
+          doesSupportDiodeAndAF
+          && BeamboxPreference.read('enable-diode')
+          && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+        ),
         shouldUseFastGradient,
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
         ...opts,
@@ -369,7 +377,9 @@ const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => 
       isCanceled = true;
     },
   });
-  const { taskCodeBlob, fileTimeCost } = await new Promise((resolve) => {
+  const { taskCodeBlob, fileTimeCost } = await new Promise<{
+    taskCodeBlob: Blob | null; fileTimeCost: number | null
+  }>((resolve) => {
     const codeType = 'fcode';
     svgeditorParser.gcodeToFcode(
       { arrayBuffer, thumbnailSize: thumbnail.length, size: blob.size },

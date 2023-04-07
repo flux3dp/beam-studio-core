@@ -3,7 +3,7 @@
 exports[`test Error Page should render #/error/screen-size correctly 1`] = `
 <View
   className={
-    Object {
+    {
       "error-page": true,
     }
   }
@@ -19,7 +19,7 @@ exports[`test Error Page should render #/error/screen-size correctly 1`] = `
 exports[`test Error Page should render unknown error correctly 1`] = `
 <View
   className={
-    Object {
+    {
       "error-page": true,
     }
   }

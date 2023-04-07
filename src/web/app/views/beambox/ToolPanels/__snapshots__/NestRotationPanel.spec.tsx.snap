@@ -31,7 +31,7 @@ exports[`should render correctly 1`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={1}
             disabled={false}
@@ -86,7 +86,7 @@ exports[`should render correctly 2`] = `
         >
           <UnitInput
             abbr={false}
-            className={Object {}}
+            className={{}}
             decimal={0}
             defaultValue={2}
             disabled={false}

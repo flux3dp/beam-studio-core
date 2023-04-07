@@ -18,8 +18,6 @@ export const cropPreprocess = async (blobUrl: string): Promise<{
   const { width: originalWidth, height: originalHeight } = image.bitmap;
   let result = blobUrl;
   if (Math.max(originalWidth, originalHeight) > 600) {
-    // eslint-disable-next-line no-console
-    console.log('Down Sampling');
     if (originalWidth >= originalHeight) {
       image.resize(600, imageProcessor.AUTO);
     } else {

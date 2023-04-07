@@ -8,7 +8,7 @@ exports[`should render correctly 1`] = `
   <div
     className="span3 no-left-margin"
     style={
-      Object {
+      {
         "width": "calc(100% / 10 * 3 - 10px)",
       }
     }
@@ -16,7 +16,7 @@ exports[`should render correctly 1`] = `
     <label
       className="font2"
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "Flux",
         }
       }
@@ -45,7 +45,7 @@ exports[`should render correctly 2`] = `
     <div
       className="span3 no-left-margin"
       style={
-        Object {
+        {
           "width": "calc(100% / 10 * 3 - 10px)",
         }
       }
@@ -53,7 +53,7 @@ exports[`should render correctly 2`] = `
       <label
         className="font2"
         dangerouslySetInnerHTML={
-          Object {
+          {
             "__html": "Flux",
           }
         }

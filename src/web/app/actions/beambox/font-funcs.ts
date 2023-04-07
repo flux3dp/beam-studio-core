@@ -215,7 +215,13 @@ const showSubstitutedFamilyPopup = (
   textElement: Element, newFont, origFont, unSupportedChar,
 ) => new Promise<SubstituteResult>(
   (resolve) => {
-    const message = sprintf(LANG.text_to_path.font_substitute_pop, textElement.textContent, fontNameMap.get(origFont), unSupportedChar.join(', '), fontNameMap.get(newFont));
+    const message = sprintf(
+      LANG.text_to_path.font_substitute_pop,
+      textElement.textContent,
+      fontNameMap.get(origFont),
+      unSupportedChar.join(', '),
+      fontNameMap.get(newFont)
+    );
     const buttonLabels = [
       i18n.lang.alert.confirm,
       LANG.text_to_path.use_current_font,
@@ -335,7 +341,9 @@ const convertTextToPath = async (
     return ConvertResult.CONTINUE;
   }
 
-  const { pathD, transform } = await new Promise((resolve) => {
+  const { pathD, transform } = await new Promise<{
+    pathD: RegExpMatchArray; transform: RegExpMatchArray;
+  }>((resolve) => {
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const svgString = e.target.result as string;

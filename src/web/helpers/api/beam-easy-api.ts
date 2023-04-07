@@ -144,7 +144,9 @@ export default window['EasyManipulator'] = class EasyManipulator extends EventEm
       return { success: false, timeCost: 0 };
     }
 
-    const { taskCodeBlob, fileTimeCost } = await new Promise((resolve) => {
+    const { taskCodeBlob, fileTimeCost } = await new Promise<{
+      taskCodeBlob: Blob; fileTimeCost: number;
+    }>((resolve) => {
       const names = []; // don't know what this is for
       const codeType = 'fcode';
       svgeditorParser.getTaskCode(

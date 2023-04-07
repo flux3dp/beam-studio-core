@@ -14,7 +14,7 @@ exports[`should render correctly submit through input 1`] = `
   <div
     className="message"
     style={
-      Object {
+      {
         "textAlign": "center",
       }
     }
@@ -25,7 +25,7 @@ exports[`should render correctly submit through input 1`] = `
       onClick={[Function]}
       onKeyDown={[Function]}
       style={
-        Object {
+        {
           "padding": "3px 10px",
           "textAlign": "left",
           "width": "120px",
@@ -35,14 +35,14 @@ exports[`should render correctly submit through input 1`] = `
   </div>
   <ButtonGroup
     buttons={
-      Array [
-        Object {
+      [
+        {
           "key": "cancel",
           "label": "Cancel",
           "onClick": [Function],
           "right": true,
         },
-        Object {
+        {
           "className": "btn-default primary",
           "key": "ok",
           "label": "OK",

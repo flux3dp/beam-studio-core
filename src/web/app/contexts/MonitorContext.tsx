@@ -104,6 +104,8 @@ interface Context extends State {
   onPlay: () => void;
   onPause: () => void;
   onStop: () => void;
+  onDownload: () => Promise<void>;
+  showUploadDialog: () => Promise<void>;
 }
 
 export const MonitorContext = React.createContext<Context>(null);
@@ -602,7 +604,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   uploadFile = async (file: File): Promise<void> => {
     const { currentPath } = this.state;
     const path = currentPath.join('/');
-    const fileExist = await this.doesFileExistInDirectory(path, file.name.replace(/ /g, '_'));
+    if (!path) return;
+    const name = file.name.split('/').at(-1).replace(/ /g, '_');
+    const fileExist = await this.doesFileExistInDirectory(path, name);
     if (fileExist) {
       const res = await new Promise((resolve) => {
         Alert.popUp({
@@ -618,7 +622,6 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
     this.setState({ uploadProgress: 0 });
     const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
     reader.onload = async () => {
       const fileInfo = file.name.split('.');
       const ext = fileInfo[fileInfo.length - 1];
@@ -632,10 +635,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         type = { type: 'text/gcode' };
         isValid = true;
       }
-
       if (isValid) {
         const blob = new Blob([reader.result], type);
-        await DeviceMaster.uploadToDirectory(blob, path, file.name, (progress: IProgress) => {
+        await DeviceMaster.uploadToDirectory(blob, path, name, (progress: IProgress) => {
           const p = Math.floor((progress.step / progress.total) * 100);
           this.setState({ uploadProgress: p });
         });
@@ -649,6 +651,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         });
       }
     };
+    reader.readAsArrayBuffer(file);
   };
 
   showUploadDialog = async (): Promise<void> => {
@@ -777,6 +780,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       onStop,
       onMaintainMoveStart,
       onMaintainMoveEnd,
+      onDownload,
+      showUploadDialog,
       setMonitorMode,
     } = this;
     return (
@@ -796,6 +801,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           onMaintainMoveStart,
           onMaintainMoveEnd,
           setMonitorMode,
+          onDownload,
+          showUploadDialog,
         }}
       >
         {children}

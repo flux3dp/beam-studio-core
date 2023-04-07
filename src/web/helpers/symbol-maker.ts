@@ -426,7 +426,7 @@ const makeImageSymbol = async (
     tempUse.setAttribute('transform', `translate(${0.5 * strokeWidth}, ${0.5 * strokeWidth}) scale(${imageRatio})`);
 
     const svgString = new XMLSerializer().serializeToString(tempSvg);
-    const svgBlob = await sendTaskToWorker({ type: 'svgStringToBlob', svgString });
+    const svgBlob = await sendTaskToWorker({ type: 'svgStringToBlob', svgString }) as Blob;
     const svgUrl = URL.createObjectURL(svgBlob);
     const imgWidth = Math.max(bb.width * imageRatio, 1);
     const imgHeight = Math.max(bb.height * imageRatio, 1);

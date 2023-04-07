@@ -12,13 +12,13 @@ exports[`should render correctly desktop version 1`] = `
     label="Auto Check"
     onChange={[Function]}
     options={
-      Array [
-        Object {
+      [
+        {
           "label": "On",
           "selected": true,
           "value": "TRUE",
         },
-        Object {
+        {
           "label": "Off",
           "selected": false,
           "value": "FALSE",

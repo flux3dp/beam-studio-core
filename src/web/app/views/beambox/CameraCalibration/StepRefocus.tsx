@@ -102,8 +102,6 @@ const StepRefocus = (): JSX.Element => {
             block
             options={[LANG.without_af, LANG.with_af]}
             onChange={(v) => setIsAutoFocus(v === LANG.with_af)}
-            onResize={() => {}}
-            onResizeCapture={() => {}}
           />
         </div>
         <video className="video" ref={videoElem} autoPlay loop muted>
