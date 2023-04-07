@@ -18,7 +18,7 @@ jobs:
           cache: 'yarn'
       - uses: artiomtr/jest-coverage-report-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           threshold: 22.35 # optional parameter
   # https://github.com/marketplace/actions/run-eslint-with-reviewdog
   eslint-check:
