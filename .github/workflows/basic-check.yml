@@ -12,7 +12,11 @@ jobs:
     if: github.ref != 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-      - uses: artiomtr/jest-coverage-report-action@v1.3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - uses: artiomtr/jest-coverage-report-action@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           threshold: 22.35 # optional parameter
