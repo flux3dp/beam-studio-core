@@ -53,6 +53,7 @@ jest.mock('helpers/i18n', () => ({
       right_panel: {
         object_panel: {
           actions_panel: {
+            edit_path: 'edit_path',
             replace_with: 'Replace With...',
             trace: 'Trace',
             grading: 'Grading',
