@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 
-import * as TutorialController from 'app/views/tutorials/tutorialController';
-import i18n from 'helpers/i18n';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import TutorialController from 'app/views/tutorials/tutorialController';
+import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { initLayerConfig } from 'helpers/layer/layer-config-helper';
 
@@ -13,19 +13,19 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const LANG = i18n.lang.beambox.right_panel.layer_panel;
-
 interface Props {
   setSelectedLayers: (selectedLayers: string[]) => void;
 }
 
 function AddLayerButton({ setSelectedLayers }: Props): JSX.Element {
+  const lang = useI18n().beambox.right_panel.layer_panel;
+
   const addNewLayer = (): void => {
     let i = 1;
-    let uniqName = `${LANG.layers.layer} ${i}`;
+    let uniqName = `${lang.layers.layer} ${i}`;
     while (svgCanvas.getCurrentDrawing().hasLayer(uniqName)) {
       i += 1;
-      uniqName = `${LANG.layers.layer} ${i}`;
+      uniqName = `${lang.layers.layer} ${i}`;
     }
     svgCanvas.createLayer(uniqName);
     if (TutorialController.getNextStepRequirement() === TutorialConstants.ADD_NEW_LAYER) {
