@@ -28,9 +28,7 @@ interface Props {
   textElement: SVGTextElement;
   isTextPath?: boolean;
   updateObjectPanel: () => void;
-  updateDimensionValues?: ({
-    fontStyle: any,
-  }) => void;
+  updateDimensionValues?: (data: { fontStyle: string }) => void;
 }
 
 interface State {
@@ -86,7 +84,13 @@ class TextOptions extends React.Component<Props, State> {
     console.log(font);
     const sanitizedDefaultFontFamily = (() => {
       // use these font if postscriptName cannot find in user PC
-      const fontFamilyFallback = ['PingFang TC', 'Arial', 'Times New Roman', 'Ubuntu', FontFuncs.availableFontFamilies[0]];
+      const fontFamilyFallback = [
+        'PingFang TC',
+        'Arial',
+        'Times New Roman',
+        'Ubuntu',
+        FontFuncs.availableFontFamilies[0],
+      ];
       const sanitizedFontFamily = [font.family, ...fontFamilyFallback].find(
         (f) => FontFuncs.availableFontFamilies.includes(f),
       );

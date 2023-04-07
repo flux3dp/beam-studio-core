@@ -627,7 +627,7 @@ class PathPreview extends React.Component<Props, State> {
       fileReaderFastGradient.onloadend = (e) => {
         this.fastGradientGcodeString = e.target.result as string;
       };
-      fileReaderFastGradient.readAsText(gcodeBlobFastGradient);
+      fileReaderFastGradient.readAsText(gcodeBlobFastGradient as Blob);
     }
   };
 
@@ -1304,9 +1304,8 @@ class PathPreview extends React.Component<Props, State> {
                       bitwiseOperand += '1';
                     }
                   }
-
                   // eslint-disable-next-line no-bitwise
-                  modifiedGcodeList.push(`F16 3 ${bytesInfo & bitwiseOperand}`);
+                  modifiedGcodeList.push(`F16 3 ${bytesInfo & bitwiseOperand as any}`);
                   modifiedGcodeList = modifiedGcodeList.concat(fastGradientGcodeList.slice(fixedIndex + 1));
 
                   const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
