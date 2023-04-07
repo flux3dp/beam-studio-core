@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test AddLayerButton should render correctly 1`] = `
+<div>
+  <div
+    class="add-layer-btn"
+  >
+    <div
+      class="bar bar1"
+    />
+    <div
+      class="bar bar2"
+    />
+    <div
+      class="bar bar3"
+    />
+  </div>
+</div>
+`;
