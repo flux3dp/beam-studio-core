@@ -154,7 +154,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             const { speed, power, repeat } = parametersSet[config.key];
             layer.setAttribute('data-speed', speed);
             layer.setAttribute('data-strength', power);
-            layer.setAttribute('data-repeat', repeat);
+            layer.setAttribute('data-repeat', repeat || 1);
           } else {
             layer.removeAttribute('data-configName');
           }
@@ -162,9 +162,9 @@ class LaserPanel extends React.PureComponent<Props, State> {
           const { speed, power, repeat, zStep } = config;
           layer.setAttribute('data-speed', speed);
           layer.setAttribute('data-strength', power);
-          layer.setAttribute('data-repeat', repeat);
+          layer.setAttribute('data-repeat', repeat || 1);
           if (zStep) {
-            layer.setAttribute('data-zstep', repeat);
+            layer.setAttribute('data-zstep', zStep || 0);
           }
         }
       }
