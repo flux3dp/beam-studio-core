@@ -3790,16 +3790,9 @@ const svgEditor = window['svgEditor'] = (function () {
         }
       }
       if (!importedFromClipboard) {
-        pasteInCenter();
+        clipboard.pasteInCenter();
       }
     });
-
-    var pasteInCenter = function () {
-      var zoom = svgCanvas.getZoom();
-      var x = (workarea[0].scrollLeft + workarea.width() / 2) / zoom - svgCanvas.contentW;
-      var y = (workarea[0].scrollTop + workarea.height() / 2) / zoom - svgCanvas.contentH;
-      clipboard.pasteElements('point', x, y);
-    };
 
     var moveUpSelectedElement = function () {
       if (selectedElement != null) {

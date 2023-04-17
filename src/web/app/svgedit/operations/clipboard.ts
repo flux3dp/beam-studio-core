@@ -295,6 +295,14 @@ const pasteFromNativeClipboard = async (
   return pasteElements(type, x, y, isSubCmd);
 };
 
+const pasteInCenter = async (): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
+  const zoom = svgCanvas.getZoom();
+  const workarea = document.getElementById('workarea');
+  const x = (workarea.scrollLeft + workarea.clientWidth / 2) / zoom - svgCanvas.contentW;
+  const y = (workarea.scrollTop + workarea.clientHeight / 2) / zoom - svgCanvas.contentH;
+  return pasteFromNativeClipboard('point', x, y);
+};
+
 const generateSelectedElementArray = (
   interval: { dx: number, dy: number },
   arraySize: { row: number, column: number },
@@ -331,6 +339,7 @@ export default {
   cutElements,
   cutSelectedElements,
   pasteElements: pasteFromNativeClipboard,
+  pasteInCenter,
   cloneSelectedElements,
   generateSelectedElementArray,
   getCurrentClipboard,

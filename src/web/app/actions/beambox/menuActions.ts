@@ -147,7 +147,7 @@ export default {
   CHANGE_LOGS: () => Dialog.showChangLog(),
   CUT: () => svgEditor.cutSelected(),
   COPY: () => svgEditor.copySelected(),
-  PASTE: () => clipboard.pasteElements('mouse'),
+  PASTE: () => clipboard.pasteInCenter(),
   PASTE_IN_PLACE: () => clipboard.pasteElements('in_place'),
   BUG_REPORT: () => {
     OutputError.downloadErrorLog();
