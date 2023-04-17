@@ -8,7 +8,27 @@ import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 
+import styles from './AlertAndProgress.module.scss';
+
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
+
+const renderIcon = (url?: string): JSX.Element => {
+  if (!url) return null;
+  return <img className={styles.icon} src={url} />;
+};
+
+const renderMessage = (message: string | React.ReactNode): JSX.Element => {
+  if (typeof message === 'string') {
+    return (
+      <div
+        className="message"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: message }}
+      />
+    );
+  }
+  return <div className="message">{message}</div>;
+};
 
 const AlertsAndProgress = (): JSX.Element => {
   const LANG = i18n.lang;
@@ -32,18 +52,6 @@ const AlertsAndProgress = (): JSX.Element => {
 
   if (alertProgressStack.length === 0) return <div />;
   const alertModals = alertProgressStack.map((data) => {
-    const renderMessage = (): JSX.Element => {
-      const { message } = data;
-      return typeof message === 'string'
-        // eslint-disable-next-line react/no-danger
-        ? (
-          <div
-            className="message"
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
-        )
-        : <div className="message">{message}</div>;
-    };
     if (isProgress(data)) {
       let { percentage } = data;
       if (data.type === ProgressConstants.NONSTOP) {
@@ -66,7 +74,7 @@ const AlertsAndProgress = (): JSX.Element => {
           cancelText={LANG.alert.cancel}
           okButtonProps={{ style: { display: 'none' } }}
         >
-          {renderMessage()}
+          {renderMessage(data.message)}
           <Progress
             status="active"
             percent={Number(Number(percentage).toFixed(2))}
@@ -101,7 +109,8 @@ const AlertsAndProgress = (): JSX.Element => {
         centered
         onCancel={popFromStack}
       >
-        {renderMessage()}
+        {renderIcon(data.iconUrl)}
+        {renderMessage(data.message)}
       </Modal>
     );
   });

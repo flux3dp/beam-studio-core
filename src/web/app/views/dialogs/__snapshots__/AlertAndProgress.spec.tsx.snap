@@ -44,6 +44,10 @@ exports[`should render correctly 1`] = `
             <div
               class="ant-modal-body"
             >
+              <img
+                class="icon"
+                src="https://www.flux3dp.com/icon.svg"
+              />
               <div
                 class="message"
               >
