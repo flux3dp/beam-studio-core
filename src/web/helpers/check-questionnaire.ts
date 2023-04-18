@@ -16,8 +16,6 @@ const checkQuestionnaire = async () => {
     })
     .then((myJson) => {
       const lastQuestionnaireVersion = storage.get('questionnaire-version') || 0;
-
-      console.log(lastQuestionnaireVersion, myJson);
       if (myJson.version > lastQuestionnaireVersion && myJson.version >= MIN_ALLOWED_VERSION) {
         resultCache = myJson;
         return myJson;

@@ -7,11 +7,9 @@ jest.mock('implementations/storage', () => ({
   get: (key) => mockGet(key),
 }));
 
-const mockConsoleLog = jest.fn();
 describe('test check-questionnaire', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    global.console.log = mockConsoleLog;
   });
 
   test('return null when version is not allowed', async () => {
@@ -59,7 +57,6 @@ describe('test check-questionnaire', () => {
     });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     expect(fetchSpy.mock.calls[0][0]).toBe('https://flux3dp.com/api_entry/?key=beam-studio-qustionnaire');
-    expect(mockConsoleLog).toBeCalledTimes(1);
 
     fetchSpy.mockReset();
     await checkQuestionnaire();
