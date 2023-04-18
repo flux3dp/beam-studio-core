@@ -56,7 +56,7 @@ describe('test check-questionnaire', () => {
       'zh-tw': 'https://flux3dp.typeform.com/to/QptA0aXU',
     });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    expect(fetchSpy.mock.calls[0][0]).toBe('https://flux3dp.com/api_entry/?key=beam-studio-qustionnaire');
+    expect(fetchSpy.mock.calls[0][0]).toBe('https://id.flux3dp.com/api/questionnaire/1');
 
     fetchSpy.mockReset();
     await checkQuestionnaire();
