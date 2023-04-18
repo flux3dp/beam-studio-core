@@ -326,11 +326,8 @@ class BeamboxInit {
   });
 
   private async showQuestionnaire(): Promise<void> {
-    const lastQuestionnaireVersion = storage.get('questionnaire-version') || 0;
     const res = await checkQuestionnaire();
-    console.log(res, lastQuestionnaireVersion);
-
-    if (!res || res.version <= lastQuestionnaireVersion) return null;
+    if (!res) return null;
 
     let url: string;
     if (res.urls) {
