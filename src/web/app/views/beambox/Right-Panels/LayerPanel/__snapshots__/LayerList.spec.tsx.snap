@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test LayerList should render correctly 1`] = `
+<div>
+  <div
+    class="list"
+    id="layerlist"
+  >
+    <div
+      class="layer-item item locked"
+      data-layer="layer2"
+      data-testid="layer2"
+      draggable="true"
+    >
+      <div
+        class="drag-sensor-area"
+        data-index="2"
+      />
+      <div
+        class="row"
+        data-layer="layer2"
+      >
+        <div
+          class="color"
+        >
+          <div
+            id="layerbackgroundColor-1"
+            style="background-color: rgb(0, 0, 0);"
+          />
+        </div>
+        <div
+          class="name"
+          id="layerdoubleclick-1"
+        >
+          layer2
+        </div>
+        <div
+          class="vis"
+          id="layervis-1"
+        >
+          <img
+            alt="vis-icon"
+            class="icon"
+            src="img/right-panel/icon-eyeopen.svg"
+          />
+        </div>
+        <div
+          class="lock"
+          id="layerlock-1"
+        >
+          <img
+            alt="lock-icon"
+            src="img/right-panel/icon-layerlock.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="drag-sensor-area"
+        data-index="1"
+      />
+    </div>
+    <div
+      class="layer-item item selected"
+      data-layer="layer1"
+      data-testid="layer1"
+      draggable="true"
+    >
+      <div
+        class="drag-sensor-area"
+        data-index="1"
+      />
+      <div
+        class="row"
+        data-layer="layer1"
+      >
+        <div
+          class="color"
+        >
+          <div
+            id="layerbackgroundColor-0"
+            style="background-color: rgb(255, 255, 255);"
+          />
+        </div>
+        <div
+          class="name"
+          id="layerdoubleclick-0"
+        >
+          layer1
+        </div>
+        <div
+          class="vis"
+          id="layervis-0"
+        >
+          <img
+            alt="vis-icon"
+            class="icon"
+            src="img/right-panel/icon-eyeclose.svg"
+          />
+        </div>
+        <div
+          class="lock"
+          id="layerlock-0"
+        >
+          <img
+            alt="lock-icon"
+            src="img/right-panel/icon-layerlock.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="drag-sensor-area"
+        data-index="0"
+      />
+    </div>
+  </div>
+</div>
+`;
