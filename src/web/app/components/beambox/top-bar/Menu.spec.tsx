@@ -102,6 +102,7 @@ jest.mock('helpers/i18n', () => ({
         help_center: 'Help Center',
         show_start_tutorial: 'Show Start Tutorial',
         show_ui_intro: 'Show Interface Introduction',
+        show_gesture_tutorial: 'show_gesture_tutorial',
         questionnaire: 'Feedback Questionnaire',
         change_logs: 'Change Logs',
         contact: 'Contact Us',
