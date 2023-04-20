@@ -1,5 +1,3 @@
-import { IButton } from './IButton';
-
 export type ArrowDirection = 'top' | 'left' | 'bottom' | 'right';
 export interface IDialogBoxStyle {
   position: {
@@ -65,5 +63,5 @@ export interface IDialog {
     defaultPath?: string,
     filters?: DialogFilter[],
     properties?: OpenDialogProperties[],
-  }): Promise<Blob | File>;
+  }): Promise<File>;
 }

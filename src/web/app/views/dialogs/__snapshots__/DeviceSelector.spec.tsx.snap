@@ -16,7 +16,7 @@ exports[`should render correctly no devices 1`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
           style="width: 385px;"
         >
@@ -70,7 +70,7 @@ exports[`should render correctly no devices 2`] = `
       >
         <div
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
           style="width: 385px;"
         >

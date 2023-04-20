@@ -17,7 +17,7 @@ exports[`should render correctly desktop version 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
           style="width: 400px;"
         >
@@ -277,7 +277,7 @@ exports[`should render correctly desktop version 2`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
           style="width: 400px;"
         >
@@ -537,9 +537,9 @@ exports[`should render correctly web version 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 400px;"
+          style="width: 400px; transform-origin: NaNpx NaNpx;"
         >
           <div
             aria-hidden="true"
