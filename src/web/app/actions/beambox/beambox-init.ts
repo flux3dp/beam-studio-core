@@ -77,9 +77,14 @@ class BeamboxInit {
     const hasMachineConnection = checkConnection();
     if (window.FLUX.version === 'web') {
       const res = await fluxId.getPreference('did_gesture_tutorial', true);
-      if (res && !res.error && res.status === 'ok' && !res.value) {
-        await Dialog.showMediaTutorial(gestureIntroduction);
-        await fluxId.setPreference({ did_gesture_tutorial: true });
+      if (res && !res.error) {
+        if (res.status === 'ok' && !res.value) {
+          await Dialog.showMediaTutorial(gestureIntroduction);
+          await fluxId.setPreference({ did_gesture_tutorial: true });
+        } else if (res.status === 'error' && res.info === 'NOT_LOGGED_IN' && !storage.get('did-gesture-tutorial')) {
+          await Dialog.showMediaTutorial(gestureIntroduction);
+          storage.set('did-gesture-tutorial', 1);
+        }
       }
     }
     await this.showFirstCalibrationDialog();

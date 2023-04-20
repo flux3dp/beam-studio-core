@@ -80,7 +80,7 @@ describe('test CropPanel', () => {
       expect(mockPopById).toBeCalledTimes(1);
       expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
     });
-    await new Promise((r) => setTimeout(r));
+    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -146,6 +146,7 @@ describe('test CropPanel', () => {
       minCropBoxWidth: 1,
       minCropBoxHeight: 1,
     });
+    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
     expect(baseElement).toMatchSnapshot();
 
     mockImageNatureWidth.mockReturnValue(80);

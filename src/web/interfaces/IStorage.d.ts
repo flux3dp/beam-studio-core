@@ -35,7 +35,8 @@ export type StorageKey =
   | 'flux-rsa-key'
   | 'sentry-send-devices'
   | 'black-list'
-  | 'host';
+  | 'host'
+  | 'did-gesture-tutorial';
 
 export interface IStorage {
   get(name: StorageKey): any;
