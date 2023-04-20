@@ -106,6 +106,7 @@ jest.mock('helpers/i18n', () => ({
         questionnaire: 'Feedback Questionnaire',
         change_logs: 'Change Logs',
         contact: 'Contact Us',
+        design_market: 'design_market',
         tutorial: 'Start Delta Family Printing Tutorial',
         forum: 'Community Forum',
         software_update: 'Software Update',
@@ -142,6 +143,7 @@ jest.mock('helpers/i18n', () => ({
         link: {
           help_center: 'https://helpcenter.flux3dp.com/',
           contact_us: 'https://flux3dp.zendesk.com/hc/en-us/requests/new',
+          design_market: 'https://designs.flux3dp.com/',
           forum: 'https://www.facebook.com/groups/flux.laser/',
           downloads: 'https://flux3dp.com/downloads/',
           beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',

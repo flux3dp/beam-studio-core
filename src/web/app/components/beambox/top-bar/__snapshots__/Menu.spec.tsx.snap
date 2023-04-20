@@ -222,7 +222,9 @@ exports[`should render correctly already signed in 1`] = `
                       class="rc-menu__item"
                       role="menuitem"
                       tabindex="-1"
-                    />
+                    >
+                      design_market
+                    </li>
                     <li
                       class="rc-menu__item"
                       role="menuitem"
@@ -576,7 +578,9 @@ exports[`should render correctly already signed in 1`] = `
                           class="rc-menu__item"
                           role="menuitem"
                           tabindex="-1"
-                        />
+                        >
+                          design_market
+                        </li>
                         <li
                           class="rc-menu__item"
                           role="menuitem"
@@ -844,7 +848,9 @@ exports[`should render correctly already signed in 1`] = `
                       onPointerUp={[Function]}
                       role="menuitem"
                       tabIndex={-1}
-                    />
+                    >
+                      design_market
+                    </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     index={9}
@@ -1591,7 +1597,9 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       class="rc-menu__item"
                       role="menuitem"
                       tabindex="-1"
-                    />
+                    >
+                      design_market
+                    </li>
                     <li
                       class="rc-menu__item"
                       role="menuitem"
@@ -1945,7 +1953,9 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                           class="rc-menu__item"
                           role="menuitem"
                           tabindex="-1"
-                        />
+                        >
+                          design_market
+                        </li>
                         <li
                           class="rc-menu__item"
                           role="menuitem"
@@ -2213,7 +2223,9 @@ exports[`should render correctly open the browser and reach the correct page 3`]
                       onPointerUp={[Function]}
                       role="menuitem"
                       tabIndex={-1}
-                    />
+                    >
+                      design_market
+                    </li>
                   </Memo(MenuItem)>
                   <Memo(MenuItem)
                     index={9}
