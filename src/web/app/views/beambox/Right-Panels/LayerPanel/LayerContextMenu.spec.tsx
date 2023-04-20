@@ -201,7 +201,8 @@ describe('test LayerContextMenu', () => {
     expect(mockDrawing.getLayerName).toBeCalledTimes(2);
     expect(mockDrawing.getLayerName).toHaveBeenLastCalledWith(0);
     expect(mockMergeLayers).toBeCalledWith(['layer1'], 'layer2');
-    expect(mockSetSelectedLayers).toBeCalledWith(['layer2']);
+    expect(mockSelectOnlyLayer).toBeCalledTimes(1);
+    expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer2');
   });
 
   test('merge all should work', () => {
@@ -224,8 +225,8 @@ describe('test LayerContextMenu', () => {
     expect(mockGetAllLayerNames).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2', 'layer3']);
-    expect(mockSetSelectedLayers).toBeCalledTimes(1);
-    expect(mockSetSelectedLayers).toHaveBeenLastCalledWith(['layer1']);
+    expect(mockSelectOnlyLayer).toBeCalledTimes(1);
+    expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer1');
   });
 
   test('merge selected should work', () => {

@@ -27,51 +27,50 @@ interface Props {
 const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX.Element => {
   const LANG = useI18n().beambox.right_panel.layer_panel.layers;
   const { selectedLayers, setSelectedLayers } = useContext(LayerPanelContext);
-  const [targetLayers, setTargetLayers] = React.useState<string[]>(selectedLayers);
 
   const onContextMenuShow = (e: CustomEvent) => {
     const trigger = e.detail.data?.target as Element;
     const layerItem = trigger?.closest('.layer-item');
     const layerName = layerItem?.getAttribute('data-layer');
-    const names = (layerName && !selectedLayers.includes(layerName)) ? [layerName] : selectedLayers;
-    setTargetLayers(names);
+    if (layerName && !selectedLayers.includes(layerName)) {
+      selectOnlyLayer(layerName);
+    }
   };
 
   const handleRename = () => {
-    selectOnlyLayer(targetLayers[0]);
+    selectOnlyLayer(selectedLayers[0]);
     renameLayer();
   };
 
   const handleCloneLayers = () => {
-    const newLayers = cloneLayers(targetLayers);
+    const newLayers = cloneLayers(selectedLayers);
     setSelectedLayers(newLayers);
   };
 
   const handleDeleteLayers = () => {
-    deleteLayers(targetLayers);
-    if (targetLayers.every((name, i) => selectedLayers[i] === name)) setSelectedLayers([]);
-    else setSelectedLayers([...selectedLayers]);
+    deleteLayers(selectedLayers);
+    setSelectedLayers([]);
   };
 
   const handleLockLayers = () => {
     svgCanvas.clearSelection();
-    setLayersLock(targetLayers, true);
+    setLayersLock(selectedLayers, true);
     setSelectedLayers([...selectedLayers]);
   };
 
   const handleMergeDown = () => {
-    const layer = targetLayers[0];
+    const layer = selectedLayers[0];
     const layerPosition = getLayerPosition(layer);
     if (layerPosition === 0) return;
     const baseLayerName = drawing.getLayerName(layerPosition - 1);
     mergeLayers([layer], baseLayerName);
-    setSelectedLayers([baseLayerName]);
+    selectOnlyLayer(baseLayerName);
   };
 
   const handleMergeAll = () => {
     const allLayerNames = getAllLayerNames();
-    const baseLayer = mergeLayers(allLayerNames);
-    setSelectedLayers([baseLayer]);
+    const baseLayerName = mergeLayers(allLayerNames);
+    selectOnlyLayer(baseLayerName);
   };
 
   const handleMergeSelected = () => {
@@ -80,8 +79,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     setSelectedLayers([baseLayer]);
   };
 
-  const isMultiSelecting = targetLayers.length > 1;
-  const isSelectingLast = (targetLayers.length === 1) && (drawing.getLayerName(0) === targetLayers[0]);
+  const isMultiSelecting = selectedLayers.length > 1;
+  const isSelectingLast = (selectedLayers.length === 1) && (drawing.getLayerName(0) === selectedLayers[0]);
 
   return (
     <ContextMenu id="layer-contextmenu" onShow={onContextMenuShow}>
