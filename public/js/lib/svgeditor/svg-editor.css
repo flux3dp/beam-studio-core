@@ -226,15 +226,6 @@ select {
 	cursor: pointer;
 }
 
-#layerlist {
-	/* margin: 1px; */
-	padding: 0;
-	width: 100%;
-	border-collapse: collapse;
-	/* border: 1px solid #808080; */
-	background-color: #FFFFFF;
-}
-
 #layerlist_container {
 	overflow-x: hidden;
 	overflow-y: scroll;

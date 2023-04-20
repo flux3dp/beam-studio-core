@@ -1,5 +1,4 @@
-import * as React from 'react';
-import classNames from 'classnames';
+import React from 'react';
 
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
@@ -7,19 +6,14 @@ import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';
 import LaserPanel from 'app/views/beambox/Right-Panels/LaserPanel';
+import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
+import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
+import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
+import { getLayerElementByName, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import {
-  getLayerElementByName,
-  deleteLayers,
-  cloneSelectedLayers,
-  setLayersLock,
-  mergeSelectedLayers,
-  moveLayersToPosition,
-} from 'helpers/layer/layer-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -29,15 +23,16 @@ getSVGAsync((globalSVG) => {
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
-  id?:string,
+  id?: string;
   elem: Element;
 }
 
 interface State {
-  id?:string,
+  id?: string;
   draggingDestIndex?: number;
   draggingLayer?: string;
-  disableScroll? : boolean;
+  disableScroll?: boolean;
+  contextTargetLayers?: [string];
 }
 
 class LayerPanel extends React.Component<Props, State> {
@@ -75,25 +70,6 @@ class LayerPanel extends React.Component<Props, State> {
     }
   }
 
-  cloneSelectedLayers = (): void => {
-    const { selectedLayers, setSelectedLayers } = this.context;
-    const newSelectedLayers = cloneSelectedLayers(selectedLayers);
-    setSelectedLayers(newSelectedLayers);
-  };
-
-  deleteSelectLayers = (): void => {
-    const { selectedLayers, setSelectedLayers } = this.context;
-    deleteLayers(selectedLayers);
-    setSelectedLayers([]);
-  };
-
-  lockSelectedLayers = (): void => {
-    const { selectedLayers } = this.context;
-    svgCanvas.clearSelection();
-    setLayersLock(selectedLayers, true);
-    this.forceUpdate();
-  };
-
   unLockLayers = (layerName: string): void => {
     const { selectedLayers, setSelectedLayers } = this.context;
     if (selectedLayers.includes(layerName)) {
@@ -103,32 +79,6 @@ class LayerPanel extends React.Component<Props, State> {
       setLayersLock([layerName], false);
       setSelectedLayers([layerName]);
     }
-  };
-
-  mergeLayer = (): void => {
-    const drawing = svgCanvas.getCurrentDrawing();
-    const layerCount = drawing.getNumLayers();
-    const curIndex = drawing.getCurrentLayerPosition();
-    if (curIndex === layerCount) {
-      return;
-    }
-    svgCanvas.mergeLayer();
-    const { setSelectedLayers } = this.context;
-    setSelectedLayers([]);
-  };
-
-  mergeAllLayer = (): void => {
-    svgCanvas.mergeAllLayers();
-    const { setSelectedLayers } = this.context;
-    setSelectedLayers([]);
-  };
-
-  mergeSelected = (): void => {
-    const drawing = svgCanvas.getCurrentDrawing();
-    const currentLayerName = drawing.getCurrentLayerName();
-    const { selectedLayers, setSelectedLayers } = this.context;
-    const baseLayer = mergeSelectedLayers(selectedLayers, currentLayerName);
-    setSelectedLayers([baseLayer]);
   };
 
   renameLayer = (): void => {
@@ -440,124 +390,6 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  renderDragBar = (): JSX.Element => <div key="drag-bar" className={classNames('drag-bar')} />;
-
-  renderLayerList = (): JSX.Element => {
-    const { selectedLayers } = this.context;
-    const { draggingDestIndex } = this.state;
-    const items = [];
-    const drawing = svgCanvas.getCurrentDrawing();
-    const currentLayerName = drawing.getCurrentLayerName();
-
-    const isAnyLayerMissing = drawing.all_layers.some((layer) => {
-      if (!layer.group_.parentNode) {
-        return true;
-      }
-      return false;
-    });
-    if (isAnyLayerMissing) {
-      drawing.identifyLayers();
-    }
-
-    const allLayerNames: string[] = drawing.all_layers.map((layer) => layer.name_);
-
-    if (draggingDestIndex === allLayerNames.length) {
-      items.push(this.renderDragBar());
-    }
-
-    for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
-      const layerName = allLayerNames[i];
-      const layer = drawing.getLayerByName(layerName);
-      if (layer) {
-        const isLocked = layer.getAttribute('data-lock') === 'true';
-        const isSelected = selectedLayers.includes(layerName);
-        const isVis = drawing.getLayerVisibility(layerName);
-        items.push(
-          <div
-            data-test-key={`layer-${i}`}
-            key={layerName}
-            className={classNames('layer', { layersel: isSelected, lock: isLocked, current: currentLayerName === layerName })}
-            onClick={(e: React.MouseEvent) => this.handleLayerClick(e, layerName)}
-            onMouseOver={() => this.highlightLayer(layerName)}
-            onMouseOut={() => this.highlightLayer()}
-            draggable
-            onDragStart={(e: React.DragEvent) => this.onLayerDragStart(layerName, e)}
-            onDragEnd={this.onlayerDragEnd}
-            onTouchStart={(e: React.TouchEvent) => this.onLayerTouchStart(layerName, e)}
-            onTouchMove={this.onLayerTouchMove}
-            onTouchEnd={this.onLayerTouchEnd}
-            onFocus={() => { }}
-            onBlur={() => { }}
-          >
-            <div
-              className="drag-sensor-area"
-              data-index={i + 1}
-              onDragEnter={() => this.onSensorAreaDragEnter(i + 1)}
-            />
-            <div
-              className="layer-row"
-              data-layer={layerName}
-              onDragEnter={() => this.onLayerCenterDragEnter(layerName)}
-            >
-              <div className="layercolor">
-                <div
-                  id={`layerbackgroundColor-${i}`}
-                  style={{ backgroundColor: drawing.getLayerColor(layerName) }}
-                  onClick={(e: React.MouseEvent) => this.openLayerColorPanel(e, layerName)}
-                />
-              </div>
-              <div
-                id={`layerdoubleclick-${i}`}
-                className="layername"
-                onDoubleClick={(e: React.MouseEvent) => {
-                  if (!e.ctrlKey && !e.shiftKey && !e.metaKey) this.layerDoubleClick();
-                }}
-              >
-                {layerName}
-              </div>
-              <div
-                id={`layervis-${i}`}
-                className={classNames('layervis')}
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  this.setLayerVisibility(layerName);
-                }}
-              >
-                <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
-              </div>
-              <div
-                id={`layerlock-${i}`}
-                className="layerlock"
-                onClick={(e: React.MouseEvent) => {
-                  if (isLocked) {
-                    e.stopPropagation();
-                    this.unLockLayers(layerName);
-                  }
-                }}
-              >
-                <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
-              </div>
-            </div>
-            <div
-              className="drag-sensor-area"
-              data-index={i}
-              onDragEnter={() => this.onSensorAreaDragEnter(i)}
-            />
-          </div>,
-        );
-        if (draggingDestIndex === i) {
-          items.push(this.renderDragBar());
-        }
-      }
-    }
-
-    return (
-      <div id="layerlist">
-        {items}
-      </div>
-    );
-  };
-
   render(): JSX.Element {
     if (!svgCanvas) {
       setTimeout(() => {
@@ -566,13 +398,10 @@ class LayerPanel extends React.Component<Props, State> {
       return null;
     }
     const { elem } = this.props;
-    const { draggingLayer } = this.state;
+    const { draggingLayer, draggingDestIndex } = this.state;
     const { selectedLayers, setSelectedLayers } = this.context;
     const isTouchable = navigator.maxTouchPoints >= 1;
-    const isMultiSelecting = selectedLayers.length > 1;
     const drawing = svgCanvas.getCurrentDrawing();
-    const isSelectingLast = ((selectedLayers.length === 1)
-      && (drawing.getLayerName(0) === selectedLayers[0]));
 
     return (
       <div id="layer-and-laser-panel">
@@ -583,29 +412,32 @@ class LayerPanel extends React.Component<Props, State> {
             hideOnLeaveHoldPosition
           >
             <div id="layerlist_container" ref={this.layerListContainerRef}>
-              {this.renderLayerList()}
+              <LayerList
+                draggingDestIndex={draggingDestIndex}
+                onLayerClick={this.handleLayerClick}
+                highlightLayer={this.highlightLayer}
+                onLayerDragStart={this.onLayerDragStart}
+                onlayerDragEnd={this.onlayerDragEnd}
+                onLayerTouchStart={this.onLayerTouchStart}
+                onLayerTouchMove={this.onLayerTouchMove}
+                onLayerTouchEnd={this.onLayerTouchEnd}
+                onSensorAreaDragEnter={this.onSensorAreaDragEnter}
+                onLayerCenterDragEnter={this.onLayerCenterDragEnter}
+                onLayerDoubleClick={this.layerDoubleClick}
+                openLayerColorPanel={this.openLayerColorPanel}
+                setLayerVisibility={this.setLayerVisibility}
+                unLockLayers={this.unLockLayers}
+              />
             </div>
           </ContextMenuTrigger>
           <AddLayerButton setSelectedLayers={setSelectedLayers} />
           <SelLayerBlock elem={elem} />
           <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
-          <ContextMenu id="layer-contextmenu">
-            <MenuItem attributes={{ id: 'renameLayer' }} disabled={isMultiSelecting} onClick={this.renameLayer}>
-              {LANG.layers.rename}
-            </MenuItem>
-            <MenuItem attributes={{ id: 'dupelayer' }} onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
-            <MenuItem attributes={{ id: 'locklayer' }} onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
-            <MenuItem attributes={{ id: 'deletelayer' }} onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
-            <MenuItem attributes={{ id: 'merge_down_layer' }} disabled={isMultiSelecting || isSelectingLast} onClick={this.mergeLayer}>
-              {LANG.layers.merge_down}
-            </MenuItem>
-            <MenuItem attributes={{ id: 'merge_all_layer' }} disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
-              {LANG.layers.merge_all}
-            </MenuItem>
-            <MenuItem attributes={{ id: 'merge_selected_layer' }} disabled={!isMultiSelecting} onClick={this.mergeSelected}>
-              {LANG.layers.merge_selected}
-            </MenuItem>
-          </ContextMenu>
+          <LayerContextMenu
+            drawing={drawing}
+            selectOnlyLayer={this.selectOnlyLayer}
+            renameLayer={this.renameLayer}
+          />
         </div>
         <LaserPanel
           selectedLayers={selectedLayers}

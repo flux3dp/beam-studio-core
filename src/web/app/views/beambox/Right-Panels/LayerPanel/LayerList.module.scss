@@ -1,0 +1,119 @@
+.list {
+  padding: 0;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+
+  .color {
+    width: 24px;
+
+    > div {
+      position: relative;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      border: 2px solid white;
+      border-radius: 4px;
+      margin-left: 10px;
+      background: black;
+    }
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 40px;
+    border: 1px solid #ffffff;
+    border-width: 0 0 0 5px;
+
+    &:hover {
+      color: black;
+      background-color: #dddddd;
+      border-color: #dddddd;
+    }
+
+    .row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      min-height: 30px;
+    }
+
+    .drag-sensor-area {
+      width: 100%;
+      height: 5px;
+    }
+
+    .name {
+      width: 140px;
+      padding: 3px 0px;
+      margin-left: 5px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .vis {
+      display: flex;
+      align-items: center;
+      width: 24px;
+      height: 25px;
+      text-align: center;
+      margin: 0 0 0 5px;
+      cursor: pointer;
+
+      .icon {
+        filter: brightness(0);
+      }
+    }
+
+    .lock {
+      width: 24px;
+      margin: 0 5px 0 0;
+      cursor: pointer;
+      > img {
+        display: none;
+        filter: brightness(0%);
+      }
+    }
+
+    &.selected {
+      color: white;
+      background-color: #444444;
+      border-color: #444444;
+      font-weight: normal;
+
+      &:hover:not(.current) {
+        color: white;
+        background-color: #444;
+        border-color: #444444;
+      }
+
+      &.current {
+        border-color: #0091ff;
+      }
+
+      .vis {
+        filter: brightness(0) invert(1);
+      }
+
+      .lock {
+        > img {
+          filter: brightness(0%) invert(100%);
+        }
+      }
+    }
+
+    &.locked .lock {
+      img {
+        display: block;
+      }
+    }
+  }
+}
+
+.drag-bar {
+  width: 100%;
+  height: 2px;
+  background-color: #0091ff;
+}

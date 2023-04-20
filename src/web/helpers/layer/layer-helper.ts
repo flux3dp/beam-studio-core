@@ -37,6 +37,27 @@ export function getObjectLayer(elem: SVGElement): { elem: SVGGElement, title: st
   return null;
 }
 
+export const getAllLayerNames = (): string[] => {
+  const allLayers = document.querySelectorAll('g.layer');
+  const layerNames = [];
+  for (let i = 0; i < allLayers.length; i += 1) {
+    const title = allLayers[i].querySelector('title');
+    if (title) {
+      layerNames.push(title.textContent);
+    }
+  }
+  return layerNames;
+};
+
+export const getLayerPosition = (layerName: string): number => {
+  const allLayers = document.querySelectorAll('g.layer');
+  for (let i = 0; i < allLayers.length; i += 1) {
+    const title = allLayers[i].querySelector('title');
+    if (title && title.textContent === layerName) return i;
+  }
+  return -1;
+};
+
 export const sortLayerNamesByPosition = (layerNames: string[]): string[] => {
   const layerNamePositionMap = {};
   const allLayers = document.querySelectorAll('g.layer');
@@ -106,43 +127,50 @@ export const deleteLayers = (layerNames: string[]): void => {
   svgCanvas.clearSelection();
 };
 
-export const cloneLayerByName = (layerName: string, newLayerName: string): ICommand => {
+export const cloneLayer = (layerName: string, isSub = false): { name: string; cmd: ICommand } | null => {
   const layer = getLayerElementByName(layerName);
-  if (layer) {
-    const color = layer.getAttribute('data-color') || '#333';
-    const svgcontent = document.getElementById('svgcontent');
-    const newLayer = new svgedit.draw.Layer(newLayerName, null, svgcontent, color).getGroup();
-    const children = layer.childNodes;
-    for (let i = 0; i < children.length; i += 1) {
-      const child = children[i] as Element;
-      if (child.tagName !== 'title') {
-        const copiedElem = svgCanvas.getCurrentDrawing().copyElem(child);
-        newLayer.appendChild(copiedElem);
-      }
-    }
-    cloneLayerConfig(newLayerName, layerName);
-    return new history.InsertElementCommand(newLayer);
+  if (!layer) return null;
+
+  const drawing = svgCanvas.getCurrentDrawing();
+  const color = layer.getAttribute('data-color') || '#333';
+  const svgcontent = document.getElementById('svgcontent');
+  const baseName = `${layerName} copy`;
+  let newName = baseName;
+  let j = 0;
+  while (drawing.hasLayer(newName)) {
+    j += 1;
+    newName = `${baseName} ${j}`;
   }
-  return null;
+  const newLayer = new svgedit.draw.Layer(newName, null, svgcontent, color).getGroup();
+  const children = layer.childNodes;
+  for (let i = 0; i < children.length; i += 1) {
+    const child = children[i] as Element;
+    if (child.tagName !== 'title') {
+      const copiedElem = drawing.copyElem(child);
+      newLayer.appendChild(copiedElem);
+    }
+  }
+  cloneLayerConfig(newName, layerName);
+  const cmd = new history.InsertElementCommand(newLayer);
+  if (!isSub) {
+    svgCanvas.undoMgr.addCommandToHistory(cmd);
+    drawing.identifyLayers();
+    svgCanvas.clearSelection();
+  }
+  return { name: newName, cmd };
 };
 
-export const cloneSelectedLayers = (layerNames: string[]): string[] => {
+export const cloneLayers = (layerNames: string[]): string[] => {
   sortLayerNamesByPosition(layerNames);
-  const newSelectLayers: string[] = [];
+  const clonedLayerNames: string[] = [];
   const drawing = svgCanvas.getCurrentDrawing();
   const batchCmd = new history.BatchCommand('Clone Layer(s)');
   for (let i = 0; i < layerNames.length; i += 1) {
-    const baseName = `${layerNames[i]} copy`;
-    let newName = baseName;
-    let j = 0;
-    while (drawing.hasLayer(newName)) {
-      j += 1;
-      newName = `${baseName} ${j}`;
-    }
-    const cmd = cloneLayerByName(layerNames[i], newName);
-    if (cmd) {
+    const res = cloneLayer(layerNames[i], true);
+    if (res) {
+      const { cmd, name } = res;
       batchCmd.addSubCommand(cmd);
-      newSelectLayers.push(newName);
+      clonedLayerNames.push(name);
     }
   }
   if (!batchCmd.isEmpty()) {
@@ -150,7 +178,7 @@ export const cloneSelectedLayers = (layerNames: string[]): string[] => {
   }
   drawing.identifyLayers();
   svgCanvas.clearSelection();
-  return newSelectLayers;
+  return clonedLayerNames;
 };
 
 export const setLayerLock = (layerName: string, isLocked: boolean): void => {
@@ -168,49 +196,43 @@ export const setLayersLock = (layerNames: string[], isLocked: boolean): void => 
   }
 };
 
-export const mergeLayer = (
+const mergeLayer = (
   baseLayerName: string,
   layersToBeMerged: string[],
   shouldInsertBefore: boolean,
-) : IBatchCommand => {
+) : IBatchCommand | null => {
   const baseLayer = getLayerElementByName(baseLayerName);
-  if (baseLayer) {
-    const firstChildOfBase = Array.from(baseLayer.childNodes).find(
-      (node: Element) => !['title', 'filter'].includes(node.tagName)
-    );
-    const batchCmd: IBatchCommand = new history.BatchCommand(`Merge into ${baseLayer}`);
-    for (let i = 0; i < layersToBeMerged.length; i += 1) {
-      const layer = getLayerElementByName(layersToBeMerged[i]);
-      if (layer) {
-        const { childNodes } = layer;
-        for (let j = 0; j < childNodes.length; j += 1) {
-          const child = childNodes[j];
-          if (!['title', 'filter'].includes(child.nodeName)) {
-            const { nextSibling } = child;
-            if (shouldInsertBefore) {
-              baseLayer.insertBefore(child, firstChildOfBase);
-            } else {
-              baseLayer.appendChild(child);
-            }
-            const cmd = new history.MoveElementCommand(child, nextSibling, layer);
-            batchCmd.addSubCommand(cmd);
-            j -= 1;
-          }
+  if (!baseLayer) return null;
+
+  const firstChildOfBase = Array.from(baseLayer.childNodes).find(
+    (node: Element) => !['title', 'filter'].includes(node.tagName)
+  );
+  const batchCmd: IBatchCommand = new history.BatchCommand(`Merge into ${baseLayer}`);
+  for (let i = 0; i < layersToBeMerged.length; i += 1) {
+    const layer = getLayerElementByName(layersToBeMerged[i]);
+    if (layer) {
+      const { childNodes } = layer;
+      for (let j = 0; j < childNodes.length; j += 1) {
+        const child = childNodes[j];
+        if (!['title', 'filter'].includes(child.nodeName)) {
+          const { nextSibling } = child;
+          if (shouldInsertBefore) baseLayer.insertBefore(child, firstChildOfBase);
+          else baseLayer.appendChild(child);
+
+          const cmd = new history.MoveElementCommand(child, nextSibling, layer);
+          batchCmd.addSubCommand(cmd);
+          j -= 1;
         }
       }
-
-      const cmd = deleteLayerByName(layersToBeMerged[i]);
-      if (cmd) {
-        batchCmd.addSubCommand(cmd);
-      }
     }
-    svgCanvas.updateLayerColor(baseLayer);
-    return batchCmd;
+    const cmd = deleteLayerByName(layersToBeMerged[i]);
+    if (cmd) batchCmd.addSubCommand(cmd);
   }
-  return null;
+  svgCanvas.updateLayerColor(baseLayer);
+  return batchCmd;
 };
 
-export const mergeSelectedLayers = (layerNames: string[], baseLayerName?: string): string => {
+export const mergeLayers = (layerNames: string[], baseLayerName?: string): string => {
   svgCanvas.clearSelection();
   const batchCmd = new history.BatchCommand('Merge Layer(s)');
   const drawing = svgCanvas.getCurrentDrawing();
