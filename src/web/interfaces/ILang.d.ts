@@ -525,6 +525,14 @@ export interface ILang {
         unable_to_get_url: string,
         no_questionnaire_available: string,
       },
+      facebook_group_invitation: {
+        title: string;
+        message: string;
+        join_now: string;
+        later: string;
+        already_joined: string;
+        dont_show_again: string;
+      },
     },
     zoom_block: {
       fit_to_window: string,

@@ -527,6 +527,14 @@ const lang: ILang = {
         unable_to_get_url: '無法透過網路取得目前最新問卷的連結，請確認您的網路連線狀況。',
         no_questionnaire_available: '目前沒有可供填寫的問卷。',
       },
+      facebook_group_invitation: {
+        title: '加入 FLUX 官方用戶社群',
+        message: '即刻加入 FLUX 官方用戶社群，與廣大 FLUX 用戶分享使用心得、展示雷雕作品以及獲取最新的產品資訊。',
+        join_now: '馬上加入',
+        later: '稍後加入',
+        already_joined: '已加入用戶社群',
+        dont_show_again: '不要再提醒我',
+      },
     },
     zoom_block: {
       fit_to_window: '配合視窗尺寸',

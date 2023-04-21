@@ -527,6 +527,14 @@ const lang: ILang = {
         unable_to_get_url: '无法透过网路取得目前最新问卷的连结，请确认您的网路连线状况。',
         no_questionnaire_available: '目前没有可供填写的问卷。',
       },
+      facebook_group_invitation: {
+        title: '加入 FLUX 官方用户社群',
+        message: '即刻加入 FLUX 官方用户社群，与广大 FLUX 用户分享使用心得、展示雷雕作品以及获取最新的产品资讯。',
+        join_now: '立马加入',
+        later: '稍后加入',
+        already_joined: '已加入用户社群',
+        dont_show_again: '不要再提醒我',
+      },
     },
     zoom_block: {
       fit_to_window: '配合视窗尺寸',
