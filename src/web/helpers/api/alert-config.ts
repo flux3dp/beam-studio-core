@@ -11,6 +11,7 @@ type AlertConfigKey =
   'skip_path_speed_constraint_warning' |
   'skip_svg_version_warning' |
   'skip_image_path_warning' |
+  'skip-fb-group-invitation' |
   'done-first-cali';
 
 export default {

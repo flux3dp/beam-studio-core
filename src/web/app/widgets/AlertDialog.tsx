@@ -23,6 +23,9 @@ interface States {
   imgIndex: number,
 }
 
+/**
+  * @deprecated The method should not be used
+*/
 class AlertDialog extends React.Component<Props, States> {
   static defaultProps: Props = {
     caption: '',

@@ -527,6 +527,14 @@ const lang: ILang = {
         unable_to_get_url: 'Impossible d\'obtenir le lien vers le questionnaire via Internet. Veuillez confirmer votre connexion Internet.',
         no_questionnaire_available: 'Il n\'y a pas de questionnaire disponible pour le moment.',
       },
+      facebook_group_invitation: {
+        title: 'Rejoignez le groupe d\'utilisateurs de FLUX',
+        message: 'Rejoignez notre groupe Facebook officiel !\nConnectez-vous avec d\'autres utilisateurs du laser FLUX, partagez vos œuvres d\'art et restez informé(e) des dernières mises à jour sur nos produits !',
+        join_now: 'Oui Oui!',
+        later: 'Peut-être plus tard',
+        already_joined: 'Déjà Rejoint',
+        dont_show_again: 'Je suis déjà membre',
+      },
     },
     zoom_block: {
       fit_to_window: 'Ajustement à la fenêtre',

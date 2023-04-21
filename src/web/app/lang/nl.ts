@@ -527,6 +527,14 @@ const lang: ILang = {
         unable_to_get_url: 'Het is niet gelukt om de link naar de vragenlijst via internet te krijgen. Bevestig uw internetverbinding.',
         no_questionnaire_available: 'Er is momenteel geen vragenlijst beschikbaar.',
       },
+      facebook_group_invitation: {
+        title: 'Word lid van de FLUX officiële gebruikersgroep',
+        message: 'Word lid van onze officiële Facebook-groep om in contact te komen met andere FLUX lasergebruikers, te discussiëren over FLUX lasers, laserkunstwerken te delen en op de hoogte te blijven van de laatste updates over onze producten. We kunnen niet wachten om u daar te zien!',
+        join_now: 'Nu lid worden',
+        later: 'Misschien later',
+        already_joined: 'Reeds lid geworden',
+        dont_show_again: 'Laat dit niet meer zien',
+      },
     },
     zoom_block: {
       fit_to_window: 'Aanpassen aan venster',

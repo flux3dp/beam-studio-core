@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, Modal, Progress } from 'antd';
+import { Modal, Progress } from 'antd';
 
+import Alert from 'app/views/dialogs/Alert';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
 import ProgressConstants from 'app/constants/progress-constants';
@@ -8,14 +9,7 @@ import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 
-import styles from './AlertAndProgress.module.scss';
-
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
-
-const renderIcon = (url?: string): JSX.Element => {
-  if (!url) return null;
-  return <img className={styles.icon} src={url} />;
-};
 
 const renderMessage = (message: string | React.ReactNode): JSX.Element => {
   if (typeof message === 'string') {
@@ -34,7 +28,7 @@ const AlertsAndProgress = (): JSX.Element => {
   const LANG = i18n.lang;
   const messageRef = useRef<HTMLPreElement>();
 
-  const { alertProgressStack, popFromStack, popById } = React.useContext(AlertProgressContext);
+  const { alertProgressStack, popById } = React.useContext(AlertProgressContext);
 
   useEffect(() => {
     const message = messageRef.current as Element;
@@ -83,36 +77,8 @@ const AlertsAndProgress = (): JSX.Element => {
         </Modal>
       );
     }
-    const footer = data?.buttons.map((button) => {
-      const buttonType = button.className?.includes('primary') ? 'primary' : 'default';
-      return (
-        <Button
-          key={button.label}
-          onClick={() => {
-            popFromStack();
-            button.onClick();
-          }}
-          type={buttonType}
-        >
-          {button.label}
-        </Button>
-      );
-    });
 
-    return (
-      <Modal
-        key={`${data.key}-${data.id}`}
-        open={alertProgressStack.length > 0}
-        title={data.caption}
-        footer={footer}
-        closable={false}
-        centered
-        onCancel={popFromStack}
-      >
-        {renderIcon(data.iconUrl)}
-        {renderMessage(data.message)}
-      </Modal>
-    );
+    return <Alert key={`${data.key}-${data.id}`} data={data} />;
   });
 
   return (

@@ -2,6 +2,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
+import alertHelper from 'helpers/alert-helper';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
@@ -66,6 +67,7 @@ class BeamboxInit {
     autoSaveHelper.init();
     fluxId.init();
     BeamboxStore.onDrawGuideLines(this.displayGuides);
+    alertHelper.registerAlertEvents(Alert.popUp);
 
     // WebSocket for Adobe Illustrator Plug-In
     InterProcess();

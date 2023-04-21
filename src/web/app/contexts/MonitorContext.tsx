@@ -11,6 +11,7 @@ import dialog from 'implementations/dialog';
 import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
@@ -19,6 +20,8 @@ import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IProgress } from 'interfaces/IProgress';
 import { ItemType, Mode } from 'app/constants/monitor-constants';
+
+const eventEmitter = eventEmitterFactory.createEventEmitter('monitor');
 
 let LANG = i18n.lang;
 const updateLang = () => {
@@ -701,7 +704,6 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       mode, report, currentPath, fileInfo, relocateOrigin,
     } = this.state;
     this.didErrorPopped = false;
-
     if (report.st_id === IDLE) {
       const vc = VersionChecker(device.version);
       console.log(device.version);
@@ -736,6 +738,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       // PAUSED
       DeviceMaster.resume();
     }
+    eventEmitter.emit('PLAY');
   };
 
   onPause = (): void => {

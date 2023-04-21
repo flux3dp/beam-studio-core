@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { render } from '@testing-library/react';
 
 import AlertAndProgress from './AlertAndProgress';
+
+jest.mock('app/views/dialogs/Alert', () => ({ data }: any) => (<div>DummyAlert {JSON.stringify(data)}</div>));
 
 jest.mock('helpers/i18n', () => ({
   lang: {

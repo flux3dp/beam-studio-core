@@ -527,6 +527,14 @@ const lang: ILang = {
         unable_to_get_url: 'インターネット経由でアンケートへのリンクを取得できませんでした。インターネット接続を確認してください。',
         no_questionnaire_available: '現在、利用可能なアンケートはありません。',
       },
+      facebook_group_invitation: {
+        title: 'FLUX公式ユーザーグループへの参加',
+        message: '公式Facebookグループに参加して、他のFLUXレーザーユーザーとつながり、FLUXレーザーについて語り合い、レーザーアート作品を共有し、製品に関する最新情報を入手しませんか？ご参加をお待ちしております！',
+        join_now: '今すぐ参加する',
+        later: '後で参加する',
+        already_joined: 'すでに参加済み',
+        dont_show_again: '今後、表示しない',
+      },
     },
     zoom_block: {
       fit_to_window: 'ウィンドウに合わせる',
