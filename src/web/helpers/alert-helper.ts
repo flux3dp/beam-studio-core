@@ -4,12 +4,10 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import { IAlert } from 'interfaces/IAlert';
 
-const monitorEventEmitter = eventEmitterFactory.createEventEmitter('monitor');
-
 let isInvitationShowed = false;
 const showFacebookGroupInvitation = (popUp: (args: IAlert) => void) => {
   const LANG = i18n.lang.beambox.popup.facebook_group_invitation;
-  if (!isInvitationShowed && (!alertConfig.read('skip-fb-group-invitation'))) {
+  if (!isInvitationShowed && !alertConfig.read('skip-fb-group-invitation')) {
     const handleJoinNow = () => {
       browser.open(i18n.lang.topbar.menu.link.forum);
       alertConfig.write('skip-fb-group-invitation', true);
@@ -39,6 +37,7 @@ const showFacebookGroupInvitation = (popUp: (args: IAlert) => void) => {
 };
 
 const registerAlertEvents = (popUp: (args: IAlert) => void): void => {
+  const monitorEventEmitter = eventEmitterFactory.createEventEmitter('monitor');
   monitorEventEmitter.on('PLAY', () => showFacebookGroupInvitation(popUp));
 };
 

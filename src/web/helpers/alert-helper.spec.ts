@@ -3,8 +3,9 @@ import alertHelper from './alert-helper';
 const mockEventEmitter = {
   on: jest.fn(),
 };
+const mockCreateEventEmitter = jest.fn(() => mockEventEmitter);
 jest.mock('helpers/eventEmitterFactory', () => ({
-  createEventEmitter: () => mockEventEmitter,
+  createEventEmitter: () => mockCreateEventEmitter(),
 }));
 
 const mockOpen = jest.fn();
@@ -57,11 +58,6 @@ describe('test alert helper', () => {
   });
 
   test('should show facebook group invitation', () => {
-    mockPopUp.mockImplementationOnce((args) => {
-      args.callbacks[0]();
-      args.callbacks[2]();
-    });
-    mockConfigRead.mockImplementationOnce(() => false);
     alertHelper.registerAlertEvents(mockPopUp);
     const eventHandler = mockEventEmitter.on.mock.calls[0][1];
     expect(mockPopUp).not.toBeCalled();
@@ -95,7 +91,9 @@ describe('test alert helper', () => {
     expect(mockOpen).not.toBeCalled();
     const onJoinNow = mockPopUp.mock.calls[0][0].callbacks[0];
     onJoinNow();
+    expect(mockConfigWrite).toBeCalledTimes(1);
     expect(mockConfigWrite).toBeCalledWith('skip-fb-group-invitation', true);
+    expect(mockOpen).toBeCalledTimes(1);
     expect(mockOpen).toBeCalledWith('forum');
 
     jest.resetAllMocks();
