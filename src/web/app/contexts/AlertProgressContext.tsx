@@ -9,6 +9,7 @@ import { IProgressDialog } from 'interfaces/IProgress';
 import { MessageInstance } from 'antd/es/message/interface';
 import { IMessage } from 'interfaces/IMessage';
 import { MessageLevel } from 'app/actions/message-caller';
+import { IButton } from 'interfaces/IButton';
 
 const LANG = i18n.lang.alert;
 
@@ -31,6 +32,7 @@ interface State {
 }
 
 interface Props {
+  children: React.ReactNode;
   messageApi: MessageInstance;
 }
 
@@ -44,7 +46,7 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     eventEmitter.on('OPEN_PROGRESS', this.openProgress.bind(this));
     eventEmitter.on('OPEN_MESSAGE', this.openMessage.bind(this));
     eventEmitter.on('CLOSE_MESSAGE', this.closeMessage.bind(this));
@@ -56,7 +58,7 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
     eventEmitter.on('CHECK_PROGRESS_EXIST', this.checkProgressExist.bind(this));
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     eventEmitter.removeAllListeners();
   }
 
@@ -126,7 +128,7 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
 
   closeMessage = (id: string): void => {
     const { messageApi } = this.props;
-    console.log('destroy', id);
+    // console.log('destroy', id);
     messageApi.destroy(id);
   };
 
@@ -205,24 +207,19 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
       default:
         break;
     }
-    const { buttons, checkbox } = this.buttonsGenerator(args);
+    const buttons = this.buttonsGenerator(args);
 
     this.pushToStack({
       ...args,
       caption,
       message,
       buttons,
-      checkboxText: checkbox ? checkbox.text : null,
-      checkboxCallbacks: checkbox ? checkbox.callbacks : null,
     }, callback);
   };
 
-  buttonsGenerator = (args: IAlert): { buttons, checkbox } => {
-    const { checkbox } = args;
+  buttonsGenerator = (args: IAlert): IButton[] => {
     let { buttons } = args;
-    if (buttons) {
-      return { buttons, checkbox };
-    }
+    if (buttons) return buttons;
     const {
       id,
       buttonType,
@@ -272,7 +269,8 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
     buttons = buttonLabels.map((label, i) => {
       const b = {
         label,
-        className: (buttonLabels.length === 1 || i === primaryButtonIndex || primaryButtonIndex === undefined) ? 'btn-default primary' : 'btn-default',
+        className: (buttonLabels.length === 1 || i === primaryButtonIndex || primaryButtonIndex === undefined)
+          ? 'btn-default primary' : 'btn-default',
         onClick: () => { },
       };
       if (callbacks && typeof callbacks === 'function') {
@@ -287,7 +285,7 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
       return b;
     });
 
-    return { buttons, checkbox };
+    return buttons;
   };
 
   render(): JSX.Element {

@@ -1,15 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`test Alert should render correctly 1`] = `
 <body>
-  <div>
-    <div>
-      <div>
-        DummyAlert 
-        {"id":"alert","message":"Yes or No","caption":"Hello World","iconUrl":"https://www.flux3dp.com/icon.svg","buttons":[{"title":"Yes","label":"Yes"},{"title":"No","label":"No"}],"checkboxText":"Select"}
-      </div>
-    </div>
-  </div>
+  <div />
   <div>
     <div
       class="ant-modal-root css-dev-only-do-not-override-hash"
@@ -22,10 +15,11 @@ exports[`should render correctly 1`] = `
         tabindex="-1"
       >
         <div
+          aria-labelledby="test-id"
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="min-width: 520px; width: 520px;"
+          style="width: 520px;"
         >
           <div
             aria-hidden="true"
@@ -36,35 +30,45 @@ exports[`should render correctly 1`] = `
             class="ant-modal-content"
           >
             <div
-              class="ant-modal-body"
+              class="ant-modal-header"
             >
               <div
-                class="message"
+                class="ant-modal-title"
+                id="test-id"
+              >
+                Hello World
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <img
+                class="icon"
+                src="https://www.flux3dp.com/icon.svg"
               />
               <div
-                class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
-                role="progressbar"
+                class="message"
               >
-                <div
-                  class="ant-progress-outer"
-                  style="width: 100%; height: 8px;"
-                >
-                  <div
-                    class="ant-progress-inner"
-                  >
-                    <div
-                      class="ant-progress-bg"
-                      style="width: 0%; height: 8px;"
-                    />
-                  </div>
-                </div>
-                <span
-                  class="ant-progress-text"
-                  title="0%"
-                >
-                  0%
-                </span>
+                Yes or No
               </div>
+              <label
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
+              >
+                <span
+                  class="ant-checkbox css-dev-only-do-not-override-hash"
+                >
+                  <input
+                    class="ant-checkbox-input"
+                    type="checkbox"
+                  />
+                  <span
+                    class="ant-checkbox-inner"
+                  />
+                </span>
+                <span>
+                  checkbox
+                </span>
+              </label>
             </div>
             <div
               class="ant-modal-footer"
@@ -74,16 +78,15 @@ exports[`should render correctly 1`] = `
                 type="button"
               >
                 <span>
-                  Cancel
+                  Yes
                 </span>
               </button>
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
-                style="display: none;"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"
               >
                 <span>
-                  OK
+                  No
                 </span>
               </button>
             </div>

@@ -21,9 +21,7 @@ export interface IAlert {
   onCancel?: Function;
   checkbox?: {
     text: string;
-    callbacks: () => void;
+    callbacks: Function | Function[];
   };
-  checkboxText?: string;
-  checkboxCallbacks?: () => void;
   isProgress?: false;
 }
