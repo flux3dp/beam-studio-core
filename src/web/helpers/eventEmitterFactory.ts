@@ -13,6 +13,7 @@ const eventEmitters = {
   'document-panel': null,
   'zoom-block': null,
   workarea: null,
+  monitor: null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {
