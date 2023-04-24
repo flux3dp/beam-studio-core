@@ -77,7 +77,7 @@ class BeamboxInit {
     await this.askAndInitSentry();
     const isNewUser = storage.get('new-user');
     const hasMachineConnection = checkConnection();
-    if (window.FLUX.version === 'web') {
+    if (window.FLUX.version === 'web' && navigator.maxTouchPoints >= 1) {
       const res = await fluxId.getPreference('did_gesture_tutorial', true);
       if (res && !res.error) {
         if (res.status === 'ok' && !res.value) {
@@ -114,13 +114,15 @@ class BeamboxInit {
       const lineVertical = svgdoc.createElementNS(NS.SVG, 'line');
       const lineHorizontal = svgdoc.createElementNS(NS.SVG, 'line');
 
+      const width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
+      const height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
       utilities.assignAttributes(linesGroup, {
         id: 'guidesLines',
         width: '100%',
         height: '100%',
         x: 0,
         y: 0,
-        viewBox: `0 0 ${Constant.dimension.getWidth(BeamboxPreference.read('workarea'))} ${Constant.dimension.getHeight(BeamboxPreference.read('workarea'))}`,
+        viewBox: `0 0 ${width} ${height}`,
         style: 'pointer-events: none',
       });
 
