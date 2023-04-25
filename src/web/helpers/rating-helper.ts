@@ -75,10 +75,6 @@ const init = (): void => {
   } else {
     const record = getRecord();
     console.log('Rating Record', record);
-    if (localStorage.getItem('debug')) {
-      Dialog.showRatingDialog(setVoted);
-    }
-
     if (window['FLUX'].version !== record.version) {
       setDefaultRatingRecord();
       return;

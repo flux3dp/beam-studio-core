@@ -82,13 +82,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
         let accel = 7500;
-        if (localStorage.getItem('debug')) {
+        if (localStorage.getItem('dev')) {
           accel = BeamboxPreference.read('padding_accel') || 7500;
         }
         args.push('-acc', accel);
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
-      else if (opts.model === 'ador') args.push('-ador');
+      else if (opts.model === 'fad1') args.push('-fad1');
 
       if (opts.codeType === 'gcode') {
         args.push('-gc');
@@ -518,7 +518,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          else if (opts.model === 'ador') args.push('-ador');
+          else if (opts.model === 'fad1') args.push('-fad1');
 
           switch (opts.engraveDpi) {
             case 'low':

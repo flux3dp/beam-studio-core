@@ -28,8 +28,11 @@ const workareaOptions = [
   { label: 'Beambox', value: 'fbb1b' },
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
-  { label: 'Ador', value: 'ador' },
 ];
+
+if ('localStorage' in window && window.localStorage.getItem('dev')) {
+  workareaOptions.push({ label: 'Ador', value: 'fad1' });
+}
 
 interface Props {
   unmount: () => void;

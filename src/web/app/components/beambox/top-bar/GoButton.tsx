@@ -103,7 +103,7 @@ class GoButton extends React.Component<Props> {
     }
     SymbolMaker.switchImageSymbolForAll(true);
 
-    if (isPowerTooHigh) {
+    if (isPowerTooHigh && !localStorage.getItem('dev')) {
       const confirmed = await Dialog.showConfirmPromptDialog({
         caption: LANG.alerts.power_too_high,
         message: LANG.alerts.power_too_high_msg,
@@ -197,7 +197,10 @@ class GoButton extends React.Component<Props> {
   render(): JSX.Element {
     const { hasDiscoverdMachine, hasText } = this.props;
     return (
-      <div className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })} onClick={this.handleExportClick}>
+      <div
+        className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })}
+        onClick={this.handleExportClick}
+      >
         {hasText ? <div className="go-text">{LANG.export}</div> : null}
         <div className={(classNames('go-btn'))} />
       </div>

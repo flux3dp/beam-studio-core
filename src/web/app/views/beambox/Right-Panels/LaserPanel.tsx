@@ -450,7 +450,7 @@ class LaserPanel extends React.PureComponent<Props, State> {
             />
             {this.renderAddPresetButton()}
           </div>
-          <LayerType value={type.value} onChange={this.handleLayerTypeChange} />
+          {localStorage.getItem('dev') && <LayerType value={type.value} onChange={this.handleLayerTypeChange} />}
           <PowerBlock power={power} onChange={this.handleStrengthChange} />
           <SpeedBlock
             layerNames={selectedLayers}

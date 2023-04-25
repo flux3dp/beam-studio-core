@@ -110,12 +110,15 @@ function Editor({
       label: 'HEXA',
       selected: selectedModel === 'fhexa1',
     },
-    {
-      value: 'ador',
-      label: 'Ador',
-      selected: selectedModel === 'ador',
-    },
   ];
+
+  if ('localStorage' in window && window.localStorage.getItem('dev')) {
+    modelOptions.push({
+      value: 'fad1',
+      label: 'Ador',
+      selected: selectedModel === 'fad1',
+    });
+  }
 
   return (
     <>
