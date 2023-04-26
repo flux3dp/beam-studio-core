@@ -267,6 +267,8 @@ const getStrokeWidth = (imageRatio, scale) => {
   return strokeWidth;
 };
 
+const stringifyStrokeWidth = (strokeWidth: number) => strokeWidth.toPrecision(6);
+
 const sendTaskToWorker = async (data) => new Promise((resolve) => {
   const worker = new ImageSymbolWorker('');
   worker.postMessage(data);
@@ -406,10 +408,15 @@ const makeImageSymbol = async (
       return bbObject;
     };
 
-    const { tempSvg, tempSymbol, tempUse } = generateTempSvg();
     const bb = calculateSVGBBox();
     const imageRatio = calculateImageRatio(bb);
     const strokeWidth = getStrokeWidth(imageRatio, scale);
+    if (imageSymbol?.getAttribute('data-stroke-width') === stringifyStrokeWidth(strokeWidth)) {
+      resolve(imageSymbol);
+      return;
+    }
+
+    const { tempSvg, tempSymbol, tempUse } = generateTempSvg();
     tempSymbol.setAttribute('x', `${-bb.x}`);
     tempSymbol.setAttribute('y', `${-bb.y}`);
     const descendants = Array.from(tempSymbol.querySelectorAll('*'));
@@ -460,6 +467,7 @@ const makeImageSymbol = async (
       const defs = svgedit.utilities.findDefs();
       if (!defs.querySelector(`image[href="${oldImageUrl}"]`)) URL.revokeObjectURL(oldImageUrl);
     }
+    imageSymbol.setAttribute('data-stroke-width', stringifyStrokeWidth(strokeWidth));
     resolve(imageSymbol);
   });
 };
