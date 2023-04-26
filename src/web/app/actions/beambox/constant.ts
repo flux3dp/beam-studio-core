@@ -1,5 +1,5 @@
 export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
-export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ador';
+export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1';
 
 interface WorkArea {
   label: WorkAreaLabel;
@@ -28,7 +28,7 @@ WorkareaMap.set('fhexa1', {
   width: 7300,
   height: 4100,
 });
-WorkareaMap.set('ador', {
+WorkareaMap.set('fad1', {
   label: 'Ador',
   width: 4300,
   height: 3000,
@@ -85,7 +85,7 @@ export default {
     fbb1p: ['fbb1p', 'fbb1b', 'fbm1'],
     fbb1b: ['fbb1b', 'fbm1'],
     fbm1: ['fbm1'],
-    ador: ['ador'],
+    fad1: ['fad1'],
   },
   addonsSupportList: {
     openBottom: ['fbm1'],

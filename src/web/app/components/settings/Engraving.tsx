@@ -27,7 +27,7 @@ function Engraving({
   paddingAccelDiode,
 }: Props): JSX.Element {
   const { lang } = i18n;
-  const isDebug = localStorage.getItem('debug');
+  const isDev = localStorage.getItem('dev');
   return (
     <>
       <div className="subtitle">{lang.settings.groups.engraving}</div>
@@ -44,7 +44,7 @@ function Engraving({
         options={reverseEngravingOptions}
         onChange={(e) => updateBeamboxPreferenceChange('reverse-engraving', e.target.value)}
       />
-      {isDebug && (
+      {isDev && (
         <>
           <Controls label="Padding Accel">
             <UnitInput
