@@ -33,15 +33,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
   };
   const ws = Websocket({
     method: apiMethod,
-    onMessage: (data) => {
-      events.onMessage(data);
-    },
+    onMessage: (data) => events.onMessage(data),
 
-    onError: (data) => {
-      events.onError(data);
-    },
-
-    onFatal: parserOpts.onFatal,
+    onError: (data) => events.onError(data),
+    onFatal: (data) => {
+      if (parserOpts.onFatal) parserOpts.onFatal(data);
+      else events.onError(data);
+    }
   });
   let lastOrder = '';
 
@@ -503,9 +501,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         };
 
         events.onError = (data) => {
-          warningCollection.push(data.error);
-          file = setMessages(file, true, warningCollection);
-          $deferred.notify('next');
+          warningCollection.push(data.message);
+          opts.onError(data.message || data.symbol.join('_'));
+          $deferred.resolve();
         };
         const args = [
           orderName,
