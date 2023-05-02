@@ -475,6 +475,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       const sendFile = (file) => {
         const warningCollection = [];
+        const CHUNK_SIZE = 128 * 1024; // 128KB
+        const chunkCounts = Math.ceil(file.size / CHUNK_SIZE);
 
         events.onMessage = (data) => {
           switch (data.status) {
@@ -482,7 +484,12 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
               opts.onProgressing(data);
               break;
             case 'continue':
-              ws.send(file.data);
+              for (let i = 0; i < chunkCounts; i += 1) {
+                const start = i * CHUNK_SIZE;
+                const end = Math.min(file.size, start + CHUNK_SIZE);
+                const chunk = file.data.slice(start, end);
+                ws.send(chunk);
+              }
               break;
             case 'ok':
               opts.onFinished();
