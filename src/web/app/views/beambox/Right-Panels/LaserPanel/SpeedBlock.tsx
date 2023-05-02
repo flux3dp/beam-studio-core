@@ -27,7 +27,10 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d };
   }, []);
-  const maxValue = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
+  let maxValue = 300;
+  const model = BeamboxPreference.read('workarea');
+  if (model === 'fhexa') maxValue = 900;
+  else if (model === 'fad1') maxValue = 400;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   const minValue = enableLowSpeed ? 1 : 3;
   const hasVector = doLayersContainsVector(layerNames);
