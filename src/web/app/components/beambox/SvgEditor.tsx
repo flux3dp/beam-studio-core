@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/Workarea';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 interface Props {
-  isPathPreviewing?: boolean,
 }
 export default class SvgEditor extends React.Component<Props> {
   componentDidMount(): void {
@@ -21,7 +21,7 @@ export default class SvgEditor extends React.Component<Props> {
   }
 
   private renderSvgEditor = () => {
-    const { isPathPreviewing } = this.props;
+    const { isPathPreviewing } = this.context;
     const platformClassNames = classNames({ mac: window.os === 'MacOS' });
     return (
       <div id="svg_editor" className={platformClassNames} style={isPathPreviewing ? { display: 'none' } : {}}>
@@ -500,3 +500,5 @@ export default class SvgEditor extends React.Component<Props> {
     );
   }
 }
+
+SvgEditor.contextType = CanvasContext;
