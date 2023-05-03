@@ -9,11 +9,15 @@ import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
 import { checkConnection } from 'helpers/api/discover';
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const LANG = i18n.lang.beambox.time_est_button;
 
 const TimeEstimationButton = (): JSX.Element => {
   const { estimatedTime, setEstimatedTime } = React.useContext(TimeEstimationButtonContext);
+  const { isPathPreviewing } = React.useContext(CanvasContext);
+
+  if (isPathPreviewing) return <div />;
 
   const calculateEstimatedTime = async () => {
     if (window.FLUX.version === 'web' && !checkConnection()) {

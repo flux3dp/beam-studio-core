@@ -26,6 +26,7 @@ import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { parseGcode } from '../../../views/beambox/tmpParseGcode';
 import ProgressBar from './ProgressBar';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const TOOLS_PANEL_HEIGHT = 100;
 const MAJOR_GRID_SPACING = 50;
@@ -407,7 +408,6 @@ enum PlayState {
 }
 
 interface Props {
-  togglePathPreview: () => void;
 }
 
 interface State {
@@ -597,7 +597,8 @@ class PathPreview extends React.Component<Props, State> {
   }
 
   updateGcode = async (): Promise<void> => {
-    const { togglePathPreview } = this.props;
+    const { togglePathPreview, isPathPreviewing } = this.context;
+    if (!isPathPreviewing) return;
     const svgEditor = document.getElementById('svg_editor');
     if (svgEditor) svgEditor.style.display = '';
     const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await exportFuncs.getGcode();
@@ -702,6 +703,8 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   updateWorkspace = () => {
+    const { isPathPreviewing } = this.context;
+    if (!isPathPreviewing) return;
     const { width, height } = this.state;
     if (width !== document.getElementById('path-preview-panel').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('path-preview-panel').offsetHeight - 200)) {
       this.setState({
@@ -1489,7 +1492,8 @@ class PathPreview extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const className = classNames({ mac: window.os === 'MacOS' });
-    const { togglePathPreview } = this.props;
+    const { togglePathPreview, isPathPreviewing } = this.context;
+    if (!isPathPreviewing) return <div />;
     const {
       width, height, speedLevel, workspace, isInverting, playState,
     } = this.state;
@@ -1605,5 +1609,7 @@ class PathPreview extends React.Component<Props, State> {
     );
   }
 }
+
+PathPreview.contextType = CanvasContext;
 
 export default PathPreview;

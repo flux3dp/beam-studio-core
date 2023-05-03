@@ -7,12 +7,11 @@ import i18n from 'helpers/i18n';
 import PreviewToolButtonGroup from 'app/components/beambox/left-panel/PreviewToolButtonGroup';
 import shortcuts from 'helpers/shortcuts';
 import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const LANG = i18n.lang.beambox.left_panel;
 
 interface Props {
-  isPathPreviewing: boolean;
-  togglePathPreview: () => void;
 }
 
 class LeftPanel extends React.Component<Props> {
@@ -91,7 +90,7 @@ class LeftPanel extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { isPathPreviewing, togglePathPreview } = this.props;
+    const { isPathPreviewing, togglePathPreview } = this.context;
     const { isPreviewing, setShouldStartPreviewController, endPreviewMode } = this.context;
     if (!isPreviewing && !isPathPreviewing) {
       return (<DrawingToolButtonGroup className={this.leftPanelClass} />);
@@ -116,6 +115,6 @@ class LeftPanel extends React.Component<Props> {
   }
 }
 
-LeftPanel.contextType = TopBarLeftPanelContext;
+LeftPanel.contextType = CanvasContext;
 
 export default LeftPanel;
