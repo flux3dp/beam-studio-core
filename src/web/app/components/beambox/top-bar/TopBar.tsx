@@ -31,8 +31,8 @@ import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 let svgCanvas;
 let svgEditor;
@@ -55,8 +55,6 @@ interface State {
 }
 
 interface Props {
-  isPathPreviewing: boolean;
-  togglePathPreview: () => void
 }
 
 export default class TopBar extends React.Component<Props, State> {
@@ -92,7 +90,12 @@ export default class TopBar extends React.Component<Props, State> {
   }
 
   componentDidUpdate(): void {
-    const { setShouldStartPreviewController, shouldStartPreviewController } = this.context;
+    const {
+      setShouldStartPreviewController,
+      shouldStartPreviewController,
+      setShowCameraPreviewDeviceList
+    } = this.context;
+    setShowCameraPreviewDeviceList(() => this.showCameraPreviewDeviceList);
     if (shouldStartPreviewController) {
       this.showCameraPreviewDeviceList();
       setShouldStartPreviewController(false);
@@ -172,24 +175,28 @@ export default class TopBar extends React.Component<Props, State> {
     Progress.popById('start-preview-controller');
 
     $(workarea).css('cursor', 'wait');
+
+    const onPreviewError = (errMessage) => {
+      if (errMessage === 'Timeout has occurred') {
+        Alert.popUp({
+          type: AlertConstants.SHOW_POPUP_ERROR,
+          message: LANG.alerts.start_preview_timeout,
+        });
+      } else {
+        Alert.popUp({
+          type: AlertConstants.SHOW_POPUP_ERROR,
+          message: `${LANG.alerts.fail_to_start_preview}<br/>${errMessage}`,
+        });
+      }
+      setTopBarPreviewMode(false);
+      setIsPreviewing(false);
+      $(workarea).css('cursor', 'auto');
+    };
+
     try {
-      await PreviewModeController.start(device, (errMessage) => {
-        if (errMessage === 'Timeout has occurred') {
-          Alert.popUp({
-            type: AlertConstants.SHOW_POPUP_ERROR,
-            message: LANG.alerts.start_preview_timeout,
-          });
-        } else {
-          Alert.popUp({
-            type: AlertConstants.SHOW_POPUP_ERROR,
-            message: `${LANG.alerts.fail_to_start_preview}<br/>${errMessage}`,
-          });
-        }
-        setTopBarPreviewMode(false);
-        setIsPreviewing(false);
-        $(workarea).css('cursor', 'auto');
-      });
+      await PreviewModeController.start(device, onPreviewError);
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      setIsPreviewing(true);
       if (startPreviewCallback) {
         startPreviewCallback();
         setStartPreviewCallback(null);
@@ -362,28 +369,20 @@ export default class TopBar extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { isPathPreviewing, togglePathPreview } = this.props;
+    const { isPathPreviewing, togglePathPreview } = this.context;
     const { hasDiscoverdMachine, showPopoverDeviceList, showCameraDeviceList } = this.state;
     const {
       isPreviewing,
       fileName,
       hasUnsavedChange,
-      selectedElem,
-      setTopBarPreviewMode,
-      setIsPreviewing,
-      endPreviewMode,
+      selectedElem
     } = this.context;
     const { deviceList } = this;
     return (
       <div className={classNames('top-bar', { white: isWhiteTopBar })}>
         <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
         <PreviewButton
-          isPreviewing={isPreviewing}
-          isPathPreviewing={isPathPreviewing}
           showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}
-          endPreviewMode={endPreviewMode}
-          setTopBarPreviewMode={setTopBarPreviewMode}
-          enterPreviewMode={() => setIsPreviewing(true)}
         />
         <div className="right">
           <PathPreviewButton
@@ -402,7 +401,6 @@ export default class TopBar extends React.Component<Props, State> {
               hasText={isWhiteTopBar}
               hasDiscoverdMachine={hasDiscoverdMachine}
               hasDevice={this.deviceList.length > 0}
-              endPreviewMode={endPreviewMode}
               showDeviceList={this.showDeviceList}
             />
           </Popover>
@@ -429,4 +427,4 @@ export default class TopBar extends React.Component<Props, State> {
   }
 }
 
-TopBar.contextType = TopBarLeftPanelContext;
+TopBar.contextType = CanvasContext;
