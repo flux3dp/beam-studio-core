@@ -84,6 +84,8 @@ export default function (options) {
     log: [],
   };
   const createWebSocket = (createWsOpts) => {
+    if (ws && ws.readyState !== readyState.CLOSED) ws.close();
+
     const hostName = createWsOpts.hostname || defaultOptions.hostname;
     const port = createWsOpts.port || defaultOptions.port;
     const url = `ws://${hostName}:${port}/ws/${createWsOpts.method}`;
@@ -271,13 +273,10 @@ export default function (options) {
     url: `/ws/${options.method}`,
     log: wsLog.log,
     send(data) {
-      if (ws === null) {
+      if (!ws || ws === null || ws?.readyState === readyState.CLOSING || ws?.readyState === readyState.CLOSED) {
         ws = createWebSocket(socketOptions);
       }
-      if (!ws) {
-        return wsobj;
-      }
-      if (readyState.OPEN !== ws.readyState) {
+      if (ws.readyState === readyState.CONNECTING) {
         ws.onopen = (e) => {
           socketOptions.onOpen(e);
           sender(data);
