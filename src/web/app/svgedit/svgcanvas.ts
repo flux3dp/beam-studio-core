@@ -1664,10 +1664,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
     }
     svgedit.utilities.moveDefsOutfromSvgContent();
-    output = sanitizeXmlString(output);
-    console.log(output);
+    const outputSanitized = sanitizeXmlString(output);
+    console.log('Sanitized Result', output.length, outputSanitized.length);
 
-    return output;
+    return outputSanitized;
   };
 
   // Function: svgToString
@@ -2438,26 +2438,32 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  const sanitizeXmlString = (xmlString) => {
+  const sanitizeXmlString = (xmlString: string): string => {
     // ref: https://stackoverflow.com/questions/29031792/detect-non-valid-xml-characters-javascript
-    const res = [];
-    const re = /([\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD]|[\uD800-\uDBFF][\uDC00-\uDFFF])+/g;
-    let i = 0;
-    while (i < xmlString.length) {
-      // Prevent Maximum call stack size exceeded, split xmlString and process
-      let end = Math.min(i + 500000, xmlString.length);
-      if (end !== xmlString.length && xmlString[end - 1].match(/[\uD800-\uDBFF]/)) {
-        end -= 1;
-      }
-      const matchResult = xmlString.substring(i, end).match(re);
-      i = end;
-      if (matchResult) {
-        res.push(...matchResult);
+    const validXmlChar = (i: number) => {
+      const charCode = xmlString.charCodeAt(i);
+      return (
+        (charCode >= 0x0009 && charCode <= 0x000A) ||
+        charCode === 0x000D ||
+        (charCode >= 0x0020 && charCode <= 0xD7FF) ||
+        (charCode >= 0xE000 && charCode <= 0xFFFD) ||
+        (charCode >= 0xD800 && charCode <= 0xDBFF && xmlString.charCodeAt(i + 1) >= 0xDC00 && xmlString.charCodeAt(i + 1) <= 0xDFFF)
+      );
+    };
+
+    let res = '';
+    for (let i = 0; i < xmlString.length; i++) {
+      const char = xmlString[i];
+      if (validXmlChar(i)) {
+        res += char;
+        if (char >= '\uD800' && char <= '\uDBFF') {
+          // If the character is a high surrogate, we need to include the next character as well (the low surrogate).
+          res += xmlString[++i];
+        }
       }
     }
-    return res.join('');
+    return res;
   };
-
   //
   // Function: setSvgString
   // This function sets the current drawing as the input SVG XML.
