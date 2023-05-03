@@ -422,7 +422,7 @@ export default class TopBar extends React.Component<Props, State> {
         {this.renderMenu()}
         <CommonTools
           isWeb={window.FLUX.version === 'web'}
-          hide={isPreviewing || isPathPreviewing}
+          hide={isPreviewing || isPathPreviewing || (window.outerWidth < 600)}
         />
       </div>
     );
