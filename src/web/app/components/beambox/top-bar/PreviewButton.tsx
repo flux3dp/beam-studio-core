@@ -59,7 +59,7 @@ function PreviewButton({
   };
 
   return (
-    <div className={classNames('preview-button-container', { previewing: isPreviewing })}>
+    <div className={classNames('preview-button-container', 'hidden-mobile', { previewing: isPreviewing })}>
       <div className="img-container" onClick={isPreviewing ? showCameraPreviewDeviceList : changeToPreviewMode}>
         <img src="img/top-bar/icon-camera.svg" draggable={false} />
       </div>
