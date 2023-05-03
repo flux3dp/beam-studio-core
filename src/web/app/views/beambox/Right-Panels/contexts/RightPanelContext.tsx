@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-type RightPanelMode = 'element' | 'path-edit';
+export type RightPanelMode = 'element' | 'path-edit';
 interface IRightPanelContext {
   mode: RightPanelMode;
   selectedElement: Element;
