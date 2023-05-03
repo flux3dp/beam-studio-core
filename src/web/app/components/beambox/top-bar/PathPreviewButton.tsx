@@ -28,7 +28,9 @@ function PathPreviewButton({
       togglePathPreview();
     }
   };
-  const className = classNames('path-preview-button-container', { highlighted: isPathPreviewing, disabled: !isDeviceConnected && window.FLUX.version === 'web' });
+  const className = classNames('path-preview-button-container',
+                               'hidden-mobile',
+                               { highlighted: isPathPreviewing, disabled: !isDeviceConnected && window.FLUX.version === 'web' });
   return (
     <div className={className}>
       <div className="path-preview-button" onClick={changeToPathPreviewMode}>
