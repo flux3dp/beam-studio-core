@@ -5842,7 +5842,7 @@ const svgEditor = window['svgEditor'] = (function () {
 
   editor.resetView = function () {
     const hasRulers = !!BeamboxPreference.read('show_rulers');
-    const sidePanelsWidth = Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
+    const sidePanelsWidth = window.outerWidth < 600 ? 15 : Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
     const topBarHeight = Constant.topBarHeight + (hasRulers ? Constant.rulerWidth : 0);
     const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / Constant.dimension.getWidth(BeamboxPreference.read('workarea')), (window.innerHeight - topBarHeight) / Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
     const zoomLevel = workareaToDimensionRatio * 0.95;
