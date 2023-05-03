@@ -55,7 +55,7 @@ const AlertsAndProgress = (): JSX.Element => {
         <Modal
           key={`${data.key}-${data.id}`}
           style={{
-            minWidth: 520,
+            minWidth: window.outerWidth < 600 ? (window.outerWidth - 40) : 520,
           }}
           open={alertProgressStack.length > 0}
           title={data.caption}
