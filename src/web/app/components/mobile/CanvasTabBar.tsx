@@ -15,7 +15,7 @@ const CanvasTabBar = () => {
     changeToPreviewMode,
     endPreviewMode,
     showCameraPreviewDeviceList } = React.useContext(CanvasContext) as CanvasContextType;
-  const [activeKey, setActiveKey] = React.useState('dmkt');
+  const [activeKey, setActiveKey] = React.useState('none');
 
   const tabs = [
     {
@@ -83,7 +83,7 @@ const CanvasTabBar = () => {
         showCameraPreviewDeviceList();
       }
     }
-    setActiveKey('dmkt');
+    setActiveKey('none');
   };
 
   return (
