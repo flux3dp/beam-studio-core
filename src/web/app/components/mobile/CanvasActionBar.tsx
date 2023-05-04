@@ -6,7 +6,7 @@ import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import svgEditor from 'app/actions/beambox/svg-editor';
 
 const CanvasActionBar = () => {
-  const { displayLayer, setDisplayLayer } = React.useContext(CanvasContext) as CanvasContextType;
+  const { displayLayer, setDisplayLayer, selectedElem } = React.useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = React.useState('dmkt');
 
   const tabs = [
@@ -14,6 +14,7 @@ const CanvasActionBar = () => {
       key: 'trash',
       title: '刪除',
       icon: <TrashIcon />,
+      disabled: (!selectedElem)
     },
     {
       key: 'undo',
@@ -60,7 +61,7 @@ const CanvasActionBar = () => {
           }}
         >
           {tabs.map((item) => (
-            <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+            <TabBar.Item key={item.key} icon={item.icon} title={item.title} aria-disabled={item.disabled} />
           ))}
         </TabBar>
       </div>
