@@ -111,7 +111,7 @@ const LayerItem = (props: Props) => {
         </div>
         <div
           id={`layer-config-${i}`}
-          className="layer-config"
+          className={classNames('layer-config', 'hidden-desktop')}
           onClick={(e) => {
             fn.openLayerSettings(e, layerName);
           }}

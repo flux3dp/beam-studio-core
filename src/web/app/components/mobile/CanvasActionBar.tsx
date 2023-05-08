@@ -16,25 +16,9 @@ const CanvasActionBar = () => {
       icon: <TrashIcon />,
       disabled: (!selectedElem)
     },
-    {
-      key: 'undo',
-      title: '復原',
-      icon: <UndoIcon />,
-    },
-    {
-      key: 'redo',
-      title: '重做',
-      icon: <RedoIcon />,
-    },
   ];
 
   const handleTabClick = (key: string) => {
-    if (key === 'undo') {
-      svgEditor.clickUndo();
-    }
-    if (key === 'redo') {
-      svgEditor.clickRedo();
-    }
     if (key === 'trash') {
       svgEditor.deleteSelected();
     }

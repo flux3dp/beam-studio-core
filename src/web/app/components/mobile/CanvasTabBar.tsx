@@ -5,8 +5,9 @@ import {
   PicturesOutline,
 } from 'antd-mobile-icons';
 import { DatabaseOutlined, FireOutlined, FontSizeOutlined, LineOutlined, ShopOutlined } from '@ant-design/icons';
-import { CameraIcon, PenIcon } from 'app/icons/icons';
+import { CameraIcon, PenIcon, RedoIcon, UndoIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
+import svgEditor from 'app/actions/beambox/svg-editor';
 
 const CanvasTabBar = () => {
   const { displayLayer,
@@ -50,6 +51,16 @@ const CanvasTabBar = () => {
       icon: <PenIcon />,
     },
     {
+      key: 'undo',
+      title: '復原',
+      icon: <UndoIcon />,
+    },
+    {
+      key: 'redo',
+      title: '重做',
+      icon: <RedoIcon />,
+    },
+    {
       key: 'camera',
       title: isPreviewing ? '關閉相機' : '相機',
       icon: <CameraIcon />
@@ -76,6 +87,12 @@ const CanvasTabBar = () => {
     if (key === 'lines') {
       FnWrapper.insertLine();
     }
+    if (key === 'undo') {
+      svgEditor.clickUndo();
+    }
+    if (key === 'redo') {
+      svgEditor.clickRedo();
+    }
     if (key === 'camera') {
       if (isPreviewing) {
         endPreviewMode();
@@ -87,15 +104,8 @@ const CanvasTabBar = () => {
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      width: '100%',
-      borderTop: 'solid 1px #CCC',
-      background: '#FFFFFF',
-      zIndex: 998,
-      overflowX: 'scroll',
-      bottom: 0,
-    }}
+    <div
+     id="mobile-tab-bar"
     >
       <div style={{ width: '150%' }}>
         <TabBar
