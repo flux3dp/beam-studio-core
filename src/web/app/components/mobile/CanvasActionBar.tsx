@@ -47,7 +47,7 @@ const CanvasActionBar = () => {
       width: '100%',
       borderTop: 'solid 1px #CCC',
       background: '#FFFFFF',
-      zIndex: 9999,
+      zIndex: 998,
       overflowX: 'scroll',
       bottom: 50,
     }}
