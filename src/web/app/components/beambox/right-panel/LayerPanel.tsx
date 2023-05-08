@@ -28,6 +28,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { isMac, isMobile } from 'helpers/system-helper';
 import { Modal } from 'antd';
 import { sprintf } from 'sprintf-js';
+import { FloatingPanel } from 'antd-mobile';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
@@ -518,6 +519,57 @@ class LayerPanel extends React.Component<Props, State> {
     );
   };
 
+  renderLayerPanel() : JSX.Element {
+    const { elem } = this.props;
+    const { draggingLayer } = this.state;
+    const { selectedLayers, setSelectedLayers } = this.context;
+    const drawing = svgCanvas.getCurrentDrawing();
+    const isTouchable = navigator.maxTouchPoints >= 1;
+    const isMultiSelecting = selectedLayers.length > 1;
+    const isSelectingLast = ((selectedLayers.length === 1)
+      && (drawing.getLayerName(0) === selectedLayers[0]));
+    return (
+      <div id="layerpanel" onMouseOut={() => highlightLayer()} onBlur={() => { }}>
+        <ContextMenuTrigger
+          id="layer-contextmenu"
+          holdToDisplay={isTouchable ? 1000 : -1}
+          hideOnLeaveHoldPosition
+        >
+          <div id="layerlist_container" ref={this.layerListContainerRef}>
+            {this.renderLayerList()}
+          </div>
+        </ContextMenuTrigger>
+        <SelLayerBlock elem={elem} />
+        <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
+        <ContextMenu id="layer-contextmenu">
+          <MenuItem attributes={{ id: 'renameLayer' }} disabled={isMultiSelecting} onClick={this.renameLayer}>
+            {LANG.layers.rename}
+          </MenuItem>
+          <MenuItem attributes={{ id: 'dupelayer' }} onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
+          <MenuItem attributes={{ id: 'locklayer' }} onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
+          <MenuItem attributes={{ id: 'deletelayer' }} onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
+          <MenuItem
+            attributes={{ id: 'merge_down_layer' }}
+            disabled={isMultiSelecting || isSelectingLast}
+            onClick={this.mergeLayer}
+          >
+            {LANG.layers.merge_down}
+          </MenuItem>
+          <MenuItem attributes={{ id: 'merge_all_layer' }} disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
+            {LANG.layers.merge_all}
+          </MenuItem>
+          <MenuItem
+            attributes={{ id: 'merge_selected_layer' }}
+            disabled={!isMultiSelecting}
+            onClick={this.mergeSelected}
+          >
+            {LANG.layers.merge_selected}
+          </MenuItem>
+        </ContextMenu>
+      </div>
+    );
+  }
+
   render(): JSX.Element {
     if (!svgCanvas) {
       setTimeout(() => {
@@ -525,56 +577,28 @@ class LayerPanel extends React.Component<Props, State> {
       }, 50);
       return null;
     }
-    const { elem } = this.props;
-    const { draggingLayer } = this.state;
-    const { selectedLayers, setSelectedLayers } = this.context;
-    const isTouchable = navigator.maxTouchPoints >= 1;
-    const isMultiSelecting = selectedLayers.length > 1;
-    const drawing = svgCanvas.getCurrentDrawing();
-    const isSelectingLast = ((selectedLayers.length === 1)
-      && (drawing.getLayerName(0) === selectedLayers[0]));
+    const { setSelectedLayers } = this.context;
 
     return (
       <div id="layer-and-laser-panel">
-        <div id="layerpanel" onMouseOut={() => highlightLayer()} onBlur={() => { }}>
-          <ContextMenuTrigger
-            id="layer-contextmenu"
-            holdToDisplay={isTouchable ? 1000 : -1}
-            hideOnLeaveHoldPosition
-          >
-            <div id="layerlist_container" ref={this.layerListContainerRef}>
-              {this.renderLayerList()}
-            </div>
-          </ContextMenuTrigger>
-          <AddLayerButton setSelectedLayers={setSelectedLayers} />
-          <SelLayerBlock elem={elem} />
-          <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
-          <ContextMenu id="layer-contextmenu">
-            <MenuItem attributes={{ id: 'renameLayer' }} disabled={isMultiSelecting} onClick={this.renameLayer}>
-              {LANG.layers.rename}
-            </MenuItem>
-            <MenuItem attributes={{ id: 'dupelayer' }} onClick={this.cloneSelectedLayers}>{LANG.layers.dupe}</MenuItem>
-            <MenuItem attributes={{ id: 'locklayer' }} onClick={this.lockSelectedLayers}>{LANG.layers.lock}</MenuItem>
-            <MenuItem attributes={{ id: 'deletelayer' }} onClick={this.deleteSelectLayers}>{LANG.layers.del}</MenuItem>
-            <MenuItem
-              attributes={{ id: 'merge_down_layer' }}
-              disabled={isMultiSelecting || isSelectingLast}
-              onClick={this.mergeLayer}
-            >
-              {LANG.layers.merge_down}
-            </MenuItem>
-            <MenuItem attributes={{ id: 'merge_all_layer' }} disabled={isMultiSelecting} onClick={this.mergeAllLayer}>
-              {LANG.layers.merge_all}
-            </MenuItem>
-            <MenuItem
-              attributes={{ id: 'merge_selected_layer' }}
-              disabled={!isMultiSelecting}
-              onClick={this.mergeSelected}
-            >
-              {LANG.layers.merge_selected}
-            </MenuItem>
-          </ContextMenu>
-        </div>
+        { isMobile()
+          ? (
+            <>
+              <FloatingPanel
+                handleDraggingOfContent={false}
+                anchors={[200, window.innerHeight * 0.5, window.innerHeight - 40]}
+              >
+                {this.renderLayerPanel()}
+              </FloatingPanel>
+              <AddLayerButton setSelectedLayers={setSelectedLayers} />
+            </>
+          )
+          : (
+            <>
+              <AddLayerButton setSelectedLayers={setSelectedLayers} />
+              {this.renderLayerPanel()}
+            </>
+          )}
         {this.renderLaserPanel()}
       </div>
     );

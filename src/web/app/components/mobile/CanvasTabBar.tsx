@@ -104,9 +104,7 @@ const CanvasTabBar = () => {
   };
 
   return (
-    <div
-     id="mobile-tab-bar"
-    >
+    <div id="mobile-tab-bar">
       <div style={{ width: '150%' }}>
         <TabBar
           activeKey={activeKey}
