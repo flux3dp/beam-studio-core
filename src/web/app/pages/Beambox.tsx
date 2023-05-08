@@ -60,7 +60,6 @@ const Beambox = () => {
         />
         <div id="tool-panels-placeholder" />
         <ImageTracePanel />
-        <CanvasActionBar />
         <CanvasTabBar />
       </div>
     </CanvasProvider>
