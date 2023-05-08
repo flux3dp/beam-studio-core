@@ -19,6 +19,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { isMobile } from 'helpers/system-helper';
 import { Modal } from 'antd';
 import { sprintf } from 'sprintf-js';
+import { FloatingPanel } from 'antd-mobile';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
@@ -413,57 +414,48 @@ class LayerPanel extends React.Component<Props, State> {
     );
   };
 
-  // renderLayerList = (): JSX.Element => {
-  //   const { selectedLayers } = this.context;
-  //   const { draggingDestIndex } = this.state;
-  //   const items = [];
-  //   const currentLayerName = getCurrentLayerName();
-
-  //   const allLayerNames = getAllLayerNames();
-
-  //   if (draggingDestIndex === allLayerNames.length) {
-  //     items.push(<DragBar key="drag-bar" />);
-  //   }
-
-  //   for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
-  //     const layerName = allLayerNames[i];
-  //     const layer = getLayerByName(layerName);
-  //     if (layer) {
-  //       const isSelected = selectedLayers.includes(layerName);
-  //       items.push(<LayerItem
-  //         i={i}
-  //         key={layerName}
-  //         layerName={layerName}
-  //         isSelected={isSelected}
-  //         isActive={currentLayerName === layerName}
-  //         fn={{
-  //           handleLayerClick: this.handleLayerClick,
-  //           layerDoubleClick: this.layerDoubleClick,
-  //           onLayerCenterDragEnter: this.onLayerCenterDragEnter,
-  //           onLayerDragEnd: this.onLayerDragEnd,
-  //           onLayerDragStart: this.onLayerDragStart,
-  //           onLayerTouchEnd: this.onLayerTouchEnd,
-  //           onLayerTouchMove: this.onLayerTouchMove,
-  //           onLayerTouchStart: this.onLayerTouchStart,
-  //           onSensorAreaDragEnter: this.onSensorAreaDragEnter,
-  //           unlockLayers: this.unLockLayers,
-  //           openLayerColorPanel: this.openLayerColorPanel,
-  //           setLayerVisibility: this.setLayerVisibility,
-  //           openLayerSettings: this.openLayerSettings,
-  //         }}
-  //       />);
-  //       if (draggingDestIndex === i) {
-  //         items.push(<DragBar key="drag-bar" />);
-  //       }
-  //     }
-  //   }
-
-  //   return (
-  //     <div id="layerlist">
-  //       {items}
-  //     </div>
-  //   );
-  // };
+  renderLayerPanel() : JSX.Element {
+    const { elem } = this.props;
+    const { draggingDestIndex, draggingLayer } = this.state;
+    const { selectedLayers } = this.context;
+    const drawing = svgCanvas.getCurrentDrawing();
+    const isTouchable = navigator.maxTouchPoints >= 1;
+    return (
+      <div id="layerpanel" onMouseOut={() => highlightLayer()} onBlur={() => { }}>
+        <ContextMenuTrigger
+          id="layer-contextmenu"
+          holdToDisplay={isTouchable ? 1000 : -1}
+          hideOnLeaveHoldPosition
+        >
+          <div id="layerlist_container" ref={this.layerListContainerRef}>
+            <LayerList
+              draggingDestIndex={draggingDestIndex}
+              onLayerClick={this.handleLayerClick}
+              highlightLayer={highlightLayer}
+              onLayerDragStart={this.onLayerDragStart}
+              onlayerDragEnd={this.onLayerDragEnd}
+              onLayerTouchStart={this.onLayerTouchStart}
+              onLayerTouchMove={this.onLayerTouchMove}
+              onLayerTouchEnd={this.onLayerTouchEnd}
+              onSensorAreaDragEnter={this.onSensorAreaDragEnter}
+              onLayerCenterDragEnter={this.onLayerCenterDragEnter}
+              onLayerDoubleClick={this.layerDoubleClick}
+              openLayerColorPanel={this.openLayerColorPanel}
+              setLayerVisibility={this.setLayerVisibility}
+              unLockLayers={this.unLockLayers}
+            />
+          </div>
+        </ContextMenuTrigger>
+        <SelLayerBlock elem={elem} />
+        <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
+        <LayerContextMenu
+          drawing={drawing}
+          selectOnlyLayer={this.selectOnlyLayer}
+          renameLayer={this.renameLayer}
+        />
+      </div>
+    );
+  }
 
   render(): JSX.Element {
     if (!svgCanvas) {
@@ -472,48 +464,28 @@ class LayerPanel extends React.Component<Props, State> {
       }, 50);
       return null;
     }
-    const { elem } = this.props;
-    const { draggingLayer, draggingDestIndex } = this.state;
-    const { selectedLayers, setSelectedLayers } = this.context;
-    const isTouchable = navigator.maxTouchPoints >= 1;
-    const drawing = svgCanvas.getCurrentDrawing();
+    const { setSelectedLayers } = this.context;
 
     return (
       <div id="layer-and-laser-panel">
-        <div id="layerpanel" onMouseOut={() => highlightLayer()} onBlur={() => { }}>
-          <ContextMenuTrigger
-            id="layer-contextmenu"
-            holdToDisplay={isTouchable ? 1000 : -1}
-            hideOnLeaveHoldPosition
-          >
-            <div id="layerlist_container" ref={this.layerListContainerRef}>
-              <LayerList
-                draggingDestIndex={draggingDestIndex}
-                onLayerClick={this.handleLayerClick}
-                highlightLayer={highlightLayer}
-                onLayerDragStart={this.onLayerDragStart}
-                onlayerDragEnd={this.onLayerDragEnd}
-                onLayerTouchStart={this.onLayerTouchStart}
-                onLayerTouchMove={this.onLayerTouchMove}
-                onLayerTouchEnd={this.onLayerTouchEnd}
-                onSensorAreaDragEnter={this.onSensorAreaDragEnter}
-                onLayerCenterDragEnter={this.onLayerCenterDragEnter}
-                onLayerDoubleClick={this.layerDoubleClick}
-                openLayerColorPanel={this.openLayerColorPanel}
-                setLayerVisibility={this.setLayerVisibility}
-                unLockLayers={this.unLockLayers}
-              />
-            </div>
-          </ContextMenuTrigger>
-          <AddLayerButton setSelectedLayers={setSelectedLayers} />
-          <SelLayerBlock elem={elem} />
-          <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
-          <LayerContextMenu
-            drawing={drawing}
-            selectOnlyLayer={this.selectOnlyLayer}
-            renameLayer={this.renameLayer}
-          />
-        </div>
+        { isMobile()
+          ? (
+            <>
+              <FloatingPanel
+                handleDraggingOfContent={false}
+                anchors={[200, window.innerHeight * 0.5, window.innerHeight - 40]}
+              >
+                {this.renderLayerPanel()}
+              </FloatingPanel>
+              <AddLayerButton setSelectedLayers={setSelectedLayers} />
+            </>
+          )
+          : (
+            <>
+              <AddLayerButton setSelectedLayers={setSelectedLayers} />
+              {this.renderLayerPanel()}
+            </>
+          )}
         {this.renderLaserPanel()}
       </div>
     );
