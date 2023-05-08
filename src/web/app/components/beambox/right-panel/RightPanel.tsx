@@ -42,17 +42,18 @@ const RightPanel = (): JSX.Element => {
   );
 
   const renderObjectPanel = () => (
-    <ObjectPanel
-      elem={selectedElement}
-    />
+    <ObjectPanelContextProvider>
+      <ObjectPanel
+        elem={selectedElement}
+      />
+    </ObjectPanelContextProvider>
   );
 
   let content;
-  if (selectedTab === 'layers') {
-    content = renderLayerAndLaserPanel();
-  } else if (mode === 'path-edit') {
+  if (mode === 'path-edit') {
     content = <PathEditPanel />;
-  } else if (!selectedElement) { // element mode
+  } else if (selectedTab === 'layers' || !selectedElement) { // element mode
+    if (!displayLayer) return <div />;
     content = renderLayerAndLaserPanel();
   } else {
     content = renderObjectPanel();
@@ -62,7 +63,7 @@ const RightPanel = (): JSX.Element => {
     wide: window.os !== 'MacOS',
   });
   return (
-    <div id="right-panel" style={{ display: displayLayer ? 'block' : 'none' }}>
+    <div id="right-panel" style={{ display: 'block' }}>
       <div id="sidepanels" className={sideClass}>
         <Tab
           mode={mode}
@@ -70,9 +71,7 @@ const RightPanel = (): JSX.Element => {
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
-        <ObjectPanelContextProvider>
-          {content}
-        </ObjectPanelContextProvider>
+        {content}
       </div>
     </div>
   );
