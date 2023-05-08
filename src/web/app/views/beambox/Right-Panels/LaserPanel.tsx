@@ -31,6 +31,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import AutoFocus from './LaserPanel/AutoFocus';
 import ConfigOperations from './LaserPanel/ConfigOperations';
 import Diode from './LaserPanel/Diode';
@@ -38,8 +39,10 @@ import LayerType from './LaserPanel/LayerType';
 import PowerBlock from './LaserPanel/PowerBlock';
 import RepeatBlock from './LaserPanel/RepeatBlock';
 import SpeedBlock from './LaserPanel/SpeedBlock';
+import { Select } from 'antd';
+import { isMobile } from 'helpers/system-helper';
 
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.laser_panel;
@@ -353,12 +356,12 @@ class LaserPanel extends React.PureComponent<Props, State> {
 
   renderAddPresetButton(): JSX.Element {
     const { selectedLayers } = this.props;
-    const isDiabled = selectedLayers.length !== 1;
+    const disabled = selectedLayers.length !== 1;
     return (
       <div
-        className={classNames('add-preset-btn', { disabled: isDiabled })}
+        className={classNames('add-preset-btn', { disabled })}
         onClick={() => {
-          if (isDiabled) return;
+          if (disabled) return;
           Dialog.promptDialog({
             caption: LANG.dropdown.save,
             onYes: (name) => {
@@ -433,9 +436,30 @@ class LaserPanel extends React.PureComponent<Props, State> {
       }));
     }
 
+    if (isMobile()) {
+      return (
+        <div id="laser-panel">
+          <Select
+            id="laser-config-dropdown"
+            value={this.getDefaultLaserOptions()}
+            onChange={this.handleParameterTypeChanged}
+            options={[...dropdownOptions, ...hiddenOptions]}
+            size="large"
+            style={{ width: '100%' }}
+          />
+          <PowerBlock power={power} onChange={this.handleStrengthChange} />
+          <SpeedBlock
+            layerNames={selectedLayers}
+            speed={speed}
+            onChange={this.handleSpeedChange}
+          />
+          <RepeatBlock repeat={repeat} onChange={this.handleRepeatChange} />
+        </div>
+      );
+    }
     return (
       <div id="laser-panel">
-        <div className="layername">
+        <div className={classNames('layername', 'hidden-mobile')}>
           {sprintf(LANG.preset_setting, displayName)}
         </div>
         <div className="layerparams">
