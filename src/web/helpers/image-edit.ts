@@ -205,8 +205,47 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
   progress.popById('vectorize-image');
 };
 
+const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
+  const element = elem || getSelectedElem();
+  if (!element) return;
+  progress.openNonstopProgress({
+    id: 'photo-edit-processing',
+    message: i18n.lang.beambox.photo_edit_panel.processing,
+  });
+  const { imgUrl } = getImageAttributes(element);
+  if (!imgUrl) return;
+  const imgGet = await fetch(imgUrl);
+  const imgData = await imgGet.blob();
+  const form = new FormData();
+  form.append('image_file', imgData);
+
+  const removeResult = await fetch('https://clipdrop-api.co/remove-background/v1', {
+    method: 'POST',
+    headers: {
+      'x-api-key': '',
+    },
+    body: form,
+  });
+
+  const removedBuffer = await removeResult.arrayBuffer();
+  // buffer here is a binary representation of the returned image
+  // convert buffer into blobUrl for img
+  const blob = new Blob([removedBuffer], { type: 'image/png' });
+  const blobUrl = URL.createObjectURL(blob);
+  const newThreshold = 254;
+  const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
+  addBatchCommand('Image Edit: invert', element, {
+    origImage: blobUrl,
+    'data-threshold': newThreshold,
+    'xlink:href': base64Img,
+  });
+  svgCanvas.selectOnly([element], true);
+  progress.popById('photo-edit-processing');
+}
+
 export default {
   colorInvert,
   generateStampBevel,
   traceImage,
+  removeBackground,
 };

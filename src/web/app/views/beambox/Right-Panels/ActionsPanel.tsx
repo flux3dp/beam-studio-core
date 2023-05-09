@@ -133,6 +133,9 @@ class ActionsPanel extends React.Component<Props> {
         LANG.invert, () => imageEdit.colorInvert(elem as SVGImageElement), false, 'invert', false, <InvertIcon />
       ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        'Remove BG', () => imageEdit.removeBackground(elem as SVGImageElement), false, 'remove', false, <InvertIcon />
+      ),
     ];
     return content;
   };
