@@ -5694,6 +5694,7 @@ const svgEditor = window['svgEditor'] = (function () {
             svgCanvas.setHasUnsavedChange(true);
             break;
         }
+        svgCanvas.getEvents().emit('addImage');
       }
       editor.handleFile = handleFile;
 

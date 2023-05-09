@@ -201,30 +201,6 @@ const PathSharp = () => (
   </svg>
 );
 
-const Redo = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="1em" height="1em" viewBox="0 0 20 20">
-    <g id="redo">
-      <g id="Group_156" data-name="Group 156" transform="translate(-167.113 -176.315)">
-        <g id="Group_155" data-name="Group 155" transform="translate(172.046 181.079)">
-          <path fill="#484949" id="Path_612" data-name="Path 612" d="M350.732,179.149h4.789l-2.938-2.468a.308.308,0,1,1,.331-.52l3.861,3.056a.308.308,0,0,1,0,.52l-3.861,3.056a.308.308,0,1,1-.331-.52l2.938-2.468h-4.788a2.83,2.83,0,0,0,0,5.659h2.2a.328.328,0,1,1,0,.656h-2.2a3.485,3.485,0,0,1,0-6.971Z" transform="translate(-347.015 -175.881)" fill="#fff"/>
-          <path fill="#484949" id="Path_613" data-name="Path 613" d="M351.162,184.584h-2.2a3.718,3.718,0,0,1,0-7.435h4.151l-2.44-2.05a.54.54,0,0,1-.152-.737.542.542,0,0,1,.746-.166l.02.014,3.853,3.05a.54.54,0,0,1,0,.9l-3.874,3.064a.541.541,0,0,1-.745-.166.54.54,0,0,1,.152-.737l2.44-2.05h-4.151a2.6,2.6,0,0,0,0,5.2h2.2a.56.56,0,1,1,0,1.12Zm-2.2-6.971a3.253,3.253,0,1,0,0,6.507h2.2a.1.1,0,1,0,0-.192h-2.2a3.062,3.062,0,0,1,0-6.123h5.426l-3.451,2.9a.077.077,0,0,0-.034.048.074.074,0,0,0,.01.057.078.078,0,0,0,.1.027l3.868-3.059a.076.076,0,0,0,0-.129l-.019-.013-3.849-3.046a.078.078,0,0,0-.1.027.074.074,0,0,0-.01.057.077.077,0,0,0,.034.048l.025.018,3.426,2.878Z" transform="translate(-345.246 -174.112)"/>
-        </g>
-      </g>
-    </g>
-  </svg>
-);
-
-const Undo = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="1em" height="1em" viewBox="0 0 20 20">
-    <g id="Undo">
-      <g id="Group_157" data-name="Group 157" transform="translate(4.932 4.764)">
-        <path fill="#484949" id="Path_610" data-name="Path 610" d="M156.367,175.352h-4.789l2.938-2.468a.308.308,0,1,0-.331-.52l-3.861,3.056a.308.308,0,0,0,0,.52L154.185,179a.308.308,0,1,0,.331-.52l-2.938-2.468h4.788a2.829,2.829,0,1,1,0,5.659h-2.2a.328.328,0,1,0,0,.656h2.2a3.485,3.485,0,0,0,0-6.971Z" transform="translate(-149.949 -172.084)" fill="#fff"/>
-        <path fill="#484949" id="Path_611" data-name="Path 611" d="M154.6,180.786h-2.2a.56.56,0,0,1,0-1.12h2.2a2.6,2.6,0,0,0,0-5.195h-4.151l2.44,2.05a.54.54,0,0,1-.594.9l-.021-.014-3.854-3.05a.54.54,0,0,1,0-.9l3.873-3.064a.542.542,0,0,1,.746.166.54.54,0,0,1-.152.737l-2.44,2.05H154.6a3.718,3.718,0,1,1,0,7.435Zm-2.2-.656a.1.1,0,0,0,0,.192h2.2a3.253,3.253,0,1,0,0-6.507h-5.426l3.451-2.9a.076.076,0,0,0,.034-.048.074.074,0,0,0-.01-.057.079.079,0,0,0-.1-.027l-3.868,3.06a.076.076,0,0,0,0,.129l.019.014,3.849,3.046a.078.078,0,0,0,.1-.027.074.074,0,0,0,.01-.056.076.076,0,0,0-.034-.048l-.025-.018-3.426-2.878H154.6a3.062,3.062,0,0,1,0,6.123Z" transform="translate(-148.181 -170.315)" />
-      </g>
-    </g>
-  </svg>
-);
-
 const Trash = () => (
   <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
     <defs>
@@ -318,14 +294,6 @@ export const PathRoundIcon = (props: Partial<CustomIconComponentProps>): JSX.Ele
 
 export const PathSharpIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={PathSharp} style={commonStyle} {...props} />
-);
-
-export const UndoIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
-  <Icon component={Undo} style={commonStyle} {...props} />
-);
-
-export const RedoIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
-  <Icon component={Redo} style={commonStyle} {...props} />
 );
 
 export const TrashIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (

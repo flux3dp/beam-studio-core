@@ -86,6 +86,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PathActions from './operations/pathActions';
 import parseSvg from './operations/parseSvg';
 import MouseInteractions from './interaction/mouseInteractions';
+import { EventEmitter } from 'events';
 
 let svgCanvas;
 let svgEditor;
@@ -122,6 +123,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   const pathActions = PathActions(this);
   this.contentW = curConfig.dimensions[0];
   this.contentH = curConfig.dimensions[1];
+
+  const events = new EventEmitter();
 
   // "document" element associated with the container (same as window.document using default svg-editor.js)
   // NOTE: This is not actually a SVG document, but a HTML document.
@@ -691,6 +694,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.getCurrentResizeMode = () => current_resize_mode;
   this.getCurrentShape = () => cur_shape;
   this.getCurrentZoom = () => current_zoom;
+  this.getEvents = () => events;
   this.getGoodImage = () => last_good_img_url;
   this.getLastClickPoint = () => lastClickPoint;
   this.getMode = function () { return current_mode; };

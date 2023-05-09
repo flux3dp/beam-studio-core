@@ -487,6 +487,7 @@ const mouseDown = (evt: MouseEvent) => {
         svgCanvas.updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
+      svgCanvas.getEvents().emit('addLine', newLine);
       break;
     case 'circle':
       svgCanvas.unsafeAccess.setStarted(true);
@@ -553,6 +554,7 @@ const mouseDown = (evt: MouseEvent) => {
       if (svgCanvas.isUsingLayerColor) {
         svgCanvas.updateElementColor(newText);
       }
+      svgCanvas.getEvents().emit('addText', newText);
       break;
     case 'polygon':
       // Polygon is created in ext-polygon.js

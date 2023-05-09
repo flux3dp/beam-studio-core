@@ -2,10 +2,10 @@ import * as React from 'react';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import { Badge, TabBar } from 'antd-mobile';
 import {
-  PicturesOutline,
+  PicturesOutline, RedoOutline, UndoOutline,
 } from 'antd-mobile-icons';
 import { DatabaseOutlined, FireOutlined, FontSizeOutlined, LineOutlined, ShopOutlined } from '@ant-design/icons';
-import { CameraIcon, PenIcon, RedoIcon, UndoIcon } from 'app/icons/icons';
+import { CameraIcon, PenIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import svgEditor from 'app/actions/beambox/svg-editor';
 
@@ -53,12 +53,12 @@ const CanvasTabBar = () => {
     {
       key: 'undo',
       title: '復原',
-      icon: <UndoIcon />,
+      icon: <UndoOutline />,
     },
     {
       key: 'redo',
       title: '重做',
-      icon: <RedoIcon />,
+      icon: <RedoOutline />
     },
     {
       key: 'camera',
@@ -74,25 +74,37 @@ const CanvasTabBar = () => {
 
   const handleTabClick = (key: string) => {
     setDisplayLayer(key === 'layer');
+    const reset =  () => {
+      console.log('call reset');
+      setActiveKey('none');
+    };
 
     if (key === 'image') {
+      FnWrapper.events().once('addImage', () => reset());
       FnWrapper.importImage();
     }
     if (key === 'text') {
+      FnWrapper.events().once('addText', () => reset());
       FnWrapper.insertText();
     }
     if (key === 'pen') {
+      FnWrapper.events().once('addLine', () => reset());
       FnWrapper.insertPath();
     }
     if (key === 'lines') {
+      FnWrapper.events().once('addLine', () => reset());
       FnWrapper.insertLine();
     }
     if (key === 'undo') {
       svgEditor.clickUndo();
+      setTimeout(reset, 500);
     }
     if (key === 'redo') {
       svgEditor.clickRedo();
+
+      setTimeout(reset, 500);
     }
+
     if (key === 'camera') {
       if (isPreviewing) {
         endPreviewMode();
@@ -100,7 +112,7 @@ const CanvasTabBar = () => {
         showCameraPreviewDeviceList();
       }
     }
-    setActiveKey('none');
+    ;
   };
 
   return (
