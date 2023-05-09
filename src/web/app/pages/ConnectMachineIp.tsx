@@ -78,6 +78,16 @@ const ConnectMachineIp = (): JSX.Element => {
     return true;
   };
 
+  const setUpLocalStorageIp = () => {
+    if (window.FLUX.version === 'web') {
+      localStorage.setItem('host', testingIp);
+      localStorage.setItem('port', '8000');
+    }
+    discoverer.poke(testingIp);
+    discoverer.pokeTcp(testingIp);
+    discoverer.testTcp(testingIp);
+  };
+
   const testConnection = async () => {
     countDown.current = 30;
     setState({
@@ -141,6 +151,7 @@ const ConnectMachineIp = (): JSX.Element => {
     if (!res) return;
     res = await testIpReachability();
     if (!res) return;
+    setUpLocalStorageIp();
     const device = await testConnection();
     if (!device) return;
     testCamera(device);
