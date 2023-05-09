@@ -5,7 +5,7 @@ import {
   PicturesOutline, RedoOutline, UndoOutline,
 } from 'antd-mobile-icons';
 import { DatabaseOutlined, FireOutlined, FontSizeOutlined, LineOutlined, ShopOutlined } from '@ant-design/icons';
-import { CameraIcon, PenIcon } from 'app/icons/icons';
+import { CameraIcon, LayersIcon, PenIcon, ShapesIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import svgEditor from 'app/actions/beambox/svg-editor';
 
@@ -33,12 +33,12 @@ const CanvasTabBar = () => {
     {
       key: 'layer',
       title: '圖層',
-      icon: <DatabaseOutlined />,
+      icon: <LayersIcon />,
     },
     {
       key: 'shape',
       title: '形狀',
-      icon: <FireOutlined />,
+      icon: <ShapesIcon />,
     },
     {
       key: 'lines',

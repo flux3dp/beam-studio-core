@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as React from 'react';
 import classNames from 'classnames';
-import Select from 'react-select';
+// import Select from 'react-select';
 
 import fontHelper from 'implementations/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -16,6 +16,10 @@ import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Text
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { isMobile } from 'helpers/system-helper';
+import { Select } from 'antd';
+const { Option } = Select;
+
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -197,29 +201,31 @@ class TextOptions extends React.Component<Props, State> {
       const isOnlyOneOption = options.length === 1;
       let label = FontFuncs.fontNameMap.get(fontFamily);
       if (typeof label !== 'string') label = fontFamily;
+      const renderOption = (option) => {
+        if (window.FLUX.version === 'web') {
+          const src = fontHelper.getWebFontPreviewUrl(option.value);
+          if (src) return <img src={src} alt={option.label} draggable="false" />;
+        }
+        return option.label;
+      };
       return (
         <div className="option-block">
           <div className="label">{LANG.font_family}</div>
           <div className="select-container">
             <Select
-              className={classNames('font-react-select-container', { 'no-triangle': isOnlyOneOption })}
-              classNamePrefix="react-select"
-              value={{ value: fontFamily, label: FontFuncs.fontNameMap.get(fontFamily) }}
+              defaultValue={{ value: fontFamily }}
               onChange={(value) => this.handleFontFamilyChange(value)}
               onKeyDown={(e) => {
                 e.stopPropagation();
               }}
               disabled={isOnlyOneOption}
-              options={options}
-              styles={styles}
-              formatOptionLabel={(option, labelMeta) => {
-                if (window.FLUX.version === 'web' && labelMeta.context === 'menu') {
-                  const src = fontHelper.getWebFontPreviewUrl(option.value);
-                  if (src) return <img src={src} alt={option.label} draggable="false" />;
-                }
-                return option.label;
-              }}
-            />
+            >
+              { options.map((option) => (
+                <Option value={option.value} label={option.label}>
+                  {renderOption(option)}
+                </Option>
+              )) }
+            </Select>
           </div>
         </div>
       );
@@ -394,7 +400,7 @@ class TextOptions extends React.Component<Props, State> {
   renderVerticalTextSwitch = (): JSX.Element => {
     const { isVerti } = this.state;
     return (
-      <div className="option-block">
+      <div className={classNames('option-block', 'hidden-mobile')}>
         <div className="label">{LANG.vertical_text}</div>
         <div id="vertical_text" className="onoffswitch" onClick={() => this.handleVerticalTextClick()}>
           <input type="checkbox" className="onoffswitch-checkbox" checked={isVerti} readOnly />

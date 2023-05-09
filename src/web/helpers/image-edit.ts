@@ -222,7 +222,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   const removeResult = await fetch('https://clipdrop-api.co/remove-background/v1', {
     method: 'POST',
     headers: {
-      'x-api-key': '',
+      'x-api-key': '902be8356854bfb107e984ce7f5c374adab16c1c7d5bead2bec6e35e31eeea6e3c944da3e123d117f8a908f35f53f0b7',
     },
     body: form,
   });
