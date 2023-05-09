@@ -4,9 +4,11 @@ import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import ISVGCanvas from 'src/interfaces/core-interfaces/ISVGCanvas';
+import ISVGDrawing from 'src/interfaces/core-interfaces/ISVGDrawing';
 
-let svgCanvas;
-let svgedit;
+let svgCanvas: ISVGCanvas;
+let svgedit: ISVGDrawing;
 let svgEditor;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
@@ -172,6 +174,9 @@ const funcs = {
     }
     $('#workarea').css('cursor', 'text');
   },
+  events() {
+    return svgCanvas.getEvents();
+  }
 };
 
 export default funcs;

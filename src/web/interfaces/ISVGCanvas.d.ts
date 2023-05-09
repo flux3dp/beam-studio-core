@@ -3,6 +3,7 @@ import { IBatchCommand, ICommand, IUndoManager } from 'interfaces/IHistory';
 import IShapeStyle from 'interfaces/IShapeStyle';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
+import { EventEmitter } from 'events';
 import { SelectorManager } from '../app/svgedit/selector';
 
 export interface IPoint {
@@ -45,6 +46,7 @@ export default interface ISVGCanvas {  addAlignPoint: (x: number, y: number) => 
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;
   drawing: ISVGDrawing;
   embedImage(url: string, callback: (dataURI: string) => void): void;
+  events: EventEmitter;
   findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint, yMatchPoint: IPoint };
   getColor: (key: string) => string;
   getContainer: () => SVGElement,
@@ -56,6 +58,7 @@ export default interface ISVGCanvas {  addAlignPoint: (x: number, y: number) => 
   getCurrentShape: () => IShapeStyle,
   getCurrentZoom: () => number, // New getter for current_zoom
   getDocumentTitle: () => string;
+  getEvents: () => EventEmitter;
   getGoodImage: () => string;
   getHref: (elem: SVGElement) => string;
   getId: () => string;
