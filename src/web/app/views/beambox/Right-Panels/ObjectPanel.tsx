@@ -8,6 +8,7 @@ import i18n from 'helpers/i18n';
 import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { isMobile } from 'helpers/system-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -124,6 +125,17 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       elem={elem}
     />
   );
+
+  if (isMobile()) {
+    return (
+      <div id="object-panel">
+        {renderOptionPanel()}
+        {renderDimensionPanel()}
+        {renderToolBtns()}
+        {renderActionPanel()}
+      </div>
+    );
+  }
 
   return (
     <div id="object-panel">
