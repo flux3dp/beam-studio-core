@@ -10,6 +10,8 @@ import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { moveElements } from 'app/svgedit/operations/move';
+import { posterize, trace } from './potrace';
+import Constant from 'app/actions/beambox/constant';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -232,20 +234,121 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   // convert buffer into blobUrl for img
   const blob = new Blob([removedBuffer], { type: 'image/png' });
   const blobUrl = URL.createObjectURL(blob);
-  const newThreshold = 254;
+  const newThreshold = 255;
   const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
   addBatchCommand('Image Edit: invert', element, {
     origImage: blobUrl,
     'data-threshold': newThreshold,
+    'data-no-bg': 'true',
     'xlink:href': base64Img,
   });
   svgCanvas.selectOnly([element], true);
   progress.popById('photo-edit-processing');
-}
+};
+
+const potrace = async (elem?: SVGImageElement): Promise<void> => {
+  const element = elem || getSelectedElem();
+  if (!element) return;
+  progress.openNonstopProgress({
+    id: 'potrace',
+    message: i18n.lang.beambox.photo_edit_panel.processing,
+  });
+
+  const isTransparentBackground = elem.getAttribute('data-no-bg');
+  const imgBBox = element.getBBox();
+  const imgRotation = svgedit.utilities.getRotationAngle(element);
+  const { imgUrl } = getImageAttributes(element);
+  if (!imgUrl) return;
+  let imgGet = await fetch(imgUrl);
+  if (isTransparentBackground) {
+    // Specific for already background removed image
+    const maskImageUrl = await generateBase64Image(imgUrl, false, 254);
+    imgGet = await fetch(maskImageUrl);
+  }
+  const imgData = await imgGet.blob();
+  const jimpData = await new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(imgData);
+    Jimp.read(url, (err, image) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(image);
+      }
+      URL.revokeObjectURL(url);
+    });
+  });
+
+  let final = '';
+  if (isTransparentBackground) {
+    final = await trace(jimpData, {});
+  } else {
+    final = await posterize(jimpData, {});
+  }
+
+  const svgStr = final.replace(/<\/?svg[^>]*>/g, '');
+  const gId = svgCanvas.getNextId();
+  const g = svgCanvas.addSvgElementFromJson<SVGGElement>({ element: 'g', attr: { id: gId } });
+  const ImageTracer = await requirejsHelper('imagetracer');
+  ImageTracer.appendSVGString(svgStr, gId);
+
+  const path = svgCanvas.addSvgElementFromJson({
+    element: 'path',
+    attr: {
+      id: svgCanvas.getNextId(),
+      fill: '#000000',
+      'stroke-width': 1,
+      'vector-effect': 'non-scaling-stroke',
+    }
+  });
+  svgCanvas.selectOnly([g]);
+  let gBBox = g.getBBox();
+  gBBox = g.getBBox();
+  const dx = imgBBox.x;
+  const dy = imgBBox.y;
+  let fillOpacity = 0;
+  let d = '';
+  for (let i = 0; i < g.childNodes.length; i += 1) {
+    const child = g.childNodes[i] as SVGPathElement;
+    if (child.tagName === 'path') {
+      const opacity = Number(child.getAttribute('fill-opacity'));
+      if (opacity >= fillOpacity) {
+        fillOpacity = opacity;
+        const pathD = child.getAttribute('d');
+        if (isTransparentBackground) {
+          const longestPath = pathD.split('M').reduce((a, b) => (a.length > b.length ? a : b));
+          d = `M${longestPath}`;
+        } else {
+          d = pathD;
+        }
+        console.log(d);
+      }
+    }
+  }
+
+  g.remove();
+  path.setAttribute('d', d);
+  moveElements([dx], [dy], [path], false);
+  svgCanvas.setRotationAngle(imgRotation, true, path);
+  svgCanvas.selectOnly([path], true);
+  const tempOuterContour = await svgCanvas.offsetElements(1, 5, 'round', null, true);
+  svgCanvas.selectOnly([tempOuterContour], true);
+  const finalContour = await svgCanvas.offsetElements(0, 5, 'round', null, true);
+  console.log('path', path);
+  console.log('tempOuterContour', tempOuterContour);
+  path.remove();
+  tempOuterContour.remove();
+  const batchCmd = new history.BatchCommand('Potrace Image');
+  if (svgCanvas.isUsingLayerColor) svgCanvas.updateElementColor(finalContour);
+  svgCanvas.selectOnly([finalContour], true);
+  batchCmd.addSubCommand(new history.InsertElementCommand(finalContour));
+  svgCanvas.addCommandToHistory(batchCmd);
+  progress.popById('potrace');
+};
 
 export default {
   colorInvert,
   generateStampBevel,
   traceImage,
   removeBackground,
+  potrace,
 };
