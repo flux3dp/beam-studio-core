@@ -18,6 +18,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
 import { Select } from 'antd';
+import { Switch } from 'antd-mobile';
 const { Option } = Select;
 
 
@@ -401,14 +402,7 @@ class TextOptions extends React.Component<Props, State> {
     const { isVerti } = this.state;
     return (
       <div className={classNames('option-block', 'hidden-mobile')}>
-        <div className="label">{LANG.vertical_text}</div>
-        <div id="vertical_text" className="onoffswitch" onClick={() => this.handleVerticalTextClick()}>
-          <input type="checkbox" className="onoffswitch-checkbox" checked={isVerti} readOnly />
-          <label className="onoffswitch-label">
-            <span className="onoffswitch-inner" />
-            <span className="onoffswitch-switch" />
-          </label>
-        </div>
+        <Switch defaultChecked={isVerti} onChange={this.handleVerticalTextClick} />
       </div>
     );
   };
