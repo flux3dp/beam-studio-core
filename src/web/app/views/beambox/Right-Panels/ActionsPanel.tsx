@@ -136,6 +136,9 @@ class ActionsPanel extends React.Component<Props> {
       this.renderButtons(
         'Remove BG', () => imageEdit.removeBackground(elem as SVGImageElement), false, 'remove', false, <InvertIcon />
       ),
+      this.renderButtons(
+        'Potrace', () => imageEdit.potrace(elem as SVGImageElement), false, 'remove', false, <InvertIcon />
+      ),
     ];
     return content;
   };
@@ -150,7 +153,7 @@ class ActionsPanel extends React.Component<Props> {
         false,
         <TraceIcon />,
       ),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), true, 'array', false, <ArrayIcon />),
     ];
     return content;
   };

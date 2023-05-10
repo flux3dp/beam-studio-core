@@ -4903,7 +4903,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * @param {string} cornerType 'round' or 'sharp';
    * @param {SVGElement} elem target, selected if not passed;
    */
-  this.offsetElements = async (dir, dist, cornerType, elems) => {
+  this.offsetElements = async (dir, dist, cornerType, elems, skipUndoStack: boolean) => {
     Progress.openNonstopProgress({
       id: 'offset-path',
       message: LANG.popup.progress.calculating,
@@ -5037,13 +5037,18 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     });
     pathActions.fixEnd(newElem);
-    batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
-    if (this.isUsingLayerColor) {
-      this.updateElementColor(newElem);
-    }
 
-    selectOnly([newElem], true);
-    addCommandToHistory(batchCmd);
+    if (!skipUndoStack) {
+      batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
+      if (this.isUsingLayerColor) {
+        this.updateElementColor(newElem);
+      }
+
+      selectOnly([newElem], true);
+      addCommandToHistory(batchCmd);
+    } else {
+      return newElem;
+    }
   };
 
   this.decomposePath = (elems) => {
