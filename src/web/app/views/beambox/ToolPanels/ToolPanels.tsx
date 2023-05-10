@@ -230,7 +230,7 @@ class ToolPanel extends React.Component<Props> {
   _findPositionStyle() {
     const positionStyle = {
       position: 'absolute',
-      zIndex: 10,
+      zIndex: 999,
       bottom: 10,
       left: $('.left-toolbar').width(),
     } as React.CSSProperties;
