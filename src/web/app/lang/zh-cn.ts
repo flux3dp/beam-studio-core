@@ -399,7 +399,7 @@ const lang: ILang = {
     single_object: '单一物件',
     grouped_objects: '多个物件群组',
     simplify_clipper_path: '路径计算优化',
-    enable_low_speed: '启用低速模式',
+    enable_low_speed: '启用慢速移动',
     mask: '工作范围剪裁',
     text_path_calc_optimization: '路径计算优化',
     font_substitute: '自动替换字体',
