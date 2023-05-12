@@ -7,6 +7,7 @@ import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
+import LoadingGridAnimation from 'app/widgets/LoadingGridAnimation';
 
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
 
@@ -45,9 +46,32 @@ const AlertsAndProgress = (): JSX.Element => {
         : <div className="message">{message}</div>;
     };
     if (isProgress(data)) {
-      let { percentage } = data;
+      const { percentage } = data;
       if (data.type === ProgressConstants.NONSTOP) {
-        percentage = 1;
+        return (
+          <Modal
+            className="nonstop-progress"
+            key={`${data.key}-${data.id}`}
+            style={{
+              minWidth: 150,
+            }}
+            width={ 'fit-content' }
+            open={alertProgressStack.length > 0}
+            title={data.caption}
+            onCancel={() => {
+              popById(data.id);
+              data.onCancel();
+            }}
+            centered
+            closable={false}
+            cancelText={LANG.alert.cancel}
+            okButtonProps={{ style: { display: 'none' } }}
+          >
+            <center>
+              <LoadingGridAnimation />
+            </center>
+          </Modal>
+        );
       }
       return (
         <Modal
@@ -55,6 +79,7 @@ const AlertsAndProgress = (): JSX.Element => {
           style={{
             minWidth: window.outerWidth < 600 ? (window.outerWidth - 40) : 520,
           }}
+          width={ window.outerWidth < 600 ? (window.outerWidth - 40) : 520 }
           open={alertProgressStack.length > 0}
           title={data.caption}
           onCancel={() => {
