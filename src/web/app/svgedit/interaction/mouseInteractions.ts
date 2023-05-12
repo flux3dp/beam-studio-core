@@ -212,7 +212,6 @@ const mouseDown = (evt: MouseEvent) => {
   if (mouseTarget.tagName === 'a' && mouseTarget.childNodes.length === 1) {
     mouseTarget = mouseTarget.firstChild as SVGElement;
   }
-
   if (mouseTarget === svgCanvas.selectorManager.selectorParentGroup
       && selectedElements[0] != null) {
     // if it is a selector grip, then it must be a single element selected,
@@ -1221,7 +1220,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         if ((navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os))
         && Math.hypot(mouseX - startMouseX, mouseY - startMouseY) < 1) {
           // in touchable mobile, if almost not moved, select mousedown element
-          svgCanvas.unsafeAccess.setSelectedElements([tempJustSelected]);
+          selectedElements = [tempJustSelected];
         } else {
           const intersectedElements = svgCanvas.getIntersectionList().filter((elem) => {
             const layer = LayerHelper.getObjectLayer(elem);
@@ -1234,9 +1233,9 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
             }
             return true;
           });
-          svgCanvas.unsafeAccess.setSelectedElements(intersectedElements);
           selectedElements = intersectedElements;
         }
+        svgCanvas.unsafeAccess.setSelectedElements(selectedElements);
         svgCanvas.call('selected', selectedElements);
       }
       if (rubberBox != null) {

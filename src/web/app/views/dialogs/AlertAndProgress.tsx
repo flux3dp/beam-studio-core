@@ -55,7 +55,7 @@ const AlertsAndProgress = (): JSX.Element => {
             style={{
               minWidth: 150,
             }}
-            width={ 'fit-content' }
+            width="fit-content"
             open={alertProgressStack.length > 0}
             title={data.caption}
             onCancel={() => {
@@ -79,7 +79,7 @@ const AlertsAndProgress = (): JSX.Element => {
           style={{
             minWidth: window.outerWidth < 600 ? (window.outerWidth - 40) : 520,
           }}
-          width={ window.outerWidth < 600 ? (window.outerWidth - 40) : 520 }
+          width={window.outerWidth < 600 ? (window.outerWidth - 40) : 520}
           open={alertProgressStack.length > 0}
           title={data.caption}
           onCancel={() => {
