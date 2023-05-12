@@ -16,27 +16,27 @@ let lastMode: RightPanelMode;
 
 const RightPanel = (): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState<'layers'|'objects'>('layers');
-  const { displayLayer } = useContext(CanvasContext);
-  const { mode, selectedElement } = useContext(RightPanelContext);
+  const { displayLayer, selectedElem } = useContext(CanvasContext);
+  const { mode } = useContext(RightPanelContext);
 
   useEffect(() => {
     if (mode === 'element') {
-      if (!selectedElement && selectedTab !== 'layers') {
+      if (!selectedElem && selectedTab !== 'layers') {
         setSelectedTab('layers');
-      } else if (selectedElement && !lastElement) {
+      } else if (selectedElem && !lastElement) {
         setSelectedTab('objects');
       }
     } else if (lastMode !== mode) {
       setSelectedTab('objects');
     }
     lastMode = mode;
-    lastElement = selectedElement;
-  }, [mode, selectedElement, selectedTab]);
+    lastElement = selectedElem;
+  }, [mode, selectedElem, selectedTab]);
 
   const renderLayerAndLaserPanel = () => (
     <LayerPanelContextProvider>
       <LayerPanel
-        elem={selectedElement}
+        elem={selectedElem}
       />
     </LayerPanelContextProvider>
   );
@@ -44,7 +44,7 @@ const RightPanel = (): JSX.Element => {
   const renderObjectPanel = () => (
     <ObjectPanelContextProvider>
       <ObjectPanel
-        elem={selectedElement}
+        elem={selectedElem}
       />
     </ObjectPanelContextProvider>
   );
@@ -52,7 +52,7 @@ const RightPanel = (): JSX.Element => {
   let content;
   if (mode === 'path-edit') {
     content = <PathEditPanel />;
-  } else if (selectedTab === 'layers' || !selectedElement) { // element mode
+  } else if (selectedTab === 'layers' || !selectedElem) { // element mode
     if (!displayLayer) return <div />;
     content = renderLayerAndLaserPanel();
   } else {
@@ -67,7 +67,7 @@ const RightPanel = (): JSX.Element => {
       <div id="sidepanels" className={sideClass}>
         <Tab
           mode={mode}
-          selectedElement={selectedElement}
+          selectedElement={selectedElem}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
