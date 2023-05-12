@@ -60,17 +60,21 @@ const CanvasTabBar = () => {
       title: '重做',
       icon: <RedoOutline />
     },
-    {
-      key: 'camera',
-      title: isPreviewing ? '關閉相機' : '相機',
-      icon: <CameraIcon />
-    },
-    {
-      key: 'dmkt',
-      title: '市集',
-      icon: <ShopOutlined />,
-    },
   ];
+
+  if (!isPreviewing) {
+    tabs.push({
+      key: 'camera',
+      title: '相機',
+      icon: <CameraIcon />
+    });
+  } else {
+    tabs.push({
+      key: 'end-camera',
+      title: '關閉相機',
+      icon: <CameraIcon />
+    });
+  };
 
   const handleTabClick = (key: string) => {
     setDisplayLayer(key === 'layer');
@@ -101,18 +105,17 @@ const CanvasTabBar = () => {
     }
     if (key === 'redo') {
       svgEditor.clickRedo();
-
       setTimeout(reset, 500);
     }
 
     if (key === 'camera') {
-      if (isPreviewing) {
-        endPreviewMode();
-      } else {
-        showCameraPreviewDeviceList();
-      }
+      showCameraPreviewDeviceList();
     }
-    ;
+
+    if (key === 'end-camera') {
+      endPreviewMode();
+      setTimeout(reset, 500);
+    }
   };
 
   return (
@@ -130,7 +133,7 @@ const CanvasTabBar = () => {
               key={item.key}
               icon={item.icon}
               title={item.title}
-              aria-disabled={item.key !== 'camera' && isPreviewing}
+              aria-disabled={!item.key.includes('camera') && isPreviewing}
             />
           ))}
         </TabBar>

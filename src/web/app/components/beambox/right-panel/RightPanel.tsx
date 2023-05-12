@@ -10,6 +10,7 @@ import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/conte
 import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { useContext, useEffect, useState } from 'react';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { isMobile } from 'helpers/system-helper';
 
 let lastElement: Element;
 let lastMode: RightPanelMode;
@@ -53,7 +54,7 @@ const RightPanel = (): JSX.Element => {
   if (mode === 'path-edit') {
     content = <PathEditPanel />;
   } else if (selectedTab === 'layers' || !selectedElem) { // element mode
-    if (!displayLayer) return <div />;
+    if (!displayLayer && isMobile()) return <div />;
     content = renderLayerAndLaserPanel();
   } else {
     content = renderObjectPanel();
