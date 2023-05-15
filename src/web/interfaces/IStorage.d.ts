@@ -36,7 +36,8 @@ export type StorageKey =
   | 'sentry-send-devices'
   | 'black-list'
   | 'host'
-  | 'did-gesture-tutorial';
+  | 'did-gesture-tutorial'
+  | 'last-record-activity';
 
 export interface IStorage {
   get(name: StorageKey): any;
