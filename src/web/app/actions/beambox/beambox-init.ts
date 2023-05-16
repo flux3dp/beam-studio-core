@@ -9,6 +9,7 @@ import BeamboxStore from 'app/stores/beambox-store';
 import browser from 'implementations/browser';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkQuestionnaire from 'helpers/check-questionnaire';
+import cloud from 'helpers/api/cloud';
 import Constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
@@ -66,6 +67,7 @@ class BeamboxInit {
     menu.init();
     autoSaveHelper.init();
     fluxId.init();
+    cloud.recordActivity();
     BeamboxStore.onDrawGuideLines(this.displayGuides);
     alertHelper.registerAlertEvents(Alert.popUp);
 
