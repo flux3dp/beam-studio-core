@@ -132,6 +132,19 @@ const getBsplinePoint = (t) => {
   };
 };
 
+const getEventPoint = (evt: MouseEvent | TouchEvent) => {
+  const matrix = svgCanvas.getRootScreenMatrix();
+  const getEvtPageXY = (e: MouseEvent | TouchEvent) => {
+    if ('touches' in e) {
+      const touch = e.touches[0] || e.changedTouches[0];
+      return { x: touch.pageX, y: touch.pageY };
+    }
+    return { x: e.pageX, y: e.pageY };
+  };
+  const { x, y } = getEvtPageXY(evt);
+  return svgedit.math.transformPoint(x, y, matrix);
+};
+
 /**
  * Add transform for resizing operation
  * @param {Element} element svg element to init transform
@@ -168,7 +181,7 @@ const mouseDown = (evt: MouseEvent) => {
   let extensionResult = null;
 
   svgCanvas.setRootScreenMatrix(($('#svgcontent')[0] as any).getScreenCTM().inverse());
-  const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, svgCanvas.getRootScreenMatrix());
+  const pt = getEventPoint(evt);
   let { x, y } = pt;
   startMouseX = x * currentZoom;
   startMouseY = y * currentZoom;
@@ -292,9 +305,7 @@ const mouseDown = (evt: MouseEvent) => {
               setRubberBoxStart();
             } else {
               svgCanvas.addToSelection([mouseTarget]);
-              if (selectedElements.length > 1) {
-                svgCanvas.tempGroupSelectedElements();
-              }
+              if (selectedElements.length > 1) svgCanvas.tempGroupSelectedElements();
             }
             justSelected = mouseTarget;
             svgCanvas.pathActions.clear();
@@ -776,7 +787,7 @@ const mouseMove = (evt: MouseEvent) => {
   svgCanvas.setRootScreenMatrix(($('#svgcontent')[0] as any).getScreenCTM().inverse());
   let c; let cx; let cy; let dx; let dy; let len; let angle; let box;
   let selected = selectedElements[0];
-  const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, svgCanvas.getRootScreenMatrix());
+  const pt = getEventPoint(evt);
   const mouseX = pt.x * currentZoom;
   const mouseY = pt.y * currentZoom;
   const shape = svgedit.utilities.getElem(svgCanvas.getId());
@@ -1143,7 +1154,6 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
   const currentZoom = svgCanvas.getCurrentZoom();
   let selectedElements = svgCanvas.getSelectedElems();
   const rubberBox = svgCanvas.getRubberBox();
-  const screenMatrix = svgCanvas.getRootScreenMatrix();
   const rightClick = evt.button === MouseButtons.Right;
 
   if (rightClick) {
@@ -1157,7 +1167,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
   if (!started) {
     return;
   }
-  const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, screenMatrix);
+  const pt = getEventPoint(evt);
   const { x, y } = pt;
   const realX = x;
   const realY = y;
@@ -1663,7 +1673,6 @@ const mouseEnter = (evt: MouseEvent) => {
 
 const dblClick = (evt: MouseEvent) => {
   const currentMode = svgCanvas.getCurrentMode();
-  const screenMatrix = svgCanvas.getRootScreenMatrix();
   const parent = (evt.target as SVGElement).parentNode as SVGElement;
 
   // Do nothing if already in current group
@@ -1672,12 +1681,11 @@ const dblClick = (evt: MouseEvent) => {
   }
   const mouseTarget: Element = svgCanvas.getMouseTarget(evt);
   const { tagName } = mouseTarget;
+  const pt = getEventPoint(evt);
   if (!['textedit', 'text'].includes(currentMode)) {
     if (tagName === 'text') {
-      const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, screenMatrix);
       svgCanvas.textActions.select(mouseTarget, pt.x, pt.y);
     } else if (mouseTarget.getAttribute('data-textpath-g')) {
-      const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, screenMatrix);
       const clickOnText = ['text', 'textPath'].includes((evt.target as SVGElement).tagName);
       const text = mouseTarget.querySelector('text');
       const path = mouseTarget.querySelector('path');
@@ -1829,7 +1837,7 @@ const registerEvents = () => {
   const container = svgCanvas.getContainer();
   container.addEventListener('click', handleLinkInCanvas);
   // iPad or other pads
-  if (navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os)) {
+  if (navigator.maxTouchPoints > 1) {
     window.addEventListener('gesturestart', (e) => e.preventDefault());
     window.addEventListener('gesturechange', (e) => e.preventDefault());
     window.addEventListener('gestureend', (e) => e.preventDefault());
@@ -1847,43 +1855,43 @@ const registerEvents = () => {
         staticPoint,
       }),
     );
-  } else {
-    svgCanvas.getContainer().addEventListener('mousedown', mouseDown);
-    svgCanvas.getContainer().addEventListener('mousemove', mouseMove);
-    svgCanvas.getContainer().addEventListener('mouseup', mouseUp);
-    svgCanvas.getContainer().addEventListener('mouseenter', mouseEnter);
-    svgCanvas.getContainer().addEventListener('dblclick', dblClick);
+  }
 
-    if (window.FLUX.version === 'web') {
-      const onWindowScroll = (e) => {
-        if (e.ctrlKey) e.preventDefault();
-      };
-      window.addEventListener('wheel', onWindowScroll, { passive: false });
-      window.addEventListener('DOMMouseScroll', onWindowScroll, { passive: false });
-    }
+  svgCanvas.getContainer().addEventListener('mousedown', mouseDown);
+  svgCanvas.getContainer().addEventListener('mousemove', mouseMove);
+  svgCanvas.getContainer().addEventListener('mouseup', mouseUp);
+  svgCanvas.getContainer().addEventListener('mouseenter', mouseEnter);
+  svgCanvas.getContainer().addEventListener('dblclick', dblClick);
 
-    if (svgedit.browser.isSafari()) {
-      window.addEventListener('gesturestart', (e) => e.preventDefault());
-      window.addEventListener('gesturechange', (e) => e.preventDefault());
-      window.addEventListener('gestureend', (e) => e.preventDefault());
-      let startZoom: number;
-      let currentScale = 1;
-      container.addEventListener('gesturestart', (e: any) => {
-        startZoom = svgCanvas.getZoom();
-        currentScale = e.scale;
-      });
-      container.addEventListener('gesturechange', (e: any) => {
-        const { clientX, clientY, scale } = e;
-        if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
-          const newZoom = startZoom * (scale ** 0.5);
-          svgCanvas.call('zoomed', {
-            zoomLevel: newZoom,
-            staticPoint: { x: clientX, y: clientY },
-          });
-          currentScale = scale;
-        }
-      });
-    }
+  if (window.FLUX.version === 'web') {
+    const onWindowScroll = (e) => {
+      if (e.ctrlKey) e.preventDefault();
+    };
+    window.addEventListener('wheel', onWindowScroll, { passive: false });
+    window.addEventListener('DOMMouseScroll', onWindowScroll, { passive: false });
+  }
+
+  if (svgedit.browser.isSafari()) {
+    window.addEventListener('gesturestart', (e) => e.preventDefault());
+    window.addEventListener('gesturechange', (e) => e.preventDefault());
+    window.addEventListener('gestureend', (e) => e.preventDefault());
+    let startZoom: number;
+    let currentScale = 1;
+    container.addEventListener('gesturestart', (e: any) => {
+      startZoom = svgCanvas.getZoom();
+      currentScale = e.scale;
+    });
+    container.addEventListener('gesturechange', (e: any) => {
+      const { clientX, clientY, scale } = e;
+      if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
+        const newZoom = startZoom * (scale ** 0.5);
+        svgCanvas.call('zoomed', {
+          zoomLevel: newZoom,
+          staticPoint: { x: clientX, y: clientY },
+        });
+        currentScale = scale;
+      }
+    });
   }
   $(container).bind('wheel DOMMouseScroll', onMouseWheel);
 };
