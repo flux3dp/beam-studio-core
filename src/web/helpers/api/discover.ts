@@ -3,7 +3,6 @@
  * API discover
  * Ref: https://github.com/flux3dp/fluxghost/wiki/websocket-discover
  */
-import CloudApi from 'helpers/api/cloud';
 import DeviceList from 'helpers/device-list';
 import Logger from 'helpers/logger';
 import network from 'implementations/network';
@@ -125,25 +124,8 @@ const startTcpPoke = () => {
 };
 startTcpPoke();
 
-CloudApi.getDevices().then((resp) => {
-  if (resp.ok) {
-    resp.json().then((content) => {
-      if (content.devices) {
-        content.devices.forEach((device) => {
-          console.log(device.alias, device.ip_addr);
-          if (device.ip_addr) {
-            // console.log("Start poking cloud device IP:", device.ip_addr);
-            // eslint-disable-next-line no-control-regex
-            SmartUpnp.startPoke(device.ip_addr.trim().replace(/\u0000/g, ''));
-          }
-        });
-      }
-    });
-  }
-});
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Discover = (id: string, getPrinters: (printers: IDeviceInfo[]) => void) => {
+const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
   console.log('Register Discover', id, printers);
   const index = idList.indexOf(id);
 
@@ -151,19 +133,19 @@ const Discover = (id: string, getPrinters: (printers: IDeviceInfo[]) => void) =>
     idList.push(id);
     dispatchers.push({
       id,
-      sender: getPrinters,
+      sender: getDevices,
     });
   } else {
     dispatchers[index] = {
       id,
-      sender: getPrinters,
+      sender: getDevices,
     };
   }
 
   // force callback always executed after return
   setTimeout(() => {
     if (printers.length > 0) {
-      getPrinters(printers);
+      getDevices(printers);
     }
   }, 0);
 

@@ -14,17 +14,18 @@ import { IUser } from 'interfaces/IUser';
 interface ResponseWithError extends AxiosResponse {
   error?: string;
 }
+const OAUTH_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
-const FB_REDIRECT_URI = `https://store.flux3dp.com/beam-studio-oauth${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
+const FB_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
 
 const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
-const G_REDIRECT_URI = `https://store.flux3dp.com/beam-studio-oauth${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
+const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
 
 const FLUXID_HOST = 'https://id.flux3dp.com';
 const FLUXID_DOMAIN = 'id.flux3dp.com';
-const axiosFluxId = axios.create({
+export const axiosFluxId = axios.create({
   baseURL: FLUXID_HOST,
   timeout: 10000,
 });
