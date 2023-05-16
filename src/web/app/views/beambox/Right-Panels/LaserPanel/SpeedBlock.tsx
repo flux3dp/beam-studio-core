@@ -29,7 +29,7 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
   }, []);
   let maxValue = 300;
   const model = BeamboxPreference.read('workarea');
-  if (model === 'fhexa') maxValue = 900;
+  if (model === 'fhexa1') maxValue = 900;
   else if (model === 'fad1') maxValue = 400;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   const minValue = enableLowSpeed ? 1 : 3;
