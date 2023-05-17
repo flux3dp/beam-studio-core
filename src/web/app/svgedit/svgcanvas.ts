@@ -2445,7 +2445,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     let i = 0;
     while (i < xmlString.length) {
       // Prevent Maximum call stack size exceeded, split xmlString and process
-      let end = Math.min(i + 1000000, xmlString.length);
+      let end = Math.min(i + 500000, xmlString.length);
       if (end !== xmlString.length && xmlString[end - 1].match(/[\uD800-\uDBFF]/)) {
         end -= 1;
       }
