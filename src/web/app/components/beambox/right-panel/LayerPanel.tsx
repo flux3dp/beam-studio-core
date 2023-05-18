@@ -43,8 +43,6 @@ interface State {
   displayLaserPanelModal: boolean;
 }
 
-const DragBar = () => (<div className="drag-bar" />);
-
 class LayerPanel extends React.Component<Props, State> {
   private currentTouchID?: number | null;
 

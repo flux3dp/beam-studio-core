@@ -69,12 +69,11 @@ class InFillBlock extends React.Component<Props, State> {
   };
 
   renderSwitch = (): JSX.Element => {
-    const { elem, label = LANG.fill } = this.props;
-    const { isAnyFilled, isAllFilled, isFillable } = this.state;
+    const { isAnyFilled } = this.state;
     if (isMobile()) {
-      return <Switch style={{
-        '--height': '32px'
-      }} defaultChecked={isAnyFilled} onChange={() => this.onClick()} />
+      return (
+        <Switch style={{ '--height': '32px' }} defaultChecked={isAnyFilled} onChange={() => this.onClick()} />
+      );
     }
     return (
       <>
