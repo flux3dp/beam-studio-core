@@ -3,6 +3,7 @@ import React from 'react';
 
 import checkWebGL from 'helpers/check-webgl';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -20,7 +21,8 @@ function PathPreviewButton({
   isDeviceConnected,
   togglePathPreview,
 }: Props): JSX.Element {
-  if (!checkWebGL()) return null;
+  const isMobile = useIsMobile();
+  if (isMobile || !checkWebGL()) return null;
 
   const changeToPathPreviewMode = (): void => {
     if (!isPathPreviewing) {
@@ -28,9 +30,13 @@ function PathPreviewButton({
       togglePathPreview();
     }
   };
-  const className = classNames('path-preview-button-container',
-                               'hidden-mobile',
-                               { highlighted: isPathPreviewing, disabled: !isDeviceConnected && window.FLUX.version === 'web' });
+  const className = classNames(
+    'path-preview-button-container',
+    {
+      highlighted: isPathPreviewing,
+      disabled: !isDeviceConnected && window.FLUX.version === 'web',
+    }
+  );
   return (
     <div className={className}>
       <div className="path-preview-button" onClick={changeToPathPreviewMode}>

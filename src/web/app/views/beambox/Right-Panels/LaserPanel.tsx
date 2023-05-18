@@ -2,6 +2,7 @@
 /* eslint-disable no-continue */
 import React from 'react';
 import classNames from 'classnames';
+import { Select } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
@@ -30,6 +31,7 @@ import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
+import { isMobile } from 'helpers/system-helper';
 
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import AutoFocus from './LaserPanel/AutoFocus';
@@ -39,8 +41,6 @@ import LayerType from './LaserPanel/LayerType';
 import PowerBlock from './LaserPanel/PowerBlock';
 import RepeatBlock from './LaserPanel/RepeatBlock';
 import SpeedBlock from './LaserPanel/SpeedBlock';
-import { Select } from 'antd';
-import { isMobile } from 'helpers/system-helper';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });

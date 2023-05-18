@@ -6,18 +6,14 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import PreviewToolButtonGroup from 'app/components/beambox/left-panel/PreviewToolButtonGroup';
 import shortcuts from 'helpers/shortcuts';
-import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const LANG = i18n.lang.beambox.left_panel;
 
-interface Props {
-}
-
-class LeftPanel extends React.Component<Props> {
+class LeftPanel extends React.Component {
   private leftPanelClass: string;
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.leftPanelClass = classNames('left-toolbar', 'hidden-mobile');
   }

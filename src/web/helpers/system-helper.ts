@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const isMobile = (): boolean => window.innerWidth < 767;
+export const isMobile = (): boolean => window.innerWidth < 601;
 
 export const isMac = (): boolean => window.os === 'MacOS';
 

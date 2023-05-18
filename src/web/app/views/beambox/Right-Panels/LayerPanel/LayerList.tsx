@@ -138,7 +138,7 @@ const LayerList = ({
                 alt="vis-icon"
               />
             </div>
-            {isMobile()
+            {isMobile
             && (
               <div
                 id={`layer-config-${i}`}

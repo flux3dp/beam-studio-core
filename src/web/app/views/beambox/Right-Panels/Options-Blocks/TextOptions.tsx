@@ -19,8 +19,8 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
 import { Select } from 'antd';
 import { Switch } from 'antd-mobile';
-const { Option } = Select;
 
+const { Option } = Select;
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -400,8 +400,10 @@ class TextOptions extends React.Component<Props, State> {
 
   renderVerticalTextSwitch = (): JSX.Element => {
     const { isVerti } = this.state;
+    if (isMobile()) return null;
+
     return (
-      <div className={classNames('option-block', 'hidden-mobile')}>
+      <div className={classNames('option-block')}>
         <Switch defaultChecked={isVerti} onChange={this.handleVerticalTextClick} />
       </div>
     );
