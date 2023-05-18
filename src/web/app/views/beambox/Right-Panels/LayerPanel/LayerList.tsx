@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 
 import { getAllLayerNames, getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { isMobile } from 'helpers/system-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { SettingOutlined } from '@ant-design/icons';
+import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './LayerList.module.scss';
 
@@ -55,6 +55,7 @@ const LayerList = ({
   const items: React.ReactNode[] = [];
   const drawing = svgCanvas.getCurrentDrawing();
   const currentLayerName = drawing.getCurrentLayerName();
+  const isMobile = useIsMobile();
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle

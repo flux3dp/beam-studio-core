@@ -1,22 +1,26 @@
-import * as React from 'react';
+import React, { useContext, useState } from 'react';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import { Badge, TabBar } from 'antd-mobile';
-import {
-  PicturesOutline, RedoOutline, UndoOutline,
-} from 'antd-mobile-icons';
-import { DatabaseOutlined, FireOutlined, FontSizeOutlined, LineOutlined, ShopOutlined } from '@ant-design/icons';
+import { PicturesOutline, RedoOutline, UndoOutline } from 'antd-mobile-icons';
+import { FontSizeOutlined, LineOutlined } from '@ant-design/icons';
 import { CameraIcon, LayersIcon, PenIcon, ShapesIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import svgEditor from 'app/actions/beambox/svg-editor';
+import { useIsMobile } from 'helpers/system-helper';
 
-const CanvasTabBar = () => {
-  const { displayLayer,
+import styles from './CanvasTabBar.module.scss';
+
+const CanvasTabBar = (): React.ReactNode => {
+  const isMobile = useIsMobile();
+
+  const {
     setDisplayLayer,
     isPreviewing,
-    changeToPreviewMode,
     endPreviewMode,
-    showCameraPreviewDeviceList } = React.useContext(CanvasContext) as CanvasContextType;
-  const [activeKey, setActiveKey] = React.useState('none');
+    showCameraPreviewDeviceList
+  } = useContext(CanvasContext) as CanvasContextType;
+  const [activeKey, setActiveKey] = useState('none');
+  if (!isMobile) return null;
 
   const tabs = [
     {
@@ -74,11 +78,11 @@ const CanvasTabBar = () => {
       title: '關閉相機',
       icon: <CameraIcon />
     });
-  };
+  }
 
   const handleTabClick = (key: string) => {
     setDisplayLayer(key === 'layer');
-    const reset =  () => {
+    const reset = () => {
       console.log('call reset');
       setActiveKey('none');
     };
@@ -119,7 +123,7 @@ const CanvasTabBar = () => {
   };
 
   return (
-    <div id="mobile-tab-bar">
+    <div id="mobile-tab-bar" className={styles.container}>
       <div style={{ width: '150%' }}>
         <TabBar
           activeKey={activeKey}
