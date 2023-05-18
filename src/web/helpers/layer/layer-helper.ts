@@ -5,7 +5,6 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
-import ISVGLayer from 'interfaces/ISVGLayer';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
@@ -358,21 +357,6 @@ export const highlightLayer = (layerName?: string): void => {
       svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 1.0);
     }
   }
-};
-
-export const getAllLayerNames = () => {
-  const drawing = svgCanvas.getCurrentDrawing();
-  const isAnyLayerMissing = drawing.all_layers.some((layer: ISVGLayer) => {
-    if (!layer.group_.parentNode) {
-      return true;
-    }
-    return false;
-  });
-  if (isAnyLayerMissing) {
-    drawing.identifyLayers();
-  }
-
-  return drawing.all_layers.map((layer: ISVGLayer) => layer.name_);
 };
 
 export const getCurrentLayerName = () => {

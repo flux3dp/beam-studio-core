@@ -443,6 +443,7 @@ class LayerPanel extends React.Component<Props, State> {
               openLayerColorPanel={this.openLayerColorPanel}
               setLayerVisibility={this.setLayerVisibility}
               unLockLayers={this.unLockLayers}
+              openLayerSettings={this.openLayerSettings}
             />
           </div>
         </ContextMenuTrigger>

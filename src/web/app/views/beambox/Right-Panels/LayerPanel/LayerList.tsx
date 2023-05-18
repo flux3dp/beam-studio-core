@@ -3,7 +3,9 @@ import React, { useContext } from 'react';
 
 import { getAllLayerNames, getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { isMobile } from 'helpers/system-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { SettingOutlined } from '@ant-design/icons';
 
 import styles from './LayerList.module.scss';
 
@@ -27,6 +29,7 @@ interface Props {
   openLayerColorPanel: (e: React.MouseEvent, layerName: string) => void;
   setLayerVisibility: (layerName: string) => void;
   unLockLayers: (layerName: string) => void;
+  openLayerSettings: (e: React.MouseEvent, layerName: string) => void;
 }
 
 const renderDragBar = (): JSX.Element => <div key="drag-bar" className={styles['drag-bar']} />;
@@ -46,6 +49,7 @@ const LayerList = ({
   openLayerColorPanel,
   setLayerVisibility,
   unLockLayers,
+  openLayerSettings,
 }: Props): JSX.Element => {
   const { selectedLayers } = useContext(LayerPanelContext);
   const items: React.ReactNode[] = [];
@@ -133,6 +137,16 @@ const LayerList = ({
                 alt="vis-icon"
               />
             </div>
+            {isMobile()
+            && (
+              <div
+                id={`layer-config-${i}`}
+                className={styles.config}
+                onClick={(e) => openLayerSettings(e, layerName)}
+              >
+                <SettingOutlined />
+              </div>
+            )}
             <div
               id={`layerlock-${i}`}
               className={styles.lock}
