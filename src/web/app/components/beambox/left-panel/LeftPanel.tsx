@@ -20,11 +20,8 @@ class LeftPanel extends React.Component {
 
   componentDidMount(): void {
     // Selection Management
+    // TODO: move to layer panel
     $('#layerpanel').mouseup(() => {
-      FnWrapper.clearSelection();
-    });
-
-    $('#layer-laser-panel-placeholder').mouseup(() => {
       FnWrapper.clearSelection();
     });
 
@@ -92,7 +89,6 @@ class LeftPanel extends React.Component {
       return (<DrawingToolButtonGroup className={this.leftPanelClass} />);
     }
     if (isPathPreviewing) {
-      // TODO: Add PathPreviewButtonGroup
       return (
         <div className={this.leftPanelClass}>
           <div id="Exit-Preview" className="tool-btn" title={LANG.label.end_preview} onClick={togglePathPreview}>

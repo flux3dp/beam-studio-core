@@ -1,17 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly in path previewing 1`] = `
-<LeftPanel
-  isPathPreviewing={true}
-  togglePathPreview={[MockFunction]}
->
+exports[`test LeftPanel in path previewing 1`] = `
+<div>
   <div
-    className="left-toolbar"
+    class="left-toolbar hidden-mobile"
   >
     <div
-      className="tool-btn"
+      class="tool-btn"
       id="Exit-Preview"
-      onClick={[MockFunction]}
       title="End Preview"
     >
       <img
@@ -20,37 +16,31 @@ exports[`should render correctly in path previewing 1`] = `
       />
     </div>
   </div>
-</LeftPanel>
+</div>
 `;
 
-exports[`should render correctly neither in previewing nor in path previewing 1`] = `
-<LeftPanel
-  isPathPreviewing={false}
-  togglePathPreview={[MockFunction]}
->
-  <DrawingToolButtonGroup
-    className="left-toolbar"
-  >
-    <div>
-      This is dummy DrawingToolButtonGroup
-    </div>
-  </DrawingToolButtonGroup>
-</LeftPanel>
+exports[`test LeftPanel neither in previewing nor in path previewing 1`] = `
+<div>
+  <div>
+    This is dummy DrawingToolButtonGroup
+  </div>
+</div>
 `;
 
-exports[`should render correctly not in path previewing 1`] = `
-<LeftPanel
-  isPathPreviewing={false}
-  togglePathPreview={[MockFunction]}
->
-  <PreviewToolButtonGroup
-    className="left-toolbar"
-    endPreviewMode={[MockFunction]}
-    setShouldStartPreviewController={[MockFunction]}
-  >
-    <div>
-      This is dummy PreviewToolButtonGroup
-    </div>
-  </PreviewToolButtonGroup>
-</LeftPanel>
+exports[`test LeftPanel not in path previewing 1`] = `
+<div>
+  <div>
+    This is dummy PreviewToolButtonGroup
+    <button
+      type="button"
+    >
+      endPreviewMode
+    </button>
+    <button
+      type="button"
+    >
+      setShouldStartPreviewController
+    </button>
+  </div>
+</div>
 `;

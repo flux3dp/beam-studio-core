@@ -9,7 +9,7 @@ exports[`should render correctly type is gridArray 1`] = `
       "bottom": 10,
       "left": undefined,
       "position": "absolute",
-      "zIndex": 10,
+      "zIndex": 999,
     }
   }
 >
@@ -79,7 +79,7 @@ exports[`should render correctly type is nest 1`] = `
       "bottom": 10,
       "left": undefined,
       "position": "absolute",
-      "zIndex": 10,
+      "zIndex": 999,
     }
   }
 >
@@ -157,7 +157,7 @@ exports[`should render correctly type is offset 1`] = `
       "bottom": 10,
       "left": undefined,
       "position": "absolute",
-      "zIndex": 10,
+      "zIndex": 999,
     }
   }
 >

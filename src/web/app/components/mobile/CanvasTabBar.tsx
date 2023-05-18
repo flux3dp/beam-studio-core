@@ -10,7 +10,7 @@ import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './CanvasTabBar.module.scss';
 
-const CanvasTabBar = (): React.ReactNode => {
+const CanvasTabBar = (): JSX.Element => {
   const isMobile = useIsMobile();
 
   const {

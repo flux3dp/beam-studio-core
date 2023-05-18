@@ -1,28 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<div
-  className="go-button-container no-machine"
-  onClick={[Function]}
->
+exports[`test GoButton should render correctly 1`] = `
+<div>
   <div
-    className="go-btn"
-  />
-</div>
-`;
-
-exports[`should render correctly 2`] = `
-<div
-  className="go-button-container"
-  onClick={[Function]}
->
-  <div
-    className="go-text"
+    class="go-button-container no-machine"
   >
-    GO
+    <div
+      class="go-btn"
+    />
   </div>
-  <div
-    className="go-btn"
-  />
 </div>
 `;

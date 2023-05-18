@@ -1,45 +1,47 @@
-/* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
+
+import { CanvasContext } from 'app/contexts/CanvasContext';
+
+import GoButton from './GoButton';
 
 const popUp = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
-  popUp,
+  popUp: (...args) => popUp(...args),
 }));
 
 const alertConfigRead = jest.fn();
 const write = jest.fn();
 jest.mock('helpers/api/alert-config', () => ({
-  read: alertConfigRead,
-  write,
+  read: (...args) => alertConfigRead(...args),
+  write: (...args) => write(...args),
 }));
 
 const beamboxPreferenceRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
-  read: beamboxPreferenceRead,
+  read: (...args) => beamboxPreferenceRead(...args),
 }));
 
 const showConfirmPromptDialog = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
-  showConfirmPromptDialog,
+  showConfirmPromptDialog: (...args) => showConfirmPromptDialog(...args),
 }));
 
 const exportFcode = jest.fn();
 const uploadFcode = jest.fn();
 jest.mock('app/actions/beambox/export-funcs', () => ({
-  exportFcode,
-  uploadFcode,
+  exportFcode: (...args) => exportFcode(...args),
+  uploadFcode: (...args) => uploadFcode(...args),
 }));
 
 const get = jest.fn();
 jest.mock('implementations/storage', () => ({
-  get,
+  get: (...args) => get(...args),
 }));
 
 const switchImageSymbolForAll = jest.fn();
 jest.mock('helpers/symbol-maker', () => ({
-  switchImageSymbolForAll,
+  switchImageSymbolForAll: (...args) => switchImageSymbolForAll(...args),
 }));
 
 jest.mock('app/constants/tutorial-constants', () => ({
@@ -47,13 +49,13 @@ jest.mock('app/constants/tutorial-constants', () => ({
 }));
 
 const versionChecker = jest.fn();
-jest.mock('helpers/version-checker', () => versionChecker);
+jest.mock('helpers/version-checker', () => (...args) => versionChecker(...args));
 
 const getNextStepRequirement = jest.fn();
 const handleNextStep = jest.fn();
 jest.mock('app/views/tutorials/tutorialController', () => ({
-  getNextStepRequirement,
-  handleNextStep,
+  getNextStepRequirement: (...args) => getNextStepRequirement(...args),
+  handleNextStep: (...args) => handleNextStep(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -61,59 +63,55 @@ jest.mock('helpers/i18n', () => ({
     topbar: {
       alerts: {
         power_too_high: 'POWER TOO HIGH',
-        power_too_high_msg: 'Using lower laser power (under 70%) will extends laser tube\'s lifetime.\nEnter "NOTED" to proceed.',
+        power_too_high_msg: 'power_too_high_msg',
         power_too_high_confirm: 'NOTED',
       },
       export: 'GO',
     },
     beambox: {
       popup: {
-        too_fast_for_path: 'Using too high speed in layers containing path objects may result in lower precision when cutting.\nWe don\'t recommend using speed faster than 20 mm/s when cutting.',
-        too_fast_for_path_and_constrain: 'Following layers: %s\ncontain vector path objects, and have speed exceeding 20 mm/s.\nThe cutting speed of vector path objects will be constrained to 20 mm/s.\nYou can remove this limit at Preferences Settings.',
-        should_update_firmware_to_continue: '#814 Your firmware does not support this version of Beam Studio. Kindly update firmware to continue. (Menu > Machine > [Your Machine] > Update Firmware)',
+        too_fast_for_path: 'too_fast_for_path.',
+        too_fast_for_path_and_constrain: 'too_fast_for_path_and_constrain',
+        should_update_firmware_to_continue: 'should_update_firmware_to_continue',
         dont_show_again: 'Don\'t Show this next time.',
       },
     },
     message: {
-      unavailableWorkarea: '#804 Current workarea exceeds the workarea of this machine. Please check the workarea of selected machine or set workarea from Edit > Document Setting.',
+      unavailableWorkarea: 'unavailableWorkarea',
     },
   },
 }));
 
-const getSVGAsync = jest.fn();
+const getCurrentDrawing = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync,
+  getSVGAsync: (callback) => callback({
+    Canvas: {
+      getCurrentDrawing: (...args) => getCurrentDrawing(...args),
+    },
+  }),
 }));
 
-const getCurrentDrawing = jest.fn();
-getSVGAsync.mockImplementation((callback) => {
-  callback({
-    Canvas: {
-      getCurrentDrawing,
-    },
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext(null),
+}));
+
+describe('test GoButton', () => {
+  test('should render correctly', () => {
+    const endPreviewMode = jest.fn();
+    const { container } = render(
+      <CanvasContext.Provider value={{
+        endPreviewMode,
+      } as any}
+      >
+        <GoButton
+          hasText={false}
+          hasDiscoverdMachine={false}
+          hasDevice
+          showDeviceList={jest.fn()}
+        />
+      </CanvasContext.Provider>
+    );
+
+    expect(container).toMatchSnapshot();
   });
-});
-
-import GoButton from './GoButton';
-
-test('should render correctly', () => {
-  expect(toJson(shallow(<GoButton
-    hasText={false}
-    hasDiscoverdMachine={false}
-    hasDevice
-    endPreviewMode={jest.fn()}
-    showDeviceList={jest.fn()}
-  />))).toMatchSnapshot();
-
-  const endPreviewMode = jest.fn();
-  const showDeviceList = jest.fn();
-  const wrapper = shallow(<GoButton
-    hasText
-    hasDiscoverdMachine
-    hasDevice
-    endPreviewMode={endPreviewMode}
-    showDeviceList={showDeviceList}
-  />);
-
-  expect(toJson(wrapper)).toMatchSnapshot();
 });

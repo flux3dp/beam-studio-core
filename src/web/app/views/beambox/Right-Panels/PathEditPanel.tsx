@@ -22,6 +22,8 @@ const LINKTYPE_SMOOTH = 1; // same direction, different dist
 const LINKTYPE_SYMMETRIC = 2; // same direction, same dist
 
 function PathEditPanel(): JSX.Element {
+  if (!svgCanvas || !svgedit) return null;
+
   const onNodeTypeChange = (newType) => {
     svgedit.path.path.setSelectedNodeType(newType);
   };

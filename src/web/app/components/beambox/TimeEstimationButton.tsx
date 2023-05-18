@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -14,8 +14,8 @@ import { CanvasContext } from 'app/contexts/CanvasContext';
 const LANG = i18n.lang.beambox.time_est_button;
 
 const TimeEstimationButton = (): JSX.Element => {
-  const { estimatedTime, setEstimatedTime } = React.useContext(TimeEstimationButtonContext);
-  const { isPathPreviewing } = React.useContext(CanvasContext);
+  const { estimatedTime, setEstimatedTime } = useContext(TimeEstimationButtonContext);
+  const { isPathPreviewing } = useContext(CanvasContext);
 
   if (isPathPreviewing) return <div />;
 

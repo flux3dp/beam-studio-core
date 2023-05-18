@@ -1,7 +1,11 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { act, fireEvent, render } from '@testing-library/react';
+
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
+
+import TimeEstimationButton from './TimeEstimationButton';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -31,66 +35,90 @@ jest.mock('helpers/i18n', () => ({
 
 const mockPopUp = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
-  popUp: mockPopUp,
+  popUp: (...args) => mockPopUp(...args),
 }));
 
 const mockCheckConnection = jest.fn();
 jest.mock('helpers/api/discover', () => ({
-  checkConnection: mockCheckConnection,
+  checkConnection: (...args) => mockCheckConnection(...args),
 }));
 
 const mockEstimateTime = jest.fn();
 jest.mock('app/actions/beambox/export-funcs', () => ({
-  estimateTime: mockEstimateTime,
+  estimateTime: (...args) => mockEstimateTime(...args),
 }));
 
 const mockToggleUnsavedChangedDialog = jest.fn();
 jest.mock('helpers/file-export-helper', () => ({
-  toggleUnsavedChangedDialog: mockToggleUnsavedChangedDialog,
+  toggleUnsavedChangedDialog: (...args) => mockToggleUnsavedChangedDialog(...args),
 }));
 
-import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
-
-import TimeEstimationButton from './TimeEstimationButton';
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({ isPathPreviewing: false }),
+}));
 
 describe('should render correctly', () => {
-  test('has estimatedTime', () => {
+  it('should render correctly with estimatedTime', () => {
     Object.defineProperty(window, 'os', {
       value: 'MacOS',
     });
-    const wrapper = mount(
+    const { container } = render(
       <TimeEstimationButtonContext.Provider value={{
         setEstimatedTime: () => { },
         estimatedTime: 60,
       }}
       >
         <TimeEstimationButton />
-      </TimeEstimationButtonContext.Provider>,
+      </TimeEstimationButtonContext.Provider>
     );
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
-  test('NO estimatedTime', async () => {
+  it('should render correctly when isPathPreviewing', () => {
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            isPathPreviewing: true,
+          } as any
+        }
+      >
+        <TimeEstimationButtonContext.Provider
+          value={{
+            setEstimatedTime: () => { },
+            estimatedTime: 60,
+          }}
+        >
+          <TimeEstimationButton />
+        </TimeEstimationButtonContext.Provider>
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('when WITHOUT estimatedTime', async () => {
     Object.defineProperty(window, 'os', {
       value: 'Windows',
     });
     const mockSetEstimatedTime = jest.fn();
-    const wrapper = mount(
-      <TimeEstimationButtonContext.Provider value={{
-        setEstimatedTime: mockSetEstimatedTime,
-        estimatedTime: null,
-      }}
+    const { container } = render(
+      <TimeEstimationButtonContext.Provider
+        value={{
+          setEstimatedTime: mockSetEstimatedTime,
+          estimatedTime: null,
+        }}
       >
         <TimeEstimationButton />
-      </TimeEstimationButtonContext.Provider>,
+      </TimeEstimationButtonContext.Provider>
     );
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
     mockEstimateTime.mockResolvedValue(90);
-    wrapper.find('div.time-est-btn').simulate('click');
-    await mockEstimateTime();
+    await act(async () => {
+      fireEvent.click(container.querySelector('div.time-est-btn'));
+    });
     expect(mockSetEstimatedTime).toHaveBeenCalledTimes(1);
     expect(mockSetEstimatedTime).toHaveBeenNthCalledWith(1, 90);
   });
@@ -105,27 +133,31 @@ describe('should render correctly', () => {
       },
     });
     const mockSetEstimatedTime = jest.fn();
-    const wrapper = mount(
-      <TimeEstimationButtonContext.Provider value={{
-        setEstimatedTime: mockSetEstimatedTime,
-        estimatedTime: null,
-      }}
+    const { container } = render(
+      <TimeEstimationButtonContext.Provider
+        value={{
+          setEstimatedTime: mockSetEstimatedTime,
+          estimatedTime: null,
+        }}
       >
         <TimeEstimationButton />
       </TimeEstimationButtonContext.Provider>,
     );
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
     mockCheckConnection.mockReturnValueOnce(false);
-    wrapper.find('div.time-est-btn').simulate('click');
+    await act(async () => {
+      fireEvent.click(container.querySelector('div.time-est-btn'));
+    });
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(mockPopUp).toHaveBeenCalledTimes(1);
 
     mockEstimateTime.mockResolvedValue(90);
     mockCheckConnection.mockReturnValueOnce(true);
-    wrapper.find('div.time-est-btn').simulate('click');
-    await mockEstimateTime();
+    await act(async () => {
+      fireEvent.click(container.querySelector('div.time-est-btn'));
+    });
     expect(mockSetEstimatedTime).toHaveBeenCalledTimes(1);
     expect(mockSetEstimatedTime).toHaveBeenNthCalledWith(1, 90);
   });
