@@ -1,93 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly unit is inches 1`] = `
-<div
-  className="rect-options"
->
+<div>
   <div
-    className="option-block"
-    key="rounded-corner"
+    class="rect-options"
   >
     <div
-      className="label"
+      class="option-block"
     >
-      Rounded corner
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "option-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={0}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="in"
-    />
-  </div>
-  <InFillBlock
-    elem={
       <div
-        id="flux"
-      />
-    }
-  />
+        class="label"
+      >
+        Rounded corner
+      </div>
+      <div
+        class="option-input ui ui-control-unit-input-v2"
+      >
+        <input
+          step="1"
+          type="text"
+          value="0.0000"
+        />
+        <span
+          class="unit"
+        >
+          in
+        </span>
+      </div>
+    </div>
+    <div>
+      DummyInFillBlock
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly unit is not inches 1`] = `
-<div
-  className="rect-options"
->
+<div>
   <div
-    className="option-block"
-    key="rounded-corner"
+    class="rect-options"
   >
     <div
-      className="label"
+      class="option-block"
     >
-      Rounded corner
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "option-input": true,
-        }
-      }
-      defaultValue={1}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={0}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <InFillBlock
-    elem={
       <div
-        id="flux"
-      />
-    }
-  />
+        class="label"
+      >
+        Rounded corner
+      </div>
+      <div
+        class="option-input ui ui-control-unit-input-v2"
+      >
+        <input
+          step="1"
+          type="text"
+          value="1.00"
+        />
+        <span
+          class="unit"
+        >
+          mm
+        </span>
+      </div>
+    </div>
+    <div>
+      DummyInFillBlock
+    </div>
+  </div>
 </div>
 `;

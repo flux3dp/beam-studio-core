@@ -1,18 +1,21 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import { CanvasContext } from 'app/contexts/CanvasContext';
+
+import PreviewButton from './PreviewButton';
 
 const getNextStepRequirement = jest.fn();
 const handleNextStep = jest.fn();
 jest.mock('app/views/tutorials/tutorialController', () => ({
-  getNextStepRequirement,
-  handleNextStep,
+  getNextStepRequirement: (...args) => getNextStepRequirement(...args),
+  handleNextStep: (...args) => handleNextStep(...args),
 }));
 
 const read = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
-  read,
+  read: (...args) => read(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -28,81 +31,105 @@ jest.mock('app/constants/tutorial-constants', () => ({
   TO_PREVIEW_MODE: 'TO_PREVIEW_MODE',
 }));
 
-const getSVGAsync = jest.fn();
+const setMode = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync,
+  getSVGAsync: (callback) => callback({
+    Canvas: {
+      setMode: (...args) => setMode(...args),
+    },
+  }),
 }));
 
-const setMode = jest.fn();
-getSVGAsync.mockImplementation((callback) => {
-  callback({
-    Canvas: {
-      setMode,
-    },
-  });
-});
-
-import PreviewButton from './PreviewButton';
+const mockShowCameraPreviewDeviceList = jest.fn();
+const mockChangeToPreviewMode = jest.fn();
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({
+    isPreviewing: false,
+    isPathPreviewing: false,
+    changeToPreviewMode: (...args) => mockChangeToPreviewMode(...args),
+  }),
+}));
 
 describe('should render correctly', () => {
-  test('is path previewing', () => {
-    expect(toJson(shallow(<PreviewButton
-      isPreviewing={false}
-      isPathPreviewing
-      showCameraPreviewDeviceList={jest.fn()}
-      endPreviewMode={jest.fn()}
-      setTopBarPreviewMode={jest.fn()}
-      enterPreviewMode={jest.fn()}
-    />))).toMatchSnapshot();
+  beforeEach(() => {
+    jest.resetAllMocks();
   });
 
-  describe('is not path previewing', () => {
-    describe('is previewing', () => {
-      test('borderless and OpenBottom supported', () => {
-        read.mockReturnValueOnce(true).mockReturnValueOnce('fbm1');
-        const showCameraPreviewDeviceList = jest.fn();
-        const wrapper = shallow(<PreviewButton
-          isPreviewing
-          isPathPreviewing={false}
-          showCameraPreviewDeviceList={showCameraPreviewDeviceList}
-          endPreviewMode={jest.fn()}
-          setTopBarPreviewMode={jest.fn()}
-          enterPreviewMode={jest.fn()}
-        />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+  test('when path previewing', () => {
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            isPreviewing: false,
+            isPathPreviewing: true,
+            changeToPreviewMode: mockChangeToPreviewMode,
+          } as any
+        }
+      >
+        <PreviewButton
+          showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList}
+        />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
 
-        wrapper.find('div.img-container').simulate('click');
-        expect(showCameraPreviewDeviceList).toHaveBeenCalledTimes(1);
+  test('when previewing and support borderless', () => {
+    read.mockReturnValueOnce(true).mockReturnValueOnce('fbm1');
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            isPreviewing: true,
+            isPathPreviewing: false,
+            changeToPreviewMode: mockChangeToPreviewMode,
+          } as any
+        }
+      >
+        <PreviewButton showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList} />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
 
-        wrapper.find('div.title').simulate('click');
-        expect(showCameraPreviewDeviceList).toHaveBeenCalledTimes(2);
-      });
+    fireEvent.click(container.querySelector('div.img-container'));
+    expect(mockShowCameraPreviewDeviceList).toHaveBeenCalledTimes(1);
 
-      test('non-borderless', () => {
-        read.mockReturnValueOnce(false).mockReturnValueOnce('fbm1');
-        const wrapper = shallow(<PreviewButton
-          isPreviewing
-          isPathPreviewing={false}
-          showCameraPreviewDeviceList={jest.fn()}
-          endPreviewMode={jest.fn()}
-          setTopBarPreviewMode={jest.fn()}
-          enterPreviewMode={jest.fn()}
-        />);
-        expect(toJson(wrapper)).toMatchSnapshot();
-      });
-    });
+    fireEvent.click(container.querySelector('div.title'));
+    expect(mockShowCameraPreviewDeviceList).toHaveBeenCalledTimes(2);
+  });
 
-    test('is not previewing', () => {
-      document.body.innerHTML = '<div id="workarea"></div>';
-      const wrapper = shallow(<PreviewButton
-        isPreviewing={false}
-        isPathPreviewing={false}
-        showCameraPreviewDeviceList={jest.fn()}
-        endPreviewMode={jest.fn()}
-        setTopBarPreviewMode={jest.fn()}
-        enterPreviewMode={jest.fn()}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
+  test('when previewing and not support borderless', () => {
+    read.mockReturnValueOnce(false).mockReturnValueOnce('fbm1');
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            isPreviewing: true,
+            isPathPreviewing: false,
+            changeToPreviewMode: mockChangeToPreviewMode,
+          } as any
+        }
+      >
+        <PreviewButton showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList} />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('when not previewing', () => {
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            isPreviewing: false,
+            isPathPreviewing: false,
+            changeToPreviewMode: mockChangeToPreviewMode,
+          } as any
+        }
+      >
+        <PreviewButton showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList} />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
   });
 });

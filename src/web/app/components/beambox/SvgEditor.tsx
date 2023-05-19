@@ -6,9 +6,7 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/Workarea';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 
-interface Props {
-}
-export default class SvgEditor extends React.Component<Props> {
+export default class SvgEditor extends React.Component {
   componentDidMount(): void {
     const { $ } = window;
     $(svgEditor.init);

@@ -1,10 +1,13 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
+
+import { CanvasContext } from 'app/contexts/CanvasContext';
+
+import SvgEditor from './SvgEditor';
 
 const mockGet = jest.fn();
 jest.mock('implementations/storage', () => ({
-  get: mockGet,
+  get: (...args) => mockGet(...args),
 }));
 
 jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
@@ -17,15 +20,16 @@ jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
 
 const mockInit = jest.fn();
 jest.mock('app/actions/beambox/svg-editor', () => ({
-  init: mockInit,
+  init: () => mockInit(),
 }));
 
 Object.defineProperty(window, '$', {
   value: jest.fn(),
 });
 
-// eslint-disable-next-line import/first, import/order
-import SvgEditor from './SvgEditor';
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({ isPathPreviewing: false }),
+}));
 
 describe('test svg-editor', () => {
   test('should render correctly in mac', () => {
@@ -33,8 +37,8 @@ describe('test svg-editor', () => {
     Object.defineProperty(window, 'os', {
       value: 'MacOS',
     });
-    const wrapper = mount(<SvgEditor />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<SvgEditor />);
+    expect(container).toMatchSnapshot();
   });
 
   test('should render correctly in win', () => {
@@ -42,7 +46,7 @@ describe('test svg-editor', () => {
     Object.defineProperty(window, 'os', {
       value: 'Windows',
     });
-    const wrapper = mount(<SvgEditor />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<SvgEditor />);
+    expect(container).toMatchSnapshot();
   });
 });

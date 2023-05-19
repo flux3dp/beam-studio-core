@@ -16,7 +16,6 @@ const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
 interface Props {
   label?: string;
-  id?:string
   elem: Element;
 }
 
@@ -84,7 +83,7 @@ class InFillBlock extends React.Component<Props, State> {
         </label>
       </>
     );
-  }
+  };
 
   render(): JSX.Element {
     const { elem, label = LANG.fill } = this.props;
@@ -96,8 +95,12 @@ class InFillBlock extends React.Component<Props, State> {
     return (
       <div className="option-block" key="infill">
         <div className="label">{label}</div>
-        <div id="infill" className={classNames('onoffswitch', { 'partially-filled': isPartiallyFilled })} onClick={() => this.onClick()}>
-          { this.renderSwitch() }
+        <div
+          id="infill"
+          className={classNames('onoffswitch', { 'partially-filled': isPartiallyFilled })}
+          onClick={() => this.onClick()}
+        >
+          {this.renderSwitch()}
         </div>
       </div>
     );

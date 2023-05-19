@@ -16,7 +16,7 @@ let lastElement: Element;
 let lastMode: RightPanelMode;
 
 const RightPanel = (): JSX.Element => {
-  const [selectedTab, setSelectedTab] = useState<'layers'|'objects'>('layers');
+  const [selectedTab, setSelectedTab] = useState<'layers' | 'objects'>('layers');
   const { displayLayer, selectedElem } = useContext(CanvasContext);
   const { mode } = useContext(RightPanelContext);
 
