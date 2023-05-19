@@ -76,6 +76,7 @@ const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const { svgedit, $ } = window;
 
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
+const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 
 declare global {
   interface JQueryStatic {
@@ -5694,7 +5695,7 @@ const svgEditor = window['svgEditor'] = (function () {
             svgCanvas.setHasUnsavedChange(true);
             break;
         }
-        svgCanvas.getEvents().emit('addImage');
+        canvasEvents.emit('addImage');
       }
       editor.handleFile = handleFile;
 

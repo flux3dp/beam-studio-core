@@ -174,9 +174,6 @@ const funcs = {
     }
     $('#workarea').css('cursor', 'text');
   },
-  events() {
-    return svgCanvas.getEvents();
-  }
 };
 
 export default funcs;

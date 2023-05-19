@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
@@ -20,6 +21,8 @@ import { MouseButtons } from 'app/constants/mouse-constants';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
+
+const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 
 getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
@@ -486,7 +489,7 @@ const mouseDown = (evt: MouseEvent) => {
         svgCanvas.updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
-      svgCanvas.getEvents().emit('addLine', newLine);
+      canvasEvents.emit('addLine', newLine);
       break;
     case 'circle':
       svgCanvas.unsafeAccess.setStarted(true);
@@ -553,7 +556,7 @@ const mouseDown = (evt: MouseEvent) => {
       if (svgCanvas.isUsingLayerColor) {
         svgCanvas.updateElementColor(newText);
       }
-      svgCanvas.getEvents().emit('addText', newText);
+      canvasEvents.emit('addText', newText);
       break;
     case 'polygon':
       // Polygon is created in ext-polygon.js

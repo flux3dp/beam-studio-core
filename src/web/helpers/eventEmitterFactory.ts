@@ -14,6 +14,7 @@ const eventEmitters = {
   'zoom-block': null,
   workarea: null,
   monitor: null,
+  canvas: null,
 };
 export default {
   createEventEmitter: (type?: string): EventEmitter => {

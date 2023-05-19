@@ -1,8 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { CanvasContext } from 'app/contexts/CanvasContext';
-
 import SvgEditor from './SvgEditor';
 
 const mockGet = jest.fn();

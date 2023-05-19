@@ -42,7 +42,7 @@ interface CanvasContextType {
   updateTopBar: () => void,
 }
 
-const CanvasContext = React.createContext<CanvasContextType>({
+const CanvasContext = createContext<CanvasContextType>({
   changeToPreviewMode: () => {},
   currentUser: null,
   displayLayer: false,
@@ -66,8 +66,7 @@ const CanvasContext = React.createContext<CanvasContextType>({
   updateTopBar: () => {},
 });
 
-const CanvasProvider = (props: React.PropsWithChildren<{}>) => {
-  const [, updateState] = React.useState({});
+const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const [displayLayer, setDisplayLayer] = useState<boolean>(window.outerWidth > 600);
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
@@ -113,7 +112,7 @@ const CanvasProvider = (props: React.PropsWithChildren<{}>) => {
     }
   };
 
-  const updateTopBar = (): void => { console.log("Force update?"); };
+  const updateTopBar = (): void => { console.log('Force update?'); };
 
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
@@ -161,28 +160,32 @@ const CanvasProvider = (props: React.PropsWithChildren<{}>) => {
   const { children } = props;
 
   return (
-    <CanvasContext.Provider value={{
-      changeToPreviewMode,
-      currentUser,
-      displayLayer,
-      endPreviewMode,
-      fileName,
-      hasUnsavedChange,
-      isPathPreviewing,
-      isPreviewing,
-      selectedElem,
-      setDisplayLayer,
-      setIsPathPreviewing,
-      setIsPreviewing,
-      setShouldStartPreviewController,
-      setShowCameraPreviewDeviceList,
-      setStartPreviewCallback,
-      setTopBarPreviewMode,
-      shouldStartPreviewController,
-      showCameraPreviewDeviceList,
-      startPreviewCallback,
-      togglePathPreview,
-      updateTopBar }}
+    <CanvasContext.Provider
+      value={
+        {
+          changeToPreviewMode,
+          currentUser,
+          displayLayer,
+          endPreviewMode,
+          fileName,
+          hasUnsavedChange,
+          isPathPreviewing,
+          isPreviewing,
+          selectedElem,
+          setDisplayLayer,
+          setIsPathPreviewing,
+          setIsPreviewing,
+          setShouldStartPreviewController,
+          setShowCameraPreviewDeviceList,
+          setStartPreviewCallback,
+          setTopBarPreviewMode,
+          shouldStartPreviewController,
+          showCameraPreviewDeviceList,
+          startPreviewCallback,
+          togglePathPreview,
+          updateTopBar,
+        }
+      }
     >
       {children}
     </CanvasContext.Provider>

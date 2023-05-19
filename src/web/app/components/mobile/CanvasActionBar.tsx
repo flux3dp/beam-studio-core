@@ -1,12 +1,12 @@
-import * as React from 'react';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import { Badge, TabBar } from 'antd-mobile';
-import { PenIcon, RedoIcon, TrashIcon, UndoIcon } from 'app/icons/icons';
-import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
-import svgEditor from 'app/actions/beambox/svg-editor';
+import React from 'react';
+import { TabBar } from 'antd-mobile';
 
-const CanvasActionBar = () => {
-  const { displayLayer, setDisplayLayer, selectedElem } = React.useContext(CanvasContext) as CanvasContextType;
+import svgEditor from 'app/actions/beambox/svg-editor';
+import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
+import { TrashIcon } from 'app/icons/icons';
+
+const CanvasActionBar = (): JSX.Element => {
+  const { selectedElem } = React.useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = React.useState('dmkt');
 
   const tabs = [

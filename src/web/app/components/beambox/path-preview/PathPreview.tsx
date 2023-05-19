@@ -22,11 +22,12 @@ import SidePanel from 'app/components/beambox/path-preview/SidePanel';
 import units from 'helpers/units';
 import VersionChecker from 'helpers/version-checker';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
-import { parseGcode } from '../../../views/beambox/tmpParseGcode';
+
 import ProgressBar from './ProgressBar';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { parseGcode } from '../../../views/beambox/tmpParseGcode';
 
 const TOOLS_PANEL_HEIGHT = 100;
 const MAJOR_GRID_SPACING = 50;

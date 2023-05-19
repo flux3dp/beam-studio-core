@@ -18,7 +18,8 @@ interface IRect {
   height: number,
 }
 
-export default interface ISVGCanvas {  addAlignPoint: (x: number, y: number) => void;
+export default interface ISVGCanvas {
+  addAlignPoint: (x: number, y: number) => void;
   addCommandToHistory: (command: ICommand) => void;
   addedNew: boolean;
   addExtension: any;
@@ -58,7 +59,6 @@ export default interface ISVGCanvas {  addAlignPoint: (x: number, y: number) => 
   getCurrentShape: () => IShapeStyle,
   getCurrentZoom: () => number, // New getter for current_zoom
   getDocumentTitle: () => string;
-  getEvents: () => EventEmitter;
   getGoodImage: () => string;
   getHref: (elem: SVGElement) => string;
   getId: () => string;

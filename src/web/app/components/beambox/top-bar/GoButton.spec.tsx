@@ -101,6 +101,7 @@ describe('test GoButton', () => {
     const { container } = render(
       <CanvasContext.Provider value={{
         endPreviewMode,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any}
       >
         <GoButton
