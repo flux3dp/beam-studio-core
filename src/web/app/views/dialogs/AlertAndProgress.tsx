@@ -4,11 +4,13 @@ import { Modal, Progress } from 'antd';
 import Alert from 'app/views/dialogs/Alert';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
+import LoadingGridAnimation from 'app/widgets/LoadingGridAnimation';
 import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
-import LoadingGridAnimation from 'app/widgets/LoadingGridAnimation';
+
+import styles from './AlertAndProgress.module.scss';
 
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
 
@@ -52,7 +54,7 @@ const AlertsAndProgress = (): JSX.Element => {
       if (data.type === ProgressConstants.NONSTOP) {
         return (
           <Modal
-            className="nonstop-progress"
+            className={styles.nonstop}
             key={`${data.key}-${data.id}`}
             style={{
               minWidth: 150,
@@ -69,9 +71,9 @@ const AlertsAndProgress = (): JSX.Element => {
             cancelText={LANG.alert.cancel}
             okButtonProps={{ style: { display: 'none' } }}
           >
-            <center>
+            <div>
               <LoadingGridAnimation />
-            </center>
+            </div>
           </Modal>
         );
       }

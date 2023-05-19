@@ -139,7 +139,6 @@ interface WrappedFile {
   totalFiles: number;
 }
 
-// return { uploadFile, thumbnailBlobURL }
 const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
   svgedit.utilities.moveDefsIntoSvgContent();
   const [thumbnail, thumbnailBlobURL] = await fetchThumbnail();

@@ -1,180 +1,153 @@
+import classNames from 'classnames';
 import React from 'react';
 
-const LoadingGridAnimation = () => (
-  <div className="loader-animation">
-    <div className="container">
+import styles from './LoadingGridAnimation.module.scss';
+
+const LoadingGridAnimation = (): JSX.Element => (
+  <div className={styles.animation}>
+    <div className={styles.container}>
       <div className="h1Container">
-
-        <div className="cube h1 w1 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w1, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w1 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w1, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w1 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w1, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w2 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w2, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w2 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w2, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w2 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w2, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w3 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w3, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w3 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w3, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h1 w3 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h1, styles.w3, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
       </div>
-
       <div className="h2Container">
-
-        <div className="cube h2 w1 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w1, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w1 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w1, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w1 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w1, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w2 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w2, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w2 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w2, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w2 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w2, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w3 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w3, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w3 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w3, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h2 w3 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h2, styles.w3, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
       </div>
-
       <div className="h3Container">
-
-        <div className="cube h3 w1 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w1, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w1 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w1, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w1 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w1, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w2 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w2, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w2 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w2, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w2 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w2, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w3 l1">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w3, styles.l1)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w3 l2">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w3, styles.l2)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
-
-        <div className="cube h3 w3 l3">
-          <div className="face top"></div>
-          <div className="face left"></div>
-          <div className="face right"></div>
+        <div className={classNames(styles.cube, styles.h3, styles.w3, styles.l3)}>
+          <div className={classNames(styles.face, styles.top)} />
+          <div className={classNames(styles.face, styles.left)} />
+          <div className={classNames(styles.face, styles.right)} />
         </div>
       </div>
-
-      </div>
+    </div>
   </div>
 );
 
