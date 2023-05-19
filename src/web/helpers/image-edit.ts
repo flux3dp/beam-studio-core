@@ -10,8 +10,8 @@ import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { moveElements } from 'app/svgedit/operations/move';
+
 import { posterize, trace } from './potrace';
-import Constant from 'app/actions/beambox/constant';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -163,21 +163,13 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
       onComplete: (result) => resolve(result.pngBase64),
     }
   ));
-  const svgStr = (await new Promise<string>((resolve) => ImageTracer.imageToSVG(grayScaleUrl, (str) => resolve(str))))
-    .replace(/<\/?svg[^>]*>/g, '');
+  const svgStr = (await new Promise<string>((resolve) => ImageTracer.imageToSVG(
+    grayScaleUrl, (str) => resolve(str), 'detailed'
+  ))).replace(/<\/?svg[^>]*>/g, '');
   const gId = svgCanvas.getNextId();
   const g = svgCanvas.addSvgElementFromJson<SVGGElement>({ element: 'g', attr: { id: gId } });
   ImageTracer.appendSVGString(svgStr, gId);
 
-  const path = svgCanvas.addSvgElementFromJson({
-    element: 'path',
-    attr: {
-      id: svgCanvas.getNextId(),
-      fill: '#000000',
-      'stroke-width': 1,
-      'vector-effect': 'non-scaling-stroke',
-    }
-  });
   svgCanvas.selectOnly([g]);
   let gBBox = g.getBBox();
   if (imgBBox.width !== gBBox.width) svgCanvas.setSvgElemSize('width', imgBBox.width);
@@ -195,6 +187,22 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
     i -= 1;
   }
   g.remove();
+
+  if (!d) {
+    progress.popById('vectorize-image');
+    svgCanvas.selectOnly([element]);
+    return;
+  }
+
+  const path = svgCanvas.addSvgElementFromJson({
+    element: 'path',
+    attr: {
+      id: svgCanvas.getNextId(),
+      fill: '#000000',
+      'stroke-width': 1,
+      'vector-effect': 'non-scaling-stroke',
+    }
+  });
   path.setAttribute('d', d);
   moveElements([dx], [dy], [path], false);
   svgCanvas.setRotationAngle(angle, true, path);
