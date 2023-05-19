@@ -309,8 +309,6 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
     }
   });
   svgCanvas.selectOnly([g]);
-  let gBBox = g.getBBox();
-  gBBox = g.getBBox();
   const dx = imgBBox.x;
   const dy = imgBBox.y;
   let fillOpacity = 0;

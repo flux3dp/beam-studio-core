@@ -4874,7 +4874,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * @param {string} cornerType 'round' or 'sharp';
    * @param {SVGElement} elem target, selected if not passed;
    */
-  this.offsetElements = async (dir, dist, cornerType, elems, skipUndoStack: boolean) => {
+  this.offsetElements = async (dir, dist, cornerType, elems, skipUndoStack: boolean): Promise<void | SVGElement> => {
     Progress.openNonstopProgress({
       id: 'offset-path',
       message: LANG.popup.progress.calculating,

@@ -25,7 +25,7 @@ import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimation
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
 
-const Beambox = () => {
+const Beambox = (): JSX.Element => {
   React.useEffect(() => {
     BeamboxGlobalInteraction.attach();
 

@@ -13,7 +13,7 @@ const LANG = i18n.lang.beambox.left_panel;
 class LeftPanel extends React.Component {
   private leftPanelClass: string;
 
-  constructor(props) {
+  constructor(props: Record<string, unknown>) {
     super(props);
     this.leftPanelClass = classNames('left-toolbar', 'hidden-mobile');
   }

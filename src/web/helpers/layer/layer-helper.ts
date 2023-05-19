@@ -5,6 +5,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
+import ISVGLayer from 'interfaces/ISVGLayer';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
@@ -359,12 +360,12 @@ export const highlightLayer = (layerName?: string): void => {
   }
 };
 
-export const getCurrentLayerName = () => {
+export const getCurrentLayerName = (): string => {
   const drawing = svgCanvas.getCurrentDrawing();
   return drawing.getCurrentLayerName();
 };
 
-export const getLayerByName = (layerName: string) => {
+export const getLayerByName = (layerName: string): ISVGLayer => {
   const drawing = svgCanvas.getCurrentDrawing();
   return drawing.getLayerByName(layerName);
 };
