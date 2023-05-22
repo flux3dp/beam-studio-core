@@ -1,4 +1,4 @@
-import ISVGLayer from 'interfaces/ISVGLayer';
+import ISVGLayer, { ISVGLayerConscrtuctor } from 'interfaces/ISVGLayer';
 
 export default interface ISVGDrawing {
   all_layers: ISVGLayer[];
@@ -10,13 +10,13 @@ export default interface ISVGDrawing {
   getLayerColor: (layerName: string) => string;
   getLayerName: (index: number) => string | null;
   hasLayer: (layerName: string) => boolean;
-  getLayerByName: (layerName: string) => ISVGLayer | null;
+  getLayerByName: (layerName: string) => SVGGElement | null;
   getNumLayers: () => number;
   identifyLayers: () => void;
   setLayerOpacity: (name: string, opacity: number) => void;
   releaseId: (id: string) => void;
   draw: {
-    Layer: () => ISVGLayer;
+    Layer: ISVGLayerConscrtuctor;
   };
   browser: {
     isTouch: () => boolean;

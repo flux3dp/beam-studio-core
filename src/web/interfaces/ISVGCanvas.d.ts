@@ -148,7 +148,7 @@ export default interface ISVGCanvas {
   svgToString(elem: Element, indent: number, units?: Units): string;
   tempGroupSelectedElements: () => SVGElement[];
   textActions: any;
-  ungroupTempGroup(elem?: SVGElement): void;
+  ungroupTempGroup(elem?: SVGElement): SVGElement[];
   undoMgr: IUndoManager;
   ungroupSelectedElement(): void;
   updateCanvas: (width: number, height: number) => void;

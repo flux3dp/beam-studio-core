@@ -365,7 +365,7 @@ export const getCurrentLayerName = (): string => {
   return drawing.getCurrentLayerName();
 };
 
-export const getLayerByName = (layerName: string): ISVGLayer => {
+export const getLayerByName = (layerName: string): SVGGElement => {
   const drawing = svgCanvas.getCurrentDrawing();
   return drawing.getLayerByName(layerName);
 };
