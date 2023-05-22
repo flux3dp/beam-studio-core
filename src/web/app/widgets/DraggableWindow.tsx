@@ -29,7 +29,6 @@ class DraggableWindow extends React.PureComponent<Props> {
       handleClass,
     } = this.props;
     return (
-      // @ts-expect-error Draggable typings are wrong
       <Draggable
         handle=".handle"
         defaultClassName={classNames('react-draggable', containerClass)}
