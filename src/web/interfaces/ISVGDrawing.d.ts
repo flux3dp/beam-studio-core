@@ -17,5 +17,8 @@ export default interface ISVGDrawing {
   releaseId: (id: string) => void;
   draw: {
     Layer: () => ISVGLayer;
-  }
+  };
+  browser: {
+    isTouch: () => boolean;
+  };
 }

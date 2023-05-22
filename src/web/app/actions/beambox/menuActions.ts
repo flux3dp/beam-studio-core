@@ -89,7 +89,7 @@ export default {
   GROUP: () => FnWrapper.groupSelected(),
   UNGROUP: () => FnWrapper.ungroupSelected(),
   DELETE: () => svgEditor.deleteSelected(),
-  DUPLICATE: () => FnWrapper.cloneSelectedElement(),
+  DUPLICATE: () => clipboard.cloneSelectedElements(20, 20),
   OFFSET: () => svgEditor.triggerOffsetTool(),
   IMAGE_SHARPEN: () => Dialog.showPhotoEditPanel('sharpen'),
   IMAGE_CROP: () => Dialog.showCropPanel(),

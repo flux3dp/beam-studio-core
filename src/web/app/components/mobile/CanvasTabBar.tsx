@@ -1,14 +1,18 @@
 import React, { useContext, useState } from 'react';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import { Badge, TabBar } from 'antd-mobile';
-import { PicturesOutline, RedoOutline, UndoOutline } from 'antd-mobile-icons';
-import { FontSizeOutlined, LineOutlined } from '@ant-design/icons';
 import { CameraIcon, LayersIcon, PenIcon, ShapesIcon } from 'app/icons/icons';
-import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
+import { FontSizeOutlined, LineOutlined } from '@ant-design/icons';
+import { PicturesOutline, RedoOutline, UndoOutline } from 'antd-mobile-icons';
+
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import svgEditor from 'app/actions/beambox/svg-editor';
+import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './CanvasTabBar.module.scss';
+
+const events = eventEmitterFactory.createEventEmitter('canvas');
 
 const CanvasTabBar = (): JSX.Element => {
   const isMobile = useIsMobile();
@@ -88,19 +92,19 @@ const CanvasTabBar = (): JSX.Element => {
     };
 
     if (key === 'image') {
-      FnWrapper.events().once('addImage', () => reset());
+      events.once('addImage', () => reset());
       FnWrapper.importImage();
     }
     if (key === 'text') {
-      FnWrapper.events().once('addText', () => reset());
+      events.once('addText', () => reset());
       FnWrapper.insertText();
     }
     if (key === 'pen') {
-      FnWrapper.events().once('addLine', () => reset());
+      events.once('addLine', () => reset());
       FnWrapper.insertPath();
     }
     if (key === 'lines') {
-      FnWrapper.events().once('addLine', () => reset());
+      events.once('addLine', () => reset());
       FnWrapper.insertLine();
     }
     if (key === 'undo') {

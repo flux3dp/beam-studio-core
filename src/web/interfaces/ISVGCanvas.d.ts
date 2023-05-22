@@ -95,6 +95,9 @@ export default interface ISVGCanvas {
   moveSelectedToLayer(destLayer: string): void;
   moveTopBottomSelected(direction: 'top' | 'bottom'): void;
   moveUpSelectedElement(): void;
+  offsetElements: (
+    dir: number, dist: number, cornerType: string, elem: SVGElement, skipUndoStack?: boolean,
+  ) => Promise<SVGElement>;
   opacityAnimation: SVGAnimateElement;
   open: () => void;
   pathActions: any;
@@ -145,6 +148,7 @@ export default interface ISVGCanvas {
   svgToString(elem: Element, indent: number, units?: Units): string;
   tempGroupSelectedElements: () => SVGElement[];
   textActions: any;
+  ungroupTempGroup(elem?: SVGElement): void;
   undoMgr: IUndoManager;
   ungroupSelectedElement(): void;
   updateCanvas: (width: number, height: number) => void;

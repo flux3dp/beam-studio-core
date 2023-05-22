@@ -1,11 +1,12 @@
 import * as TutorialController from 'app/views/tutorials/tutorialController';
+import clipboard from 'app/svgedit/operations/clipboard';
 import dialog from 'implementations/dialog';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import ISVGDrawing from 'interfaces/ISVGDrawing';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import ISVGCanvas from 'src/interfaces/core-interfaces/ISVGCanvas';
-import ISVGDrawing from 'src/interfaces/core-interfaces/ISVGDrawing';
 
 let svgCanvas: ISVGCanvas;
 let svgedit: ISVGDrawing;
@@ -39,7 +40,7 @@ const funcs = {
     svgCanvas.clearSelection();
   },
   cloneSelectedElement(): void {
-    svgCanvas.cloneSelectedElements(20, 20);
+    clipboard.cloneSelectedElements(20, 20);
   },
   // main panel
   importImage: async (): Promise<void> => {

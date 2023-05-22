@@ -65,7 +65,7 @@ const generateBase64Image = (
 });
 
 const addBatchCommand = (
-  commandName: string, elem: Element, changes: { [key: string]: string|number|boolean },
+  commandName: string, elem: Element, changes: { [key: string]: string | number | boolean },
 ) => {
   const batchCommand: IBatchCommand = new history.BatchCommand(commandName);
   const setAttribute = (key: string, value) => {
@@ -265,32 +265,18 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   const isTransparentBackground = elem.getAttribute('data-no-bg');
   const imgBBox = element.getBBox();
   const imgRotation = svgedit.utilities.getRotationAngle(element);
-  const { imgUrl } = getImageAttributes(element);
+  let { imgUrl } = getImageAttributes(element);
   if (!imgUrl) return;
-  let imgGet = await fetch(imgUrl);
   if (isTransparentBackground) {
-    // Specific for already background removed image
-    const maskImageUrl = await generateBase64Image(imgUrl, false, 254);
-    imgGet = await fetch(maskImageUrl);
+    imgUrl = await generateBase64Image(imgUrl, false, 254);
   }
-  const imgData = await imgGet.blob();
-  const jimpData = await new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(imgData);
-    Jimp.read(url, (err, image) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(image);
-      }
-      URL.revokeObjectURL(url);
-    });
-  });
+  const image = await jimpHelper.urlToImage(imgUrl);
 
   let final = '';
   if (isTransparentBackground) {
-    final = await trace(jimpData, {});
+    final = await trace(image, {});
   } else {
-    final = await posterize(jimpData, {});
+    final = await posterize(image, {});
   }
 
   const svgStr = final.replace(/<\/?svg[^>]*>/g, '');
