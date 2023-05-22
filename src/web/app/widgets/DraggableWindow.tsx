@@ -1,5 +1,5 @@
-import * as React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import Draggable from 'react-draggable';
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   containerClass: string;
   handleClass?: string;
   onClose?: () => void;
+  children?: React.ReactNode;
 }
 class DraggableWindow extends React.PureComponent<Props> {
   renderTrafficLight() {
@@ -19,7 +20,7 @@ class DraggableWindow extends React.PureComponent<Props> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     const {
       title,
       children,
@@ -28,6 +29,7 @@ class DraggableWindow extends React.PureComponent<Props> {
       handleClass,
     } = this.props;
     return (
+      // @ts-expect-error Draggable typings are wrong
       <Draggable
         handle=".handle"
         defaultClassName={classNames('react-draggable', containerClass)}
