@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
@@ -20,6 +21,8 @@ import { MouseButtons } from 'app/constants/mouse-constants';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
+
+const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 
 getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
@@ -225,7 +228,6 @@ const mouseDown = (evt: MouseEvent) => {
   if (mouseTarget.tagName === 'a' && mouseTarget.childNodes.length === 1) {
     mouseTarget = mouseTarget.firstChild as SVGElement;
   }
-
   if (mouseTarget === svgCanvas.selectorManager.selectorParentGroup
       && selectedElements[0] != null) {
     // if it is a selector grip, then it must be a single element selected,
@@ -487,6 +489,7 @@ const mouseDown = (evt: MouseEvent) => {
         svgCanvas.updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
+      canvasEvents.emit('addLine', newLine);
       break;
     case 'circle':
       svgCanvas.unsafeAccess.setStarted(true);
@@ -553,6 +556,7 @@ const mouseDown = (evt: MouseEvent) => {
       if (svgCanvas.isUsingLayerColor) {
         svgCanvas.updateElementColor(newText);
       }
+      canvasEvents.emit('addText', newText);
       break;
     case 'polygon':
       // Polygon is created in ext-polygon.js
@@ -1229,7 +1233,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         if ((navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os))
         && Math.hypot(mouseX - startMouseX, mouseY - startMouseY) < 1) {
           // in touchable mobile, if almost not moved, select mousedown element
-          svgCanvas.unsafeAccess.setSelectedElements([tempJustSelected]);
+          selectedElements = [tempJustSelected];
         } else {
           const intersectedElements = svgCanvas.getIntersectionList().filter((elem) => {
             const layer = LayerHelper.getObjectLayer(elem);
@@ -1242,9 +1246,9 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
             }
             return true;
           });
-          svgCanvas.unsafeAccess.setSelectedElements(intersectedElements);
           selectedElements = intersectedElements;
         }
+        svgCanvas.unsafeAccess.setSelectedElements(selectedElements);
         svgCanvas.call('selected', selectedElements);
       }
       if (rubberBox != null) {

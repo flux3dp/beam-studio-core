@@ -1,63 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly is not path previewing is not previewing 1`] = `
-<div
-  className="preview-button-container"
->
+exports[`should render correctly when not previewing 1`] = `
+<div>
   <div
-    className="img-container"
-    onClick={[Function]}
+    class="preview-button-container"
   >
-    <img
-      draggable={false}
-      src="img/top-bar/icon-camera.svg"
-    />
+    <div
+      class="img-container"
+    >
+      <img
+        draggable="false"
+        src="img/top-bar/icon-camera.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
-exports[`should render correctly is not path previewing is previewing borderless and OpenBottom supported 1`] = `
-<div
-  className="preview-button-container previewing"
->
+exports[`should render correctly when path previewing 1`] = `<div />`;
+
+exports[`should render correctly when previewing and not support borderless 1`] = `
+<div>
   <div
-    className="img-container"
-    onClick={[MockFunction]}
+    class="preview-button-container previewing"
   >
-    <img
-      draggable={false}
-      src="img/top-bar/icon-camera.svg"
-    />
-  </div>
-  <div
-    className="title"
-    onClick={[MockFunction]}
-  >
-    PREVIEW (OPEN BOTTOM)
+    <div
+      class="img-container"
+    >
+      <img
+        draggable="false"
+        src="img/top-bar/icon-camera.svg"
+      />
+    </div>
+    <div
+      class="title"
+    >
+      PREVIEW
+    </div>
   </div>
 </div>
 `;
 
-exports[`should render correctly is not path previewing is previewing non-borderless 1`] = `
-<div
-  className="preview-button-container previewing"
->
+exports[`should render correctly when previewing and support borderless 1`] = `
+<div>
   <div
-    className="img-container"
-    onClick={[MockFunction]}
+    class="preview-button-container previewing"
   >
-    <img
-      draggable={false}
-      src="img/top-bar/icon-camera.svg"
-    />
-  </div>
-  <div
-    className="title"
-    onClick={[MockFunction]}
-  >
-    PREVIEW
+    <div
+      class="img-container"
+    >
+      <img
+        draggable="false"
+        src="img/top-bar/icon-camera.svg"
+      />
+    </div>
+    <div
+      class="title"
+    >
+      PREVIEW (OPEN BOTTOM)
+    </div>
   </div>
 </div>
 `;
-
-exports[`should render correctly is path previewing 1`] = `""`;

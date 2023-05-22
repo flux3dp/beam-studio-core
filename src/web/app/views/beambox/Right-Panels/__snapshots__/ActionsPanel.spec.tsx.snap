@@ -256,6 +256,34 @@ exports[`should render correctly image 1`] = `
         Array
       </button>
     </div>
+    <div
+      className="btn-container half"
+      key="Remove BG"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        id="remove"
+        type="button"
+      >
+        <InvertIcon />
+        Remove BG
+      </button>
+    </div>
+    <div
+      className="btn-container half"
+      key="Potrace"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        id="remove"
+        type="button"
+      >
+        <InvertIcon />
+        Potrace
+      </button>
+    </div>
   </div>
 </div>
 `;
@@ -562,7 +590,7 @@ exports[`should render correctly text 1`] = `
       </button>
     </div>
     <div
-      className="btn-container half"
+      className="btn-container full"
       key="Array"
       onClick={[Function]}
     >

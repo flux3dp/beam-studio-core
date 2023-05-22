@@ -117,3 +117,33 @@
   height: 2px;
   background-color: #0091ff;
 }
+
+@media screen and (max-width: 600px) {
+  .list {
+    padding-bottom: 80px;
+
+    .row{
+      display: flex;
+      .name {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+        flex-grow: 2;
+      }
+
+      &:active, &:hover {
+        .name {
+          color: white;
+        }
+      }
+
+      .color {
+        margin-right: 10px;
+      }
+
+      .vis {
+        margin-right: 5px;
+      }
+    }
+  }
+}

@@ -159,6 +159,8 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
   }
 
   render(): JSX.Element {
+    const { isPathPreviewing } = this.context;
+    if (isPathPreviewing) return <div />;
     const { resetView } = this.props;
     const ratio = this.calculateCurrentRatio();
     const ratioInPercent = Math.round(ratio * 100);

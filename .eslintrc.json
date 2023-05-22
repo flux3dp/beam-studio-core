@@ -55,6 +55,8 @@
         "exports": "only-multiline",
         "functions": "only-multiline"
     }],
-    "@typescript-eslint/comma-dangle": "off"
+    "@typescript-eslint/comma-dangle": "off",
+    "react/require-default-props": "off",
+    "no-console": "off"
   }
 }

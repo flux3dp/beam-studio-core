@@ -2,8 +2,9 @@
 
 exports[`test AddLayerButton should render correctly 1`] = `
 <div>
-  <div
-    class="add-layer-btn"
+  <button
+    class="btn"
+    type="button"
   >
     <div
       class="bar bar1"
@@ -14,6 +15,6 @@ exports[`test AddLayerButton should render correctly 1`] = `
     <div
       class="bar bar3"
     />
-  </div>
+  </button>
 </div>
 `;

@@ -1,0 +1,57 @@
+.btn {
+  position: absolute;
+  cursor: pointer;
+  top: 413px;
+  right: 20px;
+  width: 13px;
+  height: 13px;
+  z-index: 1;
+  background: none;
+  border: none;
+
+  .bar {
+    position: absolute;
+    border: 1px solid #ffffff;
+    width: 4px;
+    height: 13px;
+    border-radius: 2px;
+    background-color: #444444;
+  }
+
+  .bar1 {
+    transform: translateX(4.5px);
+  }
+
+  .bar2 {
+    transform-origin: 0 0;
+    transform: translateX(13px) rotate(90deg) translateX(4.5px);
+  }
+
+  .bar3 {
+    width: 2px;
+    height: 11px;
+    border: 1px solid #444444;
+    border-radius: 1px;
+    transform: translateX(5.5px) translateY(1px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .btn {
+    position: fixed;
+    top: 100%;
+    margin-top: -100px;
+    right: 15px;
+    z-index: 999;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    padding: 9px;
+
+    &:active, &:hover {
+      opacity: 0.5;
+    }
+  }
+}

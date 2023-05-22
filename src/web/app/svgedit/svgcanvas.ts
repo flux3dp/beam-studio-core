@@ -75,6 +75,7 @@ import autoSaveHelper from 'helpers/auto-save-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
+import sanitizeXmlString from 'helpers/sanitize-xml-string';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -1664,10 +1665,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
     }
     svgedit.utilities.moveDefsOutfromSvgContent();
-    output = sanitizeXmlString(output);
-    console.log(output);
+    const outputSanitized = sanitizeXmlString(output);
+    console.log('Sanitized Result', output.length, outputSanitized.length);
 
-    return output;
+    return outputSanitized;
   };
 
   // Function: svgToString
@@ -2438,26 +2439,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  const sanitizeXmlString = (xmlString) => {
-    // ref: https://stackoverflow.com/questions/29031792/detect-non-valid-xml-characters-javascript
-    const res = [];
-    const re = /([\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD]|[\uD800-\uDBFF][\uDC00-\uDFFF])+/g;
-    let i = 0;
-    while (i < xmlString.length) {
-      // Prevent Maximum call stack size exceeded, split xmlString and process
-      let end = Math.min(i + 500000, xmlString.length);
-      if (end !== xmlString.length && xmlString[end - 1].match(/[\uD800-\uDBFF]/)) {
-        end -= 1;
-      }
-      const matchResult = xmlString.substring(i, end).match(re);
-      i = end;
-      if (matchResult) {
-        res.push(...matchResult);
-      }
-    }
-    return res.join('');
-  };
-
   //
   // Function: setSvgString
   // This function sets the current drawing as the input SVG XML.
@@ -2759,11 +2740,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       useEl.setAttribute('data-symbol', symbol);
       useEl.setAttribute('data-ref', symbol);
-      useEl.setAttribute('data-svg', true);
-      useEl.setAttribute('data-ratiofixed', true);
+      useEl.setAttribute('data-svg', 'true');
+      useEl.setAttribute('data-ratiofixed', 'true');
 
       if (type === 'nolayer') {
-        useEl.setAttribute('data-wireframe', true);
+        useEl.setAttribute('data-wireframe', 'true');
         const iterationStack = [symbol];
         while (iterationStack.length > 0) {
           const node = iterationStack.pop();
@@ -4893,7 +4874,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * @param {string} cornerType 'round' or 'sharp';
    * @param {SVGElement} elem target, selected if not passed;
    */
-  this.offsetElements = async (dir, dist, cornerType, elems) => {
+  this.offsetElements = async (dir, dist, cornerType, elems, skipUndoStack = false): Promise<void | SVGElement> => {
     Progress.openNonstopProgress({
       id: 'offset-path',
       message: LANG.popup.progress.calculating,
@@ -5027,13 +5008,18 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     });
     pathActions.fixEnd(newElem);
-    batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
-    if (this.isUsingLayerColor) {
-      this.updateElementColor(newElem);
-    }
 
-    selectOnly([newElem], true);
-    addCommandToHistory(batchCmd);
+    if (!skipUndoStack) {
+      batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
+      if (this.isUsingLayerColor) {
+        this.updateElementColor(newElem);
+      }
+
+      selectOnly([newElem], true);
+      addCommandToHistory(batchCmd);
+    } else {
+      return newElem;
+    }
   };
 
   this.decomposePath = (elems) => {

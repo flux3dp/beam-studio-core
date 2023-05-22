@@ -1,7 +1,9 @@
-/* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
+import PolygonOptions from './PolygonOptions';
+
+jest.mock('app/views/beambox/Right-Panels/Options-Blocks/InFillBlock', () => () => <div>DummyInFillBlock</div>);
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -20,41 +22,44 @@ jest.mock('helpers/i18n', () => ({
 window.polygonAddSides = jest.fn();
 window.polygonDecreaseSides = jest.fn();
 
-import PolygonOptions from './PolygonOptions';
-
 test('should render correctly', () => {
-  expect(toJson(shallow(
+  const { container, rerender } = render(
     <PolygonOptions
       elem={document.getElementById('flux')}
       polygonSides={0}
-    />,
-  ))).toMatchSnapshot();
+    />
+  );
+  expect(container).toMatchSnapshot();
 
-  document.body.innerHTML = '<div id="flux" />';
-  const wrapper = shallow(
+  rerender(
     <PolygonOptions
       elem={document.getElementById('flux')}
       polygonSides={5}
-    />,
+    />
   );
 
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('UnitInput').props().getValue(8);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const input = container.querySelector('input');
+  fireEvent.change(input, { target: { value: 8 } });
+  fireEvent.blur(input);
+
+  expect(container).toMatchSnapshot();
   expect(window.polygonAddSides).toHaveBeenCalledTimes(3);
   expect(window.polygonDecreaseSides).not.toHaveBeenCalled();
 
   jest.resetAllMocks();
 
-  wrapper.find('UnitInput').props().getValue(5);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  fireEvent.change(input, { target: { value: 5 } });
+  fireEvent.blur(input);
+  expect(container).toMatchSnapshot();
   expect(window.polygonAddSides).not.toHaveBeenCalled();
   expect(window.polygonDecreaseSides).toHaveBeenCalledTimes(3);
 
   jest.resetAllMocks();
 
-  wrapper.find('UnitInput').props().getValue(5);
+  fireEvent.change(input, { target: { value: 5 } });
+  fireEvent.blur(input);
   expect(window.polygonAddSides).not.toHaveBeenCalled();
   expect(window.polygonDecreaseSides).not.toHaveBeenCalled();
 });

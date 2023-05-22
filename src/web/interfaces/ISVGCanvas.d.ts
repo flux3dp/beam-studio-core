@@ -3,6 +3,7 @@ import { IBatchCommand, ICommand, IUndoManager } from 'interfaces/IHistory';
 import IShapeStyle from 'interfaces/IShapeStyle';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
+import { EventEmitter } from 'events';
 import { SelectorManager } from '../app/svgedit/selector';
 
 export interface IPoint {
@@ -44,7 +45,9 @@ export default interface ISVGCanvas {
   currentFilePath: string;
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;
+  drawing: ISVGDrawing;
   embedImage(url: string, callback: (dataURI: string) => void): void;
+  events: EventEmitter;
   findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint, yMatchPoint: IPoint };
   getColor: (key: string) => string;
   getContainer: () => SVGElement,
@@ -86,10 +89,15 @@ export default interface ISVGCanvas {
   isUsingLayerColor: boolean;
   leaveContext: () => void;
   makeHyperlink(url: string): void;
+  mergeLayer: () => void;
+  mergeAllLayers: () => void;
   moveDownSelectedElement(): void;
   moveSelectedToLayer(destLayer: string): void;
   moveTopBottomSelected(direction: 'top' | 'bottom'): void;
   moveUpSelectedElement(): void;
+  offsetElements: (
+    dir: number, dist: number, cornerType: string, elem: SVGElement, skipUndoStack?: boolean,
+  ) => Promise<SVGElement>;
   opacityAnimation: SVGAnimateElement;
   open: () => void;
   pathActions: any;
@@ -121,6 +129,7 @@ export default interface ISVGCanvas {
   setImageURL: (url: string) => void;
   setLastClickPoint: (point: { x: number, y: number }) => void;
   setLatestImportFileName(fileName: string): void;
+  setLayerVisibility(layerName: string, visible: boolean): void;
   setMode: (mode: string) => void;
   setOpacity: (opacity: number) => void;
   setPaint(picker: string, paint: any): void;
@@ -134,14 +143,17 @@ export default interface ISVGCanvas {
   setSvgString: (content: string) => boolean;
   setUiStrings(allStrings: Record<string, string>): void;
   setZoom: (zoom: number) => void;
+  sortTempGroupByLayer: () => void;
   spaceKey: boolean;
   svgToString(elem: Element, indent: number, units?: Units): string;
   tempGroupSelectedElements: () => SVGElement[];
   textActions: any;
+  ungroupTempGroup(elem?: SVGElement): SVGElement[];
   undoMgr: IUndoManager;
   ungroupSelectedElement(): void;
   updateCanvas: (width: number, height: number) => void;
   updateElementColor: (elem: Element) => void;
+  updateLayerColor: (layerElement: Element) => void;
   updateRecentFiles(path: string): void;
   unsafeAccess: {
     setCurrentMode: (v: string) => void,

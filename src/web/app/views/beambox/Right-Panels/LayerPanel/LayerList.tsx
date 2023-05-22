@@ -4,6 +4,8 @@ import React, { useContext } from 'react';
 import { getAllLayerNames, getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { SettingOutlined } from '@ant-design/icons';
+import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './LayerList.module.scss';
 
@@ -27,6 +29,7 @@ interface Props {
   openLayerColorPanel: (e: React.MouseEvent, layerName: string) => void;
   setLayerVisibility: (layerName: string) => void;
   unLockLayers: (layerName: string) => void;
+  openLayerSettings: (e: React.MouseEvent, layerName: string) => void;
 }
 
 const renderDragBar = (): JSX.Element => <div key="drag-bar" className={styles['drag-bar']} />;
@@ -46,11 +49,13 @@ const LayerList = ({
   openLayerColorPanel,
   setLayerVisibility,
   unLockLayers,
+  openLayerSettings,
 }: Props): JSX.Element => {
   const { selectedLayers } = useContext(LayerPanelContext);
   const items: React.ReactNode[] = [];
   const drawing = svgCanvas.getCurrentDrawing();
   const currentLayerName = drawing.getCurrentLayerName();
+  const isMobile = useIsMobile();
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -133,6 +138,16 @@ const LayerList = ({
                 alt="vis-icon"
               />
             </div>
+            {isMobile
+            && (
+              <div
+                id={`layer-config-${i}`}
+                className={styles.config}
+                onClick={(e) => openLayerSettings(e, layerName)}
+              >
+                <SettingOutlined />
+              </div>
+            )}
             <div
               id={`layerlock-${i}`}
               className={styles.lock}

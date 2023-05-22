@@ -1,0 +1,10 @@
+.container {
+  display: block;
+  position: fixed;
+  width: 100%;
+  border-top: solid 1px #CCC;
+  background: #FFFFFF;
+  z-index: 998;
+  overflow-x: scroll;
+  bottom: 0;
+}

@@ -7,6 +7,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImage';
+import { Switch } from 'antd-mobile';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -104,13 +105,14 @@ class ImageOptions extends React.Component<Props> {
     return (
       <div className="option-block" key="gradient">
         <div className="label">{LANG.shading}</div>
-        <div className="onoffswitch" onClick={this.handleGradientClick}>
+        <Switch defaultChecked={isGradient} onChange={this.handleGradientClick} />
+        {/* <div className="onoffswitch" onClick={this.handleGradientClick}>
           <input type="checkbox" className="onoffswitch-checkbox" checked={isGradient} readOnly />
           <label className="onoffswitch-label">
             <span className="onoffswitch-inner" />
             <span className="onoffswitch-switch" />
           </label>
-        </div>
+        </div> */}
       </div>
     );
   }

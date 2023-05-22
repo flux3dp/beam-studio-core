@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import BeamboxInit from 'implementations/beamboxInit';
+import CanvasTabBar from 'app/components/mobile/CanvasTabBar';
 import communicator from 'implementations/communicator';
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
@@ -17,96 +18,51 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
+import { CanvasProvider } from 'app/contexts/CanvasContext';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
-import { TopBarLeftPanelContextProvider } from 'app/contexts/TopBarLeftPanelContext';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
 
-interface State {
-  isPathPreviewing: boolean,
-}
-
-export default class Beambox extends React.Component<Record<string, never>, State> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isPathPreviewing: false,
-    };
-  }
-
-  componentDidMount(): void {
+const Beambox = (): JSX.Element => {
+  React.useEffect(() => {
     BeamboxGlobalInteraction.attach();
 
     communicator.send('FRONTEND_READY');
     svgEditor.resetView();
     beamboxInit.showStartUpDialogs();
     openFileHelper.loadOpenFile();
-  }
 
-  componentWillUnmount() {
-    BeamboxGlobalInteraction.detach();
-  }
+    return () => {
+      BeamboxGlobalInteraction.detach();
+    };
+  });
 
-  private togglePathPreview = () => {
-    const { isPathPreviewing } = this.state;
-    this.setState({ isPathPreviewing: !isPathPreviewing });
-  };
-
-  private renderTimeEstButton(): JSX.Element {
-    const { isPathPreviewing } = this.state;
-    if (isPathPreviewing) return null;
-    return (
-      <TimeEstimationButtonContextProvider>
-        <TimeEstimationButton />
-      </TimeEstimationButtonContextProvider>
-    );
-  }
-
-  renderPathPreview = (): JSX.Element => {
-    const { isPathPreviewing } = this.state;
-    if (!isPathPreviewing) return null;
-    return <PathPreview togglePathPreview={this.togglePathPreview} />;
-  };
-
-  renderZoomBlock = (): JSX.Element => {
-    const { isPathPreviewing } = this.state;
-    if (isPathPreviewing) return null;
-    return (
-      <ZoomBlock
-        setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
-        resetView={svgEditor.resetView}
-      />
-    );
-  };
-
-  render(): JSX.Element {
-    const { isPathPreviewing } = this.state;
-    const activeLang = i18n.getActiveLang();
-    return (
+  const activeLang = i18n.getActiveLang();
+  return (
+    <CanvasProvider>
       <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
-        <TopBarLeftPanelContextProvider>
-          <TopBar
-            isPathPreviewing={isPathPreviewing}
-            togglePathPreview={this.togglePathPreview}
-          />
-          <LeftPanel
-            isPathPreviewing={isPathPreviewing}
-            togglePathPreview={this.togglePathPreview}
-          />
-        </TopBarLeftPanelContextProvider>
+        <TopBar />
+        <LeftPanel />
         <RightPanelContextProvider>
           <RightPanel />
         </RightPanelContextProvider>
-        <SvgEditor isPathPreviewing={isPathPreviewing} />
-        {this.renderTimeEstButton()}
-        {this.renderPathPreview()}
-        {this.renderZoomBlock()}
+        <SvgEditor />
+        <TimeEstimationButtonContextProvider>
+          <TimeEstimationButton />
+        </TimeEstimationButtonContextProvider>
+        <PathPreview />
+        <ZoomBlock
+          setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
+          resetView={svgEditor.resetView}
+        />
         <div id="tool-panels-placeholder" />
         <ImageTracePanel />
+        <CanvasTabBar />
       </div>
-    );
-  }
-}
+    </CanvasProvider>
+  );
+};
+
+export default Beambox;

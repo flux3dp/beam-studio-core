@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import TutorialConstants from 'app/constants/tutorial-constants';
@@ -5,6 +6,8 @@ import TutorialController from 'app/views/tutorials/tutorialController';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { initLayerConfig } from 'helpers/layer/layer-config-helper';
+
+import styles from './AddLayerButton.module.scss';
 
 let svgCanvas;
 let svgEditor;
@@ -37,11 +40,11 @@ function AddLayerButton({ setSelectedLayers }: Props): JSX.Element {
   };
 
   return (
-    <div className="add-layer-btn" onClick={addNewLayer}>
-      <div className="bar bar1" />
-      <div className="bar bar2" />
-      <div className="bar bar3" />
-    </div>
+    <button className={styles.btn} onClick={addNewLayer} type="button">
+      <div className={classNames(styles.bar, styles.bar1)} />
+      <div className={classNames(styles.bar, styles.bar2)} />
+      <div className={classNames(styles.bar, styles.bar3)} />
+    </button>
   );
 }
 

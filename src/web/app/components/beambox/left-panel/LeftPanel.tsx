@@ -6,30 +6,22 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import PreviewToolButtonGroup from 'app/components/beambox/left-panel/PreviewToolButtonGroup';
 import shortcuts from 'helpers/shortcuts';
-import { TopBarLeftPanelContext } from 'app/contexts/TopBarLeftPanelContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const LANG = i18n.lang.beambox.left_panel;
 
-interface Props {
-  isPathPreviewing: boolean;
-  togglePathPreview: () => void;
-}
-
-class LeftPanel extends React.Component<Props> {
+class LeftPanel extends React.Component {
   private leftPanelClass: string;
 
-  constructor(props: Props) {
+  constructor(props: Record<string, unknown>) {
     super(props);
-    this.leftPanelClass = classNames('left-toolbar');
+    this.leftPanelClass = classNames('left-toolbar', 'hidden-mobile');
   }
 
   componentDidMount(): void {
     // Selection Management
+    // TODO: move to layer panel
     $('#layerpanel').mouseup(() => {
-      FnWrapper.clearSelection();
-    });
-
-    $('#layer-laser-panel-placeholder').mouseup(() => {
       FnWrapper.clearSelection();
     });
 
@@ -91,13 +83,12 @@ class LeftPanel extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { isPathPreviewing, togglePathPreview } = this.props;
+    const { isPathPreviewing, togglePathPreview } = this.context;
     const { isPreviewing, setShouldStartPreviewController, endPreviewMode } = this.context;
     if (!isPreviewing && !isPathPreviewing) {
       return (<DrawingToolButtonGroup className={this.leftPanelClass} />);
     }
     if (isPathPreviewing) {
-      // TODO: Add PathPreviewButtonGroup
       return (
         <div className={this.leftPanelClass}>
           <div id="Exit-Preview" className="tool-btn" title={LANG.label.end_preview} onClick={togglePathPreview}>
@@ -116,6 +107,6 @@ class LeftPanel extends React.Component<Props> {
   }
 }
 
-LeftPanel.contextType = TopBarLeftPanelContext;
+LeftPanel.contextType = CanvasContext;
 
 export default LeftPanel;

@@ -9,6 +9,7 @@ module.exports = {
   },
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    "^.+.css$": 'identity-obj-proxy',
   },
   collectCoverageFrom: [
     'src/**/*.(ts|tsx)',
@@ -18,6 +19,7 @@ module.exports = {
     '!src/web/app/lang/**',
     '!src/implementations/**',
     '!src/web/app/constants/**',
+    '!src/web/helpers/potrace/**',
     // TODO: write unit test for symbol-maker and remove below line
     '!src/web/helpers/symbol-maker.ts',
     '!src/**/*.worker.ts',

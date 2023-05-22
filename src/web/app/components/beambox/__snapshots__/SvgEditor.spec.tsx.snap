@@ -1,16 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test svg-editor should render correctly in mac 1`] = `
-<SvgEditor>
+<div>
   <div>
     <div
-      className="mac"
+      class="mac"
       id="svg_editor"
-      style={{}}
     >
       <div>
         <div
-          className="mac"
+          class="mac"
           id="rulers"
         >
           <div
@@ -21,7 +20,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           >
             <div>
               <canvas
-                height={15}
+                height="15"
               />
             </div>
           </div>
@@ -30,7 +29,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           >
             <div>
               <canvas
-                width={15}
+                width="15"
               />
             </div>
           </div>
@@ -40,18 +39,14 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             inch
           </div>
         </div>
-        <DummyWorkarea
-          className="mac"
-        >
-          <div>
-            This is dummy Workarea
-          </div>
-        </DummyWorkarea>
+        <div>
+          This is dummy Workarea
+        </div>
         <div
           id="main_button"
         >
           <div
-            className="tool_button"
+            class="tool_button"
             id="main_icon"
             title="Main Menu"
           >
@@ -61,11 +56,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               <ul>
                 <li
                   id="tool_open"
-                  style={
-                    {
-                      "display": "none",
-                    }
-                  }
+                  style="display: none;"
                 >
                   <div
                     id="fileinputs"
@@ -76,11 +67,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 </li>
                 <li
                   id="tool_import"
-                  style={
-                    {
-                      "display": "none",
-                    }
-                  }
+                  style="display: none;"
                 >
                   <div
                     id="fileinputs_import"
@@ -94,14 +81,14 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           </div>
         </div>
         <div
-          className="tools_panel"
+          class="tools_panel"
           id="tools_top"
         >
           <div
             id="editor_panel"
           >
             <div
-              className="push_button"
+              class="push_button"
               id="tool_source"
               title="Edit Source [U]"
             />
@@ -111,7 +98,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           >
             <input
               id="text"
-              size={35}
+              size="35"
               type="text"
             />
           </div>
@@ -120,45 +107,41 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           id="cur_context_panel"
         />
         <div
-          className="tools_panel"
+          class="tools_panel"
           id="tools_left"
         >
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_select"
             title="Select Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_fhpath"
             title="Pencil Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_line"
             title="Line Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_path"
             title="Path Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_text"
             title="Text Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_image"
             title="Image Tool"
           />
           <div
-            style={
-              {
-                "display": "none",
-              }
-            }
+            style="display: none;"
           >
             <div
               id="tool_rect"
@@ -198,31 +181,27 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             />
           </div>
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_path"
             title="Path Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_text"
             title="Text Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_image"
             title="Image Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_zoom"
             title="Zoom Tool [Ctrl+Up/Down]"
           />
           <div
-            style={
-              {
-                "display": "none",
-              }
-            }
+            style="display: none;"
           >
             <div
               id="tool_rect"
@@ -263,7 +242,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           </div>
         </div>
         <div
-          className="tools_panel"
+          class="tools_panel"
           id="tools_bottom"
         >
           <div
@@ -273,57 +252,57 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               id="color_tools"
             >
               <div
-                className="color_tool"
+                class="color_tool"
                 id="tool_fill"
               >
                 <label
-                  className="icon_label"
-                  htmlFor="fill_color"
+                  class="icon_label"
+                  for="fill_color"
                   title="Change fill color"
                 />
                 <div
-                  className="color_block"
+                  class="color_block"
                 >
                   <div
                     id="fill_bg"
                   />
                   <div
-                    className="color_block"
+                    class="color_block"
                     id="fill_color"
                   />
                 </div>
               </div>
             </div>
             <div
-              className="color_tool"
+              class="color_tool"
               id="tool_stroke"
             >
               <label
-                className="icon_label"
+                class="icon_label"
                 title="Change stroke color"
               />
               <div
-                className="color_block"
+                class="color_block"
               >
                 <div
                   id="stroke_bg"
                 />
                 <div
-                  className="color_block"
+                  class="color_block"
                   id="stroke_color"
                   title="Change stroke color"
                 />
               </div>
               <label
-                className="stroke_label"
+                class="stroke_label"
               >
                 <input
                   data-attr="Stroke Width"
-                  defaultValue={5}
                   id="stroke_width"
-                  size={2}
+                  size="2"
                   title="Change stroke width by 1, shift-click to change by 0.1"
                   type="text"
+                  value="5"
                 />
               </label>
               <div
@@ -331,14 +310,14 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 title="Show/hide more stroke tools"
               />
               <label
-                className="stroke_tool"
+                class="stroke_tool"
               >
                 <select
-                  defaultValue="none"
                   id="stroke_style"
                   title="Change stroke dash style"
                 >
                   <option
+                    selected=""
                     value="none"
                   >
                     —
@@ -366,7 +345,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 </select>
               </label>
               <div
-                className="stroke_tool dropdown"
+                class="stroke_tool dropdown"
                 id="stroke_linejoin"
               >
                 <div
@@ -378,7 +357,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 />
               </div>
               <div
-                className="stroke_tool dropdown"
+                class="stroke_tool dropdown"
                 id="stroke_linecap"
               >
                 <div
@@ -391,24 +370,24 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               </div>
             </div>
             <div
-              className="color_tool"
+              class="color_tool"
               id="tool_opacity"
               title="Change selected item opacity"
             >
               <label>
                 <span
-                  className="icon_label"
+                  class="icon_label"
                   id="group_opacityLabel"
                 />
                 <input
-                  defaultValue={100}
                   id="group_opacity"
-                  size={3}
+                  size="3"
                   type="text"
+                  value="100"
                 />
               </label>
               <div
-                className="dropdown"
+                class="dropdown"
                 id="opacity_dropdown"
               >
                 <button
@@ -431,7 +410,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                     100%
                   </li>
                   <li
-                    className="special"
+                    class="special"
                   >
                     <div
                       id="opac_slider"
@@ -443,24 +422,24 @@ exports[`test svg-editor should render correctly in mac 1`] = `
           </div>
         </div>
         <div
-          className="dropdown"
+          class="dropdown"
           id="option_lists"
         >
           <ul
             id="linejoin_opts"
           >
             <li
-              className="tool_button current"
+              class="tool_button current"
               id="linejoin_miter"
               title="Linejoin: Miter"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linejoin_round"
               title="Linejoin: Round"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linejoin_bevel"
               title="Linejoin: Bevel"
             />
@@ -469,17 +448,17 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             id="linecap_opts"
           >
             <li
-              className="tool_button current"
+              class="tool_button current"
               id="linecap_butt"
               title="Linecap: Butt"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linecap_square"
               title="Linecap: Square"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linecap_round"
               title="Linecap: Round"
             />
@@ -494,13 +473,13 @@ exports[`test svg-editor should render correctly in mac 1`] = `
       id="svg_source_editor"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="svg_source_container"
       >
         <div
-          className="toolbar_button"
+          class="toolbar_button"
           id="tool_source_back"
         >
           <button
@@ -533,9 +512,8 @@ exports[`test svg-editor should render correctly in mac 1`] = `
         </div>
         <form>
           <textarea
-            defaultValue=""
             id="svg_source_textarea"
-            spellCheck="false"
+            spellcheck="false"
           />
         </form>
       </div>
@@ -544,13 +522,13 @@ exports[`test svg-editor should render correctly in mac 1`] = `
       id="svg_docprops"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="svg_docprops_container"
       >
         <div
-          className="toolbar_button"
+          class="toolbar_button"
           id="tool_docprops_back"
         >
           <button
@@ -602,7 +580,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                
               <input
                 id="canvas_width"
-                size={6}
+                size="6"
                 type="text"
               />
             </label>
@@ -615,17 +593,17 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                
               <input
                 id="canvas_height"
-                size={6}
+                size="6"
                 type="text"
               />
             </label>
             <label>
               <select
-                defaultValue="predefined"
                 id="resolution"
               >
                 <option
                   id="selectedPredefined"
+                  selected=""
                   value="predefined"
                 >
                   Select predefined:
@@ -664,10 +642,10 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             </legend>
             <label>
               <input
-                defaultChecked={true}
-                defaultValue="embed"
+                checked=""
                 name="image_opt"
                 type="radio"
+                value="embed"
               />
                
               <span
@@ -679,9 +657,9 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             </label>
             <label>
               <input
-                defaultValue="ref"
                 name="image_opt"
                 type="radio"
+                value="ref"
               />
                
               <span
@@ -699,13 +677,13 @@ exports[`test svg-editor should render correctly in mac 1`] = `
       id="svg_prefs"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="svg_prefs_container"
       >
         <div
-          className="toolbar_button"
+          class="toolbar_button"
           id="tool_prefs_back"
         >
           <button
@@ -734,7 +712,6 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               Language:
             </span>
             <select
-              defaultValue="en"
               id="lang_select"
             >
               <option
@@ -745,6 +722,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               </option>
               <option
                 id="lang_en"
+                selected=""
                 value="en"
               >
                 English
@@ -794,7 +772,6 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               Icon size:
             </span>
             <select
-              defaultValue="m"
               id="iconsize"
             >
               <option
@@ -805,6 +782,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               </option>
               <option
                 id="icon_medium"
+                selected=""
                 value="m"
               >
                 Medium
@@ -867,9 +845,9 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 Snapping on/off
               </span>
               <input
-                defaultValue="snapping_on"
                 id="grid_snapping_on"
                 type="checkbox"
+                value="snapping_on"
               />
             </label>
             <label>
@@ -880,10 +858,10 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               </span>
                
               <input
-                defaultValue={10}
                 id="grid_snapping_step"
-                size={3}
+                size="3"
                 type="text"
+                value="10"
               />
             </label>
             <label>
@@ -894,10 +872,10 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               </span>
                
               <input
-                defaultValue="#000"
                 id="grid_color"
-                size={3}
+                size="3"
                 type="text"
+                value="#000"
               />
             </label>
           </fieldset>
@@ -916,10 +894,10 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 Show rulers
               </span>
               <input
-                defaultChecked={true}
-                defaultValue="show_rulers"
+                checked=""
                 id="show_rulers"
                 type="checkbox"
+                value="show_rulers"
               />
             </label>
             <label>
@@ -981,7 +959,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
       id="dialog_box"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="dialog_container"
@@ -995,20 +973,19 @@ exports[`test svg-editor should render correctly in mac 1`] = `
       </div>
     </div>
   </div>
-</SvgEditor>
+</div>
 `;
 
 exports[`test svg-editor should render correctly in win 1`] = `
-<SvgEditor>
+<div>
   <div>
     <div
-      className=""
+      class=""
       id="svg_editor"
-      style={{}}
     >
       <div>
         <div
-          className=""
+          class=""
           id="rulers"
         >
           <div
@@ -1019,7 +996,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
           >
             <div>
               <canvas
-                height={15}
+                height="15"
               />
             </div>
           </div>
@@ -1028,7 +1005,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
           >
             <div>
               <canvas
-                width={15}
+                width="15"
               />
             </div>
           </div>
@@ -1038,18 +1015,14 @@ exports[`test svg-editor should render correctly in win 1`] = `
             mm
           </div>
         </div>
-        <DummyWorkarea
-          className=""
-        >
-          <div>
-            This is dummy Workarea
-          </div>
-        </DummyWorkarea>
+        <div>
+          This is dummy Workarea
+        </div>
         <div
           id="main_button"
         >
           <div
-            className="tool_button"
+            class="tool_button"
             id="main_icon"
             title="Main Menu"
           >
@@ -1059,11 +1032,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
               <ul>
                 <li
                   id="tool_open"
-                  style={
-                    {
-                      "display": "none",
-                    }
-                  }
+                  style="display: none;"
                 >
                   <div
                     id="fileinputs"
@@ -1074,11 +1043,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 </li>
                 <li
                   id="tool_import"
-                  style={
-                    {
-                      "display": "none",
-                    }
-                  }
+                  style="display: none;"
                 >
                   <div
                     id="fileinputs_import"
@@ -1092,14 +1057,14 @@ exports[`test svg-editor should render correctly in win 1`] = `
           </div>
         </div>
         <div
-          className="tools_panel"
+          class="tools_panel"
           id="tools_top"
         >
           <div
             id="editor_panel"
           >
             <div
-              className="push_button"
+              class="push_button"
               id="tool_source"
               title="Edit Source [U]"
             />
@@ -1109,7 +1074,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
           >
             <input
               id="text"
-              size={35}
+              size="35"
               type="text"
             />
           </div>
@@ -1118,45 +1083,41 @@ exports[`test svg-editor should render correctly in win 1`] = `
           id="cur_context_panel"
         />
         <div
-          className="tools_panel"
+          class="tools_panel"
           id="tools_left"
         >
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_select"
             title="Select Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_fhpath"
             title="Pencil Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_line"
             title="Line Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_path"
             title="Path Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_text"
             title="Text Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_image"
             title="Image Tool"
           />
           <div
-            style={
-              {
-                "display": "none",
-              }
-            }
+            style="display: none;"
           >
             <div
               id="tool_rect"
@@ -1196,31 +1157,27 @@ exports[`test svg-editor should render correctly in win 1`] = `
             />
           </div>
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_path"
             title="Path Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_text"
             title="Text Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_image"
             title="Image Tool"
           />
           <div
-            className="tool_button"
+            class="tool_button"
             id="tool_zoom"
             title="Zoom Tool [Ctrl+Up/Down]"
           />
           <div
-            style={
-              {
-                "display": "none",
-              }
-            }
+            style="display: none;"
           >
             <div
               id="tool_rect"
@@ -1261,7 +1218,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
           </div>
         </div>
         <div
-          className="tools_panel"
+          class="tools_panel"
           id="tools_bottom"
         >
           <div
@@ -1271,57 +1228,57 @@ exports[`test svg-editor should render correctly in win 1`] = `
               id="color_tools"
             >
               <div
-                className="color_tool"
+                class="color_tool"
                 id="tool_fill"
               >
                 <label
-                  className="icon_label"
-                  htmlFor="fill_color"
+                  class="icon_label"
+                  for="fill_color"
                   title="Change fill color"
                 />
                 <div
-                  className="color_block"
+                  class="color_block"
                 >
                   <div
                     id="fill_bg"
                   />
                   <div
-                    className="color_block"
+                    class="color_block"
                     id="fill_color"
                   />
                 </div>
               </div>
             </div>
             <div
-              className="color_tool"
+              class="color_tool"
               id="tool_stroke"
             >
               <label
-                className="icon_label"
+                class="icon_label"
                 title="Change stroke color"
               />
               <div
-                className="color_block"
+                class="color_block"
               >
                 <div
                   id="stroke_bg"
                 />
                 <div
-                  className="color_block"
+                  class="color_block"
                   id="stroke_color"
                   title="Change stroke color"
                 />
               </div>
               <label
-                className="stroke_label"
+                class="stroke_label"
               >
                 <input
                   data-attr="Stroke Width"
-                  defaultValue={5}
                   id="stroke_width"
-                  size={2}
+                  size="2"
                   title="Change stroke width by 1, shift-click to change by 0.1"
                   type="text"
+                  value="5"
                 />
               </label>
               <div
@@ -1329,14 +1286,14 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 title="Show/hide more stroke tools"
               />
               <label
-                className="stroke_tool"
+                class="stroke_tool"
               >
                 <select
-                  defaultValue="none"
                   id="stroke_style"
                   title="Change stroke dash style"
                 >
                   <option
+                    selected=""
                     value="none"
                   >
                     —
@@ -1364,7 +1321,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 </select>
               </label>
               <div
-                className="stroke_tool dropdown"
+                class="stroke_tool dropdown"
                 id="stroke_linejoin"
               >
                 <div
@@ -1376,7 +1333,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 />
               </div>
               <div
-                className="stroke_tool dropdown"
+                class="stroke_tool dropdown"
                 id="stroke_linecap"
               >
                 <div
@@ -1389,24 +1346,24 @@ exports[`test svg-editor should render correctly in win 1`] = `
               </div>
             </div>
             <div
-              className="color_tool"
+              class="color_tool"
               id="tool_opacity"
               title="Change selected item opacity"
             >
               <label>
                 <span
-                  className="icon_label"
+                  class="icon_label"
                   id="group_opacityLabel"
                 />
                 <input
-                  defaultValue={100}
                   id="group_opacity"
-                  size={3}
+                  size="3"
                   type="text"
+                  value="100"
                 />
               </label>
               <div
-                className="dropdown"
+                class="dropdown"
                 id="opacity_dropdown"
               >
                 <button
@@ -1429,7 +1386,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                     100%
                   </li>
                   <li
-                    className="special"
+                    class="special"
                   >
                     <div
                       id="opac_slider"
@@ -1441,24 +1398,24 @@ exports[`test svg-editor should render correctly in win 1`] = `
           </div>
         </div>
         <div
-          className="dropdown"
+          class="dropdown"
           id="option_lists"
         >
           <ul
             id="linejoin_opts"
           >
             <li
-              className="tool_button current"
+              class="tool_button current"
               id="linejoin_miter"
               title="Linejoin: Miter"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linejoin_round"
               title="Linejoin: Round"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linejoin_bevel"
               title="Linejoin: Bevel"
             />
@@ -1467,17 +1424,17 @@ exports[`test svg-editor should render correctly in win 1`] = `
             id="linecap_opts"
           >
             <li
-              className="tool_button current"
+              class="tool_button current"
               id="linecap_butt"
               title="Linecap: Butt"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linecap_square"
               title="Linecap: Square"
             />
             <li
-              className="tool_button"
+              class="tool_button"
               id="linecap_round"
               title="Linecap: Round"
             />
@@ -1492,13 +1449,13 @@ exports[`test svg-editor should render correctly in win 1`] = `
       id="svg_source_editor"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="svg_source_container"
       >
         <div
-          className="toolbar_button"
+          class="toolbar_button"
           id="tool_source_back"
         >
           <button
@@ -1531,9 +1488,8 @@ exports[`test svg-editor should render correctly in win 1`] = `
         </div>
         <form>
           <textarea
-            defaultValue=""
             id="svg_source_textarea"
-            spellCheck="false"
+            spellcheck="false"
           />
         </form>
       </div>
@@ -1542,13 +1498,13 @@ exports[`test svg-editor should render correctly in win 1`] = `
       id="svg_docprops"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="svg_docprops_container"
       >
         <div
-          className="toolbar_button"
+          class="toolbar_button"
           id="tool_docprops_back"
         >
           <button
@@ -1600,7 +1556,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
                
               <input
                 id="canvas_width"
-                size={6}
+                size="6"
                 type="text"
               />
             </label>
@@ -1613,17 +1569,17 @@ exports[`test svg-editor should render correctly in win 1`] = `
                
               <input
                 id="canvas_height"
-                size={6}
+                size="6"
                 type="text"
               />
             </label>
             <label>
               <select
-                defaultValue="predefined"
                 id="resolution"
               >
                 <option
                   id="selectedPredefined"
+                  selected=""
                   value="predefined"
                 >
                   Select predefined:
@@ -1662,10 +1618,10 @@ exports[`test svg-editor should render correctly in win 1`] = `
             </legend>
             <label>
               <input
-                defaultChecked={true}
-                defaultValue="embed"
+                checked=""
                 name="image_opt"
                 type="radio"
+                value="embed"
               />
                
               <span
@@ -1677,9 +1633,9 @@ exports[`test svg-editor should render correctly in win 1`] = `
             </label>
             <label>
               <input
-                defaultValue="ref"
                 name="image_opt"
                 type="radio"
+                value="ref"
               />
                
               <span
@@ -1697,13 +1653,13 @@ exports[`test svg-editor should render correctly in win 1`] = `
       id="svg_prefs"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="svg_prefs_container"
       >
         <div
-          className="toolbar_button"
+          class="toolbar_button"
           id="tool_prefs_back"
         >
           <button
@@ -1732,7 +1688,6 @@ exports[`test svg-editor should render correctly in win 1`] = `
               Language:
             </span>
             <select
-              defaultValue="en"
               id="lang_select"
             >
               <option
@@ -1743,6 +1698,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
               </option>
               <option
                 id="lang_en"
+                selected=""
                 value="en"
               >
                 English
@@ -1792,7 +1748,6 @@ exports[`test svg-editor should render correctly in win 1`] = `
               Icon size:
             </span>
             <select
-              defaultValue="m"
               id="iconsize"
             >
               <option
@@ -1803,6 +1758,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
               </option>
               <option
                 id="icon_medium"
+                selected=""
                 value="m"
               >
                 Medium
@@ -1865,9 +1821,9 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 Snapping on/off
               </span>
               <input
-                defaultValue="snapping_on"
                 id="grid_snapping_on"
                 type="checkbox"
+                value="snapping_on"
               />
             </label>
             <label>
@@ -1878,10 +1834,10 @@ exports[`test svg-editor should render correctly in win 1`] = `
               </span>
                
               <input
-                defaultValue={10}
                 id="grid_snapping_step"
-                size={3}
+                size="3"
                 type="text"
+                value="10"
               />
             </label>
             <label>
@@ -1892,10 +1848,10 @@ exports[`test svg-editor should render correctly in win 1`] = `
               </span>
                
               <input
-                defaultValue="#000"
                 id="grid_color"
-                size={3}
+                size="3"
                 type="text"
+                value="#000"
               />
             </label>
           </fieldset>
@@ -1914,10 +1870,10 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 Show rulers
               </span>
               <input
-                defaultChecked={true}
-                defaultValue="show_rulers"
+                checked=""
                 id="show_rulers"
                 type="checkbox"
+                value="show_rulers"
               />
             </label>
             <label>
@@ -1979,7 +1935,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
       id="dialog_box"
     >
       <div
-        className="overlay"
+        class="overlay"
       />
       <div
         id="dialog_container"
@@ -1993,5 +1949,5 @@ exports[`test svg-editor should render correctly in win 1`] = `
       </div>
     </div>
   </div>
-</SvgEditor>
+</div>
 `;

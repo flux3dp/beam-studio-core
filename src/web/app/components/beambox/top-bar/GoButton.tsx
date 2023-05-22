@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
@@ -17,6 +17,7 @@ import VersionChecker from 'helpers/version-checker';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -31,35 +32,13 @@ interface Props {
   hasText: boolean;
   hasDiscoverdMachine: boolean;
   hasDevice: boolean;
-  endPreviewMode: () => void;
   showDeviceList: (type: string, selectDeviceCallback: (device: IDeviceInfo) => void) => void;
 }
 
-class GoButton extends React.Component<Props> {
-  private handleExportClick = async () => {
-    const { hasDevice, endPreviewMode, showDeviceList } = this.props;
-    endPreviewMode();
+const GoButton = (props: Props): JSX.Element => {
+  const { endPreviewMode } = useContext(CanvasContext);
 
-    if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
-      handleNextStep();
-    }
-
-    const handleExport = async () => {
-      if (hasDevice) { // Only when there is usable machine
-        const confirmed = await this.handleExportAlerts();
-        if (!confirmed) {
-          return;
-        }
-      }
-
-      showDeviceList('export', (device) => this.exportTask(device));
-    };
-
-    if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(handleExport);
-    else handleExport();
-  };
-
-  private handleExportAlerts = async () => {
+  const handleExportAlerts = async () => {
     const layers = $('#svgcontent > g.layer').toArray();
 
     const isPowerTooHigh = layers.some((layer) => {
@@ -165,7 +144,7 @@ class GoButton extends React.Component<Props> {
     return true;
   };
 
-  private exportTask = (device) => {
+  const exportTask = (device) => {
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
     const allowedWorkareas = Constant.allowedWorkarea[device.model];
     if (currentWorkarea && allowedWorkareas) {
@@ -194,18 +173,42 @@ class GoButton extends React.Component<Props> {
     ExportFuncs.uploadFcode(device);
   };
 
-  render(): JSX.Element {
-    const { hasDiscoverdMachine, hasText } = this.props;
-    return (
-      <div
-        className={classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })}
-        onClick={this.handleExportClick}
-      >
-        {hasText ? <div className="go-text">{LANG.export}</div> : null}
-        <div className={(classNames('go-btn'))} />
-      </div>
-    );
-  }
-}
+  const handleExportClick = async () => {
+    const { hasDevice, showDeviceList } = props;
+    endPreviewMode();
+
+    if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
+      handleNextStep();
+    }
+
+    const handleExport = async () => {
+      if (hasDevice) { // Only when there is usable machine
+        const confirmed = await handleExportAlerts();
+        if (!confirmed) {
+          return;
+        }
+      }
+
+      showDeviceList('export', (device) => exportTask(device));
+    };
+
+    // if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(handleExport);
+    // else handleExport();
+    handleExport();
+  };
+
+  const { hasDiscoverdMachine, hasText } = props;
+  return (
+    <div
+      className={
+        classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })
+      }
+      onClick={handleExportClick}
+    >
+      {hasText ? <div className="go-text">{LANG.export}</div> : null}
+      <div className={(classNames('go-btn'))} />
+    </div>
+  );
+};
 
 export default GoButton;

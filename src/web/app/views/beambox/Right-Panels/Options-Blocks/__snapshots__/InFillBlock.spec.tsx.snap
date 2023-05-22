@@ -1,108 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly is fillable 1`] = `
-<div
-  className="option-block"
-  key="infill"
->
+<div>
   <div
-    className="label"
+    class="option-block"
   >
-    Infill
-  </div>
-  <div
-    className="onoffswitch"
-    id="infill"
-    onClick={[Function]}
-  >
-    <input
-      checked={false}
-      className="onoffswitch-checkbox"
-      readOnly={true}
-      type="checkbox"
-    />
-    <label
-      className="onoffswitch-label"
+    <div
+      class="label"
     >
-      <span
-        className="onoffswitch-inner"
+      Infill
+    </div>
+    <div
+      class="onoffswitch"
+      id="infill"
+    >
+      <input
+        class="onoffswitch-checkbox"
+        readonly=""
+        type="checkbox"
       />
-      <span
-        className="onoffswitch-switch"
-      />
-    </label>
+      <label
+        class="onoffswitch-label"
+      >
+        <span
+          class="onoffswitch-inner"
+        />
+        <span
+          class="onoffswitch-switch"
+        />
+      </label>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly is fillable 2`] = `
-<div
-  className="option-block"
-  key="infill"
->
+<div>
   <div
-    className="label"
+    class="option-block"
   >
-    Infill
-  </div>
-  <div
-    className="onoffswitch"
-    id="infill"
-    onClick={[Function]}
-  >
-    <input
-      checked={true}
-      className="onoffswitch-checkbox"
-      readOnly={true}
-      type="checkbox"
-    />
-    <label
-      className="onoffswitch-label"
+    <div
+      class="label"
     >
-      <span
-        className="onoffswitch-inner"
+      Infill
+    </div>
+    <div
+      class="onoffswitch"
+      id="infill"
+    >
+      <input
+        class="onoffswitch-checkbox"
+        readonly=""
+        type="checkbox"
       />
-      <span
-        className="onoffswitch-switch"
-      />
-    </label>
+      <label
+        class="onoffswitch-label"
+      >
+        <span
+          class="onoffswitch-inner"
+        />
+        <span
+          class="onoffswitch-switch"
+        />
+      </label>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly is fillable 3`] = `
-<div
-  className="option-block"
-  key="infill"
->
+<div>
   <div
-    className="label"
+    class="option-block"
   >
-    Infill
-  </div>
-  <div
-    className="onoffswitch"
-    id="infill"
-    onClick={[Function]}
-  >
-    <input
-      checked={false}
-      className="onoffswitch-checkbox"
-      readOnly={true}
-      type="checkbox"
-    />
-    <label
-      className="onoffswitch-label"
+    <div
+      class="label"
     >
-      <span
-        className="onoffswitch-inner"
+      Infill
+    </div>
+    <div
+      class="onoffswitch"
+      id="infill"
+    >
+      <input
+        class="onoffswitch-checkbox"
+        readonly=""
+        type="checkbox"
       />
-      <span
-        className="onoffswitch-switch"
-      />
-    </label>
+      <label
+        class="onoffswitch-label"
+      >
+        <span
+          class="onoffswitch-inner"
+        />
+        <span
+          class="onoffswitch-switch"
+        />
+      </label>
+    </div>
   </div>
 </div>
 `;
 
-exports[`should render correctly is not fillable 1`] = `""`;
+exports[`should render correctly is not fillable 1`] = `<div />`;

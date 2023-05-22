@@ -139,7 +139,6 @@ interface WrappedFile {
   totalFiles: number;
 }
 
-// return { uploadFile, thumbnailBlobURL }
 const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
   svgedit.utilities.moveDefsIntoSvgContent();
   const [thumbnail, thumbnailBlobURL] = await fetchThumbnail();
@@ -150,6 +149,7 @@ const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
   await updateImageResolution(true);
   Progress.popById('retreive-image-data');
   const svgString = svgCanvas.getSvgString();
+  console.log('File Size', svgString.length);
   const blob = new Blob([thumbnail, svgString], { type: 'application/octet-stream' });
   const reader = new FileReader();
   const uploadFile = await new Promise<WrappedFile>((resolve) => {

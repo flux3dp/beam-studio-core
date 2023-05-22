@@ -7,98 +7,74 @@ import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
-import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { useContext, useEffect, useState } from 'react';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { isMobile } from 'helpers/system-helper';
 
-interface State {
-  selectedTab: 'layers' | 'objects',
-}
+let lastElement: Element;
+let lastMode: RightPanelMode;
 
-export default class RightPanel extends React.Component<{}, State> {
-  private lastElement: Element;
+const RightPanel = (): JSX.Element => {
+  const [selectedTab, setSelectedTab] = useState<'layers' | 'objects'>('layers');
+  const { displayLayer, selectedElem } = useContext(CanvasContext);
+  const { mode } = useContext(RightPanelContext);
 
-  private lastMode: string;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTab: 'layers',
-    };
-    this.setSelectedTab = this.setSelectedTab.bind(this);
-  }
-
-  componentDidUpdate(): void {
-    const { mode, selectedElement } = this.context;
-    const { selectedTab } = this.state;
+  useEffect(() => {
     if (mode === 'element') {
-      if (!selectedElement && selectedTab !== 'layers') {
-        this.setState({ selectedTab: 'layers' });
-      } else if (selectedElement && !this.lastElement) {
-        this.setState({ selectedTab: 'objects' });
+      if (!selectedElem && selectedTab !== 'layers') {
+        setSelectedTab('layers');
+      } else if (selectedElem && !lastElement) {
+        setSelectedTab('objects');
       }
-    } else if (this.lastMode !== mode) {
-      this.setState({ selectedTab: 'objects' });
+    } else if (lastMode !== mode) {
+      setSelectedTab('objects');
     }
-    this.lastMode = mode;
-    this.lastElement = selectedElement;
-  }
+    lastMode = mode;
+    lastElement = selectedElem;
+  }, [mode, selectedElem, selectedTab]);
 
-  setSelectedTab(selectedTab: 'layers' | 'objects'): void {
-    this.setState({ selectedTab });
-  }
-
-  renderLayerAndLaserPanel(): JSX.Element {
-    const { selectedElement } = this.context;
-    return (
-      <LayerPanelContextProvider>
-        <LayerPanel
-          elem={selectedElement}
-        />
-      </LayerPanelContextProvider>
-    );
-  }
-
-  renderObjectPanel(): JSX.Element {
-    const { selectedElement } = this.context;
-    return (
-      <ObjectPanel
-        elem={selectedElement}
+  const renderLayerAndLaserPanel = () => (
+    <LayerPanelContextProvider>
+      <LayerPanel
+        elem={selectedElem}
       />
-    );
-  }
+    </LayerPanelContextProvider>
+  );
 
-  render(): JSX.Element {
-    const { mode, selectedElement } = this.context;
-    const { selectedTab } = this.state;
-    let content;
-    if (selectedTab === 'layers') {
-      content = this.renderLayerAndLaserPanel();
-    } else if (mode === 'path-edit') {
-      content = <PathEditPanel />;
-    } else if (!selectedElement || selectedElement.length < 1) { // element mode
-      content = this.renderLayerAndLaserPanel();
-    } else {
-      content = this.renderObjectPanel();
-    }
-    const sideClass = classNames({
-      short: window.os === 'Windows' && window.FLUX.version !== 'web',
-      wide: window.os !== 'MacOS',
-    });
-    return (
-      <div id="right-panel">
-        <div id="sidepanels" className={sideClass}>
-          <Tab
-            mode={mode}
-            selectedElement={selectedElement}
-            selectedTab={selectedTab}
-            setSelectedTab={this.setSelectedTab}
-          />
-          <ObjectPanelContextProvider>
-            {content}
-          </ObjectPanelContextProvider>
-        </div>
+  const renderObjectPanel = () => (
+    <ObjectPanelContextProvider>
+      <ObjectPanel
+        elem={selectedElem}
+      />
+    </ObjectPanelContextProvider>
+  );
+
+  let content;
+  if (mode === 'path-edit') {
+    content = <PathEditPanel />;
+  } else if (selectedTab === 'layers' || !selectedElem) { // element mode
+    if (!displayLayer && isMobile()) return <div />;
+    content = renderLayerAndLaserPanel();
+  } else {
+    content = renderObjectPanel();
+  }
+  const sideClass = classNames({
+    short: window.os === 'Windows' && window.FLUX.version !== 'web',
+    wide: window.os !== 'MacOS',
+  });
+  return (
+    <div id="right-panel" style={{ display: 'block' }}>
+      <div id="sidepanels" className={sideClass}>
+        <Tab
+          mode={mode}
+          selectedElement={selectedElem}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
+        {content}
       </div>
-    );
-  }
-}
-
-RightPanel.contextType = RightPanelContext;
+    </div>
+  );
+};
+export default RightPanel;

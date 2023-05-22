@@ -1,4 +1,6 @@
 import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -6,8 +8,8 @@ import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
-let svgCanvas;
-let svgedit;
+let svgCanvas: ISVGCanvas;
+let svgedit: ISVGDrawing;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgedit = globalSVG.Edit;
@@ -334,4 +336,35 @@ export const moveLayersToPosition = (layerNames: string[], newPosition: number):
     drawing.setCurrentLayer(currentLayerName);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
   }
+};
+
+export const highlightLayer = (layerName?: string): void => {
+  let i: number;
+  const curNames = [];
+  const numLayers = svgCanvas.getCurrentDrawing().getNumLayers();
+  for (i = 0; i < numLayers; i += 1) {
+    curNames[i] = svgCanvas.getCurrentDrawing().getLayerName(i);
+  }
+
+  if (layerName) {
+    for (i = 0; i < numLayers; i += 1) {
+      if (curNames[i] !== layerName) {
+        svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 0.5);
+      }
+    }
+  } else {
+    for (i = 0; i < numLayers; i += 1) {
+      svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 1.0);
+    }
+  }
+};
+
+export const getCurrentLayerName = (): string => {
+  const drawing = svgCanvas.getCurrentDrawing();
+  return drawing.getCurrentLayerName();
+};
+
+export const getLayerByName = (layerName: string): SVGGElement => {
+  const drawing = svgCanvas.getCurrentDrawing();
+  return drawing.getLayerByName(layerName);
 };

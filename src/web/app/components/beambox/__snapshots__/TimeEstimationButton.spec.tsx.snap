@@ -1,46 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly NO estimatedTime 1`] = `
-<TimeEstimationButton>
-  <div
-    className="time-est-btn-container not-mac"
-  >
-    <div
-      className="time-est-btn"
-      onClick={[Function]}
-      title="Estimate time"
-    >
-      <img
-        draggable="false"
-        src="img/icon-stopwatch.svg"
-      />
-    </div>
-  </div>
-</TimeEstimationButton>
+exports[`should render correctly should render correctly when isPathPreviewing 1`] = `
+<div>
+  <div />
+</div>
 `;
 
-exports[`should render correctly has estimatedTime 1`] = `
-<TimeEstimationButton>
+exports[`should render correctly should render correctly with estimatedTime 1`] = `
+<div>
   <div
-    className="time-est-btn-container"
+    class="time-est-btn-container"
   >
     <div
-      className="time-est-result"
+      class="time-est-result"
     >
       Estimated Time: 1 m 0 s
     </div>
   </div>
-</TimeEstimationButton>
+</div>
 `;
 
 exports[`should render correctly web check connection 1`] = `
-<TimeEstimationButton>
+<div>
   <div
-    className="time-est-btn-container"
+    class="time-est-btn-container"
   >
     <div
-      className="time-est-btn"
-      onClick={[Function]}
+      class="time-est-btn"
       title="Estimate time"
     >
       <img
@@ -49,5 +35,23 @@ exports[`should render correctly web check connection 1`] = `
       />
     </div>
   </div>
-</TimeEstimationButton>
+</div>
+`;
+
+exports[`should render correctly when WITHOUT estimatedTime 1`] = `
+<div>
+  <div
+    class="time-est-btn-container not-mac"
+  >
+    <div
+      class="time-est-btn"
+      title="Estimate time"
+    >
+      <img
+        draggable="false"
+        src="img/icon-stopwatch.svg"
+      />
+    </div>
+  </div>
+</div>
 `;

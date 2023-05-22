@@ -72,7 +72,7 @@ const App = (): JSX.Element => {
                 <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
                 <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
                 <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
-                <Route exact path="/studio/settings" component={Settings} />
+                <Route exact path="/studio/settings" component={Settings as any} />
                 <Route exact path="/studio/beambox" component={Beambox} />
                 <Route path="/error/*" component={Error} />
                 <Route path="*" component={Home} />

@@ -4,10 +4,13 @@ import { Modal, Progress } from 'antd';
 import Alert from 'app/views/dialogs/Alert';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
+import LoadingGridAnimation from 'app/widgets/LoadingGridAnimation';
 import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
+
+import styles from './AlertAndProgress.module.scss';
 
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
 
@@ -47,16 +50,40 @@ const AlertsAndProgress = (): JSX.Element => {
   if (alertProgressStack.length === 0) return <div />;
   const alertModals = alertProgressStack.map((data) => {
     if (isProgress(data)) {
-      let { percentage } = data;
+      const { percentage } = data;
       if (data.type === ProgressConstants.NONSTOP) {
-        percentage = 1;
+        return (
+          <Modal
+            className={styles.nonstop}
+            key={`${data.key}-${data.id}`}
+            style={{
+              minWidth: 150,
+            }}
+            width="fit-content"
+            open={alertProgressStack.length > 0}
+            title={data.caption}
+            onCancel={() => {
+              popById(data.id);
+              data.onCancel();
+            }}
+            centered
+            closable={false}
+            cancelText={LANG.alert.cancel}
+            okButtonProps={{ style: { display: 'none' } }}
+          >
+            <div>
+              <LoadingGridAnimation />
+            </div>
+          </Modal>
+        );
       }
       return (
         <Modal
           key={`${data.key}-${data.id}`}
           style={{
-            minWidth: 520,
+            minWidth: window.outerWidth < 600 ? (window.outerWidth - 40) : 520,
           }}
+          width={window.outerWidth < 600 ? (window.outerWidth - 40) : 520}
           open={alertProgressStack.length > 0}
           title={data.caption}
           onCancel={() => {
