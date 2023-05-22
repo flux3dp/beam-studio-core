@@ -1,11 +1,10 @@
 import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
-import ISVGDrawing from 'interfaces/ISVGDrawing';
-import ISVGLayer from 'interfaces/ISVGLayer';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
