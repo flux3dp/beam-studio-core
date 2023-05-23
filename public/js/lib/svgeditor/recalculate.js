@@ -677,54 +677,30 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     let newCenter = { ...oldcenter };
     let newCenterWithRotate = { ...oldcenter };
     if (angle) {
-      if (selected.tagName === 'text') {
-        newCenterWithRotate = svgedit.math.transformPoint(
-          box.x + box.width / 2,
-          box.y + box.height / 2,
-          svgedit.math.transformListToTransform(tlist).matrix
-        );
-        for (var i = 0; i < tlist.numberOfItems; ++i) {
-          xform = tlist.getItem(i);
-          if (xform.type == 4) {
-            var rm = xform.matrix;
-            oldRotateMatrix = rm;
-            tlist.removeItem(i);
-            break;
-          }
+      newCenterWithRotate = svgedit.math.transformPoint(
+        box.x + box.width / 2,
+        box.y + box.height / 2,
+        svgedit.math.transformListToTransform(tlist).matrix
+      );
+      for (var i = 0; i < tlist.numberOfItems; ++i) {
+        xform = tlist.getItem(i);
+        if (xform.type == 4) {
+          var rm = xform.matrix;
+          oldRotateMatrix = rm;
+          tlist.removeItem(i);
+          break;
         }
-        newCenter = svgedit.math.transformPoint(
-          box.x + box.width / 2,
-          box.y + box.height / 2,
-          svgedit.math.transformListToTransform(tlist).matrix
-        );
-        // for text last transform matrix defined its center position before recalculate
-        if (tlist.numberOfItems > 0) {
-          let lastM = tlist.getItem(tlist.numberOfItems - 1);
-          if (lastM.type === 1) {
-            oldcenter = svgedit.math.transformPoint(oldcenter.x, oldcenter.y, lastM.matrix);
-          }
-        }
-      } else {
-        newCenter = svgedit.math.transformPoint(box.x + box.width / 2, box.y + box.height / 2,
-          svgedit.math.transformListToTransform(tlist).matrix);
-        newCenterWithRotate = { ...newCenter };
-        var a = angle * Math.PI / 180;
-        if ( Math.abs(a) > (1.0e-10) ) {
-          var s = Math.sin(a)/(1 - Math.cos(a));
-        } else {
-          // FIXME: This blows up if the angle is exactly 0!
-          var s = 2/a;
-        }
-        for (var i = 0; i < tlist.numberOfItems; ++i) {
-          var xform = tlist.getItem(i);
-          if (xform.type == 4) {
-            // extract old center through mystical arts
-            var rm = xform.matrix;
-            oldcenter.y = (s*rm.e + rm.f)/2;
-            oldcenter.x = (rm.e - s*rm.f)/2;
-            tlist.removeItem(i);
-            break;
-          }
+      }
+      newCenter = svgedit.math.transformPoint(
+        box.x + box.width / 2,
+        box.y + box.height / 2,
+        svgedit.math.transformListToTransform(tlist).matrix
+      );
+      // Hack: in beam studio the center is defined by bbox and the last M matrix
+      if (tlist.numberOfItems > 0) {
+        let lastM = tlist.getItem(tlist.numberOfItems - 1);
+        if (lastM.type === 1) {
+          oldcenter = svgedit.math.transformPoint(oldcenter.x, oldcenter.y, lastM.matrix);
         }
       }
     }
