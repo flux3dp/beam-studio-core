@@ -34,13 +34,13 @@ import { ILayerConfig } from 'interfaces/ILayerConfig';
 import { isMobile } from 'helpers/system-helper';
 
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import AutoFocus from './LaserPanel/AutoFocus';
-import ConfigOperations from './LaserPanel/ConfigOperations';
-import Diode from './LaserPanel/Diode';
-import LayerType from './LaserPanel/LayerType';
-import PowerBlock from './LaserPanel/PowerBlock';
-import RepeatBlock from './LaserPanel/RepeatBlock';
-import SpeedBlock from './LaserPanel/SpeedBlock';
+import AutoFocus from './ParamPanel/AutoFocus';
+import ConfigOperations from './ParamPanel/ConfigOperations';
+import Diode from './ParamPanel/Diode';
+import LayerType from './ParamPanel/LayerType';
+import PowerBlock from './ParamPanel/PowerBlock';
+import RepeatBlock from './ParamPanel/RepeatBlock';
+import SpeedBlock from './ParamPanel/SpeedBlock';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
