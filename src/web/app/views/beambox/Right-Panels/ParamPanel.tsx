@@ -63,7 +63,7 @@ interface State extends ILayerConfig {
   selectedItem?: string;
 }
 
-class LaserPanel extends React.PureComponent<Props, State> {
+class ParamPanel extends React.PureComponent<Props, State> {
   private unit: string;
 
   constructor(props: Props) {
@@ -489,4 +489,4 @@ class LaserPanel extends React.PureComponent<Props, State> {
   }
 }
 
-export default LaserPanel;
+export default ParamPanel;

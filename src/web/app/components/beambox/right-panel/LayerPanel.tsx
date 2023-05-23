@@ -5,7 +5,7 @@ import Alert from 'app/actions/alert-caller';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';
-import LaserPanel from 'app/views/beambox/Right-Panels/LaserPanel';
+import LaserPanel from 'app/views/beambox/Right-Panels/ParamPanel';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
