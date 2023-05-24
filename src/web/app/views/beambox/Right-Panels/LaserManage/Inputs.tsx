@@ -3,6 +3,7 @@ import React, { memo, useContext, useMemo } from 'react';
 import { Col } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
@@ -18,7 +19,7 @@ const Inputs = () => {
 
   const speedLimit = useMemo(() => {
     const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    return model === 'fhexa1' ? 900 : 300;
+    return constant.dimension.getMaxSpeed(model);
   }, []);
 
   const unit = useMemo(() => storage.get('default-units') || 'mm', []);

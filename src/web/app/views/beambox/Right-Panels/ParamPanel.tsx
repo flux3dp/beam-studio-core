@@ -171,8 +171,9 @@ class ParamPanel extends React.PureComponent<Props, State> {
           }
         }
       }
-      if (workarea !== 'fhexa1' && Number(layer.getAttribute('data-speed')) > 300) {
-        layer.setAttribute('data-speed', '300');
+      const maxSpeed = Constant.dimension.getMaxSpeed(workarea);
+      if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
+        layer.setAttribute('data-speed', maxSpeed.toString());
       }
     }
   };
@@ -279,7 +280,7 @@ class ParamPanel extends React.PureComponent<Props, State> {
     const customizedConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => e.name === value);
     if (customizedConfigs) {
       const { speed: dataSpeed, power, repeat, zStep, isDefault, key } = customizedConfigs;
-      const maxSpeed = BeamboxPreference.read('workarea') === 'fhexa1' ? 900 : 300;
+      const maxSpeed = Constant.dimension.getMaxSpeed(BeamboxPreference.read('workarea'));
       const speed = Math.max(3, Math.min(dataSpeed, maxSpeed));
 
       timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);

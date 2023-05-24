@@ -5,6 +5,7 @@ interface WorkArea {
   label: WorkAreaLabel;
   width: number;
   height: number;
+  maxSpeed: number;
 }
 
 export const WorkareaMap = new Map<WorkAreaModel, WorkArea>();
@@ -12,26 +13,31 @@ WorkareaMap.set('fbm1', {
   label: 'beamo',
   width: 3000,
   height: 2100,
+  maxSpeed: 300,
 });
 WorkareaMap.set('fbb1b', {
   label: 'Beambox',
   width: 4000,
   height: 3750,
+  maxSpeed: 300,
 });
 WorkareaMap.set('fbb1p', {
   label: 'Beambox Pro',
   width: 6000,
   height: 3750,
+  maxSpeed: 300,
 });
 WorkareaMap.set('fhexa1', {
   label: 'HEXA',
-  width: 7300,
+  width: 7400,
   height: 4100,
+  maxSpeed: 900,
 });
 WorkareaMap.set('fad1', {
   label: 'Ador',
   width: 4300,
   height: 3000,
+  maxSpeed: 400,
 });
 
 export default {
@@ -39,6 +45,7 @@ export default {
   dimension: {
     getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model)?.width || 3000,
     getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
+    getMaxSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.maxSpeed || 300,
   },
   camera: {
     movementSpeed: {

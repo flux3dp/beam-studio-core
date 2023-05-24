@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
@@ -27,11 +28,9 @@ const SpeedBlock = ({ layerNames, speed, onChange }: Props): JSX.Element => {
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d };
   }, []);
-  let maxValue = 300;
   const model = BeamboxPreference.read('workarea');
-  if (model === 'fhexa1') maxValue = 900;
-  else if (model === 'fad1') maxValue = 400;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
+  const maxValue = constant.dimension.getMaxSpeed(model);
   const minValue = enableLowSpeed ? 1 : 3;
   const hasVector = doLayersContainsVector(layerNames);
   let warningText = '';
