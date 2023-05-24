@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import ConfigPanelContext from './ConfigPanelContext';
 import SpeedBlock from './SpeedBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -29,6 +30,16 @@ jest.mock('app/widgets/Unit-Input-v2', () => (
   </div>
 ));
 
+const mockWriteData = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
+  DataType: {
+    speed: 'speed',
+    configName: 'configName',
+  },
+  writeData: (...args) => mockWriteData(...args),
+}));
+
 const mockDoLayersContainsVector = jest.fn();
 jest.mock('helpers/layer/check-vector', () => (...args) => mockDoLayersContainsVector(...args));
 
@@ -42,10 +53,24 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (...args) => mockPrefRead(...args),
 }));
 
-const mockOnChange = jest.fn();
+const mockSelectedLayers = ['layer1', 'layer2'];
+const mockContextState = {
+  speed: { value: 87, hasMultiValue: false },
+};
+const mockDispatch = jest.fn();
+
+const mockCreateEventEmitter = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: (...args) => mockCreateEventEmitter(...args),
+}));
+const mockEmit = jest.fn();
+
 describe('test SpeedBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockCreateEventEmitter.mockReturnValueOnce({
+      emit: mockEmit,
+    });
   });
 
   it('should render correctly when unit is mm', () => {
@@ -53,10 +78,14 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <SpeedBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(mockDoLayersContainsVector).toBeCalledTimes(1);
-    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer']);
+    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer2']);
     expect(mockStorageGet).toBeCalledTimes(1);
     expect(mockStorageGet).toHaveBeenLastCalledWith('default-units');
     expect(mockPrefRead).toBeCalledTimes(2);
@@ -70,7 +99,11 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <SpeedBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });
@@ -80,7 +113,11 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(true);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <SpeedBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(mockPrefRead).toBeCalledTimes(3);
@@ -93,8 +130,13 @@ describe('test SpeedBlock', () => {
     mockStorageGet.mockReturnValueOnce('mm');
     mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(true);
+    const state = { ...mockContextState, speed: { value: 1 } };
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={{ value: 1 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: state as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <SpeedBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(mockPrefRead).toBeCalledTimes(2);
@@ -107,12 +149,31 @@ describe('test SpeedBlock', () => {
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
     mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
-      <SpeedBlock layerNames={['layer']} speed={{ value: 87 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <SpeedBlock />
+      </ConfigPanelContext.Provider>
     );
-    expect(mockOnChange).not.toBeCalled();
+    expect(mockCreateEventEmitter).toBeCalledTimes(1);
+    expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('time-estimation-button');
+
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
+    expect(mockEmit).not.toBeCalled();
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '88' } });
-    expect(mockOnChange).toBeCalledTimes(1);
-    expect(mockOnChange).toHaveBeenLastCalledWith(88);
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { speed: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).toBeCalledTimes(4);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
   });
 });

@@ -17,9 +17,9 @@ export const getDefaultState = (): State => ({
   configName: { value: '' },
 });
 
-type Action = {
+export type Action = {
   type: 'update';
-  payload: ILayerConfig;
+  payload: State;
 } | {
   type: 'change';
   payload: {

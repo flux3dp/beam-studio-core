@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import AutoFocus from './AutoFocus';
+import ConfigPanelContext from './ConfigPanelContext';
 
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
@@ -31,21 +32,35 @@ jest.mock('app/widgets/Unit-Input-v2', () => (
   </div>
 ));
 
-const mockOnToggle = jest.fn();
-const mockOnHeightChange = jest.fn();
-const mockOnZStepChange = jest.fn();
+const mockWriteData = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
+  DataType: {
+    height: 'height',
+    zstep: 'zstep',
+    configName: 'configName',
+  },
+  writeData: (...args) => mockWriteData(...args),
+}));
+
+const mockSelectedLayers = ['layer1', 'layer2'];
+const mockContextState = {
+  height: { value: 3, hasMultiValue: false },
+  repeat: { value: 1, hasMultiValue: false },
+  zStep: { value: 0, hasMultiValue: false },
+};
+const mockDispatch = jest.fn();
 
 describe('test AutoFocus', () => {
   it('should render correctly when height is less than 0', () => {
+    const state = {
+      ...mockContextState,
+      height: { value: -3 },
+    } as any;
     const { container, queryByText } = render(
-      <AutoFocus
-        height={{ value: -3 }}
-        repeat={{ value: 1 }}
-        zStep={{ value: 0 }}
-        onToggle={mockOnToggle}
-        onHeightChange={mockOnHeightChange}
-        onZStepChange={mockOnZStepChange}
-      />
+      <ConfigPanelContext.Provider value={{ selectedLayers: mockSelectedLayers, state, dispatch: mockDispatch }}>
+        <AutoFocus />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(queryByText('height')).not.toBeInTheDocument();
@@ -53,15 +68,13 @@ describe('test AutoFocus', () => {
   });
 
   it('should render correctly when repeat is less than 1', () => {
+    const state = {
+      ...mockContextState,
+    } as any;
     const { container, queryByText } = render(
-      <AutoFocus
-        height={{ value: 3 }}
-        repeat={{ value: 1 }}
-        zStep={{ value: 0 }}
-        onToggle={mockOnToggle}
-        onHeightChange={mockOnHeightChange}
-        onZStepChange={mockOnZStepChange}
-      />
+      <ConfigPanelContext.Provider value={{ selectedLayers: mockSelectedLayers, state, dispatch: mockDispatch }}>
+        <AutoFocus />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(queryByText('height')).toBeInTheDocument();
@@ -69,15 +82,14 @@ describe('test AutoFocus', () => {
   });
 
   it('should render correctly when repeat is larger than 1', () => {
+    const state = {
+      ...mockContextState,
+      repeat: { value: 2 },
+    } as any;
     const { container, queryByText } = render(
-      <AutoFocus
-        height={{ value: 3 }}
-        repeat={{ value: 2 }}
-        zStep={{ value: 0 }}
-        onToggle={mockOnToggle}
-        onHeightChange={mockOnHeightChange}
-        onZStepChange={mockOnZStepChange}
-      />
+      <ConfigPanelContext.Provider value={{ selectedLayers: mockSelectedLayers, state, dispatch: mockDispatch }}>
+        <AutoFocus />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(queryByText('height')).toBeInTheDocument();
@@ -85,28 +97,41 @@ describe('test AutoFocus', () => {
   });
 
   test('handlers should work', () => {
+    const state = {
+      ...mockContextState,
+      repeat: { value: 2 },
+    } as any;
     const { container, getByText } = render(
-      <AutoFocus
-        height={{ value: 3 }}
-        repeat={{ value: 2 }}
-        zStep={{ value: 0 }}
-        onToggle={mockOnToggle}
-        onHeightChange={mockOnHeightChange}
-        onZStepChange={mockOnZStepChange}
-      />
+      <ConfigPanelContext.Provider value={{ selectedLayers: mockSelectedLayers, state, dispatch: mockDispatch }}>
+        <AutoFocus />
+      </ConfigPanelContext.Provider>
     );
-    expect(mockOnToggle).not.toBeCalled();
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
     fireEvent.click(container.querySelector('.checkbox'));
-    expect(mockOnToggle).toBeCalledTimes(1);
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).lastCalledWith({ type: 'change', payload: { height: -3 } });
+    expect(mockWriteData).toBeCalledTimes(2);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'height', -3);
+    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'height', -3);
 
-    expect(mockOnHeightChange).not.toBeCalled();
     fireEvent.click(getByText('change-height'));
-    expect(mockOnHeightChange).toBeCalledTimes(1);
-    expect(mockOnHeightChange).lastCalledWith(7);
+    expect(mockDispatch).toBeCalledTimes(2);
+    expect(mockDispatch).lastCalledWith({ type: 'change', payload: { height: 7 } });
+    expect(mockWriteData).toBeCalledTimes(4);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer1', 'height', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'height', 7);
 
-    expect(mockOnZStepChange).not.toBeCalled();
     fireEvent.click(getByText('change-z_step'));
-    expect(mockOnZStepChange).toBeCalledTimes(1);
-    expect(mockOnZStepChange).lastCalledWith(7);
+    expect(mockDispatch).toBeCalledTimes(3);
+    expect(mockDispatch).lastCalledWith({
+      type: 'change',
+      payload: { zStep: 7, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).toBeCalledTimes(8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(5, 'layer1', 'zstep', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(6, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(7, 'layer2', 'zstep', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(8, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
   });
 });

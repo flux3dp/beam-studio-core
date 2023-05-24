@@ -52,6 +52,7 @@ interface Props {
   selectedLayers: string[];
 }
 
+// TODO: add test
 const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   const forceUpdate = useForceUpdate();
   const lang = useI18n().beambox.right_panel.laser_panel;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import ConfigPanelContext from './ConfigPanelContext';
 import PowerBlock from './PowerBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -29,30 +30,70 @@ jest.mock('app/widgets/Unit-Input-v2', () => (
   </div>
 ));
 
-const mockOnChange = jest.fn();
+const mockWriteData = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
+  DataType: {
+    strength: 'power',
+    configName: 'configName',
+  },
+  writeData: (...args) => mockWriteData(...args),
+}));
+
+const mockSelectedLayers = ['layer1', 'layer2'];
+const mockContextState = {
+  power: { value: 87, hasMultiValue: false },
+};
+const mockDispatch = jest.fn();
+
 describe('test PowerBlock', () => {
   it('should render correctly', () => {
     const { container } = render(
-      <PowerBlock power={{ value: 87 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <PowerBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });
 
   it('should render correctly whe power is low', () => {
+    const state = {
+      ...mockContextState,
+      power: { value: 7 },
+    } as any;
     const { container } = render(
-      <PowerBlock power={{ value: 7 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <PowerBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });
 
   test('onChange should work', () => {
     const { container } = render(
-      <PowerBlock power={{ value: 87 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <PowerBlock />
+      </ConfigPanelContext.Provider>
     );
-    expect(mockOnChange).not.toBeCalled();
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '88' } });
-    expect(mockOnChange).toBeCalledTimes(1);
-    expect(mockOnChange).toHaveBeenLastCalledWith(88);
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { power: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).toBeCalledTimes(4);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'power', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'power', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
   });
 });

@@ -6,22 +6,22 @@ import useI18n from 'helpers/useI18n';
 
 import AutoFocus from './AutoFocus';
 import Diode from './Diode';
+import styles from './AddOnBlock.module.scss';
 
 const { addonsSupportList } = constant;
 
-// TODO: add test
 const AddOnBlock = (): JSX.Element => {
   const lang = useI18n().beambox.right_panel.laser_panel;
-  const workarea = beamboxPreference.read('enable-autofocus');
+  const workarea = beamboxPreference.read('workarea');
 
   const isAFEnabled = beamboxPreference.read('enable-autofocus') && addonsSupportList.autoFocus.includes(workarea);
   const isDiodeEnabled = beamboxPreference.read('enable-diode') && addonsSupportList.hybridLaser.includes(workarea);
   if (!isAFEnabled && !isDiodeEnabled) return null;
 
   return (
-    <div className="addon-block">
-      <div className="label">{lang.add_on}</div>
-      <div className="addon-setting">
+    <div>
+      <div className={styles.label}>{lang.add_on}</div>
+      <div className={styles.settings}>
         {isAFEnabled && <AutoFocus />}
         {isDiodeEnabled && <Diode />}
       </div>

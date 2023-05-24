@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test SaveConfigButton should render correctly 1`] = `
+<div>
+  <div
+    class="btn"
+  >
+    <img
+      src="img/icon-plus.svg"
+    />
+  </div>
+</div>
+`;

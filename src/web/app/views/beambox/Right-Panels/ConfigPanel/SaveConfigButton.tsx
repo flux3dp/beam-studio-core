@@ -10,6 +10,7 @@ import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import styles from './SaveConfigButton.module.scss';
 
 // TODO: add test
 const SaveConfigButton = (): JSX.Element => {
@@ -46,7 +47,7 @@ const SaveConfigButton = (): JSX.Element => {
 
   return (
     <div
-      className={classNames('add-preset-btn', { disabled })}
+      className={classNames(styles.btn, { [styles.disabled]: disabled })}
       onClick={() => {
         if (disabled) return;
         dialogCaller.promptDialog({

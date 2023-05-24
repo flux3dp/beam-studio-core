@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import ConfigPanelContext from './ConfigPanelContext';
 import RepeatBlock from './RepeatBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -29,22 +30,75 @@ jest.mock('app/widgets/Unit-Input-v2', () => (
   </div>
 ));
 
-const mockOnChange = jest.fn();
+const mockWriteData = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
+  DataType: {
+    repeat: 'repeat',
+    configName: 'configName',
+  },
+  writeData: (...args) => mockWriteData(...args),
+}));
+
+const mockSelectedLayers = ['layer1', 'layer2'];
+const mockContextState = {
+  repeat: { value: 3, hasMultiValue: false },
+};
+const mockDispatch = jest.fn();
+
+const mockCreateEventEmitter = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: (...args) => mockCreateEventEmitter(...args),
+}));
+const mockEmit = jest.fn();
+
 describe('test RepeatBlock', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    mockCreateEventEmitter.mockReturnValueOnce({
+      emit: mockEmit,
+    });
+  });
+
   it('should render correctly', () => {
     const { container } = render(
-      <RepeatBlock repeat={{ value: 3 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <RepeatBlock />
+      </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });
 
   test('onChange should work', () => {
+    expect(mockCreateEventEmitter).not.toBeCalled();
+
     const { getByText } = render(
-      <RepeatBlock repeat={{ value: 3 }} onChange={mockOnChange} />
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <RepeatBlock />
+      </ConfigPanelContext.Provider>
     );
-    expect(mockOnChange).not.toBeCalled();
+    expect(mockCreateEventEmitter).toBeCalledTimes(1);
+    expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('time-estimation-button');
+
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
+    expect(mockEmit).not.toBeCalled();
     fireEvent.click(getByText('change'));
-    expect(mockOnChange).toBeCalledTimes(1);
-    expect(mockOnChange).toHaveBeenLastCalledWith(7);
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { repeat: 7, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).toBeCalledTimes(4);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'repeat', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'repeat', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
   });
 });
