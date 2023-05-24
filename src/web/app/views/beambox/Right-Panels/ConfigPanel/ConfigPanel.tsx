@@ -24,6 +24,7 @@ import {
   DataType,
   getLayerConfig,
   getLayersConfig,
+  LayerType,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
@@ -36,7 +37,8 @@ import { useIsMobile } from 'helpers/system-helper';
 import AddOnBlock from './AddOnBlock';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
-import LayerType from './LayerType';
+import InkBlock from './InkBlock';
+import LayerTypeBlock from './LayerTypeBlock';
 import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
@@ -99,6 +101,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
       const payload = {
         speed: { value: currentLayerConfig.speed.value, hasMultiValue: config.speed.hasMultiValue },
         power: { value: currentLayerConfig.power.value, hasMultiValue: config.power.hasMultiValue },
+        ink: { value: currentLayerConfig.ink.value, hasMultiValue: config.ink.hasMultiValue },
         repeat: { value: currentLayerConfig.repeat.value, hasMultiValue: config.repeat.hasMultiValue },
         height: { value: currentLayerConfig.height.value, hasMultiValue: config.height.hasMultiValue },
         zStep: { value: currentLayerConfig.zStep.value, hasMultiValue: config.zStep.hasMultiValue },
@@ -110,6 +113,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
     }
     if (selectedLayers.length === 1) {
       const config = getLayerConfig(selectedLayers[0]);
+      console.log(config);
       dispatch({ type: 'update', payload: config });
     }
   }, [selectedLayers]);
@@ -117,10 +121,11 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   const isMobile = useIsMobile();
 
   const dropdownValue = useMemo(() => {
-    const { configName: name, speed, power, repeat, zStep, diode } = state;
+    const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
+    console.log(state);
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     // multi select
-    if (speed.hasMultiValue || power.hasMultiValue || repeat.hasMultiValue || repeat.hasMultiValue
+    if (speed.hasMultiValue || power.hasMultiValue || ink.hasMultiValue || repeat.hasMultiValue || repeat.hasMultiValue
       || diode.hasMultiValue || zStep.hasMultiValue || name.hasMultiValue) {
       return lang.various_preset;
     }
@@ -195,6 +200,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
+  const { type } = state;
   return (
     <ConfigPanelContext.Provider
       value={{
@@ -214,7 +220,8 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
               size="large"
               style={{ width: '100%' }}
             />
-            <PowerBlock />
+            {type.value === LayerType.LASER && <PowerBlock />}
+            {type.value === LayerType.PRINTER && <InkBlock />}
             <SpeedBlock />
             <RepeatBlock />
           </div>
@@ -236,8 +243,9 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {localStorage.getItem('dev') && <LayerType />}
-              <PowerBlock />
+              {localStorage.getItem('dev') && <LayerTypeBlock />}
+              {type.value === LayerType.LASER && <PowerBlock />}
+              {type.value === LayerType.PRINTER && <InkBlock />}
               <SpeedBlock />
               <RepeatBlock />
             </div>

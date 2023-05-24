@@ -2,13 +2,13 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { DataType, LayerType, writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
 
 // TODO: Current use a checkbox for demo, need to change to dropdown in the future
-const LayerType = (): JSX.Element => {
+const LayerTypeBlock = (): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
@@ -30,4 +30,4 @@ const LayerType = (): JSX.Element => {
   );
 };
 
-export default LayerType;
+export default LayerTypeBlock;

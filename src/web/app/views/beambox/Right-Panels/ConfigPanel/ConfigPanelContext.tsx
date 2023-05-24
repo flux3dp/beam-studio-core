@@ -9,6 +9,7 @@ interface State extends ILayerConfig {
 export const getDefaultState = (): State => ({
   speed: { value: 3 },
   power: { value: 1 },
+  ink: { value: 3 },
   repeat: { value: 1 },
   height: { value: -3 },
   zStep: { value: 0 },
