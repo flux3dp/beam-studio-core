@@ -5,6 +5,7 @@ describe('test ConfigPanelContext', () => {
     expect(getDefaultState()).toEqual({
       speed: { value: 3 },
       power: { value: 1 },
+      ink: { value: 3 },
       repeat: { value: 1 },
       height: { value: -3 },
       zStep: { value: 0 },
@@ -26,6 +27,7 @@ describe('test ConfigPanelContext', () => {
     expect(newState).toEqual({
       speed: { value: 2, hasMultiValue: true },
       power: { value: 1 },
+      ink: { value: 3 },
       repeat: { value: 2 },
       height: { value: -3 },
       zStep: { value: 0 },
@@ -47,6 +49,7 @@ describe('test ConfigPanelContext', () => {
     expect(newState).toEqual({
       speed: { value: 2 },
       power: { value: 1 },
+      ink: { value: 3 },
       repeat: { value: 2 },
       height: { value: -3 },
       zStep: { value: 0 },
@@ -65,6 +68,7 @@ describe('test ConfigPanelContext', () => {
     expect(newState).toEqual({
       speed: { value: 3 },
       power: { value: 1 },
+      ink: { value: 3 },
       repeat: { value: 1 },
       height: { value: -3 },
       zStep: { value: 0 },

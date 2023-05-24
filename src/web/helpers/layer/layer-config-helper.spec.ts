@@ -7,6 +7,23 @@ import {
   writeData,
 } from './layer-config-helper';
 
+const mockRead = jest.fn();
+jest.mock('app/actions/beambox/beambox-preference', () => ({
+  read: (key: string) => mockRead(key),
+}));
+
+const mockGet = jest.fn();
+jest.mock('implementations/storage', () => ({
+  get: (key) => mockGet(key),
+}));
+
+const mockGetAllLayerNames = jest.fn();
+const mockGetLayerByName = jest.fn();
+jest.mock('helpers/layer/layer-helper', () => ({
+  getAllLayerNames: () => mockGetAllLayerNames(),
+  getLayerByName: (name) => mockGetLayerByName(name),
+}));
+
 test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 0')).toBeNull();
 
@@ -20,6 +37,7 @@ test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 1')).toEqual({
     speed: { value: 20 },
     power: { value: 15 },
+    ink: { value: 3 },
     repeat: { value: 1 },
     height: { value: -3 },
     zStep: { value: 0 },
@@ -32,6 +50,7 @@ test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 1')).toEqual({
     speed: { value: 20 },
     power: { value: 15 },
+    ink: { value: 3 },
     repeat: { value: 1 },
     height: { value: -3 },
     zStep: { value: 1 },
@@ -44,6 +63,7 @@ test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 2')).toEqual({
     speed: { value: 20 },
     power: { value: 15 },
+    ink: { value: 3 },
     repeat: { value: 1 },
     height: { value: -3 },
     zStep: { value: 0 },
@@ -56,6 +76,7 @@ test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 3')).toEqual({
     speed: { value: 20 },
     power: { value: 15 },
+    ink: { value: 3 },
     repeat: { value: 1 },
     height: { value: -3 },
     zStep: { value: 1 },
@@ -67,6 +88,7 @@ test('test laser-config-helper', () => {
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
     speed: { value: 20, hasMultiValue: false },
     power: { value: 15, hasMultiValue: false },
+    ink: { value: 3, hasMultiValue: false },
     repeat: { value: 1, hasMultiValue: false },
     height: { value: -3, hasMultiValue: false },
     zStep: { value: 1, hasMultiValue: true },
@@ -80,6 +102,7 @@ test('test laser-config-helper', () => {
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
     speed: { value: 20, hasMultiValue: false },
     power: { value: 15, hasMultiValue: false },
+    ink: { value: 3, hasMultiValue: false },
     repeat: { value: 1, hasMultiValue: false },
     height: { value: -1, hasMultiValue: true },
     zStep: { value: 1, hasMultiValue: true },
@@ -92,6 +115,7 @@ test('test laser-config-helper', () => {
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
     speed: { value: 20, hasMultiValue: false },
     power: { value: 15, hasMultiValue: false },
+    ink: { value: 3, hasMultiValue: false },
     repeat: { value: 1, hasMultiValue: false },
     height: { value: 1, hasMultiValue: true },
     zStep: { value: 1, hasMultiValue: true },
@@ -104,6 +128,7 @@ test('test laser-config-helper', () => {
   expect(getLayerConfig('layer 1')).toEqual({
     speed: { value: 20 },
     power: { value: 15 },
+    ink: { value: 3 },
     repeat: { value: 1 },
     height: { value: 1 },
     zStep: { value: 1 },
@@ -115,6 +140,7 @@ test('test laser-config-helper', () => {
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
     speed: { value: 20, hasMultiValue: false },
     power: { value: 15, hasMultiValue: false },
+    ink: { value: 3, hasMultiValue: false },
     repeat: { value: 1, hasMultiValue: false },
     height: { value: 1, hasMultiValue: true },
     zStep: { value: 1, hasMultiValue: true },

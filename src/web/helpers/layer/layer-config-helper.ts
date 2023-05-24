@@ -180,6 +180,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
  * Update all layer configs values due to preset and custom config value change
  */
 export const postPresetChange = (): void => {
+  // TODO: add test
   const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
   const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const parametersSet = getParametersSet(workarea);
