@@ -1,3 +1,9 @@
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
+import storage from 'implementations/storage';
+import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
+import { getParametersSet } from 'app/constants/right-panel-constants';
+import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
 const getLayerElementByName = (layerName: string) => {
@@ -155,6 +161,49 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
     configName: configNameData,
     type: typeData,
   };
+};
+
+/**
+ * Update all layer configs values due to preset and custom config value change
+ */
+export const postPresetChange = (): void => {
+  const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
+  const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const parametersSet = getParametersSet(workarea);
+  const layerNames = getAllLayerNames();
+
+  for (let i = 0; i < layerNames.length; i += 1) {
+    const layerName = layerNames[i];
+    const layer = getLayerByName(layerName);
+    // eslint-disable-next-line no-continue
+    if (!layer) continue;
+
+    const configName = layer.getAttribute('data-configName');
+    const configIndex = customizedLaserConfigs.findIndex((config) => config.name === configName);
+    if (configIndex >= 0) {
+      const config = customizedLaserConfigs[configIndex];
+      if (config.isDefault) {
+        if (parametersSet[config.key]) {
+          const { speed, power, repeat } = parametersSet[config.key];
+          layer.setAttribute('data-speed', String(speed));
+          layer.setAttribute('data-strength', String(power));
+          layer.setAttribute('data-repeat', String(repeat || 1));
+        } else {
+          layer.removeAttribute('data-configName');
+        }
+      } else {
+        const { speed, power, repeat, zStep } = config;
+        layer.setAttribute('data-speed', String(speed));
+        layer.setAttribute('data-strength', String(power));
+        layer.setAttribute('data-repeat', String(repeat || 1));
+        if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
+      }
+    }
+    const maxSpeed = constant.dimension.getMaxSpeed(workarea);
+    if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
+      layer.setAttribute('data-speed', String(maxSpeed));
+    }
+  }
 };
 
 export default {

@@ -1,3 +1,5 @@
+export type DataType = 'speed' | 'power' | 'repeat' | 'height' | 'zstep' | 'diode' | 'configName' | 'type';
+
 export interface IConfig<T> {
   value: T;
   hasMultiValue?: boolean;
