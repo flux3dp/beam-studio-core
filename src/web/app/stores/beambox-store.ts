@@ -1,13 +1,13 @@
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-const UPDATE_LASER_PANEL = 'UPDATE_LASER_PANEL';
+const UPDATE_WORK_AREA = 'UPDATE_WORK_AREA';
 const SHOW_CROPPER = 'SHOW_CROPPER';
 const DRAW_GUIDE_LINES = 'DRAW_GUIDE_LINES';
 
 const eventEmitter = eventEmitterFactory.createEventEmitter();
 export default {
-  onUpdateLaserPanel(callback): void {
-    eventEmitter.on(UPDATE_LASER_PANEL, callback);
+  onUpdateWorkArea(callback): void {
+    eventEmitter.on(UPDATE_WORK_AREA, callback);
   },
 
   onCropperShown(callback: () => void): void {
@@ -18,20 +18,20 @@ export default {
     eventEmitter.on(DRAW_GUIDE_LINES, callback);
   },
 
-  removeUpdateLaserPanelListener(callback): void {
-    eventEmitter.removeListener(UPDATE_LASER_PANEL, callback);
+  removeUpdateWorkAreaListener(callback): void {
+    eventEmitter.removeListener(UPDATE_WORK_AREA, callback);
   },
 
-  removeAllUpdateLaserPanelListeners(): void {
-    eventEmitter.removeAllListeners(UPDATE_LASER_PANEL);
+  removeAllUpdateWorkAreaListeners(): void {
+    eventEmitter.removeAllListeners(UPDATE_WORK_AREA);
   },
 
   removeCropperShownListener(callback): void {
     eventEmitter.removeListener(SHOW_CROPPER, callback);
   },
 
-  emitUpdateLaserPanel(): void {
-    eventEmitter.emit(UPDATE_LASER_PANEL);
+  emitUpdateWorkArea(): void {
+    eventEmitter.emit(UPDATE_WORK_AREA);
   },
 
   emitShowCropper(): void {

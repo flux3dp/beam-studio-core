@@ -77,7 +77,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       eventEmitter.emit('workarea-change');
     }
     OpenBottomBoundaryDrawer.update();
-    beamboxStore.emitUpdateLaserPanel();
+    beamboxStore.emitUpdateWorkArea();
   };
 
   const doesSupportOpenBottom = constant.addonsSupportList.openBottom.includes(workarea);

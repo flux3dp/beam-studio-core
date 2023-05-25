@@ -91,9 +91,9 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   },
 }));
 
-const emitUpdateLaserPanel = jest.fn();
+const emitUpdateWorkArea = jest.fn();
 jest.mock('app/stores/beambox-store', () => ({
-  emitUpdateLaserPanel: () => emitUpdateLaserPanel(),
+  emitUpdateWorkArea: () => emitUpdateWorkArea(),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -182,7 +182,7 @@ describe('test DocumentSettings', () => {
     expect(setResolution).not.toBeCalled();
     expect(resetView).not.toBeCalled();
     expect(update).not.toBeCalled();
-    expect(emitUpdateLaserPanel).not.toBeCalled();
+    expect(emitUpdateWorkArea).not.toBeCalled();
     expect(mockUnmount).not.toBeCalled();
     fireEvent.click(getByText('Save'));
     expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
@@ -195,7 +195,7 @@ describe('test DocumentSettings', () => {
     expect(setResolution).toHaveBeenLastCalledWith(3000, 2100);
     expect(resetView).toBeCalledTimes(1);
     expect(update).toBeCalledTimes(1);
-    expect(emitUpdateLaserPanel).toBeCalledTimes(1);
+    expect(emitUpdateWorkArea).toBeCalledTimes(1);
     expect(mockUnmount).toBeCalledTimes(1);
   });
 });

@@ -5484,7 +5484,7 @@ const svgEditor = window['svgEditor'] = (function () {
             $('#workarea').scrollTop(top);
           }
         }
-        beamboxStore.emitUpdateLaserPanel();
+        beamboxStore.emitUpdateWorkArea();
         svgedit.utilities.findDefs().remove();
         svgedit.utilities.moveDefsOutfromSvgContent();
         await SymbolMaker.reRenderAllImageSymbol();
