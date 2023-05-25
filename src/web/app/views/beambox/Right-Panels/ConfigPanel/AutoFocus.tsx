@@ -1,35 +1,41 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
-import { IConfig } from 'interfaces/ILayerConfig';
+import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 
+import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
 
-interface Props {
-  height: IConfig<number>,
-  repeat: IConfig<number>,
-  zStep: IConfig<number>,
-  onToggle: () => void;
-  onHeightChange: (val: number) => void;
-  onZStepChange: (val: number) => void;
-}
-
-const AutoFocus = ({
-  height,
-  repeat,
-  zStep,
-  onToggle,
-  onHeightChange,
-  onZStepChange,
-}: Props): JSX.Element => {
+const AutoFocus = (): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
+  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { height, repeat, zStep } = state;
+
+  const handleToggle = () => {
+    const value = -height.value;
+    dispatch({ type: 'change', payload: { height: value } });
+    selectedLayers.forEach((layerName) => writeData(layerName, DataType.height, value));
+  };
+
+  const handleHeightChange = (value: number) => {
+    dispatch({ type: 'change', payload: { height: value } });
+    selectedLayers.forEach((layerName) => writeData(layerName, DataType.height, value));
+  };
+
+  const handleZStepChange = (value: number) => {
+    dispatch({ type: 'change', payload: { zStep: value, configName: CUSTOM_PRESET_CONSTANT } });
+    selectedLayers.forEach((layerName) => {
+      writeData(layerName, DataType.zstep, value);
+      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+    });
+  };
 
   return (
     <>
-      <div className={classNames(styles.panel, styles.checkbox)} onClick={onToggle}>
+      <div className={classNames(styles.panel, styles.checkbox)} onClick={handleToggle}>
         <span className={styles.title}>{t.focus_adjustment}</span>
         <input type="checkbox" checked={height.value > 0} readOnly />
       </div>
@@ -43,7 +49,7 @@ const AutoFocus = ({
             max={20}
             unit="mm"
             defaultValue={height.value}
-            getValue={onHeightChange}
+            getValue={handleHeightChange}
             displayMultiValue={height.hasMultiValue}
           />
         </div>
@@ -58,7 +64,7 @@ const AutoFocus = ({
             max={20}
             unit="mm"
             defaultValue={zStep.value}
-            getValue={onZStepChange}
+            getValue={handleZStepChange}
             displayMultiValue={zStep.hasMultiValue}
           />
         </div>

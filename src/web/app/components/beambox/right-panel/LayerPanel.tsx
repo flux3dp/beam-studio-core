@@ -2,10 +2,10 @@ import React from 'react';
 
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
+import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
 import i18n from 'helpers/i18n';
-import LaserPanel from 'app/views/beambox/Right-Panels/LaserPanel';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
@@ -399,17 +399,11 @@ class LayerPanel extends React.Component<Props, State> {
           onCancel={() => this.setState({ displayLaserPanelModal: false })}
           onOk={() => this.setState({ displayLaserPanelModal: false })}
         >
-          <LaserPanel
-            selectedLayers={selectedLayers}
-          />
+          <ConfigPanel selectedLayers={selectedLayers} />
         </Modal>
       );
     }
-    return (
-      <LaserPanel
-        selectedLayers={selectedLayers}
-      />
-    );
+    return <ConfigPanel selectedLayers={selectedLayers} />;
   };
 
   renderLayerPanel() : JSX.Element {

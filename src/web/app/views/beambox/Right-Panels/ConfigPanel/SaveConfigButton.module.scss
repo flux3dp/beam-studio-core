@@ -1,0 +1,19 @@
+.btn {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+
+  &:hover:not(.disabled) {
+    opacity: 1;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  img {
+    filter: brightness(0);
+  }
+}

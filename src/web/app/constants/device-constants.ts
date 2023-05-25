@@ -70,7 +70,7 @@ export default {
   UNLOAD_FILAMENT: 'UNLOAD',
   WORKAREA_IN_MM: {
     fhexa1: {
-      maxX: 730,
+      maxX: 740,
       maxY: 410,
     },
     fbb1p: {

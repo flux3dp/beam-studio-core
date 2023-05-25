@@ -6,6 +6,7 @@ export interface IConfig<T> {
 export interface ILayerConfig {
   speed: IConfig<number>;
   power: IConfig<number>;
+  ink: IConfig<number>;
   repeat: IConfig<number>;
   height: IConfig<number>;
   zStep: IConfig<number>;
