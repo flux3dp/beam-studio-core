@@ -1873,8 +1873,7 @@ const svgEditor = window['svgEditor'] = (function () {
         }
         const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true';
         ObjectPanelController.updateDimensionValues({ isRatioFixed });
-      } // if (elem != null)
-      else if (multiselected) {
+      } else if (multiselected) {
         //$('#multiselected_panel').show();
         workareaEvents.emit('update-context-menu', {
           group: true,
@@ -1954,9 +1953,7 @@ const svgEditor = window['svgEditor'] = (function () {
         selectedElement: selectedElement,
         multiselected: multiselected
       });
-      if (elems.length === 1 && elems[0]?.tagName === 'polygon') {
-        ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
-      }
+      if (elems.length === 1 && elems[0]?.tagName === 'polygon') ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
     };
 
     // Call when part of element is in process of changing, generally
@@ -5297,7 +5294,7 @@ const svgEditor = window['svgEditor'] = (function () {
       const importDxf = async file => {
         const Dxf2Svg = await requirejsHelper('dxf2svg');
         const ImageTracer = await requirejsHelper('imagetracer');
-        const { defaultDpiValue, parsed } = await new Promise(resolve => {
+        const { defaultDpiValue, parsed } = await new Promise<{ defaultDpiValue: number ;parsed: string; }>(resolve => {
           const reader = new FileReader();
           reader.onloadend = evt => {
             if (!AlertConfig.read('skip_dxf_version_warning')) {
@@ -5311,7 +5308,7 @@ const svgEditor = window['svgEditor'] = (function () {
                     type: AlertConstants.SHOW_POPUP_WARNING,
                     checkbox: {
                       text: LANG.popup.dont_show_again,
-                      callbacks: () => { AlertConfig.write('skip_dxf_version_warning', true) }
+                      callbacks: () => AlertConfig.write('skip_dxf_version_warning', true),
                     }
                   });
                 }

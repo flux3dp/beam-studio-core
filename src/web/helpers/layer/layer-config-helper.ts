@@ -1,3 +1,9 @@
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
+import storage from 'implementations/storage';
+import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
+import { getParametersSet } from 'app/constants/right-panel-constants';
+import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
 const getLayerElementByName = (layerName: string) => {
@@ -12,9 +18,15 @@ const getLayerElementByName = (layerName: string) => {
   return layer;
 };
 
+export enum LayerType {
+  LASER = 1,
+  PRINTER = 2,
+}
+
 export enum DataType {
   speed = 'speed',
   strength = 'strength',
+  ink = 'ink',
   repeat = 'repeat',
   height = 'height',
   zstep = 'zstep',
@@ -28,12 +40,13 @@ export const CUSTOM_PRESET_CONSTANT = ' ';
 const defaultConfig = {
   speed: 20,
   strength: 15,
+  ink: 3,
   repeat: 1,
   height: -3,
   zstep: 0,
   diode: 0,
   configName: '',
-  type: 1,
+  type: LayerType.LASER,
 };
 
 const getData = (layer: Element, dataType: DataType) => {
@@ -84,6 +97,7 @@ const getMultiSelectData = <T = number>(
 export const initLayerConfig = (layerName: string): void => {
   writeData(layerName, DataType.speed, defaultConfig.speed);
   writeData(layerName, DataType.strength, defaultConfig.strength);
+  writeData(layerName, DataType.ink, defaultConfig.ink);
   writeData(layerName, DataType.repeat, defaultConfig.repeat);
   writeData(layerName, DataType.height, defaultConfig.height);
   writeData(layerName, DataType.zstep, defaultConfig.zstep);
@@ -99,6 +113,7 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
   } else {
     writeData(targetLayerName, DataType.speed, getData(baseLayer, DataType.speed));
     writeData(targetLayerName, DataType.strength, getData(baseLayer, DataType.strength));
+    writeData(targetLayerName, DataType.ink, getData(baseLayer, DataType.ink));
     writeData(targetLayerName, DataType.repeat, getData(baseLayer, DataType.repeat));
     writeData(targetLayerName, DataType.height, getData(baseLayer, DataType.height));
     writeData(targetLayerName, DataType.zstep, getData(baseLayer, DataType.zstep));
@@ -115,6 +130,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   }
   const speed = getData(layer, DataType.speed) as number;
   const power = getData(layer, DataType.strength) as number;
+  const ink = getData(layer, DataType.ink) as number;
   const repeat = getData(layer, DataType.repeat) as number;
   const height = getData(layer, DataType.height) as number;
   const zStep = getData(layer, DataType.zstep) as number;
@@ -125,6 +141,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   return {
     speed: { value: speed },
     power: { value: power },
+    ink: { value: ink },
     repeat: { value: repeat },
     height: { value: height },
     zStep: { value: zStep },
@@ -138,6 +155,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const layers = layerNames.map((layerName) => getLayerElementByName(layerName));
   const speedData = getMultiSelectData(layers, DataType.speed);
   const powerData = getMultiSelectData(layers, DataType.strength);
+  const inkData = getMultiSelectData(layers, DataType.ink);
   const repeatData = getMultiSelectData(layers, DataType.repeat);
   const heightData = getMultiSelectData(layers, DataType.height);
   const zStepData = getMultiSelectData(layers, DataType.zstep);
@@ -148,6 +166,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   return {
     speed: speedData,
     power: powerData,
+    ink: inkData,
     repeat: repeatData,
     height: heightData,
     zStep: zStepData,
@@ -155,6 +174,50 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
     configName: configNameData,
     type: typeData,
   };
+};
+
+/**
+ * Update all layer configs values due to preset and custom config value change
+ */
+export const postPresetChange = (): void => {
+  // TODO: add test
+  const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
+  const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const parametersSet = getParametersSet(workarea);
+  const layerNames = getAllLayerNames();
+
+  for (let i = 0; i < layerNames.length; i += 1) {
+    const layerName = layerNames[i];
+    const layer = getLayerByName(layerName);
+    // eslint-disable-next-line no-continue
+    if (!layer) continue;
+
+    const configName = layer.getAttribute('data-configName');
+    const configIndex = customizedLaserConfigs.findIndex((config) => config.name === configName);
+    if (configIndex >= 0) {
+      const config = customizedLaserConfigs[configIndex];
+      if (config.isDefault) {
+        if (parametersSet[config.key]) {
+          const { speed, power, repeat } = parametersSet[config.key];
+          layer.setAttribute('data-speed', String(speed));
+          layer.setAttribute('data-strength', String(power));
+          layer.setAttribute('data-repeat', String(repeat || 1));
+        } else {
+          layer.removeAttribute('data-configName');
+        }
+      } else {
+        const { speed, power, repeat, zStep } = config;
+        layer.setAttribute('data-speed', String(speed));
+        layer.setAttribute('data-strength', String(power));
+        layer.setAttribute('data-repeat', String(repeat || 1));
+        if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
+      }
+    }
+    const maxSpeed = constant.dimension.getMaxSpeed(workarea);
+    if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
+      layer.setAttribute('data-speed', String(maxSpeed));
+    }
+  }
 };
 
 export default {
