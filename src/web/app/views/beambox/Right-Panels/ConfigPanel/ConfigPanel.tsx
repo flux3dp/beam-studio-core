@@ -121,7 +121,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
     }
     if (selectedLayers.length === 1) {
       const config = getLayerConfig(selectedLayers[0]);
-      console.log(config);
       dispatch({ type: 'update', payload: config });
     }
   }, [selectedLayers]);
@@ -130,7 +129,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
 
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
-    console.log(state);
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     // multi select
     if (speed.hasMultiValue || power.hasMultiValue || ink.hasMultiValue || repeat.hasMultiValue || repeat.hasMultiValue
