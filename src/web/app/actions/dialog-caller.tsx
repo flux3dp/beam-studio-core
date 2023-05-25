@@ -234,7 +234,10 @@ export default {
         caption={args.caption}
         message={args.message}
         placeholder={args.confirmValue}
-        onYes={(value) => resolve(value === args.confirmValue)}
+        confirmValue={args.confirmValue}
+        onYes={(value) => {
+          if (value === args.confirmValue) resolve(true);
+        }}
         onCancel={() => resolve(false)}
         onClose={() => popDialogById(id)}
       />);

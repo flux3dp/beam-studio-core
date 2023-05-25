@@ -17,6 +17,10 @@ const onCancel = jest.fn();
 const onClose = jest.fn();
 
 describe('test Prompt', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   test('should render correctly', () => {
     const { baseElement, getByText } = render(
       <Prompt
@@ -34,6 +38,38 @@ describe('test Prompt', () => {
     baseElement.querySelector('input').value = 'value';
     fireEvent.click(getByText('OK'));
     expect(onYes).toBeCalledTimes(1);
+    expect(onYes).toHaveBeenLastCalledWith('value');
+    expect(onClose).toBeCalledTimes(1);
+
+    expect(onCancel).not.toBeCalled();
+    fireEvent.click(getByText('Cancel'));
+    expect(onCancel).toBeCalledTimes(1);
+    expect(onClose).toBeCalledTimes(2);
+  });
+
+  it('should work with confirmValue', () => {
+    const { baseElement, getByText } = render(
+      <Prompt
+        caption="New Preset Name"
+        defaultValue=""
+        confirmValue="value"
+        onYes={onYes}
+        onCancel={onCancel}
+        onClose={onClose}
+      />
+    );
+    expect(baseElement).toMatchSnapshot();
+
+    expect(onYes).not.toBeCalled();
+    baseElement.querySelector('input').value = 'not-value';
+    fireEvent.click(getByText('OK'));
+    expect(onYes).toBeCalledTimes(1);
+    expect(onYes).toHaveBeenLastCalledWith('not-value');
+    expect(onClose).not.toBeCalled();
+
+    baseElement.querySelector('input').value = 'value';
+    fireEvent.click(getByText('OK'));
+    expect(onYes).toBeCalledTimes(2);
     expect(onYes).toHaveBeenLastCalledWith('value');
     expect(onClose).toBeCalledTimes(1);
 
