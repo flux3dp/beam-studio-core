@@ -191,10 +191,6 @@ class TextOptions extends React.Component<Props, State> {
         return { value: option, label };
       });
       const styles = {
-        option: (style, { data }) => {
-          if (window.FLUX.version === 'web') return style;
-          return { ...style, fontFamily: `'${data.value}'` };
-        },
         input: (style) => ({
           ...style, margin: 0, padding: 0, height: '19px',
         }),
@@ -207,7 +203,7 @@ class TextOptions extends React.Component<Props, State> {
           const src = fontHelper.getWebFontPreviewUrl(option.value);
           if (src) return <img src={src} alt={option.label} draggable="false" />;
         }
-        return option.label;
+        return <div style={{ fontFamily: `'${option.value}'` }}>{option.label}</div>;
       };
       return (
         <div className="option-block">
