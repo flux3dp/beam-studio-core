@@ -43,11 +43,9 @@ const RightPanel = (): JSX.Element => {
   );
 
   const renderObjectPanel = () => (
-    <ObjectPanelContextProvider>
-      <ObjectPanel
-        elem={selectedElem}
-      />
-    </ObjectPanelContextProvider>
+    <ObjectPanel
+      elem={selectedElem}
+    />
   );
 
   let content;
@@ -72,7 +70,9 @@ const RightPanel = (): JSX.Element => {
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
-        {content}
+        <ObjectPanelContextProvider>
+          {content}
+        </ObjectPanelContextProvider>
       </div>
     </div>
   );
