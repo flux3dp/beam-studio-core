@@ -50,7 +50,7 @@ function Engraving({
             <UnitInput
               id="hardware-acceleration"
               unit="mm/s^2"
-              min={4000}
+              min={500}
               max={12000}
               decimal={0}
               defaultValue={paddingAccel.defaultValue}
@@ -62,7 +62,7 @@ function Engraving({
             <UnitInput
               id="hardware-acceleration"
               unit="mm/s^2"
-              min={4000}
+              min={500}
               max={12000}
               decimal={0}
               defaultValue={paddingAccelDiode.defaultValue}
