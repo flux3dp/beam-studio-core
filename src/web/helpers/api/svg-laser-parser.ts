@@ -79,22 +79,26 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
 
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
-        let accel = 7500;
-        if (localStorage.getItem('dev')) {
-          accel = BeamboxPreference.read('padding_accel') || 7500;
-        }
-        args.push('-acc', accel);
+        if (!localStorage.getItem('dev')) args.push('-acc', '7500');
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
       else if (opts.model === 'fad1') args.push('-fad1');
 
-      if (opts.codeType === 'gcode') {
-        args.push('-gc');
+      if (localStorage.getItem('dev')) {
+        const accel = BeamboxPreference.read('padding_accel') || 7500;
+        args.push('-acc', accel);
       }
 
-      if (svgCanvas && svgCanvas.getRotaryMode()) {
+      if (opts.codeType === 'gcode') args.push('-gc');
+
+      const rotaryMode = BeamboxPreference.read('rotary_mode');
+      if (rotaryMode) {
         args.push('-spin');
         args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
+        if (rotaryMode !== 1) {
+          args.push('-rotary-y-ratio');
+          args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
+        }
       }
 
       if (

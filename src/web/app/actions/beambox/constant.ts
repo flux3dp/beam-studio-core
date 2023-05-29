@@ -117,7 +117,6 @@ export default {
   rulerWidth: 15, // px
   rotaryYRatio: {
     1: 1,
-    // TODO: update to a more precise ratio
-    2: 10 / 13,
+    2: 0.776626,
   },
 };
