@@ -8,14 +8,15 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
-import Constant from 'app/actions/beambox/constant';
+import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
-import fileExportHelper from 'helpers/file-export-helper';
 import FileName from 'app/components/beambox/top-bar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import FrameButton from 'app/components/beambox/top-bar/FrameButton';
+import fileExportHelper from 'helpers/file-export-helper';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import i18n from 'helpers/i18n';
 import Menu from 'app/components/beambox/top-bar/Menu';
@@ -128,7 +129,9 @@ export default class TopBar extends React.Component<Props, State> {
           onYes: () => {
             BeamboxPreference.write('workarea', device.model);
             BeamboxPreference.write('model', device.model);
-            svgCanvas.setResolution(Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
+            const width = Constant.dimension.getWidth(device.model as WorkAreaModel);
+            const height = Constant.dimension.getHeight(device.model as WorkAreaModel);
+            svgCanvas.setResolution(width, height);
             svgEditor.resetView();
             PreviewModeBackgroundDrawer.updateCanvasSize();
             diodeBoundaryDrawer.updateCanvasSize();
@@ -332,7 +335,9 @@ export default class TopBar extends React.Component<Props, State> {
       );
     });
 
-    const list = (options.length > 0) ? options : (<div key="spinner-roller" className="spinner-roller spinner-roller-reverse" />);
+    const list = options.length > 0
+      ? options
+      : (<div key="spinner-roller" className="spinner-roller spinner-roller-reverse" />);
     const menuClass = classNames('menu', deviceListType);
     // onClose={() => {
     //   this.resetStartPreviewCallback();
@@ -385,6 +390,7 @@ export default class TopBar extends React.Component<Props, State> {
           showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}
         />
         <div className="right">
+          <FrameButton />
           <PathPreviewButton
             isPathPreviewing={isPathPreviewing}
             isDeviceConnected={deviceList.length > 0}
