@@ -95,7 +95,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (rotaryMode) {
         args.push('-spin');
         args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
-        if (rotaryMode !== 1) {
+        if (rotaryMode !== 1 && constant.getRotaryModels(opts.model).includes(rotaryMode)) {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
         }
