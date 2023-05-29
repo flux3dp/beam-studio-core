@@ -132,7 +132,7 @@ export default class TopBar extends React.Component<Props, State> {
             svgEditor.resetView();
             PreviewModeBackgroundDrawer.updateCanvasSize();
             diodeBoundaryDrawer.updateCanvasSize();
-            beamboxStore.emitUpdateLaserPanel();
+            beamboxStore.emitUpdateWorkArea();
             OpenBottomBoundaryDrawer.update();
             resolve(true);
           },

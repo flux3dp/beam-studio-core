@@ -36,4 +36,10 @@ class BeamboxPreference {
 }
 
 const instance = new BeamboxPreference();
+
+export const migrate = (): void => {
+  const rotaryMode = instance.read('rotary_mode');
+  if (typeof rotaryMode === 'boolean') instance.write('rotary_mode', rotaryMode ? 1 : 0);
+};
+
 export default instance;

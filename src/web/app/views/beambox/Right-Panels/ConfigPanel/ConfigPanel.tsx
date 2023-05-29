@@ -67,11 +67,15 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   useMemo(() => updateDefaultPresetData(), []);
   const [state, dispatch] = useReducer(reducer, null, () => getDefaultState());
 
-  useEffect(() => {
+  const updateDiodeBoundary = useCallback(() => {
     const allowDiode = constant.addonsSupportList.hybridLaser.includes(beamboxPreference.read('workarea'));
     if (beamboxPreference.read('enable-diode') && allowDiode) diodeBoundaryDrawer.show(state.diode.value === 1);
     else diodeBoundaryDrawer.hide();
   }, [state.diode.value]);
+
+  useEffect(() => {
+    updateDiodeBoundary();
+  }, [updateDiodeBoundary]);
 
   const updateData = useCallback(() => {
     updateDefaultPresetData();
@@ -87,10 +91,14 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   }, [state, dispatch]);
 
   useEffect(() => {
-    beamboxStore.removeAllUpdateLaserPanelListeners();
-    beamboxStore.onUpdateLaserPanel(updateData);
-    return () => beamboxStore.removeUpdateLaserPanelListener(updateData);
-  }, [updateData]);
+    beamboxStore.removeAllUpdateWorkAreaListeners();
+    beamboxStore.onUpdateWorkArea(updateData);
+    beamboxStore.onUpdateWorkArea(updateDiodeBoundary);
+    return () => {
+      beamboxStore.removeUpdateWorkAreaListener(updateData);
+      beamboxStore.removeUpdateWorkAreaListener(updateDiodeBoundary);
+    };
+  }, [updateData, updateDiodeBoundary]);
 
   useEffect(() => {
     if (selectedLayers.length > 1) {
@@ -113,7 +121,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
     }
     if (selectedLayers.length === 1) {
       const config = getLayerConfig(selectedLayers[0]);
-      console.log(config);
       dispatch({ type: 'update', payload: config });
     }
   }, [selectedLayers]);
@@ -122,7 +129,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
 
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
-    console.log(state);
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     // multi select
     if (speed.hasMultiValue || power.hasMultiValue || ink.hasMultiValue || repeat.hasMultiValue || repeat.hasMultiValue

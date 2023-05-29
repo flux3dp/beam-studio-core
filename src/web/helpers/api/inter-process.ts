@@ -38,7 +38,7 @@ export default function () {
                 writeData(name, DataType.strength, parseInt(power));
               }
 
-              beamboxStore.emitUpdateLaserPanel();
+              beamboxStore.emitUpdateWorkArea();
             }
           });
         }
@@ -58,7 +58,7 @@ export default function () {
               writeData(name, DataType.strength, parseInt(power));
             }
 
-            beamboxStore.emitUpdateLaserPanel();
+            beamboxStore.emitUpdateWorkArea();
           }
         }, 1000);
       },

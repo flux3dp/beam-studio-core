@@ -19,11 +19,11 @@ describe('test beambox-store', () => {
     jest.resetAllMocks();
   });
 
-  test('test onUpdateLaserPanel', () => {
+  test('test onUpdateWorkarea', () => {
     const callback = jest.fn();
-    beamboxStore.onUpdateLaserPanel(callback);
+    beamboxStore.onUpdateWorkArea(callback);
     expect(mockOn).toHaveBeenCalledTimes(1);
-    expect(mockOn).toHaveBeenNthCalledWith(1, 'UPDATE_LASER_PANEL', callback);
+    expect(mockOn).toHaveBeenNthCalledWith(1, 'UPDATE_WORK_AREA', callback);
   });
 
   test('test onCropperShown', () => {
@@ -40,17 +40,17 @@ describe('test beambox-store', () => {
     expect(mockOn).toHaveBeenNthCalledWith(1, 'DRAW_GUIDE_LINES', callback);
   });
 
-  test('test removeUpdateLaserPanelListener', () => {
+  test('test removeUpdateWorkAreaListener', () => {
     const callback = jest.fn();
-    beamboxStore.removeUpdateLaserPanelListener(callback);
+    beamboxStore.removeUpdateWorkAreaListener(callback);
     expect(mockRemoveListener).toHaveBeenCalledTimes(1);
-    expect(mockRemoveListener).toHaveBeenNthCalledWith(1, 'UPDATE_LASER_PANEL', callback);
+    expect(mockRemoveListener).toHaveBeenNthCalledWith(1, 'UPDATE_WORK_AREA', callback);
   });
 
-  test('test removeAllUpdateLaserPanelListeners', () => {
-    beamboxStore.removeAllUpdateLaserPanelListeners();
+  test('test removeAllUpdateWorkAreaListeners', () => {
+    beamboxStore.removeAllUpdateWorkAreaListeners();
     expect(mockRemoveAllListeners).toHaveBeenCalledTimes(1);
-    expect(mockRemoveAllListeners).toHaveBeenNthCalledWith(1, 'UPDATE_LASER_PANEL');
+    expect(mockRemoveAllListeners).toHaveBeenNthCalledWith(1, 'UPDATE_WORK_AREA');
   });
 
   test('test removeCropperShownListener', () => {
@@ -61,9 +61,9 @@ describe('test beambox-store', () => {
   });
 
   test('test emitUpdateLaserPanel', () => {
-    beamboxStore.emitUpdateLaserPanel();
+    beamboxStore.emitUpdateWorkArea();
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_LASER_PANEL');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_WORK_AREA');
   });
 
   test('test emitShowCropper', () => {

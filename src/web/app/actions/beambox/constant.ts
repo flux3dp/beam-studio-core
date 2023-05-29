@@ -6,6 +6,7 @@ interface WorkArea {
   width: number;
   height: number;
   maxSpeed: number;
+  rotary: number[];
 }
 
 export const WorkareaMap = new Map<WorkAreaModel, WorkArea>();
@@ -14,30 +15,35 @@ WorkareaMap.set('fbm1', {
   width: 3000,
   height: 2100,
   maxSpeed: 300,
+  rotary: [0, 1],
 });
 WorkareaMap.set('fbb1b', {
   label: 'Beambox',
   width: 4000,
   height: 3750,
   maxSpeed: 300,
+  rotary: [0, 1, 2],
 });
 WorkareaMap.set('fbb1p', {
   label: 'Beambox Pro',
   width: 6000,
   height: 3750,
   maxSpeed: 300,
+  rotary: [0, 1, 2],
 });
 WorkareaMap.set('fhexa1', {
   label: 'HEXA',
   width: 7400,
   height: 4100,
   maxSpeed: 900,
+  rotary: [0, 1, 2],
 });
 WorkareaMap.set('fad1', {
   label: 'Ador',
   width: 4300,
   height: 3000,
   maxSpeed: 400,
+  rotary: [0],
 });
 
 export default {
@@ -47,6 +53,7 @@ export default {
     getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
     getMaxSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.maxSpeed || 300,
   },
+  getRotaryModels: (model: WorkAreaModel): number[] => WorkareaMap.get(model)?.rotary || [0],
   camera: {
     movementSpeed: {
       // limited by firmware
@@ -108,4 +115,8 @@ export default {
   menuberHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 30 : 0, // px
   layerListHeight: 400, // px
   rulerWidth: 15, // px
+  rotaryYRatio: {
+    1: 1,
+    2: 0.776626,
+  },
 };

@@ -5433,10 +5433,12 @@ const svgEditor = window['svgEditor'] = (function () {
           }
           let match = str.match(/data-rotary_mode="[a-zA-Z]+"/);
           if (match) {
-            let rotaryMode = 'true' === match[0].substring(18, match[0].length - 1);
-            svgCanvas.setRotaryMode(rotaryMode);
+            let rotaryMode = match[0].substring(18, match[0].length - 1);
+            if (rotaryMode === 'true') rotaryMode = '1';
+            const isRotaryModeOn = ['true', '1', '2'].includes(rotaryMode);
+            svgCanvas.setRotaryMode(isRotaryModeOn);
             svgCanvas.runExtensions('updateRotaryAxis');
-            BeamboxPreference.write('rotary_mode', rotaryMode);
+            BeamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
           }
           match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
           if (match) {
@@ -5484,7 +5486,7 @@ const svgEditor = window['svgEditor'] = (function () {
             $('#workarea').scrollTop(top);
           }
         }
-        beamboxStore.emitUpdateLaserPanel();
+        beamboxStore.emitUpdateWorkArea();
         svgedit.utilities.findDefs().remove();
         svgedit.utilities.moveDefsOutfromSvgContent();
         await SymbolMaker.reRenderAllImageSymbol();
