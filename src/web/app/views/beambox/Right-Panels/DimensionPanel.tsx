@@ -4,8 +4,8 @@ import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import KeycodeConstants from 'app/constants/keycode-constants';
-import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
+import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -450,22 +450,5 @@ class DimensionPanel extends React.Component<Props> {
     );
   }
 }
-
-// DimensionPanel.propTypes = {
-//   elem: PropTypes.shape({
-//     tagName: PropTypes.string,
-//     getAttribute: PropTypes.func,
-//     setAttribute: PropTypes.func,
-//     querySelectorAll: PropTypes.func,
-//   }),
-//   getDimensionValues: PropTypes.func,
-//   updateDimensionValues: PropTypes.func,
-// };
-
-// DimensionPanel.defaultProps = {
-//   elem: {},
-//   getDimensionValues: () => {},
-//   updateDimensionValues: () => {},
-// };
 
 export default DimensionPanel;
