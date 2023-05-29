@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Form, Modal, Row, Select, Switch } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -7,8 +7,8 @@ import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import i18n from 'helpers/i18n';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
+import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import styles from './DocumentSettings.module.scss';
@@ -20,7 +20,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const LANG = i18n.lang.beambox.document_panel;
 const eventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
 const workareaOptions = [
@@ -39,9 +38,12 @@ interface Props {
 }
 
 const DocumentSettings = ({ unmount }: Props): JSX.Element => {
+  const lang = useI18n();
+  const langDocumentSettings = lang.beambox.document_panel;
+  const [form] = Form.useForm();
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
   const [workarea, setWorkarea] = useState(BeamboxPreference.read('workarea') || 'fbb1b');
-  const [rotaryMode, setRotaryMode] = useState(BeamboxPreference.read('rotary_mode'));
+  const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
   const [borderlessMode, setBorderlessMode] = useState(
     BeamboxPreference.read('borderless') === true
   );
@@ -52,21 +54,29 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
 
   const handleEngraveDpiChange = (value: string) => setEngraveDpi(value);
   const handleWorkareaChange = (value: string) => setWorkarea(value);
-  const handleRotaryModeChange = (value) => {
-    setRotaryMode(value);
-    svgCanvas.setRotaryMode(value);
-    svgCanvas.runExtensions('updateRotaryAxis');
-  };
+  const handleRotaryModeChange = (value: number) => setRotaryMode(value);
   const handleBorderlessModeChange = (value: boolean) => setBorderlessMode(value);
   const handleDiodeModuleChange = (value: boolean) => setEnableDiode(value);
   const handleAutofocusModuleChange = (value: boolean) => setEnableAutofocus(value);
 
+  const rotaryModels = useMemo(() => constant.getRotaryModels(workarea), [workarea]);
+  const rotaryModalLabels = useMemo(() => ({
+    0: lang.settings.off,
+    1: rotaryModels.length > 2 ? 'Rotary v1' : lang.settings.on,
+    2: 'Rotary v2'
+  }), [lang.settings.on, lang.settings.off, rotaryModels.length]);
+
+  useEffect(() => {
+    if (!rotaryModels.includes(rotaryMode)) form.setFieldValue('rotary_mode', rotaryModels[0]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rotaryModels]);
+
   const handleSave = () => {
     BeamboxPreference.write('engrave_dpi', engraveDpi);
-    BeamboxPreference.write('rotary_mode', rotaryMode);
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
+    console.log(workarea);
     if (workarea !== BeamboxPreference.read('workarea')) {
       BeamboxPreference.write('workarea', workarea);
       svgCanvas.setResolution(
@@ -76,6 +86,9 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       svgEditor.resetView();
       eventEmitter.emit('workarea-change');
     }
+    BeamboxPreference.write('rotary_mode', rotaryMode);
+    svgCanvas.setRotaryMode(rotaryMode);
+    svgCanvas.runExtensions('updateRotaryAxis');
     OpenBottomBoundaryDrawer.update();
     beamboxStore.emitUpdateWorkArea();
   };
@@ -83,43 +96,42 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const doesSupportOpenBottom = constant.addonsSupportList.openBottom.includes(workarea);
   const doesSupportHybrid = constant.addonsSupportList.hybridLaser.includes(workarea);
   const doesSupportAutofocus = constant.addonsSupportList.autoFocus.includes(workarea);
-
   return (
     <Modal
       open
       centered
-      title={LANG.document_settings}
+      title={langDocumentSettings.document_settings}
       onCancel={unmount}
       onOk={() => {
         handleSave();
         unmount();
       }}
-      cancelText={LANG.cancel}
-      okText={LANG.save}
+      cancelText={langDocumentSettings.cancel}
+      okText={langDocumentSettings.save}
     >
-      <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
         <EngraveDpiSlider value={engraveDpi} onChange={handleEngraveDpiChange} />
-        <Form.Item name="workarea" initialValue={workarea} label={LANG.workarea}>
+        <Form.Item name="workarea" initialValue={workarea} label={langDocumentSettings.workarea}>
           <Select bordered onChange={handleWorkareaChange}>
             {workareaOptions.map((option) => (
               <Select.Option key={option.value} value={option.value}>{option.label}</Select.Option>
             ))}
           </Select>
         </Form.Item>
-        <strong>{LANG.add_on}</strong>
+        <strong>{langDocumentSettings.add_on}</strong>
+        <Form.Item initialValue={rotaryMode} name="rotary_mode" label={langDocumentSettings.rotary_mode}>
+          <Select bordered onChange={handleRotaryModeChange} value={rotaryMode}>
+            {rotaryModels.map((model) => (
+              <Select.Option key={model} value={model}>{rotaryModalLabels[model]}</Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Row>
           <Col span={12}>
             <Form.Item
-              name="rotary_mode"
-              label={LANG.rotary_mode}
-              labelCol={{ span: 12, offset: 0 }}
-            >
-              <Switch checked={rotaryMode} onChange={handleRotaryModeChange} />
-            </Form.Item>
-            <Form.Item
               name="borderless_mode"
               className={classNames({ [styles.disabled]: !doesSupportOpenBottom })}
-              label={LANG.borderless_mode}
+              label={langDocumentSettings.borderless_mode}
               labelCol={{ span: 12, offset: 0 }}
             >
               <Switch
@@ -129,11 +141,13 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               />
             </Form.Item>
           </Col>
+        </Row>
+        <Row>
           <Col span={12}>
             <Form.Item
               name="autofocus-module"
               className={classNames({ [styles.disabled]: !doesSupportAutofocus })}
-              label={LANG.enable_autofocus}
+              label={langDocumentSettings.enable_autofocus}
               labelCol={{ span: 12, offset: 0 }}
             >
               <Switch
@@ -142,10 +156,12 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                 onChange={handleAutofocusModuleChange}
               />
             </Form.Item>
+          </Col>
+          <Col span={12}>
             <Form.Item
               name="diode_module"
               className={classNames({ [styles.disabled]: !doesSupportHybrid })}
-              label={LANG.enable_diode}
+              label={langDocumentSettings.enable_diode}
               labelCol={{ span: 12, offset: 0 }}
             >
               <Switch
