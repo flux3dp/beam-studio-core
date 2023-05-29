@@ -4,7 +4,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import alertHelper from 'helpers/alert-helper';
 import autoSaveHelper from 'helpers/auto-save-helper';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import BeamboxPreference, { migrate } from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
 import browser from 'implementations/browser';
 import checkDeviceStatus from 'helpers/check-device-status';
@@ -30,6 +30,7 @@ import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 
 class BeamboxInit {
   constructor() {
+    migrate();
     if (Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))) {
       const defaultAutoFocus = BeamboxPreference.read('default-autofocus');
       BeamboxPreference.write('enable-autofocus', defaultAutoFocus);
