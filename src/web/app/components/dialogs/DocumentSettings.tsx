@@ -67,7 +67,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   }), [lang.settings.on, lang.settings.off, rotaryModels.length]);
 
   useEffect(() => {
-    if (!rotaryModels.includes(rotaryMode)) form.setFieldValue('rotary_mode', rotaryModels[0]);
+    if (!rotaryModels.includes(rotaryMode)) {
+      form.setFieldValue('rotary_mode', rotaryModels[0]);
+      handleRotaryModeChange(rotaryModels[0]);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rotaryModels]);
 
@@ -76,7 +79,6 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
-    console.log(workarea);
     if (workarea !== BeamboxPreference.read('workarea')) {
       BeamboxPreference.write('workarea', workarea);
       svgCanvas.setResolution(
