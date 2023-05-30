@@ -59,7 +59,6 @@ const FrameButton = (): JSX.Element => {
   const handleClick = async () => {
     const device = await dialogCaller.selectDevice();
     const coords = getCoords();
-    console.log(coords);
     // Only check minX because it's enough to know if there is any element
     if (coords.minX === undefined) {
       // TODO: alert no element to frame
@@ -89,9 +88,20 @@ const FrameButton = (): JSX.Element => {
       await deviceMaster.rawStartLineCheckMode();
       isLineCheckEnabled = true;
     } else isLineCheckEnabled = false;
+    progressCaller.update('start-preview-mode', { message: lang.message.turningOffFan });
+    await deviceMaster.rawSetFan(false);
+    progressCaller.update('start-preview-mode', { message: lang.message.turningOffAirPump });
+    await deviceMaster.rawSetAirPump(false);
+    await deviceMaster.rawSetWaterPump(false);
     // TODO: add progress update with time
     const movementFeedrate = 6000; // mm/min
     // TODO: check if we need to wait between each move
+    progressCaller.update(PROGRESS_ID, { message: 'tRunning frame' });
+    const { dpmm } = constant;
+    coords.minX /= dpmm;
+    coords.minY /= dpmm;
+    coords.maxX /= dpmm;
+    coords.maxY /= dpmm;
     await deviceMaster.rawMove({
       x: coords.minX, y: coords.minY, f: movementFeedrate,
     });
@@ -110,6 +120,7 @@ const FrameButton = (): JSX.Element => {
     if (isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
     await deviceMaster.rawLooseMotor();
     await deviceMaster.endRawMode();
+    progressCaller.popById(PROGRESS_ID);
     deviceMaster.kick();
   };
 
