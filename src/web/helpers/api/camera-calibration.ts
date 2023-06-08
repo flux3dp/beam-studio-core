@@ -4,56 +4,216 @@
  */
 import Websocket from '../websocket';
 
-export default function() {
-    var ws = Websocket({
-            method: 'camera-calibration',
-            onMessage: (data) => {
-                events.onMessage(data);
-            },
-            onError: (response) => {
-                events.onError(response);
-            },
-            onFatal: (response) => {
-                events.onFatal(response);
-            }
-        }),
-        events = {
-            onMessage   : (response: any) => {},
-            onError     : (response: any) => {},
-            onFatal     : (response: any) => {}
-        };
+class CameraCalibrationApi {
+  private ws: any; // websocket
 
-    return {
-        /**
-         * @param {ArrayBuffer} data    - binary data with array buffer type
-         */
-        upload: (data) => {
-            let d = $.Deferred();
-            events.onMessage = (response) => {
-                switch (response.status) {
-                    case 'ok':
-                        d.resolve(response);
-                        break;
-                    case 'fail':
-                        d.resolve(response);
-                        break;
-                    case 'none':
-                        d.resolve(response);
-                        break;
-                    case 'continue':
-                        ws.send(data);
-                        break;
-                    default:
-                        console.log('strange message', response);
-                        break;
-                }
-            };
+  private events: {
+    onMessage: (response: any) => void;
+    onError: (response: any) => void;
+    onFatal: (response: any) => void;
+  };
 
-            events.onError = (response) => { d.reject(response); console.log('on error', response); };
-            events.onFatal = (response) => { d.reject(response); console.log('on fatal', response); };
-
-            ws.send(`upload ${data.size || data.byteLength}`);
-            return d.promise();
-        },
+  constructor() {
+    this.events = {
+      onMessage: () => {},
+      onError: () => {},
+      onFatal: () => {},
     };
-};
+
+    this.ws = Websocket({
+      method: 'camera-calibration',
+      onMessage: (data) => {
+        this.events.onMessage(data);
+      },
+      onError: (response) => {
+        this.events.onError(response);
+      },
+      onFatal: (response) => {
+        this.events.onFatal(response);
+      },
+    });
+  }
+
+  upload(data: Blob | ArrayBuffer): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        switch (response.status) {
+          case 'ok':
+            resolve(response);
+            break;
+          case 'fail':
+            resolve(response);
+            break;
+          case 'none':
+            resolve(response);
+            break;
+          case 'continue':
+            this.ws.send(data);
+            break;
+          default:
+            console.log('strange message', response);
+            break;
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      const size = data instanceof Blob ? data.size : data.byteLength;
+      this.ws.send(`upload ${size}`);
+    });
+  }
+
+  startFisheyeCalibrate(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        switch (response.status) {
+          case 'ok':
+            resolve(true);
+            break;
+          default:
+            console.log('strange message', response);
+            break;
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      this.ws.send('start_fisheye_calibration');
+    });
+  }
+
+  addFisheyeCalibrateImg(img: Blob | ArrayBuffer): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        switch (response.status) {
+          case 'ok':
+            resolve(true);
+            break;
+          case 'continue':
+            this.ws.send(img);
+            break;
+          default:
+            console.log('strange message', response);
+            break;
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      const size = img instanceof Blob ? img.size : img.byteLength;
+      this.ws.send(`add_fisheye_calibration_image ${size}`);
+    });
+  }
+
+  doFisheyeCalibration(): Promise<{ k: number[][]; d: number[][] }> {
+    return new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        switch (response.status) {
+          case 'ok':
+            resolve(response);
+            break;
+          case 'fail':
+            reject(response.reason);
+            break;
+          default:
+            console.log('strange message', response);
+            break;
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      this.ws.send('do_fisheye_calibration');
+    });
+  }
+
+  findVectors(img: Blob | ArrayBuffer): Promise<{ vx: number[]; vy: number[]; }> {
+    return new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        switch (response.status) {
+          case 'ok':
+            resolve(response);
+            break;
+          case 'fail':
+            reject(response.reason);
+            break;
+          case 'continue':
+            this.ws.send(img);
+            break;
+          default:
+            console.log('strange message', response);
+            break;
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      const size = img instanceof Blob ? img.size : img.byteLength;
+      this.ws.send(`find_vectors ${size}`);
+    });
+  }
+
+  findCorners(img: Blob | ArrayBuffer): Promise<{ points: number[][]; }> {
+    return new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        switch (response.status) {
+          case 'ok':
+            resolve(response);
+            break;
+          case 'fail':
+            reject(response.reason);
+            break;
+          case 'continue':
+            this.ws.send(img);
+            break;
+          default:
+            console.log('strange message', response);
+            break;
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      const size = img instanceof Blob ? img.size : img.byteLength;
+      this.ws.send(`find_corners ${size}`);
+    });
+  }
+}
+
+export default CameraCalibrationApi;

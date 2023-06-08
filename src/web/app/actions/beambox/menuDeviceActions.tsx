@@ -17,6 +17,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
+import { showFishEyeCalibration } from 'app/components/dialogs/camera/FishEyeCalibration';
 
 const { lang } = i18n;
 
@@ -28,7 +29,8 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
     }
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      showCameraCalibration(device, isBorderless);
+      if (device.model === 'fad1') showFishEyeCalibration(device);
+      else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {
     console.error(error);
