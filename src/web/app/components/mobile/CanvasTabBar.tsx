@@ -92,37 +92,28 @@ const CanvasTabBar = (): JSX.Element => {
     };
 
     if (key === 'image') {
-      events.once('addImage', () => reset());
       FnWrapper.importImage();
-    }
-    if (key === 'text') {
+      setTimeout(reset, 300);
+    } else if (key === 'text') {
       events.once('addText', () => reset());
       FnWrapper.insertText();
-    }
-    if (key === 'pen') {
+    } else if (key === 'pen') {
       events.once('addLine', () => reset());
       FnWrapper.insertPath();
-    }
-    if (key === 'lines') {
+    } else if (key === 'lines') {
       events.once('addLine', () => reset());
       FnWrapper.insertLine();
-    }
-    if (key === 'undo') {
+    } else if (key === 'undo') {
       svgEditor.clickUndo();
-      setTimeout(reset, 500);
-    }
-    if (key === 'redo') {
+      setTimeout(reset, 300);
+    } else if (key === 'redo') {
       svgEditor.clickRedo();
-      setTimeout(reset, 500);
-    }
-
-    if (key === 'camera') {
+      setTimeout(reset, 300);
+    } else if (key === 'camera') {
       showCameraPreviewDeviceList();
-    }
-
-    if (key === 'end-camera') {
+    } else if (key === 'end-camera') {
       endPreviewMode();
-      setTimeout(reset, 500);
+      setTimeout(reset, 300);
     }
   };
 
