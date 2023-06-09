@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test CalibrateRS should render correctly 1`] = `
+exports[`test Calibrate should render correctly 1`] = `
 <body>
   <div />
   <div>
@@ -85,14 +85,6 @@ exports[`test CalibrateRS should render correctly 1`] = `
             <div
               class="ant-modal-footer"
             >
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
-                type="button"
-              >
-                <span>
-                  back
-                </span>
-              </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
                 type="button"

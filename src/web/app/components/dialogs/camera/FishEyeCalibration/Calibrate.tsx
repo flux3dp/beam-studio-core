@@ -5,15 +5,14 @@ import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import useI18n from 'helpers/useI18n';
 
-import styles from './CalibrateRS.module.scss';
+import styles from './Calibrate.module.scss';
 
 interface Props {
   onClose: (complete: boolean) => void;
-  onBack: () => void;
   onNext: (img: Blob) => Promise<void>;
 }
 
-const CalibrateRS = ({ onClose, onBack, onNext }: Props): JSX.Element => {
+const Calibrate = ({ onClose, onNext }: Props): JSX.Element => {
   const lang = useI18n();
 
   const [img, setImg] = useState<{ blob: Blob, url: string }>(null);
@@ -39,9 +38,6 @@ const CalibrateRS = ({ onClose, onBack, onNext }: Props): JSX.Element => {
       onCancel={() => onClose(false)}
       title={'tCalibrate Rotate and Scale'}
       footer={[
-        <Button onClick={onBack} key="back">
-          {lang.buttons.back}
-        </Button>,
         <Button onClick={handleTakePicture} key="take-picture">
           {'tTake Picture'}
         </Button>,
@@ -60,4 +56,4 @@ const CalibrateRS = ({ onClose, onBack, onNext }: Props): JSX.Element => {
   );
 };
 
-export default CalibrateRS;
+export default Calibrate;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 
-import CalibrateRS from './CalibrateRS';
+import Calibrate from './Calibrate';
 
 const mockPopUpError = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
@@ -19,7 +19,6 @@ jest.mock('helpers/device-master', () => ({
 
 jest.mock('helpers/useI18n', () => () => ({
   buttons: {
-    back: 'back',
     next: 'next',
   },
 }));
@@ -28,10 +27,9 @@ const mockCreateObjectURL = jest.fn();
 const mockRevokeObjectURL = jest.fn();
 
 const mockOnClose = jest.fn();
-const mockOnBack = jest.fn();
 const mockOnNext = jest.fn();
 
-describe('test CalibrateRS', () => {
+describe('test Calibrate', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     global.URL.createObjectURL = mockCreateObjectURL;
@@ -42,7 +40,7 @@ describe('test CalibrateRS', () => {
   it('should render correctly', async () => {
     mockTakeOnePicture.mockResolvedValue({ imgBlob: 'blob' });
     mockCreateObjectURL.mockReturnValue('file://url');
-    const { baseElement } = render(<CalibrateRS onClose={mockOnClose} onBack={mockOnBack} onNext={mockOnNext} />);
+    const { baseElement } = render(<Calibrate onClose={mockOnClose} onNext={mockOnNext} />);
     expect(baseElement.querySelector('img').src).toBe('');
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
@@ -54,19 +52,15 @@ describe('test CalibrateRS', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  test('onBack, onClose, onNext', async () => {
+  test('onClose, onNext', async () => {
     mockTakeOnePicture.mockResolvedValue({ imgBlob: 'blob' });
     mockCreateObjectURL.mockReturnValue('file://url');
     const { baseElement, getByText } = render(
-      <CalibrateRS onClose={mockOnClose} onBack={mockOnBack} onNext={mockOnNext} />
+      <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
     );
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
-
-    expect(mockOnBack).toBeCalledTimes(0);
-    fireEvent.click(getByText('back'));
-    expect(mockOnBack).toBeCalledTimes(1);
 
     expect(mockOnClose).toBeCalledTimes(0);
     fireEvent.click(baseElement.querySelector('.ant-modal-close-x'));
@@ -81,7 +75,7 @@ describe('test CalibrateRS', () => {
     mockTakeOnePicture.mockResolvedValueOnce({ imgBlob: 'blob' }).mockResolvedValueOnce({ imgBlob: 'blob2' });
     mockCreateObjectURL.mockReturnValueOnce('file://url').mockReturnValueOnce('file://url2');
     const { baseElement, getByText } = render(
-      <CalibrateRS onClose={mockOnClose} onBack={mockOnBack} onNext={mockOnNext} />
+      <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
     );
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
