@@ -1,12 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Badge, TabBar } from 'antd-mobile';
-import { CameraIcon, LayersIcon, PenIcon, ShapesIcon } from 'app/icons/icons';
-import { FontSizeOutlined, LineOutlined } from '@ant-design/icons';
+import { FontSizeOutlined } from '@ant-design/icons';
 import { PicturesOutline, RedoOutline, UndoOutline } from 'antd-mobile-icons';
 
+import browser from 'implementations/browser';
+import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import svgEditor from 'app/actions/beambox/svg-editor';
+import useI18n from 'helpers/useI18n';
+import { CameraIcon, DmktIcon, LayersIcon, PenIcon, ShapesIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -16,6 +19,7 @@ const events = eventEmitterFactory.createEventEmitter('canvas');
 
 const CanvasTabBar = (): JSX.Element => {
   const isMobile = useIsMobile();
+  const lang = useI18n();
 
   const {
     setDisplayLayer,
@@ -28,10 +32,20 @@ const CanvasTabBar = (): JSX.Element => {
 
   const tabs = [
     {
+      key: 'camera',
+      title: '相機',
+      icon: <CameraIcon />
+    },
+    {
       key: 'image',
       title: '圖片',
       icon: <PicturesOutline />,
       badge: Badge.dot,
+    },
+    {
+      key: 'shape',
+      title: '形狀',
+      icon: <ShapesIcon />,
     },
     {
       key: 'text',
@@ -44,19 +58,19 @@ const CanvasTabBar = (): JSX.Element => {
       icon: <LayersIcon />,
     },
     {
-      key: 'shape',
-      title: '形狀',
-      icon: <ShapesIcon />,
-    },
-    {
-      key: 'lines',
-      title: '線段',
-      icon: <LineOutlined />,
-    },
-    {
       key: 'pen',
       title: '鋼筆',
       icon: <PenIcon />,
+    },
+    {
+      key: 'document',
+      title: 't文件設定',
+      icon: <PenIcon />,
+    },
+    {
+      key: 'dmkt',
+      title: 'DMKT',
+      icon: <DmktIcon />,
     },
     {
       key: 'undo',
@@ -70,20 +84,6 @@ const CanvasTabBar = (): JSX.Element => {
     },
   ];
 
-  if (!isPreviewing) {
-    tabs.push({
-      key: 'camera',
-      title: '相機',
-      icon: <CameraIcon />
-    });
-  } else {
-    tabs.push({
-      key: 'end-camera',
-      title: '關閉相機',
-      icon: <CameraIcon />
-    });
-  }
-
   const handleTabClick = (key: string) => {
     setDisplayLayer(key === 'layer');
     const reset = () => {
@@ -91,7 +91,11 @@ const CanvasTabBar = (): JSX.Element => {
       setActiveKey('none');
     };
 
-    if (key === 'image') {
+    if (key === 'camera') {
+      // showCameraPreviewDeviceList();
+      console.log('TODO: show camera tab');
+      setTimeout(reset, 300);
+    } else if (key === 'image') {
       FnWrapper.importImage();
       setTimeout(reset, 300);
     } else if (key === 'text') {
@@ -100,19 +104,23 @@ const CanvasTabBar = (): JSX.Element => {
     } else if (key === 'pen') {
       events.once('addLine', () => reset());
       FnWrapper.insertPath();
-    } else if (key === 'lines') {
-      events.once('addLine', () => reset());
-      FnWrapper.insertLine();
     } else if (key === 'undo') {
       svgEditor.clickUndo();
       setTimeout(reset, 300);
     } else if (key === 'redo') {
       svgEditor.clickRedo();
       setTimeout(reset, 300);
-    } else if (key === 'camera') {
-      showCameraPreviewDeviceList();
     } else if (key === 'end-camera') {
       endPreviewMode();
+      setTimeout(reset, 300);
+    } else if (key === 'shape') {
+      console.log('TODO: add shape panel');
+      setTimeout(reset, 300);
+    } else if (key === 'document') {
+      dialogCaller.showDocumentSettings();
+      setTimeout(reset, 300);
+    } else if (key === 'dmkt') {
+      browser.open(lang.topbar.menu.link.design_market);
       setTimeout(reset, 300);
     }
   };
