@@ -1,9 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
+import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/Workarea';
+import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 
 export default class SvgEditor extends React.Component {
@@ -259,242 +261,251 @@ export default class SvgEditor extends React.Component {
   };
 
   render(): JSX.Element {
+    const { isPathPreviewing } = this.context;
     // HIDE ALMOST ALL TOOLS USING CSS
     return (
-      <div>
-        {this.renderSvgEditor()}
-        <div id="svg_source_editor">
-          <div className="overlay" />
-          <div id="svg_source_container">
-            <div id="tool_source_back" className="toolbar_button">
-              <button id="tool_source_save" type="button">Apply Changes</button>
-              <button id="tool_source_cancel" type="button">Cancel</button>
-            </div>
-            <div id="save_output_btns">
-              <p id="copy_save_note">
-                Copy the contents of this box into a text editor, then save the
-                file with a .svg extension.
-              </p>
-              <button id="copy_save_done" type="button">Done</button>
-            </div>
-            <form>
-              <textarea
-                id="svg_source_textarea"
-                spellCheck="false"
-                defaultValue=""
-              />
-            </form>
-          </div>
-        </div>
-        <div id="svg_docprops">
-          <div className="overlay" />
-          <div id="svg_docprops_container">
-            <div id="tool_docprops_back" className="toolbar_button">
-              <button id="tool_docprops_save" type="button">OK</button>
-              <button id="tool_docprops_cancel" type="button">Cancel</button>
-            </div>
-            <fieldset id="svg_docprops_docprops">
-              <legend id="svginfo_image_props">Image Properties</legend>
-              <label>
-                <span id="svginfo_title">Title:</span>
-                <input type="text" id="canvas_title" />
-              </label>
-              <fieldset id="change_resolution">
-                <legend id="svginfo_dim">Canvas Dimensions</legend>
-                <label>
-                  <span id="svginfo_width">width:</span>
-                  {' '}
-                  <input type="text" id="canvas_width" size={6} />
-                </label>
-                <label>
-                  <span id="svginfo_height">height:</span>
-                  {' '}
-                  <input type="text" id="canvas_height" size={6} />
-                </label>
-                <label>
-                  <select id="resolution" defaultValue="predefined">
-                    <option id="selectedPredefined" value="predefined">
-                      Select predefined:
-                    </option>
-                    <option>640x480</option>
-                    <option>800x600</option>
-                    <option>1024x768</option>
-                    <option>1280x960</option>
-                    <option>1600x1200</option>
-                    <option id="fitToContent" value="content">
-                      Fit to Content
-                    </option>
-                  </select>
-                </label>
-              </fieldset>
-              <fieldset id="image_save_opts">
-                <legend id="includedImages">Included Images</legend>
-                <label>
-                  <input
-                    type="radio"
-                    name="image_opt"
-                    defaultValue="embed"
-                    defaultChecked
-                  />
-                  {' '}
-                  <span id="image_opt_embed">
-                    Embed data (local files)
-                  </span>
-                  {' '}
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="image_opt"
-                    defaultValue="ref"
-                  />
-                  {' '}
-                  <span id="image_opt_ref">Use file reference</span>
-                  {' '}
-                </label>
-              </fieldset>
-            </fieldset>
-          </div>
-        </div>
-        <div id="svg_prefs">
-          <div className="overlay" />
-          <div id="svg_prefs_container">
-            <div id="tool_prefs_back" className="toolbar_button">
-              <button id="tool_prefs_save" type="button">OK</button>
-              <button id="tool_prefs_cancel" type="button">Cancel</button>
-            </div>
-            <fieldset>
-              <legend id="svginfo_editor_prefs">Editor Preferences</legend>
-              <label>
-                <span id="svginfo_lang">Language:</span>
-                { }
-                <select id="lang_select" defaultValue="en">
-                  <option id="lang_de" value="de">
-                    Deutsche
-                  </option>
-                  <option id="lang_en" value="en">
-                    English
-                  </option>
-                  <option id="lang_zh-TW" value="zh-TW">
-                    繁體中文
-                  </option>
-                  <option id="lang_ja" value="ja">
-                    日本語
-                  </option>
-                  <option id="lang_zh-CN" value="es">
-                    Español
-                  </option>
-                  <option id="lang_zh-CN" value="zh-CN">
-                    簡中
-                  </option>
-                  <option id="lang_fr" value="fr">
-                    Français
-                  </option>
-                  <option id="lang_nl" value="nl">
-                    Nederlands
-                  </option>
-                </select>
-              </label>
-              <label>
-                <span id="svginfo_icons">Icon size:</span>
-                <select id="iconsize" defaultValue="m">
-                  <option id="icon_small" value="s">
-                    Small
-                  </option>
-                  <option id="icon_medium" value="m">
-                    Medium
-                  </option>
-                  <option id="icon_large" value="l">
-                    Large
-                  </option>
-                  <option id="icon_xlarge" value="xl">
-                    Extra Large
-                  </option>
-                </select>
-              </label>
-              <fieldset id="change_background">
-                <legend id="svginfo_change_background">
-                  Editor Background
-                </legend>
-                <div id="bg_blocks" />
-                <label>
-                  <span id="svginfo_bg_url">URL:</span>
-                  {' '}
-                  <input type="text" id="canvas_bg_url" />
-                </label>
-                <p id="svginfo_bg_note">
-                  Note: Background will not be saved with image.
+      <>
+        <div>
+          {this.renderSvgEditor()}
+          <div id="svg_source_editor">
+            <div className="overlay" />
+            <div id="svg_source_container">
+              <div id="tool_source_back" className="toolbar_button">
+                <button id="tool_source_save" type="button">Apply Changes</button>
+                <button id="tool_source_cancel" type="button">Cancel</button>
+              </div>
+              <div id="save_output_btns">
+                <p id="copy_save_note">
+                  Copy the contents of this box into a text editor, then save the
+                  file with a .svg extension.
                 </p>
+                <button id="copy_save_done" type="button">Done</button>
+              </div>
+              <form>
+                <textarea
+                  id="svg_source_textarea"
+                  spellCheck="false"
+                  defaultValue=""
+                />
+              </form>
+            </div>
+          </div>
+          <div id="svg_docprops">
+            <div className="overlay" />
+            <div id="svg_docprops_container">
+              <div id="tool_docprops_back" className="toolbar_button">
+                <button id="tool_docprops_save" type="button">OK</button>
+                <button id="tool_docprops_cancel" type="button">Cancel</button>
+              </div>
+              <fieldset id="svg_docprops_docprops">
+                <legend id="svginfo_image_props">Image Properties</legend>
+                <label>
+                  <span id="svginfo_title">Title:</span>
+                  <input type="text" id="canvas_title" />
+                </label>
+                <fieldset id="change_resolution">
+                  <legend id="svginfo_dim">Canvas Dimensions</legend>
+                  <label>
+                    <span id="svginfo_width">width:</span>
+                    {' '}
+                    <input type="text" id="canvas_width" size={6} />
+                  </label>
+                  <label>
+                    <span id="svginfo_height">height:</span>
+                    {' '}
+                    <input type="text" id="canvas_height" size={6} />
+                  </label>
+                  <label>
+                    <select id="resolution" defaultValue="predefined">
+                      <option id="selectedPredefined" value="predefined">
+                        Select predefined:
+                      </option>
+                      <option>640x480</option>
+                      <option>800x600</option>
+                      <option>1024x768</option>
+                      <option>1280x960</option>
+                      <option>1600x1200</option>
+                      <option id="fitToContent" value="content">
+                        Fit to Content
+                      </option>
+                    </select>
+                  </label>
+                </fieldset>
+                <fieldset id="image_save_opts">
+                  <legend id="includedImages">Included Images</legend>
+                  <label>
+                    <input
+                      type="radio"
+                      name="image_opt"
+                      defaultValue="embed"
+                      defaultChecked
+                    />
+                    {' '}
+                    <span id="image_opt_embed">
+                      Embed data (local files)
+                    </span>
+                    {' '}
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="image_opt"
+                      defaultValue="ref"
+                    />
+                    {' '}
+                    <span id="image_opt_ref">Use file reference</span>
+                    {' '}
+                  </label>
+                </fieldset>
               </fieldset>
-              <fieldset id="change_grid">
-                <legend id="svginfo_grid_settings">Grid</legend>
+            </div>
+          </div>
+          <div id="svg_prefs">
+            <div className="overlay" />
+            <div id="svg_prefs_container">
+              <div id="tool_prefs_back" className="toolbar_button">
+                <button id="tool_prefs_save" type="button">OK</button>
+                <button id="tool_prefs_cancel" type="button">Cancel</button>
+              </div>
+              <fieldset>
+                <legend id="svginfo_editor_prefs">Editor Preferences</legend>
                 <label>
-                  <span id="svginfo_snap_onoff">Snapping on/off</span>
-                  <input
-                    type="checkbox"
-                    defaultValue="snapping_on"
-                    id="grid_snapping_on"
-                  />
-                </label>
-                <label>
-                  <span id="svginfo_snap_step">Snapping Step-Size:</span>
-                  {' '}
-                  <input
-                    type="text"
-                    id="grid_snapping_step"
-                    size={3}
-                    defaultValue={10}
-                  />
-                </label>
-                <label>
-                  <span id="svginfo_grid_color">Grid color:</span>
-                  {' '}
-                  <input
-                    type="text"
-                    id="grid_color"
-                    size={3}
-                    defaultValue="#000"
-                  />
-                </label>
-              </fieldset>
-              <fieldset id="units_rulers">
-                <legend id="svginfo_units_rulers">Units & Rulers</legend>
-                <label>
-                  <span id="svginfo_rulers_onoff">Show rulers</span>
-                  <input
-                    type="checkbox"
-                    defaultValue="show_rulers"
-                    id="show_rulers"
-                    defaultChecked
-                  />
-                </label>
-                <label>
-                  <span id="svginfo_unit">Base Unit:</span>
-                  <select id="base_unit">
-                    <option value="px">Pixels</option>
-                    <option value="cm">Centimeters</option>
-                    <option value="mm">Millimeters</option>
-                    <option value="in">Inches</option>
-                    <option value="pt">Points</option>
-                    <option value="pc">Picas</option>
-                    <option value="em">Ems</option>
-                    <option value="ex">Exs</option>
+                  <span id="svginfo_lang">Language:</span>
+                  { }
+                  <select id="lang_select" defaultValue="en">
+                    <option id="lang_de" value="de">
+                      Deutsche
+                    </option>
+                    <option id="lang_en" value="en">
+                      English
+                    </option>
+                    <option id="lang_zh-TW" value="zh-TW">
+                      繁體中文
+                    </option>
+                    <option id="lang_ja" value="ja">
+                      日本語
+                    </option>
+                    <option id="lang_zh-CN" value="es">
+                      Español
+                    </option>
+                    <option id="lang_zh-CN" value="zh-CN">
+                      簡中
+                    </option>
+                    <option id="lang_fr" value="fr">
+                      Français
+                    </option>
+                    <option id="lang_nl" value="nl">
+                      Nederlands
+                    </option>
                   </select>
                 </label>
-                { }
-                { }
+                <label>
+                  <span id="svginfo_icons">Icon size:</span>
+                  <select id="iconsize" defaultValue="m">
+                    <option id="icon_small" value="s">
+                      Small
+                    </option>
+                    <option id="icon_medium" value="m">
+                      Medium
+                    </option>
+                    <option id="icon_large" value="l">
+                      Large
+                    </option>
+                    <option id="icon_xlarge" value="xl">
+                      Extra Large
+                    </option>
+                  </select>
+                </label>
+                <fieldset id="change_background">
+                  <legend id="svginfo_change_background">
+                    Editor Background
+                  </legend>
+                  <div id="bg_blocks" />
+                  <label>
+                    <span id="svginfo_bg_url">URL:</span>
+                    {' '}
+                    <input type="text" id="canvas_bg_url" />
+                  </label>
+                  <p id="svginfo_bg_note">
+                    Note: Background will not be saved with image.
+                  </p>
+                </fieldset>
+                <fieldset id="change_grid">
+                  <legend id="svginfo_grid_settings">Grid</legend>
+                  <label>
+                    <span id="svginfo_snap_onoff">Snapping on/off</span>
+                    <input
+                      type="checkbox"
+                      defaultValue="snapping_on"
+                      id="grid_snapping_on"
+                    />
+                  </label>
+                  <label>
+                    <span id="svginfo_snap_step">Snapping Step-Size:</span>
+                    {' '}
+                    <input
+                      type="text"
+                      id="grid_snapping_step"
+                      size={3}
+                      defaultValue={10}
+                    />
+                  </label>
+                  <label>
+                    <span id="svginfo_grid_color">Grid color:</span>
+                    {' '}
+                    <input
+                      type="text"
+                      id="grid_color"
+                      size={3}
+                      defaultValue="#000"
+                    />
+                  </label>
+                </fieldset>
+                <fieldset id="units_rulers">
+                  <legend id="svginfo_units_rulers">Units & Rulers</legend>
+                  <label>
+                    <span id="svginfo_rulers_onoff">Show rulers</span>
+                    <input
+                      type="checkbox"
+                      defaultValue="show_rulers"
+                      id="show_rulers"
+                      defaultChecked
+                    />
+                  </label>
+                  <label>
+                    <span id="svginfo_unit">Base Unit:</span>
+                    <select id="base_unit">
+                      <option value="px">Pixels</option>
+                      <option value="cm">Centimeters</option>
+                      <option value="mm">Millimeters</option>
+                      <option value="in">Inches</option>
+                      <option value="pt">Points</option>
+                      <option value="pc">Picas</option>
+                      <option value="em">Ems</option>
+                      <option value="ex">Exs</option>
+                    </select>
+                  </label>
+                  { }
+                  { }
+                </fieldset>
               </fieldset>
-            </fieldset>
+            </div>
+          </div>
+          <div id="dialog_box">
+            <div className="overlay" />
+            <div id="dialog_container">
+              <div id="dialog_content" />
+              <div id="dialog_buttons" />
+            </div>
           </div>
         </div>
-        <div id="dialog_box">
-          <div className="overlay" />
-          <div id="dialog_container">
-            <div id="dialog_content" />
-            <div id="dialog_buttons" />
-          </div>
-        </div>
-      </div>
+        {!isPathPreviewing && (
+          <ZoomBlock
+            setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
+            resetView={svgEditor.resetView}
+          />
+        )}
+      </>
     );
   }
 }
