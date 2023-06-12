@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import constant from 'app/actions/beambox/constant';
+import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/Workarea';
@@ -499,6 +500,7 @@ export default class SvgEditor extends React.Component {
             </div>
           </div>
         </div>
+        {isPathPreviewing && <PathPreview />}
         {!isPathPreviewing && (
           <ZoomBlock
             setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
