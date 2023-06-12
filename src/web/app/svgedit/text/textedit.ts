@@ -4,7 +4,7 @@
 
 import selector from 'app/svgedit/selector';
 import storage from 'implementations/storage';
-import textActions from 'app/svgedit/textactions';
+import textActions from 'app/svgedit/text/textactions';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 

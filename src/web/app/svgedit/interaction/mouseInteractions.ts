@@ -13,7 +13,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import clipboard from 'app/svgedit/operations/clipboard';
 import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
 import touchEvents from 'app/svgedit/touchEvents';
-import textEdit from 'app/svgedit/textedit';
+import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
