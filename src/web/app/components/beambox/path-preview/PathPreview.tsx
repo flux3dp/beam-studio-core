@@ -598,8 +598,7 @@ class PathPreview extends React.Component<Props, State> {
   }
 
   updateGcode = async (): Promise<void> => {
-    const { togglePathPreview, isPathPreviewing } = this.context;
-    if (!isPathPreviewing) return;
+    const { togglePathPreview } = this.context;
     const svgEditor = document.getElementById('svg_editor');
     if (svgEditor) svgEditor.style.display = '';
     const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await exportFuncs.getGcode();
@@ -704,8 +703,6 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   updateWorkspace = () => {
-    const { isPathPreviewing } = this.context;
-    if (!isPathPreviewing) return;
     const { width, height } = this.state;
     if (width !== document.getElementById('path-preview-panel').offsetWidth || height !== Math.max(dimensions.height, document.getElementById('path-preview-panel').offsetHeight - 200)) {
       this.setState({
@@ -1492,8 +1489,7 @@ class PathPreview extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const className = classNames({ mac: window.os === 'MacOS' });
-    const { togglePathPreview, isPathPreviewing } = this.context;
-    if (!isPathPreviewing) return <div />;
+    const { togglePathPreview } = this.context;
     const {
       width, height, speedLevel, workspace, isInverting, playState,
     } = this.state;

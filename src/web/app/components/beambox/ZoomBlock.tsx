@@ -20,7 +20,7 @@ interface Props {
   resetView: () => void;
 }
 
-export default class ZoomBlock extends React.Component<Props, { dpmm: number }> {
+class ZoomBlock extends React.Component<Props, { dpmm: number }> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -57,7 +57,9 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
           }
         }
       } else if (window.os === 'Windows') {
-        const res = await os.process.exec('powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"');
+        const res = await os.process.exec(
+          'powershell "Get-WmiObject -Namespace root\\wmi -Class WmiMonitorBasicDisplayParams"'
+        );
         if (!res.stderr) {
           const matchWidth = res.stdout.match(/MaxHorizontalImageSize[ ]*: (\d+)\b/);
           const matchHeight = res.stdout.match(/MaxVerticalImageSize[ ]*: (\d+)\b/);
@@ -159,8 +161,6 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
   }
 
   render(): JSX.Element {
-    const { isPathPreviewing } = this.context;
-    if (isPathPreviewing) return <div />;
     const { resetView } = this.props;
     const ratio = this.calculateCurrentRatio();
     const ratioInPercent = Math.round(ratio * 100);
@@ -192,3 +192,5 @@ export default class ZoomBlock extends React.Component<Props, { dpmm: number }> 
     );
   }
 }
+
+export default ZoomBlock;

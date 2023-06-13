@@ -16,6 +16,9 @@ jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
   );
 });
 
+jest.mock('app/components/beambox/path-preview/PathPreview', () => () => <div>MockPathPreview</div>);
+jest.mock('app/components/beambox/ZoomBlock', () => () => <div>MockZoomBlock</div>);
+
 const mockInit = jest.fn();
 jest.mock('app/actions/beambox/svg-editor', () => ({
   init: () => mockInit(),
