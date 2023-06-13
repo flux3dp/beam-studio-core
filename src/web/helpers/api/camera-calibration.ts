@@ -183,7 +183,7 @@ class CameraCalibrationApi {
     });
   }
 
-  findCorners(img: Blob | ArrayBuffer): Promise<{ points: number[][]; }> {
+  findPerspectivePoints(img: Blob | ArrayBuffer): Promise<{ points: number[][]; }> {
     return new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         switch (response.status) {
@@ -211,7 +211,7 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
-      this.ws.send(`find_corners ${size}`);
+      this.ws.send(`find_perspective_points ${size}`);
     });
   }
 }

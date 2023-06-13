@@ -143,4 +143,6 @@ export const sendPictureThenSetConfig = async (
 export const startFisheyeCalibrate = (): Promise<boolean> => api.startFisheyeCalibrate();
 export const addFisheyeCalibrateImg = (imgBlob: Blob): Promise<boolean> => api.addFisheyeCalibrateImg(imgBlob);
 export const doFishEyeCalibration = (): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration();
-export const findCorners = (imgBlob: Blob): Promise<{ points: number[][]; }> => api.findCorners(imgBlob);
+export const findPerspectivePoints = (imgBlob: Blob): Promise<{
+  points: number[][];
+}> => api.findPerspectivePoints(imgBlob);

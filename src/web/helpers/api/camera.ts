@@ -103,7 +103,7 @@ class Camera {
       this.requireFrameRetry = 0;
       const imgBlob = await this.preprocessImage(blob);
       return { imgBlob, needCameraCableAlert };
-    })).pipe(concatMap((p) => from(p)));
+    })).pipe(concatMap((p) => from(p))).pipe(filter((res) => res !== null));
     this.nonBinarySource = nonBinary as Observable<{ status: string }>;
   }
 
