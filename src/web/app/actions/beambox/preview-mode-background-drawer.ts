@@ -3,8 +3,8 @@ import { concatMap } from 'rxjs/operators';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
+import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -79,9 +79,13 @@ class PreviewModeBackgroundDrawer {
     }
   }
 
+  async drawFullWorkarea(imgUrl, deviceModel: WorkAreaModel, callBack = () => { }) {
+    const p = this.preprocessFullWorkareaImg(imgUrl, callBack);
+    this.backgroundDrawerSubject.next(p);
+  }
+
   async draw(imgUrl, x, y, last = false, callBack = () => { }) {
     const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last, callBack);
-
     this.backgroundDrawerSubject.next(p);
     // await p;
     // if you want to know the time when image transfer to Blob,
@@ -123,6 +127,7 @@ class PreviewModeBackgroundDrawer {
     const canvasBackground = svgedit.utilities.getElem('canvasBackground');
     const canvasGrid = svgedit.utilities.getElem('canvasGrid');
     const previewBoundary = this.getPreviewBoundary();
+    if (!previewBoundary) return;
     if (canvasGrid.nextSibling) {
       canvasBackground.insertBefore(previewBoundary, canvasGrid.nextSibling);
     } else {
@@ -183,6 +188,18 @@ class PreviewModeBackgroundDrawer {
     svgCanvas.setBackground('#fff', this.cameraCanvasUrl);
   }
 
+  preprocessFullWorkareaImg = async (imgUrl: string, callBack = () => { }) => new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      this.canvas.getContext('2d').drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.canvas.toBlob((blob) => {
+        resolve(blob);
+        setTimeout(callBack, 1000);
+      });
+    };
+    img.src = imgUrl;
+  });
+
   prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last = false, callBack = () => { }) {
     const img = new Image();
     img.src = imgUrl;
@@ -212,9 +229,7 @@ class PreviewModeBackgroundDrawer {
         if (minY < this.coordinates.minY) {
           this.coordinates.minY = minY;
         }
-        console.log(this.canvas.width, this.canvas.height);
         this.canvas.getContext('2d').drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
-        // this.canvas.getContext('2d').drawImage(regulatedImg, 0, 0, this.canvas.width, this.canvas.height);
         this.canvas.toBlob((blob) => {
           resolve(blob);
           if (last) {
@@ -251,6 +266,7 @@ class PreviewModeBackgroundDrawer {
   }
 
   getPreviewBoundary() {
+    if (!this.cameraOffset) return null;
     const previewBoundaryId = 'previewBoundary';
     const color = 'rgba(204,204,204,0.8)';
     const stripeColor = 'rgba(102,102,102,0.8)';
@@ -266,11 +282,12 @@ class PreviewModeBackgroundDrawer {
     const patternLine = svgdoc.createElementNS(NS.SVG, 'line');
     const descText = svgdoc.createElementNS(NS.SVG, 'text');
 
+    const workarea = BeamboxPreference.read('workarea');
     svgedit.utilities.assignAttributes(boundaryGroup, {
       id: previewBoundaryId,
       width: '100%',
       height: '100%',
-      viewBox: `0 0 ${Constant.dimension.getWidth(BeamboxPreference.read('workarea'))} ${Constant.dimension.getHeight(BeamboxPreference.read('workarea'))}`,
+      viewBox: `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`,
       x: 0,
       y: 0,
       style: 'pointer-events:none',
@@ -303,7 +320,7 @@ class PreviewModeBackgroundDrawer {
     });
 
     svgedit.utilities.assignAttributes(borderTop, {
-      width: Constant.dimension.getWidth(BeamboxPreference.read('workarea')),
+      width: Constant.dimension.getWidth(workarea),
       height: uncapturabledHeight,
       x: 0,
       y: 0,
@@ -332,7 +349,7 @@ class PreviewModeBackgroundDrawer {
     boundaryGroup.appendChild(borderTop);
     if (
       BeamboxPreference.read('enable-diode')
-      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+      && Constant.addonsSupportList.hybridLaser.includes(workarea)
     ) {
       const {
         hybridBorder,
@@ -361,17 +378,18 @@ class PreviewModeBackgroundDrawer {
     const { NS } = svgedit;
     const openBottomBoundary = svgdoc.createElementNS(NS.SVG, 'rect');
     const openBottomDescText = svgdoc.createElementNS(NS.SVG, 'text');
+    const workarea = BeamboxPreference.read('workarea');
     svgedit.utilities.assignAttributes(openBottomBoundary, {
       width: Constant.borderless.safeDistance.X * Constant.dpmm,
-      height: Constant.dimension.getHeight(BeamboxPreference.read('workarea')),
-      x: Constant.dimension.getWidth(BeamboxPreference.read('workarea')) - Constant.borderless.safeDistance.X * Constant.dpmm,
+      height: Constant.dimension.getHeight(workarea),
+      x: Constant.dimension.getWidth(workarea) - Constant.borderless.safeDistance.X * Constant.dpmm,
       y: 0,
       fill: 'url(#border-pattern)',
       style: 'pointer-events:none',
     });
     svgedit.utilities.assignAttributes(openBottomDescText, {
       'font-size': 60,
-      x: Constant.dimension.getWidth(BeamboxPreference.read('workarea')) - (uncapturabledHeight - 60) / 2,
+      x: Constant.dimension.getWidth(workarea) - (uncapturabledHeight - 60) / 2,
       y: (uncapturabledHeight + 60) / 2 - 10,
       'text-anchor': 'end',
       'font-weight': 'bold',
@@ -392,17 +410,18 @@ class PreviewModeBackgroundDrawer {
     const { NS } = svgedit;
     const hybridBorder = svgdoc.createElementNS(NS.SVG, 'rect');
     const hybridDescText = svgdoc.createElementNS(NS.SVG, 'text');
+    const workarea = BeamboxPreference.read('workarea');
     svgedit.utilities.assignAttributes(hybridBorder, {
       width: Constant.diode.safeDistance.X * Constant.dpmm,
-      height: Constant.dimension.getHeight(BeamboxPreference.read('workarea')),
-      x: Constant.dimension.getWidth(BeamboxPreference.read('workarea')) - Constant.diode.safeDistance.X * Constant.dpmm,
+      height: Constant.dimension.getHeight(workarea),
+      x: Constant.dimension.getWidth(workarea) - Constant.diode.safeDistance.X * Constant.dpmm,
       y: 0,
       fill: 'url(#border-pattern)',
       style: 'pointer-events:none',
     });
     svgedit.utilities.assignAttributes(hybridDescText, {
       'font-size': 60,
-      x: Constant.dimension.getWidth(BeamboxPreference.read('workarea')) - (uncapturabledHeight - 60) / 2,
+      x: Constant.dimension.getWidth(workarea) - (uncapturabledHeight - 60) / 2,
       y: (uncapturabledHeight + 60) / 2 - 10,
       'text-anchor': 'end',
       'font-weight': 'bold',
