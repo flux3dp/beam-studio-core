@@ -24,41 +24,39 @@ const LANG_ALERT = i18n.lang.alert;
 const StepRefocus = (): JSX.Element => {
   const context = useContext(CalibrationContext);
   const {
+    calibratedMachines,
     device,
     gotoNextStep,
     onClose,
+    setCalibratedMachines,
+    setCameraPosition,
+    setCurrentOffset,
+    setImgBlobUrl,
+    setLastConfig,
     setOriginFanSpeed,
   } = context;
   const doCuttingTask = async () => {
-    const res = await DeviceMaster.select(context.device);
+    const res = await DeviceMaster.select(device);
     if (!res.success) {
       throw new Error('Fail to select device');
     }
     const laserPower = Number((await DeviceMaster.getLaserPower()).value);
     const fanSpeed = Number((await DeviceMaster.getFan()).value);
     setOriginFanSpeed(fanSpeed);
-    const tempCmdAvailable = VersionChecker(context.device.version).meetRequirement('TEMP_I2C_CMD');
-    if (tempCmdAvailable) {
-      await DeviceMaster.setFanTemp(100);
-    } else if (fanSpeed > 100) {
-      await DeviceMaster.setFan(100);
-    }
-    if (laserPower !== 1) {
-      await DeviceMaster.setLaserPower(1);
-    }
+    const tempCmdAvailable = VersionChecker(device.version).meetRequirement('TEMP_I2C_CMD');
+    if (tempCmdAvailable) await DeviceMaster.setFanTemp(100);
+    else if (fanSpeed > 100) await DeviceMaster.setFan(100);
+
+    if (laserPower !== 1) await DeviceMaster.setLaserPower(1);
     await DeviceMaster.runBeamboxCameraTest();
-    if (laserPower !== 1) {
-      await DeviceMaster.setLaserPower(Number(laserPower));
-    }
-    if (!tempCmdAvailable) {
-      await DeviceMaster.setFan(fanSpeed);
-    }
+    if (laserPower !== 1) await DeviceMaster.setLaserPower(Number(laserPower));
+    if (!tempCmdAvailable) await DeviceMaster.setFan(fanSpeed);
   };
   const doCaptureTask = async () => {
     let blobUrl;
     try {
-      await PreviewModeController.start(context.device, () => console.log('camera fail. stop preview mode'));
-      context.setLastConfig(PreviewModeController.getCameraOffsetStandard());
+      await PreviewModeController.start(device, () => console.log('camera fail. stop preview mode'));
+      setLastConfig(PreviewModeController.getCameraOffsetStandard());
       Progress.openNonstopProgress({
         id: 'taking-picture',
         message: LANG.taking_picture,
@@ -67,7 +65,7 @@ const StepRefocus = (): JSX.Element => {
       const movementX = Constant.camera.calibrationPicture.centerX - Constant.camera.offsetX_ideal;
       const movementY = Constant.camera.calibrationPicture.centerY - Constant.camera.offsetY_ideal;
       blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
-      context.setCameraPosition({ x: movementX, y: movementY });
+      setCameraPosition({ x: movementX, y: movementY });
     } finally {
       Progress.popById('taking-picture');
     }
@@ -79,10 +77,10 @@ const StepRefocus = (): JSX.Element => {
     await doGetOffsetFromPicture(
       blobUrl,
       (offset: CameraConfig) => {
-        context.setCurrentOffset(offset);
+        setCurrentOffset(offset);
       },
     );
-    context.setImgBlobUrl(blobUrl);
+    setImgBlobUrl(blobUrl);
   };
 
   const [isAutoFocus, setIsAutoFocus] = useState(false);
@@ -136,9 +134,9 @@ const StepRefocus = (): JSX.Element => {
     try {
       setIsCutButtonDisabled(true);
       await cutThenCapture();
-      if (!context.calibratedMachines.includes(device.uuid)) {
-        context.setCalibratedMachines(
-          [...context.calibratedMachines, device.uuid],
+      if (!calibratedMachines.includes(device.uuid)) {
+        setCalibratedMachines(
+          [...calibratedMachines, device.uuid],
         );
       }
       gotoNextStep(STEP_BEFORE_ANALYZE_PICTURE);

@@ -37,7 +37,8 @@ export type StorageKey =
   | 'black-list'
   | 'host'
   | 'did-gesture-tutorial'
-  | 'last-record-activity';
+  | 'last-record-activity'
+  | 'fisheye-calibration';
 
 export interface IStorage {
   get(name: StorageKey): any;

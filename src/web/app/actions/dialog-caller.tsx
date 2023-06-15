@@ -53,6 +53,11 @@ const popDialogById = (id: string): void => {
 };
 
 let promptIndex = 0;
+const getPromptId = (): string => {
+  const id = `prompt-${promptIndex}`;
+  promptIndex = (promptIndex + 1) % 10000;
+  return id;
+};
 
 const showLoginDialog = (callback?: () => void, silent = false): void => {
   if (isIdExist('flux-id-login')) return;
@@ -75,6 +80,20 @@ const showDeviceSelector = (onSelect) => {
     <DeviceSelector
       onSelect={onSelect}
       onClose={() => popDialogById('device-selector')}
+    />);
+};
+
+const promptDialog = (args: IPrompt): void => {
+  const id = getPromptId();
+  promptIndex = (promptIndex + 1) % 10000;
+  addDialogComponent(id,
+    <Prompt
+      caption={args.caption}
+      message={args.message}
+      defaultValue={args.defaultValue}
+      onYes={args.onYes}
+      onCancel={args.onCancel}
+      onClose={() => popDialogById(id)}
     />);
 };
 
@@ -211,24 +230,16 @@ export default {
         }}
       />);
   },
-  promptDialog: (args: IPrompt): void => {
-    const id = `prompt-${promptIndex}`;
-    promptIndex = (promptIndex + 1) % 10000;
-    addDialogComponent(id,
-      <Prompt
-        caption={args.caption}
-        message={args.message}
-        defaultValue={args.defaultValue}
-        onYes={args.onYes}
-        onCancel={args.onCancel}
-        onClose={() => popDialogById(id)}
-      />);
-  },
+  promptDialog,
+  getPromptValue: (args: IPrompt): Promise<string | null> => new Promise((resolve) => {
+    const onYes = (val?: string) => resolve(val);
+    const onCancel = () => resolve(null);
+    promptDialog({ ...args, onYes, onCancel });
+  }),
   showConfirmPromptDialog: (
     args: { caption?: string, message?: string, confirmValue?: string },
   ): Promise<boolean> => new Promise((resolve) => {
-    const id = `prompt-${promptIndex}`;
-    promptIndex = (promptIndex + 1) % 10000;
+    const id = getPromptId();
     addDialogComponent(id,
       <Prompt
         caption={args.caption}
