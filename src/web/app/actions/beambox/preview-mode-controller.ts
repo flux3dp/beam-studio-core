@@ -1,19 +1,22 @@
 /* eslint-disable no-console */
-import Alert from 'app/actions/alert-caller';
-import Progress from 'app/actions/progress-caller';
-import AlertConstants from 'app/constants/alert-constants';
-import ErrorConstants from 'app/constants/error-constants';
-import AlertConfig from 'helpers/api/alert-config';
-import DeviceMaster from 'helpers/device-master';
 import { sprintf } from 'sprintf-js';
-import VersionChecker from 'helpers/version-checker';
+
+import Alert from 'app/actions/alert-caller';
+import AlertConfig from 'helpers/api/alert-config';
+import AlertConstants from 'app/constants/alert-constants';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import dialogCaller from 'app/actions/dialog-caller';
+import deviceMaster from 'helpers/device-master';
+import ErrorConstants from 'app/constants/error-constants';
 import i18n from 'helpers/i18n';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
+import Progress from 'app/actions/progress-caller';
+import storage from 'implementations/storage';
+import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
-import BeamboxPreference from './beambox-preference';
-import Constant from './constant';
-import PreviewModeBackgroundDrawer from './preview-mode-background-drawer';
-import MessageCaller, { MessageLevel } from '../message-caller';
 
 const { $ } = window;
 const LANG = i18n.lang;
@@ -23,7 +26,7 @@ class PreviewModeController {
 
   originalSpeed: number;
 
-  storedDevice: IDeviceInfo;
+  currentDevice: IDeviceInfo;
 
   isPreviewModeOn: boolean;
 
@@ -40,7 +43,7 @@ class PreviewModeController {
   constructor() {
     this.isDrawing = false;
     this.originalSpeed = 1;
-    this.storedDevice = null;
+    this.currentDevice = null;
     this.isPreviewModeOn = false;
     this.isPreviewBlocked = false;
     this.isLineCheckEnabled = true;
@@ -49,10 +52,63 @@ class PreviewModeController {
     this.errorCallback = () => {};
   }
 
+  async setupBeamSeriesPreviewMode(device: IDeviceInfo) {
+    await this.retrieveCameraOffset();
+
+    Progress.update('start-preview-mode', { message: LANG.message.gettingLaserSpeed });
+    const laserSpeed = await deviceMaster.getLaserSpeed();
+
+    if (Number(laserSpeed.value) !== 1) {
+      this.originalSpeed = Number(laserSpeed.value);
+      Progress.update('start-preview-mode', { message: LANG.message.settingLaserSpeed });
+      await deviceMaster.setLaserSpeed(1);
+    }
+    Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
+    await deviceMaster.enterRawMode();
+    Progress.update('start-preview-mode', { message: LANG.message.exitingRotaryMode });
+    await deviceMaster.rawSetRotary(false);
+    Progress.update('start-preview-mode', { message: LANG.message.homing });
+    await deviceMaster.rawHome();
+    const vc = VersionChecker(device.version);
+    if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
+      await deviceMaster.rawStartLineCheckMode();
+      this.isLineCheckEnabled = true;
+    } else {
+      this.isLineCheckEnabled = false;
+    }
+    Progress.update('start-preview-mode', { message: LANG.message.turningOffFan });
+    await deviceMaster.rawSetFan(false);
+    Progress.update('start-preview-mode', { message: LANG.message.turningOffAirPump });
+    await deviceMaster.rawSetAirPump(false);
+    await deviceMaster.rawSetWaterPump(false);
+  }
+
+  setUpFishEyePreviewMode = async (device: IDeviceInfo) => {
+    // TODO: retrieve in machine firmware
+    const fisheyeMatrix = storage.get('fisheye-calibration')?.[device.uuid];
+    const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
+    if (val !== null) {
+      const height = Number(val);
+      if (!Number.isNaN(height)) fisheyeMatrix.z = height;
+    }
+    await deviceMaster.setFisheyeParam(fisheyeMatrix, true);
+  };
+
+  async endBeamSeriesPreviewMode() {
+    if (deviceMaster.currentControlMode !== 'raw') await deviceMaster.enterRawMode();
+    if (this.isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
+    await deviceMaster.rawLooseMotor();
+    await deviceMaster.endRawMode();
+    if (this.originalSpeed !== 1) {
+      await deviceMaster.setLaserSpeed(this.originalSpeed);
+      this.originalSpeed = 1;
+    }
+  }
+
   async start(device, errCallback) {
     await this.reset();
 
-    const res = await DeviceMaster.select(device);
+    const res = await deviceMaster.select(device);
     if (!res.success) {
       return;
     }
@@ -63,53 +119,20 @@ class PreviewModeController {
         message: sprintf(LANG.message.connectingMachine, device.name),
         timeout: 30000,
       });
-      await this.retrieveCameraOffset();
-
-      Progress.update('start-preview-mode', { message: LANG.message.gettingLaserSpeed });
-      const laserSpeed = await DeviceMaster.getLaserSpeed();
-
-      if (Number(laserSpeed.value) !== 1) {
-        this.originalSpeed = Number(laserSpeed.value);
-        Progress.update('start-preview-mode', { message: LANG.message.settingLaserSpeed });
-        await DeviceMaster.setLaserSpeed(1);
-      }
-      Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
-      await DeviceMaster.enterRawMode();
-      Progress.update('start-preview-mode', { message: LANG.message.exitingRotaryMode });
-      await DeviceMaster.rawSetRotary(false);
-      Progress.update('start-preview-mode', { message: LANG.message.homing });
-      await DeviceMaster.rawHome();
-      const vc = VersionChecker(device.version);
-      if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
-        await DeviceMaster.rawStartLineCheckMode();
-        this.isLineCheckEnabled = true;
-      } else {
-        this.isLineCheckEnabled = false;
-      }
-      Progress.update('start-preview-mode', { message: LANG.message.turningOffFan });
-      await DeviceMaster.rawSetFan(false);
-      Progress.update('start-preview-mode', { message: LANG.message.turningOffAirPump });
-      await DeviceMaster.rawSetAirPump(false);
-      await DeviceMaster.rawSetWaterPump(false);
+      if (device.model !== 'fad1') await this.setupBeamSeriesPreviewMode(device);
       Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
-      await DeviceMaster.connectCamera();
+      await deviceMaster.connectCamera();
+      if (device.model === 'fad1') await this.setUpFishEyePreviewMode(device);
+
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
-
-      this.storedDevice = device;
-      DeviceMaster.setDeviceControlReconnectOnClose(device);
+      this.currentDevice = device;
+      deviceMaster.setDeviceControlReconnectOnClose(device);
       this.errorCallback = errCallback;
       this.isPreviewModeOn = true;
     } catch (error) {
-      if (this.originalSpeed !== 1) {
-        DeviceMaster.setLaserSpeed(this.originalSpeed);
-        this.originalSpeed = 1;
-      }
-      if (this.isLineCheckEnabled) {
-        DeviceMaster.rawEndLineCheckMode();
-      }
-      DeviceMaster.endRawMode();
-      DeviceMaster.kick();
+      if (device.model !== 'fad1') await this.endBeamSeriesPreviewMode();
+      deviceMaster.kick();
       throw error;
     } finally {
       Progress.popById('start-preview-mode');
@@ -121,32 +144,49 @@ class PreviewModeController {
     this.isPreviewModeOn = false;
     PreviewModeBackgroundDrawer.clearBoundary();
     PreviewModeBackgroundDrawer.end();
-    const { storedDevice } = this;
+    const { currentDevice } = this;
     await this.reset();
-    if (storedDevice) {
-      DeviceMaster.setDeviceControlDefaultCloseListener(storedDevice);
-      const res = await DeviceMaster.select(storedDevice);
+    if (currentDevice) {
+      deviceMaster.setDeviceControlDefaultCloseListener(currentDevice);
+      const res = await deviceMaster.select(currentDevice);
       if (res.success) {
-        if (DeviceMaster.currentControlMode !== 'raw') {
-          await DeviceMaster.enterRawMode();
-        }
-        if (this.isLineCheckEnabled) {
-          await DeviceMaster.rawEndLineCheckMode();
-        }
-        await DeviceMaster.rawLooseMotor();
-        await DeviceMaster.endRawMode();
-        if (this.originalSpeed !== 1) {
-          await DeviceMaster.setLaserSpeed(this.originalSpeed);
-          this.originalSpeed = 1;
-        }
-        DeviceMaster.kick();
+        if (currentDevice.model !== 'fad1') await this.endBeamSeriesPreviewMode();
+        deviceMaster.kick();
       }
     }
   }
 
-  async preview(x, y, last = false, callback = () => { }): Promise<boolean> {
-    if (this.isPreviewBlocked) {
+  async previewFullWorkarea(callback = () => { }): Promise<boolean> {
+    const { currentDevice, isPreviewBlocked } = this;
+    if (isPreviewBlocked) return false;
+    this.isDrawing = true;
+    this.isPreviewBlocked = true;
+    try {
+      const imgUrl = await this.getPhotoFromMachine();
+      PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, currentDevice.model as WorkAreaModel);
+      this.isPreviewBlocked = false;
+      return true;
+    } catch (error) {
+      if (this.isPreviewModeOn) {
+        console.log(error);
+        Alert.popUp({
+          type: AlertConstants.SHOW_POPUP_ERROR,
+          message: error.message || error.text,
+        });
+      }
+      if (!PreviewModeBackgroundDrawer.isClean()) this.isDrawing = false;
+      this.end();
+      callback();
       return false;
+    }
+  }
+
+  async preview(x, y, last = false, callback = () => { }): Promise<boolean> {
+    const { isPreviewBlocked, currentDevice } = this;
+    if (isPreviewBlocked) return false;
+    if (currentDevice.model === 'fad1') {
+      const res = await this.previewFullWorkarea(callback);
+      return res;
     }
     this.isDrawing = true;
     this.isPreviewBlocked = true;
@@ -160,9 +200,7 @@ class PreviewModeController {
 
       $('#workarea').css('cursor', 'url(img/camera-cursor.svg), cell');
       this.isPreviewBlocked = false;
-      if (last) {
-        this.isDrawing = false;
-      }
+      if (last) this.isDrawing = false;
       return true;
     } catch (error) {
       if (this.isPreviewModeOn) {
@@ -283,7 +321,7 @@ class PreviewModeController {
     try {
       if (this.isLineCheckEnabled) {
         Progress.update('start-preview-mode', { message: LANG.message.endingLineCheckMode });
-        await DeviceMaster.rawEndLineCheckMode();
+        await deviceMaster.rawEndLineCheckMode();
       }
     } catch (error) {
       if (error.message === ErrorConstants.CONTROL_SOCKET_MODE_ERROR) {
@@ -297,14 +335,14 @@ class PreviewModeController {
     // cannot getDeviceSetting during RawMode. So we force to end it.
     try {
       Progress.update('start-preview-mode', { message: LANG.message.endingRawMode });
-      await DeviceMaster.endRawMode();
+      await deviceMaster.endRawMode();
     } catch (error) {
       if (error.status === 'error' && (error.error && error.error[0] === 'OPERATION_ERROR')) {
         // do nothing.
         console.log('Not in raw mode right now');
       } else if (error.status === 'error' && error.error === 'TIMEOUT') {
         console.log('Timeout has occur when end raw mode, reconnecting');
-        await DeviceMaster.reconnect();
+        await deviceMaster.reconnect();
       } else {
         console.log(error);
       }
@@ -314,7 +352,7 @@ class PreviewModeController {
     const configName = (supportOpenBottom && borderless) ? 'camera_offset_borderless' : 'camera_offset';
 
     Progress.update('start-preview-mode', { message: LANG.message.retrievingCameraOffset });
-    const resp = await DeviceMaster.getDeviceSetting(configName);
+    const resp = await deviceMaster.getDeviceSetting(configName);
     console.log(`Reading ${configName}\nResp = ${resp.value}`);
     resp.value = ` ${resp.value}`;
     this.cameraOffset = {
@@ -337,19 +375,21 @@ class PreviewModeController {
   }
 
   async reset() {
-    this.storedDevice = null;
+    this.currentDevice = null;
     this.isPreviewModeOn = false;
     this.isPreviewBlocked = false;
     this.cameraOffset = null;
     this.lastPosition = [0, 0];
-    DeviceMaster.disconnectCamera();
+    deviceMaster.disconnectCamera();
   }
 
   constrainPreviewXY(x, y) {
-    const isDiodeEnabled = BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'));
+    const workarea = BeamboxPreference.read('workarea');
+    const isDiodeEnabled = BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(workarea);
     const isBorderlessEnabled = BeamboxPreference.read('borderless');
-    let maxWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-    let maxHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+    let maxWidth = Constant.dimension.getWidth(workarea);
+    let maxHeight = Constant.dimension.getHeight(workarea);
     if (isDiodeEnabled) {
       maxWidth -= Constant.diode.safeDistance.X * Constant.dpmm;
       maxHeight -= Constant.diode.safeDistance.Y * Constant.dpmm;
@@ -380,7 +420,10 @@ class PreviewModeController {
       x: movementX, // mm
       y: movementY, // mm
     };
-    if (BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+    if (
+      BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+    ) {
       if (BeamboxPreference.read('preview_movement_speed_hl')) {
         feedrate = BeamboxPreference.read('preview_movement_speed_hl');
       } else {
@@ -391,11 +434,11 @@ class PreviewModeController {
     }
     movement.f = feedrate; // firmware will used limited x, y speed still
 
-    const selectRes = await DeviceMaster.select(this.storedDevice);
+    const selectRes = await deviceMaster.select(this.currentDevice);
     if (!selectRes.success) {
       return null;
     }
-    const moveRes = await DeviceMaster.rawMove(movement);
+    const moveRes = await deviceMaster.rawMove(movement);
     if (moveRes) {
       console.log('Preview raw move respond: ', moveRes.text);
     }
@@ -410,7 +453,10 @@ class PreviewModeController {
   async waitUntilEstimatedMovementTime(movementX, movementY) {
     let feedrate = Math.min(Constant.camera.movementSpeed.x, Constant.camera.movementSpeed.y);
 
-    if (BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+    if (
+      BeamboxPreference.read('enable-diode')
+      && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+    ) {
       if (BeamboxPreference.read('preview_movement_speed_hl')) {
         feedrate = BeamboxPreference.read('preview_movement_speed_hl');
       } else {
@@ -431,7 +477,7 @@ class PreviewModeController {
 
   // just for getPhotoAfterMoveTo()
   async getPhotoFromMachine() {
-    const { imgBlob, needCameraCableAlert } = await DeviceMaster.takeOnePicture() ?? {};
+    const { imgBlob, needCameraCableAlert } = await deviceMaster.takeOnePicture() ?? {};
     if (!imgBlob) {
       throw new Error(LANG.message.camera.ws_closed_unexpectly);
     } else if (needCameraCableAlert && !AlertConfig.read('skip_camera_cable_alert')) {
