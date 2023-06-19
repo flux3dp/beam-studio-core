@@ -1,12 +1,12 @@
 import Constant from 'app/actions/beambox/constant';
 import CameraCalibrationApi from 'helpers/api/camera-calibration';
+import deviceMaster from 'helpers/device-master';
 import VersionChecker from 'helpers/version-checker';
-import DeviceMaster from 'helpers/device-master';
 import { CALIBRATION_PARAMS, CameraConfig, DEFAULT_CAMERA_OFFSET } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import i18n from './i18n';
 
-const api = CameraCalibrationApi();
+const api = new CameraCalibrationApi();
 
 const doAnalyzeResult = async (
   imgBlobUrl: string,
@@ -66,14 +66,13 @@ export const doSendPictureTask = async (imgBlobUrl: string): Promise<CameraConfi
     .then((res) => res.blob())
     .then((blob) => {
       const fileReader = new FileReader();
-      fileReader.onloadend = (e) => {
-        api.upload(e.target.result)
-          .done((resp) => {
-            d.resolve(resp);
-          })
-          .fail((resp) => {
-            d.reject(resp.toString());
-          });
+      fileReader.onloadend = async (e) => {
+        try {
+          const resp = await api.upload(e.target.result as ArrayBuffer);
+          d.resolve(resp);
+        } catch (resp) {
+          d.reject(resp.toString());
+        }
       };
       fileReader.readAsArrayBuffer(blob);
     })
@@ -118,9 +117,9 @@ const doSetConfigTask = async (device, data: CameraConfig, borderless) => {
   const parameterName = borderless ? 'camera_offset_borderless' : 'camera_offset';
   const vc = VersionChecker(device.version);
   if (vc.meetRequirement('BEAMBOX_CAMERA_CALIBRATION_XY_RATIO')) {
-    await DeviceMaster.setDeviceSetting(parameterName, `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2} SX:${SX} SY:${SY}`);
+    await deviceMaster.setDeviceSetting(parameterName, `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2} SX:${SX} SY:${SY}`);
   } else {
-    await DeviceMaster.setDeviceSetting(parameterName, `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2}`);
+    await deviceMaster.setDeviceSetting(parameterName, `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2}`);
   }
 };
 
@@ -140,3 +139,10 @@ export const sendPictureThenSetConfig = async (
     throw new Error(i18n.lang.camera_calibration.analyze_result_fail);
   }
 };
+
+export const startFisheyeCalibrate = (): Promise<boolean> => api.startFisheyeCalibrate();
+export const addFisheyeCalibrateImg = (imgBlob: Blob): Promise<boolean> => api.addFisheyeCalibrateImg(imgBlob);
+export const doFishEyeCalibration = (): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration();
+export const findPerspectivePoints = (imgBlob: Blob): Promise<{
+  points: number[][];
+}> => api.findPerspectivePoints(imgBlob);

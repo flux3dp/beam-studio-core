@@ -11,6 +11,7 @@ import { SelectionResult, ConnectionError } from 'app/constants/connection-const
 import DeviceConstants from 'app/constants/device-constants';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
 import storage from 'implementations/storage';
+import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
 import Camera from './api/camera';
@@ -514,7 +515,10 @@ class DeviceMaster {
       throw Error('UPLOAD_FAILED');
     }
 
-    Progress.openSteppingProgress({ id: 'camera-cali-task', message: lang.camera_calibration.drawing_calibration_image });
+    Progress.openSteppingProgress({
+      id: 'camera-cali-task',
+      message: lang.camera_calibration.drawing_calibration_image,
+    });
     const taskTotalSecs = 30;
     let elapsedSecs = 0;
     const progressUpdateTimer = setInterval(() => {
@@ -541,7 +545,8 @@ class DeviceMaster {
 
   async doDiodeCalibrationCut() {
     const vc = VersionChecker(this.currentDevice.info.version);
-    const fcode = vc.meetRequirement('CALIBRATION_MODE') ? DeviceConstants.DIODE_CALIBRATION_WITH_MODE : DeviceConstants.DIODE_CALIBRATION;
+    const fcode = vc.meetRequirement('CALIBRATION_MODE')
+      ? DeviceConstants.DIODE_CALIBRATION_WITH_MODE : DeviceConstants.DIODE_CALIBRATION;
     const res = await fetch(fcode);
     const blob = await res.blob();
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
@@ -576,6 +581,49 @@ class DeviceMaster {
       clearInterval(progressUpdateTimer);
       Progress.popById('diode-cali-task');
       throw err;
+    }
+  }
+
+  async doAdorCalibrationCut() {
+    const vc = VersionChecker(this.currentDevice.info.version);
+    const fcode = DeviceConstants.ADOR_CALIBRATION;
+    const res = await fetch(fcode);
+    const blob = await res.blob();
+    if (vc.meetRequirement('RELOCATE_ORIGIN')) {
+      await this.setOriginX(0);
+      await this.setOriginY(0);
+    }
+    try {
+      await this.go(blob);
+    } catch {
+      throw Error('UPLOAD_FAILED');
+    }
+
+    Progress.openSteppingProgress({
+      id: 'ador-cali-task',
+      message: lang.camera_calibration.drawing_calibration_image,
+    });
+    const taskTotalSecs = 10;
+    let elapsedSecs = 0;
+    const progressUpdateTimer = setInterval(() => {
+      elapsedSecs += 0.1;
+      if (elapsedSecs > taskTotalSecs) {
+        clearInterval(progressUpdateTimer);
+        return;
+      }
+      Progress.update('ador-cali-task', {
+        percentage: (elapsedSecs / taskTotalSecs) * 100,
+      });
+    }, 100);
+
+    try {
+      await this.waitTillCompleted();
+      clearInterval(progressUpdateTimer);
+      Progress.popById('ador-cali-task');
+    } catch (err) {
+      clearInterval(progressUpdateTimer);
+      Progress.popById('ador-cali-task');
+      throw err; // Error while running test
     }
   }
 
@@ -876,6 +924,15 @@ class DeviceMaster {
     }
     currentDevice.camera = new Camera(shouldCrop, currentDevice.cameraNeedsFlip);
     await currentDevice.camera.createWs(currentDevice.info);
+  }
+
+  /**
+   * After setting fisheyeParam the photos from machine be applied with camera matrix
+   * @param setCrop defines whether to crop the photo using cx, cy
+   */
+  async setFisheyeParam(param: FisheyeCameraParameters, setCrop?: boolean) {
+    const res = await this.currentDevice.camera.setFisheyeParam(param, setCrop);
+    return res;
   }
 
   async takeOnePicture() {
