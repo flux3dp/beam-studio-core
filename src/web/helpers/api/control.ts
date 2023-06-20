@@ -671,9 +671,7 @@ class Control extends EventEmitter {
 
   getDeviceSetting = (name: string) => this.useWaitAnyResponse(`config get ${name}`);
 
-  setDeviceSetting = (name: string, value: string) => {
-    return this.useWaitAnyResponse(`config set ${name} ${value}`);
-  };
+  setDeviceSetting = (name: string, value: string) => this.useWaitAnyResponse(`config set ${name} ${value}`);
 
   deleteDeviceSetting = (name: string) => this.useWaitAnyResponse(`config del ${name}`);
 
