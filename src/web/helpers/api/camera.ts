@@ -12,7 +12,7 @@ import Progress from 'app/actions/progress-caller';
 import rsaKey from 'helpers/rsa-key';
 import VersionChecker from 'helpers/version-checker';
 import Websocket from 'helpers/websocket';
-import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+import { FisheyeMatrix } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const TIMEOUT = 120000;
@@ -169,8 +169,9 @@ class Camera {
     return cameraOffset.value;
   }
 
-  setFisheyeParam = async (param: FisheyeCameraParameters, setCrop = false): Promise<boolean> => {
-    const { cx, cy, ...matrix } = { ...param };
+  setFisheyeParam = async (param: FisheyeMatrix, setCrop = false): Promise<boolean> => {
+    const { center, ...matrix } = { ...param };
+    const [cx, cy] = center || [];
     const matrixString = JSON.stringify(matrix);
     this.ws.send(`set_fisheye_matrix ${matrixString}`);
     let res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));

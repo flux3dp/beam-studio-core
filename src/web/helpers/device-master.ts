@@ -11,7 +11,7 @@ import { SelectionResult, ConnectionError } from 'app/constants/connection-const
 import DeviceConstants from 'app/constants/device-constants';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
 import storage from 'implementations/storage';
-import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+import { FisheyeMatrix } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
 import Camera from './api/camera';
@@ -872,6 +872,14 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
   }
 
+  setDeviceSettingJSON(name: string, value: string) {
+    const controlSocket = this.currentDevice.control;
+    if (value === 'delete') {
+      return controlSocket.addTask(controlSocket.deleteDeviceSetting, name);
+    }
+    return controlSocket.addTask(controlSocket.setDeviceSettingJSON, name, value);
+  }
+
   getDeviceInfo() {
     const controlSocket = this.currentDevice.control;
     return controlSocket.addTask(controlSocket.deviceInfo);
@@ -930,7 +938,7 @@ class DeviceMaster {
    * After setting fisheyeParam the photos from machine be applied with camera matrix
    * @param setCrop defines whether to crop the photo using cx, cy
    */
-  async setFisheyeParam(param: FisheyeCameraParameters, setCrop?: boolean) {
+  async setFisheyeParam(param: FisheyeMatrix, setCrop?: boolean) {
     const res = await this.currentDevice.camera.setFisheyeParam(param, setCrop);
     return res;
   }

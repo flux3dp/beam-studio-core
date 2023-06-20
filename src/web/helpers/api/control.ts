@@ -673,6 +673,8 @@ class Control extends EventEmitter {
 
   setDeviceSetting = (name: string, value: string) => this.useWaitAnyResponse(`config set ${name} ${value}`);
 
+  setDeviceSettingJSON = (name: string, value: string) => this.useWaitAnyResponse(`config set_json ${name} ${value}`);
+
   deleteDeviceSetting = (name: string) => this.useWaitAnyResponse(`config del ${name}`);
 
   enterMaintainMode = async () => {

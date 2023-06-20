@@ -2,7 +2,9 @@ import Constant from 'app/actions/beambox/constant';
 import CameraCalibrationApi from 'helpers/api/camera-calibration';
 import deviceMaster from 'helpers/device-master';
 import VersionChecker from 'helpers/version-checker';
-import { CALIBRATION_PARAMS, CameraConfig, DEFAULT_CAMERA_OFFSET } from 'app/constants/camera-calibration-constants';
+import {
+  CALIBRATION_PARAMS, CameraConfig, DEFAULT_CAMERA_OFFSET, FisheyeCameraParameters,
+} from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import i18n from './i18n';
 
@@ -141,8 +143,19 @@ export const sendPictureThenSetConfig = async (
 };
 
 export const startFisheyeCalibrate = (): Promise<boolean> => api.startFisheyeCalibrate();
-export const addFisheyeCalibrateImg = (imgBlob: Blob): Promise<boolean> => api.addFisheyeCalibrateImg(imgBlob);
+export const addFisheyeCalibrateImg = (
+  height: number, imgBlob: Blob
+): Promise<boolean> => api.addFisheyeCalibrateImg(height, imgBlob);
 export const doFishEyeCalibration = (): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration();
-export const findPerspectivePoints = (imgBlob: Blob): Promise<{
-  points: number[][];
-}> => api.findPerspectivePoints(imgBlob);
+export const findPerspectivePoints = (): Promise<{ points: number[][][] }> => api.findPerspectivePoints();
+
+export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<void> => {
+  const strData = JSON.stringify(data, (key, val) => {
+    if (typeof val === 'number') {
+      return Math.round(val * 1e3) / 1e3;
+    }
+    return val;
+  }).replace(/"/g, '\\"');
+  console.log(strData);
+  await deviceMaster.setDeviceSettingJSON('fish_eye_params', strData);
+};

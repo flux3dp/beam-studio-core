@@ -36,13 +36,14 @@ export interface CameraConfig {
 export interface FisheyeMatrix {
   k: number[][];
   d: number[][];
-  corners: number[][];
+  points: number[][];
+  center?: [number, number];
 }
 
 export interface FisheyeCameraParameters {
   k: number[][];
   d: number[][];
-  corners: number[][];
-  cx: number;
-  cy: number;
+  heights: number[];
+  points: number[][][];
+  center: [number, number];
 }
