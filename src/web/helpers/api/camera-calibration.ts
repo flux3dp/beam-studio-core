@@ -183,7 +183,7 @@ class CameraCalibrationApi {
     });
   }
 
-  findPerspectivePoints(): Promise<{ points: number[][][] }> {
+  findPerspectivePoints(): Promise<{ points: [number, number][][][] }> {
     return new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         switch (response.status) {

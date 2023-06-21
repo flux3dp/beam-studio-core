@@ -52,10 +52,10 @@ describe('test Calibrate', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  test('onClose, onNext', async () => {
+  test('onClose', async () => {
     mockTakeOnePicture.mockResolvedValue({ imgBlob: 'blob' });
     mockCreateObjectURL.mockReturnValue('file://url');
-    const { baseElement, getByText } = render(
+    const { baseElement } = render(
       <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
     );
     await waitFor(() => {
@@ -65,10 +65,6 @@ describe('test Calibrate', () => {
     expect(mockOnClose).toBeCalledTimes(0);
     fireEvent.click(baseElement.querySelector('.ant-modal-close-x'));
     expect(mockOnClose).toBeCalledTimes(1);
-
-    expect(mockOnNext).toBeCalledTimes(0);
-    fireEvent.click(getByText('next'));
-    expect(mockOnNext).toBeCalledTimes(1);
   });
 
   test('take picture should work', async () => {
@@ -86,5 +82,26 @@ describe('test Calibrate', () => {
     expect(mockTakeOnePicture).toBeCalledTimes(2);
     expect(mockCreateObjectURL).toBeCalledTimes(2);
     expect(mockCreateObjectURL).toHaveBeenLastCalledWith('blob2');
+  });
+
+  test('add picture and next should work', async () => {
+    mockTakeOnePicture.mockResolvedValueOnce({ imgBlob: 'blob' }).mockResolvedValueOnce({ imgBlob: 'blob2' });
+    mockCreateObjectURL.mockReturnValueOnce('file://url').mockReturnValueOnce('file://url2');
+    const { baseElement, getByText } = render(
+      <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
+    );
+    await waitFor(() => {
+      expect(baseElement.querySelector('img').src).not.toBe('');
+    });
+    await act(async () => {
+      fireEvent.click(getByText('tAdd Image'));
+    });
+    expect(mockTakeOnePicture).toBeCalledTimes(2);
+    expect(baseElement).toMatchSnapshot();
+    expect(baseElement.querySelectorAll('.container')).toHaveLength(1);
+
+    expect(mockOnNext).toBeCalledTimes(0);
+    fireEvent.click(getByText('next'));
+    expect(mockOnNext).toBeCalledTimes(1);
   });
 });

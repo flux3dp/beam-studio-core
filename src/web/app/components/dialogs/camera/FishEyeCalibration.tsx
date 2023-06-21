@@ -43,9 +43,14 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
         // eslint-disable-next-line no-await-in-loop
         await addFisheyeCalibrateImg(height, blob);
       }
-      const heights = imgs.map(({ height }) => height);
+      let heights = imgs.map(({ height }) => height);
+      let { points } = await findPerspectivePoints();
       const { k, d } = await doFishEyeCalibration();
-      const { points } = await findPerspectivePoints();
+      // sort height and points
+      const combined = heights.map((height, index) => ({ height, points: points[index] }));
+      combined.sort((a, b) => a.height - b.height);
+      heights = combined.map(({ height }) => height);
+      points = combined.map(({ points: p }) => p);
       param.current = { ...param.current, k, d, heights, points };
       setStep(Step.CUT);
     } catch (e) {

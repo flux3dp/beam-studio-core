@@ -169,8 +169,8 @@ class Camera {
     return cameraOffset.value;
   }
 
-  setFisheyeParam = async (param: FisheyeMatrix, setCrop = false): Promise<boolean> => {
-    const { center, ...matrix } = { ...param };
+  setFisheyeMatrix = async (mat: FisheyeMatrix, setCrop = false): Promise<boolean> => {
+    const { center, ...matrix } = { ...mat };
     const [cx, cy] = center || [];
     const matrixString = JSON.stringify(matrix);
     this.ws.send(`set_fisheye_matrix ${matrixString}`);

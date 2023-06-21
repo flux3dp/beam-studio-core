@@ -36,7 +36,7 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
     deviceMaster.connectCamera()
       .then(async () => {
         const { k, d, points } = fisheyeParam;
-        await deviceMaster.setFisheyeParam({ k, d, points: points[0] });
+        await deviceMaster.setFisheyeMatrix({ k, d, points: points[0] });
         handleTakePicture();
       });
     return () => deviceMaster.disconnectCamera();

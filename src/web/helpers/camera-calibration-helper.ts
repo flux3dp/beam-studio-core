@@ -1,12 +1,12 @@
 import Constant from 'app/actions/beambox/constant';
 import CameraCalibrationApi from 'helpers/api/camera-calibration';
 import deviceMaster from 'helpers/device-master';
+import i18n from 'helpers/i18n';
 import VersionChecker from 'helpers/version-checker';
 import {
   CALIBRATION_PARAMS, CameraConfig, DEFAULT_CAMERA_OFFSET, FisheyeCameraParameters,
 } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import i18n from './i18n';
 
 const api = new CameraCalibrationApi();
 
@@ -147,7 +147,7 @@ export const addFisheyeCalibrateImg = (
   height: number, imgBlob: Blob
 ): Promise<boolean> => api.addFisheyeCalibrateImg(height, imgBlob);
 export const doFishEyeCalibration = (): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration();
-export const findPerspectivePoints = (): Promise<{ points: number[][][] }> => api.findPerspectivePoints();
+export const findPerspectivePoints = (): Promise<{ points: [number, number][][][] }> => api.findPerspectivePoints();
 
 export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<void> => {
   const strData = JSON.stringify(data, (key, val) => {
@@ -158,4 +158,29 @@ export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<v
   }).replace(/"/g, '\\"');
   console.log(strData);
   await deviceMaster.setDeviceSettingJSON('fish_eye_params', strData);
+};
+
+export const interpolatePointsFromHeight = (
+  height: number, heights: number[], points: [number, number][][][]
+): [number, number][][] => {
+  if (points.length === 0) return [];
+  if (points.length === 1) return points[0];
+
+  let index = 0;
+  for (let i = 1; i < heights.length - 1; i += 1) {
+    if (height > heights[i]) index += 1;
+    else break;
+  }
+
+  const result = [...points[0]] as [number, number][][];
+  const d = heights[index + 1] - heights[index];
+  const r1 = (height - heights[index]) / d;
+  const r2 = (heights[index + 1] - height) / d;
+  for (let i = 0; i < points[index].length; i += 1) {
+    for (let j = 0; j < points[index][i].length; j += 1) {
+      result[i][j][0] = points[index][i][j][0] * r2 + points[index + 1][i][j][0] * r1;
+      result[i][j][1] = points[index][i][j][1] * r2 + points[index + 1][i][j][1] * r1;
+    }
+  }
+  return result;
 };
