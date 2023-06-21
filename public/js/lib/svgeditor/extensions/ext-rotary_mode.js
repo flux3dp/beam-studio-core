@@ -33,16 +33,17 @@ svgEditor.addExtension('rotary_axis', function () {
 
     // grid-box
     var rotaryLine = svgdoc.createElementNS(NS.SVG, 'line');
+    const rotaryLineWidth = 3;
     assignAttributes(rotaryLine, {
         'id': 'rotaryLine',
         'x1': '0',
         'y1': currentYRatio + '%',
         'x2': '100%',
         'y2': currentYRatio + '%',
-        'stroke-width': 3,
+        'stroke-width': rotaryLineWidth,
         'stroke': 'rgba(0, 128, 255, 0.3)',
         'fill': 'none',
-        'style': 'cursor:ns-resize',
+        'style': `cursor:ns-resize;stroke-width:${rotaryLineWidth}`,
         'display': svgCanvas.getRotaryMode() ? 'visible' : 'none'
     });
     var transparentRotaryLine = svgdoc.createElementNS(NS.SVG, 'line');

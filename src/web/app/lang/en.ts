@@ -817,6 +817,8 @@ const lang: ILang = {
       engrave_parameters: 'Engraving Parameters',
       workarea: 'Working Area',
       rotary_mode: 'Rotary',
+      rotary_v1: 'Rotary 1.0',
+      rotary_v2: 'Rotary 2.0',
       borderless_mode: 'Open Bottom',
       engrave_dpi: 'Resolution',
       enable_diode: 'Diode Laser',

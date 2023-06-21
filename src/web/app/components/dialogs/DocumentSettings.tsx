@@ -62,9 +62,15 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const rotaryModels = useMemo(() => constant.getRotaryModels(workarea), [workarea]);
   const rotaryModalLabels = useMemo(() => ({
     0: lang.settings.off,
-    1: rotaryModels.length > 2 ? 'Rotary v1' : lang.settings.on,
-    2: 'Rotary v2'
-  }), [lang.settings.on, lang.settings.off, rotaryModels.length]);
+    1: rotaryModels.length > 2 ? langDocumentSettings.rotary_v1 : lang.settings.on,
+    2: langDocumentSettings.rotary_v2,
+  }), [
+    lang.settings.on,
+    lang.settings.off,
+    rotaryModels.length,
+    langDocumentSettings.rotary_v1,
+    langDocumentSettings.rotary_v2,
+  ]);
 
   useEffect(() => {
     if (!rotaryModels.includes(rotaryMode)) {

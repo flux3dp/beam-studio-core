@@ -817,6 +817,8 @@ const lang: ILang = {
       engrave_parameters: '雕刻参数',
       workarea: '工作范围',
       rotary_mode: '旋转轴',
+      rotary_v1: 'Rotary 1.0',
+      rotary_v2: 'Rotary 2.0',
       borderless_mode: '开盖模式',
       engrave_dpi: '雕刻分辨率',
       enable_diode: '二极管激光',
