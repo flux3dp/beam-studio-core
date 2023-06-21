@@ -4,6 +4,7 @@ import { FontSizeOutlined } from '@ant-design/icons';
 import { PicturesOutline, RedoOutline, UndoOutline } from 'antd-mobile-icons';
 
 import browser from 'implementations/browser';
+import createNewText from 'app/svgedit/text/createNewText';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -64,7 +65,7 @@ const CanvasTabBar = (): JSX.Element => {
     },
     {
       key: 'document',
-      title: 't文件設定',
+      title: lang.topbar.menu.document_setting,
       icon: <PenIcon />,
     },
     {
@@ -100,7 +101,7 @@ const CanvasTabBar = (): JSX.Element => {
       setTimeout(reset, 300);
     } else if (key === 'text') {
       events.once('addText', () => reset());
-      FnWrapper.insertText();
+      createNewText(100, 100, 'Text', true);
     } else if (key === 'pen') {
       events.once('addLine', () => reset());
       FnWrapper.insertPath();
