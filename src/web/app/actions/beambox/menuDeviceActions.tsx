@@ -29,7 +29,7 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
     }
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      if (device.model === 'fad1') showFishEyeCalibration(device);
+      if (device.model === 'fad1') showFishEyeCalibration();
       else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {

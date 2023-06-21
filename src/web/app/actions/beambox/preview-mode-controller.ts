@@ -13,10 +13,10 @@ import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import Progress from 'app/actions/progress-caller';
-import storage from 'implementations/storage';
 import VersionChecker from 'helpers/version-checker';
-import { IDeviceInfo } from 'interfaces/IDevice';
 import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
+import { IDeviceInfo } from 'interfaces/IDevice';
+import { interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
 
 const { $ } = window;
 const LANG = i18n.lang;
@@ -83,15 +83,16 @@ class PreviewModeController {
     await deviceMaster.rawSetWaterPump(false);
   }
 
-  setUpFishEyePreviewMode = async (device: IDeviceInfo) => {
-    // TODO: retrieve in machine firmware
-    const fisheyeMatrix = storage.get('fisheye-calibration')?.[device.uuid];
+  setUpFishEyePreviewMode = async () => {
+    const fisheyeParameters = await deviceMaster.getFisheyeParams();
+    const { k, d, heights, points, center } = fisheyeParameters;
+    let perspectivePoints = points[0];
     const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
     if (val !== null) {
       const height = Number(val);
-      if (!Number.isNaN(height)) fisheyeMatrix.z = height;
+      if (!Number.isNaN(height)) perspectivePoints = interpolatePointsFromHeight(height, heights, points);
     }
-    await deviceMaster.setFisheyeParam(fisheyeMatrix, true);
+    await deviceMaster.setFisheyeMatrix({ k, d, center, points: perspectivePoints }, true);
   };
 
   async endBeamSeriesPreviewMode() {
@@ -122,7 +123,7 @@ class PreviewModeController {
       if (device.model !== 'fad1') await this.setupBeamSeriesPreviewMode(device);
       Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await deviceMaster.connectCamera();
-      if (device.model === 'fad1') await this.setUpFishEyePreviewMode(device);
+      if (device.model === 'fad1') await this.setUpFishEyePreviewMode();
 
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();

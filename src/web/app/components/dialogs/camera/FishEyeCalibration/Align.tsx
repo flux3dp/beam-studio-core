@@ -35,7 +35,8 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
   useEffect(() => {
     deviceMaster.connectCamera()
       .then(async () => {
-        await deviceMaster.setFisheyeParam(fisheyeParam);
+        const { k, d, points } = fisheyeParam;
+        await deviceMaster.setFisheyeMatrix({ k, d, points: points[0] });
         handleTakePicture();
       });
     return () => deviceMaster.disconnectCamera();
@@ -77,13 +78,13 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
       open
       centered
       onCancel={() => onClose(false)}
-      title={'tAlign'}
+      title="tAlign"
       footer={[
         <Button onClick={onBack} key="back">
           {lang.buttons.back}
         </Button>,
         <Button onClick={handleTakePicture} key="take-picture">
-          {'tTake Picture'}
+          tTake Picture
         </Button>,
         <Button type="primary" onClick={handleNext} key="next">
           {lang.buttons.next}
@@ -109,20 +110,24 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
             className="controls"
             form={form}
           >
-            <Form.Item name="x" label={'tX'} initialValue={0}>
+            <Form.Item name="x" label="tX" initialValue={0}>
               <InputNumber<number>
                 type="number"
                 addonAfter="tPx"
                 onChange={(val) => handleValueChange('x', val)}
                 step={1}
+                onKeyUp={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
               />
             </Form.Item>
-            <Form.Item name="y" label={'tY'} initialValue={0}>
+            <Form.Item name="y" label="tY" initialValue={0}>
               <InputNumber<number>
                 type="number"
                 addonAfter="tPx"
                 onChange={(val) => handleValueChange('y', val)}
                 step={1}
+                onKeyUp={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
               />
             </Form.Item>
           </Form>

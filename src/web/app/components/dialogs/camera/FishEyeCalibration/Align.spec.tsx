@@ -1,6 +1,8 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
+import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+
 import Align from './Align';
 
 const mockPopUpError = jest.fn();
@@ -8,12 +10,12 @@ jest.mock('app/actions/alert-caller', () => ({
   popUpError: (...args) => mockPopUpError(...args),
 }));
 
-const mockSetFisheyeParam = jest.fn();
+const mockSetFisheyeMatrix = jest.fn();
 const mockTakeOnePicture = jest.fn();
 const mockConnectCamera = jest.fn();
 const mockDisconnectCamera = jest.fn();
 jest.mock('helpers/device-master', () => ({
-  setFisheyeParam: (...args) => mockSetFisheyeParam(...args),
+  setFisheyeMatrix: (...args) => mockSetFisheyeMatrix(...args),
   takeOnePicture: (...args) => mockTakeOnePicture(...args),
   connectCamera: (...args) => mockConnectCamera(...args),
   disconnectCamera: (...args) => mockDisconnectCamera(...args),
@@ -33,12 +35,12 @@ const mockOnClose = jest.fn();
 const mockOnBack = jest.fn();
 const mockOnNext = jest.fn();
 
-const mockFishEyeParam = {
+const mockFishEyeParam: FisheyeCameraParameters = {
   k: [[0]],
   d: [[0]],
-  corners: [[0]],
-  cx: 0,
-  cy: 0,
+  points: [[[[0, 0]]]],
+  heights: [0],
+  center: [0, 0],
 };
 
 describe('test Align', () => {
@@ -47,7 +49,7 @@ describe('test Align', () => {
     global.URL.createObjectURL = mockCreateObjectURL;
     global.URL.revokeObjectURL = mockRevokeObjectURL;
     mockConnectCamera.mockResolvedValue(undefined);
-    mockSetFisheyeParam.mockResolvedValue(undefined);
+    mockSetFisheyeMatrix.mockResolvedValue(undefined);
   });
 
   it('should render correctly', async () => {
@@ -66,7 +68,7 @@ describe('test Align', () => {
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
     expect(mockConnectCamera).toBeCalledTimes(1);
-    expect(mockSetFisheyeParam).toBeCalledTimes(1);
+    expect(mockSetFisheyeMatrix).toBeCalledTimes(1);
     expect(mockTakeOnePicture).toBeCalledTimes(1);
     expect(mockCreateObjectURL).toBeCalledTimes(1);
     expect(mockCreateObjectURL).toHaveBeenLastCalledWith('blob');

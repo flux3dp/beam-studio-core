@@ -10,3 +10,21 @@
     height: 100%;
   }
 }
+
+.imgs {
+  width: 100%;
+  overflow-x: scroll;
+  display: flex;
+
+  .container {
+    flex: none;
+
+    &:not(:first-of-type) {
+      margin-left: 5px;
+    }
+
+    img {
+      height: 100px;
+    }
+  }
+}

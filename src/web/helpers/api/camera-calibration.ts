@@ -94,7 +94,7 @@ class CameraCalibrationApi {
     });
   }
 
-  addFisheyeCalibrateImg(img: Blob | ArrayBuffer): Promise<boolean> {
+  addFisheyeCalibrateImg(height: number, img: Blob | ArrayBuffer): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         switch (response.status) {
@@ -119,7 +119,7 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
-      this.ws.send(`add_fisheye_calibration_image ${size}`);
+      this.ws.send(`add_fisheye_calibration_image ${size} ${height}`);
     });
   }
 
@@ -183,7 +183,7 @@ class CameraCalibrationApi {
     });
   }
 
-  findPerspectivePoints(img: Blob | ArrayBuffer): Promise<{ points: number[][]; }> {
+  findPerspectivePoints(): Promise<{ points: [number, number][][][] }> {
     return new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         switch (response.status) {
@@ -193,25 +193,12 @@ class CameraCalibrationApi {
           case 'fail':
             reject(response.reason);
             break;
-          case 'continue':
-            this.ws.send(img);
-            break;
           default:
             console.log('strange message', response);
             break;
         }
       };
-
-      this.events.onError = (response) => {
-        reject(response);
-        console.log('on error', response);
-      };
-      this.events.onFatal = (response) => {
-        reject(response);
-        console.log('on fatal', response);
-      };
-      const size = img instanceof Blob ? img.size : img.byteLength;
-      this.ws.send(`find_perspective_points ${size}`);
+      this.ws.send('find_perspective_points');
     });
   }
 }
