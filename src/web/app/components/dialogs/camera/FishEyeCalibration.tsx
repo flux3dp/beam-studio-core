@@ -44,8 +44,8 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
         await addFisheyeCalibrateImg(height, blob);
       }
       let heights = imgs.map(({ height }) => height);
-      let { points } = await findPerspectivePoints();
       const { k, d } = await doFishEyeCalibration();
+      let { points } = await findPerspectivePoints();
       // sort height and points
       const combined = heights.map((height, index) => ({ height, points: points[index] }));
       combined.sort((a, b) => a.height - b.height);
