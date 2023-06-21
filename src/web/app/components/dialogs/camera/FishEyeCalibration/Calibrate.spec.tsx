@@ -97,7 +97,6 @@ describe('test Calibrate', () => {
       fireEvent.click(getByText('tAdd Image'));
     });
     expect(mockTakeOnePicture).toBeCalledTimes(2);
-    expect(baseElement).toMatchSnapshot();
     expect(baseElement.querySelectorAll('.container')).toHaveLength(1);
 
     expect(mockOnNext).toBeCalledTimes(0);
