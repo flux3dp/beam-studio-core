@@ -176,7 +176,7 @@ let mouseSelectModeCmds;
 const mouseDown = (evt: MouseEvent) => {
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
-  const selectedElements = svgCanvas.getSelectedElems();
+  let selectedElements = svgCanvas.getSelectedElems();
   const started = svgCanvas.getStarted();
   const svgRoot = svgCanvas.getRoot();
   const rightClick = evt.button === MouseButtons.Right;
@@ -307,7 +307,11 @@ const mouseDown = (evt: MouseEvent) => {
               setRubberBoxStart();
             } else {
               svgCanvas.addToSelection([mouseTarget]);
-              if (selectedElements.length > 1) svgCanvas.tempGroupSelectedElements();
+              selectedElements = svgCanvas.getSelectedElems();
+              if (selectedElements.length > 1) {
+                svgCanvas.tempGroupSelectedElements();
+                selectedElements = svgCanvas.getSelectedElems();
+              }
             }
             justSelected = mouseTarget;
             svgCanvas.pathActions.clear();
@@ -315,8 +319,10 @@ const mouseDown = (evt: MouseEvent) => {
             if (mouseTarget === svgCanvas.getTempGroup()) {
               const elemToRemove = svgCanvas.getMouseTarget(evt, false);
               svgCanvas.removeFromTempGroup(elemToRemove);
+              selectedElements = svgCanvas.getSelectedElems();
             } else {
               svgCanvas.clearSelection();
+              selectedElements = svgCanvas.getSelectedElems();
             }
           }
 
