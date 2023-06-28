@@ -105,7 +105,7 @@ class ImageOptions extends React.Component<Props> {
     return (
       <div className="option-block" key="gradient">
         <div className="label">{LANG.shading}</div>
-        <Switch defaultChecked={isGradient} onChange={this.handleGradientClick} />
+        <Switch checked={isGradient} onChange={this.handleGradientClick} />
         {/* <div className="onoffswitch" onClick={this.handleGradientClick}>
           <input type="checkbox" className="onoffswitch-checkbox" checked={isGradient} readOnly />
           <label className="onoffswitch-label">
