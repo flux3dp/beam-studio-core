@@ -262,6 +262,7 @@ const svgEditor = window['svgEditor'] = (function () {
     'en': 'en',
     'es': 'es',
     'ja': 'ja',
+    'kr': 'kr',
     'zh-tw': 'zh-TW',
     'zh-cn': 'zh-CN',
     fr: 'fr',

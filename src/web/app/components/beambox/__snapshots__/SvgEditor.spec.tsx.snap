@@ -740,6 +740,12 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 日本語
               </option>
               <option
+                id="lang_kr"
+                value="kr"
+              >
+                한국어
+              </option>
+              <option
                 id="lang_zh-CN"
                 value="es"
               >
@@ -1717,6 +1723,12 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 value="ja"
               >
                 日本語
+              </option>
+              <option
+                id="lang_kr"
+                value="kr"
+              >
+                한국어
               </option>
               <option
                 id="lang_zh-CN"
