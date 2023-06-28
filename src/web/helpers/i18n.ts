@@ -4,6 +4,7 @@ import LangEn from 'app/lang/en';
 import LangEs from 'app/lang/es';
 import LangFr from 'app/lang/fr';
 import LangJa from 'app/lang/ja';
+import LangKr from 'app/lang/kr';
 import LangNl from 'app/lang/nl';
 import LangZHCN from 'app/lang/zh-cn';
 import LangZHTW from 'app/lang/zh-tw';
@@ -19,6 +20,7 @@ const langCache = {
   nl: LangNl,
   'zh-tw': LangZHTW,
   ja: LangJa,
+  kr: LangKr,
   'zh-cn': LangZHCN,
 };
 
