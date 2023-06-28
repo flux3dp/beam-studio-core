@@ -25,7 +25,11 @@ export default class SvgEditor extends React.Component {
     const { isPathPreviewing } = this.context;
     const platformClassNames = classNames({ mac: window.os === 'MacOS' });
     return (
-      <div id="svg_editor" className={platformClassNames} style={isPathPreviewing ? { display: 'none' } : {}}>
+      <div
+        id="svg_editor"
+        className={platformClassNames}
+        style={isPathPreviewing ? { display: 'none' } : {}}
+      >
         <div>
           <div id="rulers" className={platformClassNames}>
             <div id="ruler_corner" />
@@ -39,13 +43,15 @@ export default class SvgEditor extends React.Component {
                 <canvas width={15} />
               </div>
             </div>
-            <div id="ruler_unit_shower">{storage.get('default-units') === 'inches' ? 'inch' : 'mm'}</div>
+            <div id="ruler_unit_shower">
+              {storage.get('default-units') === 'inches' ? 'inch' : 'mm'}
+            </div>
           </div>
           <Workarea className={platformClassNames} />
           <div id="main_button">
             <div id="main_icon" className="tool_button" title="Main Menu">
               <div id="main_menu">
-                { }
+                {}
                 <ul>
                   <li
                     id="tool_open"
@@ -75,11 +81,7 @@ export default class SvgEditor extends React.Component {
           </div>
           <div id="tools_top" className="tools_panel">
             <div id="editor_panel">
-              <div
-                className="push_button"
-                id="tool_source"
-                title="Edit Source [U]"
-              />
+              <div className="push_button" id="tool_source" title="Edit Source [U]" />
             </div>
             <div id="text_panel">
               <input id="text" type="text" size={35} />
@@ -111,11 +113,7 @@ export default class SvgEditor extends React.Component {
             <div className="tool_button" id="tool_path" title="Path Tool" />
             <div className="tool_button" id="tool_text" title="Text Tool" />
             <div className="tool_button" id="tool_image" title="Image Tool" />
-            <div
-              className="tool_button"
-              id="tool_zoom"
-              title="Zoom Tool [Ctrl+Up/Down]"
-            />
+            <div className="tool_button" id="tool_zoom" title="Zoom Tool [Ctrl+Up/Down]" />
             <div
               style={{
                 display: 'none',
@@ -136,11 +134,7 @@ export default class SvgEditor extends React.Component {
             <div id="tools_bottom_2">
               <div id="color_tools">
                 <div className="color_tool" id="tool_fill">
-                  <label
-                    className="icon_label"
-                    htmlFor="fill_color"
-                    title="Change fill color"
-                  />
+                  <label className="icon_label" htmlFor="fill_color" title="Change fill color" />
                   <div className="color_block">
                     <div id="fill_bg" />
                     <div id="fill_color" className="color_block" />
@@ -151,11 +145,7 @@ export default class SvgEditor extends React.Component {
                 <label className="icon_label" title="Change stroke color" />
                 <div className="color_block">
                   <div id="stroke_bg" />
-                  <div
-                    id="stroke_color"
-                    className="color_block"
-                    title="Change stroke color"
-                  />
+                  <div id="stroke_color" className="color_block" title="Change stroke color" />
                 </div>
                 <label className="stroke_label">
                   <input
@@ -167,10 +157,7 @@ export default class SvgEditor extends React.Component {
                     data-attr="Stroke Width"
                   />
                 </label>
-                <div
-                  id="toggle_stroke_tools"
-                  title="Show/hide more stroke tools"
-                />
+                <div id="toggle_stroke_tools" title="Show/hide more stroke tools" />
                 <label className="stroke_tool">
                   <select id="stroke_style" defaultValue="none" title="Change stroke dash style">
                     <option value="none">—</option>
@@ -189,19 +176,10 @@ export default class SvgEditor extends React.Component {
                   <button type="button" />
                 </div>
               </div>
-              <div
-                className="color_tool"
-                id="tool_opacity"
-                title="Change selected item opacity"
-              >
+              <div className="color_tool" id="tool_opacity" title="Change selected item opacity">
                 <label>
                   <span id="group_opacityLabel" className="icon_label" />
-                  <input
-                    id="group_opacity"
-                    size={3}
-                    defaultValue={100}
-                    type="text"
-                  />
+                  <input id="group_opacity" size={3} defaultValue={100} type="text" />
                 </label>
                 <div id="opacity_dropdown" className="dropdown">
                   <button type="button" />
@@ -221,38 +199,14 @@ export default class SvgEditor extends React.Component {
           </div>
           <div id="option_lists" className="dropdown">
             <ul id="linejoin_opts">
-              <li
-                className="tool_button current"
-                id="linejoin_miter"
-                title="Linejoin: Miter"
-              />
-              <li
-                className="tool_button"
-                id="linejoin_round"
-                title="Linejoin: Round"
-              />
-              <li
-                className="tool_button"
-                id="linejoin_bevel"
-                title="Linejoin: Bevel"
-              />
+              <li className="tool_button current" id="linejoin_miter" title="Linejoin: Miter" />
+              <li className="tool_button" id="linejoin_round" title="Linejoin: Round" />
+              <li className="tool_button" id="linejoin_bevel" title="Linejoin: Bevel" />
             </ul>
             <ul id="linecap_opts">
-              <li
-                className="tool_button current"
-                id="linecap_butt"
-                title="Linecap: Butt"
-              />
-              <li
-                className="tool_button"
-                id="linecap_square"
-                title="Linecap: Square"
-              />
-              <li
-                className="tool_button"
-                id="linecap_round"
-                title="Linecap: Round"
-              />
+              <li className="tool_button current" id="linecap_butt" title="Linecap: Butt" />
+              <li className="tool_button" id="linecap_square" title="Linecap: Square" />
+              <li className="tool_button" id="linecap_round" title="Linecap: Round" />
             </ul>
           </div>
           <div id="color_picker" />
@@ -272,22 +226,24 @@ export default class SvgEditor extends React.Component {
             <div className="overlay" />
             <div id="svg_source_container">
               <div id="tool_source_back" className="toolbar_button">
-                <button id="tool_source_save" type="button">Apply Changes</button>
-                <button id="tool_source_cancel" type="button">Cancel</button>
+                <button id="tool_source_save" type="button">
+                  Apply Changes
+                </button>
+                <button id="tool_source_cancel" type="button">
+                  Cancel
+                </button>
               </div>
               <div id="save_output_btns">
                 <p id="copy_save_note">
-                  Copy the contents of this box into a text editor, then save the
-                  file with a .svg extension.
+                  Copy the contents of this box into a text editor, then save the file with a .svg
+                  extension.
                 </p>
-                <button id="copy_save_done" type="button">Done</button>
+                <button id="copy_save_done" type="button">
+                  Done
+                </button>
               </div>
               <form>
-                <textarea
-                  id="svg_source_textarea"
-                  spellCheck="false"
-                  defaultValue=""
-                />
+                <textarea id="svg_source_textarea" spellCheck="false" defaultValue="" />
               </form>
             </div>
           </div>
@@ -295,8 +251,12 @@ export default class SvgEditor extends React.Component {
             <div className="overlay" />
             <div id="svg_docprops_container">
               <div id="tool_docprops_back" className="toolbar_button">
-                <button id="tool_docprops_save" type="button">OK</button>
-                <button id="tool_docprops_cancel" type="button">Cancel</button>
+                <button id="tool_docprops_save" type="button">
+                  OK
+                </button>
+                <button id="tool_docprops_cancel" type="button">
+                  Cancel
+                </button>
               </div>
               <fieldset id="svg_docprops_docprops">
                 <legend id="svginfo_image_props">Image Properties</legend>
@@ -307,13 +267,11 @@ export default class SvgEditor extends React.Component {
                 <fieldset id="change_resolution">
                   <legend id="svginfo_dim">Canvas Dimensions</legend>
                   <label>
-                    <span id="svginfo_width">width:</span>
-                    {' '}
+                    <span id="svginfo_width">width:</span>{' '}
                     <input type="text" id="canvas_width" size={6} />
                   </label>
                   <label>
-                    <span id="svginfo_height">height:</span>
-                    {' '}
+                    <span id="svginfo_height">height:</span>{' '}
                     <input type="text" id="canvas_height" size={6} />
                   </label>
                   <label>
@@ -335,27 +293,12 @@ export default class SvgEditor extends React.Component {
                 <fieldset id="image_save_opts">
                   <legend id="includedImages">Included Images</legend>
                   <label>
-                    <input
-                      type="radio"
-                      name="image_opt"
-                      defaultValue="embed"
-                      defaultChecked
-                    />
-                    {' '}
-                    <span id="image_opt_embed">
-                      Embed data (local files)
-                    </span>
-                    {' '}
+                    <input type="radio" name="image_opt" defaultValue="embed" defaultChecked />{' '}
+                    <span id="image_opt_embed">Embed data (local files)</span>{' '}
                   </label>
                   <label>
-                    <input
-                      type="radio"
-                      name="image_opt"
-                      defaultValue="ref"
-                    />
-                    {' '}
-                    <span id="image_opt_ref">Use file reference</span>
-                    {' '}
+                    <input type="radio" name="image_opt" defaultValue="ref" />{' '}
+                    <span id="image_opt_ref">Use file reference</span>{' '}
                   </label>
                 </fieldset>
               </fieldset>
@@ -365,14 +308,18 @@ export default class SvgEditor extends React.Component {
             <div className="overlay" />
             <div id="svg_prefs_container">
               <div id="tool_prefs_back" className="toolbar_button">
-                <button id="tool_prefs_save" type="button">OK</button>
-                <button id="tool_prefs_cancel" type="button">Cancel</button>
+                <button id="tool_prefs_save" type="button">
+                  OK
+                </button>
+                <button id="tool_prefs_cancel" type="button">
+                  Cancel
+                </button>
               </div>
               <fieldset>
                 <legend id="svginfo_editor_prefs">Editor Preferences</legend>
                 <label>
                   <span id="svginfo_lang">Language:</span>
-                  { }
+                  {}
                   <select id="lang_select" defaultValue="en">
                     <option id="lang_de" value="de">
                       Deutsche
@@ -385,6 +332,9 @@ export default class SvgEditor extends React.Component {
                     </option>
                     <option id="lang_ja" value="ja">
                       日本語
+                    </option>
+                    <option id="lang_kr" value="kr">
+                      한국어
                     </option>
                     <option id="lang_zh-CN" value="es">
                       Español
@@ -418,48 +368,26 @@ export default class SvgEditor extends React.Component {
                   </select>
                 </label>
                 <fieldset id="change_background">
-                  <legend id="svginfo_change_background">
-                    Editor Background
-                  </legend>
+                  <legend id="svginfo_change_background">Editor Background</legend>
                   <div id="bg_blocks" />
                   <label>
-                    <span id="svginfo_bg_url">URL:</span>
-                    {' '}
-                    <input type="text" id="canvas_bg_url" />
+                    <span id="svginfo_bg_url">URL:</span> <input type="text" id="canvas_bg_url" />
                   </label>
-                  <p id="svginfo_bg_note">
-                    Note: Background will not be saved with image.
-                  </p>
+                  <p id="svginfo_bg_note">Note: Background will not be saved with image.</p>
                 </fieldset>
                 <fieldset id="change_grid">
                   <legend id="svginfo_grid_settings">Grid</legend>
                   <label>
                     <span id="svginfo_snap_onoff">Snapping on/off</span>
-                    <input
-                      type="checkbox"
-                      defaultValue="snapping_on"
-                      id="grid_snapping_on"
-                    />
+                    <input type="checkbox" defaultValue="snapping_on" id="grid_snapping_on" />
                   </label>
                   <label>
-                    <span id="svginfo_snap_step">Snapping Step-Size:</span>
-                    {' '}
-                    <input
-                      type="text"
-                      id="grid_snapping_step"
-                      size={3}
-                      defaultValue={10}
-                    />
+                    <span id="svginfo_snap_step">Snapping Step-Size:</span>{' '}
+                    <input type="text" id="grid_snapping_step" size={3} defaultValue={10} />
                   </label>
                   <label>
-                    <span id="svginfo_grid_color">Grid color:</span>
-                    {' '}
-                    <input
-                      type="text"
-                      id="grid_color"
-                      size={3}
-                      defaultValue="#000"
-                    />
+                    <span id="svginfo_grid_color">Grid color:</span>{' '}
+                    <input type="text" id="grid_color" size={3} defaultValue="#000" />
                   </label>
                 </fieldset>
                 <fieldset id="units_rulers">
@@ -486,8 +414,8 @@ export default class SvgEditor extends React.Component {
                       <option value="ex">Exs</option>
                     </select>
                   </label>
-                  { }
-                  { }
+                  {}
+                  {}
                 </fieldset>
               </fieldset>
             </div>

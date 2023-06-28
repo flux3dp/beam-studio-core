@@ -1,4 +1,5 @@
 import { ILang } from 'interfaces/ILang';
+/* eslint-disable max-len */
 
 const lang: ILang = {
   general: {
