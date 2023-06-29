@@ -45,6 +45,11 @@ exports[`should render correctly 1`] = `
                   "value": "es",
                 },
                 {
+                  "label": "Português",
+                  "selected": false,
+                  "value": "pt",
+                },
+                {
                   "label": "繁體中文",
                   "selected": false,
                   "value": "zh-tw",

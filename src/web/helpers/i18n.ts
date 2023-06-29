@@ -2,6 +2,7 @@ import AppSettings from 'app/app-settings';
 import LangDe from 'app/lang/de';
 import LangEn from 'app/lang/en';
 import LangEs from 'app/lang/es';
+import LangPt from 'app/lang/pt';
 import LangFr from 'app/lang/fr';
 import LangJa from 'app/lang/ja';
 import LangKr from 'app/lang/kr';
@@ -16,6 +17,7 @@ const langCache = {
   de: LangDe,
   en: LangEn,
   es: LangEs,
+  pt: LangPt,
   fr: LangFr,
   nl: LangNl,
   'zh-tw': LangZHTW,
