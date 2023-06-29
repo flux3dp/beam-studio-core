@@ -5,6 +5,7 @@ export default {
       de: 'Deutsch',
       en: 'English',
       es: 'Español',
+      pt: 'Português',
       'zh-tw': '繁體中文',
       ja: '日本語',
       kr: '한국어',
