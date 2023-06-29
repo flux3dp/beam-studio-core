@@ -19,7 +19,7 @@ exports[`test Align scroll and next should work 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px;"
+          style="width: 520px; transform-origin: NaNpx NaNpx;"
         >
           <div
             aria-hidden="true"
@@ -203,14 +203,14 @@ exports[`test Align scroll and next should work 1`] = `
                                       class="ant-input-number-input-wrap"
                                     >
                                       <input
-                                        aria-valuenow="0"
+                                        aria-valuenow="1175"
                                         autocomplete="off"
                                         class="ant-input-number-input"
                                         id="x"
                                         role="spinbutton"
                                         step="1"
                                         type="number"
-                                        value="0"
+                                        value="1175"
                                       />
                                     </div>
                                   </div>
@@ -323,14 +323,14 @@ exports[`test Align scroll and next should work 1`] = `
                                       class="ant-input-number-input-wrap"
                                     >
                                       <input
-                                        aria-valuenow="0"
+                                        aria-valuenow="850"
                                         autocomplete="off"
                                         class="ant-input-number-input"
                                         id="y"
                                         role="spinbutton"
                                         step="1"
                                         type="number"
-                                        value="0"
+                                        value="850"
                                       />
                                     </div>
                                   </div>
