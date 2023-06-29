@@ -752,8 +752,8 @@ exports[`test svg-editor should render correctly in mac 1`] = `
                 Español
               </option>
               <option
-                id="lang_kr"
-                value="kr"
+                id="lang_pt"
+                value="pt"
               >
                 Português
               </option>
@@ -1743,8 +1743,8 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 Español
               </option>
               <option
-                id="lang_kr"
-                value="kr"
+                id="lang_pt"
+                value="pt"
               >
                 Português
               </option>
