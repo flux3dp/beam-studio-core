@@ -224,7 +224,8 @@ class DeviceMaster {
         type: AlertConstants.SHOW_POPUP_ERROR,
       });
       // Display the dialog again
-      return await this.showAuthDialog(device.info.uuid);
+      const res = await this.showAuthDialog(device.info.uuid);
+      return res;
     }
     return false;
   }
@@ -675,6 +676,14 @@ class DeviceMaster {
     return controlSocket.downloadLog(log);
   }
 
+  fetchCameraCalibImage(fileName: string, onProgress: (...args: any[]) => void = () => { }) {
+    const controlSocket = this.currentDevice.control;
+    if (onProgress) {
+      controlSocket.setProgressListener(onProgress);
+    }
+    return controlSocket.fetchCameraCalibImage(fileName);
+  }
+
   async getLogsTexts(logs: string[], onProgress: (...args: any[]) => void = () => { }) {
     const res = {};
     for (let i = 0; i < logs.length; i += 1) {
@@ -933,8 +942,12 @@ class DeviceMaster {
 
   async connectCamera(shouldCrop = true) {
     const { currentDevice } = this;
-    if (currentDevice.cameraNeedsFlip === null && currentDevice.control && currentDevice.control.getMode() === '') {
-      await this.getDeviceSetting('camera_offset');
+    if (currentDevice.cameraNeedsFlip === null) {
+      if (currentDevice.info.model === 'fad1') {
+        currentDevice.cameraNeedsFlip = false;
+      } else if (currentDevice.control && currentDevice.control.getMode() === '') {
+        await this.getDeviceSetting('camera_offset');
+      }
     }
     currentDevice.camera = new Camera(shouldCrop, currentDevice.cameraNeedsFlip);
     await currentDevice.camera.createWs(currentDevice.info);

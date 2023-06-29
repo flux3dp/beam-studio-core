@@ -36,21 +36,23 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
   const [step, setStep] = useState<Step>(initStep);
   const handleMultiHeightCalibrateNext = async (imgs: { height: number; blob: Blob }[]) => {
     try {
-      progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'tCalculating Camera Matrix' });
+      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'tUploading Images', percentage: 0 });
       await startFisheyeCalibrate();
       for (let i = 0; i < imgs.length; i += 1) {
         const { height, blob } = imgs[i];
         // eslint-disable-next-line no-await-in-loop
         await addFisheyeCalibrateImg(height, blob);
+        progressCaller.update(PROGRESS_ID, {
+          message: 'tUploading Images',
+          percentage: Math.round(100 * ((i + 1) / imgs.length)),
+        });
       }
-      let heights = imgs.map(({ height }) => height);
+      progressCaller.popById(PROGRESS_ID);
+      progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'tCalculating Camera Matrix' });
       const { k, d } = await doFishEyeCalibration();
-      let { points } = await findPerspectivePoints();
-      // sort height and points
-      const combined = heights.map((height, index) => ({ height, points: points[index] }));
-      combined.sort((a, b) => a.height - b.height);
-      heights = combined.map(({ height }) => height);
-      points = combined.map(({ points: p }) => p);
+      progressCaller.update(PROGRESS_ID, { message: 'tCalculating Perspective Points' });
+      const { points, heights, errors } = await findPerspectivePoints();
+      console.log(errors);
       param.current = { ...param.current, k, d, heights, points };
       setStep(Step.CUT);
     } catch (e) {

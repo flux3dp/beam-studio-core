@@ -27,4 +27,12 @@
       height: 100px;
     }
   }
+
+  &.full {
+    .container {
+      img {
+        height: 360px;
+      }
+    }
+  }
 }

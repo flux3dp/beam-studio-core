@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 
-import Calibrate from './Calibrate';
+import Calibrate, { Mode } from './Calibrate';
 
 const mockPopUpError = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
@@ -40,7 +40,7 @@ describe('test Calibrate', () => {
   it('should render correctly', async () => {
     mockTakeOnePicture.mockResolvedValue({ imgBlob: 'blob' });
     mockCreateObjectURL.mockReturnValue('file://url');
-    const { baseElement } = render(<Calibrate onClose={mockOnClose} onNext={mockOnNext} />);
+    const { baseElement } = render(<Calibrate mode={Mode.MANUAL} onClose={mockOnClose} onNext={mockOnNext} />);
     expect(baseElement.querySelector('img').src).toBe('');
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
@@ -56,7 +56,7 @@ describe('test Calibrate', () => {
     mockTakeOnePicture.mockResolvedValue({ imgBlob: 'blob' });
     mockCreateObjectURL.mockReturnValue('file://url');
     const { baseElement } = render(
-      <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
+      <Calibrate mode={Mode.MANUAL} onClose={mockOnClose} onNext={mockOnNext} />
     );
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
@@ -71,7 +71,7 @@ describe('test Calibrate', () => {
     mockTakeOnePicture.mockResolvedValueOnce({ imgBlob: 'blob' }).mockResolvedValueOnce({ imgBlob: 'blob2' });
     mockCreateObjectURL.mockReturnValueOnce('file://url').mockReturnValueOnce('file://url2');
     const { baseElement, getByText } = render(
-      <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
+      <Calibrate mode={Mode.MANUAL} onClose={mockOnClose} onNext={mockOnNext} />
     );
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
@@ -88,7 +88,7 @@ describe('test Calibrate', () => {
     mockTakeOnePicture.mockResolvedValueOnce({ imgBlob: 'blob' }).mockResolvedValueOnce({ imgBlob: 'blob2' });
     mockCreateObjectURL.mockReturnValueOnce('file://url').mockReturnValueOnce('file://url2');
     const { baseElement, getByText } = render(
-      <Calibrate onClose={mockOnClose} onNext={mockOnNext} />
+      <Calibrate mode={Mode.MANUAL} onClose={mockOnClose} onNext={mockOnNext} />
     );
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');

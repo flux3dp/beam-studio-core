@@ -599,7 +599,7 @@ class Control extends EventEmitter {
     this.on(EVENT_COMMAND_MESSAGE, (response) => {
       if (response.status === 'transfer') {
         this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else if (!~Object.keys(response).indexOf('completed')) {
+      } else if (!Object.keys(response).includes('completed')) {
         file.push(response);
       }
 
@@ -612,6 +612,26 @@ class Control extends EventEmitter {
     this.setDefaultFatalResponse(reject);
 
     this.ws.send(`fetch_log ${logName}`);
+  });
+
+  fetchCameraCalibImage = (fileName: string) => new Promise((resolve, reject) => {
+    const file = [];
+    this.on(EVENT_COMMAND_MESSAGE, (response) => {
+      if (response.status === 'transfer') {
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+      } else if (!Object.keys(response).includes('completed')) {
+        file.push(response);
+      }
+
+      if (response instanceof Blob) {
+        this.removeCommandListeners();
+        resolve(response);
+      }
+    });
+    this.setDefaultErrorResponse(reject);
+    this.setDefaultFatalResponse(reject);
+
+    this.ws.send(`fetch_camera_calib_pictures ${fileName}`);
   });
 
   getLaserPower = async () => {

@@ -1,23 +1,33 @@
+/* eslint-disable no-await-in-loop */
+import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Form, InputNumber, Modal, Row } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import i18n from 'helpers/i18n';
 import { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
 
 import styles from './Calibrate.module.scss';
 
+export enum Mode {
+  UNKNOWN = 0, // Waiting for user to select mode
+  MANUAL = 1, // Take picture manually
+  FETCH = 2, // Fetch picture from machine
+}
+
 interface Props {
+  mode?: Mode;
   onClose: (complete: boolean) => void;
   onNext: (imgs: { height: number; blob: Blob }[]) => Promise<void>;
 }
 
 const PROGRESS_ID = 'fish-eye-calibration';
-const Calibrate = ({ onClose, onNext }: Props): JSX.Element => {
+const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): JSX.Element => {
   const lang = useI18n();
+  const [mode, setMode] = useState(initMode);
   const [img, setImg] = useState<{ blob: Blob, url: string }>(null);
   const [imgs, setImgs] = useState<{ height: number; url: string, blob: Blob }[]>([]);
   const imgsRef = useRef(imgs);
@@ -80,10 +90,47 @@ const Calibrate = ({ onClose, onNext }: Props): JSX.Element => {
     form.setFieldValue('height', height + 1);
   };
 
+  const fetchCalibImage = async () => {
+    const newImages: { height: number; url: string, blob: Blob }[] = [];
+    const end = 20;
+    progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: `下載圖片中 0 / ${end + 1}`, percentage: 0 });
+    for (let height = 0; height <= end; height += 1) {
+      const heightStr = height.toFixed(1);
+      progressCaller.update(PROGRESS_ID, {
+        message: `下載圖片中 ${height + 1} / ${end + 1}`,
+        percentage: Math.round(100 * (height / (end + 1))),
+      });
+      const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
+      const topImgUrl = URL.createObjectURL(topImg);
+      const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
+      const bottomImgUrl = URL.createObjectURL(bottomImg);
+      const combined = await combineImgs(topImgUrl, bottomImgUrl);
+      newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
+      URL.revokeObjectURL(topImgUrl);
+      URL.revokeObjectURL(bottomImgUrl);
+    }
+    progressCaller.popById(PROGRESS_ID);
+    setImgs(newImages);
+  };
+
   useEffect(() => {
-    deviceMaster.connectCamera().then(() => handleTakePicture());
+    deviceMaster.connectCamera();
     return () => deviceMaster.disconnectCamera();
   }, []);
+
+  useEffect(() => {
+    if (mode === Mode.MANUAL) handleTakePicture();
+    else if (mode === Mode.FETCH) fetchCalibImage();
+    else {
+      alertCaller.popUp({
+        message: '請問是否要使用機器中預拍的照片',
+        buttonType: alertConstants.YES_NO,
+        onYes: () => setMode(Mode.FETCH),
+        onNo: () => setMode(Mode.MANUAL),
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
 
   useEffect(() => {
     imgsRef.current = imgs;
@@ -97,63 +144,71 @@ const Calibrate = ({ onClose, onNext }: Props): JSX.Element => {
     setImgs(imgs.filter((_, index) => index !== i));
   };
 
+  const btns = mode === Mode.MANUAL ? [
+    <Button onClick={() => takeHalfPicture(true)} key="take-upper-picture">
+      tTake Upper Picture
+    </Button>,
+    <Button onClick={() => takeHalfPicture(false)} key="take-lower-picture">
+      tTake Lower Picture
+    </Button>,
+    <Button onClick={handleTakePicture} key="take-picture">
+      tTake Picture
+    </Button>,
+    <Button onClick={handleAddImage} key="add-image">
+      tAdd Image
+    </Button>,
+    <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
+      {lang.buttons.next}
+    </Button>,
+  ] : [
+    <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
+      {lang.buttons.next}
+    </Button>,
+  ];
+
   return (
     <Modal
       open
       centered
       onCancel={() => onClose(false)}
       title="tCalibrate Rotate and Scale"
-      footer={[
-        <Button onClick={() => takeHalfPicture(true)} key="take-upper-picture">
-          tTake Upper Picture
-        </Button>,
-        <Button onClick={() => takeHalfPicture(false)} key="take-lower-picture">
-          tTake Lower Picture
-        </Button>,
-        <Button onClick={handleTakePicture} key="take-picture">
-          tTake Picture
-        </Button>,
-        <Button onClick={handleAddImage} key="add-image">
-          tAdd Image
-        </Button>,
-        <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
-          {lang.buttons.next}
-        </Button>,
-      ]}
+      footer={btns}
     >
       <div>
         Please put the chessboard at left top corner
-        <Row>
-          <Col span={12}>
-            <div className={styles['img-container']}>
-              <img src={img?.url} />
-            </div>
-          </Col>
-          <Col span={12}>
-            <Form
-              size="small"
-              className="controls"
-              form={form}
-            >
-              <Form.Item name="height" label="tHeight" initialValue={3}>
-                <InputNumber<number>
-                  type="number"
-                  addonAfter="mm"
-                  step={1}
-                  max={30}
-                  min={0}
-                  onFocus={setEditingInput}
-                  onBlur={setStopEditingInput}
-                  onKeyUp={(e) => e.stopPropagation()}
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
+        {mode === Mode.MANUAL && (
+          <Row>
+            <Col span={12}>
+              <div className={styles['img-container']}>
+                <img src={img?.url} />
+              </div>
+            </Col>
+            <Col span={12}>
+              <Form
+                size="small"
+                className="controls"
+                form={form}
+              >
+                <Form.Item name="height" label="tHeight" initialValue={3}>
+                  <InputNumber<number>
+                    type="number"
+                    addonAfter="mm"
+                    step={1}
+                    max={30}
+                    min={0}
+                    onFocus={setEditingInput}
+                    onBlur={setStopEditingInput}
+                    onKeyUp={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => e.stopPropagation()}
+                  />
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+        )}
         <Row>
           Current Images:
-          <div className={styles.imgs}>
+          <div className={classNames(styles.imgs, { [styles.full]: mode === Mode.FETCH })}>
             {imgs.map(({ url, height }, i) => (
               <div className={styles.container} key={url}>
                 <img src={url} />

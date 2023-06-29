@@ -147,7 +147,9 @@ export const addFisheyeCalibrateImg = (
   height: number, imgBlob: Blob
 ): Promise<boolean> => api.addFisheyeCalibrateImg(height, imgBlob);
 export const doFishEyeCalibration = (): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration();
-export const findPerspectivePoints = (): Promise<{ points: [number, number][][][] }> => api.findPerspectivePoints();
+export const findPerspectivePoints = (): Promise<{
+  points: [number, number][][][]; heights: number[]; errors: { height: number; err: string }[];
+}> => api.findPerspectivePoints();
 
 export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<void> => {
   const strData = JSON.stringify(data, (key, val) => {
