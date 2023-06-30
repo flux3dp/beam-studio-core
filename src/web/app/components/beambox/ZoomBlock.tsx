@@ -122,7 +122,6 @@ const ZoomBlock = ({ getZoom, setZoom, resetView, isPathPreviewing }: Props): JS
   useEffect(() => {
     if (!isRatioInited) {
       const getInitRatio = () => {
-        console.log('?');
         const ratio = calculateCurrentRatio();
         if (ratio === null) {
           setTimeout(getInitRatio, 1000);
