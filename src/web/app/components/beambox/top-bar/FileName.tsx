@@ -1,6 +1,7 @@
 import React from 'react';
 
 import i18n from 'helpers/i18n';
+import { useIsMobile } from 'helpers/system-helper';
 
 const LANG = i18n.lang.topbar;
 
@@ -10,7 +11,8 @@ interface Props {
 }
 
 function FileName({ fileName, hasUnsavedChange }: Props): JSX.Element {
-  if (window.os === 'Windows') {
+  const isMobile = useIsMobile();
+  if (window.os === 'Windows' || isMobile) {
     return null;
   }
 

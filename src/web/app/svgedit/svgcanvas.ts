@@ -49,8 +49,8 @@ import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
 import selector from 'app/svgedit/selector';
-import textActions from 'app/svgedit/textactions';
-import textEdit from 'app/svgedit/textedit';
+import textActions from 'app/svgedit/text/textactions';
+import textEdit from 'app/svgedit/text/textedit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -921,7 +921,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               elem,
               bbox,
             });
-
           }
         }
       }

@@ -8,7 +8,7 @@ import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
 import progressCaller from 'app/actions/progress-caller';
 import selector from 'app/svgedit/selector';
-import textEdit from 'app/svgedit/textedit';
+import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit, { VerticalAlign } from 'app/actions/beambox/textPathEdit';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';

@@ -242,6 +242,16 @@ const FrameSvg = () => (
   </svg>
 );
 
+const DmktSvg = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
+    <g id="Group_73" data-name="Group 73" transform="translate(7.687 8.269)">
+      <path d="M48.613,0c.478-.014.619.135.612.619-.027,2.041-.023,3.845,0,5.886.005.489-.158.621-.638.6a6.96,6.96,0,0,1-6.5-6.461c-.04-.572.154-.655.644-.64Z" transform="translate(-32.61 0)" fill="#484949" />
+      <path d="M42.758,43.71c-.545.019-.738-.111-.691-.711a6.924,6.924,0,0,1,6.271-6.381c.646-.06.906.055.883.8l-.006,5.611c.007.513-.135.7-.662.682Z" transform="translate(-32.596 -28.368)" fill="#484949" />
+      <path d="M0,.954V15.119a.646.646,0,0,0,.681.609H.7C5.35,15.783,9.082,12,9.082,8.037A7.956,7.956,0,0,0,.7.347.646.646,0,0,0,0,.938c0,.005,0,.01,0,.016" transform="translate(0 -0.268)" fill="#484949" />
+    </g>
+  </svg>
+);
+
 const commonStyle = { marginRight: '0.2em' };
 
 export const CropIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
@@ -326,4 +336,8 @@ export const LayersIcon = (props: Partial<CustomIconComponentProps>): JSX.Elemen
 
 export const FrameIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={FrameSvg} style={commonStyle} {...props} />
+);
+
+export const DmktIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
+  <Icon component={DmktSvg} style={commonStyle} {...props} />
 );

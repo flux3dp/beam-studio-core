@@ -4,7 +4,7 @@
 
 import selector from 'app/svgedit/selector';
 import storage from 'implementations/storage';
-import textActions from 'app/svgedit/textactions';
+import textActions from 'app/svgedit/text/textactions';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 
@@ -172,7 +172,8 @@ const renderTextPath = (text: SVGTextElement, val?: string) => {
 };
 
 const renderTspan = (text: SVGTextElement, val?: string) => {
-  const tspans = Array.from(text.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
+  const tspans = Array.from(text.childNodes)
+    .filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
   const lines = typeof val === 'string' ? val.split('\u0085') : tspans.map((tspan) => tspan.textContent);
   const isVertical = getIsVertical(text);
   const lineSpacing = parseFloat(getLineSpacing(text));

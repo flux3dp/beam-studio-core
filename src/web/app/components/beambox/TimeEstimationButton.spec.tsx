@@ -117,7 +117,7 @@ describe('should render correctly', () => {
 
     mockEstimateTime.mockResolvedValue(90);
     await act(async () => {
-      fireEvent.click(container.querySelector('div.time-est-btn'));
+      fireEvent.click(container.querySelector('div.btn'));
     });
     expect(mockSetEstimatedTime).toHaveBeenCalledTimes(1);
     expect(mockSetEstimatedTime).toHaveBeenNthCalledWith(1, 90);
@@ -148,7 +148,7 @@ describe('should render correctly', () => {
 
     mockCheckConnection.mockReturnValueOnce(false);
     await act(async () => {
-      fireEvent.click(container.querySelector('div.time-est-btn'));
+      fireEvent.click(container.querySelector('div.btn'));
     });
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(mockPopUp).toHaveBeenCalledTimes(1);
@@ -156,7 +156,7 @@ describe('should render correctly', () => {
     mockEstimateTime.mockResolvedValue(90);
     mockCheckConnection.mockReturnValueOnce(true);
     await act(async () => {
-      fireEvent.click(container.querySelector('div.time-est-btn'));
+      fireEvent.click(container.querySelector('div.btn'));
     });
     expect(mockSetEstimatedTime).toHaveBeenCalledTimes(1);
     expect(mockSetEstimatedTime).toHaveBeenNthCalledWith(1, 90);
