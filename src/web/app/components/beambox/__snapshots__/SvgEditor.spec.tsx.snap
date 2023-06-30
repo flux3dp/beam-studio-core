@@ -9,13 +9,14 @@ exports[`test svg-editor should render correctly in mac 1`] = `
     >
       <div>
         <div
-          class="mac"
+          class="rulers mac"
           id="rulers"
         >
           <div
-            id="ruler_corner"
+            class="corner"
           />
           <div
+            class="x"
             id="ruler_x"
           >
             <div>
@@ -25,6 +26,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             </div>
           </div>
           <div
+            class="y"
             id="ruler_y"
           >
             <div>
@@ -34,7 +36,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             </div>
           </div>
           <div
-            id="ruler_unit_shower"
+            class="unit"
           >
             inch
           </div>
@@ -1000,13 +1002,14 @@ exports[`test svg-editor should render correctly in win 1`] = `
     >
       <div>
         <div
-          class=""
+          class="rulers"
           id="rulers"
         >
           <div
-            id="ruler_corner"
+            class="corner"
           />
           <div
+            class="x"
             id="ruler_x"
           >
             <div>
@@ -1016,6 +1019,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
             </div>
           </div>
           <div
+            class="y"
             id="ruler_y"
           >
             <div>
@@ -1025,7 +1029,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
             </div>
           </div>
           <div
-            id="ruler_unit_shower"
+            class="unit"
           >
             mm
           </div>

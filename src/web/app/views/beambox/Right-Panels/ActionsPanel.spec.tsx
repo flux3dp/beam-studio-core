@@ -42,7 +42,7 @@ jest.mock('app/actions/progress-caller', () => ({
 }));
 
 const toSelectMode = jest.fn();
-jest.mock('app/svgedit/textactions', () => ({
+jest.mock('app/svgedit/text/textactions', () => ({
   isEditing: true,
   toSelectMode,
 }));
