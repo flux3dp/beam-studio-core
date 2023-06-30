@@ -921,7 +921,7 @@ class Control extends EventEmitter {
     }
     let command = 'G1';
     args.f = args.f || '6000';
-    command += `F${args.f}}`;
+    command += `F${args.f}`;
     if (typeof args.x !== 'undefined') {
       command += `X${Math.round(args.x * 1000) / 1000}`;
     }
