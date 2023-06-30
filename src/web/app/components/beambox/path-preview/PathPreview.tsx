@@ -1585,6 +1585,7 @@ class PathPreview extends React.Component<Props, State> {
           </div>
         </div>
         <ZoomBlock
+          isPathPreviewing
           getZoom={() => this.camera.scale}
           setZoom={this.setScale}
           resetView={this.resetView}

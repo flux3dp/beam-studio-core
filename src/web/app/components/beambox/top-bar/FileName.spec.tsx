@@ -1,7 +1,12 @@
-/* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
+
+import FileName from './FileName';
+
+const mockUseIsMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  useIsMobile: (...args) => mockUseIsMobile(...args),
+}));
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -11,22 +16,42 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
-import FileName from './FileName';
+describe('test FileName', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-test('should render correctly', () => {
-  expect(toJson(shallow(<FileName
-    fileName="abc.svg"
-    hasUnsavedChange
-  />))).toMatchSnapshot();
+  it('should render correctly', () => {
+    mockUseIsMobile.mockReturnValue(false);
+    const { container } = render(<FileName
+      fileName="abc.svg"
+      hasUnsavedChange
+    />);
+    expect(container).toMatchSnapshot();
 
-  expect(toJson(shallow(<FileName
-    fileName=""
-    hasUnsavedChange={false}
-  />))).toMatchSnapshot();
+    const { container: container2 } = render(<FileName
+      fileName=""
+      hasUnsavedChange={false}
+    />);
+    expect(container2).toMatchSnapshot();
+  });
 
-  window.os = 'Windows';
-  expect(toJson(shallow(<FileName
-    fileName=""
-    hasUnsavedChange={false}
-  />))).toMatchSnapshot();
+  it('should hide on windows', () => {
+    mockUseIsMobile.mockReturnValue(false);
+    window.os = 'Windows';
+    const { container } = render(<FileName
+      fileName="abc.svg"
+      hasUnsavedChange
+    />);
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('should hide on mobile', () => {
+    mockUseIsMobile.mockReturnValue(true);
+    const { container } = render(<FileName
+      fileName="abc.svg"
+      hasUnsavedChange
+    />);
+    expect(container).toBeEmptyDOMElement();
+  });
 });

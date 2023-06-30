@@ -25,8 +25,8 @@ TODOS
 import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import svgCanvasClass from 'app/svgedit/svgcanvas';
-import textActions from 'app/svgedit/textactions';
-import textEdit from 'app/svgedit/textedit';
+import textActions from 'app/svgedit/text/textactions';
+import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -8,6 +8,7 @@ import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IUser } from 'interfaces/IUser';
 
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
 const fluxIDEventEmitter = eventEmitterFactory.createEventEmitter('flux-id');
 const workareaEventEmitter = eventEmitterFactory.createEventEmitter('workarea');
@@ -40,7 +41,7 @@ interface CanvasContextType {
   setShowCameraPreviewDeviceList: (callback: () => void | null) => void,
   startPreviewCallback: () => void | null,
   togglePathPreview: () => void,
-  updateTopBar: () => void,
+  updateCanvasContext: () => void,
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -64,7 +65,7 @@ const CanvasContext = createContext<CanvasContextType>({
   setShowCameraPreviewDeviceList: () => {},
   startPreviewCallback: () => {},
   togglePathPreview: () => {},
-  updateTopBar: () => {},
+  updateCanvasContext: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -79,6 +80,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
   const [showCameraPreviewDeviceList, setShowCameraPreviewDeviceList] = useState<() => void | null>(null);
+  const forceUpdate = useForceUpdate();
 
   const setTopBarPreviewMode = (preview: boolean): void => {
     const allLayers = document.querySelectorAll('g.layer');
@@ -114,15 +116,9 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   };
 
-  const updateTopBar = (): void => {
-    console.log('Force update?');
-    forceUpdate();
-  };
-
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setCurrentUser);
-    topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
     topBarEventEmitter.on('SET_ELEMENT', setSelectedElem);
     topBarEventEmitter.on('SET_FILE_NAME', setFileName);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
@@ -141,6 +137,18 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       topBarEventEmitter.removeAllListeners();
     };
   }, [setCurrentUser, isPreviewing]);
+
+  const updateCanvasContext = useCallback(() => {
+    console.log('force update');
+    forceUpdate();
+  }, [forceUpdate]);
+
+  useEffect(() => {
+    canvasEventEmitter.on('UPDATE_CONTEXT', updateCanvasContext); // This force rerender the context
+    return () => {
+      canvasEventEmitter.removeListener('UPDATE_CONTEXT', updateCanvasContext);
+    };
+  }, [updateCanvasContext]);
 
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
@@ -188,7 +196,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           showCameraPreviewDeviceList,
           startPreviewCallback,
           togglePathPreview,
-          updateTopBar,
+          updateCanvasContext,
         }
       }
     >

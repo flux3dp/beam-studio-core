@@ -9,10 +9,10 @@ exports[`should render correctly should render correctly when isPathPreviewing 1
 exports[`should render correctly should render correctly with estimatedTime 1`] = `
 <div>
   <div
-    class="time-est-btn-container"
+    class="container mac"
   >
     <div
-      class="time-est-result"
+      class="result"
     >
       Estimated Time: 1 m 0 s
     </div>
@@ -23,10 +23,10 @@ exports[`should render correctly should render correctly with estimatedTime 1`] 
 exports[`should render correctly web check connection 1`] = `
 <div>
   <div
-    class="time-est-btn-container"
+    class="container mac"
   >
     <div
-      class="time-est-btn"
+      class="btn"
       title="Estimate time"
     >
       <img
@@ -41,10 +41,10 @@ exports[`should render correctly web check connection 1`] = `
 exports[`should render correctly when WITHOUT estimatedTime 1`] = `
 <div>
   <div
-    class="time-est-btn-container not-mac"
+    class="container"
   >
     <div
-      class="time-est-btn"
+      class="btn"
       title="Estimate time"
     >
       <img
