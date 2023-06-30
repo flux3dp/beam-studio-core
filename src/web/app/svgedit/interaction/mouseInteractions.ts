@@ -558,6 +558,7 @@ const mouseDown = (evt: MouseEvent) => {
       startX = newX;
       startY = newY;
       svgCanvas.unsafeAccess.setStarted(true);
+      canvasEvents.emit('addPath', newLine);
       break;
     case 'textedit':
       startX *= currentZoom;
@@ -1173,7 +1174,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
 
   const doPreview = () => {
     const callback = () => {
-      TopBarController.updateTopBar();
+      canvasEvents.emit('UPDATE_CONTEXT');
       if (TutorialController.getNextStepRequirement() === TutorialConstants.PREVIEW_PLATFORM) {
         TutorialController.handleNextStep();
       }

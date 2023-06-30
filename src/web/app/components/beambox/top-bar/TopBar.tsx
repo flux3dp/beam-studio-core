@@ -259,10 +259,10 @@ export default class TopBar extends React.Component<Props, State> {
   };
 
   resetStartPreviewCallback = (): void => {
-    const { startPreviewCallback, setStartPreviewCallback, updateTopBar } = this.context;
+    const { startPreviewCallback, setStartPreviewCallback, updateCanvasContext } = this.context;
     if (startPreviewCallback) {
       setStartPreviewCallback(null);
-      updateTopBar();
+      updateCanvasContext();
     }
   };
 
