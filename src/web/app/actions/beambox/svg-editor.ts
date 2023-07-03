@@ -1060,6 +1060,29 @@ const svgEditor = window['svgEditor'] = (function () {
     var cur_context = '';
     var origTitle = $('title:first').text();
 
+    // TODO: handle this in react element
+    const displayChangeLayerBlock = function (maybeVisible) {
+      const block = $('.selLayerBlock');
+
+      const isHide = (function () {
+        if (!maybeVisible) { return true; }
+        if (svgCanvas.getCurrentDrawing().getNumLayers() <= 1) { return true; }
+
+        if (multiselected) { return false; }
+        if (selectedElement) { return false; }
+
+        if (!(multiselected && selectedElement)) { return true; }
+
+        return true;
+      })();
+
+      if (isHide) {
+        block.hide();
+      } else {
+        block.show();
+      }
+    };
+
     // This function highlights the layer passed in (by fading out the other layers)
     // if no layer is passed in, this function restores the other layers
     var toggleHighlightLayer = function (layerNameToHighlight) {

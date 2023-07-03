@@ -11,6 +11,8 @@ import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/conte
 import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { isMobile } from 'helpers/system-helper';
 
+import styles from './RightPanel.module.scss';
+
 let lastElement: Element;
 let lastMode: RightPanelMode;
 
@@ -43,9 +45,9 @@ const RightPanel = (): JSX.Element => {
   } else if (selectedElem && selectedTab === 'objects') {
     content = <ObjectPanel elem={selectedElem} />;
   }
-  const sideClass = classNames({
-    short: window.os === 'Windows' && window.FLUX.version !== 'web',
-    wide: window.os !== 'MacOS',
+  const sideClass = classNames(styles.sidepanels, {
+    [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
+    [styles.wide]: window.os !== 'MacOS',
   });
   return (
     <div id="right-panel" style={{ display: 'block' }}>
