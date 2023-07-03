@@ -83,6 +83,11 @@ const CanvasTabBar = (): JSX.Element => {
       icon: <DmktIcon />,
     },
     {
+      key: '',
+      title: '',
+      icon: <div className={styles.sep} />,
+    },
+    {
       key: 'undo',
       title: '復原',
       icon: <UndoOutline />,

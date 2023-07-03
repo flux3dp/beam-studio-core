@@ -12,6 +12,8 @@ import { useContext, useEffect, useState } from 'react';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { isMobile } from 'helpers/system-helper';
 
+import styles from './RightPanel.module.scss';
+
 let lastElement: Element;
 let lastMode: RightPanelMode;
 
@@ -57,9 +59,9 @@ const RightPanel = (): JSX.Element => {
   } else {
     content = renderObjectPanel();
   }
-  const sideClass = classNames({
-    short: window.os === 'Windows' && window.FLUX.version !== 'web',
-    wide: window.os !== 'MacOS',
+  const sideClass = classNames(styles.sidepanels, {
+    [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
+    [styles.wide]: window.os !== 'MacOS',
   });
   return (
     <div id="right-panel" style={{ display: 'block' }}>

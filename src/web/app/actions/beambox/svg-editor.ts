@@ -1060,6 +1060,7 @@ const svgEditor = window['svgEditor'] = (function () {
     var cur_context = '';
     var origTitle = $('title:first').text();
 
+    // TODO: handle this in react element
     const displayChangeLayerBlock = function (maybeVisible) {
       const block = $('.selLayerBlock');
 
@@ -1076,10 +1077,8 @@ const svgEditor = window['svgEditor'] = (function () {
       })();
 
       if (isHide) {
-        $('#sidepanels').removeClass('layerblock-activated');
         block.hide();
       } else {
-        $('#sidepanels').addClass('layerblock-activated');
         block.show();
       }
     };

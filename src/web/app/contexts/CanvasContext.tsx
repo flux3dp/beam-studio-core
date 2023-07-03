@@ -7,6 +7,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IUser } from 'interfaces/IUser';
+import { useIsMobile } from 'helpers/system-helper';
 
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
@@ -70,7 +71,8 @@ const CanvasContext = createContext<CanvasContextType>({
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const forceUpdate = useForceUpdate();
-  const [displayLayer, setDisplayLayer] = useState<boolean>(window.outerWidth > 600);
+  const isMobile = useIsMobile();
+  const [displayLayer, setDisplayLayer] = useState<boolean>(!isMobile);
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
@@ -80,7 +82,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
   const [showCameraPreviewDeviceList, setShowCameraPreviewDeviceList] = useState<() => void | null>(null);
-  const forceUpdate = useForceUpdate();
 
   const setTopBarPreviewMode = (preview: boolean): void => {
     const allLayers = document.querySelectorAll('g.layer');

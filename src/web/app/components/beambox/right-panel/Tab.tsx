@@ -13,7 +13,7 @@ const LANG = i18n.lang.beambox.right_panel;
 
 interface Props {
   mode: 'element' | 'path-edit';
-  selectedElement: Element;
+  selectedElement: Element | null;
   selectedTab: 'layers' | 'objects';
   setSelectedTab: (selectedTab: 'layers' | 'objects') => void;
 }
