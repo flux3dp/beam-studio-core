@@ -10,6 +10,8 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
+import styles from './ObjectPanel.module.scss';
+
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
@@ -57,7 +59,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
   ): JSX.Element => (
     <div
       id={id}
-      className={classNames('tool-btn', { disabled })}
+      className={classNames(styles.btn, { [styles.disabled]: disabled })}
       onClick={disabled ? null : onClick}
       title={label}
     >
@@ -68,9 +70,9 @@ function ObjectPanel({ elem }: Props): JSX.Element {
   const renderToolBtns = (): JSX.Element => {
     const buttonAvailability = getAvailableFunctions();
     return (
-      <div className="tool-btns-container">
-        <div className="tool-btns-row">
-          <div className="half-row left sep">
+      <div className={styles.tools}>
+        <div className={styles.row}>
+          <div className={classNames(styles.half, styles.left, styles.sep)}>
             {renderToolBtn(
               LANG.hdist,
               'img/right-panel/icon-hdist.svg',
@@ -100,7 +102,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
               'bottom_align'
             )}
           </div>
-          <div className="half-row right">
+          <div className={classNames(styles.half, styles.right)}>
             {renderToolBtn(
               LANG.vdist,
               'img/right-panel/icon-vdist.svg',
@@ -131,8 +133,8 @@ function ObjectPanel({ elem }: Props): JSX.Element {
             )}
           </div>
         </div>
-        <div className="tool-btns-row">
-          <div className="half-row left">
+        <div className={styles.row}>
+          <div className={classNames(styles.half, styles.left)}>
             {renderToolBtn(
               LANG.group,
               'img/right-panel/icon-group.svg',
@@ -148,7 +150,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
               'ungroup'
             )}
           </div>
-          <div className="half-row right">
+          <div className={classNames(styles.half, styles.right)}>
             {renderToolBtn(
               LANG.union,
               'img/right-panel/icon-union.svg',
@@ -209,23 +211,23 @@ function ObjectPanel({ elem }: Props): JSX.Element {
 
   const renderActionPanel = (): JSX.Element => <ActionsPanel elem={elem} />;
 
-  if (isMobile) {
-    return (
-      <div id="object-panel">
-        {renderOptionPanel()}
-        {renderDimensionPanel()}
-        {renderToolBtns()}
-        {renderActionPanel()}
-      </div>
-    );
-  }
-
   return (
-    <div id="object-panel">
-      {renderToolBtns()}
-      {renderDimensionPanel()}
-      {renderOptionPanel()}
-      {renderActionPanel()}
+    <div id="object-panel" className={styles.container}>
+      {isMobile ? (
+        <>
+          {renderOptionPanel()}
+          {renderDimensionPanel()}
+          {renderToolBtns()}
+          {renderActionPanel()}
+        </>
+      ) : (
+        <>
+          {renderToolBtns()}
+          {renderDimensionPanel()}
+          {renderOptionPanel()}
+          {renderActionPanel()}
+        </>
+      )}
     </div>
   );
 }

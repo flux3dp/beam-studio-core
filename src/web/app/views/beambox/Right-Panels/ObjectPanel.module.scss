@@ -1,0 +1,79 @@
+.container {
+  width: 100%;
+  min-height: calc(100% - 40px);
+  background-color: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  border-width: 0 0 1px 1px;
+
+  @media screen and (max-width: 600px) {
+    border: 1px solid #cccccc;
+    border-width: 1px 0 0 0;
+  }
+
+  .tools {
+    @media screen and (max-width: 600px) {
+      min-width: 100vw;
+      padding: 8px;
+    }
+  }
+
+  .row {
+    height: 41px;
+    background-color: #ffffff;
+    border: solid #e0e0e0;
+    border-width: 0 0 1px 0;
+
+    @media screen and (max-width: 600px) {
+      background: none;
+      height: 32px;
+      margin-bottom: 4px;
+
+      &:last-child {
+        border-width: 0;
+      }
+    }
+
+    .half {
+      width: 50%;
+      height: 100%;
+      padding: 0 8px;
+    }
+
+    .left {
+      float: left;
+      padding-left: 12px;
+      border: solid rgba(0, 0, 0, 0);
+      border-width: 0 1px 0 0;
+
+      &.sep {
+        border: solid #e0e0e0;
+        border-width: 0 1px 0 0;
+      }
+    }
+
+    .right {
+      float: right;
+      padding-right: 12px;
+    }
+
+    .btn {
+      width: 25%;
+      height: 100%;
+      display: inline-flex;
+      justify-content: center;
+      opacity: 0.7;
+
+      &.disabled {
+        opacity: 0.3;
+      }
+
+      &:hover:not(.disabled) {
+        opacity: 1;
+      }
+
+      img {
+        width: 24px;
+      }
+    }
+  }
+}
