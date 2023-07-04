@@ -2,6 +2,7 @@ import React from 'react';
 
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
 let svgEditor;
 getSVGAsync((globalSVG) => {
@@ -16,7 +17,8 @@ interface Props {
 }
 
 function CommonTools({ isWeb, hide }: Props): JSX.Element {
-  if (!isWeb || hide) return null;
+  const isMobile = useIsMobile();
+  if (!isWeb || isMobile || hide) return null;
   return (
     <div
       className="common-tools-container"
