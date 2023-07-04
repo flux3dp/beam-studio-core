@@ -400,6 +400,7 @@ const lang: ILang = {
     grouped_objects: '多个物件群组',
     simplify_clipper_path: '路径计算优化',
     enable_low_speed: '启用慢速移动',
+    enable_custom_backlash: '启用自訂背隙補償',
     mask: '工作范围剪裁',
     text_path_calc_optimization: '路径计算优化',
     font_substitute: '自动替换字体',

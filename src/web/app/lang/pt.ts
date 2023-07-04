@@ -401,6 +401,7 @@ const lang: ILang = {
     grouped_objects: 'Objetos Agrupados',
     simplify_clipper_path: 'Otimize o caminho calculado',
     enable_low_speed: 'Habilitar movimento em baixa velocidade',
+    enable_custom_backlash: 'Habilitar backlash personalizado',
     mask: 'Recorte da área de trabalho',
     text_path_calc_optimization: 'Otimização de cálculo de caminho',
     font_substitute: 'Substituir caracteres não suportados',

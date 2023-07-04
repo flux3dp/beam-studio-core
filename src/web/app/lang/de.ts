@@ -400,6 +400,7 @@ const lang: ILang = {
     grouped_objects: 'Gruppierte Objekte',
     simplify_clipper_path: 'Optimieren Sie den berechneten Pfad',
     enable_low_speed: 'Langsame Bewegung aktivieren',
+    enable_custom_backlash: 'Benutzerdefinierte Backlash-Kompensation aktivieren',
     mask: 'Arbeitsbereich-Ausschnitt',
     text_path_calc_optimization: 'Optimierung der Pfadberechnung',
     font_substitute: 'Ersetzen Sie nicht unterstützte Zeichen',

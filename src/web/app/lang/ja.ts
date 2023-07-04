@@ -400,6 +400,7 @@ const lang: ILang = {
     grouped_objects: 'グループ化されたオブジェクト',
     simplify_clipper_path: '計算されたパスを最適化',
     enable_low_speed: '低速モードを有効にする',
+    enable_custom_backlash: 'カスタムバックラッシュを有効にする',
     mask: 'ワークエリアのクリッピング',
     text_path_calc_optimization: 'パス計算の最適化',
     font_substitute: 'サポートされていない文字を置き換える',

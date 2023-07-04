@@ -7,6 +7,7 @@ import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
   continuousDrawingOptions: { value: any, label: string, selected: boolean }[];
   simplifyClipperPath: { value: any, label: string, selected: boolean }[];
   enableLowSpeedOptions: { value: any, label: string, selected: boolean }[];
+  enableCustomBacklashOptions: { value: OptionValues, label: string, selected: boolean }[];
   updateConfigChange: (id: StorageKey, newVal: any) => void;
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
   updateModel: (selectedModel: WorkAreaModel) => void;
@@ -36,6 +38,7 @@ function Editor({
   continuousDrawingOptions,
   simplifyClipperPath,
   enableLowSpeedOptions,
+  enableCustomBacklashOptions,
   updateConfigChange,
   updateBeamboxPreferenceChange,
   updateModel,
@@ -224,6 +227,12 @@ function Editor({
         label={lang.settings.enable_low_speed}
         options={enableLowSpeedOptions}
         onChange={(e) => updateBeamboxPreferenceChange('enable-low-speed', e.target.value)}
+      />
+      <SelectControl
+        id="set-enable-custom-backlash"
+        label={lang.settings.enable_custom_backlash}
+        options={enableCustomBacklashOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('enable-custom-backlash', e.target.value)}
       />
     </>
   );

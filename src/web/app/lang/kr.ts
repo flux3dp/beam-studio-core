@@ -401,6 +401,7 @@ const lang: ILang = {
     grouped_objects: '그룹화된 객체',
     simplify_clipper_path: '계산된 경로 최적화',
     enable_low_speed: '저속 이동 활성화',
+    enable_custom_backlash: '사용자 정의 백래시 활성화',
     mask: '작업 영역 클리핑',
     text_path_calc_optimization: '경로 계산 최적화',
     font_substitute: '지원되지 않는 문자 대체',
