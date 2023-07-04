@@ -92,13 +92,15 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
 
   const fetchCalibImage = async () => {
     const newImages: { height: number; url: string, blob: Blob }[] = [];
-    const end = 20;
-    progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: `下載圖片中 0 / ${end + 1}`, percentage: 0 });
-    for (let height = 0; height <= end; height += 1) {
+    const startHeight = -19;
+    const endHeight = 32;
+    const total = endHeight - startHeight + 1;
+    progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: `下載圖片中 0 / ${total}`, percentage: 0 });
+    for (let height = startHeight; height <= endHeight; height += 1) {
       const heightStr = height.toFixed(1);
       progressCaller.update(PROGRESS_ID, {
-        message: `下載圖片中 ${height + 1} / ${end + 1}`,
-        percentage: Math.round(100 * (height / (end + 1))),
+        message: `下載圖片中 ${height - startHeight + 1} / ${total}`,
+        percentage: Math.round(100 * (height / (total))),
       });
       const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
       const topImgUrl = URL.createObjectURL(topImg);
