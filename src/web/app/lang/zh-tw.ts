@@ -623,6 +623,7 @@ const lang: ILang = {
         height: '物件高度',
         z_step: '每次遞降',
         diode: '二極體雷射',
+        backlash: '背隙調整',
         times: '次',
         cut: '切割',
         engrave: '雕刻',

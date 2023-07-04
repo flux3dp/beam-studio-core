@@ -1,5 +1,5 @@
-import { ILang } from 'interfaces/ILang';
 /* eslint-disable max-len */
+import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
@@ -624,6 +624,7 @@ const lang: ILang = {
         height: '오브젝트 높이',
         z_step: 'Z 스텝',
         diode: '다이오드 레이저',
+        backlash: '백래시',
         times: '회',
         cut: '절단',
         engrave: '새금',

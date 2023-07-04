@@ -623,6 +623,7 @@ const lang: ILang = {
         height: 'Object Height',
         z_step: 'Z Step',
         diode: 'Diode Laser',
+        backlash: 'Backlash',
         times: 'times',
         cut: 'Cut',
         engrave: 'Engrave',

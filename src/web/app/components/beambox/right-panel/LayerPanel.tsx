@@ -30,12 +30,10 @@ const LANG_PARAMS = i18n.lang.beambox.right_panel.laser_panel;
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
-  id?: string;
   elem: Element;
 }
 
 interface State {
-  id?: string;
   draggingDestIndex?: number;
   draggingLayer?: string;
   disableScroll?: boolean;
@@ -388,7 +386,7 @@ class LayerPanel extends React.Component<Props, State> {
     }
   };
 
-  renderLaserPanel = () : JSX.Element => {
+  renderConfigPanel = () : JSX.Element => {
     const { selectedLayers } = this.context;
     const { displayLaserPanelModal } = this.state;
     if (isMobile()) {
@@ -479,7 +477,7 @@ class LayerPanel extends React.Component<Props, State> {
               {this.renderLayerPanel()}
             </>
           )}
-        {this.renderLaserPanel()}
+        {this.renderConfigPanel()}
       </div>
     );
   }

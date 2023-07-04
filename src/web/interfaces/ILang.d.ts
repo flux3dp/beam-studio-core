@@ -621,6 +621,7 @@ export interface ILang {
         height: string,
         z_step: string,
         diode: string,
+        backlash: string;
         times: string,
         cut: string,
         engrave: string,

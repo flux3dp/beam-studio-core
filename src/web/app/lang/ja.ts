@@ -623,6 +623,7 @@ const lang: ILang = {
         height: '高さ',
         z_step: 'Z Step',
         diode: 'ダイオードレーザー',
+        backlash: 'バックラッシュ',
         times: '回',
         cut: 'カット',
         engrave: '彫刻する',

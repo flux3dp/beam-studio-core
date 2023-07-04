@@ -35,6 +35,7 @@ import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import AddOnBlock from './AddOnBlock';
+import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
 import InkBlock from './InkBlock';
@@ -116,6 +117,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
         diode: { value: currentLayerConfig.diode.value, hasMultiValue: config.diode.hasMultiValue },
         configName: { value: currentLayerConfig.configName.value, hasMultiValue: config.configName.hasMultiValue },
         type: { value: currentLayerConfig.type.value, hasMultiValue: config.type.hasMultiValue },
+        backlash: { value: currentLayerConfig.backlash.value, hasMultiValue: config.backlash.hasMultiValue },
       };
       dispatch({ type: 'update', payload });
     }
@@ -195,6 +197,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
 
   const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
   const parametersSet = getParametersSet(beamboxPreference.read('workarea') || beamboxPreference.read('model'));
+  const isCustomBacklashEnabled = beamboxPreference.read('enable-custom-backlash');
   const unit = useMemo(() => storage.get('default-units') as string || 'mm', []);
   const dropdownOptions = customizedConfigs
     ? customizedConfigs
@@ -253,6 +256,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
               {type.value === LayerType.LASER && <PowerBlock />}
               {type.value === LayerType.PRINTER && <InkBlock />}
               <SpeedBlock />
+              {isCustomBacklashEnabled && <Backlash />}
               <RepeatBlock />
             </div>
             <AddOnBlock />
