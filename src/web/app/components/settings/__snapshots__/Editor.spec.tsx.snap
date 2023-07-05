@@ -297,6 +297,24 @@ exports[`should render correctly initially no warning 1`] = `
       ]
     }
   />
+  <SelectControl
+    id="set-enable-custom-backlash"
+    onChange={[Function]}
+    options={
+      [
+        {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
 </Fragment>
 `;
 
@@ -566,6 +584,24 @@ exports[`should render correctly initially no warning 2`] = `
   />
   <SelectControl
     id="set-enable-low-speed"
+    onChange={[Function]}
+    options={
+      [
+        {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    id="set-enable-custom-backlash"
     onChange={[Function]}
     options={
       [
@@ -882,6 +918,24 @@ exports[`should render correctly initially no warning 3`] = `
       ]
     }
   />
+  <SelectControl
+    id="set-enable-custom-backlash"
+    onChange={[Function]}
+    options={
+      [
+        {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
 </Fragment>
 `;
 
@@ -1166,6 +1220,24 @@ exports[`should render correctly initially no warning 4`] = `
   />
   <SelectControl
     id="set-enable-low-speed"
+    onChange={[Function]}
+    options={
+      [
+        {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
+  <SelectControl
+    id="set-enable-custom-backlash"
     onChange={[Function]}
     options={
       [

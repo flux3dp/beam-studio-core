@@ -2,6 +2,8 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
+import { OptionValues } from 'app/constants/enums';
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     menu: {
@@ -186,6 +188,18 @@ describe('should render correctly', () => {
           selected: true,
         },
       ]}
+      enableCustomBacklashOptions={[
+        {
+          value: OptionValues.TRUE,
+          label: 'On',
+          selected: false,
+        },
+        {
+          value: OptionValues.FALSE,
+          label: 'Off',
+          selected: true,
+        },
+      ]}
       updateConfigChange={updateConfigChange}
       updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
       updateModel={updateModel}
@@ -291,5 +305,13 @@ describe('should render correctly', () => {
     wrapper.find('UnitInput').at(1).props().getValue(2);
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(9);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(9, 'guide_y0', 2);
+
+    wrapper.find('SelectControl').at(10).simulate('change', {
+      target: {
+        value: OptionValues.TRUE,
+      },
+    });
+    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(10);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(10, 'enable-custom-backlash', 'TRUE');
   });
 });
