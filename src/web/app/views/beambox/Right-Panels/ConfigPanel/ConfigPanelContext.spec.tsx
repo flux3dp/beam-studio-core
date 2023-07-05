@@ -1,16 +1,29 @@
 import { Action, getDefaultState, reducer } from './ConfigPanelContext';
 
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  DataType: {
+    speed: 'speed',
+    strength: 'strength',
+    repeat: 'repeat',
+    zstep: 'zstep',
+    configName: 'configName',
+  },
+  defaultConfig: {
+    speed: 20,
+    strength: 15,
+    repeat: 1,
+    zstep: 0,
+    configName: '',
+  },
+}));
+
 describe('test ConfigPanelContext', () => {
   test('getDefaultState should work', () => {
     expect(getDefaultState()).toEqual({
-      speed: { value: 3 },
-      power: { value: 1 },
-      ink: { value: 3 },
+      speed: { value: 20 },
+      power: { value: 15 },
       repeat: { value: 1 },
-      height: { value: -3 },
       zStep: { value: 0 },
-      diode: { value: 0 },
-      type: { value: 1 },
       configName: { value: '' },
     });
   });
@@ -26,13 +39,9 @@ describe('test ConfigPanelContext', () => {
     } as Action);
     expect(newState).toEqual({
       speed: { value: 2, hasMultiValue: true },
-      power: { value: 1 },
-      ink: { value: 3 },
+      power: { value: 15 },
       repeat: { value: 2 },
-      height: { value: -3 },
       zStep: { value: 0 },
-      diode: { value: 0 },
-      type: { value: 1 },
       configName: { value: '' },
     });
   });
@@ -48,13 +57,9 @@ describe('test ConfigPanelContext', () => {
     } as Action);
     expect(newState).toEqual({
       speed: { value: 2 },
-      power: { value: 1 },
-      ink: { value: 3 },
+      power: { value: 15 },
       repeat: { value: 2 },
-      height: { value: -3 },
       zStep: { value: 0 },
-      diode: { value: 0 },
-      type: { value: 1 },
       configName: { value: '' },
     });
   });
@@ -66,14 +71,10 @@ describe('test ConfigPanelContext', () => {
       payload: 'test',
     } as Action);
     expect(newState).toEqual({
-      speed: { value: 3 },
-      power: { value: 1 },
-      ink: { value: 3 },
+      speed: { value: 20 },
+      power: { value: 15 },
       repeat: { value: 1 },
-      height: { value: -3 },
       zStep: { value: 0 },
-      diode: { value: 0 },
-      type: { value: 1 },
       configName: { value: 'test' },
       selectedItem: 'test',
     });

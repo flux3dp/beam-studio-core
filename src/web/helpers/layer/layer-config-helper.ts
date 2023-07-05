@@ -33,20 +33,22 @@ export enum DataType {
   diode = 'diode',
   configName = 'configName',
   type = 'type', // 1: laser, 2: printer
+  backlash = 'backlash',
 }
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
 
-const defaultConfig = {
-  speed: 20,
-  strength: 15,
-  ink: 3,
-  repeat: 1,
-  height: -3,
-  zstep: 0,
-  diode: 0,
-  configName: '',
-  type: LayerType.LASER,
+export const defaultConfig = {
+  [DataType.speed]: 20,
+  [DataType.strength]: 15,
+  [DataType.ink]: 3,
+  [DataType.repeat]: 1,
+  [DataType.height]: -3,
+  [DataType.zstep]: 0,
+  [DataType.diode]: 0,
+  [DataType.configName]: '',
+  [DataType.type]: LayerType.LASER,
+  [DataType.backlash]: 0,
 };
 
 const getData = (layer: Element, dataType: DataType) => {
@@ -95,15 +97,10 @@ const getMultiSelectData = <T = number>(
 };
 
 export const initLayerConfig = (layerName: string): void => {
-  writeData(layerName, DataType.speed, defaultConfig.speed);
-  writeData(layerName, DataType.strength, defaultConfig.strength);
-  writeData(layerName, DataType.ink, defaultConfig.ink);
-  writeData(layerName, DataType.repeat, defaultConfig.repeat);
-  writeData(layerName, DataType.height, defaultConfig.height);
-  writeData(layerName, DataType.zstep, defaultConfig.zstep);
-  writeData(layerName, DataType.diode, defaultConfig.diode);
-  writeData(layerName, DataType.configName, defaultConfig.configName);
-  writeData(layerName, DataType.type, defaultConfig.type);
+  const dataTypes = Object.values(DataType);
+  for (let i = 0; i < dataTypes.length; i += 1) {
+    writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
+  }
 };
 
 export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string): void => {
@@ -111,15 +108,10 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
   if (!baseLayer) {
     initLayerConfig(targetLayerName);
   } else {
-    writeData(targetLayerName, DataType.speed, getData(baseLayer, DataType.speed));
-    writeData(targetLayerName, DataType.strength, getData(baseLayer, DataType.strength));
-    writeData(targetLayerName, DataType.ink, getData(baseLayer, DataType.ink));
-    writeData(targetLayerName, DataType.repeat, getData(baseLayer, DataType.repeat));
-    writeData(targetLayerName, DataType.height, getData(baseLayer, DataType.height));
-    writeData(targetLayerName, DataType.zstep, getData(baseLayer, DataType.zstep));
-    writeData(targetLayerName, DataType.diode, getData(baseLayer, DataType.diode));
-    writeData(targetLayerName, DataType.configName, getData(baseLayer, DataType.configName));
-    writeData(targetLayerName, DataType.type, getData(baseLayer, DataType.type));
+    const dataTypes = Object.values(DataType);
+    for (let i = 0; i < dataTypes.length; i += 1) {
+      writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
+    }
   }
 };
 
@@ -137,6 +129,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   const diode = getData(layer, DataType.diode) as number;
   const configName = getData(layer, DataType.configName) as string;
   const type = getData(layer, DataType.type) as number;
+  const backlash = getData(layer, DataType.backlash) as number;
 
   return {
     speed: { value: speed },
@@ -148,6 +141,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
     diode: { value: diode },
     configName: { value: configName },
     type: { value: type },
+    backlash: { value: backlash },
   };
 };
 
@@ -162,6 +156,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const diodeData = getMultiSelectData(layers, DataType.diode);
   const configNameData = getMultiSelectData<string>(layers, DataType.configName);
   const typeData = getMultiSelectData(layers, DataType.type);
+  const backlashData = getMultiSelectData(layers, DataType.backlash);
 
   return {
     speed: speedData,
@@ -173,6 +168,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
     diode: diodeData,
     configName: configNameData,
     type: typeData,
+    backlash: backlashData,
   };
 };
 

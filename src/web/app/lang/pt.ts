@@ -1,5 +1,5 @@
-import { ILang } from 'interfaces/ILang';
 /* eslint-disable max-len */
+import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
@@ -401,6 +401,7 @@ const lang: ILang = {
     grouped_objects: 'Objetos Agrupados',
     simplify_clipper_path: 'Otimize o caminho calculado',
     enable_low_speed: 'Habilitar movimento em baixa velocidade',
+    enable_custom_backlash: 'Habilitar backlash personalizado',
     mask: 'Recorte da área de trabalho',
     text_path_calc_optimization: 'Otimização de cálculo de caminho',
     font_substitute: 'Substituir caracteres não suportados',
@@ -622,6 +623,7 @@ const lang: ILang = {
         focus_adjustment: 'Ajuste de Foco',
         height: 'Altura do objeto',
         z_step: 'Z Step',
+        backlash: 'Folga',
         diode: 'Laser de Diodo',
         times: 'Vezes',
         cut: 'Cortar',

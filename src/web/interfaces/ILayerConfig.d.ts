@@ -13,4 +13,5 @@ export interface ILayerConfig {
   diode: IConfig<number>;
   configName: IConfig<string>;
   type: IConfig<number>;
+  backlash: IConfig<number>;
 }

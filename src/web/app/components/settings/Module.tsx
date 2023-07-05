@@ -17,7 +17,7 @@ interface Props {
   autofocusModuleOptions: { value: any, label: string, selected: boolean }[];
   autofocusOffset: number;
   diodeModuleOptions: { value: any, label: string, selected: boolean }[];
-  diodeOneWayEngravingOpts: { value: boolean; label: string; selected: boolean }[];
+  diodeOneWayEngravingOpts: { value: OptionValues; label: string; selected: boolean }[];
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
 }
 

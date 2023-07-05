@@ -398,6 +398,7 @@ export interface ILang {
     grouped_objects: string,
     simplify_clipper_path: string,
     enable_low_speed: string;
+    enable_custom_backlash: string;
     mask: string,
     text_path_calc_optimization: string,
     font_substitute: string,
@@ -620,6 +621,7 @@ export interface ILang {
         height: string,
         z_step: string,
         diode: string,
+        backlash: string;
         times: string,
         cut: string,
         engrave: string,

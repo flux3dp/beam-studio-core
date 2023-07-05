@@ -1,22 +1,23 @@
 import { createContext, Dispatch } from 'react';
 
+import { DataType, defaultConfig } from 'helpers/layer/layer-config-helper';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
 interface State extends ILayerConfig {
   selectedItem?: string;
 }
 
-export const getDefaultState = (): State => ({
-  speed: { value: 3 },
-  power: { value: 1 },
-  ink: { value: 3 },
-  repeat: { value: 1 },
-  height: { value: -3 },
-  zStep: { value: 0 },
-  diode: { value: 0 },
-  type: { value: 1 },
-  configName: { value: '' },
-});
+export const getDefaultState = (): State => {
+  const keys = Object.keys(defaultConfig);
+  const initState = {} as State;
+  keys.forEach((key) => {
+    // Handle DataType and state type mismatch
+    if (key === DataType.strength) initState.power = { value: defaultConfig[key as DataType] as number };
+    else if (key === DataType.zstep) initState.zStep = { value: defaultConfig[key as DataType] as number };
+    else initState[key] = { value: defaultConfig[key as DataType] };
+  });
+  return initState;
+};
 
 export type Action = {
   type: 'update';

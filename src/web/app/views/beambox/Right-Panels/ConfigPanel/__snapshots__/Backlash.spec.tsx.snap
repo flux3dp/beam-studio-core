@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Backlash should render correctly 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    >
+      backlash
+    </span>
+    <div>
+      MockUnitInput
+      <p>
+        id: 
+        backlash
+      </p>
+      <p>
+        min: 
+        0
+      </p>
+      <p>
+        max: 
+        10
+      </p>
+      <p>
+        unit: 
+        mm
+      </p>
+      <p>
+        defaultValue: 
+        8.7
+      </p>
+      <p>
+        decimal: 
+        2
+      </p>
+      <p>
+        displayMultiValue: 
+      </p>
+    </div>
+    <input
+      max="10"
+      min="0"
+      step="0.1"
+      type="range"
+      value="8.7"
+    />
+  </div>
+</div>
+`;

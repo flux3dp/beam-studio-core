@@ -129,19 +129,19 @@ class Settings extends React.PureComponent<null, State> {
     window.location.reload();
   };
 
-  onOffOptionFactory = (
-    isOnSelected: boolean, onValue?, offValue?, onLabel?: string, offLabel?: string,
-  ): { value: any, label: string, selected: boolean, }[] => {
+  onOffOptionFactory = <T,>(
+    isOnSelected: boolean, onValue?: T, offValue?: T, onLabel?: string, offLabel?: string,
+  ): { value: T, label: string, selected: boolean, }[] => {
     const { lang } = this.state;
 
     return [
       {
-        value: onValue !== undefined ? onValue : OptionValues.TRUE,
+        value: (onValue !== undefined ? onValue : OptionValues.TRUE) as T,
         label: onLabel || lang.settings.on,
         selected: isOnSelected,
       },
       {
-        value: offValue !== undefined ? offValue : OptionValues.FALSE,
+        value: (offValue !== undefined ? offValue : OptionValues.FALSE) as T,
         label: offLabel || lang.settings.off,
         selected: !isOnSelected,
       },
@@ -229,13 +229,16 @@ class Settings extends React.PureComponent<null, State> {
     const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
 
     const isDiodeOneWayEngravingOn = this.getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
-    const diodeOneWayEngravingOpts = this.onOffOptionFactory(isDiodeOneWayEngravingOn);
+    const diodeOneWayEngravingOpts = this.onOffOptionFactory<OptionValues>(isDiodeOneWayEngravingOn);
 
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
 
     const isLowSpeedEnabled = this.getBeamboxPreferenceEditingValue('enable-low-speed');
     const enableLowSpeedOptions = this.onOffOptionFactory(isLowSpeedEnabled);
+
+    const isCustomBacklashEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-backlash');
+    const enableCustomBacklashOptions = this.onOffOptionFactory<OptionValues>(isCustomBacklashEnabled);
 
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
@@ -302,6 +305,7 @@ class Settings extends React.PureComponent<null, State> {
             continuousDrawingOptions={continuousDrawingOptions}
             simplifyClipperPath={simplifyClipperPath}
             enableLowSpeedOptions={enableLowSpeedOptions}
+            enableCustomBacklashOptions={enableCustomBacklashOptions}
             updateConfigChange={this.updateConfigChange}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
             updateModel={(newModel) => this.setState({ selectedModel: newModel })}
