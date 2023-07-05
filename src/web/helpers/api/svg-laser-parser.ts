@@ -137,6 +137,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.vectorSpeedConstraint) args.push('-vsc');
       if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
+      if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) {
