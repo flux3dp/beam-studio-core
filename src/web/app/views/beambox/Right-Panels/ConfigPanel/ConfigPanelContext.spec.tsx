@@ -1,12 +1,5 @@
 import { Action, getDefaultState, reducer } from './ConfigPanelContext';
 
-enum DataType {
-  speed = 'speed',
-  strength = 'strength',
-  repeat = 'repeat',
-  configName = 'configName',
-}
-
 jest.mock('helpers/layer/layer-config-helper', () => ({
   DataType: {
     speed: 'speed',
