@@ -1203,10 +1203,15 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       }
     };
     if (PreviewModeController.isPreviewMode()) {
-      if (startX === realX && startY === realY) {
-        PreviewModeController.preview(realX, realY, true, () => callback());
+      const workarea = BeamboxPreference.read('workarea');
+      if (workarea !== 'fad1') {
+        if (startX === realX && startY === realY) {
+          PreviewModeController.preview(realX, realY, true, callback);
+        } else {
+          PreviewModeController.previewRegion(startX, startY, realX, realY, callback);
+        }
       } else {
-        PreviewModeController.previewRegion(startX, startY, realX, realY, () => callback());
+        PreviewModeController.previewFullWorkarea(callback);
       }
     }
   };
