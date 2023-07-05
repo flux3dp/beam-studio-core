@@ -48,7 +48,7 @@ export const defaultConfig = {
   [DataType.diode]: 0,
   [DataType.configName]: '',
   [DataType.type]: LayerType.LASER,
-  [DataType.backlash]: -1,
+  [DataType.backlash]: 0,
 };
 
 const getData = (layer: Element, dataType: DataType) => {

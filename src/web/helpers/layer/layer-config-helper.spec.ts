@@ -44,6 +44,7 @@ test('test laser-config-helper', () => {
     diode: { value: 0 },
     configName: { value: '' },
     type: { value: 1 },
+    backlash: { value: 0 },
   });
 
   writeData('layer 1', DataType.zstep, 1);
@@ -57,6 +58,7 @@ test('test laser-config-helper', () => {
     diode: { value: 0 },
     configName: { value: '' },
     type: { value: 1 },
+    backlash: { value: 0 },
   });
 
   cloneLayerConfig('layer 2', 'layer 0');
@@ -70,6 +72,7 @@ test('test laser-config-helper', () => {
     diode: { value: 0 },
     configName: { value: '' },
     type: { value: 1 },
+    backlash: { value: 0 },
   });
 
   cloneLayerConfig('layer 3', 'layer 1');
@@ -83,6 +86,7 @@ test('test laser-config-helper', () => {
     diode: { value: 0 },
     configName: { value: '' },
     type: { value: 1 },
+    backlash: { value: 0 },
   });
 
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
@@ -95,6 +99,7 @@ test('test laser-config-helper', () => {
     diode: { value: 0, hasMultiValue: false },
     configName: { value: '', hasMultiValue: false },
     type: { value: 1, hasMultiValue: false },
+    backlash: { value: 0, hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.diode, 1);
@@ -109,6 +114,7 @@ test('test laser-config-helper', () => {
     diode: { value: 1, hasMultiValue: true },
     configName: { value: '', hasMultiValue: false },
     type: { value: 1, hasMultiValue: false },
+    backlash: { value: 0, hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.height, 1);
@@ -122,6 +128,7 @@ test('test laser-config-helper', () => {
     diode: { value: 1, hasMultiValue: true },
     configName: { value: '', hasMultiValue: false },
     type: { value: 1, hasMultiValue: false },
+    backlash: { value: 0, hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.type, 2);
@@ -135,6 +142,7 @@ test('test laser-config-helper', () => {
     diode: { value: 1 },
     configName: { value: '' },
     type: { value: 2 },
+    backlash: { value: 0 },
   });
 
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
@@ -147,5 +155,6 @@ test('test laser-config-helper', () => {
     diode: { value: 1, hasMultiValue: true },
     configName: { value: '', hasMultiValue: false },
     type: { value: 2, hasMultiValue: true },
+    backlash: { value: 0, hasMultiValue: false },
   });
 });
