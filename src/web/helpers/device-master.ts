@@ -1002,8 +1002,6 @@ class DeviceMaster {
     }
   }
 
-  getProbe
-
   existDevice(serial: string) {
     return this.discoveredDevices.some((device) => device.serial === serial);
   }
