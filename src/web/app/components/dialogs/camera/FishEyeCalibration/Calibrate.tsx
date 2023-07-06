@@ -102,14 +102,15 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
         message: `下載圖片中 ${height - startHeight + 1} / ${total}`,
         percentage: Math.round(100 * ((height - startHeight + 1) / total)),
       });
-      const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
-      const topImgUrl = URL.createObjectURL(topImg);
+      // const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
+      // const topImgUrl = URL.createObjectURL(topImg);
       const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
-      const bottomImgUrl = URL.createObjectURL(bottomImg);
-      const combined = await combineImgs(topImgUrl, bottomImgUrl);
-      newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
-      URL.revokeObjectURL(topImgUrl);
-      URL.revokeObjectURL(bottomImgUrl);
+      // const bottomImgUrl = URL.createObjectURL(bottomImg);
+      // const combined = await combineImgs(topImgUrl, bottomImgUrl);
+      // newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
+      newImages.push({ height, url: URL.createObjectURL(bottomImg), blob: bottomImg });
+      // URL.revokeObjectURL(topImgUrl);
+      // URL.revokeObjectURL(bottomImgUrl);
     }
     progressCaller.popById(PROGRESS_ID);
     setImgs(newImages);
