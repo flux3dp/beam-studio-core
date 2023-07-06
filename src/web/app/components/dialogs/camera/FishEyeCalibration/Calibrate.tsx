@@ -100,11 +100,11 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
       const heightStr = height.toFixed(1);
       progressCaller.update(PROGRESS_ID, {
         message: `下載圖片中 ${height - startHeight + 1} / ${total}`,
-        percentage: Math.round(100 * (height / (total))),
+        percentage: Math.round(100 * ((height - startHeight + 1) / total)),
       });
-      const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
+      const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
       const topImgUrl = URL.createObjectURL(topImg);
-      const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
+      const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
       const bottomImgUrl = URL.createObjectURL(bottomImg);
       const combined = await combineImgs(topImgUrl, bottomImgUrl);
       newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
