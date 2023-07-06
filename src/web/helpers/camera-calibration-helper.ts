@@ -157,9 +157,8 @@ export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<v
       return Math.round(val * 1e3) / 1e3;
     }
     return val;
-  }).replace(/"/g, '\\"');
-  console.log(strData);
-  await deviceMaster.setDeviceSettingJSON('fish_eye_params', strData);
+  });
+  await deviceMaster.uploadFisheyeParams(strData, () => {});
 };
 
 export const interpolatePointsFromHeight = (

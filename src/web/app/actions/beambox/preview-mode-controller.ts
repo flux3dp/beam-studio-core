@@ -84,7 +84,7 @@ class PreviewModeController {
   }
 
   setUpFishEyePreviewMode = async () => {
-    const fisheyeParameters = await deviceMaster.getFisheyeParams();
+    const fisheyeParameters = await deviceMaster.fetchFisheyeParams();
     const { k, d, heights, points, center } = fisheyeParameters;
     let perspectivePoints = points[0];
     const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });

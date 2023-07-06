@@ -684,6 +684,11 @@ class DeviceMaster {
     return controlSocket.fetchCameraCalibImage(fileName);
   }
 
+  fetchFisheyeParams(): Promise<FisheyeCameraParameters> {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.fetchFisheyeParams() as Promise<FisheyeCameraParameters>;
+  }
+
   async getLogsTexts(logs: string[], onProgress: (...args: any[]) => void = () => { }) {
     const res = {};
     for (let i = 0; i < logs.length; i += 1) {
@@ -873,26 +878,12 @@ class DeviceMaster {
     return res;
   }
 
-  async getFisheyeParams(): Promise<FisheyeCameraParameters> {
-    const res = await this.getDeviceSetting('fish_eye_params');
-    const fisheyeParameters = JSON.parse(res.value);
-    return fisheyeParameters;
-  }
-
   setDeviceSetting(name: string, value: string) {
     const controlSocket = this.currentDevice.control;
     if (value === 'delete') {
       return controlSocket.addTask(controlSocket.deleteDeviceSetting, name);
     }
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
-  }
-
-  setDeviceSettingJSON(name: string, value: string) {
-    const controlSocket = this.currentDevice.control;
-    if (value === 'delete') {
-      return controlSocket.addTask(controlSocket.deleteDeviceSetting, name);
-    }
-    return controlSocket.addTask(controlSocket.setDeviceSettingJSON, name, value);
   }
 
   getDeviceInfo() {
@@ -931,6 +922,14 @@ class DeviceMaster {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.toolheadUpdate, file);
+  };
+
+  uploadFisheyeParams = (data: string, onProgress: (...args: any[]) => void) => {
+    const controlSocket = this.currentDevice.control;
+    if (onProgress) {
+      controlSocket.setProgressListener(onProgress);
+    }
+    return controlSocket.addTask(controlSocket.uploadFisheyeParams, data);
   };
 
   // Camera functions
