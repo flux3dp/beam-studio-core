@@ -634,6 +634,35 @@ class Control extends EventEmitter {
     this.ws.send(`fetch_camera_calib_pictures ${fileName}`);
   });
 
+  fetchFisheyeParams = () => new Promise((resolve, reject) => {
+    const file = [];
+    this.on(EVENT_COMMAND_MESSAGE, async (response) => {
+      if (response.status === 'transfer') {
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+      } else if (!Object.keys(response).includes('completed')) {
+        file.push(response);
+      }
+
+      if (response instanceof Blob) {
+        this.removeCommandListeners();
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const jsonString = e.target.result as string;
+          console.log(jsonString);
+          const data = JSON.parse(jsonString);
+          console.log(data);
+          resolve(data);
+        };
+        fileReader.readAsText(response);
+        console.log(response);
+      }
+    });
+    this.setDefaultErrorResponse(reject);
+    this.setDefaultFatalResponse(reject);
+
+    this.ws.send('fetch_fisheye_params');
+  });
+
   getLaserPower = async () => {
     const res = (await this.useWaitOKResponse('play get_laser_power')).response;
     return res;
@@ -692,8 +721,6 @@ class Control extends EventEmitter {
   getDeviceSetting = (name: string) => this.useWaitAnyResponse(`config get ${name}`);
 
   setDeviceSetting = (name: string, value: string) => this.useWaitAnyResponse(`config set ${name} ${value}`);
-
-  setDeviceSettingJSON = (name: string, value: string) => this.useWaitAnyResponse(`config set_json ${name} ${value}`);
 
   deleteDeviceSetting = (name: string) => this.useWaitAnyResponse(`config del ${name}`);
 
@@ -764,12 +791,12 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0 ||
-          response.text.indexOf('DEBUG: RESET') >= 0 ||
-          response.text.indexOf('error:') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
-          resps.some((resp) => resp.includes('DEBUG: RESET')) ||
-          resps.some((resp) => resp.includes('error:'))
+          response.text.indexOf('ER:RESET') >= 0
+          || response.text.indexOf('DEBUG: RESET') >= 0
+          || response.text.indexOf('error:') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || resps.some((resp) => resp.includes('DEBUG: RESET'))
+          || resps.some((resp) => resp.includes('error:'))
         ) {
           didErrorOccur = true;
           if (retryTimes > 5) {
@@ -828,9 +855,9 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
-          response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
             this.removeCommandListeners();
@@ -885,9 +912,9 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
-          response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
             this.removeCommandListeners();
@@ -1043,6 +1070,30 @@ class Control extends EventEmitter {
     this.setDefaultFatalResponse(reject);
 
     this.ws.send(args.join(' '));
+  });
+
+  uploadFisheyeParams = (data: string) => new Promise((resolve, reject) => {
+    const blob = new Blob([data], { type: 'application/json' });
+    this.on(EVENT_COMMAND_MESSAGE, (response) => {
+      if (response.status === 'ok') {
+        this.removeCommandListeners();
+        resolve(response);
+      } else if (response.status === 'continue') {
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+        this.ws.send(blob);
+      } else if (response.status === 'uploading') {
+        response.percentage = ((response.sent || 0) / blob.size) * 100;
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+      } else {
+        this.removeCommandListeners();
+        reject(response);
+      }
+    });
+
+    this.setDefaultErrorResponse(reject);
+    this.setDefaultFatalResponse(reject);
+
+    this.ws.send(`update_fisheye_params application/json ${blob.size}`);
   });
 }
 
