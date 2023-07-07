@@ -7,6 +7,7 @@ import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import isDev from 'helpers/is-dev';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -29,7 +30,7 @@ const workareaOptions = [
   { label: 'HEXA', value: 'fhexa1' },
 ];
 
-if ('localStorage' in window && window.localStorage.getItem('dev')) {
+if (isDev()) {
   workareaOptions.push({ label: 'Ador', value: 'fad1' });
 }
 

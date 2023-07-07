@@ -10,6 +10,7 @@ import Constant from 'app/actions/beambox/constant';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import TutorialConstants from 'app/constants/tutorial-constants';
@@ -82,7 +83,7 @@ const GoButton = (props: Props): JSX.Element => {
     }
     SymbolMaker.switchImageSymbolForAll(true);
 
-    if (isPowerTooHigh && !localStorage.getItem('dev')) {
+    if (isPowerTooHigh && !isDev()) {
       const confirmed = await Dialog.showConfirmPromptDialog({
         caption: LANG.alerts.power_too_high,
         message: LANG.alerts.power_too_high_msg,

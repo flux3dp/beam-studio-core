@@ -13,6 +13,7 @@ import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
@@ -210,6 +211,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
   const { type } = state;
+  const isDevMode = isDev();
   return (
     <ConfigPanelContext.Provider
       value={{
@@ -252,11 +254,11 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {localStorage.getItem('dev') && <LayerTypeBlock />}
+              {isDevMode && <LayerTypeBlock />}
               {type.value === LayerType.LASER && <PowerBlock />}
               {type.value === LayerType.PRINTER && <InkBlock />}
               <SpeedBlock />
-              {isCustomBacklashEnabled && <Backlash />}
+              {(isDevMode && isCustomBacklashEnabled) && <Backlash />}
               <RepeatBlock />
             </div>
             <AddOnBlock />

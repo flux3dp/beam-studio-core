@@ -4,6 +4,7 @@ import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import Controls from 'app/components/settings/Control';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -115,7 +116,8 @@ function Editor({
     },
   ];
 
-  if ('localStorage' in window && window.localStorage.getItem('dev')) {
+  const isDevMode = isDev();
+  if (isDevMode) {
     modelOptions.push({
       value: 'fad1',
       label: 'Ador',
@@ -228,12 +230,14 @@ function Editor({
         options={enableLowSpeedOptions}
         onChange={(e) => updateBeamboxPreferenceChange('enable-low-speed', e.target.value)}
       />
-      <SelectControl
-        id="set-enable-custom-backlash"
-        label={lang.settings.enable_custom_backlash}
-        options={enableCustomBacklashOptions}
-        onChange={(e) => updateBeamboxPreferenceChange('enable-custom-backlash', e.target.value)}
-      />
+      {isDevMode && (
+        <SelectControl
+          id="set-enable-custom-backlash"
+          label={lang.settings.enable_custom_backlash}
+          options={enableCustomBacklashOptions}
+          onChange={(e) => updateBeamboxPreferenceChange('enable-custom-backlash', e.target.value)}
+        />
+      )}
     </>
   );
 }

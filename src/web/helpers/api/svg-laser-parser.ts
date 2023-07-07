@@ -12,6 +12,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
@@ -77,14 +78,15 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let totalLength = 0;
       let blob;
 
+      const isDevMode = isDev();
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
-        if (!localStorage.getItem('dev')) args.push('-acc', '7500');
+        if (!isDevMode) args.push('-acc', '7500');
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
       else if (opts.model === 'fad1') args.push('-fad1');
 
-      if (localStorage.getItem('dev')) {
+      if (isDevMode) {
         const accel = BeamboxPreference.read('padding_accel') || 7500;
         args.push('-acc', accel);
       }
@@ -138,11 +140,11 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
       if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
-      if (localStorage.getItem('dev') && localStorage.getItem('min_engraving_padding')) {
+      if (isDevMode && localStorage.getItem('min_engraving_padding')) {
         args.push('-mep');
         args.push(localStorage.getItem('min_engraving_padding'));
       }
-      if (localStorage.getItem('dev') && localStorage.getItem('min_printing_padding')) {
+      if (isDevMode && localStorage.getItem('min_printing_padding')) {
         args.push('-mpp');
         args.push(localStorage.getItem('min_printing_padding'));
       }
