@@ -4,6 +4,8 @@ import toJson from 'enzyme-to-json';
 
 import { OptionValues } from 'app/constants/enums';
 
+jest.mock('helpers/is-dev', () => () => true);
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     menu: {

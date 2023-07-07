@@ -2,6 +2,8 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
+import { OptionValues } from 'app/constants/enums';
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     settings: {
@@ -18,6 +20,8 @@ jest.mock('helpers/i18n', () => ({
 // eslint-disable-next-line import/first
 import Camera from './Camera';
 
+const mockUpdateBeamboxPreferenceChange = jest.fn();
+
 test('should render correctly', () => {
   expect(toJson(shallow(<Camera
     speed={{
@@ -32,5 +36,18 @@ test('should render correctly', () => {
       defaultValue: 1,
       getValue: jest.fn(),
     }}
+    enableCustomPreviewHeightOptions={[
+      {
+        value: OptionValues.TRUE,
+        label: 'On',
+        selected: false,
+      },
+      {
+        value: OptionValues.FALSE,
+        label: 'Off',
+        selected: true,
+      },
+    ]}
+    updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
   />))).toMatchSnapshot();
 });
