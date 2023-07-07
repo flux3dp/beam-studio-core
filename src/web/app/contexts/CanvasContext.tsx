@@ -4,6 +4,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IUser } from 'interfaces/IUser';
 
@@ -67,6 +68,7 @@ const CanvasContext = createContext<CanvasContextType>({
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
+  const forceUpdate = useForceUpdate();
   const [displayLayer, setDisplayLayer] = useState<boolean>(window.outerWidth > 600);
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
@@ -112,7 +114,10 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   };
 
-  const updateTopBar = (): void => { console.log('Force update?'); };
+  const updateTopBar = (): void => {
+    console.log('Force update?');
+    forceUpdate();
+  };
 
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)

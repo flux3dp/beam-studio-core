@@ -106,15 +106,19 @@ class PreviewModeController {
     }
     this.fisheyeParameters = fisheyeParameters;
     const getHeight = async () => {
-      if (!BeamboxPreference.read('enable-custom-preview-height')) {
-        Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
-        await deviceMaster.enterRawMode();
-        Progress.update('start-preview-mode', { message: 'tGetting probe position' });
-        const res = await deviceMaster.rawGetProbePos();
-        Progress.update('start-preview-mode', { message: LANG.message.endingRawMode });
-        await deviceMaster.endRawMode();
-        const { z, didAf } = res;
-        if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
+      try {
+        if (!BeamboxPreference.read('enable-custom-preview-height')) {
+          Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
+          await deviceMaster.enterRawMode();
+          Progress.update('start-preview-mode', { message: 'tGetting probe position' });
+          const res = await deviceMaster.rawGetProbePos();
+          Progress.update('start-preview-mode', { message: LANG.message.endingRawMode });
+          await deviceMaster.endRawMode();
+          const { z, didAf } = res;
+          if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
+        }
+      } catch (e) {
+        //
       }
       const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
       return val !== null ? Number(val) : null;
@@ -193,8 +197,9 @@ class PreviewModeController {
     this.isPreviewBlocked = true;
     try {
       const imgUrl = await this.getPhotoFromMachine();
-      PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, currentDevice.model as WorkAreaModel);
+      PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, currentDevice.model as WorkAreaModel, callback);
       this.isPreviewBlocked = false;
+      this.isDrawing = false;
       return true;
     } catch (error) {
       if (this.isPreviewModeOn) {
