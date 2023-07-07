@@ -20,7 +20,7 @@ interface Props {
     defaultValue: number;
     getValue: (val) => void;
   };
-  previewAutoGetHeightOptions: { value: OptionValues, label: string, selected: boolean }[];
+  enableCustomPreviewHeightOptions: { value: OptionValues, label: string, selected: boolean }[];
   updateBeamboxPreferenceChange: (key: string, newVal: any) => void;
 }
 
@@ -34,7 +34,7 @@ function Camera({
     defaultValue: defaultValueHL,
     getValue: getValueHL,
   },
-  previewAutoGetHeightOptions,
+  enableCustomPreviewHeightOptions,
   updateBeamboxPreferenceChange,
 }: Props): JSX.Element {
   const { lang } = i18n;
@@ -67,10 +67,10 @@ function Camera({
       </Controls>
       {isDev() && (
         <SelectControl
-          id="set-preview-auto-get-height"
-          label={lang.settings.enable_custom_backlash}
-          options={previewAutoGetHeightOptions}
-          onChange={(e) => updateBeamboxPreferenceChange('preview-auto-get-height', e.target.value)}
+          id="set-enable-custom-preview-height"
+          label={lang.settings.custom_preview_height}
+          options={enableCustomPreviewHeightOptions}
+          onChange={(e) => updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)}
         />
       )}
     </>

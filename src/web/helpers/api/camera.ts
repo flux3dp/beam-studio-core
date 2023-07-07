@@ -172,7 +172,12 @@ class Camera {
   setFisheyeMatrix = async (mat: FisheyeMatrix, setCrop = false): Promise<boolean> => {
     const { center, ...matrix } = { ...mat };
     const [cx, cy] = center || [];
-    const matrixString = JSON.stringify(matrix);
+    const matrixString = JSON.stringify(matrix, (key, val) => {
+      if (typeof val === 'number') {
+        return Math.round(val * 1e3) / 1e3;
+      }
+      return val;
+    });
     this.ws.send(`set_fisheye_matrix ${matrixString}`);
     let res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
     if (!setCrop) return res.status === 'ok';
