@@ -401,6 +401,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimize the Calculated Path',
     enable_low_speed: 'Enable slow speed movement',
     enable_custom_backlash: 'Enable Custom Backlash Compensation',
+    custom_preview_height: 'Custom Preview Height',
     mask: 'Workarea Clipping',
     text_path_calc_optimization: 'Path Calculation Optimization',
     font_substitute: 'Substitute Unsupported Characters',

@@ -1023,6 +1023,70 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
+  rawGetProbePos = (): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return new Promise((resolve, reject) => {
+      let isCmdResent = false;
+      let responseString = '';
+      const command = 'M136P254';
+      let retryTimes = 0;
+      let timeoutTimer: null | NodeJS.Timeout;
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        clearTimeout(timeoutTimer);
+        if (response && response.status === 'raw') {
+          console.log('raw get probe position:\t', response.text);
+          responseString += response.text;
+        }
+        const resps = responseString.split('\n');
+        const i = resps.findIndex((r) => r === 'ok\r');
+        if (i < 0) responseString = resps[resps.length - 1] || '';
+        if (i >= 0) {
+          const resIdx = resps.findIndex((r) => r.match(/\[PRB:([\d.]+),([\d.]+),([\d.]+),([\d.]+):(\d)\]/));
+          if (resIdx >= 0) {
+            const resStr = resps[resIdx];
+            const match = resStr.match(/\[PRB:([\d.]+),([\d.]+),([\d.]+),([\d.]+):(\d)\]/);
+            const [, x, y, z, a, didAf] = match;
+            this.removeCommandListeners();
+            resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a), didAf: didAf === '1' });
+          } else {
+            this.removeCommandListeners();
+            reject(response);
+          }
+          return;
+        }
+        if (
+          response.text.indexOf('ER:RESET') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || response.text.indexOf('error:') >= 0
+        ) {
+          if (retryTimes >= 5) {
+            this.removeCommandListeners();
+            reject(response);
+            return;
+          }
+          if (!isCmdResent) {
+            isCmdResent = true;
+            setTimeout(() => {
+              isCmdResent = false;
+              responseString = '';
+              this.ws.send(command);
+              retryTimes += 1;
+            }, 200);
+          }
+        } else {
+          timeoutTimer = this.setTimeoutTimer(reject, 10000);
+        }
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      timeoutTimer = this.setTimeoutTimer(reject, 10000);
+
+      this.ws.send(command);
+    });
+  };
+
   fwUpdate = (file: File) => new Promise((resolve, reject) => {
     const blob = new Blob([file], { type: 'binary/flux-firmware' });
     this.on(EVENT_COMMAND_MESSAGE, (response) => {

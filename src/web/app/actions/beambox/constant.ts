@@ -3,9 +3,9 @@ export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1';
 
 interface WorkArea {
   label: WorkAreaLabel;
-  width: number;
-  height: number;
-  maxSpeed: number;
+  width: number; // px
+  height: number; // px
+  maxSpeed: number; // mm/s
   rotary: number[];
 }
 

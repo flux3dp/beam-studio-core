@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 
@@ -27,7 +28,6 @@ function Engraving({
   paddingAccelDiode,
 }: Props): JSX.Element {
   const { lang } = i18n;
-  const isDev = localStorage.getItem('dev');
   return (
     <>
       <div className="subtitle">{lang.settings.groups.engraving}</div>
@@ -44,7 +44,7 @@ function Engraving({
         options={reverseEngravingOptions}
         onChange={(e) => updateBeamboxPreferenceChange('reverse-engraving', e.target.value)}
       />
-      {isDev && (
+      {isDev() && (
         <>
           <Controls label="Padding Accel">
             <UnitInput

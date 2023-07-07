@@ -2,7 +2,10 @@ import * as React from 'react';
 
 import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
+import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { OptionValues } from 'app/constants/enums';
 
 interface Props {
   speed: {
@@ -17,6 +20,8 @@ interface Props {
     defaultValue: number;
     getValue: (val) => void;
   };
+  enableCustomPreviewHeightOptions: { value: OptionValues, label: string, selected: boolean }[];
+  updateBeamboxPreferenceChange: (key: string, newVal: any) => void;
 }
 
 function Camera({
@@ -29,6 +34,8 @@ function Camera({
     defaultValue: defaultValueHL,
     getValue: getValueHL,
   },
+  enableCustomPreviewHeightOptions,
+  updateBeamboxPreferenceChange,
 }: Props): JSX.Element {
   const { lang } = i18n;
   return (
@@ -58,6 +65,14 @@ function Camera({
           className={{ half: true }}
         />
       </Controls>
+      {isDev() && (
+        <SelectControl
+          id="set-enable-custom-preview-height"
+          label={lang.settings.custom_preview_height}
+          options={enableCustomPreviewHeightOptions}
+          onChange={(e) => updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)}
+        />
+      )}
     </>
   );
 }

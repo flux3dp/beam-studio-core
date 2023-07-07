@@ -240,6 +240,9 @@ class Settings extends React.PureComponent<null, State> {
     const isCustomBacklashEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-backlash');
     const enableCustomBacklashOptions = this.onOffOptionFactory<OptionValues>(isCustomBacklashEnabled);
 
+    const isCustomPrevHeightEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-preview-height');
+    const enableCustomPreviewHeightOptions = this.onOffOptionFactory<OptionValues>(isCustomPrevHeightEnabled);
+
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
@@ -293,6 +296,8 @@ class Settings extends React.PureComponent<null, State> {
                 || (cameraMovementSpeed * 0.6)) / 60,
               getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
             }}
+            enableCustomPreviewHeightOptions={enableCustomPreviewHeightOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Editor
             defaultUnit={this.getConfigEditingValue('default-units')}

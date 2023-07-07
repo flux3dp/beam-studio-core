@@ -105,6 +105,11 @@ exports[`should render correctly initially no warning 1`] = `
           "selected": false,
           "value": "fhexa1",
         },
+        {
+          "label": "Ador",
+          "selected": false,
+          "value": "fad1",
+        },
       ]
     }
   />
@@ -407,6 +412,11 @@ exports[`should render correctly initially no warning 2`] = `
           "label": "HEXA",
           "selected": false,
           "value": "fhexa1",
+        },
+        {
+          "label": "Ador",
+          "selected": false,
+          "value": "fad1",
         },
       ]
     }
@@ -726,6 +736,11 @@ exports[`should render correctly initially no warning 3`] = `
           "selected": false,
           "value": "fhexa1",
         },
+        {
+          "label": "Ador",
+          "selected": false,
+          "value": "fad1",
+        },
       ]
     }
   />
@@ -1043,6 +1058,11 @@ exports[`should render correctly initially no warning 4`] = `
           "label": "HEXA",
           "selected": false,
           "value": "fhexa1",
+        },
+        {
+          "label": "Ador",
+          "selected": false,
+          "value": "fad1",
         },
       ]
     }

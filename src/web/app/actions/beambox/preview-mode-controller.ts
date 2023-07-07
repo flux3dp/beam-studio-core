@@ -7,6 +7,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
+import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
 import i18n from 'helpers/i18n';
@@ -14,7 +15,7 @@ import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import Progress from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
-import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
+import { CameraConfig, CameraParameters, FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
 
@@ -36,6 +37,8 @@ class PreviewModeController {
 
   cameraOffset: CameraParameters;
 
+  fisheyeParameters: FisheyeCameraParameters;
+
   lastPosition: number[];
 
   errorCallback: () => void;
@@ -48,6 +51,7 @@ class PreviewModeController {
     this.isPreviewBlocked = false;
     this.isLineCheckEnabled = true;
     this.cameraOffset = null;
+    this.fisheyeParameters = null;
     this.lastPosition = [0, 0]; // in mm
     this.errorCallback = () => {};
   }
@@ -83,16 +87,45 @@ class PreviewModeController {
     await deviceMaster.rawSetWaterPump(false);
   }
 
-  setUpFishEyePreviewMode = async () => {
-    const fisheyeParameters = await deviceMaster.fetchFisheyeParams();
-    const { k, d, heights, points, center } = fisheyeParameters;
+  setFishEyeObjectHeight = async (height: number) => {
+    const { k, d, heights, center, points } = this.fisheyeParameters;
     let perspectivePoints = points[0];
-    const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
-    if (val !== null) {
-      const height = Number(val);
-      if (!Number.isNaN(height)) perspectivePoints = interpolatePointsFromHeight(height, heights, points);
+    if (height !== null && !Number.isNaN(height)) {
+      perspectivePoints = interpolatePointsFromHeight(height, heights, points);
+      console.log(height, perspectivePoints);
     }
     await deviceMaster.setFisheyeMatrix({ k, d, center, points: perspectivePoints }, true);
+  };
+
+  setUpFishEyePreviewMode = async (device: IDeviceInfo) => {
+    let fisheyeParameters: FisheyeCameraParameters = null;
+    try {
+      fisheyeParameters = await deviceMaster.fetchFisheyeParams();
+    } catch (err) {
+      throw new Error('Unable to get fisheye parameters, please make sure you have calibrated the camera');
+    }
+    this.fisheyeParameters = fisheyeParameters;
+    const getHeight = async () => {
+      try {
+        if (!BeamboxPreference.read('enable-custom-preview-height')) {
+          Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
+          await deviceMaster.enterRawMode();
+          Progress.update('start-preview-mode', { message: 'tGetting probe position' });
+          const res = await deviceMaster.rawGetProbePos();
+          Progress.update('start-preview-mode', { message: LANG.message.endingRawMode });
+          await deviceMaster.endRawMode();
+          const { z, didAf } = res;
+          if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
+        }
+      } catch (e) {
+        //
+      }
+      const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
+      return val !== null ? Number(val) : null;
+    };
+    const height = await getHeight();
+    console.log('Use Height: ', height);
+    await this.setFishEyeObjectHeight(height);
   };
 
   async endBeamSeriesPreviewMode() {
@@ -123,7 +156,7 @@ class PreviewModeController {
       if (device.model !== 'fad1') await this.setupBeamSeriesPreviewMode(device);
       Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await deviceMaster.connectCamera();
-      if (device.model === 'fad1') await this.setUpFishEyePreviewMode();
+      if (device.model === 'fad1') await this.setUpFishEyePreviewMode(device);
 
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
@@ -164,8 +197,9 @@ class PreviewModeController {
     this.isPreviewBlocked = true;
     try {
       const imgUrl = await this.getPhotoFromMachine();
-      PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, currentDevice.model as WorkAreaModel);
+      PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, currentDevice.model as WorkAreaModel, callback);
       this.isPreviewBlocked = false;
+      this.isDrawing = false;
       return true;
     } catch (error) {
       if (this.isPreviewModeOn) {

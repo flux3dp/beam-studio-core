@@ -799,6 +799,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawLooseMotorB12);
   }
 
+  rawGetProbePos(): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.rawGetProbePos);
+  }
+
   // Get, Set functions
   getLaserPower() {
     const controlSocket = this.currentDevice.control;
