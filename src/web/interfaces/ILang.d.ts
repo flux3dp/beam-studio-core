@@ -399,6 +399,7 @@ export interface ILang {
     simplify_clipper_path: string,
     enable_low_speed: string;
     enable_custom_backlash: string;
+    custom_preview_height: string;
     mask: string,
     text_path_calc_optimization: string,
     font_substitute: string,

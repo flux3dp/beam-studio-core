@@ -401,6 +401,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimisation de la trajectoire calculée',
     enable_low_speed: 'Activer le déplacement lent',
     enable_custom_backlash: 'Activer le jeu mécanique',
+    custom_preview_height: 'Hauteur de l\'aperçu',
     mask: 'Découpage de la zone de travail',
     text_path_calc_optimization: 'Optimisation du calcul du chemin',
     font_substitute: 'Substituer les caractères non supportés',

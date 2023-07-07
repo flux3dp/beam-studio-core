@@ -401,6 +401,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimaliseer het berekende pad',
     enable_low_speed: 'Langzaam verplaatsen inschakelen',
     enable_custom_backlash: 'Aangepaste speling inschakelen',
+    custom_preview_height: 'Aangepaste voorbeeldhoogte',
     mask: 'Werkgebied knippen',
     text_path_calc_optimization: 'Optimalisatie van padberekening',
     font_substitute: 'Vervang niet-ondersteunde tekens',
