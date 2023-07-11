@@ -246,10 +246,22 @@ class PreviewModeController {
     this.isDrawing = true;
     this.isPreviewBlocked = true;
     try {
+      MessageCaller.openMessage({
+        key: 'full-area-preview',
+        content: i18n.lang.topbar.preview,
+        level: MessageLevel.LOADING,
+        duration: 20,
+      });
       const imgUrl = await this.getPhotoFromMachine();
       PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, currentDevice.model as WorkAreaModel, callback);
       this.isPreviewBlocked = false;
       this.isDrawing = false;
+      MessageCaller.openMessage({
+        key: 'full-area-preview',
+        level: MessageLevel.SUCCESS,
+        content: 'Successfully previewed',
+        duration: 3,
+      });
       return true;
     } catch (error) {
       if (this.isPreviewModeOn) {
