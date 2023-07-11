@@ -48,10 +48,20 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
         });
       }
       progressCaller.popById(PROGRESS_ID);
-      progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'tCalculating Camera Matrix' });
-      const { k, d } = await doFishEyeCalibration();
-      progressCaller.update(PROGRESS_ID, { message: 'tCalculating Perspective Points' });
-      const { points, heights, errors } = await findPerspectivePoints();
+      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Camera Matrix' });
+      const { k, d } = await doFishEyeCalibration((val) => {
+        progressCaller.update(PROGRESS_ID, {
+          message: 'Calculating Camera Matrix',
+          percentage: Math.round(100 * val),
+        });
+      });
+      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Finding Perspective Points' });
+      const { points, heights, errors } = await findPerspectivePoints((val) => {
+        progressCaller.update(PROGRESS_ID, {
+          message: 'Finding Perspective Points',
+          percentage: Math.round(100 * val),
+        });
+      });
       console.log(errors);
       param.current = { ...param.current, k, d, heights, points };
       setStep(Step.CUT);

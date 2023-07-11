@@ -123,12 +123,15 @@ class CameraCalibrationApi {
     });
   }
 
-  doFisheyeCalibration(): Promise<{ k: number[][]; d: number[][] }> {
+  doFisheyeCalibration(onProgress?: (val: number) => void): Promise<{ k: number[][]; d: number[][] }> {
     return new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         switch (response.status) {
           case 'ok':
             resolve(response);
+            break;
+          case 'progress':
+            if (onProgress) onProgress(response.value);
             break;
           case 'fail':
             reject(response.reason);
@@ -151,39 +154,7 @@ class CameraCalibrationApi {
     });
   }
 
-  findVectors(img: Blob | ArrayBuffer): Promise<{ vx: number[]; vy: number[]; }> {
-    return new Promise((resolve, reject) => {
-      this.events.onMessage = (response) => {
-        switch (response.status) {
-          case 'ok':
-            resolve(response);
-            break;
-          case 'fail':
-            reject(response.reason);
-            break;
-          case 'continue':
-            this.ws.send(img);
-            break;
-          default:
-            console.log('strange message', response);
-            break;
-        }
-      };
-
-      this.events.onError = (response) => {
-        reject(response);
-        console.log('on error', response);
-      };
-      this.events.onFatal = (response) => {
-        reject(response);
-        console.log('on fatal', response);
-      };
-      const size = img instanceof Blob ? img.size : img.byteLength;
-      this.ws.send(`find_vectors ${size}`);
-    });
-  }
-
-  findPerspectivePoints(): Promise<{
+  findPerspectivePoints(onProgress?: (val: number) => void): Promise<{
     points: [number, number][][][]; heights: number[]; errors: { height: number; err: string }[];
   }> {
     return new Promise((resolve, reject) => {
@@ -191,6 +162,9 @@ class CameraCalibrationApi {
         switch (response.status) {
           case 'ok':
             resolve(response);
+            break;
+          case 'progress':
+            if (onProgress) onProgress(response.value);
             break;
           case 'fail':
             reject(response.reason);
