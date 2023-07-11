@@ -114,16 +114,12 @@ function Editor({
       label: 'HEXA',
       selected: selectedModel === 'fhexa1',
     },
-  ];
-
-  const isDevMode = isDev();
-  if (isDevMode) {
-    modelOptions.push({
+    {
       value: 'fad1',
       label: 'Ador',
       selected: selectedModel === 'fad1',
-    });
-  }
+    },
+  ];
 
   return (
     <>
@@ -230,7 +226,7 @@ function Editor({
         options={enableLowSpeedOptions}
         onChange={(e) => updateBeamboxPreferenceChange('enable-low-speed', e.target.value)}
       />
-      {isDevMode && (
+      {isDev() && (
         <SelectControl
           id="set-enable-custom-backlash"
           label={lang.settings.enable_custom_backlash}
