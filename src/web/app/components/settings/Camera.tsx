@@ -65,14 +65,12 @@ function Camera({
           className={{ half: true }}
         />
       </Controls>
-      {isDev() && (
-        <SelectControl
-          id="set-enable-custom-preview-height"
-          label={lang.settings.custom_preview_height}
-          options={enableCustomPreviewHeightOptions}
-          onChange={(e) => updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)}
-        />
-      )}
+      <SelectControl
+        id="set-enable-custom-preview-height"
+        label={lang.settings.custom_preview_height}
+        options={enableCustomPreviewHeightOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)}
+      />
     </>
   );
 }
