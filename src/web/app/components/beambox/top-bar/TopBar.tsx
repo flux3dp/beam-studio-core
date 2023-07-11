@@ -119,6 +119,7 @@ export default class TopBar extends React.Component<Props, State> {
       setTopBarPreviewMode,
       startPreviewCallback,
       setStartPreviewCallback,
+      updateTopBar,
     } = this.context;
     const workarea = document.getElementById('workarea');
     if (
@@ -200,6 +201,9 @@ export default class TopBar extends React.Component<Props, State> {
     try {
       await PreviewModeController.start(device, onPreviewError);
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      if (device.model === 'fad1') {
+        PreviewModeController.previewFullWorkarea(() => updateTopBar());
+      }
       setIsPreviewing(true);
       if (startPreviewCallback) {
         startPreviewCallback();
