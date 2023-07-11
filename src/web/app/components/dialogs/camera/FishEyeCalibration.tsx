@@ -55,10 +55,11 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
           percentage: Math.round(100 * val),
         });
       });
-      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Finding Perspective Points' });
+      progressCaller.popById(PROGRESS_ID);
+      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Perspective Points' });
       const { points, heights, errors } = await findPerspectivePoints((val) => {
         progressCaller.update(PROGRESS_ID, {
-          message: 'Finding Perspective Points',
+          message: 'Calculating Perspective Points',
           percentage: Math.round(100 * val),
         });
       });
@@ -78,7 +79,11 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
   const handleAlignBack = useCallback(() => setStep(Step.CUT), []);
   const handleAlignNext = useCallback((x: number, y: number) => {
     param.current = { ...param.current, center: [x, y] };
-    setFisheyeConfig(param.current);
+    try {
+      setFisheyeConfig(param.current);
+    } catch (err) {
+      alertCaller.popUp({ message: `tUnable to save camera config ${err}` });
+    }
     onClose(true);
   }, [onClose]);
 

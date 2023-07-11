@@ -96,25 +96,31 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
     const endHeight = 32;
     const total = endHeight - startHeight + 1;
     progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: `下載圖片中 0 / ${total}`, percentage: 0 });
-    for (let height = startHeight; height <= endHeight; height += 1) {
-      const heightStr = height.toFixed(1);
-      progressCaller.update(PROGRESS_ID, {
-        message: `下載圖片中 ${height - startHeight + 1} / ${total}`,
-        percentage: Math.round(100 * ((height - startHeight + 1) / total)),
-      });
-      const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
-      const bottomImgUrl = URL.createObjectURL(bottomImg);
-      if (height < 20) newImages.push({ height, url: URL.createObjectURL(bottomImg), blob: bottomImg });
-      else {
-        const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
-        const topImgUrl = URL.createObjectURL(topImg);
-        const combined = await combineImgs(topImgUrl, bottomImgUrl);
-        newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
-        URL.revokeObjectURL(topImgUrl);
+    try {
+      for (let height = startHeight; height <= endHeight; height += 1) {
+        const heightStr = height.toFixed(1);
+        progressCaller.update(PROGRESS_ID, {
+          message: `下載圖片中 ${height - startHeight + 1} / ${total}`,
+          percentage: Math.round(100 * ((height - startHeight + 1) / total)),
+        });
+        const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
+        const bottomImgUrl = URL.createObjectURL(bottomImg);
+        if (height < 20) newImages.push({ height, url: URL.createObjectURL(bottomImg), blob: bottomImg });
+        else {
+          const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
+          const topImgUrl = URL.createObjectURL(topImg);
+          const combined = await combineImgs(topImgUrl, bottomImgUrl);
+          newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
+          URL.revokeObjectURL(topImgUrl);
+        }
+        URL.revokeObjectURL(bottomImgUrl);
       }
-      URL.revokeObjectURL(bottomImgUrl);
+    } catch (err) {
+      alertCaller.popUpError({ message: `tUnable to get image ${err}` });
+      onClose(false);
+    } finally {
+      progressCaller.popById(PROGRESS_ID);
     }
-    progressCaller.popById(PROGRESS_ID);
     setImgs(newImages);
   };
 

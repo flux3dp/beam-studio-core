@@ -131,7 +131,7 @@ class CameraCalibrationApi {
             resolve(response);
             break;
           case 'progress':
-            if (onProgress) onProgress(response.value);
+            if (onProgress) onProgress(response.progress);
             break;
           case 'fail':
             reject(response.reason);
@@ -164,7 +164,7 @@ class CameraCalibrationApi {
             resolve(response);
             break;
           case 'progress':
-            if (onProgress) onProgress(response.value);
+            if (onProgress) onProgress(response.progress);
             break;
           case 'fail':
             reject(response.reason);
