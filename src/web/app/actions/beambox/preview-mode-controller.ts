@@ -90,6 +90,7 @@ class PreviewModeController {
 
   getHeight = async () => {
     const device = this.currentDevice;
+    let enteredRawMode = false;
     try {
       if (!BeamboxPreference.read('enable-custom-preview-height')) {
         Progress.openNonstopProgress({
@@ -98,6 +99,7 @@ class PreviewModeController {
           timeout: 30000,
         });
         await deviceMaster.enterRawMode();
+        enteredRawMode = true;
         Progress.update('preview-mode-get-height', { message: 'tGetting probe position' });
         const res = await deviceMaster.rawGetProbePos();
         const { z, didAf } = res;
@@ -107,15 +109,14 @@ class PreviewModeController {
       // do nothing
     } finally {
       Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
-      try {
-        await deviceMaster.endRawMode();
-      } catch (err) {
-        // do nothing
-      }
+      if (enteredRawMode) await deviceMaster.endRawMode();
       Progress.popById('preview-mode-get-height');
     }
     const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
-    return val !== null ? Number(val) : null;
+    // Get value from machine
+    const heightOffset = 1.8;
+    console.log('Useing height offset: ', heightOffset);
+    return val !== null ? (Number(val) + heightOffset) : null;
   };
 
   setFishEyeObjectHeight = async () => {
