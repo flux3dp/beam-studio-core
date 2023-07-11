@@ -63,7 +63,11 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
           percentage: Math.round(100 * val),
         });
       });
-      console.log(errors);
+      if (errors.length > 0) {
+        console.log(errors);
+        const errorHeights = errors.map((e) => e.height).join(', ');
+        alertCaller.popUp({ message: `tUnable to find perspective points for heights: ${errorHeights}` });
+      }
       param.current = { ...param.current, k, d, heights, points };
       setStep(Step.CUT);
     } catch (e) {
