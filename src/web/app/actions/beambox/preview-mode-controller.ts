@@ -107,7 +107,11 @@ class PreviewModeController {
       // do nothing
     } finally {
       Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
-      await deviceMaster.endRawMode();
+      try {
+        await deviceMaster.endRawMode();
+      } catch (err) {
+        // do nothing
+      }
       Progress.popById('preview-mode-get-height');
     }
     const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
