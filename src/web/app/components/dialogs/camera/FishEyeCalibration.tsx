@@ -48,11 +48,26 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
         });
       }
       progressCaller.popById(PROGRESS_ID);
-      progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'tCalculating Camera Matrix' });
-      const { k, d } = await doFishEyeCalibration();
-      progressCaller.update(PROGRESS_ID, { message: 'tCalculating Perspective Points' });
-      const { points, heights, errors } = await findPerspectivePoints();
-      console.log(errors);
+      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Camera Matrix' });
+      const { k, d } = await doFishEyeCalibration((val) => {
+        progressCaller.update(PROGRESS_ID, {
+          message: 'Calculating Camera Matrix',
+          percentage: Math.round(100 * val),
+        });
+      });
+      progressCaller.popById(PROGRESS_ID);
+      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Perspective Points' });
+      const { points, heights, errors } = await findPerspectivePoints((val) => {
+        progressCaller.update(PROGRESS_ID, {
+          message: 'Calculating Perspective Points',
+          percentage: Math.round(100 * val),
+        });
+      });
+      if (errors.length > 0) {
+        console.log(errors);
+        const errorHeights = errors.map((e) => e.height).join(', ');
+        alertCaller.popUp({ message: `tUnable to find perspective points for heights: ${errorHeights}` });
+      }
       param.current = { ...param.current, k, d, heights, points };
       setStep(Step.CUT);
     } catch (e) {
@@ -68,7 +83,11 @@ const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props)
   const handleAlignBack = useCallback(() => setStep(Step.CUT), []);
   const handleAlignNext = useCallback((x: number, y: number) => {
     param.current = { ...param.current, center: [x, y] };
-    setFisheyeConfig(param.current);
+    try {
+      setFisheyeConfig(param.current);
+    } catch (err) {
+      alertCaller.popUp({ message: `tUnable to save camera config ${err}` });
+    }
     onClose(true);
   }, [onClose]);
 

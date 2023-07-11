@@ -56,7 +56,8 @@ class PreviewModeController {
     this.errorCallback = () => {};
   }
 
-  async setupBeamSeriesPreviewMode(device: IDeviceInfo) {
+  async setupBeamSeriesPreviewMode() {
+    const device = this.currentDevice;
     await this.retrieveCameraOffset();
 
     Progress.update('start-preview-mode', { message: LANG.message.gettingLaserSpeed });
@@ -87,8 +88,36 @@ class PreviewModeController {
     await deviceMaster.rawSetWaterPump(false);
   }
 
-  setFishEyeObjectHeight = async (height: number) => {
+  getHeight = async () => {
+    const device = this.currentDevice;
+    try {
+      if (!BeamboxPreference.read('enable-custom-preview-height')) {
+        Progress.openNonstopProgress({
+          id: 'preview-mode-get-height',
+          message: LANG.message.enteringRawMode,
+          timeout: 30000,
+        });
+        await deviceMaster.enterRawMode();
+        Progress.update('preview-mode-get-height', { message: 'tGetting probe position' });
+        const res = await deviceMaster.rawGetProbePos();
+        const { z, didAf } = res;
+        if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
+      }
+    } catch (e) {
+      // do nothing
+    } finally {
+      Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
+      await deviceMaster.endRawMode();
+      Progress.popById('preview-mode-get-height');
+    }
+    const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
+    return val !== null ? Number(val) : null;
+  };
+
+  setFishEyeObjectHeight = async () => {
     const { k, d, heights, center, points } = this.fisheyeParameters;
+    const height = await this.getHeight();
+    console.log('Use Height: ', height);
     let perspectivePoints = points[0];
     if (height !== null && !Number.isNaN(height)) {
       perspectivePoints = interpolatePointsFromHeight(height, heights, points);
@@ -97,7 +126,7 @@ class PreviewModeController {
     await deviceMaster.setFisheyeMatrix({ k, d, center, points: perspectivePoints }, true);
   };
 
-  setUpFishEyePreviewMode = async (device: IDeviceInfo) => {
+  setUpFishEyePreviewMode = async () => {
     let fisheyeParameters: FisheyeCameraParameters = null;
     try {
       fisheyeParameters = await deviceMaster.fetchFisheyeParams();
@@ -105,27 +134,7 @@ class PreviewModeController {
       throw new Error('Unable to get fisheye parameters, please make sure you have calibrated the camera');
     }
     this.fisheyeParameters = fisheyeParameters;
-    const getHeight = async () => {
-      try {
-        if (!BeamboxPreference.read('enable-custom-preview-height')) {
-          Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
-          await deviceMaster.enterRawMode();
-          Progress.update('start-preview-mode', { message: 'tGetting probe position' });
-          const res = await deviceMaster.rawGetProbePos();
-          Progress.update('start-preview-mode', { message: LANG.message.endingRawMode });
-          await deviceMaster.endRawMode();
-          const { z, didAf } = res;
-          if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
-        }
-      } catch (e) {
-        //
-      }
-      const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
-      return val !== null ? Number(val) : null;
-    };
-    const height = await getHeight();
-    console.log('Use Height: ', height);
-    await this.setFishEyeObjectHeight(height);
+    await this.setFishEyeObjectHeight();
   };
 
   async endBeamSeriesPreviewMode() {
@@ -153,14 +162,14 @@ class PreviewModeController {
         message: sprintf(LANG.message.connectingMachine, device.name),
         timeout: 30000,
       });
-      if (device.model !== 'fad1') await this.setupBeamSeriesPreviewMode(device);
+      this.currentDevice = device;
+      if (device.model !== 'fad1') await this.setupBeamSeriesPreviewMode();
       Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await deviceMaster.connectCamera();
-      if (device.model === 'fad1') await this.setUpFishEyePreviewMode(device);
+      if (device.model === 'fad1') await this.setUpFishEyePreviewMode();
 
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
-      this.currentDevice = device;
       deviceMaster.setDeviceControlReconnectOnClose(device);
       this.errorCallback = errCallback;
       this.isPreviewModeOn = true;

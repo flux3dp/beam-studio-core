@@ -16,7 +16,7 @@ interface Props {
 const Cut = ({ onClose, onBack, onNext }: Props): JSX.Element => {
   const lang = useI18n();
   const handleNext = useCallback(async () => {
-    progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'tCalculating Camera Matrix' });
+    progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'Uploading Calibration Task' });
     await deviceMaster.doAdorCalibrationCut();
     progressCaller.popById(PROGRESS_ID);
     onNext();
