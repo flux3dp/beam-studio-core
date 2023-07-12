@@ -83,7 +83,10 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
   }, []);
 
   const handleContainerScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
-    form.setFieldsValue({ x: e.currentTarget.scrollLeft, y: e.currentTarget.scrollTop });
+    form.setFieldsValue({
+      x: Math.round(e.currentTarget.scrollLeft),
+      y: Math.round(e.currentTarget.scrollTop),
+    });
   }, [form]);
 
   const handleNext = useCallback(() => {
