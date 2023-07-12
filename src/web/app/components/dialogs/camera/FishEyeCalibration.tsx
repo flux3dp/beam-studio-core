@@ -1,7 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import dialogCaller from 'app/actions/dialog-caller';
+import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import {
   addFisheyeCalibrateImg,
@@ -20,6 +22,7 @@ const PROGRESS_ID = 'fish-eye-calibration';
 const DIALOG_ID = 'fish-eye-calibration';
 
 enum Step {
+  WAITING = 0,
   CALIBRATE = 1,
   CUT = 2,
   ALIGN = 3,
@@ -31,9 +34,39 @@ interface Props {
 }
 
 // TODO: add unit test
-const FishEyeCalibration = ({ step: initStep = Step.CALIBRATE, onClose }: Props): JSX.Element => {
+const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): JSX.Element => {
   const param = useRef<FisheyeCameraParameters>({} as any);
   const [step, setStep] = useState<Step>(initStep);
+  const askSkipCalculation = async () => {
+    let fisheyeParameters: FisheyeCameraParameters = null;
+    try {
+      fisheyeParameters = await deviceMaster.fetchFisheyeParams();
+    } catch (err) {
+      // do nothing
+    }
+
+    const res = await new Promise<boolean>((resolve) => {
+      alertCaller.popUp({
+        message: 'Skip Caculating?',
+        buttonType: alertConstants.YES_NO,
+        onYes: () => resolve(true),
+        onNo: () => resolve(false),
+      });
+    });
+    if (!res || !fisheyeParameters) {
+      setStep(Step.CALIBRATE);
+      return;
+    }
+    const { k, d, heights, points } = fisheyeParameters;
+    param.current = { ...param.current, k, d, heights, points };
+    setStep(Step.CUT);
+  };
+
+  useEffect(() => {
+    if (step === Step.WAITING) askSkipCalculation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleMultiHeightCalibrateNext = async (imgs: { height: number; blob: Blob }[]) => {
     try {
       progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'tUploading Images', percentage: 0 });
