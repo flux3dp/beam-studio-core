@@ -46,11 +46,11 @@ const BackgroundRemovalPanel = ({ originalUrl, resultUrl, onApply, onCancel, onC
       footer={renderFooter()}
     >
       <div className={styles.container}>
-        <div className="original-image">
+        <div>
           <img src={originalUrl} alt="original" />
         </div>
-        <div className="result-image">
-          <img src={resultUrl} alt="original" />
+        <div>
+          <img src={resultUrl} alt="result" />
         </div>
       </div>
     </Modal>

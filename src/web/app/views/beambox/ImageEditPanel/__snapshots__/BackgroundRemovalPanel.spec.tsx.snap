@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test BackgroundRemovalPanel should render correctly 1`] = `
+<body>
+  <div />
+  <div>
+    <div
+      class="ant-modal-root css-dev-only-do-not-override-hash"
+    >
+      <div
+        class="ant-modal-mask"
+      />
+      <div
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
+      >
+        <div
+          aria-labelledby="test-id"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          role="dialog"
+          style="width: 800px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content"
+          >
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                AI Background Removal
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <div
+                class="container"
+              >
+                <div>
+                  <img
+                    alt="original"
+                    src="originalUrl"
+                  />
+                </div>
+                <div>
+                  <img
+                    alt="result"
+                    src="resultUrl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
+                type="button"
+              >
+                <span>
+                  Cancel
+                </span>
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
+                type="button"
+              >
+                <span>
+                  Apply
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
