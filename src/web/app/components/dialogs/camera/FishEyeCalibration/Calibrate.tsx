@@ -184,6 +184,8 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
       onCancel={() => onClose(false)}
       title="tCalibrate Rotate and Scale"
       footer={btns}
+      closable={false}
+      maskClosable={false}
     >
       <div>
         Please put the chessboard at left top corner
