@@ -35,6 +35,8 @@ const Cut = ({ onClose, onBack, onNext }: Props): JSX.Element => {
           {lang.buttons.next}
         </Button>,
       ]}
+      closable={false}
+      maskClosable={false}
     >
       <div>
         Please put the material in the center of the workarea
