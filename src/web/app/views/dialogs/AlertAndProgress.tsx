@@ -68,6 +68,7 @@ const AlertsAndProgress = (): JSX.Element => {
             }}
             centered
             closable={false}
+            maskClosable={false}
             cancelText={LANG.alert.cancel}
             okButtonProps={{ style: { display: 'none' } }}
           >
@@ -92,6 +93,7 @@ const AlertsAndProgress = (): JSX.Element => {
           }}
           centered
           closable={false}
+          maskClosable={false}
           cancelText={LANG.alert.cancel}
           okButtonProps={{ style: { display: 'none' } }}
         >
