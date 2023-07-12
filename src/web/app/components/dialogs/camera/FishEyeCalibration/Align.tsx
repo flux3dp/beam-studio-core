@@ -3,9 +3,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Col, Form, InputNumber, Modal, Row } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
+import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+import { interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
 
 import styles from './Align.module.scss';
 
@@ -35,8 +37,26 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
   useEffect(() => {
     deviceMaster.connectCamera()
       .then(async () => {
-        const { k, d, points } = fisheyeParam;
-        await deviceMaster.setFisheyeMatrix({ k, d, points: points[0] });
+        let enteredRawMode = false;
+        let height = 0;
+        try {
+          await deviceMaster.enterRawMode();
+          enteredRawMode = true;
+          const res = await deviceMaster.rawGetProbePos();
+          const { z, didAf } = res;
+          if (didAf) height = deviceConstants.WORKAREA_DEEP[deviceMaster.currentDevice.info.model] - z;
+        } catch (e) {
+          // do nothing
+        } finally {
+          if (enteredRawMode) await deviceMaster.endRawMode();
+        }
+        const { k, d, points, heights } = fisheyeParam;
+        console.log('Use Height: ', height);
+        let perspectivePoints = points[0];
+        if (height !== null && !Number.isNaN(height)) {
+          perspectivePoints = interpolatePointsFromHeight(height, heights, points);
+        }
+        await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
         handleTakePicture();
       });
     return () => deviceMaster.disconnectCamera();
@@ -90,6 +110,8 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
           {lang.buttons.next}
         </Button>,
       ]}
+      closable={false}
+      maskClosable={false}
     >
       Please Align the cut mark
       <Row>
