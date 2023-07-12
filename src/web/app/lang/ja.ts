@@ -776,6 +776,7 @@ const lang: ILang = {
           disassembling: '逆アセンブル中…',
           ungrouping: 'グループ解除中…',
           simplify: '簡略化',
+          ai_bg_removal: 'AI 背景リムーバー',
         },
         path_edit_panel: {
           node_type: 'ノードタイプ',

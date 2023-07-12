@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import BackgroundRemovalPanel from 'app/views/beambox/ImageEditPanel/BackgroundRemovalPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
@@ -167,6 +168,21 @@ export default {
       <NounProjectPanel
         onClose={() => popDialogById('noun-project')}
       />);
+  },
+  showBackgroundRemovalPanel: (
+    originalUrl: string, resultUrl: string, onApply: (url?: string) => void, onCancel: () => void,
+  ): void => {
+    if (isIdExist('background-removal')) return;
+    addDialogComponent(
+      'background-removal',
+      <BackgroundRemovalPanel
+        originalUrl={originalUrl}
+        resultUrl={resultUrl}
+        onApply={onApply}
+        onCancel={onCancel}
+        onClose={() => popDialogById('background-removal')}
+      />
+    );
   },
   showCropPanel: (): void => {
     if (isIdExist('image-crop')) return;

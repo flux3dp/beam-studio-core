@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Cropper from 'cropperjs';
 
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';

@@ -37,7 +37,6 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {
-  id?: string,
   elem: Element,
 }
 
@@ -115,7 +114,15 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = [
-      this.renderButtons(LANG.replace_with, () => this.replaceImage(), true, 'replace_with', false, <ReplaceIcon />),
+      this.renderButtons(LANG.replace_with, this.replaceImage, true, 'replace_with', false, <ReplaceIcon />),
+      this.renderButtons(
+        LANG.ai_bg_removal,
+        () => imageEdit.removeBackground(elem as SVGImageElement),
+        true,
+        'remove',
+        false,
+        <InvertIcon />,
+      ),
       this.renderButtons(
         LANG.trace, () => imageEdit.traceImage(elem as SVGImageElement), false, 'trace', isShading, <TraceIcon />,
       ),
@@ -133,9 +140,6 @@ class ActionsPanel extends React.Component<Props> {
         LANG.invert, () => imageEdit.colorInvert(elem as SVGImageElement), false, 'invert', false, <InvertIcon />
       ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
-      this.renderButtons(
-        'Remove BG', () => imageEdit.removeBackground(elem as SVGImageElement), false, 'remove', false, <InvertIcon />
-      ),
       this.renderButtons(
         'Potrace', () => imageEdit.potrace(elem as SVGImageElement), false, 'remove', false, <InvertIcon />
       ),

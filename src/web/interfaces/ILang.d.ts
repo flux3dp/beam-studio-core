@@ -774,6 +774,7 @@ export interface ILang {
           detach_path: string,
           edit_path: string,
           simplify: string;
+          ai_bg_removal: string;
         },
         path_edit_panel: {
           node_type: string,

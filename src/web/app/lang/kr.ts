@@ -777,6 +777,7 @@ const lang: ILang = {
           disassembling: '분해 중...',
           ungrouping: '그룹해제...',
           simplify: '단순화',
+          ai_bg_removal: '인공 지능 배경 제거',
         },
         path_edit_panel: {
           node_type: '노드 타입',

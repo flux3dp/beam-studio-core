@@ -6,22 +6,23 @@ import communicator from 'implementations/communicator';
 import cookies from 'implementations/cookies';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import parseQueryData from 'helpers/query-data-parser';
 import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
 
-interface ResponseWithError extends AxiosResponse {
+export interface ResponseWithError extends AxiosResponse {
   error?: string;
 }
 const OAUTH_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
-const FB_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
+const FB_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
 
 const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
-const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${window.FLUX.version === 'web' ? '?isWeb=true' : ''}`;
+const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
 
 const FLUXID_HOST = 'https://id.flux3dp.com';
 const FLUXID_DOMAIN = 'id.flux3dp.com';
@@ -61,7 +62,7 @@ const updateUser = (info?, isWebSocialSignIn = false) => {
         email: info.email,
         info,
       };
-      if (isWebSocialSignIn && window.FLUX.version === 'web') {
+      if (isWebSocialSignIn && isWeb()) {
         window.opener.dispatchEvent(new CustomEvent('update-user', {
           detail: {
             user: currentUser,
@@ -204,7 +205,8 @@ export const signOut = async (): Promise<boolean> => {
 };
 
 export const init = async (): Promise<void> => {
-  if (window.FLUX.version !== 'web') {
+  axiosFluxId.defaults.withCredentials = true;
+  if (!isWeb()) {
     // Set csrf cookie for electron only
     cookies.on('changed', (event, cookie, cause, removed) => {
       if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
@@ -221,9 +223,9 @@ export const init = async (): Promise<void> => {
     const data = parseQueryData(dataString);
     signInWithGoogleCode(data);
   });
-  if (window.FLUX.version === 'web' || storage.get('keep-flux-id-login') || storage.get('new-user')) {
+  if (isWeb() || storage.get('keep-flux-id-login') || storage.get('new-user')) {
     // If user is new, keep login status after setting machines.
-    if (window.FLUX.version !== 'web') {
+    if (!isWeb()) {
       // Init csrftoken for electron
       const csrfcookies = await cookies.get({
         domain: FLUXID_DOMAIN,
@@ -350,6 +352,16 @@ export const getNPIconByID = async (id: string) => {
     return false;
   }
   return response.data;
+};
+
+export const getDefaultHeader = () => {
+  if (isWeb()) {
+    const csrfToken = cookies.getBrowserCookie('csrftoken');
+    return {
+      'X-CSRFToken': csrfToken,
+    };
+  }
+  return undefined;
 };
 
 export default {

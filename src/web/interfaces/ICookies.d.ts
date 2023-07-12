@@ -2,6 +2,7 @@ export interface ICookies {
   // eslint-disable-next-line @typescript-eslint/ban-types
   on(event: 'changed', listener: any): void;
   get(filter: CookiesFilter): Promise<Cookie[]>;
+  getBrowserCookie(name: string): string | undefined;
   remove(url: string, name: string): Promise<void>;
 }
 

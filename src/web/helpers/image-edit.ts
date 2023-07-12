@@ -1,4 +1,7 @@
 import alertCaller from 'app/actions/alert-caller';
+import alertConfig from 'helpers/api/alert-config';
+import alertConstants from 'app/constants/alert-constants';
+import dialogCaller from 'app/actions/dialog-caller';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
@@ -6,6 +9,7 @@ import imageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
 import progress from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
+import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -218,6 +222,30 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
 const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
+  alertConfig.write('skip_bg_removal_warning', undefined);
+
+  if (!alertConfig.read('skip_bg_removal_warning')) {
+    const res = await new Promise<boolean>((resolve) => {
+      alertCaller.popUp({
+        message: 'Todo: Removal Warning text',
+        buttonType: alertConstants.CONFIRM_CANCEL,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+        checkbox: {
+          text: i18n.lang.beambox.popup.dont_show_again,
+          callbacks: [
+            () => {
+              alertConfig.write('skip_bg_removal_warning', true);
+              resolve(true);
+            },
+            () => resolve(false),
+          ],
+        },
+      });
+    });
+    if (!res) return;
+  }
+
   progress.openNonstopProgress({
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
@@ -227,31 +255,63 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   const imgGet = await fetch(imgUrl);
   const imgData = await imgGet.blob();
   const form = new FormData();
-  form.append('image_file', imgData);
+  form.append('image', imgData);
 
-  const removeResult = await fetch('https://clipdrop-api.co/remove-background/v1', {
-    method: 'POST',
-    headers: {
-      'x-api-key': '902be8356854bfb107e984ce7f5c374adab16c1c7d5bead2bec6e35e31eeea6e3c944da3e123d117f8a908f35f53f0b7',
-    },
-    body: form,
-  });
-
-  const removedBuffer = await removeResult.arrayBuffer();
-  // buffer here is a binary representation of the returned image
-  // convert buffer into blobUrl for img
-  const blob = new Blob([removedBuffer], { type: 'image/png' });
-  const blobUrl = URL.createObjectURL(blob);
-  const newThreshold = 255;
-  const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
-  addBatchCommand('Image Edit: invert', element, {
-    origImage: blobUrl,
-    'data-threshold': newThreshold,
-    'data-no-bg': 'true',
-    'xlink:href': base64Img,
-  });
-  svgCanvas.selectOnly([element], true);
-  progress.popById('photo-edit-processing');
+  try {
+    const removeResult = await axiosFluxId.post('/api/remove-background', form, {
+      withCredentials: true,
+      headers: getDefaultHeader(),
+      responseType: 'blob',
+    }) as ResponseWithError;
+    console.log(removeResult);
+    if (removeResult.error) {
+      alertCaller.popUpError({
+        message: `Server Error: ${removeResult.error}`,
+      });
+      return;
+    }
+    const contentType = removeResult.headers['content-type'];
+    if (contentType === 'application/json') {
+      const { status, info } = await new Promise<{ info: string; status: string }>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = (e) => {
+          const str = e.target.result as string;
+          const d = JSON.parse(str);
+          resolve(d);
+        };
+        reader.readAsText(removeResult.data);
+      });
+      if (status === 'error') {
+        if (info === 'NOT_LOGGED_IN') dialogCaller.showLoginDialog();
+        else if (info === 'INSUFFICIENT_CREDITS') {
+          alertCaller.popUpError({ message: 'TODO: show insufficient credits message and redirect to purchase page' });
+        } else alertCaller.popUpError({ message: `Error: ${info}` });
+      }
+      return;
+    }
+    if (contentType !== 'image/png') {
+      console.error('unknown response type', contentType);
+      alertCaller.popUpError({ message: `Unknown Response Type: ${contentType}` });
+      return;
+    }
+    const blob = removeResult.data as Blob;
+    const blobUrl = URL.createObjectURL(blob);
+    const doApply = await new Promise<boolean>((resolve) => {
+      dialogCaller.showBackgroundRemovalPanel(imgUrl, blobUrl, () => resolve(true), () => resolve(false));
+    });
+    if (!doApply) return;
+    const newThreshold = 255;
+    const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
+    addBatchCommand('Image Edit: invert', element, {
+      origImage: blobUrl,
+      'data-threshold': newThreshold,
+      'data-no-bg': 'true',
+      'xlink:href': base64Img,
+    });
+    svgCanvas.selectOnly([element], true);
+  } finally {
+    progress.popById('photo-edit-processing');
+  }
 };
 
 const potrace = async (elem?: SVGImageElement): Promise<void> => {

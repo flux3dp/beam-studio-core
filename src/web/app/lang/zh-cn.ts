@@ -776,6 +776,7 @@ const lang: ILang = {
           disassembling: '解散中...',
           ungrouping: '解散群组中...',
           simplify: '路径优化',
+          ai_bg_removal: '智能去背',
         },
         path_edit_panel: {
           node_type: '节点类型',

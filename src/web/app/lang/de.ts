@@ -776,6 +776,7 @@ const lang: ILang = {
           disassembling: 'Zerlegen ...',
           ungrouping: 'Gruppierung aufheben...',
           simplify: 'Vereinfachen',
+          ai_bg_removal: 'AI-Hintergrundentfernung',
         },
         path_edit_panel: {
           node_type: 'Knotentyp',

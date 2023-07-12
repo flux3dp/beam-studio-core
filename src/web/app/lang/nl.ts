@@ -776,6 +776,7 @@ const lang: ILang = {
           disassembling: 'Demontage...',
           ungrouping: 'Groepering opheffen...',
           simplify: 'Makkelijker maken',
+          ai_bg_removal: 'AI-achtergrondverwijderaar',
         },
         path_edit_panel: {
           node_type: 'Knooppunttype',
