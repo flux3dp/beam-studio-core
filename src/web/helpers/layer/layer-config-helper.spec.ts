@@ -24,7 +24,7 @@ jest.mock('helpers/layer/layer-helper', () => ({
   getLayerByName: (name) => mockGetLayerByName(name),
 }));
 
-test('test laser-config-helper', () => {
+test('test layer-config-helper', () => {
   expect(getLayerConfig('layer 0')).toBeNull();
 
   document.body.innerHTML = `
@@ -43,7 +43,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 0 },
     diode: { value: 0 },
     configName: { value: '' },
-    type: { value: 1 },
+    module: { value: 1 },
     backlash: { value: 0 },
   });
 
@@ -57,7 +57,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 1 },
     diode: { value: 0 },
     configName: { value: '' },
-    type: { value: 1 },
+    module: { value: 1 },
     backlash: { value: 0 },
   });
 
@@ -71,7 +71,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 0 },
     diode: { value: 0 },
     configName: { value: '' },
-    type: { value: 1 },
+    module: { value: 1 },
     backlash: { value: 0 },
   });
 
@@ -85,7 +85,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 1 },
     diode: { value: 0 },
     configName: { value: '' },
-    type: { value: 1 },
+    module: { value: 1 },
     backlash: { value: 0 },
   });
 
@@ -98,7 +98,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 1, hasMultiValue: true },
     diode: { value: 0, hasMultiValue: false },
     configName: { value: '', hasMultiValue: false },
-    type: { value: 1, hasMultiValue: false },
+    module: { value: 1, hasMultiValue: false },
     backlash: { value: 0, hasMultiValue: false },
   });
 
@@ -113,7 +113,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 1, hasMultiValue: true },
     diode: { value: 1, hasMultiValue: true },
     configName: { value: '', hasMultiValue: false },
-    type: { value: 1, hasMultiValue: false },
+    module: { value: 1, hasMultiValue: false },
     backlash: { value: 0, hasMultiValue: false },
   });
 
@@ -127,11 +127,11 @@ test('test laser-config-helper', () => {
     zStep: { value: 1, hasMultiValue: true },
     diode: { value: 1, hasMultiValue: true },
     configName: { value: '', hasMultiValue: false },
-    type: { value: 1, hasMultiValue: false },
+    module: { value: 1, hasMultiValue: false },
     backlash: { value: 0, hasMultiValue: false },
   });
 
-  writeData('layer 1', DataType.type, 2);
+  writeData('layer 1', DataType.module, 2);
   expect(getLayerConfig('layer 1')).toEqual({
     speed: { value: 20 },
     power: { value: 15 },
@@ -141,7 +141,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 1 },
     diode: { value: 1 },
     configName: { value: '' },
-    type: { value: 2 },
+    module: { value: 2 },
     backlash: { value: 0 },
   });
 
@@ -154,7 +154,7 @@ test('test laser-config-helper', () => {
     zStep: { value: 1, hasMultiValue: true },
     diode: { value: 1, hasMultiValue: true },
     configName: { value: '', hasMultiValue: false },
-    type: { value: 2, hasMultiValue: true },
+    module: { value: 2, hasMultiValue: true },
     backlash: { value: 0, hasMultiValue: false },
   });
 });

@@ -35,7 +35,7 @@ import {
   DataType,
   getLayerConfig,
   getLayersConfig,
-  LayerType,
+  Module,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
@@ -51,7 +51,7 @@ import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
 import InkBlock from './InkBlock';
-import LayerTypeBlock from './LayerTypeBlock';
+import ModuleBlock from './ModuleBlock';
 import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
@@ -138,7 +138,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         zStep: { value: currentLayerConfig.zStep.value, hasMultiValue: config.zStep.hasMultiValue },
         diode: { value: currentLayerConfig.diode.value, hasMultiValue: config.diode.hasMultiValue },
         configName: { value: currentLayerConfig.configName.value, hasMultiValue: config.configName.hasMultiValue },
-        type: { value: currentLayerConfig.type.value, hasMultiValue: config.type.hasMultiValue },
+        module: { value: currentLayerConfig.module.value, hasMultiValue: config.module.hasMultiValue },
         backlash: { value: currentLayerConfig.backlash.value, hasMultiValue: config.backlash.hasMultiValue },
       };
       dispatch({ type: 'update', payload });
@@ -230,13 +230,13 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
-  const { type } = state;
+  const { module } = state;
   const isDevMode = isDev() && UIType === 'default';
   const commonContent = (
     <>
-      {isDevMode && <LayerTypeBlock />}
-      {type.value === LayerType.LASER && <PowerBlock type={UIType} />}
-      {type.value === LayerType.PRINTER && <InkBlock type={UIType} />}
+      {isDevMode && <ModuleBlock />}
+      {module.value === Module.LASER && <PowerBlock type={UIType} />}
+      {module.value === Module.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
       <RepeatBlock type={UIType} />

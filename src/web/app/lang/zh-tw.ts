@@ -664,6 +664,7 @@ const lang: ILang = {
         sure_to_load_config: '將要讀取預設參數的排序與使用狀況，並覆蓋所有同名的自訂參數，確定要繼續進行嗎？',
         custom_preset: '自訂',
         various_preset: '多個參數',
+        module: '模組頭',
         dropdown: {
           parameters: '選擇參數',
           save: '新增目前參數',
