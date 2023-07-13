@@ -7,6 +7,10 @@
     padding-top: 100%;
     overflow: scroll;
 
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     img {
       max-width: unset;
       top: 0;

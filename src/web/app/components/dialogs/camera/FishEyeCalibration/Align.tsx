@@ -18,9 +18,9 @@ interface Props {
   onNext: (x: number, y: number) => void;
 }
 
-// Guess from padding 100 + half of the image size
-const initScrollLeft = Math.round(100 + 2150 / 2);
-const initScrollTop = Math.round(100 + 1500 / 2);
+// Guess from half of the image size
+const initScrollLeft = Math.round(200 + 2150 / 2);
+const initScrollTop = Math.round(300 + 1500 / 2);
 
 const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element => {
   const imgContainerRef = useRef<HTMLDivElement>(null);
