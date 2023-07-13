@@ -12,6 +12,6 @@ export interface ILayerConfig {
   zStep: IConfig<number>;
   diode: IConfig<number>;
   configName: IConfig<string>;
-  type: IConfig<number>;
+  module: IConfig<number>;
   backlash: IConfig<number>;
 }

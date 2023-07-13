@@ -654,6 +654,7 @@ const lang: ILang = {
         sure_to_load_config: 'This will load arrangement of presets and replacing customized parameters set in the file, are you sure to proceed?',
         custom_preset: 'Custom',
         various_preset: 'Various Presets',
+        module: 'Module',
         dropdown: {
           parameters: 'Presets',
           save: 'Add current parameters',

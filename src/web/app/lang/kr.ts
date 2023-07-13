@@ -654,6 +654,7 @@ const lang: ILang = {
         sure_to_load_config: '이것은 프리셋 배열을 로드하고 파일에 설정된 사용자 지정 파라미터를 대체합니다. 진행하시겠습니까?',
         custom_preset: '사용자 정의',
         various_preset: '다양한 프리셋',
+        module: 'tModule',
         dropdown: {
           parameters: '프리셋',
           save: '현재 파라미터 추가',

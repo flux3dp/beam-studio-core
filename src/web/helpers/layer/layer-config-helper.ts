@@ -18,7 +18,7 @@ const getLayerElementByName = (layerName: string) => {
   return layer;
 };
 
-export enum LayerType {
+export enum Module {
   LASER = 1,
   PRINTER = 2,
 }
@@ -32,7 +32,7 @@ export enum DataType {
   zstep = 'zstep',
   diode = 'diode',
   configName = 'configName',
-  type = 'type', // 1: laser, 2: printer
+  module = 'module', // 1: laser, 2: printer
   backlash = 'backlash',
 }
 
@@ -47,11 +47,11 @@ export const defaultConfig = {
   [DataType.zstep]: 0,
   [DataType.diode]: 0,
   [DataType.configName]: '',
-  [DataType.type]: LayerType.LASER,
+  [DataType.module]: Module.LASER,
   [DataType.backlash]: 0,
 };
 
-const getData = (layer: Element, dataType: DataType) => {
+export const getData = (layer: Element, dataType: DataType) => {
   if (![DataType.configName].includes(dataType)) {
     return Number(layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType]);
   }
@@ -128,7 +128,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   const zStep = getData(layer, DataType.zstep) as number;
   const diode = getData(layer, DataType.diode) as number;
   const configName = getData(layer, DataType.configName) as string;
-  const type = getData(layer, DataType.type) as number;
+  const module = getData(layer, DataType.module) as number;
   const backlash = getData(layer, DataType.backlash) as number;
 
   return {
@@ -140,7 +140,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
     zStep: { value: zStep },
     diode: { value: diode },
     configName: { value: configName },
-    type: { value: type },
+    module: { value: module },
     backlash: { value: backlash },
   };
 };
@@ -155,7 +155,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const zStepData = getMultiSelectData(layers, DataType.zstep);
   const diodeData = getMultiSelectData(layers, DataType.diode);
   const configNameData = getMultiSelectData<string>(layers, DataType.configName);
-  const typeData = getMultiSelectData(layers, DataType.type);
+  const moduleData = getMultiSelectData(layers, DataType.module);
   const backlashData = getMultiSelectData(layers, DataType.backlash);
 
   return {
@@ -167,7 +167,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
     zStep: zStepData,
     diode: diodeData,
     configName: configNameData,
-    type: typeData,
+    module: moduleData,
     backlash: backlashData,
   };
 };
