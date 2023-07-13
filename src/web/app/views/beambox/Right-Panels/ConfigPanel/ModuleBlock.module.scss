@@ -1,0 +1,9 @@
+@use "./block" as block;
+
+.panel {
+  @include block.panel;
+
+  .select {
+    width: 100%;
+  }
+}

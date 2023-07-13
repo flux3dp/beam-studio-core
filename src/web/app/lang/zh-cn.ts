@@ -665,6 +665,7 @@ const lang: ILang = {
         sure_to_load_config: '将要读取预设参数的排序与使用状况，并覆盖所有同名的自订参数，确定要继续进行吗？',
         custom_preset: '自订',
         various_preset: '多个参数',
+        module: 'tModule',
         dropdown: {
           parameters: '选择参数',
           save: '新增目前参数',
