@@ -1,11 +1,12 @@
-import * as React from 'react';
+import classNames from 'classnames';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Pickr from '@simonwep/pickr';
 import { Button } from 'antd';
 
-import i18n from 'helpers/i18n';
-import { useEffect } from 'react';
+import colorConstants from 'app/constants/color-constants';
+import useI18n from 'helpers/useI18n';
 
-const LANG = i18n.lang.beambox.photo_edit_panel;
+import styles from './ColorPickerPanel.module.scss';
 
 interface Props {
   originalColor: string;
@@ -13,24 +14,29 @@ interface Props {
   left: number;
   onNewColor: (newColor: string) => void;
   onClose: () => void;
+  isPrinting?: boolean;
 }
-let pickr;
+
 const ColorPickerPanel = ({
-  originalColor, top, left, onNewColor, onClose,
+  originalColor, top, left, onNewColor, onClose, isPrinting,
 }: Props): JSX.Element => {
+  const lang = useI18n().beambox.photo_edit_panel;
   const width = 200;
+  const pickrRef = useRef(null);
+  const [currentColor, setCurrentColor] = useState(originalColor);
 
   useEffect(() => {
-    pickr = Pickr.create({
+    if (isPrinting) return;
+    pickrRef.current = Pickr.create({
       el: '.pickr',
+      appClass: styles.app,
       theme: 'monolith',
       inline: true,
       default: originalColor,
-      swatches: [
-      ],
+      swatches: [],
       components: {
         // Main components
-        preview: true,
+        preview: false,
         opacity: false,
         hue: true,
         // Input / output Options
@@ -41,23 +47,43 @@ const ColorPickerPanel = ({
         },
       },
     });
+    pickrRef.current.on('change', (color) => {
+      setCurrentColor(color.toHEXA().toString());
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originalColor]);
 
   const onApply = () => {
-    onNewColor(pickr.getColor().toHEXA().toString());
+    onNewColor(currentColor);
     onClose();
   };
-
+  const colors = useMemo(() => (
+    isPrinting ? colorConstants.printingLayerColor : colorConstants.randomLayerColors
+  ), [isPrinting]);
   return (
-    <div className="color-picker-panel" style={{ top, left: left - width }}>
-      <div className="modal-background" onClick={onClose} />
+    <div className={styles.container} style={{ top, left: left > width ? (left - width) : left }}>
+      <div className={styles.background} onClick={onClose} />
+      <div className={styles.presets}>
+        {colors.map((color) => (
+          <div key={color}>
+            <div
+              className={classNames(styles.block, { [styles.selected]: color === currentColor })}
+              style={{ backgroundColor: color }}
+              onClick={() => {
+                if (isPrinting) setCurrentColor(color);
+                else pickrRef.current?.setColor(color);
+              }}
+            />
+          </div>
+        ))}
+      </div>
       <div className="pickr" />
-      <div className="footer">
+      <div className={styles.footer}>
         <Button onClick={onClose}>
-          {LANG.cancel}
+          {lang.cancel}
         </Button>
         <Button onClick={onApply} type="primary">
-          {LANG.okay}
+          {lang.okay}
         </Button>
       </div>
     </div>
