@@ -282,9 +282,80 @@ const constants = {
       speed: 150,
     },
   },
+  ADOR: {
+    laser_10w: {
+      wood_3mm_cutting: {
+        power: 100,
+        speed: 6,
+      },
+      wood_5mm_cutting: {
+        power: 100,
+        speed: 3,
+      },
+      wood_engraving: {
+        power: 30,
+        speed: 50,
+      },
+      acrylic_3mm_cutting: {
+        power: 95,
+        speed: 2,
+      },
+      acrylic_5mm_cutting: {
+        power: 100,
+        speed: 2,
+        repeat: 2,
+      },
+      acrylic_engraving: {
+        power: 30,
+        speed: 20,
+      },
+      leather_3mm_cutting: {
+        power: 100,
+        speed: 4,
+      },
+      leather_5mm_cutting: {
+        power: 100,
+        speed: 3,
+        repeat: 2,
+      },
+      leather_engraving: {
+        power: 10,
+        speed: 40,
+      },
+      fabric_3mm_cutting: {
+        power: 100,
+        speed: 6,
+      },
+      fabric_5mm_cutting: {
+        power: 100,
+        speed: 2,
+      },
+      fabric_engraving: {
+        power: 30,
+        speed: 45,
+      },
+      rubber_bw_engraving: {
+        power: 100,
+        speed: 45,
+      },
+      glass_bw_engraving: {
+        power: 40,
+        speed: 20,
+      },
+      metal_bw_engraving: {
+        power: 100,
+        speed: 20,
+      },
+    }
+  }
 };
 
 export const getParametersSet = (model: string): { [name: string]: { [key: string]: number } } => {
+  if (model === 'fad1') {
+    // TODO: add module name as argument
+    return constants.ADOR.laser_10w;
+  }
+
   const modelMap = {
     fbm1: 'BEAMO',
     fbb1b: 'BEAMBOX',
