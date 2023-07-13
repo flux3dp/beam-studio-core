@@ -14,7 +14,7 @@ import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
-import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
+import { cloneLayerConfig, DataType, getData, Module } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -230,7 +230,9 @@ class LayerPanel extends React.PureComponent<Props, State> {
     e.stopPropagation();
     const layer = getLayerElementByName(layerName);
     const layerColor = layer.getAttribute('data-color') || '#333333';
-    Dialog.showColorPicker(layerColor, e.clientX, e.clientY,
+    const module = getData(layer, DataType.module);
+    const isPrinting = module === Module.PRINTER;
+    Dialog.showColorPicker(layerColor, e.clientX, e.clientY, isPrinting,
       (newColor: string) => this.setLayerColor(layerName, newColor));
   };
 
