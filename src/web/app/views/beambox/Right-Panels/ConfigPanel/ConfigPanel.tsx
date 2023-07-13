@@ -25,7 +25,7 @@ import {
   DataType,
   getLayerConfig,
   getLayersConfig,
-  LayerType,
+  Module,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
@@ -40,7 +40,7 @@ import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
 import InkBlock from './InkBlock';
-import LayerTypeBlock from './LayerTypeBlock';
+import ModuleBlock from './ModuleBlock';
 import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
@@ -117,7 +117,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
         zStep: { value: currentLayerConfig.zStep.value, hasMultiValue: config.zStep.hasMultiValue },
         diode: { value: currentLayerConfig.diode.value, hasMultiValue: config.diode.hasMultiValue },
         configName: { value: currentLayerConfig.configName.value, hasMultiValue: config.configName.hasMultiValue },
-        type: { value: currentLayerConfig.type.value, hasMultiValue: config.type.hasMultiValue },
+        module: { value: currentLayerConfig.module.value, hasMultiValue: config.module.hasMultiValue },
         backlash: { value: currentLayerConfig.backlash.value, hasMultiValue: config.backlash.hasMultiValue },
       };
       dispatch({ type: 'update', payload });
@@ -210,7 +210,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
-  const { type } = state;
+  const { module } = state;
   const isDevMode = isDev();
   return (
     <ConfigPanelContext.Provider
@@ -231,8 +231,8 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
               size="large"
               style={{ width: '100%' }}
             />
-            {type.value === LayerType.LASER && <PowerBlock />}
-            {type.value === LayerType.PRINTER && <InkBlock />}
+            {module.value === Module.LASER && <PowerBlock />}
+            {module.value === Module.PRINTER && <InkBlock />}
             <SpeedBlock />
             <RepeatBlock />
           </div>
@@ -254,9 +254,9 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {isDevMode && <LayerTypeBlock />}
-              {type.value === LayerType.LASER && <PowerBlock />}
-              {type.value === LayerType.PRINTER && <InkBlock />}
+              {isDevMode && <ModuleBlock />}
+              {module.value === Module.LASER && <PowerBlock />}
+              {module.value === Module.PRINTER && <InkBlock />}
               <SpeedBlock />
               {(isDevMode && isCustomBacklashEnabled) && <Backlash />}
               <RepeatBlock />

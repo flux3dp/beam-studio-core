@@ -651,6 +651,7 @@ const lang: ILang = {
         sure_to_load_config: 'Dit zal de rangschikking van voorinstellingen laden en aangepaste parameters die in het bestand zijn ingesteld vervangen. Weet u zeker dat u doorgaat?',
         custom_preset: 'Aangepast',
         various_preset: 'Verschillende voorinstellingen',
+        module: 'tModule',
         dropdown: {
           parameters: 'Voorinstellingen',
           save: 'Huidige parameters toevoegen',

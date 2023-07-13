@@ -649,6 +649,7 @@ export interface ILang {
         sure_to_load_config: string,
         custom_preset: string,
         various_preset: string,
+        module: string;
         dropdown: {
           parameters: string,
           save: string,
