@@ -537,6 +537,12 @@ const lang: ILang = {
         already_joined: 'Reeds lid geworden',
         dont_show_again: 'Laat dit niet meer zien',
       },
+      ai_credit: {
+        insufficient_credit: 'Je hebt geen krediet meer',
+        insufficient_credit_msg: 'U kunt %s niet gebruiken. Ga naar het ledencentrum en koop AI Credit.',
+        buy_link: 'https://member.flux3dp.com/en-US/credit',
+        go: 'Gaan',
+      },
     },
     zoom_block: {
       fit_to_window: 'Aanpassen aan venster',
@@ -777,6 +783,7 @@ const lang: ILang = {
           ungrouping: 'Groepering opheffen...',
           simplify: 'Makkelijker maken',
           ai_bg_removal: 'AI-achtergrondverwijderaar',
+          ai_bg_removal_reminder: 'Als u op de knop drukt, wordt er direct 0,2 AI Credit gebruikt, wilt u doorgaan?',
         },
         path_edit_panel: {
           node_type: 'Knooppunttype',

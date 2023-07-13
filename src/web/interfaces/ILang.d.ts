@@ -535,6 +535,12 @@ export interface ILang {
         already_joined: string;
         dont_show_again: string;
       },
+      ai_credit: {
+        insufficient_credit: string;
+        insufficient_credit_msg: string;
+        buy_link: string;
+        go: string;
+      },
     },
     zoom_block: {
       fit_to_window: string,
@@ -775,6 +781,7 @@ export interface ILang {
           edit_path: string,
           simplify: string;
           ai_bg_removal: string;
+          ai_bg_removal_reminder: string;
         },
         path_edit_panel: {
           node_type: string,

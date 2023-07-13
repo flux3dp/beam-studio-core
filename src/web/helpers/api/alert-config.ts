@@ -12,6 +12,7 @@ type AlertConfigKey =
   'skip_svg_version_warning' |
   'skip_image_path_warning' |
   'skip-fb-group-invitation' |
+  'skip_bg_removal_warning' |
   'done-first-cali';
 
 export default {

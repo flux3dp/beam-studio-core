@@ -538,6 +538,12 @@ const lang: ILang = {
         already_joined: '이미 가입',
         dont_show_again: '다시 표시하지 마세요.',
       },
+      ai_credit: {
+        insufficient_credit: '크레딧이 부족합니다',
+        insufficient_credit_msg: '%s 사용할 수 없습니다. 회원센터로 이동하여 AI 크레딧을 구매하세요.',
+        buy_link: 'https://member.flux3dp.com/en-US/credit',
+        go: '가다',
+      },
     },
     zoom_block: {
       fit_to_window: '화면에 맞게 조정',
@@ -778,6 +784,7 @@ const lang: ILang = {
           ungrouping: '그룹해제...',
           simplify: '단순화',
           ai_bg_removal: '인공 지능 배경 제거',
+          ai_bg_removal_reminder: '버튼을 누르면 즉시 0.2 AI 크레딧이 사용됩니다. 계속하시겠습니까?',
         },
         path_edit_panel: {
           node_type: '노드 타입',

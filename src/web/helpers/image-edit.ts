@@ -1,6 +1,9 @@
+import { sprintf } from 'sprintf-js';
+
 import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
+import browser from 'implementations/browser';
 import dialogCaller from 'app/actions/dialog-caller';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -227,7 +230,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   if (!alertConfig.read('skip_bg_removal_warning')) {
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
-        message: 'Todo: Removal Warning text',
+        message: i18n.lang.beambox.right_panel.object_panel.actions_panel.ai_bg_removal_reminder,
         buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: () => resolve(true),
         onCancel: () => resolve(false),
@@ -263,7 +266,6 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
       headers: getDefaultHeader(),
       responseType: 'blob',
     }) as ResponseWithError;
-    console.log(removeResult);
     if (removeResult.error) {
       alertCaller.popUpError({
         message: `Server Error: ${removeResult.error}`,
@@ -272,7 +274,9 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     }
     const contentType = removeResult.headers['content-type'];
     if (contentType === 'application/json') {
-      const { status, info } = await new Promise<{ info: string; status: string }>((resolve) => {
+      const { status, info, message } = await new Promise<{
+        info: string; status: string; message?: string;
+      }>((resolve) => {
         const reader = new FileReader();
         reader.onloadend = (e) => {
           const str = e.target.result as string;
@@ -284,8 +288,18 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
       if (status === 'error') {
         if (info === 'NOT_LOGGED_IN') dialogCaller.showLoginDialog();
         else if (info === 'INSUFFICIENT_CREDITS') {
-          alertCaller.popUpError({ message: 'TODO: show insufficient credits message and redirect to purchase page' });
-        } else alertCaller.popUpError({ message: `Error: ${info}` });
+          alertCaller.popUp({
+            caption: i18n.lang.beambox.popup.ai_credit.insufficient_credit,
+            message: sprintf(
+              i18n.lang.beambox.popup.ai_credit.insufficient_credit_msg,
+              i18n.lang.beambox.right_panel.object_panel.actions_panel.ai_bg_removal,
+            ),
+            buttonType: alertConstants.CUSTOM_CANCEL,
+            buttonLabels: [i18n.lang.beambox.popup.ai_credit.go],
+            callbacks: () => browser.open(i18n.lang.beambox.popup.ai_credit.buy_link),
+          });
+        } else if (info === 'API_ERROR') alertCaller.popUpError({ message: `API Error: ${message}` });
+        else alertCaller.popUpError({ message: `Error: ${info}` });
       }
       return;
     }

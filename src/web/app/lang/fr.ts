@@ -537,6 +537,12 @@ const lang: ILang = {
         already_joined: 'Déjà Rejoint',
         dont_show_again: 'Je suis déjà membre',
       },
+      ai_credit: {
+        insufficient_credit: 'Vous êtes à court de crédits',
+        insufficient_credit_msg: 'Vous ne pouvez pas utiliser %s Accédez au centre des membres et achetez AI Credit.',
+        buy_link: 'https://member.flux3dp.com/en-US/credit',
+        go: 'Aller',
+      },
     },
     zoom_block: {
       fit_to_window: 'Ajustement à la fenêtre',
@@ -777,6 +783,7 @@ const lang: ILang = {
           ungrouping: 'Dégrouper...',
           simplify: 'Simplifier',
           ai_bg_removal: 'dissolvant de fond AI',
+          ai_bg_removal_reminder: 'Appuyer sur le bouton utilisera immédiatement 0,2 crédit AI, voulez-vous continuer?',
         },
         path_edit_panel: {
           node_type: 'TYPE DE NODE',

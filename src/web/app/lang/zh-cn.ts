@@ -537,6 +537,12 @@ const lang: ILang = {
         already_joined: '已加入用户社群',
         dont_show_again: '不要再提醒我',
       },
+      ai_credit: {
+        insufficient_credit: '您的 Credit 已用完',
+        insufficient_credit_msg: '您无法使用%s，请前往会员中心充值 AI Credit。',
+        buy_link: 'https://member.flux3dp.com/zh-TW/credit',
+        go: '前往',
+      },
     },
     zoom_block: {
       fit_to_window: '配合视窗尺寸',
@@ -777,6 +783,7 @@ const lang: ILang = {
           ungrouping: '解散群组中...',
           simplify: '路径优化',
           ai_bg_removal: '智能去背',
+          ai_bg_removal_reminder: '按下按钮将立即使用 0.2 AI Credit，是否继续？',
         },
         path_edit_panel: {
           node_type: '节点类型',
