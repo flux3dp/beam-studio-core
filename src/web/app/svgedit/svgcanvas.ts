@@ -58,6 +58,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import colorConstants from 'app/constants/color-constants';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -2835,17 +2836,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     getCurrentDrawing().identifyLayers();
   };
 
-  let randomColors = ['#333333', '#3F51B5', '#F44336', '#FFC107', '#8BC34A', '#2196F3', '#009688', '#FF9800', '#CDDC39', '#00BCD4', '#FFEB3B', '#E91E63', '#673AB7', '#03A9F4', '#9C27B0', '#607D8B', '#9E9E9E'];
+  let randomColorsIdx = 0
 
   canvas.resetRandomColors = () => {
-    randomColors = ['#333333', '#3F51B5', '#F44336', '#FFC107', '#8BC34A', '#2196F3', '#009688', '#FF9800', '#CDDC39', '#00BCD4', '#FFEB3B', '#E91E63', '#673AB7', '#03A9F4', '#9C27B0', '#607D8B', '#9E9E9E'];
+    randomColorsIdx = 0
   };
 
-  var getRandomLayerColor = canvas.getRandomLayerColor = function () {
-    if (randomColors.length === 0) {
-      canvas.resetRandomColors();
-    }
-    return randomColors.shift();
+  const getRandomLayerColor = canvas.getRandomLayerColor = function () {
+    const color = colorConstants.randomLayerColors[randomColorsIdx];
+    randomColorsIdx = randomColorsIdx < colorConstants.randomLayerColors.length - 1 ? randomColorsIdx + 1 : 0;
+    return color;
   };
 
   // Function: createLayer
@@ -2949,27 +2949,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return false;
   };
 
-  // Function: setCurrentLayerPosition
-  // Changes the position of the current layer to the new value. If the new index is not valid,
-  // this function does nothing and returns false, otherwise it returns true. This is an
-  // undo-able action.
-  //
-  // Parameters:
-  // newpos - The zero-based index of the new position of the layer. This should be between
-  // 0 and (number of layers - 1)
-  //
-  // Returns:
-  // true if the current layer position was changed, false otherwise.
-  this.setCurrentLayerPosition = function (newpos) {
-    var oldpos, drawing = getCurrentDrawing();
-    var result = drawing.setCurrentLayerPosition(newpos);
-    if (result) {
-      addCommandToHistory(new history.MoveElementCommand(result.currentGroup, result.oldNextSibling, svgcontent));
-      return true;
-    }
-    return false;
-  };
-
   this.sortTempGroupByLayer = () => {
     if (!tempGroup) return;
     const drawing = getCurrentDrawing();
@@ -3063,24 +3042,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     addCommandToHistory(batchCmd);
     this.tempGroupSelectedElements();
     return true;
-  };
-
-  this.mergeLayer = function (hrService) {
-    getCurrentDrawing().mergeLayer(historyRecordingService(hrService));
-    clearSelection();
-    leaveContext();
-    const currentLayer = getCurrentDrawing().getCurrentLayer();
-    this.updateLayerColor(currentLayer);
-    call('changed', [svgcontent]);
-  };
-
-  this.mergeAllLayers = function (hrService) {
-    getCurrentDrawing().mergeAllLayers(historyRecordingService(hrService));
-    clearSelection();
-    leaveContext();
-    const currentLayer = getCurrentDrawing().getCurrentLayer();
-    this.updateLayerColor(currentLayer);
-    call('changed', [svgcontent]);
   };
 
   const hexToRgb = (hexColorCode) => {
