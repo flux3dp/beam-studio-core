@@ -265,6 +265,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
       withCredentials: true,
       headers: getDefaultHeader(),
       responseType: 'blob',
+      timeout: 1000 * 60 * 3, // 3 min
     }) as ResponseWithError;
     if (removeResult.error) {
       alertCaller.popUpError({
