@@ -59,12 +59,26 @@ $active-color: #0091ff;
       height: 5px;
     }
 
+    .module {
+      height: 24px;
+      padding-left: 16px;
+      font-size: 24px;
+
+      svg {
+        stroke-width: 2px;
+      }
+    }
+
     .name {
       width: 140px;
       padding: 3px 0px;
       margin-left: 5px;
       text-align: center;
       cursor: pointer;
+
+      &.with-module {
+        width: 100px;
+      }
 
       @media screen and (max-width: 600px) {
         margin-left: 10px;
@@ -146,6 +160,10 @@ $active-color: #0091ff;
 
       &.current {
         border-color: $active-color;
+      }
+
+      .module {
+        filter: brightness(0) invert(1);
       }
 
       .vis {

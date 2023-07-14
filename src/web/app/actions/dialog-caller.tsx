@@ -118,6 +118,7 @@ export default {
     originalColor: string,
     left: number,
     top: number,
+    isPrinting: boolean,
     onNewColor: (color: string) => void,
   ): void => {
     if (isIdExist('color-picker')) return;
@@ -126,6 +127,7 @@ export default {
         originalColor={originalColor}
         left={left}
         top={top}
+        isPrinting={isPrinting}
         onNewColor={onNewColor}
         onClose={() => popDialogById('color-picker')}
       />);

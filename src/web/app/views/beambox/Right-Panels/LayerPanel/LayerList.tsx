@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import {
@@ -11,6 +12,7 @@ import {
   getLayerElementByName,
   setLayerLock,
 } from 'helpers/layer/layer-helper';
+import { getData, DataType, Module } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
@@ -78,6 +80,7 @@ const LayerList = ({
 
   const allLayerNames = getAllLayerNames();
   if (draggingDestIndex === allLayerNames.length) items.push(renderDragBar());
+  const shouldShowModuleIcon = beamboxPreference.read('workarea') === 'fad1';
 
   for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
     const layerName = allLayerNames[i];
@@ -113,6 +116,7 @@ const LayerList = ({
             },
           ]
         : undefined;
+      const module = getData<Module>(layer, DataType.module);
       items.push(
         <SwipeAction
           key={layerName}
@@ -160,9 +164,14 @@ const LayerList = ({
                   onClick={(e: React.MouseEvent) => openLayerColorPanel(e, layerName)}
                 />
               </div>
+              {shouldShowModuleIcon && (
+                <div className={styles.module}>
+                  {module === Module.PRINTER ? <LayerPanelIcons.Print /> : <LayerPanelIcons.Laser />}
+                </div>
+              )}
               <div
                 id={`layerdoubleclick-${i}`}
-                className={styles.name}
+                className={classNames(styles.name, { [styles['with-module']]: shouldShowModuleIcon })}
                 onDoubleClick={(e: React.MouseEvent) => {
                   if (!isMobile && !e.ctrlKey && !e.shiftKey && !e.metaKey) onLayerDoubleClick();
                 }}

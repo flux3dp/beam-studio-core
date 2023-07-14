@@ -665,7 +665,7 @@ const lang: ILang = {
         sure_to_load_config: 'Esto cargará la disposición de los preajustes y reemplazará los parámetros personalizados establecidos en el archivo, ¿estás seguro de proceder?',
         custom_preset: 'Personalizado',
         various_preset: 'Varios preajustes',
-        module: 'tModule',
+        module: 'Module',
         dropdown: {
           parameters: 'Preajustes',
           save: 'Añade los parámetros actuales',

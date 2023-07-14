@@ -114,7 +114,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   }, [state, dispatch]);
 
   useEffect(() => {
-    beamboxStore.removeAllUpdateWorkAreaListeners();
     beamboxStore.onUpdateWorkArea(updateData);
     beamboxStore.onUpdateWorkArea(updateDiodeBoundary);
     return () => {
@@ -234,7 +233,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const isDevMode = isDev() && UIType === 'default';
   const commonContent = (
     <>
-      {isDevMode && <ModuleBlock />}
       {module.value === Module.LASER && <PowerBlock type={UIType} />}
       {module.value === Module.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
@@ -250,6 +248,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           <div className={classNames('layername', 'hidden-mobile')}>
             {sprintf(lang.preset_setting, displayName)}
           </div>
+          {isDevMode && <ModuleBlock />}
           <div className="layerparams">
             <ConfigOperations onMoreClick={handleOpenManageModal} />
             <div className="preset-dropdown-containter">
@@ -281,6 +280,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
             ]}
             label={lang.presets}
           />
+          {isDevMode && <ModuleBlock />}
           {commonContent}
         </div>
       );
@@ -347,6 +347,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
               <div className={styles.layers}>{layerOptions}</div>
             </div>
           )}
+          {isDevMode && <ModuleBlock />}
           <Select
             id="laser-config-dropdown"
             className={styles.select}
