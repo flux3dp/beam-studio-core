@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import Dialog from 'app/actions/dialog-caller';
@@ -29,6 +30,8 @@ import {
   SimplifyIcon,
   TraceIcon,
 } from 'app/icons/icons';
+
+import styles from './ActionsPanel.module.scss';
 
 let svgCanvas;
 let svgEditor;
@@ -119,9 +122,9 @@ class ActionsPanel extends React.Component<Props> {
         LANG.ai_bg_removal,
         () => imageEdit.removeBackground(elem as SVGImageElement),
         true,
-        'remove',
+        'bg-removal',
         false,
-        <InvertIcon />,
+        <ActionPanelIcons.ImageMatting className={styles.icon} />,
       ),
       this.renderButtons(
         LANG.trace, () => imageEdit.traceImage(elem as SVGImageElement), false, 'trace', isShading, <TraceIcon />,

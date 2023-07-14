@@ -159,6 +159,22 @@ exports[`should render correctly image 1`] = `
       </button>
     </div>
     <div
+      className="btn-container full"
+      key="ai_bg_removal"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-default"
+        id="bg-removal"
+        type="button"
+      >
+        <svgr-url
+          className="icon"
+        />
+        ai_bg_removal
+      </button>
+    </div>
+    <div
       className="btn-container half"
       key="Trace"
       onClick={[Function]}
@@ -254,20 +270,6 @@ exports[`should render correctly image 1`] = `
       >
         <ArrayIcon />
         Array
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Remove BG"
-      onClick={[Function]}
-    >
-      <button
-        className="btn btn-default"
-        id="remove"
-        type="button"
-      >
-        <InvertIcon />
-        Remove BG
       </button>
     </div>
     <div

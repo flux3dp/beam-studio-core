@@ -28,10 +28,12 @@ jest.mock('app/actions/beambox/font-funcs', () => ({
 const mockTraceImage = jest.fn();
 const generateStampBevel = jest.fn();
 const colorInvert = jest.fn();
+const mockRemoveBackground = jest.fn();
 jest.mock('helpers/image-edit', () => ({
   generateStampBevel,
   colorInvert,
   traceImage: (...args) => mockTraceImage(...args),
+  removeBackground: (...args) => mockRemoveBackground(...args),
 }));
 
 const openNonstopProgress = jest.fn();
@@ -70,6 +72,7 @@ jest.mock('helpers/i18n', () => ({
             disassembling: 'Disassembling...',
             ungrouping: 'Ungrouping...',
             simplify: 'simplify',
+            ai_bg_removal: 'ai_bg_removal',
           },
         },
       },
@@ -167,28 +170,32 @@ describe('should render correctly', () => {
     expect(replaceBitmap).not.toHaveBeenCalled();
 
     wrapper.find('div.btn-container').at(1).simulate('click');
-    expect(mockTraceImage).toHaveBeenCalledTimes(1);
+    expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
+    expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
     wrapper.find('div.btn-container').at(2).simulate('click');
+    expect(mockTraceImage).toHaveBeenCalledTimes(1);
+
+    wrapper.find('div.btn-container').at(3).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
-    wrapper.find('div.btn-container').at(3).simulate('click');
+    wrapper.find('div.btn-container').at(4).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    wrapper.find('div.btn-container').at(4).simulate('click');
+    wrapper.find('div.btn-container').at(5).simulate('click');
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(5).simulate('click');
+    wrapper.find('div.btn-container').at(6).simulate('click');
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('div.btn-container').at(6).simulate('click');
+    wrapper.find('div.btn-container').at(7).simulate('click');
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('div.btn-container').at(7).simulate('click');
+    wrapper.find('div.btn-container').at(8).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 

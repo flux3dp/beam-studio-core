@@ -9,6 +9,7 @@ module.exports = {
   },
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^.+\\.(svg)$': '<rootDir>/__mocks__/svgrMock.ts',
     "^.+.css$": 'identity-obj-proxy',
   },
   collectCoverageFrom: [

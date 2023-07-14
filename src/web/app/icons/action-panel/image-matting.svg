@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" viewBox="0 0 48 38.583">
+  <rect width="5.162" height="5.162" transform="translate(3.409 3.703)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(8.571 8.868)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(13.734 3.703)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(18.896 8.868)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(24.059 3.703)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(29.224 8.868)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(3.409 13.594)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(8.571 18.756)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(13.734 13.594)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(18.896 18.756)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(24.059 13.594)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(29.224 18.756)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(34.387 3.922)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(39.549 9.087)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(34.387 13.812)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(39.549 18.975)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(34.387 23.919)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(29.221 29.081)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(24.496 23.919)" fill="#969696"/>
+  <rect width="5.162" height="5.162" transform="translate(19.333 29.081)" fill="#969696"/>
+  <path d="M43.339,0H4.661A4.661,4.661,0,0,0,0,4.661V33.922a4.661,4.661,0,0,0,4.661,4.661H43.342A4.656,4.656,0,0,0,48,33.924V4.661A4.658,4.658,0,0,0,43.345,0Zm-.246,28.375c-2.4-2.412-4.35-4.451-6.389-6.4a4.283,4.283,0,0,0-6.05-.3,3.853,3.853,0,0,0-.3.3,4.583,4.583,0,0,0-.79.79c-1.4,2.123-2.431,1.451-3.709-.23-2.031-2.672-4.244-5.21-6.429-7.762-2.661-3.112-5.076-3.1-7.81.017a46.313,46.313,0,0,0-6.706,9.714V6.151c0-1.232.756-1.518,1.742-1.518H41.168c1.255,0,1.944.515,1.938,1.871-.025,7.067-.014,14.151-.014,21.871" transform="translate(0 0)" fill="#5c5c5c"/>
+  <path d="M15.975,2.476A5.041,5.041,0,0,0,11.081,7.33a4.874,4.874,0,0,0,9.745.039,5.059,5.059,0,0,0-4.852-4.894" transform="translate(19.958 4.46)" fill="#fff"/>
+</svg>
