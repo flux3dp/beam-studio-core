@@ -1,14 +1,24 @@
-import classNames from 'classnames';
 import React, { useContext } from 'react';
 import { Select } from 'antd';
 
+import colorConstants from 'app/constants/color-constants';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import useI18n from 'helpers/useI18n';
 import { DataType, Module, writeData } from 'helpers/layer/layer-config-helper';
+import { getLayerElementByName } from 'helpers/layer/layer-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './ModuleBlock.module.scss';
 
-// TODO: Current use a checkbox for demo, need to change to dropdown in the future
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
+const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
+
+// TODO: add test
 const ModuleBlock = (): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -18,12 +28,21 @@ const ModuleBlock = (): JSX.Element => {
 
   const handleChange = (val: number) => {
     dispatch({ type: 'change', payload: { module: val } });
-    selectedLayers.forEach((layerName) => writeData(layerName, DataType.module, val));
+    selectedLayers.forEach((layerName) => {
+      writeData(layerName, DataType.module, val);
+      const elem = getLayerElementByName(layerName);
+      if (val === Module.PRINTER && !colorConstants.printingLayerColor.includes(elem.getAttribute('data-color'))) {
+        elem.setAttribute('data-color', '#1D1D1B');
+        svgCanvas.updateLayerColor(elem);
+      }
+    });
+    layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
   };
 
+  // TODO: add i18n
   const options = [
-    { label: 'Laser', value: Module.LASER },
-    { label: 'Printing', value: Module.PRINTER },
+    { label: '10W Laser', value: Module.LASER },
+    { label: 'Print', value: Module.PRINTER },
   ];
 
   return (
