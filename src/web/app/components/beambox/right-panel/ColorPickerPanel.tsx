@@ -27,6 +27,7 @@ const ColorPickerPanel = ({
   const isMobile = useIsMobile();
   const style = isMobile ? { top: top - mobileHeight, left } : { top, left: left - desktopWidth };
   const pickrRef = useRef(null);
+  const colorPresetContainerRef = useRef<HTMLDivElement>(null);
   const [currentColor, setCurrentColor] = useState(originalColor);
 
   useEffect(() => {
@@ -61,13 +62,26 @@ const ColorPickerPanel = ({
     onNewColor(currentColor);
     onClose();
   };
+
   const colors = useMemo(() => (
     isPrinting ? colorConstants.printingLayerColor : colorConstants.randomLayerColors
   ), [isPrinting]);
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const currentTarget = e.currentTarget as Element;
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      const scrollBefore = currentTarget.scrollLeft;
+      currentTarget.scrollLeft += e.deltaY;
+      if (scrollBefore !== currentTarget.scrollLeft) {
+        e.stopPropagation();
+      }
+    }
+  };
+
   return (
     <div className={styles.container} style={style}>
       <div className={styles.background} onClick={onClose} />
-      <div className={styles.presets}>
+      <div className={styles.presets} ref={colorPresetContainerRef} onWheelCapture={handleWheel}>
         {colors.map((color) => (
           <div key={color}>
             <div
