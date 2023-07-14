@@ -654,7 +654,7 @@ const lang: ILang = {
         sure_to_load_config: 'これにより、プリセットの配置が読み込まれ、ファイルに設定されているカスタマイズされたパラメーターが置き換えられます。続行しますか？',
         custom_preset: 'カスタム',
         various_preset: '複数のプリセット',
-        module: 'tModule',
+        module: 'Module',
         dropdown: {
           parameters: 'パラメーター…',
           save: '現在のパラメーターを追加',

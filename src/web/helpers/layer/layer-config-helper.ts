@@ -51,11 +51,11 @@ export const defaultConfig = {
   [DataType.backlash]: 0,
 };
 
-export const getData = (layer: Element, dataType: DataType) => {
+export const getData = <T>(layer: Element, dataType: DataType): T => {
   if (![DataType.configName].includes(dataType)) {
-    return Number(layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType]);
+    return Number(layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType]) as T;
   }
-  return layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType];
+  return layer.getAttribute(`data-${dataType}`) as T || defaultConfig[dataType] as T;
 };
 
 export const writeData = (layerName: string, dataType: DataType, value: number | string): void => {

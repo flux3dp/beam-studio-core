@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -114,16 +114,23 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   };
 
-  const updateTopBar = (): void => {
+  const updateTopBar = useCallback((): void => {
     console.log('Force update?');
     forceUpdate();
-  };
+  }, [forceUpdate]);
+
+  const handleSetSelectedElem = useCallback((elem: Element): void => {
+    if (elem !== selectedElem) {
+      console.log(elem, selectedElem);
+      setSelectedElem(elem);
+    }
+  }, [selectedElem]);
 
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setCurrentUser);
     topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
-    topBarEventEmitter.on('SET_ELEMENT', setSelectedElem);
+    topBarEventEmitter.on('SET_ELEMENT', handleSetSelectedElem);
     topBarEventEmitter.on('SET_FILE_NAME', setFileName);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
@@ -140,7 +147,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       fluxIDEventEmitter.removeListener('update-user', setCurrentUser);
       topBarEventEmitter.removeAllListeners();
     };
-  }, [setCurrentUser, isPreviewing]);
+  }, [updateTopBar, handleSetSelectedElem, isPreviewing]);
 
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
@@ -163,7 +170,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const togglePathPreview = () => { setIsPathPreviewing(!isPathPreviewing); };
 
   const { children } = props;
-
   return (
     <CanvasContext.Provider
       value={
