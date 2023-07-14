@@ -21,7 +21,6 @@ import {
   CropIcon,
   DivideIcon,
   GrayscaleIcon,
-  InvertIcon,
   OffsetIcon,
   PenIcon,
   ReplaceIcon,
@@ -98,10 +97,10 @@ class ActionsPanel extends React.Component<Props> {
     isDisabled?: boolean,
     icon?: JSX.Element,
   ): JSX.Element => {
-    const className = classNames('btn', 'btn-default', { disabled: isDisabled });
+    const className = classNames(styles.btn, { [styles.disabled]: isDisabled });
     return (
       <div
-        className={classNames('btn-container', { full: isFullLine, half: !isFullLine })}
+        className={classNames(styles['btn-container'], { [styles.half]: !isFullLine })}
         onClick={onClick}
         key={label}
       >
@@ -140,11 +139,20 @@ class ActionsPanel extends React.Component<Props> {
         LANG.bevel, () => imageEdit.generateStampBevel(elem as SVGImageElement), false, 'bevel', false, <BevelIcon />
       ),
       this.renderButtons(
-        LANG.invert, () => imageEdit.colorInvert(elem as SVGImageElement), false, 'invert', false, <InvertIcon />
+        LANG.invert,
+        () => imageEdit.colorInvert(elem as SVGImageElement),
+        false,
+        'invert',
+        false,
+        <ActionPanelIcons.Invert className={styles.icon} />,
       ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
       this.renderButtons(
-        'Potrace', () => imageEdit.potrace(elem as SVGImageElement), false, 'remove', false, <InvertIcon />
+        'Potrace',
+        () => imageEdit.potrace(elem as SVGImageElement),
+        false, 'remove',
+        false,
+        <ActionPanelIcons.Invert className={styles.icon} />,
       ),
     ];
     return content;

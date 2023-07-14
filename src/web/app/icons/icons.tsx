@@ -22,15 +22,6 @@ const GraycaleSvg = () => (
   </svg>
 );
 
-const InvertSvg = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="12 12 24 24">
-    <g transform="translate(14.737 14.737)">
-      <path d="M2.107.064A2.076,2.076,0,0,0,.644.645,2.077,2.077,0,0,0,.063,2.108v14.31a2.077,2.077,0,0,0,.581,1.463,2.076,2.076,0,0,0,1.463.581h14.31a1.985,1.985,0,0,0,2.045-1.924q0-.06,0-.12V2.108a2.072,2.072,0,0,0-.58-1.463A2.078,2.078,0,0,0,16.417.064ZM16.417,2.27V16.58H2.108l3.541-3.541a5.11,5.11,0,1,1,7.227-7.227ZM12.875,5.65,5.649,12.876a5.11,5.11,0,0,0,7.227-7.227Z" fill="currentColor" />
-      <path d="M17.539,18.526H.986A.987.987,0,0,1,0,17.54V.987A.988.988,0,0,1,.986,0H17.539a.988.988,0,0,1,.987.987V17.54a.988.988,0,0,1-.987.986M1,1V17.54l16.539-.014L17.526.987Z" fill="currentColor" />
-    </g>
-  </svg>
-);
-
 const ArraySvg = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="12 12 24 24">
     <g transform="translate(-1093.717 -1787.408)">
@@ -259,10 +250,6 @@ export const CropIcon = (props: Partial<CustomIconComponentProps>): JSX.Element 
 
 export const GrayscaleIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={GraycaleSvg} style={commonStyle} {...props} />
-);
-
-export const InvertIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
-  <Icon component={InvertSvg} style={commonStyle} {...props} />
 );
 
 export const ArrayIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (

@@ -13,12 +13,12 @@ exports[`should render correctly ellipse 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Convert to Path"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="convert_to_path"
         type="button"
       >
@@ -32,7 +32,7 @@ exports[`should render correctly ellipse 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="offset"
         type="button"
       >
@@ -46,7 +46,7 @@ exports[`should render correctly ellipse 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -76,7 +76,7 @@ exports[`should render correctly g multiple selection 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="offset"
         type="button"
       >
@@ -90,7 +90,7 @@ exports[`should render correctly g multiple selection 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -120,7 +120,7 @@ exports[`should render correctly g single selection 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -145,12 +145,12 @@ exports[`should render correctly image 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Replace With..."
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="replace_with"
         type="button"
       >
@@ -159,12 +159,12 @@ exports[`should render correctly image 1`] = `
       </button>
     </div>
     <div
-      className="btn-container full"
+      className="btn-container"
       key="ai_bg_removal"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="bg-removal"
         type="button"
       >
@@ -180,7 +180,7 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="trace"
         type="button"
       >
@@ -194,7 +194,7 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="grading"
         type="button"
       >
@@ -208,7 +208,7 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="sharpen"
         type="button"
       >
@@ -222,7 +222,7 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="crop"
         type="button"
       >
@@ -236,7 +236,7 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="bevel"
         type="button"
       >
@@ -250,11 +250,13 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="invert"
         type="button"
       >
-        <InvertIcon />
+        <svgr-url
+          className="icon"
+        />
         Invert
       </button>
     </div>
@@ -264,7 +266,7 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -278,11 +280,13 @@ exports[`should render correctly image 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="remove"
         type="button"
       >
-        <InvertIcon />
+        <svgr-url
+          className="icon"
+        />
         Potrace
       </button>
     </div>
@@ -303,12 +307,12 @@ exports[`should render correctly line 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Convert to Path"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="convert_to_path"
         type="button"
       >
@@ -322,7 +326,7 @@ exports[`should render correctly line 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="offset"
         type="button"
       >
@@ -336,7 +340,7 @@ exports[`should render correctly line 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -376,12 +380,12 @@ exports[`should render correctly path 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="edit_path"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="edit_path"
         type="button"
       >
@@ -390,12 +394,12 @@ exports[`should render correctly path 1`] = `
       </button>
     </div>
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Decompose"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="decompose_path"
         type="button"
       >
@@ -409,7 +413,7 @@ exports[`should render correctly path 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="offset"
         type="button"
       >
@@ -423,7 +427,7 @@ exports[`should render correctly path 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -432,12 +436,12 @@ exports[`should render correctly path 1`] = `
       </button>
     </div>
     <div
-      className="btn-container full"
+      className="btn-container"
       key="simplify"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="simplify"
         type="button"
       >
@@ -462,12 +466,12 @@ exports[`should render correctly polygon 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Convert to Path"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="convert_to_path"
         type="button"
       >
@@ -481,7 +485,7 @@ exports[`should render correctly polygon 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="offset"
         type="button"
       >
@@ -495,7 +499,7 @@ exports[`should render correctly polygon 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -520,12 +524,12 @@ exports[`should render correctly rect 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Convert to Path"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="convert_to_path"
         type="button"
       >
@@ -539,7 +543,7 @@ exports[`should render correctly rect 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="offset"
         type="button"
       >
@@ -553,7 +557,7 @@ exports[`should render correctly rect 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -578,12 +582,12 @@ exports[`should render correctly text 1`] = `
     className="btns-container"
   >
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Convert to Path"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="convert_to_path"
         type="button"
       >
@@ -592,12 +596,12 @@ exports[`should render correctly text 1`] = `
       </button>
     </div>
     <div
-      className="btn-container full"
+      className="btn-container"
       key="Array"
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
@@ -627,7 +631,7 @@ exports[`should render correctly use 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="disassemble_use"
         type="button"
       >
@@ -641,7 +645,7 @@ exports[`should render correctly use 1`] = `
       onClick={[Function]}
     >
       <button
-        className="btn btn-default"
+        className="btn"
         id="array"
         type="button"
       >
