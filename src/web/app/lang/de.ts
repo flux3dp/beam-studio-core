@@ -651,7 +651,7 @@ const lang: ILang = {
         sure_to_load_config: 'Dadurch wird die Anordnung der Voreinstellungen geladen und die in der Datei festgelegten benutzerdefinierten Parameter ersetzt. Sind Sie sicher, dass Sie fortfahren?',
         custom_preset: 'Benutzerdefiniert',
         various_preset: 'Mehrere Voreinstellungen',
-        module: 'tModule',
+        module: 'Module',
         dropdown: {
           parameters: 'Voreinstellungen',
           save: 'Aktuelle Parameter hinzufügen',

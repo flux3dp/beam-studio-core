@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" height="1em" viewBox="0 0 48 48">
+  <g transform="translate(-168.272 -488.992)">
+    <rect width="15.544" height="28.73" transform="translate(184.5 494.5)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path d="M7.708,37.483H9.073" transform="translate(184 494)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <path d="M7.191,36.015H9.808" transform="translate(184 494)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+    <path d="M5.34,32.643h.889" transform="translate(184 494)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <path d="M6.229,32.643H11.2" transform="translate(184 494)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <line x2="0.734" y2="1.469" transform="translate(190.726 530.014)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <line y2="3.372" transform="translate(190.726 526.643)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <line y1="3.372" transform="translate(193.808 526.642)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <line y1="1.469" x2="0.734" transform="translate(193.074 530.014)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <line y2="3.372" transform="translate(189.34 523.271)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+    <line y1="3.372" transform="translate(195.204 523.271)" fill="none" stroke="#4b4b4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+  </g>
+</svg>

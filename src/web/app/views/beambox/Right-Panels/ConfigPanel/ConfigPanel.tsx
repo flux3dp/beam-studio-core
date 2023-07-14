@@ -93,7 +93,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   }, [state, dispatch]);
 
   useEffect(() => {
-    beamboxStore.removeAllUpdateWorkAreaListeners();
     beamboxStore.onUpdateWorkArea(updateData);
     beamboxStore.onUpdateWorkArea(updateDiodeBoundary);
     return () => {
@@ -242,6 +241,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
             <div className={classNames('layername', 'hidden-mobile')}>
               {sprintf(lang.preset_setting, displayName)}
             </div>
+            {isDevMode && <ModuleBlock />}
             <div className="layerparams">
               <ConfigOperations onMoreClick={handleOpenManageModal} />
               <div className="preset-dropdown-containter">
@@ -254,7 +254,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {isDevMode && <ModuleBlock />}
               {module.value === Module.LASER && <PowerBlock />}
               {module.value === Module.PRINTER && <InkBlock />}
               <SpeedBlock />
