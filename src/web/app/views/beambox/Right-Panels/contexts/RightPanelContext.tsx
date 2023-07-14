@@ -48,8 +48,8 @@ export class RightPanelContextProvider extends React.Component<any, State> {
     const { selectedElement } = this.state;
     if (elems !== selectedElement) {
       (document.activeElement as HTMLInputElement).blur();
+      this.setState({ selectedElement: elems });
     }
-    this.setState({ selectedElement: elems });
   };
 
   render(): JSX.Element {
