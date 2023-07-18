@@ -102,6 +102,7 @@ export default {
     fad1: ['fad1'],
   },
   addonsSupportList: {
+    rotary: ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
     openBottom: ['fbm1'],
     autoFocus: ['fbm1'],
     hybridLaser: ['fbm1'],
