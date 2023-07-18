@@ -5412,9 +5412,14 @@ const svgEditor = window['svgEditor'] = (function () {
             let rotaryMode = match[0].substring(18, match[0].length - 1);
             if (rotaryMode === 'true') rotaryMode = '1';
             const isRotaryModeOn = ['true', '1', '2'].includes(rotaryMode);
-            svgCanvas.setRotaryMode(isRotaryModeOn);
+            if (Constant.addonsSupportList.rotary.includes(BeamboxPreference.read('workarea'))) {
+              BeamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
+              svgCanvas.setRotaryMode(isRotaryModeOn);
+            } else {
+              BeamboxPreference.write('rotary_mode', 0);
+              svgCanvas.setRotaryMode(false);
+            }
             svgCanvas.runExtensions('updateRotaryAxis');
-            BeamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
           }
           match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
           if (match) {
