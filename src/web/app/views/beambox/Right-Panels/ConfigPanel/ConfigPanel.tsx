@@ -25,6 +25,7 @@ import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
@@ -103,6 +104,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const updateData = useCallback(() => {
     updateDefaultPresetData();
     postPresetChange();
+    presprayArea.togglePresprayArea();
     const drawing = svgCanvas.getCurrentDrawing();
     const currentLayerName = drawing.getCurrentLayerName();
     const layerData = getLayerConfig(currentLayerName);
