@@ -63,5 +63,23 @@ exports[`should render correctly 1`] = `
       unit="mm/s"
     />
   </Controls>
+  <SelectControl
+    id="set-enable-custom-preview-height"
+    onChange={[Function]}
+    options={
+      [
+        {
+          "label": "On",
+          "selected": false,
+          "value": "TRUE",
+        },
+        {
+          "label": "Off",
+          "selected": true,
+          "value": "FALSE",
+        },
+      ]
+    }
+  />
 </Fragment>
 `;
