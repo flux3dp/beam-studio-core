@@ -90,7 +90,6 @@ svgEditor.addExtension('rotary_axis', function () {
             }
         },
         checkMouseTarget: function (evt) {
-            // includes == indexOf. This comment can be removed 5 years layer...
             if (['rotaryAxis', 'rotaryLine', 'transparentRotaryLine'].includes(evt.mouseTarget.getAttribute('id'))) {
                 console.log('setMode to dragging axis');
                 svgCanvas.clearSelection();

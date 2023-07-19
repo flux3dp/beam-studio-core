@@ -14,6 +14,7 @@ import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import Progress from 'app/actions/progress-caller';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -101,6 +102,12 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
         }
+      }
+
+      if (opts.model === 'fad1') {
+        const { x, y, w, h } = presprayArea.getPosition(true);
+        args.push('-prespray');
+        args.push(`${x},${y},${w},${h}`);
       }
 
       if (

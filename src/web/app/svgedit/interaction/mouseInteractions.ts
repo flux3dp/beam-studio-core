@@ -2,6 +2,7 @@
 import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer/layer-helper';
@@ -256,14 +257,18 @@ const mouseDown = (evt: MouseEvent) => {
 
   extensionResult = svgCanvas.runExtensions('checkMouseTarget', { mouseTarget }, true);
   if (extensionResult) {
+    let currentStarted = svgCanvas.getStarted();
     $.each(extensionResult, (i, r) => {
-      svgCanvas.unsafeAccess.setStarted(started || (r && r.started));
+      currentStarted = currentStarted || (r && r.started);
     });
-    if (started && currentMode !== 'path') {
+    svgCanvas.unsafeAccess.setStarted(currentStarted);
+    if (currentStarted && currentMode !== 'path') {
       console.log('extension ate the mouseDown event');
       return;
     }
   }
+
+  if (presprayArea.checkMouseTarget(mouseTarget)) svgCanvas.setMode('drag-prespray-area');
 
   svgCanvas.unsafeAccess.setStartTransform(mouseTarget.getAttribute('transform'));
   currentMode = svgCanvas.getCurrentMode();
@@ -585,6 +590,11 @@ const mouseDown = (evt: MouseEvent) => {
           Array.from(svgCanvas.getTempGroup().childNodes as unknown as SVGElement[])
         );
       }
+      break;
+    case 'drag-prespray-area':
+      svgCanvas.unsafeAccess.setStarted(true);
+      svgCanvas.clearSelection();
+      presprayArea.startDrag();
       break;
     default:
       // This could occur in an extension
@@ -1123,6 +1133,11 @@ const mouseMove = (evt: MouseEvent) => {
         svgCanvas.textActions.init();
       }
       break;
+    case 'drag-prespray-area':
+      dx = x - startX;
+      dy = y - startY;
+      presprayArea.drag(dx, dy);
+      break;
     default:
       break;
   }
@@ -1555,6 +1570,11 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       // perform recalculation to weed out any stray identity transforms that might get stuck
       svgCanvas.recalculateAllSelectedDimensions();
       svgCanvas.call('changed', selectedElements);
+      break;
+    case 'drag-prespray-area':
+      keep = true;
+      element = null;
+      svgCanvas.setMode('select');
       break;
     default:
       // This could occur in an extension
