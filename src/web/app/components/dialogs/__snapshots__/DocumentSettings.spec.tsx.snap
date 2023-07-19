@@ -1567,6 +1567,23 @@ exports[`test DocumentSettings should render correctly 3`] = `
                     unselectable="on"
                   />
                 </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                  title="Ador"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Ador
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
               </div>
             </div>
           </div>
