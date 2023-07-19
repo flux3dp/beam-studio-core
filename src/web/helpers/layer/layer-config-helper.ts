@@ -213,6 +213,7 @@ export const postPresetChange = (): void => {
     if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
       layer.setAttribute('data-speed', String(maxSpeed));
     }
+    if (workarea !== 'fad1') layer.setAttribute(`data-${DataType.module}`, String(Module.LASER));
   }
 };
 
