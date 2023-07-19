@@ -21,6 +21,19 @@ jest.mock('helpers/svg-editor-helper', () => ({
   }),
 }));
 
+const mockRead = jest.fn();
+jest.mock('app/actions/beambox/beambox-preference', () => ({
+  read: (...args) => mockRead(...args),
+}));
+
+const mockGetData = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  getData: (...args) => mockGetData(...args),
+  DataType: {
+    module: 'module',
+  },
+}));
+
 const mockGetAllLayerNames = jest.fn();
 const mockGetLayerElementByName = jest.fn();
 jest.mock('helpers/layer/layer-helper', () => ({
@@ -59,6 +72,8 @@ describe('test LayerList', () => {
   });
 
   it('should render correctly', () => {
+    mockRead.mockReturnValue('fbm1');
+    mockGetData.mockReturnValue(2);
     mockGetAllLayerNames.mockReturnValue(['layer1', 'layer2']);
     const mockLayer = {
       getAttribute: jest.fn(),
@@ -90,6 +105,11 @@ describe('test LayerList', () => {
       </LayerPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
+    expect(mockRead).toBeCalledTimes(1);
+    expect(mockRead).toHaveBeenNthCalledWith(1, 'workarea');
+    expect(mockGetData).toBeCalledTimes(2);
+    expect(mockGetData).toHaveBeenNthCalledWith(1, mockLayer, 'module');
+    expect(mockGetData).toHaveBeenNthCalledWith(2, mockLayer, 'module');
     expect(mockLayer.getAttribute).toBeCalledTimes(2);
     expect(mockLayer.getAttribute).toHaveBeenLastCalledWith('data-lock');
     expect(mockDrawing.getLayerVisibility).toBeCalledTimes(2);
