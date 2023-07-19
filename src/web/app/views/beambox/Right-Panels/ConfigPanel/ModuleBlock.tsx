@@ -4,6 +4,7 @@ import { Select } from 'antd';
 import colorConstants from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import useI18n from 'helpers/useI18n';
 import { DataType, Module, writeData } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
@@ -37,6 +38,7 @@ const ModuleBlock = (): JSX.Element => {
       }
     });
     layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
+    presprayArea.togglePresprayArea();
   };
 
   // TODO: add i18n

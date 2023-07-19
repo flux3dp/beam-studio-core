@@ -1043,10 +1043,10 @@ class Control extends EventEmitter {
         const i = resps.findIndex((r) => r === 'ok\r');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
-          const resIdx = resps.findIndex((r) => r.match(/\[PRB:([\d.]+),([\d.]+),([\d.]+),([\d.]+):(\d)\]/));
+          const resIdx = resps.findIndex((r) => r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/));
           if (resIdx >= 0) {
             const resStr = resps[resIdx];
-            const match = resStr.match(/\[PRB:([\d.]+),([\d.]+),([\d.]+),([\d.]+):(\d)\]/);
+            const match = resStr.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/);
             const [, x, y, z, a, didAf] = match;
             this.removeCommandListeners();
             resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a), didAf: didAf === '1' });

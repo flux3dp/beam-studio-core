@@ -71,6 +71,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
@@ -302,7 +303,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // import from math.js.
   var transformPoint = svgedit.math.transformPoint;
   var matrixMultiply = canvas.matrixMultiply = svgedit.math.matrixMultiply;
-  var hasMatrixTransform = canvas.hasMatrixTransform = svgedit.math.hasMatrixTransform;
+  canvas.hasMatrixTransform = svgedit.math.hasMatrixTransform;
   var transformListToTransform = canvas.transformListToTransform = svgedit.math.transformListToTransform;
   const SENSOR_AREA_RADIUS = 10;
 
@@ -529,6 +530,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   }
 
   canvasBackground.setupBackground(curConfig.dimensions, () => svgroot, () => svgcontent);
+  presprayArea.generatePresprayArea();
 
   if (BeamboxPreference.read('show_guides')) {
     beamboxStore.emitDrawGuideLines();
@@ -610,10 +612,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }
 
-    var childs = elem.getElementsByTagName('*');
+    const childs = elem.getElementsByTagName('*');
 
     if (childs.length) {
-      for (i = 0, l = childs.length; i < l; i++) {
+      for (let i = 0; i < childs.length; i++) {
         restoreRefElems(childs[i]);
       }
     }
@@ -737,40 +739,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return result;
   };
 
-  // Function: addExtension
-  // Add an extension to the editor
-  //
-  // Parameters:
-  // name - String with the ID of the extension
-  // ext_func - Function supplied by the extension with its data
   this.importIds = function () {
     return import_ids;
   };
 
-  this.addExtension = function (name, ext_func) {
-    var ext;
-    if (!(name in extensions)) {
-      // Provide private vars/funcs here. Is there a better way to do this?
-      if ($.isFunction(ext_func)) {
-        ext = ext_func($.extend(canvas.getPrivateMethods(), {
-          svgroot: svgroot,
-          svgcontent: svgcontent,
-          nonce: getCurrentDrawing().getNonce(),
-          selectorManager: selectorManager,
-          ObjectPanelController: ObjectPanelController,
-        }));
-      } else {
-        ext = ext_func;
-      }
-      extensions[name] = ext;
-      call('extension_added', ext);
-    } else {
-      console.log('Cannot add extension "' + name + '", an extension by that name already exists.');
-    }
-  };
-
   // This method rounds the incoming value to the nearest value based on the current_zoom
-  var round = this.round = function (val) {
+  this.round = function (val) {
     return Math.round(val * current_zoom) / current_zoom;
   };
 
@@ -1172,13 +1146,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
     // find the first null in our selectedElements array
     var j = 0;
-
-    while (j < selectedElements.length) {
-      if (selectedElements[j] == null) {
-        break;
-      }
-      ++j;
-    }
 
     // now add each element consecutively
     var i = elemsToAdd.length;
@@ -3091,6 +3058,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
+  // TODO: extract color display related functions to a separate file
   this.updateLayerColor = function (layer) {
     const color = this.isUsingLayerColor ? $(layer).attr('data-color') : '#000';
     this.updateLayerColorFilter(layer);
@@ -3486,17 +3454,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       svgcontent.setAttribute('width', x);
       svgcontent.setAttribute('height', y);
+      svgcontent.setAttribute('viewBox', [0, 0, x / current_zoom, y / current_zoom].join(' '));
+      const fixedSizeSvg = document.getElementById('fixedSizeSvg');
+      if (fixedSizeSvg) fixedSizeSvg.setAttribute('viewBox', `0, 0 ${x} ${y}`);
 
       this.contentW = x;
       this.contentH = y;
       batchCmd.addSubCommand(new history.ChangeElementCommand(svgcontent, {
-        'width': w,
-        'height': h
-      }));
-
-      svgcontent.setAttribute('viewBox', [0, 0, x / current_zoom, y / current_zoom].join(' '));
-      batchCmd.addSubCommand(new history.ChangeElementCommand(svgcontent, {
-        'viewBox': ['0 0', w, h].join(' ')
+        width: w,
+        height: h,
+        viewBox: `0 0 ${w} ${h}`,
       }));
 
       addCommandToHistory(batchCmd);
@@ -6738,60 +6705,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.clear();
 
-  // DEPRECATED: getPrivateMethods
-  // Since all methods are/should be public somehow, this function should be removed
-
-  // Being able to access private methods publicly seems wrong somehow,
-  // but currently appears to be the best way to allow testing and provide
-  // access to them to plugins.
-  this.getPrivateMethods = function () {
-    var obj = {
-      addCommandToHistory: addCommandToHistory,
-      setGradient: setGradient,
-      addSvgElementFromJson: addSvgElementFromJson,
-      assignAttributes: assignAttributes,
-      BatchCommand: BatchCommand,
-      call: call,
-      ChangeElementCommand: ChangeElementCommand,
-      copyElem: function (elem) {
-        return getCurrentDrawing().copyElem(elem);
-      },
-      ffClone: ffClone,
-      findDefs: findDefs,
-      findDuplicateGradient: findDuplicateGradient,
-      getElem: getElem,
-      getId: getId,
-      getIntersectionList: getIntersectionList,
-      getMouseTarget: getMouseTarget,
-      getNextId: getNextId,
-      getPathBBox: getPathBBox,
-      getUrlFromAttr: getUrlFromAttr,
-      hasMatrixTransform: hasMatrixTransform,
-      identifyLayers: identifyLayers,
-      InsertElementCommand: InsertElementCommand,
-      isIdentity: svgedit.math.isIdentity,
-      logMatrix: logMatrix,
-      matrixMultiply: matrixMultiply,
-      MoveElementCommand: MoveElementCommand,
-      preventClickDefault: svgedit.utilities.preventClickDefault,
-      recalculateAllSelectedDimensions: recalculateAllSelectedDimensions,
-      recalculateDimensions: recalculateDimensions,
-      remapElement: remapElement,
-      RemoveElementCommand: RemoveElementCommand,
-      removeUnusedDefElems: removeUnusedDefElems,
-      round: round,
-      runExtensions: runExtensions,
-      sanitizeSvg: sanitizeSvg,
-      SVGEditTransformList: svgedit.transformlist.SVGTransformList,
-      toString: toString,
-      transformBox: svgedit.math.transformBox,
-      transformListToTransform: transformListToTransform,
-      transformPoint: transformPoint,
-      walkTree: svgedit.utilities.walkTree
-    };
-    return obj;
-  };
-
   this.getUseElementLocationBeforeTransform = function (elem) {
     const xform = $(elem).attr('data-xform');
     const elemX = parseFloat($(elem).attr('x') || '0');
@@ -7102,5 +7015,56 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     selectorManager.requestSelector(selected).show(true);
 
     svgedit.recalculate.recalculateDimensions(selected);
+  };
+
+  // Function: addExtension
+  // Add an extension to the editor
+  //
+  // Parameters:
+  // name - String with the ID of the extension
+  // ext_func - Function supplied by the extension with its data
+
+  this.addExtension = function (name, ext_func) {
+    var ext;
+    if (!(name in extensions)) {
+      // Provide private vars/funcs here. Is there a better way to do this?
+      if ($.isFunction(ext_func)) {
+        ext = ext_func({
+          ...canvas,
+          call,
+          BatchCommand,
+          ChangeElementCommand,
+          MoveElementCommand,
+          InsertElementCommand,
+          RemoveElementCommand,
+          copyElem: function (elem) {
+            return getCurrentDrawing().copyElem(elem);
+          },
+          ffClone,
+          findDuplicateGradient,
+          getId,
+          getNextId,
+          getPathBBox,
+          isIdentity: svgedit.math.isIdentity,
+          logMatrix,
+          preventClickDefault: svgedit.utilities.preventClickDefault,
+          SVGEditTransformList: svgedit.transformlist.SVGTransformList,
+          toString,
+          transformBox: svgedit.math.transformBox,
+          transformPoint,
+          walkTree: svgedit.utilities.walkTree,
+          svgroot,
+          svgcontent,
+          nonce: getCurrentDrawing().getNonce(),
+          ObjectPanelController,
+        });
+      } else {
+        ext = ext_func;
+      }
+      extensions[name] = ext;
+      call('extension_added', ext);
+    } else {
+      console.log('Cannot add extension "' + name + '", an extension by that name already exists.');
+    }
   };
 };
