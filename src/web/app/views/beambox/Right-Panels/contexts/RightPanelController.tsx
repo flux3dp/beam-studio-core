@@ -1,4 +1,3 @@
-
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
