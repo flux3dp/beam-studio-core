@@ -1,9 +1,17 @@
+import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
 
 const setElement = (elem: Element | null): void => {
+  if (!elem) {
+    BeamboxGlobalInteraction.onObjectBlur();
+  } else {
+    BeamboxGlobalInteraction.onObjectBlur();
+    BeamboxGlobalInteraction.onObjectFocus([elem]);
+  }
+
   topBarEventEmitter.emit('SET_ELEMENT', elem);
 };
 

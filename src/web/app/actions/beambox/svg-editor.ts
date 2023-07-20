@@ -1687,7 +1687,6 @@ const svgEditor = window['svgEditor'] = (function () {
         // RightPanelController.setSelectedElement(null);
         TopBarController.setElement(null);
       } else {
-        RightPanelController.setSelectedElement(elem);
         RightPanelController.toElementMode();
         TopBarController.setElement(elem);
       }
