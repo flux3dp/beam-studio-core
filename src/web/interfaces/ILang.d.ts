@@ -670,48 +670,56 @@ export interface ILang {
           import: string,
           more: string,
           mm: {
-            wood_3mm_cutting: string,
-            wood_5mm_cutting: string,
-            wood_8mm_cutting: string,
-            wood_10mm_cutting: string,
-            wood_engraving: string,
-            acrylic_3mm_cutting: string,
-            acrylic_5mm_cutting: string,
-            acrylic_8mm_cutting: string,
-            acrylic_10mm_cutting: string,
-            acrylic_engraving: string,
-            leather_3mm_cutting: string,
-            leather_5mm_cutting: string,
-            leather_engraving: string,
-            fabric_3mm_cutting: string,
-            fabric_5mm_cutting: string,
-            fabric_engraving: string,
-            rubber_bw_engraving: string,
-            glass_bw_engraving: string,
-            metal_bw_engraving: string,
-            stainless_steel_bw_engraving_diode: string,
+            wood_3mm_cutting: string;
+            wood_5mm_cutting: string;
+            wood_8mm_cutting: string;
+            wood_10mm_cutting: string;
+            wood_engraving: string;
+            acrylic_3mm_cutting: string;
+            acrylic_5mm_cutting: string;
+            acrylic_8mm_cutting: string;
+            acrylic_10mm_cutting: string;
+            acrylic_engraving: string;
+            mdf_3mm_cutting: string;
+            mdf_5mm_cutting: string;
+            mdf_engraving: string;
+            leather_3mm_cutting: string;
+            leather_5mm_cutting: string;
+            leather_engraving: string;
+            denim_1mm_cutting: string;
+            fabric_3mm_cutting: string;
+            fabric_5mm_cutting: string;
+            fabric_engraving: string;
+            rubber_bw_engraving: string;
+            glass_bw_engraving: string;
+            metal_bw_engraving: string;
+            stainless_steel_bw_engraving_diode: string;
           },
           inches: {
-            wood_3mm_cutting: string,
-            wood_5mm_cutting: string,
-            wood_8mm_cutting: string,
-            wood_10mm_cutting: string,
-            wood_engraving: string,
-            acrylic_3mm_cutting: string,
-            acrylic_5mm_cutting: string,
-            acrylic_8mm_cutting: string,
-            acrylic_10mm_cutting: string,
-            acrylic_engraving: string,
-            leather_3mm_cutting: string,
-            leather_5mm_cutting: string,
-            leather_engraving: string,
-            fabric_3mm_cutting: string,
-            fabric_5mm_cutting: string,
-            fabric_engraving: string,
-            rubber_bw_engraving: string,
-            glass_bw_engraving: string,
-            metal_bw_engraving: string,
-            stainless_steel_bw_engraving_diode: string,
+            wood_3mm_cutting: string;
+            wood_5mm_cutting: string;
+            wood_8mm_cutting: string;
+            wood_10mm_cutting: string;
+            wood_engraving: string;
+            acrylic_3mm_cutting: string;
+            acrylic_5mm_cutting: string;
+            acrylic_8mm_cutting: string;
+            acrylic_10mm_cutting: string;
+            acrylic_engraving: string;
+            mdf_3mm_cutting: string;
+            mdf_5mm_cutting: string;
+            mdf_engraving: string;
+            leather_3mm_cutting: string;
+            leather_5mm_cutting: string;
+            leather_engraving: string;
+            denim_1mm_cutting: string;
+            fabric_3mm_cutting: string;
+            fabric_5mm_cutting: string;
+            fabric_engraving: string;
+            rubber_bw_engraving: string;
+            glass_bw_engraving: string;
+            metal_bw_engraving: string;
+            stainless_steel_bw_engraving_diode: string;
           },
         },
         laser_speed: {
