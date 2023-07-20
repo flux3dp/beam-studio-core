@@ -53,6 +53,7 @@ import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
+import MultipassBlock from './MultipassBlock';
 import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
@@ -239,6 +240,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       {module.value === Module.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
+      {module.value === Module.PRINTER && <MultipassBlock />}
       <RepeatBlock type={UIType} />
     </>
   );

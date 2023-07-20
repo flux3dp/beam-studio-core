@@ -15,6 +15,13 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
     zstep: 0,
     configName: '',
   },
+  dataKey: {
+    speed: 'speed',
+    strength: 'power',
+    repeat: 'repeat',
+    zstep: 'zStep',
+    configName: 'configName',
+  },
 }));
 
 describe('test ConfigPanelContext', () => {
