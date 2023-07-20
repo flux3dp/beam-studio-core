@@ -634,6 +634,8 @@ const lang: ILang = {
         z_step: 'Z Step',
         diode: 'ダイオードレーザー',
         backlash: 'バックラッシュ',
+        ink_saturation: 'インクの飽和度',
+        print_multipass: 'マルチパス',
         times: '回',
         cut: 'カット',
         engrave: '彫刻する',

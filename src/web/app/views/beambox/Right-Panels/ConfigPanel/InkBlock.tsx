@@ -10,10 +10,9 @@ import styles from './Block.module.scss';
 const MAX_VALUE = 9;
 const MIN_VALUE = 1;
 
-// TODO: add unit test after UI confirmed
+// TODO: add unit test
 function InkBlock(): JSX.Element {
   const lang = useI18n();
-  // TODO: add ink translation to i18n
   const t = lang.beambox.right_panel.laser_panel;
 
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
@@ -30,7 +29,7 @@ function InkBlock(): JSX.Element {
 
   return (
     <div className={styles.panel}>
-      <span className={styles.title}>tInk</span>
+      <span className={styles.title}>{t.ink_saturation}</span>
       <UnitInput
         id="power"
         className={{ [styles.input]: true }}

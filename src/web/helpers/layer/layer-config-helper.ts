@@ -34,7 +34,22 @@ export enum DataType {
   configName = 'configName',
   module = 'module', // 1: laser, 2: printer
   backlash = 'backlash',
+  multipass = 'multipass',
 }
+
+export const dataKey = {
+  [DataType.speed]: 'speed',
+  [DataType.strength]: 'power',
+  [DataType.ink]: 'ink',
+  [DataType.repeat]: 'repeat',
+  [DataType.height]: 'height',
+  [DataType.zstep]: 'zStep',
+  [DataType.diode]: 'diode',
+  [DataType.configName]: 'configName',
+  [DataType.module]: 'module',
+  [DataType.backlash]: 'backlash',
+  [DataType.multipass]: 'multipass',
+};
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
 
@@ -49,6 +64,7 @@ export const defaultConfig = {
   [DataType.configName]: '',
   [DataType.module]: Module.LASER,
   [DataType.backlash]: 0,
+  [DataType.multipass]: 1,
 };
 
 export const getData = <T>(layer: Element, dataType: DataType): T => {
@@ -120,56 +136,27 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   if (!layer) {
     return null;
   }
-  const speed = getData(layer, DataType.speed) as number;
-  const power = getData(layer, DataType.strength) as number;
-  const ink = getData(layer, DataType.ink) as number;
-  const repeat = getData(layer, DataType.repeat) as number;
-  const height = getData(layer, DataType.height) as number;
-  const zStep = getData(layer, DataType.zstep) as number;
-  const diode = getData(layer, DataType.diode) as number;
-  const configName = getData(layer, DataType.configName) as string;
-  const module = getData(layer, DataType.module) as number;
-  const backlash = getData(layer, DataType.backlash) as number;
 
-  return {
-    speed: { value: speed },
-    power: { value: power },
-    ink: { value: ink },
-    repeat: { value: repeat },
-    height: { value: height },
-    zStep: { value: zStep },
-    diode: { value: diode },
-    configName: { value: configName },
-    module: { value: module },
-    backlash: { value: backlash },
-  };
+  const data = {} as ILayerConfig;
+  const dataTypes = Object.values(DataType);
+  for (let i = 0; i < dataTypes.length; i += 1) {
+    const type = dataTypes[i];
+    data[dataKey[type]] = { value: getData(layer, dataTypes[i]) };
+  }
+
+  return data;
 };
 
 export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
   const layers = layerNames.map((layerName) => getLayerElementByName(layerName));
-  const speedData = getMultiSelectData(layers, DataType.speed);
-  const powerData = getMultiSelectData(layers, DataType.strength);
-  const inkData = getMultiSelectData(layers, DataType.ink);
-  const repeatData = getMultiSelectData(layers, DataType.repeat);
-  const heightData = getMultiSelectData(layers, DataType.height);
-  const zStepData = getMultiSelectData(layers, DataType.zstep);
-  const diodeData = getMultiSelectData(layers, DataType.diode);
-  const configNameData = getMultiSelectData<string>(layers, DataType.configName);
-  const moduleData = getMultiSelectData(layers, DataType.module);
-  const backlashData = getMultiSelectData(layers, DataType.backlash);
+  const data = {} as ILayerConfig;
+  const dataTypes = Object.values(DataType);
+  for (let i = 0; i < dataTypes.length; i += 1) {
+    const type = dataTypes[i];
+    data[dataKey[type]] = getMultiSelectData(layers, dataTypes[i]);
+  }
 
-  return {
-    speed: speedData,
-    power: powerData,
-    ink: inkData,
-    repeat: repeatData,
-    height: heightData,
-    zStep: zStepData,
-    diode: diodeData,
-    configName: configNameData,
-    module: moduleData,
-    backlash: backlashData,
-  };
+  return data;
 };
 
 /**

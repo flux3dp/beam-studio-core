@@ -634,6 +634,8 @@ const lang: ILang = {
         z_step: '每次遞降',
         diode: '二極體雷射',
         backlash: '背隙調整',
+        ink_saturation: '墨水濃度',
+        print_multipass: '多行填充',
         times: '次',
         cut: '切割',
         engrave: '雕刻',

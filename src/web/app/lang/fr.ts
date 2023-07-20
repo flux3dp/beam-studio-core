@@ -634,6 +634,8 @@ const lang: ILang = {
         z_step: 'Z Step',
         diode: 'Diode Laser',
         backlash: 'Jeu',
+        ink_saturation: 'Saturation',
+        print_multipass: 'Multipasse',
         times: 'fois',
         cut: 'Couper',
         engrave: 'Graver',
