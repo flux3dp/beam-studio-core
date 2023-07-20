@@ -293,11 +293,11 @@ const constants = {
         speed: 3,
       },
       wood_engraving: {
-        power: 30,
-        speed: 50,
+        power: 100,
+        speed: 150,
       },
       acrylic_3mm_cutting: {
-        power: 95,
+        power: 100,
         speed: 2,
       },
       acrylic_5mm_cutting: {
@@ -306,8 +306,20 @@ const constants = {
         repeat: 2,
       },
       acrylic_engraving: {
+        power: 90,
+        speed: 175,
+      },
+      mdf_3mm_cutting: {
+        power: 100,
+        speed: 4,
+      },
+      mdf_5mm_cutting: {
+        power: 100,
+        speed: 2,
+      },
+      mdf_engraving: {
         power: 30,
-        speed: 20,
+        speed: 100,
       },
       leather_3mm_cutting: {
         power: 100,
@@ -319,8 +331,12 @@ const constants = {
         repeat: 2,
       },
       leather_engraving: {
-        power: 10,
-        speed: 40,
+        power: 30,
+        speed: 100,
+      },
+      denim_1mm_cutting: {
+        power: 100,
+        speed: 14,
       },
       fabric_3mm_cutting: {
         power: 100,
@@ -332,11 +348,11 @@ const constants = {
       },
       fabric_engraving: {
         power: 30,
-        speed: 45,
+        speed: 125,
       },
       rubber_bw_engraving: {
         power: 100,
-        speed: 45,
+        speed: 15,
       },
       glass_bw_engraving: {
         power: 40,
