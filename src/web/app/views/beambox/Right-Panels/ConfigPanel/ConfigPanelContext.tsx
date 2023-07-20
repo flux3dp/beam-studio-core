@@ -1,6 +1,6 @@
 import { createContext, Dispatch } from 'react';
 
-import { DataType, defaultConfig } from 'helpers/layer/layer-config-helper';
+import { DataType, dataKey, defaultConfig } from 'helpers/layer/layer-config-helper';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
 interface State extends ILayerConfig {
@@ -12,9 +12,7 @@ export const getDefaultState = (): State => {
   const initState = {} as State;
   keys.forEach((key) => {
     // Handle DataType and state type mismatch
-    if (key === DataType.strength) initState.power = { value: defaultConfig[key as DataType] as number };
-    else if (key === DataType.zstep) initState.zStep = { value: defaultConfig[key as DataType] as number };
-    else initState[key] = { value: defaultConfig[key as DataType] };
+    initState[dataKey[key]] = { value: defaultConfig[key as DataType] };
   });
   return initState;
 };
