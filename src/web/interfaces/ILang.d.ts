@@ -642,6 +642,8 @@ export interface ILang {
         z_step: string,
         diode: string,
         backlash: string;
+        ink_saturation: string;
+        print_multipass: string;
         times: string,
         cut: string,
         engrave: string,

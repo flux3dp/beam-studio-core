@@ -45,6 +45,7 @@ test('test layer-config-helper', () => {
     configName: { value: '' },
     module: { value: 1 },
     backlash: { value: 0 },
+    multipass: { value: 1 },
   });
 
   writeData('layer 1', DataType.zstep, 1);
@@ -59,6 +60,7 @@ test('test layer-config-helper', () => {
     configName: { value: '' },
     module: { value: 1 },
     backlash: { value: 0 },
+    multipass: { value: 1 },
   });
 
   cloneLayerConfig('layer 2', 'layer 0');
@@ -73,6 +75,7 @@ test('test layer-config-helper', () => {
     configName: { value: '' },
     module: { value: 1 },
     backlash: { value: 0 },
+    multipass: { value: 1 },
   });
 
   cloneLayerConfig('layer 3', 'layer 1');
@@ -87,6 +90,7 @@ test('test layer-config-helper', () => {
     configName: { value: '' },
     module: { value: 1 },
     backlash: { value: 0 },
+    multipass: { value: 1 },
   });
 
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
@@ -100,6 +104,7 @@ test('test layer-config-helper', () => {
     configName: { value: '', hasMultiValue: false },
     module: { value: 1, hasMultiValue: false },
     backlash: { value: 0, hasMultiValue: false },
+    multipass: { value: 1, hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.diode, 1);
@@ -115,6 +120,7 @@ test('test layer-config-helper', () => {
     configName: { value: '', hasMultiValue: false },
     module: { value: 1, hasMultiValue: false },
     backlash: { value: 0, hasMultiValue: false },
+    multipass: { value: 1, hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.height, 1);
@@ -129,6 +135,7 @@ test('test layer-config-helper', () => {
     configName: { value: '', hasMultiValue: false },
     module: { value: 1, hasMultiValue: false },
     backlash: { value: 0, hasMultiValue: false },
+    multipass: { value: 1, hasMultiValue: false },
   });
 
   writeData('layer 1', DataType.module, 2);
@@ -143,6 +150,7 @@ test('test layer-config-helper', () => {
     configName: { value: '' },
     module: { value: 2 },
     backlash: { value: 0 },
+    multipass: { value: 1 },
   });
 
   expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
@@ -156,5 +164,6 @@ test('test layer-config-helper', () => {
     configName: { value: '', hasMultiValue: false },
     module: { value: 2, hasMultiValue: true },
     backlash: { value: 0, hasMultiValue: false },
+    multipass: { value: 1, hasMultiValue: false },
   });
 });

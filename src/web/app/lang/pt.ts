@@ -644,6 +644,8 @@ const lang: ILang = {
         height: 'Altura do objeto',
         z_step: 'Z Step',
         backlash: 'Folga',
+        ink_saturation: 'Saturação de tinta',
+        print_multipass: 'Passes Múltiplos',
         diode: 'Laser de Diodo',
         times: 'Vezes',
         cut: 'Cortar',

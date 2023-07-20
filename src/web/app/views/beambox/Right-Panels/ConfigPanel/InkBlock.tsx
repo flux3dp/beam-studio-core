@@ -23,7 +23,6 @@ function InkBlock({
   type?: 'default' | 'panel-item' | 'modal';
 }): JSX.Element {
   const lang = useI18n();
-  // TODO: add ink translation to i18n
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
@@ -42,7 +41,7 @@ function InkBlock({
 
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
-      <span className={styles.title}>tInk</span>
+      <span className={styles.title}>{t.ink_saturation}</span>
       {type === 'panel-item' ? (
         <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
           <InputNumber
