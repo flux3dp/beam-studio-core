@@ -119,6 +119,7 @@ export default {
   },
   allowedCameraStatus: [
     DeviceConstants.status.IDLE,
+    DeviceConstants.status.RUNNING,
     DeviceConstants.status.PAUSED,
     DeviceConstants.status.PAUSED_FROM_STARTING,
     DeviceConstants.status.PAUSED_FROM_RUNNING,
