@@ -44,7 +44,10 @@ const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): 
     } catch (err) {
       // do nothing
     }
-
+    if (!fisheyeParameters) {
+      setStep(Step.CALIBRATE);
+      return;
+    }
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
         message: 'Skip Caculating?',
@@ -53,7 +56,7 @@ const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): 
         onNo: () => resolve(false),
       });
     });
-    if (!res || !fisheyeParameters) {
+    if (!res) {
       setStep(Step.CALIBRATE);
       return;
     }
