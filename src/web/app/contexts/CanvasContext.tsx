@@ -121,6 +121,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
 
   const handleSetSelectedElem = useCallback((elem: Element): void => {
     if (elem !== selectedElem) {
+      (document.activeElement as HTMLInputElement).blur();
       setSelectedElem(elem);
     }
   }, [selectedElem]);
