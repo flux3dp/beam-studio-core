@@ -25,7 +25,7 @@ const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleu
 const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
 
 const FLUXID_HOST = 'https://id.flux3dp.com';
-const FLUXID_DOMAIN = 'id.flux3dp.com';
+const FLUXID_DOMAIN = '.flux3dp.com';
 export const axiosFluxId = axios.create({
   baseURL: FLUXID_HOST,
   timeout: 10000,
