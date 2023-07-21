@@ -41,7 +41,7 @@ const executeFirmwareUpdate = async (printer, type) => {
   const currentPrinter = printer;
   const updateFirmware = async () => {
     try {
-      const response = await checkFirmware(currentPrinter, type);
+      const response = await checkFirmware(currentPrinter);
       const latestVersion = currentPrinter.version;
       const { caption, message } = lang.update.firmware.latest_firmware;
 

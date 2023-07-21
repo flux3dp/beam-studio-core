@@ -40,6 +40,7 @@ const FirmwareUpdate = ({
       open
       centered
       title={LANG.firmware.caption}
+      onCancel={onClose}
       footer={[
         <Button key="later" onClick={onClose}>{LANG.later}</Button>,
         <Button key="upload" onClick={handleUpload}>{LANG.upload}</Button>,
