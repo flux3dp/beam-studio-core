@@ -4,9 +4,10 @@ import { Select } from 'antd';
 import colorConstants from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import LayerModule from 'app/constants/layer-modules';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import useI18n from 'helpers/useI18n';
-import { DataType, Module, writeData } from 'helpers/layer/layer-config-helper';
+import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -32,7 +33,7 @@ const ModuleBlock = (): JSX.Element => {
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.module, val);
       const elem = getLayerElementByName(layerName);
-      if (val === Module.PRINTER && !colorConstants.printingLayerColor.includes(elem.getAttribute('data-color'))) {
+      if (val === LayerModule.PRINTER && !colorConstants.printingLayerColor.includes(elem.getAttribute('data-color'))) {
         elem.setAttribute('data-color', '#1D1D1B');
         svgCanvas.updateLayerColor(elem);
       }
@@ -43,14 +44,14 @@ const ModuleBlock = (): JSX.Element => {
 
   // TODO: add i18n
   const options = [
-    { label: '10W Laser', value: Module.LASER },
-    { label: 'Print', value: Module.PRINTER },
+    { label: '10W Laser', value: LayerModule.LASER },
+    { label: 'Print', value: LayerModule.PRINTER },
   ];
 
   return (
     <div className={styles.panel}>
       <div className={styles.title}>{t.module}</div>
-      <Select className={styles.select} onChange={handleChange} value={value as Module}>
+      <Select className={styles.select} onChange={handleChange} value={value as LayerModule}>
         {options.map((option) => (
           <Select.Option key={option.value} value={option.value}>
             {option.label}

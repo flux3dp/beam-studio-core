@@ -15,6 +15,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
+import LayerModule from 'app/constants/layer-modules';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
@@ -26,7 +27,6 @@ import {
   DataType,
   getLayerConfig,
   getLayersConfig,
-  Module,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
@@ -233,8 +233,8 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
               size="large"
               style={{ width: '100%' }}
             />
-            {module.value === Module.LASER && <PowerBlock />}
-            {module.value === Module.PRINTER && <InkBlock />}
+            {module.value === LayerModule.LASER && <PowerBlock />}
+            {module.value === LayerModule.PRINTER && <InkBlock />}
             <SpeedBlock />
             <RepeatBlock />
           </div>
@@ -257,11 +257,11 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {module.value === Module.LASER && <PowerBlock />}
-              {module.value === Module.PRINTER && <InkBlock />}
+              {module.value === LayerModule.LASER && <PowerBlock />}
+              {module.value === LayerModule.PRINTER && <InkBlock />}
               <SpeedBlock />
               {(isDevMode && isCustomBacklashEnabled) && <Backlash />}
-              {module.value === Module.PRINTER && <MultipassBlock />}
+              {module.value === LayerModule.PRINTER && <MultipassBlock />}
               <RepeatBlock />
             </div>
             <AddOnBlock />

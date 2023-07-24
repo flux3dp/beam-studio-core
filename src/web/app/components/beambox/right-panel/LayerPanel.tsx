@@ -9,9 +9,10 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
+import LayerModule from 'app/constants/layer-modules';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
-import { cloneLayerConfig, DataType, getData, Module } from 'helpers/layer/layer-config-helper';
+import { cloneLayerConfig, DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -30,6 +31,7 @@ const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
   hide?: boolean;
+  elem: Element;
 }
 
 interface State {
@@ -231,7 +233,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const layer = getLayerElementByName(layerName);
     const layerColor = layer.getAttribute('data-color') || '#333333';
     const module = getData(layer, DataType.module);
-    const isPrinting = module === Module.PRINTER;
+    const isPrinting = module === LayerModule.PRINTER;
     Dialog.showColorPicker(layerColor, e.clientX, e.clientY, isPrinting,
       (newColor: string) => this.setLayerColor(layerName, newColor));
   };

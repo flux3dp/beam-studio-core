@@ -2,9 +2,10 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import LayerModule from 'app/constants/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import { getAllLayerNames, getLayerElementByName } from 'helpers/layer/layer-helper';
-import { getData, DataType, Module } from 'helpers/layer/layer-config-helper';
+import { getData, DataType } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { SettingOutlined } from '@ant-design/icons';
@@ -78,7 +79,7 @@ const LayerList = ({
       const isLocked = layer.getAttribute('data-lock') === 'true';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
-      const module = getData<Module>(layer, DataType.module);
+      const module = getData<LayerModule>(layer, DataType.module);
       items.push(
         <div
           data-testid={layerName}
@@ -120,7 +121,7 @@ const LayerList = ({
             </div>
             {shouldShowModuleIcon && (
               <div className={styles.module}>
-                {module === Module.PRINTER ? <LayerPanelIcons.Print /> : <LayerPanelIcons.Laser />}
+                {module === LayerModule.PRINTER ? <LayerPanelIcons.Print /> : <LayerPanelIcons.Laser />}
               </div>
             )}
             <div
