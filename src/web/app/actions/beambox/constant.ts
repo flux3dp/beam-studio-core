@@ -1,3 +1,5 @@
+import isDev from 'helpers/is-dev';
+
 export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
 export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1';
 
@@ -45,6 +47,16 @@ WorkareaMap.set('fad1', {
   maxSpeed: 400,
   rotary: [0],
 });
+
+if (isDev()) {
+  WorkareaMap.set('fad1', {
+    label: 'Ador',
+    width: 4300,
+    height: 3000,
+    maxSpeed: 400,
+    rotary: [0, 2],
+  });
+}
 
 export default {
   dpmm: 10,
@@ -102,7 +114,7 @@ export default {
     fad1: ['fad1'],
   },
   addonsSupportList: {
-    rotary: ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
+    rotary: isDev() ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1'] : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
     openBottom: ['fbm1'],
     autoFocus: ['fbm1'],
     hybridLaser: ['fbm1'],

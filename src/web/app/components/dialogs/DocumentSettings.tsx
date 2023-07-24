@@ -60,7 +60,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const rotaryModalLabels = useMemo(() => ({
     0: lang.settings.off,
     1: rotaryModels.length > 2 ? langDocumentSettings.rotary_v1 : lang.settings.on,
-    2: langDocumentSettings.rotary_v2,
+    2: rotaryModels.length > 2 ? langDocumentSettings.rotary_v2 : lang.settings.on,
   }), [
     lang.settings.on,
     lang.settings.off,
