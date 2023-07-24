@@ -10,7 +10,7 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
-import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
+import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
 import FileName from 'app/components/beambox/top-bar/FileName';
@@ -58,7 +58,7 @@ interface State {
 interface Props {
 }
 
-export default class TopBar extends React.Component<Props, State> {
+export default class TopBar extends React.PureComponent<Props, State> {
   private deviceList: IDeviceInfo[];
 
   private discover: any;

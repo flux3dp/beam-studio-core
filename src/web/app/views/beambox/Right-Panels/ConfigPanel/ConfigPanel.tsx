@@ -9,7 +9,7 @@ import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import dialogCaller from 'app/actions/dialog-caller';
-import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
+import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
