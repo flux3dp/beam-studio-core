@@ -45,7 +45,7 @@ interface State {
 interface Props {
 }
 
-export default class TopBar extends React.Component<Props, State> {
+export default class TopBar extends React.PureComponent<Props, State> {
   private discover: any;
 
   private defaultDeviceSerial: string | undefined;
