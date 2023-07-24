@@ -12,11 +12,12 @@ const createBoundary = () => {
   diodeBoundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
   $('#canvasBackground').append(diodeBoundarySvg);
   diodeBoundarySvg.appendChild(diodeBoundaryPath);
+  const workarea = BeamboxPreference.read('workarea');
   $(diodeBoundarySvg).attr({
     id: 'diode-boundary',
     width: '100%',
     height: '100%',
-    viewBox: `0 0 ${Constant.dimension.getWidth(BeamboxPreference.read('workarea'))} ${Constant.dimension.getHeight(BeamboxPreference.read('workarea'))}`,
+    viewBox: `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`,
     x: 0,
     y: 0,
     style: 'pointer-events:none',
@@ -31,20 +32,22 @@ const createBoundary = () => {
 };
 
 const updateCanvasSize = (): void => {
-  const viewBox = `0 0 ${Constant.dimension.getWidth(BeamboxPreference.read('workarea'))} ${Constant.dimension.getHeight(BeamboxPreference.read('workarea'))}`;
+  const workarea = BeamboxPreference.read('workarea');
+  const viewBox = `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`;
   diodeBoundarySvg?.setAttribute('viewBox', viewBox);
 };
 documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const show = (isDiode = false): void => {
   if (!diodeBoundaryPath) createBoundary();
-  const w = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-  const h = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+  const workarea = BeamboxPreference.read('workarea');
+  const w = Constant.dimension.getWidth(workarea);
+  const h = Constant.dimension.getHeight(workarea);
 
   let d = '';
   if (isDiode) {
-    let offsetX = BeamboxPreference.read('diode_offset_x') !== undefined ? BeamboxPreference.read('diode_offset_x') : Constant.diode.defaultOffsetX;
-    let offsetY = BeamboxPreference.read('diode_offset_y') !== undefined ? BeamboxPreference.read('diode_offset_y') : Constant.diode.defaultOffsetY;
+    let offsetX = BeamboxPreference.read('diode_offset_x') ?? Constant.diode.defaultOffsetX;
+    let offsetY = BeamboxPreference.read('diode_offset_y') ?? Constant.diode.defaultOffsetY;
     offsetX = Math.max(offsetX, 0);
     offsetY = Math.max(offsetY, 0);
     const limitXL = offsetX * Constant.dpmm;

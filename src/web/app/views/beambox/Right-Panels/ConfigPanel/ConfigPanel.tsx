@@ -24,6 +24,7 @@ import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import LayerModule from 'app/constants/layer-modules';
+import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
@@ -43,6 +44,7 @@ import {
 import { getParametersSet } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { ILayerConfig } from 'interfaces/ILayerConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
@@ -102,6 +104,10 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     updateDiodeBoundary();
   }, [updateDiodeBoundary]);
 
+  useEffect(() => {
+    moduleBoundaryDrawer.update(state.module.value);
+  }, [state.module.value]);
+
   const updateData = useCallback(() => {
     updateDefaultPresetData();
     postPresetChange();
@@ -142,7 +148,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         configName: { value: currentLayerConfig.configName.value, hasMultiValue: config.configName.hasMultiValue },
         module: { value: currentLayerConfig.module.value, hasMultiValue: config.module.hasMultiValue },
         backlash: { value: currentLayerConfig.backlash.value, hasMultiValue: config.backlash.hasMultiValue },
-      };
+      } as ILayerConfig;
       dispatch({ type: 'update', payload });
     }
     if (selectedLayers.length === 1) {
