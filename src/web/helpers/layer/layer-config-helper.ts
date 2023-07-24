@@ -1,5 +1,6 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import LayerModule from 'app/constants/layer-modules';
 import storage from 'implementations/storage';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getParametersSet } from 'app/constants/right-panel-constants';
@@ -17,11 +18,6 @@ const getLayerElementByName = (layerName: string) => {
   });
   return layer;
 };
-
-export enum Module {
-  LASER = 1,
-  PRINTER = 2,
-}
 
 export enum DataType {
   speed = 'speed',
@@ -62,7 +58,7 @@ export const defaultConfig = {
   [DataType.zstep]: 0,
   [DataType.diode]: 0,
   [DataType.configName]: '',
-  [DataType.module]: Module.LASER,
+  [DataType.module]: LayerModule.LASER,
   [DataType.backlash]: 0,
   [DataType.multipass]: 1,
 };
@@ -200,7 +196,7 @@ export const postPresetChange = (): void => {
     if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
       layer.setAttribute('data-speed', String(maxSpeed));
     }
-    if (workarea !== 'fad1') layer.setAttribute(`data-${DataType.module}`, String(Module.LASER));
+    if (workarea !== 'fad1') layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER));
   }
 };
 

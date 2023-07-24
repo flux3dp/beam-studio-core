@@ -23,6 +23,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
+import LayerModule from 'app/constants/layer-modules';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
@@ -36,7 +37,6 @@ import {
   DataType,
   getLayerConfig,
   getLayersConfig,
-  Module,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
@@ -236,11 +236,11 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const isDevMode = isDev() && UIType === 'default';
   const commonContent = (
     <>
-      {module.value === Module.LASER && <PowerBlock type={UIType} />}
-      {module.value === Module.PRINTER && <InkBlock type={UIType} />}
+      {module.value === LayerModule.LASER && <PowerBlock type={UIType} />}
+      {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
-      {module.value === Module.PRINTER && <MultipassBlock />}
+      {module.value === LayerModule.PRINTER && <MultipassBlock />}
       <RepeatBlock type={UIType} />
     </>
   );
