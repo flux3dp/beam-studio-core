@@ -5,7 +5,7 @@ import { Col } from 'antd';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
-import { getParametersSet } from 'app/constants/right-panel-constants';
+import { getModulePresets } from 'app/constants/right-panel-constants';
 
 import Context from './Context';
 import styles from './ConfigList.module.scss';
@@ -21,13 +21,15 @@ const PresetsList = (): JSX.Element => {
   } = state;
 
   const unit = useMemo(() => storage.get('default-units') || 'mm', []);
-  const presetNames = useMemo(
-    () => Object.keys(getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'))), []
+  // TODO: add layer module to prop or context
+  const presets = useMemo(
+    () => getModulePresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model')), []
   );
+  const presetKeys = useMemo(() => Object.keys(presets), [presets]);
 
   useEffect(() => {
     if (!isCustomized) {
-      const idx = presetNames.findIndex((n) => n === name);
+      const idx = presetKeys.findIndex((n) => n === name);
       if (idx >= 0 && listRef.current) {
         const list = listRef.current;
         const item = listRef.current.childNodes.item(idx) as HTMLDivElement;
@@ -46,22 +48,25 @@ const PresetsList = (): JSX.Element => {
         <strong>{t.default}</strong>
       </div>
       <div className={styles.list} ref={listRef}>
-        {presetNames.map((preset, i) => {
-          const inUse = presetsInUse[preset];
-          return (
-            <div
-              key={preset}
-              className={classNames(styles.item, {
-                [styles.selected]: !isCustomized && name === preset,
-                [styles.noborder]: presetNames.length >= 8 && i === presetNames.length - 1,
-              })}
-              onClick={() => dispatch({ type: 'select', payload: { name: preset, isCustomized: false } })}
-            >
-              <div className={styles.name}>{t.dropdown[unit][preset]}</div>
-              {inUse ? <span className={styles.sub}>{t.inuse}</span> : null}
-            </div>
-          );
-        })}
+        {
+          presetKeys.map((key, i) => {
+            const inUse = presetsInUse[key];
+            const displayName = t.dropdown[unit][presets[key].name];
+            return (
+              <div
+                key={key}
+                className={classNames(styles.item, {
+                  [styles.selected]: !isCustomized && name === key,
+                  [styles.noborder]: presetKeys.length >= 8 && i === presetKeys.length - 1,
+                })}
+                onClick={() => dispatch({ type: 'select', payload: { name: key, isCustomized: false } })}
+              >
+                <div className={styles.name}>{displayName}</div>
+                {inUse ? <span className={styles.sub}>{t.inuse}</span> : null}
+              </div>
+            );
+          })
+        }
       </div>
     </Col>
   );

@@ -3,7 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-modules';
 import storage from 'implementations/storage';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
-import { getParametersSet } from 'app/constants/right-panel-constants';
+import { getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
@@ -162,7 +162,7 @@ export const postPresetChange = (): void => {
   // TODO: add test
   const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
   const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-  const parametersSet = getParametersSet(workarea);
+  const parametersSet = getAllPresets(workarea);
   const layerNames = getAllLayerNames();
 
   for (let i = 0; i < layerNames.length; i += 1) {
@@ -171,8 +171,12 @@ export const postPresetChange = (): void => {
     // eslint-disable-next-line no-continue
     if (!layer) continue;
 
-    const configName = layer.getAttribute('data-configName');
-    const configIndex = customizedLaserConfigs.findIndex((config) => config.name === configName);
+    const configName = getData<string>(layer, DataType.configName);
+    const layerModule = getData<LayerModule>(layer, DataType.module);
+    // Looking for preset with same name and correct module
+    const configIndex = customizedLaserConfigs.findIndex((config) => (
+      workarea !== 'fad1' ? config.name === configName : config.name === configName && config.module === layerModule
+    ));
     if (configIndex >= 0) {
       const config = customizedLaserConfigs[configIndex];
       if (config.isDefault) {
