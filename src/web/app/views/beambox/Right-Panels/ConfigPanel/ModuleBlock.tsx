@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 import { Select } from 'antd';
 
 import colorConstants from 'app/constants/color-constants';
@@ -28,6 +28,7 @@ const ModuleBlock = (): JSX.Element => {
   const { module } = state;
   const { value } = module;
 
+  // TODO: update layer parameter if needed
   const handleChange = (val: number) => {
     dispatch({ type: 'change', payload: { module: val } });
     selectedLayers.forEach((layerName) => {
@@ -46,6 +47,7 @@ const ModuleBlock = (): JSX.Element => {
   const options = [
     { label: '10W Laser', value: LayerModule.LASER },
     { label: 'Print', value: LayerModule.PRINTER },
+    { label: '20W Laser', value: LayerModule.LASER_20W },
   ];
 
   return (
@@ -62,4 +64,4 @@ const ModuleBlock = (): JSX.Element => {
   );
 };
 
-export default ModuleBlock;
+export default memo(ModuleBlock);
