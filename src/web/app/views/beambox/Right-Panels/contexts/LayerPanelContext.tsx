@@ -1,69 +1,68 @@
-import * as React from 'react';
+import React, { createContext, useEffect, useState, memo, useCallback } from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import useForceUpdate from 'helpers/use-force-update';
 
 interface ILayerPanelContext {
   selectedLayers: string[];
   setSelectedLayers: (selectedLayers: string[]) => void;
+  forceUpdate: () => void;
 }
 
-export const LayerPanelContext = React.createContext<ILayerPanelContext>({
+export const LayerPanelContext = createContext<ILayerPanelContext>({
   selectedLayers: [],
   setSelectedLayers: () => { },
+  forceUpdate: () => { },
 });
 const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
-interface State {
-  selectedLayers: string[];
+interface Props {
+  children?: React.ReactNode;
 }
 
-export class LayerPanelContextProvider extends React.PureComponent<any, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedLayers: [],
+export const LayerPanelContextProvider = memo(({ children }: Props): JSX.Element => {
+  const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
+  const forceUpdate = useForceUpdate();
+  const lazySetSelectedLayers = useCallback((newLayers: string[]) => {
+    if (newLayers.length === selectedLayers.length && newLayers.every((name, i) => name === selectedLayers[i])) {
+      return;
+    }
+    setSelectedLayers(newLayers);
+  }, [selectedLayers, setSelectedLayers]);
+
+  useEffect(() => {
+    layerPanelEventEmitter.on('UPDATE_LAYER_PANEL', forceUpdate);
+    return () => {
+      layerPanelEventEmitter.removeListener('UPDATE_LAYER_PANEL', forceUpdate);
     };
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  componentDidMount() {
-    layerPanelEventEmitter.on('UPDATE_LAYER_PANEL', this.updateLayerPanel.bind(this));
-    layerPanelEventEmitter.on('SET_SELECTED_LAYERS', this.setSelectedLayers.bind(this));
-    layerPanelEventEmitter.on('GET_SELECTED_LAYERS', this.getSelectedLayers.bind(this));
-  }
+  useEffect(() => {
+    layerPanelEventEmitter.on('SET_SELECTED_LAYERS', lazySetSelectedLayers);
+    return () => {
+      layerPanelEventEmitter.removeListener('SET_SELECTED_LAYERS', lazySetSelectedLayers);
+    };
+  }, [lazySetSelectedLayers]);
 
-  componentWillUnmount() {
-    layerPanelEventEmitter.removeAllListeners();
-  }
+  useEffect(() => {
+    const getSelectedLayers = (response: { selectedLayers: string[] }) => {
+      response.selectedLayers = selectedLayers;
+    };
+    layerPanelEventEmitter.on('GET_SELECTED_LAYERS', getSelectedLayers);
+    return () => {
+      layerPanelEventEmitter.removeListener('GET_SELECTED_LAYERS', getSelectedLayers);
+    };
+  }, [selectedLayers]);
 
-  setSelectedLayers = (selectedLayers: string[]): void => {
-    this.setState({
-      selectedLayers: [...selectedLayers],
-    });
-  };
-
-  getSelectedLayers = (response: {
-    selectedLayers: string[],
-  }): void => {
-    const { selectedLayers } = this.state;
-    response.selectedLayers = selectedLayers;
-  };
-
-  updateLayerPanel = (): void => {
-    this.forceUpdate();
-  };
-
-  render(): JSX.Element {
-    const { children } = this.props;
-    const { selectedLayers } = this.state;
-    const { setSelectedLayers } = this;
-    return (
-      <LayerPanelContext.Provider value={{
-        selectedLayers,
-        setSelectedLayers,
-      }}
-      >
-        {children}
-      </LayerPanelContext.Provider>
-    );
-  }
-}
+  return (
+    <LayerPanelContext.Provider value={{
+      selectedLayers,
+      setSelectedLayers: lazySetSelectedLayers,
+      forceUpdate,
+    }}
+    >
+      {children}
+    </LayerPanelContext.Provider>
+  );
+});

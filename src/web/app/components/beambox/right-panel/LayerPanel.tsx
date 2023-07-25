@@ -5,6 +5,7 @@ import Alert from 'app/actions/alert-caller';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
@@ -14,8 +15,6 @@ import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-// import LayerItem from 'app/components/beambox/right-panel/LayerItem';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { isMobile } from 'helpers/system-helper';
 import { Modal } from 'antd';
 import { sprintf } from 'sprintf-js';
@@ -30,7 +29,7 @@ const LANG_PARAMS = i18n.lang.beambox.right_panel.laser_panel;
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
-  elem: Element;
+  hide?: boolean;
 }
 
 interface State {
@@ -41,7 +40,7 @@ interface State {
   displayLaserPanelModal: boolean;
 }
 
-class LayerPanel extends React.Component<Props, State> {
+class LayerPanel extends React.PureComponent<Props, State> {
   private currentTouchID?: number | null;
 
   private firstTouchInfo?: { pageX: number, pageY: number };
@@ -139,18 +138,19 @@ class LayerPanel extends React.Component<Props, State> {
 
   toggleLayerSelected = (layerName: string): void => {
     const { selectedLayers, setSelectedLayers } = this.context;
+    const newSelectedLayers = [...selectedLayers];
     const drawing = svgCanvas.getCurrentDrawing();
-    const index = selectedLayers.findIndex((name: string) => name === layerName);
+    const index = newSelectedLayers.findIndex((name: string) => name === layerName);
     if (index >= 0) {
-      if (selectedLayers.length > 1) {
-        selectedLayers.splice(index, 1);
-        drawing.setCurrentLayer(selectedLayers[0]);
+      if (newSelectedLayers.length > 1) {
+        newSelectedLayers.splice(index, 1);
+        drawing.setCurrentLayer(newSelectedLayers[0]);
       }
     } else {
-      selectedLayers.push(layerName);
+      newSelectedLayers.push(layerName);
       drawing.setCurrentLayer(layerName);
     }
-    setSelectedLayers(selectedLayers);
+    setSelectedLayers(newSelectedLayers);
   };
 
   toggleContiguousSelectedUntil = (layerName: string): void => {
@@ -171,21 +171,22 @@ class LayerPanel extends React.Component<Props, State> {
     if (startIndex < 0 || endIndex < 0) return;
 
     const { selectedLayers, setSelectedLayers } = this.context;
-    const isLayerSelected = selectedLayers.includes(layerName);
+    const newSelectedLayers = [...selectedLayers];
+    const isLayerSelected = newSelectedLayers.includes(layerName);
 
     for (let i = startIndex; i !== endIndex; endIndex > startIndex ? i += 1 : i -= 1) {
-      const index = selectedLayers.findIndex((name) => name === allLayers[i]);
+      const index = newSelectedLayers.findIndex((name) => name === allLayers[i]);
       if (isLayerSelected && index >= 0) {
-        selectedLayers.splice(index, 1);
+        newSelectedLayers.splice(index, 1);
       } else if (!isLayerSelected && index < 0) {
-        selectedLayers.push(allLayers[i]);
+        newSelectedLayers.push(allLayers[i]);
       }
     }
-    if (!selectedLayers.includes(layerName)) {
-      selectedLayers.push(layerName);
+    if (!newSelectedLayers.includes(layerName)) {
+      newSelectedLayers.push(layerName);
     }
     drawing.setCurrentLayer(layerName);
-    setSelectedLayers(selectedLayers);
+    setSelectedLayers(newSelectedLayers);
   };
 
   setLayerColor = (layerName: string, newColor: string): void => {
@@ -405,7 +406,6 @@ class LayerPanel extends React.Component<Props, State> {
   };
 
   renderLayerPanel() : JSX.Element {
-    const { elem } = this.props;
     const { draggingDestIndex, draggingLayer } = this.state;
     const { selectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
@@ -437,7 +437,7 @@ class LayerPanel extends React.Component<Props, State> {
             />
           </div>
         </ContextMenuTrigger>
-        <SelLayerBlock elem={elem} />
+        <SelLayerBlock />
         <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
         <LayerContextMenu
           drawing={drawing}

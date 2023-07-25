@@ -1060,30 +1060,6 @@ const svgEditor = window['svgEditor'] = (function () {
     var cur_context = '';
     var origTitle = $('title:first').text();
 
-    const displayChangeLayerBlock = function (maybeVisible) {
-      const block = $('.selLayerBlock');
-
-      const isHide = (function () {
-        if (!maybeVisible) { return true; }
-        if (svgCanvas.getCurrentDrawing().getNumLayers() <= 1) { return true; }
-
-        if (multiselected) { return false; }
-        if (selectedElement) { return false; }
-
-        if (!(multiselected && selectedElement)) { return true; }
-
-        return true;
-      })();
-
-      if (isHide) {
-        $('#sidepanels').removeClass('layerblock-activated');
-        block.hide();
-      } else {
-        $('#sidepanels').addClass('layerblock-activated');
-        block.show();
-      }
-    };
-
     // This function highlights the layer passed in (by fading out the other layers)
     // if no layer is passed in, this function restores the other layers
     var toggleHighlightLayer = function (layerNameToHighlight) {
@@ -1890,16 +1866,10 @@ const svgEditor = window['svgEditor'] = (function () {
       svgCanvas.addedNew = false;
 
       if ((elem && !is_node) || multiselected) {
-        // update the selected elements' layer
-        $('#selLayerNames').removeAttr('disabled').val(currentLayerName);
-        displayChangeLayerBlock(true);
         // Enable regular menu options
         workareaEvents.emit('update-context-menu', {
           select: true,
         });
-      } else {
-        $('#selLayerNames').attr('disabled', 'disabled');
-        displayChangeLayerBlock(false);
       }
 
       ObjectPanelController.updateObjectPanel();
@@ -3109,31 +3079,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     // fired when user wants to move elements to another layer
     var promptMoveLayerOnce = false;
-    $('#selLayerNames').change(function (this: HTMLSelectElement) {
-      var destLayer = this.options[this.selectedIndex].value;
-      var confirmStr = uiStrings.notification.QmoveElemsToLayer.replace('%s', destLayer);
-      var moveToLayer = function (ok) {
-        if (!ok) {
-          return;
-        }
-        promptMoveLayerOnce = true;
-        svgCanvas.moveSelectedToLayer(destLayer);
-        svgCanvas.clearSelection();
-        LayerPanelController.updateLayerPanel();
-      };
-      if (destLayer) {
-        if (promptMoveLayerOnce) {
-          moveToLayer(true);
-        } else {
-          Alert.popUp({
-            id: 'load SVG fail',
-            buttonType: AlertConstants.YES_NO,
-            message: confirmStr,
-            onYes: moveToLayer
-          });
-        }
-      }
-    });
 
     const textInput = document.getElementById('text') as HTMLInputElement;
     let wasNewLineAdded = false;
@@ -5546,7 +5491,7 @@ const svgEditor = window['svgEditor'] = (function () {
                 }
                 storage.set('customizedLaserConfigs', customizedLaserConfigs);
                 storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
-                LayerPanelController.setSelectedLayers(LayerPanelController.getSelectedLayers());
+                LayerPanelController.updateLayerPanel();
                 resolve(null);
               };
               reader.readAsText(file);

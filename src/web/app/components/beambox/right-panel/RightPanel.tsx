@@ -5,10 +5,10 @@ import LayerPanel from 'app/components/beambox/right-panel/LayerPanel';
 import ObjectPanel from 'app/views/beambox/Right-Panels/ObjectPanel';
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
-import { CanvasContext } from 'app/contexts/CanvasContext';
 import { isMobile } from 'helpers/system-helper';
 
 let lastElement: Element;
@@ -61,7 +61,6 @@ const RightPanel = (): JSX.Element => {
           <LayerPanelContextProvider>
             <LayerPanel
               hide={!showLayerPanel}
-              elem={selectedElem}
             />
           </LayerPanelContextProvider>
         </ObjectPanelContextProvider>
