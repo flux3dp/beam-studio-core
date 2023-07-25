@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
@@ -29,4 +29,4 @@ const AddOnBlock = (): JSX.Element => {
   );
 };
 
-export default AddOnBlock;
+export default memo(AddOnBlock);

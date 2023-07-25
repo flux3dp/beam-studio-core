@@ -71,6 +71,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(): void {
+    const { hide } = this.props;
+    if (hide) return;
     const { selectedLayers } = this.context;
     if (selectedLayers.length === 0) {
       this.initMultiSelectedLayer();

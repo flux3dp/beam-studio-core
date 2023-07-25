@@ -1,14 +1,14 @@
 import classNames from 'classnames';
-import React, { useContext, useMemo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
-import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import storage from 'implementations/storage';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -17,6 +17,7 @@ const SpeedBlock = (): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { hasVector } = useContext(LayerPanelContext);
   const timeEstimationButtonEventEmitter = useMemo(
     () => eventEmitterFactory.createEventEmitter('time-estimation-button'), []
   );
@@ -33,7 +34,6 @@ const SpeedBlock = (): JSX.Element => {
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   const maxValue = constant.dimension.getMaxSpeed(model);
   const minValue = enableLowSpeed ? 1 : 3;
-  const hasVector = doLayersContainsVector(selectedLayers);
   let warningText = '';
   if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
     warningText = t.speed_contrain_warning;
@@ -88,4 +88,4 @@ const SpeedBlock = (): JSX.Element => {
   );
 };
 
-export default SpeedBlock;
+export default memo(SpeedBlock);

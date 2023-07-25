@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
@@ -73,4 +73,4 @@ const AutoFocus = (): JSX.Element => {
   );
 };
 
-export default AutoFocus;
+export default memo(AutoFocus);

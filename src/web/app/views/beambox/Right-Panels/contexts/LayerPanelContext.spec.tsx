@@ -8,6 +8,9 @@ import { LayerPanelContextProvider, LayerPanelContext } from './LayerPanelContex
 const mockForceUpdate = jest.fn();
 jest.mock('helpers/use-force-update', () => () => mockForceUpdate);
 
+const mockDoLayersContainsVector = jest.fn();
+jest.mock('helpers/layer/check-vector', () => (...args) => mockDoLayersContainsVector(...args));
+
 const MockChild = () => {
   const { selectedLayers } = useContext(LayerPanelContext);
   return <div>{JSON.stringify(selectedLayers)}</div>;
@@ -22,14 +25,17 @@ describe('test LayerPanelContext', () => {
       </LayerPanelContextProvider>
     );
     expect(layerPanelEventEmitter.eventNames().length).toBe(3);
+    expect(mockDoLayersContainsVector).toBeCalledTimes(1);
+    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith([]);
 
     layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
     expect(mockForceUpdate).toHaveBeenCalledTimes(1);
-
     act(() => {
       layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', ['layer1', 'layer3']);
     });
     expect(container.textContent).toBe('["layer1","layer3"]');
+    expect(mockDoLayersContainsVector).toBeCalledTimes(1);
+    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer3']);
 
     const response = {
       selectedLayers: [],

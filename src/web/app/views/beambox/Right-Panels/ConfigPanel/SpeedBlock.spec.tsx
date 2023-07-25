@@ -1,6 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+
 import ConfigPanelContext from './ConfigPanelContext';
 import SpeedBlock from './SpeedBlock';
 
@@ -40,9 +42,6 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
 }));
 
-const mockDoLayersContainsVector = jest.fn();
-jest.mock('helpers/layer/check-vector', () => (...args) => mockDoLayersContainsVector(...args));
-
 const mockStorageGet = jest.fn();
 jest.mock('implementations/storage', () => ({
   get: (...args) => mockStorageGet(...args),
@@ -65,6 +64,10 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 }));
 const mockEmit = jest.fn();
 
+jest.mock('app/views/beambox/Right-Panels/contexts/LayerPanelContext', () => ({
+  LayerPanelContext: React.createContext({ hasVector: false }),
+}));
+
 describe('test SpeedBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -76,16 +79,17 @@ describe('test SpeedBlock', () => {
   it('should render correctly when unit is mm', () => {
     mockStorageGet.mockReturnValueOnce('mm');
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
-    mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <SpeedBlock />
       </ConfigPanelContext.Provider>
     );
-    expect(mockDoLayersContainsVector).toBeCalledTimes(1);
-    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer2']);
     expect(mockStorageGet).toBeCalledTimes(1);
     expect(mockStorageGet).toHaveBeenLastCalledWith('default-units');
     expect(mockPrefRead).toBeCalledTimes(2);
@@ -97,10 +101,13 @@ describe('test SpeedBlock', () => {
   it('should render correctly when unit is inches', () => {
     mockStorageGet.mockReturnValueOnce('inches');
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
-    mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <SpeedBlock />
       </ConfigPanelContext.Provider>
@@ -111,13 +118,18 @@ describe('test SpeedBlock', () => {
   it('should render correctly when has vector warning', () => {
     mockStorageGet.mockReturnValueOnce('mm');
     mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true).mockReturnValueOnce(true);
-    mockDoLayersContainsVector.mockReturnValue(true);
     const { container } = render(
-      <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
-      >
-        <SpeedBlock />
-      </ConfigPanelContext.Provider>
+      <LayerPanelContext.Provider value={{ hasVector: true } as any}>
+        <ConfigPanelContext.Provider
+          value={{
+            state: mockContextState as any,
+            dispatch: mockDispatch,
+            selectedLayers: mockSelectedLayers,
+          }}
+        >
+          <SpeedBlock />
+        </ConfigPanelContext.Provider>
+      </LayerPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(mockPrefRead).toBeCalledTimes(3);
@@ -129,14 +141,15 @@ describe('test SpeedBlock', () => {
   it('should render correctly when has low speed warning', () => {
     mockStorageGet.mockReturnValueOnce('mm');
     mockPrefRead.mockReturnValueOnce('fhex1').mockReturnValueOnce(true).mockReturnValueOnce(true);
-    mockDoLayersContainsVector.mockReturnValue(true);
     const state = { ...mockContextState, speed: { value: 1 } };
     const { container } = render(
-      <ConfigPanelContext.Provider
-        value={{ state: state as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
-      >
-        <SpeedBlock />
-      </ConfigPanelContext.Provider>
+      <LayerPanelContext.Provider value={{ hasVector: true } as any}>
+        <ConfigPanelContext.Provider
+          value={{ state: state as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        >
+          <SpeedBlock />
+        </ConfigPanelContext.Provider>
+      </LayerPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
     expect(mockPrefRead).toBeCalledTimes(2);
@@ -147,10 +160,13 @@ describe('test SpeedBlock', () => {
   test('onChange should work', () => {
     mockStorageGet.mockReturnValueOnce('mm');
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
-    mockDoLayersContainsVector.mockReturnValue(false);
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <SpeedBlock />
       </ConfigPanelContext.Provider>
@@ -170,9 +186,19 @@ describe('test SpeedBlock', () => {
     });
     expect(mockWriteData).toBeCalledTimes(4);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
     expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88);
-    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
   });
