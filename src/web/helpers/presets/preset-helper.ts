@@ -8,7 +8,6 @@ import { ILaserConfig } from 'interfaces/ILaserConfig';
 export const getDefaultPresetData = (presetKey: string): {
   speed: number; power: number; repeat: number, module?: LayerModule; name?: string;
 } => {
-  console.log(presetKey);
   const presets = getAllPresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
   if (!presets[presetKey]) {
     // eslint-disable-next-line no-console
@@ -24,9 +23,7 @@ export const getDefaultPresetData = (presetKey: string): {
 const initStorage = (defaultPresetKeys: string[], unit: string) => {
   const LANG = i18n.lang.beambox.right_panel.laser_panel;
   const defaultPresets = defaultPresetKeys.map((key) => {
-    console.log(key);
     const { speed, power, repeat, name, module } = getDefaultPresetData(key);
-    console.log(key, name);
     return {
       name: LANG.dropdown[unit][name],
       speed,
