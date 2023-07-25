@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useEffect, useState, memo, useCallback } from 'react';
 
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -8,14 +8,12 @@ interface ILayerPanelContext {
   selectedLayers: string[];
   setSelectedLayers: (selectedLayers: string[]) => void;
   forceUpdate: () => void;
-  hasVector: boolean;
 }
 
 export const LayerPanelContext = createContext<ILayerPanelContext>({
   selectedLayers: [],
   setSelectedLayers: () => { },
   forceUpdate: () => { },
-  hasVector: false,
 });
 const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
@@ -23,7 +21,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
+export const LayerPanelContextProvider = memo(({ children }: Props): JSX.Element => {
   const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
   const forceUpdate = useForceUpdate();
   const lazySetSelectedLayers = useCallback((newLayers: string[]) => {
@@ -57,17 +55,15 @@ export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
       layerPanelEventEmitter.removeListener('GET_SELECTED_LAYERS', getSelectedLayers);
     };
   }, [selectedLayers]);
-  const hasVector = doLayersContainsVector(selectedLayers);
 
   return (
     <LayerPanelContext.Provider value={{
       selectedLayers,
       setSelectedLayers: lazySetSelectedLayers,
       forceUpdate,
-      hasVector,
     }}
     >
       {children}
     </LayerPanelContext.Provider>
   );
-};
+});
