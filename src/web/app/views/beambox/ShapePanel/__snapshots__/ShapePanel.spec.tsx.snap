@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test ShapePanel should render correctly 1`] = `
+<div>
+  <div
+    class="adm-floating-panel panel"
+    style="height: 688px; transform: translateY(calc(100% + (-688px)));"
+  >
+    <div
+      class="adm-floating-panel-mask"
+      style="display: none;"
+    />
+    <div
+      class="adm-floating-panel-header"
+    >
+      <div
+        class="adm-floating-panel-bar"
+      />
+    </div>
+    <div
+      class="adm-floating-panel-content"
+    >
+      <span
+        class="anticon close-icon"
+        role="img"
+        tabindex="-1"
+      >
+        <svgr-url
+          aria-hidden="true"
+          classname=""
+          fill="currentColor"
+          focusable="false"
+          height="1em"
+          viewbox="0 0 32 32"
+          width="1em"
+        />
+      </span>
+      <div
+        class="title"
+      >
+        Shape
+      </div>
+      <div
+        class="adm-capsule-tabs tabs"
+      >
+        <div
+          class="adm-capsule-tabs-header"
+        >
+          <div
+            class="adm-scroll-mask adm-scroll-mask-left"
+            style="opacity: 0;"
+          />
+          <div
+            class="adm-scroll-mask adm-scroll-mask-right"
+            style="opacity: 0;"
+          />
+          <div
+            class="adm-capsule-tabs-tab-list"
+          >
+            <div
+              class="adm-capsule-tabs-tab-wrapper"
+            >
+              <div
+                class="adm-capsule-tabs-tab adm-capsule-tabs-tab-active"
+              >
+                shape
+              </div>
+            </div>
+            <div
+              class="adm-capsule-tabs-tab-wrapper"
+            >
+              <div
+                class="adm-capsule-tabs-tab"
+              >
+                graphics
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="scroll-content"
+      >
+        <div
+          class="icon-list"
+        >
+          <span
+            class="anticon icon"
+            role="img"
+            tabindex="-1"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              viewBox="0 0 50 50"
+              width="1em"
+            >
+              mock-svg
+            </svg>
+          </span>
+          <span
+            class="anticon icon"
+            role="img"
+            tabindex="-1"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              viewBox="0 0 50 50"
+              width="1em"
+            >
+              mock-svg
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
