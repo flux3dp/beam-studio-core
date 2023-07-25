@@ -31,7 +31,6 @@ const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
   hide?: boolean;
-  elem: Element;
 }
 
 interface State {
