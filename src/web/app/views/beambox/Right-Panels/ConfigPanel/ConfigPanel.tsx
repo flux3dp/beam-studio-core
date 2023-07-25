@@ -31,7 +31,7 @@ import {
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
-import { getParametersSet } from 'app/constants/right-panel-constants';
+import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
@@ -205,7 +205,10 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   };
 
   const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
-  const parametersSet = getParametersSet(beamboxPreference.read('workarea') || beamboxPreference.read('model'));
+  const parametersSet = getModulePresets(
+    beamboxPreference.read('workarea') || beamboxPreference.read('model'),
+    state.module.value
+  );
   const isCustomBacklashEnabled = beamboxPreference.read('enable-custom-backlash');
   const unit = useMemo(() => storage.get('default-units') as string || 'mm', []);
   const dropdownOptions = customizedConfigs
@@ -214,7 +217,11 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
       .map((e) => ({ value: e.name, key: e.name, label: e.name }))
     : Object
       .keys(parametersSet)
-      .map((key) => ({ value: key, key, label: (lang.dropdown[unit][key] || key) }));
+      .map((key) => {
+        const val = parametersSet[key];
+        const label = lang.dropdown[unit][val.name] || key;
+        return { value: key, key, label };
+      });
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 

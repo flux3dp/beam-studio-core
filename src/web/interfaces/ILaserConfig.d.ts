@@ -2,6 +2,7 @@ export interface ILaserConfig extends ILaserData {
   name: string,
   isDefault?: boolean,
   key? : string,
+  module?: number,
 }
 
 export interface ILaserData {
