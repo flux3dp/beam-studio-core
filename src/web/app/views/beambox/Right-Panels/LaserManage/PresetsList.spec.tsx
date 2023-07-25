@@ -33,9 +33,9 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-const mockGetParametersSet = jest.fn();
+const mockGetModulePresets = jest.fn();
 jest.mock('app/constants/right-panel-constants', () => ({
-  getParametersSet: (...args) => mockGetParametersSet(...args),
+  getModulePresets: (...args) => mockGetModulePresets(...args),
 }));
 
 const mockDispatch = jest.fn();
@@ -43,7 +43,7 @@ describe('test PresetsList', () => {
   beforeEach(() => {
     mockGet.mockReturnValue('mm');
     mockRead.mockReturnValue('workarea');
-    mockGetParametersSet.mockReturnValue({ preset1: {}, preset2: {} });
+    mockGetModulePresets.mockReturnValue({ preset1: { name: 'preset1' }, preset2: { name: 'preset2' } });
   });
 
   it('should render correctly', () => {
@@ -61,8 +61,8 @@ describe('test PresetsList', () => {
     expect(mockGet).toHaveBeenLastCalledWith('default-units');
     expect(mockRead).toBeCalledTimes(1);
     expect(mockRead).toHaveBeenLastCalledWith('workarea');
-    expect(mockGetParametersSet).toBeCalledTimes(1);
-    expect(mockGetParametersSet).toHaveBeenLastCalledWith('workarea');
+    expect(mockGetModulePresets).toBeCalledTimes(1);
+    expect(mockGetModulePresets).toHaveBeenLastCalledWith('workarea');
   });
 
   test('selecting should work', () => {
