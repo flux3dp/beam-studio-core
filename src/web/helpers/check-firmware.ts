@@ -21,7 +21,6 @@ export default async function checkFirmware(
     const [name, link] = latestVersion;
     const version = name.split(' ').pop();
     const needUpdate = versionCompare(device.version, version);
-    console.log(link, version);
     return {
       needUpdate,
       latestVersion: version,

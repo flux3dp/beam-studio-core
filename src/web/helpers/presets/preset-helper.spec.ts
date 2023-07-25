@@ -30,10 +30,10 @@ jest.mock('implementations/storage', () => ({
 }));
 
 const mockGetAllKeys = jest.fn();
-const mockGetParametersSet = jest.fn();
+const mockGetAllPresets = jest.fn();
 jest.mock('app/constants/right-panel-constants', () => ({
   getAllKeys: (...args) => mockGetAllKeys(...args),
-  getParametersSet: (...args) => mockGetParametersSet(...args),
+  getAllPresets: (...args) => mockGetAllPresets(...args),
 }));
 
 describe('test preset-helper', () => {
@@ -43,16 +43,16 @@ describe('test preset-helper', () => {
 
   test('getDefaultPresetData should work when key exist', () => {
     mockPrefRead.mockReturnValue('model');
-    mockGetParametersSet.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3 },
-      pre2: { power: 6, speed: 5, repeat: 4 },
+    mockGetAllPresets.mockReturnValue({
+      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
     });
     const res = getDefaultPresetData('pre2');
     expect(mockPrefRead).toBeCalledTimes(1);
     expect(mockPrefRead).toHaveBeenLastCalledWith('workarea');
-    expect(mockGetParametersSet).toBeCalledTimes(1);
-    expect(mockGetParametersSet).toHaveBeenLastCalledWith('model');
-    expect(res).toStrictEqual({ power: 6, speed: 5, repeat: 4 });
+    expect(mockGetAllPresets).toBeCalledTimes(1);
+    expect(mockGetAllPresets).toHaveBeenLastCalledWith('model');
+    expect(res).toStrictEqual({ power: 6, speed: 5, repeat: 4, name: 'pre2' });
   });
 
   test('getDefaultPresetData should work when key does not exist', () => {
@@ -60,24 +60,24 @@ describe('test preset-helper', () => {
     const origError = global.console.error;
     global.console.error = mockError;
     mockPrefRead.mockReturnValue('model');
-    mockGetParametersSet.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3 },
-      pre2: { power: 6, speed: 5, repeat: 4 },
+    mockGetAllPresets.mockReturnValue({
+      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
     });
     const res = getDefaultPresetData('pre3');
     expect(mockError).toBeCalledTimes(1);
     expect(mockPrefRead).toBeCalledTimes(1);
     expect(mockPrefRead).toHaveBeenLastCalledWith('workarea');
-    expect(mockGetParametersSet).toBeCalledTimes(1);
-    expect(mockGetParametersSet).toHaveBeenLastCalledWith('model');
+    expect(mockGetAllPresets).toBeCalledTimes(1);
+    expect(mockGetAllPresets).toHaveBeenLastCalledWith('model');
     expect(res).toStrictEqual({ power: 15, speed: 20, repeat: 1 });
     global.console.error = origError;
   });
 
   test('updateDefaultPresetData when storage is empty', () => {
-    mockGetParametersSet.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3 },
-      pre2: { power: 6, speed: 5, repeat: 4 },
+    mockGetAllPresets.mockReturnValue({
+      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
     });
     mockGet.mockReturnValue(null);
     const keys = updateDefaultPresetData();
@@ -92,9 +92,9 @@ describe('test preset-helper', () => {
   });
 
   test('updateDefaultPresetData when storage has some value', () => {
-    mockGetParametersSet.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3 },
-      pre2: { power: 6, speed: 5, repeat: 4 },
+    mockGetAllPresets.mockReturnValue({
+      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
     });
     const mockCustomizedConfigs = [
       { name: 'pre4', power: 7, speed: 8, repeat: 9, isDefault: false, key: 'pre4' },

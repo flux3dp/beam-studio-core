@@ -1,30 +1,38 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import i18n from 'helpers/i18n';
+import LayerModule from 'app/constants/layer-modules';
 import storage from 'implementations/storage';
-import { getAllKeys, getParametersSet } from 'app/constants/right-panel-constants';
+import { getAllKeys, getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
-export const getDefaultPresetData = (paraName: string): { speed: number, power: number, repeat: number } => {
-  const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
-  if (!parametersSet[paraName]) {
+export const getDefaultPresetData = (presetKey: string): {
+  speed: number; power: number; repeat: number, module?: LayerModule; name?: string;
+} => {
+  console.log(presetKey);
+  const presets = getAllPresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+  if (!presets[presetKey]) {
     // eslint-disable-next-line no-console
-    console.error(`Unable to get default preset key: ${paraName}`);
+    console.error(`Unable to get default preset key: ${presetKey}`);
     return { speed: 20, power: 15, repeat: 1 };
   }
-  const { speed, power } = parametersSet[paraName];
-  const repeat = parametersSet[paraName].repeat || 1;
-  return { speed, power, repeat };
+  const { speed, power, name, module } = presets[presetKey];
+  const repeat = presets[presetKey].repeat || 1;
+  const presetModule = module || LayerModule.LASER;
+  return { speed, power, repeat, module: presetModule, name: name || presetKey };
 };
 
 const initStorage = (defaultPresetKeys: string[], unit: string) => {
   const LANG = i18n.lang.beambox.right_panel.laser_panel;
   const defaultPresets = defaultPresetKeys.map((key) => {
-    const { speed, power, repeat } = getDefaultPresetData(key);
+    console.log(key);
+    const { speed, power, repeat, name, module } = getDefaultPresetData(key);
+    console.log(key, name);
     return {
-      name: LANG.dropdown[unit][key],
+      name: LANG.dropdown[unit][name],
       speed,
       power,
       repeat,
+      module,
       isDefault: true,
       key,
     };
@@ -49,11 +57,12 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
   for (let i = 0; i < customized.length; i += 1) {
     if (customized[i].isDefault) {
       if (defaultPresetKeys.includes(customized[i].key)) {
-        const { speed, power, repeat } = getDefaultPresetData(customized[i].key);
-        customized[i].name = LANG.dropdown[unit][customized[i].key];
+        const { speed, power, repeat, name, module } = getDefaultPresetData(customized[i].key);
+        customized[i].name = LANG.dropdown[unit][name];
         customized[i].speed = speed;
         customized[i].power = power;
         customized[i].repeat = repeat || 1;
+        customized[i].module = module || LayerModule.LASER;
       } else if (!allKeys.has(customized[i].key)) {
         // deleting old presets remove due to software update
         delete defaultLaserConfigsInUse[customized[i].key];
@@ -64,20 +73,21 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
   }
   // migrating new added presets due to software update
   const newPreset = defaultPresetKeys.filter((option) => defaultLaserConfigsInUse[option] === undefined);
-  newPreset.forEach((preset) => {
-    if (defaultPresetKeys.includes(preset)) {
-      const { speed, power, repeat } = getDefaultPresetData(preset);
+  newPreset.forEach((presetKey) => {
+    if (defaultPresetKeys.includes(presetKey)) {
+      const { speed, power, repeat, name, module } = getDefaultPresetData(presetKey);
       customized.push({
-        name: LANG.dropdown[unit][preset],
+        name: LANG.dropdown[unit][name],
         speed,
         power,
         repeat,
+        module: module || LayerModule.LASER,
         isDefault: true,
-        key: preset,
+        key: presetKey,
       });
-      defaultLaserConfigsInUse[preset] = true;
+      defaultLaserConfigsInUse[presetKey] = true;
     } else {
-      delete defaultLaserConfigsInUse[preset];
+      delete defaultLaserConfigsInUse[presetKey];
     }
   });
   storage.set('customizedLaserConfigs', customized);
@@ -90,7 +100,7 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
  */
 export const updateDefaultPresetData = (): string[] => {
   const unit = storage.get('default-units') || 'mm';
-  const parametersSet = getParametersSet(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
+  const parametersSet = getAllPresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
   const defaultPresetKeys = Object.keys(parametersSet);
 
   if (!storage.get('defaultLaserConfigsInUse') || !storage.get('customizedLaserConfigs')) {
