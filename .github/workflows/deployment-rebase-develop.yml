@@ -1,0 +1,23 @@
+name: Rebase deploy branch on develop
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  rebase-deploy-on-develop:
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Git config
+        run: |
+            git config --local user.email "actions@github.com"
+            git config --local user.name "Github Actions"
+      - name: Rebase deployment on develop
+        run: |
+            git fetch --unshallow
+            git checkout deployment
+            git pull
+            git rebase develop
+            git push -f
