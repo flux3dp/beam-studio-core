@@ -116,7 +116,7 @@ class PreviewModeController {
     }
     const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
     // Get value from machine
-    const heightOffset = 1.8;
+    const heightOffset = 0;
     console.log('Useing height offset: ', heightOffset);
     return val !== null ? (Number(val) + heightOffset) : null;
   };
@@ -204,10 +204,10 @@ class PreviewModeController {
         timeout: 30000,
       });
       this.currentDevice = device;
-      if (device.model !== 'fad1') await this.setupBeamSeriesPreviewMode();
+      if (!Constant.adorModels.includes(device.model)) await this.setupBeamSeriesPreviewMode();
       Progress.update('start-preview-mode', { message: LANG.message.connectingCamera });
       await deviceMaster.connectCamera();
-      if (device.model === 'fad1') await this.setUpFishEyePreviewMode();
+      if (Constant.adorModels.includes(device.model)) await this.setUpFishEyePreviewMode();
 
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
@@ -216,7 +216,7 @@ class PreviewModeController {
       this.isPreviewModeOn = true;
     } catch (error) {
       console.error(error);
-      if (device.model !== 'fad1') await this.endBeamSeriesPreviewMode();
+      if (!Constant.adorModels.includes(device.model)) await this.endBeamSeriesPreviewMode();
       deviceMaster.kick();
       throw error;
     } finally {
@@ -235,7 +235,7 @@ class PreviewModeController {
       deviceMaster.setDeviceControlDefaultCloseListener(currentDevice);
       const res = await deviceMaster.select(currentDevice);
       if (res.success) {
-        if (currentDevice.model !== 'fad1') await this.endBeamSeriesPreviewMode();
+        if (!Constant.adorModels.includes(currentDevice.model)) await this.endBeamSeriesPreviewMode();
         deviceMaster.kick();
       }
     }
@@ -282,7 +282,7 @@ class PreviewModeController {
   async preview(x, y, last = false, callback = () => { }): Promise<boolean> {
     const { isPreviewBlocked, currentDevice } = this;
     if (isPreviewBlocked) return false;
-    if (currentDevice.model === 'fad1') {
+    if (Constant.adorModels.includes(currentDevice.model)) {
       const res = await this.previewFullWorkarea(callback);
       return res;
     }

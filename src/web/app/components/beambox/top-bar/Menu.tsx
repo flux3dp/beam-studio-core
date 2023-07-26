@@ -8,6 +8,7 @@ import {
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
+import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
@@ -101,7 +102,7 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
           <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>{menuCms.machine_info}</MenuItem>
           <MenuDivider />
-          {model !== 'ado1' && (
+          {!constant.adorModels.includes(model) && (
             <MenuItem
               onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
               disabled={isMobile}

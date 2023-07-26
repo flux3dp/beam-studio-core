@@ -42,15 +42,12 @@ interface State {
   hasDiscoverdMachine: boolean;
 }
 
-interface Props {
-}
-
-export default class TopBar extends React.PureComponent<Props, State> {
+export default class TopBar extends React.PureComponent<Record<string, never>, State> {
   private discover: any;
 
   private defaultDeviceSerial: string | undefined;
 
-  constructor(props: Props) {
+  constructor(props: Record<string, never>) {
     super(props);
     this.defaultDeviceSerial = storage.get('selected-device');
     this.state = {
@@ -135,7 +132,7 @@ export default class TopBar extends React.PureComponent<Props, State> {
     try {
       await PreviewModeController.start(device, onPreviewError);
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-      if (device.model === 'fad1') {
+      if (Constant.adorModels.includes(device.model)) {
         PreviewModeController.previewFullWorkarea(() => updateTopBar());
       }
       setIsPreviewing(true);

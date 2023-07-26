@@ -43,7 +43,7 @@ documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
   const workarea = BeamboxPreference.read('workarea');
-  if (workarea !== 'fad1') {
+  if (!Constant.adorModels.includes(workarea)) {
     boundaryPath?.setAttribute('d', '');
     return;
   }
