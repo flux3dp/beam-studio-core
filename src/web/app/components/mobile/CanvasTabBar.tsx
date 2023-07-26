@@ -11,6 +11,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import useI18n from 'helpers/useI18n';
@@ -122,8 +123,7 @@ const CanvasTabBar = (): JSX.Element => {
       svgEditor.clickRedo();
       setTimeout(resetActiveKey, 300);
     } else if (key === 'shape') {
-      console.log('TODO: add shape panel');
-      setTimeout(resetActiveKey, 300);
+      console.log('open shape panel');
     } else if (key === 'document') {
       dialogCaller.showDocumentSettings();
       setTimeout(resetActiveKey, 300);
@@ -176,27 +176,30 @@ const CanvasTabBar = (): JSX.Element => {
   };
 
   return (
-    <div id="mobile-tab-bar" className={styles.container}>
-      <div style={{ width: '150%' }}>
-        <TabBar
-          activeKey={activeKey}
-          onChange={(key) => {
-            setActiveKey(key);
-            if (isPreviewing) handlePreviewTabClick(key);
-            else handleTabClick(key);
-          }}
-        >
-          {(isPreviewing ? previewTabItems : tabs).map((item) => (
-            <TabBar.Item
-              key={item.key}
-              icon={item.icon}
-              title={item.title}
-              aria-disabled={item.disabled || false}
-            />
-          ))}
-        </TabBar>
+    <>
+      <div id="mobile-tab-bar" className={styles.container}>
+        <div style={{ width: '150%' }}>
+          <TabBar
+            activeKey={activeKey}
+            onChange={(key) => {
+              setActiveKey(key);
+              if (isPreviewing) handlePreviewTabClick(key);
+              else handleTabClick(key);
+            }}
+          >
+            {(isPreviewing ? previewTabItems : tabs).map((item) => (
+              <TabBar.Item
+                key={item.key}
+                icon={item.icon}
+                title={item.title}
+                aria-disabled={item.disabled || false}
+              />
+            ))}
+          </TabBar>
+        </div>
       </div>
-    </div>
+      {activeKey === 'shape' && <ShapePanel onClose={resetActiveKey} />}
+    </>
   );
 };
 
