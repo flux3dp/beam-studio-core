@@ -4,6 +4,7 @@ import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
@@ -81,7 +82,7 @@ const LayerList = ({
 
   const allLayerNames = getAllLayerNames();
   if (draggingDestIndex === allLayerNames.length) items.push(renderDragBar());
-  const shouldShowModuleIcon = beamboxPreference.read('workarea') === 'fad1';
+  const shouldShowModuleIcon = constant.adorModels.includes(beamboxPreference.read('workarea'));
 
   for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
     const layerName = allLayerNames[i];

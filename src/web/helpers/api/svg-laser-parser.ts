@@ -85,7 +85,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         if (!isDevMode) args.push('-acc', '7500');
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
-      else if (opts.model === 'fad1') args.push('-fad1');
+      // TODO: remove fad1 after all fad1 machines are updated to ado1
+      else if (opts.model === 'fad1' || opts.model === 'ado1') args.push('-ado1');
 
       if (isDevMode) {
         const accel = BeamboxPreference.read('padding_accel') || 7500;
@@ -104,7 +105,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         }
       }
 
-      if (opts.model === 'fad1') {
+      if (constant.adorModels.includes(opts.model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         args.push('-prespray');
         args.push(`${x},${y},${w},${h}`);
@@ -545,7 +546,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          else if (opts.model === 'fad1') args.push('-fad1');
+          else if (opts.model === 'fad1' || opts.model === 'ado1') args.push('-ado1');
 
           switch (opts.engraveDpi) {
             case 'low':

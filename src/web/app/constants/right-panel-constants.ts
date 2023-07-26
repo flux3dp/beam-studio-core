@@ -471,13 +471,14 @@ const constants = {
   }
 };
 
-const modelsWithModules = ['fad1'];
+export const modelsWithModules = ['fad1', 'ado1'];
 const modelMap = {
   fbm1: 'BEAMO',
   fbb1b: 'BEAMBOX',
   fbb1p: 'BEAMBOX_PRO',
   fhexa1: 'HEXA',
   fad1: 'ADOR',
+  ado1: 'ADOR',
 };
 
 export const getAllPresets = (model: string): {
