@@ -18,20 +18,19 @@ const selectOnly = jest.fn();
 const setSvgElemPosition = jest.fn();
 const setSvgElemSize = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) =>
-    callback({
-      Canvas: {
-        addSvgElementFromJson: (...args) => addSvgElementFromJson(...args),
-        getNextId: jest.fn(),
-        getSvgRealLocation: (...args) => getSvgRealLocation(...args),
-        importSvgString: (...args) => importSvgString(...args),
-        isUsingLayerColor: true,
-        selectOnly: (...args) => selectOnly(...args),
-        setSvgElemPosition: (...args) => setSvgElemPosition(...args),
-        setSvgElemSize: (...args) => setSvgElemSize(...args),
-        updateElementColor: jest.fn(),
-      },
-    }),
+  getSVGAsync: (callback) => callback({
+    Canvas: {
+      addSvgElementFromJson: (...args) => addSvgElementFromJson(...args),
+      getNextId: jest.fn(),
+      getSvgRealLocation: (...args) => getSvgRealLocation(...args),
+      importSvgString: (...args) => importSvgString(...args),
+      isUsingLayerColor: true,
+      selectOnly: (...args) => selectOnly(...args),
+      setSvgElemPosition: (...args) => setSvgElemPosition(...args),
+      setSvgElemSize: (...args) => setSvgElemSize(...args),
+      updateElementColor: jest.fn(),
+    },
+  }),
 }));
 
 jest.mock('app/constants/shape-panel-constants', () => ({
@@ -62,7 +61,7 @@ describe('test ShapePanel', () => {
   it('should render correctly', async () => {
     const { container } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-627px)))`), {
+    await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (-627px)))'), {
       timeout: 3000,
     });
     await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
@@ -73,12 +72,12 @@ describe('test ShapePanel', () => {
   it('should import predefined object', async () => {
     const { container } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-627px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (-627px)))'));
     expect(mockOnClose).not.toBeCalled();
     const shapeIcons = container.querySelectorAll('.icon');
     expect(shapeIcons.length).toBe(2);
     fireEvent.click(shapeIcons[0]);
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (0px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (0px)))'));
     expect(addSvgElementFromJson).toBeCalledTimes(1);
     expect(getSvgRealLocation).not.toBeCalled();
     expect(importSvgString).not.toBeCalled();
@@ -92,7 +91,7 @@ describe('test ShapePanel', () => {
   it('should import svg object and update location', async () => {
     const { container, getByText } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-627px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (-627px)))'));
     expect(mockOnClose).not.toBeCalled();
     const graphicsTab = getByText('graphics');
     fireEvent.click(graphicsTab);
@@ -100,7 +99,7 @@ describe('test ShapePanel', () => {
     const shapeIcons = container.querySelectorAll('.icon');
     expect(shapeIcons.length).toBe(1);
     fireEvent.click(shapeIcons[0]);
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (0px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (0px)))'));
     expect(addSvgElementFromJson).not.toBeCalled();
     expect(getSvgRealLocation).toBeCalledTimes(1);
     expect(getSvgRealLocation).toBeCalledWith(mockElement);

@@ -243,6 +243,7 @@ export default {
       jsonMap: {
         element: 'path',
         attr: {
+          // eslint-disable-next-line max-len
           d: 'M0,250 L0,83.3333313 C0,37.3096658 37.3096658,0 83.3333313,0 L416.6666567,0 C462.689989,0 500,37.3096658 500,83.3333313 L500,250',
           stroke: '#000',
           fill: 'none',

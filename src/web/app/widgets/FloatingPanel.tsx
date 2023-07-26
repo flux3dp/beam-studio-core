@@ -34,7 +34,7 @@ const FloatingPanel = ({
   React.useEffect(() => {
     const targetHeight = forceClose ? 0 : anchors.find((anchor) => anchor > 0);
     panelRef.current.setHeight(targetHeight);
-  }, [panelRef, forceClose]);
+  }, [anchors, panelRef, forceClose]);
 
   const onHeightChange = (height: number, animating: boolean) => {
     setPanelHeight(height);

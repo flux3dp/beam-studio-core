@@ -42,8 +42,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
       );
       const newElementnewElement = await svgCanvas.importSvgString(iconString, 'layer', undefined);
       const { width, height } = svgCanvas.getSvgRealLocation(newElementnewElement);
-      const [newWidth, newHeight] =
-        width > height ? [500, (height * 500) / width] : [(width * 500) / height, 500];
+      const [newWidth, newHeight] = width > height ? [500, (height * 500) / width] : [(width * 500) / height, 500];
       svgCanvas.selectOnly([newElementnewElement]);
       svgCanvas.setSvgElemSize('width', newWidth);
       svgCanvas.setSvgElemSize('height', newHeight);
@@ -71,13 +70,13 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
     <FloatingPanel
       anchors={anchors}
       title="Shape"
-      fixedContent={
+      fixedContent={(
         <CapsuleTabs className={styles.tabs} activeKey={activeTab} onChange={setActiveTab}>
           {tabKeys.map((key) => (
             <CapsuleTabs.Tab title={key} key={key} />
           ))}
         </CapsuleTabs>
-      }
+      )}
       forceClose={close}
       onClose={onClose}
     >
