@@ -1,3 +1,5 @@
+import LayerModule from 'app/constants/layer-modules';
+
 import { getDefaultPresetData, updateDefaultPresetData } from './preset-helper';
 
 const mockPrefRead = jest.fn();
@@ -45,14 +47,14 @@ describe('test preset-helper', () => {
     mockPrefRead.mockReturnValue('model');
     mockGetAllPresets.mockReturnValue({
       pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W },
     });
     const res = getDefaultPresetData('pre2');
     expect(mockPrefRead).toBeCalledTimes(1);
     expect(mockPrefRead).toHaveBeenLastCalledWith('workarea');
     expect(mockGetAllPresets).toBeCalledTimes(1);
     expect(mockGetAllPresets).toHaveBeenLastCalledWith('model');
-    expect(res).toStrictEqual({ power: 6, speed: 5, repeat: 4, name: 'pre2' });
+    expect(res).toStrictEqual({ power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W });
   });
 
   test('getDefaultPresetData should work when key does not exist', () => {
@@ -62,7 +64,7 @@ describe('test preset-helper', () => {
     mockPrefRead.mockReturnValue('model');
     mockGetAllPresets.mockReturnValue({
       pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W },
     });
     const res = getDefaultPresetData('pre3');
     expect(mockError).toBeCalledTimes(1);
@@ -77,15 +79,15 @@ describe('test preset-helper', () => {
   test('updateDefaultPresetData when storage is empty', () => {
     mockGetAllPresets.mockReturnValue({
       pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W },
     });
     mockGet.mockReturnValue(null);
     const keys = updateDefaultPresetData();
     expect(mockGet).toBeCalledTimes(3);
     expect(mockSet).toBeCalledTimes(2);
     expect(mockSet).toHaveBeenNthCalledWith(1, 'customizedLaserConfigs', [
-      { name: 'pre1', power: 1, speed: 2, repeat: 3, isDefault: true, key: 'pre1' },
-      { name: 'pre2', power: 6, speed: 5, repeat: 4, isDefault: true, key: 'pre2' },
+      { name: 'pre1', power: 1, speed: 2, repeat: 3, isDefault: true, key: 'pre1', module: LayerModule.LASER },
+      { name: 'pre2', power: 6, speed: 5, repeat: 4, isDefault: true, key: 'pre2', module: LayerModule.LASER_20W },
     ]);
     expect(mockSet).toHaveBeenNthCalledWith(2, 'defaultLaserConfigsInUse', { pre1: true, pre2: true });
     expect(keys).toEqual(['pre1', 'pre2']);
@@ -94,7 +96,7 @@ describe('test preset-helper', () => {
   test('updateDefaultPresetData when storage has some value', () => {
     mockGetAllPresets.mockReturnValue({
       pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2' },
+      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W },
     });
     const mockCustomizedConfigs = [
       { name: 'pre4', power: 7, speed: 8, repeat: 9, isDefault: false, key: 'pre4' },
@@ -114,8 +116,8 @@ describe('test preset-helper', () => {
     expect(mockGetAllKeys).toBeCalledTimes(1);
     expect(mockSet).toHaveBeenNthCalledWith(1, 'customizedLaserConfigs', [
       { name: 'pre4', power: 7, speed: 8, repeat: 9, isDefault: false, key: 'pre4' },
-      { name: 'pre1', power: 1, speed: 2, repeat: 3, isDefault: true, key: 'pre1' },
-      { name: 'pre2', power: 6, speed: 5, repeat: 4, isDefault: true, key: 'pre2' },
+      { name: 'pre1', power: 1, speed: 2, repeat: 3, isDefault: true, key: 'pre1', module: LayerModule.LASER },
+      { name: 'pre2', power: 6, speed: 5, repeat: 4, isDefault: true, key: 'pre2', module: LayerModule.LASER_20W },
     ]);
     expect(mockSet).toHaveBeenNthCalledWith(2, 'defaultLaserConfigsInUse', { pre1: true, pre2: true });
     expect(keys).toEqual(['pre1', 'pre2']);
