@@ -34,7 +34,7 @@ describe('test LayerPanelContext', () => {
       layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', ['layer1', 'layer3']);
     });
     expect(container.textContent).toBe('["layer1","layer3"]');
-    expect(mockDoLayersContainsVector).toBeCalledTimes(1);
+    expect(mockDoLayersContainsVector).toBeCalledTimes(2);
     expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer3']);
 
     const response = {
