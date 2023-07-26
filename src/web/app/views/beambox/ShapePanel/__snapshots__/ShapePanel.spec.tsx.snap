@@ -4,7 +4,8 @@ exports[`test ShapePanel should render correctly 1`] = `
 <div>
   <div
     class="adm-floating-panel panel"
-    style="height: 688px; transform: translateY(calc(100% + (-688px)));"
+    data-animating="false"
+    style="height: 627px; transform: translateY(calc(100% + (-627px)));"
   >
     <div
       class="adm-floating-panel-mask"

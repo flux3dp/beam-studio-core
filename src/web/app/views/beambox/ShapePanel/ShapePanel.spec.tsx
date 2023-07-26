@@ -4,7 +4,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import ShapePanel from './ShapePanel';
 
-window.innerHeight = 728;
+window.innerHeight = 667;
 const mockElement = (
   <svg width="1em" height="1em" fill="currentColor" viewBox="0 0 50 50">
     mock-svg
@@ -62,7 +62,10 @@ describe('test ShapePanel', () => {
   it('should render correctly', async () => {
     const { container } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-688px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-627px)))`), {
+      timeout: 3000,
+    });
+    await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
     expect(container).toMatchSnapshot();
     expect(mockOnClose).not.toBeCalled();
   });
@@ -70,7 +73,7 @@ describe('test ShapePanel', () => {
   it('should import predefined object', async () => {
     const { container } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-688px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-627px)))`));
     expect(mockOnClose).not.toBeCalled();
     const shapeIcons = container.querySelectorAll('.icon');
     expect(shapeIcons.length).toBe(2);
@@ -89,7 +92,7 @@ describe('test ShapePanel', () => {
   it('should import svg object and update location', async () => {
     const { container, getByText } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
-    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-688px)))`));
+    await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-627px)))`));
     expect(mockOnClose).not.toBeCalled();
     const graphicsTab = getByText('graphics');
     fireEvent.click(graphicsTab);

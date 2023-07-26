@@ -54,15 +54,18 @@ describe('test FloatingPanel', () => {
     expect(panelEl.style.height).toBe(`0px`);
     // update height = second anchor
     await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-40px)))`));
+    await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
     expect(Math.round(Number(panelEl.style.height.slice(0, -2)))).toBe(40);
     const draggableBar = container.querySelector('.adm-floating-panel .adm-floating-panel-header');
     mockDrag(draggableBar, 0, -80);
     await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (-100px)))`));
+    await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
     expect(Math.round(Number(panelEl.style.height.slice(0, -2)))).toBe(100);
     expect(mockOnClose).not.toBeCalled();
     mockDrag(draggableBar, 0, +100);
     await waitFor(() => expect(panelEl.style.transform).toBe(`translateY(calc(100% + (0px)))`));
-    expect(Math.round(Number(panelEl.style.height.slice(0, -2)))).toBe(-0);
+    await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
+    expect(Number(panelEl.style.height.slice(0, -2)) === 0).toBeTruthy();
     await waitFor(() => expect(mockOnClose).toBeCalledTimes(1));
   });
 

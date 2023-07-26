@@ -29,6 +29,7 @@ const FloatingPanel = ({
   const panelRef = React.useRef(null);
   const [panelHeight, setPanelHeight] = React.useState(anchors[0]);
   const [hasClosed, setHasClosed] = React.useState(false);
+  const [isAnimating, setIsAnimating] = React.useState(true);
 
   React.useEffect(() => {
     const targetHeight = forceClose ? 0 : anchors.find((anchor) => anchor > 0);
@@ -37,6 +38,7 @@ const FloatingPanel = ({
 
   const onHeightChange = (height: number, animating: boolean) => {
     setPanelHeight(height);
+    setIsAnimating(animating);
     if (height <= 0 && !hasClosed) {
       setHasClosed(true);
       onClose?.();
@@ -47,6 +49,7 @@ const FloatingPanel = ({
     <AntdFloatingPanel
       className={classNames(className, styles.panel)}
       ref={panelRef}
+      data-animating={isAnimating}
       anchors={anchors}
       handleDraggingOfContent={false}
       onHeightChange={onHeightChange}
