@@ -115,9 +115,9 @@ function Editor({
       selected: selectedModel === 'fhexa1',
     },
     {
-      value: 'fad1',
+      value: 'ado1',
       label: 'Ador',
-      selected: selectedModel === 'fad1',
+      selected: selectedModel === 'ado1',
     },
   ];
 

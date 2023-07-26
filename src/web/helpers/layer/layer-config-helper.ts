@@ -3,7 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-modules';
 import storage from 'implementations/storage';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
-import { getAllPresets } from 'app/constants/right-panel-constants';
+import { getAllPresets, modelsWithModules } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
@@ -175,7 +175,9 @@ export const postPresetChange = (): void => {
     const layerModule = getData<LayerModule>(layer, DataType.module);
     // Looking for preset with same name and correct module
     const configIndex = customizedLaserConfigs.findIndex((config) => (
-      workarea !== 'fad1' ? config.name === configName : config.name === configName && config.module === layerModule
+      modelsWithModules.includes(workarea)
+        ? config.name === configName && config.module === layerModule
+        : config.name === configName
     ));
     if (configIndex >= 0) {
       const config = customizedLaserConfigs[configIndex];
@@ -200,7 +202,7 @@ export const postPresetChange = (): void => {
     if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
       layer.setAttribute('data-speed', String(maxSpeed));
     }
-    if (workarea !== 'fad1') layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER));
+    if (!modelsWithModules.includes(workarea)) layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER));
   }
 };
 
