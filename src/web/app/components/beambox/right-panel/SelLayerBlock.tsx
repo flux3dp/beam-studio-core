@@ -17,8 +17,9 @@ const LANG = i18n.lang.beambox.right_panel.layer_panel;
 function SelLayerBlock(): JSX.Element {
   const [promptMoveLayerOnce, setPromptMoveLayerOnce] = React.useState(false);
   const { selectedElem } = useContext(CanvasContext);
+  const currentLayer = getObjectLayer(selectedElem as SVGElement);
 
-  if (!selectedElem) return null;
+  if (!selectedElem || !currentLayer) return null;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const layerCount = drawing.getNumLayers();
@@ -56,7 +57,7 @@ function SelLayerBlock(): JSX.Element {
       }
     }
   };
-  const currentLayer = getObjectLayer(selectedElem as SVGElement);
+
   const currentLayerName = currentLayer.title;
   return (
     <div className="selLayerBlock controls">
