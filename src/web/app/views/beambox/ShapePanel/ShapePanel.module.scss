@@ -1,0 +1,28 @@
+@use 'styles/variables' as variables;
+
+$number-per-row: 4;
+$margin-x: 30px;
+$gap: 10px;
+
+.tabs > div {
+  margin: 8px $margin-x;
+  border-bottom: none;
+}
+
+.icon-list {
+  display: grid;
+  grid-template-columns: repeat($number-per-row, 1fr);
+  justify-items: center;
+  margin: 0 $margin-x;
+  gap: $gap;
+
+  .icon {
+    background-color: variables.$backgroundColor;
+    font-size: calc((100vw - $margin-x * 2 - $gap * ($number-per-row - 1)) / $number-per-row);
+    border-radius: 7px;
+    svg {
+      // For lines
+      fill: none;
+    }
+  }
+}
