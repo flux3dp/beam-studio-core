@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import useI18n from 'helpers/useI18n';
@@ -27,4 +27,4 @@ const Diode = (): JSX.Element => {
   );
 };
 
-export default Diode;
+export default memo(Diode);

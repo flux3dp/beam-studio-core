@@ -26,7 +26,7 @@ interface Props {
 
 const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX.Element => {
   const LANG = useI18n().beambox.right_panel.layer_panel.layers;
-  const { selectedLayers, setSelectedLayers } = useContext(LayerPanelContext);
+  const { selectedLayers, setSelectedLayers, forceUpdate } = useContext(LayerPanelContext);
 
   const onContextMenuShow = (e: CustomEvent) => {
     const trigger = e.detail.data?.target as Element;
@@ -55,7 +55,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const handleLockLayers = () => {
     svgCanvas.clearSelection();
     setLayersLock(selectedLayers, true);
-    setSelectedLayers([...selectedLayers]);
+    forceUpdate();
   };
 
   const handleMergeDown = () => {

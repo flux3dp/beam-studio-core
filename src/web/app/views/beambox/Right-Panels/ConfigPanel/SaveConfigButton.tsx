@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
@@ -61,4 +61,4 @@ const SaveConfigButton = (): JSX.Element => {
   );
 };
 
-export default SaveConfigButton;
+export default memo(SaveConfigButton);

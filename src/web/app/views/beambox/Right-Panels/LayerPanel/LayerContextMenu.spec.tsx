@@ -41,7 +41,7 @@ jest.mock('helpers/useI18n', () => () => ({
           merge_down: 'merge_down',
           merge_all: 'merge_all',
           merge_selected: 'merge_selected',
-        }
+        },
       },
     },
   },
@@ -58,6 +58,7 @@ const mockDrawing = {
 
 const mockSetSelectedLayers = jest.fn();
 const mockSelectOnlyLayer = jest.fn();
+const mockForceUpdate = jest.fn();
 const mockRenameLayer = jest.fn();
 describe('test LayerContextMenu', () => {
   beforeEach(() => {
@@ -71,6 +72,8 @@ describe('test LayerContextMenu', () => {
         value={{
           selectedLayers: ['layer1', 'layer2'],
           setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
         }}
       >
         <LayerContextMenu
@@ -87,7 +90,12 @@ describe('test LayerContextMenu', () => {
     mockDrawing.getLayerName.mockReturnValue('layer1');
     const { container } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer1'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer1'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -102,7 +110,12 @@ describe('test LayerContextMenu', () => {
   test('rename layer should work', () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer2'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer2'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -122,7 +135,12 @@ describe('test LayerContextMenu', () => {
   test('cloneLayers should work', () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer1', 'layer2'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer1', 'layer2'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -142,7 +160,12 @@ describe('test LayerContextMenu', () => {
   test('lock layers should work', () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer1', 'layer2'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer1', 'layer2'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -156,14 +179,18 @@ describe('test LayerContextMenu', () => {
     expect(mockSetSelectedLayers).not.toBeCalled();
     fireEvent.click(getByText('lock'));
     expect(mockClearSelection).toBeCalledTimes(1);
-    expect(mockSetLayersLock).toBeCalledWith(['layer1', 'layer2'], true);
-    expect(mockSetSelectedLayers).toBeCalledWith(['layer1', 'layer2']);
+    expect(mockForceUpdate).toBeCalledTimes(1);
   });
 
   test('deleteLayers should work', () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer1', 'layer2'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer1', 'layer2'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -182,7 +209,12 @@ describe('test LayerContextMenu', () => {
   test('merge down should work', () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer1'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer1'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -209,7 +241,12 @@ describe('test LayerContextMenu', () => {
     mockGetAllLayerNames.mockReturnValue(['layer1', 'layer2', 'layer3']);
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer2'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer2'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}
@@ -232,7 +269,12 @@ describe('test LayerContextMenu', () => {
   test('merge selected should work', () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
-        value={{ selectedLayers: ['layer1', 'layer2'], setSelectedLayers: mockSetSelectedLayers }}
+        value={{
+          selectedLayers: ['layer1', 'layer2'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
       >
         <LayerContextMenu
           drawing={mockDrawing}

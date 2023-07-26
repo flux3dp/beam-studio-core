@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext, useMemo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -49,4 +49,4 @@ const RepeatBlock = (): JSX.Element => {
   );
 };
 
-export default RepeatBlock;
+export default memo(RepeatBlock);

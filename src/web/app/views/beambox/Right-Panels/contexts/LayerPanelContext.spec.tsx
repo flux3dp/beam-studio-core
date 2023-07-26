@@ -1,38 +1,49 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React, { useContext } from 'react';
+import { act, render } from '@testing-library/react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-import { LayerPanelContextProvider } from './LayerPanelContext';
+import { LayerPanelContextProvider, LayerPanelContext } from './LayerPanelContext';
 
-test('should render correctly', () => {
-  const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
-  const wrapper = shallow(
-    <LayerPanelContextProvider>
-      <></>
-    </LayerPanelContextProvider>,
-  );
+const mockForceUpdate = jest.fn();
+jest.mock('helpers/use-force-update', () => () => mockForceUpdate);
 
-  expect(wrapper.state()).toEqual({
-    selectedLayers: [],
+const mockDoLayersContainsVector = jest.fn();
+jest.mock('helpers/layer/check-vector', () => (...args) => mockDoLayersContainsVector(...args));
+
+const MockChild = () => {
+  const { selectedLayers } = useContext(LayerPanelContext);
+  return <div>{JSON.stringify(selectedLayers)}</div>;
+};
+
+describe('test LayerPanelContext', () => {
+  it('should render correctly', () => {
+    const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
+    const { container, unmount } = render(
+      <LayerPanelContextProvider>
+        <MockChild />
+      </LayerPanelContextProvider>
+    );
+    expect(layerPanelEventEmitter.eventNames().length).toBe(3);
+    expect(mockDoLayersContainsVector).toBeCalledTimes(1);
+    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith([]);
+
+    layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
+    expect(mockForceUpdate).toHaveBeenCalledTimes(1);
+    act(() => {
+      layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', ['layer1', 'layer3']);
+    });
+    expect(container.textContent).toBe('["layer1","layer3"]');
+    expect(mockDoLayersContainsVector).toBeCalledTimes(2);
+    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer3']);
+
+    const response = {
+      selectedLayers: [],
+    };
+    layerPanelEventEmitter.emit('GET_SELECTED_LAYERS', response);
+    expect(response.selectedLayers).toEqual(['layer1', 'layer3']);
+
+    unmount();
+    expect(layerPanelEventEmitter.eventNames().length).toBe(0);
   });
-  expect(layerPanelEventEmitter.eventNames().length).toBe(3);
-
-  const forceUpdate = jest.spyOn(wrapper.instance(), 'forceUpdate');
-  layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
-  expect(forceUpdate).toHaveBeenCalledTimes(1);
-
-  layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', ['layer1', 'layer3']);
-  expect(wrapper.state()).toEqual({
-    selectedLayers: ['layer1', 'layer3'],
-  });
-
-  const response = {
-    selectedLayers: [],
-  };
-  layerPanelEventEmitter.emit('GET_SELECTED_LAYERS', response);
-  expect(response.selectedLayers).toEqual(['layer1', 'layer3']);
-
-  wrapper.unmount();
-  expect(layerPanelEventEmitter.eventNames().length).toBe(0);
 });

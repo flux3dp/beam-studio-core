@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useMemo, useReducer } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useReducer } from 'react';
 import { Select } from 'antd';
 import { sprintf } from 'sprintf-js';
 
@@ -268,4 +268,4 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   );
 };
 
-export default ConfigPanel;
+export default memo(ConfigPanel);

@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React, { useContext, memo } from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import i18n from 'helpers/i18n';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -12,21 +14,17 @@ getSVGAsync((globalSVG) => {
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
-interface Props {
-  elem: Element;
-}
-
-function SelLayerBlock({ elem }: Props): JSX.Element {
+function SelLayerBlock(): JSX.Element {
   const [promptMoveLayerOnce, setPromptMoveLayerOnce] = React.useState(false);
+  const { selectedElem } = useContext(CanvasContext);
 
-  if (!elem) return null;
+  if (!selectedElem) return null;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const layerCount = drawing.getNumLayers();
   if (layerCount === 1) return null;
 
   const options = [];
-  const currentLayerName = drawing.getCurrentLayerName();
   for (let i = layerCount - 1; i >= 0; i -= 1) {
     const layerName = drawing.getLayerName(i);
     options.push(<option value={layerName} key={i}>{layerName}</option>);
@@ -58,7 +56,8 @@ function SelLayerBlock({ elem }: Props): JSX.Element {
       }
     }
   };
-
+  const currentLayer = getObjectLayer(selectedElem as SVGElement);
+  const currentLayerName = currentLayer.title;
   return (
     <div className="selLayerBlock controls">
       <span id="selLayerLabel">{LANG.move_elems_to}</span>
@@ -75,4 +74,4 @@ function SelLayerBlock({ elem }: Props): JSX.Element {
   );
 }
 
-export default SelLayerBlock;
+export default memo(SelLayerBlock);

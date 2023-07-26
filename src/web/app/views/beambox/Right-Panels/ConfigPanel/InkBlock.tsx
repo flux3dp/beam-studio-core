@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
@@ -54,4 +54,4 @@ function InkBlock(): JSX.Element {
   );
 }
 
-export default InkBlock;
+export default memo(InkBlock);

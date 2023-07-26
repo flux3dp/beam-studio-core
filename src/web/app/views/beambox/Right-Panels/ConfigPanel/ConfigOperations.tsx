@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import dialog from 'implementations/dialog';
 import i18n from 'helpers/i18n';
@@ -73,4 +73,4 @@ const ConfigOperations = ({ onMoreClick }: Props): JSX.Element => {
   );
 };
 
-export default ConfigOperations;
+export default memo(ConfigOperations);
