@@ -76,7 +76,7 @@ describe('test FloatingPanel', () => {
     await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
     expect(Math.round(Number(panelEl.style.height.slice(0, -2)))).toBe(100);
     expect(mockOnClose).not.toBeCalled();
-    mockDrag(draggableBar, 0, +100);
+    mockDrag(draggableBar, 0, 100);
     await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (0px)))'));
     await waitFor(() => expect(panelEl.getAttribute('data-animating')).toBe('false'));
     expect(Number(panelEl.style.height.slice(0, -2)) === 0).toBeTruthy();
