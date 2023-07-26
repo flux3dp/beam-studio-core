@@ -1,7 +1,7 @@
 import isDev from 'helpers/is-dev';
 
 export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
-export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1';
+export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1' | 'ado1';
 
 interface WorkArea {
   label: WorkAreaLabel;
@@ -47,9 +47,23 @@ WorkareaMap.set('fad1', {
   maxSpeed: 400,
   rotary: [0],
 });
+WorkareaMap.set('ado1', {
+  label: 'Ador',
+  width: 4300,
+  height: 3000,
+  maxSpeed: 400,
+  rotary: [0],
+});
 
 if (isDev()) {
   WorkareaMap.set('fad1', {
+    label: 'Ador',
+    width: 4300,
+    height: 3000,
+    maxSpeed: 400,
+    rotary: [0, 2],
+  });
+  WorkareaMap.set('ado1', {
     label: 'Ador',
     width: 4300,
     height: 3000,
@@ -111,10 +125,12 @@ export default {
     fbb1p: ['fbb1p', 'fbb1b', 'fbm1'],
     fbb1b: ['fbb1b', 'fbm1'],
     fbm1: ['fbm1'],
-    fad1: ['fad1'],
+    ado1: ['ado1', 'fad1'],
+    fad1: ['ado1', 'fad1'],
   },
+  adorModels: ['ado1', 'fad1'],
   addonsSupportList: {
-    rotary: isDev() ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1'] : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
+    rotary: isDev() ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1'] : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
     openBottom: ['fbm1'],
     autoFocus: ['fbm1'],
     hybridLaser: ['fbm1'],

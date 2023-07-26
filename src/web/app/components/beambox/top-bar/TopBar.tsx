@@ -55,15 +55,12 @@ interface State {
   selectDeviceCallback: (device?: IDeviceInfo) => void;
 }
 
-interface Props {
-}
-
-export default class TopBar extends React.PureComponent<Props, State> {
+export default class TopBar extends React.PureComponent<Record<string, never>, State> {
   private deviceList: IDeviceInfo[];
 
   private discover: any;
 
-  constructor(props: Props) {
+  constructor(props: Record<string, never>) {
     super(props);
     this.deviceList = [];
     this.state = {
@@ -123,7 +120,7 @@ export default class TopBar extends React.PureComponent<Props, State> {
     } = this.context;
     const workarea = document.getElementById('workarea');
     if (
-      ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1'].includes(device.model)
+      ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1'].includes(device.model)
       && device.model !== BeamboxPreference.read('workarea')
     ) {
       const res = await new Promise((resolve) => {
@@ -201,7 +198,7 @@ export default class TopBar extends React.PureComponent<Props, State> {
     try {
       await PreviewModeController.start(device, onPreviewError);
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-      if (device.model === 'fad1') {
+      if (Constant.adorModels.includes(device.model)) {
         PreviewModeController.previewFullWorkarea(() => updateTopBar());
       }
       setIsPreviewing(true);

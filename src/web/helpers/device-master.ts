@@ -4,13 +4,14 @@
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
-import Dialog from 'app/actions/dialog-caller';
-import Progress from 'app/actions/progress-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import { SelectionResult, ConnectionError } from 'app/constants/connection-constants';
+import constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
+import Dialog from 'app/actions/dialog-caller';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
+import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
+import { ConnectionError, SelectionResult } from 'app/constants/connection-constants';
 import { FisheyeCameraParameters, FisheyeMatrix } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
@@ -947,7 +948,7 @@ class DeviceMaster {
   async connectCamera(shouldCrop = true) {
     const { currentDevice } = this;
     if (currentDevice.cameraNeedsFlip === null) {
-      if (currentDevice.info.model === 'fad1') {
+      if (constant.adorModels.includes(currentDevice.info.model)) {
         currentDevice.cameraNeedsFlip = false;
       } else if (currentDevice.control && currentDevice.control.getMode() === '') {
         await this.getDeviceSetting('camera_offset');

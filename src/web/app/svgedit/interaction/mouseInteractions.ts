@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import presprayArea from 'app/actions/beambox/prespray-area';
@@ -1219,7 +1220,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     };
     if (PreviewModeController.isPreviewMode()) {
       const workarea = BeamboxPreference.read('workarea');
-      if (workarea !== 'fad1') {
+      if (!constant.adorModels.includes(workarea)) {
         if (startX === realX && startY === realY) {
           PreviewModeController.preview(realX, realY, true, callback);
         } else {

@@ -4,6 +4,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
+import constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
@@ -29,7 +30,7 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
     }
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      if (device.model === 'fad1') showFishEyeCalibration();
+      if (constant.adorModels.includes(device.model)) showFishEyeCalibration();
       else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {
