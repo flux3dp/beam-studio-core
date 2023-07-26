@@ -16,7 +16,7 @@ test('should render correctly', () => {
   expect(wrapper.state()).toEqual({
     mode: 'element',
   });
-  expect(rightPanelEventEmitter.eventNames().length).toBe(2);
+  expect(rightPanelEventEmitter.eventNames().length).toBe(1);
 
   rightPanelEventEmitter.emit('SET_MODE', 'path-edit');
   expect(wrapper.state()).toEqual({

@@ -10,15 +10,32 @@ jest.mock('app/actions/alert-caller', () => ({
   popUpError: (...args) => mockPopUpError(...args),
 }));
 
+jest.mock('app/constants/device-constants', () => ({
+  WORKAREA_DEEP: {
+    ado1: 40,
+  },
+}));
+
+const mockEnterRawMode = jest.fn();
+const mockRawGetProbePos = jest.fn();
+const mockEndRawMode = jest.fn();
 const mockSetFisheyeMatrix = jest.fn();
 const mockTakeOnePicture = jest.fn();
 const mockConnectCamera = jest.fn();
 const mockDisconnectCamera = jest.fn();
 jest.mock('helpers/device-master', () => ({
+  enterRawMode: (...args) => mockEnterRawMode(...args),
+  rawGetProbePos: (...args) => mockRawGetProbePos(...args),
+  endRawMode: (...args) => mockEndRawMode(...args),
   setFisheyeMatrix: (...args) => mockSetFisheyeMatrix(...args),
   takeOnePicture: (...args) => mockTakeOnePicture(...args),
   connectCamera: (...args) => mockConnectCamera(...args),
   disconnectCamera: (...args) => mockDisconnectCamera(...args),
+  currentDevice: {
+    info: {
+      model: 'ado1',
+    },
+  },
 }));
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -26,6 +43,11 @@ jest.mock('helpers/useI18n', () => () => ({
     back: 'back',
     next: 'next',
   },
+}));
+
+const mockInterpolatePointsFromHeight = jest.fn();
+jest.mock('helpers/camera-calibration-helper', () => ({
+  interpolatePointsFromHeight: (...args) => mockInterpolatePointsFromHeight(...args),
 }));
 
 const mockCreateObjectURL = jest.fn();
@@ -55,6 +77,9 @@ describe('test Align', () => {
   it('should render correctly', async () => {
     mockTakeOnePicture.mockResolvedValue({ imgBlob: 'blob' });
     mockCreateObjectURL.mockReturnValue('file://url');
+    mockEnterRawMode.mockResolvedValue(undefined);
+    mockRawGetProbePos.mockResolvedValue({ z: 10, didAf: true });
+    mockEndRawMode.mockResolvedValue(undefined);
     const { baseElement } = render(
       <Align
         onClose={mockOnClose}
@@ -68,6 +93,10 @@ describe('test Align', () => {
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
     expect(mockConnectCamera).toBeCalledTimes(1);
+    expect(mockInterpolatePointsFromHeight).toBeCalledTimes(1);
+    expect(mockInterpolatePointsFromHeight).toHaveBeenLastCalledWith(
+      30, mockFishEyeParam.heights, mockFishEyeParam.points
+    );
     expect(mockSetFisheyeMatrix).toBeCalledTimes(1);
     expect(mockTakeOnePicture).toBeCalledTimes(1);
     expect(mockCreateObjectURL).toBeCalledTimes(1);
@@ -94,10 +123,6 @@ describe('test Align', () => {
     expect(mockOnBack).toBeCalledTimes(0);
     fireEvent.click(getByText('back'));
     expect(mockOnBack).toBeCalledTimes(1);
-
-    expect(mockOnClose).toBeCalledTimes(0);
-    fireEvent.click(baseElement.querySelector('.ant-modal-close-x'));
-    expect(mockOnClose).toBeCalledTimes(1);
   });
 
   test('scroll and next should work', async () => {
@@ -120,8 +145,8 @@ describe('test Align', () => {
     expect(baseElement).toMatchSnapshot();
     const xInput = baseElement.querySelectorAll('input')[0];
     const yInput = baseElement.querySelectorAll('input')[1];
-    expect(xInput).toHaveValue(1175);
-    expect(yInput).toHaveValue(850);
+    expect(xInput).toHaveValue(1275);
+    expect(yInput).toHaveValue(1050);
     const imgContainer = baseElement.querySelector('.img-container');
     fireEvent.scroll(imgContainer, { target: { scrollLeft: 500, scrollTop: 600 } });
     expect(xInput).toHaveValue(500);
