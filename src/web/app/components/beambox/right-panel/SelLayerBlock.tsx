@@ -17,7 +17,7 @@ const LANG = i18n.lang.beambox.right_panel.layer_panel;
 function SelLayerBlock(): JSX.Element {
   const [promptMoveLayerOnce, setPromptMoveLayerOnce] = React.useState(false);
   const { selectedElem } = useContext(CanvasContext);
-  if (!selectedElem ) return null;
+  if (!selectedElem) return null;
   const currentLayer = getObjectLayer(selectedElem as SVGElement);
   if (!currentLayer) return null;
 
