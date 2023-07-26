@@ -1,12 +1,18 @@
-/* eslint-disable import/first */
+import TopBarController from './TopBarController';
+
 const mockEmit = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
   createEventEmitter: () => ({
-    emit: mockEmit,
+    emit: (...args) => mockEmit(...args),
   }),
 }));
 
-import TopBarController from './TopBarController';
+const mockOnObjectBlur = jest.fn();
+const mockOnObjectFocus = jest.fn();
+jest.mock('app/actions/beambox/beambox-global-interaction', () => ({
+  onObjectBlur: (...args) => mockOnObjectBlur(...args),
+  onObjectFocus: (...args) => mockOnObjectFocus(...args),
+}));
 
 describe('test TopBarController', () => {
   afterEach(() => {
@@ -19,10 +25,21 @@ describe('test TopBarController', () => {
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_TOP_BAR');
   });
 
-  test('test setElement', () => {
+  test('test setElement null', () => {
     TopBarController.setElement(null);
+    expect(mockOnObjectBlur).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_ELEMENT', null);
+  });
+
+  test('test setElement', () => {
+    const testElem = document.createElement('div');
+    TopBarController.setElement(testElem);
+    expect(mockOnObjectBlur).toHaveBeenCalledTimes(1);
+    expect(mockOnObjectFocus).toBeCalledTimes(1);
+    expect(mockOnObjectFocus).toHaveBeenLastCalledWith([testElem]);
+    expect(mockEmit).toHaveBeenCalledTimes(1);
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_ELEMENT', testElem);
   });
 
   test('test setFileName', () => {
