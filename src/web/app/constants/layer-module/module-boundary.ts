@@ -1,4 +1,4 @@
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 
 // Module Boundary for ador
 const moduleBoundary = {

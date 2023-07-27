@@ -5,7 +5,7 @@ import { SwipeAction } from 'antd-mobile';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import {

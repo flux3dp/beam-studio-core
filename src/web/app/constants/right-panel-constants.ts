@@ -1,4 +1,4 @@
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 
 const constants = {
   BEAMO: {
@@ -467,6 +467,18 @@ const constants = {
       speed: 20,
       module: LayerModule.LASER,
       name: 'metal_bw_engraving',
+    },
+    wood_3mm_cutting_20w: {
+      power: 50,
+      speed: 6,
+      module: LayerModule.LASER_20W,
+      name: 'wood_3mm_cutting',
+    },
+    wood_5mm_cutting_20w: {
+      power: 50,
+      speed: 3,
+      module: LayerModule.LASER_20W,
+      name: 'wood_5mm_cutting',
     },
   }
 };

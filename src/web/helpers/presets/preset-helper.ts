@@ -1,6 +1,6 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import i18n from 'helpers/i18n';
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
 import { getAllKeys, getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
