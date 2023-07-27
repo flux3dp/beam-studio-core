@@ -434,6 +434,7 @@ const lang: ILang = {
       mask: 'Workarea Clipping',
       text_to_path: 'Text',
       modules: 'Add-on',
+      ador_modules: 'Ador Modules',
       privacy: 'Privacy',
     },
     notification_on: 'On',

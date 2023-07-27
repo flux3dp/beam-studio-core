@@ -13,6 +13,7 @@ import constant from 'app/actions/beambox/constant';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import moduleOffset from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
@@ -62,6 +63,22 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
     return null;
   };
 
+  const setModuleOffset = (clear = false) => new Promise<null>((resolve, reject) => {
+    events.onMessage = (data) => {
+      if (data.status === 'ok') {
+        resolve(null);
+      }
+    };
+    events.onError = (data) => {
+      reject(data);
+    };
+    if (clear) ws.send(['set_params', 'module_offsets', JSON.stringify({})].join(' '));
+    else {
+      const offsets = { ...moduleOffset, ...BeamboxPreference.read('module-offsets') };
+      ws.send(['set_params', 'module_offsets', JSON.stringify(offsets)].join(' '));
+    }
+  });
+
   return {
     async getTaskCode(names, opts) {
       opts = opts || {};
@@ -86,7 +103,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
       // TODO: remove fad1 after all fad1 machines are updated to ado1
-      else if (opts.model === 'fad1' || opts.model === 'ado1') args.push('-ado1');
+      else if (opts.model === 'ado1') args.push('-ado1');
 
       if (isDevMode) {
         const accel = BeamboxPreference.read('padding_accel') || 7500;
@@ -158,9 +175,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       }
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
-      if (loopCompensation > 0) {
-        await setParameter(loopCompensation);
-      }
+      if (loopCompensation > 0) await setParameter(loopCompensation);
+      if (opts.model === 'ado1') await setModuleOffset();
+      else await setModuleOffset(true);
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);

@@ -434,6 +434,7 @@ const lang: ILang = {
       mask: '작업 영역 클리핑',
       text_to_path: '텍스트',
       modules: '애드온',
+      ador_modules: '아도르 모듈',
       privacy: '개인 정보',
     },
     notification_on: '켜기',

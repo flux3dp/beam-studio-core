@@ -434,6 +434,7 @@ const lang: ILang = {
       mask: '工作範圍剪裁',
       text_to_path: '文字',
       modules: '擴充模組',
+      ador_modules: 'Ador 模组',
       privacy: '隱私權',
     },
     notification_on: '開啟',
