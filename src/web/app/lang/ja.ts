@@ -438,6 +438,7 @@ const lang: ILang = {
       mask: 'ワークエリアのクリッピング',
       text_to_path: 'テキスト',
       modules: '拡張機能',
+      ador_modules: 'Ador モジュール',
       privacy: 'プライバシー',
     },
     notification_on: 'オン',

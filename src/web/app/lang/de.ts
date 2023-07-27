@@ -438,6 +438,7 @@ const lang: ILang = {
       mask: 'Arbeitsbereich-Ausschnitt',
       text_to_path: 'Text',
       modules: 'Zusatz-Module',
+      ador_modules: 'Ador-Modul',
       privacy: 'Privatsphäre',
     },
     notification_on: 'An',

@@ -434,7 +434,8 @@ export interface ILang {
       path: string,
       mask: string,
       text_to_path: string,
-      modules: string,
+      modules: string;
+      ador_modules: string;
       privacy: string,
     },
     notification_on: string,
