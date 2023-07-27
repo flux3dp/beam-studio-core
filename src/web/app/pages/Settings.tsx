@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import AdorModule from 'app/components/settings/AdorModule';
 import AutoSave from 'app/components/settings/AutoSave';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
@@ -13,6 +14,7 @@ import Editor from 'app/components/settings/Editor';
 import Engraving from 'app/components/settings/Engraving';
 import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import Mask from 'app/components/settings/Mask';
 import Module from 'app/components/settings/Module';
 import Path from 'app/components/settings/Path';
@@ -360,6 +362,14 @@ class Settings extends React.PureComponent<null, State> {
             diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
+          {isDev() && (
+            <AdorModule
+              defaultUnit={this.getConfigEditingValue('default-units')}
+              selectedModel={selectedModel}
+              currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
+              updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+            />
+          )}
           <Privacy
             enableSentryOptions={enableSentryOptions}
             updateConfigChange={this.updateConfigChange}
