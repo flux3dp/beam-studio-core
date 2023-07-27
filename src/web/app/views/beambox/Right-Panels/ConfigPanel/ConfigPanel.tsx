@@ -23,7 +23,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
