@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import { getAllLayerNames, getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getData, DataType } from 'helpers/layer/layer-config-helper';
