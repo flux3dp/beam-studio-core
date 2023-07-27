@@ -438,6 +438,7 @@ const lang: ILang = {
       mask: 'Werkgebied knippen',
       text_to_path: 'Tekst',
       modules: 'Toevoegen',
+      ador_modules: 'Ador Modules',
       privacy: 'Privacy',
     },
     notification_on: 'Op',

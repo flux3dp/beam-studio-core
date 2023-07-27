@@ -438,6 +438,7 @@ const lang: ILang = {
       mask: 'Découpage de la zone de travail',
       text_to_path: 'Texte',
       modules: 'Add-on',
+      ador_modules: 'Modules Ador',
       privacy: 'Confidentialité',
     },
     notification_on: 'Sur',
