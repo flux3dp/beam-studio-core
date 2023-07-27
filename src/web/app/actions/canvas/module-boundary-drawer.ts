@@ -1,8 +1,8 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import LayerModule from 'app/constants/layer-modules';
-import moduleBoundary from 'app/constants/module-boundary';
+import LayerModule from 'app/constants/layer-module/layer-modules';
+import moduleBoundary from 'app/constants/layer-module/module-boundary';
 
 const { svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');

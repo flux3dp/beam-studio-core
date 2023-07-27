@@ -11,7 +11,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
-import LayerModule from 'app/constants/layer-modules';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
