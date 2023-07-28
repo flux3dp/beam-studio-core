@@ -3,6 +3,7 @@ import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
+import moduleOffsets from 'app/constants/layer-module/module-offsets';
 
 const { svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
@@ -53,6 +54,12 @@ const update = (module: LayerModule): void => {
   const d1 = `M0,0H${w}V${h}H0V0`;
   const { dpmm } = Constant;
   let { top, left, bottom, right } = moduleBoundary[module];
+  const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
+  const [offsetX, offsetY] = offsets[module];
+  if (offsetX >= 0) left = Math.max(left, offsetX);
+  else right = Math.max(right, -offsetX);
+  if (offsetY >= 0) top = Math.max(top, offsetY);
+  else bottom = Math.max(bottom, -offsetY);
   top *= dpmm;
   left *= dpmm;
   bottom *= dpmm;
