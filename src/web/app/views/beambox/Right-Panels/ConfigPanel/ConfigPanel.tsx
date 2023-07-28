@@ -16,7 +16,6 @@ import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import LayerModule from 'app/constants/layer-module/layer-modules';
-import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
@@ -82,10 +81,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   useEffect(() => {
     updateDiodeBoundary();
   }, [updateDiodeBoundary]);
-
-  useEffect(() => {
-    moduleBoundaryDrawer.update(state.module.value);
-  }, [state.module.value]);
 
   const updateData = useCallback(() => {
     updateDefaultPresetData();

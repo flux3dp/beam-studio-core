@@ -1,11 +1,13 @@
-import React, { memo, useContext } from 'react';
+import React, { memo, useContext, useEffect } from 'react';
 import { Select } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import beamboxStore from 'app/stores/beambox-store';
 import colorConstants from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule from 'app/constants/layer-module/layer-modules';
+import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
@@ -29,6 +31,15 @@ const ModuleBlock = (): JSX.Element => {
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
   const { module } = state;
   const { value } = module;
+
+  useEffect(() => {
+    const updateBoundary = () => moduleBoundaryDrawer.update(value);
+    updateBoundary();
+    beamboxStore.onUpdateWorkArea(updateBoundary);
+    return () => {
+      beamboxStore.removeUpdateWorkAreaListener(updateBoundary);
+    };
+  }, [value]);
 
   if (!modelsWithModules.includes(beamboxPreference.read('workarea'))) return null;
 
