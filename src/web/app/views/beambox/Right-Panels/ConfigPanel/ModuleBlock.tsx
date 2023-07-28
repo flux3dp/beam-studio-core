@@ -1,6 +1,7 @@
 import React, { memo, useContext } from 'react';
 import { Select } from 'antd';
 
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import colorConstants from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -10,6 +11,7 @@ import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { modelsWithModules } from 'app/constants/right-panel-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './ModuleBlock.module.scss';
@@ -27,6 +29,8 @@ const ModuleBlock = (): JSX.Element => {
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
   const { module } = state;
   const { value } = module;
+
+  if (!modelsWithModules.includes(beamboxPreference.read('workarea'))) return null;
 
   // TODO: update layer parameter if needed
   const handleChange = (val: number) => {
