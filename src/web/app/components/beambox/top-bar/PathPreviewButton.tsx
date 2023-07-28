@@ -26,7 +26,7 @@ function PathPreviewButton({
   isDeviceConnected,
   togglePathPreview,
 }: Props): JSX.Element {
-  const i18n = useI18n();
+  const lang = useI18n().topbar;
   const isMobile = useIsMobile();
   const { isPreviewing } = useContext(CanvasContext);
   if (isMobile || !checkWebGL()) return null;
@@ -45,7 +45,7 @@ function PathPreviewButton({
     <div
       className={className}
       onClick={changeToPathPreviewMode}
-      title={i18n.tutorial.newInterface.path_preview}
+      title={lang.task_preview}
     >
       <TopBarIcons.PathPreview />
     </div>

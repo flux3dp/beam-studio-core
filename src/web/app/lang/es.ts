@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: 'VISIÓN PREVIO',
+    preview_title: 'Visión previo',
+    task_preview: 'Previsualizar Trayectoria',
+    frame_task: 'Vista previa del cuadro',
     borderless: '(SIN BORDES)',
     tag_names: {
       rect: 'Rectángulo',
@@ -1380,8 +1383,6 @@ const lang: ILang = {
       object_actions: 'Acciones de Objeto',
       end_alert: '¿Estás seguro de terminar la nueva introducción de la UI?',
       select_machine: 'Seleccione una máquina',
-      frame: 'Vista previa del cuadro',
-      path_preview: 'Previsualizar Trayectoria',
       start_work: 'Empezar a trabajar',
     },
     gesture: {

@@ -49,17 +49,13 @@ jest.mock('helpers/useI18n', () => () => ({
     turningOffAirPump: 'Turning off air pump...',
   },
   topbar: {
+    frame_task: 'frame_task',
     alerts: {
       add_content_first: 'Please add objects first',
     }
   },
   device: {
     processing: 'Processing',
-  },
-  tutorial: {
-    newInterface: {
-      frame: 'Running Frame',
-    },
   },
 }));
 

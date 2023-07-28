@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'Ir',
     preview: 'PREVIEW',
+    preview_title: 'Preview',
+    task_preview: 'Pré-visualização de trajetória',
+    frame_task: 'Pré-visualização de fotogramas',
     borderless: '(ABRIR FUNDO)',
     tag_names: {
       rect: 'Retangulo',
@@ -1380,8 +1383,6 @@ const lang: ILang = {
       object_actions: 'Ações de Objetos',
       end_alert: 'Tem certeza de que deseja encerrar a introdução da nova interface do usuário?',
       select_machine: 'Selecione uma máquina',
-      frame: 'Pré-visualização de fotogramas',
-      path_preview: 'Pré-visualização de trajetória',
       start_work: 'Iniciar trabalho',
     },
     gesture: {
