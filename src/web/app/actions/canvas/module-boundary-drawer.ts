@@ -1,9 +1,10 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
+import { modelsWithModules } from 'app/constants/right-panel-constants';
 
 const { svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
@@ -24,7 +25,7 @@ const createBoundary = () => {
   boundarySvg.setAttribute('height', '100%');
   boundarySvg.setAttribute(
     'viewBox',
-    `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`
+    `0 0 ${constant.dimension.getWidth(workarea)} ${constant.dimension.getHeight(workarea)}`
   );
   boundarySvg.setAttribute('style', 'pointer-events:none');
 
@@ -37,22 +38,22 @@ const createBoundary = () => {
 
 const updateCanvasSize = (): void => {
   const workarea = BeamboxPreference.read('workarea');
-  const viewBox = `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`;
+  const viewBox = `0 0 ${constant.dimension.getWidth(workarea)} ${constant.dimension.getHeight(workarea)}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
 };
 documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
   const workarea = BeamboxPreference.read('workarea');
-  if (!Constant.adorModels.includes(workarea)) {
+  if (!modelsWithModules.includes(workarea)) {
     boundaryPath?.setAttribute('d', '');
     return;
   }
   if (!boundaryPath) createBoundary();
-  const w = Constant.dimension.getWidth(workarea);
-  const h = Constant.dimension.getHeight(workarea);
+  const w = constant.dimension.getWidth(workarea);
+  const h = constant.dimension.getHeight(workarea);
   const d1 = `M0,0H${w}V${h}H0V0`;
-  const { dpmm } = Constant;
+  const { dpmm } = constant;
   let { top, left, bottom, right } = moduleBoundary[module];
   const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
   const [offsetX, offsetY] = offsets[module];

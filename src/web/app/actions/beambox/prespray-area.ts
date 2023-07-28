@@ -35,7 +35,7 @@ const generatePresprayArea = (): void => {
     presprayAreaRect = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
     presprayAreaRect.setAttribute('id', 'presprayArea');
     presprayAreaRect.setAttribute('x', '4000');
-    presprayAreaRect.setAttribute('y', '2700');
+    presprayAreaRect.setAttribute('y', '2500');
     presprayAreaRect.setAttribute('width', areaWidth.toFixed(0));
     presprayAreaRect.setAttribute('height', areaHeight.toFixed(0));
     presprayAreaRect.setAttribute('fill', 'rgba(0, 128, 255, 0.3)');
