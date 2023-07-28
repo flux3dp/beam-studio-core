@@ -13,7 +13,7 @@ import constant from 'app/actions/beambox/constant';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
-import moduleOffset from 'app/constants/layer-module/module-offsets';
+import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
@@ -74,7 +74,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
     };
     if (clear) ws.send(['set_params', 'module_offsets', JSON.stringify({})].join(' '));
     else {
-      const offsets = { ...moduleOffset, ...BeamboxPreference.read('module-offsets') };
+      const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
       ws.send(['set_params', 'module_offsets', JSON.stringify(offsets)].join(' '));
     }
   });
