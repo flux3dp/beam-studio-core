@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GEHEN',
     preview: 'VORSCHAU',
+    preview_title: 'Vorschau',
+    task_preview: 'Pfadvorschau',
+    frame_task: 'Frame-Vorschau',
     borderless: '(RANDLOS)',
     tag_names: {
       rect: 'Rechteck',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: 'Objektaktionen',
       end_alert: 'Sind Sie sicher, die neue Einführung in die Benutzeroberfläche zu beenden?',
       select_machine: 'Wählen Sie eine Maschine aus',
-      frame: 'Frame-Vorschau',
-      path_preview: 'Pfadvorschau',
       start_work: 'Arbeit beginnen',
     },
     gesture: {

@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'Aller à',
     preview: 'PRÉVISIONS',
+    preview_title: 'Prévisions',
+    task_preview: 'Aperçu de la trajectoire',
+    frame_task: 'Aperçu du cadre',
     borderless: '(OUVRIR EN BAS)',
     tag_names: {
       rect: 'Rectangle',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: 'Actions sur les objets',
       end_alert: 'Êtes-vous sûr de terminer l\'introduction de la nouvelle interface utilisateur ?',
       select_machine: 'Sélectionnez une machine',
-      frame: 'Aperçu du cadre',
-      path_preview: 'Aperçu de la trajectoire',
       start_work: 'Commencer le travail',
     },
     gesture: {

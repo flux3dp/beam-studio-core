@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GAAN',
     preview: 'VOORBEELD',
+    preview_title: 'Voorbeeld',
+    task_preview: 'Pad voorbeeld',
+    frame_task: 'Voorbeeld frame',
     borderless: '(OPEN BODEM)',
     tag_names: {
       rect: 'Rechthoek',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: 'Objectacties',
       end_alert: 'Weet je zeker dat je de nieuwe UI-introductie wilt beëindigen?',
       select_machine: 'Selecteer een machine',
-      frame: 'Voorbeeld frame',
-      path_preview: 'Pad voorbeeld',
       start_work: 'Werk beginnen',
     },
     gesture: {

@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: 'PREVIEW',
+    preview_title: 'Preview',
+    task_preview: 'Path preview',
+    frame_task: 'Running Frame',
     borderless: '(OPEN BOTTOM)',
     tag_names: {
       rect: 'Rectangle',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: 'Object Actions',
       end_alert: 'Are you sure to end new UI introduction?',
       select_machine: 'Select a machine',
-      frame: 'Running Frame',
-      path_preview: 'Path preview',
       start_work: 'Start Work',
     },
     gesture: {

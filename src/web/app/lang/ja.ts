@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'ゴー',
     preview: 'プレビュー',
+    preview_title: 'プレビュー',
+    task_preview: 'パスプレビュー',
+    frame_task: 'フレームプレビュー',
     borderless: '（ボーダーレス）',
     tag_names: {
       rect: '矩形',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: 'オブジェクトアクション',
       end_alert: '新しいインターフェースの紹介を終了してもよろしいですか？',
       select_machine: 'マシンの選択',
-      frame: 'フレームプレビュー',
-      path_preview: 'パスプレビュー',
       start_work: '作業開始',
     },
     gesture: {

@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: '相机预览',
+    preview_title: '相机预览',
+    task_preview: '工作预览',
+    frame_task: '外框预览',
     borderless: '(开盖模式)',
     tag_names: {
       rect: '矩形',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: '物件操作',
       end_alert: '请问您是否确定要结束新介面介绍？',
       select_machine: '选择机器',
-      frame: '外框预览',
-      path_preview: '路径预览',
       start_work: '开始工作',
     },
     gesture: {

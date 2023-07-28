@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: '미리보기',
+    preview_title: '미리보기',
+    task_preview: '경로 미리보기',
+    frame_task: '프레임 미리보기',
     borderless: '(하단 열기)',
     tag_names: {
       rect: '직사각형',
@@ -1381,8 +1384,6 @@ const lang: ILang = {
       object_actions: '객체 동작',
       end_alert: '새 UI 소개를 종료하시겠습니까?',
       select_machine: '기계를 선택하세요',
-      frame: '프레임 미리보기',
-      path_preview: '경로 미리보기',
       start_work: '작업 시작',
     },
     gesture: {

@@ -15,6 +15,9 @@ export interface ILang {
     },
     export: string,
     preview: string,
+    preview_title: string;
+    task_preview: string;
+    frame_task: string;
     borderless: string,
     tag_names: {
       rect: string,
@@ -1378,8 +1381,6 @@ export interface ILang {
       object_actions: string,
       end_alert: string,
       select_machine: string,
-      frame: string,
-      path_preview: string,
       start_work: string,
     },
     gesture: {

@@ -3,16 +3,16 @@ import React, { useContext } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
-import i18n from 'helpers/i18n';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
+import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './PreviewButton.module.scss';
 
-const LANG = i18n.lang.topbar;
 
 function PreviewButton(): JSX.Element {
+  const lang = useI18n().topbar;
   const isMobile = useIsMobile();
   const { changeToPreviewMode, isPathPreviewing, isPreviewing, setupPreviewMode } =
     useContext(CanvasContext);
@@ -20,7 +20,7 @@ function PreviewButton(): JSX.Element {
 
   const borderless = BeamboxPreference.read('borderless') || false;
   const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));
-  const previewText = (borderless && supportOpenBottom) ? `${LANG.preview} ${LANG.borderless}` : LANG.preview;
+  const previewText = (borderless && supportOpenBottom) ? `${lang.preview} ${lang.borderless}` : lang.preview;
   const startPreview = () => {
     if (!isPreviewing) {
       changeToPreviewMode();
@@ -31,7 +31,7 @@ function PreviewButton(): JSX.Element {
   return (
     <div
       className={classNames(styles.container, { [styles.previewing]: isPreviewing })}
-      title={i18n.lang.tutorial.newInterface.camera_preview}
+      title={lang.preview_title}
     >
       <div className={styles.button} onClick={startPreview}>
         <TopBarIcons.Camera />
