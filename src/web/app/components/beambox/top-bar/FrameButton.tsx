@@ -130,7 +130,7 @@ const FrameButton = (): JSX.Element => {
     <div
       className={classNames(styles.button, { [styles.disabled]: isPreviewing })}
       onClick={handleClick}
-      title={lang.tutorial.newInterface.frame}
+      title={lang.topbar.frame_task}
     >
       <TopBarIcons.Frame />
     </div>

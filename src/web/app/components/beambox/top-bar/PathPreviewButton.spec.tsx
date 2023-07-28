@@ -3,10 +3,8 @@ import * as React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/useI18n', () => () => ({
-  tutorial: {
-    newInterface: {
-      path_preview: 'Path Preview',
-    },
+  topbar: {
+    task_preview: 'task_preview',
   },
 }));
 
@@ -35,7 +33,7 @@ jest.mock('app/contexts/CanvasContext', () => ({
 
 import PathPreviewButton from './PathPreviewButton';
 
-describe('should render correctly', () => {
+describe('test PathPreviewButton', () => {
   test('no WebGL', () => {
     checkWebGL.mockReturnValue(false);
     const { container } = render(
@@ -47,6 +45,7 @@ describe('should render correctly', () => {
   describe('has WebGL', () => {
     beforeEach(() => {
       jest.resetAllMocks();
+      checkWebGL.mockReturnValue(true);
     });
 
     test('no devices connected in web version', () => {
@@ -63,7 +62,6 @@ describe('should render correctly', () => {
     });
 
     test('no devices connected in desktop version', () => {
-      checkWebGL.mockReturnValue(true);
       window.FLUX.version = '1.2.3';
       const { container } = render(
         <PathPreviewButton
