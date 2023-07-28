@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GAAN',
     preview: 'VOORBEELD',
+    preview_title: 'Voorbeeld',
+    task_preview: 'Taakvoorbeeld',
+    frame_task: 'Kader',
     borderless: '(OPEN BODEM)',
     tag_names: {
       rect: 'Rechthoek',

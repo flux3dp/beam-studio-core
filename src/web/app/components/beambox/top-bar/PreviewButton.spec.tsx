@@ -18,12 +18,11 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (...args) => read(...args),
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    topbar: {
-      preview: 'PREVIEW',
-      borderless: '(OPEN BOTTOM)',
-    },
+jest.mock('helpers/useI18n', () => () => ({
+  topbar: {
+    preview: 'PREVIEW',
+    borderless: '(OPEN BOTTOM)',
+    preview_title: 'preview_title',
   },
 }));
 
@@ -50,7 +49,7 @@ jest.mock('app/contexts/CanvasContext', () => ({
   }),
 }));
 
-describe('should render correctly', () => {
+describe('test PreviewButton', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });

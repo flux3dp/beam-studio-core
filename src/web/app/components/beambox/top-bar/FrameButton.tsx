@@ -126,7 +126,12 @@ const FrameButton = (): JSX.Element => {
 
   return (
     <div className={styles.container}>
-      <button type="button" className="path-preview-button" onClick={handleClick}>
+      <button
+        type="button"
+        title={lang.topbar.frame_task}
+        className="path-preview-button"
+        onClick={handleClick}
+      >
         <FrameIcon className={styles.icon} />
       </button>
     </div>

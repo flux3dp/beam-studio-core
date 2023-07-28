@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'Aller à',
     preview: 'PRÉVISIONS',
+    preview_title: 'Prévisions',
+    task_preview: 'Aperçu de la tâche',
+    frame_task: 'Cadre',
     borderless: '(OUVRIR EN BAS)',
     tag_names: {
       rect: 'Rectangle',

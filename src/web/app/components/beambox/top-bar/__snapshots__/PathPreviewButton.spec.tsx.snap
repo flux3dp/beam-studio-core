@@ -1,19 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly has WebGL no devices connected in web version 1`] = `
-<div
-  className="path-preview-button-container highlighted disabled"
->
+exports[`test PathPreviewButton has WebGL no devices connected in web version 1`] = `
+<div>
   <div
-    className="path-preview-button"
-    onClick={[Function]}
+    class="path-preview-button-container highlighted disabled"
   >
-    <img
-      draggable={false}
-      src="img/path-preview.svg"
-    />
+    <div
+      class="path-preview-button"
+      title="task_preview"
+    >
+      <img
+        draggable="false"
+        src="img/path-preview.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
-exports[`should render correctly no WebGL 1`] = `""`;
+exports[`test PathPreviewButton no WebGL 1`] = `<div />`;

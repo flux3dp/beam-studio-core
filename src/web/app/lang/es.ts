@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: 'VISIÓN PREVIO',
+    preview_title: 'Visión previo',
+    task_preview: 'Vista previa de la tarea',
+    frame_task: 'Marco',
     borderless: '(SIN BORDES)',
     tag_names: {
       rect: 'Rectángulo',

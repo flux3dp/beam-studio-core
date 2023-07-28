@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'Ir',
     preview: 'PREVIEW',
+    preview_title: 'Preview',
+    task_preview: 'Visualização da Tarefa',
+    frame_task: 'Quadro',
     borderless: '(ABRIR FUNDO)',
     tag_names: {
       rect: 'Retangulo',

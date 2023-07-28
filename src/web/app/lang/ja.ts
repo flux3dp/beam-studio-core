@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'ゴー',
     preview: 'プレビュー',
+    preview_title: 'プレビュー',
+    task_preview: 'タスクプレビュー',
+    frame_task: 'フレーム',
     borderless: '（ボーダーレス）',
     tag_names: {
       rect: '矩形',

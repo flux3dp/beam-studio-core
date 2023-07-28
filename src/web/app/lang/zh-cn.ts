@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: '相机预览',
+    preview_title: '相机预览',
+    task_preview: '工作预览',
+    frame_task: '工作外框',
     borderless: '(开盖模式)',
     tag_names: {
       rect: '矩形',

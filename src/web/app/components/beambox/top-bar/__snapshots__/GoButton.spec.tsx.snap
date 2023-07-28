@@ -4,6 +4,7 @@ exports[`test GoButton should render correctly 1`] = `
 <div>
   <div
     class="go-button-container no-machine"
+    title="GO"
   >
     <div
       class="go-btn"

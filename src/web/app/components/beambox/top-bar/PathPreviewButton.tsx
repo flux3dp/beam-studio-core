@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import checkWebGL from 'helpers/check-webgl';
+import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -22,6 +23,7 @@ function PathPreviewButton({
   togglePathPreview,
 }: Props): JSX.Element {
   const isMobile = useIsMobile();
+  const lang = useI18n().topbar;
   if (isMobile || !checkWebGL()) return null;
 
   const changeToPathPreviewMode = (): void => {
@@ -39,7 +41,7 @@ function PathPreviewButton({
   );
   return (
     <div className={className}>
-      <div className="path-preview-button" onClick={changeToPathPreviewMode}>
+      <div className="path-preview-button" title={lang.task_preview} onClick={changeToPathPreviewMode}>
         <img src="img/path-preview.svg" draggable={false} />
       </div>
     </div>

@@ -1,12 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly when not previewing 1`] = `
+exports[`test PreviewButton when not previewing 1`] = `
 <div>
   <div
     class="preview-button-container"
   >
     <div
       class="img-container"
+      title="preview_title"
     >
       <img
         draggable="false"
@@ -17,15 +18,16 @@ exports[`should render correctly when not previewing 1`] = `
 </div>
 `;
 
-exports[`should render correctly when path previewing 1`] = `<div />`;
+exports[`test PreviewButton when path previewing 1`] = `<div />`;
 
-exports[`should render correctly when previewing and not support borderless 1`] = `
+exports[`test PreviewButton when previewing and not support borderless 1`] = `
 <div>
   <div
     class="preview-button-container previewing"
   >
     <div
       class="img-container"
+      title="preview_title"
     >
       <img
         draggable="false"
@@ -41,13 +43,14 @@ exports[`should render correctly when previewing and not support borderless 1`] 
 </div>
 `;
 
-exports[`should render correctly when previewing and support borderless 1`] = `
+exports[`test PreviewButton when previewing and support borderless 1`] = `
 <div>
   <div
     class="preview-button-container previewing"
   >
     <div
       class="img-container"
+      title="preview_title"
     >
       <img
         draggable="false"

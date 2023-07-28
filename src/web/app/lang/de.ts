@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GEHEN',
     preview: 'VORSCHAU',
+    preview_title: 'Vorschau',
+    task_preview: 'Aufgaben-vorschau',
+    frame_task: 'Rahmen',
     borderless: '(RANDLOS)',
     tag_names: {
       rect: 'Rechteck',

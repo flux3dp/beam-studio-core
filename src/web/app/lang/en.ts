@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: 'PREVIEW',
+    preview_title: 'Preview',
+    task_preview: 'Task preview',
+    frame_task: 'Frame',
     borderless: '(OPEN BOTTOM)',
     tag_names: {
       rect: 'Rectangle',

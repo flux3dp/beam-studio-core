@@ -211,6 +211,7 @@ const GoButton = (props: Props): JSX.Element => {
   const { hasDiscoverdMachine, hasText } = props;
   return (
     <div
+      title={LANG.export}
       className={
         classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })
       }

@@ -18,6 +18,9 @@ const lang: ILang = {
     },
     export: 'GO',
     preview: '미리보기',
+    preview_title: '미리보기',
+    task_preview: '작업 미리보기',
+    frame_task: '액자',
     borderless: '(하단 열기)',
     tag_names: {
       rect: '직사각형',
