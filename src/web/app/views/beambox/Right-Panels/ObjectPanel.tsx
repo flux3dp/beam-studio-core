@@ -1,20 +1,25 @@
 import classNames from 'classnames';
+import Icon from '@ant-design/icons';
 import React, { useContext } from 'react';
 
 import ActionsPanel from 'app/views/beambox/Right-Panels/ActionsPanel';
 import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
+import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
 import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
+import ObjectPanelItem from './ObjectPanelItem';
 import styles from './ObjectPanel.module.scss';
 
 let svgCanvas;
+let svgEditor;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
+  svgEditor = globalSVG.Editor;
 });
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
@@ -25,7 +30,7 @@ interface Props {
 function ObjectPanel({ elem }: Props): JSX.Element {
   const isMobile = useIsMobile();
   const context = useContext(ObjectPanelContext);
-
+  const { updateActiveKey } = context;
   const getAvailableFunctions = () => {
     if (!elem) {
       return {};
@@ -67,9 +72,134 @@ function ObjectPanel({ elem }: Props): JSX.Element {
     </div>
   );
 
+  const renderCommonActionPanel = (): JSX.Element => (
+    <div className="common-action-panel">
+      <ObjectPanelItem.Item
+        id="delete"
+        content={<ObjectPanelIcon.Trash />}
+        label={i18n.lang.beambox.context_menu.delete}
+        onClick={() => {
+          svgEditor.deleteSelected();
+          updateActiveKey(null);
+        }}
+      />
+      <ObjectPanelItem.Item
+        id="duplicate"
+        content={<ObjectPanelIcon.Duplicate />}
+        label={i18n.lang.beambox.context_menu.duplicate}
+        onClick={() => {
+          svgCanvas.cloneSelectedElements(20, 20);
+          updateActiveKey(null);
+        }}
+      />
+    </div>
+  );
+
   const renderToolBtns = (): JSX.Element => {
     const buttonAvailability = getAvailableFunctions();
-    return (
+    return isMobile ? (
+      <div className="tool-btns-container">
+        <ObjectPanelItem.Divider />
+        <ObjectPanelItem.Item
+          id="group"
+          content={<ObjectPanelIcon.Group />}
+          label={LANG.group}
+          onClick={svgCanvas.groupSelectedElements}
+        />
+        <ObjectPanelItem.Item
+          id="ungroup"
+          content={<ObjectPanelIcon.Ungroup />}
+          label={LANG.ungroup}
+          onClick={svgCanvas.ungroupSelectedElement}
+          disabled={!buttonAvailability.ungroup}
+        />
+        <ObjectPanelItem.ActionList
+          id="align"
+          actions={[
+            {
+              icon: <Icon component={ObjectPanelIcon.ValignTop} viewBox="0 0 32 32" />,
+              label: LANG.top_align,
+              onClick: FnWrapper.alignTop,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.ValignMid} viewBox="0 0 32 32" />,
+              label: LANG.middle_align,
+              onClick: FnWrapper.alignMiddle,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.ValignBot} viewBox="0 0 32 32" />,
+              label: LANG.bottom_align,
+              onClick: FnWrapper.alignBottom,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.HalignLeft} viewBox="0 0 32 32" />,
+              label: LANG.left_align,
+              onClick: FnWrapper.alignLeft,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.HalignMid} viewBox="0 0 32 32" />,
+              label: LANG.center_align,
+              onClick: FnWrapper.alignCenter,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.HalignRight} viewBox="0 0 32 32" />,
+              label: LANG.right_align,
+              onClick: FnWrapper.alignRight,
+            },
+          ]}
+          content={<ObjectPanelIcon.ValignMid />}
+          label="align"
+        />
+        <ObjectPanelItem.ActionList
+          id="distribute"
+          actions={[
+            {
+              icon: <Icon component={ObjectPanelIcon.Distribute} rotate={90} viewBox="0 0 32 32" />,
+              label: LANG.hdist,
+              onClick: svgCanvas.distHori,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.Distribute} viewBox="0 0 32 32" />,
+              label: LANG.vdist,
+              onClick: svgCanvas.distVert,
+            },
+          ]}
+          content={<ObjectPanelIcon.Distribute />}
+          label="distribute"
+        />
+        <ObjectPanelItem.ActionList
+          id="boolean"
+          actions={[
+            {
+              icon: <Icon component={ObjectPanelIcon.Union} viewBox="0 0 32 32" />,
+              label: LANG.union,
+              onClick: () => svgCanvas.booleanOperationSelectedElements('union'),
+              disabled: !buttonAvailability.union,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.Subtract} viewBox="0 0 32 32" />,
+              label: LANG.subtract,
+              onClick: () => svgCanvas.booleanOperationSelectedElements('diff'),
+              disabled: !buttonAvailability.subtract,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.Intersect} viewBox="0 0 32 32" />,
+              label: LANG.intersect,
+              onClick: () => svgCanvas.booleanOperationSelectedElements('intersect'),
+              disabled: !buttonAvailability.intersect,
+            },
+            {
+              icon: <Icon component={ObjectPanelIcon.Diff} viewBox="0 0 32 32" />,
+              label: LANG.difference,
+              onClick: () => svgCanvas.booleanOperationSelectedElements('xor'),
+              disabled: !buttonAvailability.difference,
+            },
+          ]}
+          content={<ObjectPanelIcon.Union />}
+          label="boolean"
+        />
+      </div>
+    ) : (
       <div className={styles.tools}>
         <div className={styles.row}>
           <div className={classNames(styles.half, styles.left, styles.sep)}>
@@ -215,6 +345,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
     <div id="object-panel" className={styles.container}>
       {isMobile ? (
         <>
+          {renderCommonActionPanel()}
           {renderOptionPanel()}
           {renderDimensionPanel()}
           {renderToolBtns()}

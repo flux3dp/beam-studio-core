@@ -1,18 +1,23 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import ArrayModal from 'app/views/beambox/ToolPanels/ArrayModal';
 import Constant from 'app/actions/beambox/constant';
+import Dialog from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
 import IntervalPanel from 'app/views/beambox/ToolPanels/Interval';
 import NestGAPanel from 'app/views/beambox/ToolPanels/NestGAPanel';
 import NestRotationPanel from 'app/views/beambox/ToolPanels/NestRotationPanel';
 import NestSpacingPanel from 'app/views/beambox/ToolPanels/NestSpacingPanel';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import OffsetCornerPanel from 'app/views/beambox/ToolPanels/OffsetCornerPanel';
 import OffsetDirectionPanel from 'app/views/beambox/ToolPanels/OffsetDirectionPanel';
 import OffsetDistancePanel from 'app/views/beambox/ToolPanels/OffsetDistancePanel';
+import OffsetModal from 'app/views/beambox/ToolPanels/OffsetModal';
 import RowColumnPanel from 'app/views/beambox/ToolPanels/RowColumn';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { isMobile } from 'helpers/system-helper';
 import { ToolPanelType } from 'app/actions/beambox/toolPanelsController';
 
 let svgCanvas;
@@ -170,61 +175,118 @@ class ToolPanel extends React.Component<Props> {
     )
   }
 
-  renderButtons() {
-    let _onCancel = () => {
-      this.props.unmount();
-      svgCanvas.setMode('select');
-      $('.tool-btn').removeClass('active');
-      $('#left-Cursor').addClass('active');
-    };
-    let _onYes = () => { this.props.unmount() };
-    const type = this.props.type;
+  _onCancel = () => {
+    this.props.unmount();
+    svgCanvas.setMode('select');
+    $('.tool-btn').removeClass('active');
+    $('#left-Cursor').addClass('active');
+  };
+
+  _getOnYes = () => {
+    const { data, type, unmount } = this.props;
     switch (type) {
       case 'gridArray':
-        _onYes = () => {
-          let data = this.props.data;
-          let distance = {
+        return () => {
+          const distance = {
             dx: _mm2pixel(data.distance.dx),
-            dy: _mm2pixel(data.distance.dy)
+            dy: _mm2pixel(data.distance.dy),
           };
           svgCanvas.gridArraySelectedElement(distance, data.rowcolumn);
-          this.props.unmount();
+          unmount();
           svgCanvas.setMode('select');
           $('.tool-btn').removeClass('active');
           $('#left-Cursor').addClass('active');
           svgCanvas.setHasUnsavedChange(true);
-        }
-        break;
+        };
       case 'offset':
-        _onYes = () => {
-          svgCanvas.offsetElements(this.offset.dir, _mm2pixel(this.offset.distance), this.offset.cornerType);
-
-          this.props.unmount();
+        return () => {
+          svgCanvas.offsetElements(
+            this.offset.dir,
+            _mm2pixel(this.offset.distance),
+            this.offset.cornerType
+          );
+          unmount();
           svgCanvas.setMode('select');
           $('.tool-btn').removeClass('active');
           $('#left-Cursor').addClass('active');
           svgCanvas.setHasUnsavedChange(true);
-        }
-        break;
+        };
       case 'nest':
-        _onYes = () => {
-          this.nestOptions.spacing *= 10;//pixel to mm
+        return () => {
+          this.nestOptions.spacing *= 10; // pixel to mm
           svgCanvas.nestElements(null, null, this.nestOptions);
-
-          this.props.unmount();
+          unmount();
           svgCanvas.setMode('select');
           $('.tool-btn').removeClass('active');
           $('#left-Cursor').addClass('active');
-        }
+        };
+      default:
+        return () => unmount();
     }
+  };
+
+  renderButtons() {
     return (
       <div className="tool-block">
         <div className="btn-h-group">
-          <button className="btn btn-default primary" onClick={() => { _onYes() }}>{LANG.confirm}</button>
-          <button className="btn btn-default" onClick={_onCancel}>{LANG.cancel}</button>
+          <button className="btn btn-default primary" onClick={this._getOnYes()}>{LANG.confirm}</button>
+          <button className="btn btn-default" onClick={this._onCancel}>{LANG.cancel}</button>
         </div>
       </div>
     );
+  }
+
+  renderModal() {
+    const { type, unmount } = this.props;
+    if (Dialog.isIdExist(type)) {
+      return;
+    }
+    const closeModal = () => {
+      ObjectPanelController.updateActiveKey(null);
+      Dialog.popDialogById(type);
+    };
+    const onOk = this._getOnYes();
+    const onCancel = this._onCancel;
+    switch (type) {
+      case 'gridArray':
+        Dialog.addDialogComponent(
+          type,
+          <ArrayModal
+            onCancel={() => {
+              onCancel();
+              closeModal();
+            }}
+            onOk={(value) => {
+              this._setArrayRowColumn({ row: value.row, column: value.column });
+              this._setArrayDistance({ dx: value.dx, dy: value.dy });
+              onOk();
+              closeModal();
+            }}
+          />
+        );
+        break;
+      case 'offset':
+        Dialog.addDialogComponent(
+          type,
+          <OffsetModal
+            onCancel={() => {
+              onCancel();
+              closeModal();
+            }}
+            onOk={(value) => {
+              this._setOffsetDir(value.dir);
+              this._setOffsetDist(value.distance);
+              this._setOffsetCorner(value.cornerType);
+              onOk();
+              closeModal();
+            }}
+          />
+        );
+        break;
+      default:
+        ObjectPanelController.updateActiveKey(null);
+        unmount();
+    }
   }
 
   _findPositionStyle() {
@@ -238,6 +300,10 @@ class ToolPanel extends React.Component<Props> {
   }
 
   render() {
+    if (isMobile()) {
+      this.renderModal();
+      return null;
+    }
     const lang = storage.get('active-lang') || 'en';
     const positionStyle = this._findPositionStyle();
     const classes = classNames('tool-panels', lang);

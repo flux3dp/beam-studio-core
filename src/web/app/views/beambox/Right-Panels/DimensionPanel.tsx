@@ -1,32 +1,49 @@
 import * as React from 'react';
+import Icon from '@ant-design/icons';
 
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import KeycodeConstants from 'app/constants/keycode-constants';
+import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SymbolMaker from 'helpers/symbol-maker';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
+import { isMobile } from 'helpers/system-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
-const panelMap = {
-  g: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  path: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  polygon: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  rect: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
-  line: ['x1', 'y1', 'rot', 'x2', 'y2', 'lock'],
-  image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  use: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-};
+const panelMap = isMobile()
+  ? {
+      g: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      path: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      polygon: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      rect: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      ellipse: ['rx', 'lock', 'ry', 'rot', 'cx', 'cy'],
+      line: ['x1', 'y1', 'lock', 'x2', 'y2', 'rot'],
+      image: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      img: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      text: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+      use: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+    }
+  : {
+      g: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      path: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      polygon: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      rect: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
+      line: ['x1', 'y1', 'rot', 'x2', 'y2', 'lock'],
+      image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+      use: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+    };
 
 const fixedSizeMapping = {
   width: 'height',
@@ -198,6 +215,16 @@ class DimensionPanel extends React.Component<Props> {
     const isRatioFixed = dimensionValues.isRatioFixed || false;
     switch (type) {
       case 'x':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="x_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label="X"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">X</div>
@@ -211,6 +238,16 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'y':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="y_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label="Y"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">Y</div>
@@ -224,6 +261,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'x1':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="x1_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label={
+                <>
+                  X<sub>1</sub>
+                </>
+              }
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">
@@ -240,6 +291,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'y1':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="y1_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label={
+                <>
+                  Y<sub>1</sub>
+                </>
+              }
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">
@@ -256,6 +321,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'x2':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="x2_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label={
+                <>
+                  X<sub>2</sub>
+                </>
+              }
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">
@@ -272,6 +351,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'y2':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="y2_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label={
+                <>
+                  Y<sub>2</sub>
+                </>
+              }
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">
@@ -288,6 +381,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'cx':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="cx_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label={
+                <>
+                  X<sub>C</sub>
+                </>
+              }
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">
@@ -304,6 +411,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'cy':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="cy_position"
+              value={this.getDisplayValue(dimensionValues[type])}
+              updateValue={(val) => this.handlePositionChange(type, val)}
+              label={
+                <>
+                  Y<sub>C</sub>
+                </>
+              }
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">
@@ -320,6 +441,16 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'rot':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="rotate"
+              value={dimensionValues.rotation || 0}
+              updateValue={this.handleRotationChange}
+              label="Rotate"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label img">
@@ -335,6 +466,16 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'w':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="width"
+              value={this.getDisplayValue(dimensionValues.width)}
+              updateValue={(val) => this.handleSizeChange('width', val)}
+              label="W"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">W</div>
@@ -350,6 +491,16 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'h':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="height"
+              value={this.getDisplayValue(dimensionValues.height)}
+              updateValue={(val) => this.handleSizeChange('height', val)}
+              label="H"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">H</div>
@@ -365,6 +516,16 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'rx':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="rx_width"
+              value={this.getDisplayValue(dimensionValues.rx * 2)}
+              updateValue={(val) => this.handleSizeChange('rx', val / 2)}
+              label="W"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">W</div>
@@ -378,6 +539,16 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'ry':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Number
+              id="ry_height"
+              value={this.getDisplayValue(dimensionValues.ry * 2)}
+              updateValue={(val) => this.handleSizeChange('ry', val / 2)}
+              label="H"
+            />
+          );
+        }
         return (
           <div className="dimension-container" key={type}>
             <div className="label">H</div>
@@ -391,6 +562,20 @@ class DimensionPanel extends React.Component<Props> {
           </div>
         );
       case 'lock':
+        if (isMobile()) {
+          return (
+            <ObjectPanelItem.Item
+              id="lock"
+              content={
+                <Icon
+                  component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock}
+                  viewBox="0 0 32 32"
+                />
+              }
+              onClick={this.handleFixRatio}
+            />
+          );
+        }
         return (
           <div
             className="dimension-lock"
@@ -415,26 +600,45 @@ class DimensionPanel extends React.Component<Props> {
     return ret;
   };
 
-  renderFlipButtons = (): JSX.Element => (
-    <div className="flip-btn-container">
-      <div
-        id="horizontal_flip"
-        className="tool-btn"
-        onClick={() => svgCanvas.flipSelectedElements(-1, 1)}
-        title={LANG.hflip}
-      >
-        <img src="img/right-panel/icon-hflip.svg" alt="" />
+  renderFlipButtons = (): JSX.Element =>
+    isMobile() ? (
+      <ObjectPanelItem.ActionList
+        id="flip"
+        actions={[
+          {
+            icon: <Icon component={ObjectPanelIcon.Flip} viewBox="0 0 32 32" />,
+            label: LANG.hflip,
+            onClick: () => svgCanvas.flipSelectedElements(-1, 1),
+          },
+          {
+            icon: <Icon component={ObjectPanelIcon.Flip} rotate={90} viewBox="0 0 32 32" />,
+            label: LANG.vflip,
+            onClick: () => svgCanvas.flipSelectedElements(1, -1),
+          },
+        ]}
+        content={<ObjectPanelIcon.Flip />}
+        label="flip"
+      />
+    ) : (
+      <div className="flip-btn-container">
+        <div
+          id="horizontal_flip"
+          className="tool-btn"
+          onClick={() => svgCanvas.flipSelectedElements(-1, 1)}
+          title={LANG.hflip}
+        >
+          <img src="img/right-panel/icon-hflip.svg" alt="" />
+        </div>
+        <div
+          id="vertical_flip"
+          className="tool-btn"
+          onClick={() => svgCanvas.flipSelectedElements(1, -1)}
+          title={LANG.vflip}
+        >
+          <img src="img/right-panel/icon-vflip.svg" alt="" />
+        </div>
       </div>
-      <div
-        id="vertical_flip"
-        className="tool-btn"
-        onClick={() => svgCanvas.flipSelectedElements(1, -1)}
-        title={LANG.vflip}
-      >
-        <img src="img/right-panel/icon-vflip.svg" alt="" />
-      </div>
-    </div>
-  );
+    );
 
   render(): JSX.Element {
     const { elem } = this.props;
@@ -444,6 +648,7 @@ class DimensionPanel extends React.Component<Props> {
     }
     return (
       <div className="dimension-panel">
+        {isMobile() && <ObjectPanelItem.Divider />}
         {this.renderDimensionPanels(panels)}
         {this.renderFlipButtons()}
       </div>

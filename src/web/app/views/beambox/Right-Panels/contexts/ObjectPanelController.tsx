@@ -22,9 +22,14 @@ const updatePolygonSides = (polygonSides: number): void => {
   objectPanelEventEmitter.emit('UPDATE_POLYGON_SIDES', polygonSides);
 };
 
+const updateActiveKey = (activeKey: string | null): void => {
+  objectPanelEventEmitter.emit('UPDATE_ACTIVE_KEY', activeKey);
+};
+
 export default {
   updateObjectPanel,
   updateDimensionValues,
   getDimensionValues,
   updatePolygonSides,
+  updateActiveKey,
 };

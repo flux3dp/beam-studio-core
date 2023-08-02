@@ -2,9 +2,11 @@ import * as React from 'react';
 
 import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PolygonOptions from 'app/views/beambox/Right-Panels/Options-Blocks/PolygonOptions';
 import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptions';
 import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions';
+import { isMobile } from 'helpers/system-helper';
 
 interface Props {
   elem: Element;
@@ -61,7 +63,12 @@ function OptionsPanel({
     }
   }
 
-  return (
+  return isMobile() ? (
+    <div className="options-panel">
+      <ObjectPanelItem.Divider />
+      {contents}
+    </div>
+  ) : (
     <div className="options-panel">
       <div className="title">OPTIONS</div>
       {contents}

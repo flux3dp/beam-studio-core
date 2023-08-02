@@ -1,0 +1,86 @@
+$active-color: #0091ff;
+.object-panel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &.active {
+    color: $active-color;
+    .number-item {
+      color: $active-color;
+      --border-color: #0091ff;
+    }
+  }
+  .number-item {
+    min-width: 48px;
+    height: 28px;
+    --border-color: #7c7c7c;
+  }
+  .main {
+    display: flex;
+    height: 32px;
+    align-items: center;
+  }
+  .label {
+    flex-grow: 1;
+    margin-top: 2px;
+    line-height: 12px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+}
+div.divider {
+  height: 40px;
+  margin: auto 0 auto 10px;
+}
+.number-keyboard {
+  .input-keys {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    > button {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      font-size: 12px;
+      .icon {
+        font-size: 28px;
+      }
+    }
+  }
+  .step-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    > button {
+      width: 25px;
+      height: 25px;
+      padding: 0;
+      background-color: #f5f5f5;
+      .icon {
+        font-size: 24px;
+      }
+    }
+  }
+}
+.action-list {
+  :global(.adm-popover-inner-content) {
+    padding: 8px 0;
+  }
+  .action {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    padding: 0 18px;
+    &.disabled {
+      opacity: 0.7;
+    }
+    &.active {
+      background-color: $active-color;
+      color: white;
+    }
+    .label {
+      font-size: 12px;
+      margin-left: 4px;
+    }
+  }
+}
