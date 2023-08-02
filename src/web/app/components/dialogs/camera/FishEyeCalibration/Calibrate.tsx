@@ -206,8 +206,8 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
                     type="number"
                     addonAfter="mm"
                     step={1}
-                    max={30}
-                    min={0}
+                    max={32}
+                    min={-19}
                     onFocus={setEditingInput}
                     onBlur={setStopEditingInput}
                     onKeyUp={(e) => e.stopPropagation()}
