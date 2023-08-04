@@ -1,5 +1,6 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 
 let presprayAreaRect: SVGRectElement;
 
@@ -12,19 +13,26 @@ const round = (num: number, decimal: number): number => {
 };
 
 const togglePresprayArea = (): void => {
-  const shouldShow = document.querySelectorAll('g.layer[data-module="2"]:not([display="none"]').length > 0;
+  const shouldShow =
+    document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]:not([display="none"]`)
+      .length > 0;
   if (shouldShow) presprayAreaRect.removeAttribute('display');
   else presprayAreaRect.setAttribute('display', 'none');
 };
 
-const getPosition = (mm = false): { x: number; y: number; w: number; h: number; } => {
+const getPosition = (mm = false): { x: number; y: number; w: number; h: number } => {
   const pxX = parseInt(presprayAreaRect?.getAttribute('x'), 10);
   const pxY = parseInt(presprayAreaRect?.getAttribute('y'), 10);
   const pxW = areaWidth;
   const pxH = areaHeight;
   if (!mm) return { x: pxX, y: pxY, w: pxW, h: pxH };
   const { dpmm } = constant;
-  return { x: round(pxX / dpmm, 2), y: round(pxY / dpmm, 2), w: round(pxW / dpmm, 2), h: round(pxH / dpmm, 2) };
+  return {
+    x: round(pxX / dpmm, 2),
+    y: round(pxY / dpmm, 2),
+    w: round(pxW / dpmm, 2),
+    h: round(pxH / dpmm, 2),
+  };
 };
 
 const generatePresprayArea = (): void => {
@@ -46,7 +54,8 @@ const generatePresprayArea = (): void => {
   }
 };
 
-const checkMouseTarget = (mouseTarget: Element): boolean => mouseTarget && mouseTarget.id === 'presprayArea';
+const checkMouseTarget = (mouseTarget: Element): boolean =>
+  mouseTarget && mouseTarget.id === 'presprayArea';
 
 let startX = 0;
 let startY = 0;
