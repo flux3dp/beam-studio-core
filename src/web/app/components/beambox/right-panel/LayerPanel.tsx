@@ -13,6 +13,7 @@ import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerCon
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig, DataType, getData } from 'helpers/layer/layer-config-helper';
@@ -224,6 +225,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     } else {
       svgCanvas.setLayerVisibility(layerName, !isVis);
     }
+    presprayArea.togglePresprayArea();
     this.forceUpdate();
   };
 
