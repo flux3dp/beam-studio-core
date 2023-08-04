@@ -58,7 +58,7 @@ export const defaultConfig = {
   [DataType.zstep]: 0,
   [DataType.diode]: 0,
   [DataType.configName]: '',
-  [DataType.module]: LayerModule.LASER,
+  [DataType.module]: LayerModule.LASER_10W_DIODE,
   [DataType.backlash]: 0,
   [DataType.multipass]: 1,
 };
@@ -67,7 +67,7 @@ export const getData = <T>(layer: Element, dataType: DataType): T => {
   if (![DataType.configName].includes(dataType)) {
     return Number(layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType]) as T;
   }
-  return layer.getAttribute(`data-${dataType}`) as T || defaultConfig[dataType] as T;
+  return (layer.getAttribute(`data-${dataType}`) as T) || (defaultConfig[dataType] as T);
 };
 
 export const writeData = (layerName: string, dataType: DataType, value: number | string): void => {
@@ -80,7 +80,7 @@ export const writeData = (layerName: string, dataType: DataType, value: number |
 
 const getMultiSelectData = <T = number>(
   layers: Element[],
-  dataType: DataType,
+  dataType: DataType
 ): { value: T; hasMultiValue: boolean } => {
   let value;
   let hasMultiValue = false;
@@ -160,7 +160,7 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
  */
 export const postPresetChange = (): void => {
   // TODO: add test
-  const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
+  const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
   const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const parametersSet = getAllPresets(workarea);
   const layerNames = getAllLayerNames();
@@ -174,11 +174,11 @@ export const postPresetChange = (): void => {
     const configName = getData<string>(layer, DataType.configName);
     const layerModule = getData<LayerModule>(layer, DataType.module);
     // Looking for preset with same name and correct module
-    const configIndex = customizedLaserConfigs.findIndex((config) => (
+    const configIndex = customizedLaserConfigs.findIndex((config) =>
       modelsWithModules.includes(workarea)
         ? config.name === configName && config.module === layerModule
         : config.name === configName
-    ));
+    );
     if (configIndex >= 0) {
       const config = customizedLaserConfigs[configIndex];
       if (config.isDefault) {
@@ -202,7 +202,8 @@ export const postPresetChange = (): void => {
     if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
       layer.setAttribute('data-speed', String(maxSpeed));
     }
-    if (!modelsWithModules.includes(workarea)) layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER));
+    if (!modelsWithModules.includes(workarea))
+      layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
   }
 };
 

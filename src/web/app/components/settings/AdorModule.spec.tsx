@@ -3,7 +3,6 @@ import { fireEvent, render } from '@testing-library/react';
 
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
-import { WorkAreaModel } from 'app/actions/beambox/constant';
 
 import AdorModule from './AdorModule';
 
@@ -44,7 +43,7 @@ const mockUpdateBeamboxPreferenceChange = jest.fn();
 describe('test AdorModule', () => {
   it('should render correctly', () => {
     const mockInitValue: { [m: number]: [number, number] } = {
-      [LayerModule.LASER]: [10, 10],
+      [LayerModule.LASER_10W_DIODE]: [10, 10],
     };
 
     const { container } = render(<AdorModule
@@ -58,7 +57,7 @@ describe('test AdorModule', () => {
 
   test('edit value', () => {
     const mockInitValue: { [m: number]: [number, number] } = {
-      [LayerModule.LASER]: [10, 10],
+      [LayerModule.LASER_10W_DIODE]: [10, 10],
     };
 
     const { rerender, getByTestId } = render(<AdorModule
@@ -71,9 +70,9 @@ describe('test AdorModule', () => {
     fireEvent.change(input, { target: { value: '20' } });
     expect(mockUpdateBeamboxPreferenceChange).toBeCalledTimes(1);
     expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith('module-offsets', {
-      [LayerModule.LASER]: [10, 20],
+      [LayerModule.LASER_10W_DIODE]: [10, 20],
     });
-    mockInitValue[LayerModule.LASER] = [10, 20];
+    mockInitValue[LayerModule.LASER_10W_DIODE] = [10, 20];
     rerender(<AdorModule
       defaultUnit="mm"
       selectedModel="ado1"
@@ -84,7 +83,7 @@ describe('test AdorModule', () => {
     fireEvent.change(input, { target: { value: '30' } });
     expect(mockUpdateBeamboxPreferenceChange).toBeCalledTimes(2);
     expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith('module-offsets', {
-      [LayerModule.LASER]: [10, 20],
+      [LayerModule.LASER_10W_DIODE]: [10, 20],
       [LayerModule.PRINTER]: [30, moduleOffsets[LayerModule.PRINTER][1]],
     });
   });

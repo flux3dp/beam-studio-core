@@ -60,9 +60,9 @@ const ModuleBlock = (): JSX.Element => {
 
   // TODO: add i18n
   const options = [
-    { label: '10W Laser', value: LayerModule.LASER },
+    { label: '10W Laser', value: LayerModule.LASER_10W_DIODE },
     { label: 'Print', value: LayerModule.PRINTER },
-    { label: '20W Laser', value: LayerModule.LASER_20W },
+    { label: '20W Laser', value: LayerModule.LASER_20W_DIODE },
   ];
 
   return (
