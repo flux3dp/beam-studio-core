@@ -241,7 +241,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
               size="large"
               style={{ width: '100%' }}
             />
-            {module.value === LayerModule.LASER && <PowerBlock />}
+            {[LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(module.value) && <PowerBlock />}
             {module.value === LayerModule.PRINTER && <InkBlock />}
             <SpeedBlock />
             <RepeatBlock />
@@ -265,7 +265,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {module.value === LayerModule.LASER && <PowerBlock />}
+              {[LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(module.value) && <PowerBlock />}
               {module.value === LayerModule.PRINTER && <InkBlock />}
               <SpeedBlock />
               {(isDevMode && isCustomBacklashEnabled) && <Backlash />}

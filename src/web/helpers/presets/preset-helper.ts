@@ -16,7 +16,7 @@ export const getDefaultPresetData = (presetKey: string): {
   }
   const { speed, power, name, module } = presets[presetKey];
   const repeat = presets[presetKey].repeat || 1;
-  const presetModule = module || LayerModule.LASER;
+  const presetModule = module || LayerModule.LASER_10W_DIODE;
   return { speed, power, repeat, module: presetModule, name: name || presetKey };
 };
 
@@ -59,7 +59,7 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
         customized[i].speed = speed;
         customized[i].power = power;
         customized[i].repeat = repeat || 1;
-        customized[i].module = module || LayerModule.LASER;
+        customized[i].module = module || LayerModule.LASER_10W_DIODE;
       } else if (!allKeys.has(customized[i].key)) {
         // deleting old presets remove due to software update
         delete defaultLaserConfigsInUse[customized[i].key];
@@ -78,7 +78,7 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
         speed,
         power,
         repeat,
-        module: module || LayerModule.LASER,
+        module: module || LayerModule.LASER_10W_DIODE,
         isDefault: true,
         key: presetKey,
       });
