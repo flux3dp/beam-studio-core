@@ -79,7 +79,7 @@ jest.mock('app/constants/color-constants', () => ({
 
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
-  module: { value: LayerModule.LASER, hasMultiValue: false },
+  module: { value: LayerModule.LASER_10W_DIODE, hasMultiValue: false },
 };
 
 const mockDispatch = jest.fn();
@@ -102,7 +102,7 @@ describe('test ModuleBlock', () => {
     expect(mockRead).toBeCalledTimes(1);
     expect(mockRead).toHaveBeenLastCalledWith('workarea');
     expect(mockUpdate).toBeCalledTimes(1);
-    expect(mockUpdate).toHaveBeenLastCalledWith(LayerModule.LASER);
+    expect(mockUpdate).toHaveBeenLastCalledWith(LayerModule.LASER_10W_DIODE);
     expect(mockOnUpdateWorkArea).toBeCalledTimes(1);
     unmount();
     expect(mockRemoveUpdateWorkAreaListener).toBeCalledTimes(1);
@@ -130,7 +130,7 @@ describe('test ModuleBlock', () => {
       </ConfigPanelContext.Provider>
     );
     expect(mockUpdate).toBeCalledTimes(1);
-    expect(mockUpdate).toHaveBeenLastCalledWith(LayerModule.LASER);
+    expect(mockUpdate).toHaveBeenLastCalledWith(LayerModule.LASER_10W_DIODE);
     expect(mockOnUpdateWorkArea).toBeCalledTimes(1);
     act(() => {
       fireEvent.mouseDown(baseElement.querySelector('.ant-select-selector'));

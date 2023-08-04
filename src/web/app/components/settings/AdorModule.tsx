@@ -45,8 +45,8 @@ const AdorModule = ({
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={-workareaWidth}
           max={workareaWidth}
-          defaultValue={getModuleOffset(LayerModule.LASER)[0]}
-          getValue={(val) => editValue(LayerModule.LASER, 'x', val)}
+          defaultValue={getModuleOffset(LayerModule.LASER_10W_DIODE)[0]}
+          getValue={(val) => editValue(LayerModule.LASER_10W_DIODE, 'x', val)}
           forceUsePropsUnit
           className={{ half: true }}
         />
@@ -56,8 +56,8 @@ const AdorModule = ({
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={-workareaHeight}
           max={workareaHeight}
-          defaultValue={getModuleOffset(LayerModule.LASER)[1]}
-          getValue={(val) => editValue(LayerModule.LASER, 'y', val)}
+          defaultValue={getModuleOffset(LayerModule.LASER_10W_DIODE)[1]}
+          getValue={(val) => editValue(LayerModule.LASER_10W_DIODE, 'y', val)}
           forceUsePropsUnit
           className={{ half: true }}
         />
