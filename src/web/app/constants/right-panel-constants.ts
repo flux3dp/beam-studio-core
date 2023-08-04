@@ -355,129 +355,129 @@ const constants = {
     wood_3mm_cutting_10w: {
       power: 100,
       speed: 6,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'wood_3mm_cutting',
     },
     wood_5mm_cutting_10w: {
       power: 100,
       speed: 3,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'wood_5mm_cutting',
     },
     wood_engraving_10w: {
       power: 100,
       speed: 150,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'wood_engraving',
     },
     acrylic_3mm_cutting_10w: {
       power: 100,
       speed: 2,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'acrylic_3mm_cutting',
     },
     acrylic_5mm_cutting_10w: {
       power: 100,
       speed: 2,
       repeat: 2,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'acrylic_5mm_cutting',
     },
     acrylic_engraving_10w: {
       power: 90,
       speed: 175,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'acrylic_engraving',
     },
     mdf_3mm_cutting_10w: {
       power: 100,
       speed: 4,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'mdf_3mm_cutting',
     },
     mdf_5mm_cutting_10w: {
       power: 100,
       speed: 2,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'mdf_5mm_cutting',
     },
     mdf_engraving_10w: {
       power: 30,
       speed: 100,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'mdf_engraving',
     },
     leather_3mm_cutting_10w: {
       power: 100,
       speed: 4,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'leather_3mm_cutting',
     },
     leather_5mm_cutting_10w: {
       power: 100,
       speed: 3,
       repeat: 2,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'leather_5mm_cutting',
     },
     leather_engraving_10w: {
       power: 30,
       speed: 100,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'leather_engraving',
     },
     denim_1mm_cutting_name: {
       power: 100,
       speed: 14,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'denim_1mm_cutting',
     },
     fabric_3mm_cutting_10w: {
       power: 100,
       speed: 6,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'fabric_3mm_cutting',
     },
     fabric_5mm_cutting_10w: {
       power: 100,
       speed: 2,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'fabric_5mm_cutting',
     },
     fabric_engraving_10w: {
       power: 30,
       speed: 125,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'fabric_engraving',
     },
     rubber_bw_engraving_10w: {
       power: 100,
       speed: 15,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'rubber_bw_engraving',
     },
     glass_bw_engraving_10w: {
       power: 40,
       speed: 20,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'glass_bw_engraving',
     },
     metal_bw_engraving_10w: {
       power: 100,
       speed: 20,
-      module: LayerModule.LASER,
+      module: LayerModule.LASER_10W_DIODE,
       name: 'metal_bw_engraving',
     },
     wood_3mm_cutting_20w: {
       power: 50,
       speed: 6,
-      module: LayerModule.LASER_20W,
+      module: LayerModule.LASER_20W_DIODE,
       name: 'wood_3mm_cutting',
     },
     wood_5mm_cutting_20w: {
       power: 50,
       speed: 3,
-      module: LayerModule.LASER_20W,
+      module: LayerModule.LASER_20W_DIODE,
       name: 'wood_5mm_cutting',
     },
   }
@@ -501,7 +501,7 @@ export const getAllPresets = (model: string): {
 };
 
 export const getModulePresets = (
-  model: string, module = LayerModule.LASER
+  model: string, module = LayerModule.LASER_10W_DIODE
 ): { [key: string]: { name: string; power: number; speed: number; repeat?: number } } => {
   const modelName = modelMap[model] || 'BEAMO';
   if (modelsWithModules.includes(model)) {
