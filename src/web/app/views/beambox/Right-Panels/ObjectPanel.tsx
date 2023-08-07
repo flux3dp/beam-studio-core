@@ -7,12 +7,12 @@ import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
-import ObjectPanelItem from './ObjectPanelItem';
 import styles from './ObjectPanel.module.scss';
 
 let svgCanvas;
@@ -77,7 +77,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       <ObjectPanelItem.Item
         id="delete"
         content={<ObjectPanelIcon.Trash />}
-        label={i18n.lang.beambox.context_menu.delete}
+        label="delete"
         onClick={() => {
           svgEditor.deleteSelected();
           updateActiveKey(null);
@@ -86,7 +86,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       <ObjectPanelItem.Item
         id="duplicate"
         content={<ObjectPanelIcon.Duplicate />}
-        label={i18n.lang.beambox.context_menu.duplicate}
+        label="duplicate"
         onClick={() => {
           svgCanvas.cloneSelectedElements(20, 20);
           updateActiveKey(null);

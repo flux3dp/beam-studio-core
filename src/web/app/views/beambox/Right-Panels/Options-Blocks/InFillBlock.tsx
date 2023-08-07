@@ -70,6 +70,9 @@ class InFillBlock extends React.Component<Props, State> {
 
   renderSwitch = (): JSX.Element => {
     const { isAnyFilled } = this.state;
+    if (isMobile()) {
+      return <Switch checked={isAnyFilled} />;
+    }
     return (
       <>
         <input type="checkbox" className="onoffswitch-checkbox" checked={isAnyFilled} readOnly />
@@ -91,12 +94,7 @@ class InFillBlock extends React.Component<Props, State> {
     return isMobile() ? (
       <ObjectPanelItem.Item
         id="infill"
-        content={
-          <Switch
-            className={classNames({ 'partially-filled': isPartiallyFilled })}
-            checked={isAnyFilled}
-          />
-        }
+        content={this.renderSwitch()}
         label={label}
         onClick={this.onClick}
       />

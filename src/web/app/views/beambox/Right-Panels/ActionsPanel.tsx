@@ -104,6 +104,7 @@ class ActionsPanel extends React.Component<Props> {
     const className = classNames(styles.btn, { [styles.disabled]: isDisabled });
     return isMobile() ? (
       <ObjectPanelItem.Item
+        key={label}
         id={id}
         content={mobileIcon}
         label={label}

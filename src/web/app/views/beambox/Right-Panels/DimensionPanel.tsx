@@ -19,31 +19,31 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
-const panelMap = isMobile()
-  ? {
-      g: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      path: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      polygon: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      rect: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      ellipse: ['rx', 'lock', 'ry', 'rot', 'cx', 'cy'],
-      line: ['x1', 'y1', 'lock', 'x2', 'y2', 'rot'],
-      image: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      img: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      text: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-      use: ['w', 'lock', 'h', 'rot', 'x', 'y'],
-    }
-  : {
-      g: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      path: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      polygon: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      rect: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
-      line: ['x1', 'y1', 'rot', 'x2', 'y2', 'lock'],
-      image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-      use: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-    };
+const panelMap = {
+  g: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  path: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  polygon: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  rect: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
+  line: ['x1', 'y1', 'rot', 'x2', 'y2', 'lock'],
+  image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  use: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+};
+
+const panelMapMobile = {
+  g: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  path: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  polygon: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  rect: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  ellipse: ['rx', 'lock', 'ry', 'rot', 'cx', 'cy'],
+  line: ['x1', 'y1', 'lock', 'x2', 'y2', 'rot'],
+  image: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  img: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  text: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+  use: ['w', 'lock', 'h', 'rot', 'x', 'y'],
+};
 
 const fixedSizeMapping = {
   width: 'height',
@@ -644,7 +644,7 @@ class DimensionPanel extends React.Component<Props> {
     const { elem } = this.props;
     let panels = ['x', 'y', 'rot', 'w', 'h'];
     if (elem) {
-      panels = panelMap[elem.tagName.toLowerCase()] || ['x', 'y', 'rot', 'w', 'h'];
+      panels = (isMobile() ? panelMapMobile : panelMap)[elem.tagName.toLowerCase()] || panels;
     }
     return (
       <div className="dimension-panel">

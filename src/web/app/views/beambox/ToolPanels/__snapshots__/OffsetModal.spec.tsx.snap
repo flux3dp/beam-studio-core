@@ -1,0 +1,260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly default unit is inches 1`] = `
+<ConfigProvider
+  theme={
+    {
+      "components": {
+        "Button": {
+          "borderRadius": 100,
+        },
+        "InputNumber": {
+          "borderRadius": 100,
+        },
+        "Select": {
+          "borderRadius": 100,
+        },
+      },
+    }
+  }
+>
+  <Modal
+    cancelText="Cancel"
+    centered={true}
+    className="modal"
+    closeIcon={
+      <AntdIcon
+        className="close-icon"
+        component="svgr-url"
+        viewBox="0 0 32 32"
+      />
+    }
+    okText="Confirm"
+    onCancel={[MockFunction]}
+    onOk={[Function]}
+    open={true}
+  >
+    <div
+      className="title"
+    >
+      Offset
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Offset Direction
+      </span>
+      <ForwardRef(Select)
+        className="select"
+        dropdownMatchSelectWidth={false}
+        onChange={[Function]}
+        options={
+          [
+            {
+              "label": "Outward",
+              "value": 1,
+            },
+            {
+              "label": "Inward",
+              "value": 0,
+            },
+          ]
+        }
+        value={1}
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Corner
+      </span>
+      <ForwardRef(Select)
+        className="select"
+        dropdownMatchSelectWidth={false}
+        onChange={[Function]}
+        options={
+          [
+            {
+              "label": "Sharp",
+              "value": "sharp",
+            },
+            {
+              "label": "Round",
+              "value": "round",
+            },
+          ]
+        }
+        value="sharp"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Offset Distance
+      </span>
+      <InputNumber
+        className="input with-unit"
+        controls={false}
+        min={0}
+        onChange={[Function]}
+        precision={2}
+        prefix={
+          <span
+            className="unit"
+          >
+            inch
+          </span>
+        }
+        type="number"
+        value={0.2}
+      />
+      <Slider
+        className="slider"
+        max={1}
+        min={0}
+        onChange={[Function]}
+        step={0.1}
+        value={0.2}
+      />
+    </div>
+  </Modal>
+</ConfigProvider>
+`;
+
+exports[`should render correctly default unit is mm 1`] = `
+<ConfigProvider
+  theme={
+    {
+      "components": {
+        "Button": {
+          "borderRadius": 100,
+        },
+        "InputNumber": {
+          "borderRadius": 100,
+        },
+        "Select": {
+          "borderRadius": 100,
+        },
+      },
+    }
+  }
+>
+  <Modal
+    cancelText="Cancel"
+    centered={true}
+    className="modal"
+    closeIcon={
+      <AntdIcon
+        className="close-icon"
+        component="svgr-url"
+        viewBox="0 0 32 32"
+      />
+    }
+    okText="Confirm"
+    onCancel={[MockFunction]}
+    onOk={[Function]}
+    open={true}
+  >
+    <div
+      className="title"
+    >
+      Offset
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Offset Direction
+      </span>
+      <ForwardRef(Select)
+        className="select"
+        dropdownMatchSelectWidth={false}
+        onChange={[Function]}
+        options={
+          [
+            {
+              "label": "Outward",
+              "value": 1,
+            },
+            {
+              "label": "Inward",
+              "value": 0,
+            },
+          ]
+        }
+        value={1}
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Corner
+      </span>
+      <ForwardRef(Select)
+        className="select"
+        dropdownMatchSelectWidth={false}
+        onChange={[Function]}
+        options={
+          [
+            {
+              "label": "Sharp",
+              "value": "sharp",
+            },
+            {
+              "label": "Round",
+              "value": "round",
+            },
+          ]
+        }
+        value="sharp"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Offset Distance
+      </span>
+      <InputNumber
+        className="input with-unit"
+        controls={false}
+        min={0}
+        onChange={[Function]}
+        precision={2}
+        prefix={
+          <span
+            className="unit"
+          >
+            mm
+          </span>
+        }
+        type="number"
+        value={5}
+      />
+      <Slider
+        className="slider"
+        max={20}
+        min={1}
+        onChange={[Function]}
+        value={5}
+      />
+    </div>
+  </Modal>
+</ConfigProvider>
+`;

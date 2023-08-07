@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly default unit is inches 1`] = `
+<ConfigProvider
+  theme={
+    {
+      "components": {
+        "Button": {
+          "borderRadius": 100,
+        },
+        "InputNumber": {
+          "borderRadiusSM": 100,
+        },
+      },
+    }
+  }
+>
+  <Modal
+    cancelText="Cancel"
+    centered={true}
+    className="modal"
+    closeIcon={
+      <AntdIcon
+        className="close-icon"
+        component="svgr-url"
+        viewBox="0 0 32 32"
+      />
+    }
+    okText="Confirm"
+    onCancel={[MockFunction]}
+    onOk={[Function]}
+    open={true}
+  >
+    <div
+      className="title"
+    >
+      Create Grid Array
+    </div>
+    <div
+      className="subtitle"
+    >
+      Array Dimension
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Cols.
+      </span>
+      <Slider
+        className="slider"
+        max={10}
+        min={1}
+        onChange={[Function]}
+        value={3}
+      />
+      <InputNumber
+        className="input"
+        controls={false}
+        min={1}
+        onChange={[Function]}
+        precision={0}
+        size="small"
+        type="number"
+        value={3}
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Rows
+      </span>
+      <Slider
+        className="slider"
+        max={10}
+        min={1}
+        onChange={[Function]}
+        value={3}
+      />
+      <InputNumber
+        className="input"
+        controls={false}
+        min={1}
+        onChange={[Function]}
+        precision={0}
+        size="small"
+        type="number"
+        value={3}
+      />
+    </div>
+    <div
+      className="subtitle"
+    >
+      Array Interval
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        X
+      </span>
+      <Slider
+        className="slider"
+        max={2}
+        min={0}
+        onChange={[Function]}
+        step={0.1}
+        value={1}
+      />
+      <InputNumber
+        className="input with-unit"
+        controls={false}
+        min={0}
+        onChange={[Function]}
+        precision={2}
+        prefix={
+          <span
+            className="unit"
+          >
+            inch
+          </span>
+        }
+        size="small"
+        type="number"
+        value={1}
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Y
+      </span>
+      <Slider
+        className="slider"
+        max={2}
+        min={0}
+        onChange={[Function]}
+        step={0.1}
+        value={1}
+      />
+      <InputNumber
+        className="input with-unit"
+        controls={false}
+        min={0}
+        onChange={[Function]}
+        precision={2}
+        prefix={
+          <span
+            className="unit"
+          >
+            inch
+          </span>
+        }
+        size="small"
+        type="number"
+        value={1}
+      />
+    </div>
+  </Modal>
+</ConfigProvider>
+`;
+
+exports[`should render correctly default unit is mm 1`] = `
+<ConfigProvider
+  theme={
+    {
+      "components": {
+        "Button": {
+          "borderRadius": 100,
+        },
+        "InputNumber": {
+          "borderRadiusSM": 100,
+        },
+      },
+    }
+  }
+>
+  <Modal
+    cancelText="Cancel"
+    centered={true}
+    className="modal"
+    closeIcon={
+      <AntdIcon
+        className="close-icon"
+        component="svgr-url"
+        viewBox="0 0 32 32"
+      />
+    }
+    okText="Confirm"
+    onCancel={[MockFunction]}
+    onOk={[Function]}
+    open={true}
+  >
+    <div
+      className="title"
+    >
+      Create Grid Array
+    </div>
+    <div
+      className="subtitle"
+    >
+      Array Dimension
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Cols.
+      </span>
+      <Slider
+        className="slider"
+        max={10}
+        min={1}
+        onChange={[Function]}
+        value={3}
+      />
+      <InputNumber
+        className="input"
+        controls={false}
+        min={1}
+        onChange={[Function]}
+        precision={0}
+        size="small"
+        type="number"
+        value={3}
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Rows
+      </span>
+      <Slider
+        className="slider"
+        max={10}
+        min={1}
+        onChange={[Function]}
+        value={3}
+      />
+      <InputNumber
+        className="input"
+        controls={false}
+        min={1}
+        onChange={[Function]}
+        precision={0}
+        size="small"
+        type="number"
+        value={3}
+      />
+    </div>
+    <div
+      className="subtitle"
+    >
+      Array Interval
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        X
+      </span>
+      <Slider
+        className="slider"
+        max={50}
+        min={1}
+        onChange={[Function]}
+        value={20}
+      />
+      <InputNumber
+        className="input with-unit"
+        controls={false}
+        min={0}
+        onChange={[Function]}
+        precision={2}
+        prefix={
+          <span
+            className="unit"
+          >
+            mm
+          </span>
+        }
+        size="small"
+        type="number"
+        value={20}
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <span
+        className="label"
+      >
+        Y
+      </span>
+      <Slider
+        className="slider"
+        max={50}
+        min={1}
+        onChange={[Function]}
+        value={20}
+      />
+      <InputNumber
+        className="input with-unit"
+        controls={false}
+        min={0}
+        onChange={[Function]}
+        precision={2}
+        prefix={
+          <span
+            className="unit"
+          >
+            mm
+          </span>
+        }
+        size="small"
+        type="number"
+        value={20}
+      />
+    </div>
+  </Modal>
+</ConfigProvider>
+`;

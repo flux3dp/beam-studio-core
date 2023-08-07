@@ -1,0 +1,461 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly action list disabled 1`] = `
+<Fragment>
+  <Mask
+    color="transparent"
+    onMaskClick={[Function]}
+    visible={false}
+  />
+  <ForwardRef
+    className="action-list"
+    content={<ActionList />}
+    visible={false}
+  >
+    <ObjectPanelItem
+      content={
+        <div>
+          mock content
+        </div>
+      }
+      disabled={true}
+      id="mock-action-list"
+      label="mock-label"
+    />
+  </ForwardRef>
+</Fragment>
+`;
+
+exports[`should render correctly action list not disabled 1`] = `
+<body
+  class="adm-overflow-hidden"
+>
+  <div
+    class="adm-px-tester"
+    style="--size: 10;"
+  />
+  <div
+    class="adm-px-tester"
+    style="--size: 12;"
+  />
+  <div>
+    <div
+      class="object-panel-item active"
+    >
+      <div
+        class="main"
+      >
+        <div>
+          mock content
+        </div>
+      </div>
+      <div
+        class="label"
+      >
+        mock-label
+      </div>
+    </div>
+  </div>
+  <div
+    class="adm-popover adm-popover-light action-list"
+  >
+    <div
+      class="adm-popover-arrow"
+    >
+      <svg
+        class="adm-popover-arrow-icon"
+        viewBox="0 0 30 16"
+      >
+        <g
+          fill="currentColor"
+        >
+          <path
+            d="M0,0 L30,0 L18.07289,14.312538 C16.65863,16.009645 14.13637,16.238942 12.43926,14.824685 C12.25341,14.669808 12.08199,14.49839 11.92711,14.312538 L0,0 L0,0 Z"
+          />
+        </g>
+      </svg>
+    </div>
+    <div
+      class="adm-popover-inner"
+    >
+      <div
+        class="adm-popover-inner-content"
+      >
+        <div>
+          <div
+            class="action"
+          >
+            <span>
+              mock icon 1
+            </span>
+            <span
+              class="label"
+            >
+              mock action 1
+            </span>
+          </div>
+          <div
+            class="action disabled"
+          >
+            <span>
+              mock icon 2
+            </span>
+            <span
+              class="label"
+            >
+              mock action 2
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`should render correctly basic item not disabled 1`] = `
+<div>
+  <div
+    class="object-panel-item"
+  >
+    <div
+      class="main"
+    >
+      <div>
+        mock content
+      </div>
+    </div>
+    <div
+      class="label"
+    >
+      mock-label
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly divider 1`] = `
+<Divider
+  className="divider"
+  direction="vertical"
+/>
+`;
+
+exports[`should render correctly number item when unit is degree 1`] = `
+<div>
+  <div
+    class="object-panel-item"
+  >
+    <div
+      class="main"
+    >
+      <button
+        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+        type="button"
+      >
+        <span>
+          1
+          °
+        </span>
+      </button>
+    </div>
+    <div
+      class="label"
+    >
+      mock-label
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly number item when unit is inch 1`] = `
+<div>
+  <div
+    class="object-panel-item"
+  >
+    <div
+      class="main"
+    >
+      <button
+        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+        type="button"
+      >
+        <span>
+          0.0394
+        </span>
+      </button>
+    </div>
+    <div
+      class="label"
+    >
+      mock-label
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly number item when unit is mm 1`] = `
+<div>
+  <div
+    class="object-panel-item"
+  >
+    <div
+      class="main"
+    >
+      <button
+        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+        type="button"
+      >
+        <span>
+          1
+        </span>
+      </button>
+    </div>
+    <div
+      class="label"
+    >
+      mock-label
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly number item when unit is mm 2`] = `
+<body
+  class="adm-overflow-hidden"
+>
+  <div
+    class="adm-px-tester"
+    style="--size: 10;"
+  />
+  <div
+    class="adm-px-tester"
+    style="--size: 12;"
+  />
+  <div>
+    <div
+      class="adm-mask"
+      style="background: transparent; opacity: 0.03256184376889282;"
+    >
+      <div
+        aria-label="背景蒙层"
+        class="adm-mask-aria-button"
+        role="button"
+      />
+      <div
+        class="adm-mask-content"
+      />
+    </div>
+    <div
+      class="object-panel-item active"
+    >
+      <div
+        class="main"
+      >
+        <button
+          class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+          type="button"
+        >
+          <span>
+            1
+          </span>
+        </button>
+      </div>
+      <div
+        class="label"
+      >
+        mock-label
+      </div>
+    </div>
+  </div>
+  <div
+    class="adm-popover adm-popover-light number-keyboard"
+    style="left: 0px; top: 0px;"
+  >
+    <div
+      class="adm-popover-arrow"
+      style="left: 0px; --arrow-icon-rotate: 0deg;"
+    >
+      <svg
+        class="adm-popover-arrow-icon"
+        viewBox="0 0 30 16"
+      >
+        <g
+          fill="currentColor"
+        >
+          <path
+            d="M0,0 L30,0 L18.07289,14.312538 C16.65863,16.009645 14.13637,16.238942 12.43926,14.824685 C12.25341,14.669808 12.08199,14.49839 11.92711,14.312538 L0,0 L0,0 Z"
+          />
+        </g>
+      </svg>
+    </div>
+    <div
+      class="adm-popover-inner"
+    >
+      <div
+        class="adm-popover-inner-content"
+      >
+        <div
+          class="input-keys"
+        >
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              1
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              2
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              3
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              4
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              5
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              6
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              7
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              8
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              9
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              .
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              0
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              <span
+                class="anticon icon"
+                role="img"
+              >
+                <svgr-url
+                  aria-hidden="true"
+                  classname=""
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewbox="0 0 32 32"
+                  width="1em"
+                />
+              </span>
+            </span>
+          </button>
+        </div>
+        <div
+          class="step-buttons"
+        >
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              <span
+                class="anticon icon"
+                role="img"
+              >
+                <svgr-url
+                  aria-hidden="true"
+                  classname=""
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewbox="0 0 32 32"
+                  width="1em"
+                />
+              </span>
+            </span>
+          </button>
+          <button
+            class="adm-button adm-button-default adm-button-shape-rounded"
+            type="button"
+          >
+            <span>
+              <span
+                class="anticon icon"
+                role="img"
+              >
+                <svgr-url
+                  aria-hidden="true"
+                  classname=""
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewbox="0 0 32 32"
+                  width="1em"
+                />
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

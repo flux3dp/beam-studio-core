@@ -42,8 +42,8 @@ const ArrayModal = ({ onCancel, onOk }: Props): JSX.Element => {
   const unit = storage.get('default-units') === 'inches' ? 'inch' : 'mm';
   const setting = unitSettings[unit];
   const [data, setData] = React.useState<Value>({
-    row: 5,
-    column: 5,
+    row: 3,
+    column: 3,
     dx: setting.distance.default,
     dy: setting.distance.default,
   });

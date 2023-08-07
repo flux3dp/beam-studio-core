@@ -1,5 +1,1314 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should render correctly in mobile no elements 1`] = `
+<ObjectPanel
+  elem={
+    <path
+      id="svg_1"
+    />
+  }
+>
+  <div
+    className="container"
+    id="object-panel"
+  >
+    <div
+      className="common-action-panel"
+    >
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="delete"
+        label="delete"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="duplicate"
+        label="duplicate"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+    </div>
+    <DummyOptionsPanel
+      elem={
+        <path
+          id="svg_1"
+        />
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyDimensionPanel
+      elem={
+        <path
+          id="svg_1"
+        />
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <div
+      className="tool-btns-container"
+    >
+      <DummyObjectPanelDivider>
+        <div>
+          This is dummy ObjectPanelDivider
+        </div>
+      </DummyObjectPanelDivider>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="group"
+        label="Group"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        disabled={true}
+        id="ungroup"
+        label="Ungroup"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Top Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Middle Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Bottom Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Left Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Center Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Right Align",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="align"
+        label="align"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                rotate={90}
+                viewBox="0 0 32 32"
+              />,
+              "label": "Horizontal Distribute",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Vertical Distribute",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="distribute"
+        label="distribute"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Union",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Subtract",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Intersect",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Difference",
+              "onClick": [Function],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="boolean"
+        label="boolean"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+    </div>
+    <DummyActionsPanel
+      elem={
+        <path
+          id="svg_1"
+        />
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly in mobile one element is g element 1`] = `
+<ObjectPanel
+  elem={
+    <g
+      id="svg_1"
+    />
+  }
+>
+  <div
+    className="container"
+    id="object-panel"
+  >
+    <div
+      className="common-action-panel"
+    >
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="delete"
+        label="delete"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="duplicate"
+        label="duplicate"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+    </div>
+    <DummyOptionsPanel
+      elem={
+        <g
+          id="svg_1"
+        />
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyDimensionPanel
+      elem={
+        <g
+          id="svg_1"
+        />
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <div
+      className="tool-btns-container"
+    >
+      <DummyObjectPanelDivider>
+        <div>
+          This is dummy ObjectPanelDivider
+        </div>
+      </DummyObjectPanelDivider>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="group"
+        label="Group"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        disabled={false}
+        id="ungroup"
+        label="Ungroup"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Top Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Middle Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Bottom Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Left Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Center Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Right Align",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="align"
+        label="align"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                rotate={90}
+                viewBox="0 0 32 32"
+              />,
+              "label": "Horizontal Distribute",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Vertical Distribute",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="distribute"
+        label="distribute"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Union",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Subtract",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Intersect",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Difference",
+              "onClick": [Function],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="boolean"
+        label="boolean"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+    </div>
+    <DummyActionsPanel
+      elem={
+        <g
+          id="svg_1"
+        />
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly in mobile one element not g element 1`] = `
+<ObjectPanel
+  elem={
+    <rect
+      id="svg_1"
+    />
+  }
+>
+  <div
+    className="container"
+    id="object-panel"
+  >
+    <div
+      className="common-action-panel"
+    >
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="delete"
+        label="delete"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="duplicate"
+        label="duplicate"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+    </div>
+    <DummyOptionsPanel
+      elem={
+        <rect
+          id="svg_1"
+        />
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyDimensionPanel
+      elem={
+        <rect
+          id="svg_1"
+        />
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <div
+      className="tool-btns-container"
+    >
+      <DummyObjectPanelDivider>
+        <div>
+          This is dummy ObjectPanelDivider
+        </div>
+      </DummyObjectPanelDivider>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="group"
+        label="Group"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        disabled={true}
+        id="ungroup"
+        label="Ungroup"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Top Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Middle Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Bottom Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Left Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Center Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Right Align",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="align"
+        label="align"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                rotate={90}
+                viewBox="0 0 32 32"
+              />,
+              "label": "Horizontal Distribute",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Vertical Distribute",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="distribute"
+        label="distribute"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Union",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Subtract",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Intersect",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Difference",
+              "onClick": [Function],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="boolean"
+        label="boolean"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+    </div>
+    <DummyActionsPanel
+      elem={
+        <rect
+          id="svg_1"
+        />
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly in mobile two elements contains other types of elements 1`] = `
+<ObjectPanel
+  elem={
+    <g
+      data-tempgroup="true"
+      id="svg_3"
+    >
+      <path
+        id="svg_1"
+      />
+      <line
+        id="svg_2"
+      />
+    </g>
+  }
+>
+  <div
+    className="container"
+    id="object-panel"
+  >
+    <div
+      className="common-action-panel"
+    >
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="delete"
+        label="delete"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="duplicate"
+        label="duplicate"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+    </div>
+    <DummyOptionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <path
+            id="svg_1"
+          />
+          <line
+            id="svg_2"
+          />
+        </g>
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyDimensionPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <path
+            id="svg_1"
+          />
+          <line
+            id="svg_2"
+          />
+        </g>
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <div
+      className="tool-btns-container"
+    >
+      <DummyObjectPanelDivider>
+        <div>
+          This is dummy ObjectPanelDivider
+        </div>
+      </DummyObjectPanelDivider>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="group"
+        label="Group"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        disabled={true}
+        id="ungroup"
+        label="Ungroup"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Top Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Middle Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Bottom Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Left Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Center Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Right Align",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="align"
+        label="align"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                rotate={90}
+                viewBox="0 0 32 32"
+              />,
+              "label": "Horizontal Distribute",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Vertical Distribute",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="distribute"
+        label="distribute"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Union",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Subtract",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Intersect",
+              "onClick": [Function],
+            },
+            {
+              "disabled": true,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Difference",
+              "onClick": [Function],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="boolean"
+        label="boolean"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+    </div>
+    <DummyActionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <path
+            id="svg_1"
+          />
+          <line
+            id="svg_2"
+          />
+        </g>
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
+exports[`should render correctly in mobile two elements contains rect, polygon or ellipse elements 1`] = `
+<ObjectPanel
+  elem={
+    <g
+      data-tempgroup="true"
+      id="svg_3"
+    >
+      <rect
+        id="svg_1"
+      />
+      <ellipse
+        id="svg_2"
+      />
+    </g>
+  }
+>
+  <div
+    className="container"
+    id="object-panel"
+  >
+    <div
+      className="common-action-panel"
+    >
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="delete"
+        label="delete"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="duplicate"
+        label="duplicate"
+        onClick={[Function]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+    </div>
+    <DummyOptionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <rect
+            id="svg_1"
+          />
+          <ellipse
+            id="svg_2"
+          />
+        </g>
+      }
+      polygonSides={5}
+      rx={1}
+      updateDimensionValues={[MockFunction]}
+      updateObjectPanel={[MockFunction]}
+    >
+      <div>
+        This is dummy OptionsPanel
+      </div>
+    </DummyOptionsPanel>
+    <DummyDimensionPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <rect
+            id="svg_1"
+          />
+          <ellipse
+            id="svg_2"
+          />
+        </g>
+      }
+      getDimensionValues={[MockFunction]}
+      updateDimensionValues={[MockFunction]}
+    >
+      <div>
+        This is dummy DimensionPanel
+      </div>
+    </DummyDimensionPanel>
+    <div
+      className="tool-btns-container"
+    >
+      <DummyObjectPanelDivider>
+        <div>
+          This is dummy ObjectPanelDivider
+        </div>
+      </DummyObjectPanelDivider>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        id="group"
+        label="Group"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelItem
+        content={<svgr-url />}
+        disabled={true}
+        id="ungroup"
+        label="Ungroup"
+        onClick={[MockFunction]}
+      >
+        <div>
+          This is dummy ObjectPanelItem
+        </div>
+      </DummyObjectPanelItem>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Top Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Middle Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Bottom Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Left Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Center Align",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Right Align",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="align"
+        label="align"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                rotate={90}
+                viewBox="0 0 32 32"
+              />,
+              "label": "Horizontal Distribute",
+              "onClick": [MockFunction],
+            },
+            {
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Vertical Distribute",
+              "onClick": [MockFunction],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="distribute"
+        label="distribute"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+      <DummyObjectPanelActionList
+        actions={
+          [
+            {
+              "disabled": false,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Union",
+              "onClick": [Function],
+            },
+            {
+              "disabled": false,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Subtract",
+              "onClick": [Function],
+            },
+            {
+              "disabled": false,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Intersect",
+              "onClick": [Function],
+            },
+            {
+              "disabled": false,
+              "icon": <AntdIcon
+                component="svgr-url"
+                viewBox="0 0 32 32"
+              />,
+              "label": "Difference",
+              "onClick": [Function],
+            },
+          ]
+        }
+        content={<svgr-url />}
+        id="boolean"
+        label="boolean"
+      >
+        <div>
+          This is dummy ObjectPanelActionList
+        </div>
+      </DummyObjectPanelActionList>
+    </div>
+    <DummyActionsPanel
+      elem={
+        <g
+          data-tempgroup="true"
+          id="svg_3"
+        >
+          <rect
+            id="svg_1"
+          />
+          <ellipse
+            id="svg_2"
+          />
+        </g>
+      }
+    >
+      <div>
+        This is dummy ActionsPanel
+      </div>
+    </DummyActionsPanel>
+  </div>
+</ObjectPanel>
+`;
+
 exports[`should render correctly no elements 1`] = `
 <ObjectPanel
   elem={null}
