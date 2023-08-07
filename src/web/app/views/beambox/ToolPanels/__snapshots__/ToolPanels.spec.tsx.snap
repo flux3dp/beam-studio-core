@@ -56,12 +56,14 @@ exports[`should render correctly type is gridArray 1`] = `
       <button
         className="btn btn-default primary"
         onClick={[Function]}
+        type="button"
       >
         Confirm
       </button>
       <button
         className="btn btn-default"
         onClick={[Function]}
+        type="button"
       >
         Cancel
       </button>
@@ -134,12 +136,14 @@ exports[`should render correctly type is nest 1`] = `
       <button
         className="btn btn-default primary"
         onClick={[Function]}
+        type="button"
       >
         Confirm
       </button>
       <button
         className="btn btn-default"
         onClick={[Function]}
+        type="button"
       >
         Cancel
       </button>
@@ -207,12 +211,14 @@ exports[`should render correctly type is offset 1`] = `
       <button
         className="btn btn-default primary"
         onClick={[Function]}
+        type="button"
       >
         Confirm
       </button>
       <button
         className="btn btn-default"
         onClick={[Function]}
+        type="button"
       >
         Cancel
       </button>
