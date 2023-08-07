@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import classNames from 'classnames';
 import React from 'react';
 
@@ -229,14 +230,18 @@ class ToolPanel extends React.Component<Props> {
     return (
       <div className="tool-block">
         <div className="btn-h-group">
-          <button className="btn btn-default primary" onClick={this._getOnYes()}>{LANG.confirm}</button>
-          <button className="btn btn-default" onClick={this._onCancel}>{LANG.cancel}</button>
+          <button type="button" className="btn btn-default primary" onClick={this._getOnYes()}>
+            {LANG.confirm}
+          </button>
+          <button type="button" className="btn btn-default" onClick={this._onCancel}>
+            {LANG.cancel}
+          </button>
         </div>
       </div>
     );
   }
 
-  renderModal() {
+  renderModal(): void {
     const { type, unmount } = this.props;
     if (Dialog.isIdExist(type)) {
       return;
