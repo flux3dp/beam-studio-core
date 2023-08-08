@@ -177,6 +177,7 @@ exports[`should render correctly in mobile no elements 1`] = `
           ]
         }
         content={<svgr-url />}
+        disabled={true}
         id="distribute"
         label="distribute"
       >
@@ -426,6 +427,7 @@ exports[`should render correctly in mobile one element is g element 1`] = `
           ]
         }
         content={<svgr-url />}
+        disabled={true}
         id="distribute"
         label="distribute"
       >
@@ -675,6 +677,7 @@ exports[`should render correctly in mobile one element not g element 1`] = `
           ]
         }
         content={<svgr-url />}
+        disabled={true}
         id="distribute"
         label="distribute"
       >
@@ -948,6 +951,7 @@ exports[`should render correctly in mobile two elements contains other types of 
           ]
         }
         content={<svgr-url />}
+        disabled={true}
         id="distribute"
         label="distribute"
       >
@@ -1229,6 +1233,7 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
           ]
         }
         content={<svgr-url />}
+        disabled={true}
         id="distribute"
         label="distribute"
       >

@@ -46,7 +46,10 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       return e.tagName.toLowerCase() === 'path' && svgCanvas.isElemFillable(e);
     };
     return {
-      ungroup: elems?.length === 1 && elems[0].tagName.toLowerCase() === 'g' && !elem.getAttribute('data-textpath-g'),
+      ungroup:
+        elems?.length === 1 &&
+        elems[0].tagName.toLowerCase() === 'g' &&
+        !elem.getAttribute('data-textpath-g'),
       dist: elems?.length > 2,
       union: elems?.length > 1 && elems?.every(allowBooleanOperations),
       subtract: elems?.length === 2 && elems?.every(allowBooleanOperations),
@@ -166,6 +169,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
           ]}
           content={<ObjectPanelIcon.Distribute />}
           label="distribute"
+          disabled={!buttonAvailability.dist}
         />
         <ObjectPanelItem.ActionList
           id="boolean"
