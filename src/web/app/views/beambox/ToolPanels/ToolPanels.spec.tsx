@@ -78,6 +78,22 @@ jest.mock('app/views/beambox/ToolPanels/RowColumn', () => function DummyRowColum
 jest.mock('app/actions/beambox/toolPanelsController', () => ({
 }));
 
+const isMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  isMobile: () => isMobile(),
+}));
+
+const isIdExist = jest.fn();
+const popDialogById = jest.fn();
+const addDialogComponent = jest.fn();
+jest.mock('app/actions/dialog-caller', () => ({
+  isIdExist,
+  popDialogById,
+  addDialogComponent,
+}));
+
+import ArrayModal from './ArrayModal';
+import OffsetModal from './OffsetModal';
 import ToolPanels from './ToolPanels';
 
 describe('should render correctly', () => {
@@ -140,5 +156,63 @@ describe('should render correctly', () => {
       unmount={unmount}
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
+  });
+});
+
+describe('should render correctly in mobile', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    isMobile.mockReturnValue(true);
+  });
+
+  test('type is gridArray', () => {
+    const unmount = jest.fn();
+    const wrapper = shallow(<ToolPanels
+      type="gridArray"
+      data={{
+        rowcolumn: {
+          row: 1,
+          column: 1,
+        },
+        distance: {
+          dx: 0,
+          dy: 0,
+        },
+      }}
+      unmount={unmount}
+    />);
+    expect(toJson(wrapper)).toBe('');
+    expect(isIdExist).toBeCalledTimes(1);
+    expect(isIdExist).toBeCalledWith('gridArray');
+    expect(addDialogComponent).toBeCalledTimes(1);
+    expect(addDialogComponent).toBeCalledWith(
+      'gridArray',
+      <ArrayModal onCancel={expect.any(Function)} onOk={expect.any(Function)} />
+    );
+  });
+
+  test('type is offset', () => {
+    const unmount = jest.fn();
+    const wrapper = shallow(<ToolPanels
+      type="offset"
+      data={{
+        rowcolumn: {
+          row: 1,
+          column: 1,
+        },
+        distance: {
+          dx: 0,
+          dy: 0,
+        },
+      }}
+      unmount={unmount}
+    />);
+    expect(toJson(wrapper)).toBe('');
+    expect(isIdExist).toBeCalledWith('offset');
+    expect(addDialogComponent).toBeCalledTimes(1);
+    expect(addDialogComponent).toBeCalledWith(
+      'offset',
+      <OffsetModal onCancel={expect.any(Function)} onOk={expect.any(Function)} />
+    );
   });
 });

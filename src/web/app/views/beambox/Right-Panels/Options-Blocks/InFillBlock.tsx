@@ -1,10 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { Switch } from 'antd';
 
 import i18n from 'helpers/i18n';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
-import { Switch } from 'antd-mobile';
 
 let svgCanvas;
 
@@ -70,9 +71,7 @@ class InFillBlock extends React.Component<Props, State> {
   renderSwitch = (): JSX.Element => {
     const { isAnyFilled } = this.state;
     if (isMobile()) {
-      return (
-        <Switch style={{ '--height': '32px' }} defaultChecked={isAnyFilled} onChange={() => this.onClick()} />
-      );
+      return <Switch checked={isAnyFilled} />;
     }
     return (
       <>
@@ -92,7 +91,14 @@ class InFillBlock extends React.Component<Props, State> {
     if (!isFillable) {
       return null;
     }
-    return (
+    return isMobile() ? (
+      <ObjectPanelItem.Item
+        id="infill"
+        content={this.renderSwitch()}
+        label={label}
+        onClick={this.onClick}
+      />
+    ) : (
       <div className="option-block" key="infill">
         <div className="label">{label}</div>
         <div

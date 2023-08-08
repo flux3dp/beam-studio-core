@@ -10,11 +10,14 @@ import fileExportHelper from 'helpers/file-export-helper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
+import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { checkConnection } from 'helpers/api/discover';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { isMobile } from 'helpers/system-helper';
 import {
   ArrayIcon,
   BevelIcon,
@@ -112,10 +115,20 @@ class ActionsPanel extends React.Component<Props> {
     isFullLine?: boolean,
     id?: string,
     isDisabled?: boolean,
-    icon?: JSX.Element
+    icon?: JSX.Element,
+    mobileIcon?: JSX.Element
   ): JSX.Element => {
     const className = classNames(styles.btn, { [styles.disabled]: isDisabled });
-    return (
+    return isMobile() ? (
+      <ObjectPanelItem.Item
+        key={label}
+        id={id}
+        content={mobileIcon}
+        label={label}
+        onClick={onClick}
+        disabled={isDisabled}
+      />
+    ) : (
       <div
         className={classNames(styles['btn-container'], { [styles.half]: !isFullLine })}
         onClick={onClick}
@@ -139,7 +152,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'replace_with',
         false,
-        <ReplaceIcon />
+        <ReplaceIcon />,
+        <ObjectPanelIcons.Replace />
       ),
       this.renderButtons(
         LANG.ai_bg_removal,
@@ -147,7 +161,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'bg-removal',
         false,
-        <ActionPanelIcons.ImageMatting className={styles.icon} />
+        <ActionPanelIcons.ImageMatting className={styles.icon} />,
+        <ObjectPanelIcons.RemoveBG />
       ),
       this.renderButtons(
         LANG.trace,
@@ -155,7 +170,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'trace',
         isShading,
-        <ActionPanelIcons.Trace className={styles.icon} />
+        <ActionPanelIcons.Trace className={styles.icon} />,
+        <ObjectPanelIcons.Trace />
       ),
       this.renderButtons(
         LANG.grading,
@@ -163,7 +179,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'grading',
         false,
-        <GrayscaleIcon />
+        <GrayscaleIcon />,
+        <ObjectPanelIcons.Curve />
       ),
       this.renderButtons(
         LANG.sharpen,
@@ -173,7 +190,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'sharpen',
         false,
-        <SharpenIcon />
+        <SharpenIcon />,
+        <ObjectPanelIcons.Sharpen />
       ),
       this.renderButtons(
         LANG.crop,
@@ -181,7 +199,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'crop',
         false,
-        <CropIcon />
+        <CropIcon />,
+        <ObjectPanelIcons.Crop />
       ),
       this.renderButtons(
         LANG.bevel,
@@ -189,7 +208,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'bevel',
         false,
-        <BevelIcon />
+        <BevelIcon />,
+        <ObjectPanelIcons.Bevel />
       ),
       this.renderButtons(
         LANG.invert,
@@ -197,7 +217,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'invert',
         false,
-        <ActionPanelIcons.Invert className={styles.icon} />
+        <ActionPanelIcons.Invert className={styles.icon} />,
+        <ObjectPanelIcons.Invert />
       ),
       this.renderButtons(
         LANG.array,
@@ -205,7 +226,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
       this.renderButtons(
         LANG.outline,
@@ -227,7 +249,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'convert_to_path',
         false,
-        <TraceIcon />
+        <TraceIcon />,
+        <ObjectPanelIcons.Trace />
       ),
       this.renderButtons(
         LANG.array,
@@ -235,7 +258,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -273,7 +297,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'edit_path',
         false,
-        <PenIcon />
+        <PenIcon />,
+        <ObjectPanelIcons.Draw />
       ),
       this.renderButtons(
         LANG.decompose_path,
@@ -281,7 +306,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'decompose_path',
         false,
-        <DivideIcon />
+        <DivideIcon />,
+        <ObjectPanelIcons.Decomposee />
       ),
       this.renderButtons(
         LANG.offset,
@@ -289,7 +315,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'offset',
         false,
-        <OffsetIcon />
+        <OffsetIcon />,
+        <ObjectPanelIcons.Offset />
       ),
       this.renderButtons(
         LANG.array,
@@ -297,7 +324,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
       this.renderButtons(
         LANG.simplify,
@@ -305,7 +333,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'simplify',
         false,
-        <SimplifyIcon />
+        <SimplifyIcon />,
+        <ObjectPanelIcons.Simplify />
       ),
     ];
     return content;
@@ -320,7 +349,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'convert_to_path',
         false,
-        <TraceIcon />
+        <TraceIcon />,
+        <ObjectPanelIcons.Trace />
       ),
       this.renderButtons(
         LANG.offset,
@@ -328,7 +358,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'offset',
         false,
-        <OffsetIcon />
+        <OffsetIcon />,
+        <ObjectPanelIcons.Offset />
       ),
       this.renderButtons(
         LANG.array,
@@ -336,7 +367,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -351,7 +383,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'convert_to_path',
         false,
-        <TraceIcon />
+        <TraceIcon />,
+        <ObjectPanelIcons.Trace />
       ),
       this.renderButtons(
         LANG.offset,
@@ -359,7 +392,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'offset',
         false,
-        <OffsetIcon />
+        <OffsetIcon />,
+        <ObjectPanelIcons.Offset />
       ),
       this.renderButtons(
         LANG.array,
@@ -367,7 +401,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -382,7 +417,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'convert_to_path',
         false,
-        <TraceIcon />
+        <TraceIcon />,
+        <ObjectPanelIcons.Trace />
       ),
       this.renderButtons(
         LANG.offset,
@@ -390,7 +426,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'offset',
         false,
-        <OffsetIcon />
+        <OffsetIcon />,
+        <ObjectPanelIcons.Offset />
       ),
       this.renderButtons(
         LANG.array,
@@ -398,7 +435,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -413,7 +451,8 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'convert_to_path',
         false,
-        <TraceIcon />
+        <TraceIcon />,
+        <ObjectPanelIcons.Trace />
       ),
       this.renderButtons(
         LANG.offset,
@@ -421,7 +460,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'offset',
         false,
-        <OffsetIcon />
+        <OffsetIcon />,
+        <ObjectPanelIcons.Offset />
       ),
       this.renderButtons(
         LANG.array,
@@ -429,7 +469,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -443,7 +484,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'disassemble_use',
         false,
-        <SeparateIcon />
+        <SeparateIcon />,
+        <ObjectPanelIcons.ImageMatting />
       ),
       this.renderButtons(
         LANG.array,
@@ -451,7 +493,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -465,7 +508,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -513,7 +557,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'offset',
         !supportOffset,
-        <OffsetIcon />
+        <OffsetIcon />,
+        <ObjectPanelIcons.Offset />
       ),
       this.renderButtons(
         LANG.array,
@@ -521,7 +566,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'array',
         false,
-        <ArrayIcon />
+        <ArrayIcon />,
+        <ObjectPanelIcons.Array />
       ),
     ];
     return content;
@@ -558,7 +604,12 @@ class ActionsPanel extends React.Component<Props> {
         }
       }
     }
-    return (
+    return isMobile() ? (
+      <div className={styles.container}>
+        <ObjectPanelItem.Divider />
+        {content}
+      </div>
+    ) : (
       <div className="actions-panel">
         <div className="title">ACTIONS</div>
         <div className="btns-container">{content}</div>

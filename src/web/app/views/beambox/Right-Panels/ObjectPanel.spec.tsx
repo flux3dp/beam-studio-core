@@ -27,6 +27,18 @@ jest.mock('app/views/beambox/Right-Panels/OptionsPanel', () => function DummyOpt
   );
 });
 
+jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
+  Item: function DummyObjectPanelItem() {
+    return <div>This is dummy ObjectPanelItem</div>;
+  },
+  ActionList: function DummyObjectPanelActionList() {
+    return <div>This is dummy ObjectPanelActionList</div>;
+  },
+  Divider: function DummyObjectPanelDivider() {
+    return <div>This is dummy ObjectPanelDivider</div>;
+  },
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     beambox: {
@@ -72,6 +84,11 @@ jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,
 }));
 
+const useIsMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  useIsMobile: () => useIsMobile(),
+}));
+
 const isElemFillable = jest.fn();
 const distHori = jest.fn();
 const distVert = jest.fn();
@@ -104,10 +121,12 @@ describe('should render correctly', () => {
   test('no elements', () => {
     const wrapper = mount(
       <ObjectPanelContext.Provider value={{
+        activeKey: null,
         polygonSides: 5,
         dimensionValues: {
           rx: 1,
         },
+        updateActiveKey: jest.fn(),
         updateDimensionValues: jest.fn(),
         getDimensionValues: jest.fn(),
         updateObjectPanel: jest.fn(),
@@ -130,10 +149,12 @@ describe('should render correctly', () => {
       document.body.innerHTML = '<rect id="svg_1" />';
       const wrapper = mount(
         <ObjectPanelContext.Provider value={{
+          activeKey: null,
           polygonSides: 5,
           dimensionValues: {
             rx: 1,
           },
+          updateActiveKey: jest.fn(),
           updateDimensionValues: jest.fn(),
           getDimensionValues: jest.fn(),
           updateObjectPanel: jest.fn(),
@@ -167,10 +188,12 @@ describe('should render correctly', () => {
       document.body.innerHTML = '<g id="svg_1" />';
       const wrapper = mount(
         <ObjectPanelContext.Provider value={{
+          activeKey: null,
           polygonSides: 5,
           dimensionValues: {
             rx: 1,
           },
+          updateActiveKey: jest.fn(),
           updateDimensionValues: jest.fn(),
           getDimensionValues: jest.fn(),
           updateObjectPanel: jest.fn(),
@@ -198,10 +221,12 @@ describe('should render correctly', () => {
       document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><rect id="svg_1"></rect><ellipse id="svg_2"></ellipse></g>';
       const wrapper = mount(
         <ObjectPanelContext.Provider value={{
+          activeKey: null,
           polygonSides: 5,
           dimensionValues: {
             rx: 1,
           },
+          updateActiveKey: jest.fn(),
           updateDimensionValues: jest.fn(),
           getDimensionValues: jest.fn(),
           updateObjectPanel: jest.fn(),
@@ -248,10 +273,12 @@ describe('should render correctly', () => {
       isElemFillable.mockReturnValue(true);
       const wrapper = mount(
         <ObjectPanelContext.Provider value={{
+          activeKey: null,
           polygonSides: 5,
           dimensionValues: {
             rx: 1,
           },
+          updateActiveKey: jest.fn(),
           updateDimensionValues: jest.fn(),
           getDimensionValues: jest.fn(),
           updateObjectPanel: jest.fn(),
@@ -264,7 +291,218 @@ describe('should render correctly', () => {
       );
 
       expect(toJson(wrapper)).toMatchSnapshot();
-      expect(isElemFillable).toHaveBeenCalledTimes(4);
+      expect(isElemFillable).toHaveBeenCalledTimes(5);
+      expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
+      expect(isElemFillable).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
+      expect(isElemFillable).toHaveBeenNthCalledWith(3, document.getElementById('svg_1'));
+      expect(isElemFillable).toHaveBeenNthCalledWith(4, document.getElementById('svg_1'));
+    });
+  });
+});
+
+describe('should render correctly in mobile', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    useIsMobile.mockReturnValue(true);
+  });
+
+  test('no elements', () => {
+    const wrapper = mount(
+      <ObjectPanelContext.Provider value={{
+        activeKey: null,
+        polygonSides: 5,
+        dimensionValues: {
+          rx: 1,
+        },
+        updateActiveKey: jest.fn(),
+        updateDimensionValues: jest.fn(),
+        getDimensionValues: jest.fn(),
+        updateObjectPanel: jest.fn(),
+      }}
+      >
+        <ObjectPanel
+          elem={document.getElementById('svg_1')}
+        />
+      </ObjectPanelContext.Provider>,
+    );
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
+
+  describe('one element', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+      useIsMobile.mockReturnValue(true);
+    });
+
+    test('not g element', () => {
+      document.body.innerHTML = '<rect id="svg_1" />';
+      const wrapper = mount(
+        <ObjectPanelContext.Provider value={{
+          activeKey: null,
+          polygonSides: 5,
+          dimensionValues: {
+            rx: 1,
+          },
+          updateActiveKey: jest.fn(),
+          updateDimensionValues: jest.fn(),
+          getDimensionValues: jest.fn(),
+          updateObjectPanel: jest.fn(),
+        }}
+        >
+          <ObjectPanel
+            elem={document.getElementById('svg_1')}
+          />
+        </ObjectPanelContext.Provider>,
+      );
+
+      expect(toJson(wrapper)).toMatchSnapshot();
+
+      const alignActions = wrapper.find('DummyObjectPanelActionList[id="align"]').props().actions;
+      expect(alignActions[0].label).toBe('Top Align');
+      alignActions[0].onClick();
+      expect(alignTop).toHaveBeenCalledTimes(1);
+      expect(alignActions[1].label).toBe('Middle Align');
+      alignActions[1].onClick();
+      expect(alignMiddle).toHaveBeenCalledTimes(1);
+      expect(alignActions[2].label).toBe('Bottom Align');
+      alignActions[2].onClick();
+      expect(alignBottom).toHaveBeenCalledTimes(1);
+      expect(alignActions[3].label).toBe('Left Align');
+      alignActions[3].onClick();
+      expect(alignLeft).toHaveBeenCalledTimes(1);
+      expect(alignActions[4].label).toBe('Center Align');
+      alignActions[4].onClick();
+      expect(alignCenter).toHaveBeenCalledTimes(1);
+      expect(alignActions[5].label).toBe('Right Align');
+      alignActions[5].onClick();
+      expect(alignRight).toHaveBeenCalledTimes(1);
+      wrapper.find('DummyObjectPanelItem[id="group"]').props().onClick();
+      expect(groupSelectedElements).toHaveBeenCalledTimes(1);
+    });
+
+    test('is g element', () => {
+      document.body.innerHTML = '<g id="svg_1" />';
+      const wrapper = mount(
+        <ObjectPanelContext.Provider value={{
+          activeKey: null,
+          polygonSides: 5,
+          dimensionValues: {
+            rx: 1,
+          },
+          updateActiveKey: jest.fn(),
+          updateDimensionValues: jest.fn(),
+          getDimensionValues: jest.fn(),
+          updateObjectPanel: jest.fn(),
+        }}
+        >
+          <ObjectPanel
+            elem={document.getElementById('svg_1')}
+          />
+        </ObjectPanelContext.Provider>,
+      );
+
+      expect(toJson(wrapper)).toMatchSnapshot();
+
+      wrapper.find('DummyObjectPanelItem[id="ungroup"]').props().onClick();
+      expect(ungroupSelectedElement).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('two elements', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+      useIsMobile.mockReturnValue(true);
+    });
+
+    test('contains rect, polygon or ellipse elements', () => {
+      document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><rect id="svg_1"></rect><ellipse id="svg_2"></ellipse></g>';
+      const wrapper = mount(
+        <ObjectPanelContext.Provider value={{
+          activeKey: null,
+          polygonSides: 5,
+          dimensionValues: {
+            rx: 1,
+          },
+          updateActiveKey: jest.fn(),
+          updateDimensionValues: jest.fn(),
+          getDimensionValues: jest.fn(),
+          updateObjectPanel: jest.fn(),
+        }}
+        >
+          <ObjectPanel
+            elem={document.getElementById('svg_3')}
+          />
+        </ObjectPanelContext.Provider>,
+      );
+
+      expect(toJson(wrapper)).toMatchSnapshot();
+
+      const alignActions = wrapper.find('DummyObjectPanelActionList[id="align"]').props().actions;
+      expect(alignActions[0].label).toBe('Top Align');
+      alignActions[0].onClick();
+      expect(alignTop).toHaveBeenCalledTimes(1);
+      expect(alignActions[1].label).toBe('Middle Align');
+      alignActions[1].onClick();
+      expect(alignMiddle).toHaveBeenCalledTimes(1);
+      expect(alignActions[2].label).toBe('Bottom Align');
+      alignActions[2].onClick();
+      expect(alignBottom).toHaveBeenCalledTimes(1);
+      expect(alignActions[3].label).toBe('Left Align');
+      alignActions[3].onClick();
+      expect(alignLeft).toHaveBeenCalledTimes(1);
+      expect(alignActions[4].label).toBe('Center Align');
+      alignActions[4].onClick();
+      expect(alignCenter).toHaveBeenCalledTimes(1);
+      expect(alignActions[5].label).toBe('Right Align');
+      alignActions[5].onClick();
+      expect(alignRight).toHaveBeenCalledTimes(1);
+      wrapper.find('DummyObjectPanelItem[id="group"]').props().onClick();
+      expect(groupSelectedElements).toHaveBeenCalledTimes(1);
+      const bolleanActions = wrapper
+        .find('DummyObjectPanelActionList[id="boolean"]')
+        .props().actions;
+      expect(bolleanActions[0].label).toBe('Union');
+      bolleanActions[0].onClick();
+      expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(1);
+      expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(1, 'union');
+      expect(bolleanActions[1].label).toBe('Subtract');
+      bolleanActions[1].onClick();
+      expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(2);
+      expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(2, 'diff');
+      expect(bolleanActions[2].label).toBe('Intersect');
+      bolleanActions[2].onClick();
+      expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(3);
+      expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(3, 'intersect');
+      expect(bolleanActions[3].label).toBe('Difference');
+      bolleanActions[3].onClick();
+      expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(4);
+      expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(4, 'xor');
+    });
+
+    test('contains other types of elements', () => {
+      document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><path id="svg_1"></path><line id="svg_2"></line></g>';
+      isElemFillable.mockReturnValue(true);
+      const wrapper = mount(
+        <ObjectPanelContext.Provider value={{
+          activeKey: null,
+          polygonSides: 5,
+          dimensionValues: {
+            rx: 1,
+          },
+          updateActiveKey: jest.fn(),
+          updateDimensionValues: jest.fn(),
+          getDimensionValues: jest.fn(),
+          updateObjectPanel: jest.fn(),
+        }}
+        >
+          <ObjectPanel
+            elem={document.getElementById('svg_3')}
+          />
+        </ObjectPanelContext.Provider>,
+      );
+
+      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(isElemFillable).toHaveBeenCalledTimes(5);
       expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(3, document.getElementById('svg_1'));
