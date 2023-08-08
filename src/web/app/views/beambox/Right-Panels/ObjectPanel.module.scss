@@ -1,3 +1,5 @@
+@use './_mixins.scss' as mixins;
+
 .container {
   width: 100%;
   min-height: calc(100% - 40px);
@@ -6,14 +8,17 @@
   border-width: 0 0 1px 1px;
 
   @media screen and (max-width: 600px) {
-    border: 1px solid #cccccc;
-    border-width: 1px 0 0 0;
+    min-height: 0;
+    width: fit-content;
+    display: flex;
+    padding: 8px 32px;
+    color: #7c7c7c;
+    border: none;
   }
 
   .tools {
     @media screen and (max-width: 600px) {
-      min-width: 100vw;
-      padding: 8px;
+      @include mixins.item-group();
     }
   }
 
@@ -22,16 +27,6 @@
     background-color: #ffffff;
     border: solid #e0e0e0;
     border-width: 0 0 1px 0;
-
-    @media screen and (max-width: 600px) {
-      background: none;
-      height: 32px;
-      margin-bottom: 4px;
-
-      &:last-child {
-        border-width: 0;
-      }
-    }
 
     .half {
       width: 50%;

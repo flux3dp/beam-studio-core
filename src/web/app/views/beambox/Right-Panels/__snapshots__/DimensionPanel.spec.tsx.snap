@@ -211,6 +211,208 @@ exports[`should render correctly image 1`] = `
 </div>
 `;
 
+exports[`should render correctly in mobile image 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelNumber
+    id="width"
+    label="W"
+    updateValue={[Function]}
+    value={108}
+  />
+  <ObjectPanelItem
+    content={
+      <AntdIcon
+        component="svgr-url"
+        viewBox="0 0 32 32"
+      />
+    }
+    id="lock"
+    onClick={[Function]}
+  />
+  <ObjectPanelNumber
+    id="height"
+    label="H"
+    updateValue={[Function]}
+    value={152.6}
+  />
+  <ObjectPanelNumber
+    id="rotate"
+    label="Rotate"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="x_position"
+    label="X"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="y_position"
+    label="Y"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelActionList
+    actions={
+      [
+        {
+          "icon": <AntdIcon
+            component="svgr-url"
+            viewBox="0 0 32 32"
+          />,
+          "label": "Horizontal Flip",
+          "onClick": [Function],
+        },
+        {
+          "icon": <AntdIcon
+            component="svgr-url"
+            rotate={90}
+            viewBox="0 0 32 32"
+          />,
+          "label": "Vertical Flip",
+          "onClick": [Function],
+        },
+      ]
+    }
+    content={<svgr-url />}
+    id="flip"
+    label="flip"
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile no elements 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelNumber
+    id="x_position"
+    label="X"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="y_position"
+    label="Y"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="rotate"
+    label="Rotate"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="width"
+    label="W"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="height"
+    label="H"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelActionList
+    actions={
+      [
+        {
+          "icon": <AntdIcon
+            component="svgr-url"
+            viewBox="0 0 32 32"
+          />,
+          "label": "Horizontal Flip",
+          "onClick": [Function],
+        },
+        {
+          "icon": <AntdIcon
+            component="svgr-url"
+            rotate={90}
+            viewBox="0 0 32 32"
+          />,
+          "label": "Vertical Flip",
+          "onClick": [Function],
+        },
+      ]
+    }
+    content={<svgr-url />}
+    id="flip"
+    label="flip"
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile unsupported element 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelNumber
+    id="x_position"
+    label="X"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="y_position"
+    label="Y"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="rotate"
+    label="Rotate"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="width"
+    label="W"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelNumber
+    id="height"
+    label="H"
+    updateValue={[Function]}
+    value={0}
+  />
+  <ObjectPanelActionList
+    actions={
+      [
+        {
+          "icon": <AntdIcon
+            component="svgr-url"
+            viewBox="0 0 32 32"
+          />,
+          "label": "Horizontal Flip",
+          "onClick": [Function],
+        },
+        {
+          "icon": <AntdIcon
+            component="svgr-url"
+            rotate={90}
+            viewBox="0 0 32 32"
+          />,
+          "label": "Vertical Flip",
+          "onClick": [Function],
+        },
+      ]
+    }
+    content={<svgr-url />}
+    id="flip"
+    label="flip"
+  />
+</div>
+`;
+
 exports[`should render correctly no elements 1`] = `
 <div
   className="dimension-panel"

@@ -3,6 +3,11 @@ import { fireEvent, render } from '@testing-library/react';
 
 import InFillBlock from './InFillBlock';
 
+const isMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  isMobile: () => isMobile(),
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     beambox: {
@@ -75,6 +80,61 @@ describe('should render correctly', () => {
     expect(container).toMatchSnapshot();
 
     const switchBtn = container.querySelector('div.onoffswitch');
+    fireEvent.click(switchBtn);
+    expect(container).toMatchSnapshot();
+    expect(setElemsUnfill).not.toHaveBeenCalled();
+    expect(setElemsFill).toHaveBeenCalledTimes(1);
+    expect(setElemsFill).toHaveBeenNthCalledWith(1, [document.getElementById('flux')]);
+
+    fireEvent.click(switchBtn);
+    expect(container).toMatchSnapshot();
+    expect(setElemsUnfill).toHaveBeenCalledTimes(1);
+    expect(setElemsUnfill).toHaveBeenNthCalledWith(1, [document.getElementById('flux')]);
+    expect(setElemsFill).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('should render correctly in mobile', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    isMobile.mockReturnValue(true);
+  });
+
+  test('is not fillable', () => {
+    isElemFillable.mockReturnValue(false);
+    calcElemFilledInfo.mockReturnValue({
+      isAnyFilled: true,
+      isAllFilled: false,
+    });
+    document.body.innerHTML = '<div id="flux" />';
+    const { container } = render(
+      <InFillBlock
+        elem={document.getElementById('flux')}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+    expect(isMobile).toHaveBeenCalledTimes(0);
+    expect(isElemFillable).toHaveBeenCalledTimes(1);
+    expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('flux'));
+    expect(calcElemFilledInfo).toHaveBeenCalledTimes(1);
+    expect(calcElemFilledInfo).toHaveBeenNthCalledWith(1, document.getElementById('flux'));
+  });
+
+  test('is fillable', () => {
+    isElemFillable.mockReturnValue(true);
+    calcElemFilledInfo.mockReturnValue({
+      isAnyFilled: false,
+      isAllFilled: false,
+    });
+    document.body.innerHTML = '<div id="flux" />';
+    const { container } = render(
+      <InFillBlock
+        elem={document.getElementById('flux')}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+
+    const switchBtn = container.querySelector('button');
     fireEvent.click(switchBtn);
     expect(container).toMatchSnapshot();
     expect(setElemsUnfill).not.toHaveBeenCalled();

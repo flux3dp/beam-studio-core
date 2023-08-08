@@ -5,18 +5,22 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 interface IObjectPanelContext {
   polygonSides: number;
   dimensionValues: any;
+  activeKey: string | null;
   updateDimensionValues: (newValues: any) => void;
   getDimensionValues: (response: {
     dimensionValues: any,
   }, key?: string,) => any;
+  updateActiveKey: (activeKey: string | null) => void;
   updateObjectPanel: () => void;
 }
 
 export const ObjectPanelContext = React.createContext<IObjectPanelContext>({
   polygonSides: 5,
   dimensionValues: {},
+  activeKey: null,
   updateDimensionValues: () => { },
   getDimensionValues: () => { },
+  updateActiveKey: () => { },
   updateObjectPanel: () => { },
 });
 const objectPanelEventEmitter = eventEmitterFactory.createEventEmitter('object-panel');
@@ -25,6 +29,7 @@ const minRenderInterval = 200;
 interface State {
   lastUpdateTime: number;
   polygonSides: number;
+  activeKey: string | null;
 }
 
 export class ObjectPanelContextProvider extends React.Component<any, State> {
@@ -38,6 +43,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     this.state = {
       lastUpdateTime: Date.now(),
       polygonSides: 5,
+      activeKey: null,
     };
   }
 
@@ -46,6 +52,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     objectPanelEventEmitter.on('GET_DIMENSION_VALUES', this.getDimensionValues.bind(this));
     objectPanelEventEmitter.on('UPDATE_OBJECT_PANEL', this.updateObjectPanel.bind(this));
     objectPanelEventEmitter.on('UPDATE_POLYGON_SIDES', this.updatePolygonSides.bind(this));
+    objectPanelEventEmitter.on('UPDATE_ACTIVE_KEY', this.updateActiveKey.bind(this));
   }
 
   componentWillUnmount() {
@@ -62,6 +69,12 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
   updatePolygonSides = (polygonSides: number): void => {
     this.setState({
       polygonSides,
+    });
+  };
+
+  updateActiveKey = (activeKey: string | null): void => {
+    this.setState({
+      activeKey,
     });
   };
 
@@ -88,20 +101,23 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
 
   render(): JSX.Element {
     const { children } = this.props;
-    const { polygonSides } = this.state;
+    const { activeKey, polygonSides } = this.state;
     const {
       dimensionValues,
       updateDimensionValues,
       getDimensionValues,
       updateObjectPanel,
+      updateActiveKey,
     } = this;
     return (
       <ObjectPanelContext.Provider value={{
         polygonSides,
         dimensionValues,
+        activeKey,
         updateDimensionValues,
         getDimensionValues,
         updateObjectPanel,
+        updateActiveKey,
       }}
       >
         {children}
