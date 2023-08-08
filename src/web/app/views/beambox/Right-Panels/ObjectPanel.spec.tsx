@@ -291,7 +291,7 @@ describe('should render correctly', () => {
       );
 
       expect(toJson(wrapper)).toMatchSnapshot();
-      expect(isElemFillable).toHaveBeenCalledTimes(4);
+      expect(isElemFillable).toHaveBeenCalledTimes(5);
       expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(3, document.getElementById('svg_1'));
@@ -502,7 +502,7 @@ describe('should render correctly in mobile', () => {
       );
 
       expect(toJson(wrapper)).toMatchSnapshot();
-      expect(isElemFillable).toHaveBeenCalledTimes(4);
+      expect(isElemFillable).toHaveBeenCalledTimes(5);
       expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(3, document.getElementById('svg_1'));
