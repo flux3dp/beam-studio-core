@@ -46,11 +46,13 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       return e.tagName.toLowerCase() === 'path' && svgCanvas.isElemFillable(e);
     };
     return {
+      group: !isMobile || elems?.length > 1,
       ungroup:
         elems?.length === 1 &&
         elems[0].tagName.toLowerCase() === 'g' &&
         !elem.getAttribute('data-textpath-g'),
       dist: elems?.length > 2,
+      boolean: elems?.length > 1 && elems?.every(allowBooleanOperations),
       union: elems?.length > 1 && elems?.every(allowBooleanOperations),
       subtract: elems?.length === 2 && elems?.every(allowBooleanOperations),
       intersect: elems?.length > 1 && elems?.every(allowBooleanOperations),
@@ -108,6 +110,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
           content={<ObjectPanelIcon.Group />}
           label={LANG.group}
           onClick={svgCanvas.groupSelectedElements}
+          disabled={!buttonAvailability.group}
         />
         <ObjectPanelItem.Item
           id="ungroup"
@@ -201,6 +204,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
           ]}
           content={<ObjectPanelIcon.Union />}
           label="boolean"
+          disabled={!buttonAvailability.boolean}
         />
       </div>
     ) : (
