@@ -14,6 +14,8 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { isMobile } from 'helpers/system-helper';
 
+import styles from './DimensionPanel.module.scss';
+
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
@@ -646,9 +648,14 @@ class DimensionPanel extends React.Component<Props> {
     if (elem) {
       panels = (isMobile() ? panelMapMobile : panelMap)[elem.tagName.toLowerCase()] || panels;
     }
-    return (
+    return isMobile() ? (
+      <div className={styles.container}>
+        <ObjectPanelItem.Divider />
+        {this.renderDimensionPanels(panels)}
+        {this.renderFlipButtons()}
+      </div>
+    ) : (
       <div className="dimension-panel">
-        {isMobile() && <ObjectPanelItem.Divider />}
         {this.renderDimensionPanels(panels)}
         {this.renderFlipButtons()}
       </div>

@@ -1,0 +1,12 @@
+@mixin item-group() {
+  display: flex;
+  width: auto;
+  height: auto;
+  column-gap: 10px;
+  flex-wrap: nowrap;
+  border: none;
+  padding: 0;
+  > div:only-child {
+    display: none;
+  }
+}

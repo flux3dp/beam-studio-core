@@ -13,7 +13,7 @@ exports[`should render correctly in mobile no elements 1`] = `
     id="object-panel"
   >
     <div
-      className="common-action-panel"
+      className="tools"
     >
       <DummyObjectPanelItem
         content={<svgr-url />}
@@ -65,7 +65,7 @@ exports[`should render correctly in mobile no elements 1`] = `
       </div>
     </DummyDimensionPanel>
     <div
-      className="tool-btns-container"
+      className="tools"
     >
       <DummyObjectPanelDivider>
         <div>
@@ -262,7 +262,7 @@ exports[`should render correctly in mobile one element is g element 1`] = `
     id="object-panel"
   >
     <div
-      className="common-action-panel"
+      className="tools"
     >
       <DummyObjectPanelItem
         content={<svgr-url />}
@@ -314,7 +314,7 @@ exports[`should render correctly in mobile one element is g element 1`] = `
       </div>
     </DummyDimensionPanel>
     <div
-      className="tool-btns-container"
+      className="tools"
     >
       <DummyObjectPanelDivider>
         <div>
@@ -511,7 +511,7 @@ exports[`should render correctly in mobile one element not g element 1`] = `
     id="object-panel"
   >
     <div
-      className="common-action-panel"
+      className="tools"
     >
       <DummyObjectPanelItem
         content={<svgr-url />}
@@ -563,7 +563,7 @@ exports[`should render correctly in mobile one element not g element 1`] = `
       </div>
     </DummyDimensionPanel>
     <div
-      className="tool-btns-container"
+      className="tools"
     >
       <DummyObjectPanelDivider>
         <div>
@@ -768,7 +768,7 @@ exports[`should render correctly in mobile two elements contains other types of 
     id="object-panel"
   >
     <div
-      className="common-action-panel"
+      className="tools"
     >
       <DummyObjectPanelItem
         content={<svgr-url />}
@@ -836,7 +836,7 @@ exports[`should render correctly in mobile two elements contains other types of 
       </div>
     </DummyDimensionPanel>
     <div
-      className="tool-btns-container"
+      className="tools"
     >
       <DummyObjectPanelDivider>
         <div>
@@ -1049,7 +1049,7 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
     id="object-panel"
   >
     <div
-      className="common-action-panel"
+      className="tools"
     >
       <DummyObjectPanelItem
         content={<svgr-url />}
@@ -1117,7 +1117,7 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
       </div>
     </DummyDimensionPanel>
     <div
-      className="tool-btns-container"
+      className="tools"
     >
       <DummyObjectPanelDivider>
         <div>

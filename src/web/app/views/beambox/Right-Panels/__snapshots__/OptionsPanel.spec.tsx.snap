@@ -22,7 +22,7 @@ exports[`should render correctly image 1`] = `
 
 exports[`should render correctly in mobile image 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ImageOptions
@@ -38,7 +38,7 @@ exports[`should render correctly in mobile image 1`] = `
 
 exports[`should render correctly in mobile no element 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
 </div>
@@ -46,7 +46,7 @@ exports[`should render correctly in mobile no element 1`] = `
 
 exports[`should render correctly in mobile others 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <DummyInFillBlock
@@ -61,7 +61,7 @@ exports[`should render correctly in mobile others 1`] = `
 
 exports[`should render correctly in mobile polygon desktop version 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <PolygonOptions
@@ -77,7 +77,7 @@ exports[`should render correctly in mobile polygon desktop version 1`] = `
 
 exports[`should render correctly in mobile polygon web version 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <PolygonOptions
@@ -93,7 +93,7 @@ exports[`should render correctly in mobile polygon web version 1`] = `
 
 exports[`should render correctly in mobile rect 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <RectOptions
@@ -110,7 +110,7 @@ exports[`should render correctly in mobile rect 1`] = `
 
 exports[`should render correctly in mobile text 1`] = `
 <div
-  className="options-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <TextOptions

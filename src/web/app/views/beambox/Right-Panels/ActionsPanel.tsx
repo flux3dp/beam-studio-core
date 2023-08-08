@@ -576,7 +576,7 @@ class ActionsPanel extends React.Component<Props> {
       }
     }
     return isMobile() ? (
-      <div className="actions-panel">
+      <div className={styles.container}>
         <ObjectPanelItem.Divider />
         {content}
       </div>

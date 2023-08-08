@@ -37,7 +37,7 @@ interface Props {
 }
 
 const OffsetModal = ({ onCancel, onOk }: Props): JSX.Element => {
-  const unit = storage.get('default-units') === 'inches' ? 'inch' : 'mm';
+  const unit = React.useMemo(() => (storage.get('default-units') === 'inches' ? 'inch' : 'mm'), []);
   const setting = unitSettings[unit];
   const [data, setData] = React.useState<Value>({
     dir: 1,

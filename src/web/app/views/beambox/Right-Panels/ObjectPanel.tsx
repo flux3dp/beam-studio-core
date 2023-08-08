@@ -73,7 +73,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
   );
 
   const renderCommonActionPanel = (): JSX.Element => (
-    <div className="common-action-panel">
+    <div className={styles.tools}>
       <ObjectPanelItem.Item
         id="delete"
         content={<ObjectPanelIcon.Trash />}
@@ -98,7 +98,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
   const renderToolBtns = (): JSX.Element => {
     const buttonAvailability = getAvailableFunctions();
     return isMobile ? (
-      <div className="tool-btns-container">
+      <div className={styles.tools}>
         <ObjectPanelItem.Divider />
         <ObjectPanelItem.Item
           id="group"

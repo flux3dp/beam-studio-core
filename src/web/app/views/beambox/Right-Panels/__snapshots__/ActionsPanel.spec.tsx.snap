@@ -296,7 +296,7 @@ exports[`should render correctly image 1`] = `
 
 exports[`should render correctly in mobile ellipse 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -328,7 +328,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
 
 exports[`should render correctly in mobile g multiple selection 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -352,7 +352,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
 
 exports[`should render correctly in mobile g single selection 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -368,7 +368,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
 
 exports[`should render correctly in mobile image 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -455,7 +455,7 @@ exports[`should render correctly in mobile image 1`] = `
 
 exports[`should render correctly in mobile line 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -487,7 +487,7 @@ exports[`should render correctly in mobile line 1`] = `
 
 exports[`should render correctly in mobile no elements 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
 </div>
@@ -495,7 +495,7 @@ exports[`should render correctly in mobile no elements 1`] = `
 
 exports[`should render correctly in mobile path 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -543,7 +543,7 @@ exports[`should render correctly in mobile path 1`] = `
 
 exports[`should render correctly in mobile polygon 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -575,7 +575,7 @@ exports[`should render correctly in mobile polygon 1`] = `
 
 exports[`should render correctly in mobile rect 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -607,7 +607,7 @@ exports[`should render correctly in mobile rect 1`] = `
 
 exports[`should render correctly in mobile text 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
@@ -631,7 +631,7 @@ exports[`should render correctly in mobile text 1`] = `
 
 exports[`should render correctly in mobile use 1`] = `
 <div
-  className="actions-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelItem

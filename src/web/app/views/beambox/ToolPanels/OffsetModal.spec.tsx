@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 const onCancel = jest.fn();
 const onOk = jest.fn();
@@ -13,37 +12,62 @@ jest.mock('implementations/storage', () => ({
 
 import OffsetModal from './OffsetModal';
 
+const drag = (element: Element, moveClientX: number) => {
+  fireEvent.mouseDown(element, { buttons: 1 });
+  fireEvent.mouseMove(element, { buttons: 1, clientX: moveClientX });
+  fireEvent.mouseUp(element);
+};
+
 describe('should render correctly', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  test('default unit is mm', () => {
+  test('default unit is mm', async () => {
     get.mockReturnValue(undefined);
-    const wrapper = shallow(<OffsetModal onCancel={onCancel} onOk={onOk} />);
+    const { baseElement, getByRole, getByText } = render(
+      <OffsetModal onCancel={onCancel} onOk={onOk} />
+    );
     expect(get).toBeCalledTimes(1);
-    expect(toJson(wrapper)).toMatchSnapshot();
-    wrapper.find('ForwardRef(Select)').at(0).props().onChange(0);
-    expect(wrapper.find('ForwardRef(Select)').at(0).props().value).toBe(0);
-    wrapper.find('ForwardRef(Select)').at(1).props().onChange('round');
-    expect(wrapper.find('ForwardRef(Select)').at(1).props().value).toBe('round');
-    wrapper.find('InputNumber').at(0).props().onChange(10);
-    expect(wrapper.find('Slider').at(0).props().value).toBe(10);
-    expect(wrapper.find('InputNumber').at(0).props().value).toBe(10);
-    wrapper.find('Modal').props().onOk();
+    expect(baseElement).toMatchSnapshot();
+    const directionSelect = baseElement.querySelectorAll('.ant-select-selector')[0];
+    expect(directionSelect).toHaveTextContent('Outward');
+    fireEvent.mouseDown(directionSelect);
+    fireEvent.click(getByText('Inward'));
+    expect(directionSelect).toHaveTextContent('Inward');
+    const cornerTypeSelect = baseElement.querySelectorAll('.ant-select-selector')[1];
+    expect(cornerTypeSelect).toHaveTextContent('Sharp');
+    fireEvent.mouseDown(cornerTypeSelect);
+    fireEvent.click(getByText('Round'));
+    expect(cornerTypeSelect).toHaveTextContent('Round');
+    const offsetSlider = getByRole('slider');
+    const offsetInput = getByRole('spinbutton');
+    expect(offsetSlider.getAttribute('aria-valuenow')).toBe('5');
+    expect(offsetInput.getAttribute('aria-valuenow')).toBe('5');
+    drag(offsetSlider, 1);
+    await waitFor(() => expect(offsetSlider.getAttribute('aria-valuenow')).toBe('20'));
+    expect(offsetInput.getAttribute('aria-valuenow')).toBe('20');
+    fireEvent.change(offsetInput, { target: { value: 10 } });
+    await waitFor(() => expect(offsetSlider.getAttribute('aria-valuenow')).toBe('10'));
+    expect(offsetInput.getAttribute('aria-valuenow')).toBe('10');
+    fireEvent.click(getByText('Confirm'));
     expect(onOk).toBeCalledTimes(1);
     expect(onOk).toBeCalledWith({ dir: 0, distance: 10, cornerType: 'round' });
   });
 
-  test('default unit is inches', () => {
+  test('default unit is inches', async () => {
     get.mockReturnValue('inches');
-    const wrapper = shallow(<OffsetModal onCancel={onCancel} onOk={onOk} />);
+    const { baseElement, getByRole, getByText } = render(
+      <OffsetModal onCancel={onCancel} onOk={onOk} />
+    );
     expect(get).toBeCalledTimes(1);
-    expect(toJson(wrapper)).toMatchSnapshot();
-    wrapper.find('Slider').at(0).props().onChange(1.5);
-    expect(wrapper.find('Slider').at(0).props().value).toBe(1.5);
-    expect(wrapper.find('InputNumber').at(0).props().value).toBe(1.5);
-    wrapper.find('Modal').props().onOk();
+    expect(baseElement).toMatchSnapshot();
+    const offsetSlider = getByRole('slider');
+    const offsetInput = getByRole('spinbutton');
+    fireEvent.change(offsetInput, { target: { value: 1.5 } });
+    await waitFor(() => expect(offsetSlider.getAttribute('aria-valuenow')).toBe('1'));
+    expect(offsetInput.getAttribute('aria-valuenow')).toBe('1.5');
+    fireEvent.click(getByText('Confirm'));
     expect(onOk).toBeCalledTimes(1);
     expect(onOk).toBeCalledWith({ dir: 1, distance: 38.1, cornerType: 'sharp' });
   });

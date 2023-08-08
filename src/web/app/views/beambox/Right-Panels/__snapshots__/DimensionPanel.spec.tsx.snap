@@ -213,7 +213,7 @@ exports[`should render correctly image 1`] = `
 
 exports[`should render correctly in mobile image 1`] = `
 <div
-  className="dimension-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelNumber
@@ -287,7 +287,7 @@ exports[`should render correctly in mobile image 1`] = `
 
 exports[`should render correctly in mobile no elements 1`] = `
 <div
-  className="dimension-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelNumber
@@ -351,7 +351,7 @@ exports[`should render correctly in mobile no elements 1`] = `
 
 exports[`should render correctly in mobile unsupported element 1`] = `
 <div
-  className="dimension-panel"
+  className="container"
 >
   <ObjectPanelDivider />
   <ObjectPanelNumber

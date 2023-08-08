@@ -8,6 +8,8 @@ import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptio
 import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions';
 import { isMobile } from 'helpers/system-helper';
 
+import styles from './OptionsPanel.module.scss';
+
 interface Props {
   elem: Element;
   rx: number;
@@ -64,7 +66,7 @@ function OptionsPanel({
   }
 
   return isMobile() ? (
-    <div className="options-panel">
+    <div className={styles.container}>
       <ObjectPanelItem.Divider />
       {contents}
     </div>
