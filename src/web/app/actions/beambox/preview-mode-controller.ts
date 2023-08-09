@@ -92,38 +92,25 @@ class PreviewModeController {
 
   getHeight = async () => {
     const device = this.currentDevice;
-    let enteredRawMode = false;
     try {
       if (!BeamboxPreference.read('enable-custom-preview-height')) {
-        Progress.openNonstopProgress({
-          id: 'preview-mode-get-height',
-          message: LANG.message.enteringRawMode,
-          timeout: 30000,
-        });
-        await deviceMaster.enterRawMode();
-        enteredRawMode = true;
-        Progress.update('preview-mode-get-height', { message: 'tGetting probe position' });
+        Progress.update('start-preview-mode', { message: 'tGetting probe position' });
         const res = await deviceMaster.rawGetProbePos();
         const { z, didAf } = res;
         if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
       }
     } catch (e) {
       // do nothing
-    } finally {
-      Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
-      if (enteredRawMode) await deviceMaster.endRawMode();
-      Progress.popById('preview-mode-get-height');
     }
     const val = await dialogCaller.getPromptValue({ message: 'tPlease enter the height of object (mm)' });
     // Get value from machine
     const heightOffset = 0;
-    console.log('Useing height offset: ', heightOffset);
+    console.log('Using height offset: ', heightOffset);
     return val !== null ? (Number(val) + heightOffset) : null;
   };
 
-  setFishEyeObjectHeight = async () => {
+  setFishEyeObjectHeight = async (height: number) => {
     const { k, d, heights, center, points } = this.fisheyeParameters;
-    const height = await this.getHeight();
     console.log('Use Height: ', height);
     let perspectivePoints = points[0];
     if (height !== null && !Number.isNaN(height)) {
@@ -134,14 +121,32 @@ class PreviewModeController {
   };
 
   setUpFishEyePreviewMode = async () => {
-    let fisheyeParameters: FisheyeCameraParameters = null;
     try {
-      fisheyeParameters = await deviceMaster.fetchFisheyeParams();
+      try {
+        this.fisheyeParameters = await deviceMaster.fetchFisheyeParams();
+      } catch (err) {
+        // TODO: add alert?
+        throw new Error('Unable to get fisheye parameters, please make sure you have calibrated the camera');
+      }
+      Progress.update('start-preview-mode', { message: LANG.message.enteringRawMode });
+      await deviceMaster.enterRawMode();
+      Progress.update('start-preview-mode', { message: LANG.message.exitingRotaryMode });
+      await deviceMaster.rawSetRotary(false);
+      Progress.update('start-preview-mode', { message: LANG.message.homing });
+      await deviceMaster.rawHome();
+      await deviceMaster.rawLooseMotor();
+      const height = await this.getHeight();
+      Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
+      await deviceMaster.endRawMode();
+      await this.setFishEyeObjectHeight(height);
     } catch (err) {
-      throw new Error('Unable to get fisheye parameters, please make sure you have calibrated the camera');
+      if (deviceMaster.currentControlMode === 'raw') {
+        await deviceMaster.rawLooseMotor();
+        Progress.update('start-preview-mode', { message: LANG.message.endingRawMode });
+        await deviceMaster.endRawMode();
+      }
+      throw err;
     }
-    this.fisheyeParameters = fisheyeParameters;
-    await this.setFishEyeObjectHeight();
   };
 
   async endBeamSeriesPreviewMode() {
