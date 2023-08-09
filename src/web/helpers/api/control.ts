@@ -784,16 +784,16 @@ class Control extends EventEmitter {
           responseString += response.text;
           console.log('raw homing:\t', responseString);
         }
-        const resps = responseString.split('\n');
+        const resps = responseString.replace(/\r/g, '').split('\n');
         if (resps.some((resp) => resp.includes('ok')) && !didErrorOccur) {
           this.removeCommandListeners();
           resolve(response);
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || response.text.indexOf('DEBUG: RESET') >= 0
-          || response.text.indexOf('error:') >= 0
+          response.text?.indexOf('ER:RESET') >= 0
+          || response.text?.indexOf('DEBUG: RESET') >= 0
+          || response.text?.indexOf('error:') >= 0
           || resps.some((resp) => resp.includes('ER:RESET'))
           || resps.some((resp) => resp.includes('DEBUG: RESET'))
           || resps.some((resp) => resp.includes('error:'))
@@ -1019,6 +1019,15 @@ class Control extends EventEmitter {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     const command = 'B34';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  adorRawLooseMotor = () => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = 'M137P34';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };

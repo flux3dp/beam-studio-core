@@ -20,7 +20,7 @@ const lang: ILang = {
     preview: '相機預覽',
     preview_title: '相機預覽',
     task_preview: '工作預覽',
-    frame_task: '工作外框',
+    frame_task: '走外框',
     borderless: '(開蓋模式)',
     tag_names: {
       rect: '矩形',
