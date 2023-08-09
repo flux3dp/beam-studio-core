@@ -793,6 +793,9 @@ class DeviceMaster {
 
   rawLooseMotor() {
     const controlSocket = this.currentDevice.control;
+    if (this.currentDevice.info.model.startsWith('ado')) {
+      return controlSocket.addTask(controlSocket.adorRawLooseMotor);
+    }
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('B34_LOOSE_MOTOR')) {
       return controlSocket.addTask(controlSocket.rawLooseMotorB34);
