@@ -51,32 +51,33 @@ interface NumberItemProps {
   value: number;
   updateValue?: (val: number) => void;
   label?: string | JSX.Element;
-  type?: 'length' | 'angle' | 'sides';
+  unit?: string;
+  decimal?: number;
 }
 const ObjectPanelNumber = ({
   id,
   label,
   value,
   updateValue,
-  type = 'length',
+  unit = 'mm',
+  decimal,
 }: NumberItemProps): JSX.Element => {
   const context = useContext(ObjectPanelContext);
   const { activeKey, updateActiveKey } = context;
   const isActive = activeKey === id;
-  const useInch = useMemo(
-    () => type === 'length' && storage.get('default-units') === 'inches',
-    [type]
+  const shouldConvert2Inch = useMemo(
+    () => unit === 'mm' && storage.get('default-units') === 'inches',
+    [unit]
   );
-  const unit = useInch ? 'inch' : 'mm';
-  let precision = useInch ? 4 : 2;
-  if (type === 'sides') {
-    precision = 0;
-  }
-  const valueInUnit = (+units.convertUnit(value, unit, 'mm').toFixed(precision)).toString();
+  // for unit conversion
+  const fakeUnit = shouldConvert2Inch ? 'inch' : 'mm';
+  const defaultPrecision = shouldConvert2Inch ? 4 : 2;
+  const precision = decimal === undefined ? defaultPrecision : decimal;
+  const valueInUnit = (+units.convertUnit(value, fakeUnit, 'mm').toFixed(precision)).toString();
   const [displayValue, setDisplayValue] = React.useState(valueInUnit);
   const onChange = (newValue: string) => {
     setDisplayValue(newValue);
-    updateValue(units.convertUnit(+newValue || 0, 'mm', unit));
+    updateValue(units.convertUnit(+newValue || 0, 'mm', fakeUnit));
   };
   React.useEffect(() => {
     if (+displayValue !== +valueInUnit) {
@@ -142,7 +143,7 @@ const ObjectPanelNumber = ({
           content={
             <Button className={styles['number-item']} shape="rounded" size="mini" fill="outline">
               {displayValue}
-              {type === 'angle' && <>&deg;</>}
+              {unit === 'degree' && <>&deg;</>}
             </Button>
           }
         />

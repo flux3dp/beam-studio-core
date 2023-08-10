@@ -36,7 +36,8 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
         value={sides}
         updateValue={handleSideChanage}
         label={LANG.sides}
-        type="sides"
+        unit=""
+        decimal={0}
       />
     ) : (
       <div className="option-block" key="polygon-sides">

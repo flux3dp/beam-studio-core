@@ -143,7 +143,7 @@ exports[`should render correctly divider 1`] = `
 />
 `;
 
-exports[`should render correctly number item when type is angle 1`] = `
+exports[`should render correctly number item when unit is degree 1`] = `
 <div>
   <div
     class="object-panel-item"
@@ -159,33 +159,6 @@ exports[`should render correctly number item when type is angle 1`] = `
         <span>
           1
           °
-        </span>
-      </button>
-    </div>
-    <div
-      class="label"
-    >
-      mock-label
-    </div>
-  </div>
-</div>
-`;
-
-exports[`should render correctly number item when type is sides 1`] = `
-<div>
-  <div
-    class="object-panel-item"
-    id="mock-number-item-sides"
-  >
-    <div
-      class="main"
-    >
-      <button
-        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
-        type="button"
-      >
-        <span>
-          1
         </span>
       </button>
     </div>

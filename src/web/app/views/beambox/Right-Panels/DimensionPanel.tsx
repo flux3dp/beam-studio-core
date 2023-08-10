@@ -450,7 +450,7 @@ class DimensionPanel extends React.Component<Props> {
               value={dimensionValues.rotation || 0}
               updateValue={this.handleRotationChange}
               label="Rotate"
-              type="angle"
+              unit="degree"
             />
           );
         }
