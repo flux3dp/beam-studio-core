@@ -80,28 +80,31 @@ export const writeData = (layerName: string, dataType: DataType, value: number |
 
 const getMultiSelectData = <T = number>(
   layers: Element[],
-  dataType: DataType
+  currentLayerIdx: number,
+  dataType: DataType,
 ): { value: T; hasMultiValue: boolean } => {
-  let value;
+  const mainIndex = currentLayerIdx > -1 ? currentLayerIdx : 0;
+  const mainLayer = layers[mainIndex] || layers.find((l) => !!l);
+  if (!mainLayer) return ({ value: undefined, hasMultiValue: false });
+  let value = getData<T>(mainLayer, dataType);
   let hasMultiValue = false;
   for (let i = 0; i < layers.length; i += 1) {
+    // eslint-disable-next-line no-continue
+    if (i === currentLayerIdx) continue;
     const layer = layers[i];
     if (layer) {
-      if (value === undefined) {
-        value = getData(layer, dataType);
-      } else if (value !== getData(layer, dataType)) {
+      const layerValue = getData<T>(layer, dataType);
+      if (value !== layerValue) {
         hasMultiValue = true;
         if ([DataType.height].includes(dataType)) {
-          value = Math.max(value, getData(layer, dataType) as number);
-          if (value > 0) {
-            break;
-          }
+          // Always use the max value
+          value = Math.max(value as number, layerValue as number) as T;
+          if (value as number > 0) break;
         } else if ([DataType.diode].includes(dataType)) {
-          value = 1;
+          // Always use on if there is any on
+          value = 1 as T;
           break;
-        } else {
-          break;
-        }
+        } else break;
       }
     }
   }
@@ -143,13 +146,14 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   return data;
 };
 
-export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
+export const getLayersConfig = (layerNames: string[], currentLayerName?: string): ILayerConfig => {
   const layers = layerNames.map((layerName) => getLayerElementByName(layerName));
+  const currentLayerIdx = layerNames.indexOf(currentLayerName);
   const data = {} as ILayerConfig;
   const dataTypes = Object.values(DataType);
   for (let i = 0; i < dataTypes.length; i += 1) {
     const type = dataTypes[i];
-    data[dataKey[type]] = getMultiSelectData(layers, dataTypes[i]);
+    data[dataKey[type]] = getMultiSelectData(layers, currentLayerIdx, dataTypes[i]);
   }
 
   return data;

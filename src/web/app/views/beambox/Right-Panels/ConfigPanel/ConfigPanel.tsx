@@ -33,7 +33,6 @@ import {
 import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
-import { ILayerConfig } from 'interfaces/ILayerConfig';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -109,23 +108,9 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
     if (selectedLayers.length > 1) {
       const drawing = svgCanvas.getCurrentDrawing();
       const currentLayerName = drawing.getCurrentLayerName();
-      const config = getLayersConfig(selectedLayers);
-      const currentLayerConfig = getLayerConfig(currentLayerName);
-      const payload = {
-        speed: { value: currentLayerConfig.speed.value, hasMultiValue: config.speed.hasMultiValue },
-        power: { value: currentLayerConfig.power.value, hasMultiValue: config.power.hasMultiValue },
-        ink: { value: currentLayerConfig.ink.value, hasMultiValue: config.ink.hasMultiValue },
-        repeat: { value: currentLayerConfig.repeat.value, hasMultiValue: config.repeat.hasMultiValue },
-        height: { value: currentLayerConfig.height.value, hasMultiValue: config.height.hasMultiValue },
-        zStep: { value: currentLayerConfig.zStep.value, hasMultiValue: config.zStep.hasMultiValue },
-        diode: { value: currentLayerConfig.diode.value, hasMultiValue: config.diode.hasMultiValue },
-        configName: { value: currentLayerConfig.configName.value, hasMultiValue: config.configName.hasMultiValue },
-        module: { value: currentLayerConfig.module.value, hasMultiValue: config.module.hasMultiValue },
-        backlash: { value: currentLayerConfig.backlash.value, hasMultiValue: config.backlash.hasMultiValue },
-      } as ILayerConfig;
-      dispatch({ type: 'update', payload });
-    }
-    if (selectedLayers.length === 1) {
+      const config = getLayersConfig(selectedLayers, currentLayerName);
+      dispatch({ type: 'update', payload: config });
+    } else if (selectedLayers.length === 1) {
       const config = getLayerConfig(selectedLayers[0]);
       dispatch({ type: 'update', payload: config });
     }
@@ -241,7 +226,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
               size="large"
               style={{ width: '100%' }}
             />
-            {[LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(module.value) && <PowerBlock />}
+            {module.value !== LayerModule.PRINTER && <PowerBlock />}
             {module.value === LayerModule.PRINTER && <InkBlock />}
             <SpeedBlock />
             <RepeatBlock />
