@@ -504,12 +504,6 @@ const constants = {
       module: LayerModule.LASER_1064,
       name: 'black_acrylic_engraving',
     },
-    abs_engraving_1064: {
-      power: 75,
-      speed: 30,
-      module: LayerModule.LASER_1064,
-      name: 'abs_engraving',
-    },
     silver_engraving_1064: {
       power: 95,
       speed: 20,
