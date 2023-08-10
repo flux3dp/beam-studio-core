@@ -138,6 +138,20 @@ test('test layer-config-helper', () => {
     multipass: { value: 1, hasMultiValue: false },
   });
 
+  expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'], 'layer 2')).toEqual({
+    speed: { value: 20, hasMultiValue: false },
+    power: { value: 15, hasMultiValue: false },
+    ink: { value: 3, hasMultiValue: false },
+    repeat: { value: 1, hasMultiValue: false },
+    height: { value: 1, hasMultiValue: true },
+    zStep: { value: 0, hasMultiValue: true },
+    diode: { value: 1, hasMultiValue: true },
+    configName: { value: '', hasMultiValue: false },
+    module: { value: 1, hasMultiValue: false },
+    backlash: { value: 0, hasMultiValue: false },
+    multipass: { value: 1, hasMultiValue: false },
+  });
+
   writeData('layer 1', DataType.module, 2);
   expect(getLayerConfig('layer 1')).toEqual({
     speed: { value: 20 },
