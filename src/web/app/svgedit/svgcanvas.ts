@@ -4863,6 +4863,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     this.selectOnly(newElements, true);
     addCommandToHistory(batchCmd);
+    ObjectPanelController.updateActiveKey(null);
     return batchCmd;
   };
 
@@ -5086,6 +5087,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       selectOnly(allNewPaths, false);
       this.tempGroupSelectedElements();
     }
+    ObjectPanelController.updateActiveKey(null);
   };
 
   this.disassembleUse2Group = async function (elems = null) {

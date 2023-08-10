@@ -4,6 +4,7 @@ exports[`should render correctly in mobile is fillable 1`] = `
 <div>
   <div
     class="object-panel-item"
+    id="infill"
   >
     <div
       class="main"
@@ -42,6 +43,7 @@ exports[`should render correctly in mobile is fillable 2`] = `
 <div>
   <div
     class="object-panel-item"
+    id="infill"
   >
     <div
       class="main"
@@ -80,6 +82,7 @@ exports[`should render correctly in mobile is fillable 3`] = `
 <div>
   <div
     class="object-panel-item"
+    id="infill"
   >
     <div
       class="main"

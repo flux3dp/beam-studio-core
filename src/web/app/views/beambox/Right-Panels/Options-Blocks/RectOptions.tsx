@@ -3,9 +3,12 @@ import React from 'react';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { isMobile } from 'helpers/system-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -31,7 +34,17 @@ function RectOptions({
   const renderRoundCornerBlock = () => {
     const unit = storage.get('default-units') || 'mm';
     const isInch = unit === 'inches';
-    return (
+    return isMobile() ? (
+      <ObjectPanelItem.Number
+        id="rounded-corner"
+        value={rx / Constant.dpmm || 0}
+        updateValue={(val) => {
+          handleRoundedCornerChange(val);
+          ObjectPanelController.updateObjectPanel();
+        }}
+        label={LANG.rounded_corner}
+      />
+    ) : (
       <div className="option-block" key="rounded-corner">
         <div className="label">{LANG.rounded_corner}</div>
         <UnitInput
@@ -45,7 +58,12 @@ function RectOptions({
     );
   };
 
-  return (
+  return isMobile() ? (
+    <>
+      <InFillBlock elem={elem} />
+      {renderRoundCornerBlock()}
+    </>
+  ) : (
     <div className="rect-options">
       {renderRoundCornerBlock()}
       <InFillBlock elem={elem} />

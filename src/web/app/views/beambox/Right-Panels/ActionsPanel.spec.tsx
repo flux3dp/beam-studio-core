@@ -29,9 +29,11 @@ const mockTraceImage = jest.fn();
 const generateStampBevel = jest.fn();
 const colorInvert = jest.fn();
 const mockRemoveBackground = jest.fn();
+const mockPotrace = jest.fn();
 jest.mock('helpers/image-edit', () => ({
   generateStampBevel,
   colorInvert,
+  potrace: (...args) => mockPotrace(...args),
   traceImage: (...args) => mockTraceImage(...args),
   removeBackground: (...args) => mockRemoveBackground(...args),
 }));
@@ -57,6 +59,7 @@ jest.mock('helpers/i18n', () => ({
           actions_panel: {
             edit_path: 'edit_path',
             replace_with: 'Replace With...',
+            replace_with_short: 'Replace',
             trace: 'Trace',
             grading: 'Grading',
             sharpen: 'Sharpen',
@@ -73,6 +76,7 @@ jest.mock('helpers/i18n', () => ({
             ungrouping: 'Ungrouping...',
             simplify: 'simplify',
             ai_bg_removal: 'ai_bg_removal',
+            ai_bg_removal_short: 'BG Removal',
           },
         },
       },
@@ -411,34 +415,38 @@ describe('should render correctly in mobile', () => {
     expect(replaceBitmap).not.toHaveBeenCalled();
 
     wrapper.find('ObjectPanelItem').at(1).simulate('click');
-    expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
-    expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
+    expect(mockPotrace).toHaveBeenCalledTimes(1);
+    expect(mockPotrace).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
     wrapper.find('ObjectPanelItem').at(2).simulate('click');
-    expect(mockTraceImage).toHaveBeenCalledTimes(1);
-
-    wrapper.find('ObjectPanelItem').at(3).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
     mockCheckConnection.mockReturnValueOnce(true);
-    wrapper.find('ObjectPanelItem').at(4).simulate('click');
+    wrapper.find('ObjectPanelItem').at(3).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    wrapper.find('ObjectPanelItem').at(5).simulate('click');
+    wrapper.find('ObjectPanelItem').at(4).simulate('click');
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(6).simulate('click');
+    wrapper.find('ObjectPanelItem').at(5).simulate('click');
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('ObjectPanelItem').at(7).simulate('click');
+    wrapper.find('ObjectPanelItem').at(6).simulate('click');
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('ObjectPanelItem').at(8).simulate('click');
+    wrapper.find('ObjectPanelItem').at(7).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+
+    wrapper.find('ObjectPanelItem').at(8).simulate('click');
+    expect(mockTraceImage).toHaveBeenCalledTimes(1);
+
+    wrapper.find('ObjectPanelItem').at(9).simulate('click');
+    expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
+    expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
   });
 
   test('text', async () => {

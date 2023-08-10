@@ -53,6 +53,7 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     objectPanelEventEmitter.on('UPDATE_OBJECT_PANEL', this.updateObjectPanel.bind(this));
     objectPanelEventEmitter.on('UPDATE_POLYGON_SIDES', this.updatePolygonSides.bind(this));
     objectPanelEventEmitter.on('UPDATE_ACTIVE_KEY', this.updateActiveKey.bind(this));
+    objectPanelEventEmitter.on('GET_ACTIVE_KEY', this.getActiveKey.bind(this));
   }
 
   componentWillUnmount() {
@@ -82,6 +83,11 @@ export class ObjectPanelContextProvider extends React.Component<any, State> {
     dimensionValues: any,
   }, key?: string): void => {
     response.dimensionValues = key ? this.dimensionValues[key] : this.dimensionValues;
+  };
+
+  getActiveKey = (response: { activeKey: any }): void => {
+    // eslint-disable-next-line react/destructuring-assignment
+    response.activeKey = this.state.activeKey;
   };
 
   updateObjectPanel = (): void => {

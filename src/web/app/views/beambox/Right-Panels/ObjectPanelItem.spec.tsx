@@ -44,7 +44,7 @@ const mockActions = [
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import ObjectPanelItem from './ObjectPanelItem';
 
-const MockNumberItem = ({ id }: { id: string }) => {
+const MockNumberItem = ({ id, type }: { id: string, type?:'length' | 'angle' | 'sides' }) => {
   const [value, setValue] = React.useState(1);
   return (
     <ObjectPanelContextProvider>
@@ -56,6 +56,7 @@ const MockNumberItem = ({ id }: { id: string }) => {
           setValue(val);
         }}
         label="mock-label"
+        type={type}
       />
     </ObjectPanelContextProvider>
   );
@@ -249,9 +250,9 @@ describe('should render correctly', () => {
       expect(displayBtn).toHaveTextContent('1.0390');
     });
 
-    test('when unit is degree', async () => {
+    test('when type is angle', async () => {
       mockStorage.mockReturnValue('inches');
-      const { baseElement, container } = render(<MockNumberItem id="rotate" />);
+      const { baseElement, container } = render(<MockNumberItem id="mock-number-item-angle" type='angle' />);
       expect(container).toMatchSnapshot();
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
@@ -273,6 +274,33 @@ describe('should render correctly', () => {
       expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
       expect(objectPanelItem).not.toHaveClass('active');
       expect(displayBtn).toHaveTextContent('2°');
+    });
+
+    test('when type is sides', async () => {
+      mockStorage.mockReturnValue('inches');
+      const { baseElement, container, getByText } = render(<MockNumberItem id="mock-number-item-sides" type='sides' />);
+      expect(container).toMatchSnapshot();
+      const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+      const displayBtn = baseElement.querySelector('button.number-item');
+      expect(displayBtn).toHaveTextContent('1');
+      expect(objectPanelItem).not.toHaveClass('active');
+      fireEvent.click(objectPanelItem);
+      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(objectPanelItem).toHaveClass('active');
+      expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
+      expect(mockUpdateValue).toBeCalledTimes(0);
+
+      fireEvent.click(baseElement.querySelectorAll('.step-buttons button')[1]);
+      expect(mockUpdateValue).toBeCalledTimes(1);
+      expect(mockUpdateValue).toHaveBeenNthCalledWith(1, 2);
+      expect(displayBtn).toHaveTextContent('2');
+
+      expect(updateContextPanel).toBeCalledTimes(0);
+      fireEvent.click(document.querySelector('div.adm-mask'));
+      expect(updateContextPanel).toBeCalledTimes(1);
+      expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
+      expect(objectPanelItem).not.toHaveClass('active');
+      expect(displayBtn).toHaveTextContent('2');
     });
   });
 });

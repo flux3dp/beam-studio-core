@@ -8,6 +8,7 @@ import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
+import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
@@ -15,18 +16,18 @@ import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
-import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
+import Tutorial from 'app/views/tutorials/Tutorial';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-import Tutorial from 'app/views/tutorials/Tutorial';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -192,7 +193,14 @@ export default {
     const src = element.getAttribute('origImage') || element.getAttribute('xlink:href');
     addDialogComponent(
       'image-crop',
-      <CropPanel src={src} image={element} onClose={() => popDialogById('image-crop')} />
+      <CropPanel
+        src={src}
+        image={element}
+        onClose={() => {
+          popDialogById('image-crop');
+          ObjectPanelController.updateActiveKey(null);
+        }}
+      />
     );
   },
   showPhotoEditPanel: (mode: PhotoEditMode): void => {

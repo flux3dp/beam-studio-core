@@ -759,9 +759,11 @@ const lang: ILang = {
           path_infill: 'Path Infill',
           shading: 'Gradient',
           threshold: 'Threshold brightness',
+          threshold_short: 'Threshold',
         },
         actions_panel: {
           replace_with: 'Replace With...',
+          replace_with_short: 'Replace',
           trace: 'Trace',
           grading: 'Grading',
           sharpen: 'Sharpen',
@@ -783,6 +785,7 @@ const lang: ILang = {
           ungrouping: 'Ungrouping...',
           simplify: 'Simplify',
           ai_bg_removal: 'Background Removal',
+          ai_bg_removal_short: 'BG Removal',
           ai_bg_removal_reminder: 'Pressing the button will immediately use 0.2 AI Credit, do you want to continue?',
         },
         path_edit_panel: {

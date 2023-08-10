@@ -4,6 +4,9 @@ $active-color: #0091ff;
   display: flex;
   flex-direction: column;
   align-items: center;
+  &[id='lock'] {
+    min-width: auto;
+  }
   &.active {
     color: $active-color;
     .number-item {

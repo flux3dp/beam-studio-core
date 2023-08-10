@@ -82,7 +82,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       <ObjectPanelItem.Item
         id="delete"
         content={<ObjectPanelIcon.Trash />}
-        label="delete"
+        label={i18n.lang.topbar.menu.delete}
         onClick={() => {
           svgEditor.deleteSelected();
           updateActiveKey(null);
@@ -91,7 +91,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       <ObjectPanelItem.Item
         id="duplicate"
         content={<ObjectPanelIcon.Duplicate />}
-        label="duplicate"
+        label={i18n.lang.topbar.menu.duplicate}
         onClick={() => {
           svgCanvas.cloneSelectedElements(20, 20);
           updateActiveKey(null);

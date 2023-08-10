@@ -760,9 +760,11 @@ const lang: ILang = {
           path_infill: 'Preenchimento de Caminho',
           shading: 'Gradiente',
           threshold: 'Limiar de brilho',
+          threshold_short: 'Limiar de brilho',
         },
         actions_panel: {
           replace_with: 'Substituir com...',
+          replace_with_short: 'Substituir com...',
           trace: 'Rastrear',
           grading: 'Gradiente',
           sharpen: 'Sharpen',
@@ -784,6 +786,7 @@ const lang: ILang = {
           ungrouping: 'Desagrupando...',
           simplify: 'Simplificar',
           ai_bg_removal: 'removedor de fundo AI',
+          ai_bg_removal_short: 'removedor de fundo AI',
           ai_bg_removal_reminder: 'Pressionar o botão usará imediatamente 0,2 AI Credit, deseja continuar?',
         },
         path_edit_panel: {

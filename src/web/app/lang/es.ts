@@ -759,9 +759,11 @@ const lang: ILang = {
           path_infill: 'Relleno de trayectoria',
           shading: 'Gradiente',
           threshold: 'Brillo de umbral',
+          threshold_short: 'Brillo de umbral',
         },
         actions_panel: {
           replace_with: 'Reemplazar con...',
+          replace_with_short: 'Reemplazar con...',
           trace: 'Trazado',
           grading: 'Calificación',
           sharpen: 'Afilar',
@@ -783,6 +785,7 @@ const lang: ILang = {
           ungrouping: 'Desagrupando...',
           simplify: 'Simplificar',
           ai_bg_removal: 'Background Removal',
+          ai_bg_removal_short: 'BG Removal',
           ai_bg_removal_reminder: 'Presionar el botón usará inmediatamente 0.2 AI Credit, ¿quieres continuar?',
         },
         path_edit_panel: {
