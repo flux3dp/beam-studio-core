@@ -250,7 +250,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
                 />
                 <SaveConfigButton />
               </div>
-              {[LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(module.value) && <PowerBlock />}
+              {module.value !== LayerModule.PRINTER && <PowerBlock />}
               {module.value === LayerModule.PRINTER && <InkBlock />}
               <SpeedBlock />
               {(isDevMode && isCustomBacklashEnabled) && <Backlash />}

@@ -468,19 +468,61 @@ const constants = {
       module: LayerModule.LASER_10W_DIODE,
       name: 'metal_bw_engraving',
     },
-    wood_3mm_cutting_20w: {
-      power: 50,
-      speed: 6,
-      module: LayerModule.LASER_20W_DIODE,
-      name: 'wood_3mm_cutting',
+    gold_engraving_1064: {
+      power: 95,
+      speed: 10,
+      module: LayerModule.LASER_1064,
+      name: 'gold_engraving',
     },
-    wood_5mm_cutting_20w: {
-      power: 50,
-      speed: 3,
-      module: LayerModule.LASER_20W_DIODE,
-      name: 'wood_5mm_cutting',
+    brass_engraving_1064: {
+      power: 85,
+      speed: 30,
+      module: LayerModule.LASER_1064,
+      name: 'brass_engraving',
     },
-  }
+    ti_engraving_1064: {
+      power: 75,
+      speed: 30,
+      module: LayerModule.LASER_1064,
+      name: 'ti_engraving',
+    },
+    stainless_steel_engraving_1064: {
+      power: 90,
+      speed: 20,
+      module: LayerModule.LASER_1064,
+      name: 'stainless_steel_engraving',
+    },
+    aluminum_engraving_1064: {
+      power: 80,
+      speed: 20,
+      module: LayerModule.LASER_1064,
+      name: 'aluminum_engraving',
+    },
+    black_acrylic_engraving_1064: {
+      power: 50,
+      speed: 40,
+      module: LayerModule.LASER_1064,
+      name: 'black_acrylic_engraving',
+    },
+    abs_engraving_1064: {
+      power: 75,
+      speed: 30,
+      module: LayerModule.LASER_1064,
+      name: 'abs_engraving',
+    },
+    silver_engraving_1064: {
+      power: 95,
+      speed: 20,
+      module: LayerModule.LASER_1064,
+      name: 'silver_engraving',
+    },
+    iron_engraving_1064: {
+      power: 90,
+      speed: 20,
+      module: LayerModule.LASER_1064,
+      name: 'iron_engraving',
+    },
+  },
 };
 
 export const modelsWithModules = ['fad1', 'ado1'];

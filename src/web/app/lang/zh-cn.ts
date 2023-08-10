@@ -20,7 +20,7 @@ const lang: ILang = {
     preview: '相机预览',
     preview_title: '相机预览',
     task_preview: '工作预览',
-    frame_task: '走外框',
+    frame_task: '走边框',
     borderless: '(开盖模式)',
     tag_names: {
       rect: '矩形',
@@ -692,6 +692,15 @@ const lang: ILang = {
             glass_bw_engraving: '玻璃 - 刻印',
             metal_bw_engraving: '不锈钢喷剂 - 刻印',
             stainless_steel_bw_engraving_diode: '不锈钢 - 刻印（二极体雷射）',
+            gold_engraving: '金 - 刻印',
+            brass_engraving: '黄铜 - 刻印',
+            ti_engraving: '钛 - 刻印',
+            stainless_steel_engraving: '不锈钢 - 刻印',
+            aluminum_engraving: '铝 - 刻印',
+            black_acrylic_engraving: '黑色亚克力 - 刻印',
+            abs_engraving: 'ABS - 刻印',
+            silver_engraving: '银 - 刻印',
+            iron_engraving: '铁 - 刻印',
           },
           inches: {
             wood_3mm_cutting: '木板 - 0.1\'\' 切割',
@@ -718,6 +727,15 @@ const lang: ILang = {
             glass_bw_engraving: '玻璃 - 刻印',
             metal_bw_engraving: '不锈钢喷剂 - 刻印',
             stainless_steel_bw_engraving_diode: '不锈钢 - 刻印（二极体雷射）',
+            gold_engraving: '金 - 刻印',
+            brass_engraving: '黄铜 - 刻印',
+            ti_engraving: '钛 - 刻印',
+            stainless_steel_engraving: '不锈钢 - 刻印',
+            aluminum_engraving: '铝 - 刻印',
+            black_acrylic_engraving: '黑色亚克力 - 刻印',
+            abs_engraving: 'ABS - 刻印',
+            silver_engraving: '银 - 刻印',
+            iron_engraving: '铁 - 刻印',
           },
         },
         laser_speed: {
@@ -1355,6 +1373,12 @@ const lang: ILang = {
       adjust_focus: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001684196',
     },
     tutorial_complete: '介绍完毕，开始创作吧！',
+  },
+  layer_module: {
+    laser_10w_diode: '10W 二极管激光器',
+    laser_20w_diode: '20W 二极管激光器',
+    laser_2w_infrared: '2W 红外激光器',
+    printing: '打印',
   },
 };
 
