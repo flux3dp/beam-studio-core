@@ -699,6 +699,15 @@ export interface ILang {
             glass_bw_engraving: string;
             metal_bw_engraving: string;
             stainless_steel_bw_engraving_diode: string;
+            gold_engraving: string;
+            brass_engraving: string;
+            ti_engraving: string;
+            stainless_steel_engraving;
+            aluminum_engraving: string;
+            black_acrylic_engraving: string;
+            abs_engraving: string;
+            silver_engraving: string;
+            iron_engraving: string;
           },
           inches: {
             wood_3mm_cutting: string;
@@ -725,6 +734,15 @@ export interface ILang {
             glass_bw_engraving: string;
             metal_bw_engraving: string;
             stainless_steel_bw_engraving_diode: string;
+            gold_engraving: string;
+            brass_engraving: string;
+            ti_engraving: string;
+            stainless_steel_engraving: string;
+            aluminum_engraving: string;
+            black_acrylic_engraving: string;
+            abs_engraving: string;
+            silver_engraving: string;
+            iron_engraving: string;
           },
         },
         laser_speed: {
@@ -1393,5 +1411,11 @@ export interface ILang {
       adjust_focus: string,
     },
     tutorial_complete: string,
+  },
+  layer_module: {
+    laser_10w_diode: string;
+    laser_20w_diode: string;
+    laser_2w_infrared: string;
+    printing: string;
   },
 }
