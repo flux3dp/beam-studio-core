@@ -237,7 +237,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
             <div className={classNames('layername', 'hidden-mobile')}>
               {sprintf(lang.preset_setting, displayName)}
             </div>
-            {isDevMode && <ModuleBlock />}
+            <ModuleBlock />
             <div className="layerparams">
               <ConfigOperations onMoreClick={handleOpenManageModal} />
               <div className="preset-dropdown-containter">
