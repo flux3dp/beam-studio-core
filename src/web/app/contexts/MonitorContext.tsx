@@ -62,6 +62,7 @@ interface Props {
   mode: Mode;
   previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string };
   device: IDeviceInfo;
+  children?: React.ReactNode;
   onClose: () => void;
 }
 
@@ -457,16 +458,6 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         mode: mode === Mode.CAMERA ? Mode.CAMERA : Mode.FILE,
       });
       this.modeBeforeCamera = Mode.FILE;
-    }
-  };
-
-  toggleCamera = (): void => {
-    const { mode } = this.state;
-    if (mode !== Mode.CAMERA) {
-      this.modeBeforeCamera = mode;
-      this.setState({ mode: Mode.CAMERA });
-    } else {
-      this.setState({ mode: this.modeBeforeCamera });
     }
   };
 
