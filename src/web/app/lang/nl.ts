@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
@@ -784,6 +785,7 @@ const lang: ILang = {
           simplify: 'Makkelijker maken',
           ai_bg_removal: 'AI-achtergrondverwijderaar',
           ai_bg_removal_reminder: 'Als u op de knop drukt, wordt er direct 0,2 AI Credit gebruikt, wilt u doorgaan?',
+          outline: 'Omlijnen',
         },
         path_edit_panel: {
           node_type: 'Knooppunttype',

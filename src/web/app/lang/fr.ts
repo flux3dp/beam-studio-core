@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
@@ -784,6 +785,7 @@ const lang: ILang = {
           simplify: 'Simplifier',
           ai_bg_removal: 'dissolvant de fond AI',
           ai_bg_removal_reminder: 'Appuyer sur le bouton utilisera immédiatement 0,2 crédit AI, voulez-vous continuer?',
+          outline: 'Contourner',
         },
         path_edit_panel: {
           node_type: 'TYPE DE NODE',

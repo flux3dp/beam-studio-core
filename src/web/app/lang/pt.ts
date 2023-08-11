@@ -785,6 +785,7 @@ const lang: ILang = {
           simplify: 'Simplificar',
           ai_bg_removal: 'removedor de fundo AI',
           ai_bg_removal_reminder: 'Pressionar o botão usará imediatamente 0,2 AI Credit, deseja continuar?',
+          outline: 'Esboçar',
         },
         path_edit_panel: {
           node_type: 'TIPO DE NÓ',

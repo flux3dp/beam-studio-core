@@ -782,6 +782,7 @@ export interface ILang {
           simplify: string;
           ai_bg_removal: string;
           ai_bg_removal_reminder: string;
+          outline: string;
         },
         path_edit_panel: {
           node_type: string,

@@ -34,12 +34,15 @@ import styles from './ActionsPanel.module.scss';
 
 let svgCanvas;
 let svgEditor;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgEditor = globalSVG.Editor; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+  svgEditor = globalSVG.Editor;
+});
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 interface Props {
-  elem: Element,
+  elem: Element;
 }
 
 class ActionsPanel extends React.Component<Props> {
@@ -66,7 +69,21 @@ class ActionsPanel extends React.Component<Props> {
       filters: [
         {
           name: 'Images',
-          extensions: ['png', 'jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'bmp', 'jp2', 'j2k', 'jpf', 'jpx', 'jpm'],
+          extensions: [
+            'png',
+            'jpg',
+            'jpeg',
+            'jpe',
+            'jif',
+            'jfif',
+            'jfi',
+            'bmp',
+            'jp2',
+            'j2k',
+            'jpf',
+            'jpx',
+            'jpm',
+          ],
         },
       ],
     };
@@ -95,7 +112,7 @@ class ActionsPanel extends React.Component<Props> {
     isFullLine?: boolean,
     id?: string,
     isDisabled?: boolean,
-    icon?: JSX.Element,
+    icon?: JSX.Element
   ): JSX.Element => {
     const className = classNames(styles.btn, { [styles.disabled]: isDisabled });
     return (
@@ -116,27 +133,63 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = [
-      this.renderButtons(LANG.replace_with, this.replaceImage, true, 'replace_with', false, <ReplaceIcon />),
+      this.renderButtons(
+        LANG.replace_with,
+        this.replaceImage,
+        true,
+        'replace_with',
+        false,
+        <ReplaceIcon />
+      ),
       this.renderButtons(
         LANG.ai_bg_removal,
         () => imageEdit.removeBackground(elem as SVGImageElement),
         true,
         'bg-removal',
         false,
-        <ActionPanelIcons.ImageMatting className={styles.icon} />,
+        <ActionPanelIcons.ImageMatting className={styles.icon} />
       ),
       this.renderButtons(
-        LANG.trace, () => imageEdit.traceImage(elem as SVGImageElement), false, 'trace', isShading, <TraceIcon />,
+        LANG.trace,
+        () => imageEdit.traceImage(elem as SVGImageElement),
+        false,
+        'trace',
+        isShading,
+        <ActionPanelIcons.Trace className={styles.icon} />
       ),
       this.renderButtons(
-        LANG.grading, () => Dialog.showPhotoEditPanel('curve'), false, 'grading', false, <GrayscaleIcon />
+        LANG.grading,
+        () => Dialog.showPhotoEditPanel('curve'),
+        false,
+        'grading',
+        false,
+        <GrayscaleIcon />
       ),
-      this.renderButtons(LANG.sharpen, () => {
-        this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
-      }, false, 'sharpen', false, <SharpenIcon />),
-      this.renderButtons(LANG.crop, () => Dialog.showCropPanel(), false, 'crop', false, <CropIcon />),
       this.renderButtons(
-        LANG.bevel, () => imageEdit.generateStampBevel(elem as SVGImageElement), false, 'bevel', false, <BevelIcon />
+        LANG.sharpen,
+        () => {
+          this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
+        },
+        false,
+        'sharpen',
+        false,
+        <SharpenIcon />
+      ),
+      this.renderButtons(
+        LANG.crop,
+        () => Dialog.showCropPanel(),
+        false,
+        'crop',
+        false,
+        <CropIcon />
+      ),
+      this.renderButtons(
+        LANG.bevel,
+        () => imageEdit.generateStampBevel(elem as SVGImageElement),
+        false,
+        'bevel',
+        false,
+        <BevelIcon />
       ),
       this.renderButtons(
         LANG.invert,
@@ -144,15 +197,23 @@ class ActionsPanel extends React.Component<Props> {
         false,
         'invert',
         false,
-        <ActionPanelIcons.Invert className={styles.icon} />,
+        <ActionPanelIcons.Invert className={styles.icon} />
       ),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
       this.renderButtons(
-        'Potrace',
-        () => imageEdit.potrace(elem as SVGImageElement),
-        false, 'remove',
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
         false,
-        <ActionPanelIcons.Invert className={styles.icon} />,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
+      this.renderButtons(
+        LANG.outline,
+        () => imageEdit.potrace(elem as SVGImageElement),
+        false,
+        'potrace',
+        false,
+        <ActionPanelIcons.Potrace className={styles.icon} />
       ),
     ];
     return content;
@@ -166,9 +227,16 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'convert_to_path',
         false,
-        <TraceIcon />,
+        <TraceIcon />
       ),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), true, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        true,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -177,15 +245,19 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const content = [
       this.renderButtons(LANG.edit_path, () => textPathEdit.editPath(elem as SVGGElement), true),
-      this.renderButtons(LANG.detach_path, () => {
-        const { text, path } = textPathEdit.detachText(elem as SVGGElement);
-        textEdit.renderText(text);
-        svgCanvas.multiSelect([text, path], true);
-      }, true),
+      this.renderButtons(
+        LANG.detach_path,
+        () => {
+          const { text, path } = textPathEdit.detachText(elem as SVGGElement);
+          textEdit.renderText(text);
+          svgCanvas.multiSelect([text, path], true);
+        },
+        true
+      ),
       this.renderButtons(
         LANG.convert_to_path,
         () => this.webNeedConnectionWrapper(this.convertTextToPath),
-        true,
+        true
       ),
       this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
     ];
@@ -196,14 +268,45 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const content = [
       this.renderButtons(
-        LANG.edit_path, () => svgCanvas.pathActions.toEditMode(elem), true, 'edit_path', false, <PenIcon />,
+        LANG.edit_path,
+        () => svgCanvas.pathActions.toEditMode(elem),
+        true,
+        'edit_path',
+        false,
+        <PenIcon />
       ),
       this.renderButtons(
-        LANG.decompose_path, () => svgCanvas.decomposePath(), true, 'decompose_path', false, <DivideIcon />,
+        LANG.decompose_path,
+        () => svgCanvas.decomposePath(),
+        true,
+        'decompose_path',
+        false,
+        <DivideIcon />
       ),
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
-      this.renderButtons(LANG.simplify, () => svgCanvas.simplifyPath(), true, 'simplify', false, <SimplifyIcon />),
+      this.renderButtons(
+        LANG.offset,
+        () => svgEditor.triggerOffsetTool(),
+        false,
+        'offset',
+        false,
+        <OffsetIcon />
+      ),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
+      this.renderButtons(
+        LANG.simplify,
+        () => svgCanvas.simplifyPath(),
+        true,
+        'simplify',
+        false,
+        <SimplifyIcon />
+      ),
     ];
     return content;
   };
@@ -212,10 +315,29 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const content = [
       this.renderButtons(
-        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+        LANG.convert_to_path,
+        () => svgCanvas.convertToPath(elem),
+        true,
+        'convert_to_path',
+        false,
+        <TraceIcon />
       ),
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.offset,
+        () => svgEditor.triggerOffsetTool(),
+        false,
+        'offset',
+        false,
+        <OffsetIcon />
+      ),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -224,10 +346,29 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const content = [
       this.renderButtons(
-        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+        LANG.convert_to_path,
+        () => svgCanvas.convertToPath(elem),
+        true,
+        'convert_to_path',
+        false,
+        <TraceIcon />
       ),
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.offset,
+        () => svgEditor.triggerOffsetTool(),
+        false,
+        'offset',
+        false,
+        <OffsetIcon />
+      ),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -236,10 +377,29 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const content = [
       this.renderButtons(
-        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+        LANG.convert_to_path,
+        () => svgCanvas.convertToPath(elem),
+        true,
+        'convert_to_path',
+        false,
+        <TraceIcon />
       ),
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.offset,
+        () => svgEditor.triggerOffsetTool(),
+        false,
+        'offset',
+        false,
+        <OffsetIcon />
+      ),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -248,10 +408,29 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const content = [
       this.renderButtons(
-        LANG.convert_to_path, () => svgCanvas.convertToPath(elem), true, 'convert_to_path', false, <TraceIcon />,
+        LANG.convert_to_path,
+        () => svgCanvas.convertToPath(elem),
+        true,
+        'convert_to_path',
+        false,
+        <TraceIcon />
       ),
-      this.renderButtons(LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', false, <OffsetIcon />),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.offset,
+        () => svgEditor.triggerOffsetTool(),
+        false,
+        'offset',
+        false,
+        <OffsetIcon />
+      ),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -259,16 +438,35 @@ class ActionsPanel extends React.Component<Props> {
   renderUseActions = (): JSX.Element[] => {
     const content = [
       this.renderButtons(
-        LANG.disassemble_use, () => svgCanvas.disassembleUse2Group(), false, 'disassemble_use', false, <SeparateIcon />,
+        LANG.disassemble_use,
+        () => svgCanvas.disassembleUse2Group(),
+        false,
+        'disassemble_use',
+        false,
+        <SeparateIcon />
       ),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
 
   renderGroupActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -276,25 +474,33 @@ class ActionsPanel extends React.Component<Props> {
   renderMultiSelectActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const children = Array.from(elem.childNodes);
-    const supportOffset = children.every((child: ChildNode) => !['g', 'text', 'image', 'use'].includes(child.nodeName));
+    const supportOffset = children.every(
+      (child: ChildNode) => !['g', 'text', 'image', 'use'].includes(child.nodeName)
+    );
 
     const appendOptionalButtons = (buttons: JSX.Element[]) => {
       const text = children.find((child) => child.nodeName === 'text') as Element;
-      const pathLike = children.find(
-        (child) => ['path', 'ellipse', 'line', 'polygon', 'rect'].includes(child.nodeName)
+      const pathLike = children.find((child) =>
+        ['path', 'ellipse', 'line', 'polygon', 'rect'].includes(child.nodeName)
       ) as Element;
       if (children.length === 2 && text && pathLike) {
-        buttons.push(this.renderButtons(LANG.create_textpath, () => {
-          svgCanvas.ungroupTempGroup();
-          let path = pathLike;
-          if (pathLike.nodeName !== 'path') {
-            path = svgCanvas.convertToPath(path);
-          }
-          textPathEdit.attachTextToPath(text, path);
-          if (svgCanvas.isUsingLayerColor) {
-            svgCanvas.updateElementColor(text);
-          }
-        }, true));
+        buttons.push(
+          this.renderButtons(
+            LANG.create_textpath,
+            () => {
+              svgCanvas.ungroupTempGroup();
+              let path = pathLike;
+              if (pathLike.nodeName !== 'path') {
+                path = svgCanvas.convertToPath(path);
+              }
+              textPathEdit.attachTextToPath(text, path);
+              if (svgCanvas.isUsingLayerColor) {
+                svgCanvas.updateElementColor(text);
+              }
+            },
+            true
+          )
+        );
       }
     };
     let content: JSX.Element[] = [];
@@ -302,9 +508,21 @@ class ActionsPanel extends React.Component<Props> {
     content = [
       ...content,
       this.renderButtons(
-        LANG.offset, () => svgEditor.triggerOffsetTool(), false, 'offset', !supportOffset, <OffsetIcon />,
+        LANG.offset,
+        () => svgEditor.triggerOffsetTool(),
+        false,
+        'offset',
+        !supportOffset,
+        <OffsetIcon />
       ),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false, 'array', false, <ArrayIcon />),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        <ArrayIcon />
+      ),
     ];
     return content;
   };
@@ -343,9 +561,7 @@ class ActionsPanel extends React.Component<Props> {
     return (
       <div className="actions-panel">
         <div className="title">ACTIONS</div>
-        <div className="btns-container">
-          {content}
-        </div>
+        <div className="btns-container">{content}</div>
       </div>
     );
   }

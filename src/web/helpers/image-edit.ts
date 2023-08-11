@@ -311,13 +311,14 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     }
     const blob = removeResult.data as Blob;
     const blobUrl = URL.createObjectURL(blob);
-    const doApply = await new Promise<boolean>((resolve) => {
-      dialogCaller.showBackgroundRemovalPanel(imgUrl, blobUrl, () => resolve(true), () => resolve(false));
-    });
-    if (!doApply) return;
+    // 2023/08/11 No compare dialog after discussion, remove this code and BackgroundRemovalPanel after they make sure.
+    // const doApply = await new Promise<boolean>((resolve) => {
+    //   dialogCaller.showBackgroundRemovalPanel(imgUrl, blobUrl, () => resolve(true), () => resolve(false));
+    // });
+    // if (!doApply) return;
     const newThreshold = 255;
     const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
-    addBatchCommand('Image Edit: invert', element, {
+    addBatchCommand('Image Edit: Remove background', element, {
       origImage: blobUrl,
       'data-threshold': newThreshold,
       'data-no-bg': 'true',

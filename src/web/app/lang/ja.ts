@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
@@ -784,6 +785,7 @@ const lang: ILang = {
           simplify: '簡略化',
           ai_bg_removal: 'AI 背景リムーバー',
           ai_bg_removal_reminder: 'ボタンを押すと、すぐに 0.2 AI クレジットが使用されます。続行しますか?',
+          outline: '輪郭描画',
         },
         path_edit_panel: {
           node_type: 'ノードタイプ',

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
@@ -784,6 +785,7 @@ const lang: ILang = {
           simplify: 'Vereinfachen',
           ai_bg_removal: 'AI-Hintergrundentfernung',
           ai_bg_removal_reminder: 'Durch Drücken der Taste werden sofort 0,2 KI-Credits verbraucht. Möchten Sie fortfahren?',
+          outline: 'Umriss',
         },
         path_edit_panel: {
           node_type: 'Knotentyp',

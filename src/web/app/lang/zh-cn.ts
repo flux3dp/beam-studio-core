@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
@@ -784,6 +785,7 @@ const lang: ILang = {
           simplify: '路径优化',
           ai_bg_removal: '智能去背',
           ai_bg_removal_reminder: '按下按钮将立即使用 0.2 AI Credit，是否继续？',
+          outline: '勾勒轮廓',
         },
         path_edit_panel: {
           node_type: '节点类型',
