@@ -102,7 +102,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         if (!isDevMode) args.push('-acc', '7500');
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
-      // TODO: remove fad1 after all fad1 machines are updated to ado1
       else if (opts.model === 'ado1') args.push('-ado1');
 
       if (isDevMode) {

@@ -52,7 +52,7 @@ export const CUSTOM_PRESET_CONSTANT = ' ';
 export const defaultConfig = {
   [DataType.speed]: 20,
   [DataType.strength]: 15,
-  [DataType.ink]: 3,
+  [DataType.ink]: 1,
   [DataType.repeat]: 1,
   [DataType.height]: -3,
   [DataType.zstep]: 0,
@@ -60,7 +60,7 @@ export const defaultConfig = {
   [DataType.configName]: '',
   [DataType.module]: LayerModule.LASER_10W_DIODE,
   [DataType.backlash]: 0,
-  [DataType.multipass]: 1,
+  [DataType.multipass]: 5,
 };
 
 export const getData = <T>(layer: Element, dataType: DataType): T => {

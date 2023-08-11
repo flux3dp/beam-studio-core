@@ -226,7 +226,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
   const { module } = state;
-  const isDevMode = isDev() && UIType === 'default';
+  const isDevMode = isDev();
   const commonContent = (
     <>
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
@@ -245,7 +245,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           <div className={classNames('layername', 'hidden-mobile')}>
             {sprintf(lang.preset_setting, displayName)}
           </div>
-          {isDevMode && <ModuleBlock />}
+          <ModuleBlock />
           <div className="layerparams">
             <ConfigOperations onMoreClick={handleOpenManageModal} />
             <div className="preset-dropdown-containter">
@@ -277,7 +277,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
             ]}
             label={lang.presets}
           />
-          {isDevMode && <ModuleBlock />}
+          <ModuleBlock />
           {commonContent}
         </div>
       );
@@ -344,7 +344,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
               <div className={styles.layers}>{layerOptions}</div>
             </div>
           )}
-          {isDevMode && <ModuleBlock />}
+          <ModuleBlock />
           <Select
             id="laser-config-dropdown"
             className={styles.select}

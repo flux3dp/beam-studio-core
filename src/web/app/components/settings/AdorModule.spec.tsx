@@ -12,6 +12,11 @@ jest.mock('helpers/useI18n', () => () => ({
       ador_modules: 'ador_modules',
     },
   },
+  layer_module: {
+    laser_10w_diode: 'laser_10w_diode',
+    printing: 'printing',
+    laser_2w_infrared: 'laser_2w_infrared',
+  },
 }));
 jest.mock('app/components/settings/Control', () => (
   { label, children }: { label: string; children: React.ReactNode }
