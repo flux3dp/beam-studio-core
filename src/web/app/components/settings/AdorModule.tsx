@@ -38,7 +38,7 @@ const AdorModule = ({
   return (
     <>
       <div className="subtitle">{lang.settings.groups.ador_modules}</div>
-      <Controls label="t10w laser offset">
+      <Controls label={`${lang.layer_module.laser_10w_diode} Offset`}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
           id="10w-laser-x-offset"
@@ -62,7 +62,7 @@ const AdorModule = ({
           className={{ half: true }}
         />
       </Controls>
-      <Controls label="tprinter offset">
+      <Controls label={`${lang.layer_module.printing} Offset`}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
           id="printer-x-offset"
@@ -82,6 +82,30 @@ const AdorModule = ({
           max={workareaHeight}
           defaultValue={getModuleOffset(LayerModule.PRINTER)[1]}
           getValue={(val) => editValue(LayerModule.PRINTER, 'y', val)}
+          forceUsePropsUnit
+          className={{ half: true }}
+        />
+      </Controls>
+      <Controls label={`${lang.layer_module.laser_2w_infrared} Offset`}>
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
+        <UnitInput
+          id="2w-ir-laser-x-offset"
+          unit={defaultUnit === 'inches' ? 'in' : 'mm'}
+          min={-workareaWidth}
+          max={workareaWidth}
+          defaultValue={getModuleOffset(LayerModule.LASER_1064)[0]}
+          getValue={(val) => editValue(LayerModule.LASER_1064, 'x', val)}
+          forceUsePropsUnit
+          className={{ half: true }}
+        />
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
+        <UnitInput
+          id="2w-ir-laser-y-offset"
+          unit={defaultUnit === 'inches' ? 'in' : 'mm'}
+          min={-workareaHeight}
+          max={workareaHeight}
+          defaultValue={getModuleOffset(LayerModule.LASER_1064)[1]}
+          getValue={(val) => editValue(LayerModule.LASER_1064, 'y', val)}
           forceUsePropsUnit
           className={{ half: true }}
         />

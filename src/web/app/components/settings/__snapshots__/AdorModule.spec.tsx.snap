@@ -10,7 +10,7 @@ exports[`test AdorModule should render correctly 1`] = `
   <div>
     <div>
       Mock Control
-      t10w laser offset
+      laser_10w_diode Offset
     </div>
     <span
       class="font2"
@@ -44,7 +44,7 @@ exports[`test AdorModule should render correctly 1`] = `
   <div>
     <div>
       Mock Control
-      tprinter offset
+      printing Offset
     </div>
     <span
       class="font2"
@@ -72,6 +72,40 @@ exports[`test AdorModule should render correctly 1`] = `
         id="printer-y-offset"
         type="number"
         value="-13.37"
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      Mock Control
+      laser_2w_infrared Offset
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      X
+    </span>
+    <div>
+      <input
+        data-testid="2w-ir-laser-x-offset"
+        id="2w-ir-laser-x-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      Y
+    </span>
+    <div>
+      <input
+        data-testid="2w-ir-laser-y-offset"
+        id="2w-ir-laser-y-offset"
+        type="number"
+        value="26.95"
       />
     </div>
   </div>

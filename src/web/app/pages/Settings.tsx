@@ -362,14 +362,12 @@ class Settings extends React.PureComponent<null, State> {
             diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
-          {isDev() && (
-            <AdorModule
-              defaultUnit={this.getConfigEditingValue('default-units')}
-              selectedModel={selectedModel}
-              currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
-              updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-            />
-          )}
+          <AdorModule
+            defaultUnit={this.getConfigEditingValue('default-units')}
+            selectedModel={selectedModel}
+            currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
           <Privacy
             enableSentryOptions={enableSentryOptions}
             updateConfigChange={this.updateConfigChange}
