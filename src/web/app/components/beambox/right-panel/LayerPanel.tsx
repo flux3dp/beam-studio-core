@@ -458,9 +458,10 @@ class LayerPanel extends React.PureComponent<Props, State> {
       return null;
     }
     const { setSelectedLayers } = this.context;
+    const { hide } = this.props;
 
     return (
-      <div id="layer-and-laser-panel">
+      <div id="layer-and-laser-panel" style={{ display: hide ? 'none' : undefined }}>
         { isMobile()
           ? (
             <>
