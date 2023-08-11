@@ -1,6 +1,6 @@
+import Icon from '@ant-design/icons';
 import React, { useCallback, useContext, useState } from 'react';
 import { Badge, TabBar } from 'antd-mobile';
-import { RedoOutline, UndoOutline } from 'antd-mobile-icons';
 
 import beamboxStore from 'app/stores/beambox-store';
 import browser from 'implementations/browser';
@@ -31,7 +31,7 @@ const CanvasTabBar = (): JSX.Element => {
     isPreviewing,
     endPreviewMode,
     changeToPreviewMode,
-    showCameraPreviewDeviceList
+    showCameraPreviewDeviceList,
   } = useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = useState('none');
 
@@ -90,12 +90,12 @@ const CanvasTabBar = (): JSX.Element => {
     {
       key: 'undo',
       title: lang.topbar.menu.undo,
-      icon: <UndoOutline />,
+      icon: <Icon component={TabBarIcons.Undo} viewBox="2 2 16 16" />,
     },
     {
       key: 'redo',
       title: lang.topbar.menu.redo,
-      icon: <RedoOutline />
+      icon: <Icon component={TabBarIcons.Redo} viewBox="2 2 16 16" />,
     },
   ];
 
@@ -177,7 +177,7 @@ const CanvasTabBar = (): JSX.Element => {
   return (
     <>
       <div id="mobile-tab-bar" className={styles.container}>
-        <div style={{ width: '150%' }}>
+        <div style={{ width: 'fit-content' }}>
           <TabBar
             activeKey={activeKey}
             onChange={(key) => {
