@@ -207,14 +207,15 @@ class ActionsPanel extends React.Component<Props> {
         false,
         <ArrayIcon />
       ),
-      this.renderButtons(
-        LANG.outline,
-        () => imageEdit.potrace(elem as SVGImageElement),
-        false,
-        'potrace',
-        false,
-        <ActionPanelIcons.Potrace className={styles.icon} />
-      ),
+      // TODO: Comment out potrace until fix resize bug
+      // this.renderButtons(
+      //   LANG.outline,
+      //   () => imageEdit.potrace(elem as SVGImageElement),
+      //   false,
+      //   'potrace',
+      //   false,
+      //   <ActionPanelIcons.Potrace className={styles.icon} />
+      // ),
     ];
     return content;
   };
