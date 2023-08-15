@@ -281,7 +281,7 @@ class Camera {
       return preprocessedBlob;
     };
 
-    if (constant.adorModels.includes('fad1')) return blob;
+    if (constant.adorModels.includes(this.device.model)) return blob;
     if (
       !['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(this.device.model)
     ) {
