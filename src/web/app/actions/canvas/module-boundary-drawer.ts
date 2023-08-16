@@ -57,6 +57,7 @@ const update = (module: LayerModule): void => {
   let { top, left, bottom, right } = moduleBoundary[module];
   const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
   const [offsetX, offsetY] = offsets[module];
+  if (module === LayerModule.PRINTER && offsetY < 0) top = Math.max(top + offsetY, 0);
   if (offsetX >= 0) left = Math.max(left, offsetX);
   else right = Math.max(right, -offsetX);
   if (offsetY >= 0) top = Math.max(top, offsetY);
