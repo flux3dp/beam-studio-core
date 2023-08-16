@@ -302,19 +302,19 @@ describe('should render correctly', () => {
       expect(mockUpdateValue).toBeCalledTimes(4);
       expect(getByText('1').parentElement).toHaveClass('adm-button-disabled');
     });
-  });
 
-  test('when decimal is 0', async () => {
-    const { baseElement, getByText } = render(
-      <MockNumberItem id="mock-number-item-integer" decimal={0} />
-    );
-    const objectPanelItem = baseElement.querySelector('div.object-panel-item');
-    const displayBtn = baseElement.querySelector('button.number-item');
-    expect(displayBtn).toHaveTextContent('1');
-    expect(objectPanelItem).not.toHaveClass('active');
-    fireEvent.click(objectPanelItem);
-    await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
-    expect(objectPanelItem).toHaveClass('active');
-    expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
+    test('when decimal is 0', async () => {
+      const { baseElement, getByText } = render(
+        <MockNumberItem id="mock-number-item-integer" decimal={0} />
+      );
+      const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+      const displayBtn = baseElement.querySelector('button.number-item');
+      expect(displayBtn).toHaveTextContent('1');
+      expect(objectPanelItem).not.toHaveClass('active');
+      fireEvent.click(objectPanelItem);
+      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(objectPanelItem).toHaveClass('active');
+      expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
+    });
   });
 });
