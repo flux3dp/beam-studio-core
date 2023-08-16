@@ -83,7 +83,7 @@ const CustomConfigs = (): JSX.Element => {
           return (
             <div
               draggable
-              key={config.name}
+              key={`${config.name}-${config.isDefault ? config.key : 'custom'}`}
               className={classNames(styles.item, {
                 [styles.selected]: isCustomized && name === config.name,
                 [styles.noborder]: configs.length >= 8 && i === configs.length - 1,
