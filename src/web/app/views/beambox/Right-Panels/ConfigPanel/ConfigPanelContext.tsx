@@ -40,7 +40,9 @@ export const reducer = (state: State, action: Action): State => {
     const { payload } = action;
     const newState = { ...state };
     Object.keys(payload).forEach((key) => {
-      newState[key] = { value: payload[key] };
+      if (key !== 'selectedItem') newState[key] = { value: payload[key] };
+      else newState[key] = payload[key];
+
     });
     return newState;
   }
