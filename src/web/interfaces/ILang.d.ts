@@ -694,6 +694,8 @@ export interface ILang {
             ti_engraving: string;
             stainless_steel_engraving;
             aluminum_engraving: string;
+            black_acrylic_3mm_cutting: string;
+            black_acrylic_5mm_cutting: string;
             black_acrylic_engraving: string;
             abs_engraving: string;
             silver_engraving: string;
@@ -729,6 +731,8 @@ export interface ILang {
             ti_engraving: string;
             stainless_steel_engraving: string;
             aluminum_engraving: string;
+            black_acrylic_3mm_cutting: string;
+            black_acrylic_5mm_cutting: string;
             black_acrylic_engraving: string;
             abs_engraving: string;
             silver_engraving: string;
