@@ -73,6 +73,7 @@ const AlertsAndProgress = (): JSX.Element => {
         okButtonProps={{ style: { display: 'none' } }}
       >
         <div>
+          <br/>
           <center><SpinLoading color='primary' style={{ '--size': '48px' }} /></center>
           <br/>
           <center>{caption}</center>
