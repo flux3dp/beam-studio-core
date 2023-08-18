@@ -770,6 +770,7 @@ const lang: ILang = {
           bevel: 'Biseautage',
           invert: 'Inverser',
           convert_to_path: 'Convertir en chemin',
+          weld_text: 'Weld Text',
           fetching_web_font: 'Obtenir la police en ligne...',
           uploading_font_to_machine: 'Téléchargement de la police sur la machine...',
           wait_for_parsing_font: 'Analyse de la police... Veuillez attendre une seconde',

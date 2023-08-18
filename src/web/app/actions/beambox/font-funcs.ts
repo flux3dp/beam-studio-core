@@ -16,8 +16,12 @@ import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
 import { IFont, IFontQuery } from 'interfaces/IFont';
+import { IBatchCommand } from 'interfaces/IHistory';
+import PathActions from 'app/svgedit/operations/pathActions';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { ISVGPath } from 'interfaces/ISVGPath';
 
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
 let svgedit;
 
 getSVGAsync((globalSVG) => {
@@ -268,16 +272,41 @@ const setTextPostscriptnameIfNeeded = (textElement: Element) => {
   }
 };
 
+const getPathAndTransformFromSvg = async (data: any, isFill: boolean) => {
+  return await new Promise<{
+    d: string; transform: string;
+  }>((resolve) => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      const svgString = e.target.result as string;
+      // console.log(svgString);
+      const dRegex = svgString.match(/ d="([^"]+)"/g);
+      const transRegex = svgString.match(/transform="([^"]+)/);
+      const d = dRegex.map((p) => p.substring(4, p.length - 1)).join('');
+      const transform = transRegex ? transRegex[1] : ''
+      resolve({ d, transform });
+    };
+    if (isFill) {
+      fileReader.readAsText(data.colors);
+    } else {
+      fileReader.readAsText(data.strokes);
+    }
+  });
+}
+
 const convertTextToPath = async (
-  textElement: Element, bbox, isTempConvert?: boolean,
-): Promise<ConvertResult> => {
+  textElement: Element, bbox,
+  isTempConvert?: boolean,
+  calledByWeld?: boolean
+): Promise<ConvertResult | { batchCmd: IBatchCommand, d: string, transform: string }> => {
   if (!textElement.textContent) {
     return ConvertResult.CONTINUE;
   }
   await Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
 
   setTextPostscriptnameIfNeeded(textElement);
-  let isUnsupported = false;
+  let hasUnsupportedFont = false;
+  let pathElement: SVGPathElement;
   const batchCmd = new history.BatchCommand('Text to Path');
   const origFontFamily = textElement.getAttribute('font-family');
   const origFontPostscriptName = textElement.getAttribute('font-postscript');
@@ -288,7 +317,7 @@ const convertTextToPath = async (
       && unSupportedChar
       && unSupportedChar.length > 0
     ) {
-      isUnsupported = true;
+      hasUnsupportedFont = true;
       const familyName = usePostscriptAsFamily ? textElement.getAttribute('data-font-family') : origFontFamily;
       const doSub = await showSubstitutedFamilyPopup(
         textElement, newFont.family, familyName, unSupportedChar,
@@ -341,32 +370,19 @@ const convertTextToPath = async (
     return ConvertResult.CONTINUE;
   }
 
-  const { pathD, transform } = await new Promise<{
-    pathD: RegExpMatchArray; transform: RegExpMatchArray;
-  }>((resolve) => {
-    const fileReader = new FileReader();
-    fileReader.onloadend = (e) => {
-      const svgString = e.target.result as string;
-      // console.log(svgString);
-      const d = svgString.match(/ d="([^"]+)"/g);
-      const trans = svgString.match(/transform="([^"]+)/);
-      resolve({ pathD: d, transform: trans });
-    };
-    if (isFill) {
-      fileReader.readAsText(outputs.data.colors);
-    } else {
-      fileReader.readAsText(outputs.data.strokes);
-    }
-  });
+  const { d, transform } = await getPathAndTransformFromSvg(outputs.data, isFill);
 
-  if (pathD) {
+  if (d) {
+    if (calledByWeld) {
+      return { batchCmd, d, transform };
+    }
     const newPathId = svgCanvas.getNextId();
     const path = document.createElementNS(svgedit.NS.SVG, 'path');
     $(path).attr({
       id: newPathId,
-      d: pathD.map((p) => p.substring(4, p.length - 1)).join(''),
+      d,
       // Note: Assuming transform matrix for all d are the same
-      transform: transform ? transform[1] : '',
+      transform,
       fill: isFill ? color : 'none',
       'fill-opacity': isFill ? 1 : 0,
       stroke: color,
@@ -408,7 +424,60 @@ const convertTextToPath = async (
     }
   }
   Progress.popById('parsing-font');
-  return isUnsupported ? ConvertResult.UNSUPPORT : ConvertResult.CONTINUE;
+  return hasUnsupportedFont ? ConvertResult.UNSUPPORT : ConvertResult.CONTINUE;
+};
+
+const weldText = async (
+  textElement: Element, bbox, isTempConvert?: boolean,
+): Promise<ConvertResult> => {
+  if (!textElement.textContent) {
+    return ConvertResult.CONTINUE;
+  }
+  const result = await convertTextToPath(textElement, bbox, false, true);
+  if (typeof result !== 'object') return result;
+  const { batchCmd, d, transform } = result;
+
+  const weldedTextPath = svgCanvas.pathActions.weldText(d);
+  const isFill = calculateFilled(textElement);
+  let color = textElement.getAttribute('stroke');
+  color = color !== 'none' ? color : textElement.getAttribute('fill');
+
+  const element = svgCanvas.addSvgElementFromJson({
+    element: 'path',
+    curStyles: false,
+    attr: {
+      id: svgCanvas.getNextId(),
+      d: weldedTextPath,
+      transform,
+      fill: isFill ? color : 'none',
+      'fill-opacity': isFill ? 1 : 0,
+      stroke: color,
+      'stroke-opacity': 1,
+      'stroke-dasharray': 'none',
+      'vector-effect': 'non-scaling-stroke',
+    }
+  });
+  svgCanvas.pathActions.fixEnd(element);
+  batchCmd.addSubCommand(new history.InsertElementCommand(element));
+  // output of fluxsvg will locate at (0,0), so move it.
+  moveElements([bbox.x], [bbox.y], [element], false);
+  svgedit.recalculate.recalculateDimensions(element);
+
+  const parent = textElement.parentNode;
+  const { nextSibling } = textElement;
+  const elem = parent.removeChild(textElement);
+  batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
+
+  if (textElement.getAttribute('data-textpath')) {
+    const cmd = textPathEdit.ungroupTextPath(parent as SVGGElement);
+    if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+  }
+
+  if (!batchCmd.isEmpty()) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  }
+  Progress.popById('parsing-font');
+  svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 };
 
 const tempConvertTextToPathAmoungSvgcontent = async () => {
@@ -466,4 +535,5 @@ export default {
   tempConvertTextToPathAmoungSvgcontent,
   revertTempConvert,
   getFontOfPostscriptName,
+  weldText,
 };
