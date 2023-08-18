@@ -769,6 +769,7 @@ const lang: ILang = {
           bevel: 'Biselar',
           invert: 'Invertir',
           convert_to_path: 'Convertir en trayectoria',
+          weld_text: 'Weld Text',
           fetching_web_font: 'Obteniendo la fuente en línea...',
           uploading_font_to_machine: 'Cargando la fuente a la máquina ...',
           wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',
