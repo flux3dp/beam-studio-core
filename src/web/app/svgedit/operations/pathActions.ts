@@ -1380,14 +1380,14 @@ const smoothByFitPath = (elem: SVGPathElement) => {
   return result.join('');
 };
 
-const booleanOperationByPaperjs = (
-  baseHTML: string,
-  elem2: SVGPathElement,
+const booleanOperation = (
+  pathHTML1: string,
+  pathHTML2: string,
   clipType: number,
 ) => {
   const operation = ['intersect', 'unite', 'subtract', 'exclude'][clipType];
   const proj = new paper.Project(document.createElement('canvas'));
-  const items = proj.importSVG(`<svg>${baseHTML}${elem2.outerHTML}</svg>`);
+  const items = proj.importSVG(`<svg>${pathHTML1}${pathHTML2}</svg>`);
   const obj1 = items.children[0] as paper.Shape | paper.Path | paper.CompoundPath;
   const obj2 = items.children[1] as paper.Shape | paper.Path | paper.CompoundPath;
   const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
@@ -1404,6 +1404,48 @@ const booleanOperationByPaperjs = (
   const svgPath = group2.children[0];
   const d = svgPath.getAttribute('d');
   return d;
+};
+
+
+const weldText = (
+  textPath: string
+) => {
+  const proj = new paper.Project(document.createElement('canvas'));
+  const subPaths = textPath.split('M').filter((d) => {
+    return d.split(' ').length > 4;
+  }).map((d) => `<path d="M${d}" />`);
+  const items = proj.importSVG(`<svg>${subPaths.join('')}</svg>`);
+  const objs = items.children.map((obj) => obj as paper.Path | paper.CompoundPath);
+  objs.sort((a, b) => b.area - a.area);
+  let basePath = objs[0] as paper.PathItem;
+  const removeList = [];
+  for (let i = 1; i < objs.length; i += 1) {
+    const newPath = basePath.unite(objs[i]);
+    if (newPath.pathData !== basePath.pathData) {
+      removeList.push(objs[i]);
+    }
+    basePath.remove();
+    basePath = newPath;
+  }
+  removeList.forEach((obj) => obj.remove());
+  // paths.forEach((path) => path.remove());
+  const svg = proj.exportSVG() as SVGElement;
+  const canvas = svg.children[0];
+  const result = canvas.children[0];
+  let pathData = '';
+  for (let i = 0; i < result.children.length; i += 1) {
+    const path = result.children[i];
+    pathData += path.getAttribute('d');
+  }
+  return pathData;
+};
+
+const booleanOperationByPaperjs = (
+  baseHTML: string,
+  elem2: SVGPathElement,
+  clipType: number,
+) => {
+  return booleanOperation(baseHTML, elem2.outerHTML, clipType);
 };
 
 const simplifyPath = (elem: SVGPathElement | any) => {
@@ -1493,6 +1535,8 @@ const pathActions = {
   linkControlPoints,
   clonePathNode,
   opencloseSubPath,
+  weldText,
+  booleanOperation,
   booleanOperationByPaperjs,
   deletePathNode,
   smoothPolylineIntoPath,
