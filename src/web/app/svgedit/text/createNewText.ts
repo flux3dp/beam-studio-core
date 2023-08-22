@@ -40,7 +40,10 @@ const createNewText = (x: number, y: number, text = '', addToHistory = false) =>
   if (svgCanvas.isUsingLayerColor) {
     svgCanvas.updateElementColor(newText);
   }
-  if (text) textEdit.renderText(newText, text);
+  if (text) {
+    textEdit.renderText(newText, text);
+    svgCanvas.selectOnly([newText]);
+  }
   if (addToHistory) svgCanvas.addCommandToHistory(new history.InsertElementCommand(newText));
   canvasEvents.emit('addText', newText);
 };

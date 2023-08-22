@@ -558,7 +558,7 @@ const mouseDown = (evt: MouseEvent) => {
       startX = newX;
       startY = newY;
       svgCanvas.unsafeAccess.setStarted(true);
-      canvasEvents.emit('addPath', newLine);
+      canvasEvents.emit('addPath');
       break;
     case 'textedit':
       startX *= currentZoom;
