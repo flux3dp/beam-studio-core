@@ -26,6 +26,11 @@ jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 
+const isMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  isMobile: () => isMobile(),
+}));
+
 const onPlay = jest.fn();
 const onPause = jest.fn();
 const onStop = jest.fn();
@@ -35,76 +40,153 @@ describe('test MonitorControl', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly mode is preview', () => {
-    const { container } = render(
-      <MonitorContext.Provider
-        value={
-          {
-            mode: Mode.PREVIEW,
-            onPlay,
-            onPause,
-            onStop,
-            report: { st_id: DeviceConstants.status.IDLE },
-          } as any
-        }
-      >
-        <MonitorControl />
-      </MonitorContext.Provider>
-    );
-    expect(container).toMatchSnapshot();
+  describe('should render correctly', () => {
+    test('mode is preview', () => {
+      const { container } = render(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.PREVIEW,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.IDLE },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+    });
+
+    test('mode is working', () => {
+      const { container, rerender } = render(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.WORKING,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.INIT },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+
+      rerender(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.WORKING,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.RUNNING },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+
+      rerender(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.WORKING,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.PAUSED },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+    });
   });
 
-  it('should render correctly mode is working', () => {
-    const { container, rerender } = render(
-      <MonitorContext.Provider
-        value={
-          {
-            mode: Mode.WORKING,
-            onPlay,
-            onPause,
-            onStop,
-            report: { st_id: DeviceConstants.status.INIT },
-          } as any
-        }
-      >
-        <MonitorControl />
-      </MonitorContext.Provider>
-    );
-    expect(container).toMatchSnapshot();
+  describe('should render correctly in mobile', () => {
+    beforeEach(() => isMobile.mockReturnValue(true));
+    test('mode is preview', () => {
+      const { container } = render(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.PREVIEW,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.IDLE },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+    });
 
-    rerender(
-      <MonitorContext.Provider
-        value={
-          {
-            mode: Mode.WORKING,
-            onPlay,
-            onPause,
-            onStop,
-            report: { st_id: DeviceConstants.status.RUNNING },
-          } as any
-        }
-      >
-        <MonitorControl />
-      </MonitorContext.Provider>
-    );
-    expect(container).toMatchSnapshot();
+    test('mode is working', () => {
+      const { container, rerender } = render(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.WORKING,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.INIT },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
 
-    rerender(
-      <MonitorContext.Provider
-        value={
-          {
-            mode: Mode.WORKING,
-            onPlay,
-            onPause,
-            onStop,
-            report: { st_id: DeviceConstants.status.PAUSED },
-          } as any
-        }
-      >
-        <MonitorControl />
-      </MonitorContext.Provider>
-    );
-    expect(container).toMatchSnapshot();
+      rerender(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.WORKING,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.RUNNING },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+
+      rerender(
+        <MonitorContext.Provider
+          value={
+            {
+              mode: Mode.WORKING,
+              onPlay,
+              onPause,
+              onStop,
+              report: { st_id: DeviceConstants.status.PAUSED },
+            } as any
+          }
+        >
+          <MonitorControl />
+        </MonitorContext.Provider>
+      );
+      expect(container).toMatchSnapshot();
+    });
   });
 
   test('play button in preview mode', () => {
