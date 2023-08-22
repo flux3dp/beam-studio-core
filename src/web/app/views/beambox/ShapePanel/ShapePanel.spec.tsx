@@ -17,6 +17,7 @@ const mockOnClose = jest.fn();
 const selectOnly = jest.fn();
 const setSvgElemPosition = jest.fn();
 const setSvgElemSize = jest.fn();
+const disassembleUse2Group = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => callback({
     Canvas: {
@@ -29,6 +30,7 @@ jest.mock('helpers/svg-editor-helper', () => ({
       setSvgElemPosition: (...args) => setSvgElemPosition(...args),
       setSvgElemSize: (...args) => setSvgElemSize(...args),
       updateElementColor: jest.fn(),
+      disassembleUse2Group: (...args) => disassembleUse2Group(...args),
     },
   }),
 }));
@@ -85,10 +87,11 @@ describe('test ShapePanel', () => {
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
+    expect(disassembleUse2Group).not.toBeCalled();
     expect(mockOnClose).toBeCalledTimes(1);
   });
 
-  it('should import svg object and update location', async () => {
+  it('should import svg object, update location and disassemble', async () => {
     const { container, getByText } = render(<ShapePanel onClose={mockOnClose} />);
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
     await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (-627px)))'));
@@ -112,6 +115,8 @@ describe('test ShapePanel', () => {
     expect(setSvgElemSize).toBeCalledTimes(2);
     expect(setSvgElemSize).toHaveBeenNthCalledWith(1, 'width', 300);
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
+    expect(disassembleUse2Group).toBeCalledTimes(1);
+    expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 });

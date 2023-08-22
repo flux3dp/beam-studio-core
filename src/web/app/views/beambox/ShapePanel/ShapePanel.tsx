@@ -48,6 +48,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
       svgCanvas.setSvgElemSize('height', newHeight);
       svgCanvas.setSvgElemPosition('x', 0);
       svgCanvas.setSvgElemPosition('y', 0);
+      svgCanvas.disassembleUse2Group([newElementnewElement], true);
     }
     setClose(true);
   };
