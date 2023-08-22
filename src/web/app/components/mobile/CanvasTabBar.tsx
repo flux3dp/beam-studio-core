@@ -16,11 +16,16 @@ import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import useI18n from 'helpers/useI18n';
 import { CameraIcon, DmktIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './CanvasTabBar.module.scss';
 
 const events = eventEmitterFactory.createEventEmitter('canvas');
+let svgCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const CanvasTabBar = (): JSX.Element => {
   const isMobile = useIsMobile();
@@ -100,6 +105,7 @@ const CanvasTabBar = (): JSX.Element => {
   ];
 
   const handleTabClick = (key: string) => {
+    svgCanvas.setMode('select');
     setDisplayLayer(key === 'layer');
 
     if (key === 'camera') {

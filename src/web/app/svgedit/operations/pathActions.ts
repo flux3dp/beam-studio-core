@@ -12,6 +12,7 @@ import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import ISVGPathElement from 'interfaces/ISVGPathElement';
+import { isMobile } from 'helpers/system-helper';
 import Segment from '../path/Segment';
 import Path from '../path/Path';
 
@@ -704,8 +705,11 @@ const mouseUp = (evt: MouseEvent, element: SVGElement) => {
     // Done with multi-node-select
     rubberBox.setAttribute('display', 'none');
 
-    if (Number(rubberBox.getAttribute('width')) <= 2
-        && Number(rubberBox.getAttribute('height')) <= 2) {
+    if (
+      !isMobile() &&
+      Number(rubberBox.getAttribute('width')) <= 2 &&
+      Number(rubberBox.getAttribute('height')) <= 2
+    ) {
       toSelectMode(evt.target);
     } else {
       svgEditor.updateContextPanel();

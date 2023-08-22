@@ -1,6 +1,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import styles from './SegmentedControl.module.scss';
+
 interface Props {
   segments: {
     id?: string;
@@ -37,16 +39,21 @@ function SegmentedControl({
       const segment = segments[i];
       const isSelected = selectedIndexes.includes(i);
       items.push(
-        <div key={i} className={classNames('seg-item', { selected: isSelected })} title={segment.title} onClick={() => onClick(i)}>
-          <img src={segment.imgSrc} className="seg-item-image" />
-        </div>,
+        <div
+          key={i}
+          className={classNames(styles['seg-item'], { [styles.selected]: isSelected })}
+          title={segment.title}
+          onClick={() => onClick(i)}
+        >
+          <img src={segment.imgSrc} className={styles['seg-item-image']} />
+        </div>
       );
     }
     return items;
   };
 
   return (
-    <div className={classNames('segmented-control', { disabled: isDisabled })}>
+    <div className={classNames(styles['segmented-control'], { [styles.disabled]: isDisabled })}>
       {renderItems()}
     </div>
   );
