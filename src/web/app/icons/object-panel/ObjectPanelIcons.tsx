@@ -31,6 +31,7 @@ import Offset from './icon-offset.svg';
 import Parameter from './icon-parameter.svg';
 import Plus from './icon-plus.svg';
 import Position from './icon-position.svg';
+import Potrace from './icon-potrace.svg';
 import RemoveBG from './icon-remove-bg.svg';
 import Replace from './icon-replace.svg';
 import Sharpen from './icon-sharpen.svg';
@@ -84,6 +85,7 @@ export default {
   Parameter,
   Plus,
   Position,
+  Potrace,
   RemoveBG,
   Replace,
   Sharpen,

@@ -243,7 +243,7 @@ class ActionsPanel extends React.Component<Props> {
         'potrace',
         false,
         <ActionPanelIcons.Potrace className={styles.icon} />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Potrace />
       ),
     };
     const contentOrder = isMobile()
