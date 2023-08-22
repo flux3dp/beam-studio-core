@@ -307,7 +307,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         break;
       case 'curve':
         panelContent = this.renderCurvePanel();
-        title = isMobile() ? 'Brightness' : LANG.curve;
+        title = isMobile() ? LANG.brightness_and_contrast : LANG.curve;
         rightWidth = 390;
         break;
       default:
@@ -485,7 +485,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     return isMobile() ? (
       <>
         <div className={styles.field}>
-          <span className={styles.label}>Brightness</span>
+          <span className={styles.label}>{LANG.brightness}</span>
           <InputNumber
             className={styles.input}
             type="number"
@@ -509,7 +509,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
           />
         </div>
         <div className={styles.field}>
-          <span className={styles.label}>Contrast</span>
+          <span className={styles.label}>{LANG.contrast}</span>
           <InputNumber
             className={styles.input}
             type="number"

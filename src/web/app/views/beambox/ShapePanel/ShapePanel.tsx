@@ -5,8 +5,9 @@ import ReactDomServer from 'react-dom/server';
 import { CapsuleTabs } from 'antd-mobile';
 
 import FloatingPanel from 'app/widgets/FloatingPanel';
+import i18n from 'helpers/i18n';
 import ShapeIcon from 'app/icons/shape/ShapeIcon';
-import Shapes from 'app/constants/shape-panel-constants';
+import Shapes, { ShapeTabs } from 'app/constants/shape-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import styles from './ShapePanel.module.scss';
@@ -16,11 +17,12 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+const LANG = i18n.lang.beambox.shapes_panel;
+
 const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
   const anchors = [0, window.innerHeight - 40];
   const [close, setClose] = React.useState(false);
-  const tabKeys = Object.keys(Shapes);
-  const [activeTab, setActiveTab] = React.useState(tabKeys[0]);
+  const [activeTab, setActiveTab] = React.useState(ShapeTabs[0]);
 
   const importShape = async (IconComponent, jsonMap) => {
     if (jsonMap) {
@@ -69,11 +71,11 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
   return (
     <FloatingPanel
       anchors={anchors}
-      title="Shape"
+      title={LANG.title}
       fixedContent={(
         <CapsuleTabs className={styles.tabs} activeKey={activeTab} onChange={setActiveTab}>
-          {tabKeys.map((key) => (
-            <CapsuleTabs.Tab title={key} key={key} />
+          {ShapeTabs.map((key) => (
+            <CapsuleTabs.Tab title={LANG[key]} key={key} />
           ))}
         </CapsuleTabs>
       )}

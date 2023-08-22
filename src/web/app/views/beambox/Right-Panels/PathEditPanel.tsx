@@ -104,7 +104,7 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
           block={isMobile}
         >
           <PathSharpIcon />
-          Sharp
+          {LANG.sharp}
         </Button>
         <Button
           disabled={!containsSharpNodes}
@@ -114,7 +114,7 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
           block={isMobile}
         >
           <PathRoundIcon />
-          Round
+          {LANG.round}
         </Button>
         <Button
           disabled={!canConnect}
@@ -124,7 +124,7 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
           block={isMobile}
         >
           <PathConnectIcon />
-          Connect
+          {LANG.connect}
         </Button>
         <Button
           disabled={!canDisconnect}
@@ -134,7 +134,7 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
           block={isMobile}
         >
           <PathDisconnectIcon />
-          Disconnect
+          {LANG.disconnect}
         </Button>
         {isMobile && (
           <Button
@@ -145,7 +145,7 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
             block={isMobile}
           >
             <TrashIcon />
-            Delete
+            {LANG.delete}
           </Button>
         )}
       </Space>

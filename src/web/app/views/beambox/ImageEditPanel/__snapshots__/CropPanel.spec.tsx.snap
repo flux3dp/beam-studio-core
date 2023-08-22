@@ -353,7 +353,7 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                 <span
                   class="label"
                 >
-                  Aspect ratio
+                  Aspect Ratio
                 </span>
                 <div
                   class="ant-select select css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"

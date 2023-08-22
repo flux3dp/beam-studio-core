@@ -38,7 +38,7 @@ exports[`test ShapePanel should render correctly 1`] = `
       <div
         class="title"
       >
-        Shape
+        Elements
       </div>
       <div
         class="adm-capsule-tabs tabs"
@@ -63,7 +63,7 @@ exports[`test ShapePanel should render correctly 1`] = `
               <div
                 class="adm-capsule-tabs-tab adm-capsule-tabs-tab-active"
               >
-                shape
+                Shape
               </div>
             </div>
             <div
@@ -72,7 +72,7 @@ exports[`test ShapePanel should render correctly 1`] = `
               <div
                 class="adm-capsule-tabs-tab"
               >
-                graphics
+                Graphics
               </div>
             </div>
           </div>

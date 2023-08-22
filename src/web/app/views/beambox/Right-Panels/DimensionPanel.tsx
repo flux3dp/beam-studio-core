@@ -458,7 +458,7 @@ class DimensionPanel extends React.Component<Props> {
               id="rotate"
               value={dimensionValues.rotation || 0}
               updateValue={this.handleRotationChange}
-              label="Rotate"
+              label={i18n.lang.topbar.menu.rotate}
               unit="degree"
             />
           );
@@ -631,7 +631,7 @@ class DimensionPanel extends React.Component<Props> {
           },
         ]}
         content={<ObjectPanelIcon.Flip />}
-        label="flip"
+        label={LANG.flip}
       />
     ) : (
       <div className="flip-btn-container">

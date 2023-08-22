@@ -33,6 +33,9 @@ jest.mock('helpers/useI18n', () => () => ({
       cancel: 'cancel',
       apply: 'apply',
       crop: 'crop',
+      aspect_ratio: 'Aspect Ratio',
+      original: 'Original',
+      free: 'Free',
     },
   },
 }));

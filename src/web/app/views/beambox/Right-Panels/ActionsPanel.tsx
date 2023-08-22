@@ -180,13 +180,14 @@ class ActionsPanel extends React.Component<Props> {
         <ObjectPanelIcons.Trace2 />
       ),
       grading: this.renderButtons(
-        isMobile() ? 'Brightness' : LANG.grading,
+        LANG.grading,
         () => Dialog.showPhotoEditPanel('curve'),
         false,
         'grading',
         false,
         <GrayscaleIcon />,
-        <ObjectPanelIcons.Brightness />
+        <ObjectPanelIcons.Brightness />,
+        LANG.brightness
       ),
       sharpen: this.renderButtons(
         LANG.sharpen,
@@ -283,7 +284,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.array,
@@ -321,7 +323,8 @@ class ActionsPanel extends React.Component<Props> {
         'detach_path',
         false,
         undefined,
-        <ObjectPanelIcons.DecomposeTextpath />
+        <ObjectPanelIcons.DecomposeTextpath />,
+        LANG.detach_path_short
       ),
       this.renderButtons(
         LANG.convert_to_path,
@@ -330,7 +333,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         undefined,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.array,
@@ -407,7 +411,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -441,7 +446,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -475,7 +481,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -509,7 +516,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -603,7 +611,8 @@ class ActionsPanel extends React.Component<Props> {
             'create_textpath',
             false,
             undefined,
-            <ObjectPanelIcons.CreateTextpath />
+            <ObjectPanelIcons.CreateTextpath />,
+            LANG.create_textpath_short
           )
         );
       }

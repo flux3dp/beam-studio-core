@@ -168,7 +168,7 @@ class ImageOptions extends React.Component<Props> {
           visible={visible}
           content={
             <div className={styles.field}>
-              <span className={styles.label}>{LANG.threshold}</span>
+              <span className={styles.label}>{LANG.threshold_short}</span>
               <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
                 <InputNumber
                   className={styles.input}

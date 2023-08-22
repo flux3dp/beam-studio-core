@@ -284,7 +284,7 @@ exports[`should render correctly in mobile image 1`] = `
     }
     content={<svgr-url />}
     id="flip"
-    label="flip"
+    label="Flip"
   />
 </div>
 `;
@@ -352,7 +352,7 @@ exports[`should render correctly in mobile no elements 1`] = `
     }
     content={<svgr-url />}
     id="flip"
-    label="flip"
+    label="Flip"
   />
 </div>
 `;
@@ -420,7 +420,7 @@ exports[`should render correctly in mobile unsupported element 1`] = `
     }
     content={<svgr-url />}
     id="flip"
-    label="flip"
+    label="Flip"
   />
 </div>
 `;

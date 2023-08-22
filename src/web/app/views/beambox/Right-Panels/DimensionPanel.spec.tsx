@@ -25,9 +25,15 @@ jest.mock('helpers/i18n', () => ({
     beambox: {
       right_panel: {
         object_panel: {
+          flip: 'Flip',
           hflip: 'Horizontal Flip',
           vflip: 'Vertical Flip',
         },
+      },
+    },
+    topbar: {
+      menu: {
+        rotate: "Rotate",
       },
     },
   },

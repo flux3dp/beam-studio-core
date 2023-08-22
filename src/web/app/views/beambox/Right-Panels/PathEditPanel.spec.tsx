@@ -16,6 +16,11 @@ jest.mock('helpers/i18n', () => ({
         object_panel: {
           path_edit_panel: {
             node_type: 'NODE TYPE',
+            sharp: 'Sharp',
+            round: 'Round',
+            connect: 'Connect',
+            disconnect: 'Disconnect',
+            delete: 'Delete',
           },
         },
         tabs: {

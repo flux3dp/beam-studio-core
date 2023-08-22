@@ -154,7 +154,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
             },
           ]}
           content={<ObjectPanelIcon.ValignMid />}
-          label="align"
+          label={LANG.align}
         />
         <ObjectPanelItem.ActionList
           id="distribute"
@@ -171,7 +171,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
             },
           ]}
           content={<ObjectPanelIcon.Distribute />}
-          label="distribute"
+          label={LANG.distribute}
           disabled={!buttonAvailability.dist}
         />
         <ObjectPanelItem.ActionList
@@ -203,7 +203,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
             },
           ]}
           content={<ObjectPanelIcon.Union />}
-          label="boolean"
+          label={LANG.boolean}
           disabled={!buttonAvailability.boolean}
         />
       </div>

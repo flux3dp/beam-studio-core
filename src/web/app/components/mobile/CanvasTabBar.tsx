@@ -79,7 +79,7 @@ const CanvasTabBar = (): JSX.Element => {
     },
     {
       key: 'document',
-      title: lang.topbar.menu.document_setting,
+      title: lang.topbar.menu.document_setting_short,
       icon: <TabBarIcons.Document />,
     },
     {
@@ -146,7 +146,7 @@ const CanvasTabBar = (): JSX.Element => {
     },
     {
       key: 'choose-preview-device',
-      title: '選擇機型',
+      title: lang.beambox.left_panel.label.choose_camera,
       icon: <TabBarIcons.Shoot />,
     },
     {

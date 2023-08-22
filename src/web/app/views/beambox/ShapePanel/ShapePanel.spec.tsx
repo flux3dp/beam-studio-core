@@ -36,23 +36,39 @@ jest.mock('helpers/svg-editor-helper', () => ({
 }));
 
 jest.mock('app/constants/shape-panel-constants', () => ({
-  shape: [
-    {
-      name: 'Circle',
-      jsonMap: {
-        element: 'ellipse',
-        attr: { cx: 250, cy: 250, rx: 250, ry: 250, 'data-ratiofixed': true },
+  __esModule: true,
+  ShapeTabs: ['shape', 'graphics'],
+  default: {
+    shape: [
+      {
+        name: 'Circle',
+        jsonMap: {
+          element: 'ellipse',
+          attr: { cx: 250, cy: 250, rx: 250, ry: 250, 'data-ratiofixed': true },
+        },
       },
-    },
-    { name: 'Triangle' },
-  ],
-  graphics: [{ name: 'Minus' }],
+      { name: 'Triangle' },
+    ],
+    graphics: [{ name: 'Minus' }],
+  },
 }));
 
 jest.mock('app/icons/shape/ShapeIcon', () => ({
   Circle: () => mockElement,
   Minus: () => mockElement,
   Triangle: () => mockElement,
+}));
+
+jest.mock('helpers/i18n', () => ({
+  lang: {
+    beambox: {
+      shapes_panel: {
+        title: 'Elements',
+        shape: 'Shape',
+        graphics: 'Graphics',
+      },
+    },
+  },
 }));
 
 describe('test ShapePanel', () => {
@@ -96,7 +112,7 @@ describe('test ShapePanel', () => {
     const panelEl = container.querySelector('.adm-floating-panel') as HTMLElement;
     await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (-627px)))'));
     expect(mockOnClose).not.toBeCalled();
-    const graphicsTab = getByText('graphics');
+    const graphicsTab = getByText('Graphics');
     fireEvent.click(graphicsTab);
     expect(graphicsTab).toHaveClass('adm-capsule-tabs-tab-active');
     const shapeIcons = container.querySelectorAll('.icon');

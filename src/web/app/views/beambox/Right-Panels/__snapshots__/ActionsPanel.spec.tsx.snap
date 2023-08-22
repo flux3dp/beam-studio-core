@@ -278,6 +278,7 @@ exports[`should render correctly image 1`] = `
     </div>
     <div
       className="btn-container half"
+      key="Outline"
       onClick={[Function]}
     >
       <button
@@ -288,6 +289,7 @@ exports[`should render correctly image 1`] = `
         <svgr-url
           className="icon"
         />
+        Outline
       </button>
     </div>
   </div>
@@ -303,8 +305,8 @@ exports[`should render correctly in mobile ellipse 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="convert_to_path"
-    key="Convert to Path"
-    label="Convert to Path"
+    key="Outline"
+    label="Outline"
     onClick={[Function]}
   />
   <ObjectPanelItem
@@ -383,6 +385,8 @@ exports[`should render correctly in mobile image 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="potrace"
+    key="Outline"
+    label="Outline"
     onClick={[Function]}
   />
   <ObjectPanelItem
@@ -461,8 +465,8 @@ exports[`should render correctly in mobile line 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="convert_to_path"
-    key="Convert to Path"
-    label="Convert to Path"
+    key="Outline"
+    label="Outline"
     onClick={[Function]}
   />
   <ObjectPanelItem
@@ -549,8 +553,8 @@ exports[`should render correctly in mobile polygon 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="convert_to_path"
-    key="Convert to Path"
-    label="Convert to Path"
+    key="Outline"
+    label="Outline"
     onClick={[Function]}
   />
   <ObjectPanelItem
@@ -581,8 +585,8 @@ exports[`should render correctly in mobile rect 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="convert_to_path"
-    key="Convert to Path"
-    label="Convert to Path"
+    key="Outline"
+    label="Outline"
     onClick={[Function]}
   />
   <ObjectPanelItem
@@ -613,8 +617,8 @@ exports[`should render correctly in mobile text 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="convert_to_path"
-    key="Convert to Path"
-    label="Convert to Path"
+    key="Outline"
+    label="Outline"
     onClick={[Function]}
   />
   <ObjectPanelItem
