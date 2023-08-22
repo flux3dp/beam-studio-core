@@ -99,13 +99,13 @@ const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): 
           percentage: Math.round(100 * val),
         });
       });
+      param.current = { ...param.current, k, d, heights, points };
+      setStep(Step.CUT);
       if (errors.length > 0) {
         console.log(errors);
         const errorHeights = errors.map((e) => e.height).join(', ');
         alertCaller.popUp({ message: `tUnable to find perspective points for heights: ${errorHeights}` });
       }
-      param.current = { ...param.current, k, d, heights, points };
-      setStep(Step.CUT);
     } catch (e) {
       alertCaller.popUp({ message: `tUnable to calibrate camera ${e}` });
     } finally {
