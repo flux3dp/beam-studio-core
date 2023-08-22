@@ -32,7 +32,6 @@ exports[`test ShapePanel should render correctly 1`] = `
           fill="currentColor"
           focusable="false"
           height="1em"
-          viewbox="0 0 32 32"
           width="1em"
         />
       </span>

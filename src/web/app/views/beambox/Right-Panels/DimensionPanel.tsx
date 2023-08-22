@@ -570,10 +570,7 @@ class DimensionPanel extends React.Component<Props> {
             <ObjectPanelItem.Item
               id="lock"
               content={
-                <Icon
-                  component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock}
-                  viewBox="0 0 32 32"
-                />
+                <Icon component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock} />
               }
               onClick={this.handleFixRatio}
             />
@@ -609,12 +606,12 @@ class DimensionPanel extends React.Component<Props> {
         id="flip"
         actions={[
           {
-            icon: <Icon component={ObjectPanelIcon.Flip} viewBox="0 0 32 32" />,
+            icon: <Icon component={ObjectPanelIcon.Flip} />,
             label: LANG.hflip,
             onClick: () => svgCanvas.flipSelectedElements(-1, 1),
           },
           {
-            icon: <Icon component={ObjectPanelIcon.Flip} rotate={90} viewBox="0 0 32 32" />,
+            icon: <Icon component={ObjectPanelIcon.Flip} rotate={90} />,
             label: LANG.vflip,
             onClick: () => svgCanvas.flipSelectedElements(1, -1),
           },

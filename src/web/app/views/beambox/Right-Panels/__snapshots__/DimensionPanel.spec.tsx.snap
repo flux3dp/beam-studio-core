@@ -226,7 +226,6 @@ exports[`should render correctly in mobile image 1`] = `
     content={
       <AntdIcon
         component="svgr-url"
-        viewBox="0 0 32 32"
       />
     }
     id="lock"
@@ -263,7 +262,6 @@ exports[`should render correctly in mobile image 1`] = `
         {
           "icon": <AntdIcon
             component="svgr-url"
-            viewBox="0 0 32 32"
           />,
           "label": "Horizontal Flip",
           "onClick": [Function],
@@ -272,7 +270,6 @@ exports[`should render correctly in mobile image 1`] = `
           "icon": <AntdIcon
             component="svgr-url"
             rotate={90}
-            viewBox="0 0 32 32"
           />,
           "label": "Vertical Flip",
           "onClick": [Function],
@@ -328,7 +325,6 @@ exports[`should render correctly in mobile no elements 1`] = `
         {
           "icon": <AntdIcon
             component="svgr-url"
-            viewBox="0 0 32 32"
           />,
           "label": "Horizontal Flip",
           "onClick": [Function],
@@ -337,7 +333,6 @@ exports[`should render correctly in mobile no elements 1`] = `
           "icon": <AntdIcon
             component="svgr-url"
             rotate={90}
-            viewBox="0 0 32 32"
           />,
           "label": "Vertical Flip",
           "onClick": [Function],
@@ -393,7 +388,6 @@ exports[`should render correctly in mobile unsupported element 1`] = `
         {
           "icon": <AntdIcon
             component="svgr-url"
-            viewBox="0 0 32 32"
           />,
           "label": "Horizontal Flip",
           "onClick": [Function],
@@ -402,7 +396,6 @@ exports[`should render correctly in mobile unsupported element 1`] = `
           "icon": <AntdIcon
             component="svgr-url"
             rotate={90}
-            viewBox="0 0 32 32"
           />,
           "label": "Vertical Flip",
           "onClick": [Function],

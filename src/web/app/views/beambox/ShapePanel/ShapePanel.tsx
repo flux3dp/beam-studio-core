@@ -60,7 +60,6 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
           key={`${activeTab}-${name}`}
           className={styles.icon}
           component={IconComponent}
-          viewBox="0 0 50 50"
           onClick={() => importShape(IconComponent, jsonMap)}
         />
       )

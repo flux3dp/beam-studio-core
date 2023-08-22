@@ -109,15 +109,15 @@ const ObjectPanelNumber = ({
           shape="rounded"
           onClick={() => onChange(displayValue.substring(0, displayValue.length - 1))}
         >
-          <Icon className={styles.icon} component={ObjectPanelIcons.Delete2} viewBox="0 0 32 32" />
+          <Icon className={styles.icon} component={ObjectPanelIcons.Delete} />
         </Button>
       </div>
       <div className={styles['step-buttons']}>
         <Button shape="rounded" onClick={() => onChange((+displayValue - 1).toString())}>
-          <Icon className={styles.icon} component={ObjectPanelIcons.Minus} viewBox="0 0 32 32" />
+          <Icon className={styles.icon} component={ObjectPanelIcons.Minus} />
         </Button>
         <Button shape="rounded" onClick={() => onChange((+displayValue + 1).toString())}>
-          <Icon className={styles.icon} component={ObjectPanelIcons.Plus} viewBox="0 0 32 32" />
+          <Icon className={styles.icon} component={ObjectPanelIcons.Plus} />
         </Button>
       </div>
     </>

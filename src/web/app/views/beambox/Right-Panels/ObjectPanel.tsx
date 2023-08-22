@@ -123,32 +123,32 @@ function ObjectPanel({ elem }: Props): JSX.Element {
           id="align"
           actions={[
             {
-              icon: <Icon component={ObjectPanelIcon.ValignTop} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.ValignTop} />,
               label: LANG.top_align,
               onClick: FnWrapper.alignTop,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.ValignMid} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.ValignMid} />,
               label: LANG.middle_align,
               onClick: FnWrapper.alignMiddle,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.ValignBot} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.ValignBot} />,
               label: LANG.bottom_align,
               onClick: FnWrapper.alignBottom,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.HalignLeft} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.HalignLeft} />,
               label: LANG.left_align,
               onClick: FnWrapper.alignLeft,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.HalignMid} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.HalignMid} />,
               label: LANG.center_align,
               onClick: FnWrapper.alignCenter,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.HalignRight} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.HalignRight} />,
               label: LANG.right_align,
               onClick: FnWrapper.alignRight,
             },
@@ -160,12 +160,12 @@ function ObjectPanel({ elem }: Props): JSX.Element {
           id="distribute"
           actions={[
             {
-              icon: <Icon component={ObjectPanelIcon.Distribute} rotate={90} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.Distribute} rotate={90} />,
               label: LANG.hdist,
               onClick: svgCanvas.distHori,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.Distribute} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.Distribute} />,
               label: LANG.vdist,
               onClick: svgCanvas.distVert,
             },
@@ -178,25 +178,25 @@ function ObjectPanel({ elem }: Props): JSX.Element {
           id="boolean"
           actions={[
             {
-              icon: <Icon component={ObjectPanelIcon.Union} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.Union} />,
               label: LANG.union,
               onClick: () => svgCanvas.booleanOperationSelectedElements('union'),
               disabled: !buttonAvailability.union,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.Subtract} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.Subtract} />,
               label: LANG.subtract,
               onClick: () => svgCanvas.booleanOperationSelectedElements('diff'),
               disabled: !buttonAvailability.subtract,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.Intersect} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.Intersect} />,
               label: LANG.intersect,
               onClick: () => svgCanvas.booleanOperationSelectedElements('intersect'),
               disabled: !buttonAvailability.intersect,
             },
             {
-              icon: <Icon component={ObjectPanelIcon.Diff} viewBox="0 0 32 32" />,
+              icon: <Icon component={ObjectPanelIcon.Diff} />,
               label: LANG.difference,
               onClick: () => svgCanvas.booleanOperationSelectedElements('xor'),
               disabled: !buttonAvailability.difference,

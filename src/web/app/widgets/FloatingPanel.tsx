@@ -58,7 +58,6 @@ const FloatingPanel = ({
       <Icon
         className={styles['close-icon']}
         component={ActionIcon.Delete}
-        viewBox="0 0 32 32"
         onClick={() => panelRef.current.setHeight(0)}
       />
       <div className={styles.title}>{title}</div>

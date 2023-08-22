@@ -334,11 +334,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
           <Modal
             className={styles.modal}
             closeIcon={
-              <Icon
-                className={styles['close-icon']}
-                component={ActionPanelIcons.Delete}
-                viewBox="0 0 32 32"
-              />
+              <Icon className={styles['close-icon']} component={ActionPanelIcons.Delete} />
             }
             footer={footerButtons}
             onCancel={() => this.handleCancel()}

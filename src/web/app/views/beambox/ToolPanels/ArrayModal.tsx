@@ -63,13 +63,7 @@ const ArrayModal = ({ onCancel, onOk }: Props): JSX.Element => {
     >
       <Modal
         className={styles.modal}
-        closeIcon={
-          <Icon
-            className={styles['close-icon']}
-            component={ActionPanelIcons.Delete}
-            viewBox="0 0 32 32"
-          />
-        }
+        closeIcon={<Icon className={styles['close-icon']} component={ActionPanelIcons.Delete} />}
         okText={LANG.confirm}
         cancelText={LANG.cancel}
         onOk={() => {
