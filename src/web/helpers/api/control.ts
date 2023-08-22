@@ -642,19 +642,19 @@ class Control extends EventEmitter {
       } else if (!Object.keys(response).includes('completed')) {
         file.push(response);
       }
-
       if (response instanceof Blob) {
         this.removeCommandListeners();
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-          const jsonString = e.target.result as string;
-          console.log(jsonString);
-          const data = JSON.parse(jsonString);
-          console.log(data);
-          resolve(data);
+          try {
+            const jsonString = e.target.result as string;
+            const data = JSON.parse(jsonString);
+            resolve(data);
+          } catch (err) {
+            reject(err);
+          }
         };
         fileReader.readAsText(response);
-        console.log(response);
       }
     });
     this.setDefaultErrorResponse(reject);
