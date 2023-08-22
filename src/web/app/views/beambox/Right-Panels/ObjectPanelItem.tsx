@@ -179,6 +179,7 @@ const ObjectPanelActionList = ({
     <div>
       {actions.map((action) => (
         <div
+          key={action.label}
           className={classNames(styles.action, {
             [styles.disabled]: action.disabled,
             [styles.active]: activeAction.includes(action.label),
@@ -246,6 +247,7 @@ const ObjectPanelSelect = ({
     <div id={`${id}-options`} className={styles['select-options']}>
       {options.map((option) => (
         <div
+          key={option.value}
           className={classNames(styles.option, {
             [styles.active]: selected.value === option.value,
           })}
