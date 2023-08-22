@@ -18,6 +18,7 @@ const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 interface Props {
   label?: string;
   elem: Element;
+  id?: string;
 }
 
 interface State {
@@ -85,7 +86,7 @@ class InFillBlock extends React.Component<Props, State> {
   };
 
   render(): JSX.Element {
-    const { elem, label = LANG.fill } = this.props;
+    const { elem, label = LANG.fill, id = 'infill' } = this.props;
     const { isAnyFilled, isAllFilled, isFillable } = this.state;
     const isPartiallyFilled = elem.tagName === 'g' && (isAnyFilled && !isAllFilled);
     if (!isFillable) {
@@ -93,7 +94,7 @@ class InFillBlock extends React.Component<Props, State> {
     }
     return isMobile() ? (
       <ObjectPanelItem.Item
-        id="infill"
+        id={id}
         content={this.renderSwitch()}
         label={label}
         onClick={this.onClick}

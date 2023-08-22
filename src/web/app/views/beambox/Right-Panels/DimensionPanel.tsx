@@ -220,6 +220,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="x_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -243,6 +244,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="y_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -266,6 +268,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="x1_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -296,6 +299,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="y1_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -326,6 +330,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="x2_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -356,6 +361,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="y2_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -386,6 +392,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="cx_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -416,6 +423,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="cy_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -446,6 +454,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="rotate"
               value={dimensionValues.rotation || 0}
               updateValue={this.handleRotationChange}
@@ -472,6 +481,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="width"
               value={this.getDisplayValue(dimensionValues.width)}
               updateValue={(val) => this.handleSizeChange('width', val)}
@@ -497,6 +507,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="height"
               value={this.getDisplayValue(dimensionValues.height)}
               updateValue={(val) => this.handleSizeChange('height', val)}
@@ -522,6 +533,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="rx_width"
               value={this.getDisplayValue(dimensionValues.rx * 2)}
               updateValue={(val) => this.handleSizeChange('rx', val / 2)}
@@ -545,6 +557,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="ry_height"
               value={this.getDisplayValue(dimensionValues.ry * 2)}
               updateValue={(val) => this.handleSizeChange('ry', val / 2)}
@@ -568,6 +581,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Item
+              key={type}
               id="lock"
               content={
                 <Icon component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock} />

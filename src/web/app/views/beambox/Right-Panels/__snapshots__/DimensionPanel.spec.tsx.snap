@@ -218,6 +218,7 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelNumber
     id="width"
+    key="w"
     label="W"
     updateValue={[Function]}
     value={108}
@@ -229,16 +230,19 @@ exports[`should render correctly in mobile image 1`] = `
       />
     }
     id="lock"
+    key="lock"
     onClick={[Function]}
   />
   <ObjectPanelNumber
     id="height"
+    key="h"
     label="H"
     updateValue={[Function]}
     value={152.6}
   />
   <ObjectPanelNumber
     id="rotate"
+    key="rot"
     label="Rotate"
     unit="degree"
     updateValue={[Function]}
@@ -246,12 +250,14 @@ exports[`should render correctly in mobile image 1`] = `
   />
   <ObjectPanelNumber
     id="x_position"
+    key="x"
     label="X"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="y_position"
+    key="y"
     label="Y"
     updateValue={[Function]}
     value={0}
@@ -290,18 +296,21 @@ exports[`should render correctly in mobile no elements 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelNumber
     id="x_position"
+    key="x"
     label="X"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="y_position"
+    key="y"
     label="Y"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="rotate"
+    key="rot"
     label="Rotate"
     unit="degree"
     updateValue={[Function]}
@@ -309,12 +318,14 @@ exports[`should render correctly in mobile no elements 1`] = `
   />
   <ObjectPanelNumber
     id="width"
+    key="w"
     label="W"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="height"
+    key="h"
     label="H"
     updateValue={[Function]}
     value={0}
@@ -353,18 +364,21 @@ exports[`should render correctly in mobile unsupported element 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelNumber
     id="x_position"
+    key="x"
     label="X"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="y_position"
+    key="y"
     label="Y"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="rotate"
+    key="rot"
     label="Rotate"
     unit="degree"
     updateValue={[Function]}
@@ -372,12 +386,14 @@ exports[`should render correctly in mobile unsupported element 1`] = `
   />
   <ObjectPanelNumber
     id="width"
+    key="w"
     label="W"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="height"
+    key="h"
     label="H"
     updateValue={[Function]}
     value={0}

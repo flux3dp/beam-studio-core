@@ -9,15 +9,25 @@ $active-color: #0091ff;
   }
   &.active {
     color: $active-color;
-    .number-item {
+    .number-item,
+    .select-button {
       color: $active-color;
       --border-color: #0091ff;
     }
   }
-  .number-item {
+  .number-item,
+  .select-button {
     min-width: 48px;
     height: 28px;
     --border-color: #7c7c7c;
+    .selected-content {
+      display: flex;
+      column-gap: 12px;
+      white-space: nowrap;
+      justify-content: space-between;
+      height: 20px;
+      align-items: center;
+    }
   }
   .main {
     display: flex;
@@ -85,6 +95,36 @@ div.divider {
     .label {
       font-size: 12px;
       margin-left: 4px;
+    }
+  }
+}
+.select {
+  :global(.adm-popover-inner-content) {
+    padding: 8px 0;
+  }
+  .select-options {
+    overflow: scroll;
+    max-height: 256px;
+    &[id='font_family-options'] {
+      width: 256px;
+    }
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 4px 18px;
+    &.active {
+      background-color: $active-color;
+      color: white;
+      img {
+        filter: invert(1) brightness(1.1);
+      }
+    }
+    img {
+      vertical-align: middle;
+      max-height: 20px;
+      min-height: 16px;
     }
   }
 }

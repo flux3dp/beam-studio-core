@@ -100,6 +100,22 @@ describe('should render correctly in mobile', () => {
     isMobile.mockReturnValue(true);
   });
 
+  test('id given', () => {
+    isElemFillable.mockReturnValue(true);
+    calcElemFilledInfo.mockReturnValue({
+      isAnyFilled: false,
+      isAllFilled: false,
+    });
+    document.body.innerHTML = '<div id="flux" />';
+    const { container } = render(
+      <InFillBlock
+        elem={document.getElementById('flux')}
+        id='mock-infill-id'
+      />,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   test('is not fillable', () => {
     isElemFillable.mockReturnValue(false);
     calcElemFilledInfo.mockReturnValue({

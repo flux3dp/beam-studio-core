@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import Icon from '@ant-design/icons';
-import React, { useContext, useMemo } from 'react';
+import Icon, { DownOutlined } from '@ant-design/icons';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import { Button, Divider, Mask, Popover } from 'antd-mobile';
 
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
@@ -57,7 +57,7 @@ interface NumberItemProps {
 const ObjectPanelNumber = ({
   id,
   label,
-  value,
+  value = 0,
   updateValue,
   unit = 'mm',
   decimal,
@@ -218,6 +218,78 @@ const ObjectPanelActionList = ({
   );
 };
 
+interface SelectProps {
+  id: string;
+  selected: {
+    label: string | JSX.Element;
+    value: string | number;
+  };
+  options: {
+    label: string | JSX.Element;
+    value: string | number;
+  }[];
+  onChange: (val: string | number) => void | Promise<void>;
+  label?: string;
+}
+const ObjectPanelSelect = ({
+  id,
+  selected = { value: '', label: '' },
+  options,
+  onChange,
+  label,
+}: SelectProps): JSX.Element => {
+  const context = useContext(ObjectPanelContext);
+  const { activeKey, updateActiveKey } = context;
+  const isActive = activeKey === id;
+  const ref = useRef(null);
+  const SelectOptions = () => (
+    <div id={`${id}-options`} className={styles['select-options']}>
+      {options.map((option) => (
+        <div
+          className={classNames(styles.option, {
+            [styles.active]: selected.value === option.value,
+          })}
+          onClick={async () => {
+            await onChange(option.value);
+            updateActiveKey(null);
+          }}
+        >
+          <span>{option.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+  useEffect(() => {
+    if (ref.current && isActive) {
+      const ele = document.querySelector(`#${id}-options .${styles.active}`) as HTMLElement;
+      if (ele) {
+        ele.parentElement.scrollTop = ele.offsetTop - 20;
+      }
+    }
+  }, [id, isActive, ref]);
+
+  return (
+    <>
+      <Mask visible={isActive} onMaskClick={() => updateActiveKey(null)} color="transparent" />
+      <Popover ref={ref} className={styles.select} visible={isActive} content={<SelectOptions />}>
+        <ObjectPanelItem
+          id={id}
+          content={
+            <Button className={styles['select-button']} shape="rounded" size="mini" fill="outline">
+              <div className={styles['selected-content']}>
+                {selected.label}
+                <DownOutlined />
+              </div>
+            </Button>
+          }
+          label={label}
+          disabled={options.length <= 1}
+        />
+      </Popover>
+    </>
+  );
+};
+
 const ObjectPanelDivider = (): JSX.Element => (
   <Divider className={styles.divider} direction="vertical" />
 );
@@ -227,4 +299,5 @@ export default {
   Divider: ObjectPanelDivider,
   Item: ObjectPanelItem,
   Number: ObjectPanelNumber,
+  Select: ObjectPanelSelect,
 };
