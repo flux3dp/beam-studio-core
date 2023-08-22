@@ -4863,6 +4863,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     this.selectOnly(newElements, true);
     addCommandToHistory(batchCmd);
+    ObjectPanelController.updateActiveKey(null);
     return batchCmd;
   };
 
@@ -5086,6 +5087,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       selectOnly(allNewPaths, false);
       this.tempGroupSelectedElements();
     }
+    ObjectPanelController.updateActiveKey(null);
   };
 
   this.disassembleUse2Group = async function (elems = null) {
@@ -5424,7 +5426,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * @param {string} type type of element to group into 'a' or 'g', defaults to 'g'
    * @param {string} urlArg url if type if 'a'
    */
-  this.groupSelectedElements = function (type, urlArg) {
+  this.groupSelectedElements = (type, urlArg) => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
@@ -5715,7 +5717,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Function: ungroupSelectedElement
   // Unwraps all the elements in a selected group (g) element. This requires
   // significant recalculations to apply group's transforms, etc to its children
-  this.ungroupSelectedElement = function (isSubCmd = false) {
+  this.ungroupSelectedElement = (isSubCmd = false) => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);

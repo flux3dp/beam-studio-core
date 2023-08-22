@@ -44,4 +44,12 @@ describe('test ObjectPanelController', () => {
     expect(emit).toHaveBeenCalledTimes(1);
     expect(emit).toHaveBeenNthCalledWith(1, 'UPDATE_ACTIVE_KEY', 'test-id');
   });
+
+  test('test getActiveKey', () => {
+    ObjectPanelController.getActiveKey();
+    expect(emit).toHaveBeenCalledTimes(1);
+    expect(emit).toHaveBeenNthCalledWith(1, 'GET_ACTIVE_KEY', {
+      activeKey: undefined,
+    });
+  });
 });

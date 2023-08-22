@@ -757,9 +757,11 @@ export interface ILang {
           path_infill: string,
           shading: string,
           threshold: string,
+          threshold_short: string,
         },
         actions_panel: {
           replace_with: string,
+          replace_with_short: string,
           trace: string,
           grading: string,
           sharpen: string,
@@ -781,6 +783,7 @@ export interface ILang {
           edit_path: string,
           simplify: string;
           ai_bg_removal: string;
+          ai_bg_removal_short: string;
           ai_bg_removal_reminder: string;
           outline: string;
         },

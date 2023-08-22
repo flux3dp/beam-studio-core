@@ -1,7 +1,6 @@
+import Icon from '@ant-design/icons';
 import React, { useCallback, useContext, useState } from 'react';
 import { Badge, TabBar } from 'antd-mobile';
-import { FontSizeOutlined } from '@ant-design/icons';
-import { PicturesOutline, RedoOutline, UndoOutline } from 'antd-mobile-icons';
 
 import beamboxStore from 'app/stores/beambox-store';
 import browser from 'implementations/browser';
@@ -15,7 +14,7 @@ import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import useI18n from 'helpers/useI18n';
-import { CameraIcon, DmktIcon, LayersIcon, PenIcon, ShapesIcon } from 'app/icons/icons';
+import { CameraIcon, DmktIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -32,7 +31,7 @@ const CanvasTabBar = (): JSX.Element => {
     isPreviewing,
     endPreviewMode,
     changeToPreviewMode,
-    showCameraPreviewDeviceList
+    showCameraPreviewDeviceList,
   } = useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = useState('none');
 
@@ -45,43 +44,43 @@ const CanvasTabBar = (): JSX.Element => {
     {
       key: 'camera',
       title: lang.beambox.left_panel.label.preview,
-      icon: <CameraIcon />
+      icon: <CameraIcon style={{}} />,
     },
     {
       key: 'image',
       title: lang.beambox.left_panel.label.photo,
-      icon: <PicturesOutline />,
+      icon: <TabBarIcons.Photo />,
       badge: Badge.dot,
     },
     {
       key: 'shape',
-      title: '形狀',
-      icon: <ShapesIcon />,
+      title: lang.beambox.left_panel.label.shapes,
+      icon: <TabBarIcons.Shape />,
     },
     {
       key: 'text',
       title: lang.beambox.left_panel.label.text,
-      icon: <FontSizeOutlined />,
+      icon: <TabBarIcons.Text />,
     },
     {
       key: 'layer',
-      title: '圖層',
-      icon: <LayersIcon />,
+      title: lang.topbar.menu.layer_setting,
+      icon: <TabBarIcons.Layers />,
     },
     {
       key: 'pen',
       title: lang.beambox.left_panel.label.pen,
-      icon: <PenIcon />,
+      icon: <TabBarIcons.Draw />,
     },
     {
       key: 'document',
       title: lang.topbar.menu.document_setting,
-      icon: <PenIcon />,
+      icon: <TabBarIcons.Document />,
     },
     {
       key: 'dmkt',
       title: 'DMKT',
-      icon: <DmktIcon />,
+      icon: <DmktIcon style={{ fontSize: 40 }} />,
     },
     {
       key: '',
@@ -90,13 +89,13 @@ const CanvasTabBar = (): JSX.Element => {
     },
     {
       key: 'undo',
-      title: '復原',
-      icon: <UndoOutline />,
+      title: lang.topbar.menu.undo,
+      icon: <Icon component={TabBarIcons.Undo} viewBox="2 2 16 16" />,
     },
     {
       key: 'redo',
-      title: '重做',
-      icon: <RedoOutline />
+      title: lang.topbar.menu.redo,
+      icon: <Icon component={TabBarIcons.Redo} viewBox="2 2 16 16" />,
     },
   ];
 
@@ -178,7 +177,7 @@ const CanvasTabBar = (): JSX.Element => {
   return (
     <>
       <div id="mobile-tab-bar" className={styles.container}>
-        <div style={{ width: '150%' }}>
+        <div style={{ width: 'fit-content' }}>
           <TabBar
             activeKey={activeKey}
             onChange={(key) => {

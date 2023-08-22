@@ -18,7 +18,7 @@ exports[`should render correctly in mobile no elements 1`] = `
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="delete"
-        label="delete"
+        label="Delete"
         onClick={[Function]}
       >
         <div>
@@ -28,7 +28,7 @@ exports[`should render correctly in mobile no elements 1`] = `
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="duplicate"
-        label="duplicate"
+        label="Duplicate"
         onClick={[Function]}
       >
         <div>
@@ -270,7 +270,7 @@ exports[`should render correctly in mobile one element is g element 1`] = `
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="delete"
-        label="delete"
+        label="Delete"
         onClick={[Function]}
       >
         <div>
@@ -280,7 +280,7 @@ exports[`should render correctly in mobile one element is g element 1`] = `
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="duplicate"
-        label="duplicate"
+        label="Duplicate"
         onClick={[Function]}
       >
         <div>
@@ -522,7 +522,7 @@ exports[`should render correctly in mobile one element not g element 1`] = `
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="delete"
-        label="delete"
+        label="Delete"
         onClick={[Function]}
       >
         <div>
@@ -532,7 +532,7 @@ exports[`should render correctly in mobile one element not g element 1`] = `
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="duplicate"
-        label="duplicate"
+        label="Duplicate"
         onClick={[Function]}
       >
         <div>
@@ -782,7 +782,7 @@ exports[`should render correctly in mobile two elements contains other types of 
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="delete"
-        label="delete"
+        label="Delete"
         onClick={[Function]}
       >
         <div>
@@ -792,7 +792,7 @@ exports[`should render correctly in mobile two elements contains other types of 
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="duplicate"
-        label="duplicate"
+        label="Duplicate"
         onClick={[Function]}
       >
         <div>
@@ -1066,7 +1066,7 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="delete"
-        label="delete"
+        label="Delete"
         onClick={[Function]}
       >
         <div>
@@ -1076,7 +1076,7 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
       <DummyObjectPanelItem
         content={<svgr-url />}
         id="duplicate"
-        label="duplicate"
+        label="Duplicate"
         onClick={[Function]}
       >
         <div>

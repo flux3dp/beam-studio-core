@@ -375,32 +375,22 @@ exports[`should render correctly in mobile image 1`] = `
     content={<svgr-url />}
     disabled={false}
     id="replace_with"
-    key="Replace With..."
-    label="Replace With..."
+    key="Replace"
+    label="Replace"
     onClick={[Function]}
   />
   <ObjectPanelItem
     content={<svgr-url />}
     disabled={false}
-    id="bg-removal"
-    key="ai_bg_removal"
-    label="ai_bg_removal"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    disabled={false}
-    id="trace"
-    key="Trace"
-    label="Trace"
+    id="potrace"
     onClick={[Function]}
   />
   <ObjectPanelItem
     content={<svgr-url />}
     disabled={false}
     id="grading"
-    key="Grading"
-    label="Grading"
+    key="Brightness"
+    label="Brightness"
     onClick={[Function]}
   />
   <ObjectPanelItem
@@ -444,10 +434,19 @@ exports[`should render correctly in mobile image 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    content={<svgr-url />}
     disabled={false}
-    id="remove"
-    key="Potrace"
-    label="Potrace"
+    id="trace"
+    key="Trace"
+    label="Trace"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    disabled={false}
+    id="bg-removal"
+    key="BG Removal"
+    label="BG Removal"
     onClick={[Function]}
   />
 </div>

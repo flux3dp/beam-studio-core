@@ -44,7 +44,7 @@ const mockActions = [
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import ObjectPanelItem from './ObjectPanelItem';
 
-const MockNumberItem = ({ id }: { id: string }) => {
+const MockNumberItem = ({ id, unit, decimal }: { id: string; unit?: string; decimal?: number }) => {
   const [value, setValue] = React.useState(1);
   return (
     <ObjectPanelContextProvider>
@@ -56,6 +56,8 @@ const MockNumberItem = ({ id }: { id: string }) => {
           setValue(val);
         }}
         label="mock-label"
+        unit={unit}
+        decimal={decimal}
       />
     </ObjectPanelContextProvider>
   );
@@ -251,7 +253,9 @@ describe('should render correctly', () => {
 
     test('when unit is degree', async () => {
       mockStorage.mockReturnValue('inches');
-      const { baseElement, container } = render(<MockNumberItem id="rotate" />);
+      const { baseElement, container } = render(
+        <MockNumberItem id="mock-number-item-angle" unit="degree" />
+      );
       expect(container).toMatchSnapshot();
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
@@ -273,6 +277,44 @@ describe('should render correctly', () => {
       expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
       expect(objectPanelItem).not.toHaveClass('active');
       expect(displayBtn).toHaveTextContent('2°');
+    });
+
+    test('when decimal is given', async () => {
+      const { baseElement, getByText } = render(
+        <MockNumberItem id="mock-number-item-integer" decimal={3} />
+      );
+      const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+      const displayBtn = baseElement.querySelector('button.number-item');
+      expect(displayBtn).toHaveTextContent('1');
+      expect(objectPanelItem).not.toHaveClass('active');
+      fireEvent.click(objectPanelItem);
+      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(objectPanelItem).toHaveClass('active');
+      expect(getByText('.').parentElement).not.toHaveClass('adm-button-disabled');
+
+      fireEvent.click(getByText('.'));
+      expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
+      fireEvent.click(getByText('1'));
+      fireEvent.click(getByText('1'));
+      expect(getByText('1').parentElement).not.toHaveClass('adm-button-disabled');
+      fireEvent.click(getByText('1'));
+      expect(displayBtn).toHaveTextContent('1.111');
+      expect(mockUpdateValue).toBeCalledTimes(4);
+      expect(getByText('1').parentElement).toHaveClass('adm-button-disabled');
+    });
+
+    test('when decimal is 0', async () => {
+      const { baseElement, getByText } = render(
+        <MockNumberItem id="mock-number-item-integer" decimal={0} />
+      );
+      const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+      const displayBtn = baseElement.querySelector('button.number-item');
+      expect(displayBtn).toHaveTextContent('1');
+      expect(objectPanelItem).not.toHaveClass('active');
+      fireEvent.click(objectPanelItem);
+      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(objectPanelItem).toHaveClass('active');
+      expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
     });
   });
 });

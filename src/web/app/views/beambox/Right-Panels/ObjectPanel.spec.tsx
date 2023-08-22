@@ -61,6 +61,12 @@ jest.mock('helpers/i18n', () => ({
         },
       },
     },
+    topbar:{
+      menu:{
+        delete:'Delete',
+        duplicate:'Duplicate'
+      }
+    }
   },
 }));
 

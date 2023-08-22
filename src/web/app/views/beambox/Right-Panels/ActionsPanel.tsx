@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Icon from '@ant-design/icons';
 import React from 'react';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
@@ -10,6 +11,7 @@ import fileExportHelper from 'helpers/file-export-helper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import textActions from 'app/svgedit/text/textactions';
@@ -67,6 +69,7 @@ class ActionsPanel extends React.Component<Props> {
   };
 
   replaceImage = async (): Promise<void> => {
+    setTimeout(() => ObjectPanelController.updateActiveKey(null), 300);
     const { elem } = this.props;
     const option = {
       filters: [
@@ -116,15 +119,16 @@ class ActionsPanel extends React.Component<Props> {
     id?: string,
     isDisabled?: boolean,
     icon?: JSX.Element,
-    mobileIcon?: JSX.Element
+    mobileIcon?: JSX.Element,
+    mobileLabel?: string
   ): JSX.Element => {
     const className = classNames(styles.btn, { [styles.disabled]: isDisabled });
     return isMobile() ? (
       <ObjectPanelItem.Item
-        key={label}
+        key={mobileLabel || label}
         id={id}
         content={mobileIcon}
-        label={label}
+        label={mobileLabel || label}
         onClick={onClick}
         disabled={isDisabled}
       />
@@ -145,44 +149,46 @@ class ActionsPanel extends React.Component<Props> {
   renderImageActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
-    const content = [
-      this.renderButtons(
+    const content = {
+      replace_with: this.renderButtons(
         LANG.replace_with,
         this.replaceImage,
         true,
         'replace_with',
         false,
         <ReplaceIcon />,
-        <ObjectPanelIcons.Replace />
+        <ObjectPanelIcons.Replace />,
+        LANG.replace_with_short,
       ),
-      this.renderButtons(
+      'bg-removal': this.renderButtons(
         LANG.ai_bg_removal,
         () => imageEdit.removeBackground(elem as SVGImageElement),
         true,
         'bg-removal',
         false,
         <ActionPanelIcons.ImageMatting className={styles.icon} />,
-        <ObjectPanelIcons.RemoveBG />
+        <ObjectPanelIcons.RemoveBG />,
+        LANG.ai_bg_removal_short,
       ),
-      this.renderButtons(
+      trace: this.renderButtons(
         LANG.trace,
         () => imageEdit.traceImage(elem as SVGImageElement),
         false,
         'trace',
         isShading,
         <ActionPanelIcons.Trace className={styles.icon} />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace2 />
       ),
-      this.renderButtons(
-        LANG.grading,
+      grading: this.renderButtons(
+        isMobile() ? 'Brightness' : LANG.grading,
         () => Dialog.showPhotoEditPanel('curve'),
         false,
         'grading',
         false,
         <GrayscaleIcon />,
-        <ObjectPanelIcons.Curve />
+        <ObjectPanelIcons.Brightness />
       ),
-      this.renderButtons(
+      sharpen: this.renderButtons(
         LANG.sharpen,
         () => {
           this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
@@ -193,7 +199,7 @@ class ActionsPanel extends React.Component<Props> {
         <SharpenIcon />,
         <ObjectPanelIcons.Sharpen />
       ),
-      this.renderButtons(
+      crop: this.renderButtons(
         LANG.crop,
         () => Dialog.showCropPanel(),
         false,
@@ -202,7 +208,7 @@ class ActionsPanel extends React.Component<Props> {
         <CropIcon />,
         <ObjectPanelIcons.Crop />
       ),
-      this.renderButtons(
+      bevel: this.renderButtons(
         LANG.bevel,
         () => imageEdit.generateStampBevel(elem as SVGImageElement),
         false,
@@ -211,7 +217,7 @@ class ActionsPanel extends React.Component<Props> {
         <BevelIcon />,
         <ObjectPanelIcons.Bevel />
       ),
-      this.renderButtons(
+      invert: this.renderButtons(
         LANG.invert,
         () => imageEdit.colorInvert(elem as SVGImageElement),
         false,
@@ -220,7 +226,7 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.Invert className={styles.icon} />,
         <ObjectPanelIcons.Invert />
       ),
-      this.renderButtons(
+      array: this.renderButtons(
         LANG.array,
         () => svgEditor.triggerGridTool(),
         false,
@@ -229,16 +235,43 @@ class ActionsPanel extends React.Component<Props> {
         <ArrayIcon />,
         <ObjectPanelIcons.Array />
       ),
-      this.renderButtons(
+      potrace: this.renderButtons(
         LANG.outline,
         () => imageEdit.potrace(elem as SVGImageElement),
         false,
         'potrace',
         false,
-        <ActionPanelIcons.Potrace className={styles.icon} />
+        <ActionPanelIcons.Potrace className={styles.icon} />,
+        <ObjectPanelIcons.Trace />
       ),
-    ];
-    return content;
+    };
+    const contentOrder = isMobile()
+      ? [
+          'replace_with',
+          'potrace',
+          'grading',
+          'sharpen',
+          'crop',
+          'bevel',
+          'invert',
+          'array',
+          'trace',
+          'bg-removal',
+        ]
+      : [
+          'replace_with',
+          'bg-removal',
+          'trace',
+          'grading',
+          'sharpen',
+          'crop',
+          'bevel',
+          'invert',
+          'array',
+          'potrace',
+        ];
+    const contentInOrder = contentOrder.map((key) => content[key]);
+    return contentInOrder;
   };
 
   renderTextActions = (): JSX.Element[] => {

@@ -41,6 +41,7 @@ exports[`should render correctly action list not disabled 1`] = `
   <div>
     <div
       class="object-panel-item active"
+      id="mock-action-list"
     >
       <div
         class="main"
@@ -117,6 +118,7 @@ exports[`should render correctly basic item not disabled 1`] = `
 <div>
   <div
     class="object-panel-item"
+    id="mock-item"
   >
     <div
       class="main"
@@ -145,6 +147,7 @@ exports[`should render correctly number item when unit is degree 1`] = `
 <div>
   <div
     class="object-panel-item"
+    id="mock-number-item-angle"
   >
     <div
       class="main"
@@ -172,6 +175,7 @@ exports[`should render correctly number item when unit is inch 1`] = `
 <div>
   <div
     class="object-panel-item"
+    id="mock-number-item-inch"
   >
     <div
       class="main"
@@ -198,6 +202,7 @@ exports[`should render correctly number item when unit is mm 1`] = `
 <div>
   <div
     class="object-panel-item"
+    id="mock-number-item-mm"
   >
     <div
       class="main"
@@ -248,6 +253,7 @@ exports[`should render correctly number item when unit is mm 2`] = `
     </div>
     <div
       class="object-panel-item active"
+      id="mock-number-item-mm"
     >
       <div
         class="main"

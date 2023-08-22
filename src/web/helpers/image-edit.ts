@@ -10,6 +10,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import imageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import progress from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
 import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
@@ -114,6 +115,7 @@ const colorInvert = async (elem?: SVGImageElement): Promise<void> => {
     svgCanvas.selectOnly([element], true);
   }
   progress.popById('photo-edit-processing');
+  ObjectPanelController.updateActiveKey(null);
 };
 
 const generateStampBevel = async (elem?: SVGImageElement): Promise<void> => {
@@ -136,6 +138,7 @@ const generateStampBevel = async (elem?: SVGImageElement): Promise<void> => {
     svgCanvas.selectOnly([element], true);
   }
   progress.popById('photo-edit-processing');
+  ObjectPanelController.updateActiveKey(null);
 };
 
 const traceImage = async (img?: SVGImageElement): Promise<void> => {
@@ -246,7 +249,10 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
         },
       });
     });
-    if (!res) return;
+    if (!res) {
+      ObjectPanelController.updateActiveKey(null);
+      return;
+    }
   }
 
   progress.openNonstopProgress({
@@ -326,6 +332,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     });
     svgCanvas.selectOnly([element], true);
   } finally {
+    ObjectPanelController.updateActiveKey(null);
     progress.popById('photo-edit-processing');
   }
 };

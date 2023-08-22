@@ -1,20 +1,24 @@
 import * as React from 'react';
+import Icon from '@ant-design/icons';
+import { Button, Col, ConfigProvider, InputNumber, Modal, Row, Slider } from 'antd';
 
+import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
+import imageProcessor from 'implementations/imageProcessor';
 import jimpHelper from 'helpers/jimp-helper';
-import {
-  Button, Col, Modal, Row,
-} from 'antd';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import OpenCVWebSocket from 'helpers/api/open-cv';
 import Progress from 'app/actions/progress-caller';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IImageDataResult } from 'interfaces/IImage';
-import imageProcessor from 'implementations/imageProcessor';
+import { isMobile } from 'helpers/system-helper';
+
+import styles from './Photo-Edit-Panel.module.scss';
 
 const { $ } = window;
 let svgCanvas;
@@ -49,7 +53,9 @@ interface State {
   sharpRadius: number;
   threshold: string;
   shading: boolean;
-  displayBase64: string,
+  brightness: number;
+  contrast: number;
+  displayBase64: string;
   isImageDataGenerated: boolean;
   isShowingOriginal: boolean;
 }
@@ -73,6 +79,8 @@ class PhotoEditPanel extends React.Component<Props, State> {
       sharpRadius: 1,
       threshold: $(element).attr('data-threshold'),
       shading: (element.getAttribute('data-shading') === 'true'),
+      brightness: 0,
+      contrast: 0,
       displayBase64: null,
       isImageDataGenerated: false,
       isShowingOriginal: false,
@@ -141,6 +149,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const { displaySrc } = this.state;
     const { unmount } = this.props;
     URL.revokeObjectURL(displaySrc);
+    ObjectPanelController.updateActiveKey(null);
     unmount();
   }
 
@@ -298,7 +307,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
         break;
       case 'curve':
         panelContent = this.renderCurvePanel();
-        title = LANG.curve;
+        title = isMobile() ? 'Brightness' : LANG.curve;
         rightWidth = 390;
         break;
       default:
@@ -311,6 +320,44 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const imgWidth = imgSizeStyle.width
       ? maxAllowableWidth
       : imgSizeStyle.height * (imageWidth / imageHeight);
+    if (isMobile()) {
+      const [previewButton, ...footerButtons] = this.renderPhotoEditFooter();
+      return (
+        <ConfigProvider
+          theme={{
+            components: {
+              Button: { borderRadius: 100 },
+              InputNumber: { borderRadius: 100 },
+            },
+          }}
+        >
+          <Modal
+            className={styles.modal}
+            closeIcon={
+              <Icon
+                className={styles['close-icon']}
+                component={ActionPanelIcons.Delete}
+                viewBox="0 0 32 32"
+              />
+            }
+            footer={footerButtons}
+            onCancel={() => this.handleCancel()}
+            centered
+            open
+          >
+            <div className={styles.title}>{title}</div>
+            <div className={styles['preview-btn']}>{previewButton}</div>
+            <div className={styles.preview}>
+              <img
+                id="original-image"
+                src={isShowingOriginal ? this.compareBase64 : displayBase64}
+              />
+            </div>
+            {panelContent}
+          </Modal>
+        </ConfigProvider>
+      );
+    }
     return (
       <Modal
         open
@@ -337,8 +384,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
   }
 
   renderSharpenPanel(): JSX.Element {
+    const { state } = this;
+    const { sharpness, sharpRadius } = state;
     const setStateAndPreview = (key: string, value: number) => {
-      const { state } = this;
       if (state[key] === value) {
         return;
       }
@@ -348,7 +396,52 @@ class PhotoEditPanel extends React.Component<Props, State> {
       });
     };
 
-    return (
+    return isMobile() ? (
+      <>
+        <div className={styles.field}>
+          <span className={styles.label}>{LANG.sharpness}</span>
+          <InputNumber
+            className={styles.input}
+            type="number"
+            min={0}
+            max={20}
+            value={sharpness}
+            onChange={(val) => this.setState({ ...state, sharpness: val })}
+            onBlur={() => this.handleSharp(true)}
+            controls={false}
+          />
+          <Slider
+            className={styles.slider}
+            min={0}
+            max={20}
+            value={sharpness}
+            onChange={(val) => this.setState({ ...state, sharpness: val })}
+            onAfterChange={() => this.handleSharp(true)}
+          />
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>{LANG.radius}</span>
+          <InputNumber
+            className={styles.input}
+            type="number"
+            min={0}
+            max={100}
+            value={sharpRadius}
+            onChange={(val) => this.setState({ ...state, sharpRadius: val })}
+            onBlur={() => this.handleSharp(true)}
+            controls={false}
+          />
+          <Slider
+            className={styles.slider}
+            min={0}
+            max={100}
+            value={sharpRadius}
+            onChange={(val) => this.setState({ ...state, sharpRadius: val })}
+            onAfterChange={() => this.handleSharp(true)}
+          />
+        </div>
+      </>
+    ) : (
       <div className="right-part">
         <div className="scroll-bar-container sharpen">
           <div className="sub-functions with-slider">
@@ -383,7 +476,68 @@ class PhotoEditPanel extends React.Component<Props, State> {
   renderCurvePanel(): JSX.Element {
     const updateCurveFunction = (curvefunction) => this.updateCurveFunction(curvefunction);
     const handleCurve = () => this.handleCurve(true);
-    return (
+    const { brightness, contrast } = this.state;
+    const onChange = (type: string, val: number) => {
+      this.setState((state) => ({ ...state, [type]: val }));
+      const currentBrightness = type === 'brightness' ? val : brightness;
+      const currentContrast = type === 'contrast' ? val : contrast;
+      const a = currentContrast < 0 ? currentContrast / 200 + 1 : currentContrast / 50 + 1;
+      updateCurveFunction((n) =>
+        Math.max(Math.min(a * (n - 127.5) + currentBrightness + 127.5, 255), 0)
+      );
+    };
+    return isMobile() ? (
+      <>
+        <div className={styles.field}>
+          <span className={styles.label}>Brightness</span>
+          <InputNumber
+            className={styles.input}
+            type="number"
+            min={-100}
+            max={100}
+            value={brightness}
+            precision={0}
+            onChange={(val) => onChange('brightness', val)}
+            onBlur={handleCurve}
+            controls={false}
+          />
+          <Slider
+            className={styles.slider}
+            min={-100}
+            max={100}
+            step={1}
+            marks={{ 0: '0' }}
+            value={brightness}
+            onChange={(val) => onChange('brightness', val)}
+            onAfterChange={handleCurve}
+          />
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Contrast</span>
+          <InputNumber
+            className={styles.input}
+            type="number"
+            min={-100}
+            max={100}
+            value={contrast}
+            precision={0}
+            onChange={(val) => onChange('contrast', val)}
+            onBlur={handleCurve}
+            controls={false}
+          />
+          <Slider
+            className={styles.slider}
+            min={-100}
+            max={100}
+            step={1}
+            marks={{ 0: '0' }}
+            value={contrast}
+            onChange={(val) => onChange('contrast', val)}
+            onAfterChange={handleCurve}
+          />
+        </div>
+      </>
+    ) : (
       <div style={{ width: 260, height: 260 }}>
         <CurveControl
           updateCurveFunction={updateCurveFunction}
@@ -397,6 +551,8 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const { mode } = this.props;
     const previewButton = (
       <Button
+        onTouchStart={() => this.setState({ isShowingOriginal: true })}
+        onTouchEnd={() => this.setState({ isShowingOriginal: false })}
         onMouseDown={() => this.setState({ isShowingOriginal: true })}
         onMouseUp={() => this.setState({ isShowingOriginal: false })}
         onMouseLeave={() => this.setState({ isShowingOriginal: false })}
@@ -405,12 +561,13 @@ class PhotoEditPanel extends React.Component<Props, State> {
         {LANG.compare}
       </Button>
     );
-    const handleOk = () => {
+    const handleOk = async () => {
       if (mode === 'sharpen') {
-        this.handleSharp(false);
+        await this.handleSharp(false);
       } else if (mode === 'curve') {
-        this.handleCurve(false);
+        await this.handleCurve(false);
       }
+      ObjectPanelController.updateActiveKey(null);
     };
 
     const cancelButton = (
