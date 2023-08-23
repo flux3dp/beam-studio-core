@@ -1134,7 +1134,7 @@ const lang: ILang = {
     tryingToConenctMachine: 'マシンに接続しようとしています…',
     connected: '接続済み',
     authenticating: '認証中…',
-    enteringRawMode: 'RAWモードに入る中…',
+    enteringRawMode: 'RAWモードの準備中…',
     endingRawMode: 'RAWモードを終了中…',
     enteringLineCheckMode: 'ラインチェックモードに入る中…',
     endingLineCheckMode: 'ラインチェックモードを終了中…',
