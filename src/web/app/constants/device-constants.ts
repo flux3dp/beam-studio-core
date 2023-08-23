@@ -95,6 +95,10 @@ export default {
       maxX: 730,
       maxY: 410,
     },
+    ado1: {
+      maxX: 430,
+      maxY: 300,
+    }
   },
   WORKAREA_DEEP: {
     fad1: 40.5, // mm
