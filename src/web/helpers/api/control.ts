@@ -663,6 +663,36 @@ class Control extends EventEmitter {
     this.ws.send('fetch_fisheye_params');
   });
 
+  fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover') =>
+    new Promise<{ [key: string]: number }>((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'transfer') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else if (!Object.keys(response).includes('completed')) {
+          file.push(response);
+        }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          const fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            try {
+              const jsonString = e.target.result as string;
+              const data = JSON.parse(jsonString);
+              resolve(data);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          fileReader.readAsText(response);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+
+      this.ws.send(`fetch_auto_leveling_data ${dataType}`);
+    });
+
   getLaserPower = async () => {
     const res = (await this.useWaitOKResponse('play get_laser_power')).response;
     return res;
