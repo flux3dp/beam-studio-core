@@ -32,7 +32,6 @@ getSVGAsync((globalSVG) => {
 });
 const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
-// TODO: add test
 const ModuleBlock = (): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -53,6 +52,7 @@ const ModuleBlock = (): JSX.Element => {
 
   const handleChange = (val: number) => {
     const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
+    console.log(selectedLayers);
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.module, val);
       const layer = getLayerElementByName(layerName);
@@ -63,7 +63,7 @@ const ModuleBlock = (): JSX.Element => {
         layer.setAttribute('data-color', '#1D1D1B');
         svgCanvas.updateLayerColor(layer);
       }
-      const currentConfig = getData(layer, DataType.configName);
+      const currentConfig = getData<string>(layer, DataType.configName);
       const newConfig = customizedLaserConfigs.find(
         (config) => config.name === currentConfig && (config.module === val || !config.isDefault)
       );
