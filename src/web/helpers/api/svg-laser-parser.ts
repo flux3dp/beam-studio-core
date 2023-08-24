@@ -562,24 +562,28 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          else if (opts.model === 'fad1' || opts.model === 'ado1') args.push('-ado1');
+          else if (opts.model === 'ado1') args.push('-ado1');
 
-          switch (opts.engraveDpi) {
-            case 'low':
-              args.push('-ldpi');
-              break;
-            case 'medium':
-              args.push('-mdpi');
-              break;
-            case 'high':
-              args.push('-hdpi');
-              break;
-            case 'ultra':
-              args.push('-udpi');
-              break;
-            default:
-              args.push('-mdpi');
-              break;
+          if (typeof opts.engraveDpi === 'number') {
+            args.push(`-dpi ${opts.engraveDpi}`);
+          } else {
+            switch (opts.engraveDpi) {
+              case 'low':
+                args.push('-ldpi');
+                break;
+              case 'medium':
+                args.push('-mdpi');
+                break;
+              case 'high':
+                args.push('-hdpi');
+                break;
+              case 'ultra':
+                args.push('-udpi');
+                break;
+              default:
+                args.push('-mdpi');
+                break;
+            }
           }
         }
         ws.send(args.join(' '));
