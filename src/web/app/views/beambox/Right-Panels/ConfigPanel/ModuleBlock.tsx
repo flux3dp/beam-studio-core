@@ -52,7 +52,6 @@ const ModuleBlock = (): JSX.Element => {
 
   const handleChange = (val: number) => {
     const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
-    console.log(selectedLayers);
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.module, val);
       const layer = getLayerElementByName(layerName);

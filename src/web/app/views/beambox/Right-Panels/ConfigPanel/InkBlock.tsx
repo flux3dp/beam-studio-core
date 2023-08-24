@@ -7,7 +7,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -31,7 +31,7 @@ function InkBlock({
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
-      payload: { ink: value, configName: CUSTOM_PRESET_CONSTANT },
+      payload: { ink: value },
     });
     if (type !== 'modal')
       selectedLayers.forEach((layerName) => {
@@ -57,7 +57,7 @@ function InkBlock({
         </ConfigProvider>
       ) : (
         <UnitInput
-          id="power"
+          id="satutation"
           className={{ [styles.input]: true }}
           min={MIN_VALUE}
           max={MAX_VALUE}
@@ -68,7 +68,7 @@ function InkBlock({
         />
       )}
       <input
-        id="power_value"
+        id="satutation_value"
         type="range"
         min={MIN_VALUE}
         max={MAX_VALUE}
