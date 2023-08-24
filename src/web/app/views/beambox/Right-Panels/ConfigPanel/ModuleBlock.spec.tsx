@@ -14,18 +14,28 @@ jest.mock('helpers/useI18n', () => () => ({
       },
     },
   },
+  layer_module: {
+    laser_10w_diode: 'laser_10w_diode',
+    printing: 'printing',
+    laser_2w_infrared: 'laser_2w_infrared',
+    laser_20w_diode: 'laser_20w_diode',
+  },
 }));
 
 const mockUpdateLayerColor = jest.fn();
+const mockGetCurrentDrawing = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => {
     callback({
       Canvas: {
         updateLayerColor: (...args) => mockUpdateLayerColor(...args),
+        getCurrentDrawing: (...args) => mockGetCurrentDrawing(...args),
       },
     });
   },
 }));
+
+const mockGetCurrentLayerName = jest.fn();
 
 const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -44,6 +54,11 @@ jest.mock('helpers/eventEmitterFactory', () => ({
   }),
 }));
 
+const mockGet = jest.fn();
+jest.mock('implementations/storage', () => ({
+  get: (...args) => mockGet(...args),
+}));
+
 const mockOnUpdateWorkArea = jest.fn();
 const mockRemoveUpdateWorkAreaListener = jest.fn();
 jest.mock('app/stores/beambox-store', () => ({
@@ -57,10 +72,17 @@ jest.mock('app/actions/beambox/prespray-area', () => ({
 }));
 
 const mockWriteData = jest.fn();
+const mockGetData = jest.fn();
+const mockGetLayerConfig = jest.fn();
+const mockGetLayersConfig = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   DataType: {
     module: 'module',
+    configName: 'configName',
   },
+  getData: (...args) => mockGetData(...args),
+  getLayerConfig: (...args) => mockGetLayerConfig(...args),
+  getLayersConfig: (...args) => mockGetLayersConfig(...args),
   writeData: (...args) => mockWriteData(...args),
 }));
 
@@ -88,6 +110,9 @@ describe('test ModuleBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockRead.mockReturnValue('ado1');
+    mockGetCurrentDrawing.mockReturnValue({
+      getCurrentLayerName: (...args) => mockGetCurrentLayerName(...args),
+    });
   });
 
   it('should render correctly', () => {
@@ -121,7 +146,59 @@ describe('test ModuleBlock', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  test('change to printer should work', () => {
+  test('change to 20w should work when selecting 1 layer', () => {
+    const { baseElement, getByText } = render(
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: ['layer1'] }}
+      >
+        <ModuleBlock />
+      </ConfigPanelContext.Provider>
+    );
+    expect(mockUpdate).toBeCalledTimes(1);
+    expect(mockUpdate).toHaveBeenLastCalledWith(LayerModule.LASER_10W_DIODE);
+    expect(mockOnUpdateWorkArea).toBeCalledTimes(1);
+    act(() => {
+      fireEvent.mouseDown(baseElement.querySelector('.ant-select-selector'));
+    });
+    const mockElem = {
+      getAttribute: jest.fn(),
+      setAttribute: jest.fn(),
+      removeAttribute: jest.fn(),
+    };
+    mockGetLayerElementByName.mockReturnValue(mockElem);
+    mockGet.mockReturnValueOnce([{ name: 'config1', speed: 87, power: 88, repeat: 89 }]);
+    mockGetData.mockReturnValueOnce('config1');
+    mockGetCurrentLayerName.mockReturnValueOnce('layer1');
+    mockGetLayerConfig.mockReturnValueOnce('mock-layer-config');
+    act(() => {
+      fireEvent.click(getByText('laser_20w_diode'));
+    });
+    expect(mockGetData).toBeCalledTimes(1);
+    expect(mockGetData).toHaveBeenNthCalledWith(1, mockElem, 'configName');
+    expect(mockWriteData).toBeCalledTimes(1);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'module', LayerModule.LASER_20W_DIODE);
+    expect(mockGetLayerElementByName).toBeCalledTimes(1);
+    expect(mockGetLayerElementByName).toHaveBeenNthCalledWith(1, 'layer1');
+    expect(mockElem.setAttribute).toBeCalledTimes(3);
+    expect(mockElem.setAttribute).toHaveBeenNthCalledWith(1, 'data-speed', '87');
+    expect(mockElem.setAttribute).toHaveBeenNthCalledWith(2, 'data-strength', '88');
+    expect(mockElem.setAttribute).toHaveBeenNthCalledWith(3, 'data-repeat', '89');
+    expect(mockUpdateLayerColor).not.toBeCalled();
+    expect(mockGetCurrentDrawing).not.toBeCalled();
+    expect(mockGetCurrentLayerName).not.toBeCalled();
+    expect(mockGetLayersConfig).not.toBeCalled();
+    expect(mockGetLayerConfig).toBeCalledTimes(1);
+    expect(mockGetLayerConfig).toHaveBeenLastCalledWith('layer1');
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({ type: 'update', payload: 'mock-layer-config' });
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('UPDATE_LAYER_PANEL');
+    expect(mockTogglePresprayArea).toBeCalledTimes(1);
+
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  test('change to printer should work when selecting 2 layer', () => {
     const { baseElement, getByText } = render(
       <ConfigPanelContext.Provider
         value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
@@ -138,14 +215,19 @@ describe('test ModuleBlock', () => {
     const mockElem = {
       getAttribute: jest.fn(),
       setAttribute: jest.fn(),
+      removeAttribute: jest.fn(),
     };
     mockElem.getAttribute.mockReturnValueOnce('#456');
     mockGetLayerElementByName.mockReturnValue(mockElem);
+    mockGet.mockReturnValueOnce([]);
+    mockGetCurrentLayerName.mockReturnValueOnce('layer1');
+    mockGetLayersConfig.mockReturnValueOnce('mock-layers-config');
     act(() => {
-      fireEvent.click(getByText('Print'));
+      fireEvent.click(getByText('printing'));
     });
-    expect(mockDispatch).toBeCalledTimes(1);
-    expect(mockDispatch).toHaveBeenLastCalledWith({ type: 'change', payload: { module: LayerModule.PRINTER } });
+    expect(mockGetData).toBeCalledTimes(2);
+    expect(mockGetData).toHaveBeenNthCalledWith(1, mockElem, 'configName');
+    expect(mockGetData).toHaveBeenNthCalledWith(2, mockElem, 'configName');
     expect(mockWriteData).toBeCalledTimes(2);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'module', LayerModule.PRINTER);
     expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'module', LayerModule.PRINTER);
@@ -158,6 +240,19 @@ describe('test ModuleBlock', () => {
     expect(mockElem.setAttribute).toHaveBeenNthCalledWith(1, 'data-color', '#1D1D1B');
     expect(mockElem.setAttribute).toHaveBeenNthCalledWith(2, 'data-color', '#1D1D1B');
     expect(mockUpdateLayerColor).toBeCalledTimes(2);
+    expect(mockElem.removeAttribute).toBeCalledTimes(2);
+    expect(mockElem.removeAttribute).toHaveBeenNthCalledWith(1, 'data-configName');
+    expect(mockElem.removeAttribute).toHaveBeenNthCalledWith(2, 'data-configName');
+    expect(mockGetCurrentDrawing).toBeCalledTimes(1);
+    expect(mockGetCurrentLayerName).toBeCalledTimes(1);
+    expect(mockGetLayerConfig).not.toBeCalled();
+    expect(mockGetLayersConfig).toBeCalledTimes(1);
+    expect(mockGetLayersConfig).toHaveBeenLastCalledWith(mockSelectedLayers, 'layer1');
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({ type: 'update', payload: 'mock-layers-config' });
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('UPDATE_LAYER_PANEL');
+    expect(mockTogglePresprayArea).toBeCalledTimes(1);
 
     expect(baseElement).toMatchSnapshot();
   });
