@@ -2,7 +2,7 @@ import React, { memo, useContext } from 'react';
 
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -10,7 +10,6 @@ import styles from './Block.module.scss';
 const MAX_VALUE = 9;
 const MIN_VALUE = 1;
 
-// TODO: add unit test
 function InkBlock(): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -20,7 +19,7 @@ function InkBlock(): JSX.Element {
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
-      payload: { ink: value, configName: CUSTOM_PRESET_CONSTANT },
+      payload: { ink: value },
     });
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.ink, value);
@@ -31,7 +30,7 @@ function InkBlock(): JSX.Element {
     <div className={styles.panel}>
       <span className={styles.title}>{t.ink_saturation}</span>
       <UnitInput
-        id="power"
+        id="satutation"
         className={{ [styles.input]: true }}
         min={MIN_VALUE}
         max={MAX_VALUE}
@@ -41,7 +40,7 @@ function InkBlock(): JSX.Element {
         displayMultiValue={ink.hasMultiValue}
       />
       <input
-        id="power_value"
+        id="satutation_value"
         type="range"
         min={MIN_VALUE}
         max={MAX_VALUE}
