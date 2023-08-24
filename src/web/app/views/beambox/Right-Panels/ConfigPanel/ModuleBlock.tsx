@@ -93,6 +93,7 @@ const ModuleBlock = (): JSX.Element => {
     { label: lang.layer_module.laser_10w_diode, value: LayerModule.LASER_10W_DIODE },
     { label: lang.layer_module.printing, value: LayerModule.PRINTER },
     { label: lang.layer_module.laser_2w_infrared, value: LayerModule.LASER_1064 },
+    { label: lang.layer_module.laser_20w_diode, value: LayerModule.LASER_20W_DIODE },
   ];
 
   return (
