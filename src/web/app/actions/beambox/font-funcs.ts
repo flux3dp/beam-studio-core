@@ -18,7 +18,6 @@ import weldPath from 'helpers/weldPath';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
 import { IFont, IFontQuery } from 'interfaces/IFont';
-import { IBatchCommand } from 'interfaces/IHistory';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
