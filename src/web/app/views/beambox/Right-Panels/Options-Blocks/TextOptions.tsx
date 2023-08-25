@@ -229,7 +229,7 @@ class TextOptions extends React.Component<Props, State> {
               disabled={isOnlyOneOption}
             >
               { options.map((option) => (
-                <Option value={option.value} label={option.label}>
+                <Option key={option.value} value={option.value} label={option.label}>
                   {renderOption(option)}
                 </Option>
               )) }

@@ -1384,14 +1384,14 @@ const smoothByFitPath = (elem: SVGPathElement) => {
   return result.join('');
 };
 
-const booleanOperationByPaperjs = (
-  baseHTML: string,
-  elem2: SVGPathElement,
+const booleanOperation = (
+  pathHTML1: string,
+  pathHTML2: string,
   clipType: number,
 ) => {
   const operation = ['intersect', 'unite', 'subtract', 'exclude'][clipType];
   const proj = new paper.Project(document.createElement('canvas'));
-  const items = proj.importSVG(`<svg>${baseHTML}${elem2.outerHTML}</svg>`);
+  const items = proj.importSVG(`<svg>${pathHTML1}${pathHTML2}</svg>`);
   const obj1 = items.children[0] as paper.Shape | paper.Path | paper.CompoundPath;
   const obj2 = items.children[1] as paper.Shape | paper.Path | paper.CompoundPath;
   const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
@@ -1409,6 +1409,12 @@ const booleanOperationByPaperjs = (
   const d = svgPath.getAttribute('d');
   return d;
 };
+
+const booleanOperationByPaperjs = (
+  baseHTML: string,
+  elem2: SVGPathElement,
+  clipType: number,
+) => booleanOperation(baseHTML, elem2.outerHTML, clipType);
 
 const simplifyPath = (elem: SVGPathElement | any) => {
   const d = smoothByFitPath(elem);
@@ -1497,6 +1503,7 @@ const pathActions = {
   linkControlPoints,
   clonePathNode,
   opencloseSubPath,
+  booleanOperation,
   booleanOperationByPaperjs,
   deletePathNode,
   smoothPolylineIntoPath,

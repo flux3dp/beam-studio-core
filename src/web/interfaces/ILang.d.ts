@@ -775,6 +775,7 @@ export interface ILang {
           crop: string,
           bevel: string,
           invert: string,
+          weld_text: string,
           convert_to_path: string,
           fetching_web_font: string,
           uploading_font_to_machine: string,

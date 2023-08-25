@@ -354,6 +354,8 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
     imgUrl = await generateBase64Image(imgUrl, false, 254);
   }
   const image = await jimpHelper.urlToImage(imgUrl);
+  const sx = imgBBox.width / image.bitmap.width;
+  const sy = imgBBox.height /image.bitmap.height;
 
   let final = '';
   if (isTransparentBackground) {
@@ -365,8 +367,15 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   const svgStr = final.replace(/<\/?svg[^>]*>/g, '');
   const gId = svgCanvas.getNextId();
   const g = svgCanvas.addSvgElementFromJson<SVGGElement>({ element: 'g', attr: { id: gId } });
+  const svgRoot = svgCanvas.getRoot();
+  const transforms = svgedit.transformlist.getTransformList(g);
+  const scale = svgRoot.createSVGTransform();
+  scale.setScale(sx, sy);
+  transforms.insertItemBefore(scale, 0);
   const ImageTracer = await requirejsHelper('imagetracer');
   ImageTracer.appendSVGString(svgStr, gId);
+  svgCanvas.setRotationAngle(imgRotation, true, g);
+  svgCanvas.pushGroupProperties(g, false);
 
   const path = svgCanvas.addSvgElementFromJson({
     element: 'path',
@@ -395,7 +404,6 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
         } else {
           d = pathD;
         }
-        console.log(d);
       }
     }
   }
@@ -403,13 +411,10 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   g.remove();
   path.setAttribute('d', d);
   moveElements([dx], [dy], [path], false);
-  svgCanvas.setRotationAngle(imgRotation, true, path);
   svgCanvas.selectOnly([path], true);
   const tempOuterContour = await svgCanvas.offsetElements(1, 5, 'round', null, true);
   svgCanvas.selectOnly([tempOuterContour], true);
   const finalContour = await svgCanvas.offsetElements(0, 5, 'round', null, true);
-  console.log('path', path);
-  console.log('tempOuterContour', tempOuterContour);
   path.remove();
   tempOuterContour.remove();
   const batchCmd = new history.BatchCommand('Potrace Image');

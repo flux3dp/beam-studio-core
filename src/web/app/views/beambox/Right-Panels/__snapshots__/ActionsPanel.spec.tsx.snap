@@ -624,6 +624,14 @@ exports[`should render correctly in mobile text 1`] = `
   <ObjectPanelItem
     content={<svgr-url />}
     disabled={false}
+    id="weld"
+    key="weld_text"
+    label="weld_text"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -955,6 +963,20 @@ exports[`should render correctly text 1`] = `
       >
         <TraceIcon />
         Convert to Path
+      </button>
+    </div>
+    <div
+      className="btn-container"
+      key="weld_text"
+      onClick={[Function]}
+    >
+      <button
+        className="btn"
+        id="weld"
+        type="button"
+      >
+        <TraceIcon />
+        weld_text
       </button>
     </div>
     <div
