@@ -769,6 +769,7 @@ const lang: ILang = {
           crop: 'Crop',
           bevel: 'Bevel',
           invert: 'Invert',
+          weld_text: 'Weld Text',
           convert_to_path: 'Convert to Path',
           fetching_web_font: 'Getting the online font...',
           uploading_font_to_machine: 'Uploading font to the machine...',

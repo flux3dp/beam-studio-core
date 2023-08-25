@@ -769,6 +769,7 @@ const lang: ILang = {
           crop: '裁剪',
           bevel: '生成斜角',
           invert: '色彩反转',
+          weld_text: '合併文字',
           convert_to_path: '转换为路径',
           fetching_web_font: '取得线上字体中',
           uploading_font_to_machine: '上传字体到机器中',

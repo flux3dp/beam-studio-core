@@ -769,6 +769,7 @@ const lang: ILang = {
           crop: 'Bijsnijden',
           bevel: 'Schuine kant',
           invert: 'Omkeren',
+          weld_text: 'Weld Text',
           convert_to_path: 'Converteren naar pad',
           fetching_web_font: 'Het online lettertype ophalen...',
           uploading_font_to_machine: 'Lettertype uploaden naar de machine...',
