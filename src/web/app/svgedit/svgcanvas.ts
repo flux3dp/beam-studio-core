@@ -5090,28 +5090,30 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     ObjectPanelController.updateActiveKey(null);
   };
 
-  this.disassembleUse2Group = async function (elems = null) {
+  this.disassembleUse2Group = async function (elems = null, skipConfirm = false) {
     if (!elems) {
       elems = selectedElements;
     }
-    const confirm = await new Promise((resolve) => {
-      Alert.popUp({
-        type: AlertConstants.SHOW_POPUP_WARNING,
-        message: LANG.popup.ungroup_use,
-        buttonType: AlertConstants.YES_NO,
-        onYes: () => {
-          resolve(true);
-        },
-        onNo: () => {
-          resolve(false);
-        }
+    if (!skipConfirm){
+      const confirm = await new Promise((resolve) => {
+        Alert.popUp({
+          type: AlertConstants.SHOW_POPUP_WARNING,
+          message: LANG.popup.ungroup_use,
+          buttonType: AlertConstants.YES_NO,
+          onYes: () => {
+            resolve(true);
+          },
+          onNo: () => {
+            resolve(false);
+          }
+        });
       });
-    });
-    if (!confirm) {
-      return;
+      if (!confirm) {
+        return;
+      }
+      // Wait for alert close
+      await new Promise((resolve) => setTimeout(resolve, 20));
     }
-    // Wait for alert close
-    await new Promise((resolve) => setTimeout(resolve, 20));
     const batchCmd = new history.BatchCommand('Disassemble Use');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];

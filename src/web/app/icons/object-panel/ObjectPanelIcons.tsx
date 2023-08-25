@@ -2,10 +2,12 @@ import Array from './icon-array.svg';
 import Back from './icon-back.svg';
 import Bevel from './icon-bevel.svg';
 import Brightness from './icon-brightness.svg';
+import CreateTextpath from './icon-creat-textpath.svg';
 import Crop from './icon-crop.svg';
 import Curve from './icon-curve.svg';
-import Decomposee from './icon-decomposee.svg';
-import Delete2 from './icon-delete2.svg';
+import Decompose from './icon-decompose.svg';
+import DecomposeTextpath from './icon-decompose-textpath.svg';
+import Delete from './icon-delete.svg';
 import Diff from './icon-diff.svg';
 import Distribute from './icon-distribute.svg';
 import Draw from './icon-draw.svg';
@@ -29,6 +31,7 @@ import Offset from './icon-offset.svg';
 import Parameter from './icon-parameter.svg';
 import Plus from './icon-plus.svg';
 import Position from './icon-position.svg';
+import Potrace from './icon-potrace.svg';
 import RemoveBG from './icon-remove-bg.svg';
 import Replace from './icon-replace.svg';
 import Sharpen from './icon-sharpen.svg';
@@ -53,10 +56,12 @@ export default {
   Back,
   Bevel,
   Brightness,
+  CreateTextpath,
   Crop,
   Curve,
-  Decomposee,
-  Delete2,
+  Decompose,
+  DecomposeTextpath,
+  Delete,
   Diff,
   Distribute,
   Draw,
@@ -80,6 +85,7 @@ export default {
   Parameter,
   Plus,
   Position,
+  Potrace,
   RemoveBG,
   Replace,
   Sharpen,

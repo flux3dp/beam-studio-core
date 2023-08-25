@@ -254,3 +254,5 @@ export default {
     },
   ],
 };
+
+export const ShapeTabs = ['shape', 'graphics', 'arrow', 'line', 'label'];

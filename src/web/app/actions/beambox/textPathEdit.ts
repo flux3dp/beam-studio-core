@@ -98,6 +98,7 @@ function attachTextToPath(
   ));
 
   textPathGroup.setAttribute('id', svgCanvas.getNextId());
+  svgCanvas.selectOnly([textPathGroup]);
   if (!isSubCmd) {
     if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     return null;

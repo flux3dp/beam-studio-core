@@ -218,6 +218,7 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelNumber
     id="width"
+    key="w"
     label="W"
     updateValue={[Function]}
     value={108}
@@ -226,20 +227,22 @@ exports[`should render correctly in mobile image 1`] = `
     content={
       <AntdIcon
         component="svgr-url"
-        viewBox="0 0 32 32"
       />
     }
     id="lock"
+    key="lock"
     onClick={[Function]}
   />
   <ObjectPanelNumber
     id="height"
+    key="h"
     label="H"
     updateValue={[Function]}
     value={152.6}
   />
   <ObjectPanelNumber
     id="rotate"
+    key="rot"
     label="Rotate"
     unit="degree"
     updateValue={[Function]}
@@ -247,12 +250,14 @@ exports[`should render correctly in mobile image 1`] = `
   />
   <ObjectPanelNumber
     id="x_position"
+    key="x"
     label="X"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="y_position"
+    key="y"
     label="Y"
     updateValue={[Function]}
     value={0}
@@ -263,7 +268,6 @@ exports[`should render correctly in mobile image 1`] = `
         {
           "icon": <AntdIcon
             component="svgr-url"
-            viewBox="0 0 32 32"
           />,
           "label": "Horizontal Flip",
           "onClick": [Function],
@@ -272,7 +276,6 @@ exports[`should render correctly in mobile image 1`] = `
           "icon": <AntdIcon
             component="svgr-url"
             rotate={90}
-            viewBox="0 0 32 32"
           />,
           "label": "Vertical Flip",
           "onClick": [Function],
@@ -281,7 +284,7 @@ exports[`should render correctly in mobile image 1`] = `
     }
     content={<svgr-url />}
     id="flip"
-    label="flip"
+    label="Flip"
   />
 </div>
 `;
@@ -293,18 +296,21 @@ exports[`should render correctly in mobile no elements 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelNumber
     id="x_position"
+    key="x"
     label="X"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="y_position"
+    key="y"
     label="Y"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="rotate"
+    key="rot"
     label="Rotate"
     unit="degree"
     updateValue={[Function]}
@@ -312,12 +318,14 @@ exports[`should render correctly in mobile no elements 1`] = `
   />
   <ObjectPanelNumber
     id="width"
+    key="w"
     label="W"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="height"
+    key="h"
     label="H"
     updateValue={[Function]}
     value={0}
@@ -328,7 +336,6 @@ exports[`should render correctly in mobile no elements 1`] = `
         {
           "icon": <AntdIcon
             component="svgr-url"
-            viewBox="0 0 32 32"
           />,
           "label": "Horizontal Flip",
           "onClick": [Function],
@@ -337,7 +344,6 @@ exports[`should render correctly in mobile no elements 1`] = `
           "icon": <AntdIcon
             component="svgr-url"
             rotate={90}
-            viewBox="0 0 32 32"
           />,
           "label": "Vertical Flip",
           "onClick": [Function],
@@ -346,7 +352,7 @@ exports[`should render correctly in mobile no elements 1`] = `
     }
     content={<svgr-url />}
     id="flip"
-    label="flip"
+    label="Flip"
   />
 </div>
 `;
@@ -358,18 +364,21 @@ exports[`should render correctly in mobile unsupported element 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelNumber
     id="x_position"
+    key="x"
     label="X"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="y_position"
+    key="y"
     label="Y"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="rotate"
+    key="rot"
     label="Rotate"
     unit="degree"
     updateValue={[Function]}
@@ -377,12 +386,14 @@ exports[`should render correctly in mobile unsupported element 1`] = `
   />
   <ObjectPanelNumber
     id="width"
+    key="w"
     label="W"
     updateValue={[Function]}
     value={0}
   />
   <ObjectPanelNumber
     id="height"
+    key="h"
     label="H"
     updateValue={[Function]}
     value={0}
@@ -393,7 +404,6 @@ exports[`should render correctly in mobile unsupported element 1`] = `
         {
           "icon": <AntdIcon
             component="svgr-url"
-            viewBox="0 0 32 32"
           />,
           "label": "Horizontal Flip",
           "onClick": [Function],
@@ -402,7 +412,6 @@ exports[`should render correctly in mobile unsupported element 1`] = `
           "icon": <AntdIcon
             component="svgr-url"
             rotate={90}
-            viewBox="0 0 32 32"
           />,
           "label": "Vertical Flip",
           "onClick": [Function],
@@ -411,7 +420,7 @@ exports[`should render correctly in mobile unsupported element 1`] = `
     }
     content={<svgr-url />}
     id="flip"
-    label="flip"
+    label="Flip"
   />
 </div>
 `;

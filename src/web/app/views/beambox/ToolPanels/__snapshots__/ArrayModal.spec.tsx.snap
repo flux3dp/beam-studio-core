@@ -46,7 +46,6 @@ exports[`should render correctly default unit is inches 1`] = `
                     fill="currentColor"
                     focusable="false"
                     height="1em"
-                    viewbox="0 0 32 32"
                     width="1em"
                   />
                 </span>
@@ -380,7 +379,6 @@ exports[`should render correctly default unit is mm 1`] = `
                     fill="currentColor"
                     focusable="false"
                     height="1em"
-                    viewbox="0 0 32 32"
                     width="1em"
                   />
                 </span>

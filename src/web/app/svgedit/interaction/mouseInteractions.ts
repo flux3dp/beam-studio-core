@@ -558,7 +558,7 @@ const mouseDown = (evt: MouseEvent) => {
       startX = newX;
       startY = newY;
       svgCanvas.unsafeAccess.setStarted(true);
-      canvasEvents.emit('addPath', newLine);
+      canvasEvents.emit('addPath');
       break;
     case 'textedit':
       startX *= currentZoom;
@@ -1687,6 +1687,8 @@ const dblClick = (evt: MouseEvent) => {
       } else if (path) {
         svgCanvas.pathActions.toEditMode(path);
       }
+    } else if (currentMode === 'pathedit' && mouseTarget.getAttribute('id') === 'svgroot') {
+      svgCanvas.pathActions.toSelectMode();
     }
   } else if (currentMode === 'textedit') {
     const curtext = svgCanvas.textActions.getCurtext();

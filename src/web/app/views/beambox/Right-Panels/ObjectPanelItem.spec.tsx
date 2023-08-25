@@ -63,6 +63,31 @@ const MockNumberItem = ({ id, unit, decimal }: { id: string; unit?: string; deci
   );
 };
 
+const MockSelect = ({
+  options,
+}: {
+  options: {
+    label: string | JSX.Element;
+    value: string | number;
+  }[];
+}) => {
+  const [value, setValue] = React.useState<string | number>(1);
+  return (
+    <ObjectPanelContextProvider>
+      <ObjectPanelItem.Select
+        id="mock-select"
+        selected={{ value, label: `display label ${value}` }}
+        options={options}
+        onChange={(val) => {
+          mockUpdateValue(val);
+          setValue(val);
+        }}
+        label="mock-label"
+      />
+    </ObjectPanelContextProvider>
+  );
+};
+
 describe('should render correctly', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -315,6 +340,49 @@ describe('should render correctly', () => {
       await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
       expect(objectPanelItem).toHaveClass('active');
       expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
+    });
+  });
+
+  describe('select', () => {
+    test('with only one option', () => {
+      const { container } = render(<MockSelect options={[{ value: 1, label: 'option-1' }]} />);
+      expect(container).toMatchSnapshot();
+    });
+
+    test('with multiple options', async () => {
+      mockStorage.mockReturnValue('inches');
+      const { baseElement, container, getByText } = render(
+        <MockSelect
+          options={[
+            { value: 1, label: 'option-1' },
+            { value: 2, label: 'option-2' },
+          ]}
+        />
+      );
+      expect(container).toMatchSnapshot();
+      const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+      const displayContent = baseElement.querySelector('.selected-content');
+      expect(displayContent).toHaveTextContent('display label 1');
+      expect(objectPanelItem).not.toHaveClass('active');
+      fireEvent.click(objectPanelItem);
+      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(objectPanelItem).toHaveClass('active');
+      expect(mockUpdateValue).toBeCalledTimes(0);
+      expect(getByText('option-1').parentElement).toHaveClass('active');
+      expect(getByText('option-2').parentElement).not.toHaveClass('active');
+
+      fireEvent.click(getByText('option-2'));
+      expect(mockUpdateValue).toBeCalledTimes(1);
+      expect(mockUpdateValue).toHaveBeenNthCalledWith(1, 2);
+      expect(displayContent).toHaveTextContent('display label 2');
+      await waitFor(() => expect(objectPanelItem).not.toHaveClass('active'));
+      expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
+
+      fireEvent.click(objectPanelItem);
+      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(objectPanelItem).toHaveClass('active');
+      expect(getByText('option-1').parentElement).not.toHaveClass('active');
+      expect(getByText('option-2').parentElement).toHaveClass('active');
     });
   });
 });

@@ -212,7 +212,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
         />
         {isMobile && (
           <div className={styles.field}>
-            <span className={styles.label}>Aspect ratio</span>
+            <span className={styles.label}>{t.aspect_ratio}</span>
             <Select
               className={styles.select}
               value={state.aspectRatio}
@@ -222,8 +222,8 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
               }}
               options={[
                 { label: '1:1', value: 1 },
-                { label: 'Original', value: 0 },
-                { label: 'Free', value: NaN },
+                { label: t.original, value: 0 },
+                { label: t.free, value: NaN },
                 { label: '16:9', value: 16 / 9 },
                 { label: '4:3', value: 4 / 3 },
               ]}

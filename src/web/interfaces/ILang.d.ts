@@ -105,6 +105,7 @@ export interface ILang {
       arrangement_optimization: string;
       align_to_edges: string;
       document_setting: string;
+      document_setting_short: string;
       clear_scene: string;
       machines: string;
       add_new_machine: string;
@@ -574,6 +575,7 @@ export interface ILang {
         trace: string,
         end_preview: string,
         clear_preview: string,
+        choose_camera: string,
       },
     },
     right_panel: {
@@ -725,18 +727,22 @@ export interface ILang {
         zoom: string,
         group: string,
         ungroup: string,
+        distribute: string,
         hdist: string,
         vdist: string,
+        align: string,
         left_align: string,
         center_align: string,
         right_align: string,
         top_align: string,
         middle_align: string,
         bottom_align: string,
+        boolean: string,
         union: string,
         subtract: string,
         intersect: string,
         difference: string,
+        flip: string,
         hflip: string,
         vflip: string,
         lock_aspect: string;
@@ -764,6 +770,7 @@ export interface ILang {
           replace_with_short: string,
           trace: string,
           grading: string,
+          brightness: string,
           sharpen: string,
           crop: string,
           bevel: string,
@@ -779,7 +786,9 @@ export interface ILang {
           disassembling: string,
           ungrouping: string,
           create_textpath: string,
+          create_textpath_short: string,
           detach_path: string,
+          detach_path_short: string,
           edit_path: string,
           simplify: string;
           ai_bg_removal: string;
@@ -789,6 +798,11 @@ export interface ILang {
         },
         path_edit_panel: {
           node_type: string,
+          sharp: string,
+          round: string,
+          connect: string,
+          disconnect: string,
+          delete: string,
         },
       },
     },
@@ -817,6 +831,9 @@ export interface ILang {
       sharpness: string,
       radius: string,
       crop: string,
+      aspect_ratio: string,
+      original: string,
+      free: string,
       curve: string,
       start: string,
       processing: string,
@@ -824,6 +841,9 @@ export interface ILang {
       okay: string,
       compare: string,
       phote_edit: string,
+      brightness_and_contrast: string,
+      brightness: string,
+      contrast: string,
     },
     document_panel: {
       document_settings: string,
@@ -964,6 +984,14 @@ export interface ILang {
       remark: string,
       start_here: string,
       end_preview: string,
+    },
+    shapes_panel: {
+      title: string,
+      shape: string,
+      graphics: string,
+      arrow: string,
+      line: string,
+      label: string,
     },
   },
   flux_id_login: {

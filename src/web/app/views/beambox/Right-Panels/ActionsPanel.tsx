@@ -180,13 +180,14 @@ class ActionsPanel extends React.Component<Props> {
         <ObjectPanelIcons.Trace2 />
       ),
       grading: this.renderButtons(
-        isMobile() ? 'Brightness' : LANG.grading,
+        LANG.grading,
         () => Dialog.showPhotoEditPanel('curve'),
         false,
         'grading',
         false,
         <GrayscaleIcon />,
-        <ObjectPanelIcons.Brightness />
+        <ObjectPanelIcons.Brightness />,
+        LANG.brightness
       ),
       sharpen: this.renderButtons(
         LANG.sharpen,
@@ -242,7 +243,7 @@ class ActionsPanel extends React.Component<Props> {
         'potrace',
         false,
         <ActionPanelIcons.Potrace className={styles.icon} />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Potrace />
       ),
     };
     const contentOrder = isMobile()
@@ -283,7 +284,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.array,
@@ -301,7 +303,15 @@ class ActionsPanel extends React.Component<Props> {
   renderTextPathActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const content = [
-      this.renderButtons(LANG.edit_path, () => textPathEdit.editPath(elem as SVGGElement), true),
+      this.renderButtons(
+        LANG.edit_path,
+        () => textPathEdit.editPath(elem as SVGGElement),
+        true,
+        'edit_path',
+        false,
+        undefined,
+        <ObjectPanelIcons.Draw />
+      ),
       this.renderButtons(
         LANG.detach_path,
         () => {
@@ -309,14 +319,32 @@ class ActionsPanel extends React.Component<Props> {
           textEdit.renderText(text);
           svgCanvas.multiSelect([text, path], true);
         },
-        true
+        true,
+        'detach_path',
+        false,
+        undefined,
+        <ObjectPanelIcons.DecomposeTextpath />,
+        LANG.detach_path_short
       ),
       this.renderButtons(
         LANG.convert_to_path,
         () => this.webNeedConnectionWrapper(this.convertTextToPath),
-        true
+        true,
+        'convert_to_path',
+        false,
+        undefined,
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
-      this.renderButtons(LANG.array, () => svgEditor.triggerGridTool(), false),
+      this.renderButtons(
+        LANG.array,
+        () => svgEditor.triggerGridTool(),
+        false,
+        'array',
+        false,
+        undefined,
+        <ObjectPanelIcons.Array />
+      ),
     ];
     return content;
   };
@@ -340,7 +368,7 @@ class ActionsPanel extends React.Component<Props> {
         'decompose_path',
         false,
         <DivideIcon />,
-        <ObjectPanelIcons.Decomposee />
+        <ObjectPanelIcons.Decompose />
       ),
       this.renderButtons(
         LANG.offset,
@@ -383,7 +411,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -417,7 +446,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -451,7 +481,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -485,7 +516,8 @@ class ActionsPanel extends React.Component<Props> {
         'convert_to_path',
         false,
         <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <ObjectPanelIcons.Trace />,
+        LANG.outline
       ),
       this.renderButtons(
         LANG.offset,
@@ -575,7 +607,12 @@ class ActionsPanel extends React.Component<Props> {
                 svgCanvas.updateElementColor(text);
               }
             },
-            true
+            true,
+            'create_textpath',
+            false,
+            undefined,
+            <ObjectPanelIcons.CreateTextpath />,
+            LANG.create_textpath_short
           )
         );
       }

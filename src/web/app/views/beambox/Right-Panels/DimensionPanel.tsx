@@ -220,6 +220,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="x_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -243,6 +244,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="y_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -266,6 +268,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="x1_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -296,6 +299,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="y1_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -326,6 +330,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="x2_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -356,6 +361,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="y2_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -386,6 +392,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="cx_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -416,6 +423,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="cy_position"
               value={this.getDisplayValue(dimensionValues[type])}
               updateValue={(val) => this.handlePositionChange(type, val)}
@@ -446,10 +454,11 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="rotate"
               value={dimensionValues.rotation || 0}
               updateValue={this.handleRotationChange}
-              label="Rotate"
+              label={i18n.lang.topbar.menu.rotate}
               unit="degree"
             />
           );
@@ -472,6 +481,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="width"
               value={this.getDisplayValue(dimensionValues.width)}
               updateValue={(val) => this.handleSizeChange('width', val)}
@@ -497,6 +507,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="height"
               value={this.getDisplayValue(dimensionValues.height)}
               updateValue={(val) => this.handleSizeChange('height', val)}
@@ -522,6 +533,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="rx_width"
               value={this.getDisplayValue(dimensionValues.rx * 2)}
               updateValue={(val) => this.handleSizeChange('rx', val / 2)}
@@ -545,6 +557,7 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Number
+              key={type}
               id="ry_height"
               value={this.getDisplayValue(dimensionValues.ry * 2)}
               updateValue={(val) => this.handleSizeChange('ry', val / 2)}
@@ -568,12 +581,10 @@ class DimensionPanel extends React.Component<Props> {
         if (isMobile()) {
           return (
             <ObjectPanelItem.Item
+              key={type}
               id="lock"
               content={
-                <Icon
-                  component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock}
-                  viewBox="0 0 32 32"
-                />
+                <Icon component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock} />
               }
               onClick={this.handleFixRatio}
             />
@@ -609,18 +620,18 @@ class DimensionPanel extends React.Component<Props> {
         id="flip"
         actions={[
           {
-            icon: <Icon component={ObjectPanelIcon.Flip} viewBox="0 0 32 32" />,
+            icon: <Icon component={ObjectPanelIcon.Flip} />,
             label: LANG.hflip,
             onClick: () => svgCanvas.flipSelectedElements(-1, 1),
           },
           {
-            icon: <Icon component={ObjectPanelIcon.Flip} rotate={90} viewBox="0 0 32 32" />,
+            icon: <Icon component={ObjectPanelIcon.Flip} rotate={90} />,
             label: LANG.vflip,
             onClick: () => svgCanvas.flipSelectedElements(1, -1),
           },
         ]}
         content={<ObjectPanelIcon.Flip />}
-        label="flip"
+        label={LANG.flip}
       />
     ) : (
       <div className="flip-btn-container">

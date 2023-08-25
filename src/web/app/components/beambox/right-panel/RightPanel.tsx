@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import LayerPanel from 'app/components/beambox/right-panel/LayerPanel';
 import ObjectPanel from 'app/views/beambox/Right-Panels/ObjectPanel';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { CanvasContext } from 'app/contexts/CanvasContext';
@@ -23,6 +24,9 @@ const RightPanel = (): JSX.Element => {
 
   useEffect(() => {
     if (mode === 'element') {
+      if(lastMode === 'path-edit') {
+        ObjectPanelController.updateActiveKey(null);
+      }
       if (!selectedElem && selectedTab !== 'layers') {
         setSelectedTab('layers');
       } else if (selectedElem && !lastElement) {

@@ -54,7 +54,10 @@ const App = (): JSX.Element => {
     <AlertProgressContextProvider messageApi={messageApi}>
       <DialogContextProvider>
         <ConfigProvider
-          theme={{ algorithm: defaultAlgorithm }}
+          theme={{
+            algorithm: defaultAlgorithm,
+            token: { screenMD: 601, screenMDMin: 601, screenSMMax: 600 },
+          }}
           locale={localeMap[navigator.language]}
         >
           <StyleProvider hashPriority="high">
