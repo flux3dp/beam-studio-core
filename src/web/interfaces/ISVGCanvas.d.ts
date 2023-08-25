@@ -4,8 +4,8 @@ import IShapeStyle from 'interfaces/IShapeStyle';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import { EventEmitter } from 'events';
-import { SelectorManager } from '../app/svgedit/selector';
 import { IPathActions } from 'app/svgedit/operations/pathActions';
+import { SelectorManager } from 'app/svgedit/selector';
 
 export interface IPoint {
   x: number,

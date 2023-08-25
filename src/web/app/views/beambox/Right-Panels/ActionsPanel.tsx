@@ -116,7 +116,7 @@ class ActionsPanel extends React.Component<Props> {
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.weldText(textElem, bbox);
+    await FontFuncs.convertTextToPath(textElem, bbox, { weldingTexts: true });
   };
 
   renderButtons = (

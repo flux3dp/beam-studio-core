@@ -134,17 +134,13 @@ describe('should render correctly', () => {
   });
 
   test('no elements', () => {
-    const wrapper = shallow(<ActionsPanel
-      elem={null}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={null} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('image', async () => {
     document.body.innerHTML = '<image id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     const blob = new Blob();
@@ -156,7 +152,21 @@ describe('should render correctly', () => {
       filters: [
         {
           name: 'Images',
-          extensions: ['png', 'jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'bmp', 'jp2', 'j2k', 'jpf', 'jpx', 'jpm'],
+          extensions: [
+            'png',
+            'jpg',
+            'jpeg',
+            'jpe',
+            'jif',
+            'jfif',
+            'jfi',
+            'bmp',
+            'jp2',
+            'j2k',
+            'jpf',
+            'jpx',
+            'jpm',
+          ],
         },
       ],
     });
@@ -206,14 +216,12 @@ describe('should render correctly', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     mockCheckConnection.mockReturnValueOnce(true);
     convertTextToPath.mockResolvedValueOnce({});
-    calculateTransformedBBox.mockReturnValue({ x: 1, y: 2 });
+    calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
     wrapper.find('div.btn-container').at(0).simulate('click');
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
@@ -222,7 +230,12 @@ describe('should render correctly', () => {
     expect(toSelectMode).toHaveBeenCalledTimes(1);
     expect(clearSelection).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenCalledTimes(1);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'), { x: 1, y: 2 });
+    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'), {
+      x: 1,
+      y: 2,
+      width: 3,
+      height: 4,
+    });
 
     wrapper.find('div.btn-container').at(1).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
@@ -230,9 +243,7 @@ describe('should render correctly', () => {
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -250,9 +261,7 @@ describe('should render correctly', () => {
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -267,9 +276,7 @@ describe('should render correctly', () => {
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -284,9 +291,7 @@ describe('should render correctly', () => {
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -301,9 +306,7 @@ describe('should render correctly', () => {
 
   test('line', () => {
     document.body.innerHTML = '<line id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -318,9 +321,7 @@ describe('should render correctly', () => {
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
+    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -338,9 +339,7 @@ describe('should render correctly', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const wrapper = shallow(<ActionsPanel
-        elem={document.getElementById('svg_3')}
-      />);
+      const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_3')} />);
       expect(toJson(wrapper)).toMatchSnapshot();
 
       wrapper.find('div.btn-container').at(0).simulate('click');
@@ -352,9 +351,7 @@ describe('should render correctly', () => {
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const wrapper = shallow(<ActionsPanel
-        elem={document.getElementById('svg_1')}
-      />);
+      const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
       expect(toJson(wrapper)).toMatchSnapshot();
 
       wrapper.find('div.btn-container').at(0).simulate('click');
