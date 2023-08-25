@@ -71,10 +71,10 @@ const AlertsAndProgress = (): JSX.Element => {
         okButtonProps={{ style: { display: 'none' } }}
       >
         <div>
-          <br/>
-          <center><SpinLoading color='primary' style={{ '--size': '48px' }} /></center>
-          <br/>
-          <center>{caption}</center>
+          <div className={styles['spinner-container']}>
+            <SpinLoading color="primary" style={{ '--size': '48px' }} />
+          </div>
+          <div className={styles.caption}>{caption}</div>
         </div>
       </Modal>
     );
@@ -86,9 +86,9 @@ const AlertsAndProgress = (): JSX.Element => {
       <Modal
         key={`${key}-${id}`}
         style={{
-          minWidth: window.outerWidth < 600 ? (window.outerWidth - 40) : 520,
+          minWidth: window.outerWidth < 600 ? window.outerWidth - 40 : 520,
         }}
-        width={window.outerWidth < 600 ? (window.outerWidth - 40) : 520}
+        width={window.outerWidth < 600 ? window.outerWidth - 40 : 520}
         open={alertProgressStack.length > 0}
         title={caption}
         onCancel={() => {
@@ -109,7 +109,7 @@ const AlertsAndProgress = (): JSX.Element => {
         />
       </Modal>
     );
-  }
+  };
 
   const alertModals = alertProgressStack.map((data) => {
     if (isProgress(data)) {
@@ -122,11 +122,7 @@ const AlertsAndProgress = (): JSX.Element => {
     return <Alert key={`${data.key}-${data.id}`} data={data} />;
   });
 
-  return (
-    <div>
-      {alertModals}
-    </div>
-  );
+  return <div>{alertModals}</div>;
 };
 
 export default AlertsAndProgress;
