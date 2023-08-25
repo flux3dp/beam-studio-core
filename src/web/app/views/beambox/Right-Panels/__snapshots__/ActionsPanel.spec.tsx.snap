@@ -278,6 +278,7 @@ exports[`should render correctly image 1`] = `
     </div>
     <div
       className="btn-container half"
+      key="outline"
       onClick={[Function]}
     >
       <button
@@ -288,6 +289,7 @@ exports[`should render correctly image 1`] = `
         <svgr-url
           className="icon"
         />
+        outline
       </button>
     </div>
   </div>
@@ -593,6 +595,20 @@ exports[`should render correctly text 1`] = `
       >
         <TraceIcon />
         Convert to Path
+      </button>
+    </div>
+    <div
+      className="btn-container"
+      key="weld_text"
+      onClick={[Function]}
+    >
+      <button
+        className="btn"
+        id="weld"
+        type="button"
+      >
+        <TraceIcon />
+        weld_text
       </button>
     </div>
     <div

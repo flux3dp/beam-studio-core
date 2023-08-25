@@ -51,6 +51,9 @@ jest.mock('app/svgedit/textactions', () => ({
 
 jest.mock('helpers/i18n', () => ({
   lang: {
+    alert: {
+      oops: 'oops',
+    },
     beambox: {
       right_panel: {
         object_panel: {
@@ -73,6 +76,8 @@ jest.mock('helpers/i18n', () => ({
             ungrouping: 'Ungrouping...',
             simplify: 'simplify',
             ai_bg_removal: 'ai_bg_removal',
+            outline: 'outline',
+            weld_text: 'weld_text',
           },
         },
       },
@@ -218,8 +223,9 @@ describe('should render correctly', () => {
     document.body.innerHTML = '<text id="svg_1" />';
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
+    expect(mockCheckConnection).not.toBeCalled();
 
-    mockCheckConnection.mockReturnValueOnce(true);
+    mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
     wrapper.find('div.btn-container').at(0).simulate('click');
@@ -238,6 +244,23 @@ describe('should render correctly', () => {
     });
 
     wrapper.find('div.btn-container').at(1).simulate('click');
+    await tick();
+    expect(mockCheckConnection).toHaveBeenCalledTimes(2);
+    expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
+    expect(calculateTransformedBBox).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
+    expect(toSelectMode).toHaveBeenCalledTimes(2);
+    expect(clearSelection).toHaveBeenCalledTimes(2);
+    expect(convertTextToPath).toHaveBeenCalledTimes(2);
+    expect(convertTextToPath).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'), {
+      x: 1,
+      y: 2,
+      width: 3,
+      height: 4,
+    }, {
+      weldingTexts: true,
+    });
+
+    wrapper.find('div.btn-container').at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
