@@ -175,17 +175,17 @@ const substitutedFont = (textElement: Element) => {
   // array of used family which are in the text
 
   const originPostscriptName = originFont.postscriptName;
-  const unSupportedChar = [];
+  const unsupportedChar = [];
   const fontList = Array.from(text).map((char) => {
     const sub = fontHelper.substituteFont(originPostscriptName, char);
-    if (sub.postscriptName !== originPostscriptName) unSupportedChar.push(char);
+    if (sub.postscriptName !== originPostscriptName) unsupportedChar.push(char);
     return sub;
   });
 
   if (fontList.length === 1) {
     return {
       font: fontList[0],
-      unSupportedChar,
+      unsupportedChar,
     };
   }
   // Test all found fonts if they contain all
@@ -202,24 +202,24 @@ const substitutedFont = (textElement: Element) => {
       console.log(`Find ${fontList[i].postscriptName} fit for all char`);
       return {
         font: fontList[i],
-        unSupportedChar,
+        unsupportedChar,
       };
     }
   }
   console.log('Cannot find a font fit for all');
   return {
     font: fontList.filter((font) => font.family !== fontFamily)[0],
-    unSupportedChar,
+    unsupportedChar,
   };
 };
 
-const showSubstitutedFamilyPopup = (textElement: Element, newFont, origFont, unSupportedChar) =>
+const showSubstitutedFamilyPopup = (textElement: Element, newFont, origFont, unsupportedChar) =>
   new Promise<SubstituteResult>((resolve) => {
     const message = sprintf(
       LANG.text_to_path.font_substitute_pop,
       textElement.textContent,
       fontNameMap.get(origFont),
-      unSupportedChar.join(', '),
+      unsupportedChar.join(', '),
       fontNameMap.get(newFont)
     );
     const buttonLabels = [
@@ -267,7 +267,7 @@ const setTextPostscriptnameIfNeeded = (textElement: Element) => {
   }
 };
 
-const getPathAndTransformFromSvg = async (data: any, isFill: boolean) =>
+const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
   new Promise<{ d: string; transform: string }>((resolve) => {
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
@@ -279,7 +279,7 @@ const getPathAndTransformFromSvg = async (data: any, isFill: boolean) =>
       const transform = transRegex ? transRegex[1] : '';
       resolve({ d, transform });
     };
-    if (isFill) {
+    if (isFilled) {
       fileReader.readAsText(data.colors);
     } else {
       fileReader.readAsText(data.strokes);
@@ -303,11 +303,11 @@ const convertTextToPath = async (
   const origFontFamily = textElement.getAttribute('font-family');
   const origFontPostscriptName = textElement.getAttribute('font-postscript');
   if (BeamboxPreference.read('font-substitute') !== false) {
-    const { font: newFont, unSupportedChar } = substitutedFont(textElement);
+    const { font: newFont, unsupportedChar } = substitutedFont(textElement);
     if (
       newFont.postscriptName !== origFontPostscriptName &&
-      unSupportedChar &&
-      unSupportedChar.length > 0
+      unsupportedChar &&
+      unsupportedChar.length > 0
     ) {
       hasUnsupportedFont = true;
       const familyName = usePostscriptAsFamily
@@ -317,7 +317,7 @@ const convertTextToPath = async (
         textElement,
         newFont.family,
         familyName,
-        unSupportedChar
+        unsupportedChar
       );
       if (doSub === SubstituteResult.DO_SUB) {
         svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
@@ -351,7 +351,7 @@ const convertTextToPath = async (
   }
 
   textElement.removeAttribute('stroke-width');
-  const isFill = calculateFilled(textElement);
+  const isFilled = calculateFilled(textElement);
   let color = textElement.getAttribute('stroke');
   color = color !== 'none' ? color : textElement.getAttribute('fill');
 
@@ -367,7 +367,7 @@ const convertTextToPath = async (
     return ConvertResult.CONTINUE;
   }
 
-  const res = await getPathAndTransformFromSvg(outputs.data, isFill);
+  const res = await getPathAndTransformFromSvg(outputs.data, isFilled);
   const { transform } = res;
   let { d } = res;
 
@@ -380,8 +380,8 @@ const convertTextToPath = async (
     path.setAttribute('id', newPathId);
     path.setAttribute('d', d);
     path.setAttribute('transform', transform);
-    path.setAttribute('fill', isFill ? color : 'none');
-    path.setAttribute('fill-opacity', isFill ? '1' : '0');
+    path.setAttribute('fill', isFilled ? color : 'none');
+    path.setAttribute('fill-opacity', isFilled ? '1' : '0');
     path.setAttribute('stroke', color);
     path.setAttribute('stroke-opacity', '1');
     path.setAttribute('stroke-dasharray', 'none');
