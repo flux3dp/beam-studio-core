@@ -14,7 +14,7 @@ import Progress from 'app/actions/progress-caller';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import storage from 'implementations/storage';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
-import weldPathD from 'helpers/weldPath';
+import weldPath from 'helpers/weldPath';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
 import { IFont, IFontQuery } from 'interfaces/IFont';
@@ -374,7 +374,7 @@ const convertTextToPath = async (
 
   if (d) {
     if (weldingTexts) {
-      d = weldPathD(d);
+      d = weldPath(d);
     }
     const newPathId = svgCanvas.getNextId();
     const path = document.createElementNS(svgedit.NS.SVG, 'path');

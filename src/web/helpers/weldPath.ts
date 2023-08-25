@@ -1,12 +1,13 @@
-import * as paper from 'paper';
+import paper from 'paper';
 
-const weldPathD = (
-  pathD: string
-): string => {
+const weldPath = (pathD: string): string => {
   const proj = new paper.Project(document.createElement('canvas'));
-  const subPaths = pathD.split('M').filter((d) => d.split(' ').length > 4).map((d) => `<path d="M${d}" />`);
+  const subPaths = pathD
+    .split('M')
+    .filter((d) => d.split(' ').length > 4)
+    .map((d) => `<path d="M${d}" />`);
   const items = proj.importSVG(`<svg>${subPaths.join('')}</svg>`);
-  const objs = items.children.map((obj) => obj as paper.Path | paper.CompoundPath);
+  const objs = [...items.children] as (paper.Path | paper.CompoundPath)[];
   // Sort from the biggest to the smallest area
   objs.sort((a, b) => b.area - a.area);
   let basePath = objs[0] as paper.PathItem;
@@ -32,4 +33,4 @@ const weldPathD = (
   return pathData;
 };
 
-export default weldPathD;
+export default weldPath;
