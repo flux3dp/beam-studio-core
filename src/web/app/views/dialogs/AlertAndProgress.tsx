@@ -1,18 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal, Progress } from 'antd';
+import { SpinLoading } from 'antd-mobile';
 
 import Alert from 'app/views/dialogs/Alert';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
-import LoadingGridAnimation from 'app/widgets/LoadingGridAnimation';
 import ProgressConstants from 'app/constants/progress-constants';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
 
 import styles from './AlertAndProgress.module.scss';
-import { useIsMobile } from 'helpers/system-helper';
-import { SpinLoading } from 'antd-mobile';
 
 const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isProgress;
 
