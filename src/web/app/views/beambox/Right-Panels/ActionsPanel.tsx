@@ -248,8 +248,7 @@ class ActionsPanel extends React.Component<Props> {
         true,
         'weld',
         false,
-        <TraceIcon />,
-        <ObjectPanelIcons.Trace />
+        <TraceIcon />
       ),
       this.renderButtons(
         LANG.array,
