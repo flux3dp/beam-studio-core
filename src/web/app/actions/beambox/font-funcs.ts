@@ -8,18 +8,17 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import fontHelper from 'implementations/fontHelper';
 import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
-import storage from 'implementations/storage';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
+import storage from 'implementations/storage';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
+import weldPathD from 'helpers/weldPath';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
 import { IFont, IFontQuery } from 'interfaces/IFont';
 import { IBatchCommand } from 'interfaces/IHistory';
-import PathActions from 'app/svgedit/operations/pathActions';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { ISVGPath } from 'interfaces/ISVGPath';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -272,10 +271,8 @@ const setTextPostscriptnameIfNeeded = (textElement: Element) => {
   }
 };
 
-const getPathAndTransformFromSvg = async (data: any, isFill: boolean) => {
-  return await new Promise<{
-    d: string; transform: string;
-  }>((resolve) => {
+const getPathAndTransformFromSvg = async (data: any, isFill: boolean) =>
+  new Promise<{ d: string; transform: string }>((resolve) => {
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const svgString = e.target.result as string;
@@ -283,7 +280,7 @@ const getPathAndTransformFromSvg = async (data: any, isFill: boolean) => {
       const dRegex = svgString.match(/ d="([^"]+)"/g);
       const transRegex = svgString.match(/transform="([^"]+)/);
       const d = dRegex.map((p) => p.substring(4, p.length - 1)).join('');
-      const transform = transRegex ? transRegex[1] : ''
+      const transform = transRegex ? transRegex[1] : '';
       resolve({ d, transform });
     };
     if (isFill) {
@@ -292,7 +289,6 @@ const getPathAndTransformFromSvg = async (data: any, isFill: boolean) => {
       fileReader.readAsText(data.strokes);
     }
   });
-}
 
 const convertTextToPath = async (
   textElement: Element, bbox,
@@ -437,7 +433,7 @@ const weldText = async (
   if (typeof result !== 'object') return result;
   const { batchCmd, d, transform } = result;
 
-  const weldedTextPath = svgCanvas.pathActions.weldText(d);
+  const weldedTextPath = weldPathD(d);
   const isFill = calculateFilled(textElement);
   let color = textElement.getAttribute('stroke');
   color = color !== 'none' ? color : textElement.getAttribute('fill');
