@@ -2,6 +2,13 @@
 
 exports[`should render correctly 1`] = `
 <body>
+  <div
+    class="adm-px-tester"
+    style="--size: 10;"
+  />
+  <div
+    class="adm-px-tester"
+  />
   <div>
     <div>
       <div>
