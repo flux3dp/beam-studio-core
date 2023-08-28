@@ -1,9 +1,14 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useContext, useMemo, useState } from 'react';
+import { Button, Mask, Popover } from 'antd-mobile';
+import { ConfigProvider, InputNumber } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import storage from 'implementations/storage';
@@ -13,9 +18,14 @@ import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/Layer
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
 
-const SpeedBlock = (): JSX.Element => {
+const SpeedBlock = ({
+  type = 'default',
+}: {
+  type?: 'default' | 'panel-item' | 'modal';
+}): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
+  const [visible, setVisible] = useState(false);
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
   const { hasVector } = useContext(LayerPanelContext);
   const timeEstimationButtonEventEmitter = useMemo(
@@ -47,27 +57,43 @@ const SpeedBlock = (): JSX.Element => {
       payload: { speed: val, configName: CUSTOM_PRESET_CONSTANT },
     });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.speed, val);
-      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
-    });
+    if (type !== 'modal')
+      selectedLayers.forEach((layerName) => {
+        writeData(layerName, DataType.speed, val);
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+      });
   };
 
-  return (
-    <div className={styles.panel}>
+  const content = (
+    <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.speed}</span>
-      <UnitInput
-        id="speed"
-        className={{ [styles.input]: true }}
-        min={minValue}
-        max={maxValue}
-        unit={displayUnit}
-        defaultValue={value}
-        getValue={handleChange}
-        decimal={decimal}
-        displayMultiValue={hasMultiValue}
-        step={10 ** -decimal}
-      />
+      {type === 'panel-item' ? (
+        <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
+          <InputNumber
+            className={styles.input}
+            type="number"
+            min={minValue}
+            max={maxValue}
+            value={value}
+            onChange={handleChange}
+            precision={decimal}
+            controls={false}
+          />
+        </ConfigProvider>
+      ) : (
+        <UnitInput
+          id="speed"
+          className={{ [styles.input]: true }}
+          min={minValue}
+          max={maxValue}
+          unit={displayUnit}
+          defaultValue={value}
+          getValue={handleChange}
+          decimal={decimal}
+          displayMultiValue={hasMultiValue}
+          step={10 ** -decimal}
+        />
+      )}
       <input
         id="speed_value"
         className={classNames({ [styles['speed-for-vector']]: hasVector })}
@@ -85,6 +111,38 @@ const SpeedBlock = (): JSX.Element => {
         </div>
       ) : null}
     </div>
+  );
+
+  return type === 'panel-item' ? (
+    <>
+      <Mask
+        visible={visible}
+        onMaskClick={() => {
+          ObjectPanelController.updateActiveKey(null);
+          setVisible(false);
+        }}
+        color="transparent"
+      />
+      <Popover visible={visible} content={content}>
+        <ObjectPanelItem.Item
+          id="speed"
+          content={
+            <Button
+              className={classNames(objectPanelItemStyles['number-item'], styles['display-btn'])}
+              shape="rounded"
+              size="mini"
+              fill="outline"
+            >
+              {value}
+            </Button>
+          }
+          label={t.speed}
+          onClick={() => setVisible(true)}
+        />
+      </Popover>
+    </>
+  ) : (
+    content
   );
 };
 
