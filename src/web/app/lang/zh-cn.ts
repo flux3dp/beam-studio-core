@@ -611,6 +611,7 @@ const lang: ILang = {
           move_up: '向上移动图层',
           dupe: '复制图层',
           lock: '锁定图层',
+          unlock: '解锁',
           merge_down: '向下合并',
           merge_all: '全部合并',
           merge_selected: '合并选取图层',
@@ -725,6 +726,7 @@ const lang: ILang = {
         para_in_use: '此参数已在使用中。',
         do_not_adjust_default_para: '无法调整预设参数。',
         existing_name: '已存在此名称的自订参数。',
+        presets: '预设',
       },
       object_panel: {
         zoom: '缩放',

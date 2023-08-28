@@ -611,6 +611,7 @@ const lang: ILang = {
           move_up: 'レイヤを上へ移動',
           dupe: 'レイヤーを複製',
           lock: 'レイヤーをロック',
+          unlock: '解除する',
           merge_down: 'マージダウン',
           merge_all: 'すべてをマージ',
           merge_selected: '選択したレイヤーをマージ',
@@ -725,6 +726,7 @@ const lang: ILang = {
         para_in_use: 'このパラメーターは使用中です。',
         do_not_adjust_default_para: 'デフォルトのパラメーターは調整できません。',
         existing_name: 'このパラメーター名は使用されています。',
+        presets: 'プリセット',
       },
       object_panel: {
         zoom: 'ズーム',

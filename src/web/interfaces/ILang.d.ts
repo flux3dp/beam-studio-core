@@ -608,6 +608,7 @@ export interface ILang {
           move_up: string,
           dupe: string,
           lock: string,
+          unlock: string,
           merge_down: string,
           merge_all: string,
           merge_selected: string,
@@ -722,6 +723,7 @@ export interface ILang {
         para_in_use: string,
         do_not_adjust_default_para: string,
         existing_name: string,
+        presets: string,
       },
       object_panel: {
         zoom: string,

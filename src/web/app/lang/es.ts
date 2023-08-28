@@ -611,6 +611,7 @@ const lang: ILang = {
           move_up: 'Mover la capa hacia arriba',
           dupe: 'Duplicar la capa',
           lock: 'Capa de bloqueo',
+          unlock: 'Desbloquear',
           merge_down: 'Fusionarse',
           merge_all: 'Fusionar todo',
           merge_selected: 'Fusionar capas seleccionadas',
@@ -725,6 +726,7 @@ const lang: ILang = {
         para_in_use: 'Este parámetro está siendo utilizado.',
         do_not_adjust_default_para: 'Los preajustes no pueden ser ajustados.',
         existing_name: 'Se ha utilizado este nombre.',
+        presets: 'Preestablecido',
       },
       object_panel: {
         zoom: 'Zoom',

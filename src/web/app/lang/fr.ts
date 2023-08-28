@@ -611,6 +611,7 @@ const lang: ILang = {
           move_up: 'Déplacer le calque vers le haut',
           dupe: 'Dupliquer un calque',
           lock: 'Verrouiller le calque',
+          unlock: 'Déverrouiller',
           merge_down: 'Fusionner vers le bas',
           merge_all: 'Fusionner tout',
           merge_selected: 'Fusionner les calques sélectionnés',
@@ -725,6 +726,7 @@ const lang: ILang = {
         para_in_use: 'Ce paramètre est en cours d\'utilisation.',
         do_not_adjust_default_para: 'Les préréglages ne peuvent pas être ajustés.',
         existing_name: 'Ce nom a été utilisé.',
+        presets: 'Préréglage',
       },
       object_panel: {
         zoom: 'Zoom',
