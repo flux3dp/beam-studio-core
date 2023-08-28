@@ -1,3 +1,14 @@
+@mixin bottom-bar() {
+  display: flex;
+  padding: 8px 32px;
+  color: #7c7c7c;
+  background-color: #f8f8f8;
+  overflow: scroll;
+  border: none;
+  margin-top: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
 @mixin item-group() {
   display: flex;
   width: auto;

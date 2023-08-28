@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
@@ -5,6 +6,7 @@ import Alert from 'app/actions/alert-caller';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
+import FloatingPanel from 'app/widgets/FloatingPanel';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
@@ -16,20 +18,19 @@ import { getLayerElementByName, highlightLayer, moveLayersToPosition, setLayersL
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { isMobile } from 'helpers/system-helper';
-import { Modal } from 'antd';
-import { sprintf } from 'sprintf-js';
-import { FloatingPanel } from 'antd-mobile';
+
+import styles from './LayerPanel.module.scss';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const LANG_PARAMS = i18n.lang.beambox.right_panel.laser_panel;
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
   hide?: boolean;
+  setDisplayLayer: (val: boolean) => void;
 }
 
 interface State {
@@ -37,7 +38,6 @@ interface State {
   draggingLayer?: string;
   disableScroll?: boolean;
   contextTargetLayers?: [string];
-  displayLaserPanelModal: boolean;
 }
 
 class LayerPanel extends React.PureComponent<Props, State> {
@@ -57,7 +57,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       draggingDestIndex: null,
-      displayLaserPanelModal: false,
     };
     this.layerListContainerRef = React.createRef();
     this.currentTouchID = null;
@@ -234,12 +233,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
       (newColor: string) => this.setLayerColor(layerName, newColor));
   };
 
-  openLayerSettings = (e: React.MouseEvent, layerName: string): void => {
-    e.stopPropagation();
-    this.selectOnlyLayer(layerName);
-    this.setState({ displayLaserPanelModal: true });
-  };
-
   onLayerDragStart = (layerName: string, e?: React.DragEvent): void => {
     const dragImage = document.getElementById('drag-image') as Element;
     e?.dataTransfer?.setDragImage(dragImage, 0, 0);
@@ -285,7 +278,9 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   draggingScroll = (): void => {
-    const layerListContainer = this.layerListContainerRef.current;
+    const layerListContainer = isMobile()
+      ? document.querySelector(`.${styles['floating-panel']} [class*='scroll-content']`)
+      : this.layerListContainerRef.current;
     if (this.draggingScrollDirection !== 0 && layerListContainer) {
       if (this.draggingScrollDirection > 0) {
         layerListContainer.scrollTop += 10;
@@ -295,7 +290,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  onLayerTouchStart = (layerName: string, e: React.TouchEvent): void => {
+  onLayerTouchStart = (layerName: string, e: React.TouchEvent, delay = 800): void => {
     if (this.currentTouchID === null) {
       this.currentTouchID = e.changedTouches[0].identifier;
       this.firstTouchInfo = {
@@ -307,7 +302,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
         this.startDragTimer = null;
         document.addEventListener('touchmove', this.preventDefault, { passive: false });
         this.draggingScrollTimer = setInterval(this.draggingScroll, 100);
-      }, 800);
+      }, delay);
     }
   };
 
@@ -317,7 +312,9 @@ class LayerPanel extends React.PureComponent<Props, State> {
     if (touch) {
       const { draggingLayer } = this.state;
       if (draggingLayer) {
-        const layerListContainer = this.layerListContainerRef.current;
+        const layerListContainer = isMobile()
+          ? document.querySelector(`.${styles['floating-panel']} [class*='scroll-content']`)
+          : this.layerListContainerRef.current;
         const { top, height } = layerListContainer.getBoundingClientRect();
         if (touch.pageY < top) {
           this.draggingScrollDirection = -1;
@@ -325,12 +322,14 @@ class LayerPanel extends React.PureComponent<Props, State> {
           this.draggingScrollDirection = 1;
         } else {
           this.draggingScrollDirection = 0;
-          const elem = document.elementFromPoint(touch.pageX, touch.pageY);
+          const elem = document
+            .elementsFromPoint(touch.pageX, touch.pageY)
+            .find((ele) => ele.hasAttribute('data-index') || ele.hasAttribute('data-layer'));
           if (elem) {
-            if (elem.classList.contains('drag-sensor-area')) {
+            if (elem.className.includes('drag-sensor-area')) {
               const index = Number(elem.getAttribute('data-index'));
               this.onSensorAreaDragEnter(index);
-            } else if (elem.classList.contains('layer-row')) {
+            } else if (elem.className.includes('row')) {
               const name = elem.getAttribute('data-layer');
               this.onLayerCenterDragEnter(name);
             }
@@ -391,20 +390,9 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   renderConfigPanel = () : JSX.Element => {
     const { selectedLayers } = this.context;
-    const { displayLaserPanelModal } = this.state;
-    if (isMobile()) {
-      return (
-        <Modal
-          title={sprintf(LANG_PARAMS.preset_setting, selectedLayers.join(''))}
-          open={displayLaserPanelModal}
-          onCancel={() => this.setState({ displayLaserPanelModal: false })}
-          onOk={() => this.setState({ displayLaserPanelModal: false })}
-        >
-          <ConfigPanel selectedLayers={selectedLayers} />
-        </Modal>
-      );
-    }
-    return <ConfigPanel selectedLayers={selectedLayers} />;
+    return (
+      <ConfigPanel selectedLayers={selectedLayers} UIType={isMobile() ? 'panel-item' : 'default'} />
+    );
   };
 
   renderLayerPanel() : JSX.Element {
@@ -435,17 +423,20 @@ class LayerPanel extends React.PureComponent<Props, State> {
               openLayerColorPanel={this.openLayerColorPanel}
               setLayerVisibility={this.setLayerVisibility}
               unLockLayers={this.unLockLayers}
-              openLayerSettings={this.openLayerSettings}
             />
           </div>
         </ContextMenuTrigger>
-        <SelLayerBlock />
-        <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
-        <LayerContextMenu
-          drawing={drawing}
-          selectOnlyLayer={this.selectOnlyLayer}
-          renameLayer={this.renameLayer}
-        />
+        {!isMobile() && (
+          <>
+            <SelLayerBlock />
+            <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
+            <LayerContextMenu
+              drawing={drawing}
+              selectOnlyLayer={this.selectOnlyLayer}
+              renameLayer={this.renameLayer}
+            />
+          </>
+        )}
       </div>
     );
   }
@@ -458,29 +449,38 @@ class LayerPanel extends React.PureComponent<Props, State> {
       return null;
     }
     const { setSelectedLayers } = this.context;
-    const { hide } = this.props;
+    const drawing = svgCanvas.getCurrentDrawing();
+    const { hide, setDisplayLayer } = this.props;
 
     return (
-      <div id="layer-and-laser-panel" style={{ display: hide ? 'none' : undefined }}>
-        { isMobile()
-          ? (
-            <>
-              <FloatingPanel
-                handleDraggingOfContent={false}
-                anchors={[200, window.innerHeight * 0.5, window.innerHeight - 40]}
-              >
-                {this.renderLayerPanel()}
-              </FloatingPanel>
-              <AddLayerButton setSelectedLayers={setSelectedLayers} />
-            </>
-          )
-          : (
-            <>
-              <AddLayerButton setSelectedLayers={setSelectedLayers} />
+      <div id="layer-and-laser-panel" className={classNames({ [styles.hide]: hide })}>
+        {isMobile() ? (
+          <>
+            <FloatingPanel
+              className={styles['floating-panel']}
+              anchors={[0, 328, window.innerHeight * 0.6, window.innerHeight - 40]}
+              title={LANG.layers.layer}
+              fixedContent={<AddLayerButton setSelectedLayers={setSelectedLayers} />}
+              onClose={() => setDisplayLayer(false)}
+            >
               {this.renderLayerPanel()}
-            </>
-          )}
-        {this.renderConfigPanel()}
+            </FloatingPanel>
+            <div className={styles['layer-bottom-bar']}>
+              {this.renderConfigPanel()}
+              <LayerContextMenu
+                drawing={drawing}
+                selectOnlyLayer={this.selectOnlyLayer}
+                renameLayer={this.renameLayer}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <AddLayerButton setSelectedLayers={setSelectedLayers} />
+            {this.renderLayerPanel()}
+            {this.renderConfigPanel()}
+          </>
+        )}
       </div>
     );
   }

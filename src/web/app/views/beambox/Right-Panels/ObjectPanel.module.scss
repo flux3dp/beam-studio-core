@@ -8,12 +8,9 @@
   border-width: 0 0 1px 1px;
 
   @media screen and (max-width: 600px) {
+    @include mixins.bottom-bar();
     min-height: 0;
     width: fit-content;
-    display: flex;
-    padding: 8px 32px;
-    color: #7c7c7c;
-    border: none;
   }
 
   .tools {

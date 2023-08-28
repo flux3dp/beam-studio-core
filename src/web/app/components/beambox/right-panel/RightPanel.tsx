@@ -7,10 +7,10 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { isMobile } from 'helpers/system-helper';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
-import { isMobile } from 'helpers/system-helper';
 
 import styles from './RightPanel.module.scss';
 
@@ -19,7 +19,7 @@ let lastMode: RightPanelMode;
 
 const RightPanel = (): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState<'layers' | 'objects'>('layers');
-  const { displayLayer, selectedElem } = useContext(CanvasContext);
+  const { displayLayer, setDisplayLayer, selectedElem } = useContext(CanvasContext);
   const { mode } = useContext(RightPanelContext);
 
   useEffect(() => {
@@ -35,13 +35,20 @@ const RightPanel = (): JSX.Element => {
     } else if (lastMode !== mode) {
       setSelectedTab('objects');
     }
+    if (isMobile()) {
+      if (displayLayer) {
+        setSelectedTab('layers');
+      } else {
+        setSelectedTab('objects');
+      }
+    }
     lastMode = mode;
     lastElement = selectedElem;
-  }, [mode, selectedElem, selectedTab]);
+  }, [mode, selectedElem, selectedTab, displayLayer]);
 
   const showLayerPanel = mode === 'element'
     && (selectedTab === 'layers' || !selectedElem)
-    && (displayLayer || isMobile());
+    && (displayLayer || !isMobile());
 
   let content;
   if (mode === 'path-edit') {
@@ -65,9 +72,7 @@ const RightPanel = (): JSX.Element => {
         <ObjectPanelContextProvider>
           {content}
           <LayerPanelContextProvider>
-            <LayerPanel
-              hide={!showLayerPanel}
-            />
+            <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
           </LayerPanelContextProvider>
         </ObjectPanelContextProvider>
       </div>

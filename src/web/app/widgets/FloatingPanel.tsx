@@ -32,8 +32,12 @@ const FloatingPanel = ({
   const [isAnimating, setIsAnimating] = React.useState(true);
 
   React.useEffect(() => {
-    const targetHeight = forceClose ? 0 : anchors.find((anchor) => anchor > 0);
-    panelRef.current.setHeight(targetHeight);
+    if (forceClose) {
+      panelRef.current.setHeight(0);
+    } else if (panelHeight === 0) {
+      panelRef.current.setHeight(anchors.find((anchor) => anchor > 0));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anchors, panelRef, forceClose]);
 
   const onHeightChange = (height: number, animating: boolean) => {

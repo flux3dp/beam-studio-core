@@ -1,0 +1,15 @@
+@use '../../../views/beambox/Right-Panels/mixins' as mixins;
+
+.hide {
+  display: none;
+}
+
+.floating-panel [class*='scroll-content'] {
+  margin-bottom: 120px;
+}
+
+.layer-bottom-bar {
+  @include mixins.bottom-bar();
+  position: relative;
+  z-index: 901;
+}
