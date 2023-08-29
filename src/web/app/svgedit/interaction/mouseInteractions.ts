@@ -687,7 +687,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
     ty = height;
   }
 
-  // if we dragging on the east side, then adjust the scale factor and tx
+  // if we dragging on the west side, then adjust the scale factor and tx
   if (resizeMode.indexOf('w') >= 0) {
     sx = width ? (width - dx) / width : 1;
     tx = width;
@@ -721,7 +721,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
     const diff = angle ? 1 : 0;
     transforms.replaceItem(translateOrigin, 2 + diff);
     transforms.replaceItem(scale, 1 + diff);
-    transforms.replaceItem(translateBack, Number(diff));
+    transforms.replaceItem(translateBack, diff);
   } else {
     const N = transforms.numberOfItems;
     transforms.replaceItem(translateBack, N - 3);

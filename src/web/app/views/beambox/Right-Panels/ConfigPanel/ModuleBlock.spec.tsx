@@ -91,10 +91,6 @@ jest.mock('helpers/layer/layer-helper', () => ({
   getLayerElementByName: (...args) => mockGetLayerElementByName(...args),
 }));
 
-jest.mock('app/constants/right-panel-constants', () => ({
-  modelsWithModules: ['ado1'],
-}));
-
 jest.mock('app/constants/color-constants', () => ({
   printingLayerColor: ['#123'],
 }));

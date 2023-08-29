@@ -7,4 +7,6 @@ enum LayerModule {
   PRINTER = 5,
 }
 
+export const modelsWithModules = ['fad1', 'ado1'];
+
 export default LayerModule;
