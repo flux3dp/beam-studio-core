@@ -6,7 +6,7 @@ import beamboxStore from 'app/stores/beambox-store';
 import colorConstants from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import LayerModule from 'app/constants/layer-module/layer-modules';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
@@ -21,7 +21,6 @@ import {
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
-import { modelsWithModules } from 'app/constants/right-panel-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './ModuleBlock.module.scss';
