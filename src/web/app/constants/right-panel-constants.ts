@@ -1,4 +1,4 @@
-import LayerModule from 'app/constants/layer-module/layer-modules';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 
 const constants = {
   BEAMO: {
@@ -519,7 +519,6 @@ const constants = {
   },
 };
 
-export const modelsWithModules = ['fad1', 'ado1'];
 const modelMap = {
   fbm1: 'BEAMO',
   fbb1b: 'BEAMBOX',

@@ -1,9 +1,9 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
-import LayerModule from 'app/constants/layer-module/layer-modules';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
-import { getAllPresets, modelsWithModules } from 'app/constants/right-panel-constants';
+import { getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 

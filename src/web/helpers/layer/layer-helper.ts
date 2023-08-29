@@ -22,7 +22,7 @@ export function getObjectLayer(elem: SVGElement): { elem: SVGGElement, title: st
   let p: SVGElement = elem;
   while (p) {
     p = p.parentNode as SVGElement;
-    if (p && p.getAttribute && p.getAttribute('class') && p.getAttribute('class').indexOf('layer') >= 0) {
+    if (p?.getAttribute?.('class')?.indexOf('layer') >= 0) {
       const title = $(p).find('title')[0];
       if (title) {
         return { elem: p as SVGGElement, title: title.innerHTML };
