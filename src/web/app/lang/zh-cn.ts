@@ -572,7 +572,7 @@ const lang: ILang = {
         oval: '椭圆',
         polygon: '多边形',
         pen: '钢笔',
-        shapes: '图形',
+        shapes: '元素',
         array: '阵列',
         preview: '相机预览',
         trace: '影像描图',

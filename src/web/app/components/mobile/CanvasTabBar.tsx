@@ -56,7 +56,7 @@ const CanvasTabBar = (): JSX.Element => {
   const tabs = [
     {
       key: 'camera',
-      title: lang.beambox.left_panel.label.preview,
+      title: lang.beambox.left_panel.label.choose_camera,
       icon: <CameraIcon style={{}} />,
     },
     {

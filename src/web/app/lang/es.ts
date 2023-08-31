@@ -572,7 +572,7 @@ const lang: ILang = {
         oval: 'Ovalado',
         polygon: 'Polígono',
         pen: 'Pluma',
-        shapes: 'Formas',
+        shapes: 'Elementos',
         array: 'Gama',
         preview: 'Vista previa de la cámara',
         trace: 'Imagen de rastro',

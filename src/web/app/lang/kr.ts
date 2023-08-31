@@ -572,7 +572,7 @@ const lang: ILang = {
         oval: '타원',
         polygon: '다각형',
         pen: '펜',
-        shapes: '도형',
+        shapes: '요소들',
         array: '어레이',
         preview: '카메라 미리보기',
         trace: '이미지 추적',

@@ -1021,7 +1021,7 @@ const lang: ILang = {
   noun_project_panel: {
     login_first: 'Melden Sie sich an, um die shapes Datenbank freizuschalten.',
     enjoy_shape_library: 'Genießen Sie die shapes Datenbank.',
-    shapes: 'Formen',
+    shapes: 'Elemente',
     elements: 'Elemente',
     recent: 'Kürzlich',
     search: 'Suche',
