@@ -3,7 +3,7 @@ import { Select } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
-import colorConstants from 'app/constants/color-constants';
+import colorConstants, { PrintingColors } from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
@@ -56,7 +56,7 @@ const ModuleBlock = (): JSX.Element => {
       const layer = getLayerElementByName(layerName);
       if (
         val === LayerModule.PRINTER &&
-        !colorConstants.printingLayerColor.includes(layer.getAttribute('data-color'))
+        !colorConstants.printingLayerColor.includes(layer.getAttribute('data-color') as PrintingColors)
       ) {
         layer.setAttribute('data-color', '#1D1D1B');
         svgCanvas.updateLayerColor(layer);

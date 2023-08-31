@@ -2,7 +2,7 @@
   padding: 0;
   width: 100%;
   border-collapse: collapse;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   .color {
     width: 24px;
@@ -16,6 +16,19 @@
       border-radius: 4px;
       margin-left: 10px;
       background: black;
+
+      &.full-color {
+        background: rgb(255, 0, 0);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 0, 0, 1) 0%,
+          rgba(255, 255, 0, 1) 20%,
+          rgba(0, 255, 19, 1) 40%,
+          rgba(0, 255, 254, 1) 60%,
+          rgba(0, 16, 255, 1) 80%,
+          rgba(246, 0, 255, 1) 100%
+        );
+      }
     }
   }
 
@@ -140,7 +153,7 @@
   .list {
     padding-bottom: 80px;
 
-    .row{
+    .row {
       display: flex;
       .name {
         font-size: 15px;
@@ -149,7 +162,8 @@
         flex-grow: 2;
       }
 
-      &:active, &:hover {
+      &:active,
+      &:hover {
         .name {
           color: white;
         }

@@ -78,6 +78,7 @@ const LayerList = ({
     const layer = getLayerElementByName(layerName);
     if (layer) {
       const isLocked = layer.getAttribute('data-lock') === 'true';
+      const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
       const module = getData<LayerModule>(layer, DataType.module);
@@ -115,8 +116,9 @@ const LayerList = ({
           >
             <div className={styles.color}>
               <div
+                className={classNames({ [styles['full-color']]: isFullColor })}
                 id={`layerbackgroundColor-${i}`}
-                style={{ backgroundColor: drawing.getLayerColor(layerName) }}
+                style={isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(layerName) }}
                 onClick={(e: React.MouseEvent) => openLayerColorPanel(e, layerName)}
               />
             </div>

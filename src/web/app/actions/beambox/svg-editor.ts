@@ -65,6 +65,9 @@ import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
+import importBitmap from 'app/svgedit/operations/import/importBitmap';
+import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -111,7 +114,6 @@ interface ISVGEditor {
   curConfig: ISVGConfig
   curPrefs: ISVGPref
   disableUI: (featList: any) => void
-  getExifRotationFlag: any
   importSvg: (file: any, args: { skipByLayer?: boolean }) => Promise<void>
   init: () => void
   loadFromDataURI: (str: any) => void
@@ -119,7 +121,6 @@ interface ISVGEditor {
   putLocale(lang: string | number | string[], good_langs: any[])
   randomizeIds: () => void
   readSVG: (blob: any, type: any, layerName: any) => Promise<unknown>
-  readImage: (file: any, scale?: number, offset?: any) => Promise<unknown>,
   replaceBitmap: any
   runCallbacks: () => void
   savePreferences: () => void
@@ -200,7 +201,6 @@ const svgEditor = window['svgEditor'] = (function () {
     curConfig: null,
     curPrefs: null,
     disableUI: (featList: any) => { },
-    getExifRotationFlag: null,
     importSvg: async (file: any, args: { skipByLayer?: boolean } = {}) => { },
     init: () => { },
     loadFromDataURI: (str: any) => { },
@@ -208,7 +208,6 @@ const svgEditor = window['svgEditor'] = (function () {
     putLocale: (lang: string | number | string[], good_langs: any[]) => { },
     randomizeIds: () => { },
     readSVG: async (blob: any, type: any, layerName: any) => { },
-    readImage: async (file: any, scale?: number, offset?: any) => { },
     replaceBitmap: null,
     runCallbacks: () => { },
     savePreferences: () => { },
@@ -4895,95 +4894,6 @@ const svgEditor = window['svgEditor'] = (function () {
     // and provide a file input to click. When that change event fires, it will
     // get the text contents of the file and send it to the canvas
     if (window.FileReader) {
-      const imageToPngBlob = async (image) => {
-        return new Promise((resolve, reject) => {
-          const canvas = document.createElement('canvas');
-          canvas.width = image.width;
-          canvas.height = image.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(image, 0, 0);
-          canvas.toBlob((blob) => {
-            resolve(blob);
-          });
-        });
-      }
-
-      const readImage = (file, scale = 1, offset = null) => {
-        return new Promise<void>((resolve, reject) => {
-          var defaultX = 0, defaultY = 0;
-          if (offset) {
-            defaultX = offset[0];
-            defaultY = offset[1];
-          }
-          const reader = new FileReader();
-          reader.onloadend = async function (e) {
-            let rotationFlag = getExifRotationFlag(e.target.result);
-
-            // let's insert the new image until we know its dimensions
-            var insertNewImage = async function (img, width, height) {
-              var newImage = svgCanvas.addSvgElementFromJson({
-                element: 'image',
-                attr: {
-                  x: defaultX * scale,
-                  y: defaultY * scale,
-                  width: (rotationFlag <= 4 ? width : height) * scale,
-                  height: (rotationFlag <= 4 ? height : width) * scale,
-                  id: svgCanvas.getNextId(),
-                  style: 'pointer-events:inherit',
-                  preserveAspectRatio: 'none',
-                  'data-threshold': 254,
-                  'data-shading': true,
-                  origImage: img.src,
-                  'data-ratiofixed': true,
-                }
-              });
-              if (file.type === 'image/webp') {
-                const pngBlob = await imageToPngBlob(img);
-                const newSrc = URL.createObjectURL(pngBlob);
-                URL.revokeObjectURL(img.src);
-                newImage.setAttribute('origImage', newSrc);
-              }
-              ImageData(
-                newImage.getAttribute('origImage'), {
-                height: height,
-                width: width,
-                rotationFlag,
-                grayscale: {
-                  is_rgba: true,
-                  is_shading: true,
-                  threshold: 254,
-                  is_svg: false
-                },
-                onComplete: function (result) {
-                  svgCanvas.setHref(newImage, result.pngBase64);
-                }
-              }
-              );
-              svgCanvas.updateElementColor(newImage);
-              svgCanvas.selectOnly([newImage]);
-              svgCanvas.undoMgr.addCommandToHistory(new history.InsertElementCommand(newImage));
-              if (!offset) {
-                svgCanvas.alignSelectedElements('l', 'page');
-                svgCanvas.alignSelectedElements('t', 'page');
-              }
-              resolve(null);
-              updateContextPanel();
-              Progress.popById('loading_image');
-            };
-            var img = new Image();
-            var blob = new Blob([reader.result]);
-            img.src = URL.createObjectURL(blob);
-            img.style.opacity = '0';
-            img.onload = function () {
-              let imgWidth = img.width;
-              let imgHeight = img.height;
-              insertNewImage(img, imgWidth, imgHeight);
-            };
-          };
-          reader.readAsArrayBuffer(file);
-        });
-      }
-      editor.readImage = readImage;
       const replaceBitmap = async (file, imageElem) => {
         Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage, });
         return new Promise<void>((resolve, reject) => {
@@ -5039,42 +4949,6 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.replaceBitmap = replaceBitmap;
-
-      // Get exif rotation data ref: https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side
-      const getExifRotationFlag = (arrayBuffer) => {
-        let view = new DataView(arrayBuffer);
-        if (view.getUint16(0, false) != 0xFFD8) {
-          return -2;
-        }
-        let length = view.byteLength, offset = 2;
-        while (offset < length) {
-          if (view.getUint16(offset + 2, false) <= 8) return -1;
-          let marker = view.getUint16(offset, false);
-          offset += 2;
-          if (marker == 0xFFE1) {
-            if (view.getUint32(offset += 2, false) != 0x45786966) {
-              return -1;
-            }
-            let little = view.getUint16(offset += 6, false) == 0x4949;
-            offset += view.getUint32(offset + 4, little);
-            let tags = view.getUint16(offset, little);
-            offset += 2;
-            for (var i = 0; i < tags; i++) {
-              if (view.getUint16(offset + (i * 12), little) == 0x0112) {
-                return view.getUint16(offset + (i * 12) + 8, little);
-              }
-            }
-          }
-          else if ((marker & 0xFF00) != 0xFF00) {
-            break;
-          }
-          else {
-            offset += view.getUint16(offset, false);
-          }
-        }
-        return -1;
-      };
-      editor.getExifRotationFlag = getExifRotationFlag;
       const getBasename = (path) => {
         const pathMatch = path.match(/(.+)[\/\\].+/);
         if (pathMatch[1]) return pathMatch[1];
@@ -5199,8 +5073,7 @@ const svgEditor = window['svgEditor'] = (function () {
             if (!svgCanvas.setCurrentLayer(layerName)) {
               svgCanvas.createLayer(layerName);
             }
-
-            await readImage(outputs['bitmap'], 1, outputs['bitmap_offset']); //magic number dpi/ inch/pixel
+            await readBitmapFile(outputs['bitmap'], { offset: outputs['bitmap_offset'] });
           }
           Progress.popById('loading_image');
           newElements = newElements.filter((elem) => elem);
@@ -5234,9 +5107,6 @@ const svgEditor = window['svgEditor'] = (function () {
         }
       };
       editor.importSvg = importSvg;
-      const importBitmap = file => {
-        readImage(file);
-      };
       const importDxf = async file => {
         const Dxf2Svg = await requirejsHelper('dxf2svg');
         const ImageTracer = await requirejsHelper('imagetracer');
@@ -5310,7 +5180,7 @@ const svgEditor = window['svgEditor'] = (function () {
           const isLayerExist = svgCanvas.setCurrentLayer(layerName);
           if (!isLayerExist) {
             svgCanvas.getCurrentDrawing();
-            svgCanvas.createLayer(layerName, null, layer.rgbCode);
+            svgCanvas.createLayer(layerName, layer.rgbCode);
           }
           const id = svgCanvas.getNextId();
           const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
@@ -5534,7 +5404,7 @@ const svgEditor = window['svgEditor'] = (function () {
         } else {
           const response = await fetch(icon.preview_url);
           const blob = await response.blob();
-          readImage(blob);
+          readBitmapFile(blob);
         }
       };
 
@@ -5586,7 +5456,8 @@ const svgEditor = window['svgEditor'] = (function () {
             importSvg(file);
             break;
           case 'bitmap':
-            importBitmap(file);
+            await importBitmap(file);
+            Progress.popById('loading_image');
             break;
           case 'dxf':
             importDxf(file);

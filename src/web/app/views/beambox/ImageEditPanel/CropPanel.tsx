@@ -30,9 +30,10 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const previewImageRef = useRef<HTMLImageElement>(null);
   const originalSizeRef = useRef({ width: 0, height: 0 });
   const historyRef = useRef<HistoryItem[]>([]);
-  const { isShading, threshold } = useMemo(() => ({
+  const { isShading, threshold, isFullColor } = useMemo(() => ({
     isShading: image.getAttribute('data-shading') === 'true',
     threshold: parseInt(image.getAttribute('data-threshold'), 10),
+    isFullColor: image.getAttribute('data-fullcolor') === '1',
   }), [image]);
   const [state, setState] = useState({
     blobUrl: src,
@@ -47,7 +48,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     const { width, height } = dimension;
     originalSizeRef.current = { width: originalWidth, height: originalHeight };
     historyRef.current.push({ dimension, blobUrl });
-    const displayBase64 = await calculateBase64(blobUrl, isShading, threshold);
+    const displayBase64 = await calculateBase64(blobUrl, isShading, threshold, isFullColor);
     setState({ blobUrl, displayBase64, width, height });
     progressCaller.popById('photo-edit-processing');
   };
@@ -107,7 +108,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     }
     progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
     const result = await jimpHelper.cropImage(src, x, y, width, height);
-    const base64 = await calculateBase64(result, isShading, threshold);
+    const base64 = await calculateBase64(result, isShading, threshold, isFullColor);
     const newWidth = parseFloat(image.getAttribute('width')) * (width / originalWidth);
     const newHeight = parseFloat(image.getAttribute('height')) * (height / originalHeight);
     handleFinish(image, result, base64, newWidth, newHeight);
@@ -124,7 +125,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
     const result = await jimpHelper.cropImage(blobUrl, x, y, width, height);
     if (result) {
-      const displayBase64 = await calculateBase64(result, isShading, threshold);
+      const displayBase64 = await calculateBase64(result, isShading, threshold, isFullColor);
       const { dimension } = historyRef.current[historyRef.current.length - 1];
       historyRef.current.push({
         blobUrl: result,
@@ -147,7 +148,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     URL.revokeObjectURL(currentUrl);
     const { blobUrl: newUrl, dimension } = historyRef.current[historyRef.current.length - 1];
     const { width, height } = dimension;
-    const displayBase64 = await calculateBase64(newUrl, isShading, threshold);
+    const displayBase64 = await calculateBase64(newUrl, isShading, threshold, isFullColor);
     setState({ blobUrl: newUrl, displayBase64, width, height });
     progressCaller.popById('photo-edit-processing');
   };

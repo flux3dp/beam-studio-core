@@ -1,10 +1,10 @@
 import * as React from 'react';
 
+import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
-import ImageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
 import {
   Button, Col, Modal, Row,
@@ -13,7 +13,6 @@ import OpenCVWebSocket from 'helpers/api/open-cv';
 import Progress from 'app/actions/progress-caller';
 import SliderControl from 'app/widgets/Slider-Control';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { IImageDataResult } from 'interfaces/IImage';
 import imageProcessor from 'implementations/imageProcessor';
 
 const { $ } = window;
@@ -47,8 +46,9 @@ interface State {
   displaySrc: string;
   sharpness: number;
   sharpRadius: number;
-  threshold: string;
+  threshold: number;
   shading: boolean;
+  isFullColor: boolean;
   displayBase64: string,
   isImageDataGenerated: boolean;
   isShowingOriginal: boolean;
@@ -71,8 +71,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
       displaySrc: src,
       sharpness: 0,
       sharpRadius: 1,
-      threshold: $(element).attr('data-threshold'),
-      shading: (element.getAttribute('data-shading') === 'true'),
+      threshold: parseInt(element.getAttribute('data-threshold'), 10),
+      shading: element.getAttribute('data-shading') === 'true',
+      isFullColor: element.getAttribute('data-fullcolor') === '1',
       displayBase64: null,
       isImageDataGenerated: false,
       isShowingOriginal: false,
@@ -98,7 +99,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
   async handlePreprocess(): Promise<void> {
     const setCompareBase64 = async (imgUrl: string) => {
       const result = await this.calculateImageData(imgUrl);
-      this.compareBase64 = result.pngBase64;
+      this.compareBase64 = result;
     };
 
     Progress.openNonstopProgress({
@@ -137,7 +138,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     }
   }
 
-  handleCancel(): void {
+  handleCancel = (): void => {
     const { displaySrc } = this.state;
     const { unmount } = this.props;
     URL.revokeObjectURL(displaySrc);
@@ -172,7 +173,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     handleSetAttribute('origImage', displaySrc);
     clearHistory();
     const result = await this.calculateImageData(displaySrc);
-    handleSetAttribute('xlink:href', result.pngBase64);
+    handleSetAttribute('xlink:href', result);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     svgCanvas.selectOnly([element], true);
     unmount();
@@ -254,7 +255,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
       URL.revokeObjectURL(displayBase64);
     }
     this.setState({
-      displayBase64: result.pngBase64,
+      displayBase64: result,
       isImageDataGenerated: true,
     });
   };
@@ -263,22 +264,10 @@ class PhotoEditPanel extends React.Component<Props, State> {
     this.curvefunction = curvefunction;
   }
 
-  async calculateImageData(src: string): Promise<IImageDataResult> {
-    const { shading, threshold } = this.state;
-    return new Promise<IImageDataResult>((resolve) => {
-      ImageData(src, {
-        grayscale: {
-          is_rgba: true,
-          is_shading: shading,
-          threshold,
-          is_svg: false,
-        },
-        isFullResolution: true,
-        onComplete: (result: IImageDataResult) => {
-          resolve(result);
-        },
-      });
-    });
+  async calculateImageData(src: string): Promise<string> {
+    const { shading, threshold, isFullColor } = this.state;
+    const resultBase64 = calculateBase64(src, shading, threshold, isFullColor);
+    return resultBase64
   }
 
   renderPhotoEditeModal(): JSX.Element {
@@ -397,6 +386,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const { mode } = this.props;
     const previewButton = (
       <Button
+        key="preview"
         onMouseDown={() => this.setState({ isShowingOriginal: true })}
         onMouseUp={() => this.setState({ isShowingOriginal: false })}
         onMouseLeave={() => this.setState({ isShowingOriginal: false })}
@@ -415,13 +405,15 @@ class PhotoEditPanel extends React.Component<Props, State> {
 
     const cancelButton = (
       <Button
-        onClick={() => this.handleCancel()}
+        key="cancel"
+        onClick={this.handleCancel}
       >
         {LANG.cancel}
       </Button>
     );
     const okButton = (
       <Button
+        key="ok"
         onClick={() => handleOk()}
         type="primary"
       >

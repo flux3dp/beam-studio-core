@@ -102,16 +102,18 @@ const updateImageResolution = (isFullResolution = true) => new Promise<void>((re
   } else {
     imgs.forEach((img) => {
       if (img.getAttribute('origImage')) {
+        const shading = img.getAttribute('data-shading') === 'true';
+        const threshold = parseInt(img.getAttribute('data-threshold'), 10);
         ImageData(img.getAttribute('origImage'), {
           grayscale: {
             is_rgba: true,
-            is_shading: $(img).attr('data-shading') === 'true',
-            threshold: parseInt($(img).attr('data-threshold'), 10),
+            is_shading: shading,
+            threshold,
             is_svg: false,
           },
           isFullResolution,
           onComplete(result) {
-            $(img).attr('xlink:href', result.pngBase64);
+            img.setAttribute('xlink:href', result.pngBase64);
             done += 1;
             if (done === numImgs) {
               resolve();

@@ -15,7 +15,7 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-export function getObjectLayer(elem: SVGElement): { elem: SVGGElement, title: string } {
+export function getObjectLayer(elem: SVGElement): { elem: SVGGElement; title: string } {
   let p: SVGElement = elem;
   while (p) {
     p = p.parentNode as SVGElement;
@@ -119,7 +119,12 @@ export const deleteLayers = (layerNames: string[]): void => {
   const layerCounts = document.querySelectorAll('g.layer').length;
   if (!layerCounts) {
     const svgcontent = document.getElementById('svgcontent');
-    const newLayer = new svgedit.draw.Layer(LANG.layer1, null, svgcontent, '#333333').getGroup() as Element;
+    const newLayer = new svgedit.draw.Layer(
+      LANG.layer1,
+      null,
+      svgcontent,
+      '#333333'
+    ).getGroup() as Element;
     batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
   }
   if (!batchCmd.isEmpty()) {
@@ -129,14 +134,18 @@ export const deleteLayers = (layerNames: string[]): void => {
   svgCanvas.clearSelection();
 };
 
-export const cloneLayer = (layerName: string, isSub = false): { name: string; cmd: ICommand } | null => {
+export const cloneLayer = (
+  layerName: string,
+  isSub = false,
+  clonedLayerName?: string
+): { name: string; cmd: ICommand, elem: SVGGElement } | null => {
   const layer = getLayerElementByName(layerName);
   if (!layer) return null;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const color = layer.getAttribute('data-color') || '#333';
   const svgcontent = document.getElementById('svgcontent');
-  const baseName = `${layerName} copy`;
+  const baseName = clonedLayerName || `${layerName} copy`;
   let newName = baseName;
   let j = 0;
   while (drawing.hasLayer(newName)) {
@@ -159,7 +168,7 @@ export const cloneLayer = (layerName: string, isSub = false): { name: string; cm
     drawing.identifyLayers();
     svgCanvas.clearSelection();
   }
-  return { name: newName, cmd };
+  return { name: newName, cmd, elem: newLayer };
 };
 
 export const cloneLayers = (layerNames: string[]): string[] => {
@@ -201,8 +210,8 @@ export const setLayersLock = (layerNames: string[], isLocked: boolean): void => 
 const mergeLayer = (
   baseLayerName: string,
   layersToBeMerged: string[],
-  shouldInsertBefore: boolean,
-) : IBatchCommand | null => {
+  shouldInsertBefore: boolean
+): IBatchCommand | null => {
   const baseLayer = getLayerElementByName(baseLayerName);
   if (!baseLayer) return null;
 
@@ -240,7 +249,7 @@ export const mergeLayers = (layerNames: string[], baseLayerName?: string): strin
   const drawing = svgCanvas.getCurrentDrawing();
   sortLayerNamesByPosition(layerNames);
   const mergeBase = baseLayerName || layerNames[0];
-  const baseLayerIndex = layerNames.findIndex(((layerName) => layerName === mergeBase));
+  const baseLayerIndex = layerNames.findIndex((layerName) => layerName === mergeBase);
 
   let cmd = mergeLayer(mergeBase, layerNames.slice(0, baseLayerIndex), true);
   if (cmd && !cmd.isEmpty()) {
@@ -263,8 +272,8 @@ export const mergeLayers = (layerNames: string[], baseLayerName?: string): strin
 // use insertBefore node[pos], so moving from i to pos i or i+1 means nothing.
 export const moveLayerToPosition = (
   layerName: string,
-  newPosition: number,
-): { success: boolean, cmd?: ICommand } => {
+  newPosition: number
+): { success: boolean; cmd?: ICommand } => {
   const allLayers = document.querySelectorAll('g.layer');
   let layer = null as Element;
   let currentPosition = null;

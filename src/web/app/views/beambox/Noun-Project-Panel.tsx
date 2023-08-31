@@ -6,6 +6,7 @@ import defaultIcons from 'app/constants/noun-project-constants';
 import DraggableWindow from 'app/widgets/DraggableWindow';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
+import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import storage from 'implementations/storage';
 import { fluxIDEvents, getNPIconByID, getNPIconsByTerm } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -437,7 +438,7 @@ class NounProjectPanel extends React.Component<Props, State> {
       } else {
         const response = await fetch(icon.preview_url);
         const blob = await response.blob();
-        svgEditor.readImage(blob);
+        readBitmapFile(blob);
       }
     } catch (e) {
       console.log(e);

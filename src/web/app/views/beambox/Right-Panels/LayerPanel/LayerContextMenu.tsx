@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import splitFullColorLayer from 'helpers/full-color/splitFullColorLayer';
 import useI18n from 'helpers/useI18n';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
 import {
@@ -79,6 +80,12 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     setSelectedLayers([baseLayer]);
   };
 
+  const handleSplitColor = async () => {
+    const layer = selectedLayers[0];
+    await splitFullColorLayer(layer);
+    setSelectedLayers([]);
+  };
+
   const isMultiSelecting = selectedLayers.length > 1;
   const isSelectingLast = (selectedLayers.length === 1) && (drawing.getLayerName(0) === selectedLayers[0]);
 
@@ -110,6 +117,12 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
         onClick={handleMergeSelected}
       >
         {LANG.merge_selected}
+      </MenuItem><MenuItem
+        attributes={{ id: 'split_color' }}
+        disabled={isMultiSelecting}
+        onClick={handleSplitColor}
+      >
+        {'tExpand Color Layer'}
       </MenuItem>
     </ContextMenu>
   );

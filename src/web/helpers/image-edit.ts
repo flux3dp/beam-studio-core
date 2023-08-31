@@ -42,12 +42,14 @@ const getSelectedElem = (): SVGImageElement => {
 
 const getImageAttributes = (elem: Element) => {
   const imgUrl = elem.getAttribute('origImage') || elem.getAttribute('xlink:href');
+  const isFullColor = elem.getAttribute('data-fullcolor') === '1';
   const shading = elem.getAttribute('data-shading') === 'true';
   let threshold = parseInt(elem.getAttribute('data-threshold'), 10);
   if (Number.isNaN(threshold)) {
     threshold = 128;
   }
   return {
+    isFullColor,
     imgUrl,
     shading,
     threshold,
@@ -55,10 +57,10 @@ const getImageAttributes = (elem: Element) => {
 };
 
 const generateBase64Image = (
-  imgSrc: string, shading: boolean, threshold: number,
+  imgSrc: string, shading: boolean, threshold: number, isFullColor = false,
 ) => new Promise<string>((resolve) => {
   imageData(imgSrc, {
-    grayscale: {
+    grayscale: isFullColor ? undefined : {
       is_rgba: true,
       is_shading: shading,
       threshold,
@@ -101,11 +103,11 @@ const colorInvert = async (elem?: SVGImageElement): Promise<void> => {
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
   });
-  const { imgUrl, shading, threshold } = getImageAttributes(element);
+  const { imgUrl, shading, threshold, isFullColor } = getImageAttributes(element);
   const newImgUrl = await jimpHelper.colorInvert(imgUrl);
   if (newImgUrl) {
     const newThreshold = shading ? threshold : 256 - threshold;
-    const base64Img = await generateBase64Image(newImgUrl, shading, newThreshold);
+    const base64Img = await generateBase64Image(newImgUrl, shading, newThreshold, isFullColor);
     addBatchCommand('Image Edit: invert', element, {
       origImage: newImgUrl,
       'data-threshold': newThreshold,
@@ -123,10 +125,10 @@ const generateStampBevel = async (elem?: SVGImageElement): Promise<void> => {
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
   });
-  const { imgUrl, shading, threshold } = getImageAttributes(element);
+  const { imgUrl, shading, threshold, isFullColor } = getImageAttributes(element);
   const newImgUrl = await jimpHelper.generateStampBevel(imgUrl, shading ? 128 : threshold);
   if (newImgUrl) {
-    const base64Img = await generateBase64Image(newImgUrl, shading, threshold);
+    const base64Img = await generateBase64Image(newImgUrl, shading, threshold, isFullColor);
     addBatchCommand('Image Edit: bevel', element, {
       origImage: newImgUrl,
       'data-shading': true,
@@ -316,10 +318,13 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     //   dialogCaller.showBackgroundRemovalPanel(imgUrl, blobUrl, () => resolve(true), () => resolve(false));
     // });
     // if (!doApply) return;
-    const newThreshold = 255;
-    const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
+    const isFullColor = element.getAttribute('data-fullcolor') === '1';
+    // Change to shading
+    const newThreshold = 254;
+    const base64Img = await generateBase64Image(blobUrl, true, newThreshold, isFullColor);
     addBatchCommand('Image Edit: Remove background', element, {
       origImage: blobUrl,
+      'data-shading': true,
       'data-threshold': newThreshold,
       'data-no-bg': 'true',
       'xlink:href': base64Img,
