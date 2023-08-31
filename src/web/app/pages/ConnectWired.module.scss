@@ -20,7 +20,6 @@
         width: 122px;
         height: 122px;
         border-radius: 61px;
-        border: 5px solid #0091ff;
         margin: 210px 0 0 -6px;
         animation: pulse 4s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
       }
@@ -29,6 +28,14 @@
         width: 200px;
         box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
+      }
+
+      @media screen and (max-width: 600px) {
+        .hint {
+          width: 70px;
+          height: 70px;
+          margin: 128px 0 0 -55px;
+        }
       }
     }
   }

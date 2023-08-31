@@ -49,7 +49,8 @@ const SelectConnectionType = (): JSX.Element => {
       className={classNames('btn', styles.btn)}
       onClick={() => handleConnectionTypeClick(type)}
     >
-      {lang.connection_types[type]}
+      {/* add a white space so that sub text can be placed on next line */}
+      {lang.connection_types[type]}{' '}
       {type === 'usb' ? <span className={styles.sub}>{lang.connect_usb.title_sub}</span> : null}
     </button>
   );

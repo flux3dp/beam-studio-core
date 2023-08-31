@@ -30,6 +30,24 @@
       .c2 {
         margin: -133px 0px 0px 177px;
       }
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+        margin-top: 0;
+
+        .circle {
+          &.c1 {
+            margin: 10px 0 0 -42px;
+          }
+          &.c2 {
+            margin: 146px 0 0 42px;
+          }
+        }
+
+        img {
+          margin: 0;
+        }
+      }
     }
   }
 }
