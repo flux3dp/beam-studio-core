@@ -8,6 +8,7 @@ import dialog from 'implementations/dialog';
 import DeviceMaster from 'helpers/device-master';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import ImageData from 'helpers/image-data';
 import MonitorController from 'app/actions/monitor-controller';
 import Progress from 'app/actions/progress-caller';
@@ -207,7 +208,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   });
   await svgeditorParser.uploadToSvgeditorAPI([uploadFile], {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
-    engraveDpi: BeamboxPreference.read('engrave_dpi'),
+    engraveDpi: (isDev() && BeamboxPreference.read('engrave-dpi-value')) || BeamboxPreference.read('engrave_dpi'),
     onProgressing: (data) => {
       Progress.update('upload-scene', {
         caption: i18n.lang.beambox.popup.progress.calculating,
