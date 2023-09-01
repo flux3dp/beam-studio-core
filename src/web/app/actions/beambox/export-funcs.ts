@@ -18,6 +18,7 @@ import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
+import { tempSplitFullColorLayers } from 'helpers/full-color/splitFullColorLayer';
 
 let svgCanvas;
 let svgedit;
@@ -196,6 +197,13 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     SymbolMaker.switchImageSymbolForAll(true);
     return {};
   }
+  const revertTempSplitFullColorLayers = await tempSplitFullColorLayers();
+  const cleanUp = async () => {
+    revertTempSplitFullColorLayers();
+    await FontFuncs.revertTempConvert();
+    SymbolMaker.switchImageSymbolForAll(true);
+  };
+
   const { uploadFile, thumbnailBlobURL } = await prepareFileWrappedFromSvgStringAndThumbnail();
   Progress.openSteppingProgress({
     id: 'upload-scene',
@@ -203,8 +211,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     message: '',
     onCancel: async () => {
       svgeditorParser.interruptCalculation();
-      await FontFuncs.revertTempConvert();
-      SymbolMaker.switchImageSymbolForAll(true);
+      await cleanUp();
       isCanceled = true;
     },
   });
@@ -244,8 +251,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   if (isCanceled) {
     return {};
   }
-  await FontFuncs.revertTempConvert();
-  SymbolMaker.switchImageSymbolForAll(true);
+  await cleanUp();
   if (isErrorOccur) {
     return {};
   }

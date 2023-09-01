@@ -17,7 +17,6 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
     img.src = imgBlobUrl;
   });
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  console.log(imageData);
   const { data } = imageData;
   const channelDatas = [];
   for (let i = 0; i < CMYK.length; i += 1) {
