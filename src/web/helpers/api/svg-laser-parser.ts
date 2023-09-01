@@ -161,7 +161,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
+      const modelMinSpeed = constant.dimension.getMinSpeed(opts.model);
+      if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
+      else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
       if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
       if (isDevMode && localStorage.getItem('min_engraving_padding')) {
