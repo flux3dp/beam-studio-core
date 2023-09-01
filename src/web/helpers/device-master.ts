@@ -813,6 +813,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawGetProbePos);
   }
 
+  rawGetLastPos(): Promise<{ x: number; y: number; z: number; a: number }> {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.rawGetLastPos);
+  }
+
   // Get, Set functions
   getLaserPower() {
     const controlSocket = this.currentDevice.control;
