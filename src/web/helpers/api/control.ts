@@ -256,6 +256,26 @@ class Control extends EventEmitter {
     });
   }
 
+  useRawWaitOKResponse(command: string, timeout = 30000) {
+    // Resolve after get ok from raw response
+    return new Promise<any>((resolve, reject) => {
+      const timeoutTimer = this.setTimeoutTimer(reject, timeout);
+      let responseString = '';
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        clearTimeout(timeoutTimer);
+        if (response && response.status === 'raw') responseString += response.text;
+        const resps = responseString.split('\r\n');
+        if (resps.findIndex((r) => r === 'ok')) {
+          this.removeCommandListeners();
+          resolve(responseString);
+        }
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      this.ws.send(command);
+    });
+  }
+
   useWaitOKResponse(command: string, timeout = 30000) {
     // Resolve after get response whose status is ok
     return new Promise<{ data: any[]; response: any }>((resolve, reject) => {
@@ -1058,7 +1078,7 @@ class Control extends EventEmitter {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     const command = 'M137P34';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
   };
 
@@ -1078,8 +1098,8 @@ class Control extends EventEmitter {
           console.log('raw get probe position:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\n');
-        const i = resps.findIndex((r) => r === 'ok\r');
+        const resps = responseString.split('\r\n');
+        const i = resps.findIndex((r) => r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
           const resIdx = resps.findIndex((r) => r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/));
@@ -1089,6 +1109,70 @@ class Control extends EventEmitter {
             const [, x, y, z, a, didAf] = match;
             this.removeCommandListeners();
             resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a), didAf: didAf === '1' });
+          } else {
+            this.removeCommandListeners();
+            reject(response);
+          }
+          return;
+        }
+        if (
+          response.text.indexOf('ER:RESET') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || response.text.indexOf('error:') >= 0
+        ) {
+          if (retryTimes >= 5) {
+            this.removeCommandListeners();
+            reject(response);
+            return;
+          }
+          if (!isCmdResent) {
+            isCmdResent = true;
+            setTimeout(() => {
+              isCmdResent = false;
+              responseString = '';
+              this.ws.send(command);
+              retryTimes += 1;
+            }, 200);
+          }
+        } else {
+          timeoutTimer = this.setTimeoutTimer(reject, 10000);
+        }
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      timeoutTimer = this.setTimeoutTimer(reject, 10000);
+
+      this.ws.send(command);
+    });
+  };
+
+  rawGetLastPos = (): Promise<{ x: number; y: number; z: number; a: number }> => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return new Promise((resolve, reject) => {
+      let isCmdResent = false;
+      let responseString = '';
+      const command = 'M136P255';
+      let retryTimes = 0;
+      let timeoutTimer: null | NodeJS.Timeout;
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        clearTimeout(timeoutTimer);
+        if (response && response.status === 'raw') {
+          console.log('raw get last position:\t', response.text);
+          responseString += response.text;
+        }
+        const resps = responseString.split('\r\n');
+        const i = resps.findIndex((r) => r === 'ok');
+        if (i < 0) responseString = resps[resps.length - 1] || '';
+        if (i >= 0) {
+          const resIdx = resps.findIndex((r) => r.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/));
+          if (resIdx >= 0) {
+            const resStr = resps[resIdx];
+            const match = resStr.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
+            const [, x, y, z, a] = match;
+            this.removeCommandListeners();
+            resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a) });
           } else {
             this.removeCommandListeners();
             reject(response);
