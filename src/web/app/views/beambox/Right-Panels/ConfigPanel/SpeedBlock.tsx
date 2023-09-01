@@ -30,14 +30,16 @@ const SpeedBlock = (): JSX.Element => {
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d };
   }, []);
-  const model = BeamboxPreference.read('workarea');
+  const workarea = BeamboxPreference.read('workarea');
+  const maxValue = constant.dimension.getMaxSpeed(workarea);
+  const workareaMinSpeed = constant.dimension.getMinSpeed(workarea);
+  let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
-  const maxValue = constant.dimension.getMaxSpeed(model);
-  const minValue = enableLowSpeed ? 1 : 3;
+  if (minValue > 1 && enableLowSpeed) minValue = 1;
   let warningText = '';
   if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
     warningText = t.speed_contrain_warning;
-  } else if (value < 3 && enableLowSpeed) {
+  } else if (value < workareaMinSpeed && enableLowSpeed) {
     warningText = t.low_speed_warning;
   }
 
