@@ -8,6 +8,7 @@ interface WorkArea {
   width: number; // px
   height: number; // px
   maxSpeed: number; // mm/s
+  minSpeed?: number; // mm/s
   rotary: number[];
 }
 
@@ -17,6 +18,7 @@ WorkareaMap.set('fbm1', {
   width: 3000,
   height: 2100,
   maxSpeed: 300,
+  minSpeed: 3,
   rotary: [0, 1],
 });
 WorkareaMap.set('fbb1b', {
@@ -24,6 +26,7 @@ WorkareaMap.set('fbb1b', {
   width: 4000,
   height: 3750,
   maxSpeed: 300,
+  minSpeed: 3,
   rotary: [0, 1],
 });
 WorkareaMap.set('fbb1p', {
@@ -31,6 +34,7 @@ WorkareaMap.set('fbb1p', {
   width: 6000,
   height: 3750,
   maxSpeed: 300,
+  minSpeed: 3,
   rotary: [0, 1],
 });
 WorkareaMap.set('fhexa1', {
@@ -38,6 +42,7 @@ WorkareaMap.set('fhexa1', {
   width: 7400,
   height: 4100,
   maxSpeed: 900,
+  minSpeed: 3,
   rotary: [0, 1],
 });
 WorkareaMap.set('fad1', {
@@ -45,6 +50,7 @@ WorkareaMap.set('fad1', {
   width: 4300,
   height: 3000,
   maxSpeed: 400,
+  minSpeed: 0.5,
   rotary: [0],
 });
 WorkareaMap.set('ado1', {
@@ -52,6 +58,7 @@ WorkareaMap.set('ado1', {
   width: 4300,
   height: 3000,
   maxSpeed: 400,
+  minSpeed: 0.5,
   rotary: [0],
 });
 
@@ -61,6 +68,7 @@ if (isDev()) {
     width: 4300,
     height: 3000,
     maxSpeed: 400,
+    minSpeed: 0.5,
     rotary: [0, 1],
   });
   WorkareaMap.set('ado1', {
@@ -68,7 +76,8 @@ if (isDev()) {
     width: 4300,
     height: 3000,
     maxSpeed: 400,
-    rotary: [0, 2],
+    minSpeed: 0.5,
+    rotary: [0, 1],
   });
 }
 
@@ -78,6 +87,7 @@ export default {
     getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model)?.width || 3000,
     getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
     getMaxSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.maxSpeed || 300,
+    getMinSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.minSpeed || 3,
   },
   getRotaryModels: (model: WorkAreaModel): number[] => WorkareaMap.get(model)?.rotary || [0],
   camera: {
