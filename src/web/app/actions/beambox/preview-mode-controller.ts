@@ -125,9 +125,27 @@ class PreviewModeController {
     } catch (e) {
       console.error('Unable to get bottom_cover leveling data', e);
     }
+  };
+
+  applyAFPositionLevelingBias = async () => {
+    const device = this.currentDevice;
+    const workarea = [
+      deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
+      deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
+    ];
+    Progress.update('preview-mode-controller', { message: 'Getting probe position' });
+    const lastPosition = await deviceMaster.rawGetLastPos();
+    const { x, y } = lastPosition;
+    let xIndex = 0;
+    if (x > workarea[0] * (2 / 3)) xIndex = 2;
+    else if (x > workarea[0] * (1 / 3)) xIndex = 1;
+    let yIndex = 0;
+    if (y > workarea[1] * (2 / 3)) yIndex = 2;
+    else if (y > workarea[1] * (1 / 3)) yIndex = 1;
+    const refKey = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'][yIndex * 3 + xIndex];
+    console.log('Probe position', lastPosition, 'refKey', refKey);
     const keys = Object.keys(this.autoLevelingData);
-    const refPosition = 'A';
-    const refHeight = this.autoLevelingData[refPosition];
+    const refHeight = this.autoLevelingData[refKey];
     keys.forEach((key) => {
       this.autoLevelingData[key] = Math.round((this.autoLevelingData[key] - refHeight) * 1000) / 1000;
     });
@@ -217,6 +235,7 @@ class PreviewModeController {
       Progress.update('preview-mode-controller', { message: LANG.message.homing });
       await deviceMaster.rawHome();
       await deviceMaster.rawLooseMotor();
+      await this.applyAFPositionLevelingBias();
       const height = await this.getHeight();
       Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
       await deviceMaster.endRawMode();
