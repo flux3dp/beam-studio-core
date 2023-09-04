@@ -29,4 +29,4 @@ const AddOnBlock = (): JSX.Element => {
   );
 };
 
-export default memo(AddOnBlock);
+export default AddOnBlock;
