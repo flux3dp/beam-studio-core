@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
