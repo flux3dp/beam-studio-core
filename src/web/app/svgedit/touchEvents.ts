@@ -32,6 +32,7 @@ const setupCanvasTouchEvents = (
   let panStartScroll = { left: 0, top: 0 };
   let startZoom = null;
   let currentScale = 1;
+  let startDist = 0;
   let lastMoveEventTimestamp = 0;
   let isDoubleTap = false;
   const mc = new Hammer.Manager(container as HTMLElement);
@@ -49,7 +50,15 @@ const setupCanvasTouchEvents = (
         top: workarea.scrollTop,
       };
       // @ts-expect-error scale is defined in chrome & safari
-      if (e.scale === 1) {
+      if (e.scale === undefined) {
+        startZoom = getZoom();
+        startDist = Math.hypot(
+          e.touches[0].screenX - e.touches[1].screenX,
+          e.touches[0].screenY - e.touches[1].screenY
+        );
+        currentScale = 1;
+        // @ts-expect-error scale is defined in chrome & safari
+      } else if (e.scale === 1) {
         startZoom = getZoom();
         currentScale = 1;
       }
@@ -66,9 +75,15 @@ const setupCanvasTouchEvents = (
     } else if (e.touches.length >= 2) {
       const center = calculateTouchCenter(e.touches);
       requestAnimationFrame(() => {
-        // @ts-expect-error scale is defined in chrome & safari
-        const { scale, timeStamp } = e;
+        const { timeStamp } = e;
         if (timeStamp < lastMoveEventTimestamp) return;
+        const scale =
+          // @ts-expect-error scale is defined in chrome & safari
+          e.scale ??
+          Math.hypot(
+            e.touches[0].screenX - e.touches[1].screenX,
+            e.touches[0].screenY - e.touches[1].screenY
+          ) / startDist;
         if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
           const newZoom = startZoom * (scale ** 0.5);
           setZoom(newZoom, center);
