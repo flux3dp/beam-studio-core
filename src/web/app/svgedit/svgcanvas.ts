@@ -4793,7 +4793,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const modemap = { 'intersect': 0, 'union': 1, 'diff': 2, 'xor': 3 };
     const clipType = modemap[mode];
     let d = '';
-    let basePathText = selectedElements[0].outerHTML;
+    let basePathText = '';
+    if (selectedElements[0].tagName === 'rect' && selectedElements[0].getAttribute('rx')) {
+      const cloned = selectedElements[0].cloneNode(true);
+      cloned.setAttribute('ry', selectedElements[0].getAttribute('rx'));
+      basePathText = cloned.outerHTML;
+    } else basePathText = selectedElements[0].outerHTML;
     for (let i = len - 1; i >= 1; i -= 1) {
       d = pathActions.booleanOperationByPaperjs(
         basePathText,
