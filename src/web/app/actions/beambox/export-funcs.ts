@@ -18,7 +18,7 @@ import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
-import { tempSplitFullColorLayers } from 'helpers/full-color/splitFullColorLayer';
+import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
 
 let svgCanvas;
 let svgedit;

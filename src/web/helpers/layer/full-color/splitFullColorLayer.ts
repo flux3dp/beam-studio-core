@@ -1,6 +1,6 @@
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import imageData from 'helpers/image-data';
+import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import { CMYK } from 'app/constants/color-constants';
 import {
   cloneLayer,
@@ -10,7 +10,6 @@ import {
 } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { IImageDataResult } from 'interfaces/IImage';
 
 import splitColor from './splitColor';
 
@@ -18,26 +17,6 @@ let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-
-const updateImageDisplay = (image: HTMLImageElement, newImgBlob: Blob) => {
-  const newImgUrl = URL.createObjectURL(newImgBlob);
-  image.setAttribute('origImage', newImgUrl);
-  image.setAttribute('data-shading', 'true');
-  image.setAttribute('data-threshold', '254');
-  imageData(newImgUrl, {
-    width: parseFloat(image.getAttribute('width')),
-    height: parseFloat(image.getAttribute('height')),
-    grayscale: {
-      is_rgba: true,
-      is_shading: true,
-      threshold: 254,
-      is_svg: false,
-    },
-    onComplete: (result: IImageDataResult) => {
-      image.setAttribute('xlink:href', result.pngBase64);
-    },
-  });
-};
 
 const splitFullColorLayer = async (
   layerName: string,
@@ -75,8 +54,12 @@ const splitFullColorLayer = async (
     const channelBlobs = await splitColor(image.getAttribute('origImage'));
     for (let j = 0; j < newImages.length; j += 1) {
       const newImage = newImages[j][i];
-      updateImageDisplay(newImage, channelBlobs[j]);
+      const newImgUrl = URL.createObjectURL(channelBlobs[j]);
+      newImage.setAttribute('origImage', newImgUrl);
+      newImage.setAttribute('data-shading', 'true');
+      newImage.setAttribute('data-threshold', '254');
       newImage.removeAttribute('data-fullcolor');
+      updateImageDisplay(newImage as SVGImageElement);
     }
   }
   const cmd = deleteLayerByName(layerName);

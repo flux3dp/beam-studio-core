@@ -1,6 +1,6 @@
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import createFullColorLayer from 'helpers/full-color/createFullColorLayer';
+import createFullColorLayer from 'helpers/layer/full-color/createFullColorLayer';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

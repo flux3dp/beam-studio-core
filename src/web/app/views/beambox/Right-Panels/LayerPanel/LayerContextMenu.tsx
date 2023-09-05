@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import splitFullColorLayer from 'helpers/full-color/splitFullColorLayer';
+import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
 import useI18n from 'helpers/useI18n';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
 import {
