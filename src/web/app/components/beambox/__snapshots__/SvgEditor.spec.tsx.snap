@@ -99,6 +99,7 @@ exports[`test svg-editor should render correctly in mac 1`] = `
             id="text_panel"
           >
             <input
+              enterkeyhint="enter"
               id="text"
               size="35"
               type="text"
@@ -1092,6 +1093,7 @@ exports[`test svg-editor should render correctly in win 1`] = `
             id="text_panel"
           >
             <input
+              enterkeyhint="enter"
               id="text"
               size="35"
               type="text"

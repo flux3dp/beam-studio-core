@@ -65,6 +65,7 @@ import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { isMobile } from 'helpers/system-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -3150,7 +3151,7 @@ const svgEditor = window['svgEditor'] = (function () {
         clickSelect();
       }
       const isFunctionKeyPressed = checkFunctionKeyPressed(evt);
-      if (evt.shiftKey && evt.key === 'Enter') {
+      if ((isMobile() || evt.shiftKey) && evt.key === 'Enter') {
         evt.preventDefault();
         textActions.newLine();
         textEdit.setTextContent(textInput.value);
