@@ -5,6 +5,8 @@ import ReactDomServer from 'react-dom/server';
 import { CapsuleTabs } from 'antd-mobile';
 
 import FloatingPanel from 'app/widgets/FloatingPanel';
+import history from 'app/svgedit/history';
+import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import i18n from 'helpers/i18n';
 import ShapeIcon from 'app/icons/shape/ShapeIcon';
 import Shapes, { ShapeTabs } from 'app/constants/shape-panel-constants';
@@ -30,6 +32,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
         ...jsonMap,
         attr: { ...jsonMap.attr, id: svgCanvas.getNextId() },
       });
+      svgCanvas.addCommandToHistory(new history.InsertElementCommand(newElement));
       if (svgCanvas.isUsingLayerColor) {
         svgCanvas.updateElementColor(newElement);
       }
@@ -42,15 +45,17 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
         /fill= ?"#(fff(fff)?|FFF(FFF))"/g,
         'fill="none"'
       );
-      const newElementnewElement = await svgCanvas.importSvgString(iconString, 'layer', undefined);
+      const batchCmd = HistoryCommandFactory.createBatchCommand('Shape Panel Import SVG');
+      const newElementnewElement = await svgCanvas.importSvgString(iconString, 'layer', undefined, batchCmd);
       const { width, height } = svgCanvas.getSvgRealLocation(newElementnewElement);
       const [newWidth, newHeight] = width > height ? [500, (height * 500) / width] : [(width * 500) / height, 500];
       svgCanvas.selectOnly([newElementnewElement]);
-      svgCanvas.setSvgElemSize('width', newWidth);
-      svgCanvas.setSvgElemSize('height', newHeight);
-      svgCanvas.setSvgElemPosition('x', 0);
-      svgCanvas.setSvgElemPosition('y', 0);
-      svgCanvas.disassembleUse2Group([newElementnewElement], true);
+      batchCmd.addSubCommand(svgCanvas.setSvgElemSize('width', newWidth));
+      batchCmd.addSubCommand(svgCanvas.setSvgElemSize('height', newHeight));
+      batchCmd.addSubCommand(svgCanvas.setSvgElemPosition('x', 0, newElementnewElement, false));
+      batchCmd.addSubCommand(svgCanvas.setSvgElemPosition('y', 0, newElementnewElement, false));
+      batchCmd.addSubCommand(await svgCanvas.disassembleUse2Group([newElementnewElement], true, false));
+      svgCanvas.addCommandToHistory(batchCmd);
     }
     setClose(true);
   };

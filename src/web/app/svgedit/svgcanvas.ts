@@ -2672,7 +2672,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // arbitrary transform lists, but makes some assumptions about how the transform list
   // was obtained
   // * import should happen in top-left of current zoomed viewport
-  this.importSvgString = async function (xmlString, _type, layerName) {
+  this.importSvgString = async function (xmlString, _type, layerName, parentCmd) {
     const batchCmd = new history.BatchCommand('Import Image');
 
     async function appendUseElement(symbol, type, layerName) {
@@ -2814,8 +2814,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }));
 
     removeDefaultLayerIfEmpty();
-
-    addCommandToHistory(batchCmd);
+    if (parentCmd) parentCmd.addSubCommand(batchCmd);
+    else addCommandToHistory(batchCmd);
     call('changed', [svgcontent]);
 
     // we want to return the element so we can automatically select it
@@ -5095,7 +5095,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     ObjectPanelController.updateActiveKey(null);
   };
 
-  this.disassembleUse2Group = async function (elems = null, skipConfirm = false) {
+  this.disassembleUse2Group = async function (
+    elems = null,
+    skipConfirm = false,
+    addToHistory = true
+  ) {
     if (!elems) {
       elems = selectedElements;
     }
@@ -5225,7 +5229,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       svgCanvas.setHasUnsavedChange(true);
     }
     if (batchCmd && !batchCmd.isEmpty()) {
-      addCommandToHistory(batchCmd);
+      if (addToHistory) addCommandToHistory(batchCmd);
+      return batchCmd;
     }
   };
 
@@ -7013,7 +7018,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   };
 
-  this.setSvgElemPosition = function (para, val, elem?) {
+  this.setSvgElemPosition = function (para, val, elem?, addToHistory = true) {
     const selected = elem || selectedElements[0];
     const realLocation = this.getSvgRealLocation(selected);
     let dx = 0;
@@ -7038,8 +7043,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     selectorManager.requestSelector(selected).resize();
-    recalculateAllSelectedDimensions();
-
+    const cmd = recalculateAllSelectedDimensions(!addToHistory);
+    return cmd;
   };
   // refer to resize behavior in mouseup mousemove mousedown
   this.setSvgElemSize = function (para: string, val: number, addToHistory = false) {

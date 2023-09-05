@@ -18,6 +18,7 @@ const selectOnly = jest.fn();
 const setSvgElemPosition = jest.fn();
 const setSvgElemSize = jest.fn();
 const disassembleUse2Group = jest.fn();
+const addCommandToHistory = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => callback({
     Canvas: {
@@ -31,6 +32,7 @@ jest.mock('helpers/svg-editor-helper', () => ({
       setSvgElemSize: (...args) => setSvgElemSize(...args),
       updateElementColor: jest.fn(),
       disassembleUse2Group: (...args) => disassembleUse2Group(...args),
+      addCommandToHistory: (...args) => addCommandToHistory(...args),
     },
   }),
 }));
@@ -104,6 +106,7 @@ describe('test ShapePanel', () => {
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
     expect(disassembleUse2Group).not.toBeCalled();
+    expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 
@@ -126,13 +129,14 @@ describe('test ShapePanel', () => {
     expect(selectOnly).toBeCalledTimes(1);
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).toBeCalledTimes(2);
-    expect(setSvgElemPosition).toHaveBeenNthCalledWith(1, 'x', 0);
-    expect(setSvgElemPosition).toHaveBeenNthCalledWith(2, 'y', 0);
+    expect(setSvgElemPosition).toHaveBeenNthCalledWith(1, 'x', 0, mockElement, false);
+    expect(setSvgElemPosition).toHaveBeenNthCalledWith(2, 'y', 0, mockElement, false);
     expect(setSvgElemSize).toBeCalledTimes(2);
     expect(setSvgElemSize).toHaveBeenNthCalledWith(1, 'width', 300);
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
     expect(disassembleUse2Group).toBeCalledTimes(1);
-    expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true);
+    expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 });
