@@ -38,7 +38,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const isMobile = useIsMobile();
   const isLocked =
     selectedLayers.length > 0
-      ? getLayerElementByName(selectedLayers[0]).getAttribute('data-lock') === 'true'
+      ? getLayerElementByName(selectedLayers[0])?.getAttribute('data-lock') === 'true'
       : false;
   const onContextMenuShow = (e: CustomEvent) => {
     const trigger = e.detail.data?.target as Element;
