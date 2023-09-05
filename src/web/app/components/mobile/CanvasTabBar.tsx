@@ -22,6 +22,7 @@ import { useIsMobile } from 'helpers/system-helper';
 import styles from './CanvasTabBar.module.scss';
 
 const events = eventEmitterFactory.createEventEmitter('canvas');
+const dpmm = 96 / 25.4;
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
@@ -135,7 +136,13 @@ const CanvasTabBar = (): JSX.Element => {
       FnWrapper.importImage();
       setTimeout(resetActiveKey, 300);
     } else if (key === 'text') {
-      events.once('addText', resetActiveKey);
+      events.once('addText', (newText: HTMLElement) => {
+        svgEditor.zoomChanged(window, {
+          zoomLevel: window.innerWidth / newText.clientWidth / dpmm,
+        });
+        newText.scrollIntoView({ block: 'center', inline: 'center' });
+        resetActiveKey();
+      });
       createNewText(100, 100, 'Text', true);
     } else if (key === 'pen') {
       events.once('addPath', resetActiveKey);
