@@ -4,7 +4,6 @@ import { Action } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
-import useForceUpdate from 'helpers/use-force-update';
 import {
   deleteLayerByName,
   getAllLayerNames,
@@ -57,12 +56,11 @@ const LayerList = ({
   setLayerVisibility,
   unLockLayers,
 }: Props): JSX.Element => {
-  const { selectedLayers, setSelectedLayers } = useContext(LayerPanelContext);
+  const { selectedLayers, setSelectedLayers, forceUpdate } = useContext(LayerPanelContext);
   const items: React.ReactNode[] = [];
   const drawing = svgCanvas.getCurrentDrawing();
   const currentLayerName = drawing.getCurrentLayerName();
   const isMobile = useIsMobile();
-  const forceUpdate = useForceUpdate();
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -89,7 +87,8 @@ const LayerList = ({
               color: 'warning',
               onClick: () => {
                 setLayerLock(layerName, !isLocked);
-                forceUpdate();
+                // let SwipeAction close before force update
+                setTimeout(forceUpdate);
               },
             },
           ]
