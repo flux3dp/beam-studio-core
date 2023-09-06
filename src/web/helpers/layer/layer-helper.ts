@@ -1,3 +1,5 @@
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
@@ -367,4 +369,27 @@ export const getCurrentLayerName = (): string => {
 export const getLayerByName = (layerName: string): SVGGElement => {
   const drawing = svgCanvas.getCurrentDrawing();
   return drawing.getLayerByName(layerName);
+};
+
+export const moveToOtherLayer = (
+  destLayer: string,
+  callback: () => void,
+  showAlert = true
+): void => {
+  const moveToLayer = (ok) => {
+    if (!ok) return;
+    svgCanvas.moveSelectedToLayer(destLayer);
+    svgCanvas.getCurrentDrawing().setCurrentLayer(destLayer);
+    callback?.();
+  };
+  if (showAlert) {
+    Alert.popUp({
+      id: 'move layer',
+      buttonType: AlertConstants.YES_NO,
+      message: LANG.notification.QmoveElemsToLayer.replace('%s', destLayer),
+      onYes: moveToLayer,
+    });
+  } else {
+    moveToLayer(true);
+  }
 };

@@ -4,7 +4,6 @@ import { ConfigProvider, Modal, Select } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
-import AlertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
@@ -35,6 +34,7 @@ import {
 import { getParametersSet } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import AddOnBlock from './AddOnBlock';
@@ -280,7 +280,7 @@ const ConfigPanel = ({ selectedLayers: initLayers, UIType = 'default' }: Props):
     };
     const onSave = (): void => {
       const destLayer = selectedLayers[0];
-      const saveData = () => {
+      const saveDataAndClose = () => {
         selectedLayers.forEach((layerName: string) => {
           writeData(layerName, DataType.speed, state.speed.value);
           writeData(layerName, DataType.strength, state.power.value);
@@ -288,27 +288,12 @@ const ConfigPanel = ({ selectedLayers: initLayers, UIType = 'default' }: Props):
           writeData(layerName, DataType.zstep, state.zStep.value);
           writeData(layerName, DataType.configName, state.configName.value);
         });
-      };
-      const moveToLayer = (ok) => {
-        if (!ok) return;
-        svgCanvas.moveSelectedToLayer(destLayer);
-        drawing.setCurrentLayer(destLayer);
-        saveData();
         onClose();
       };
-      if (selectedLayers !== initLayers) {
-        alertCaller.popUp({
-          id: 'move layer',
-          buttonType: AlertConstants.YES_NO,
-          message: i18n.lang.beambox.right_panel.layer_panel.notification.QmoveElemsToLayer.replace(
-            '%s',
-            destLayer
-          ),
-          onYes: moveToLayer,
-        });
+      if (destLayer !== initLayers[0]) {
+        moveToOtherLayer(destLayer, saveDataAndClose);
       } else {
-        saveData();
-        onClose();
+        saveDataAndClose();
       }
     };
     const layerOptions = [];
