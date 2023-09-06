@@ -400,6 +400,7 @@ class TextOptions extends React.Component<Props, State> {
 
     return (
       <div className={classNames('option-block')}>
+        <div className="label">{LANG.vertical_text}</div>
         <Switch defaultChecked={isVerti} onChange={this.handleVerticalTextClick} />
       </div>
     );
