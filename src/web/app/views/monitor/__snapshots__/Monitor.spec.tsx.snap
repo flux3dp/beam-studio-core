@@ -87,13 +87,13 @@ exports[`test Monitor should render correctly 1`] = `
                     >
                       <div
                         class="ant-tabs-tab"
-                        data-node-key="PREVIEW"
+                        data-node-key="WORKING"
                       >
                         <div
-                          aria-controls="rc-tabs-test-panel-PREVIEW"
+                          aria-controls="rc-tabs-test-panel-WORKING"
                           aria-selected="false"
                           class="ant-tabs-tab-btn"
-                          id="rc-tabs-test-tab-PREVIEW"
+                          id="rc-tabs-test-tab-WORKING"
                           role="tab"
                           tabindex="0"
                         >
