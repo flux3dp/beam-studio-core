@@ -38,6 +38,7 @@ const splitFullColorLayer = async (
       const { cmd, elem } = res;
       batchCmd.addSubCommand(cmd);
       elem.setAttribute('data-color', color);
+      elem.setAttribute('data-fixedcolor', '1');
       layer.parentNode.insertBefore(elem, layer.nextSibling);
       newLayers.push(elem);
     }

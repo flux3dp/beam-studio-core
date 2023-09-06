@@ -8,6 +8,7 @@ getSVGAsync((globalSVG) => {
 });
 
 const toggleFullColorLayer = (layer: Element, val?: boolean): void => {
+  layer.removeAttribute('data-fixedcolor');
   const origVal = layer.getAttribute('data-fullcolor') === '1';
   const targetVal = val === undefined ? !origVal : val;
   console.log('Toggle Full Color Layer', layer, 'from', origVal, 'to', targetVal);

@@ -17,8 +17,11 @@
       margin-left: 10px;
       background: black;
 
-      &.full-color {
+      &.no-pointer {
         cursor: default;
+      }
+
+      &.full-color {
         background: rgb(255, 0, 0);
         background: linear-gradient(
           135deg,

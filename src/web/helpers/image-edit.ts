@@ -255,7 +255,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
   });
-  const { imgUrl } = getImageAttributes(element);
+  const { imgUrl, isFullColor } = getImageAttributes(element);
   if (!imgUrl) return;
   const imgGet = await fetch(imgUrl);
   const imgData = await imgGet.blob();
@@ -318,7 +318,6 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     //   dialogCaller.showBackgroundRemovalPanel(imgUrl, blobUrl, () => resolve(true), () => resolve(false));
     // });
     // if (!doApply) return;
-    const isFullColor = element.getAttribute('data-fullcolor') === '1';
     // Change to shading
     const newThreshold = 254;
     const base64Img = await generateBase64Image(blobUrl, true, newThreshold, isFullColor);
