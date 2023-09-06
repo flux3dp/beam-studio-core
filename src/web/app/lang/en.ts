@@ -188,6 +188,7 @@ const lang: ILang = {
     no_beambox: '#801 We can\'t find your machine on the network.\nKindly follow the <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> to troubleshoot the connection problem.',
   },
   update: {
+    update: 'Update',
     release_note: 'Release Note:',
     firmware: {
       caption: 'A Firmware Update to the machine is available',
@@ -204,6 +205,7 @@ const lang: ILang = {
       update_success: 'Firmware update successfully uploaded',
       update_fail: '#822 Update Fail',
       too_old_for_web: 'Your current machine firmware version is v%s.\nIf you want to use the online version of the Beam Studio, please update the machine firmware to the latest version.',
+      force_update_message: '#814 Please update your machine to the latest firmware version.',
     },
     software: {
       checking: 'Checking for Update',

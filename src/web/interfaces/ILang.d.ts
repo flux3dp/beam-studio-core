@@ -185,6 +185,7 @@ export interface ILang {
     no_beambox: string,
   },
   update: {
+    update: string;
     release_note: string,
     firmware: {
       caption: string,
@@ -201,6 +202,7 @@ export interface ILang {
       update_success: string,
       update_fail: string,
       too_old_for_web: string,
+      force_update_message: string;
     },
     software: {
       checking: string,

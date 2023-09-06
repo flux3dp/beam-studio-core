@@ -188,6 +188,7 @@ const lang: ILang = {
     no_beambox: '#801 No podemos encontrar tu máquina en la red.\nPor favor, sigue el <a target="_blank" href="https://tupport.flux3dp.com/hc/en-us/articles/360001683556">guide</a> para solucionar el problema de conexión.',
   },
   update: {
+    update: 'Actualizar',
     release_note: 'Nota deversión:',
     firmware: {
       caption: 'Una actualización del firmware de la máquina está disponible',
@@ -204,6 +205,7 @@ const lang: ILang = {
       update_success: 'La actualización del firmware se ha cargado con éxito',
       update_fail: '#822 Fallo de actualización',
       too_old_for_web: 'La versión actual del firmware de su máquina es v%s.\nSi quiere utilizar la versión en línea de Beam Studio,por favor actualice el firmware de la máquina a la última versión .',
+      force_update_message: '#814 Por favor, actualice su máquina a la última versión del firmware.',
     },
     software: {
       checking: 'Comprobando la actualización',
@@ -781,7 +783,7 @@ const lang: ILang = {
           bevel: 'Biselar',
           invert: 'Invertir',
           convert_to_path: 'Convertir en trayectoria',
-          weld_text: 'Weld Text',
+          weld_text: 'Soldar texto',
           fetching_web_font: 'Obteniendo la fuente en línea...',
           uploading_font_to_machine: 'Cargando la fuente a la máquina ...',
           wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',

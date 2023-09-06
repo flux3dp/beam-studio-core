@@ -1414,7 +1414,15 @@ const booleanOperationByPaperjs = (
   baseHTML: string,
   elem2: SVGPathElement,
   clipType: number,
-) => booleanOperation(baseHTML, elem2.outerHTML, clipType);
+) => {
+  let elem2HTML = '';
+  if (elem2.tagName === 'rect' && elem2.getAttribute('rx')) {
+    const cloned = elem2.cloneNode(true) as Element;
+    cloned.setAttribute('ry', elem2.getAttribute('rx'));
+    elem2HTML = cloned.outerHTML;
+  } else elem2HTML = elem2.outerHTML;
+  return booleanOperation(baseHTML, elem2HTML, clipType);
+}
 
 const simplifyPath = (elem: SVGPathElement | any) => {
   const d = smoothByFitPath(elem);

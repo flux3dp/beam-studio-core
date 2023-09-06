@@ -188,6 +188,7 @@ const lang: ILang = {
     no_beambox: '#801 네트워크에서 기계를 찾을 수 없습니다. 친절하게 <a target=""_blank"" href=""https://support.flux3dp.com/hc/en-us/articles/360001683556"">안내</a>를 따라 연결 문제를 해결해 주세요.',
   },
   update: {
+    update: '업데이트',
     release_note: '릴리스 노트:',
     firmware: {
       caption: '기계에 펌웨어 업데이트가 가능합니다',
@@ -204,6 +205,7 @@ const lang: ILang = {
       update_success: '펌웨어 업데이트가 성공적으로 업로드되었습니다',
       update_fail: '#822 업데이트 실패',
       too_old_for_web: '현재 기계 펌웨어 버전은 v%s입니다. Beam Studio 온라인 버전을 사용하려면 기계 펌웨어를 최신 버전으로 업데이트해 주세요.',
+      force_update_message: '#814 기계를 최신 펌웨어 버전으로 업데이트하십시오.',
     },
     software: {
       checking: '업데이트 확인 중',
@@ -781,7 +783,7 @@ const lang: ILang = {
           bevel: '경계선 처리',
           invert: '반전',
           convert_to_path: '경로로 변환',
-          weld_text: 'Weld Text',
+          weld_text: '텍스트 용접',
           fetching_web_font: '온라인 글꼴 가져 오는 중...',
           uploading_font_to_machine: '기계로 글꼴 업로드 중...',
           wait_for_parsing_font: '글꼴 구문 분석 중... 잠시만 기다려주세요.',

@@ -188,6 +188,7 @@ const lang: ILang = {
     no_beambox: '#801 お使いのマシンがネットワーク上で見つかりません。\n<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">このガイド</a>に従って、接続の問題をトラブルシューティングしてください。',
   },
   update: {
+    update: 'アップデート',
     release_note: 'リリースノート：',
     firmware: {
       caption: 'このマシンのファームウェアアップデートがご利用いただけます',
@@ -204,6 +205,7 @@ const lang: ILang = {
       update_success: 'ファームウェアアップデートが正常にアップロードされました',
       update_fail: '#822 アップデート失敗',
       too_old_for_web: '現在のファームウェアバージョンはv%sです。\nオンライン版Beam Studioを使用されたい場合、最新バージョンに更新してください。',
+      force_update_message: '#814 最新のファームウェアバージョンにアップデートしてください。',
     },
     software: {
       checking: 'アップデートの確認中',
@@ -780,7 +782,7 @@ const lang: ILang = {
           crop: 'クロップ',
           bevel: '面取りを生成',
           invert: '色を反転',
-          weld_text: 'Weld Text',
+          weld_text: 'テキストを結合',
           convert_to_path: 'パスに変換',
           fetching_web_font: 'ウェブフォント読み込み中…',
           uploading_font_to_machine: 'フォントアップロード中…',

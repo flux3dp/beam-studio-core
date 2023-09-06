@@ -188,6 +188,7 @@ const lang: ILang = {
     no_beambox: '#801 Wir können Ihren Computer nicht im Netzwerk finden.\nBefolgen Sie bitte <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">die Anleitung</a>, um das Verbindungsproblem zu beheben.',
   },
   update: {
+    update: 'Aktualisieren',
     release_note: 'Veröffentlichungshinweis:',
     firmware: {
       caption: 'Ein Firmware-Update für das Gerät ist verfügbar',
@@ -204,6 +205,7 @@ const lang: ILang = {
       update_success: 'Firmware-Update erfolgreich hochgeladen',
       update_fail: '#822 Update fehlgeschlagen',
       too_old_for_web: '"Ihre Firmwarenversion ist zurzeit v%s.\nWenn Sie die Online-version von Beam Studio benutzen möchten, aktualisieren Sie bitte zur neusten Version."',
+      force_update_message: '#814 Bitte aktualisieren Sie Ihre Maschine auf die neueste Firmware-Version.',
     },
     software: {
       checking: 'Suche nach Updates',
@@ -780,7 +782,7 @@ const lang: ILang = {
           crop: 'Ernte',
           bevel: 'Fase',
           invert: 'Farbe umkehren',
-          weld_text: 'Weld Text',
+          weld_text: 'Text schweißen',
           convert_to_path: 'In Pfad konvertieren',
           fetching_web_font: 'Online Schriftstilen herunterladen...',
           uploading_font_to_machine: 'Schriftenstilen auf das Maschine aufladen...',
