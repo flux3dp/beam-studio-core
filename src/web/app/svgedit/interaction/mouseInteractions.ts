@@ -77,6 +77,7 @@ let nextPos = {
   x: 0,
   y: 0,
 };
+let angleOffset = 90;
 const THRESHOLD_DIST = 0.8;
 const STEP_COUNT = 10;
 
@@ -237,6 +238,7 @@ const mouseDown = (evt: MouseEvent) => {
     const gripType = $.data(grip, 'type');
     if (gripType === 'rotate') {
       // rotating
+      angleOffset = +$.data(grip, 'angleOffset') || 90;
       svgCanvas.unsafeAccess.setCurrentMode('rotate');
     } else if (gripType === 'resize') {
       // resizing
@@ -1097,7 +1099,7 @@ const mouseMove = (evt: MouseEvent) => {
       const center = svgedit.math.transformPoint(cx, cy, matrix);
       cx = center.x;
       cy = center.y;
-      angle = ((Math.atan2(cy - y, cx - x) * (180 / Math.PI)) - 90) % 360;
+      angle = (Math.atan2(cy - y, cx - x) * (180 / Math.PI) - angleOffset) % 360;
       if (currentConfig.gridSnapping) {
         angle = svgedit.utilities.snapToGrid(angle);
       }

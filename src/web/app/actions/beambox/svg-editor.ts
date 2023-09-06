@@ -1762,6 +1762,8 @@ const svgEditor = window['svgEditor'] = (function () {
               x: parseFloat(x) || 0,
               y: parseFloat(y) || 0
             });
+
+            svgCanvas.selectorManager.requestSelector(elem).resize();
           }
 
         } else {
