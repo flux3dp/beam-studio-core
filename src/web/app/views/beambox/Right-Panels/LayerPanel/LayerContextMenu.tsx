@@ -73,7 +73,14 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
 
   const handleLockLayers = () => {
     svgCanvas.clearSelection();
-    setLayersLock(selectedLayers, !isMobile || !isLocked);
+    setLayersLock(selectedLayers, true);
+    resetActiveKey();
+    forceUpdate();
+  };
+
+  const toggleLayerLocked = () => {
+    svgCanvas.clearSelection();
+    setLayersLock(selectedLayers, !isLocked);
     resetActiveKey();
     forceUpdate();
   };
@@ -125,7 +132,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
         id="locklayer"
         content={isLocked ? <ObjectPanelIcons.Unlock /> : <ObjectPanelIcons.Lock />}
         label={isLocked ? LANG.unlock : LANG.lock}
-        onClick={handleLockLayers}
+        onClick={toggleLayerLocked}
       />
       <ObjectPanelItem.Item
         id="dupelayer"
