@@ -36,6 +36,7 @@ const FloatingPanel = ({
       panelRef.current.setHeight(0);
     } else if (panelHeight === 0) {
       panelRef.current.setHeight(anchors.find((anchor) => anchor > 0));
+      setHasClosed(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anchors, panelRef, forceClose]);

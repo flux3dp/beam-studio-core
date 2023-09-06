@@ -462,6 +462,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               title={LANG.layers.layer}
               fixedContent={<AddLayerButton setSelectedLayers={setSelectedLayers} />}
               onClose={() => setDisplayLayer(false)}
+              forceClose={hide}
             >
               {this.renderLayerPanel()}
             </FloatingPanel>
