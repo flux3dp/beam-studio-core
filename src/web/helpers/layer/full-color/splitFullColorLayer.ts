@@ -18,6 +18,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+// TODO: add unit test
 const splitFullColorLayer = async (
   layerName: string,
   opts: { addToHistory?: boolean } = {}

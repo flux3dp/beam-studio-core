@@ -9,6 +9,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+// TODO: add unit test
 const imageToPngBlob = async (image) =>
   new Promise<Blob>((resolve) => {
     const canvas = document.createElement('canvas');

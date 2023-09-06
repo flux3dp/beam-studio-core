@@ -7,6 +7,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+// TODO: add unit test
 const toggleFullColorLayer = (layer: Element, val?: boolean): void => {
   layer.removeAttribute('data-fixedcolor');
   const origVal = layer.getAttribute('data-fullcolor') === '1';

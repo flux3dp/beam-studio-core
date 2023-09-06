@@ -3,6 +3,7 @@ import { CMYK } from 'app/constants/color-constants';
 /**
  * split img into desired color channels
  */
+// TODO: add unit test
 const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');

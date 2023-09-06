@@ -15,6 +15,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+// TODO: add unit test
 const importBitmap = async (file: File): Promise<void> => {
   const workarea = beamboxPreference.read('workarea');
 
