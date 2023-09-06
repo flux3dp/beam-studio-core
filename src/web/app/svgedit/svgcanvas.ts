@@ -3019,10 +3019,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.updateLayerColorFilter = (layer) => {
-    if (layer?.getAttribute('data-fullcolor') === '1') return;
+    const filter = Array.from(layer.childNodes).filter((child: Element) => child.tagName === 'filter')[0] as Element;
+    if (layer?.getAttribute('data-fullcolor') === '1') {
+      filter?.remove();
+      return;
+    }
     const color = this.isUsingLayerColor ? layer.getAttribute('data-color') : '#000';
     const { r, g, b } = hexToRgb(color);
-    const filter = Array.from(layer.childNodes).filter((child: Element) => child.tagName === 'filter')[0] as Element;
     if (filter) {
       filter.setAttribute('id', `filter${color}`);
       let colorMatrix = Array.from(filter.childNodes).filter((child: Element) => child.tagName === 'feColorMatrix')[0] as Element;
@@ -3056,7 +3059,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // TODO: extract color display related functions to a separate file
   this.updateLayerColor = function (layer) {
-    if (layer?.getAttribute('data-fullcolor') === '1') return;
     const color = this.isUsingLayerColor ? layer.getAttribute('data-color') : '#000';
     this.updateLayerColorFilter(layer);
     const elems = Array.from(layer.childNodes);
@@ -3070,7 +3072,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.updateElementColor = function (elem) {
     const layer = LayerHelper.getObjectLayer(elem)?.elem;
-    if (layer?.getAttribute('data-fullcolor') === '1') return;
+    if (layer?.getAttribute('data-fullcolor') === '1') {
+      if (elem.tagName === 'image') {
+        elem.removeAttribute('filter');
+        return;
+      }
+    }
     const color = this.isUsingLayerColor ? layer?.getAttribute('data-color') : '#000';
     this.setElementsColor([elem], color);
   };
@@ -3099,7 +3106,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           $(elem).attr('fill', color);
         }
       } else if (elem.tagName === 'image') {
-        if (color === '#000') {
+        if (color === '#000' || elem.getAttribute('data-fullcolor') === '1') {
           elem.removeAttribute('filter');
         } else {
           $(elem).attr('filter', `url(#filter${color})`);
