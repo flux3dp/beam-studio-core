@@ -4,7 +4,7 @@ import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
@@ -15,6 +15,7 @@ interface Props {
 
 function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
   const [sides, setSides] = React.useState(polygonSides || 5);
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     setSides(polygonSides);
   }, [polygonSides]);
@@ -30,7 +31,7 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
   };
 
   const renderSides = () =>
-    isMobile() ? (
+    isMobile ? (
       <ObjectPanelItem.Number
         id="polygon-sides"
         value={sides}
@@ -52,7 +53,7 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
       </div>
     );
 
-  return isMobile() ? (
+  return isMobile ? (
     <>
       <InFillBlock elem={elem} />
       {renderSides()}

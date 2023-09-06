@@ -6,7 +6,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PolygonOptions from 'app/views/beambox/Right-Panels/Options-Blocks/PolygonOptions';
 import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptions';
 import TextOptions from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './OptionsPanel.module.scss';
 
@@ -21,6 +21,7 @@ interface Props {
 function OptionsPanel({
   elem, rx, polygonSides, updateObjectPanel, updateDimensionValues,
 }: Props): JSX.Element {
+  const isMobile = useIsMobile();
   let contents: JSX.Element;
   if (elem) {
     if (elem.tagName.toLowerCase() === 'rect') {
@@ -65,7 +66,7 @@ function OptionsPanel({
     }
   }
 
-  return isMobile() ? (
+  return isMobile ? (
     <div className={styles.container}>
       <ObjectPanelItem.Divider />
       {contents}

@@ -26,9 +26,9 @@ jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
 
-const isMobile = jest.fn();
+const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => useIsMobile(),
 }));
 
 const onPlay = jest.fn();
@@ -115,7 +115,7 @@ describe('test MonitorControl', () => {
   });
 
   describe('should render correctly in mobile', () => {
-    beforeEach(() => isMobile.mockReturnValue(true));
+    beforeEach(() => useIsMobile.mockReturnValue(true));
     test('mode is preview', () => {
       const { container } = render(
         <MonitorContext.Provider

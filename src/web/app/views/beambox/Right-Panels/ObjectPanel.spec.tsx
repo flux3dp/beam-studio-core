@@ -27,6 +27,14 @@ jest.mock('app/views/beambox/Right-Panels/OptionsPanel', () => function DummyOpt
   );
 });
 
+jest.mock('app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel', () => function DummyConfigPanel() {
+  return (
+    <div>
+      This is dummy ConfigPanel
+    </div>
+  );
+});
+
 jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
   Item: function DummyObjectPanelItem() {
     return <div>This is dummy ObjectPanelItem</div>;
@@ -62,14 +70,17 @@ jest.mock('helpers/i18n', () => ({
           intersect: 'Intersect',
           difference: 'Difference',
         },
+        laser_panel: {
+          parameters: 'Parameters',
+        },
       },
     },
-    topbar:{
-      menu:{
-        delete:'Delete',
-        duplicate:'Duplicate'
-      }
-    }
+    topbar: {
+      menu: {
+        delete: 'Delete',
+        duplicate: 'Duplicate',
+      },
+    },
   },
 }));
 
@@ -104,6 +115,7 @@ const distVert = jest.fn();
 const groupSelectedElements = jest.fn();
 const ungroupSelectedElement = jest.fn();
 const booleanOperationSelectedElements = jest.fn();
+const getLayerName = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Canvas: {
@@ -113,10 +125,15 @@ getSVGAsync.mockImplementation((callback) => {
       groupSelectedElements,
       ungroupSelectedElement,
       booleanOperationSelectedElements,
-
+      getCurrentDrawing: () => ({ getLayerName }),
     },
   });
 });
+
+const addDialogComponent = jest.fn();
+jest.mock('app/actions/dialog-caller', () => ({
+  addDialogComponent: (...args) => addDialogComponent(...args),
+}));
 
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 

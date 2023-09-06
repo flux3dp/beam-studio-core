@@ -7,9 +7,9 @@ import PolygonOptions from './PolygonOptions';
 
 jest.mock('app/views/beambox/Right-Panels/Options-Blocks/InFillBlock', () => () => <div>DummyInFillBlock</div>);
 
-const isMobile = jest.fn();
+const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => useIsMobile(),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -87,7 +87,7 @@ describe('test PolygonOptions', () => {
   });
 
   test('should render correctly in mobile', async() => {
-    isMobile.mockReturnValue(true)
+    useIsMobile.mockReturnValue(true)
     const { baseElement, container, getByText, rerender } = render(
       <PolygonOptions
         elem={document.getElementById('flux')}

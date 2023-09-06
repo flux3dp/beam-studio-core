@@ -3,9 +3,9 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-const isMobile = jest.fn();
+const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => useIsMobile(),
 }));
 
 jest.mock('app/views/beambox/Right-Panels/Options-Blocks/Image-Options', () => function ImageOptions() {
@@ -152,7 +152,7 @@ describe('should render correctly', () => {
 describe('should render correctly in mobile', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    isMobile.mockReturnValue(true);
+    useIsMobile.mockReturnValue(true);
   });
 
   test('rect', () => {

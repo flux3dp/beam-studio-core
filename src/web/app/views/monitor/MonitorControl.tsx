@@ -5,14 +5,15 @@ import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/ico
 import DeviceConstants from 'app/constants/device-constants';
 import i18n from 'helpers/i18n';
 import MonitorStatus, { ButtonTypes } from 'helpers/monitor-status';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
 
 const LANG = i18n.lang.monitor;
 
 const MonitorControl = (): JSX.Element => {
-  const buttonShape = isMobile() ? 'round' : 'default';
+  const isMobile = useIsMobile();
+  const buttonShape = isMobile ? 'round' : 'default';
   const { onPlay, onPause, onStop, mode, report } = useContext(MonitorContext);
   const mapButtonTypeToElement = (type: ButtonTypes): JSX.Element => {
     const enabled = type % 2 === 1;

@@ -9,6 +9,7 @@ jest.mock('helpers/useI18n', () => () => ({
     right_panel: {
       laser_panel: {
         repeat: 'repeat',
+        times: 'times',
       },
     },
   },
@@ -29,6 +30,19 @@ jest.mock('app/widgets/Unit-Input-v2', () => (
     <button type="button" onClick={() => getValue(7)}>change</button>
   </div>
 ));
+
+jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
+  Number: ({ id, label, value, unit, decimal }: any) => (
+    <div>
+      MockObjectPanelNumber
+      <div>id: {id}</div>
+      <div>value: {value}</div>
+      <div>label: {label}</div>
+      <div>unit: {unit}</div>
+      <div>decimal: {decimal}</div>
+    </div>
+  ),
+}));
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -52,6 +66,10 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 }));
 const mockEmit = jest.fn();
 
+jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelController', () => ({
+  updateActiveKey: jest.fn(),
+}));
+
 describe('test RepeatBlock', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -66,6 +84,21 @@ describe('test RepeatBlock', () => {
         value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
       >
         <RepeatBlock />
+      </ConfigPanelContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly when type is panel-item', () => {
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
+      >
+        <RepeatBlock type="panel-item" />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -100,5 +133,34 @@ describe('test RepeatBlock', () => {
     expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
+  });
+
+  test('onChange should work correctly when type is modal', () => {
+    expect(mockCreateEventEmitter).not.toBeCalled();
+
+    const { getByText } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
+      >
+        <RepeatBlock type="modal" />
+      </ConfigPanelContext.Provider>
+    );
+    expect(mockCreateEventEmitter).toBeCalledTimes(1);
+    expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('time-estimation-button');
+
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
+    expect(mockEmit).not.toBeCalled();
+    fireEvent.click(getByText('change'));
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { repeat: 7, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).not.toBeCalled();
   });
 });

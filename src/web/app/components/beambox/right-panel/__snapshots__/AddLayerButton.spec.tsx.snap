@@ -6,15 +6,19 @@ exports[`test AddLayerButton should render correctly 1`] = `
     class="btn"
     type="button"
   >
-    <div
-      class="bar bar1"
-    />
-    <div
-      class="bar bar2"
-    />
-    <div
-      class="bar bar3"
-    />
+    <span
+      class="anticon"
+      role="img"
+    >
+      <svgr-url
+        aria-hidden="true"
+        classname=""
+        fill="currentColor"
+        focusable="false"
+        height="1em"
+        width="1em"
+      />
+    </span>
   </button>
 </div>
 `;

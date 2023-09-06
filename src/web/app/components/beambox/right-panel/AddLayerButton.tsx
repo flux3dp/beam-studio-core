@@ -1,6 +1,7 @@
-import classNames from 'classnames';
+import Icon from '@ant-design/icons';
 import React from 'react';
 
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import TutorialController from 'app/views/tutorials/tutorialController';
 import useI18n from 'helpers/useI18n';
@@ -41,9 +42,7 @@ function AddLayerButton({ setSelectedLayers }: Props): JSX.Element {
 
   return (
     <button className={styles.btn} onClick={addNewLayer} type="button">
-      <div className={classNames(styles.bar, styles.bar1)} />
-      <div className={classNames(styles.bar, styles.bar2)} />
-      <div className={classNames(styles.bar, styles.bar3)} />
+      <Icon component={LayerPanelIcons.Add} />
     </button>
   );
 }

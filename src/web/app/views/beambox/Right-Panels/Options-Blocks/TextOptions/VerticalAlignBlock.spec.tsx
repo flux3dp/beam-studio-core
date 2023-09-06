@@ -13,9 +13,9 @@ jest.mock('app/actions/beambox/textPathEdit', () => ({
   VerticalAlign,
 }));
 
-const isMobile = jest.fn();
+const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => useIsMobile(),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -55,7 +55,7 @@ describe('test VerticalAlignBlock', () => {
   });
 
   test('should render correctly in mobile', () => {
-    isMobile.mockReturnValue(true);
+    useIsMobile.mockReturnValue(true);
     const onValueChange = jest.fn();
     const wrapper = shallow(
       <VerticalAlignBlock value={VerticalAlign.BOTTOM} onValueChange={onValueChange} />

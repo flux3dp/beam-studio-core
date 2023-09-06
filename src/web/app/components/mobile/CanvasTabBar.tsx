@@ -1,5 +1,5 @@
 import Icon from '@ant-design/icons';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Badge, TabBar } from 'antd-mobile';
 
 import beamboxStore from 'app/stores/beambox-store';
@@ -32,6 +32,7 @@ const CanvasTabBar = (): JSX.Element => {
   const lang = useI18n();
 
   const {
+    displayLayer,
     setDisplayLayer,
     isPreviewing,
     endPreviewMode,
@@ -39,6 +40,13 @@ const CanvasTabBar = (): JSX.Element => {
     showCameraPreviewDeviceList,
   } = useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = useState('none');
+
+  useEffect(() => {
+    if (activeKey === 'layer' && !displayLayer) {
+      setActiveKey('none');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayLayer]);
 
   const resetActiveKey = useCallback(() => {
     setActiveKey('none');
@@ -48,7 +56,7 @@ const CanvasTabBar = (): JSX.Element => {
   const tabs = [
     {
       key: 'camera',
-      title: lang.beambox.left_panel.label.preview,
+      title: lang.beambox.left_panel.label.choose_camera,
       icon: <CameraIcon style={{}} />,
     },
     {
@@ -70,7 +78,18 @@ const CanvasTabBar = (): JSX.Element => {
     {
       key: 'layer',
       title: lang.topbar.menu.layer_setting,
-      icon: <TabBarIcons.Layers />,
+      icon: (
+        <div
+          onClick={() => {
+            if (activeKey === 'layer' && displayLayer) {
+              setDisplayLayer(false);
+              setActiveKey('none');
+            }
+          }}
+        >
+          <TabBarIcons.Layers />
+        </div>
+      ),
     },
     {
       key: 'pen',

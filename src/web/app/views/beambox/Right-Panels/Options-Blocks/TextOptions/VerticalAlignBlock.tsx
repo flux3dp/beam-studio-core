@@ -2,7 +2,7 @@ import React from 'react';
 
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 import { VerticalAlign } from 'app/actions/beambox/textPathEdit';
 
 interface Props {
@@ -13,7 +13,8 @@ interface Props {
 export default function VerticalAlignBlock({ value, onValueChange }: Props): JSX.Element {
   const LANG = i18n.lang.beambox.right_panel.object_panel;
   const label = LANG.option_panel.vertical_align;
-  if (isMobile()) {
+  const isMobile = useIsMobile();
+  if (isMobile) {
     const options = [
       { value: VerticalAlign.BOTTOM, label: LANG.bottom_align },
       { value: VerticalAlign.MIDDLE, label: LANG.middle_align },

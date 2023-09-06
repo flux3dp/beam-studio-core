@@ -26,9 +26,9 @@ jest.mock('implementations/storage', () => ({
   get: (...args) => get(...args),
 }));
 
-const isMobile = jest.fn();
+const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => useIsMobile(),
 }));
 
 const changeSelectedAttribute = jest.fn();
@@ -88,7 +88,7 @@ describe('should render correctly in mobile', () => {
   });
 
   test('unit is inches', async () => {
-    isMobile.mockReturnValue(true);
+    useIsMobile.mockReturnValue(true);
     get.mockReturnValue('inches');
     const updateDimensionValues = jest.fn();
     const { baseElement, container } = render(
@@ -113,7 +113,7 @@ describe('should render correctly in mobile', () => {
   });
 
   test('unit is not inches', () => {
-    isMobile.mockReturnValue(true);
+    useIsMobile.mockReturnValue(true);
     get.mockReturnValue(null);
     const { container } = render(
       <RectOptions

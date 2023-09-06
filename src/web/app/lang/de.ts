@@ -611,6 +611,7 @@ const lang: ILang = {
           move_up: 'Ebene nach oben verschieben',
           dupe: 'Ebene duplizieren',
           lock: 'Ebene sperren',
+          unlock: 'Entsperren',
           merge_down: 'Nach unten zusammenführen',
           merge_all: 'Alle zusammenführen',
           merge_selected: 'Ausgewählte zusammenführen',
@@ -725,6 +726,7 @@ const lang: ILang = {
         para_in_use: 'Dieser Parameter wird verwendet.',
         do_not_adjust_default_para: 'Standardparameter kann nicht angepasst werden.',
         existing_name: 'Dieser Parametername wurde verwendet.',
+        presets: 'Voreinstellung',
       },
       object_panel: {
         zoom: 'Zoomen',
@@ -1019,7 +1021,7 @@ const lang: ILang = {
   noun_project_panel: {
     login_first: 'Melden Sie sich an, um die shapes Datenbank freizuschalten.',
     enjoy_shape_library: 'Genießen Sie die shapes Datenbank.',
-    shapes: 'Formen',
+    shapes: 'Elemente',
     elements: 'Elemente',
     recent: 'Kürzlich',
     search: 'Suche',

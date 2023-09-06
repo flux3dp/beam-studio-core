@@ -1,5 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`test LayerContextMenu should render correctly in mobile 1`] = `
+<div>
+  <div
+    class="item-group"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="deletelayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        del
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="merge_down_layer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        merge_down
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="locklayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        lock
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="dupelayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        dupe
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="renameLayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        rename
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`test LayerContextMenu should render correctly when multiselecting 1`] = `
 <div>
   <nav
@@ -147,5 +234,92 @@ exports[`test LayerContextMenu should render correctly when selecting last 1`] =
       merge_selected
     </div>
   </nav>
+</div>
+`;
+
+exports[`test LayerContextMenu unlock layers should work 1`] = `
+<div>
+  <div
+    class="item-group"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="deletelayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        del
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="merge_down_layer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        merge_down
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="locklayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        unlock
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="dupelayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        dupe
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="renameLayer"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        rename
+      </div>
+    </div>
+  </div>
 </div>
 `;

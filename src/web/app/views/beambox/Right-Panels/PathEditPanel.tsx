@@ -162,7 +162,7 @@ function PathEditPanel(): JSX.Element {
       className={styles.panel}
       anchors={[0, 280]}
       title={i18n.lang.beambox.right_panel.tabs.path_edit}
-      onClose={svgCanvas.pathActions.toSelectMode}
+      onClose={() => svgCanvas.pathActions.toSelectMode(svgedit.path.path.elem)}
     >
       <PanelContent isMobile />
     </FloatingPanel>
