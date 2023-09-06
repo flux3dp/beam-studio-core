@@ -3,13 +3,13 @@ import { Select } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
-import colorConstants, { PrintingColors } from 'app/constants/color-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
+import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import useI18n from 'helpers/useI18n';
 import {
   DataType,
@@ -54,13 +54,6 @@ const ModuleBlock = (): JSX.Element => {
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.module, val);
       const layer = getLayerElementByName(layerName);
-      if (
-        val === LayerModule.PRINTER &&
-        !colorConstants.printingLayerColor.includes(layer.getAttribute('data-color') as PrintingColors)
-      ) {
-        layer.setAttribute('data-color', '#1D1D1B');
-        svgCanvas.updateLayerColor(layer);
-      }
       const currentConfig = getData<string>(layer, DataType.configName);
       const newConfig = customizedLaserConfigs.find(
         (config) => config.name === currentConfig && (config.module === val || !config.isDefault)
@@ -73,6 +66,7 @@ const ModuleBlock = (): JSX.Element => {
       } else {
         layer.removeAttribute('data-configName');
       }
+      toggleFullColorLayer(layer, val === LayerModule.PRINTER);
     });
     if (selectedLayers.length > 1) {
       const drawing = svgCanvas.getCurrentDrawing();

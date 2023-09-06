@@ -118,13 +118,21 @@ const LayerList = ({
               <div
                 className={classNames({ [styles['full-color']]: isFullColor })}
                 id={`layerbackgroundColor-${i}`}
-                style={isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(layerName) }}
-                onClick={(e: React.MouseEvent) => openLayerColorPanel(e, layerName)}
+                style={
+                  isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(layerName) }
+                }
+                onClick={(e: React.MouseEvent) => {
+                  if (!isFullColor) openLayerColorPanel(e, layerName);
+                }}
               />
             </div>
             {shouldShowModuleIcon && (
               <div className={styles.module}>
-                {module === LayerModule.PRINTER ? <LayerPanelIcons.Print /> : <LayerPanelIcons.Laser />}
+                {module === LayerModule.PRINTER ? (
+                  <LayerPanelIcons.Print />
+                ) : (
+                  <LayerPanelIcons.Laser />
+                )}
               </div>
             )}
             <div
@@ -152,8 +160,7 @@ const LayerList = ({
                 alt="vis-icon"
               />
             </div>
-            {isMobile
-            && (
+            {isMobile && (
               <div
                 id={`layer-config-${i}`}
                 className={styles.config}

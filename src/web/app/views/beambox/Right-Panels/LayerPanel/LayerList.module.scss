@@ -18,6 +18,7 @@
       background: black;
 
       &.full-color {
+        cursor: default;
         background: rgb(255, 0, 0);
         background: linear-gradient(
           135deg,
