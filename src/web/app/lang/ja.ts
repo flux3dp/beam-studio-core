@@ -771,7 +771,7 @@ const lang: ILang = {
           crop: 'クロップ',
           bevel: '面取りを生成',
           invert: '色を反転',
-          weld_text: 'Weld Text',
+          weld_text: 'テキストを結合',
           convert_to_path: 'パスに変換',
           fetching_web_font: 'ウェブフォント読み込み中…',
           uploading_font_to_machine: 'フォントアップロード中…',

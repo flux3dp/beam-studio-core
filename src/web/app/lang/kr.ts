@@ -772,7 +772,7 @@ const lang: ILang = {
           bevel: '경계선 처리',
           invert: '반전',
           convert_to_path: '경로로 변환',
-          weld_text: 'Weld Text',
+          weld_text: '텍스트 용접',
           fetching_web_font: '온라인 글꼴 가져 오는 중...',
           uploading_font_to_machine: '기계로 글꼴 업로드 중...',
           wait_for_parsing_font: '글꼴 구문 분석 중... 잠시만 기다려주세요.',
