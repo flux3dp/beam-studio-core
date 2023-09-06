@@ -1145,13 +1145,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (elemsToAdd.length === 0) {
       return;
     }
-    // find the first null in our selectedElements array
-    var j = 0;
 
     // now add each element consecutively
-    var i = elemsToAdd.length;
-    while (i--) {
-      var elem = elemsToAdd[i];
+    for (let i = elemsToAdd.length - 1; i >= 0; i -= 1) {
+      let elem = elemsToAdd[i];
       if (!elem) {
         continue;
       }
@@ -1167,12 +1164,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       // if it's not already there, add it
       if (selectedElements.indexOf(elem) === -1) {
-
-        selectedElements[j] = elem;
-
-        // only the first selectedBBoxes element is ever used in the codebase these days
-        //			if (j == 0) selectedBBoxes[0] = svgedit.utilities.getBBox(elem);
-        j++;
+        selectedElements.push(elem);
       }
     }
     if (!noCall) {
