@@ -9,16 +9,17 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
-import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { CanvasContext } from 'app/contexts/CanvasContext';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -26,8 +27,6 @@ getSVGAsync((globalSVG) => {
 });
 
 const { $ } = window;
-const { lang } = i18n;
-const LANG = lang.topbar;
 
 interface Props {
   hasText: boolean;
@@ -37,6 +36,7 @@ interface Props {
 }
 
 const GoButton = (props: Props): JSX.Element => {
+  const lang = useI18n();
   const { endPreviewMode } = useContext(CanvasContext);
 
   const handleExportAlerts = async () => {
@@ -85,9 +85,9 @@ const GoButton = (props: Props): JSX.Element => {
 
     if (isPowerTooHigh && !isDev()) {
       const confirmed = await Dialog.showConfirmPromptDialog({
-        caption: LANG.alerts.power_too_high,
-        message: LANG.alerts.power_too_high_msg,
-        confirmValue: LANG.alerts.power_too_high_confirm,
+        caption: lang.topbar.alerts.power_too_high,
+        message: lang.topbar.alerts.power_too_high_msg,
+        confirmValue: lang.topbar.alerts.power_too_high_confirm,
       });
       if (!confirmed) {
         return false;
@@ -145,7 +145,30 @@ const GoButton = (props: Props): JSX.Element => {
     return true;
   };
 
-  const exportTask = (device) => {
+  const exportTask = (device: IDeviceInfo) => {
+    if (device.version === '4.1.1') {
+      Alert.popUp({
+        id: '4.1.1-version-alert',
+        message: lang.update.firmware.force_update_message,
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        buttonType: AlertConstants.CUSTOM_CANCEL,
+        buttonLabels: [lang.update.update],
+        callbacks: () => {
+          executeFirmwareUpdate(device, 'firmware');
+        },
+        onCancel: () => {},
+      });
+      return;
+    }
+    const vc = VersionChecker(device.version);
+    if (!vc.meetRequirement('USABLE_VERSION')) {
+      Alert.popUp({
+        id: 'fatal-occurred',
+        message: lang.beambox.popup.should_update_firmware_to_continue,
+        type: AlertConstants.SHOW_POPUP_ERROR,
+      });
+      return;
+    }
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
     const allowedWorkareas = Constant.allowedWorkarea[device.model];
     if (currentWorkarea && allowedWorkareas) {
@@ -157,19 +180,6 @@ const GoButton = (props: Props): JSX.Element => {
         });
         return;
       }
-    }
-    if (device === 'export_fcode') {
-      ExportFuncs.exportFcode();
-      return;
-    }
-    const vc = VersionChecker(device.version);
-    if (!vc.meetRequirement('USABLE_VERSION')) {
-      Alert.popUp({
-        id: 'fatal-occurred',
-        message: lang.beambox.popup.should_update_firmware_to_continue,
-        type: AlertConstants.SHOW_POPUP_ERROR,
-      });
-      return;
     }
     ExportFuncs.uploadFcode(device);
   };
@@ -206,7 +216,7 @@ const GoButton = (props: Props): JSX.Element => {
       }
       onClick={handleExportClick}
     >
-      {hasText ? <div className="go-text">{LANG.export}</div> : null}
+      {hasText ? <div className="go-text">{lang.topbar.export}</div> : null}
       <div className={(classNames('go-btn'))} />
     </div>
   );

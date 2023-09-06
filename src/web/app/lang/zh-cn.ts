@@ -187,6 +187,7 @@ const lang: ILang = {
     no_beambox: '#801 我们在网路上找不到您的机器，\n请参考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除连线问题！',
   },
   update: {
+    update: '更新',
     release_note: '版本消息:',
     firmware: {
       caption: '有新的机器固件更新',
@@ -203,6 +204,7 @@ const lang: ILang = {
       update_success: '固件更新上传成功',
       update_fail: '#822 更新失败',
       too_old_for_web: '你韧体的版本为 v3.5.1。\n欲使用线上版的 Beam Studio 请更新至最新韧体。',
+      force_update_message: '#814 请将您的机器更新至最新的固件版本。',
     },
     software: {
       checking: '检查更新中',
@@ -212,8 +214,8 @@ const lang: ILang = {
       downloading: '正在背景下载中，您可以按确定以继续您的工作。',
       install_or_not: '已准备好更新，是否重新启动以套用更新？',
       switch_or_not: '已准备完成，是否重新启动以切换？',
-      available_update: 'Beam Studio v%s 现可提供下载，你的版本为 v%s，是否要下载更新？',
-      available_switch: 'Beam Studio v%s 现可提供切换，你的版本为 v%s，是否要切换至此此版本？',
+      available_update: 'Beam Studio v%s 现可提供下载，你的版本为 v%s ，是否要下载更新？',
+      available_switch: 'Beam Studio v%s 现可提供切换，你的版本为 v%s ，是否要切换至此此版本？',
       not_found: 'Beam Studio 已是最新版本。',
       no_response: '无法连接到伺服器，请确认您目前的网路状态。',
       switch_version_not_found: '無法找到可切換的版本',

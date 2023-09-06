@@ -187,6 +187,7 @@ const lang: ILang = {
     no_beambox: '#801 Nous ne trouvons pas votre machine sur le réseau.\nVeuillez suivre le <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> pour résoudre le problème de connexion.',
   },
   update: {
+    update: 'Mise à jour',
     release_note: 'Note de mise à jour :',
     firmware: {
       caption: 'Une mise à jour du micrologiciel de la machine est disponible',
@@ -203,6 +204,7 @@ const lang: ILang = {
       update_success: 'Téléchargement réussi de la mise à jour du micrologiciel',
       update_fail: '#822 Échec de la mise à jour',
       too_old_for_web: 'La version actuelle du micrologiciel de votre machine est v%s. Si vous souhaitez utiliser la version en ligne de Beam Studio, veuillez mettre à jour le micrologiciel de la machine à la dernière version.',
+      force_update_message: '#814 Veuillez mettre à jour votre machine vers la dernière version du firmware.',
     },
     software: {
       checking: 'Vérification de la mise à jour',

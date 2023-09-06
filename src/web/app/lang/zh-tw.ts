@@ -187,6 +187,7 @@ const lang: ILang = {
     no_beambox: '#801 我們在網路上找不到您的機器，<br/>此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，<br/>請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
   },
   update: {
+    update: '更新',
     release_note: '版本訊息:',
     firmware: {
       caption: '有新的機器韌體更新',
@@ -203,6 +204,7 @@ const lang: ILang = {
       update_success: '韌體更新上傳成功',
       update_fail: '#822 更新失敗',
       too_old_for_web: '你韌體的版本為 v%s。<br/>欲使用線上版的 Beam Studio 請更新至最新韌體。',
+      force_update_message: '#814 請將您的機器更新至最新的韌體版本。',
     },
     software: {
       checking: '檢查更新中',

@@ -187,6 +187,7 @@ const lang: ILang = {
     no_beambox: '#801 Não foi possível encontrar sua mpaquina na rede. Tente novamente <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> para solucionar o problema de conexão.',
   },
   update: {
+    update: 'Atualizar',
     release_note: 'Notas de lançamento:',
     firmware: {
       caption: 'Uma atualização de firmware esta disponível',
@@ -203,6 +204,7 @@ const lang: ILang = {
       update_success: 'Firmware atualizado com sucesso',
       update_fail: '#822 falha no processo de update',
       too_old_for_web: 'Se você quer usar a versão online do Beam Studio, por favor atualize o firmware de sua máquina para a versão mais recente.',
+      force_update_message: '#814 Por favor, atualize sua máquina para a versão mais recente do firmware.',
     },
     software: {
       checking: 'Checando por atualizações',

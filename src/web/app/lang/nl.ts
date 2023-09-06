@@ -187,6 +187,7 @@ const lang: ILang = {
     no_beambox: '#801 We kunnen uw machine niet vinden op het netwerk.\nVolg de <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">gids</a> om het verbindingsprobleem op te lossen.',
   },
   update: {
+    update: 'Update',
     release_note: 'Release-opmerking:',
     firmware: {
       caption: 'Er is een firmware-update voor de machine beschikbaar',
@@ -203,6 +204,7 @@ const lang: ILang = {
       update_success: 'Firmware-update succesvol geüpload',
       update_fail: '#822 Update mislukt',
       too_old_for_web: 'Uw huidige apparaatfirmwareversie is v%s.\nAls u de online versie van de Beam Studio wilt gebruiken, moet u de apparaatfirmware bijwerken naar de nieuwste versie.',
+      force_update_message: '#814 Gelieve uw machine bij te werken naar de nieuwste firmwareversie.',
     },
     software: {
       checking: 'Controleren op updates',

@@ -37,12 +37,11 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
   }
 };
 
-const executeFirmwareUpdate = async (printer, type) => {
-  const currentPrinter = printer;
+export const executeFirmwareUpdate = async (device: IDeviceInfo, type: string): Promise<void> => {
   const updateFirmware = async () => {
     try {
-      const response = await checkFirmware(currentPrinter);
-      const latestVersion = currentPrinter.version;
+      const response = await checkFirmware(device);
+      const latestVersion = device.version;
       const { caption, message } = lang.update.firmware.latest_firmware;
 
       MessageCaller.openMessage({
@@ -59,13 +58,12 @@ const executeFirmwareUpdate = async (printer, type) => {
           buttonType: AlertConstants.CUSTOM_CANCEL,
           buttonLabels: [lang.update.firmware.latest_firmware.still_update],
           callbacks: () => {
-            firmwareUpdater(response, currentPrinter, true);
+            firmwareUpdater(response, device, true);
           },
-          onCancel: () => {
-          },
+          onCancel: () => {},
         });
       } else {
-        firmwareUpdater(response, currentPrinter);
+        firmwareUpdater(response, device);
       }
     } catch (error) {
       Alert.popUp({
@@ -97,7 +95,7 @@ const executeFirmwareUpdate = async (printer, type) => {
   };
   // TODO: Handle the error better (output eresp)
   try {
-    const res = await DeviceMaster.select(printer);
+    const res = await DeviceMaster.select(device);
     if (res.success) {
       checkStatus();
     }
@@ -111,26 +109,35 @@ const executeFirmwareUpdate = async (printer, type) => {
   }
 };
 
-const getLog = async (printer, log: string) => {
+const getLog = async (device: IDeviceInfo, log: string) => {
   try {
-    const res = await DeviceMaster.select(printer);
+    const res = await DeviceMaster.select(device);
     if (res.success) {
       ProgressCaller.openSteppingProgress({ id: 'get_log', message: 'downloading' });
       try {
-        const file = await DeviceMaster.downloadLog(log,
-          async (progress: { completed: number, size: number }) => {
-            ProgressCaller.update('get_log', { message: 'downloading', percentage: (progress.completed / progress.size) * 100 });
-          });
+        const file = await DeviceMaster.downloadLog(
+          log,
+          async (progress: { completed: number; size: number }) => {
+            ProgressCaller.update('get_log', {
+              message: 'downloading',
+              percentage: (progress.completed / progress.size) * 100,
+            });
+          }
+        );
         ProgressCaller.popById('get_log');
-        const getContent = async () => (file[1] as Blob);
-        await dialog.writeFileDialog(getContent, log, log, [{
-          name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
-          extensions: ['log'],
-        }]);
+        const getContent = async () => file[1] as Blob;
+        await dialog.writeFileDialog(getContent, log, log, [
+          {
+            name: window.os === 'MacOS' ? 'log (*.log)' : 'log',
+            extensions: ['log'],
+          },
+        ]);
       } catch (errorData) {
         ProgressCaller.popById('get_log');
-        const msg = errorData === 'canceled'
-          ? lang.topmenu.device.download_log_canceled : lang.topmenu.device.download_log_error;
+        const msg =
+          errorData === 'canceled'
+            ? lang.topmenu.device.download_log_canceled
+            : lang.topmenu.device.download_log_error;
         Alert.popUp({
           type: AlertConstants.SHOW_POPUP_INFO,
           message: msg,
@@ -143,20 +150,30 @@ const getLog = async (printer, log: string) => {
 };
 
 export default {
-  DASHBOARD: async (device) => {
+  DASHBOARD: async (device: IDeviceInfo): Promise<void> => {
     const res = await DeviceMaster.select(device);
     if (res.success) {
       MonitorController.showMonitor(device, device.st_id <= 0 ? Mode.FILE : Mode.WORKING);
     }
   },
-  MACHINE_INFO: (device) => {
+  MACHINE_INFO: (device: IDeviceInfo): void => {
     const info = (
       <div>
-        <div>{lang.device.model_name}: {device.model.toUpperCase()}</div>
-        <div>{lang.device.IP}: {device.ipaddr}</div>
-        <div>{lang.device.serial_number}: {device.serial}</div>
-        <div>{lang.device.firmware_version}: {device.version}</div>
-        <div>{lang.device.UUID}: {device.uuid}</div>
+        <div>
+          {lang.device.model_name}: {device.model.toUpperCase()}
+        </div>
+        <div>
+          {lang.device.IP}: {device.ipaddr}
+        </div>
+        <div>
+          {lang.device.serial_number}: {device.serial}
+        </div>
+        <div>
+          {lang.device.firmware_version}: {device.version}
+        </div>
+        <div>
+          {lang.device.UUID}: {device.uuid}
+        </div>
       </div>
     );
     Alert.popUp({
@@ -165,14 +182,11 @@ export default {
       caption: device.name,
       message: info,
       buttonLabels: [lang.topmenu.device.network_test, lang.topmenu.ok],
-      callbacks: [
-        () => Dialog.showNetworkTestingPanel(device.ipaddr),
-        () => { },
-      ],
+      callbacks: [() => Dialog.showNetworkTestingPanel(device.ipaddr), () => {}],
       primaryButtonIndex: 1,
     });
   },
-  CALIBRATE_BEAMBOX_CAMERA: async (device) => {
+  CALIBRATE_BEAMBOX_CAMERA: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
@@ -182,7 +196,7 @@ export default {
     }
     calibrateCamera(device, false);
   },
-  CALIBRATE_BEAMBOX_CAMERA_BORDERLESS: async (device) => {
+  CALIBRATE_BEAMBOX_CAMERA_BORDERLESS: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
@@ -195,14 +209,15 @@ export default {
     if (isAvailableVersion) {
       calibrateCamera(device, true);
     } else {
-      const message = `${lang.camera_calibration.update_firmware_msg1} 2.5.1 ${lang.camera_calibration.update_firmware_msg2}`;
+      const langCameraCali = lang.camera_calibration;
+      const message = `${langCameraCali.update_firmware_msg1} 2.5.1 ${langCameraCali.update_firmware_msg2}`;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
         message,
       });
     }
   },
-  CALIBRATE_DIODE_MODULE: async (device) => {
+  CALIBRATE_DIODE_MODULE: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
@@ -222,35 +237,36 @@ export default {
         console.error(error);
       }
     } else {
-      const message = `${lang.diode_calibration.update_firmware_msg1} 3.0.0 ${lang.diode_calibration.update_firmware_msg2}`;
+      const langDiodeCali = lang.diode_calibration;
+      const message = `${langDiodeCali.update_firmware_msg1} 3.0.0 ${langDiodeCali.update_firmware_msg2}`;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
         message,
       });
     }
   },
-  UPDATE_FIRMWARE: async (device) => {
+  UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {
     const deviceStatus = await checkDeviceStatus(device);
     if (deviceStatus) {
       executeFirmwareUpdate(device, 'firmware');
     }
   },
-  LOG_NETWORK: (device) => {
+  LOG_NETWORK: (device: IDeviceInfo): void => {
     getLog(device, 'fluxnetworkd.log');
   },
 
-  LOG_HARDWARE: (device) => {
+  LOG_HARDWARE: (device: IDeviceInfo): void => {
     getLog(device, 'fluxhald.log');
   },
 
-  LOG_DISCOVER: (device) => {
+  LOG_DISCOVER: (device: IDeviceInfo): void => {
     getLog(device, 'fluxupnpd.log');
   },
 
-  LOG_USB: (device) => {
+  LOG_USB: (device : IDeviceInfo): void => {
     getLog(device, 'fluxusbd.log');
   },
-  LOG_USBLIST: async (device) => {
+  LOG_USBLIST: async (device: IDeviceInfo): Promise<void> => {
     const res = await DeviceMaster.select(device);
     if (res.success) {
       const data = await DeviceMaster.lsusb();
@@ -261,13 +277,13 @@ export default {
       });
     }
   },
-  LOG_CAMERA: (device) => {
+  LOG_CAMERA: (device: IDeviceInfo): void => {
     getLog(device, 'fluxcamerad.log');
   },
-  LOG_CLOUD: (device) => {
+  LOG_CLOUD: (device: IDeviceInfo): void => {
     getLog(device, 'fluxcloudd.log');
   },
-  LOG_PLAYER: (device) => {
+  LOG_PLAYER: (device: IDeviceInfo): void => {
     const vc = VersionChecker(device.version);
     if (vc.meetRequirement('NEW_PLAYER')) {
       getLog(device, 'playerd.log');
@@ -275,7 +291,7 @@ export default {
       getLog(device, 'fluxplayerd.log');
     }
   },
-  LOG_ROBOT: (device) => {
+  LOG_ROBOT: (device: IDeviceInfo): void => {
     getLog(device, 'fluxrobotd.log');
   },
 };

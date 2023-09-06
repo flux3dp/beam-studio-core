@@ -187,6 +187,7 @@ const lang: ILang = {
     no_beambox: '#801 네트워크에서 기계를 찾을 수 없습니다. 친절하게 <a target=""_blank"" href=""https://support.flux3dp.com/hc/en-us/articles/360001683556"">안내</a>를 따라 연결 문제를 해결해 주세요.',
   },
   update: {
+    update: '업데이트',
     release_note: '릴리스 노트:',
     firmware: {
       caption: '기계에 펌웨어 업데이트가 가능합니다',
@@ -203,6 +204,7 @@ const lang: ILang = {
       update_success: '펌웨어 업데이트가 성공적으로 업로드되었습니다',
       update_fail: '#822 업데이트 실패',
       too_old_for_web: '현재 기계 펌웨어 버전은 v%s입니다. Beam Studio 온라인 버전을 사용하려면 기계 펌웨어를 최신 버전으로 업데이트해 주세요.',
+      force_update_message: '#814 기계를 최신 펌웨어 버전으로 업데이트하십시오.',
     },
     software: {
       checking: '업데이트 확인 중',
