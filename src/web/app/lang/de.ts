@@ -771,7 +771,7 @@ const lang: ILang = {
           crop: 'Ernte',
           bevel: 'Fase',
           invert: 'Farbe umkehren',
-          weld_text: 'Weld Text',
+          weld_text: 'Text schweißen',
           convert_to_path: 'In Pfad konvertieren',
           fetching_web_font: 'Online Schriftstilen herunterladen...',
           uploading_font_to_machine: 'Schriftenstilen auf das Maschine aufladen...',
