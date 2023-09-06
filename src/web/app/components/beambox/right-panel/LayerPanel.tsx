@@ -278,9 +278,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   draggingScroll = (): void => {
-    const layerListContainer = isMobile()
-      ? document.querySelector(`.${styles['floating-panel']} [class*='scroll-content']`)
-      : this.layerListContainerRef.current;
+    const layerListContainer = this.layerListContainerRef.current;
     if (this.draggingScrollDirection !== 0 && layerListContainer) {
       if (this.draggingScrollDirection > 0) {
         layerListContainer.scrollTop += 10;
@@ -312,9 +310,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     if (touch) {
       const { draggingLayer } = this.state;
       if (draggingLayer) {
-        const layerListContainer = isMobile()
-          ? document.querySelector(`.${styles['floating-panel']} [class*='scroll-content']`)
-          : this.layerListContainerRef.current;
+        const layerListContainer = this.layerListContainerRef.current;
         const { top, height } = layerListContainer.getBoundingClientRect();
         if (touch.pageY < top) {
           this.draggingScrollDirection = -1;

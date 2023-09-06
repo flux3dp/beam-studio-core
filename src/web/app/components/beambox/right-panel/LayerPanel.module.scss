@@ -1,11 +1,14 @@
-@use '../../../views/beambox/Right-Panels/mixins' as mixins;
+@use 'src/web/app/views/beambox/Right-Panels/_mixins' as mixins;
 
 .hide {
   display: none;
 }
 
 .floating-panel [class*='scroll-content'] {
+  // scrolling is handled by layerlist_container
+  overflow-y: auto;
   margin-bottom: 120px;
+  padding-bottom: 0;
 }
 
 .layer-bottom-bar {
