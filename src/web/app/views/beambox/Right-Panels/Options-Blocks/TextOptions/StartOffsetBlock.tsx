@@ -3,7 +3,7 @@ import React from 'react';
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
 interface Props {
   value: number;
@@ -12,7 +12,8 @@ interface Props {
 
 export default function StartOffsetBlock({ value, onValueChange }: Props): JSX.Element {
   const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-  return isMobile() ? (
+  const isMobile = useIsMobile();
+  return isMobile ? (
     <ObjectPanelItem.Number
       id="start_offset"
       label={LANG.start_offset}

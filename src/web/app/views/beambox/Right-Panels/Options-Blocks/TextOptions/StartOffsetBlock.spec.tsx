@@ -3,9 +3,9 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
-const isMobile = jest.fn();
+const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => useIsMobile(),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -40,7 +40,7 @@ describe('test StartOffsetBlock', () => {
   });
 
   test('should render correctly in mobile', () => {
-    isMobile.mockReturnValue(true);
+    useIsMobile.mockReturnValue(true);
     const onValueChange = jest.fn();
     const wrapper = shallow(<StartOffsetBlock value={0} onValueChange={onValueChange} />);
     expect(toJson(wrapper)).toMatchSnapshot();

@@ -8,7 +8,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -24,6 +24,7 @@ interface Props {
 function RectOptions({
   elem, rx, updateDimensionValues,
 }: Props): JSX.Element {
+  const isMobile = useIsMobile();
   const handleRoundedCornerChange = (val) => {
     // eslint-disable-next-line no-param-reassign
     val *= Constant.dpmm;
@@ -34,7 +35,7 @@ function RectOptions({
   const renderRoundCornerBlock = () => {
     const unit = storage.get('default-units') || 'mm';
     const isInch = unit === 'inches';
-    return isMobile() ? (
+    return isMobile ? (
       <ObjectPanelItem.Number
         id="rounded-corner"
         value={rx / Constant.dpmm || 0}
@@ -58,7 +59,7 @@ function RectOptions({
     );
   };
 
-  return isMobile() ? (
+  return isMobile ? (
     <>
       <InFillBlock elem={elem} />
       {renderRoundCornerBlock()}

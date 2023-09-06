@@ -3,7 +3,7 @@ import Pickr from '@simonwep/pickr';
 import { Button } from 'antd';
 
 import i18n from 'helpers/i18n';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 import { useEffect } from 'react';
 
 const LANG = i18n.lang.beambox.photo_edit_panel;
@@ -21,7 +21,8 @@ const ColorPickerPanel = ({
 }: Props): JSX.Element => {
   const desktopWidth = 200;
   const mobileHeight = 300;
-  const style = isMobile() ? { top: top - mobileHeight, left } : { top, left: left - desktopWidth };
+  const isMobile = useIsMobile();
+  const style = isMobile ? { top: top - mobileHeight, left } : { top, left: left - desktopWidth };
 
   useEffect(() => {
     pickr = Pickr.create({
