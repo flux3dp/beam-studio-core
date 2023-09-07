@@ -5,10 +5,11 @@ import { IImageDataResult } from 'interfaces/IImage';
 const calculateBase64 = (
   blobUrl: string,
   isShading: boolean,
-  threshold: number
+  threshold: number,
+  isFullColor = false,
 ): Promise<string> => new Promise<string>((resolve) => {
   imageData(blobUrl, {
-    grayscale: {
+    grayscale: isFullColor ? undefined : {
       is_rgba: true,
       is_shading: isShading,
       threshold,

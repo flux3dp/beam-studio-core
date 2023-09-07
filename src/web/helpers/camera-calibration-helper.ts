@@ -184,7 +184,8 @@ const interpolateValue = (p1: number, v1: number[], p2: number, v2: number[], p:
 
 const binarySearchFindHeightIndex = (heights: number[], height: number): number => {
   let left = 0;
-  let right = heights.length - 1;
+  // Because we need to use index + 1, so the max index is heights.length - 2
+  let right = heights.length - 2;
   let result = -1;
 
   while (left <= right) {
@@ -324,7 +325,6 @@ export const interpolatePointsFromHeight = (
     );
     realHeight -= getHeightOffsetFromLevelingRegion(position[0], position[1], workarea, levelingOffsets);
   }
-  console.log(realHeight);
 
   for (let i = 0; i < result.length; i += 1) {
     for (let j = 0; j < result[i].length; j += 1) {

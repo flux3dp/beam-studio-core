@@ -63,6 +63,7 @@ describe('test CropPanel', () => {
     global.URL.revokeObjectURL = mockRevokeObjectURL;
     mockImage.getAttribute.mockReturnValueOnce('true')
       .mockReturnValueOnce('125')
+      .mockReturnValueOnce(null)
       .mockReturnValueOnce('200')
       .mockReturnValueOnce('200');
   });
@@ -84,7 +85,38 @@ describe('test CropPanel', () => {
       expect(mockCropPreprocess).toBeCalledTimes(1);
       expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
-      expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125);
+      expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125, false);
+      expect(mockPopById).toBeCalledTimes(1);
+      expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
+    });
+    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  it('should render correctly when image is full color', async () => {
+    mockCropPreprocess.mockResolvedValue({
+      blobUrl: 'mock-url-1',
+      dimension: { x: 0, y: 0, width: 100, height: 100 },
+      originalWidth: 200,
+      originalHeight: 200,
+    });
+    mockImage.getAttribute.mockReset();
+    mockImage.getAttribute.mockReturnValueOnce('true')
+      .mockReturnValueOnce('125')
+      .mockReturnValueOnce('1')
+      .mockReturnValueOnce('200')
+      .mockReturnValueOnce('200');
+    mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');
+    const { baseElement } = render(
+      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+    );
+    await waitFor(() => {
+      expect(mockOpenNonstopProgress).toBeCalledTimes(1);
+      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({ id: 'photo-edit-processing', message: 'processing' });
+      expect(mockCropPreprocess).toBeCalledTimes(1);
+      expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
+      expect(mockCalculateBase64).toBeCalledTimes(1);
+      expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125, true);
       expect(mockPopById).toBeCalledTimes(1);
       expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
     });
@@ -110,7 +142,7 @@ describe('test CropPanel', () => {
       expect(mockCropPreprocess).toBeCalledTimes(1);
       expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
-      expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125);
+      expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125, false);
       expect(mockPopById).toBeCalledTimes(1);
       expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
     });
@@ -167,7 +199,7 @@ describe('test CropPanel', () => {
     expect(mockCropImage).toBeCalledTimes(1);
     expect(mockCropImage).toHaveBeenLastCalledWith('mock-url-1', 10, 10, 80, 80);
     expect(mockCalculateBase64).toBeCalledTimes(2);
-    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-2', true, 125);
+    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-2', true, 125, false);
     expect(mockPopById).toBeCalledTimes(2);
 
     // complete
@@ -199,7 +231,7 @@ describe('test CropPanel', () => {
     expect(mockCropImage).toBeCalledTimes(2);
     expect(mockCropImage).toHaveBeenLastCalledWith('mock-src', 40, 40, 120, 120);
     expect(mockCalculateBase64).toBeCalledTimes(3);
-    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-3', true, 125);
+    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-3', true, 125, false);
     expect(mockHandleFinish).toBeCalledTimes(1);
     expect(mockHandleFinish).toHaveBeenLastCalledWith(mockImage, 'mock-url-3', 'mock-base64-3', 120, 120);
     expect(mockPopById).toBeCalledTimes(3);
@@ -259,7 +291,7 @@ describe('test CropPanel', () => {
     expect(mockCropImage).toBeCalledTimes(1);
     expect(mockCropImage).toHaveBeenLastCalledWith('mock-url-1', 10, 10, 80, 80);
     expect(mockCalculateBase64).toBeCalledTimes(2);
-    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-2', true, 125);
+    expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-2', true, 125, false);
     expect(mockPopById).toBeCalledTimes(2);
 
     mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');

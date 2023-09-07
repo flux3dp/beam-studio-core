@@ -4,7 +4,7 @@ $active-color: #0091ff;
   padding: 0;
   width: 100%;
   border-collapse: collapse;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   .color {
     width: 24px;
@@ -18,6 +18,23 @@ $active-color: #0091ff;
       border-radius: 4px;
       margin-left: 10px;
       background: black;
+
+      &.no-pointer {
+        cursor: default;
+      }
+
+      &.full-color {
+        background: rgb(255, 0, 0);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 0, 0, 1) 0%,
+          rgba(255, 255, 0, 1) 20%,
+          rgba(0, 255, 19, 1) 40%,
+          rgba(0, 255, 254, 1) 60%,
+          rgba(0, 16, 255, 1) 80%,
+          rgba(246, 0, 255, 1) 100%
+        );
+      }
     }
     @media screen and (max-width: 600px) {
       width: 30px;
@@ -189,8 +206,35 @@ $active-color: #0091ff;
   width: 100%;
   height: 2px;
   background-color: $active-color;
+}
 
-  @media screen and (max-width: 600px) {
-    background-color: #666;
+@media screen and (max-width: 600px) {
+  .list {
+    padding-bottom: 80px;
+
+    .row {
+      display: flex;
+      .name {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+        flex-grow: 2;
+      }
+
+      &:active,
+      &:hover {
+        .name {
+          color: white;
+        }
+      }
+
+      .color {
+        margin-right: 10px;
+      }
+
+      .vis {
+        margin-right: 5px;
+      }
+    }
   }
 }

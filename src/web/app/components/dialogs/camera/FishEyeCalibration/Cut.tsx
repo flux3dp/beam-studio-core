@@ -17,9 +17,12 @@ const Cut = ({ onClose, onBack, onNext }: Props): JSX.Element => {
   const lang = useI18n();
   const handleNext = useCallback(async () => {
     progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: 'Uploading Calibration Task' });
-    await deviceMaster.doAdorCalibrationCut();
-    progressCaller.popById(PROGRESS_ID);
-    onNext();
+    try {
+      await deviceMaster.doAdorCalibrationCut();
+      onNext();
+    } finally {
+      progressCaller.popById(PROGRESS_ID);
+    }
   }, [onNext]);
   return (
     <Modal
