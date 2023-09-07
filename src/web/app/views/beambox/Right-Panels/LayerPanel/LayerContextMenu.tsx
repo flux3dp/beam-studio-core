@@ -101,7 +101,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   };
 
   const isSelectingPrinterLayer =
-    selectedLayers.length === 1 && selectedLayers[0] &&
+    selectedLayers.length === 1 && layerElem &&
     getData<LayerModule>(layerElem, DataType.module) ===
       LayerModule.PRINTER;
 
