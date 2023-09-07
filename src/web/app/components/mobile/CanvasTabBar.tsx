@@ -131,6 +131,7 @@ const CanvasTabBar = (): JSX.Element => {
     if (key === 'camera') {
       changeToPreviewMode();
       if (!PreviewModeController.isPreviewMode()) showCameraPreviewDeviceList();
+      setActiveKey('choose-preview-device');
       setTimeout(resetActiveKey, 300);
     } else if (key === 'image') {
       FnWrapper.importImage();
@@ -204,6 +205,7 @@ const CanvasTabBar = (): JSX.Element => {
         PreviewModeBackgroundDrawer.clear();
       }
     }
+    setTimeout(resetActiveKey, 300);
   };
 
   return (
