@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+import styles from './DragImage.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -14,37 +16,50 @@ interface Props {
 }
 
 function DragImage({ selectedLayers, draggingLayer = null }: Props): JSX.Element {
-  if (!draggingLayer) return (<div id="drag-image" />);
+  if (!draggingLayer) return <div id="drag-image" />;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const layer = drawing.getLayerByName(draggingLayer);
-  if (!layer) return (<div id="drag-image" />);
+  if (!layer) return <div id="drag-image" />;
 
   const isLocked = layer.getAttribute('data-lock') === 'true';
+  const isFullColor = layer.getAttribute('data-fullcolor') === '1';
   const isVis = drawing.getLayerVisibility(draggingLayer);
   const backLayers = [];
   for (let i = selectedLayers.length - 1; i >= 1; i -= 1) {
-    backLayers.push(<div className="layer-back" key={i} style={{ top: -10 * i, left: 10 * i }} />);
+    backLayers.push(<div className={styles.back} key={i} style={{ top: -10 * i, left: 10 * i }} />);
   }
 
   return (
-    <div id="drag-image">
+    <div id="drag-image" className={styles.container}>
       {backLayers}
-      <div className={classNames('layer', 'layersel', { lock: isLocked })}>
-        <div className="drag-sensor-area" />
-        <div className="layer-row">
-          <div className="layercolor">
-            <div style={{ backgroundColor: drawing.getLayerColor(draggingLayer) }} />
+      <div className={classNames(styles.layer, styles.sel, { lock: isLocked })}>
+        <div className={styles['sensor-area']} />
+        <div className={styles.row}>
+          <div className={styles.color}>
+            <div
+              className={classNames({ [styles['full-color']]: isFullColor })}
+              style={
+                isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(draggingLayer) }
+              }
+            />
           </div>
-          <div className="layername">{draggingLayer}</div>
-          <div className={classNames('layervis', { layerinvis: !drawing.getLayerVisibility(draggingLayer) })}>
-            <img className="vis-icon" src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'} alt="vis-icon" />
+          <div className={styles.name}>{draggingLayer}</div>
+          <div
+            className={classNames(styles.vis, {
+              [styles.invis]: !drawing.getLayerVisibility(draggingLayer),
+            })}
+          >
+            <img
+              src={isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'}
+              alt="vis-icon"
+            />
           </div>
-          <div className="layerlock">
+          <div className={styles.lock}>
             <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
           </div>
         </div>
-        <div className="drag-sensor-area" />
+        <div className={styles['sensor-area']} />
       </div>
     </div>
   );

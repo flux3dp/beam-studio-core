@@ -40,8 +40,8 @@ exports[`test LayerList should render correctly 1`] = `
                   class="color"
                 >
                   <div
+                    class="no-pointer full-color"
                     id="layerbackgroundColor-1"
-                    style="background-color: rgb(0, 0, 0);"
                   />
                 </div>
                 <div
@@ -116,8 +116,9 @@ exports[`test LayerList should render correctly 1`] = `
                   class="color"
                 >
                   <div
+                    class="no-pointer"
                     id="layerbackgroundColor-0"
-                    style="background-color: rgb(255, 255, 255);"
+                    style="background-color: rgb(0, 0, 0);"
                   />
                 </div>
                 <div
@@ -212,6 +213,7 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                   class="color"
                 >
                   <div
+                    class=""
                     id="layerbackgroundColor-1"
                     style="background-color: rgb(0, 0, 0);"
                   />
@@ -311,6 +313,7 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                   class="color"
                 >
                   <div
+                    class=""
                     id="layerbackgroundColor-0"
                     style="background-color: rgb(255, 255, 255);"
                   />

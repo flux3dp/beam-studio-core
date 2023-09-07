@@ -494,7 +494,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             //	}
             // }
           } else if (cmdType === BatchCommand.type()) {
-            if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)'].includes(cmd.text)) {
+            if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)', 'Split Full Color Layer'].includes(cmd.text)) {
               canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
             }
@@ -580,7 +580,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   var ref_attrs = ['clip-path', 'fill', 'filter', 'marker-end', 'marker-mid', 'marker-start', 'mask', 'stroke'];
 
   var elData = $.data;
-
   // Animation element to change the opacity of any newly created element
   this.opacityAnimation = document.createElementNS(NS.SVG, 'animate') as unknown as SVGAnimateElement;
   $(this.opacityAnimation).attr({
@@ -2814,9 +2813,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Parameters:
   // name - The given name
-  this.createLayer = function (name, hrService, hexCode) {
+  this.createLayer = function (name, hexCode: string, isFullColor = false) {
     const drawing = getCurrentDrawing();
-    const newLayer = drawing.createLayer(name, historyRecordingService(hrService));
+    const newLayer = drawing.createLayer(name, historyRecordingService());
     if (drawing.layer_map[name]) {
       if (name && name.indexOf('#') === 0) {
         drawing.layer_map[name].setColor(name);
@@ -2824,6 +2823,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         drawing.layer_map[name].setColor(hexCode);
       } else {
         drawing.layer_map[name].setColor(getRandomLayerColor());
+      }
+      if (isFullColor) {
+        drawing.layer_map[name].setFullColor(true);
       }
     }
     this.updateLayerColorFilter(newLayer);
@@ -3016,9 +3018,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.updateLayerColorFilter = (layer) => {
-    const color = this.isUsingLayerColor ? $(layer).attr('data-color') : '#000';
-    const { r, g, b } = hexToRgb(color);
     const filter = Array.from(layer.childNodes).filter((child: Element) => child.tagName === 'filter')[0] as Element;
+    if (layer?.getAttribute('data-fullcolor') === '1') {
+      filter?.remove();
+      return;
+    }
+    const color = this.isUsingLayerColor ? layer.getAttribute('data-color') : '#000';
+    const { r, g, b } = hexToRgb(color);
     if (filter) {
       filter.setAttribute('id', `filter${color}`);
       let colorMatrix = Array.from(filter.childNodes).filter((child: Element) => child.tagName === 'feColorMatrix')[0] as Element;
@@ -3052,7 +3058,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // TODO: extract color display related functions to a separate file
   this.updateLayerColor = function (layer) {
-    const color = this.isUsingLayerColor ? $(layer).attr('data-color') : '#000';
+    const color = this.isUsingLayerColor ? layer.getAttribute('data-color') : '#000';
     this.updateLayerColorFilter(layer);
     const elems = Array.from(layer.childNodes);
     if (tempGroup) {
@@ -3064,7 +3070,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.updateElementColor = function (elem) {
-    const color = this.isUsingLayerColor ? $(LayerHelper.getObjectLayer(elem).elem).attr('data-color') : '#000';
+    const layer = LayerHelper.getObjectLayer(elem)?.elem;
+    if (layer?.getAttribute('data-fullcolor') === '1') {
+      if (elem.tagName === 'image') {
+        elem.removeAttribute('filter');
+        return;
+      }
+    }
+    const color = this.isUsingLayerColor ? layer?.getAttribute('data-color') : '#000';
     this.setElementsColor([elem], color);
   };
 
@@ -3092,7 +3105,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           $(elem).attr('fill', color);
         }
       } else if (elem.tagName === 'image') {
-        if (color === '#000') {
+        if (color === '#000' || elem.getAttribute('data-fullcolor') === '1') {
           elem.removeAttribute('filter');
         } else {
           $(elem).attr('filter', `url(#filter${color})`);
@@ -3220,8 +3233,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     //		var vb = svgcontent.getAttribute('viewBox').split(' ');
     //		return {'w':vb[2], 'h':vb[3], 'zoom': current_zoom};
 
-    var width = svgcontent.getAttribute('width') / current_zoom;
-    var height = svgcontent.getAttribute('height') / current_zoom;
+    var width = Number(svgcontent.getAttribute('width')) / current_zoom;
+    var height = Number(svgcontent.getAttribute('height')) / current_zoom;
 
     return {
       'w': width,

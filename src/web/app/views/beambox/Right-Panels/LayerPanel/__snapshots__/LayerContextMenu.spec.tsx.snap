@@ -237,6 +237,99 @@ exports[`test LayerContextMenu should render correctly when selecting last 1`] =
 </div>
 `;
 
+exports[`test LayerContextMenu should render correctly when selecting printing layer 1`] = `
+<div>
+  <nav
+    class="react-contextmenu"
+    role="menu"
+    style="position: fixed; opacity: 0; pointer-events: none;"
+    tabindex="-1"
+  >
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="renameLayer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      rename
+    </div>
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="dupelayer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      dupe
+    </div>
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="locklayer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      lock
+    </div>
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="deletelayer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      del
+    </div>
+    <div
+      aria-disabled="true"
+      class="react-contextmenu-item react-contextmenu-item--disabled"
+      id="merge_down_layer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      merge_down
+    </div>
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="merge_all_layer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      merge_all
+    </div>
+    <div
+      aria-disabled="true"
+      class="react-contextmenu-item react-contextmenu-item--disabled"
+      id="merge_selected_layer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      merge_selected
+    </div>
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="toggle_fullcolor_layer"
+      role="menuitem"
+      tabindex="-1"
+    >
+      tToggle Full Color
+    </div>
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      id="split_color"
+      role="menuitem"
+      tabindex="-1"
+    >
+      tExpand Color Layer
+    </div>
+  </nav>
+</div>
+`;
+
 exports[`test LayerContextMenu unlock layers should work 1`] = `
 <div>
   <div

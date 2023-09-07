@@ -72,12 +72,27 @@ const randomLayerColors = [
   '#9E9E9E',
 ];
 
+export enum PrintingColors {
+  CYAN = '#9FE3FF',
+  MAGENTA = '#E6007E',
+  YELLOW = '#FFED00',
+  BLACK = '#1D1D1B',
+  WHITE = '#E2E2E2',
+}
+
 const printingLayerColor = [
-  '#9FE3FF',
-  '#E6007E',
-  '#FFED00',
-  '#1D1D1B',
-  '#E2E2E2',
+  PrintingColors.CYAN,
+  PrintingColors.MAGENTA,
+  PrintingColors.YELLOW,
+  PrintingColors.BLACK,
+  PrintingColors.WHITE,
+];
+
+export const CMYK = [
+  PrintingColors.CYAN,
+  PrintingColors.MAGENTA,
+  PrintingColors.YELLOW,
+  PrintingColors.BLACK,
 ];
 
 export default {

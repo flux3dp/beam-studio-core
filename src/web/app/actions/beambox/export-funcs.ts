@@ -18,6 +18,7 @@ import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
+import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
 
 let svgCanvas;
 let svgedit;
@@ -102,16 +103,18 @@ const updateImageResolution = (isFullResolution = true) => new Promise<void>((re
   } else {
     imgs.forEach((img) => {
       if (img.getAttribute('origImage')) {
+        const shading = img.getAttribute('data-shading') === 'true';
+        const threshold = parseInt(img.getAttribute('data-threshold'), 10);
         ImageData(img.getAttribute('origImage'), {
           grayscale: {
             is_rgba: true,
-            is_shading: $(img).attr('data-shading') === 'true',
-            threshold: parseInt($(img).attr('data-threshold'), 10),
+            is_shading: shading,
+            threshold,
             is_svg: false,
           },
           isFullResolution,
           onComplete(result) {
-            $(img).attr('xlink:href', result.pngBase64);
+            img.setAttribute('xlink:href', result.pngBase64);
             done += 1;
             if (done === numImgs) {
               resolve();
@@ -194,6 +197,13 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     SymbolMaker.switchImageSymbolForAll(true);
     return {};
   }
+  const revertTempSplitFullColorLayers = await tempSplitFullColorLayers();
+  const cleanUp = async () => {
+    revertTempSplitFullColorLayers();
+    await FontFuncs.revertTempConvert();
+    SymbolMaker.switchImageSymbolForAll(true);
+  };
+
   const { uploadFile, thumbnailBlobURL } = await prepareFileWrappedFromSvgStringAndThumbnail();
   Progress.openSteppingProgress({
     id: 'upload-scene',
@@ -201,8 +211,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     message: '',
     onCancel: async () => {
       svgeditorParser.interruptCalculation();
-      await FontFuncs.revertTempConvert();
-      SymbolMaker.switchImageSymbolForAll(true);
+      await cleanUp();
       isCanceled = true;
     },
   });
@@ -242,8 +251,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
   if (isCanceled) {
     return {};
   }
-  await FontFuncs.revertTempConvert();
-  SymbolMaker.switchImageSymbolForAll(true);
+  await cleanUp();
   if (isErrorOccur) {
     return {};
   }
