@@ -14,10 +14,13 @@ const calculateTouchCenter = (touches: TouchList) => {
 };
 
 const TOUCH_START_DELAY = 100; // ms
+const multi = 3;
 
 const setupCanvasTouchEvents = (
   container: Element,
   workarea: Element,
+  contentW: number,
+  contentH: number,
   onMouseDown: (e: Event) => void,
   onMouseMove: (e: Event) => void,
   onMouseUp: (e: Event, blocked?: boolean) => void,
@@ -84,8 +87,9 @@ const setupCanvasTouchEvents = (
             e.touches[0].screenX - e.touches[1].screenX,
             e.touches[0].screenY - e.touches[1].screenY
           ) / startDist;
+        let newZoom = getZoom();
         if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
-          const newZoom = startZoom * (scale ** 0.5);
+          newZoom = startZoom * scale ** 0.5;
           setZoom(newZoom, center);
           panStartPosition = center;
           panStartScroll = {
@@ -93,6 +97,12 @@ const setupCanvasTouchEvents = (
             top: workarea.scrollTop,
           };
           currentScale = scale;
+        }
+        const wOrig = workarea.clientWidth;
+        const hOrig = workarea.clientHeight;
+        if (wOrig >= contentW * newZoom * multi || hOrig >= contentH * newZoom * multi) {
+          lastMoveEventTimestamp = timeStamp;
+          return;
         }
         // eslint-disable-next-line no-param-reassign
         workarea.scrollLeft = panStartScroll.left + panStartPosition.x - center.x;

@@ -1841,6 +1841,8 @@ const registerEvents = () => {
     touchEvents.setupCanvasTouchEvents(
       container,
       workarea,
+      svgCanvas.contentW,
+      svgCanvas.contentH,
       mouseDown,
       mouseMove,
       mouseUp,

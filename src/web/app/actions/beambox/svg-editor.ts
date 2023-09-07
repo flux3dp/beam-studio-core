@@ -1530,7 +1530,8 @@ const svgEditor = window['svgEditor'] = (function () {
       const zoomRatio = new_canvas_width / old_canvas_width;
 
       function _scrollToMakeItCenter(workarea, svgcanvas) {
-        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - 124);
+        const wOffset = isMobile() ? 0 : 124;
+        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - wOffset);
         workarea.scrollTop(svgcanvas.height() / 2 - workarea.height() / 2 - 85);
       }
 
