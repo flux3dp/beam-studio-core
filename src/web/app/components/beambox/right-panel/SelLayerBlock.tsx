@@ -2,7 +2,7 @@ import React, { useContext, memo } from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -12,29 +12,23 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const LANG = i18n.lang.beambox.right_panel.layer_panel;
+const defaultOption = ' ';
 
 function SelLayerBlock(): JSX.Element {
+  const lang = useI18n().beambox.right_panel.layer_panel;
   const [promptMoveLayerOnce, setPromptMoveLayerOnce] = React.useState(false);
   const { selectedElem } = useContext(CanvasContext);
   if (!selectedElem) return null;
-  const currentLayer = getObjectLayer(selectedElem as SVGElement);
-  if (!currentLayer) return null;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const layerCount = drawing.getNumLayers();
   if (layerCount === 1) return null;
 
-  const options = [];
-  for (let i = layerCount - 1; i >= 0; i -= 1) {
-    const layerName = drawing.getLayerName(i);
-    options.push(<option value={layerName} key={i}>{layerName}</option>);
-  }
 
   const moveToOtherLayer = (e: React.ChangeEvent): void => {
     const select = e.target as HTMLSelectElement;
     const destLayer = select.options[select.selectedIndex].value;
-    const confirmStr = LANG.notification.QmoveElemsToLayer.replace('%s', destLayer);
+    const confirmStr = lang.notification.QmoveElemsToLayer.replace('%s', destLayer);
     const moveToLayer = (ok) => {
       if (!ok) {
         return;
@@ -58,10 +52,20 @@ function SelLayerBlock(): JSX.Element {
     }
   };
 
-  const currentLayerName = currentLayer.title;
+  const currentLayer = getObjectLayer(selectedElem as SVGElement);
+  const currentLayerName = currentLayer?.title ?? defaultOption;
+
+  const options = [];
+  if (!currentLayer) {
+    options.push(<option value={defaultOption} key={-1}>{lang.move_elems_to}</option>);
+  }
+  for (let i = layerCount - 1; i >= 0; i -= 1) {
+    const layerName = drawing.getLayerName(i);
+    options.push(<option value={layerName} key={i}>{layerName}</option>);
+  }
   return (
     <div className="selLayerBlock controls">
-      <span id="selLayerLabel">{LANG.move_elems_to}</span>
+      <span id="selLayerLabel">{lang.move_elems_to}</span>
       <select
         value={currentLayerName}
         id="selLayerNames"
