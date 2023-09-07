@@ -89,6 +89,8 @@ const LayerList = ({
     const layer = getLayerElementByName(layerName);
     if (layer) {
       const isLocked = layer.getAttribute('data-lock') === 'true';
+      const isFullColor = layer.getAttribute('data-fullcolor') === '1';
+      const isFixedColor = layer.getAttribute('data-fixedcolor') === '1';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
       const leftActions: Action[] = isMobile
@@ -119,6 +121,7 @@ const LayerList = ({
           ]
         : undefined;
       const module = getData<LayerModule>(layer, DataType.module);
+      const canEditColor = !isFullColor && !isFixedColor;
       items.push(
         <SwipeAction
           key={layerName}
@@ -161,19 +164,33 @@ const LayerList = ({
             >
               <div className={styles.color}>
                 <div
+                  className={classNames({
+                    [styles['no-pointer']]: !canEditColor,
+                    [styles['full-color']]: isFullColor,
+                  })}
                   id={`layerbackgroundColor-${i}`}
-                  style={{ backgroundColor: drawing.getLayerColor(layerName) }}
-                  onClick={(e: React.MouseEvent) => openLayerColorPanel(e, layerName)}
+                  style={
+                    isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(layerName) }
+                  }
+                  onClick={(e: React.MouseEvent) => {
+                    if (canEditColor) openLayerColorPanel(e, layerName);
+                  }}
                 />
               </div>
               {shouldShowModuleIcon && (
                 <div className={styles.module}>
-                  {module === LayerModule.PRINTER ? <LayerPanelIcons.Print /> : <LayerPanelIcons.Laser />}
+                  {module === LayerModule.PRINTER ? (
+                    <LayerPanelIcons.Print />
+                  ) : (
+                    <LayerPanelIcons.Laser />
+                  )}
                 </div>
               )}
               <div
                 id={`layerdoubleclick-${i}`}
-                className={classNames(styles.name, { [styles['with-module']]: shouldShowModuleIcon })}
+                className={classNames(styles.name, {
+                  [styles['with-module']]: shouldShowModuleIcon,
+                })}
                 onDoubleClick={(e: React.MouseEvent) => {
                   if (!isMobile && !e.ctrlKey && !e.shiftKey && !e.metaKey) onLayerDoubleClick();
                 }}

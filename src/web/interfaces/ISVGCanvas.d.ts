@@ -42,7 +42,7 @@ export default interface ISVGCanvas {
   contentH: number;
   contentW: number;
   convertToNum(attr: string, val: number): number;
-  createLayer: (layerName: string, historyRecordingService?: any, hexCode?: string) => void;
+  createLayer: (layerName: string, hexCode?: string, isFullColor?: boolean) => void;
   currentFilePath: string;
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;

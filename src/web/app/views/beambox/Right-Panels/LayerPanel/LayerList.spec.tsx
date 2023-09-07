@@ -14,11 +14,12 @@ const mockDrawing = {
 };
 
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (cb) => cb({
-    Canvas: {
-      getCurrentDrawing: () => mockDrawing,
-    },
-  }),
+  getSVGAsync: (cb) =>
+    cb({
+      Canvas: {
+        getCurrentDrawing: () => mockDrawing,
+      },
+    }),
 }));
 
 const mockRead = jest.fn();
@@ -77,7 +78,13 @@ describe('test LayerList', () => {
     const mockLayer = {
       getAttribute: jest.fn(),
     };
-    mockLayer.getAttribute.mockReturnValueOnce('true').mockReturnValueOnce('false');
+    mockLayer.getAttribute
+      .mockReturnValueOnce('true')
+      .mockReturnValueOnce('1')
+      .mockReturnValueOnce(null)
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce(null)
+      .mockReturnValueOnce('1');
     mockGetLayerElementByName.mockReturnValue(mockLayer);
     mockDrawing.getLayerVisibility.mockReturnValueOnce(true).mockReturnValueOnce(false);
     mockDrawing.getLayerColor.mockReturnValueOnce('#000000').mockReturnValueOnce('#ffffff');
@@ -108,14 +115,18 @@ describe('test LayerList', () => {
     expect(mockGetData).toBeCalledTimes(2);
     expect(mockGetData).toHaveBeenNthCalledWith(1, mockLayer, 'module');
     expect(mockGetData).toHaveBeenNthCalledWith(2, mockLayer, 'module');
-    expect(mockLayer.getAttribute).toBeCalledTimes(2);
-    expect(mockLayer.getAttribute).toHaveBeenLastCalledWith('data-lock');
+    expect(mockLayer.getAttribute).toBeCalledTimes(6);
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(1, 'data-lock');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(2, 'data-fullcolor');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(3, 'data-fixedcolor');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(4, 'data-lock');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(5, 'data-fullcolor');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(6, 'data-fixedcolor');
     expect(mockDrawing.getLayerVisibility).toBeCalledTimes(2);
     expect(mockDrawing.getLayerVisibility).toHaveBeenNthCalledWith(1, 'layer2');
     expect(mockDrawing.getLayerVisibility).toHaveBeenNthCalledWith(2, 'layer1');
-    expect(mockDrawing.getLayerColor).toBeCalledTimes(2);
-    expect(mockDrawing.getLayerColor).toHaveBeenNthCalledWith(1, 'layer2');
-    expect(mockDrawing.getLayerColor).toHaveBeenNthCalledWith(2, 'layer1');
+    expect(mockDrawing.getLayerColor).toBeCalledTimes(1);
+    expect(mockDrawing.getLayerColor).toHaveBeenNthCalledWith(1, 'layer1');
   });
 
   it('should render correctly on mobile', () => {

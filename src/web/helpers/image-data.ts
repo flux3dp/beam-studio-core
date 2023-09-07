@@ -2,12 +2,11 @@
 /**
  * To get image data
  */
-import grayScale from './grayscale';
-import BeamboxPreference from '../app/actions/beambox/beambox-preference';
-import { getSVGAsync } from './svg-editor-helper';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 
-let svgEditor;
-getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
+import getExifRotationFlag from './image/getExifRotationFlag';
+import grayScale from './grayscale';
+
 const MAX_IMAGE_PIXEL = 1e8;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -27,7 +26,7 @@ export default (source, opts) => {
     const fetchedData = await fetch(img.src);
     const response = await fetchedData.blob();
     const arrayBuffer = await new Response(response).arrayBuffer();
-    const rotationFlag = svgEditor.getExifRotationFlag(arrayBuffer);
+    const rotationFlag = getExifRotationFlag(arrayBuffer);
 
     // DownSampling
     const shouldDownSample = BeamboxPreference.read('image_downsampling')
