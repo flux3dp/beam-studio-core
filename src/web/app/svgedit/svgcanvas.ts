@@ -1996,46 +1996,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return this.svgCanvasToString(unit);
   };
 
-  // Function: svgStringToImage
-  // Parameters: type: canvas to dataurl type: image/png, image/jpeg...
-  // Returns:
-  // The image for svg from string.
-  this.svgStringToImage = function (type, svgString) {
-    return new Promise((resolve, reject) => {
-      try {
-        const width = canvas.contentW;
-        const height = canvas.contentH;
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = width;
-        tempCanvas.height = height;
-        const ctx = tempCanvas.getContext('2d');
-        const svgUrl = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgString);
-        const img = new Image();
-        img.onload = function () {
-          ctx.drawImage(img, 0, 0);
-          URL.revokeObjectURL(svgUrl);
-          switch (type) {
-            case 'png':
-              resolve(tempCanvas.toDataURL('image/png'));
-              break;
-            case 'jpg':
-              ctx.globalCompositeOperation = 'destination-over';
-              ctx.fillStyle = 'white';
-              ctx.fillRect(0, 0, width, height);
-              resolve(tempCanvas.toDataURL('image/jpeg', 1.0));
-              break;
-            default:
-              resolve(false);
-              break;
-          }
-        };
-        img.src = svgUrl;
-      } catch (err) {
-        reject(err);
-      }
-    });
-  };
-
   // Function: randomizeIds
   // This function determines whether to use a nonce in the prefix, when
   // generating IDs for future documents in SVG-Edit.

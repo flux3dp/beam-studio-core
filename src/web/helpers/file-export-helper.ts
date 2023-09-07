@@ -8,6 +8,7 @@ import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
+import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 const { $ } = window;
@@ -196,26 +197,21 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   const langFile = LANG.topmenu.file;
   Progress.openNonstopProgress({ id: 'export_image', message: langFile.converting });
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
-  let image = await svgCanvas.svgStringToImage(type, output);
-  image = image.replace(/^data:image\/\w+;base64,/, '');
+  const canvas = await svgStringToCanvas(output, svgCanvas.contentW, svgCanvas.contentH);
+  let base64 = '';
+  if (type === 'png') {
+    base64 = canvas.toDataURL('image/png');
+  } else if (type === 'jpg') {
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, svgCanvas.contentW, svgCanvas.contentH);
+    base64 = canvas.toDataURL('image/jpeg', 1.0);
+  }
+  base64 = base64.replace(/^data:image\/\w+;base64,/, '');
   const getContent = () => {
-    const sliceSize = 512;
-    const byteCharacters = atob(image);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i += 1) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays);
+    const buffer = Buffer.from(base64, 'base64');
+    const blob = new Blob([buffer]);
     return blob;
   };
   Progress.popById('export_image');
