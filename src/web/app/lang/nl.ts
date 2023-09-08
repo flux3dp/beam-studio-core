@@ -680,6 +680,7 @@ const lang: ILang = {
           mm: {
             wood_3mm_cutting: 'Hout - 3 mm snijden',
             wood_5mm_cutting: 'Hout - 5 mm snijden',
+            wood_7mm_cutting: 'Hout - 7 mm snijden',
             wood_8mm_cutting: 'Hout - 8 mm snijden',
             wood_10mm_cutting: 'Hout - 10 mm snijden',
             wood_engraving: 'Hout - Graveren',
@@ -717,6 +718,7 @@ const lang: ILang = {
           inches: {
             wood_3mm_cutting: 'Hout - 0,1\'\' snijden',
             wood_5mm_cutting: 'Hout - 0,2\'\' snijden',
+            wood_7mm_cutting: 'Hout - 0,3\'\' snijden',
             wood_8mm_cutting: 'Hout - 0,3\'\' snijden',
             wood_10mm_cutting: 'Hout - 0,4\'\' snijden',
             wood_engraving: 'Hout - Graveren',

@@ -139,11 +139,15 @@ export const deleteLayers = (layerNames: string[]): void => {
 
 export const cloneLayer = (
   layerName: string,
-  isSub = false,
-  clonedLayerName?: string
+  opts: {
+    isSub?: boolean; // if true, do not add command to history
+    name?: string; // if provided, use this name instead of auto generated name
+    configOnly?: boolean; // if true, only clone layer config
+  }
 ): { name: string; cmd: ICommand, elem: SVGGElement } | null => {
   const layer = getLayerElementByName(layerName);
   if (!layer) return null;
+  const { isSub = false, name: clonedLayerName, configOnly = false } = opts;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const color = layer.getAttribute('data-color') || '#333';
@@ -156,12 +160,14 @@ export const cloneLayer = (
     newName = `${baseName} ${j}`;
   }
   const newLayer = new svgedit.draw.Layer(newName, null, svgcontent, color).getGroup();
-  const children = layer.childNodes;
-  for (let i = 0; i < children.length; i += 1) {
-    const child = children[i] as Element;
-    if (child.tagName !== 'title') {
-      const copiedElem = drawing.copyElem(child);
-      newLayer.appendChild(copiedElem);
+  if (!configOnly) {
+    const children = layer.childNodes;
+    for (let i = 0; i < children.length; i += 1) {
+      const child = children[i] as Element;
+      if (child.tagName !== 'title') {
+        const copiedElem = drawing.copyElem(child);
+        newLayer.appendChild(copiedElem);
+      }
     }
   }
   cloneLayerConfig(newName, layerName);
@@ -180,7 +186,7 @@ export const cloneLayers = (layerNames: string[]): string[] => {
   const drawing = svgCanvas.getCurrentDrawing();
   const batchCmd = new history.BatchCommand('Clone Layer(s)');
   for (let i = 0; i < layerNames.length; i += 1) {
-    const res = cloneLayer(layerNames[i], true);
+    const res = cloneLayer(layerNames[i], { isSub: true });
     if (res) {
       const { cmd, name } = res;
       batchCmd.addSubCommand(cmd);

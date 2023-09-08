@@ -1,4 +1,5 @@
 import imageData from 'helpers/image-data';
+import NS from 'app/constants/namespaces';
 import { IImageDataResult } from 'interfaces/IImage';
 
 const updateImageDisplay = (elem: SVGImageElement): Promise<void> => {
@@ -17,7 +18,7 @@ const updateImageDisplay = (elem: SVGImageElement): Promise<void> => {
         is_svg: false,
       },
       onComplete: (result: IImageDataResult) => {
-        elem.setAttribute('xlink:href', result.pngBase64);
+        elem.setAttributeNS(NS.XLINK, 'xlink:href', result.pngBase64);
         resolve();
       },
     });
