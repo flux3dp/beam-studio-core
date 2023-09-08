@@ -1,14 +1,14 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useState } from 'react';
-import { Button, Mask, Popover } from 'antd-mobile';
+import React, { memo, useContext } from 'react';
+import { Button, Popover } from 'antd-mobile';
 import { ConfigProvider, InputNumber } from 'antd';
 
-import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -23,8 +23,9 @@ function PowerBlock({
 }): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const [visible, setVisible] = useState(false);
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { activeKey, updateActiveKey } = useContext(ObjectPanelContext);
+  const visible = activeKey === 'power';
   const { power } = state;
   const handleChange = (value: number) => {
     dispatch({
@@ -86,33 +87,23 @@ function PowerBlock({
   );
 
   return type === 'panel-item' ? (
-    <>
-      <Mask
-        visible={visible}
-        onMaskClick={() => {
-          ObjectPanelController.updateActiveKey(null);
-          setVisible(false);
-        }}
-        color="transparent"
+    <Popover visible={visible} content={content}>
+      <ObjectPanelItem.Item
+        id="power"
+        content={
+          <Button
+            className={objectPanelItemStyles['number-item']}
+            shape="rounded"
+            size="mini"
+            fill="outline"
+          >
+            {power.value}
+          </Button>
+        }
+        label={t.strength}
+        onClick={() => updateActiveKey('power')}
       />
-      <Popover visible={visible} content={content}>
-        <ObjectPanelItem.Item
-          id="power"
-          content={
-            <Button
-              className={objectPanelItemStyles['number-item']}
-              shape="rounded"
-              size="mini"
-              fill="outline"
-            >
-              {power.value}
-            </Button>
-          }
-          label={t.strength}
-          onClick={() => setVisible(true)}
-        />
-      </Popover>
-    </>
+    </Popover>
   ) : (
     content
   );

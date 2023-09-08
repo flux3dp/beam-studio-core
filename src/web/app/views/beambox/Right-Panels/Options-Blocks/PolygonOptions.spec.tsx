@@ -86,7 +86,7 @@ describe('test PolygonOptions', () => {
     expect(window.polygonDecreaseSides).not.toHaveBeenCalled();
   });
 
-  test('should render correctly in mobile', async() => {
+  test('should render correctly in mobile', () => {
     useIsMobile.mockReturnValue(true)
     const { baseElement, container, getByText, rerender } = render(
       <PolygonOptions
@@ -115,7 +115,6 @@ describe('test PolygonOptions', () => {
     expect(displayBtn).toHaveTextContent('5');
     expect(objectPanelItem).not.toHaveClass('active');
     fireEvent.click(objectPanelItem);
-    await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
     expect(objectPanelItem).toHaveClass('active');
     expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
     expect(window.polygonAddSides).not.toHaveBeenCalled();

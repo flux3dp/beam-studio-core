@@ -8,6 +8,7 @@ import createNewText from 'app/svgedit/text/createNewText';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
@@ -210,7 +211,11 @@ const CanvasTabBar = (): JSX.Element => {
 
   return (
     <>
-      <div id="mobile-tab-bar" className={styles.container}>
+      <div
+        id="mobile-tab-bar"
+        className={styles.container}
+        onClick={() => ObjectPanelController.updateActiveKey(null)}
+      >
         <div style={{ width: 'fit-content' }}>
           <TabBar
             activeKey={activeKey}

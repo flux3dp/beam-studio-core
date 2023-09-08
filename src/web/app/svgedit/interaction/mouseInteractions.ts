@@ -150,6 +150,8 @@ const getEventPoint = (evt: MouseEvent | TouchEvent) => {
   return svgedit.math.transformPoint(x, y, matrix);
 };
 
+const checkShouldIgnore = () => ObjectPanelController.getActiveKey() && navigator.maxTouchPoints > 1;
+
 /**
  * Add transform for resizing operation
  * @param {Element} element svg element to init transform
@@ -176,6 +178,7 @@ let mouseSelectModeCmds;
 // - when we are in select mode, select the element, remember the position
 // and do nothing else
 const mouseDown = (evt: MouseEvent) => {
+  if (checkShouldIgnore()) return;
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
   let selectedElements = svgCanvas.getSelectedElems();
@@ -1137,6 +1140,7 @@ const mouseMove = (evt: MouseEvent) => {
 // this is done in when we recalculate the selected dimensions()
 
 const mouseUp = async (evt: MouseEvent, blocked = false) => {
+  if (checkShouldIgnore()) return;
   const started = svgCanvas.getStarted();
   const currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();

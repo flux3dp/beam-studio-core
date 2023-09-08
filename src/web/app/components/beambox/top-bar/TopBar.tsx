@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Modal, Popover } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
@@ -21,7 +22,7 @@ import fileExportHelper from 'helpers/file-export-helper';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import i18n from 'helpers/i18n';
 import Menu from 'app/components/beambox/top-bar/Menu';
-import { Modal, Popover } from 'antd';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
 import PreviewButton from 'app/components/beambox/top-bar/PreviewButton';
@@ -71,7 +72,7 @@ export default class TopBar extends React.Component<Props, State> {
       hasDiscoverdMachine: false,
       showPopoverDeviceList: false,
       showCameraDeviceList: false,
-      selectDeviceCallback: () => { },
+      selectDeviceCallback: () => {},
     };
   }
 
@@ -381,7 +382,10 @@ export default class TopBar extends React.Component<Props, State> {
     } = this.context;
     const { deviceList } = this;
     return (
-      <div className={classNames('top-bar', { white: isWhiteTopBar })}>
+      <div
+        className={classNames('top-bar', { white: isWhiteTopBar })}
+        onClick={() => ObjectPanelController.updateActiveKey(null)}
+      >
         <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
         <PreviewButton
           showCameraPreviewDeviceList={this.showCameraPreviewDeviceList}

@@ -1,5 +1,7 @@
 import Hammer from 'hammerjs';
 
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+
 const calculateTouchCenter = (touches: TouchList) => {
   const center = { x: 0, y: 0 };
   if (touches.length > 0) {
@@ -123,6 +125,7 @@ const setupCanvasTouchEvents = (
           clearTimeout(touchStartTimeout);
           onMouseDown(e);
           onMouseUp(e, isDoubleTap);
+          setTimeout(() => ObjectPanelController.updateActiveKey(null), 100);
         }
         isDoubleTap = false;
       }
