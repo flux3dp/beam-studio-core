@@ -680,6 +680,7 @@ const lang: ILang = {
           mm: {
             wood_3mm_cutting: '木材 - 3mm 切断',
             wood_5mm_cutting: '木材 - 5mm 切断',
+            wood_7mm_cutting: '木材 - 7mm 切断',
             wood_8mm_cutting: '木材 - 8mm 切断',
             wood_10mm_cutting: '木材 - 10mm 切断',
             wood_engraving: '木材 - 彫刻',
@@ -717,6 +718,7 @@ const lang: ILang = {
           inches: {
             wood_3mm_cutting: '木材 - 0.1\'\' 切断',
             wood_5mm_cutting: '木材 - 0.2\'\' 切断',
+            wood_7mm_cutting: '木材 - 0.3\'\' 切断',
             wood_8mm_cutting: '木材 - 0.3\'\' 切断',
             wood_10mm_cutting: '木材 - 0.4\'\' 切断',
             wood_engraving: '木材 - 彫刻',

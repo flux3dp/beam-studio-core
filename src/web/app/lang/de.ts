@@ -680,6 +680,7 @@ const lang: ILang = {
           mm: {
             wood_3mm_cutting: 'Holz - 3mm Schneiden',
             wood_5mm_cutting: 'Holz - 5mm Schneiden',
+            wood_7mm_cutting: 'Holz - 7mm Schneiden',
             wood_8mm_cutting: 'Holz - 8mm Schneiden',
             wood_10mm_cutting: 'Holz - 10mm Schneiden',
             wood_engraving: 'Holz - Gravur',
@@ -717,6 +718,7 @@ const lang: ILang = {
           inches: {
             wood_3mm_cutting: 'Holz - 0.1\'\' Schneiden',
             wood_5mm_cutting: 'Holz - 0.2\'\' Schneiden',
+            wood_7mm_cutting: 'Holz - 0.3\'\' Schneiden',
             wood_8mm_cutting: 'Holz - 0.3\'\' Schneiden',
             wood_10mm_cutting: 'Holz - 0.4\'\' Schneiden',
             wood_engraving: 'Holz - Gravur',

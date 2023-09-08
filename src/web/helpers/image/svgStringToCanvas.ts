@@ -13,7 +13,6 @@ const svgStringToCanvas = (
     try {
       img.onload = () => {
         ctx.drawImage(img, 0, 0, width, height);
-        URL.revokeObjectURL(svgUrl);
         resolve(tempCanvas);
       };
     } catch (error) {

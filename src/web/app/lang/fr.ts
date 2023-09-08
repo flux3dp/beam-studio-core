@@ -680,6 +680,7 @@ const lang: ILang = {
           mm: {
             wood_3mm_cutting: 'Bois - Découpe 3mm',
             wood_5mm_cutting: 'Bois - Découpe 5mm',
+            wood_7mm_cutting: 'Bois - Découpe 7mm',
             wood_8mm_cutting: 'Bois - Découpe 8mm',
             wood_10mm_cutting: 'Bois - Découpe 10mm',
             wood_engraving: 'Bois - Gravure',
@@ -717,6 +718,7 @@ const lang: ILang = {
           inches: {
             wood_3mm_cutting: 'Bois - Découpe de 0,1 pouce',
             wood_5mm_cutting: 'Bois - Découpe de 0,2 pouce',
+            wood_7mm_cutting: 'Bois - Découpe de 0,3 pouce',
             wood_8mm_cutting: 'Bois - Découpe de 0,3 pouce',
             wood_10mm_cutting: 'Bois - Découpe de 0,4 pouce',
             wood_engraving: 'Bois - Gravure',
