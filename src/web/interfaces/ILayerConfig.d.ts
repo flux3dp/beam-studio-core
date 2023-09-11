@@ -15,4 +15,5 @@ export interface ILayerConfig {
   module: IConfig<number>;
   backlash: IConfig<number>;
   multipass: IConfig<number>;
+  uv: IConfig<number>;
 }

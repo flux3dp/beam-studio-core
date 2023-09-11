@@ -58,6 +58,7 @@ import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
 import SpeedBlock from './SpeedBlock';
+import UVBlock from './UVBlock';
 import styles from './ConfigPanel.module.scss';
 
 const PARAMETERS_CONSTANT = 'parameters';
@@ -229,6 +230,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const isDevMode = isDev();
   const commonContent = (
     <>
+      {(isDevMode && module.value === LayerModule.PRINTER) && <UVBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
