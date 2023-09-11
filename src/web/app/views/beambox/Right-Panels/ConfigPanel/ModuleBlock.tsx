@@ -65,6 +65,10 @@ const ModuleBlock = (): JSX.Element => {
         layer.setAttribute('data-repeat', String(repeat || 1));
       } else {
         layer.removeAttribute('data-configName');
+        // TODO: use layer speed changed or not to decide whether to change speed
+        if (val === LayerModule.PRINTER && getData<number>(layer, DataType.speed) === 20) {
+          layer.setAttribute('data-speed', '60');
+        }
       }
       toggleFullColorLayer(layer, val === LayerModule.PRINTER);
     });
