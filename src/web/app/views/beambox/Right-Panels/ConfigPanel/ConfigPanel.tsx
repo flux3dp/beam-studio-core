@@ -64,8 +64,11 @@ import styles from './ConfigPanel.module.scss';
 const PARAMETERS_CONSTANT = 'parameters';
 
 let svgCanvas: ISVGCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
+const timeEstimationButtonEventEmitter =
+  eventEmitterFactory.createEventEmitter('time-estimation-button');
 
 interface Props {
   UIType?: 'default' | 'panel-item' | 'modal';
@@ -84,18 +87,28 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   }, [initLayers, UIType]);
   const forceUpdate = useForceUpdate();
   const lang = useI18n().beambox.right_panel.laser_panel;
-  const hiddenOptions = useMemo(() => [
-    { value: PARAMETERS_CONSTANT, key: lang.dropdown.parameters, label: lang.dropdown.parameters },
-    { value: lang.custom_preset, key: lang.custom_preset, label: lang.custom_preset },
-    { value: lang.various_preset, key: lang.various_preset, label: lang.various_preset },
-  ], [lang.dropdown.parameters, lang.custom_preset, lang.various_preset]);
+  const hiddenOptions = useMemo(
+    () => [
+      {
+        value: PARAMETERS_CONSTANT,
+        key: lang.dropdown.parameters,
+        label: lang.dropdown.parameters,
+      },
+      { value: lang.custom_preset, key: lang.custom_preset, label: lang.custom_preset },
+      { value: lang.various_preset, key: lang.various_preset, label: lang.various_preset },
+    ],
+    [lang.dropdown.parameters, lang.custom_preset, lang.various_preset]
+  );
 
   useMemo(() => updateDefaultPresetData(), []);
   const [state, dispatch] = useReducer(reducer, null, () => getDefaultState());
 
   const updateDiodeBoundary = useCallback(() => {
-    const allowDiode = constant.addonsSupportList.hybridLaser.includes(beamboxPreference.read('workarea'));
-    if (beamboxPreference.read('enable-diode') && allowDiode) diodeBoundaryDrawer.show(state.diode.value === 1);
+    const allowDiode = constant.addonsSupportList.hybridLaser.includes(
+      beamboxPreference.read('workarea')
+    );
+    if (beamboxPreference.read('enable-diode') && allowDiode)
+      diodeBoundaryDrawer.show(state.diode.value === 1);
     else diodeBoundaryDrawer.hide();
   }, [state.diode.value]);
 
@@ -111,7 +124,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const currentLayerName = drawing.getCurrentLayerName();
     const layerData = getLayerConfig(currentLayerName);
     const { speed, repeat } = state;
-    if ((speed.value !== layerData.speed.value) || (repeat.value !== layerData.repeat.value)) {
+    if (speed.value !== layerData.speed.value || repeat.value !== layerData.repeat.value) {
       timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     }
     dispatch({ type: 'update', payload: layerData });
@@ -138,20 +151,39 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   }, [selectedLayers]);
 
+  const isMobile = useIsMobile();
+
+  const parametersSet = getModulePresets(
+    beamboxPreference.read('workarea') || beamboxPreference.read('model'),
+    state.module.value
+  );
+  const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
+  const moduleCustomConfigs = customizedConfigs?.filter(
+    (c) => !c.isDefault || parametersSet[c.key]
+  );
+
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
-    const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
     // multi select
-    if (speed.hasMultiValue || power.hasMultiValue || ink.hasMultiValue || repeat.hasMultiValue || repeat.hasMultiValue
-      || diode.hasMultiValue || zStep.hasMultiValue || name.hasMultiValue) {
+    if (
+      speed.hasMultiValue ||
+      power.hasMultiValue ||
+      ink.hasMultiValue ||
+      repeat.hasMultiValue ||
+      repeat.hasMultiValue ||
+      diode.hasMultiValue ||
+      zStep.hasMultiValue ||
+      name.hasMultiValue
+    ) {
       return lang.various_preset;
     }
-    if (name.value === CUSTOM_PRESET_CONSTANT || customizedConfigs.findIndex((c) => c.name === name.value) < 0) {
+    const config = moduleCustomConfigs?.find((c) => c.name === name.value);
+    if (name.value === CUSTOM_PRESET_CONSTANT || !config) {
       return lang.custom_preset;
     }
-    if (name.value) return name.value;
+    if (name.value) return config.key ?? config.name;
     return PARAMETERS_CONSTANT;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const handleSelectPresets = (value: string) => {
@@ -159,18 +191,30 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       forceUpdate();
       return;
     }
-    const customizedConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => e.name === value);
-    if (!customizedConfigs) {
+    const selectedConfig = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => {
+      if (e.isDefault) return e.key === value;
+      return e.name === value;
+    });
+    if (!selectedConfig) {
       console.error('No such value', value);
       return;
     }
-    const { speed: dataSpeed, power, repeat, zStep, isDefault, key } = customizedConfigs;
-    const maxSpeed = constant.dimension.getMaxSpeed(beamboxPreference.read('workarea'));
-    const speed = Math.max(3, Math.min(dataSpeed, maxSpeed));
+    const { speed: dataSpeed, power, repeat, zStep, isDefault, key, name } = selectedConfig;
+    const workarea = beamboxPreference.read('workarea');
+    const maxSpeed = constant.dimension.getMaxSpeed(workarea);
+    const minSpeed = constant.dimension.getMinSpeed(workarea);
+    const speed = Math.max(minSpeed, Math.min(dataSpeed, maxSpeed));
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     dispatch({
       type: 'change',
-      payload: { speed, power, repeat: repeat || 1, zStep: zStep || 0, configName: value, selectedItem: value },
+      payload: {
+        speed,
+        power,
+        repeat: repeat || 1,
+        zStep: zStep || 0,
+        configName: name,
+        selectedItem: name,
+      },
     });
     if (UIType !== 'modal')
       selectedLayers.forEach((layerName: string) => {
@@ -178,7 +222,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         writeData(layerName, DataType.strength, power);
         writeData(layerName, DataType.repeat, repeat || 1);
         writeData(layerName, DataType.zstep, zStep || 0);
-        writeData(layerName, DataType.configName, value);
+        writeData(layerName, DataType.configName, name);
       });
 
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
@@ -193,7 +237,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const { selectedItem } = state;
   const handleOpenManageModal = () => {
-    dialogCaller.addDialogComponent('laser-manage-modal', (
+    dialogCaller.addDialogComponent(
+      'laser-manage-modal',
       <LaserManageModal
         selectedItem={selectedItem}
         onClose={() => {
@@ -202,30 +247,24 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         }}
         onSave={postPresetChange}
       />
-    ));
+    );
   };
 
-  const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
-  const parametersSet = getModulePresets(
-    beamboxPreference.read('workarea') || beamboxPreference.read('model'),
-    state.module.value
-  );
   const isCustomBacklashEnabled = beamboxPreference.read('enable-custom-backlash');
-  const unit = useMemo(() => storage.get('default-units') as string || 'mm', []);
-  const dropdownOptions = customizedConfigs
-    ? customizedConfigs
-      .filter((p) => !(p.isDefault && !parametersSet[p.key]))
-      .map((e) => ({ value: e.name, key: e.name, label: e.name }))
-    : Object
-      .keys(parametersSet)
-      .map((key) => {
+  const unit = useMemo(() => (storage.get('default-units') as string) || 'mm', []);
+  const dropdownOptions = moduleCustomConfigs
+    ? moduleCustomConfigs.map((e) => ({
+        value: e.key || e.name,
+        key: e.key || e.name,
+        label: e.name,
+      }))
+    : Object.keys(parametersSet).map((key) => {
         const val = parametersSet[key];
         const label = lang.dropdown[unit][val.name] || key;
         return { value: key, key, label };
       });
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
-
   const { module } = state;
   const isDevMode = isDev();
   const commonContent = (
