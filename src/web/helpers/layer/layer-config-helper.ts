@@ -31,6 +31,7 @@ export enum DataType {
   module = 'module', // 1: laser, 2: printer
   backlash = 'backlash',
   multipass = 'multipass',
+  UV = 'uv',
 }
 
 export const dataKey = {
@@ -45,6 +46,7 @@ export const dataKey = {
   [DataType.module]: 'module',
   [DataType.backlash]: 'backlash',
   [DataType.multipass]: 'multipass',
+  [DataType.UV]: 'uv',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -61,6 +63,7 @@ export const defaultConfig = {
   [DataType.module]: LayerModule.LASER_10W_DIODE,
   [DataType.backlash]: 0,
   [DataType.multipass]: 5,
+  [DataType.UV]: 0,
 };
 
 export const getData = <T>(layer: Element, dataType: DataType): T => {
