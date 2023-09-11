@@ -187,7 +187,7 @@ describe('test LayerList', () => {
     expect(mockOnLayerTouchStart).not.toBeCalled();
     fireEvent.touchStart(layer1Item);
     expect(mockOnLayerTouchStart).toBeCalledTimes(1);
-    expect(mockOnLayerTouchStart).toHaveBeenLastCalledWith('layer1', expect.anything());
+    expect(mockOnLayerTouchStart).toHaveBeenLastCalledWith('layer1', expect.anything(), 800);
 
     expect(mockOnLayerTouchMove).not.toBeCalled();
     fireEvent.touchMove(layer1Item);

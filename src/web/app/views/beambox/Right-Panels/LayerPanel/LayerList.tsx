@@ -135,7 +135,7 @@ const LayerList = ({
             onDragStart={(e: React.DragEvent) => onLayerDragStart(layerName, e)}
             onDragEnd={onlayerDragEnd}
             onTouchStart={(e: React.TouchEvent) => {
-              if (!isMobile) onLayerTouchStart(layerName, e);
+              onLayerTouchStart(layerName, e, isMobile ? 100 : 800);
             }}
             onTouchMove={onLayerTouchMove}
             onTouchEnd={onLayerTouchEnd}
@@ -199,7 +199,7 @@ const LayerList = ({
                 />
               </div>
               {isMobile && (
-                <div onTouchStart={(e: React.TouchEvent) => onLayerTouchStart(layerName, e, 300)}>
+                <div>
                   <ObjectPanelIcons.Move />
                 </div>
               )}
