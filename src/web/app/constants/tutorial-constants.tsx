@@ -183,7 +183,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       holePosition: { right: 15, top: calculateTop(3, TopRef.LAYER_LIST) },
       holeSize: { width: 35, height: 35 },
       hintCircle: {
-        right: 14, top: calculateTop(2, TopRef.LAYER_LIST), width: 40, height: 40,
+        right: 2, top: calculateTop(7, TopRef.LAYER_LIST), width: 30, height: 30,
       },
       text: LANG.newUser.add_new_layer,
       nextStepRequirement: nextStepRequirements.ADD_NEW_LAYER,
@@ -342,7 +342,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         arrowDirection: 'right',
       },
       hintCircle: {
-        right: 14, top: calculateTop(2, TopRef.LAYER_LIST), width: 40, height: 40,
+        right: 2, top: calculateTop(7, TopRef.LAYER_LIST), width: 30, height: 30,
       },
       text: LANG.newInterface.add_new_layer,
     },
