@@ -17,10 +17,8 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import splitColor from './splitColor';
 
 let svgCanvas: ISVGCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const layerToImage = async (layer: Element, dpi: number): Promise<Blob> => {
@@ -106,6 +104,7 @@ const splitFullColorLayer = async (
   const layerImage = await layerToImage(layer, 300);
   const layerImageUrl = URL.createObjectURL(layerImage);
   const channelBlobs = await splitColor(layerImageUrl);
+  const promises = [];
   for (let j = 0; j < newLayers.length; j += 1) {
     const newImgUrl = URL.createObjectURL(channelBlobs[j]);
     const newImage = document.createElementNS(NS.SVG, 'image') as unknown as SVGImageElement;
@@ -122,8 +121,10 @@ const splitFullColorLayer = async (
     newImage.setAttribute('data-ratiofixed', 'true');
     newImage.removeAttribute('data-fullcolor');
     newLayers[j].appendChild(newImage);
-    updateImageDisplay(newImage);
+    const promise = updateImageDisplay(newImage);
+    promises.push(promise);
   }
+  await Promise.all(promises);
 
   const cmd = deleteLayerByName(layerName);
   if (cmd) batchCmd.addSubCommand(cmd);
@@ -146,6 +147,9 @@ export const tempSplitFullColorLayers = async (): Promise<() => void> => {
     const layer = getLayerElementByName(layerName);
     if (layer.getAttribute('data-fullcolor') && layer.getAttribute('display') !== 'none') {
       const { parentNode, nextSibling } = layer;
+      const children = [...layer.childNodes] as Element[];
+      // eslint-disable-next-line no-continue
+      if (children.filter((c) => ['title', 'filter'].includes(c.tagName))) continue;
       // eslint-disable-next-line no-await-in-loop
       const res = await splitFullColorLayer(layerName, { addToHistory: false });
       if (res) {
