@@ -33,8 +33,8 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
     const m = 255 - (255 * (255 - g - k)) / (255 - k);
     const y = 255 - (255 * (255 - b - k)) / (255 - k);
     k = 255 - k;
-    const colors = [c, m, y, k];
-    for (let j = 0; j < CMYK.length; j += 1) {
+    const colors = [k, c, m, y];
+    for (let j = 0; j < colors.length; j += 1) {
       channelDatas[j][i] = colors[j];
       channelDatas[j][i + 1] = colors[j];
       channelDatas[j][i + 2] = colors[j];
@@ -42,7 +42,7 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
     }
   }
   const resultBlobs = [];
-  for (let i = 0; i < CMYK.length; i += 1) {
+  for (let i = 0; i < channelDatas.length; i += 1) {
     imageData.data.set(channelDatas[i]);
     ctx.putImageData(imageData, 0, 0);
     // eslint-disable-next-line no-await-in-loop

@@ -678,6 +678,7 @@ export interface ILang {
           mm: {
             wood_3mm_cutting: string;
             wood_5mm_cutting: string;
+            wood_7mm_cutting: string;
             wood_8mm_cutting: string;
             wood_10mm_cutting: string;
             wood_engraving: string;
@@ -715,6 +716,7 @@ export interface ILang {
           inches: {
             wood_3mm_cutting: string;
             wood_5mm_cutting: string;
+            wood_7mm_cutting: string;
             wood_8mm_cutting: string;
             wood_10mm_cutting: string;
             wood_engraving: string;
