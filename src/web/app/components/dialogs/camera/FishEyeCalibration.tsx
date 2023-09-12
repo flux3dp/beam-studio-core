@@ -7,8 +7,9 @@ import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import {
   addFisheyeCalibrateImg,
+  calculateRegressionParam,
   doFishEyeCalibration,
-  findPerspectivePoints,
+  // findPerspectivePoints,
   setFisheyeConfig,
   startFisheyeCalibrate,
 } from 'helpers/camera-calibration-helper';
@@ -60,8 +61,8 @@ const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): 
       setStep(Step.CALIBRATE);
       return;
     }
-    const { k, d, heights, points } = fisheyeParameters;
-    param.current = { ...param.current, k, d, heights, points };
+    const { k, d, heights, points, z3regParam } = fisheyeParameters;
+    param.current = { ...param.current, k, d, heights, points, z3regParam };
     setStep(Step.CUT);
   };
 
@@ -93,13 +94,19 @@ const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): 
       });
       progressCaller.popById(PROGRESS_ID);
       progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Perspective Points' });
-      const { points, heights, errors } = await findPerspectivePoints((val) => {
+      const { data, errors } = await calculateRegressionParam((val) => {
         progressCaller.update(PROGRESS_ID, {
-          message: 'Calculating Perspective Points',
+          message: 'Calculating Points Regression Parameters',
           percentage: Math.round(100 * val),
         });
       });
-      param.current = { ...param.current, k, d, heights, points };
+      // const { points, heights, errors } = await findPerspectivePoints((val) => {
+      //   progressCaller.update(PROGRESS_ID, {
+      //     message: 'Calculating Perspective Points',
+      //     percentage: Math.round(100 * val),
+      //   });
+      // });
+      param.current = { ...param.current, k, d, z3regParam: data };
       setStep(Step.CUT);
       if (errors.length > 0) {
         console.log(errors);

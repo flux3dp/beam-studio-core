@@ -95,12 +95,13 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
     const startHeight = -19;
     const endHeight = 32;
     const total = endHeight - startHeight + 1;
-    progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: `下載圖片中 0 / ${total}`, percentage: 0 });
+    const step = parseInt(window?.localStorage.getItem('fisheye-cali-step'), 10) ?? 5;
+    progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: '下載圖片中', percentage: 0 });
     try {
-      for (let height = startHeight; height <= endHeight; height += 1) {
+      for (let height = startHeight; height <= endHeight; height += step) {
         const heightStr = height.toFixed(1);
         progressCaller.update(PROGRESS_ID, {
-          message: `下載圖片中 ${height - startHeight + 1} / ${total}`,
+          message: '下載圖片中',
           percentage: Math.round(100 * ((height - startHeight + 1) / total)),
         });
         const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
