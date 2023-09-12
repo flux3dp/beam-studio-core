@@ -62,7 +62,7 @@ export const defaultConfig = {
   [DataType.configName]: '',
   [DataType.module]: LayerModule.LASER_10W_DIODE,
   [DataType.backlash]: 0,
-  [DataType.multipass]: 5,
+  [DataType.multipass]: 3,
   [DataType.UV]: 0,
 };
 
