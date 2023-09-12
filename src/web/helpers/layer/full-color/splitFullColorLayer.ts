@@ -149,7 +149,7 @@ export const tempSplitFullColorLayers = async (): Promise<() => void> => {
       const { parentNode, nextSibling } = layer;
       const children = [...layer.childNodes] as Element[];
       // eslint-disable-next-line no-continue
-      if (children.filter((c) => ['title', 'filter'].includes(c.tagName))) continue;
+      if (children.filter((c) => !['title', 'filter'].includes(c.tagName)).length === 0) continue;
       // eslint-disable-next-line no-await-in-loop
       const res = await splitFullColorLayer(layerName, { addToHistory: false });
       if (res) {
