@@ -39,9 +39,9 @@ svgEditor.addExtension('view_grid', function() { 'use strict';
 		'overflow': 'visible',
 		'display': 'none'
 	});
-	const rotaryAxis = svgedit.utilities.getElem('rotaryAxis');
-	if (rotaryAxis) {
-		canvBG.insertBefore(canvasGrid, rotaryAxis);
+	const fixedSizeSvg = svgedit.utilities.getElem('fixedSizeSvg');
+	if (fixedSizeSvg) {
+		canvBG.insertBefore(canvasGrid, fixedSizeSvg);
 	} else {
 		canvBG.appendChild(canvasGrid);
 	}

@@ -6616,9 +6616,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           'preserveAspectRatio': 'xMinYMin',
           'style': 'pointer-events:none; opacity: 1;',
         });
-        const rotaryAxis = svgedit.utilities.getElem('rotaryAxis');
-        if (rotaryAxis) {
-          bg.insertBefore(bg_img, rotaryAxis);
+        const fixedSizeSvg = svgedit.utilities.getElem('fixedSizeSvg');
+        if (fixedSizeSvg) {
+          bg.insertBefore(bg_img, fixedSizeSvg);
         } else {
           bg.appendChild(bg_img);
         }
