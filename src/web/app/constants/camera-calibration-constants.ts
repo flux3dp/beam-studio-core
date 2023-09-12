@@ -46,4 +46,5 @@ export interface FisheyeCameraParameters {
   heights: number[];
   points: [number, number][][][];
   center: [number, number];
+  z3regParam: number[][][][]; // [i][j][k][l] i: row, j: column, k: x/y, l: 3/2/1/0 th order
 }

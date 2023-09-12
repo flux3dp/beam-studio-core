@@ -7,7 +7,7 @@ import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
-import { interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
+import { getPerspectivePointsZ3Regression, interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
 
 import styles from './Align.module.scss';
 
@@ -50,13 +50,18 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
         } finally {
           if (enteredRawMode) await deviceMaster.endRawMode();
         }
-        const { k, d, points, heights } = fisheyeParam;
+        const { k, d, z3regParam, heights, points } = fisheyeParam;
         console.log('Use Height: ', height);
-        let perspectivePoints = points[0];
-        if (height !== null && !Number.isNaN(height)) {
-          perspectivePoints = interpolatePointsFromHeight(height, heights, points);
+        if (heights && points) {
+          let perspectivePoints = points[0];
+          if (height !== null && !Number.isNaN(height)) {
+            perspectivePoints = interpolatePointsFromHeight(height, heights, points);
+          }
+          await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
+        } else if (z3regParam) {
+          const perspectivePoints = getPerspectivePointsZ3Regression(height, z3regParam);
+          await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
         }
-        await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
         handleTakePicture();
       });
     return () => deviceMaster.disconnectCamera();

@@ -161,11 +161,15 @@ export const findPerspectivePoints = (
   heights: number[];
   errors: { height: number; err: string }[];
 }> => api.findPerspectivePoints(onProgress);
+export const calculateRegressionParam = (
+  onProgress?: (val: number) => void
+): Promise<{ data: number[][][][]; errors: { height: number; err: string }[] }> =>
+  api.calculateRegressionParam(onProgress);
 
 export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<void> => {
   const strData = JSON.stringify(data, (key, val) => {
     if (typeof val === 'number') {
-      return Math.round(val * 1e3) / 1e3;
+      return Math.round(val * 1e6) / 1e6;
     }
     return val;
   });
@@ -269,7 +273,7 @@ const getHeightOffsetFromLevelingRegion = (
   x: number,
   y: number,
   workarea: number[],
-  levelingOffsets: { [key: string]: number },
+  levelingOffsets: { [key: string]: number }
 ) => {
   let xIndex = 0;
   if (x > workarea[0] * (2 / 3)) xIndex = 2;
@@ -302,7 +306,6 @@ export const interpolatePointsFromHeight = (
   points: [number, number][][][],
   heightCompenstationDetail?: {
     chessboard: number[]; // dimension of chessboard, [x, y] in pixel
-    position: number[]; // position of height measurement, [x, y] in mm
     workarea: number[];
     levelingOffsets: { [key: string]: number };
     center: number[]; // center in pixel
@@ -313,22 +316,20 @@ export const interpolatePointsFromHeight = (
 
   const heightIndexDict: { [height: number]: number } = {};
   const result = JSON.parse(JSON.stringify(points[0])) as [number, number][][];
-  let realHeight = height;
   let pointPositions: number[][][];
   if (heightCompenstationDetail) {
-    const { chessboard, position, workarea, levelingOffsets, center } = heightCompenstationDetail;
+    const { chessboard, workarea, center } = heightCompenstationDetail;
     pointPositions = getRealPositionOfSplitIndices(
       [points[0].length - 1, points[0][0].length - 1],
       chessboard,
       workarea,
       center
     );
-    realHeight -= getHeightOffsetFromLevelingRegion(position[0], position[1], workarea, levelingOffsets);
   }
 
   for (let i = 0; i < result.length; i += 1) {
     for (let j = 0; j < result[i].length; j += 1) {
-      let h = realHeight;
+      let h = height;
       if (heightCompenstationDetail) {
         const { workarea, levelingOffsets } = heightCompenstationDetail;
         h += getHeightOffsetFromLevelingRegion(
@@ -349,6 +350,56 @@ export const interpolatePointsFromHeight = (
         points[index + 1][i][j] as number[],
         h
       ) as [number, number];
+    }
+  }
+  return result;
+};
+
+export const getPerspectivePointsZ3Regression = (
+  height: number,
+  regParam: number[][][][],
+  heightCompenstationDetail?: {
+    chessboard: number[]; // dimension of chessboard, [x, y] in pixel
+    workarea: number[];
+    levelingOffsets: { [key: string]: number };
+    center: number[]; // center in pixel
+  }
+): [number, number][][] => {
+  let pointPositions: number[][][];
+  if (heightCompenstationDetail) {
+    const { chessboard, workarea, center } = heightCompenstationDetail;
+    pointPositions = getRealPositionOfSplitIndices(
+      [regParam.length - 1, regParam[0].length - 1],
+      chessboard,
+      workarea,
+      center
+    );
+  }
+  const result: [number, number][][] = [];
+  for (let i = 0; i < regParam.length; i += 1) {
+    result.push([]);
+    for (let j = 0; j < regParam[0].length; j += 1) {
+      let h = height;
+      if (heightCompenstationDetail) {
+        const { workarea, levelingOffsets } = heightCompenstationDetail;
+        h += getHeightOffsetFromLevelingRegion(
+          pointPositions[i][j][0],
+          pointPositions[i][j][1],
+          workarea,
+          levelingOffsets
+        );
+      }
+      const x =
+        regParam[i][j][0][0] * h ** 3 +
+        regParam[i][j][0][1] * h ** 2 +
+        regParam[i][j][0][2] * h +
+        regParam[i][j][0][3];
+      const y =
+        regParam[i][j][1][0] * h ** 3 +
+        regParam[i][j][1][1] * h ** 2 +
+        regParam[i][j][1][2] * h +
+        regParam[i][j][1][3];
+      result[i].push([x, y]);
     }
   }
   return result;
