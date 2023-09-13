@@ -27,6 +27,13 @@ exports[`should render correctly 1`] = `
   />
   <DrawingToolButton
     className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
     iconName="rect"
     id="left-Rectangle"
     onClick={[Function]}
@@ -94,6 +101,13 @@ exports[`should render correctly 2`] = `
     id="left-Text"
     onClick={[Function]}
     title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -167,6 +181,13 @@ exports[`should render correctly 3`] = `
   />
   <DrawingToolButton
     className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
     iconName="rect"
     id="left-Rectangle"
     onClick={[Function]}
@@ -234,6 +255,13 @@ exports[`should render correctly 4`] = `
     id="left-Text"
     onClick={[Function]}
     title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
   />
   <DrawingToolButton
     className="tool-btn active"
@@ -307,6 +335,13 @@ exports[`should render correctly 5`] = `
   />
   <DrawingToolButton
     className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
     iconName="rect"
     id="left-Rectangle"
     onClick={[Function]}
@@ -374,6 +409,13 @@ exports[`should render correctly 6`] = `
     id="left-Text"
     onClick={[Function]}
     title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -447,6 +489,13 @@ exports[`should render correctly 7`] = `
   />
   <DrawingToolButton
     className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
     iconName="rect"
     id="left-Rectangle"
     onClick={[Function]}
@@ -516,6 +565,13 @@ exports[`should render correctly 8`] = `
     title="Text (T)"
   />
   <DrawingToolButton
+    className="tool-btn active"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
+  />
+  <DrawingToolButton
     className="tool-btn"
     iconName="rect"
     id="left-Rectangle"
@@ -544,7 +600,7 @@ exports[`should render correctly 8`] = `
     title="Line (\\)"
   />
   <DrawingToolButton
-    className="tool-btn active"
+    className="tool-btn"
     iconName="draw"
     id="left-Pen"
     onClick={[Function]}
@@ -565,6 +621,83 @@ exports[`should render correctly 9`] = `
   className="flux"
 >
   <DrawingToolButton
+    className="tool-btn"
+    iconName="cursor"
+    id="left-Cursor"
+    onClick={[Function]}
+    title="Select (V)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="photo"
+    id="left-Photo"
+    onClick={[Function]}
+    title="Image (I)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="text"
+    id="left-Text"
+    onClick={[Function]}
+    title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="rect"
+    id="left-Rectangle"
+    onClick={[Function]}
+    title="Rectangle (M)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="oval"
+    id="left-Ellipse"
+    onClick={[Function]}
+    title="Oval (L)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="polygon"
+    id="left-Polygon"
+    onClick={[Function]}
+    title="Polygon"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="line"
+    id="left-Line"
+    onClick={[Function]}
+    title="Line (\\)"
+  />
+  <DrawingToolButton
+    className="tool-btn active"
+    iconName="draw"
+    id="left-Pen"
+    onClick={[Function]}
+    title="Pen (P)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="dm"
+    id="left-DM"
+    onClick={[Function]}
+    title="Design Market"
+  />
+</div>
+`;
+
+exports[`should render correctly 10`] = `
+<div
+  className="flux"
+>
+  <DrawingToolButton
     className="tool-btn active"
     iconName="cursor"
     id="left-Cursor"
@@ -584,6 +717,13 @@ exports[`should render correctly 9`] = `
     id="left-Text"
     onClick={[Function]}
     title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
   />
   <DrawingToolButton
     className="tool-btn"
@@ -630,7 +770,7 @@ exports[`should render correctly 9`] = `
 </div>
 `;
 
-exports[`should render correctly 10`] = `
+exports[`should render correctly 11`] = `
 <div
   className="flux"
 >
@@ -654,6 +794,13 @@ exports[`should render correctly 10`] = `
     id="left-Text"
     onClick={[Function]}
     title="Text (T)"
+  />
+  <DrawingToolButton
+    className="tool-btn"
+    iconName="element"
+    id="left-Element"
+    onClick={[Function]}
+    title="Elements (E)"
   />
   <DrawingToolButton
     className="tool-btn"

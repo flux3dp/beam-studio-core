@@ -102,12 +102,12 @@ const NEW_USER_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(157, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(198, TopRef.TOPBAR) },
       },
-      holePosition: { left: 7, top: calculateTop(147, TopRef.TOPBAR) },
+      holePosition: { left: 7, top: calculateTop(188, TopRef.TOPBAR) },
       holeSize: { width: 36, height: 36 },
       hintCircle: {
-        left: 5, top: calculateTop(138, TopRef.TOPBAR), width: 40, height: 40,
+        left: 5, top: calculateTop(181, TopRef.TOPBAR), width: 40, height: 40,
       },
       text: LANG.newUser.draw_a_rect,
       nextStepRequirement: nextStepRequirements.SELECT_RECT,
@@ -190,12 +190,12 @@ const NEW_USER_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(198, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(239, TopRef.TOPBAR) },
       },
-      holePosition: { left: 7, top: calculateTop(188, TopRef.TOPBAR) },
+      holePosition: { left: 7, top: calculateTop(229, TopRef.TOPBAR) },
       holeSize: { width: 36, height: 36 },
       hintCircle: {
-        left: 5, top: calculateTop(181, TopRef.TOPBAR), width: 40, height: 40,
+        left: 5, top: calculateTop(224, TopRef.TOPBAR), width: 40, height: 40,
       },
       text: LANG.newUser.draw_a_circle,
       nextStepRequirement: nextStepRequirements.SELECT_CIRCLE,
@@ -323,7 +323,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         position: { left: 56, top: calculateTop(175, TopRef.TOPBAR) },
       },
       hintCircle: {
-        left: 5, top: calculateTop(135, TopRef.TOPBAR), width: 40, height: 180,
+        left: 5, top: calculateTop(135, TopRef.TOPBAR), width: 40, height: 220,
       },
       text: LANG.newInterface.basic_shapes,
     },
@@ -332,7 +332,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         position: { left: 56, top: calculateTop(330, TopRef.TOPBAR) },
       },
       hintCircle: {
-        left: 5, top: calculateTop(310, TopRef.TOPBAR), width: 40, height: 40,
+        left: 5, top: calculateTop(352, TopRef.TOPBAR), width: 40, height: 40,
       },
       text: LANG.newInterface.pen_tool,
     },

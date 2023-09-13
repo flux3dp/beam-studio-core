@@ -27,6 +27,11 @@ jest.mock('implementations/browser', () => ({
   open: mockOpen,
 }));
 
+const showShapePanel = jest.fn();
+jest.mock('app/actions/dialog-caller', () => ({
+  showShapePanel: (...args) => showShapePanel(...args),
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     beambox: {
@@ -40,6 +45,7 @@ jest.mock('helpers/i18n', () => ({
           oval: 'Oval',
           polygon: 'Polygon',
           pen: 'Pen',
+          shapes: 'Elements',
         },
       },
     },
@@ -86,6 +92,10 @@ test('should render correctly', () => {
   wrapper.find('#left-Line').simulate('click');
   expect(toJson(wrapper)).toMatchSnapshot();
   expect(mockInsertLine).toHaveBeenCalledTimes(1);
+
+  wrapper.find('#left-Element').simulate('click');
+  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(showShapePanel).toHaveBeenCalledTimes(1);
 
   wrapper.find('#left-Pen').simulate('click');
   expect(toJson(wrapper)).toMatchSnapshot();

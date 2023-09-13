@@ -20,6 +20,7 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import Prompt from 'app/views/dialogs/Prompt';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
+import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
 import { eventEmitter } from 'app/contexts/DialogContext';
@@ -360,5 +361,17 @@ export default {
       <div className="loading-background">
         <div className="spinner-roller absolute-center" />
       </div>);
+  },
+  showShapePanel: (onClose: () => void): void => {
+    if (isIdExist('shape-panel')) return;
+    addDialogComponent(
+      'shape-panel',
+      <ShapePanel
+        onClose={() => {
+          onClose();
+          popDialogById('shape-panel');
+        }}
+      />
+    );
   },
 };
