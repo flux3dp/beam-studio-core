@@ -5,6 +5,7 @@ import { ConfigProvider, InputNumber } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
@@ -97,7 +98,11 @@ const SpeedBlock = ({
       )}
       <input
         id="speed_value"
-        className={classNames({ [styles['speed-for-vector']]: hasVector })}
+        className={classNames({
+          [styles['speed-for-vector']]:
+            // when type is modal, this component is called without LayerPanelContext
+            type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector,
+        })}
         type="range"
         min={minValue}
         max={maxValue}

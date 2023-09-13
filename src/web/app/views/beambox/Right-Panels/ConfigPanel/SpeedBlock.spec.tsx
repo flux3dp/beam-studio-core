@@ -86,6 +86,8 @@ jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelContext', () => ({
   }),
 }));
 
+jest.mock('helpers/layer/check-vector', () => jest.fn());
+
 describe('test SpeedBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
