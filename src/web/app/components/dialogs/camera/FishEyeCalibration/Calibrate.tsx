@@ -96,10 +96,13 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
     const endHeight = 32;
     const total = endHeight - startHeight + 1;
     let step = parseInt(window?.localStorage.getItem('fisheye-cali-step'), 10);
-    if (Number.isNaN(step) || step < 1) step = 4;
+    step = Number.isNaN(step) ? 4 : step;
+
     progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: '下載圖片中', percentage: 0 });
     try {
-      for (let height = startHeight; height <= endHeight; height += step) {
+      for (let height = startHeight; height <= endHeight; height += 1) {
+        // eslint-disable-next-line no-continue
+        if (height !== startHeight && (endHeight - height) % step !== 0) continue;
         const heightStr = height.toFixed(1);
         progressCaller.update(PROGRESS_ID, {
           message: '下載圖片中',
