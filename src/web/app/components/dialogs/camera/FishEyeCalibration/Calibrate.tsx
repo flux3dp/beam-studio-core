@@ -95,7 +95,8 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
     const startHeight = -19;
     const endHeight = 32;
     const total = endHeight - startHeight + 1;
-    const step = parseInt(window?.localStorage.getItem('fisheye-cali-step'), 10) ?? 5;
+    let step = parseInt(window?.localStorage.getItem('fisheye-cali-step'), 10);
+    if (Number.isNaN(step) || step < 1) step = 4;
     progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: '下載圖片中', percentage: 0 });
     try {
       for (let height = startHeight; height <= endHeight; height += step) {
