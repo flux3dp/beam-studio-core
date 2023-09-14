@@ -541,6 +541,7 @@ const lang: ILang = {
         dont_show_again: '다시 표시하지 마세요.',
       },
       ai_credit: {
+        relogin_to_use: '이 기능을 사용하려면 다시 로그인하세요.',
         insufficient_credit: '크레딧이 부족합니다',
         insufficient_credit_msg: '%s 사용할 수 없습니다. 회원센터로 이동하여 AI 크레딧을 구매하세요.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',

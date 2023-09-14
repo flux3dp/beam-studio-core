@@ -541,6 +541,7 @@ const lang: ILang = {
         dont_show_again: 'Laat dit niet meer zien',
       },
       ai_credit: {
+        relogin_to_use: 'Gelieve opnieuw in te loggen om deze functie te gebruiken.',
         insufficient_credit: 'Je hebt geen krediet meer',
         insufficient_credit_msg: 'U kunt %s niet gebruiken. Ga naar het ledencentrum en koop AI Credit.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',

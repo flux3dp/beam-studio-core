@@ -169,21 +169,6 @@ export default {
         onClose={() => popDialogById('noun-project')}
       />);
   },
-  showBackgroundRemovalPanel: (
-    originalUrl: string, resultUrl: string, onApply: (url?: string) => void, onCancel: () => void,
-  ): void => {
-    if (isIdExist('background-removal')) return;
-    addDialogComponent(
-      'background-removal',
-      <BackgroundRemovalPanel
-        originalUrl={originalUrl}
-        resultUrl={resultUrl}
-        onApply={onApply}
-        onCancel={onCancel}
-        onClose={() => popDialogById('background-removal')}
-      />
-    );
-  },
   showCropPanel: (): void => {
     if (isIdExist('image-crop')) return;
     const selectedElements = svgCanvas.getSelectedElems();

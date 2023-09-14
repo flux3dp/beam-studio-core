@@ -541,6 +541,7 @@ const lang: ILang = {
         dont_show_again: '不要再提醒我',
       },
       ai_credit: {
+        relogin_to_use: '请重新登录以使用此功能。',
         insufficient_credit: '您的 Credit 已用完',
         insufficient_credit_msg: '您无法使用%s，请前往会员中心充值 AI Credit。',
         buy_link: 'https://member.flux3dp.com/zh-TW/credit',

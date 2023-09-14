@@ -541,6 +541,7 @@ const lang: ILang = {
         dont_show_again: 'Nicht mehr anzeigen',
       },
       ai_credit: {
+        relogin_to_use: 'Bitte erneut einloggen, um diese Funktion zu verwenden.',
         insufficient_credit: 'Du hast kein Guthaben mehr',
         insufficient_credit_msg: 'Sie können %s nicht verwenden. Gehen Sie zum Mitgliedercenter und kaufen Sie AI Credit.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',

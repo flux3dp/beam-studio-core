@@ -538,6 +538,7 @@ export interface ILang {
         dont_show_again: string;
       },
       ai_credit: {
+        relogin_to_use: string;
         insufficient_credit: string;
         insufficient_credit_msg: string;
         buy_link: string;
