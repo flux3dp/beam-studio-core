@@ -23,7 +23,7 @@ import {
   FisheyeCameraParameters,
 } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
+import { getPerspectivePointsZ3Regression, interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
 
 const { $ } = window;
 const LANG = i18n.lang;
@@ -174,22 +174,30 @@ class PreviewModeController {
   };
 
   setFishEyeObjectHeight = async (height: number) => {
-    const { k, d, heights, center, points } = this.fisheyeParameters;
+    const { k, d, heights, center, points, z3regParam } = this.fisheyeParameters;
     const device = this.currentDevice;
     const workarea = [
       deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
       deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
     ];
     console.log('Use Height: ', height);
-    let perspectivePoints = points[0];
-    perspectivePoints = interpolatePointsFromHeight(height ?? 0, heights, points, {
-      chessboard: [48, 36],
-      workarea,
-      // TODO: get focus position from machine
-      position: [0, 0],
-      center,
-      levelingOffsets: this.autoLevelingData,
-    });
+    let perspectivePoints: [number, number][][];
+    if (points && heights) {
+      [perspectivePoints] = points;
+      perspectivePoints = interpolatePointsFromHeight(height ?? 0, heights, points, {
+        chessboard: [48, 36],
+        workarea,
+        center,
+        levelingOffsets: this.autoLevelingData,
+      });
+    } else if (z3regParam) {
+      perspectivePoints = getPerspectivePointsZ3Regression(height ?? 0, z3regParam, {
+        chessboard: [48, 36],
+        workarea,
+        center,
+        levelingOffsets: this.autoLevelingData,
+      });
+    }
     await deviceMaster.setFisheyeMatrix({ k, d, center, points: perspectivePoints }, true);
   };
 
