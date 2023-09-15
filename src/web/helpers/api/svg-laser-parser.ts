@@ -97,18 +97,18 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let blob;
 
       const isDevMode = isDev();
+      const paddingAccel = BeamboxPreference.read('padding_accel');
+      // Not real acceleration, just for calculating padding distance
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
-        if (!isDevMode) args.push('-acc', '7500');
+        if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
-      else if (opts.model === 'ado1') args.push('-ado1');
-
-      if (isDevMode) {
-        const accel = BeamboxPreference.read('padding_accel') || 7500;
-        args.push('-acc', accel);
+      else if (opts.model === 'ado1') {
+        args.push('-ado1');
+        if (!isDevMode || !paddingAccel) args.push('-acc', '3800');
       }
-
+      if (isDevMode && paddingAccel) args.push('-acc', paddingAccel);
       if (opts.codeType === 'gcode') args.push('-gc');
 
       const rotaryMode = BeamboxPreference.read('rotary_mode');
