@@ -146,9 +146,9 @@ const GoButton = (props: Props): JSX.Element => {
   };
 
   const exportTask = (device: IDeviceInfo) => {
-    if (device.version === '4.1.1') {
+    const showForceUpdateAlert = (id: string) => {
       Alert.popUp({
-        id: '4.1.1-version-alert',
+        id,
         message: lang.update.firmware.force_update_message,
         type: AlertConstants.SHOW_POPUP_ERROR,
         buttonType: AlertConstants.CUSTOM_CANCEL,
@@ -158,9 +158,23 @@ const GoButton = (props: Props): JSX.Element => {
         },
         onCancel: () => {},
       });
+    }
+    const { version, model } = device;
+    if (version === '4.1.1' && model !== 'fhexa1') {
+      showForceUpdateAlert('4.1.1-version-alert');
       return;
     }
-    const vc = VersionChecker(device.version);
+    // Check 4.1.5 / 4.1.6 rotary
+    if (
+      BeamboxPreference.read('rotary_mode') &&
+      ['4.1.5', '4.1.6'].includes(version) &&
+      model !== 'fhex1'
+    ) {
+      showForceUpdateAlert('4.1.5,6-rotary-alert');
+      return;
+    }
+
+    const vc = VersionChecker(version);
     if (!vc.meetRequirement('USABLE_VERSION')) {
       Alert.popUp({
         id: 'fatal-occurred',
@@ -170,7 +184,7 @@ const GoButton = (props: Props): JSX.Element => {
       return;
     }
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    const allowedWorkareas = Constant.allowedWorkarea[device.model];
+    const allowedWorkareas = Constant.allowedWorkarea[model];
     if (currentWorkarea && allowedWorkareas) {
       if (!allowedWorkareas.includes(currentWorkarea)) {
         Alert.popUp({
