@@ -26,7 +26,11 @@ const layerToImage = async (
   dpi: number
 ): Promise<{ blob: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
   const bbox = layer.getBBox();
-  const { x, y, width, height } = bbox;
+  let { x, y, width, height } = bbox;
+  if (x < 0) x = 0;
+  if (y < 0) y = 0;
+  if (x + width > svgCanvas.contentW) width = svgCanvas.contentW - x;
+  if (y + height > svgCanvas.contentH) height = svgCanvas.contentH - y;
   const layerClone = layer.cloneNode(true) as SVGGElement;
   const targetWidth = Math.round((width * dpi) / (25.4 * constant.dpmm));
   const targetHeight = Math.round((height * dpi) / (25.4 * constant.dpmm));
@@ -45,7 +49,7 @@ const layerToImage = async (
   console.log(canvas.toDataURL('image/png'));
   return new Promise((resolve) => {
     canvas.toBlob((b) => {
-      resolve({ blob: b, bbox });
+      resolve({ blob: b, bbox: { x, y, width, height } });
     });
   });
 };
