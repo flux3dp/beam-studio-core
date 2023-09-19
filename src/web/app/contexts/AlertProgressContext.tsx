@@ -204,6 +204,9 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
       case AlertConstants.SHOW_POPUP_ERROR:
         caption = caption || LANG.error;
         break;
+      case AlertConstants.SHOW_POPUP_INSTRUCTION:
+        caption = caption || LANG.instruction;
+        break;
       default:
         break;
     }
