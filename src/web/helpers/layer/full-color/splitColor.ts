@@ -29,9 +29,9 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
     const b = data[i + 2];
     const a = data[i + 3];
     let k = 255 - Math.max(r, g, b);
-    const c = 255 - (255 * (255 - r - k)) / (255 - k);
-    const m = 255 - (255 * (255 - g - k)) / (255 - k);
-    const y = 255 - (255 * (255 - b - k)) / (255 - k);
+    const c = k !== 255 ? 255 - (255 * (255 - r - k)) / (255 - k) : 0;
+    const m = k !== 255 ? 255 - (255 * (255 - g - k)) / (255 - k) : 0;
+    const y = k !== 255 ? 255 - (255 * (255 - b - k)) / (255 - k) : 0;
     k = 255 - k;
     const colors = [k, c, m, y];
     for (let j = 0; j < colors.length; j += 1) {
