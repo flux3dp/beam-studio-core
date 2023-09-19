@@ -27,8 +27,14 @@ const layerToImage = async (
 ): Promise<{ blob: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
   const bbox = layer.getBBox();
   let { x, y, width, height } = bbox;
-  if (x < 0) x = 0;
-  if (y < 0) y = 0;
+  if (x < 0) {
+    width += x;
+    x = 0;
+  }
+  if (y < 0) {
+    height += y;
+    y = 0;
+  }
   if (x + width > svgCanvas.contentW) width = svgCanvas.contentW - x;
   if (y + height > svgCanvas.contentH) height = svgCanvas.contentH - y;
   const layerClone = layer.cloneNode(true) as SVGGElement;
@@ -89,26 +95,6 @@ const splitFullColorLayer = async (
       newLayers.push(elem);
     }
   }
-
-  // const children = [...layer.childNodes];
-  // for (let i = 0; i < children.length; i += 1) {
-  //   const child = children[i] as Element;
-  //   if (child.tagName === 'image') {
-  //     // eslint-disable-next-line no-await-in-loop
-  //     const channelBlobs = await splitColor(child.getAttribute('origImage'));
-  //     for (let j = 0; j < newLayers.length; j += 1) {
-  //       const newImgUrl = URL.createObjectURL(channelBlobs[j]);
-  //       const newImage = child.cloneNode(true) as SVGImageElement;
-  //       newImage.setAttribute('id', svgCanvas.getNextId());
-  //       newImage.setAttribute('origImage', newImgUrl);
-  //       newImage.setAttribute('data-threshold', '254');
-  //       newImage.setAttribute('data-shading', 'true');
-  //       newImage.removeAttribute('data-fullcolor');
-  //       newLayers[j].appendChild(newImage);
-  //       updateImageDisplay(newImage);
-  //     }
-  //   }
-  // }
 
   const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
   const layerImageUrl = URL.createObjectURL(blob);
