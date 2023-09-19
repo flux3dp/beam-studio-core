@@ -21,17 +21,20 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const layerToImage = async (layer: Element, dpi: number): Promise<Blob> => {
-  const layerClone = layer.cloneNode(true) as Element;
-  const width = svgCanvas.contentW;
-  const height = svgCanvas.contentH;
+const layerToImage = async (
+  layer: SVGGElement,
+  dpi: number
+): Promise<{ blob: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
+  const bbox = layer.getBBox();
+  const { x, y, width, height } = bbox;
+  const layerClone = layer.cloneNode(true) as SVGGElement;
   const targetWidth = Math.round((width * dpi) / (25.4 * constant.dpmm));
   const targetHeight = Math.round((height * dpi) / (25.4 * constant.dpmm));
   const svgString = `
     <svg
       width="${width}"
       height="${height}"
-      viewBox="0 0 ${width} ${height}"
+      viewBox="${x} ${y} ${width} ${height}"
       xmlns:svg="http://www.w3.org/2000/svg"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -41,7 +44,9 @@ const layerToImage = async (layer: Element, dpi: number): Promise<Blob> => {
   const canvas = await svgStringToCanvas(svgString, targetWidth, targetHeight);
   console.log(canvas.toDataURL('image/png'));
   return new Promise((resolve) => {
-    canvas.toBlob((b) => resolve(b));
+    canvas.toBlob((b) => {
+      resolve({ blob: b, bbox });
+    });
   });
 };
 
@@ -101,17 +106,17 @@ const splitFullColorLayer = async (
   //   }
   // }
 
-  const layerImage = await layerToImage(layer, 300);
-  const layerImageUrl = URL.createObjectURL(layerImage);
+  const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
+  const layerImageUrl = URL.createObjectURL(blob);
   const channelBlobs = await splitColor(layerImageUrl);
   const promises = [];
   for (let j = 0; j < newLayers.length; j += 1) {
     const newImgUrl = URL.createObjectURL(channelBlobs[j]);
     const newImage = document.createElementNS(NS.SVG, 'image') as unknown as SVGImageElement;
-    newImage.setAttribute('x', '0');
-    newImage.setAttribute('y', '0');
-    newImage.setAttribute('width', svgCanvas.contentW.toString());
-    newImage.setAttribute('height', svgCanvas.contentH.toString());
+    newImage.setAttribute('x', bbox.x.toString());
+    newImage.setAttribute('y', bbox.y.toString());
+    newImage.setAttribute('width', bbox.width.toString());
+    newImage.setAttribute('height', bbox.height.toString());
     newImage.setAttribute('id', svgCanvas.getNextId());
     newImage.setAttribute('style', 'pointer-events:inherit');
     newImage.setAttribute('preserveAspectRatio', 'none');
