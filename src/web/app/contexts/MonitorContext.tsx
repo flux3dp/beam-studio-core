@@ -56,11 +56,12 @@ const {
   ABORTED,
   ALARM,
   FATAL,
+  COMPLETED,
 } = DeviceConstants.status;
 
 interface Props {
   mode: Mode;
-  previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string };
+  previewTask?: { fcodeBlob: Blob; taskImageURL: string; taskTime: number; fileName: string };
   device: IDeviceInfo;
   children?: React.ReactNode;
   onClose: () => void;
@@ -74,29 +75,29 @@ interface State {
     name?: string;
   };
   fileInfo: any[];
-  previewTask: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string };
-  workingTask: any,
+  previewTask: { fcodeBlob: Blob; taskImageURL: string; taskTime: number; fileName: string };
+  workingTask: any;
   taskImageURL: string | null;
   taskTime: number | null;
   report: IReport;
   uploadProgress: number | null;
-  downloadProgress: { left: number, size: number } | null;
+  downloadProgress: { left: number; size: number } | null;
   shouldUpdateFileList: boolean;
-  currentPosition: { x: number, y: number };
-  relocateOrigin: { x: number, y: number };
+  currentPosition: { x: number; y: number };
+  relocateOrigin: { x: number; y: number };
   cameraOffset?: {
-    x: number,
-    y: number,
-    angle: number,
-    scaleRatioX: number,
-    scaleRatioY: number,
+    x: number;
+    y: number;
+    angle: number;
+    scaleRatioX: number;
+    scaleRatioY: number;
   };
   isMaintainMoving?: boolean;
 }
 
 interface Context extends State {
   onClose: () => void;
-  onHighlightItem: (item: { name: string, type: ItemType }) => void;
+  onHighlightItem: (item: { name: string; type: ItemType }) => void;
   onSelectFolder: (folderName: string, absolute?: boolean) => void;
   onSelectFile: (fileName: string, fileInfo: any) => Promise<void>;
   uploadFile: (file: File) => Promise<void>;
@@ -205,25 +206,26 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           this.startReport();
         } else {
           const { onClose } = this.props;
-          const askRetryReconnect = () => new Promise<boolean>((resolve) => {
-            Alert.popUp({
-              id: 'monitor-reconnect',
-              type: AlertConstants.SHOW_POPUP_ERROR,
-              buttonType: AlertConstants.RETRY_CANCEL,
-              message: LANG.monitor.ask_reconnect,
-              onRetry: async () => {
-                const res2 = await DeviceMaster.reconnect();
-                if (res2.success) {
-                  Alert.popById('connection-error');
-                  resolve(true);
-                } else {
-                  const doRetry = await askRetryReconnect();
-                  resolve(doRetry);
-                }
-              },
-              onCancel: () => resolve(false),
+          const askRetryReconnect = () =>
+            new Promise<boolean>((resolve) => {
+              Alert.popUp({
+                id: 'monitor-reconnect',
+                type: AlertConstants.SHOW_POPUP_ERROR,
+                buttonType: AlertConstants.RETRY_CANCEL,
+                message: LANG.monitor.ask_reconnect,
+                onRetry: async () => {
+                  const res2 = await DeviceMaster.reconnect();
+                  if (res2.success) {
+                    Alert.popById('connection-error');
+                    resolve(true);
+                  } else {
+                    const doRetry = await askRetryReconnect();
+                    resolve(doRetry);
+                  }
+                },
+                onCancel: () => resolve(false),
+              });
             });
-          });
           if (!Alert.checkIdExist('monitor-reconnect')) {
             const doRetry = await askRetryReconnect();
             if (doRetry) {
@@ -261,20 +263,24 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     const keys = Object.keys(report);
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
-      if (currentReport[key] === undefined
-          || JSON.stringify(currentReport[key]) !== JSON.stringify(report[key])) {
+      if (
+        currentReport[key] === undefined ||
+        JSON.stringify(currentReport[key]) !== JSON.stringify(report[key])
+      ) {
         // console.log(key, 'changed');
         if (report.st_id > 0 && (mode !== Mode.WORKING || key === 'session')) {
-          const keepsCameraMode = (mode === Mode.CAMERA
-            && MonitorStatus.allowedCameraStatus.includes(report.st_id));
+          const keepsCameraMode =
+            mode === Mode.CAMERA && MonitorStatus.allowedCameraStatus.includes(report.st_id);
           const keepsFileMode = mode === Mode.FILE_PREVIEW || mode === Mode.FILE;
           if (!keepsCameraMode && !keepsFileMode) {
             console.log('to work mode');
             this.enterWorkingMode();
           }
         } else if (report.st_id === IDLE) {
-          if (mode === Mode.WORKING
-              || (mode === Mode.CAMERA && this.modeBeforeCamera === Mode.WORKING)) {
+          if (
+            mode === Mode.WORKING ||
+            (mode === Mode.CAMERA && this.modeBeforeCamera === Mode.WORKING)
+          ) {
             this.exitWorkingMode();
           }
         }
@@ -288,7 +294,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     }
 
     let { error } = report;
-    error = (error instanceof Array ? error : [error]);
+    error = error instanceof Array ? error : [error];
     console.error(error);
     if (error[0] === 'TIMEOUT') {
       try {
@@ -307,16 +313,23 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     }
 
     const state = [
-      PAUSED_FROM_STARTING, PAUSED_FROM_RUNNING, ABORTED, PAUSING_FROM_RUNNING,
-      PAUSING_FROM_STARTING, ALARM, FATAL,
+      PAUSED_FROM_STARTING,
+      PAUSED_FROM_RUNNING,
+      ABORTED,
+      PAUSING_FROM_RUNNING,
+      PAUSING_FROM_STARTING,
+      ALARM,
+      FATAL,
+      COMPLETED,
     ];
 
     if (state.includes(report.st_id)) {
-      const errorMessage = DeviceErrorHandler.translate(error);
-
       const handleRetry = async () => {
         const pauseStates = [
-          PAUSED, PAUSED_FROM_STARTING, PAUSED_FROM_RUNNING, PAUSING_FROM_STARTING,
+          PAUSED,
+          PAUSED_FROM_STARTING,
+          PAUSED_FROM_RUNNING,
+          PAUSING_FROM_STARTING,
           PAUSING_FROM_RUNNING,
         ];
         if (report.st_id === ABORTED) {
@@ -336,14 +349,17 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           this.stopReport();
           const { device } = this.props;
           const vc = VersionChecker(device.version);
-          const playerLogName = vc.meetRequirement('NEW_PLAYER') ? 'playerd.log' : 'fluxplayerd.log';
+          const playerLogName = vc.meetRequirement('NEW_PLAYER')
+            ? 'playerd.log'
+            : 'fluxplayerd.log';
           Progress.openSteppingProgress({ id: 'get_log', message: 'downloading' });
           const logFiles = await DeviceMaster.getLogsTexts(
             [playerLogName, 'fluxrobotd.log'],
-            (progress: { completed: number, size: number }) => Progress.update('get_log', {
-              message: 'downloading',
-              percentage: (progress.completed / progress.size) * 100,
-            })
+            (progress: { completed: number; size: number }) =>
+              Progress.update('get_log', {
+                message: 'downloading',
+                percentage: (progress.completed / progress.size) * 100,
+              })
           );
           Progress.popById('get_log');
           this.startReport();
@@ -358,13 +374,15 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           }
           return new Blob(contents);
         };
-        await dialog.writeFileDialog(getContent, LANG.beambox.popup.bug_report, 'devicelogs.txt', [{
-          name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
-          extensions: ['txt'],
-        }]);
+        await dialog.writeFileDialog(getContent, LANG.beambox.popup.bug_report, 'devicelogs.txt', [
+          {
+            name: window.os === 'MacOS' ? 'txt (*.txt)' : 'txt',
+            extensions: ['txt'],
+          },
+        ]);
       };
-
       const id = error.join('_');
+      const errorMessage = DeviceErrorHandler.translate(error);
       if (!Alert.checkIdExist(id) && !this.didErrorPopped) {
         this.didErrorPopped = true;
         if ([ALARM, FATAL].includes(report.st_id)) {
@@ -377,13 +395,27 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             callbacks: [() => DeviceMaster.stop()],
           });
         } else if (error[0] === 'HARDWARE_ERROR' || error[0] === 'USER_OPERATION') {
-          Alert.popUp({
-            id,
-            type: AlertConstants.SHOW_POPUP_ERROR,
-            message: errorMessage,
-            buttonType: AlertConstants.RETRY_CANCEL,
-            onRetry: handleRetry,
-          });
+          if (error[1] !== 'REMOVE_CARTRIDGE') {
+            Alert.popUp({
+              id,
+              type:
+                error[0] === 'USER_OPERATION'
+                  ? AlertConstants.SHOW_POPUP_INSTRUCTION
+                  : AlertConstants.SHOW_POPUP_ERROR,
+              message: errorMessage,
+              buttonType: AlertConstants.RETRY_CANCEL,
+              onRetry: handleRetry,
+            });
+          } else {
+            Alert.popUp({
+              id,
+              type:
+                error[0] === 'USER_OPERATION'
+                  ? AlertConstants.SHOW_POPUP_INSTRUCTION
+                  : AlertConstants.SHOW_POPUP_ERROR,
+              message: errorMessage,
+            });
+          }
         } else {
           Alert.popUp({
             id,
@@ -391,7 +423,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             message: errorMessage,
             primaryButtonIndex: 0,
             buttonLabels: [LANG.alert.retry, LANG.monitor.bug_report, LANG.alert.cancel],
-            callbacks: [handleRetry, handleReport, () => { }],
+            callbacks: [handleRetry, handleReport, () => {}],
           });
         }
       }
@@ -405,14 +437,14 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  getTaskInfo(info: any[]): { imageBlob: Blob, taskTime: number } {
+  getTaskInfo(info: any[]): { imageBlob: Blob; taskTime: number } {
     const imageBlob = getFirstBlobInArray(info);
     const taskTime = findKeyInObjectArray(info, 'TIME_COST');
 
     return { imageBlob, taskTime };
   }
 
-  enterWorkingMode = async (task?: { taskImageURL: string, taskTime: number }): Promise<void> => {
+  enterWorkingMode = async (task?: { taskImageURL: string; taskTime: number }): Promise<void> => {
     if (!task) {
       const taskInfo = await this.getWorkingTaskInfo();
       const { imageBlob, taskTime } = this.getTaskInfo(taskInfo);
@@ -476,11 +508,15 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         x: Number(/ X:\s?(-?\d+\.?\d+)/.exec(resp.value)[1]),
         y: Number(/ Y:\s?(-?\d+\.?\d+)/.exec(resp.value)[1]),
         angle: Number(/R:\s?(-?\d+\.?\d+)/.exec(resp.value)[1]),
-        scaleRatioX: Number((/SX:\s?(-?\d+\.?\d+)/.exec(resp.value) || /S:\s?(-?\d+\.?\d+)/.exec(resp.value))[1]),
-        scaleRatioY: Number((/SY:\s?(-?\d+\.?\d+)/.exec(resp.value) || /S:\s?(-?\d+\.?\d+)/.exec(resp.value))[1]),
+        scaleRatioX: Number(
+          (/SX:\s?(-?\d+\.?\d+)/.exec(resp.value) || /S:\s?(-?\d+\.?\d+)/.exec(resp.value))[1]
+        ),
+        scaleRatioY: Number(
+          (/SY:\s?(-?\d+\.?\d+)/.exec(resp.value) || /S:\s?(-?\d+\.?\d+)/.exec(resp.value))[1]
+        ),
       };
       console.log(`Got ${configName}`, cameraOffset);
-      if ((cameraOffset.x === 0) && (cameraOffset.y === 0)) {
+      if (cameraOffset.x === 0 && cameraOffset.y === 0) {
         cameraOffset = {
           x: Constant.camera.offsetX_ideal,
           y: Constant.camera.offsetY_ideal,
@@ -523,11 +559,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     });
   };
 
-  onHighlightItem = (item: { name: string, type: ItemType }): void => {
+  onHighlightItem = (item: { name: string; type: ItemType }): void => {
     const { highlightedItem } = this.state;
-    if (!highlightedItem
-        || highlightedItem.name !== item.name
-        || highlightedItem.type !== item.type) {
+    if (
+      !highlightedItem ||
+      highlightedItem.name !== item.name ||
+      highlightedItem.type !== item.type
+    ) {
       this.setState({ highlightedItem: item });
     } else {
       this.setState({ highlightedItem: {} });
@@ -649,9 +687,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   };
 
   showUploadDialog = async (): Promise<void> => {
-    const file = await dialog.getFileFromDialog({
+    const file = (await dialog.getFileFromDialog({
       filters: [{ name: 'task', extensions: ['fc'] }],
-    }) as File;
+    })) as File;
     if (!file) return;
     this.uploadFile(file);
   };
@@ -665,11 +703,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         this.setState({ downloadProgress: p });
       });
       this.setState({ downloadProgress: null });
-      const getContent = async () => (file[1] as Blob);
-      await dialog.writeFileDialog(getContent, name, name, [{
-        name: i18n.lang.topmenu.file.all_files,
-        extensions: ['*'],
-      }]);
+      const getContent = async () => file[1] as Blob;
+      await dialog.writeFileDialog(getContent, name, name, [
+        {
+          name: i18n.lang.topmenu.file.all_files,
+          extensions: ['*'],
+        },
+      ]);
     } catch (e) {
       console.error('Error when downloading file', e);
     }
@@ -691,9 +731,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
   onPlay = async (): Promise<void> => {
     const { device } = this.props;
-    const {
-      mode, report, currentPath, fileInfo, relocateOrigin,
-    } = this.state;
+    const { mode, report, currentPath, fileInfo, relocateOrigin } = this.state;
     this.didErrorPopped = false;
     if (report.st_id === IDLE) {
       const vc = VersionChecker(device.version);

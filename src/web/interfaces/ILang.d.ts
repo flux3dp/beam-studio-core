@@ -1150,8 +1150,13 @@ export interface ILang {
     HARDWARE_ERROR_FIRE_DETECTED: string;
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: string;
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: string;
-    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: string,
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: string;
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: string;
+    HARDWARE_ERROR_HEADTYPE_NONE: string;
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: string;
+    HARDWARE_ERROR_PRINTER_NO_RESPONSE: string;
     USER_OPERATION_ROTARY_PAUSE: string,
+    USER_OPERATION_REMOVE_CARTRIDGE: string;
     RESOURCE_BUSY: string,
     DEVICE_ERROR: string,
     NO_RESPONSE: string,
@@ -1187,6 +1192,7 @@ export interface ILang {
     info: string,
     warning: string,
     error: string,
+    instruction: string;
     oops: string,
     retry: string,
     abort: string,
