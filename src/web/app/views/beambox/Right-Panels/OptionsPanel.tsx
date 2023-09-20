@@ -19,26 +19,19 @@ interface Props {
 }
 
 function OptionsPanel({
-  elem, rx, polygonSides, updateObjectPanel, updateDimensionValues,
+  elem,
+  rx,
+  polygonSides,
+  updateObjectPanel,
+  updateDimensionValues,
 }: Props): JSX.Element {
   const isMobile = useIsMobile();
   let contents: JSX.Element;
   if (elem) {
     if (elem.tagName.toLowerCase() === 'rect') {
-      contents = (
-        <RectOptions
-          elem={elem}
-          rx={rx}
-          updateDimensionValues={updateDimensionValues}
-        />
-      );
+      contents = <RectOptions elem={elem} rx={rx} updateDimensionValues={updateDimensionValues} />;
     } else if (elem.tagName.toLowerCase() === 'polygon') {
-      contents = (
-        <PolygonOptions
-          elem={elem}
-          polygonSides={polygonSides}
-        />
-      );
+      contents = <PolygonOptions elem={elem} polygonSides={polygonSides} />;
     } else if (elem.tagName.toLowerCase() === 'text') {
       contents = (
         <TextOptions
@@ -49,7 +42,8 @@ function OptionsPanel({
         />
       );
     } else if (elem.tagName.toLowerCase() === 'image' || elem.tagName.toLowerCase() === 'img') {
-      contents = <ImageOptions elem={elem} updateObjectPanel={updateObjectPanel} />;
+      if (elem.getAttribute('data-fullcolor') === '1') contents = null;
+      else contents = <ImageOptions elem={elem} updateObjectPanel={updateObjectPanel} />;
     } else if (elem.tagName.toLowerCase() === 'g' && elem.getAttribute('data-textpath-g')) {
       const textElem = elem.querySelector('text');
       contents = (
@@ -65,6 +59,8 @@ function OptionsPanel({
       contents = <InFillBlock elem={elem} />;
     }
   }
+
+  if (!contents) return null;
 
   return isMobile ? (
     <div className={styles.container}>
