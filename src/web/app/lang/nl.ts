@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: 'Berekenen',
       },
       backend_connect_failed_ask_to_upload: '#802 Fouten blijven optreden bij het proberen verbinding te maken met de backend. Wil je je bugrapportlog uploaden?',
+      backend_error_hint: 'Functies werken mogelijk niet goed vanwege een fout in de backend.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Fout bij het converteren van PDF naar SVG:',
         error_pdf2svg_not_found: '#825 Fout: Opdracht pdf2svg niet gevonden. Installeer pdf2svg met uw pakketbeheerder (bijv. "yum install pdf2svg" of "apt-get install pdf2svg").',

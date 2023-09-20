@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: 'Calculating',
       },
       backend_connect_failed_ask_to_upload: '#802 Errors keeps occurring when trying to connect to the backend. Do you want to upload your bug report log?',
+      backend_error_hint: 'Features might be not working properly due to backend error.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Error when converting PDF to SVG:',
         error_pdf2svg_not_found: '#825 Error: Command pdf2svg not found. Please install pdf2svg with your package manager (e.g., "yum install pdf2svg" or "apt-get install pdf2svg").',

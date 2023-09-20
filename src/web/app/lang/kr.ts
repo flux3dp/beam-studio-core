@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: '계산 중',
       },
       backend_connect_failed_ask_to_upload: '#802 백엔드에 연결하려는 중 오류가 계속 발생합니다. 버그 리포트 로그를 업로드 하시겠습니까?',
+      backend_error_hint: '백엔드 오류로 인해 기능이 제대로 작동하지 않을 수 있습니다.',
       pdf2svg: {
         error_when_converting_pdf: '#824 PDF를 SVG로 변환하는 중 오류가 발생했습니다.',
         error_pdf2svg_not_found: '#825 오류: pdf2svg 명령어를 찾을 수 없습니다. 패키지 매니저를 이용하여 pdf2svg를 설치해주세요. (예: "yum install pdf2svg" 또는 "apt-get install pdf2svg")',

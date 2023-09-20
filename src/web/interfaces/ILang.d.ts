@@ -511,6 +511,7 @@ export interface ILang {
         calculating: string,
       },
       backend_connect_failed_ask_to_upload: string,
+      backend_error_hint: string;
       pdf2svg: {
         error_when_converting_pdf: string,
         error_pdf2svg_not_found: string,

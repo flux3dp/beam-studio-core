@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: 'Calculer',
       },
       backend_connect_failed_ask_to_upload: '#802 Des erreurs surviennent lors de la tentative de connexion au backend. Voulez-vous télécharger le journal de votre rapport de bogue ?',
+      backend_error_hint: 'Il est possible que les fonctionnalités ne fonctionnent pas correctement en raison d\'une erreur en backend.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Erreur lors de la conversion de PDF en SVG :',
         error_pdf2svg_not_found: '#825 Erreur : Commande pdf2svg non trouvée. Veuillez installer pdf2svg avec votre gestionnaire de paquets (par exemple, "yum install pdf2svg" ou "apt-get install pdf2svg").',

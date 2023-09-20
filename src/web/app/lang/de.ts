@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: 'Berechnen',
       },
       backend_connect_failed_ask_to_upload: '#802 Beim Versuch, eine Verbindung zum Server herzustellen, treten immer wieder Fehler auf. Möchtest du Ihr Fehlerberichtsprotokoll hochladen?',
+      backend_error_hint: 'Funktionen funktionieren möglicherweise aufgrund eines Backend-Fehlers nicht ordnungsgemäß.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Fehler beim Konvertieren von PDF in SVG:',
         error_pdf2svg_not_found: '#825 Fehler: Befehl pdf2svg nicht gefunden. Bitte installieren Sie pdf2svg mit Ihrem Paketmanager (z. B. "yum install pdf2svg" oder "apt-get install pdf2svg").',

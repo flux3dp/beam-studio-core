@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: '计算中',
       },
       backend_connect_failed_ask_to_upload: '#802 连接后端程式时持续发生错误，请问您是否要将错误报告上传到云端?',
+      backend_error_hint: '后端程式无法连接，部分功能可能无法使用。',
       pdf2svg: {
         error_when_converting_pdf: '#824 将 PDF 转换成 SVG 时发生错误：',
         error_pdf2svg_not_found: '#825 无法找到 pdf2svg 指令，请使用您的套件管理装置安装 pdf2svg（e.g., "yum install pdf2svg" or "apt-get install pdf2svg"）。',

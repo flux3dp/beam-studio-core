@@ -514,6 +514,7 @@ const lang: ILang = {
         calculating: '計算中',
       },
       backend_connect_failed_ask_to_upload: '#802 バックエンドに接続しようとすると、エラーが発生し続けます。バグレポートログをアップロードしますか？',
+      backend_error_hint: 'バックエンドのエラーのため、機能が正しく動作しない可能性があります。',
       pdf2svg: {
         error_when_converting_pdf: '#824 エラー：PDFをSVGに変換するときのエラー：',
         error_pdf2svg_not_found: '#825 エラー：コマンド pdf2svg が見つかりません。パッケージマネージャーで pdf2svg をインストールしてください（例："yum install pdf2svg" or "apt-get install pdf2svg"）。',
