@@ -1166,7 +1166,7 @@ const lang: ILang = {
     },
     unknown_error: '#821 L\'application a rencontré une erreur inconnue, veuillez utiliser Aide > Menu > Rapport de bug.',
     unknown_device: '#826 Impossible de se connecter à la machine, veuillez vous assurer que l\'USB est connecté à la machine.',
-    unsupport_osx_version: 'La version actuelle de MacOS X %s peut ne pas supporter certaines fonctions. Veuillez effectuer une mise à jour vers la dernière version.',
+    unsupport_osx_version: 'La version actuelle de macOS %s peut ne pas prendre en charge certaines fonctions. Veuillez mettre à jour vers macOS 11+.',
     unsupport_win_version: 'La version actuelle du système d\'exploitation %s peut ne pas prendre en charge certaines fonctions. Veuillez effectuer une mise à jour vers la dernière version.',
     need_password: 'Mot de passe nécessaire pour se connecter à la machine',
     unavailableWorkarea: '#804 La zone de travail actuelle dépasse la zone de travail de cette machine. Veuillez vérifier la zone de travail de la machine sélectionnée ou définir la zone de travail depuis Edit > Document Setting.',

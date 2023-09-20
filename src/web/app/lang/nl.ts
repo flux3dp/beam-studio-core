@@ -1166,7 +1166,7 @@ const lang: ILang = {
     },
     unknown_error: '#821 Er is een onbekende fout opgetreden in de toepassing. Gebruik a.u.b. Help > Menu > Bugrapport.',
     unknown_device: '#826 Kan geen verbinding maken met de machine, zorg ervoor dat USB is aangesloten op de machine',
-    unsupport_osx_version: 'De huidige MacOS-versie X %s ondersteunt mogelijk bepaalde functies niet. Gelieve vriendelijk te updaten naar de laatste versie.',
+    unsupport_osx_version: 'De huidige macOS-versie %s ondersteunt mogelijk niet alle functies. Gelieve vriendelijk bij te werken naar macOS 11+.',
     unsupport_win_version: 'De huidige versie van het besturingssysteem %s ondersteunt mogelijk bepaalde functies niet. Gelieve vriendelijk te updaten naar de laatste versie.',
     need_password: 'Wachtwoord nodig om verbinding te maken met de machine',
     unavailableWorkarea: '#804 Huidig werkgebied overschrijdt het werkgebied van deze machine. Controleer het werkgebied van de geselecteerde machine of stel het werkgebied in via Bewerken > Documentinstelling.',

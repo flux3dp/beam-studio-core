@@ -1166,7 +1166,7 @@ const lang: ILang = {
     },
     unknown_error: '#821 Die Anwendung ist auf einen unbekannten Fehler gestoßen, bitte benutzen Sie Hilfe > Menü > Fehlerbericht.',
     unknown_device: '#826 Die Verbindung zum Gerät kann nicht hergestellt werden, Bitte stelle sicher, dass USB an das Gerät angeschlossen ist.',
-    unsupport_osx_version: 'Die aktuelle MacOS-Version X %s unterstützt möglicherweise einige Funktionen nicht. Bitte aktualisieren Sie auf die neueste Version.',
+    unsupport_osx_version: 'Die aktuelle macOS-Version %s unterstützt möglicherweise einige Funktionen nicht. Bitte aktualisieren Sie auf die macOS 11+.',
     unsupport_win_version: 'Die aktuelle Betriebssystemversion %s unterstützt möglicherweise einige Funktionen nicht. Bitte aktualisieren Sie auf die neueste Version.',
     need_password: 'Benötigen Passwort für die Verbindung mit der Maschine',
     unavailableWorkarea: '#804 Der aktuelle Arbeitsbereich übersteigt den Arbeitsbereich dieser Maschine. Bitte überprüfe den Arbeitsbereich des ausgewählten Geräts oder stelle den Arbeitsbereich über Bearbeiten > Dokumenteinstellung ein.',

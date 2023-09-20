@@ -1166,7 +1166,7 @@ const lang: ILang = {
     },
     unknown_error: '#821 La aplicación ha encontrado un error desconocido, por favor usa Ayuda > Menú > Informe de errores.',
     unknown_device: '#826 No se puede conectar a la máquina, por favor asegúrate de que el USB está conectado a la máquina',
-    unsupport_osx_version: 'Es posible que la versión actual de MacOS X %s no sea compatible con algunas funciones. Por favor, actualiza a la última versión',
+    unsupport_osx_version: 'La versión actual de macOS %s puede que no admita algunas funciones. Por favor, actualice amablemente a macOS 11+.',
     unsupport_win_version: 'La versión actual del sistema operativo %s puede que no soporte algunas funciones. Por favor, actualiza a la última versión.',
     need_password: 'Necesita una contraseña para conectarse a la máquina',
     unavailableWorkarea: '#804 El área de trabajo actual excede el área de trabajo de esta máquina. Por favor, comprueba el área de trabajo de la máquina seleccionada o establece el área de trabajo desde Edición > Configuración de documentos.',
