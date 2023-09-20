@@ -18,6 +18,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import i18n from 'helpers/i18n';
 import Pointable from 'app/components/beambox/path-preview/Pointable';
+import progressCaller from 'app/actions/progress-caller';
 import SidePanel from 'app/components/beambox/path-preview/SidePanel';
 import units from 'helpers/units';
 import VersionChecker from 'helpers/version-checker';
@@ -604,15 +605,14 @@ class PathPreview extends React.Component<Props, State> {
     const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await exportFuncs.getGcode();
     if (!gcodeBlob) {
       togglePathPreview();
-      return;
     }
     if (svgEditor) svgEditor.style.display = 'none';
+    progressCaller.openNonstopProgress({ id: 'parsing-gcode', caption: 'Parsing GCode', timeout: 30000 });
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const result = (e.target.result as string).split('\n');
       result.splice(5, 0, 'G1 X0 Y0');
       this.gcodeString = result.join('\n');
-
       if (this.gcodeString.length > 83) {
         const parsedGcode = parseGcode(this.gcodeString);
         this.gcodePreview.setParsedGcode(parsedGcode);
@@ -620,6 +620,7 @@ class PathPreview extends React.Component<Props, State> {
         this.timeDisplayRatio = fileTimeCost / (60 * this.simTimeMax);
         this.handleSimTimeChange(this.simTimeMax);
       }
+      progressCaller.popById('parsing-gcode');
     };
     fileReader.readAsText(gcodeBlob);
 
