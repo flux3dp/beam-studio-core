@@ -36,13 +36,7 @@ exports[`should render correctly in mobile image 1`] = `
 </div>
 `;
 
-exports[`should render correctly in mobile no element 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-</div>
-`;
+exports[`should render correctly in mobile no element 1`] = `""`;
 
 exports[`should render correctly in mobile others 1`] = `
 <div
@@ -130,17 +124,7 @@ exports[`should render correctly in mobile text 1`] = `
 </div>
 `;
 
-exports[`should render correctly no element 1`] = `
-<div
-  className="panel"
->
-  <div
-    className="title"
-  >
-    OPTIONS
-  </div>
-</div>
-`;
+exports[`should render correctly no element 1`] = `""`;
 
 exports[`should render correctly others 1`] = `
 <div
