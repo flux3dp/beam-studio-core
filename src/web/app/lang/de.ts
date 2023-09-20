@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 Update fehlgeschlagen',
       too_old_for_web: '"Ihre Firmwarenversion ist zurzeit v%s.\nWenn Sie die Online-version von Beam Studio benutzen möchten, aktualisieren Sie bitte zur neusten Version."',
       force_update_message: '#814 Bitte aktualisieren Sie Ihre Maschine auf die neueste Firmware-Version.',
+      firmware_too_old_update_by_sdcard: 'Die Firmware ist zu alt. Bitte aktualisieren Sie die Firmware mit einer SD-Karte.',
     },
     software: {
       checking: 'Suche nach Updates',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path: 'Die Verwendung einer zu hohen Geschwindigkeit in Ebenen mit Pfadobjekten, kann zu einer geringeren Präzision beim Schneiden führen.\nWir empfehlen, beim Schneiden keine Geschwindigkeit von mehr als 20 mm/s zu verwenden.',
       too_fast_for_path_and_constrain: 'Folgende Ebenen: %s\nenthalten Vektorpfadobjekte und eine Geschwindigkeit von mehr als 20 mm/s \nDie Schnittgeschwindigkeit von Vektorpfadobjekten wird auf 20 mm/s reduziert.\nDu kannst diese Beschränkung unter Präferenzen-Einstellungen entfernen.',
       should_update_firmware_to_continue: '#814 Deine Firmware unterstützt diese Version von Beam Studio nicht. Bitte aktualisiere die Firmware, um fortzufahren. (Menü > Maschine > [Ihre Maschine] > Firmware aktualisieren)',
+      recommend_downgrade_software: 'Wir haben eine ältere Firmware-Version erkannt. Wir arbeiten aktiv an der Behebung von Kompatibilitätsproblemen, aber vorerst empfehlen wir, auf <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a> zurückzukehren.',
+      still_continue: 'Weiter',
       more_than_two_object: 'Zu viele Objekte. Es werden nur 2 Objekte unterstützt.',
       not_support_object_type: 'Objekttyp wird nicht unterstützt.',
       select_first: 'Wähle zunächst ein Objekt aus.',

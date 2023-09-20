@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 アップデート失敗',
       too_old_for_web: '現在のファームウェアバージョンはv%sです。\nオンライン版Beam Studioを使用されたい場合、最新バージョンに更新してください。',
       force_update_message: '#814 最新のファームウェアバージョンにアップデートしてください。',
+      firmware_too_old_update_by_sdcard: 'ファームウェアバージョンが古すぎます。SDカードを使用してファームウェアを更新してください。',
     },
     software: {
       checking: 'アップデートの確認中',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path: 'パスオブジェクトを含む層で速すぎる速度を使用すると、切断時に精度が低下する場合があります。\n切断時に 20mm/s より速い速度を使用することはお勧めしません。',
       too_fast_for_path_and_constrain: '次のレイヤー：％s \nベクトルパスオブジェクトが含まれていて、速度が 20mm/sを超えています。\nベクトルパスオブジェクトの切断速度は 20mm/s に制限されます。\nこの制限は[好み]で削除できます。',
       should_update_firmware_to_continue: '#814 ご使用のファームウェアは、Beam Studioの一部の改善をサポートしていません。パフォーマンスとユーザー体験を向上させるには、ファームウェアをアップデートして続行してください。（メニュー>マシン>[お使いのマシン]>ファームウェアのアップデート',
+      recommend_downgrade_software: '古いファームウェアバージョンが検出されました。私たちは現在、互換性の問題に積極的に取り組んでいますが、今のところ<a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>に戻すことをお勧めします。',
+      still_continue: '続行',
       more_than_two_object: 'オブジェクトが多すぎます。2つのオブジェクトのみをサポートします',
       not_support_object_type: 'オブジェクトタイプをサポートしていません',
       select_first: '最初にオブジェクトを選択します。',

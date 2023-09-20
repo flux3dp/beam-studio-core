@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 falha no processo de update',
       too_old_for_web: 'Se você quer usar a versão online do Beam Studio, por favor atualize o firmware de sua máquina para a versão mais recente.',
       force_update_message: '#814 Por favor, atualize sua máquina para a versão mais recente do firmware.',
+      firmware_too_old_update_by_sdcard: 'A versão do firmware está muito antiga. Atualize o firmware usando um cartão SD.',
     },
     software: {
       checking: 'Checando por atualizações',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path: ',O uso de velocidade muito alta em camadas contendo objetos de caminho pode resultar em menor precisão ao cortar.\nNão recomendamos usar velocidade superior a 20 mm/s ao cortar.',
       too_fast_for_path_and_constrain: 'Seguintes camadas: %s\nContêm objetos de trajetória vetorial e têm velocidade superior a 20 mm/s.\nA velocidade de corte de objetos de caminho vetorial será limitada a 20 mm/s.\nVocê pode remover esse limite em Configurações de preferências.',
       should_update_firmware_to_continue: '#814 Seu firmware não suporta esta versão do Beam Studio. Atualize o firmware para continuar. (Menu > Máquina > [Sua máquina] > Atualizar firmware)',
+      recommend_downgrade_software: 'Detectamos uma versão mais antiga do firmware. Estamos a abordar ativamente problemas de compatibilidade, mas, por agora, recomendamos que volte para o <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      still_continue: 'Continuar',
       more_than_two_object: 'Muitos objetos. Suporte apenas para 2 objetos',
       not_support_object_type: 'Não suporta tipo de objeto',
       select_first: 'Selecione um objeto primeiro.',

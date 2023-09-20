@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 更新失敗',
       too_old_for_web: '你韌體的版本為 v%s。<br/>欲使用線上版的 Beam Studio 請更新至最新韌體。',
       force_update_message: '#814 請將您的機器更新至最新的韌體版本。',
+      firmware_too_old_update_by_sdcard: '韌體太舊，請使用 SD 卡更新韌體。',
     },
     software: {
       checking: '檢查更新中',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path_and_constrain: '以下圖層： <strong>%s</strong><br/>含有向量路徑物件且速度超過 20mm/s，為維持雕刻的精度，向量路徑速度將被限制在 20mm/s ，您可以在偏好設定解除此限制。',
       both_power_and_speed_too_high: '雷射管在高功率下耗損較快，使用低功率可以延長雷試管使用壽命。<br/>並且在此雕刻解析度使用過快的速度可能導致漸層雕刻的品質較差。',
       should_update_firmware_to_continue: '#814 您的韌體版本不支援最新的軟體改善。為了更良好的使用經驗與雕刻品質，請先更新 Beambox 的韌體以繼續。 (主選單 > 機器 > [ Your Beambox ] > 韌體更新)',
+      recommend_downgrade_software: '偵測到較舊的韌體版本，我們仍然在積極解決相容問題，但現在建議您先退回 <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>',
+      still_continue: '繼續',
       more_than_two_object: '太多物件，只支援兩物件操作',
       not_support_object_type: '不支援的物件類型',
       select_first: '請先選取物件以繼續',

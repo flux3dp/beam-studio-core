@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 Update mislukt',
       too_old_for_web: 'Uw huidige apparaatfirmwareversie is v%s.\nAls u de online versie van de Beam Studio wilt gebruiken, moet u de apparaatfirmware bijwerken naar de nieuwste versie.',
       force_update_message: '#814 Gelieve uw machine bij te werken naar de nieuwste firmwareversie.',
+      firmware_too_old_update_by_sdcard: 'De firmwareversie is te oud. Update de firmware met een SD-kaart.',
     },
     software: {
       checking: 'Controleren op updates',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path: 'Een te hoge snelheid in lagen die padobjecten bevatten, kan resulteren in een lagere precisie bij het snijden.\nWe raden af om een snelheid hoger dan 20 mm/s te gebruiken bij het snijden.',
       too_fast_for_path_and_constrain: 'Volgende lagen: %s\nbevatten vectorpadobjecten en hebben een snelheid van meer dan 20 mm/s.\nDe snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s. U kunt deze limiet verwijderen bij Voorkeursinstellingen.',
       should_update_firmware_to_continue: '#814 Uw firmware ondersteunt deze versie van Beam Studio niet. Werk de firmware bij om door te gaan. (Menu > Machine > [Uw machine] > Firmware bijwerken)',
+      recommend_downgrade_software: 'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan het oplossen van compatibiliteitsproblemen, maar voor nu raden we aan om terug te keren naar <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      still_continue: 'Doorgaan',
       more_than_two_object: 'Te veel objecten. Alleen ondersteuning voor 2 objecten',
       not_support_object_type: 'Geen ondersteuning voor objecttype',
       select_first: 'Selecteer eerst een object.',

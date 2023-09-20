@@ -202,6 +202,7 @@ export interface ILang {
       update_fail: string,
       too_old_for_web: string,
       force_update_message: string;
+      firmware_too_old_update_by_sdcard: string;
     },
     software: {
       checking: string,
@@ -489,6 +490,8 @@ export interface ILang {
       too_fast_for_path: string,
       too_fast_for_path_and_constrain: string,
       should_update_firmware_to_continue: string,
+      recommend_downgrade_software: string;
+      still_continue: string;
       more_than_two_object: string,
       not_support_object_type: string,
       select_first: string,

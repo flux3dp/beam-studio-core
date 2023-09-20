@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 업데이트 실패',
       too_old_for_web: '현재 기계 펌웨어 버전은 v%s입니다. Beam Studio 온라인 버전을 사용하려면 기계 펌웨어를 최신 버전으로 업데이트해 주세요.',
       force_update_message: '#814 기계를 최신 펌웨어 버전으로 업데이트하십시오.',
+      firmware_too_old_update_by_sdcard: '펌웨어 버전이 너무 오래되었습니다. SD 카드를 사용하여 펌웨어를 업데이트하십시오.',
     },
     software: {
       checking: '업데이트 확인 중',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path: '경로 객체를 포함한 레이어에서 너무 높은 속도를 사용하면 절단 정밀도가 낮아질 수 있습니다. 절단할 때 20mm/s보다 빠른 속도를 사용하지 않는 것이 좋습니다.',
       too_fast_for_path_and_constrain: '다음 레이어: %s 벡터 경로 객체를 포함하고, 속도가 20mm/s를 초과합니다. 벡터 경로 객체의 절단 속도는 20mm/s로 제한됩니다. 이 제한을 기본 설정에서 제거할 수 있습니다.',
       should_update_firmware_to_continue: '#814 당신의 펌웨어는 이 버전의 Beam Studio를 지원하지 않습니다. 펌웨어를 업데이트해주세요. (메뉴 > 기계 > [당신의 기계] > 펌웨어 업데이트)',
+      recommend_downgrade_software: '오래된 펌웨어 버전이 감지되었습니다. 우리는 현재 호환성 문제를 적극적으로 해결하고 있지만 현재로서는 <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>로 되돌아가는 것을 권장합니다.',
+      still_continue: '계속',
       more_than_two_object: '오브젝트 수가 너무 많습니다. 2개의 오브젝트만 지원됩니다.',
       not_support_object_type: '오브젝트 유형이 지원되지 않습니다.',
       select_first: '먼저 오브젝트를 선택해주세요.',

@@ -7,6 +7,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import isDev from 'helpers/is-dev';
@@ -145,7 +146,7 @@ const GoButton = (props: Props): JSX.Element => {
     return true;
   };
 
-  const exportTask = (device: IDeviceInfo) => {
+  const exportTask = async (device: IDeviceInfo) => {
     const showForceUpdateAlert = (id: string) => {
       Alert.popUp({
         id,
@@ -183,6 +184,8 @@ const GoButton = (props: Props): JSX.Element => {
       });
       return;
     }
+    const res = await checkOldFirmware(device.version);
+    if (!res) return;
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
     const allowedWorkareas = Constant.allowedWorkarea[model];
     if (currentWorkarea && allowedWorkareas) {

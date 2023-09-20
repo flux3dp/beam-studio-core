@@ -205,6 +205,7 @@ const lang: ILang = {
       update_fail: '#822 Échec de la mise à jour',
       too_old_for_web: 'La version actuelle du micrologiciel de votre machine est v%s. Si vous souhaitez utiliser la version en ligne de Beam Studio, veuillez mettre à jour le micrologiciel de la machine à la dernière version.',
       force_update_message: '#814 Veuillez mettre à jour votre machine vers la dernière version du firmware.',
+      firmware_too_old_update_by_sdcard: 'La version du micrologiciel est trop ancienne. Veuillez mettre à jour le micrologiciel à l\'aide d\'une carte SD.',
     },
     software: {
       checking: 'Vérification de la mise à jour',
@@ -492,6 +493,8 @@ const lang: ILang = {
       too_fast_for_path: 'L\'utilisation d\'une vitesse trop élevée dans les couches contenant des objets de trajectoire peut entraîner une baisse de la précision lors de la découpe.\nNous ne recommandons pas d\'utiliser une vitesse supérieure à 20 mm/s pour la découpe.',
       too_fast_for_path_and_constrain: 'Couches suivantes : %s.\ncontiennent des objets de type "vector path", et ont une vitesse supérieure à 20 mm/s.\nLa vitesse de découpe des objets de type "vector path" sera limitée à 20 mm/s.\nVous pouvez supprimer cette limite dans les paramètres des préférences.',
       should_update_firmware_to_continue: '#814 Votre firmware ne prend pas en charge cette version de Beam Studio. Veuillez mettre à jour le firmware pour continuer. (Menu > Machine > [Votre machine] > Mettre à jour le micrologiciel)',
+      recommend_downgrade_software: 'Nous avons détecté une version plus ancienne du firmware. Nous travaillons activement à résoudre les problèmes de compatibilité, mais pour le moment, nous vous recommandons de revenir à <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      still_continue: 'Continuer',
       more_than_two_object: 'Trop d\'objets. Prise en charge de 2 objets seulement',
       not_support_object_type: 'Le type d\'objet n\'est pas pris en charge',
       select_first: 'Sélectionnez d\'abord un objet.',
