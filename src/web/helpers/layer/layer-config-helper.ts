@@ -21,6 +21,7 @@ const getLayerElementByName = (layerName: string) => {
 
 export enum DataType {
   speed = 'speed',
+  printingSpeed = 'printingSpeed',
   strength = 'strength',
   ink = 'ink',
   repeat = 'repeat',
@@ -28,14 +29,16 @@ export enum DataType {
   zstep = 'zstep',
   diode = 'diode',
   configName = 'configName',
-  module = 'module', // 1: laser, 2: printer
+  module = 'module',
   backlash = 'backlash',
   multipass = 'multipass',
   UV = 'uv',
 }
 
 export const dataKey = {
+  [DataType.module]: 'module',
   [DataType.speed]: 'speed',
+  [DataType.printingSpeed]: 'printingSpeed',
   [DataType.strength]: 'power',
   [DataType.ink]: 'ink',
   [DataType.repeat]: 'repeat',
@@ -43,7 +46,6 @@ export const dataKey = {
   [DataType.zstep]: 'zStep',
   [DataType.diode]: 'diode',
   [DataType.configName]: 'configName',
-  [DataType.module]: 'module',
   [DataType.backlash]: 'backlash',
   [DataType.multipass]: 'multipass',
   [DataType.UV]: 'uv',
@@ -53,6 +55,7 @@ export const CUSTOM_PRESET_CONSTANT = ' ';
 
 export const defaultConfig = {
   [DataType.speed]: 20,
+  [DataType.printingSpeed]: 60,
   [DataType.strength]: 15,
   [DataType.ink]: 1,
   [DataType.repeat]: 1,
@@ -66,43 +69,71 @@ export const defaultConfig = {
   [DataType.UV]: 0,
 };
 
-export const getData = <T>(layer: Element, dataType: DataType): T => {
-  if (![DataType.configName].includes(dataType)) {
-    return Number(layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType]) as T;
+/**
+ * getData from layer element
+ * @param layer layer Element
+ * @param dataType DataType
+ * @param applyPrinting if true, return printingSpeed if module is printer and type is speed
+ * @returns data value in type T
+ */
+export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = false): T => {
+  let targetDataType = dataType;
+  if (
+    targetDataType === DataType.speed &&
+    applyPrinting &&
+    layer.getAttribute(`data-${DataType.module}`) === String(LayerModule.PRINTER)
+  ) {
+    targetDataType = DataType.printingSpeed;
   }
-  return (layer.getAttribute(`data-${dataType}`) as T) || (defaultConfig[dataType] as T);
+  if (![DataType.configName].includes(targetDataType)) {
+    return Number(layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]) as T;
+  }
+  return (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T);
 };
 
-export const writeData = (layerName: string, dataType: DataType, value: number | string): void => {
+export const writeData = (
+  layerName: string,
+  dataType: DataType,
+  value: number | string,
+  applyPrinting = false
+): void => {
   const layer = getLayerElementByName(layerName);
   if (!layer) {
     return;
   }
-  layer.setAttribute(`data-${dataType}`, String(value));
+  let targetDataType = dataType;
+  if (
+    targetDataType === DataType.speed &&
+    applyPrinting &&
+    layer.getAttribute(`data-${DataType.module}`) === String(LayerModule.PRINTER)
+  ) {
+    targetDataType = DataType.printingSpeed;
+  }
+  layer.setAttribute(`data-${targetDataType}`, String(value));
 };
 
 const getMultiSelectData = <T = number>(
   layers: Element[],
   currentLayerIdx: number,
-  dataType: DataType,
+  dataType: DataType
 ): { value: T; hasMultiValue: boolean } => {
   const mainIndex = currentLayerIdx > -1 ? currentLayerIdx : 0;
   const mainLayer = layers[mainIndex] || layers.find((l) => !!l);
-  if (!mainLayer) return ({ value: undefined, hasMultiValue: false });
-  let value = getData<T>(mainLayer, dataType);
+  if (!mainLayer) return { value: undefined, hasMultiValue: false };
+  let value = getData<T>(mainLayer, dataType, true);
   let hasMultiValue = false;
   for (let i = 0; i < layers.length; i += 1) {
     // eslint-disable-next-line no-continue
     if (i === currentLayerIdx) continue;
     const layer = layers[i];
     if (layer) {
-      const layerValue = getData<T>(layer, dataType);
+      const layerValue = getData<T>(layer, dataType, true);
       if (value !== layerValue) {
         hasMultiValue = true;
         if ([DataType.height].includes(dataType)) {
           // Always use the max value
           value = Math.max(value as number, layerValue as number) as T;
-          if (value as number > 0) break;
+          if ((value as number) > 0) break;
         } else if ([DataType.diode].includes(dataType)) {
           // Always use on if there is any on
           value = 1 as T;
@@ -143,7 +174,7 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   const dataTypes = Object.values(DataType);
   for (let i = 0; i < dataTypes.length; i += 1) {
     const type = dataTypes[i];
-    data[dataKey[type]] = { value: getData(layer, dataTypes[i]) };
+    data[dataKey[type]] = { value: getData(layer, dataTypes[i], true) };
   }
 
   return data;
