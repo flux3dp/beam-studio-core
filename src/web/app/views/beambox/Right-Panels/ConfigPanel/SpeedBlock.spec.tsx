@@ -224,14 +224,14 @@ describe('test SpeedBlock', () => {
       payload: { speed: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88, true);
     expect(mockWriteData).toHaveBeenNthCalledWith(
       2,
       'layer1',
       'configName',
       'CUSTOM_PRESET_CONSTANT'
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88, true);
     expect(mockWriteData).toHaveBeenNthCalledWith(
       4,
       'layer2',

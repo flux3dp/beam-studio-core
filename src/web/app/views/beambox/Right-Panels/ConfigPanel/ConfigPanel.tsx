@@ -170,7 +170,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       power.hasMultiValue ||
       ink.hasMultiValue ||
       repeat.hasMultiValue ||
-      repeat.hasMultiValue ||
       diode.hasMultiValue ||
       zStep.hasMultiValue ||
       name.hasMultiValue
