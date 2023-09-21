@@ -102,6 +102,9 @@ jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext(null),
 }));
 
+const mockCheckOldFirmware = jest.fn();
+jest.mock('helpers/device/checkOldFirmware', () => (...args) => mockCheckOldFirmware(...args));
+
 describe('test GoButton', () => {
   test('should render correctly', () => {
     const endPreviewMode = jest.fn();

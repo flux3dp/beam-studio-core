@@ -4,26 +4,56 @@
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+class ParsedGcode {
+  chunks = [[]];
+
+  maxChunkSize = 1000000;
+
+  length = 0;
+
+  push = (item) => {
+    const curIndex = this.chunks.length - 1;
+    if (this.chunks[curIndex].length < this.maxChunkSize) {
+      this.chunks[curIndex].push(item);
+    } else {
+      this.chunks.push([item]);
+    }
+    this.length += 1;
+  }
+
+  getItem = (index) => {
+    const chunkId = Math.floor(index / this.maxChunkSize);
+    const i = index % this.maxChunkSize;
+    return this.chunks[chunkId][i];
+  };
+
+  setItem = (index, item) => {
+    const chunkId = Math.floor(index / this.maxChunkSize);
+    const i = index % this.maxChunkSize;
+    this.chunks[chunkId][i] = item;
+  }
+};
+
 export function parseGcode(gcode) {
-  let path = [];
+  const parsedGcode = new ParsedGcode();
   let lastG = NaN, lastX = NaN, lastY = NaN, lastZ = NaN, lastA = NaN, lastF = NaN, lastS = 0, lastT = 0;
   let stride = 9;
   let i = 0;
   /*
   let g = NaN, x = NaN, y = NaN, z = NaN, a = NaN, f = NaN;
   for (let i = 0; i < gcodeList.length; ++i) {
-    
+
   }*/
 
   let flag = true;
@@ -85,45 +115,55 @@ export function parseGcode(gcode) {
       if (g === 0 || g === 1)
         lastG = g;
       if (!isNaN(x)) {
-        if (isNaN(lastX))
-          for (let j = 1; j < path.length; j += stride)
-            path[j] = x;
+        if (isNaN(lastX)) {
+          for (let j = 1; j < parsedGcode.length; j += stride) {
+            parsedGcode.setItem(j, x);
+          }
+        }
         lastX = x;
       }
       if (!isNaN(y)) {
-        if (isNaN(lastY))
-          for (let j = 2; j < path.length; j += stride)
-            path[j] = y;
+        if (isNaN(lastY)) {
+          for (let j = 2; j < parsedGcode.length; j += stride) {
+            parsedGcode.setItem(j, y);
+          }
+        }
         lastY = y;
       }
       if (!isNaN(z)) {
-        if (isNaN(lastZ))
-          for (let j = 3; j < path.length; j += stride)
-            path[j] = z;
+        if (isNaN(lastZ)) {
+          for (let j = 3; j < parsedGcode.length; j += stride) {
+            parsedGcode.setItem(j, z);
+          }
+        }
         lastZ = z;
       }
       if (!isNaN(a)) {
-        if (isNaN(lastA))
-          for (let j = 6; j < path.length; j += stride)
-            path[j] = a;
+        if (isNaN(lastA)) {
+          for (let j = 6; j < parsedGcode.length; j += stride) {
+            parsedGcode.setItem(j, a);
+          }
+        }
         lastA = a;
       }
       if (!isNaN(f)) {
-        if (isNaN(lastF))
-          for (let j = 4; j < path.length; j += stride)
-            path[j] = f;
+        if (isNaN(lastF)) {
+          for (let j = 4; j < parsedGcode.length; j += stride) {
+            parsedGcode.setItem(j, f);
+          }
+        }
         lastF = f;
       }
       if (!isNaN(lastG)) {
-        path.push(lastG);
-        path.push(lastX);
-        path.push(lastY);
-        path.push(lastZ);
-        path.push(0); // E
-        path.push(lastF);
-        path.push(lastA);
-        path.push(lastS);
-        path.push(lastT);
+        parsedGcode.push(lastG);
+        parsedGcode.push(lastX);
+        parsedGcode.push(lastY);
+        parsedGcode.push(lastZ);
+        parsedGcode.push(0); // E
+        parsedGcode.push(lastF);
+        parsedGcode.push(lastA);
+        parsedGcode.push(lastS);
+        parsedGcode.push(lastT);
       }
     }
     while (i < gcode.length && gcode[i] != '\r' && gcode[i] != '\n')
@@ -132,21 +172,32 @@ export function parseGcode(gcode) {
       ++i;
   }
 
-  if (isNaN(lastX))
-    for (let j = 1; j < path.length; j += stride)
-      path[j] = 0;
-  if (isNaN(lastY))
-    for (let j = 2; j < path.length; j += stride)
-      path[j] = 0;
-  if (isNaN(lastZ))
-    for (let j = 3; j < path.length; j += stride)
-      path[j] = 0;
-  if (isNaN(lastF))
-    for (let j = 4; j < path.length; j += stride)
-      path[j] = 1000;
-  if (isNaN(lastA))
-    for (let j = 6; j < path.length; j += stride)
-      path[j] = 0;
-
-  return path;
+  if (isNaN(lastX)) {
+    for (let j = 1; j < parsedGcode.length; j += stride) {
+      parsedGcode.setItem(j, 0);
+    }
+  }
+  if (isNaN(lastY)) {
+    for (let j = 2; j < parsedGcode.length; j += stride) {
+      parsedGcode.setItem(j, 0);
+    }
+  }
+  if (isNaN(lastZ)) {
+    for (let j = 3; j < parsedGcode.length; j += stride) {
+      parsedGcode.setItem(j, 0);
+    }
+  }
+  if (isNaN(lastF)) {
+    for (let j = 4; j < parsedGcode.length; j += stride) {
+      parsedGcode.setItem(j, 1000);
+    }
+  }
+  if (isNaN(lastA)) {
+    for (let j = 6; j < parsedGcode.length; j += stride) {
+      parsedGcode.setItem(j, 0);
+    }
+  }
+  return parsedGcode;
 }
+
+export default parseGcode;

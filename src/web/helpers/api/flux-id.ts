@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
@@ -13,7 +13,7 @@ import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
 
 export interface ResponseWithError extends AxiosResponse {
-  error?: string;
+  error?: AxiosError;
 }
 const OAUTH_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
@@ -37,7 +37,7 @@ axiosFluxId.interceptors.response.use((response) => response, (error) => ({ erro
 
 export const fluxIDEvents = eventEmitterFactory.createEventEmitter('flux-id');
 
-const handleErrorMessage = (error) => {
+const handleErrorMessage = (error: AxiosError) => {
   if (!error) {
     return;
   }
@@ -266,7 +266,7 @@ export const externalLinkMemberDashboard = async (): Promise<void> => {
 };
 
 export const signIn = async (
-  signInData: { email: string, password?: string, fb_token?: string },
+  signInData: { email: string; password?: string; expires_session?: boolean },
 ) => {
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', signInData, {

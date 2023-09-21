@@ -3,8 +3,10 @@ const requirement = {
   CALIBRATION_MODE: '3.5.1',
   NEW_PLAYER: '3.3.0',
   B34_LOOSE_MOTOR: '3.3.0',
+  UPDATE_BY_SOFTWARE: '3.2.6',
   MAINTAIN_WITH_LINECHECK: '3.2.6',
   RELOCATE_ORIGIN: '3.2.2',
+  BEAM_STUDIO_2: '3.2.1',
   FAST_GRADIENT: '3.0.1',
   TEMP_I2C_CMD: '3.0.1',
   DIODE_AND_AUTOFOCUS: '3.0.0',
@@ -22,7 +24,7 @@ const requirement = {
 };
 
 // 1.7.0 > 1.5.0 > 1.5b12 > 1.5a12
-export default (sourceVersion: string): { meetRequirement: (key: string) => boolean } => {
+export default (sourceVersion: string): { meetRequirement: (key: keyof typeof requirement) => boolean } => {
   const currentVersion = sourceVersion.split('.');
   const meetVersion = (targetVersion) => {
     targetVersion = targetVersion.split('.');

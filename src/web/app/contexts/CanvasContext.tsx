@@ -127,7 +127,10 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     topBarEventEmitter.on('SET_FILE_NAME', setFileName);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
-    topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', setStartPreviewCallback);
+    topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', (callback) => {
+      // wrap callback with a function to prevent calling it immediately
+      setStartPreviewCallback(() => callback);
+    });
     topBarEventEmitter.on('GET_TOP_BAR_PREVIEW_MODE', (response: {
       isPreviewMode: boolean,
     }): void => {

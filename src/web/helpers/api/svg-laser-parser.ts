@@ -473,7 +473,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         'upload_plain_svg',
         'text-svg',
         file.size,
-      ].join(' '));
+      ].join(' '));
       return $deferred.promise();
     },
 

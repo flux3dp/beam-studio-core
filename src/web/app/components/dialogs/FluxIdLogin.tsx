@@ -50,10 +50,12 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   const handleLogin = async () => {
     const email = emailInput.current.input.value;
     const password = passwordInput.current.input.value;
+    const rememberMe = rememberMeCheckbox.current.checked;
     await signOut();
     const res = await signIn({
       email,
       password,
+      expires_session: !rememberMe,
     });
     if (res.error) {
       return;

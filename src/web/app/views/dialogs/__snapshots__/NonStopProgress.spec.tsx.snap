@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test BackgroundRemovalPanel should render correctly 1`] = `
+exports[`test NonStopProgress should render correctly 1`] = `
 <body>
   <div />
   <div>
@@ -15,11 +15,10 @@ exports[`test BackgroundRemovalPanel should render correctly 1`] = `
         tabindex="-1"
       >
         <div
-          aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          class="ant-modal css-dev-only-do-not-override-hash nonstop ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 800px;"
+          style="min-width: 150px;"
         >
           <div
             aria-hidden="true"
@@ -30,32 +29,20 @@ exports[`test BackgroundRemovalPanel should render correctly 1`] = `
             class="ant-modal-content"
           >
             <div
-              class="ant-modal-header"
-            >
-              <div
-                class="ant-modal-title"
-                id="test-id"
-              >
-                AI Background Removal
-              </div>
-            </div>
-            <div
               class="ant-modal-body"
             >
-              <div
-                class="container"
-              >
-                <div>
-                  <img
-                    alt="original"
-                    src="originalUrl"
-                  />
+              <div>
+                <div
+                  class="spinner-container"
+                >
+                  <div>
+                    SpinLoading
+                  </div>
                 </div>
-                <div>
-                  <img
-                    alt="result"
-                    src="resultUrl"
-                  />
+                <div
+                  class="caption"
+                >
+                  Hello World
                 </div>
               </div>
             </div>
@@ -64,6 +51,7 @@ exports[`test BackgroundRemovalPanel should render correctly 1`] = `
             >
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
+                style="display: none;"
                 type="button"
               >
                 <span>
@@ -72,10 +60,11 @@ exports[`test BackgroundRemovalPanel should render correctly 1`] = `
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
+                style="display: none;"
                 type="button"
               >
                 <span>
-                  Apply
+                  OK
                 </span>
               </button>
             </div>

@@ -8,16 +8,18 @@ const weldPath = (pathD: string): string => {
     .map((d) => `<path d="M${d}" />`);
   const items = proj.importSVG(`<svg>${subPaths.join('')}</svg>`);
   const objs = [...items.children] as (paper.Path | paper.CompoundPath)[];
-  // Sort from the biggest to the smallest area
-  objs.sort((a, b) => b.area - a.area);
+  objs.sort((a, b) => Math.abs(b.area) - Math.abs(a.area));
   let basePath = objs[0] as paper.PathItem;
   const removeList = [];
   for (let i = 1; i < objs.length; i += 1) {
     const newPath = basePath.unite(objs[i]);
-    // If the new path is the same as base path, it means the objs[i] is inside the base path
-    if (newPath.pathData !== basePath.pathData) {
+    const newPathArea = (newPath as paper.CompoundPath).area;
+
+    // If the area of changes, the path is welded into the newPath, so we remove the old path
+    if (Math.abs(Math.abs(newPathArea) - Math.abs((basePath as paper.CompoundPath).area)) > 1e-7)
       removeList.push(objs[i]);
-    }
+    // else we keep the subpath, but we need to make sure the direction is correct (different to the main path)
+    else if (Math.sign(newPathArea) === Math.sign(objs[i].area)) objs[i].reverse();
     basePath.remove();
     basePath = newPath;
   }

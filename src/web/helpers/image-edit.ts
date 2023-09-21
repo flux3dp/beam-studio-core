@@ -54,25 +54,26 @@ const getImageAttributes = (elem: Element) => {
   };
 };
 
-const generateBase64Image = (
-  imgSrc: string, shading: boolean, threshold: number,
-) => new Promise<string>((resolve) => {
-  imageData(imgSrc, {
-    grayscale: {
-      is_rgba: true,
-      is_shading: shading,
-      threshold,
-      is_svg: false,
-    },
-    isFullResolution: true,
-    onComplete(result) {
-      resolve(result.pngBase64);
-    },
+const generateBase64Image = (imgSrc: string, shading: boolean, threshold: number) =>
+  new Promise<string>((resolve) => {
+    imageData(imgSrc, {
+      grayscale: {
+        is_rgba: true,
+        is_shading: shading,
+        threshold,
+        is_svg: false,
+      },
+      isFullResolution: true,
+      onComplete(result) {
+        resolve(result.pngBase64);
+      },
+    });
   });
-});
 
 const addBatchCommand = (
-  commandName: string, elem: Element, changes: { [key: string]: string | number | boolean },
+  commandName: string,
+  elem: Element,
+  changes: { [key: string]: string | number | boolean }
 ) => {
   const batchCommand: IBatchCommand = new history.BatchCommand(commandName);
   const setAttribute = (key: string, value) => {
@@ -156,23 +157,24 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
   const batchCmd = new history.BatchCommand('Vectorize Image');
   const imgBBox = element.getBBox();
   const angle = svgedit.utilities.getRotationAngle(element);
-  const grayScaleUrl = await new Promise((resolve) => imageData(
-    imgUrl,
-    {
+  const grayScaleUrl = await new Promise((resolve) =>
+    imageData(imgUrl, {
       width: Number(element.getAttribute('width')),
       height: Number(element.getAttribute('height')),
       grayscale: {
         is_rgba: true,
         is_shading: false,
         threshold: shading ? 128 : threshold,
-        is_svg: false
+        is_svg: false,
       },
       onComplete: (result) => resolve(result.pngBase64),
-    }
-  ));
-  const svgStr = (await new Promise<string>((resolve) => ImageTracer.imageToSVG(
-    grayScaleUrl, (str) => resolve(str), 'detailed'
-  ))).replace(/<\/?svg[^>]*>/g, '');
+    })
+  );
+  const svgStr = (
+    await new Promise<string>((resolve) =>
+      ImageTracer.imageToSVG(grayScaleUrl, (str) => resolve(str), 'detailed')
+    )
+  ).replace(/<\/?svg[^>]*>/g, '');
   const gId = svgCanvas.getNextId();
   const g = svgCanvas.addSvgElementFromJson<SVGGElement>({ element: 'g', attr: { id: gId } });
   ImageTracer.appendSVGString(svgStr, gId);
@@ -182,8 +184,8 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
   if (imgBBox.width !== gBBox.width) svgCanvas.setSvgElemSize('width', imgBBox.width);
   if (imgBBox.height !== gBBox.height) svgCanvas.setSvgElemSize('height', imgBBox.height);
   gBBox = g.getBBox();
-  const dx = (imgBBox.x + 0.5 * imgBBox.width) - (gBBox.x + 0.5 * gBBox.width);
-  const dy = (imgBBox.y + 0.5 * imgBBox.height) - (gBBox.y + 0.5 * gBBox.height);
+  const dx = imgBBox.x + 0.5 * imgBBox.width - (gBBox.x + 0.5 * gBBox.width);
+  const dy = imgBBox.y + 0.5 * imgBBox.height - (gBBox.y + 0.5 * gBBox.height);
   let d = '';
   for (let i = 0; i < g.childNodes.length; i += 1) {
     const child = g.childNodes[i] as SVGPathElement;
@@ -208,7 +210,7 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
       fill: '#000000',
       'stroke-width': 1,
       'vector-effect': 'non-scaling-stroke',
-    }
+    },
   });
   path.setAttribute('d', d);
   moveElements([dx], [dy], [path], false);
@@ -261,22 +263,45 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   form.append('image', imgData);
 
   try {
-    const removeResult = await axiosFluxId.post('/api/remove-background', form, {
+    const removeResult = (await axiosFluxId.post('/api/remove-background', form, {
       withCredentials: true,
       headers: getDefaultHeader(),
       responseType: 'blob',
       timeout: 1000 * 60 * 3, // 3 min
-    }) as ResponseWithError;
+    })) as ResponseWithError;
     if (removeResult.error) {
+      const { message, response: { status, data } = {} } = removeResult.error;
+      let errorDetail = '';
+      if (data instanceof Blob && data.type === 'application/json') {
+        errorDetail = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = (e) => {
+            const str = e.target.result as string;
+            const d = JSON.parse(str);
+            resolve(d.detail);
+          };
+          reader.readAsText(data);
+        });
+      }
+      if (status === 403 && errorDetail.startsWith('CSRF Failed')) {
+        alertCaller.popUp({
+          message: i18n.lang.beambox.popup.ai_credit.relogin_to_use,
+          buttonType: alertConstants.CONFIRM_CANCEL,
+          onConfirm: dialogCaller.showLoginDialog,
+        });
+        return;
+      }
       alertCaller.popUpError({
-        message: `Server Error: ${removeResult.error}`,
+        message: `Server Error: ${status} ${errorDetail || message}`,
       });
       return;
     }
     const contentType = removeResult.headers['content-type'];
     if (contentType === 'application/json') {
       const { status, info, message } = await new Promise<{
-        info: string; status: string; message?: string;
+        info: string;
+        status: string;
+        message?: string;
       }>((resolve) => {
         const reader = new FileReader();
         reader.onloadend = (e) => {
@@ -293,13 +318,14 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
             caption: i18n.lang.beambox.popup.ai_credit.insufficient_credit,
             message: sprintf(
               i18n.lang.beambox.popup.ai_credit.insufficient_credit_msg,
-              i18n.lang.beambox.right_panel.object_panel.actions_panel.ai_bg_removal,
+              i18n.lang.beambox.right_panel.object_panel.actions_panel.ai_bg_removal
             ),
             buttonType: alertConstants.CUSTOM_CANCEL,
             buttonLabels: [i18n.lang.beambox.popup.ai_credit.go],
             callbacks: () => browser.open(i18n.lang.beambox.popup.ai_credit.buy_link),
           });
-        } else if (info === 'API_ERROR') alertCaller.popUpError({ message: `API Error: ${message}` });
+        } else if (info === 'API_ERROR')
+          alertCaller.popUpError({ message: `API Error: ${message}` });
         else alertCaller.popUpError({ message: `Error: ${info}` });
       }
       return;
@@ -311,11 +337,6 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     }
     const blob = removeResult.data as Blob;
     const blobUrl = URL.createObjectURL(blob);
-    // 2023/08/11 No compare dialog after discussion, remove this code and BackgroundRemovalPanel after they make sure.
-    // const doApply = await new Promise<boolean>((resolve) => {
-    //   dialogCaller.showBackgroundRemovalPanel(imgUrl, blobUrl, () => resolve(true), () => resolve(false));
-    // });
-    // if (!doApply) return;
     const newThreshold = 255;
     const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
     addBatchCommand('Image Edit: Remove background', element, {
@@ -348,7 +369,7 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   }
   const image = await jimpHelper.urlToImage(imgUrl);
   const sx = imgBBox.width / image.bitmap.width;
-  const sy = imgBBox.height /image.bitmap.height;
+  const sy = imgBBox.height / image.bitmap.height;
 
   let final = '';
   if (isTransparentBackground) {
@@ -377,7 +398,7 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
       fill: '#000000',
       'stroke-width': 1,
       'vector-effect': 'non-scaling-stroke',
-    }
+    },
   });
   svgCanvas.selectOnly([g]);
   const dx = imgBBox.x;

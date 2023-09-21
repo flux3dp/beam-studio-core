@@ -5,6 +5,7 @@ import blobSegments from 'helpers/blob-segments';
 import i18n from 'helpers/i18n';
 import isJson from 'helpers/is-json';
 import Logger from 'helpers/logger';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import outputError from 'helpers/output-error';
 
 window.FLUX.websockets = [];
@@ -103,6 +104,13 @@ export default function (options) {
             outputError.uploadBackendErrorLog();
           },
         });
+        MessageCaller.openMessage({
+          key: 'backend-error-hint',
+          content: LANG.backend_error_hint,
+          level: MessageLevel.ERROR,
+          duration: 0,
+          onClick: () => MessageCaller.closeMessage('backend-error-hint'),
+        });
       }
       return null;
     }
@@ -124,12 +132,20 @@ export default function (options) {
             outputError.uploadBackendErrorLog();
           },
         });
+        MessageCaller.openMessage({
+          key: 'backend-error-hint',
+          content: LANG.backend_error_hint,
+          level: MessageLevel.ERROR,
+          duration: 0,
+          onClick: () => MessageCaller.closeMessage('backend-error-hint'),
+        });
       }
     };
 
     nodeWs.onopen = (e) => {
       socketOptions.onOpen(e);
       wsErrorCount = 0;
+      MessageCaller.closeMessage('backend-error-hint');
     };
 
     nodeWs.onmessage = (result) => {

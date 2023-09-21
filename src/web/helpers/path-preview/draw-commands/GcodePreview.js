@@ -160,25 +160,25 @@ export class GcodePreview {
 
       for (let i = 0; i < parsed.length / parsedStride - 1; i += 1) {
         // g
-        const x1 = parsed[i * parsedStride + 1];
-        const y1 = parsed[i * parsedStride + 2];
-        const z1 = parsed[i * parsedStride + 3];
+        const x1 = parsed.getItem(i * parsedStride + 1);
+        const y1 = parsed.getItem(i * parsedStride + 2);
+        const z1 = parsed.getItem(i * parsedStride + 3);
         // e
         // f
-        const a1 = parsed[i * parsedStride + 6];
+        const a1 = parsed.getItem(i * parsedStride + 6);
         // s
         // t
 
-        const g = parsed[i * parsedStride + 9];
-        const x2 = parsed[i * parsedStride + 10];
-        const y2 = parsed[i * parsedStride + 11];
-        const z2 = parsed[i * parsedStride + 12];
+        const g = parsed.getItem(i * parsedStride + 9);
+        const x2 = parsed.getItem(i * parsedStride + 10);
+        const y2 = parsed.getItem(i * parsedStride + 11);
+        const z2 = parsed.getItem(i * parsedStride + 12);
         // e
-        const f = parsed[i * parsedStride + 14];
-        const a2 = parsed[i * parsedStride + 15];
+        const f = parsed.getItem(i * parsedStride + 14);
+        const a2 = parsed.getItem(i * parsedStride + 15);
 
         // s
-        const t = parsed[i * parsedStride + 8];
+        const t = parsed.getItem(i * parsedStride + 8);
 
         if (g) {
           this.minX = Math.min(this.minX, x1, x2);

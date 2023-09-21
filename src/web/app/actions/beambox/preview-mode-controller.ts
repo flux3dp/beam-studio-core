@@ -178,6 +178,7 @@ class PreviewModeController {
       this.errorCallback = errCallback;
       this.isPreviewModeOn = true;
     } catch (error) {
+      console.error(error);
       if (device.model !== 'fad1') await this.endBeamSeriesPreviewMode();
       deviceMaster.kick();
       throw error;
