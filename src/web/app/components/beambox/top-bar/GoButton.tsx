@@ -220,9 +220,8 @@ const GoButton = (props: Props): JSX.Element => {
       showDeviceList('export', (device) => exportTask(device));
     };
 
-    // if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(handleExport);
-    // else handleExport();
-    handleExport();
+    if (window.FLUX.version === 'web' && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
+    else handleExport();
   };
 
   const { hasDiscoverdMachine, hasText } = props;
