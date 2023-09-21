@@ -31,7 +31,8 @@ const SpeedBlock = ({
   const visible = activeKey === 'speed';
   const { hasVector } = useContext(LayerPanelContext);
   const timeEstimationButtonEventEmitter = useMemo(
-    () => eventEmitterFactory.createEventEmitter('time-estimation-button'), []
+    () => eventEmitterFactory.createEventEmitter('time-estimation-button'),
+    []
   );
 
   const { value, hasMultiValue } = state.speed;
@@ -63,7 +64,7 @@ const SpeedBlock = ({
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     if (type !== 'modal')
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.speed, val);
+        writeData(layerName, DataType.speed, val, true);
         writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
       });
   };
