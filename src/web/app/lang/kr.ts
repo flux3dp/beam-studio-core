@@ -838,8 +838,6 @@ const lang: ILang = {
       engrave_parameters: '새김 인쇄 매개변수',
       workarea: '작업 영역',
       rotary_mode: '로터리',
-      rotary_v1: '로터리 1.0',
-      rotary_v2: '로터리 2.0',
       borderless_mode: '열린 바닥',
       engrave_dpi: '해상도',
       enable_diode: '다이오드 레이저',

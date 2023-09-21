@@ -36,8 +36,6 @@ jest.mock('helpers/useI18n', () => () => ({
       engrave_parameters: 'Engraving Parameters',
       workarea: 'Working Area',
       rotary_mode: 'Rotary',
-      rotary_v1: 'rotary_v1',
-      rotary_v2: 'rotary_v2',
       borderless_mode: 'Open Bottom',
       engrave_dpi: 'Resolution',
       enable_diode: 'Diode Laser',

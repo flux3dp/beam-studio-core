@@ -838,8 +838,6 @@ const lang: ILang = {
       engrave_parameters: 'Parámetros de grabado',
       workarea: 'Área de trabajo',
       rotary_mode: 'Rotatorio',
-      rotary_v1: 'Rotary 1.0',
-      rotary_v2: 'Rotary 2.0',
       borderless_mode: 'Abrir el fondo',
       engrave_dpi: 'Resolución',
       enable_diode: 'Láser diodo',

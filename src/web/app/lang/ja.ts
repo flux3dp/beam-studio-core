@@ -838,8 +838,6 @@ const lang: ILang = {
       engrave_parameters: '彫刻パラメーター',
       workarea: '作業領域',
       rotary_mode: 'ロータリー',
-      rotary_v1: 'Rotary 1.0',
-      rotary_v2: 'Rotary 2.0',
       borderless_mode: 'ボーダーレスモード',
       engrave_dpi: '解像度',
       enable_diode: 'ダイオードレーザー',

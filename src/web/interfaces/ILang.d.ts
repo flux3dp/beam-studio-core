@@ -835,8 +835,6 @@ export interface ILang {
       engrave_parameters: string,
       workarea: string,
       rotary_mode: string,
-      rotary_v1: string;
-      rotary_v2: string;
       borderless_mode: string,
       engrave_dpi: string,
       enable_diode: string,
