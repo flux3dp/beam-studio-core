@@ -1041,7 +1041,6 @@ const svgEditor = window['svgEditor'] = (function () {
       if (curr.length && curr[0].id !== 'tool_select') {
         curr.removeClass('tool_button_current').addClass('tool_button');
         $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
-        //$('#styleoverrides').text('#svgcanvas svg *{cursor:move;pointer-events:all} #svgcanvas svg{cursor:default}');
       }
       svgCanvas.setMode('select');
       workarea.css('cursor', 'auto');
@@ -1234,7 +1233,6 @@ const svgEditor = window['svgEditor'] = (function () {
       if (!noHiding) {
         $('.tools_flyout').fadeOut(fadeFlyouts);
       }
-      $('#styleoverrides').text('');
       workarea.css('cursor', 'auto');
       $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
       $(button).addClass('tool_button_current').removeClass('tool_button');
@@ -1247,7 +1245,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       if (toolButtonClick('#tool_select')) {
         svgCanvas.setMode('select');
-        $('#styleoverrides').text('#svgcanvas svg *:not(#previewBoundary *){cursor:move;pointer-events:all;stroke-width:1px;vector-effect:non-scaling-stroke;}, #svgcanvas svg{cursor:default}');
       }
       if (clearSelection) svgCanvas.clearSelection();
     };
@@ -1689,7 +1686,7 @@ const svgEditor = window['svgEditor'] = (function () {
         RightPanelController.toElementMode();
         TopBarController.setElement(elem);
       }
-      LayerPanelController.updateLayerPanel();
+
       /*
       $('#selected_panel, #multiselected_panel, #g_panel, #rect_panel, #circle_panel,' +
       '#ellipse_panel, #line_panel, #text_panel, #image_panel, #container_panel,' +
