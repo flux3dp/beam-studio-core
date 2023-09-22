@@ -52,7 +52,6 @@ const layerToImage = async (
       ${layerClone.outerHTML}
     </svg>`;
   const canvas = await svgStringToCanvas(svgString, targetWidth, targetHeight);
-  console.log(canvas.toDataURL('image/png'));
   return new Promise((resolve) => {
     canvas.toBlob((b) => {
       resolve({ blob: b, bbox: { x, y, width, height } });
@@ -70,6 +69,13 @@ const splitFullColorLayer = async (
   if (!layer.getAttribute('data-fullcolor')) {
     return null;
   }
+  const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
+  if (!blob || bbox.width === 0 || bbox.height === 0) {
+    return null;
+  }
+  const layerImageUrl = URL.createObjectURL(blob);
+  const channelBlobs = await splitColor(layerImageUrl);
+
   const batchCmd = new history.BatchCommand('Split Full Color Layer');
   const newLayers: Element[] = [];
   const nameSuffix = ['K', 'C', 'M', 'Y'];
@@ -96,9 +102,6 @@ const splitFullColorLayer = async (
     }
   }
 
-  const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
-  const layerImageUrl = URL.createObjectURL(blob);
-  const channelBlobs = await splitColor(layerImageUrl);
   const promises = [];
   for (let j = 0; j < newLayers.length; j += 1) {
     const newImgUrl = URL.createObjectURL(channelBlobs[j]);

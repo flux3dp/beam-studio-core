@@ -630,6 +630,8 @@ const lang: ILang = {
           merge_selected: '選択したレイヤーをマージ',
           move_elems_to: '移動先レイヤ:',
           move_selected: '選択対象を別のレイヤに移動',
+          toggleFullColor: 'フルカラー切り替え',
+          splitFullColor: 'カラー分割',
         },
       },
       laser_panel: {
