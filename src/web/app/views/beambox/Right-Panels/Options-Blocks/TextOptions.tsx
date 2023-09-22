@@ -448,7 +448,6 @@ class TextOptions extends React.Component<Props, State> {
         {this.renderLineSpacingBlock()}
         {this.renderLetterSpacingBlock()}
         {this.renderVerticalTextSwitch()}
-        <InFillBlock elem={elem} />
       </>
     );
   }

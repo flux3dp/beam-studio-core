@@ -114,14 +114,16 @@ export default {
         onClose={() => popDialogById('about-bs')}
       />);
   },
-  showColorPicker: (
+  showColorPicker: (opts: {
     originalColor: string,
     left: number,
     top: number,
-    isPrinting: boolean,
+    isPrinting?: boolean,
+    allowNone?: boolean,
     onNewColor: (color: string) => void,
-  ): void => {
+  }): void => {
     if (isIdExist('color-picker')) return;
+    const { originalColor, left, top, isPrinting, allowNone, onNewColor} = opts;
     addDialogComponent('color-picker',
       <ColorPickerPanel
         originalColor={originalColor}
@@ -130,6 +132,7 @@ export default {
         isPrinting={isPrinting}
         onNewColor={onNewColor}
         onClose={() => popDialogById('color-picker')}
+        allowNone={allowNone}
       />);
   },
   showDocumentSettings: (): void => {

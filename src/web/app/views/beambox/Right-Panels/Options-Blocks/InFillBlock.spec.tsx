@@ -3,19 +3,17 @@ import { fireEvent, render } from '@testing-library/react';
 
 import InFillBlock from './InFillBlock';
 
-const isMobile = jest.fn();
+const mockIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
-  isMobile: () => isMobile(),
+  useIsMobile: () => () => mockIsMobile(),
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      right_panel: {
-        object_panel: {
-          option_panel: {
-            fill: 'Infill',
-          },
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    right_panel: {
+      object_panel: {
+        option_panel: {
+          fill: 'Infill',
         },
       },
     },
@@ -70,7 +68,7 @@ describe('should render correctly', () => {
     const { container } = render(<InFillBlock elem={document.getElementById('flux')} />);
     expect(container).toMatchSnapshot();
 
-    const switchBtn = container.querySelector('button.ant-btn-text');
+    const switchBtn = container.querySelector('button.ant-switch');
     fireEvent.click(switchBtn);
     expect(container).toMatchSnapshot();
     expect(setElemsUnfill).not.toHaveBeenCalled();
@@ -114,7 +112,7 @@ describe('should render correctly', () => {
 describe('should render correctly in mobile', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    isMobile.mockReturnValue(true);
+    mockIsMobile.mockReturnValue(true);
   });
 
   test('id given', () => {
@@ -139,7 +137,7 @@ describe('should render correctly in mobile', () => {
     document.body.innerHTML = '<div id="flux" />';
     const { container } = render(<InFillBlock elem={document.getElementById('flux')} />);
     expect(container).toMatchSnapshot();
-    expect(isMobile).toHaveBeenCalledTimes(0);
+    expect(mockIsMobile).toHaveBeenCalledTimes(0);
     expect(isElemFillable).toHaveBeenCalledTimes(1);
     expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('flux'));
     expect(calcElemFilledInfo).toHaveBeenCalledTimes(1);

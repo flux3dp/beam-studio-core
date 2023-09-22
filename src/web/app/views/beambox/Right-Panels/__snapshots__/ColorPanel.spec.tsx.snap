@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test ColorPanel set fill color to none should work 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="title"
+    >
+      COLOR
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Fill
+      </div>
+      <div
+        class="color none"
+        style="background: none;"
+      />
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Stroke
+      </div>
+      <div
+        class="color"
+        style="background: rgb(0, 255, 0);"
+      />
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Stroke Width
+      </div>
+      <div>
+        <input
+          data-testid="stroke-width"
+          id="stroke-width"
+          type="number"
+          value="0.1"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test ColorPanel set stroke width should work 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="title"
+    >
+      COLOR
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Fill
+      </div>
+      <div
+        class="color"
+        style="background: rgb(255, 0, 0);"
+      />
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Stroke
+      </div>
+      <div
+        class="color"
+        style="background: rgb(0, 255, 0);"
+      />
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Stroke Width
+      </div>
+      <div>
+        <input
+          data-testid="stroke-width"
+          id="stroke-width"
+          type="number"
+          value="0.1"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test ColorPanel should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="title"
+    >
+      COLOR
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Fill
+      </div>
+      <div
+        class="color"
+        style="background: rgb(255, 0, 0);"
+      />
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Stroke
+      </div>
+      <div
+        class="color"
+        style="background: rgb(0, 255, 0);"
+      />
+    </div>
+    <div
+      class="block"
+    >
+      <div
+        class="label"
+      >
+        Stroke Width
+      </div>
+      <div>
+        <input
+          data-testid="stroke-width"
+          id="stroke-width"
+          type="number"
+          value="0.1"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

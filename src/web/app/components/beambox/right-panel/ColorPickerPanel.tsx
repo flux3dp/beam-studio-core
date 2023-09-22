@@ -16,19 +16,30 @@ interface Props {
   onNewColor: (newColor: string) => void;
   onClose: () => void;
   isPrinting?: boolean;
+  allowNone?: boolean;
 }
 
 const ColorPickerPanel = ({
-  originalColor, top, left, onNewColor, onClose, isPrinting,
+  originalColor,
+  top,
+  left,
+  onNewColor,
+  onClose,
+  isPrinting,
+  allowNone = false,
 }: Props): JSX.Element => {
   const lang = useI18n().beambox.photo_edit_panel;
-  const desktopWidth = 200;
-  const mobileHeight = 300;
   const isMobile = useIsMobile();
-  const style = isMobile ? { top: top - mobileHeight, left } : { top, left: left - desktopWidth };
-  const pickrRef = useRef(null);
+  const width = 200;
+  const height = isMobile ? 300 : 270;
+  const style = {
+    top: top + height > window.innerHeight ? window.innerHeight - height : top,
+    left: left > width ? left - width : left,
+  }
+  const pickrRef = useRef<Pickr>(null);
   const colorPresetContainerRef = useRef<HTMLDivElement>(null);
   const [currentColor, setCurrentColor] = useState(originalColor);
+  const [isNone, setIsNone] = useState(originalColor === 'none');
 
   useEffect(() => {
     if (isPrinting) return;
@@ -54,18 +65,21 @@ const ColorPickerPanel = ({
     });
     pickrRef.current.on('change', (color) => {
       setCurrentColor(color.toHEXA().toString());
+      setIsNone(false);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originalColor]);
 
   const onApply = () => {
-    onNewColor(currentColor);
+    if (allowNone && isNone) onNewColor('none');
+    else onNewColor(currentColor);
     onClose();
   };
 
-  const colors = useMemo(() => (
-    isPrinting ? colorConstants.printingLayerColor : colorConstants.randomLayerColors
-  ), [isPrinting]);
+  const colors = useMemo(
+    () => (isPrinting ? colorConstants.printingLayerColor : colorConstants.randomLayerColors),
+    [isPrinting]
+  );
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     const currentTarget = e.currentTarget as Element;
@@ -79,13 +93,28 @@ const ColorPickerPanel = ({
   };
 
   return (
-    <div className={styles.container} style={style}>
+    <div className={classNames(styles.container, { [styles['selecting-none']]: isNone })} style={style}>
       <div className={styles.background} onClick={onClose} />
       <div className={styles.presets} ref={colorPresetContainerRef} onWheelCapture={handleWheel}>
+        {allowNone && (
+          <div>
+            <div
+              className={classNames(styles.block, styles.none, {
+                [styles.selected]: isNone,
+              })}
+              onClick={() => {
+                if (isPrinting) setCurrentColor('none');
+                else setIsNone(true);
+              }}
+            />
+          </div>
+        )}
         {colors.map((color) => (
           <div key={color}>
             <div
-              className={classNames(styles.block, { [styles.selected]: color === currentColor })}
+              className={classNames(styles.block, {
+                [styles.selected]: !isNone && color === currentColor,
+              })}
               style={{ backgroundColor: color }}
               onClick={() => {
                 if (isPrinting) setCurrentColor(color);
@@ -97,9 +126,7 @@ const ColorPickerPanel = ({
       </div>
       <div className="pickr" />
       <div className={styles.footer}>
-        <Button onClick={onClose}>
-          {lang.cancel}
-        </Button>
+        <Button onClick={onClose}>{lang.cancel}</Button>
         <Button onClick={onApply} type="primary">
           {lang.okay}
         </Button>
