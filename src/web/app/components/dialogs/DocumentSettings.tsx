@@ -61,17 +61,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const handleAutofocusModuleChange = (value: boolean) => setEnableAutofocus(value);
 
   const rotaryModels = useMemo(() => constant.getRotaryModels(workarea), [workarea]);
-  const rotaryModalLabels = useMemo(() => ({
+  const rotaryModalLabels = {
     0: lang.settings.off,
-    1: rotaryModels.length > 2 ? langDocumentSettings.rotary_v1 : lang.settings.on,
-    2: langDocumentSettings.rotary_v2,
-  }), [
-    lang.settings.on,
-    lang.settings.off,
-    rotaryModels.length,
-    langDocumentSettings.rotary_v1,
-    langDocumentSettings.rotary_v2,
-  ]);
+    1: lang.settings.on,
+  };
 
   useEffect(() => {
     if (!rotaryModels.includes(rotaryMode)) {
@@ -129,7 +122,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         </Form.Item>
         <strong>{langDocumentSettings.add_on}</strong>
         <Form.Item initialValue={rotaryMode} name="rotary_mode" label={langDocumentSettings.rotary_mode}>
-          <Select bordered onChange={handleRotaryModeChange} value={rotaryMode}>
+          <Select bordered onChange={handleRotaryModeChange} value={rotaryMode} disabled={rotaryModels.length === 1}>
             {rotaryModels.map((model) => (
               <Select.Option key={model} value={model}>{rotaryModalLabels[model]}</Select.Option>
             ))}

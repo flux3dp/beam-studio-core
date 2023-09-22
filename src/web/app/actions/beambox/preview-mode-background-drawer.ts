@@ -208,26 +208,25 @@ class PreviewModeBackgroundDrawer {
       img.onload = () => {
         // free unused blob memory
         URL.revokeObjectURL(imgUrl);
-
         const regulatedImg = this.cropAndRotateImg(img);
         const { width, height } = regulatedImg;
         const { canvasRatio } = this;
-        const minX = Math.max((x - width / 2) * canvasRatio, 0);
+        const minX = (x - width / 2) * canvasRatio;
         const maxX = (x + width / 2) * canvasRatio;
-        const minY = Math.max((y - height / 2) * canvasRatio, 0);
+        const minY = (y - height / 2) * canvasRatio;
         const maxY = (y + height / 2) * canvasRatio;
 
         if (maxX > this.coordinates.maxX) {
           this.coordinates.maxX = maxX;
         }
         if (minX < this.coordinates.minX) {
-          this.coordinates.minX = minX;
+          this.coordinates.minX = Math.max(minX, 0);
         }
         if (maxY > this.coordinates.maxY) {
           this.coordinates.maxY = maxY;
         }
         if (minY < this.coordinates.minY) {
-          this.coordinates.minY = minY;
+          this.coordinates.minY = Math.max(minY, 0);
         }
         this.canvas.getContext('2d').drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
         this.canvas.toBlob((blob) => {

@@ -7,6 +7,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
+import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import isDev from 'helpers/is-dev';
@@ -145,10 +146,10 @@ const GoButton = (props: Props): JSX.Element => {
     return true;
   };
 
-  const exportTask = (device: IDeviceInfo) => {
-    if (device.version === '4.1.1') {
+  const exportTask = async (device: IDeviceInfo) => {
+    const showForceUpdateAlert = (id: string) => {
       Alert.popUp({
-        id: '4.1.1-version-alert',
+        id,
         message: lang.update.firmware.force_update_message,
         type: AlertConstants.SHOW_POPUP_ERROR,
         buttonType: AlertConstants.CUSTOM_CANCEL,
@@ -158,9 +159,23 @@ const GoButton = (props: Props): JSX.Element => {
         },
         onCancel: () => {},
       });
+    }
+    const { version, model } = device;
+    if (version === '4.1.1' && model !== 'fhexa1') {
+      showForceUpdateAlert('4.1.1-version-alert');
       return;
     }
-    const vc = VersionChecker(device.version);
+    // Check 4.1.5 / 4.1.6 rotary
+    if (
+      BeamboxPreference.read('rotary_mode') &&
+      ['4.1.5', '4.1.6'].includes(version) &&
+      model !== 'fhex1'
+    ) {
+      showForceUpdateAlert('4.1.5,6-rotary-alert');
+      return;
+    }
+
+    const vc = VersionChecker(version);
     if (!vc.meetRequirement('USABLE_VERSION')) {
       Alert.popUp({
         id: 'fatal-occurred',
@@ -169,8 +184,10 @@ const GoButton = (props: Props): JSX.Element => {
       });
       return;
     }
+    const res = await checkOldFirmware(device.version);
+    if (!res) return;
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    const allowedWorkareas = Constant.allowedWorkarea[device.model];
+    const allowedWorkareas = Constant.allowedWorkarea[model];
     if (currentWorkarea && allowedWorkareas) {
       if (!allowedWorkareas.includes(currentWorkarea)) {
         Alert.popUp({
@@ -203,9 +220,8 @@ const GoButton = (props: Props): JSX.Element => {
       showDeviceList('export', (device) => exportTask(device));
     };
 
-    // if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(handleExport);
-    // else handleExport();
-    handleExport();
+    if (window.FLUX.version === 'web' && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
+    else handleExport();
   };
 
   const { hasDiscoverdMachine, hasText } = props;

@@ -203,6 +203,7 @@ export interface ILang {
       update_fail: string,
       too_old_for_web: string,
       force_update_message: string;
+      firmware_too_old_update_by_sdcard: string;
     },
     software: {
       checking: string,
@@ -490,6 +491,8 @@ export interface ILang {
       too_fast_for_path: string,
       too_fast_for_path_and_constrain: string,
       should_update_firmware_to_continue: string,
+      recommend_downgrade_software: string;
+      still_continue: string;
       more_than_two_object: string,
       not_support_object_type: string,
       select_first: string,
@@ -512,6 +515,7 @@ export interface ILang {
         calculating: string,
       },
       backend_connect_failed_ask_to_upload: string,
+      backend_error_hint: string;
       pdf2svg: {
         error_when_converting_pdf: string,
         error_pdf2svg_not_found: string,
@@ -539,6 +543,7 @@ export interface ILang {
         dont_show_again: string;
       },
       ai_credit: {
+        relogin_to_use: string;
         insufficient_credit: string;
         insufficient_credit_msg: string;
         buy_link: string;
@@ -855,8 +860,6 @@ export interface ILang {
       engrave_parameters: string,
       workarea: string,
       rotary_mode: string,
-      rotary_v1: string;
-      rotary_v2: string;
       borderless_mode: string,
       engrave_dpi: string,
       enable_diode: string,

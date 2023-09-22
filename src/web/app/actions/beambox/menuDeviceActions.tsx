@@ -94,6 +94,15 @@ export const executeFirmwareUpdate = async (device: IDeviceInfo, type: string): 
     }
   };
   // TODO: Handle the error better (output eresp)
+  const vc = VersionChecker(device.version);
+  if (!vc.meetRequirement('UPDATE_BY_SOFTWARE')) {
+    Alert.popUp({
+      id: 'update-firmware',
+      type: AlertConstants.SHOW_INFO,
+      message: lang.update.firmware.firmware_too_old_update_by_sdcard,
+    });
+    return;
+  }
   try {
     const res = await DeviceMaster.select(device);
     if (res.success) {
@@ -263,7 +272,7 @@ export default {
     getLog(device, 'fluxupnpd.log');
   },
 
-  LOG_USB: (device : IDeviceInfo): void => {
+  LOG_USB: (device: IDeviceInfo): void => {
     getLog(device, 'fluxusbd.log');
   },
   LOG_USBLIST: async (device: IDeviceInfo): Promise<void> => {

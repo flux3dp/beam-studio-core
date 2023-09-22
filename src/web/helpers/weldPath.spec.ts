@@ -17,18 +17,21 @@ describe('test weldPath', () => {
       remove: jest.fn(),
       unite: mockUnite,
       pathData: 'mock-data-1',
+      reverse: jest.fn(),
     };
     const mockObjB = {
-      area: 20,
+      area: -20,
       remove: jest.fn(),
       unite: mockUnite,
       pathData: 'mock-data-2',
+      reverse: jest.fn(),
     };
     const mockObjC = {
-      area: 50,
+      area: 100,
       remove: jest.fn(),
       unite: mockUnite,
       pathData: 'mock-data-1',
+      reverse: jest.fn(),
     };
     const pathD = 'M123 234 L 345 456 L567 678z M123 345 L 567 789 L 123 456';
     mockImportSVG.mockReturnValue({ children: [mockObjA, mockObjB, mockObjC] });
@@ -62,6 +65,9 @@ describe('test weldPath', () => {
     expect(mockObjA.remove).toBeCalledTimes(1);
     expect(mockObjB.remove).toBeCalledTimes(1);
     expect(mockObjC.remove).toBeCalledTimes(1);
+    expect(mockObjA.reverse).not.toBeCalled();
+    expect(mockObjB.reverse).not.toBeCalled();
+    expect(mockObjC.reverse).toBeCalledTimes(1);
     expect(mockGetAttribute).toBeCalledTimes(3);
     expect(res).toEqual('mock-path-1,mock-path-2,mock-path-3,');
   });

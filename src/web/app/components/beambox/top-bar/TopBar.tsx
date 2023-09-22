@@ -8,6 +8,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import checkDeviceStatus from 'helpers/check-device-status';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
+import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
@@ -121,11 +122,33 @@ export default class TopBar extends React.Component<Props, State> {
       setStartPreviewCallback,
     } = this.context;
     const workarea = document.getElementById('workarea');
+    const vc = VersionChecker(device.version);
+    if (!vc.meetRequirement('USABLE_VERSION')) {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: lang.beambox.popup.should_update_firmware_to_continue,
+      });
+      Progress.popById('start-preview-controller');
+      return;
+    }
+    if (BeamboxPreference.read('borderless') && !vc.meetRequirement('BORDERLESS_MODE')) {
+      const message = `#814 ${lang.camera_calibration.update_firmware_msg1} 2.5.1 ${lang.camera_calibration.update_firmware_msg2} ${lang.beambox.popup.or_turn_off_borderless_mode}`;
+      const caption = lang.beambox.left_panel.borderless_preview;
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message,
+        caption,
+      });
+      Progress.popById('start-preview-controller');
+      return;
+    }
+    let res = await checkOldFirmware(device.version);
+    if (!res) return;
     if (
       ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1'].includes(device.model)
       && device.model !== BeamboxPreference.read('workarea')
     ) {
-      const res = await new Promise((resolve) => {
+      res = await new Promise((resolve) => {
         Alert.popUp({
           message: sprintf(lang.beambox.popup.change_workarea_before_preview, device.name),
           buttonType: AlertConstants.YES_NO,
@@ -151,33 +174,6 @@ export default class TopBar extends React.Component<Props, State> {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     FnWrapper.useSelectTool();
     svgCanvas.clearSelection();
-    const vc = VersionChecker(device.version);
-    Progress.openNonstopProgress({
-      id: 'start-preview-controller',
-      message: lang.message.tryingToConenctMachine,
-    });
-    if (!vc.meetRequirement('USABLE_VERSION')) {
-      Alert.popUp({
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        message: lang.beambox.popup.should_update_firmware_to_continue,
-      });
-      Progress.popById('start-preview-controller');
-      return;
-    }
-
-    if (BeamboxPreference.read('borderless') && !vc.meetRequirement('BORDERLESS_MODE')) {
-      const message = `#814 ${lang.camera_calibration.update_firmware_msg1} 2.5.1 ${lang.camera_calibration.update_firmware_msg2} ${lang.beambox.popup.or_turn_off_borderless_mode}`;
-      const caption = lang.beambox.left_panel.borderless_preview;
-      Alert.popUp({
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        message,
-        caption,
-      });
-      Progress.popById('start-preview-controller');
-      return;
-    }
-    Progress.popById('start-preview-controller');
-
     $(workarea).css('cursor', 'wait');
 
     const onPreviewError = (errMessage) => {

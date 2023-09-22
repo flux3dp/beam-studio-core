@@ -208,7 +208,7 @@ class Camera {
       return data;
     } catch (e) {
       console.log(e);
-      throw new Error(LANG.message.camera.ws_closed_unexpectly);
+      throw new Error(`${LANG.message.camera.ws_closed_unexpectly} ${e.message}`);
     }
   }
 

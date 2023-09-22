@@ -49,6 +49,7 @@ import ValignBot from './icon-valign-bot.svg';
 import ValignMid from './icon-valign-mid.svg';
 import ValignTop from './icon-valign-top.svg';
 import Vflip from './icon-vflip.svg';
+import WeldText from './icon-weld-text.svg';
 import Wifi from './icon-wifi.svg';
 
 export default {
@@ -103,5 +104,6 @@ export default {
   ValignMid,
   ValignTop,
   Vflip,
+  WeldText,
   Wifi,
 };

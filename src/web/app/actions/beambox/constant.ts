@@ -22,21 +22,21 @@ WorkareaMap.set('fbb1b', {
   width: 4000,
   height: 3750,
   maxSpeed: 300,
-  rotary: [0, 1, 2],
+  rotary: [0, 1],
 });
 WorkareaMap.set('fbb1p', {
   label: 'Beambox Pro',
   width: 6000,
   height: 3750,
   maxSpeed: 300,
-  rotary: [0, 1, 2],
+  rotary: [0, 1],
 });
 WorkareaMap.set('fhexa1', {
   label: 'HEXA',
   width: 7400,
   height: 4100,
   maxSpeed: 900,
-  rotary: [0, 1, 2],
+  rotary: [0, 1],
 });
 WorkareaMap.set('fad1', {
   label: 'Ador',
@@ -117,6 +117,6 @@ export default {
   rulerWidth: 15, // px
   rotaryYRatio: {
     1: 1,
-    2: 0.776626,
+    2: 1,
   },
 };
