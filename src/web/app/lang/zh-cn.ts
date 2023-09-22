@@ -631,6 +631,8 @@ const lang: ILang = {
           merge_selected: '合并选取图层',
           move_elems_to: '移动元素至:',
           move_selected: '移动元素至另一个图层',
+          toggleFullColor: '切换全彩',
+          splitFullColor: '拆分颜色',
         },
       },
       laser_panel: {

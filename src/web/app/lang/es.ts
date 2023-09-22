@@ -631,6 +631,8 @@ const lang: ILang = {
           merge_selected: 'Fusionar capas seleccionadas',
           move_elems_to: 'Mover los elementos a:',
           move_selected: 'Mover los elementos seleccionados a una capa diferente',
+          toggleFullColor: 'Alternar Color Completo',
+          splitFullColor: 'Dividir Colores',
         },
       },
       laser_panel: {

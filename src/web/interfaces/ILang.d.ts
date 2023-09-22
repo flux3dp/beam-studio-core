@@ -628,6 +628,8 @@ export interface ILang {
           merge_selected: string,
           move_elems_to: string,
           move_selected: string,
+          toggleFullColor: string;
+          splitFullColor: string;
         },
       },
       laser_panel: {

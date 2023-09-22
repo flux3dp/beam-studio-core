@@ -631,6 +631,8 @@ const lang: ILang = {
           merge_selected: 'Fusionner les calques sélectionnés',
           move_elems_to: 'Déplacer les éléments vers :',
           move_selected: 'Déplacer les éléments sélectionnés vers une couche différente',
+          toggleFullColor: 'Basculer en Couleur Complète',
+          splitFullColor: 'Séparer les Couleurs',
         },
       },
       laser_panel: {

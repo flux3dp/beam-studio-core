@@ -631,6 +631,8 @@ const lang: ILang = {
           merge_selected: 'Merge Selected Layers',
           move_elems_to: 'Move elements to:',
           move_selected: 'Move selected elements to a different layer',
+          toggleFullColor: 'Toggle Full Color',
+          splitFullColor: 'Split Colors',
         },
       },
       laser_panel: {

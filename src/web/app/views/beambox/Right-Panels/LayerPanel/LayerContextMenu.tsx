@@ -106,6 +106,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
       LayerModule.PRINTER;
 
   const handleSplitColor = async () => {
+    svgCanvas.clearSelection();
     if (!isSelectingPrinterLayer) return;
     const layer = selectedLayers[0];
     await splitFullColorLayer(layer);
@@ -113,6 +114,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   };
 
   const handleLayerFullColor = () => {
+    svgCanvas.clearSelection();
     if (!isSelectingPrinterLayer) return;
     if (
       layerElem.getAttribute('data-fullcolor') === '1' &&
@@ -212,14 +214,14 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
             disabled={isMultiSelecting}
             onClick={handleLayerFullColor}
           >
-            {'tToggle Full Color'}
+            {LANG.toggleFullColor}
           </MenuItem>
           <MenuItem
             attributes={{ id: 'split_color' }}
             disabled={isMultiSelecting}
             onClick={handleSplitColor}
           >
-            {'tExpand Color Layer'}
+            {LANG.splitFullColor}
           </MenuItem>
         </>
       }

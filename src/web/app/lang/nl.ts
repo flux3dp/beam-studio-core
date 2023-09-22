@@ -631,6 +631,8 @@ const lang: ILang = {
           merge_selected: 'Geselecteerde lagen samenvoegen',
           move_elems_to: 'Verplaats elementen naar:',
           move_selected: 'Geselecteerde elementen naar een andere laag verplaatsen',
+          toggleFullColor: 'Volledige Kleur Wisselen',
+          splitFullColor: 'Kleuren Opsplitsen',
         },
       },
       laser_panel: {
