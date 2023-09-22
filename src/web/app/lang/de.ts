@@ -630,6 +630,8 @@ const lang: ILang = {
           merge_selected: 'Ausgewählte zusammenführen',
           move_elems_to: 'Verschiebe ausgewählte Objekte:',
           move_selected: 'Verschiebe ausgewählte Objekte auf eine andere Ebene',
+          toggleFullColor: 'Vollfarbe umschalten',
+          splitFullColor: 'Farben aufteilen',
         },
       },
       laser_panel: {

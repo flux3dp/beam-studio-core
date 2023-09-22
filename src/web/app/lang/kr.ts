@@ -630,6 +630,8 @@ const lang: ILang = {
           merge_selected: '선택한 레이어 병합',
           move_elems_to: '요소 이동:',
           move_selected: '선택한 요소를 다른 레이어로 이동하시겠습니까?',
+          toggleFullColor: '전체 색상 전환',
+          splitFullColor: '색상 분할',
         },
       },
       laser_panel: {
