@@ -10,7 +10,7 @@ import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const LANG = i18n.lang.beambox.left_panel;
 
-class LeftPanel extends React.Component {
+class LeftPanel extends React.PureComponent {
   private leftPanelClass: string;
 
   constructor(props: Record<string, unknown>) {

@@ -121,11 +121,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       okText={langDocumentSettings.save}
     >
       <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
-        {isDev() ? (
-          <EngraveDpiSliderV2 value={engraveDpiValue} onChange={setEngraveDpiValue} />
-        ) : (
-          <EngraveDpiSlider value={engraveDpi} onChange={handleEngraveDpiChange} />
-        )}
+        <EngraveDpiSlider value={engraveDpi} onChange={handleEngraveDpiChange} />
         <Form.Item name="workarea" initialValue={workarea} label={langDocumentSettings.workarea}>
           <Select bordered onChange={handleWorkareaChange}>
             {workareaOptions.map((option) => (
