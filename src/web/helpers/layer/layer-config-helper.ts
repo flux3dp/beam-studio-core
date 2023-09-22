@@ -2,6 +2,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
+import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
@@ -240,8 +241,10 @@ export const postPresetChange = (): void => {
     if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
       layer.setAttribute('data-speed', String(maxSpeed));
     }
-    if (!modelsWithModules.includes(workarea))
+    if (!modelsWithModules.includes(workarea)) {
       layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
+      toggleFullColorLayer(layer, false);
+    }
   }
 };
 
