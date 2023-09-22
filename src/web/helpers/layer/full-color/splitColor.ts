@@ -28,12 +28,12 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
     const g = data[i + 1];
     const b = data[i + 2];
     const a = data[i + 3];
-    let k = 255 - Math.max(r, g, b);
-    const c = k !== 255 ? 255 - (255 * (255 - r - k)) / (255 - k) : 0;
-    const m = k !== 255 ? 255 - (255 * (255 - g - k)) / (255 - k) : 0;
-    const y = k !== 255 ? 255 - (255 * (255 - b - k)) / (255 - k) : 0;
-    k = 255 - k;
-    const colors = [k, c, m, y];
+    const k = 255 - Math.max(r, g, b);
+    const c = 255 - r - k;
+    const m = 255 - g - k;
+    const y = 255 - b - k;
+    // invert color because we print black part
+    const colors = [255 - k, 255 - c, 255 - m, 255 -y];
     for (let j = 0; j < colors.length; j += 1) {
       channelDatas[j][i] = colors[j];
       channelDatas[j][i + 1] = colors[j];
