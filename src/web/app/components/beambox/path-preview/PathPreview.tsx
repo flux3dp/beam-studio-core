@@ -603,7 +603,7 @@ class PathPreview extends React.Component<Props, State> {
     const { togglePathPreview } = this.context;
     const svgEditor = document.getElementById('svg_editor');
     if (svgEditor) svgEditor.style.display = '';
-    const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await exportFuncs.getGcode();
+    const { gcodeBlob, fileTimeCost } = await exportFuncs.getGcode();
     if (!gcodeBlob) {
       togglePathPreview();
     }
@@ -624,14 +624,6 @@ class PathPreview extends React.Component<Props, State> {
       progressCaller.popById('parsing-gcode');
     };
     fileReader.readAsText(gcodeBlob);
-
-    if (BeamboxPreference.read('fast_gradient')) {
-      const fileReaderFastGradient = new FileReader();
-      fileReaderFastGradient.onloadend = (e) => {
-        this.fastGradientGcodeString = e.target.result as string;
-      };
-      fileReaderFastGradient.readAsText(gcodeBlobFastGradient as Blob);
-    }
   };
 
   private windowKeyDown = (e: KeyboardEvent) => {
@@ -1189,7 +1181,17 @@ class PathPreview extends React.Component<Props, State> {
         }
       }
 
-      if (this.fastGradientGcodeString) {
+      if (BeamboxPreference.read('fast_gradient')) {
+        const fastGradientGcodeBlob = await exportFuncs.getFastGradientGcode();
+        if (!this.fastGradientGcodeString) {
+          this.fastGradientGcodeString = await new Promise<string>((resolve) => {
+            const fileReader = new FileReader();
+            fileReader.onloadend = (e) => {
+              resolve(e.target.result as string);
+            };
+            fileReader.readAsText(fastGradientGcodeBlob as Blob);
+          });
+        }
         let resolution = 0;
         let prefix;
         const fastGradientGcodeList = this.fastGradientGcodeString.split('\n');
