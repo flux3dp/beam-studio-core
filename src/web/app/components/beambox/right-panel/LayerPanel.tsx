@@ -235,8 +235,13 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const layerColor = layer.getAttribute('data-color') || '#333333';
     const module = getData(layer, DataType.module);
     const isPrinting = module === LayerModule.PRINTER;
-    Dialog.showColorPicker(layerColor, e.clientX, e.clientY, isPrinting,
-      (newColor: string) => this.setLayerColor(layerName, newColor));
+    Dialog.showColorPicker({
+      originalColor: layerColor,
+      left: e.clientX,
+      top: e.clientY,
+      isPrinting,
+      onNewColor: (newColor: string) => this.setLayerColor(layerName, newColor),
+    });
   };
 
   onLayerDragStart = (layerName: string, e?: React.DragEvent): void => {

@@ -2,9 +2,6 @@
 
 exports[`should render correctly in mobile unit is inches 1`] = `
 <div>
-  <div>
-    DummyInFillBlock
-  </div>
   <div
     class="object-panel-item"
     id="rounded-corner"
@@ -32,9 +29,6 @@ exports[`should render correctly in mobile unit is inches 1`] = `
 
 exports[`should render correctly in mobile unit is not inches 1`] = `
 <div>
-  <div>
-    DummyInFillBlock
-  </div>
   <div
     class="object-panel-item"
     id="rounded-corner"
@@ -87,9 +81,6 @@ exports[`should render correctly unit is inches 1`] = `
         </span>
       </div>
     </div>
-    <div>
-      DummyInFillBlock
-    </div>
   </div>
 </div>
 `;
@@ -120,9 +111,6 @@ exports[`should render correctly unit is not inches 1`] = `
           mm
         </span>
       </div>
-    </div>
-    <div>
-      DummyInFillBlock
     </div>
   </div>
 </div>

@@ -99,4 +99,23 @@ describe('test ColorPickerPanel', () => {
     expect(onNewColor).toHaveBeenNthCalledWith(1, '#9FE3FF');
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  test('when allow none', () => {
+    const { container, getByText } = render(
+      <ColorPickerPanel
+        originalColor="#000000"
+        top={100}
+        left={300}
+        onNewColor={onNewColor}
+        onClose={onClose}
+        allowNone
+      />
+    );
+    expect(container).toMatchSnapshot();
+    fireEvent.click(container.querySelectorAll('div.block.none')[0]);
+    fireEvent.click(getByText('okay'));
+    expect(onNewColor).toHaveBeenCalledTimes(1);
+    expect(onNewColor).toHaveBeenNthCalledWith(1, 'none');
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import i18n from 'helpers/i18n';
-import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -59,17 +58,7 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
       </div>
     );
 
-  return isMobile ? (
-    <>
-      <InFillBlock elem={elem} />
-      {renderSides()}
-    </>
-  ) : (
-    <div>
-      {renderSides()}
-      <InFillBlock elem={elem} />
-    </div>
-  );
+  return isMobile ? renderSides() : <div>{renderSides()}</div>;
 }
 
 export default PolygonOptions;
