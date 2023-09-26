@@ -310,6 +310,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="offset"
@@ -318,6 +319,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -334,6 +336,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="offset"
@@ -342,6 +345,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -358,6 +362,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -374,6 +379,7 @@ exports[`should render correctly in mobile image 1`] = `
 >
   <ObjectPanelDivider />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="replace_with"
@@ -390,6 +396,7 @@ exports[`should render correctly in mobile image 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="grading"
@@ -398,6 +405,7 @@ exports[`should render correctly in mobile image 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="sharpen"
@@ -406,6 +414,7 @@ exports[`should render correctly in mobile image 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="crop"
@@ -430,6 +439,7 @@ exports[`should render correctly in mobile image 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -470,6 +480,7 @@ exports[`should render correctly in mobile line 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="offset"
@@ -478,6 +489,7 @@ exports[`should render correctly in mobile line 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -518,6 +530,7 @@ exports[`should render correctly in mobile path 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="offset"
@@ -526,6 +539,7 @@ exports[`should render correctly in mobile path 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -558,6 +572,7 @@ exports[`should render correctly in mobile polygon 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="offset"
@@ -566,6 +581,7 @@ exports[`should render correctly in mobile polygon 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -590,6 +606,7 @@ exports[`should render correctly in mobile rect 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="offset"
@@ -598,6 +615,7 @@ exports[`should render correctly in mobile rect 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -630,6 +648,7 @@ exports[`should render correctly in mobile text 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"
@@ -654,6 +673,7 @@ exports[`should render correctly in mobile use 1`] = `
     onClick={[Function]}
   />
   <ObjectPanelItem
+    autoClose={false}
     content={<svgr-url />}
     disabled={false}
     id="array"

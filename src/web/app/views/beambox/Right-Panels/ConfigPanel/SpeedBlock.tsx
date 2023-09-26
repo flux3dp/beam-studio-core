@@ -27,7 +27,7 @@ const SpeedBlock = ({
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
-  const { activeKey, updateActiveKey } = useContext(ObjectPanelContext);
+  const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'speed';
   const { hasVector } = useContext(LayerPanelContext);
   const timeEstimationButtonEventEmitter = useMemo(
@@ -134,7 +134,7 @@ const SpeedBlock = ({
           </Button>
         }
         label={t.speed}
-        onClick={() => updateActiveKey('speed')}
+        autoClose={false}
       />
     </Popover>
   ) : (

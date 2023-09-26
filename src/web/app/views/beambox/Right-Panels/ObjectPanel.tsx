@@ -32,7 +32,6 @@ interface Props {
 function ObjectPanel({ elem }: Props): JSX.Element {
   const isMobile = useIsMobile();
   const context = useContext(ObjectPanelContext);
-  const { updateActiveKey } = context;
   const getAvailableFunctions = () => {
     if (!elem) {
       return {};
@@ -85,19 +84,13 @@ function ObjectPanel({ elem }: Props): JSX.Element {
         id="delete"
         content={<ObjectPanelIcon.Trash />}
         label={i18n.lang.topbar.menu.delete}
-        onClick={() => {
-          svgEditor.deleteSelected();
-          updateActiveKey(null);
-        }}
+        onClick={svgEditor.deleteSelected}
       />
       <ObjectPanelItem.Item
         id="duplicate"
         content={<ObjectPanelIcon.Duplicate />}
         label={i18n.lang.topbar.menu.duplicate}
-        onClick={() => {
-          svgCanvas.cloneSelectedElements(20, 20);
-          updateActiveKey(null);
-        }}
+        onClick={() => svgCanvas.cloneSelectedElements(20, 20)}
       />
       <ObjectPanelItem.Item
         id="parameter"
@@ -111,6 +104,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
             <ConfigPanel selectedLayers={[currentLayerName]} UIType="modal" />
           );
         }}
+        autoClose={false}
       />
     </div>
   );

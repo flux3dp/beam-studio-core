@@ -7,6 +7,7 @@ exports[`should render correctly action list disabled 1`] = `
   visible={false}
 >
   <ObjectPanelItem
+    autoClose={false}
     content={
       <div>
         mock content

@@ -16,8 +16,16 @@ interface Props {
   label?: string | JSX.Element;
   onClick?: () => void;
   disabled?: boolean;
+  autoClose?: boolean;
 }
-const ObjectPanelItem = ({ id, content, label, onClick, disabled }: Props): JSX.Element => {
+const ObjectPanelItem = ({
+  id,
+  content,
+  label,
+  onClick,
+  disabled,
+  autoClose = true,
+}: Props): JSX.Element => {
   const context = useContext(ObjectPanelContext);
   const { activeKey, updateActiveKey } = context;
   if (disabled) {
@@ -29,9 +37,10 @@ const ObjectPanelItem = ({ id, content, label, onClick, disabled }: Props): JSX.
       className={classNames(styles['object-panel-item'], {
         [styles.active]: activeKey === id,
       })}
-      onClick={() => {
+      onClick={async () => {
         updateActiveKey(id);
-        onClick?.();
+        await onClick?.();
+        if (autoClose) setTimeout(() => updateActiveKey(null), 300);
       }}
     >
       <div className={styles.main}>{content}</div>
@@ -134,6 +143,7 @@ const ObjectPanelNumber = ({
           </Button>
         }
         onClick={() => setHasInput(false)}
+        autoClose={false}
       />
     </Popover>
   );
@@ -198,7 +208,13 @@ const ObjectPanelActionList = ({
 
   return (
     <Popover className={styles['action-list']} visible={isActive} content={<ActionList />}>
-      <ObjectPanelItem id={id} content={content} label={label} disabled={disabled} />
+      <ObjectPanelItem
+        id={id}
+        content={content}
+        label={label}
+        disabled={disabled}
+        autoClose={false}
+      />
     </Popover>
   );
 };
@@ -268,6 +284,7 @@ const ObjectPanelSelect = ({
         }
         label={label}
         disabled={options.length <= 1}
+        autoClose={false}
       />
     </Popover>
   );

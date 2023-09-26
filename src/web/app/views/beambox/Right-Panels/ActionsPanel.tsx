@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import Icon from '@ant-design/icons';
 import React from 'react';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
@@ -59,6 +58,7 @@ class ActionsPanel extends React.Component<Props> {
         buttonType: alertConstants.CUSTOM_CANCEL,
         buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
         callbacks: async () => {
+          ObjectPanelController.updateActiveKey(null);
           const res = await fileExportHelper.toggleUnsavedChangedDialog();
           if (res) window.location.hash = '#initialize/connect/select-connection-type';
         },
@@ -133,7 +133,8 @@ class ActionsPanel extends React.Component<Props> {
     isDisabled?: boolean,
     icon?: JSX.Element,
     mobileIcon?: JSX.Element,
-    mobileLabel?: string
+    mobileLabel?: string,
+    autoClose?: boolean
   ): JSX.Element => {
     const className = classNames(styles.btn, { [styles.disabled]: isDisabled });
     return isMobile() ? (
@@ -144,6 +145,7 @@ class ActionsPanel extends React.Component<Props> {
         label={mobileLabel || label}
         onClick={onClick}
         disabled={isDisabled}
+        autoClose={autoClose}
       />
     ) : (
       <div
@@ -172,6 +174,7 @@ class ActionsPanel extends React.Component<Props> {
         <ReplaceIcon />,
         <ObjectPanelIcons.Replace />,
         LANG.replace_with_short,
+        false,
       ),
       'bg-removal': this.renderButtons(
         LANG.ai_bg_removal,
@@ -181,7 +184,7 @@ class ActionsPanel extends React.Component<Props> {
         false,
         <ActionPanelIcons.ImageMatting className={styles.icon} />,
         <ObjectPanelIcons.RemoveBG />,
-        LANG.ai_bg_removal_short,
+        LANG.ai_bg_removal_short
       ),
       trace: this.renderButtons(
         LANG.trace,
@@ -200,7 +203,8 @@ class ActionsPanel extends React.Component<Props> {
         false,
         <GrayscaleIcon />,
         <ObjectPanelIcons.Brightness />,
-        LANG.brightness
+        LANG.brightness,
+        false
       ),
       sharpen: this.renderButtons(
         LANG.sharpen,
@@ -211,7 +215,9 @@ class ActionsPanel extends React.Component<Props> {
         'sharpen',
         false,
         <SharpenIcon />,
-        <ObjectPanelIcons.Sharpen />
+        <ObjectPanelIcons.Sharpen />,
+        undefined,
+        false
       ),
       crop: this.renderButtons(
         LANG.crop,
@@ -220,7 +226,9 @@ class ActionsPanel extends React.Component<Props> {
         'crop',
         false,
         <CropIcon />,
-        <ObjectPanelIcons.Crop />
+        <ObjectPanelIcons.Crop />,
+        undefined,
+        false
       ),
       bevel: this.renderButtons(
         LANG.bevel,
@@ -247,7 +255,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
       potrace: this.renderButtons(
         LANG.outline,
@@ -307,7 +317,7 @@ class ActionsPanel extends React.Component<Props> {
         'weld',
         false,
         <ActionPanelIcons.WeldText className={styles.icon} />,
-        <ObjectPanelIcons.WeldText />,
+        <ObjectPanelIcons.WeldText />
       ),
       this.renderButtons(
         LANG.array,
@@ -316,7 +326,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -365,7 +377,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         undefined,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -399,7 +413,9 @@ class ActionsPanel extends React.Component<Props> {
         'offset',
         false,
         <OffsetIcon />,
-        <ObjectPanelIcons.Offset />
+        <ObjectPanelIcons.Offset />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.array,
@@ -408,7 +424,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.simplify,
@@ -443,7 +461,9 @@ class ActionsPanel extends React.Component<Props> {
         'offset',
         false,
         <OffsetIcon />,
-        <ObjectPanelIcons.Offset />
+        <ObjectPanelIcons.Offset />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.array,
@@ -452,7 +472,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -478,7 +500,9 @@ class ActionsPanel extends React.Component<Props> {
         'offset',
         false,
         <OffsetIcon />,
-        <ObjectPanelIcons.Offset />
+        <ObjectPanelIcons.Offset />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.array,
@@ -487,7 +511,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -513,7 +539,9 @@ class ActionsPanel extends React.Component<Props> {
         'offset',
         false,
         <OffsetIcon />,
-        <ObjectPanelIcons.Offset />
+        <ObjectPanelIcons.Offset />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.array,
@@ -522,7 +550,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -548,7 +578,9 @@ class ActionsPanel extends React.Component<Props> {
         'offset',
         false,
         <OffsetIcon />,
-        <ObjectPanelIcons.Offset />
+        <ObjectPanelIcons.Offset />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.array,
@@ -557,7 +589,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -581,7 +615,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -596,7 +632,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;
@@ -650,7 +688,9 @@ class ActionsPanel extends React.Component<Props> {
         'offset',
         !supportOffset,
         <OffsetIcon />,
-        <ObjectPanelIcons.Offset />
+        <ObjectPanelIcons.Offset />,
+        undefined,
+        false
       ),
       this.renderButtons(
         LANG.array,
@@ -659,7 +699,9 @@ class ActionsPanel extends React.Component<Props> {
         'array',
         false,
         <ArrayIcon />,
-        <ObjectPanelIcons.Array />
+        <ObjectPanelIcons.Array />,
+        undefined,
+        false
       ),
     ];
     return content;

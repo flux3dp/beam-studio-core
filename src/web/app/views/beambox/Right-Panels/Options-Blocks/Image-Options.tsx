@@ -189,6 +189,7 @@ class ImageOptions extends React.Component<Props> {
           id="threshold"
           content={<ObjectPanelIcon.Threshold />}
           label={LANG.threshold_short}
+          autoClose={false}
         />
       </Popover>
     ) : (

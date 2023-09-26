@@ -116,6 +116,7 @@ const groupSelectedElements = jest.fn();
 const ungroupSelectedElement = jest.fn();
 const booleanOperationSelectedElements = jest.fn();
 const getLayerName = jest.fn();
+const deleteSelected = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Canvas: {
@@ -127,6 +128,7 @@ getSVGAsync.mockImplementation((callback) => {
       booleanOperationSelectedElements,
       getCurrentDrawing: () => ({ getLayerName }),
     },
+    Editor: { deleteSelected },
   });
 });
 

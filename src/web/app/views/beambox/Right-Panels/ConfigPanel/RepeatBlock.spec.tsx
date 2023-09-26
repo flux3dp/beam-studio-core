@@ -66,10 +66,6 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 }));
 const mockEmit = jest.fn();
 
-jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelController', () => ({
-  updateActiveKey: jest.fn(),
-}));
-
 describe('test RepeatBlock', () => {
   beforeEach(() => {
     jest.resetAllMocks();
