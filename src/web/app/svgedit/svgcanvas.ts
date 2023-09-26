@@ -5134,6 +5134,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
 
       const isFromNP = elem.getAttribute('data-np') === '1';
+      const ratioFixed = elem.getAttribute('data-ratiofixed');
       const cmd = SymbolMaker.switchImageSymbol(elem, false);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
@@ -5216,6 +5217,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           batchCmd.addSubCommand(cmd);
         }
       }
+      selectedElements.forEach((elem) => elem.setAttribute('data-ratiofixed', ratioFixed));
       Progress.update('disassemble-use', {
         message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 100%`,
         percentage: 100,
