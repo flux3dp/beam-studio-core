@@ -30,7 +30,6 @@ function OptionsPanel({
   const isMobile = useIsMobile();
   let contents: JSX.Element | JSX.Element[];
   const showColorPanel = useMemo(() => {
-    console.log(elem, elem?.tagName)
     if (!elem) return false;
     if (!['rect', 'ellipse', 'path', 'text', 'polygon'].includes(elem?.tagName.toLowerCase())) return false;
     return getObjectLayer(elem as SVGElement)?.elem?.getAttribute('data-fullcolor') === '1';
