@@ -2614,7 +2614,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const svg = svgdoc.adoptNode(newDoc.documentElement);
     const { symbols } = parseSvg(batchCmd, svg, _type);
 
-    const results = (await Promise.all(symbols.map(async (symbol) => await appendUseElement(symbol, _type, layerName)))).filter(({ element }) => element);
+    const results = (await Promise.all(symbols.map(
+      async (symbol) => appendUseElement(symbol, _type, layerName)
+    ))).filter((res) => res?.element);
     const commands = results.map(({ command }) => command);
     commands.forEach((cmd) => {
       if (cmd) batchCmd.addSubCommand(cmd);
@@ -2815,58 +2817,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       pathActions.clear();
     }
     //		call('changed', [selected]);
-    return true;
-  };
-
-  // Function: moveSelectedToLayer
-  // Moves the selected elements to layername. If the name is not a valid layer name, then false
-  // is returned. Otherwise it returns true. This is an undo-able action.
-  //
-  // Parameters:
-  // layername - the name of the layer you want to which you want to move the selected elements
-  //
-  // Returns:
-  // true if the selected elements were moved to the layer, false otherwise.
-  this.moveSelectedToLayer = function (layername) {
-    // find the layer
-    var i;
-    var drawing = getCurrentDrawing();
-    var layer = drawing.getLayerByName(layername);
-    if (!layer) {
-      return false;
-    }
-
-    var batchCmd = new history.BatchCommand('Move Elements to Layer');
-
-    // loop for each selected element and move it
-    if (tempGroup) {
-      const children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-
-    var selElems = selectedElements;
-    i = selElems.length;
-    while (i--) {
-      var elem = selElems[i];
-      if (!elem) {
-        continue;
-      }
-      const descendants = [...elem.querySelectorAll('*')];
-      for (let j = 0; j < descendants.length; j += 1) {
-        descendants[j].removeAttribute('data-original-layer');
-      }
-      var oldNextSibling = elem.nextSibling;
-      // TODO: this is pretty brittle!
-      var oldLayer = elem.parentNode;
-      layer.appendChild(elem);
-      if (this.isUsingLayerColor) {
-        this.updateElementColor(elem);
-      }
-      batchCmd.addSubCommand(new history.MoveElementCommand(elem, oldNextSibling, oldLayer));
-    }
-
-    addCommandToHistory(batchCmd);
-    this.tempGroupSelectedElements();
     return true;
   };
 
