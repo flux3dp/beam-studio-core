@@ -94,7 +94,6 @@ export default interface ISVGCanvas {
   mergeLayer: () => void;
   mergeAllLayers: () => void;
   moveDownSelectedElement(): void;
-  moveSelectedToLayer(destLayer: string): void;
   moveTopBottomSelected(direction: 'top' | 'bottom'): void;
   moveUpSelectedElement(): void;
   offsetElements: (

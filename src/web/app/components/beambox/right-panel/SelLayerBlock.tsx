@@ -4,6 +4,7 @@ import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -21,9 +22,9 @@ function SelLayerBlock(): JSX.Element {
     if (!selectedElem) return;
     if (selectedElem.getAttribute('data-tempgroup') === 'true') {
       const originalLayers = new Set(
-        [...selectedElem.childNodes].map((elem) =>
-          (elem as SVGElement).getAttribute('data-original-layer')
-        )
+        ([...selectedElem.childNodes] as SVGElement[])
+          .filter((elem) => elem?.getAttribute('data-imageborder') !== 'true')
+          .map((elem) => elem.getAttribute('data-original-layer'))
       );
       if (originalLayers.size === 1) {
         const [firstValue] = originalLayers;
