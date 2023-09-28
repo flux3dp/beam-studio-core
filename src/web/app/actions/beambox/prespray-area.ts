@@ -2,7 +2,7 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
-import presparyIconUrl from 'app/icons/prespray.svg?url';
+import presprayIconUrl from 'app/icons/prespray.svg?url';
 
 let presprayAreaBlock: SVGImageElement;
 
@@ -48,7 +48,7 @@ const generatePresprayArea = (): void => {
     presprayAreaBlock.setAttribute('y', '2500');
     presprayAreaBlock.setAttribute('width', areaWidth.toFixed(0));
     presprayAreaBlock.setAttribute('height', areaHeight.toFixed(0));
-    presprayAreaBlock.setAttribute('href', presparyIconUrl);
+    presprayAreaBlock.setAttribute('href', presprayIconUrl);
     presprayAreaBlock.setAttribute('style', 'cursor:move;');
     const presprayAreaTitle = document.createElementNS(NS.SVG, 'title');
     presprayAreaTitle.textContent = i18n.lang.editor.prespray_area;
