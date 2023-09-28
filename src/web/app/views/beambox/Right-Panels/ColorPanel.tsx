@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import constant from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
