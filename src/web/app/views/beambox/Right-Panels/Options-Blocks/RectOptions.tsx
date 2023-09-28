@@ -39,6 +39,7 @@ function RectOptions({
       <ObjectPanelItem.Number
         id="rounded-corner"
         value={rx / Constant.dpmm || 0}
+        min={0}
         updateValue={(val) => {
           handleRoundedCornerChange(val);
           ObjectPanelController.updateObjectPanel();

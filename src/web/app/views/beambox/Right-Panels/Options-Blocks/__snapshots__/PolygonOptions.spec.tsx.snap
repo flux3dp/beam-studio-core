@@ -19,7 +19,7 @@ exports[`test PolygonOptions should render correctly 1`] = `
         <input
           step="1"
           type="text"
-          value="3"
+          value="5"
         />
         
       </div>
@@ -141,7 +141,7 @@ exports[`test PolygonOptions should render correctly in mobile 1`] = `
         type="button"
       >
         <span>
-          0
+          5
         </span>
       </button>
     </div>

@@ -52,6 +52,8 @@ const ObjectPanelItem = ({
 interface NumberItemProps {
   id: string;
   value: number;
+  min?: number;
+  max?: number;
   updateValue?: (val: number) => void;
   label?: string | JSX.Element;
   unit?: string;
@@ -61,6 +63,8 @@ const ObjectPanelNumber = ({
   id,
   label,
   value = 0,
+  min = Number.MIN_SAFE_INTEGER,
+  max = Number.MAX_SAFE_INTEGER,
   updateValue,
   unit = 'mm',
   decimal,
@@ -87,10 +91,14 @@ const ObjectPanelNumber = ({
   React.useEffect(() => {
     if (+displayValue !== +valueInUnit) {
       setDisplayValue(valueInUnit);
-    } else if (!isActive && !displayValue) {
-      setDisplayValue('0');
+    } else if (!isActive) {
+      let safeValue = Math.min(value, max);
+      safeValue = Math.max(safeValue, min);
+      if (safeValue !== value) updateValue(safeValue);
+      else if (!displayValue) setDisplayValue('0');
     }
-  }, [displayValue, valueInUnit, isActive]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayValue, value, valueInUnit, isActive]);
   const isKeyDisabled = (key: string) => {
     if (key === '.') {
       return displayValue.includes('.') || precision === 0;
