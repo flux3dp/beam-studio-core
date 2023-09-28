@@ -631,7 +631,7 @@ const lang: ILang = {
           move_elems_to: '移動物件',
           move_selected: '移動被點選的物件其他圖層',
           toggleFullColor: '切換彩色圖層',
-          splitFullColor: '切分色版圖層',
+          splitFullColor: '切分圖層色版',
         },
       },
       laser_panel: {

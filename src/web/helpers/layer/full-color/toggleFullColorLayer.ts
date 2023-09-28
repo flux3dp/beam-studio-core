@@ -1,4 +1,5 @@
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -27,7 +28,11 @@ const toggleFullColorLayer = (layer: Element, val?: boolean): void => {
       updateImageDisplay(image as SVGImageElement);
     }
   }
+  const uses = [...layer.querySelectorAll('use')];
   svgCanvas.updateLayerColor(layer);
+  for (let i = 0; i < uses.length; i += 1) {
+    symbolMaker.reRenderImageSymbol(uses[i] as SVGUseElement);
+  }
 };
 
 export default toggleFullColorLayer;
