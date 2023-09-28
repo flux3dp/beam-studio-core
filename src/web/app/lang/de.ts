@@ -1050,7 +1050,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: 'Vorsprühbereich',
+    prespray_area: 'Sprayen Voor Afdrukken',
   },
   flux_id_login: {
     connection_fail: '#847 Verbindung zum FLUX Mitgliederservice fehlgeschlagen.',

@@ -1050,7 +1050,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: '프리스프레이 영역',
+    prespray_area: '인쇄 전 스프레이',
   },
   flux_id_login: {
     connection_fail: '#847 FLUX 멤버 서비스에 연결하지 못했습니다.',
