@@ -1048,6 +1048,9 @@ const lang: ILang = {
       label: 'Label',
     },
   },
+  editor: {
+    prespray_area: 'Prespray Area',
+  },
   flux_id_login: {
     connection_fail: '#847 Failed to connect to FLUX member service.',
     login_success: 'Successfully logged in.',
