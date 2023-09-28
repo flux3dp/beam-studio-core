@@ -5,11 +5,14 @@ import { IBatchCommand } from 'interfaces/IHistory';
 const { svgedit } = window;
 const { NS } = svgedit;
 
-const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, type: string): {
-  symbols: SVGSymbolElement[],
-  confirmedType: string,
+const parseSvg = (
+  batchCmd: IBatchCommand,
+  svgElement: Element,
+  type: string
+): {
+  symbols: SVGSymbolElement[];
+  confirmedType: string;
 } => {
-  const { svgdoc } = svgCanvas;
   // function removeSvgText() {
   //   if ($(svg).find('text').length) {
   //     Alert.popUp({
@@ -20,7 +23,7 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
   //   }
   // }
   function unit2Pixel(val, unit?: Units) {
-    if ((val === false) || (val === undefined) || (val === null)) {
+    if (val === false || val === undefined || val === null) {
       return false;
     }
 
@@ -43,15 +46,15 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
     console.log(num, unit, 'convert');
     return units.convertUnit(num, 'pt', unit);
   }
-  function removeComments() {
+  const removeComments = () => {
     // only remove comment which level is svg.children.
     // should traverse all svg level and remove all comments if you have time
-    $(svgElement).contents().each(function () {
-      if (this.nodeType === Node.COMMENT_NODE) {
-        $(this).remove();
+    svgElement.childNodes.forEach((node) => {
+      if (node.nodeType === Node.COMMENT_NODE) {
+        svgElement.removeChild(node);
       }
     });
-  }
+  };
   function symbolWrapper(symbolContents, unit?) {
     if (symbolContents.tagName === 'g' && symbolContents.childNodes.length === 0) {
       console.log('wrapping empty group, return null');
@@ -78,7 +81,7 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       transformList.unshift(`scale(${svgUnitScaling})`);
     }
 
-    const wrappedSymbolContent = svgdoc.createElementNS(NS.SVG, 'g');
+    const wrappedSymbolContent = document.createElementNS(NS.SVG, 'g');
     if (symbolContents.length) {
       symbolContents.forEach((content) => {
         wrappedSymbolContent.appendChild(content);
@@ -96,15 +99,26 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
     return wrappedSymbolContent;
   }
   function parseSvgByLayer() {
-    const defNodes = Array.from(svgElement.childNodes).filter((node: Element) => node.tagName === 'defs');
+    const defNodes = Array.from(svgElement.childNodes).filter(
+      (node: Element) => node.tagName === 'defs'
+    );
     let defChildren = [];
     defNodes.forEach((def: Element) => {
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
 
-    const layerNodes = Array.from(svgElement.childNodes).filter((node: Element) => !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName));
+    const layerNodes = Array.from(svgElement.childNodes).filter(
+      (node: Element) =>
+        !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
+    );
     const symbols = layerNodes.map((node) => {
-      const symbol = SymbolMaker.makeSymbol(symbolWrapper(node), [], batchCmd, defChildren, 'layer');
+      const symbol = SymbolMaker.makeSymbol(
+        symbolWrapper(node),
+        [],
+        batchCmd,
+        defChildren,
+        'layer'
+      );
       return symbol;
     });
 
@@ -142,7 +156,9 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       const children = Array.from(node.childNodes);
       let color;
       children.forEach((grandchild: Element) => {
-        if (['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].indexOf(grandchild.tagName) >= 0) {
+        if (
+          ['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].indexOf(grandchild.tagName) >= 0
+        ) {
           color = getColorOfElement(grandchild);
           if (color !== filter) {
             node.removeChild(grandchild);
@@ -163,7 +179,9 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
 
-    const originLayerNodes = Array.from(svg.childNodes).filter((child: Element) => child.tagName === 'g');
+    const originLayerNodes = Array.from(svg.childNodes).filter(
+      (child: Element) => child.tagName === 'g'
+    );
     originLayerNodes.forEach((node: Element) => {
       const uses = Array.from(node.getElementsByTagName('use'));
       uses.forEach((use) => {
@@ -183,7 +201,7 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
         const clonedGroup = child.cloneNode(true);
         filterColor(strokeColor, clonedGroup);
         if (!groupColorMap[strokeColor]) {
-          groupColorMap[strokeColor] = svgdoc.createElementNS(NS.SVG, 'g') as Element;
+          groupColorMap[strokeColor] = document.createElementNS(NS.SVG, 'g') as Element;
           groupColorMap[strokeColor].setAttribute('data-color', strokeColor);
         }
         groupColorMap[strokeColor].appendChild(clonedGroup);
@@ -198,7 +216,13 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       if (color) {
         wrappedSymbolContent.setAttribute('data-color', color);
       }
-      const symbol = SymbolMaker.makeSymbol(wrappedSymbolContent, [], batchCmd, defChildren, 'color');
+      const symbol = SymbolMaker.makeSymbol(
+        wrappedSymbolContent,
+        [],
+        batchCmd,
+        defChildren,
+        'color'
+      );
       return symbol;
     });
     return symbols;
@@ -206,16 +230,25 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
   function parseSvgByNolayer(svg) {
     // this is same as parseByLayer .....
     const defNodes = Array.from(svg.childNodes).filter((node: Element) => node.tagName === 'defs');
-    const styleNodes = Array.from(svg.childNodes).filter((node: Element) => node.tagName === 'style');
+    const styleNodes = Array.from(svg.childNodes).filter(
+      (node: Element) => node.tagName === 'style'
+    );
     let defChildren = [];
     defNodes.forEach((def: Element) => {
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
     defChildren = defChildren.concat(styleNodes);
 
-    const layerNodes = Array.from(svg.childNodes).filter((node: Element) => !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName));
+    const layerNodes = Array.from(svg.childNodes).filter(
+      (node: Element) =>
+        !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
+    );
     const symbol = SymbolMaker.makeSymbol(
-      symbolWrapper(layerNodes), [], batchCmd, defChildren, type,
+      symbolWrapper(layerNodes),
+      [],
+      batchCmd,
+      defChildren,
+      type
     );
 
     return [symbol];
@@ -249,7 +282,6 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
         symbols: parseSvgByNolayer(svgElement),
         confirmedType: 'nolayer',
       };
-
     case 'image-trace':
       return {
         symbols: parseSvgByColor(svgElement),

@@ -44,6 +44,7 @@
 // 13) coords.js
 // 14) recalculate.js
 // svgedit libs
+import appendUseElement from 'app/svgedit/operations/import/appendUseElement';
 import canvasBackground from 'app/svgedit/canvasBackground';
 import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
@@ -2593,109 +2594,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // * import should happen in top-left of current zoomed viewport
   this.importSvgString = async function (xmlString, _type, layerName, parentCmd) {
     const batchCmd = new history.BatchCommand('Import Image');
-
-    async function appendUseElement(symbol, type, layerName) {
-      // create a use element
-      if (!symbol) {
-        return null;
-      }
-      const useEl = svgdoc.createElementNS(NS.SVG, 'use');
-      useEl.id = getNextId();
-      setHref(useEl, '#' + symbol.id);
-      // switch currentLayer, and create layer if necessary
-      if ((type === 'layer' && layerName) || ((type === 'color' && symbol.getAttribute('data-color')) || (type === 'image-trace'))) {
-        const color = symbol.getAttribute('data-color');
-        if (type === 'image-trace') {
-          layerName = 'Traced Path';
-        } else if (type === 'color') {
-          layerName = rgbToHex(color);
-        }
-
-        const isLayerExist = svgCanvas.setCurrentLayer(layerName);
-        if (!isLayerExist) {
-          const layer = svgCanvas.createLayer(layerName);
-          laserConfigHelper.initLayerConfig(layerName);
-          layer.color = color;
-
-          if (type === 'layer' && layerName) {
-            const matchPara = layerName.match(/#([-SP0-9\.]*\b)/i);
-            if (matchPara) {
-              const matchPower = matchPara[1].match(/P([-0-9\.]*)/i);
-              const matchSpeed = matchPara[1].match(/S([-0-9\.]*)/i);
-              let parsePower = matchPower ? parseFloat(matchPower[1]) : NaN;
-              let parseSpeed = matchSpeed ? parseFloat(matchSpeed[1]) : NaN;
-              const laserConst = LANG.right_panel.laser_panel;
-              if (!isNaN(parsePower)) {
-                parsePower = Math.round(parsePower * 10) / 10;
-                parsePower = Math.max(Math.min(parsePower, laserConst.power.max), laserConst.power.min);
-                $(layer).attr('data-strength', parsePower);
-              }
-              if (!isNaN(parseSpeed)) {
-                parseSpeed = Math.round(parseSpeed * 10) / 10;
-                parseSpeed = Math.max(Math.min(parseSpeed, laserConst.laser_speed.max), laserConst.laser_speed.min);
-                $(layer).attr('data-speed', parseSpeed);
-              }
-            }
-          } else if (type === 'color') {
-            const layerColorConfig = storage.get('layer-color-config') || {};
-            const index = layerColorConfig.dict ? layerColorConfig.dict[layerName] : undefined;
-            const laserConst = LANG.right_panel.laser_panel;
-            if (index !== undefined) {
-              $(layer).attr('data-strength', Math.max(Math.min(layerColorConfig.array[index].power, laserConst.power.max), laserConst.power.min));
-              $(layer).attr('data-speed', Math.max(Math.min(layerColorConfig.array[index].speed, laserConst.laser_speed.max), laserConst.laser_speed.min));
-              $(layer).attr('data-repeat', layerColorConfig.array[index].repeat);
-            }
-          }
-        }
-      }
-      if (type === 'text') {
-        svgCanvas.setCurrentLayer(layerName);
-      }
-
-      getCurrentDrawing().getCurrentLayer().appendChild(useEl);
-
-      $(useEl).data('symbol', symbol).data('ref', symbol);
-
-      useEl.setAttribute('data-symbol', symbol);
-      useEl.setAttribute('data-ref', symbol);
-      useEl.setAttribute('data-svg', 'true');
-      useEl.setAttribute('data-ratiofixed', 'true');
-
-      if (type === 'nolayer') {
-        useEl.setAttribute('data-wireframe', 'true');
-        const iterationStack = [symbol];
-        while (iterationStack.length > 0) {
-          const node = iterationStack.pop();
-          if (node.nodeType === 1 && node.tagName !== 'STYLE') {
-            if (!['g', 'tspan'].includes(node.tagName)) {
-              node.setAttribute('data-wireframe', true);
-              node.setAttribute('stroke', '#000');
-              node.setAttribute('fill-opacity', '0');
-            }
-            iterationStack.push(...Array.from(node.childNodes));
-          }
-        }
-      }
-
-      batchCmd.addSubCommand(new history.InsertElementCommand(useEl));
-
-      return useEl;
-    }
-    function rgbToHex(rgbStr) {
-      const rgb = rgbStr.substring(4).split(',');
-      let hex = (
-        Math.round(parseFloat(rgb[0]) * 2.55) * 65536
-        + Math.round(parseFloat(rgb[1]) * 2.55) * 256
-        + Math.round(parseFloat(rgb[2]) * 2.55)
-      ).toString(16);
-      if (hex === 'NaN') {
-        hex = '0';
-      }
-      while (hex.length < 6) {
-        hex = '0' + hex;
-      }
-      return '#' + hex.toUpperCase(); // ex: #0A23C5
-    }
     function setDataXform(use_el, it) {
       const bb = svgedit.utilities.getBBox(use_el);
       let dataXform = '';
@@ -2714,18 +2612,25 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const newDoc = svgedit.utilities.text2xml(xmlString);
     svgCanvas.prepareSvg(newDoc);
     const svg = svgdoc.adoptNode(newDoc.documentElement);
-    const { symbols } = parseSvg(batchCmd, this, svg, _type);
+    const { symbols } = parseSvg(batchCmd, svg, _type);
 
-    const use_elements = (await Promise.all(symbols.map(async (symbol) => await appendUseElement(symbol, _type, layerName)))).filter((elem) => elem);
-    use_elements.forEach(elem => {
-      $(use_elements).mouseover(this.handleGenerateSensorArea).mouseleave(this.handleGenerateSensorArea);
+    const results = (await Promise.all(symbols.map(async (symbol) => await appendUseElement(symbol, _type, layerName)))).filter(({ element }) => element);
+    const commands = results.map(({ command }) => command);
+    commands.forEach((cmd) => {
+      if (cmd) batchCmd.addSubCommand(cmd);
+    })
+    const useElements = results.map(({ element }) => element);
+    useElements.forEach((elem) => {
+      elem.addEventListener('mouseover', this.handleGenerateSensorArea);
+      elem.addEventListener('mouseleave', this.handleGenerateSensorArea);
     });
 
-    use_elements.forEach(element => setDataXform(element, _type === 'image-trace'));
-    await Promise.all(use_elements.map(async (element) => {
+    useElements.forEach(element => setDataXform(element, _type === 'image-trace'));
+    await Promise.all(useElements.map(async (element) => {
       const ref_id = this.getHref(element);
       const symbol = document.querySelector(ref_id);
-      const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
+      const layer = LayerHelper.getObjectLayer(element as SVGUseElement)?.elem;
+      const imageSymbol = await SymbolMaker.makeImageSymbol(symbol, { fullColor: layer?.getAttribute('data-fullcolor') === '1' });
       setHref(element, '#' + imageSymbol.id);
       if (this.isUsingLayerColor) {
         this.updateElementColor(element);
@@ -2738,7 +2643,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     call('changed', [svgcontent]);
 
     // we want to return the element so we can automatically select it
-    return use_elements[use_elements.length - 1];
+    return useElements[useElements.length - 1];
 
   };
 
@@ -3019,6 +2924,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // TODO: extract color display related functions to a separate file
   this.updateLayerColor = function (layer) {
     const color = this.isUsingLayerColor ? layer.getAttribute('data-color') : '#000';
+    const isFullColor = layer.getAttribute('data-fullcolor') === '1';
     this.updateLayerColorFilter(layer);
     const elems = Array.from(layer.childNodes);
     if (tempGroup) {
@@ -3026,22 +2932,21 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const multiSelectedElems = tempGroup.querySelectorAll(`[data-original-layer="${layerName}"]`);
       elems.push(...multiSelectedElems);
     }
-    this.setElementsColor(elems, color);
+    this.setElementsColor(elems, color, isFullColor);
   };
 
   this.updateElementColor = function (elem) {
     const layer = LayerHelper.getObjectLayer(elem)?.elem;
-    if (layer?.getAttribute('data-fullcolor') === '1') {
-      if (elem.tagName === 'image') {
-        elem.removeAttribute('filter');
-        return;
-      }
+    const isFullColor = layer?.getAttribute('data-fullcolor') === '1';
+    if (isFullColor && elem.tagName === 'image') {
+      elem.removeAttribute('filter');
+      return;
     }
     const color = this.isUsingLayerColor ? layer?.getAttribute('data-color') : '#000';
-    this.setElementsColor([elem], color);
+    this.setElementsColor([elem], color, isFullColor);
   };
 
-  this.setElementsColor = function (elems, color) {
+  this.setElementsColor = function (elems, color, isFullColor = false) {
     const descendants = [...elems];
     let svg_by_color = 0;
     let svg_by_layer = false;
@@ -3055,20 +2960,26 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         svg_by_layer = false;
         continue;
       }
-      const attrStroke = $(elem).attr('stroke');
-      const attrFill = $(elem).attr('fill');
+      const attrStroke = elem.getAttribute('stroke');
+      const attrFill = elem.getAttribute('fill');
       if (['rect', 'circle', 'ellipse', 'path', 'polygon', 'text', 'line'].includes(elem.tagName)) {
+        if (isFullColor) {
+          elem.removeAttribute('vector-effect');
+          continue;
+        }
+        elem.removeAttribute('stroke-width');
+        elem.setAttribute('vector-effect', 'non-scaling-stroke')
         if (((svg_by_layer && svg_by_color === 0) || attrStroke) && attrStroke !== 'none') {
-          $(elem).attr('stroke', color);
+          elem.setAttribute('stroke', color);
         }
         if (attrFill !== 'none') {
-          $(elem).attr('fill', color);
+          elem.setAttribute('fill', color);
         }
       } else if (elem.tagName === 'image') {
-        if (color === '#000' || elem.getAttribute('data-fullcolor') === '1') {
+        if (color === '#000' || isFullColor) {
           elem.removeAttribute('filter');
         } else {
-          $(elem).attr('filter', `url(#filter${color})`);
+          elem.setAttribute('filter', `url(#filter${color})`);
         }
       } else if (['g', 'svg', 'symbol'].includes(elem.tagName)) {
         if ($(elem).data('color')) {
