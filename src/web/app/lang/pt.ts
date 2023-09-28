@@ -1048,6 +1048,9 @@ const lang: ILang = {
       label: 'Etiqueta',
     },
   },
+  editor: {
+    prespray_area: 'Área de Pré-Espray',
+  },
   flux_id_login: {
     connection_fail: '#847 Falha ao conectar ao serviço de membro FLUX.',
     login_success: 'Conectado com sucesso.',

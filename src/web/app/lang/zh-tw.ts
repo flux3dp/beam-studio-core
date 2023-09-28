@@ -1048,6 +1048,9 @@ const lang: ILang = {
       label: '標籤',
     },
   },
+  editor: {
+    prespray_area: '預噴區',
+  },
   flux_id_login: {
     connection_fail: '#847 無法連接至 FLUX 會員中心。',
     login_success: '登入成功',

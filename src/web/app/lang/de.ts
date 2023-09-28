@@ -1048,6 +1048,9 @@ const lang: ILang = {
       label: 'Symbol',
     },
   },
+  editor: {
+    prespray_area: 'Vorsprühbereich',
+  },
   flux_id_login: {
     connection_fail: '#847 Verbindung zum FLUX Mitgliederservice fehlgeschlagen.',
     login_success: 'Anmeldung erfolgreich',
