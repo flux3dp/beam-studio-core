@@ -3,6 +3,7 @@ import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import NS from 'app/constants/namespaces';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
+import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import { CMYK, PrintingColors } from 'app/constants/color-constants';
 import {
@@ -17,8 +18,10 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import splitColor from './splitColor';
 
 let svgCanvas: ISVGCanvas;
+let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
+  svgedit = globalSVG.Edit;
 });
 
 const layerToImage = async (
@@ -28,6 +31,7 @@ const layerToImage = async (
   const layerClone = layer.cloneNode(true) as SVGGElement;
   const canvasWidth = Math.round((svgCanvas.contentW * dpi) / (25.4 * constant.dpmm));
   const canvasHeight = Math.round((svgCanvas.contentH * dpi) / (25.4 * constant.dpmm));
+  const svgDefs = svgedit.utilities.findDefs();
   const svgString = `
     <svg
       width="${canvasWidth}"
@@ -37,6 +41,7 @@ const layerToImage = async (
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
+      ${svgDefs.outerHTML}
       ${layerClone.outerHTML}
     </svg>`;
   const canvas = await svgStringToCanvas(svgString, canvasWidth, canvasHeight);
@@ -85,7 +90,10 @@ const splitFullColorLayer = async (
   if (!layer.getAttribute('data-fullcolor')) {
     return null;
   }
+  const uses = [...layer.querySelectorAll('use')];
+  uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
   const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
+  uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
   if (!blob || bbox.width === 0 || bbox.height === 0) {
     return null;
   }
