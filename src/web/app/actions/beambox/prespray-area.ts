@@ -1,8 +1,10 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
+import presparyIconUrl from 'app/icons/prespray.svg?url';
 
-let presprayAreaRect: SVGRectElement;
+let presprayAreaBlock: SVGImageElement;
 
 const areaWidth = 200;
 const areaHeight = 200;
@@ -16,13 +18,13 @@ const togglePresprayArea = (): void => {
   const shouldShow =
     document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]:not([display="none"]`)
       .length > 0;
-  if (shouldShow) presprayAreaRect.removeAttribute('display');
-  else presprayAreaRect.setAttribute('display', 'none');
+  if (shouldShow) presprayAreaBlock.removeAttribute('display');
+  else presprayAreaBlock.setAttribute('display', 'none');
 };
 
 const getPosition = (mm = false): { x: number; y: number; w: number; h: number } => {
-  const pxX = parseInt(presprayAreaRect?.getAttribute('x'), 10);
-  const pxY = parseInt(presprayAreaRect?.getAttribute('y'), 10);
+  const pxX = parseInt(presprayAreaBlock?.getAttribute('x'), 10);
+  const pxY = parseInt(presprayAreaBlock?.getAttribute('y'), 10);
   const pxW = areaWidth;
   const pxH = areaHeight;
   if (!mm) return { x: pxX, y: pxY, w: pxW, h: pxH };
@@ -36,20 +38,22 @@ const getPosition = (mm = false): { x: number; y: number; w: number; h: number }
 };
 
 const generatePresprayArea = (): void => {
-  if (!presprayAreaRect) {
+  if (!presprayAreaBlock) {
     const fixedSizeSvg = document.getElementById('fixedSizeSvg');
     const { svgedit } = window;
     const { NS } = svgedit;
-    presprayAreaRect = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
-    presprayAreaRect.setAttribute('id', 'presprayArea');
-    presprayAreaRect.setAttribute('x', '4000');
-    presprayAreaRect.setAttribute('y', '2500');
-    presprayAreaRect.setAttribute('width', areaWidth.toFixed(0));
-    presprayAreaRect.setAttribute('height', areaHeight.toFixed(0));
-    presprayAreaRect.setAttribute('fill', 'rgba(0, 128, 255, 0.3)');
-    presprayAreaRect.setAttribute('stroke', 'rgba(0, 128, 255, 0.3)');
-    presprayAreaRect.setAttribute('style', 'cursor:move;');
-    fixedSizeSvg?.appendChild(presprayAreaRect);
+    presprayAreaBlock = document.createElementNS(NS.SVG, 'image') as unknown as SVGImageElement;
+    presprayAreaBlock.setAttribute('id', 'presprayArea');
+    presprayAreaBlock.setAttribute('x', '4000');
+    presprayAreaBlock.setAttribute('y', '2500');
+    presprayAreaBlock.setAttribute('width', areaWidth.toFixed(0));
+    presprayAreaBlock.setAttribute('height', areaHeight.toFixed(0));
+    presprayAreaBlock.setAttribute('href', presparyIconUrl);
+    presprayAreaBlock.setAttribute('style', 'cursor:move;');
+    const presprayAreaTitle = document.createElementNS(NS.SVG, 'title');
+    presprayAreaTitle.textContent = i18n.lang.editor.prespray_area;
+    presprayAreaBlock.appendChild(presprayAreaTitle);
+    fixedSizeSvg?.appendChild(presprayAreaBlock);
     togglePresprayArea();
   }
 };
@@ -77,8 +81,8 @@ const drag = (dx: number, dy: number): void => {
     const { w, h } = workareaSize;
     const newX = Math.min(Math.max(0, startX + dx), w - areaWidth);
     const newY = Math.min(Math.max(0, startY + dy), h - areaHeight);
-    presprayAreaRect?.setAttribute('x', newX.toFixed(0));
-    presprayAreaRect?.setAttribute('y', newY.toFixed(0));
+    presprayAreaBlock?.setAttribute('x', newX.toFixed(0));
+    presprayAreaBlock?.setAttribute('y', newY.toFixed(0));
   });
 };
 

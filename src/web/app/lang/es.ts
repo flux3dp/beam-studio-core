@@ -1049,6 +1049,9 @@ const lang: ILang = {
       label: 'Etikett',
     },
   },
+  editor: {
+    prespray_area: 'Área de Pulverización Previo',
+  },
   flux_id_login: {
     connection_fail: '#847 La conexión con el servicio al cliente de Flux ha fallado.',
     login_success: 'Ingreso exitoso.',

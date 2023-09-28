@@ -1049,6 +1049,9 @@ const lang: ILang = {
       label: 'ラベル',
     },
   },
+  editor: {
+    prespray_area: 'プレスプレー エリア',
+  },
   flux_id_login: {
     connection_fail: '#847 FLUXメンバーサービスへの接続に失敗しました。',
     login_success: '正常にログインしました。',

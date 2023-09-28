@@ -1049,6 +1049,9 @@ const lang: ILang = {
       label: 'Étiquette',
     },
   },
+  editor: {
+    prespray_area: 'Zone de Pré-pulvérisation',
+  },
   flux_id_login: {
     connection_fail: '#847 Échec de la connexion au service des membres FLUX.',
     login_success: 'Connexion réussie.',

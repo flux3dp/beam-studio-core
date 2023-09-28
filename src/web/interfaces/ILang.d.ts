@@ -1046,6 +1046,9 @@ export interface ILang {
       label: string,
     },
   },
+  editor: {
+    prespray_area: string;
+  };
   flux_id_login: {
     connection_fail: string,
     login_success: string,

@@ -1049,6 +1049,9 @@ const lang: ILang = {
       label: 'Label',
     },
   },
+  editor: {
+    prespray_area: 'Voorsproei Gebied',
+  },
   flux_id_login: {
     connection_fail: '#847 Kan geen verbinding maken met de FLUX-ledenservice.',
     login_success: 'Succesvol ingelogd.',

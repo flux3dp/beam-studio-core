@@ -1049,6 +1049,9 @@ const lang: ILang = {
       label: '레이블',
     },
   },
+  editor: {
+    prespray_area: '프리스프레이 영역',
+  },
   flux_id_login: {
     connection_fail: '#847 FLUX 멤버 서비스에 연결하지 못했습니다.',
     login_success: '로그인 성공.',
