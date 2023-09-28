@@ -975,7 +975,9 @@ exports[`should render correctly text 1`] = `
         id="weld"
         type="button"
       >
-        <TraceIcon />
+        <svgr-url
+          className="icon"
+        />
         weld_text
       </button>
     </div>
