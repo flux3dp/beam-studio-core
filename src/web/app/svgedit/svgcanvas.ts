@@ -578,7 +578,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   var visElems = 'a,circle,ellipse,foreignObject,g,image,line,path,polygon,polyline,rect,svg,text,tspan,use';
-  var ref_attrs = ['clip-path', 'fill', 'filter', 'marker-end', 'marker-mid', 'marker-start', 'mask', 'stroke'];
+  const refAttrs = ['clip-path', 'fill', 'filter', 'marker-end', 'marker-mid', 'marker-start', 'mask', 'stroke'];
 
   var elData = $.data;
   // Animation element to change the opacity of any newly created element
@@ -595,16 +595,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!elem || elem.tagName === 'STYLE' || elem.classList.contains('layer')) {
       return;
     }
-    var o, i, l,
-      attrs = $(elem).attr(ref_attrs);
-    for (o in attrs) {
-      if (o === 'filter' && elem.tagName === 'image') {
+    for (let i = 0; i < refAttrs.length; i += 1) {
+      const attrName = refAttrs[i];
+      if (attrName === 'filter' && ['image', 'use'].includes(elem.tagName)) {
         continue;
       }
-      var val = attrs[o];
-      if (val && val.indexOf('url(') === 0) {
-        var id = svgedit.utilities.getUrlFromAttr(val).substr(1);
-        var ref = getElem(id);
+      const attrVal = elem.getAttribute(attrName);
+      if (attrVal && attrVal.indexOf('url(') === 0) {
+        const id = svgedit.utilities.getUrlFromAttr(attrVal).substr(1);
+        const ref = getElem(id);
         if (!ref) {
           svgedit.utilities.findDefs().appendChild(removedElements[id]);
           delete removedElements[id];
@@ -2056,7 +2055,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
         // now search for all attributes on this element that might refer
         // to other elements
-        $.each(ref_attrs, function (i, attr) {
+        $.each(refAttrs, function (i, attr) {
           var attrnode = n.getAttributeNode(attr);
           if (attrnode) {
             // the incoming file has been sanitized, so we should be able to safely just strip off the leading #
