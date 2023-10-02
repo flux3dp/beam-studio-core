@@ -1050,7 +1050,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: 'Prespray Area',
+    prespray_area: 'Priming Area',
   },
   flux_id_login: {
     connection_fail: '#847 Failed to connect to FLUX member service.',

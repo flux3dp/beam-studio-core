@@ -1050,7 +1050,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: 'Sprayen Voor Afdrukken',
+    prespray_area: 'Primeringsgebied',
   },
   flux_id_login: {
     connection_fail: '#847 Kan geen verbinding maken met de FLUX-ledenservice.',
