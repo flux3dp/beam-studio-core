@@ -80,7 +80,8 @@ export default interface ISVGCanvas {
   getStartTransform: () => any;
   getStrokedBBox(elems: Element[]): IRect;
   getSvgRealLocation: (elem: SVGElement) => IRect;
-  getSvgString: () => string;
+  removeUnusedDefs: () => void;
+  getSvgString: (opts?: { unit?: Units }) => string;
   getTempGroup: () => SVGGElement;
   getTitle: () => string;
   getZoom: () => number, // Old getter for current_zoom

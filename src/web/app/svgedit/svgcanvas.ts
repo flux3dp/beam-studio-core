@@ -1564,10 +1564,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Returns:
   // String containing the SVG image for output
-  this.svgCanvasToString = function (unit?: Units) {
+  this.svgCanvasToString = function (opts: { unit?: Units }) {
     // keep calling it until there are none to remove
+    const { unit } = opts;
     svgedit.utilities.moveDefsIntoSvgContent();
-    while (removeUnusedDefElems() > 0) { }
     pathActions.clear(true);
 
     // Keep SVG-Edit comment on top
@@ -1983,18 +1983,22 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     })();
   };
 
+  this.removeUnusedDefs = () => {
+    while (removeUnusedDefElems() > 0) {}
+  }
+
   // Function: getSvgString
   // Returns the current drawing as raw SVG XML text.
   //
   // Returns:
   // The current drawing as raw SVG XML text.
-  this.getSvgString = function (unit?: Units) {
+  this.getSvgString = function (opts: { unit?: Units }) {
     if (tempGroup) {
       this.ungroupTempGroup();
     }
     this.ungroupAllTempGroup();
     save_options.apply = false;
-    return this.svgCanvasToString(unit);
+    return this.svgCanvasToString(opts);
   };
 
   // Function: randomizeIds
