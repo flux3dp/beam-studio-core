@@ -174,7 +174,7 @@ class Selector {
     this.rotateGripTop.setAttribute('class', 'hidden-mobile');
     this.gripsGroup.appendChild(this.rotateGripTop);
     $.data(this.rotateGripTop, 'type', 'rotate');
-    $.data(this.rotateGripTop, 'angleOffset', '90');
+    this.rotateGripTop.setAttribute('data-angleOffset', '90');
 
     this.rotateGripBottom = document.createElementNS(NS.SVG, 'g') as unknown as SVGGElement;
     this.rotateGripBottom.setAttribute('id', 'selectorGrip_rotate_bottom');
@@ -201,10 +201,10 @@ class Selector {
     this.gripsGroup.appendChild(this.rotateGripBottom);
     const rotBtn = this.rotateGripBottom.querySelector('circle');
     $.data(rotBtn, 'type', 'rotate');
-    $.data(rotBtn, 'angleOffset', '-90');
+    rotBtn.setAttribute('data-angleOffset', '-90');
     const rotIcon = this.rotateGripBottom.querySelector('image');
     $.data(rotIcon, 'type', 'rotate');
-    $.data(rotIcon, 'angleOffset', '-90');
+    rotIcon.setAttribute('data-angleOffset', '-90');
 
     this.dimensionBG = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
     this.dimensionBG.setAttribute('id', 'selectorGrip_dimension_bg');

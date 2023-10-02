@@ -241,7 +241,7 @@ const mouseDown = (evt: MouseEvent) => {
     const gripType = $.data(grip, 'type');
     if (gripType === 'rotate') {
       // rotating
-      angleOffset = +$.data(grip, 'angleOffset') || 90;
+      angleOffset = +(grip as HTMLElement).getAttribute('data-angleOffset') || 90;
       svgCanvas.unsafeAccess.setCurrentMode('rotate');
     } else if (gripType === 'resize') {
       // resizing

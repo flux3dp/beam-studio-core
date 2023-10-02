@@ -1,7 +1,5 @@
 import * as React from 'react';
-import toJson from 'enzyme-to-json';
-import { mount, shallow } from 'enzyme';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 const open = jest.fn();
 jest.mock('implementations/browser', () => ({
@@ -18,24 +16,21 @@ import Control from './Control';
 
 describe('test Control', () => {
   it('should render correctly', () => {
-    expect(
-      toJson(
-        shallow(
-          <Control label="Flux">
-            <div>Hello World</div>
-          </Control>
-        )
-      )
-    ).toMatchSnapshot();
+    const { container, rerender } = render(
+      <Control label="Flux">
+        <div>Hello World</div>
+      </Control>
+    );
+    expect(container).toMatchSnapshot();
 
-    const wrapper = mount(
+    rerender(
       <Control label="Flux" url="https://www.flux3dp.com" warningText="Warning!!">
         <div>Hello World</div>
       </Control>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('img').at(0).simulate('click');
+    fireEvent.click(container.querySelector('img'));
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenNthCalledWith(1, 'https://www.flux3dp.com');
   });

@@ -1,64 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test Control should render correctly 1`] = `
-<div
-  className="row-fluid control"
-  id=""
->
+<div>
   <div
-    className="no-left-margin span3 label"
+    class="row-fluid control"
+    id=""
   >
-    <label
-      className="font2"
-      dangerouslySetInnerHTML={
-        {
-          "__html": "Flux",
-        }
-      }
-    />
-  </div>
-  <div
-    className="font3 span8"
-  >
-    <div>
-      Hello World
+    <div
+      class="no-left-margin span3 label"
+    >
+      <label
+        class="font2"
+      >
+        Flux
+      </label>
+    </div>
+    <div
+      class="font3 span8"
+    >
+      <div>
+        Hello World
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`test Control should render correctly 2`] = `
-<Controls
-  label="Flux"
-  url="https://www.flux3dp.com"
-  warningText="Warning!!"
->
+<div>
   <div
-    className="row-fluid control"
+    class="row-fluid control"
     id=""
   >
     <div
-      className="no-left-margin span3 label"
+      class="no-left-margin span3 label"
     >
       <label
-        className="font2"
-        dangerouslySetInnerHTML={
-          {
-            "__html": "Flux",
-          }
-        }
-      />
+        class="font2"
+      >
+        Flux
+      </label>
       <span
-        className="info-icon-small"
+        class="info-icon-small"
       >
         <img
-          onClick={[Function]}
           src="img/info.svg"
         />
       </span>
     </div>
     <div
-      className="font3 span8"
+      class="font3 span8"
     >
       <div>
         Hello World
@@ -69,7 +60,7 @@ exports[`test Control should render correctly 2`] = `
       />
     </div>
   </div>
-</Controls>
+</div>
 `;
 
 exports[`test Control should render correctly in mobile 1`] = `
