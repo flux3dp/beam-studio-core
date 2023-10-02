@@ -45,7 +45,7 @@ const layerToImage = async (
       ${layerClone.outerHTML}
     </svg>`;
   const canvas = await svgStringToCanvas(svgString, canvasWidth, canvasHeight);
-  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
   const { data } = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
   const bounds = { minX: canvasWidth, minY: canvasHeight, maxX: 0, maxY: 0 };
   for (let y = 0; y < canvasHeight; y += 1) {
