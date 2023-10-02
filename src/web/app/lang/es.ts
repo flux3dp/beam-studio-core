@@ -1049,7 +1049,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: 'Rociar Antes de Imprimir',
+    prespray_area: 'Área de Imprimación',
   },
   flux_id_login: {
     connection_fail: '#847 La conexión con el servicio al cliente de Flux ha fallado.',
