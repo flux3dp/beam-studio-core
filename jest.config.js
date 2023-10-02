@@ -23,6 +23,8 @@ module.exports = {
     '!src/web/helpers/potrace/**',
     // TODO: write unit test for symbol-maker and remove below line
     '!src/web/helpers/symbol-maker.ts',
+    // FIXME: Failed to collect coverage from dialog-caller currently
+    '!src/web/app/actions/dialog-caller.tsx',
     '!src/**/*.worker.ts',
   ],
   setupFilesAfterEnv: ['./src/web/setupTests.ts'],

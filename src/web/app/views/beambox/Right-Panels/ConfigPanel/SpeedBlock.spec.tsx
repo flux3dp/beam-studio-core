@@ -63,10 +63,6 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (...args) => mockPrefRead(...args),
 }));
 
-jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelController', () => ({
-  updateActiveKey: jest.fn(),
-}));
-
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   speed: { value: 87, hasMultiValue: false },
@@ -82,6 +78,15 @@ const mockEmit = jest.fn();
 jest.mock('app/views/beambox/Right-Panels/contexts/LayerPanelContext', () => ({
   LayerPanelContext: React.createContext({ hasVector: false }),
 }));
+
+jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelContext', () => ({
+  ObjectPanelContext: React.createContext({
+    activeKey: null,
+    updateActiveKey: () => {},
+  }),
+}));
+
+jest.mock('helpers/layer/check-vector', () => jest.fn());
 
 describe('test SpeedBlock', () => {
   beforeEach(() => {

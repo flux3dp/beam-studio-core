@@ -284,7 +284,7 @@ const lang: ILang = {
       wifi: 'Wi-Fi',
       wired: 'Kabelgebundenes Netzwerk',
       ether2ether: 'Direkte Verbindung',
-      usb: 'USB Connection',
+      usb: 'USB-Verbindung',
     },
     connect_wifi: {
       title: 'Verbindung zu Wi-Fi',
@@ -315,13 +315,13 @@ const lang: ILang = {
       tutorial3: '3. Klicken Sie auf "Nächster"',
     },
     connect_usb: {
-      title: 'tUSB Connection',
-      title_sub: ' t(HEXA Only)',
-      tutorial1: 't1. Connect the machine with your computer with USB cable.',
-      tutorial2: 't2. Click Next.',
+      title: 'USB-Verbindung',
+      title_sub: ' (Nur HEXA)',
+      tutorial1: '1. Verbinden Sie die Maschine mit Ihrem Computer über das USB-Kabel.',
+      tutorial2: '2. Klicken Sie auf Nächster.',
     },
     connect_machine_ip: {
-      check_usb: 'tCheck USB Connection',
+      check_usb: 'Überprüfen Sie die USB-Verbindung',
       enter_ip: 'Geben Sie die IP Ihres Computers ein',
       check_ip: 'Überprüfen der IP-Verfügbarkeit',
       invalid_ip: 'IP ungültig: ',

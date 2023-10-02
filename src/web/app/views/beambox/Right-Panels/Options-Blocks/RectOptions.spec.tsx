@@ -87,7 +87,7 @@ describe('should render correctly in mobile', () => {
     jest.resetAllMocks();
   });
 
-  test('unit is inches', async () => {
+  test('unit is inches', () => {
     useIsMobile.mockReturnValue(true);
     get.mockReturnValue('inches');
     const updateDimensionValues = jest.fn();
@@ -104,7 +104,6 @@ describe('should render correctly in mobile', () => {
 
     const objectPanelItem = baseElement.querySelector('div.object-panel-item');
     fireEvent.click(objectPanelItem);
-    await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
     fireEvent.click(baseElement.querySelectorAll('.step-buttons button')[1]);
     expect(changeSelectedAttribute).toHaveBeenCalledTimes(1);
     expect(changeSelectedAttribute).toHaveBeenNthCalledWith(1, 'rx', 254, [document.getElementById('flux')]);

@@ -1,20 +1,14 @@
 import classNames from 'classnames';
 import Icon, { DownOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useMemo, useRef } from 'react';
-import { Button, Divider, Mask, Popover } from 'antd-mobile';
+import { Button, Divider, Popover } from 'antd-mobile';
 
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import storage from 'implementations/storage';
 import units from 'helpers/units';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import styles from './ObjectPanelItem.module.scss';
-
-let svgEditor;
-getSVGAsync((globalSVG) => {
-  svgEditor = globalSVG.Editor;
-});
 
 interface Props {
   id: string;
@@ -63,7 +57,7 @@ const ObjectPanelNumber = ({
   decimal,
 }: NumberItemProps): JSX.Element => {
   const context = useContext(ObjectPanelContext);
-  const { activeKey, updateActiveKey } = context;
+  const { activeKey } = context;
   const isActive = activeKey === id;
   const shouldConvert2Inch = useMemo(
     () => unit === 'mm' && storage.get('default-units') === 'inches',
@@ -75,9 +69,11 @@ const ObjectPanelNumber = ({
   const precision = decimal === undefined ? defaultPrecision : decimal;
   const valueInUnit = (+units.convertUnit(value, fakeUnit, 'mm').toFixed(precision)).toString();
   const [displayValue, setDisplayValue] = React.useState(valueInUnit);
+  const [hasInput, setHasInput] = React.useState(false);
   const onChange = (newValue: string) => {
     setDisplayValue(newValue);
     updateValue(units.convertUnit(+newValue || 0, 'mm', fakeUnit));
+    if (!hasInput) setHasInput(true);
   };
   React.useEffect(() => {
     if (+displayValue !== +valueInUnit) {
@@ -100,7 +96,11 @@ const ObjectPanelNumber = ({
             key={key}
             shape="rounded"
             disabled={isKeyDisabled(key)}
-            onClick={() => onChange(displayValue + key)}
+            onClick={() => {
+              if (hasInput) onChange(displayValue + key);
+              else if (key === '.') onChange('0.');
+              else onChange(key);
+            }}
           >
             {key}
           </Button>
@@ -123,32 +123,19 @@ const ObjectPanelNumber = ({
     </>
   );
   return (
-    <>
-      <Mask
-        visible={isActive}
-        onMaskClick={() => {
-          svgEditor.updateContextPanel();
-          updateActiveKey(null);
-        }}
-        color="transparent"
+    <Popover className={styles['number-keyboard']} visible={isActive} content={<NumberKeyboard />}>
+      <ObjectPanelItem
+        id={id}
+        label={label}
+        content={
+          <Button className={styles['number-item']} shape="rounded" size="mini" fill="outline">
+            {displayValue}
+            {unit === 'degree' && <>&deg;</>}
+          </Button>
+        }
+        onClick={() => setHasInput(false)}
       />
-      <Popover
-        className={styles['number-keyboard']}
-        visible={isActive}
-        content={<NumberKeyboard />}
-      >
-        <ObjectPanelItem
-          id={id}
-          label={label}
-          content={
-            <Button className={styles['number-item']} shape="rounded" size="mini" fill="outline">
-              {displayValue}
-              {unit === 'degree' && <>&deg;</>}
-            </Button>
-          }
-        />
-      </Popover>
-    </>
+    </Popover>
   );
 };
 
@@ -172,7 +159,7 @@ const ObjectPanelActionList = ({
   disabled,
 }: ActionListProps): JSX.Element => {
   const context = useContext(ObjectPanelContext);
-  const { activeKey, updateActiveKey } = context;
+  const { activeKey } = context;
   const isActive = activeKey === id;
   const [activeAction, setActiveAction] = React.useState<string[]>([]);
   const ActionList = () => (
@@ -210,12 +197,9 @@ const ObjectPanelActionList = ({
   );
 
   return (
-    <>
-      <Mask visible={isActive} onMaskClick={() => updateActiveKey(null)} color="transparent" />
-      <Popover className={styles['action-list']} visible={isActive} content={<ActionList />}>
-        <ObjectPanelItem id={id} content={content} label={label} disabled={disabled} />
-      </Popover>
-    </>
+    <Popover className={styles['action-list']} visible={isActive} content={<ActionList />}>
+      <ObjectPanelItem id={id} content={content} label={label} disabled={disabled} />
+    </Popover>
   );
 };
 
@@ -271,24 +255,21 @@ const ObjectPanelSelect = ({
   }, [id, isActive, ref]);
 
   return (
-    <>
-      <Mask visible={isActive} onMaskClick={() => updateActiveKey(null)} color="transparent" />
-      <Popover ref={ref} className={styles.select} visible={isActive} content={<SelectOptions />}>
-        <ObjectPanelItem
-          id={id}
-          content={
-            <Button className={styles['select-button']} shape="rounded" size="mini" fill="outline">
-              <div className={styles['selected-content']}>
-                {selected.label}
-                <DownOutlined />
-              </div>
-            </Button>
-          }
-          label={label}
-          disabled={options.length <= 1}
-        />
-      </Popover>
-    </>
+    <Popover ref={ref} className={styles.select} visible={isActive} content={<SelectOptions />}>
+      <ObjectPanelItem
+        id={id}
+        content={
+          <Button className={styles['select-button']} shape="rounded" size="mini" fill="outline">
+            <div className={styles['selected-content']}>
+              {selected.label}
+              <DownOutlined />
+            </div>
+          </Button>
+        }
+        label={label}
+        disabled={options.length <= 1}
+      />
+    </Popover>
   );
 };
 
@@ -296,10 +277,21 @@ const ObjectPanelDivider = (): JSX.Element => (
   <Divider className={styles.divider} direction="vertical" />
 );
 
+const ObjectPanelMask = (): JSX.Element => {
+  const { activeKey, updateActiveKey } = useContext(ObjectPanelContext);
+  return (
+    <div
+      className={classNames(styles.mask, { [styles.hide]: activeKey === null })}
+      onClick={() => updateActiveKey(null)}
+    />
+  );
+};
+
 export default {
   ActionList: ObjectPanelActionList,
   Divider: ObjectPanelDivider,
   Item: ObjectPanelItem,
   Number: ObjectPanelNumber,
   Select: ObjectPanelSelect,
+  Mask: ObjectPanelMask,
 };

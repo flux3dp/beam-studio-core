@@ -65,6 +65,7 @@ import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { isMobile } from 'helpers/system-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -1529,7 +1530,8 @@ const svgEditor = window['svgEditor'] = (function () {
       const zoomRatio = new_canvas_width / old_canvas_width;
 
       function _scrollToMakeItCenter(workarea, svgcanvas) {
-        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - 124);
+        const wOffset = isMobile() ? 0 : 124;
+        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - wOffset);
         workarea.scrollTop(svgcanvas.height() / 2 - workarea.height() / 2 - 85);
       }
 
@@ -1761,6 +1763,8 @@ const svgEditor = window['svgEditor'] = (function () {
               x: parseFloat(x) || 0,
               y: parseFloat(y) || 0
             });
+
+            svgCanvas.selectorManager.requestSelector(elem).resize();
           }
 
         } else {
@@ -3150,7 +3154,7 @@ const svgEditor = window['svgEditor'] = (function () {
         clickSelect();
       }
       const isFunctionKeyPressed = checkFunctionKeyPressed(evt);
-      if (evt.shiftKey && evt.key === 'Enter') {
+      if ((isMobile() || evt.shiftKey) && evt.key === 'Enter') {
         evt.preventDefault();
         textActions.newLine();
         textEdit.setTextContent(textInput.value);

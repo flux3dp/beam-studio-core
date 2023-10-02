@@ -21,7 +21,7 @@ const setZoom = jest.fn();
 
 let wrapper;
 
-describe('test textPathEdit', () => {
+describe('test touchEvents', () => {
   beforeAll(() => {
     document.body.innerHTML = "<div id='main'></div>";
     const mainDiv = document.getElementById('main');
@@ -31,12 +31,14 @@ describe('test textPathEdit', () => {
     touchEvents.setupCanvasTouchEvents(
       container,
       workarea,
+      500,
+      500,
       mouseDown,
       mouseMove,
       mouseUp,
       doubleClick,
       getZoom,
-      setZoom,
+      setZoom
     );
   });
 

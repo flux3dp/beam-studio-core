@@ -18,6 +18,7 @@ const selectOnly = jest.fn();
 const setSvgElemPosition = jest.fn();
 const setSvgElemSize = jest.fn();
 const disassembleUse2Group = jest.fn();
+const addCommandToHistory = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => callback({
     Canvas: {
@@ -31,6 +32,7 @@ jest.mock('helpers/svg-editor-helper', () => ({
       setSvgElemSize: (...args) => setSvgElemSize(...args),
       updateElementColor: jest.fn(),
       disassembleUse2Group: (...args) => disassembleUse2Group(...args),
+      addCommandToHistory: (...args) => addCommandToHistory(...args),
     },
   }),
 }));
@@ -71,9 +73,78 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+const useIsMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  useIsMobile: () => useIsMobile(),
+}));
+
 describe('test ShapePanel', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should render correctly', () => {
+    const { baseElement } = render(<ShapePanel onClose={mockOnClose} />);
+    expect(baseElement).toMatchSnapshot();
+    expect(mockOnClose).not.toBeCalled();
+  });
+
+  it('should import predefined object', async () => {
+    const { baseElement } = render(<ShapePanel onClose={mockOnClose} />);
+    const modalEl = baseElement.querySelector('.ant-modal-wrap') as HTMLElement;
+    expect(modalEl).toBeVisible();
+    expect(mockOnClose).not.toBeCalled();
+    const shapeIcons = baseElement.querySelectorAll('.icon');
+    expect(shapeIcons.length).toBe(2);
+    fireEvent.click(shapeIcons[0]);
+    await waitFor(() => expect(modalEl).not.toBeVisible());
+    expect(addSvgElementFromJson).toBeCalledTimes(1);
+    expect(getSvgRealLocation).not.toBeCalled();
+    expect(importSvgString).not.toBeCalled();
+    expect(selectOnly).toBeCalledTimes(2);
+    expect(selectOnly).toBeCalledWith([mockElement]);
+    expect(setSvgElemPosition).not.toBeCalled();
+    expect(setSvgElemSize).not.toBeCalled();
+    expect(disassembleUse2Group).not.toBeCalled();
+    expect(addCommandToHistory).toBeCalledTimes(1);
+    expect(mockOnClose).toBeCalledTimes(1);
+  });
+
+  it('should import svg object, update location and disassemble', async () => {
+    const { baseElement, getByText } = render(<ShapePanel onClose={mockOnClose} />);
+    const modalEl = baseElement.querySelector('.ant-modal-wrap') as HTMLElement;
+    expect(modalEl).toBeVisible();
+    expect(mockOnClose).not.toBeCalled();
+    const graphicsTab = getByText('Graphics');
+    fireEvent.click(graphicsTab);
+    expect(graphicsTab).toHaveClass('adm-capsule-tabs-tab-active');
+    const shapeIcons = baseElement.querySelectorAll('.icon');
+    expect(shapeIcons.length).toBe(1);
+    fireEvent.click(shapeIcons[0]);
+    await waitFor(() => expect(modalEl).not.toBeVisible());
+    expect(addSvgElementFromJson).not.toBeCalled();
+    expect(getSvgRealLocation).toBeCalledTimes(1);
+    expect(getSvgRealLocation).toBeCalledWith(mockElement);
+    expect(importSvgString).toBeCalledTimes(1);
+    expect(selectOnly).toBeCalledTimes(1);
+    expect(selectOnly).toBeCalledWith([mockElement]);
+    expect(setSvgElemPosition).toBeCalledTimes(2);
+    expect(setSvgElemPosition).toHaveBeenNthCalledWith(1, 'x', 0, mockElement, false);
+    expect(setSvgElemPosition).toHaveBeenNthCalledWith(2, 'y', 0, mockElement, false);
+    expect(setSvgElemSize).toBeCalledTimes(2);
+    expect(setSvgElemSize).toHaveBeenNthCalledWith(1, 'width', 300);
+    expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
+    expect(disassembleUse2Group).toBeCalledTimes(1);
+    expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(addCommandToHistory).toBeCalledTimes(1);
+    expect(mockOnClose).toBeCalledTimes(1);
+  });
+});
+
+describe('test ShapePanel in mobile', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useIsMobile.mockReturnValue(true);
   });
 
   it('should render correctly', async () => {
@@ -104,6 +175,7 @@ describe('test ShapePanel', () => {
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
     expect(disassembleUse2Group).not.toBeCalled();
+    expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 
@@ -126,13 +198,14 @@ describe('test ShapePanel', () => {
     expect(selectOnly).toBeCalledTimes(1);
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).toBeCalledTimes(2);
-    expect(setSvgElemPosition).toHaveBeenNthCalledWith(1, 'x', 0);
-    expect(setSvgElemPosition).toHaveBeenNthCalledWith(2, 'y', 0);
+    expect(setSvgElemPosition).toHaveBeenNthCalledWith(1, 'x', 0, mockElement, false);
+    expect(setSvgElemPosition).toHaveBeenNthCalledWith(2, 'y', 0, mockElement, false);
     expect(setSvgElemSize).toBeCalledTimes(2);
     expect(setSvgElemSize).toHaveBeenNthCalledWith(1, 'width', 300);
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
     expect(disassembleUse2Group).toBeCalledTimes(1);
-    expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true);
+    expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 });

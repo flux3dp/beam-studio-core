@@ -77,6 +77,7 @@ let nextPos = {
   x: 0,
   y: 0,
 };
+let angleOffset = 90;
 const THRESHOLD_DIST = 0.8;
 const STEP_COUNT = 10;
 
@@ -149,6 +150,8 @@ const getEventPoint = (evt: MouseEvent | TouchEvent) => {
   return svgedit.math.transformPoint(x, y, matrix);
 };
 
+const checkShouldIgnore = () => ObjectPanelController.getActiveKey() && navigator.maxTouchPoints > 1;
+
 /**
  * Add transform for resizing operation
  * @param {Element} element svg element to init transform
@@ -175,6 +178,7 @@ let mouseSelectModeCmds;
 // - when we are in select mode, select the element, remember the position
 // and do nothing else
 const mouseDown = (evt: MouseEvent) => {
+  if (checkShouldIgnore()) return;
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
   let selectedElements = svgCanvas.getSelectedElems();
@@ -237,6 +241,7 @@ const mouseDown = (evt: MouseEvent) => {
     const gripType = $.data(grip, 'type');
     if (gripType === 'rotate') {
       // rotating
+      angleOffset = +(grip as HTMLElement).getAttribute('data-angleOffset') || 90;
       svgCanvas.unsafeAccess.setCurrentMode('rotate');
     } else if (gripType === 'resize') {
       // resizing
@@ -1097,7 +1102,7 @@ const mouseMove = (evt: MouseEvent) => {
       const center = svgedit.math.transformPoint(cx, cy, matrix);
       cx = center.x;
       cy = center.y;
-      angle = ((Math.atan2(cy - y, cx - x) * (180 / Math.PI)) - 90) % 360;
+      angle = (Math.atan2(cy - y, cx - x) * (180 / Math.PI) - angleOffset) % 360;
       if (currentConfig.gridSnapping) {
         angle = svgedit.utilities.snapToGrid(angle);
       }
@@ -1135,6 +1140,7 @@ const mouseMove = (evt: MouseEvent) => {
 // this is done in when we recalculate the selected dimensions()
 
 const mouseUp = async (evt: MouseEvent, blocked = false) => {
+  if (checkShouldIgnore()) return;
   const started = svgCanvas.getStarted();
   const currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();
@@ -1839,6 +1845,8 @@ const registerEvents = () => {
     touchEvents.setupCanvasTouchEvents(
       container,
       workarea,
+      svgCanvas.contentW,
+      svgCanvas.contentH,
       mouseDown,
       mouseMove,
       mouseUp,

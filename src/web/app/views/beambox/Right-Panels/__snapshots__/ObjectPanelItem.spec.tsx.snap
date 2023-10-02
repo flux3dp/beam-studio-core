@@ -1,35 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly action list disabled 1`] = `
-<Fragment>
-  <Mask
-    color="transparent"
-    onMaskClick={[Function]}
-    visible={false}
+<ForwardRef
+  className="action-list"
+  content={<ActionList />}
+  visible={false}
+>
+  <ObjectPanelItem
+    content={
+      <div>
+        mock content
+      </div>
+    }
+    disabled={true}
+    id="mock-action-list"
+    label="mock-label"
   />
-  <ForwardRef
-    className="action-list"
-    content={<ActionList />}
-    visible={false}
-  >
-    <ObjectPanelItem
-      content={
-        <div>
-          mock content
-        </div>
-      }
-      disabled={true}
-      id="mock-action-list"
-      label="mock-label"
-    />
-  </ForwardRef>
-</Fragment>
+</ForwardRef>
 `;
 
 exports[`should render correctly action list not disabled 1`] = `
-<body
-  class="adm-overflow-hidden"
->
+<body>
   <div
     class="adm-px-tester"
     style="--size: 10;"
@@ -146,6 +137,9 @@ exports[`should render correctly divider 1`] = `
 exports[`should render correctly number item when unit is degree 1`] = `
 <div>
   <div
+    class="mask hide"
+  />
+  <div
     class="object-panel-item"
     id="mock-number-item-angle"
   >
@@ -174,6 +168,9 @@ exports[`should render correctly number item when unit is degree 1`] = `
 exports[`should render correctly number item when unit is inch 1`] = `
 <div>
   <div
+    class="mask hide"
+  />
+  <div
     class="object-panel-item"
     id="mock-number-item-inch"
   >
@@ -201,6 +198,9 @@ exports[`should render correctly number item when unit is inch 1`] = `
 exports[`should render correctly number item when unit is mm 1`] = `
 <div>
   <div
+    class="mask hide"
+  />
+  <div
     class="object-panel-item"
     id="mock-number-item-mm"
   >
@@ -226,9 +226,7 @@ exports[`should render correctly number item when unit is mm 1`] = `
 `;
 
 exports[`should render correctly number item when unit is mm 2`] = `
-<body
-  class="adm-overflow-hidden"
->
+<body>
   <div
     class="adm-px-tester"
     style="--size: 10;"
@@ -239,18 +237,8 @@ exports[`should render correctly number item when unit is mm 2`] = `
   />
   <div>
     <div
-      class="adm-mask"
-      style="background: transparent; opacity: 0.03256184376889282;"
-    >
-      <div
-        aria-label="背景蒙层"
-        class="adm-mask-aria-button"
-        role="button"
-      />
-      <div
-        class="adm-mask-content"
-      />
-    </div>
+      class="mask"
+    />
     <div
       class="object-panel-item active"
       id="mock-number-item-mm"
@@ -276,11 +264,9 @@ exports[`should render correctly number item when unit is mm 2`] = `
   </div>
   <div
     class="adm-popover adm-popover-light number-keyboard"
-    style="left: 0px; top: 0px;"
   >
     <div
       class="adm-popover-arrow"
-      style="left: 0px; --arrow-icon-rotate: 0deg;"
     >
       <svg
         class="adm-popover-arrow-icon"
@@ -466,6 +452,9 @@ exports[`should render correctly number item when unit is mm 2`] = `
 exports[`should render correctly select with multiple options 1`] = `
 <div>
   <div
+    class="mask hide"
+  />
+  <div
     class="object-panel-item"
     id="mock-select"
   >
@@ -513,4 +502,10 @@ exports[`should render correctly select with multiple options 1`] = `
 </div>
 `;
 
-exports[`should render correctly select with only one option 1`] = `<div />`;
+exports[`should render correctly select with only one option 1`] = `
+<div>
+  <div
+    class="mask hide"
+  />
+</div>
+`;

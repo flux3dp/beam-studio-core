@@ -8,9 +8,9 @@ import createNewText from 'app/svgedit/text/createNewText';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import useI18n from 'helpers/useI18n';
@@ -130,12 +130,19 @@ const CanvasTabBar = (): JSX.Element => {
     if (key === 'camera') {
       changeToPreviewMode();
       if (!PreviewModeController.isPreviewMode()) showCameraPreviewDeviceList();
+      setActiveKey('choose-preview-device');
       setTimeout(resetActiveKey, 300);
     } else if (key === 'image') {
       FnWrapper.importImage();
       setTimeout(resetActiveKey, 300);
     } else if (key === 'text') {
-      events.once('addText', resetActiveKey);
+      events.once('addText', (newText: SVGTextElement) => {
+        svgEditor.zoomChanged(window, {
+          zoomLevel: (window.innerWidth / newText.getBBox().width) * 0.8,
+        });
+        newText.scrollIntoView({ block: 'center', inline: 'center' });
+        resetActiveKey();
+      });
       createNewText(100, 100, 'Text', true);
     } else if (key === 'pen') {
       events.once('addPath', resetActiveKey);
@@ -147,7 +154,7 @@ const CanvasTabBar = (): JSX.Element => {
       svgEditor.clickRedo();
       setTimeout(resetActiveKey, 300);
     } else if (key === 'shape') {
-      console.log('open shape panel');
+      dialogCaller.showShapePanel(resetActiveKey);
     } else if (key === 'document') {
       dialogCaller.showDocumentSettings();
       setTimeout(resetActiveKey, 300);
@@ -197,33 +204,35 @@ const CanvasTabBar = (): JSX.Element => {
         PreviewModeBackgroundDrawer.clear();
       }
     }
+    setTimeout(resetActiveKey, 300);
   };
 
   return (
-    <>
-      <div id="mobile-tab-bar" className={styles.container}>
-        <div style={{ width: 'fit-content' }}>
-          <TabBar
-            activeKey={activeKey}
-            onChange={(key) => {
-              setActiveKey(key);
-              if (isPreviewing) handlePreviewTabClick(key);
-              else handleTabClick(key);
-            }}
-          >
-            {(isPreviewing ? previewTabItems : tabs).map((item) => (
-              <TabBar.Item
-                key={item.key}
-                icon={item.icon}
-                title={item.title}
-                aria-disabled={item.disabled || false}
-              />
-            ))}
-          </TabBar>
-        </div>
+    <div
+      id="mobile-tab-bar"
+      className={styles.container}
+      onClick={() => ObjectPanelController.updateActiveKey(null)}
+    >
+      <div style={{ width: 'fit-content' }}>
+        <TabBar
+          activeKey={activeKey}
+          onChange={(key) => {
+            setActiveKey(key);
+            if (isPreviewing) handlePreviewTabClick(key);
+            else handleTabClick(key);
+          }}
+        >
+          {(isPreviewing ? previewTabItems : tabs).map((item) => (
+            <TabBar.Item
+              key={item.key}
+              icon={item.icon}
+              title={item.title}
+              aria-disabled={item.disabled || false}
+            />
+          ))}
+        </TabBar>
       </div>
-      {activeKey === 'shape' && <ShapePanel onClose={resetActiveKey} />}
-    </>
+    </div>
   );
 };
 

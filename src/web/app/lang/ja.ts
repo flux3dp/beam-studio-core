@@ -284,7 +284,7 @@ const lang: ILang = {
       wifi: 'Wi-Fi',
       wired: '有線ネットワーク',
       ether2ether: '直接接続',
-      usb: 'USB Connection',
+      usb: 'USB接続',
     },
     connect_wifi: {
       title: 'Wi-Fiで接続する',
@@ -315,13 +315,13 @@ const lang: ILang = {
       tutorial3: '3. 「次へ」をクリックしてください。',
     },
     connect_usb: {
-      title: 'tUSB Connection',
-      title_sub: ' t(HEXA Only)',
-      tutorial1: 't1. Connect the machine with your computer with USB cable.',
-      tutorial2: 't2. Click Next.',
+      title: 'USB接続',
+      title_sub: '（HEXAのみ）',
+      tutorial1: '1. USBケーブルでコンピュータに機器を接続してください。',
+      tutorial2: '2.「次へ」をクリックしてください。',
     },
     connect_machine_ip: {
-      check_usb: 'tCheck USB Connection',
+      check_usb: 'USB接続の確認',
       enter_ip: 'マシン IP を入力してください',
       check_ip: 'IP 可用性の確認しています',
       invalid_ip: 'IPが無効です：',

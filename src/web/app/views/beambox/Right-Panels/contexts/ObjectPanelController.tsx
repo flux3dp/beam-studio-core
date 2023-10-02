@@ -6,7 +6,7 @@ const updateDimensionValues = (newValue: any): void => {
   objectPanelEventEmitter.emit('UPDATE_DIMENSION_VALUES', newValue);
 };
 
-const getDimensionValues = (key: string): any => {
+const getDimensionValues = (key?: string): any => {
   const response = {
     dimensionValues: {},
   };

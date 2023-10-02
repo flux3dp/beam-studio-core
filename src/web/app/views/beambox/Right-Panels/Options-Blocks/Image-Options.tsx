@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
-import { Mask, Popover } from 'antd-mobile';
+import { Popover } from 'antd-mobile';
 
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
@@ -156,50 +156,41 @@ class ImageOptions extends React.Component<Props> {
     }
     const threshold = parseInt(elem.getAttribute('data-threshold'), 10) || 128;
     return isMobile() ? (
-      <>
-        <Mask
-          visible={visible}
-          onMaskClick={() => {
-            ObjectPanelController.updateActiveKey(null);
-          }}
-          color="transparent"
-        />
-        <Popover
-          visible={visible}
-          content={
-            <div className={styles.field}>
-              <span className={styles.label}>{LANG.threshold_short}</span>
-              <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
-                <InputNumber
-                  className={styles.input}
-                  type="number"
-                  min={1}
-                  max={255}
-                  value={threshold}
-                  precision={0}
-                  onChange={this.handleThresholdChange}
-                  controls={false}
-                />
-              </ConfigProvider>
-              <Slider
-                className={styles.slider}
+      <Popover
+        visible={visible}
+        content={
+          <div className={styles.field}>
+            <span className={styles.label}>{LANG.threshold_short}</span>
+            <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
+              <InputNumber
+                className={styles.input}
+                type="number"
                 min={1}
                 max={255}
-                step={1}
-                marks={{ 128: '128' }}
                 value={threshold}
+                precision={0}
                 onChange={this.handleThresholdChange}
+                controls={false}
               />
-            </div>
-          }
-        >
-          <ObjectPanelItem.Item
-            id="threshold"
-            content={<ObjectPanelIcon.Threshold />}
-            label={LANG.threshold_short}
-          />
-        </Popover>
-      </>
+            </ConfigProvider>
+            <Slider
+              className={styles.slider}
+              min={1}
+              max={255}
+              step={1}
+              marks={{ 128: '128' }}
+              value={threshold}
+              onChange={this.handleThresholdChange}
+            />
+          </div>
+        }
+      >
+        <ObjectPanelItem.Item
+          id="threshold"
+          content={<ObjectPanelIcon.Threshold />}
+          label={LANG.threshold_short}
+        />
+      </Popover>
     ) : (
       <div key="threshold">
         <div className="option-block with-slider">

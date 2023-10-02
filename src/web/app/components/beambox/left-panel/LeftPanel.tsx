@@ -76,6 +76,13 @@ class LeftPanel extends React.Component {
         FnWrapper.insertPath();
       }
     });
+
+    shortcuts.on(['e'], () => {
+      const { isPreviewing } = this.context;
+      if (!isPreviewing) {
+        $('#left-Element').trigger('click');
+      }
+    });
   }
 
   componentWillUnmount(): void {

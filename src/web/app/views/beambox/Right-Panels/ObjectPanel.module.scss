@@ -10,7 +10,6 @@
   @media screen and (max-width: 600px) {
     @include mixins.bottom-bar();
     min-height: 0;
-    width: fit-content;
   }
 
   .tools {

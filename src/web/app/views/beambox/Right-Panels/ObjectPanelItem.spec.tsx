@@ -17,7 +17,6 @@ jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,
 }));
 
-const updateContextPanel = jest.fn();
 const distHori = jest.fn();
 const distVert = jest.fn();
 const groupSelectedElements = jest.fn();
@@ -26,7 +25,6 @@ const booleanOperationSelectedElements = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Editor: {
-      updateContextPanel,
       distHori,
       distVert,
       groupSelectedElements,
@@ -48,6 +46,7 @@ const MockNumberItem = ({ id, unit, decimal }: { id: string; unit?: string; deci
   const [value, setValue] = React.useState(1);
   return (
     <ObjectPanelContextProvider>
+      <ObjectPanelItem.Mask />
       <ObjectPanelItem.Number
         id={id}
         value={value}
@@ -74,6 +73,7 @@ const MockSelect = ({
   const [value, setValue] = React.useState<string | number>(1);
   return (
     <ObjectPanelContextProvider>
+      <ObjectPanelItem.Mask />
       <ObjectPanelItem.Select
         id="mock-select"
         selected={{ value, label: `display label ${value}` }}
@@ -178,12 +178,14 @@ describe('should render correctly', () => {
         <MockNumberItem id="mock-number-item-mm" />
       );
       expect(container).toMatchSnapshot();
+      const mask = baseElement.querySelector('div.mask');
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
+      expect(mask).toHaveClass('hide');
       expect(displayBtn).toHaveTextContent('1');
       expect(objectPanelItem).not.toHaveClass('active');
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(baseElement).toMatchSnapshot();
       expect(mockUpdateValue).toBeCalledTimes(0);
@@ -225,9 +227,8 @@ describe('should render correctly', () => {
       expect(mockUpdateValue).toHaveBeenNthCalledWith(7, 27.5);
       expect(displayBtn).toHaveTextContent('27.5');
 
-      expect(updateContextPanel).toBeCalledTimes(0);
-      fireEvent.click(document.querySelector('div.adm-mask'));
-      expect(updateContextPanel).toBeCalledTimes(1);
+      fireEvent.click(mask);
+      expect(mask).toHaveClass('hide');
       expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
       expect(objectPanelItem).not.toHaveClass('active');
       expect(displayBtn).toHaveTextContent('27.5');
@@ -239,12 +240,14 @@ describe('should render correctly', () => {
         <MockNumberItem id="mock-number-item-inch" />
       );
       expect(container).toMatchSnapshot();
+      const mask = baseElement.querySelector('div.mask');
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
+      expect(mask).toHaveClass('hide');
       expect(displayBtn).toHaveTextContent('0.0394');
       expect(objectPanelItem).not.toHaveClass('active');
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(mockUpdateValue).toBeCalledTimes(0);
 
@@ -268,9 +271,8 @@ describe('should render correctly', () => {
       expect(displayBtn).toHaveTextContent('1.0390');
       expect(getByText('1').parentElement).toHaveClass('adm-button-disabled');
 
-      expect(updateContextPanel).toBeCalledTimes(0);
-      fireEvent.click(document.querySelector('div.adm-mask'));
-      expect(updateContextPanel).toBeCalledTimes(1);
+      fireEvent.click(mask);
+      expect(mask).toHaveClass('hide');
       expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
       expect(objectPanelItem).not.toHaveClass('active');
       expect(displayBtn).toHaveTextContent('1.0390');
@@ -282,12 +284,14 @@ describe('should render correctly', () => {
         <MockNumberItem id="mock-number-item-angle" unit="degree" />
       );
       expect(container).toMatchSnapshot();
+      const mask = baseElement.querySelector('div.mask');
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
+      expect(mask).toHaveClass('hide');
       expect(displayBtn).toHaveTextContent('1°');
       expect(objectPanelItem).not.toHaveClass('active');
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(mockUpdateValue).toBeCalledTimes(0);
 
@@ -296,9 +300,8 @@ describe('should render correctly', () => {
       expect(mockUpdateValue).toHaveBeenNthCalledWith(1, 2);
       expect(displayBtn).toHaveTextContent('2°');
 
-      expect(updateContextPanel).toBeCalledTimes(0);
-      fireEvent.click(document.querySelector('div.adm-mask'));
-      expect(updateContextPanel).toBeCalledTimes(1);
+      fireEvent.click(mask);
+      expect(mask).toHaveClass('hide');
       expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
       expect(objectPanelItem).not.toHaveClass('active');
       expect(displayBtn).toHaveTextContent('2°');
@@ -308,12 +311,14 @@ describe('should render correctly', () => {
       const { baseElement, getByText } = render(
         <MockNumberItem id="mock-number-item-integer" decimal={3} />
       );
+      const mask = baseElement.querySelector('div.mask');
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
+      expect(mask).toHaveClass('hide');
       expect(displayBtn).toHaveTextContent('1');
       expect(objectPanelItem).not.toHaveClass('active');
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(getByText('.').parentElement).not.toHaveClass('adm-button-disabled');
 
@@ -323,7 +328,7 @@ describe('should render correctly', () => {
       fireEvent.click(getByText('1'));
       expect(getByText('1').parentElement).not.toHaveClass('adm-button-disabled');
       fireEvent.click(getByText('1'));
-      expect(displayBtn).toHaveTextContent('1.111');
+      expect(displayBtn).toHaveTextContent('0.111');
       expect(mockUpdateValue).toBeCalledTimes(4);
       expect(getByText('1').parentElement).toHaveClass('adm-button-disabled');
     });
@@ -332,12 +337,14 @@ describe('should render correctly', () => {
       const { baseElement, getByText } = render(
         <MockNumberItem id="mock-number-item-integer" decimal={0} />
       );
+      const mask = baseElement.querySelector('div.mask');
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayBtn = baseElement.querySelector('button.number-item');
+      expect(mask).toHaveClass('hide');
       expect(displayBtn).toHaveTextContent('1');
       expect(objectPanelItem).not.toHaveClass('active');
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
     });
@@ -360,12 +367,14 @@ describe('should render correctly', () => {
         />
       );
       expect(container).toMatchSnapshot();
+      const mask = baseElement.querySelector('div.mask');
       const objectPanelItem = baseElement.querySelector('div.object-panel-item');
       const displayContent = baseElement.querySelector('.selected-content');
+      expect(mask).toHaveClass('hide');
       expect(displayContent).toHaveTextContent('display label 1');
       expect(objectPanelItem).not.toHaveClass('active');
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(mockUpdateValue).toBeCalledTimes(0);
       expect(getByText('option-1').parentElement).toHaveClass('active');
@@ -377,9 +386,10 @@ describe('should render correctly', () => {
       expect(displayContent).toHaveTextContent('display label 2');
       await waitFor(() => expect(objectPanelItem).not.toHaveClass('active'));
       expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
+      expect(mask).toHaveClass('hide');
 
       fireEvent.click(objectPanelItem);
-      await waitFor(() => expect(baseElement.querySelector('.adm-mask')).toBeVisible());
+      expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(getByText('option-1').parentElement).not.toHaveClass('active');
       expect(getByText('option-2').parentElement).toHaveClass('active');

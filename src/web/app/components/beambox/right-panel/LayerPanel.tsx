@@ -11,6 +11,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
@@ -460,6 +461,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               onClose={() => setDisplayLayer(false)}
               forceClose={hide}
             >
+              <ObjectPanelItem.Mask/>
               {this.renderLayerPanel()}
             </FloatingPanel>
             <div className={styles['layer-bottom-bar']}>

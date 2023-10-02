@@ -1,7 +1,11 @@
 /* eslint-disable react/require-default-props */
 import * as React from 'react';
+import classNames from 'classnames';
 
 import browser from 'implementations/browser';
+import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './Control.module.scss';
 
 interface Props {
   id?: string,
@@ -18,7 +22,7 @@ const Controls = ({
   warningText = null,
   children,
 }: Props): JSX.Element => {
-  const style = { width: 'calc(100% / 10 * 3 - 10px)' };
+  const isDesktop = !useIsMobile();
   const innerHtml = { __html: label };
 
   const warningIcon = () => {
@@ -40,8 +44,10 @@ const Controls = ({
   };
 
   return (
-    <div id={id} className="row-fluid">
-      <div className="span3 no-left-margin" style={style}>
+    <div id={id} className={classNames('row-fluid', styles.control)}>
+      <div
+        className={classNames('no-left-margin', { span3: isDesktop, [styles.label]: isDesktop })}
+      >
         <label
           className="font2"
           // eslint-disable-next-line react/no-danger
@@ -49,7 +55,7 @@ const Controls = ({
         />
         {renderIcon()}
       </div>
-      <div className="span8 font3">
+      <div className={classNames('font3', { span8: isDesktop })}>
         {children}
         {warningIcon()}
       </div>

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
-import { Action } from 'antd-mobile/es/components/swipe-action';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
@@ -61,6 +61,12 @@ const LayerList = ({
   const drawing = svgCanvas.getCurrentDrawing();
   const currentLayerName = drawing.getCurrentLayerName();
   const isMobile = useIsMobile();
+  const ref = useRef<SwipeActionRef>(null);
+  useEffect(() => {
+    if (ref.current && draggingDestIndex !== null) {
+      ref.current.close();
+    }
+  }, [ref, draggingDestIndex, selectedLayers]);
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -109,6 +115,7 @@ const LayerList = ({
       items.push(
         <SwipeAction
           key={layerName}
+          ref={isSelected && layerName === selectedLayers[0] ? ref : undefined}
           leftActions={leftActions}
           rightActions={rightActions}
           onActionsReveal={() => setSelectedLayers([layerName])}
@@ -128,7 +135,7 @@ const LayerList = ({
             onDragStart={(e: React.DragEvent) => onLayerDragStart(layerName, e)}
             onDragEnd={onlayerDragEnd}
             onTouchStart={(e: React.TouchEvent) => {
-              if (!isMobile) onLayerTouchStart(layerName, e);
+              onLayerTouchStart(layerName, e, isMobile ? 100 : 800);
             }}
             onTouchMove={onLayerTouchMove}
             onTouchEnd={onLayerTouchEnd}
@@ -192,7 +199,7 @@ const LayerList = ({
                 />
               </div>
               {isMobile && (
-                <div onTouchStart={(e: React.TouchEvent) => onLayerTouchStart(layerName, e, 300)}>
+                <div>
                   <ObjectPanelIcons.Move />
                 </div>
               )}

@@ -16,6 +16,24 @@
       .c2 {
         margin: -98px 0px 0px 98px;
       }
+
+      @media screen and (max-width: 600px) {
+        margin-top: 0;
+
+        .circle {
+          &.c1 {
+            margin: 3px 0 0 -44px;
+          }
+          &.c2 {
+            margin: 156px 0 0 44px;
+          }
+        }
+
+        img {
+          margin: 0;
+          padding-top: 10px;
+        }
+      }
     }
   }
 }
