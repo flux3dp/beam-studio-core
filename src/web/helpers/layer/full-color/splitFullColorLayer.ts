@@ -2,9 +2,11 @@ import constant from 'app/actions/beambox/constant';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import NS from 'app/constants/namespaces';
+import progressCaller from 'app/actions/progress-caller';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
+import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import { CMYK, PrintingColors } from 'app/constants/color-constants';
 import {
   cloneLayer,
@@ -90,11 +92,18 @@ const splitFullColorLayer = async (
   if (!layer.getAttribute('data-fullcolor')) {
     return null;
   }
+  progressCaller.openNonstopProgress({
+    id: 'split full color',
+    message: 'Splitting Full Color Layer',
+    timeout: 120000,
+  });
+  updateImagesResolution(true, layer);
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
   const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
   if (!blob || bbox.width === 0 || bbox.height === 0) {
+    progressCaller.popById('split full color');
     return null;
   }
   const layerImageUrl = URL.createObjectURL(blob);
@@ -157,6 +166,7 @@ const splitFullColorLayer = async (
     svgCanvas.updateLayerColor(newLayers[i]);
   }
   svgCanvas.clearSelection();
+  progressCaller.popById('split full color');
   return { cmd: batchCmd, newLayers };
 };
 
