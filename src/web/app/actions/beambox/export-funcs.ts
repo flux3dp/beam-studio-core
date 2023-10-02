@@ -7,8 +7,8 @@ import Constant from 'app/actions/beambox/constant';
 import dialog from 'implementations/dialog';
 import DeviceMaster from 'helpers/device-master';
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
-import ImageData from 'helpers/image-data';
 import MonitorController from 'app/actions/monitor-controller';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
@@ -20,7 +20,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
 import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
 
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
 let svgedit;
 
 getSVGAsync((globalSVG) => {
@@ -91,47 +91,6 @@ const fetchThumbnail = async () => {
   return urls;
 };
 
-const updateImageResolution = (isFullResolution = true) =>
-  new Promise<void>((resolve) => {
-    if (BeamboxPreference.read('image_downsampling') === false) {
-      resolve();
-    }
-    const imgs = $('#svgcontent image').toArray();
-    const numImgs = imgs.length;
-    let done = 0;
-    if (numImgs === 0) {
-      resolve();
-    } else {
-      imgs.forEach((img) => {
-        if (img.getAttribute('origImage')) {
-          const shading = img.getAttribute('data-shading') === 'true';
-          const threshold = parseInt(img.getAttribute('data-threshold'), 10);
-          ImageData(img.getAttribute('origImage'), {
-            grayscale: {
-              is_rgba: true,
-              is_shading: shading,
-              threshold,
-              is_svg: false,
-            },
-            isFullResolution,
-            onComplete(result) {
-              img.setAttribute('xlink:href', result.pngBase64);
-              done += 1;
-              if (done === numImgs) {
-                resolve();
-              }
-            },
-          });
-        } else {
-          done += 1;
-          if (done === numImgs) {
-            resolve();
-          }
-        }
-      });
-    }
-  });
-
 interface WrappedFile {
   data: string | ArrayBuffer;
   name: string;
@@ -188,6 +147,7 @@ const fetchTaskCode = async (
   device: IDeviceInfo = null,
   opts: { output?: 'fcode' | 'gcode'; fgGcode?: boolean } = {}
 ) => {
+  svgCanvas.removeUnusedDefs();
   let didErrorOccur = false;
   let isCanceled = false;
 

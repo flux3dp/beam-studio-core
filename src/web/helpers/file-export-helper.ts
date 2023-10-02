@@ -35,6 +35,7 @@ const setCurrentFileName = (filePath: string) => {
 
 const saveAsFile = async (): Promise<boolean> => {
   svgCanvas.clearSelection();
+  svgCanvas.removeUnusedDefs();
   const output = svgCanvas.getSvgString();
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
@@ -70,6 +71,7 @@ const saveFile = async (): Promise<boolean> => {
     return result;
   }
   svgCanvas.clearSelection();
+  svgCanvas.removeUnusedDefs();
   const output = svgCanvas.getSvgString();
   console.log(svgCanvas.currentFilePath);
   if (svgCanvas.currentFilePath.endsWith('.bvg')) {
@@ -145,6 +147,7 @@ const exportAsBVG = async (): Promise<boolean> => {
   svgCanvas.clearSelection();
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
+  svgCanvas.removeUnusedDefs();
   const getContent = () => removeNPElementsWrapper(
     () => switchSymbolWrapper(
       () => svgCanvas.getSvgString(),
@@ -174,6 +177,7 @@ const exportAsSVG = async (): Promise<void> => {
   svgCanvas.clearSelection();
   const getContent = () => {
     $('g.layer').removeAttr('clip-path');
+    svgCanvas.removeUnusedDefs();
     const res = removeNPElementsWrapper(
       () => switchSymbolWrapper(
         () => svgCanvas.getSvgString('mm'),
@@ -193,6 +197,7 @@ const exportAsSVG = async (): Promise<void> => {
 
 const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   svgCanvas.clearSelection();
+  svgCanvas.removeUnusedDefs();
   const output = switchSymbolWrapper(() => svgCanvas.getSvgString());
   const langFile = LANG.topmenu.file;
   Progress.openNonstopProgress({ id: 'export_image', message: langFile.converting });
