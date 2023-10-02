@@ -7,12 +7,15 @@ import { IImageDataResult } from 'interfaces/IImage';
  * updateImagesResolution update all images resolution for exporting or light weight display
  * @param fullResolution target resolution: full resolution if true, otherwise low resolution
  */
-const updateImagesResolution = async (fullResolution: boolean): Promise<void> => {
+const updateImagesResolution = async (
+  fullResolution: boolean,
+  parent?: Element
+): Promise<void> => {
   if (beamboxPreference.read('image_downsampling') === false) {
     return;
   }
   const svgcontent = document.getElementById('svgcontent');
-  const images = svgcontent?.querySelectorAll('image');
+  const images = parent ? parent.querySelectorAll('image') : svgcontent?.querySelectorAll('image');
   if (!images) return;
   const promises = Array.from(images).map((image) => {
     const origImage = image.getAttribute('origImage');
@@ -22,12 +25,14 @@ const updateImagesResolution = async (fullResolution: boolean): Promise<void> =>
     const threshold = parseInt(image.getAttribute('data-threshold') || '128', 10);
     return new Promise<void>((resolve) => {
       imageData(origImage, {
-        grayscale: isFullColor ? undefined : {
-          is_rgba: true,
-          is_shading: isShading,
-          threshold,
-          is_svg: false,
-        },
+        grayscale: isFullColor
+          ? undefined
+          : {
+              is_rgba: true,
+              is_shading: isShading,
+              threshold,
+              is_svg: false,
+            },
         isFullResolution: fullResolution,
         onComplete: (result: IImageDataResult) => {
           image.setAttributeNS(NS.XLINK, 'xlink:href', result.pngBase64);
