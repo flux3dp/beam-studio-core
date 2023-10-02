@@ -166,12 +166,16 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
   };
 
   const [cancelBtn, backBtn, applyBtn, okBtn] = [
-    <Button onClick={onClose}>{t.cancel}</Button>,
-    <Button onClick={handleUndo} disabled={historyRef.current.length <= 1}>
+    <Button key="cancel" onClick={onClose}>
+      {t.cancel}
+    </Button>,
+    <Button key="back" onClick={handleUndo} disabled={historyRef.current.length <= 1}>
       {t.back}
     </Button>,
-    <Button onClick={handleApply}>{t.apply}</Button>,
-    <Button type="primary" onClick={handleComplete}>
+    <Button key="apply" onClick={handleApply}>
+      {t.apply}
+    </Button>,
+    <Button key="ok" type="primary" onClick={handleComplete}>
       {t.okay}
     </Button>,
   ];
