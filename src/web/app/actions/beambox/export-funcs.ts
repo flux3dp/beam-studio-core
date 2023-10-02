@@ -11,8 +11,9 @@ import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import MonitorController from 'app/actions/monitor-controller';
 import Progress from 'app/actions/progress-caller';
-import svgLaserParser from 'helpers/api/svg-laser-parser';
 import SymbolMaker from 'helpers/symbol-maker';
+import svgLaserParser from 'helpers/api/svg-laser-parser';
+import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -155,7 +156,7 @@ const generateUploadFile = async (thumbnail: string, thumbnailUrl: string) => {
     id: 'retreive-image-data',
     message: lang.beambox.bottom_right_panel.retreive_image_data,
   });
-  await updateImageResolution(true);
+  await updateImagesResolution(true);
   Progress.popById('retreive-image-data');
   const svgString = svgCanvas.getSvgString();
   console.log('File Size', svgString.length);
