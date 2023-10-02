@@ -1564,7 +1564,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Returns:
   // String containing the SVG image for output
-  this.svgCanvasToString = function (opts: { unit?: Units }) {
+  this.svgCanvasToString = function (opts: { unit?: Units } = {}) {
     // keep calling it until there are none to remove
     const { unit } = opts;
     svgedit.utilities.moveDefsIntoSvgContent();
@@ -1626,7 +1626,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     svgedit.utilities.moveDefsOutfromSvgContent();
     const outputSanitized = sanitizeXmlString(output);
     console.log('Sanitized Result', output.length, outputSanitized.length);
-
+    console.log(outputSanitized);
     return outputSanitized;
   };
 
@@ -1992,7 +1992,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Returns:
   // The current drawing as raw SVG XML text.
-  this.getSvgString = function (opts: { unit?: Units }) {
+  this.getSvgString = function (opts: { unit?: Units } = {}) {
     if (tempGroup) {
       this.ungroupTempGroup();
     }
