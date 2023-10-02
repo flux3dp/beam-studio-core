@@ -627,7 +627,8 @@ export interface ILang {
           merge_selected: string,
           move_elems_to: string,
           move_selected: string,
-          toggleFullColor: string;
+          switchToFullColor: string;
+          switchToSingleColor: string;
           splitFullColor: string;
         },
       },

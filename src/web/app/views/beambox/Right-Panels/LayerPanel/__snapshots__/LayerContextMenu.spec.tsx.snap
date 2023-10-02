@@ -315,7 +315,7 @@ exports[`test LayerContextMenu should render correctly when selecting printing l
       role="menuitem"
       tabindex="-1"
     >
-      tToggle Full Color
+      switchToFullColor
     </div>
     <div
       aria-disabled="false"
@@ -324,7 +324,7 @@ exports[`test LayerContextMenu should render correctly when selecting printing l
       role="menuitem"
       tabindex="-1"
     >
-      tExpand Color Layer
+      splitFullColor
     </div>
   </nav>
 </div>
