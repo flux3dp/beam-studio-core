@@ -45,6 +45,9 @@ jest.mock('helpers/useI18n', () => () => ({
           merge_down: 'merge_down',
           merge_all: 'merge_all',
           merge_selected: 'merge_selected',
+          splitFullColor: 'splitFullColor',
+          switchToSingleColor: 'switchToSingleColor',
+          switchToFullColor: 'switchToFullColor',
         },
       },
     },
@@ -429,7 +432,7 @@ describe('test LayerContextMenu', () => {
     );
     expect(mockSplitFullColorLayer).not.toBeCalled();
     await act(async () => {
-      fireEvent.click(getByText('tExpand Color Layer'));
+      fireEvent.click(getByText('splitFullColor'));
     });
     expect(mockSplitFullColorLayer).toBeCalledTimes(1);
     expect(mockSplitFullColorLayer).toHaveBeenLastCalledWith('layer1');
@@ -461,7 +464,7 @@ describe('test LayerContextMenu', () => {
     );
     expect(mockSplitFullColorLayer).not.toBeCalled();
     await act(async () => {
-      fireEvent.click(getByText('tToggle Full Color'));
+      fireEvent.click(getByText('switchToFullColor'));
     });
     expect(mockElem.getAttribute).toBeCalledTimes(2);
     expect(mockElem.getAttribute).toHaveBeenNthCalledWith(1, 'data-lock');
