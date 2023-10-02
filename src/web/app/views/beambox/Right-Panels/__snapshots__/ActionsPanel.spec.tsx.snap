@@ -303,7 +303,6 @@ exports[`should render correctly in mobile ellipse 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="convert_to_path"
     key="Outline"
     label="Outline"
@@ -312,7 +311,6 @@ exports[`should render correctly in mobile ellipse 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="offset"
     key="Offset"
     label="Offset"
@@ -321,7 +319,6 @@ exports[`should render correctly in mobile ellipse 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -347,7 +344,6 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -364,7 +360,6 @@ exports[`should render correctly in mobile g single selection 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -381,7 +376,6 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="replace_with"
     key="Replace"
     label="Replace"
@@ -389,7 +383,6 @@ exports[`should render correctly in mobile image 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="potrace"
     key="Outline"
     label="Outline"
@@ -398,7 +391,6 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="grading"
     key="Brightness"
     label="Brightness"
@@ -407,7 +399,6 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="sharpen"
     key="Sharpen"
     label="Sharpen"
@@ -416,7 +407,6 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="crop"
     key="Crop"
     label="Crop"
@@ -424,7 +414,6 @@ exports[`should render correctly in mobile image 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="bevel"
     key="Bevel"
     label="Bevel"
@@ -432,7 +421,6 @@ exports[`should render correctly in mobile image 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="invert"
     key="Invert"
     label="Invert"
@@ -441,7 +429,6 @@ exports[`should render correctly in mobile image 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -457,7 +444,6 @@ exports[`should render correctly in mobile image 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="bg-removal"
     key="BG Removal"
     label="BG Removal"
@@ -473,7 +459,6 @@ exports[`should render correctly in mobile line 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="convert_to_path"
     key="Outline"
     label="Outline"
@@ -482,7 +467,6 @@ exports[`should render correctly in mobile line 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="offset"
     key="Offset"
     label="Offset"
@@ -491,7 +475,6 @@ exports[`should render correctly in mobile line 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -515,7 +498,6 @@ exports[`should render correctly in mobile path 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="edit_path"
     key="edit_path"
     label="edit_path"
@@ -523,7 +505,6 @@ exports[`should render correctly in mobile path 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="decompose_path"
     key="Decompose"
     label="Decompose"
@@ -532,7 +513,6 @@ exports[`should render correctly in mobile path 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="offset"
     key="Offset"
     label="Offset"
@@ -541,7 +521,6 @@ exports[`should render correctly in mobile path 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -549,7 +528,6 @@ exports[`should render correctly in mobile path 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="simplify"
     key="simplify"
     label="simplify"
@@ -565,7 +543,6 @@ exports[`should render correctly in mobile polygon 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="convert_to_path"
     key="Outline"
     label="Outline"
@@ -574,7 +551,6 @@ exports[`should render correctly in mobile polygon 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="offset"
     key="Offset"
     label="Offset"
@@ -583,7 +559,6 @@ exports[`should render correctly in mobile polygon 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -599,7 +574,6 @@ exports[`should render correctly in mobile rect 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="convert_to_path"
     key="Outline"
     label="Outline"
@@ -608,7 +582,6 @@ exports[`should render correctly in mobile rect 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="offset"
     key="Offset"
     label="Offset"
@@ -617,7 +590,6 @@ exports[`should render correctly in mobile rect 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -633,7 +605,6 @@ exports[`should render correctly in mobile text 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="convert_to_path"
     key="Outline"
     label="Outline"
@@ -641,7 +612,6 @@ exports[`should render correctly in mobile text 1`] = `
   />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="weld"
     key="weld_text"
     label="weld_text"
@@ -650,7 +620,6 @@ exports[`should render correctly in mobile text 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
@@ -666,7 +635,6 @@ exports[`should render correctly in mobile use 1`] = `
   <ObjectPanelDivider />
   <ObjectPanelItem
     content={<svgr-url />}
-    disabled={false}
     id="disassemble_use"
     key="Disassemble"
     label="Disassemble"
@@ -675,7 +643,6 @@ exports[`should render correctly in mobile use 1`] = `
   <ObjectPanelItem
     autoClose={false}
     content={<svgr-url />}
-    disabled={false}
     id="array"
     key="Array"
     label="Array"
