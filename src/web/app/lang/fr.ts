@@ -1049,7 +1049,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: 'Pulvériser Avant l\'Impression',
+    prespray_area: 'Zone d\'Amorçage',
   },
   flux_id_login: {
     connection_fail: '#847 Échec de la connexion au service des membres FLUX.',

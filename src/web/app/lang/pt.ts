@@ -1049,7 +1049,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: 'Borrifar Antes de Imprimir',
+    prespray_area: 'Área de Preparação',
   },
   flux_id_login: {
     connection_fail: '#847 Falha ao conectar ao serviço de membro FLUX.',

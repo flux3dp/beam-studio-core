@@ -1049,7 +1049,7 @@ const lang: ILang = {
     },
   },
   editor: {
-    prespray_area: '印刷前にスプレー',
+    prespray_area: 'プライミングエリア',
   },
   flux_id_login: {
     connection_fail: '#847 FLUXメンバーサービスへの接続に失敗しました。',
