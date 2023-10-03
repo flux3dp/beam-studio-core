@@ -1,5 +1,13 @@
 import classNames from 'classnames';
-import React, { memo, useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 import { ConfigProvider, Modal, Select } from 'antd';
 import { sprintf } from 'sprintf-js';
 
@@ -34,6 +42,7 @@ import {
 import { getParametersSet } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
@@ -56,16 +65,20 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 
 interface Props {
-  selectedLayers: string[];
   UIType?: 'default' | 'panel-item' | 'modal';
 }
 
 // TODO: add test
-const ConfigPanel = ({ selectedLayers: initLayers, UIType = 'default' }: Props): JSX.Element => {
+const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
+  const { selectedLayers: initLayers } = useContext(LayerPanelContext);
   const [selectedLayers, setSelectedLayers] = useState(initLayers);
   useEffect(() => {
-    setSelectedLayers(initLayers);
-  }, [initLayers]);
+    if (UIType === 'modal') {
+      const drawing = svgCanvas.getCurrentDrawing();
+      const currentLayerName = drawing.getCurrentLayerName();
+      setSelectedLayers([currentLayerName]);
+    } else setSelectedLayers(initLayers);
+  }, [initLayers, UIType]);
   const forceUpdate = useForceUpdate();
   const lang = useI18n().beambox.right_panel.laser_panel;
   const hiddenOptions = useMemo(() => [

@@ -385,14 +385,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     }
   };
 
-  renderConfigPanel = () : JSX.Element => {
-    const { selectedLayers } = this.context;
-    return (
-      <ConfigPanel selectedLayers={selectedLayers} UIType={isMobile() ? 'panel-item' : 'default'} />
-    );
-  };
-
-  renderLayerPanel() : JSX.Element {
+  renderLayerPanel(): JSX.Element {
     const { draggingDestIndex, draggingLayer } = this.state;
     const { selectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
@@ -465,7 +458,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               {this.renderLayerPanel()}
             </FloatingPanel>
             <div className={styles['layer-bottom-bar']}>
-              {this.renderConfigPanel()}
+              <ConfigPanel UIType="panel-item" />
               <LayerContextMenu
                 drawing={drawing}
                 selectOnlyLayer={this.selectOnlyLayer}
@@ -477,7 +470,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
           <>
             <AddLayerButton setSelectedLayers={setSelectedLayers} />
             {this.renderLayerPanel()}
-            {this.renderConfigPanel()}
+            <ConfigPanel />
           </>
         )}
       </div>

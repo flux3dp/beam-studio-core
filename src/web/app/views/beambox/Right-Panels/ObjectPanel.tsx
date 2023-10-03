@@ -97,12 +97,7 @@ function ObjectPanel({ elem }: Props): JSX.Element {
         content={<ObjectPanelIcon.Parameter />}
         label={i18n.lang.beambox.right_panel.laser_panel.parameters}
         onClick={() => {
-          const drawing = svgCanvas.getCurrentDrawing();
-          const currentLayerName = drawing.getCurrentLayerName();
-          dialogCaller.addDialogComponent(
-            'config-panel',
-            <ConfigPanel selectedLayers={[currentLayerName]} UIType="modal" />
-          );
+          dialogCaller.addDialogComponent('config-panel', <ConfigPanel UIType="modal" />);
         }}
         autoClose={false}
       />
