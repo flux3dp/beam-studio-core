@@ -1,3 +1,9 @@
+@use './_mixins.scss' as mixins;
+
+.container {
+  @include mixins.item-group();
+}
+
 .btn-container {
   width: 100%;
 

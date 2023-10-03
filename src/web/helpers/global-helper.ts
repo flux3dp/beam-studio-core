@@ -1,6 +1,6 @@
 function getOS() {
   const { platform } = navigator;
-  const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
+  const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K', 'iPhone', 'iPad'];
   const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
   if (macosPlatforms.includes(platform)) {
     return 'MacOS';

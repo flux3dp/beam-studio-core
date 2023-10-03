@@ -1,74 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<div
-  className="row-fluid"
-  id=""
->
+exports[`test Control should render correctly 1`] = `
+<div>
   <div
-    className="span3 no-left-margin"
-    style={
-      {
-        "width": "calc(100% / 10 * 3 - 10px)",
-      }
-    }
+    class="row-fluid control"
+    id=""
   >
-    <label
-      className="font2"
-      dangerouslySetInnerHTML={
-        {
-          "__html": "Flux",
-        }
-      }
-    />
-  </div>
-  <div
-    className="span8 font3"
-  >
-    <div>
-      Hello World
+    <div
+      class="no-left-margin span3 label"
+    >
+      <label
+        class="font2"
+      >
+        Flux
+      </label>
+    </div>
+    <div
+      class="font3 span8"
+    >
+      <div>
+        Hello World
+      </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`should render correctly 2`] = `
-<Controls
-  label="Flux"
-  url="https://www.flux3dp.com"
-  warningText="Warning!!"
->
+exports[`test Control should render correctly 2`] = `
+<div>
   <div
-    className="row-fluid"
+    class="row-fluid control"
     id=""
   >
     <div
-      className="span3 no-left-margin"
-      style={
-        {
-          "width": "calc(100% / 10 * 3 - 10px)",
-        }
-      }
+      class="no-left-margin span3 label"
     >
       <label
-        className="font2"
-        dangerouslySetInnerHTML={
-          {
-            "__html": "Flux",
-          }
-        }
-      />
+        class="font2"
+      >
+        Flux
+      </label>
       <span
-        className="info-icon-small"
+        class="info-icon-small"
       >
         <img
-          onClick={[Function]}
           src="img/info.svg"
         />
       </span>
     </div>
     <div
-      className="span8 font3"
+      class="font3 span8"
     >
       <div>
         Hello World
@@ -79,5 +60,31 @@ exports[`should render correctly 2`] = `
       />
     </div>
   </div>
-</Controls>
+</div>
+`;
+
+exports[`test Control should render correctly in mobile 1`] = `
+<div>
+  <div
+    class="row-fluid control"
+    id=""
+  >
+    <div
+      class="no-left-margin"
+    >
+      <label
+        class="font2"
+      >
+        Flux
+      </label>
+    </div>
+    <div
+      class="font3"
+    >
+      <div>
+        Hello World
+      </div>
+    </div>
+  </div>
+</div>
 `;

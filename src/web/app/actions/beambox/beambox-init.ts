@@ -26,6 +26,7 @@ import Tutorials from 'app/actions/beambox/tutorials';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';
+import { isMobile } from 'helpers/system-helper';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 
 class BeamboxInit {
@@ -93,7 +94,7 @@ class BeamboxInit {
       }
     }
     await this.showFirstCalibrationDialog();
-    if (hasMachineConnection) await this.showTutorial(isNewUser);
+    if (hasMachineConnection && !isMobile()) await this.showTutorial(isNewUser);
     if (!isNewUser) {
       const lastInstalledVersion = storage.get('last-installed-version');
       if (window.FLUX.version !== lastInstalledVersion) {

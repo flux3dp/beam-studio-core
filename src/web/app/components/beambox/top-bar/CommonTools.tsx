@@ -2,6 +2,9 @@ import React from 'react';
 
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './CommonTools.module.scss';
 
 let svgEditor;
 getSVGAsync((globalSVG) => {
@@ -16,11 +19,10 @@ interface Props {
 }
 
 function CommonTools({ isWeb, hide }: Props): JSX.Element {
+  const isMobile = useIsMobile();
   if (!isWeb || hide) return null;
   return (
-    <div
-      className="common-tools-container"
-    >
+    <div className={styles['common-tools-container']}>
       <img
         src="img/top-bar/icon-undo.svg"
         draggable="false"
@@ -33,12 +35,14 @@ function CommonTools({ isWeb, hide }: Props): JSX.Element {
         title={LANG.menu.redo}
         onClick={() => svgEditor.clickRedo()}
       />
-      <img
-        src="img/left-bar/icon-trash.svg"
-        draggable="false"
-        title={LANG.menu.delete}
-        onClick={() => svgEditor.deleteSelected()}
-      />
+      {!isMobile && (
+        <img
+          src="img/left-bar/icon-trash.svg"
+          draggable="false"
+          title={LANG.menu.delete}
+          onClick={() => svgEditor.deleteSelected()}
+        />
+      )}
     </div>
   );
 }

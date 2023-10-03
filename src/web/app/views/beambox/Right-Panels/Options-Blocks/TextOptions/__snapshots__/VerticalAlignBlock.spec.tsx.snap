@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`test VerticalAlignBlock should render correctly 1`] = `
 <div
   className="option-block"
 >
@@ -19,21 +19,27 @@ exports[`should render correctly 1`] = `
       <option
         key="0"
         value={0}
-      />
+      >
+        Bottom Align
+      </option>
       <option
         key="1"
         value={1}
-      />
+      >
+        Middle Align
+      </option>
       <option
         key="2"
         value={2}
-      />
+      >
+        Top Align
+      </option>
     </select>
   </div>
 </div>
 `;
 
-exports[`should render correctly 2`] = `
+exports[`test VerticalAlignBlock should render correctly 2`] = `
 <div
   className="option-block"
 >
@@ -52,21 +58,27 @@ exports[`should render correctly 2`] = `
       <option
         key="0"
         value={0}
-      />
+      >
+        Bottom Align
+      </option>
       <option
         key="1"
         value={1}
-      />
+      >
+        Middle Align
+      </option>
       <option
         key="2"
         value={2}
-      />
+      >
+        Top Align
+      </option>
     </select>
   </div>
 </div>
 `;
 
-exports[`should render correctly 3`] = `
+exports[`test VerticalAlignBlock should render correctly 3`] = `
 <div
   className="option-block"
 >
@@ -85,16 +97,52 @@ exports[`should render correctly 3`] = `
       <option
         key="0"
         value={0}
-      />
+      >
+        Bottom Align
+      </option>
       <option
         key="1"
         value={1}
-      />
+      >
+        Middle Align
+      </option>
       <option
         key="2"
         value={2}
-      />
+      >
+        Top Align
+      </option>
     </select>
   </div>
 </div>
+`;
+
+exports[`test VerticalAlignBlock should render correctly in mobile 1`] = `
+<ObjectPanelSelect
+  id="vertical_align"
+  label="Vertical Align"
+  onChange={[MockFunction]}
+  options={
+    [
+      {
+        "label": "Bottom Align",
+        "value": 0,
+      },
+      {
+        "label": "Middle Align",
+        "value": 1,
+      },
+      {
+        "label": "Top Align",
+        "value": 2,
+      },
+    ]
+  }
+  selected={
+    {
+      "label": "Bottom Align",
+      "value": 0,
+    }
+  }
+/>
 `;

@@ -3,7 +3,7 @@
 exports[`test PowerBlock should render correctly 1`] = `
 <div>
   <div
-    class="panel"
+    class="panel default"
   >
     <span
       class="title"
@@ -55,7 +55,7 @@ exports[`test PowerBlock should render correctly 1`] = `
 exports[`test PowerBlock should render correctly whe power is low 1`] = `
 <div>
   <div
-    class="panel"
+    class="panel default"
   >
     <span
       class="title"
@@ -113,6 +113,33 @@ exports[`test PowerBlock should render correctly whe power is low 1`] = `
       >
         low_power_warning
       </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test PowerBlock should render correctly when type is panel-item 1`] = `
+<div>
+  <div
+    class="object-panel-item"
+    id="power"
+  >
+    <div
+      class="main"
+    >
+      <button
+        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+        type="button"
+      >
+        <span>
+          87
+        </span>
+      </button>
+    </div>
+    <div
+      class="label"
+    >
+      strength
     </div>
   </div>
 </div>

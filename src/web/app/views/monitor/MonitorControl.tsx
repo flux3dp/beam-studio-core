@@ -1,30 +1,33 @@
 import React, { useContext } from 'react';
+import { Button, Space } from 'antd';
+import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
 
 import DeviceConstants from 'app/constants/device-constants';
 import i18n from 'helpers/i18n';
 import MonitorStatus, { ButtonTypes } from 'helpers/monitor-status';
+import { useIsMobile } from 'helpers/system-helper';
 import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
-import { Button, Space } from 'antd';
-import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
 
 const LANG = i18n.lang.monitor;
 
 const MonitorControl = (): JSX.Element => {
-  const {
-    onPlay,
-    onPause,
-    onStop,
-    mode,
-    report,
-  } = useContext(MonitorContext);
+  const isMobile = useIsMobile();
+  const buttonShape = isMobile ? 'round' : 'default';
+  const { onPlay, onPause, onStop, mode, report } = useContext(MonitorContext);
   const mapButtonTypeToElement = (type: ButtonTypes): JSX.Element => {
     const enabled = type % 2 === 1;
     switch (type) {
       case ButtonTypes.PLAY:
       case ButtonTypes.DISABLED_PLAY:
         return (
-          <Button key={type} disabled={!enabled} type="primary" onClick={onPlay}>
+          <Button
+            key={type}
+            disabled={!enabled}
+            shape={buttonShape}
+            type="primary"
+            onClick={onPlay}
+          >
             <PlayCircleFilled />
             {(report.st_id === DeviceConstants.status.PAUSED) ? LANG.resume : LANG.go}
           </Button>
@@ -32,7 +35,13 @@ const MonitorControl = (): JSX.Element => {
       case ButtonTypes.PAUSE:
       case ButtonTypes.DISABLED_PAUSE:
         return (
-          <Button key={type} disabled={!enabled} type="primary" onClick={onPause}>
+          <Button
+            key={type}
+            disabled={!enabled}
+            shape={buttonShape}
+            type="primary"
+            onClick={onPause}
+          >
             <PauseCircleFilled />
             {LANG.pause}
           </Button>
@@ -40,7 +49,7 @@ const MonitorControl = (): JSX.Element => {
       case ButtonTypes.STOP:
       case ButtonTypes.DISABLED_STOP:
         return (
-          <Button key={type} disabled={!enabled} onClick={onStop}>
+          <Button key={type} disabled={!enabled} shape={buttonShape} onClick={onStop}>
             <StopFilled />
             {LANG.stop}
           </Button>
@@ -80,7 +89,7 @@ const MonitorControl = (): JSX.Element => {
   if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW) {
     return (
       <Space>
-        <Button disabled={!canStart} type="primary" onClick={onPlay}>
+        <Button disabled={!canStart} shape={buttonShape} type="primary" onClick={onPlay}>
           <PlayCircleFilled />
           {LANG.go}
         </Button>

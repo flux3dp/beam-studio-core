@@ -127,19 +127,6 @@ select {
 	text-align: center;
 }
 
-#sidepanels {
-	display: inline-block;
-	position:absolute;
-	top: 40px;
-	bottom: 40px;
-	width: 2px;
-	padding: 10px;
-	border-color: #808080;
-	border-style: solid;
-	border-width: 1px;
-	border-left: none;
-}
-
 #layerpanel {
 	display: inline-block;
 	position:relative;
@@ -890,9 +877,6 @@ span.zoom_tool {
 	#tools_top {
 		height: 90px;
 		background: #F0F0F0;
-	}
-	#workarea, #sidepanels {
-		top: 70px;
 	}
 
 	#cur_context_panel {

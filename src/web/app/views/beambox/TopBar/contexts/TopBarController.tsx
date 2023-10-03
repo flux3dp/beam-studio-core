@@ -2,10 +2,6 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
 
-const updateTopBar = (): void => {
-  topBarEventEmitter.emit('UPDATE_TOP_BAR');
-};
-
 const setElement = (elem: Element | null): void => {
   topBarEventEmitter.emit('SET_ELEMENT', elem);
 };
@@ -35,7 +31,6 @@ const setStartPreviewCallback = (callback: () => void): void => {
 };
 
 export default {
-  updateTopBar,
   setElement,
   setFileName,
   setHasUnsavedChange,

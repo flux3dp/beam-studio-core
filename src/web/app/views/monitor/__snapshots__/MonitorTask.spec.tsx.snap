@@ -6,23 +6,22 @@ exports[`should render correctly should render correctly 1`] = `
     class="task"
   >
     <div
-      style="position: relative; margin-bottom: 10px;"
+      class="info-container"
     >
       <img
         src="img/flux.svg"
-        style="width: 100%; outline: 1px solid #BBB; outline-offset: -1px;"
       />
       <div
-        class="monitor-task-info-bar"
+        class="info-bar"
       >
         <div
           class="ant-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
           >
             <div
-              class="monitor-left-text"
+              class="left-text"
             >
               <span
                 aria-label="file"
@@ -48,10 +47,10 @@ exports[`should render correctly should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
           >
             <div
-              class="monitor-right-text"
+              class="right-text"
             >
               <span
                 aria-label="clock-circle"
@@ -86,7 +85,7 @@ exports[`should render correctly should render correctly 1`] = `
       class="ant-row css-dev-only-do-not-override-hash"
     >
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+        class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
       >
         <div
           class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
@@ -114,10 +113,10 @@ exports[`should render correctly should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+        class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
       >
         <div
-          style="display: flex; justify-content: flex-end;"
+          class="control-buttons"
         >
           <div>
             Dummy MonitorControl
@@ -135,23 +134,22 @@ exports[`should render correctly should render correctly when completed 1`] = `
     class="task"
   >
     <div
-      style="position: relative; margin-bottom: 10px;"
+      class="info-container"
     >
       <img
         src="img/flux.svg"
-        style="width: 100%; outline: 1px solid #BBB; outline-offset: -1px;"
       />
       <div
-        class="monitor-task-info-bar"
+        class="info-bar"
       >
         <div
           class="ant-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
           >
             <div
-              class="monitor-left-text"
+              class="left-text"
             >
               <span
                 aria-label="file"
@@ -177,10 +175,10 @@ exports[`should render correctly should render correctly when completed 1`] = `
             </div>
           </div>
           <div
-            class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
           >
             <div
-              class="monitor-right-text"
+              class="right-text"
             >
               <span
                 aria-label="clock-circle"
@@ -214,7 +212,7 @@ exports[`should render correctly should render correctly when completed 1`] = `
       class="ant-row css-dev-only-do-not-override-hash"
     >
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+        class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
       >
         <div
           class="ant-progress ant-progress-line ant-progress-status-success ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
@@ -259,10 +257,10 @@ exports[`should render correctly should render correctly when completed 1`] = `
         </div>
       </div>
       <div
-        class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
+        class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
       >
         <div
-          style="display: flex; justify-content: flex-end;"
+          class="control-buttons"
         >
           <div>
             Dummy MonitorControl

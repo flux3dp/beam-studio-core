@@ -2,9 +2,28 @@
 
 exports[`should render correctly hide 1`] = `""`;
 
+exports[`should render correctly is mobile 1`] = `
+<div
+  className="common-tools-container"
+>
+  <img
+    draggable="false"
+    onClick={[Function]}
+    src="img/top-bar/icon-undo.svg"
+    title="Undo"
+  />
+  <img
+    draggable="false"
+    onClick={[Function]}
+    src="img/top-bar/icon-redo.svg"
+    title="Redo"
+  />
+</div>
+`;
+
 exports[`should render correctly is not web version 1`] = `""`;
 
-exports[`should render correctly not hiding and in web version 1`] = `
+exports[`should render correctly not hiding, not mobile and in web version 1`] = `
 <div
   className="common-tools-container"
 >

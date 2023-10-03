@@ -9,6 +9,7 @@ import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
 
 import MonitorControl from './MonitorControl';
+import styles from './MonitorTask.module.scss';
 
 const defaultImage = 'img/ph_l.png';
 const LANG = i18n.lang;
@@ -63,7 +64,7 @@ const MonitorTask = (): JSX.Element => {
   const renderFileInfo = (): JSX.Element => {
     const fileName = fileInfo ? fileInfo[0] : previewTask?.fileName;
     return (
-      <div className="monitor-left-text">
+      <div className={styles['left-text']}>
         <FileOutlined />
         &nbsp;
         {fileName || LANG.monitor.task.BEAMBOX}
@@ -72,17 +73,16 @@ const MonitorTask = (): JSX.Element => {
   };
 
   return (
-    <div className="task">
-      <div style={{ position: 'relative', marginBottom: 10 }}>
-        <img
-          style={{ width: '100%', outline: '1px solid #BBB', outlineOffset: -1 }}
-          src={taskImageURL || defaultImage}
-        />
-        <div className="monitor-task-info-bar">
+    <div className={styles.task}>
+      <div className={styles['info-container']}>
+        <img src={taskImageURL || defaultImage} />
+        <div className={styles['info-bar']}>
           <Row>
-            <Col span={12}>{renderFileInfo()}</Col>
-            <Col span={12}>
-              <div className="monitor-right-text">
+            <Col span={24} md={12}>
+              {renderFileInfo()}
+            </Col>
+            <Col span={24} md={12}>
+              <div className={styles['right-text']}>
                 <ClockCircleOutlined />
                 &nbsp;
                 {getJobTime()}
@@ -93,9 +93,11 @@ const MonitorTask = (): JSX.Element => {
       </div>
       {/* renderRelocateButton() */}
       <Row>
-        <Col span={12}>{renderProgress()}</Col>
-        <Col span={12}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Col span={24} md={12}>
+          {renderProgress()}
+        </Col>
+        <Col span={24} md={12}>
+          <div className={styles['control-buttons']}>
             <MonitorControl />
           </div>
         </Col>

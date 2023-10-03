@@ -47,12 +47,27 @@ const mockContextState = {
 const mockDispatch = jest.fn();
 
 describe('test PowerBlock', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
         value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
       >
         <PowerBlock />
+      </ConfigPanelContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly when type is panel-item', () => {
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <PowerBlock type="panel-item" />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -95,5 +110,25 @@ describe('test PowerBlock', () => {
     expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
     expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'power', 88);
     expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
+  });
+
+  test('onChange should work correctly when type is modal', () => {
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+      >
+        <PowerBlock type="modal" />
+      </ConfigPanelContext.Provider>
+    );
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '88' } });
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { power: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).not.toBeCalled();
   });
 });

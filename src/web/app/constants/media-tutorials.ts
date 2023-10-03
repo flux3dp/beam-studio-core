@@ -30,14 +30,6 @@ export const gestureIntroduction: IMediaTutorial[] = [
     ],
     description: i18n.lang.tutorial.gesture.drag,
   },
-  {
-    isVideo: true,
-    mediaSources: [
-      { src: 'video/touch-contextmenu.webm', type: 'video/webm' },
-      { src: 'video/touch-contextmenu.mov', type: 'video/quicktime' },
-    ],
-    description: i18n.lang.tutorial.gesture.hold,
-  },
 ];
 
 export default {

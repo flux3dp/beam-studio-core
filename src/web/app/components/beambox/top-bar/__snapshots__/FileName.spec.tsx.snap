@@ -1,19 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<div
-  className="file-title"
->
-  abc.svg*
+exports[`test FileName should render correctly 1`] = `
+<div>
+  <div
+    class="file-title"
+  >
+    abc.svg*
+  </div>
 </div>
 `;
 
-exports[`should render correctly 2`] = `
-<div
-  className="file-title"
->
-  Untitled
+exports[`test FileName should render correctly 2`] = `
+<div>
+  <div
+    class="file-title"
+  >
+    Untitled
+  </div>
 </div>
 `;
-
-exports[`should render correctly 3`] = `""`;

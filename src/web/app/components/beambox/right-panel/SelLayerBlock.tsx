@@ -1,10 +1,8 @@
 import React, { memo, useContext, useEffect, useState } from 'react';
 
-import Alert from 'app/actions/alert-caller';
-import AlertConstants from 'app/constants/alert-constants';
 import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
-import { getObjectLayer } from 'helpers/layer/layer-helper';
+import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -22,14 +20,15 @@ function SelLayerBlock(): JSX.Element {
   useEffect(() => {
     if (!selectedElem) return;
     if (selectedElem.getAttribute('data-tempgroup') === 'true') {
-      const originalLayers = new Set([...selectedElem.childNodes].map((elem) =>
-        (elem as SVGElement).getAttribute('data-original-layer')
-      ));
+      const originalLayers = new Set(
+        [...selectedElem.childNodes].map((elem) =>
+          (elem as SVGElement).getAttribute('data-original-layer')
+        )
+      );
       if (originalLayers.size === 1) {
         const [firstValue] = originalLayers;
         setDisplayValue(firstValue ?? defaultOption);
-      }
-      else setDisplayValue(defaultOption);
+      } else setDisplayValue(defaultOption);
     } else {
       const currentLayer = getObjectLayer(selectedElem as SVGElement);
       const currentLayerName = currentLayer?.title ?? defaultOption;
@@ -42,32 +41,17 @@ function SelLayerBlock(): JSX.Element {
   const layerCount = drawing.getNumLayers();
   if (layerCount === 1) return null;
 
-  const moveToOtherLayer = (e: React.ChangeEvent): void => {
+  const onChange = (e: React.ChangeEvent) => {
     const select = e.target as HTMLSelectElement;
     const destLayer = select.options[select.selectedIndex].value;
-    const confirmStr = lang.notification.QmoveElemsToLayer.replace('%s', destLayer);
-    const moveToLayer = (ok) => {
-      if (!ok) {
-        return;
-      }
-      svgCanvas.moveSelectedToLayer(destLayer);
-      drawing.setCurrentLayer(destLayer);
-      setDisplayValue(destLayer);
-      setPromptMoveLayerOnce(true);
-    };
-
-    if (destLayer) {
-      if (promptMoveLayerOnce) {
-        moveToLayer(true);
-      } else {
-        Alert.popUp({
-          id: 'move layer',
-          buttonType: AlertConstants.YES_NO,
-          message: confirmStr,
-          onYes: moveToLayer,
-        });
-      }
-    }
+    moveToOtherLayer(
+      destLayer,
+      () => {
+        setDisplayValue(destLayer);
+        setPromptMoveLayerOnce(true);
+      },
+      !promptMoveLayerOnce
+    );
   };
 
   const options = [];
@@ -93,7 +77,7 @@ function SelLayerBlock(): JSX.Element {
         value={displayValue}
         id="selLayerNames"
         title="Move selected elements to a different layer"
-        onChange={(e: React.ChangeEvent) => moveToOtherLayer(e)}
+        onChange={onChange}
         disabled={options.length < 2}
       >
         {options}

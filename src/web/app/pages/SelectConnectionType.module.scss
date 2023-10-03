@@ -3,15 +3,33 @@
 .container {
   @include connectionSettingPage.container;
 
+  @media screen and (max-width: 600px) {
+    > .btns > .btn.primary {
+      background-color: #333333;
+
+      &:hover:not(.disabled) {
+        background-color: #000000;
+      }
+    }
+  }
+
   .main {
     height: fit-content;
     padding-bottom: 60px;
     margin: 0;
 
+    @media screen and (max-width: 600px) {
+      margin: auto;
+    }
+
     .title {
       margin-bottom: 50px;
       font-size: 30px;
       color: #333333;
+
+      @media screen and (max-width: 600px) {
+        font-size: 22px;
+      }
     }
 
     > .btns {
@@ -50,6 +68,45 @@
 
           .sub {
             font-size: 16px;
+          }
+        }
+
+        @media screen and (max-width: 600px) {
+          flex-direction: row-reverse;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.04);
+
+          &:hover {
+            background-color: #0091ff;
+            color: white;
+
+            .icon {
+              filter: brightness(0) invert(1);
+            }
+          }
+
+          .icon {
+            margin: 0 20px 0 0;
+          }
+
+          .btn {
+            height: auto;
+            min-height: 54px;
+            line-height: 1;
+            font-size: 20px;
+            padding: 5px 20px;
+            border-radius: 8px;
+
+            &:hover {
+              background-color: transparent;
+              color: inherit;
+            }
+
+            .sub {
+              font-size: 12px;
+              white-space: nowrap;
+            }
           }
         }
       }

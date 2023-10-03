@@ -1,4 +1,5 @@
 import KeycodeConstants from 'app/constants/keycode-constants';
+import { isMobile } from 'helpers/system-helper';
 /**
  * setting up shortcut
  */
@@ -140,6 +141,7 @@ let events = [],
 
 export default {
     on: function(keys, callback) {
+        if (isMobile()) return;
         var keyCodes = convertToKeyCode(keys);
         let e = { key: keys, keyCode: generateKey(keyCodes), callback: callback };
         events.push(e);

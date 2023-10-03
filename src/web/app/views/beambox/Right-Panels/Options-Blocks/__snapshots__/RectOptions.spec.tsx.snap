@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should render correctly in mobile unit is inches 1`] = `
+<div>
+  <div>
+    DummyInFillBlock
+  </div>
+  <div
+    class="object-panel-item"
+    id="rounded-corner"
+  >
+    <div
+      class="main"
+    >
+      <button
+        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+        type="button"
+      >
+        <span>
+          0
+        </span>
+      </button>
+    </div>
+    <div
+      class="label"
+    >
+      Rounded corner
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correctly in mobile unit is not inches 1`] = `
+<div>
+  <div>
+    DummyInFillBlock
+  </div>
+  <div
+    class="object-panel-item"
+    id="rounded-corner"
+  >
+    <div
+      class="main"
+    >
+      <button
+        class="adm-button adm-button-default adm-button-fill-outline adm-button-mini adm-button-shape-rounded number-item"
+        type="button"
+      >
+        <span>
+          1
+        </span>
+      </button>
+    </div>
+    <div
+      class="label"
+    >
+      Rounded corner
+    </div>
+  </div>
+</div>
+`;
+
 exports[`should render correctly unit is inches 1`] = `
 <div>
   <div

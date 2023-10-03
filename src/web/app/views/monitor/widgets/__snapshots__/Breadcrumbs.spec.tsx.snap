@@ -3,7 +3,7 @@
 exports[`test Breadcrumbs should render correctly 1`] = `
 <div>
   <nav
-    class="ant-breadcrumb css-dev-only-do-not-override-hash"
+    class="ant-breadcrumb breadcrumb css-dev-only-do-not-override-hash"
   >
     <ol>
       <li>

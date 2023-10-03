@@ -20,10 +20,12 @@ const mockGetAllLayerNames = jest.fn();
 const mockGetLayerPosition = jest.fn();
 const mockMergeLayers = jest.fn();
 const mockSetLayersLock = jest.fn();
+const mockGetAttribute = jest.fn();
 jest.mock('helpers/layer/layer-helper', () => ({
   cloneLayers: (...args) => mockCloneLayers(...args),
   deleteLayers: (...args) => mockDeleteLayers(...args),
   getAllLayerNames: () => mockGetAllLayerNames(),
+  getLayerElementByName: () => ({ getAttribute: (...args) => mockGetAttribute(...args) }),
   getLayerPosition: (...args) => mockGetLayerPosition(...args),
   mergeLayers: (...args) => mockMergeLayers(...args),
   setLayersLock: (...args) => mockSetLayersLock(...args),
@@ -37,6 +39,7 @@ jest.mock('helpers/useI18n', () => () => ({
           rename: 'rename',
           dupe: 'dupe',
           lock: 'lock',
+          unlock: 'unlock',
           del: 'del',
           merge_down: 'merge_down',
           merge_all: 'merge_all',
@@ -49,6 +52,11 @@ jest.mock('helpers/useI18n', () => () => ({
 
 jest.mock('app/views/beambox/Right-Panels/contexts/LayerPanelContext', () => ({
   LayerPanelContext: React.createContext(null),
+}));
+
+const useIsMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  useIsMobile: () => useIsMobile(),
 }));
 
 const mockDrawing = {
@@ -92,6 +100,28 @@ describe('test LayerContextMenu', () => {
       <LayerPanelContext.Provider
         value={{
           selectedLayers: ['layer1'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
+      >
+        <LayerContextMenu
+          drawing={mockDrawing}
+          selectOnlyLayer={mockSelectOnlyLayer}
+          renameLayer={mockRenameLayer}
+        />
+      </LayerPanelContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly in mobile', () => {
+    useIsMobile.mockReturnValue(true);
+    mockDrawing.getLayerName.mockReturnValue('layer1');
+    const { container } = render(
+      <LayerPanelContext.Provider
+        value={{
+          selectedLayers: ['layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
           hasVector: false,
@@ -179,6 +209,38 @@ describe('test LayerContextMenu', () => {
     expect(mockSetSelectedLayers).not.toBeCalled();
     fireEvent.click(getByText('lock'));
     expect(mockClearSelection).toBeCalledTimes(1);
+    expect(mockSetLayersLock).toBeCalledTimes(1);
+    expect(mockSetLayersLock).toBeCalledWith(['layer1', 'layer2'], true);
+    expect(mockForceUpdate).toBeCalledTimes(1);
+  });
+
+  test('unlock layers should work', () => {
+    useIsMobile.mockReturnValue(true);
+    mockGetAttribute.mockReturnValue('true');
+    const { container, getByText } = render(
+      <LayerPanelContext.Provider
+        value={{
+          selectedLayers: ['layer1'],
+          setSelectedLayers: mockSetSelectedLayers,
+          forceUpdate: mockForceUpdate,
+          hasVector: false,
+        }}
+      >
+        <LayerContextMenu
+          drawing={mockDrawing}
+          selectOnlyLayer={mockSelectOnlyLayer}
+          renameLayer={mockRenameLayer}
+        />
+      </LayerPanelContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+    expect(mockClearSelection).not.toBeCalled();
+    expect(mockSetLayersLock).not.toBeCalled();
+    expect(mockSetSelectedLayers).not.toBeCalled();
+    fireEvent.click(getByText('unlock'));
+    expect(mockClearSelection).toBeCalledTimes(1);
+    expect(mockSetLayersLock).toBeCalledTimes(1);
+    expect(mockSetLayersLock).toBeCalledWith(['layer1'], false);
     expect(mockForceUpdate).toBeCalledTimes(1);
   });
 

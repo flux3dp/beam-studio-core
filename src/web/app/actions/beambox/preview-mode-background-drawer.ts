@@ -93,21 +93,14 @@ class PreviewModeBackgroundDrawer {
   }
 
   updateCanvasSize = () => {
-    const oldRatio = this.canvasRatio;
+    if (this.isClean()) return;
+    this.clear();
     const newWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
     const newHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
     this.updateRatio(newWidth, newHeight);
-    const ctx = this.canvas.getContext('2d');
-    const data = ctx.getImageData(0, 0,
-      Math.round(newWidth / oldRatio), Math.round(newHeight / oldRatio));
-    this.canvas.width = Math.round(newWidth * this.canvasRatio);
-    this.canvas.height = Math.round(newHeight * this.canvasRatio);
-    ctx.putImageData(data, 0, 0, 0, 0,
-      this.canvas.width, this.canvas.height);
+    this.canvas.width = Math.round(newWidth);
+    this.canvas.height = Math.round(newHeight);
     this.resetBoundary();
-    this.canvas.toBlob((blob) => {
-      this.drawBlobToBackground(blob);
-    });
     if (BeamboxPreference.read('show_guides')) {
       beamboxStore.emitDrawGuideLines();
     }

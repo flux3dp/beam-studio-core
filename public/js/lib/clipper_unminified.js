@@ -7653,6 +7653,9 @@
 					cPath = ClipperLib.generatePointPathFromC(startPoint, controlPoints);
 					currentPath.push(...cPath);
 					break;
+        default:
+          console.log('unknown command', commands[i].command);
+          break;
 			}
 		}
 		if (currentPath.length > 1) {
@@ -7704,7 +7707,7 @@
 		let cPath = [];
 		let curve = new ClipperLib.QCurve(startPoint, controlPoints);
 		if (curve.isLine) {
-			cPath.push(controlPoints[2]);
+			cPath.push(controlPoints[1]);
 		} else {
 			let lastPoint = {...startPoint, t: 0};
 			let stack = [];

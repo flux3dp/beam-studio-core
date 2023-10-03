@@ -1,13 +1,20 @@
 import React from 'react';
+import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
+import { Popover } from 'antd-mobile';
 
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImage';
-import { Switch } from 'antd-mobile';
+import { isMobile } from 'helpers/system-helper';
+
+import styles from './Image-Options.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -22,6 +29,12 @@ interface Props {
 }
 
 class ImageOptions extends React.Component<Props> {
+  private thresholdCache: string[] = new Array(256).fill(null);
+
+  private currentCallId = 0;
+
+  private nextCallId = 1;
+
   changeAttribute = (changes: { [key: string]: string | number | boolean }): void => {
     const { elem } = this.props as Props;
     const batchCommand: IBatchCommand = new history.BatchCommand('Image Option Panel');
@@ -88,21 +101,37 @@ class ImageOptions extends React.Component<Props> {
   };
 
   handleThresholdChange = async (val: number): Promise<void> => {
-    const { elem } = this.props;
-    const isShading = elem.getAttribute('data-shading') === 'true';
-    const imageData = await this.generateImageData(isShading, val);
-    const { pngBase64 } = imageData;
-    this.changeAttribute({
-      'data-threshold': val,
-      'xlink:href': pngBase64,
-    });
-    this.forceUpdate();
+    const callId = this.nextCallId;
+    this.nextCallId += 1;
+    let result = this.thresholdCache[val];
+    if (!result) {
+      const { elem } = this.props;
+      const isShading = elem.getAttribute('data-shading') === 'true';
+      const imageData = await this.generateImageData(isShading, val);
+      result = imageData.pngBase64;
+      this.thresholdCache[val] = result;
+    }
+    if (callId >= this.currentCallId) {
+      this.currentCallId = callId;
+      this.changeAttribute({
+        'data-threshold': val,
+        'xlink:href': result,
+      });
+      this.forceUpdate();
+    }
   };
 
   renderGradientBlock(): JSX.Element {
     const { elem } = this.props;
     const isGradient = elem.getAttribute('data-shading') === 'true';
-    return (
+    return isMobile() ? (
+      <ObjectPanelItem.Item
+        id="gradient"
+        content={<Switch checked={isGradient} />}
+        label={LANG.shading}
+        onClick={this.handleGradientClick}
+      />
+    ) : (
       <div className="option-block" key="gradient">
         <div className="label">{LANG.shading}</div>
         <Switch checked={isGradient} onChange={this.handleGradientClick} />
@@ -120,11 +149,50 @@ class ImageOptions extends React.Component<Props> {
   renderThresholdBlock(): JSX.Element {
     const { elem } = this.props;
     const isGradient = elem.getAttribute('data-shading') === 'true';
+    const activeKey = ObjectPanelController.getActiveKey();
+    const visible = activeKey === 'threshold';
     if (isGradient) {
       return null;
     }
     const threshold = parseInt(elem.getAttribute('data-threshold'), 10) || 128;
-    return (
+    return isMobile() ? (
+      <Popover
+        visible={visible}
+        content={
+          <div className={styles.field}>
+            <span className={styles.label}>{LANG.threshold_short}</span>
+            <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
+              <InputNumber
+                className={styles.input}
+                type="number"
+                min={1}
+                max={255}
+                value={threshold}
+                precision={0}
+                onChange={this.handleThresholdChange}
+                controls={false}
+              />
+            </ConfigProvider>
+            <Slider
+              className={styles.slider}
+              min={1}
+              max={255}
+              step={1}
+              marks={{ 128: '128' }}
+              value={threshold}
+              onChange={this.handleThresholdChange}
+            />
+          </div>
+        }
+      >
+        <ObjectPanelItem.Item
+          id="threshold"
+          content={<ObjectPanelIcon.Threshold />}
+          label={LANG.threshold_short}
+          autoClose={false}
+        />
+      </Popover>
+    ) : (
       <div key="threshold">
         <div className="option-block with-slider">
           <div className="label">{LANG.threshold}</div>
@@ -154,7 +222,12 @@ class ImageOptions extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    return (
+    return isMobile ? (
+      <>
+        {this.renderGradientBlock()}
+        {this.renderThresholdBlock()}
+      </>
+    ) : (
       <div>
         {this.renderGradientBlock()}
         {this.renderThresholdBlock()}

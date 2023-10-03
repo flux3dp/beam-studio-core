@@ -19,6 +19,11 @@
   width: 100%;
   height: 100%;
 
+  @media screen and (max-width: 600px) {
+    align-items: unset;
+    padding-top: 30px;
+  }
+
   .top-bar {
     position: absolute;
     top: 0px;
@@ -27,15 +32,31 @@
     height: 40px;
     background-color: #333333;
     -webkit-app-region: drag;
+
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
   }
 
   .main {
     margin-top: 150px;
     height: 480px;
 
+    @media screen and (max-width: 600px) {
+      margin-top: 0;
+      padding-left: 30px;
+      padding-right: 30px;
+      height: calc(100% - 60px);
+      overflow-y: scroll;
+    }
+
     .image {
       float: left;
       width: 200px;
+
+      .hint {
+        border: 5px solid #0091ff;
+      }
 
       .circle {
         width: 98px;
@@ -52,6 +73,30 @@
 
       .c2 {
         background-color: #0091ff;
+      }
+
+      @media screen and (max-width: 600px) {
+        position: relative;
+        width: 100%;
+        height: 220px;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+
+        .hint {
+          border-width: 3px;
+        }
+
+        > div + img {
+          width: auto;
+          height: 200px;
+        }
+
+        .circle {
+          position: absolute;
+          width: 50px;
+          height: 50px;
+        }
       }
     }
 
@@ -93,6 +138,23 @@
         }
 
         &.collapse {
+          white-space: unset;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        margin-left: 0;
+        width: 100%;
+        clear: right;
+
+        .title {
+          font-size: 22px;
+          padding-bottom: 16px;
+        }
+
+        .tutorial {
+          line-height: 18px;
+          padding-bottom: 15px;
           white-space: unset;
         }
       }
@@ -155,6 +217,36 @@
         &.primary {
           background-color: #000000;
           color: #f8f8f8;
+        }
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      justify-content: space-between;
+
+      .btn {
+        height: 30px;
+        font-size: 14px;
+        line-height: 30px;
+        margin-left: 0;
+        border-radius: 15px;
+        background-color: #f0f0f0;
+
+        &.primary {
+          margin-left: auto;
+          border-radius: 15px;
+          background-color: #0091ff;
+        }
+
+        &:hover:not(.disabled) {
+          border-radius: 15px;
+
+          &.primary {
+            background-color: #0091ff;
+          }
         }
       }
     }

@@ -25,7 +25,7 @@ function MediaTutorial({ data, onClose }: Props): JSX.Element {
   const mediaContent = () => {
     if (isVideo) {
       return (
-        <video autoPlay loop muted ref={videoRef}>
+        <video autoPlay loop muted ref={videoRef} playsInline>
           {mediaSources.map(({ src, type }) => <source key={src} src={src} type={type} />)}
         </video>
       );

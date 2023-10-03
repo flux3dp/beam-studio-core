@@ -1,0 +1,37 @@
+@use '../mixins' as mixins;
+
+.item-group {
+  @include mixins.item-group();
+  border: 0;
+}
+
+.modal {
+  .change-layer {
+    margin-bottom: 24px;
+    .title {
+      color: #7c7c7c;
+      font-size: 12px;
+    }
+    .layers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      .layer {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        border: 2px solid white;
+        &.active {
+          border-color: #0091ff;
+        }
+      }
+    }
+  }
+  .select {
+    width: 100%;
+  }
+  [class*='panel'] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

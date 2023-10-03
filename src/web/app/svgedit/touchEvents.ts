@@ -1,5 +1,7 @@
 import Hammer from 'hammerjs';
 
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+
 const calculateTouchCenter = (touches: TouchList) => {
   const center = { x: 0, y: 0 };
   if (touches.length > 0) {
@@ -14,10 +16,13 @@ const calculateTouchCenter = (touches: TouchList) => {
 };
 
 const TOUCH_START_DELAY = 100; // ms
+const multi = 3;
 
 const setupCanvasTouchEvents = (
   container: Element,
   workarea: Element,
+  contentW: number,
+  contentH: number,
   onMouseDown: (e: Event) => void,
   onMouseMove: (e: Event) => void,
   onMouseUp: (e: Event, blocked?: boolean) => void,
@@ -32,6 +37,7 @@ const setupCanvasTouchEvents = (
   let panStartScroll = { left: 0, top: 0 };
   let startZoom = null;
   let currentScale = 1;
+  let startDist = 0;
   let lastMoveEventTimestamp = 0;
   let isDoubleTap = false;
   const mc = new Hammer.Manager(container as HTMLElement);
@@ -49,7 +55,15 @@ const setupCanvasTouchEvents = (
         top: workarea.scrollTop,
       };
       // @ts-expect-error scale is defined in chrome & safari
-      if (e.scale === 1) {
+      if (e.scale === undefined) {
+        startZoom = getZoom();
+        startDist = Math.hypot(
+          e.touches[0].screenX - e.touches[1].screenX,
+          e.touches[0].screenY - e.touches[1].screenY
+        );
+        currentScale = 1;
+        // @ts-expect-error scale is defined in chrome & safari
+      } else if (e.scale === 1) {
         startZoom = getZoom();
         currentScale = 1;
       }
@@ -66,11 +80,18 @@ const setupCanvasTouchEvents = (
     } else if (e.touches.length >= 2) {
       const center = calculateTouchCenter(e.touches);
       requestAnimationFrame(() => {
-        // @ts-expect-error scale is defined in chrome & safari
-        const { scale, timeStamp } = e;
+        const { timeStamp } = e;
         if (timeStamp < lastMoveEventTimestamp) return;
+        const scale =
+          // @ts-expect-error scale is defined in chrome & safari
+          e.scale ??
+          Math.hypot(
+            e.touches[0].screenX - e.touches[1].screenX,
+            e.touches[0].screenY - e.touches[1].screenY
+          ) / startDist;
+        let newZoom = getZoom();
         if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
-          const newZoom = startZoom * (scale ** 0.5);
+          newZoom = startZoom * scale ** 0.5;
           setZoom(newZoom, center);
           panStartPosition = center;
           panStartScroll = {
@@ -78,6 +99,12 @@ const setupCanvasTouchEvents = (
             top: workarea.scrollTop,
           };
           currentScale = scale;
+        }
+        const wOrig = workarea.clientWidth;
+        const hOrig = workarea.clientHeight;
+        if (wOrig >= contentW * newZoom * multi || hOrig >= contentH * newZoom * multi) {
+          lastMoveEventTimestamp = timeStamp;
+          return;
         }
         // eslint-disable-next-line no-param-reassign
         workarea.scrollLeft = panStartScroll.left + panStartPosition.x - center.x;
@@ -98,6 +125,7 @@ const setupCanvasTouchEvents = (
           clearTimeout(touchStartTimeout);
           onMouseDown(e);
           onMouseUp(e, isDoubleTap);
+          setTimeout(() => ObjectPanelController.updateActiveKey(null), 100);
         }
         isDoubleTap = false;
       }

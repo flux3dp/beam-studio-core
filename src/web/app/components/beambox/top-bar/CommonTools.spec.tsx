@@ -14,6 +14,11 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+const useIsMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  useIsMobile: () => useIsMobile(),
+}));
+
 const getSVGAsync = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,
@@ -36,24 +41,21 @@ import CommonTools from './CommonTools';
 
 describe('should render correctly', () => {
   test('is not web version', () => {
-    expect(toJson(shallow(<CommonTools
-      isWeb={false}
-      hide={false}
-    />))).toMatchSnapshot();
+    expect(toJson(shallow(<CommonTools isWeb={false} hide={false} />))).toMatchSnapshot();
   });
 
   test('hide', () => {
-    expect(toJson(shallow(<CommonTools
-      isWeb
-      hide
-    />))).toMatchSnapshot();
+    expect(toJson(shallow(<CommonTools isWeb hide />))).toMatchSnapshot();
   });
 
-  test('not hiding and in web version', () => {
-    const wrapper = shallow(<CommonTools
-      isWeb
-      hide={false}
-    />);
+  test('is mobile', () => {
+    useIsMobile.mockReturnValue(true);
+    expect(toJson(shallow(<CommonTools isWeb hide={false} />))).toMatchSnapshot();
+  });
+
+  test('not hiding, not mobile and in web version', () => {
+    useIsMobile.mockReturnValue(false);
+    const wrapper = shallow(<CommonTools isWeb hide={false} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
     wrapper.find('img').at(0).simulate('click');

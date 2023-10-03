@@ -16,11 +16,22 @@
         width: 160px;
         height: 20px;
         border-radius: 10px;
-        border: 5px solid #0091ff;
         margin: 74px 0 0 -10px;
 
         &.wired {
           margin: 122px 0 0 -10px;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .hint {
+          width: 80px;
+          height: 14px;
+          margin: 44px 0 0 -38px;
+
+          &.wired {
+            margin: 73px 0 0 -38px;
+          }
         }
       }
     }
@@ -36,6 +47,11 @@
       padding: 10px 0;
       height: 50px;
       margin-bottom: 10px;
+
+      @media screen and (max-width: 600px) {
+        font-size: 22px;
+        height: 42px;
+      }
 
       &.disabled {
         pointer-events: none;

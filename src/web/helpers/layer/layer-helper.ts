@@ -1,7 +1,10 @@
+import Alert from 'app/actions/alert-caller';
+import AlertConstants from 'app/constants/alert-constants';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
+import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -367,4 +370,28 @@ export const getCurrentLayerName = (): string => {
 export const getLayerByName = (layerName: string): SVGGElement => {
   const drawing = svgCanvas.getCurrentDrawing();
   return drawing.getLayerByName(layerName);
+};
+
+export const moveToOtherLayer = (
+  destLayer: string,
+  callback: () => void,
+  showAlert = true
+): void => {
+  const moveToLayer = (ok) => {
+    if (!ok) return;
+    svgCanvas.moveSelectedToLayer(destLayer);
+    svgCanvas.getCurrentDrawing().setCurrentLayer(destLayer);
+    LayerPanelController.setSelectedLayers([destLayer]);
+    callback?.();
+  };
+  if (showAlert) {
+    Alert.popUp({
+      id: 'move layer',
+      buttonType: AlertConstants.YES_NO,
+      message: LANG.notification.QmoveElemsToLayer.replace('%s', destLayer),
+      onYes: moveToLayer,
+    });
+  } else {
+    moveToLayer(true);
+  }
 };
