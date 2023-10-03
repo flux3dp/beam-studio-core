@@ -1,6 +1,14 @@
 import classNames from 'classnames';
-import React, { memo, useCallback, useEffect, useMemo, useReducer } from 'react';
-import { Select } from 'antd';
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
+import { ConfigProvider, Modal, Select } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -15,6 +23,8 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
@@ -32,8 +42,9 @@ import {
 import { getParametersSet } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
-import { useIsMobile } from 'helpers/system-helper';
 
 import AddOnBlock from './AddOnBlock';
 import Backlash from './Backlash';
@@ -45,6 +56,7 @@ import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
 import SpeedBlock from './SpeedBlock';
+import styles from './ConfigPanel.module.scss';
 
 const PARAMETERS_CONSTANT = 'parameters';
 
@@ -53,11 +65,20 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 
 interface Props {
-  selectedLayers: string[];
+  UIType?: 'default' | 'panel-item' | 'modal';
 }
 
 // TODO: add test
-const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
+const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
+  const { selectedLayers: initLayers } = useContext(LayerPanelContext);
+  const [selectedLayers, setSelectedLayers] = useState(initLayers);
+  useEffect(() => {
+    if (UIType === 'modal') {
+      const drawing = svgCanvas.getCurrentDrawing();
+      const currentLayerName = drawing.getCurrentLayerName();
+      setSelectedLayers([currentLayerName]);
+    } else setSelectedLayers(initLayers);
+  }, [initLayers, UIType]);
   const forceUpdate = useForceUpdate();
   const lang = useI18n().beambox.right_panel.laser_panel;
   const hiddenOptions = useMemo(() => [
@@ -128,8 +149,6 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
     }
   }, [selectedLayers]);
 
-  const isMobile = useIsMobile();
-
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
     const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
@@ -164,13 +183,14 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
       type: 'change',
       payload: { speed, power, repeat: repeat || 1, zStep: zStep || 0, configName: value, selectedItem: value },
     });
-    selectedLayers.forEach((layerName: string) => {
-      writeData(layerName, DataType.speed, speed);
-      writeData(layerName, DataType.strength, power);
-      writeData(layerName, DataType.repeat, repeat || 1);
-      writeData(layerName, DataType.zstep, zStep || 0);
-      writeData(layerName, DataType.configName, value);
-    });
+    if (UIType !== 'modal')
+      selectedLayers.forEach((layerName: string) => {
+        writeData(layerName, DataType.speed, speed);
+        writeData(layerName, DataType.strength, power);
+        writeData(layerName, DataType.repeat, repeat || 1);
+        writeData(layerName, DataType.zstep, zStep || 0);
+        writeData(layerName, DataType.configName, value);
+      });
 
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
     if (SET_PRESET_WOOD_ENGRAVING === tutorialController.getNextStepRequirement()) {
@@ -211,7 +231,138 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
   const { type } = state;
-  const isDevMode = isDev();
+  const isDevMode = isDev() && UIType === 'default';
+  const commonContent = (
+    <>
+      {isDevMode && <LayerTypeBlock />}
+      {type.value === LayerType.LASER && <PowerBlock type={UIType} />}
+      {type.value === LayerType.PRINTER && <InkBlock type={UIType} />}
+      <SpeedBlock type={UIType} />
+      {isDevMode && isCustomBacklashEnabled && <Backlash />}
+      <RepeatBlock type={UIType} />
+    </>
+  );
+
+  const getContent = () => {
+    if (UIType === 'default') {
+      return (
+        <div id="laser-panel">
+          <div className={classNames('layername', 'hidden-mobile')}>
+            {sprintf(lang.preset_setting, displayName)}
+          </div>
+          <div className="layerparams">
+            <ConfigOperations onMoreClick={handleOpenManageModal} />
+            <div className="preset-dropdown-containter">
+              <DropdownControl
+                id="laser-config-dropdown"
+                value={dropdownValue}
+                onChange={handleSelectPresets}
+                options={dropdownOptions}
+                hiddenOptions={hiddenOptions}
+              />
+              <SaveConfigButton />
+            </div>
+            {commonContent}
+          </div>
+          <AddOnBlock />
+        </div>
+      );
+    }
+    if (UIType === 'panel-item') {
+      return (
+        <div className={styles['item-group']}>
+          <ObjectPanelItem.Select
+            id="laser-config-dropdown"
+            selected={{ value: dropdownValue, label: dropdownValue }}
+            onChange={handleSelectPresets}
+            options={[
+              ...dropdownOptions,
+              ...hiddenOptions.filter((option) => option.value === dropdownValue),
+            ]}
+            label={lang.presets}
+          />
+          {commonContent}
+        </div>
+      );
+    }
+    const drawing = svgCanvas.getCurrentDrawing();
+    const layerCount = drawing.getNumLayers();
+    const onClose = () => {
+      dialogCaller.popDialogById('config-panel');
+      ObjectPanelController.updateActiveKey(null);
+    };
+    const onSave = (): void => {
+      const destLayer = selectedLayers[0];
+      const saveDataAndClose = () => {
+        selectedLayers.forEach((layerName: string) => {
+          writeData(layerName, DataType.speed, state.speed.value);
+          writeData(layerName, DataType.strength, state.power.value);
+          writeData(layerName, DataType.repeat, state.repeat.value);
+          writeData(layerName, DataType.zstep, state.zStep.value);
+          writeData(layerName, DataType.configName, state.configName.value);
+        });
+        onClose();
+      };
+      if (destLayer !== initLayers[0]) {
+        moveToOtherLayer(destLayer, saveDataAndClose);
+      } else {
+        saveDataAndClose();
+      }
+    };
+    const layerOptions = [];
+    for (let i = layerCount - 1; i >= 0; i -= 1) {
+      const layerName = drawing.getLayerName(i);
+      layerOptions.push(
+        <div
+          className={classNames(styles.layer, {
+            [styles.active]: selectedLayers.includes(layerName),
+          })}
+          key={layerName}
+          onClick={() => setSelectedLayers([layerName])}
+          style={{ backgroundColor: drawing.getLayerColor(layerName) }}
+        />
+      );
+    }
+    return (
+      <ConfigProvider
+        theme={{
+          components: { Button: { borderRadius: 100 }, Select: { borderRadius: 100 } },
+        }}
+      >
+        <Modal
+          className={styles.modal}
+          title={sprintf(lang.preset_setting, displayName)}
+          onCancel={onClose}
+          onOk={onSave}
+          cancelText={i18n.lang.beambox.tool_panels.cancel}
+          okText={i18n.lang.beambox.tool_panels.confirm}
+          centered
+          open
+        >
+          {layerCount > 1 && (
+            <div className={styles['change-layer']}>
+              <span className={styles.title}>
+                {i18n.lang.beambox.right_panel.layer_panel.move_elems_to}
+              </span>
+              <div className={styles.layers}>{layerOptions}</div>
+            </div>
+          )}
+          <Select
+            id="laser-config-dropdown"
+            className={styles.select}
+            value={dropdownValue}
+            onChange={handleSelectPresets}
+            options={[
+              ...dropdownOptions,
+              ...hiddenOptions.filter((option) => option.value === dropdownValue),
+            ]}
+          />
+          {commonContent}
+        </Modal>
+      </ConfigProvider>
+    );
+  };
+
   return (
     <ConfigPanelContext.Provider
       value={{
@@ -220,50 +371,7 @@ const ConfigPanel = ({ selectedLayers }: Props): JSX.Element => {
         selectedLayers,
       }}
     >
-      {isMobile
-        ? (
-          <div id="laser-panel">
-            <Select
-              id="laser-config-dropdown"
-              value={dropdownValue}
-              onChange={handleSelectPresets}
-              options={[...dropdownOptions, ...hiddenOptions]}
-              size="large"
-              style={{ width: '100%' }}
-            />
-            {type.value === LayerType.LASER && <PowerBlock />}
-            {type.value === LayerType.PRINTER && <InkBlock />}
-            <SpeedBlock />
-            <RepeatBlock />
-          </div>
-        )
-        : (
-          <div id="laser-panel">
-            <div className={classNames('layername', 'hidden-mobile')}>
-              {sprintf(lang.preset_setting, displayName)}
-            </div>
-            <div className="layerparams">
-              <ConfigOperations onMoreClick={handleOpenManageModal} />
-              <div className="preset-dropdown-containter">
-                <DropdownControl
-                  id="laser-config-dropdown"
-                  value={dropdownValue}
-                  onChange={handleSelectPresets}
-                  options={dropdownOptions}
-                  hiddenOptions={hiddenOptions}
-                />
-                <SaveConfigButton />
-              </div>
-              {isDevMode && <LayerTypeBlock />}
-              {type.value === LayerType.LASER && <PowerBlock />}
-              {type.value === LayerType.PRINTER && <InkBlock />}
-              <SpeedBlock />
-              {(isDevMode && isCustomBacklashEnabled) && <Backlash />}
-              <RepeatBlock />
-            </div>
-            <AddOnBlock />
-          </div>
-        )}
+      {getContent()}
     </ConfigPanelContext.Provider>
   );
 };

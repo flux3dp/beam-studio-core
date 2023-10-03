@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Cropper from 'cropperjs';
-import { Button, Modal } from 'antd';
+import { Button, ConfigProvider, Modal, Select } from 'antd';
 
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import handleFinish from 'helpers/image-edit-panel/handle-finish';
@@ -8,6 +8,9 @@ import jimpHelper from 'helpers/jimp-helper';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { CropperDimension, cropPreprocess } from 'helpers/image-edit-panel/preprocess';
+import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './CropPanel.module.scss';
 
 interface Props {
   src: string;
@@ -39,6 +42,8 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     displayBase64: '',
     width: 0,
     height: 0,
+    aspectRatio: NaN,
+    imgAspectRatio: NaN,
   });
 
   const preprocess = async () => {
@@ -48,7 +53,14 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     originalSizeRef.current = { width: originalWidth, height: originalHeight };
     historyRef.current.push({ dimension, blobUrl });
     const displayBase64 = await calculateBase64(blobUrl, isShading, threshold);
-    setState({ blobUrl, displayBase64, width, height });
+    setState({
+      blobUrl,
+      displayBase64,
+      width,
+      height,
+      aspectRatio: NaN,
+      imgAspectRatio: width / height,
+    });
     progressCaller.popById('photo-edit-processing');
   };
 
@@ -67,9 +79,10 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const startCropper = () => {
+  const startCropper = (aspectRatio = NaN) => {
     if (cropperRef.current) cropperRef.current.destroy();
     cropperRef.current = new Cropper(previewImageRef.current, {
+      aspectRatio,
       autoCropArea: 1,
       zoomable: false,
       viewMode: 2,
@@ -135,7 +148,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
           height,
         },
       });
-      setState({ blobUrl: result, displayBase64, width, height });
+      setState({ ...state, blobUrl: result, displayBase64, width, height });
     }
     progressCaller.popById('photo-edit-processing');
   };
@@ -148,40 +161,81 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     const { blobUrl: newUrl, dimension } = historyRef.current[historyRef.current.length - 1];
     const { width, height } = dimension;
     const displayBase64 = await calculateBase64(newUrl, isShading, threshold);
-    setState({ blobUrl: newUrl, displayBase64, width, height });
+    setState({ ...state, blobUrl: newUrl, displayBase64, width, height });
     progressCaller.popById('photo-edit-processing');
   };
 
-  const renderFooter = () => (
-    <>
-      <Button onClick={onClose}>{t.cancel}</Button>
-      <Button onClick={handleUndo} disabled={historyRef.current.length <= 1}>{t.back}</Button>
-      <Button onClick={handleApply}>{t.apply}</Button>
-      <Button type="primary" onClick={handleComplete}>{t.okay}</Button>
-    </>
-  );
+  const [cancelBtn, backBtn, applyBtn, okBtn] = [
+    <Button key="cancel" onClick={onClose}>
+      {t.cancel}
+    </Button>,
+    <Button key="back" onClick={handleUndo} disabled={historyRef.current.length <= 1}>
+      {t.back}
+    </Button>,
+    <Button key="apply" onClick={handleApply}>
+      {t.apply}
+    </Button>,
+    <Button key="ok" type="primary" onClick={handleComplete}>
+      {t.okay}
+    </Button>,
+  ];
   const { width, height, displayBase64 } = state;
   const maxWidth = window.innerWidth - MODAL_PADDING_X;
   const maxHieght = window.innerHeight - MODAL_PADDING_Y;
   const isWideImage = (width / maxWidth > height / maxHieght);
+  const isMobile = useIsMobile();
 
   return (
-    <Modal
-      open
-      centered
-      maskClosable={false}
-      title={t.crop}
-      width={isWideImage ? maxWidth : undefined}
-      onCancel={onClose}
-      footer={renderFooter()}
+    <ConfigProvider
+      theme={
+        isMobile
+          ? { components: { Button: { borderRadius: 100 }, Select: { borderRadius: 100 } } }
+          : undefined
+      }
     >
-      <img
-        ref={previewImageRef}
-        src={displayBase64}
-        style={isWideImage ? { width: `${maxWidth}px` } : { height: `${maxHieght}px` }}
-        onLoad={startCropper}
-      />
-    </Modal>
+      <Modal
+        open
+        centered
+        maskClosable={false}
+        title={t.crop}
+        width={isWideImage ? maxWidth : undefined}
+        onCancel={onClose}
+        footer={isMobile ? [cancelBtn, okBtn] : [cancelBtn, backBtn, applyBtn, okBtn]}
+      >
+        {isMobile && (
+          <div className={styles['top-buttons']}>
+            {backBtn}
+            {applyBtn}
+          </div>
+        )}
+        <img
+          ref={previewImageRef}
+          src={displayBase64}
+          style={isWideImage ? { width: `${maxWidth}px` } : { height: `${maxHieght}px` }}
+          onLoad={() => startCropper()}
+        />
+        {isMobile && (
+          <div className={styles.field}>
+            <span className={styles.label}>{t.aspect_ratio}</span>
+            <Select
+              className={styles.select}
+              value={state.aspectRatio}
+              onChange={(val) => {
+                startCropper(val === 0 ? state.imgAspectRatio : val);
+                setState({ ...state, aspectRatio: val });
+              }}
+              options={[
+                { label: '1:1', value: 1 },
+                { label: t.original, value: 0 },
+                { label: t.free, value: NaN },
+                { label: '16:9', value: 16 / 9 },
+                { label: '4:3', value: 4 / 3 },
+              ]}
+            />
+          </div>
+        )}
+      </Modal>
+    </ConfigProvider>
   );
 };
 

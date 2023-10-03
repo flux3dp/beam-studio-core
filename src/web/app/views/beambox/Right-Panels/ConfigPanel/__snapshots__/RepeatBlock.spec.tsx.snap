@@ -18,7 +18,7 @@ exports[`test RepeatBlock should render correctly 1`] = `
       </p>
       <p>
         min: 
-        0
+        1
       </p>
       <p>
         max: 
@@ -26,6 +26,7 @@ exports[`test RepeatBlock should render correctly 1`] = `
       </p>
       <p>
         unit: 
+        times
       </p>
       <p>
         defaultValue: 
@@ -43,6 +44,34 @@ exports[`test RepeatBlock should render correctly 1`] = `
       >
         change
       </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test RepeatBlock should render correctly when type is panel-item 1`] = `
+<div>
+  <div>
+    MockObjectPanelNumber
+    <div>
+      id: 
+      repeat
+    </div>
+    <div>
+      value: 
+      3
+    </div>
+    <div>
+      label: 
+      repeat
+    </div>
+    <div>
+      unit: 
+      times
+    </div>
+    <div>
+      decimal: 
+      0
     </div>
   </div>
 </div>

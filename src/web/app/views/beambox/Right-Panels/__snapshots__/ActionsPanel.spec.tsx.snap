@@ -278,7 +278,7 @@ exports[`should render correctly image 1`] = `
     </div>
     <div
       className="btn-container half"
-      key="outline"
+      key="Outline"
       onClick={[Function]}
     >
       <button
@@ -289,10 +289,365 @@ exports[`should render correctly image 1`] = `
         <svgr-url
           className="icon"
         />
-        outline
+        Outline
       </button>
     </div>
   </div>
+</div>
+`;
+
+exports[`should render correctly in mobile ellipse 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="convert_to_path"
+    key="Outline"
+    label="Outline"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="offset"
+    key="Offset"
+    label="Offset"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile g multiple selection 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    disabled={false}
+    id="offset"
+    key="Offset"
+    label="Offset"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile g single selection 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile image 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="replace_with"
+    key="Replace"
+    label="Replace"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="potrace"
+    key="Outline"
+    label="Outline"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="grading"
+    key="Brightness"
+    label="Brightness"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="sharpen"
+    key="Sharpen"
+    label="Sharpen"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="crop"
+    key="Crop"
+    label="Crop"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="bevel"
+    key="Bevel"
+    label="Bevel"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="invert"
+    key="Invert"
+    label="Invert"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    disabled={false}
+    id="trace"
+    key="Trace"
+    label="Trace"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="bg-removal"
+    key="BG Removal"
+    label="BG Removal"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile line 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="convert_to_path"
+    key="Outline"
+    label="Outline"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="offset"
+    key="Offset"
+    label="Offset"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile no elements 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+</div>
+`;
+
+exports[`should render correctly in mobile path 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="edit_path"
+    key="edit_path"
+    label="edit_path"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="decompose_path"
+    key="Decompose"
+    label="Decompose"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="offset"
+    key="Offset"
+    label="Offset"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="simplify"
+    key="simplify"
+    label="simplify"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile polygon 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="convert_to_path"
+    key="Outline"
+    label="Outline"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="offset"
+    key="Offset"
+    label="Offset"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile rect 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="convert_to_path"
+    key="Outline"
+    label="Outline"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="offset"
+    key="Offset"
+    label="Offset"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile text 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="convert_to_path"
+    key="Outline"
+    label="Outline"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="weld"
+    key="weld_text"
+    label="weld_text"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
+</div>
+`;
+
+exports[`should render correctly in mobile use 1`] = `
+<div
+  className="container"
+>
+  <ObjectPanelDivider />
+  <ObjectPanelItem
+    content={<svgr-url />}
+    id="disassemble_use"
+    key="Disassemble"
+    label="Disassemble"
+    onClick={[Function]}
+  />
+  <ObjectPanelItem
+    autoClose={false}
+    content={<svgr-url />}
+    id="array"
+    key="Array"
+    label="Array"
+    onClick={[Function]}
+  />
 </div>
 `;
 
@@ -607,7 +962,9 @@ exports[`should render correctly text 1`] = `
         id="weld"
         type="button"
       >
-        <TraceIcon />
+        <svgr-url
+          className="icon"
+        />
         weld_text
       </button>
     </div>

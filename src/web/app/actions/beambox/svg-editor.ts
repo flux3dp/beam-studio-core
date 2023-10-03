@@ -25,8 +25,8 @@ TODOS
 import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import svgCanvasClass from 'app/svgedit/svgcanvas';
-import textActions from 'app/svgedit/textactions';
-import textEdit from 'app/svgedit/textedit';
+import textActions from 'app/svgedit/text/textactions';
+import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
@@ -65,6 +65,7 @@ import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import { isMobile } from 'helpers/system-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -1060,6 +1061,29 @@ const svgEditor = window['svgEditor'] = (function () {
     var cur_context = '';
     var origTitle = $('title:first').text();
 
+    // TODO: handle this in react element
+    const displayChangeLayerBlock = function (maybeVisible) {
+      const block = $('.selLayerBlock');
+
+      const isHide = (function () {
+        if (!maybeVisible) { return true; }
+        if (svgCanvas.getCurrentDrawing().getNumLayers() <= 1) { return true; }
+
+        if (multiselected) { return false; }
+        if (selectedElement) { return false; }
+
+        if (!(multiselected && selectedElement)) { return true; }
+
+        return true;
+      })();
+
+      if (isHide) {
+        block.hide();
+      } else {
+        block.show();
+      }
+    };
+
     // This function highlights the layer passed in (by fading out the other layers)
     // if no layer is passed in, this function restores the other layers
     var toggleHighlightLayer = function (layerNameToHighlight) {
@@ -1506,7 +1530,8 @@ const svgEditor = window['svgEditor'] = (function () {
       const zoomRatio = new_canvas_width / old_canvas_width;
 
       function _scrollToMakeItCenter(workarea, svgcanvas) {
-        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - 124);
+        const wOffset = isMobile() ? 0 : 124;
+        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - wOffset);
         workarea.scrollTop(svgcanvas.height() / 2 - workarea.height() / 2 - 85);
       }
 
@@ -1738,6 +1763,8 @@ const svgEditor = window['svgEditor'] = (function () {
               x: parseFloat(x) || 0,
               y: parseFloat(y) || 0
             });
+
+            svgCanvas.selectorManager.requestSelector(elem).resize();
           }
 
         } else {
@@ -3127,7 +3154,7 @@ const svgEditor = window['svgEditor'] = (function () {
         clickSelect();
       }
       const isFunctionKeyPressed = checkFunctionKeyPressed(evt);
-      if (evt.shiftKey && evt.key === 'Enter') {
+      if ((isMobile() || evt.shiftKey) && evt.key === 'Enter') {
         evt.preventDefault();
         textActions.newLine();
         textEdit.setTextContent(textInput.value);
@@ -3565,7 +3592,8 @@ const svgEditor = window['svgEditor'] = (function () {
           Alert.popUp({
             id: 'select first',
             message: LANG.popup.select_first,
-            caption: LANG.left_panel.label.array
+            caption: LANG.left_panel.label.array,
+            callbacks: () => ObjectPanelController.updateActiveKey(null),
           });
         }
       }
@@ -3594,6 +3622,7 @@ const svgEditor = window['svgEditor'] = (function () {
           id: 'select first',
           message: LANG.popup.select_first,
           caption: LANG.tool_panels.offset,
+          callbacks: () => ObjectPanelController.updateActiveKey(null),
         });
       }
     }

@@ -1,17 +1,29 @@
 import * as React from 'react';
 import { Button, Divider, Space } from 'antd';
 
+import FloatingPanel from 'app/widgets/FloatingPanel';
 import i18n from 'helpers/i18n';
-import SegmentedControl from 'app/widgets/SegmentedControl';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import SegmentedControl from 'app/widgets/SegmentedControl';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ISVGPath } from 'interfaces/ISVGPath';
-import { PathConnectIcon, PathDisconnectIcon, PathRoundIcon, PathSharpIcon } from 'app/icons/icons';
+import {
+  PathConnectIcon,
+  PathDisconnectIcon,
+  PathRoundIcon,
+  PathSharpIcon,
+  TrashIcon,
+} from 'app/icons/icons';
+import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './PathEditPanel.module.scss';
 
 let svgedit;
+let svgEditor;
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
+  svgEditor = globalSVG.Editor;
   svgCanvas = globalSVG.Canvas;
 });
 
@@ -21,9 +33,7 @@ const LINKTYPE_CORNER = 0;
 const LINKTYPE_SMOOTH = 1; // same direction, different dist
 const LINKTYPE_SYMMETRIC = 2; // same direction, same dist
 
-function PathEditPanel(): JSX.Element {
-  if (!svgCanvas || !svgedit) return null;
-
+const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
   const onNodeTypeChange = (newType) => {
     svgedit.path.path.setSelectedNodeType(newType);
   };
@@ -53,72 +63,112 @@ function PathEditPanel(): JSX.Element {
 
   const canConnect = selectedNodes?.length === 2 && selectedNodes.every((point) => !point.prevSeg || !point.nextSeg);
   const canDisconnect = selectedNodes?.length === 1 && selectedNodes[0].prev && selectedNodes[0].next;
+  const canDelete = selectedNodes?.length > 0;
+  const buttonShape = isMobile ? 'round' : 'default';
 
   return (
-    <div id="pathedit-panel">
-      <div className="node-type-panel">
-        <div className="title">{LANG.node_type}</div>
-        <SegmentedControl
-          isDisabled={isDisabled}
-          selectedIndexes={selectedNodeTypes}
-          onChanged={(newType) => onNodeTypeChange(newType)}
-          segments={[
-            {
-              imgSrc: 'img/right-panel/icon-nodetype-0.svg',
-              title: 'tCorner',
-              value: LINKTYPE_CORNER,
-              id: 'tCorner-seg-item',
-            },
-            {
-              imgSrc: 'img/right-panel/icon-nodetype-1.svg',
-              title: 'tSmooth',
-              value: LINKTYPE_SMOOTH,
-              id: 'tSmooth-seg-item',
-            },
-            {
-              imgSrc: 'img/right-panel/icon-nodetype-2.svg',
-              title: 'tSymmetry',
-              value: LINKTYPE_SYMMETRIC,
-              id: 'tSymmetry-seg-item',
-            },
-          ]}
-        />
-        <Divider />
-        <Space wrap>
+    <div className={styles['node-type-panel']}>
+      {!isMobile && <div className={styles.title}>{LANG.node_type}</div>}
+      <SegmentedControl
+        isDisabled={isDisabled}
+        selectedIndexes={selectedNodeTypes}
+        onChanged={(newType) => onNodeTypeChange(newType)}
+        segments={[
+          {
+            imgSrc: 'img/right-panel/icon-nodetype-0.svg',
+            title: 'tCorner',
+            value: LINKTYPE_CORNER,
+            id: 'tCorner-seg-item',
+          },
+          {
+            imgSrc: 'img/right-panel/icon-nodetype-1.svg',
+            title: 'tSmooth',
+            value: LINKTYPE_SMOOTH,
+            id: 'tSmooth-seg-item',
+          },
+          {
+            imgSrc: 'img/right-panel/icon-nodetype-2.svg',
+            title: 'tSymmetry',
+            value: LINKTYPE_SYMMETRIC,
+            id: 'tSymmetry-seg-item',
+          },
+        ]}
+      />
+      <Divider className={styles.divider} />
+      <Space className={styles.actions} wrap>
+        <Button
+          disabled={!containsRoundNodes}
+          onClick={() => svgCanvas.pathActions.setSharp()}
+          size="small"
+          shape={buttonShape}
+          block={isMobile}
+        >
+          <PathSharpIcon />
+          {LANG.sharp}
+        </Button>
+        <Button
+          disabled={!containsSharpNodes}
+          onClick={() => svgCanvas.pathActions.setRound()}
+          size="small"
+          shape={buttonShape}
+          block={isMobile}
+        >
+          <PathRoundIcon />
+          {LANG.round}
+        </Button>
+        <Button
+          disabled={!canConnect}
+          onClick={svgCanvas.pathActions.connectNodes}
+          size="small"
+          shape={buttonShape}
+          block={isMobile}
+        >
+          <PathConnectIcon />
+          {LANG.connect}
+        </Button>
+        <Button
+          disabled={!canDisconnect}
+          onClick={svgCanvas.pathActions.disconnectNode}
+          size="small"
+          shape={buttonShape}
+          block={isMobile}
+        >
+          <PathDisconnectIcon />
+          {LANG.disconnect}
+        </Button>
+        {isMobile && (
           <Button
-            disabled={!containsRoundNodes}
-            onClick={() => svgCanvas.pathActions.setSharp()}
+            disabled={!canDelete}
+            onClick={svgEditor.deleteSelected}
             size="small"
+            shape={buttonShape}
+            block={isMobile}
           >
-            <PathSharpIcon />
-            Sharp
+            <TrashIcon />
+            {LANG.delete}
           </Button>
-          <Button
-            disabled={!containsSharpNodes}
-            onClick={() => svgCanvas.pathActions.setRound()}
-            size="small"
-          >
-            <PathRoundIcon />
-            Round
-          </Button>
-          <Button
-            disabled={!canConnect}
-            onClick={svgCanvas.pathActions.connectNodes}
-            size="small"
-          >
-            <PathConnectIcon />
-            Connect
-          </Button>
-          <Button
-            disabled={!canDisconnect}
-            onClick={svgCanvas.pathActions.disconnectNode}
-            size="small"
-          >
-            <PathDisconnectIcon />
-            Disconnect
-          </Button>
-        </Space>
-      </div>
+        )}
+      </Space>
+    </div>
+  );
+};
+
+function PathEditPanel(): JSX.Element {
+  const isMobile = useIsMobile();
+  if (!svgCanvas || !svgedit) return null;
+
+  return isMobile ? (
+    <FloatingPanel
+      className={styles.panel}
+      anchors={[0, 280]}
+      title={i18n.lang.beambox.right_panel.tabs.path_edit}
+      onClose={() => svgCanvas.pathActions.toSelectMode(svgedit.path.path.elem)}
+    >
+      <PanelContent isMobile />
+    </FloatingPanel>
+  ) : (
+    <div id="pathedit-panel" className={styles.panel}>
+      <PanelContent />
     </div>
   );
 }

@@ -248,7 +248,9 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
         },
       });
     });
-    if (!res) return;
+    if (!res) {
+      return;
+    }
   }
 
   progress.openNonstopProgress({

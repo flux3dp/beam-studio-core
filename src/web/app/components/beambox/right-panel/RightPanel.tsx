@@ -3,21 +3,25 @@ import classNames from 'classnames';
 
 import LayerPanel from 'app/components/beambox/right-panel/LayerPanel';
 import ObjectPanel from 'app/views/beambox/Right-Panels/ObjectPanel';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { useIsMobile } from 'helpers/system-helper';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
-import { isMobile } from 'helpers/system-helper';
+
+import styles from './RightPanel.module.scss';
 
 let lastElement: Element;
 let lastMode: RightPanelMode;
 
 const RightPanel = (): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState<'layers' | 'objects'>('layers');
-  const { displayLayer, selectedElem } = useContext(CanvasContext);
+  const { displayLayer, setDisplayLayer, selectedElem } = useContext(CanvasContext);
   const { mode } = useContext(RightPanelContext);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (mode === 'element') {
@@ -29,13 +33,20 @@ const RightPanel = (): JSX.Element => {
     } else if (lastMode !== mode) {
       setSelectedTab('objects');
     }
+    if (isMobile) {
+      if (displayLayer) {
+        setSelectedTab('layers');
+      } else {
+        setSelectedTab('objects');
+      }
+    }
     lastMode = mode;
     lastElement = selectedElem;
-  }, [mode, selectedElem, selectedTab]);
+  }, [mode, selectedElem, selectedTab, displayLayer, isMobile]);
 
   const showLayerPanel = mode === 'element'
     && (selectedTab === 'layers' || !selectedElem)
-    && (displayLayer || isMobile());
+    && (displayLayer || !isMobile);
 
   let content;
   if (mode === 'path-edit') {
@@ -43,9 +54,9 @@ const RightPanel = (): JSX.Element => {
   } else if (selectedElem && selectedTab === 'objects') {
     content = <ObjectPanel elem={selectedElem} />;
   }
-  const sideClass = classNames({
-    short: window.os === 'Windows' && window.FLUX.version !== 'web',
-    wide: window.os !== 'MacOS',
+  const sideClass = classNames(styles.sidepanels, {
+    [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
+    [styles.wide]: window.os !== 'MacOS',
   });
   return (
     <div id="right-panel" style={{ display: 'block' }}>
@@ -57,11 +68,10 @@ const RightPanel = (): JSX.Element => {
           setSelectedTab={setSelectedTab}
         />
         <ObjectPanelContextProvider>
+          <ObjectPanelItem.Mask />
           {content}
           <LayerPanelContextProvider>
-            <LayerPanel
-              hide={!showLayerPanel}
-            />
+            <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
           </LayerPanelContextProvider>
         </ObjectPanelContextProvider>
       </div>

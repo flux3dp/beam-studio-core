@@ -32,6 +32,17 @@ jest.mock('app/widgets/Unit-Input-v2', () => (
   </div>
 ));
 
+jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
+  Item: ({ id, content, label, onClick }: any) => (
+    <div onClick={onClick}>
+      MockObjectPanelItem
+      <div>id: {id}</div>
+      <div>content: {content}</div>
+      <div>label: {label}</div>
+    </div>
+  ),
+}));
+
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
@@ -67,6 +78,12 @@ const mockEmit = jest.fn();
 jest.mock('app/views/beambox/Right-Panels/contexts/LayerPanelContext', () => ({
   LayerPanelContext: React.createContext({ hasVector: false }),
 }));
+
+jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelContext', () => ({
+  ObjectPanelContext: React.createContext({ activeKey: null }),
+}));
+
+jest.mock('helpers/layer/check-vector', () => jest.fn());
 
 describe('test SpeedBlock', () => {
   beforeEach(() => {
@@ -112,6 +129,28 @@ describe('test SpeedBlock', () => {
         <SpeedBlock />
       </ConfigPanelContext.Provider>
     );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly when type is panel-item', () => {
+    mockStorageGet.mockReturnValueOnce('mm');
+    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
+      >
+        <SpeedBlock type="panel-item" />
+      </ConfigPanelContext.Provider>
+    );
+    expect(mockStorageGet).toBeCalledTimes(1);
+    expect(mockStorageGet).toHaveBeenLastCalledWith('default-units');
+    expect(mockPrefRead).toBeCalledTimes(2);
+    expect(mockPrefRead).toHaveBeenNthCalledWith(1, 'workarea');
+    expect(mockPrefRead).toHaveBeenNthCalledWith(2, 'enable-low-speed');
     expect(container).toMatchSnapshot();
   });
 
@@ -201,5 +240,35 @@ describe('test SpeedBlock', () => {
     );
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
+  });
+
+  test('onChange should work correctly when type is modal', () => {
+    mockStorageGet.mockReturnValueOnce('mm');
+    mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
+      >
+        <SpeedBlock type="modal" />
+      </ConfigPanelContext.Provider>
+    );
+    expect(mockCreateEventEmitter).toBeCalledTimes(1);
+    expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('time-estimation-button');
+
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
+    expect(mockEmit).not.toBeCalled();
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '88' } });
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { speed: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
+    });
+    expect(mockWriteData).not.toBeCalled();
   });
 });

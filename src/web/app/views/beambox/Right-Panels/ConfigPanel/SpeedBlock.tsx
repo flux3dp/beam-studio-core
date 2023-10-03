@@ -1,22 +1,34 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
+import { Button, Popover } from 'antd-mobile';
+import { ConfigProvider, InputNumber } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import storage from 'implementations/storage';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
 
-const SpeedBlock = (): JSX.Element => {
+const SpeedBlock = ({
+  type = 'default',
+}: {
+  type?: 'default' | 'panel-item' | 'modal';
+}): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { activeKey } = useContext(ObjectPanelContext);
+  const visible = activeKey === 'speed';
   const { hasVector } = useContext(LayerPanelContext);
   const timeEstimationButtonEventEmitter = useMemo(
     () => eventEmitterFactory.createEventEmitter('time-estimation-button'), []
@@ -47,30 +59,50 @@ const SpeedBlock = (): JSX.Element => {
       payload: { speed: val, configName: CUSTOM_PRESET_CONSTANT },
     });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.speed, val);
-      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
-    });
+    if (type !== 'modal')
+      selectedLayers.forEach((layerName) => {
+        writeData(layerName, DataType.speed, val);
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+      });
   };
 
-  return (
-    <div className={styles.panel}>
+  const content = (
+    <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.speed}</span>
-      <UnitInput
-        id="speed"
-        className={{ [styles.input]: true }}
-        min={minValue}
-        max={maxValue}
-        unit={displayUnit}
-        defaultValue={value}
-        getValue={handleChange}
-        decimal={decimal}
-        displayMultiValue={hasMultiValue}
-        step={10 ** -decimal}
-      />
+      {type === 'panel-item' ? (
+        <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
+          <InputNumber
+            className={styles.input}
+            type="number"
+            min={minValue}
+            max={maxValue}
+            value={value}
+            onChange={handleChange}
+            precision={decimal}
+            controls={false}
+          />
+        </ConfigProvider>
+      ) : (
+        <UnitInput
+          id="speed"
+          className={{ [styles.input]: true }}
+          min={minValue}
+          max={maxValue}
+          unit={displayUnit}
+          defaultValue={value}
+          getValue={handleChange}
+          decimal={decimal}
+          displayMultiValue={hasMultiValue}
+          step={10 ** -decimal}
+        />
+      )}
       <input
         id="speed_value"
-        className={classNames({ [styles['speed-for-vector']]: hasVector })}
+        className={classNames({
+          [styles['speed-for-vector']]:
+            // when type is modal, this component is called without LayerPanelContext
+            type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector,
+        })}
         type="range"
         min={minValue}
         max={maxValue}
@@ -85,6 +117,28 @@ const SpeedBlock = (): JSX.Element => {
         </div>
       ) : null}
     </div>
+  );
+
+  return type === 'panel-item' ? (
+    <Popover visible={visible} content={content}>
+      <ObjectPanelItem.Item
+        id="speed"
+        content={
+          <Button
+            className={classNames(objectPanelItemStyles['number-item'], styles['display-btn'])}
+            shape="rounded"
+            size="mini"
+            fill="outline"
+          >
+            {value}
+          </Button>
+        }
+        label={t.speed}
+        autoClose={false}
+      />
+    </Popover>
+  ) : (
+    content
   );
 };
 

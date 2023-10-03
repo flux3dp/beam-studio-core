@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test textPathEdit test one finger touchEvents 1`] = `
+exports[`test touchEvents test one finger touchEvents 1`] = `
 <Workarea>
   <div
     id="workarea"
@@ -28,7 +28,7 @@ exports[`test textPathEdit test one finger touchEvents 1`] = `
 </Workarea>
 `;
 
-exports[`test textPathEdit test two finger touch 1`] = `
+exports[`test touchEvents test two finger touch 1`] = `
 <Workarea>
   <div
     id="workarea"
@@ -56,7 +56,7 @@ exports[`test textPathEdit test two finger touch 1`] = `
 </Workarea>
 `;
 
-exports[`test textPathEdit test two finger touch 2`] = `
+exports[`test touchEvents test two finger touch 2`] = `
 <Workarea>
   <div
     id="workarea"

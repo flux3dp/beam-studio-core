@@ -1,5 +1,7 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+
+import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import RectOptions from './RectOptions';
 
@@ -22,6 +24,11 @@ jest.mock('helpers/i18n', () => ({
 const get = jest.fn();
 jest.mock('implementations/storage', () => ({
   get: (...args) => get(...args),
+}));
+
+const useIsMobile = jest.fn();
+jest.mock('helpers/system-helper', () => ({
+  useIsMobile: () => useIsMobile(),
 }));
 
 const changeSelectedAttribute = jest.fn();
@@ -64,6 +71,49 @@ describe('should render correctly', () => {
   test('unit is not inches', () => {
     get.mockReturnValue(null);
 
+    const { container } = render(
+      <RectOptions
+        elem={document.getElementById('flux')}
+        rx={10}
+        updateDimensionValues={jest.fn()}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+});
+
+describe('should render correctly in mobile', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test('unit is inches', () => {
+    useIsMobile.mockReturnValue(true);
+    get.mockReturnValue('inches');
+    const updateDimensionValues = jest.fn();
+    const { baseElement, container } = render(
+      <ObjectPanelContextProvider>
+        <RectOptions
+          elem={document.getElementById('flux')}
+          rx={0}
+          updateDimensionValues={updateDimensionValues}
+        />
+      </ObjectPanelContextProvider>
+    );
+    expect(container).toMatchSnapshot();
+
+    const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+    fireEvent.click(objectPanelItem);
+    fireEvent.click(baseElement.querySelectorAll('.step-buttons button')[1]);
+    expect(changeSelectedAttribute).toHaveBeenCalledTimes(1);
+    expect(changeSelectedAttribute).toHaveBeenNthCalledWith(1, 'rx', 254, [document.getElementById('flux')]);
+    expect(updateDimensionValues).toHaveBeenCalledTimes(1);
+    expect(updateDimensionValues).toHaveBeenNthCalledWith(1, { rx: 254 });
+  });
+
+  test('unit is not inches', () => {
+    useIsMobile.mockReturnValue(true);
+    get.mockReturnValue(null);
     const { container } = render(
       <RectOptions
         elem={document.getElementById('flux')}

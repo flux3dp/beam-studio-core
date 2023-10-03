@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import browser from 'implementations/browser';
+import dialogCaller from 'app/actions/dialog-caller';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 
@@ -49,6 +50,9 @@ const DrawingToolButtonGroup = ({ className }: {
       {renderToolButton('cursor', 'Cursor', `${LANG.label.cursor} (V)`, FnWrapper.useSelectTool)}
       {renderToolButton('photo', 'Photo', `${LANG.label.photo} (I)`, FnWrapper.importImage)}
       {renderToolButton('text', 'Text', `${LANG.label.text} (T)`, FnWrapper.insertText)}
+      {renderToolButton('element', 'Element', `${LANG.label.shapes} (E)`, () =>
+        dialogCaller.showShapePanel(FnWrapper.useSelectTool)
+      )}
       {renderToolButton('rect', 'Rectangle', `${LANG.label.rect} (M)`, FnWrapper.insertRectangle)}
       {renderToolButton('oval', 'Ellipse', `${LANG.label.oval} (L)`, FnWrapper.insertEllipse)}
       {renderToolButton('polygon', 'Polygon', LANG.label.polygon, FnWrapper.insertPolygon)}

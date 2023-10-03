@@ -16,9 +16,7 @@ const Breadcrumbs = (): JSX.Element => {
     breadcrumbItems.push({ title: folder, onClick: handleClick, className: styles.item });
   });
 
-  return (
-    <Breadcrumb items={breadcrumbItems} />
-  );
+  return <Breadcrumb className={styles.breadcrumb} items={breadcrumbItems} />;
 };
 
 export default memo(Breadcrumbs);

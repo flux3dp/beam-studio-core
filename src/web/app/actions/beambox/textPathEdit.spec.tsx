@@ -35,6 +35,7 @@ const mockSvgCanvas = {
   changeSelectedAttribute: jest.fn(),
   getNextId: jest.fn(),
   pushGroupProperties: jest.fn(),
+  selectOnly: jest.fn(),
   pathActions: {
     toEditMode: jest.fn(),
   },
@@ -102,6 +103,7 @@ describe('test textPathEdit', () => {
     expect(textPath.length).toBe(1);
     expect(textPath[0].parentElement).toBe(text);
     expect(textPath[0].getAttribute('href')).toBe('#path');
+    expect(mockSvgCanvas.selectOnly).toBeCalledTimes(1);
     expect(mockSvgCanvas.undoMgr.addCommandToHistory).toBeCalledTimes(1);
   });
 

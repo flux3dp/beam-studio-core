@@ -13,6 +13,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { useIsMobile } from 'helpers/system-helper';
 
 interface Props {
   email: string;
@@ -42,6 +43,7 @@ export default function Menu({ email }: Props): JSX.Element {
     UNGROUP: setUngroupDisabled,
     PHOTO_EDIT: setImageEditDisabled,
   };
+  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     eventEmitter.on('ENABLE_MENU_ITEM', (items: string[]) => {
@@ -260,8 +262,14 @@ export default function Menu({ email }: Props): JSX.Element {
       </SubMenu>
       <SubMenu label={menuCms.help}>
         <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>{menuCms.about_beam_studio}</MenuItem>
-        <MenuItem onClick={() => callback('START_TUTORIAL')}>{menuCms.show_start_tutorial}</MenuItem>
-        <MenuItem onClick={() => callback('START_UI_INTRO')}>{menuCms.show_ui_intro}</MenuItem>
+        {!isMobile && (
+          <MenuItem onClick={() => callback('START_TUTORIAL')}>
+            {menuCms.show_start_tutorial}
+          </MenuItem>
+        )}
+        {!isMobile && (
+          <MenuItem onClick={() => callback('START_UI_INTRO')}>{menuCms.show_ui_intro}</MenuItem>
+        )}
         <MenuItem onClick={() => callback('START_GESTURE_INTRO')}>{menuCms.show_gesture_tutorial}</MenuItem>
         <MenuItem onClick={() => callback('QUESTIONNAIRE')}>{menuCms.questionnaire}</MenuItem>
         <MenuItem onClick={() => callback('CHANGE_LOGS')}>{menuCms.change_logs}</MenuItem>

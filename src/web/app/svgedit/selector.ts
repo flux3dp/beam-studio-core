@@ -8,12 +8,23 @@
  * Copyright(c) 2010 Jeff Schiller
  */
 
+import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+import storage from 'implementations/storage';
+import units from 'helpers/units';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { isMobile } from 'helpers/system-helper';
+
 const { svgedit } = window;
 
 if (!svgedit.select) {
   svgedit.select = {};
 }
 const { NS } = svgedit;
+
+let svgCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 type BBox = {
   x: number;
@@ -25,7 +36,11 @@ type BBox = {
 let svgFactory;
 let config;
 const gripRadius = svgedit.browser.isTouch() ? 8 : 4;
-
+const btnRadius = 12;
+const btnMargin = 6; // for shadow
+const btnPadding = 1;
+const iconWidth = 2 * (btnRadius - btnPadding);
+const rectDist = 25;
 const SELECTOR_MAP_RESERVE_SIZE = 5;
 
 const init = (injectedConfig, injectedSvgFactory): void => {
@@ -61,7 +76,13 @@ class Selector {
 
   private rotateGripConnector: SVGLineElement;
 
-  private rotateGrip: SVGCircleElement;
+  private rotateGripTop: SVGCircleElement;
+
+  private rotateGripBottom: SVGGElement;
+
+  private dimensionBG: SVGRectElement;
+
+  private dimensionInfo: SVGTextElement;
 
   private dimension: {
     angle: number;
@@ -140,17 +161,65 @@ class Selector {
     this.rotateGripConnector.setAttribute('id', 'selectorGrip_rotateconnector');
     this.rotateGripConnector.setAttribute('stroke', '#0000FF');
     this.rotateGripConnector.setAttribute('stroke-width', '1');
+    this.rotateGripConnector.setAttribute('class', 'hidden-mobile');
     this.gripsGroup.appendChild(this.rotateGripConnector);
 
-    this.rotateGrip = document.createElementNS(NS.SVG, 'circle') as unknown as SVGCircleElement;
-    this.rotateGrip.setAttribute('id', 'selectorGrip_rotate');
-    this.rotateGrip.setAttribute('r', gripRadius.toString());
-    this.rotateGrip.setAttribute('fill', '#12B700');
-    this.rotateGrip.setAttribute('stroke', '#0000FF');
-    this.rotateGrip.setAttribute('stroke-width', '2');
-    this.rotateGrip.setAttribute('style', `cursor:url(${config.imgPath}rotate.png) 12 12, auto;`);
-    this.gripsGroup.appendChild(this.rotateGrip);
-    $.data(this.rotateGrip, 'type', 'rotate');
+    this.rotateGripTop = document.createElementNS(NS.SVG, 'circle') as unknown as SVGCircleElement;
+    this.rotateGripTop.setAttribute('id', 'selectorGrip_rotate');
+    this.rotateGripTop.setAttribute('r', gripRadius.toString());
+    this.rotateGripTop.setAttribute('fill', '#12B700');
+    this.rotateGripTop.setAttribute('stroke', '#0000FF');
+    this.rotateGripTop.setAttribute('stroke-width', '2');
+    this.rotateGripTop.setAttribute('style', `cursor:url(${config.imgPath}rotate.png) 12 12, auto;`);
+    this.rotateGripTop.setAttribute('class', 'hidden-mobile');
+    this.gripsGroup.appendChild(this.rotateGripTop);
+    $.data(this.rotateGripTop, 'type', 'rotate');
+    this.rotateGripTop.setAttribute('data-angleOffset', '90');
+
+    this.rotateGripBottom = document.createElementNS(NS.SVG, 'g') as unknown as SVGGElement;
+    this.rotateGripBottom.setAttribute('id', 'selectorGrip_rotate_bottom');
+    this.rotateGripBottom.innerHTML = `<g xmlns="http://www.w3.org/2000/svg" filter="url(#filter0_d_93_1829)">
+      <circle cx="${btnRadius + btnMargin}" cy="${btnRadius}" r="${btnRadius}" fill="white"/>
+      <image href="img/icon-rotate.svg" x="${btnPadding + btnMargin}" y="${btnPadding}"
+        width="${iconWidth}" height="${iconWidth}"/>
+      </g>
+      <defs xmlns="http://www.w3.org/2000/svg">
+      <filter id="filter0_d_93_1829" x="0" y="0" width="${2 * (btnRadius + btnMargin)}" height="30"
+        filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" 
+        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_93_1829"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_93_1829" result="shape"/>
+      </filter>
+      </defs>`;
+    this.rotateGripBottom.setAttribute('class', 'hidden-desktop');
+    this.gripsGroup.appendChild(this.rotateGripBottom);
+    const rotBtn = this.rotateGripBottom.querySelector('circle');
+    $.data(rotBtn, 'type', 'rotate');
+    rotBtn.setAttribute('data-angleOffset', '-90');
+    const rotIcon = this.rotateGripBottom.querySelector('image');
+    $.data(rotIcon, 'type', 'rotate');
+    rotIcon.setAttribute('data-angleOffset', '-90');
+
+    this.dimensionBG = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
+    this.dimensionBG.setAttribute('id', 'selectorGrip_dimension_bg');
+    this.dimensionBG.setAttribute('rx', '6');
+    this.dimensionBG.setAttribute('fill', 'black');
+    this.dimensionBG.setAttribute('class', 'hidden-desktop');
+    this.gripsGroup.appendChild(this.dimensionBG);
+
+    this.dimensionInfo = document.createElementNS(NS.SVG, 'text') as unknown as SVGTextElement;
+    this.dimensionInfo.setAttribute('id', 'selectorGrip_dimension_info');
+    this.dimensionInfo.setAttribute('text-anchor', 'middle');
+    this.dimensionInfo.setAttribute('dominant-baseline', 'middle');
+    this.dimensionInfo.setAttribute('fill', 'white');
+    this.dimensionInfo.setAttribute('class', 'hidden-desktop');
+    this.gripsGroup.appendChild(this.dimensionInfo);
   }
 
   reset(elem: Element, bbox?: BBox) {
@@ -247,15 +316,15 @@ class Selector {
 
   show(show: boolean, showGrips = true) {
     const { elem } = this;
-    const display = (show && elem) ? 'inline' : 'none';
+    const display = show && elem ? 'inline' : 'none';
     this.selectorGroup.setAttribute('display', display);
     if (show && elem) {
       if (!this.gripsGroup) this.generateGripGroup();
-      this.applyDimensions();
       if (showGrips) {
         if (this.gripsGroup.parentNode !== this.selectorGroup) {
           this.selectorGroup.appendChild(this.gripsGroup);
         }
+        this.applyDimensions();
       } else {
         this.gripsGroup.remove();
       }
@@ -294,13 +363,85 @@ class Selector {
       this.resizeGrips[dir].setAttribute('cx', positionMap[dir][0].toString());
       this.resizeGrips[dir].setAttribute('cy', positionMap[dir][1].toString());
     }
-    this.rotateGripConnector.setAttribute('x1', cx.toString());
-    this.rotateGripConnector.setAttribute('x2', cx.toString());
-    this.rotateGripConnector.setAttribute('y1', y.toString());
-    this.rotateGripConnector.setAttribute('y2', (y - 5 * gripRadius).toString());
-    this.rotateGrip.setAttribute('cx', cx.toString());
-    this.rotateGrip.setAttribute('cy', (y - 5 * gripRadius).toString());
-    this.updateGripCursors();
+    if (isMobile()) {
+      const rotX = cx - btnRadius - btnMargin;
+      const rotY = y + height + 2 * gripRadius;
+      this.rotateGripBottom.setAttribute(
+        'transform',
+        `translate(${rotX} ${rotY}) rotate(${-angle} ${btnRadius + btnMargin} ${btnRadius})`
+      );
+      this.updateDimensionInfo();
+    } else {
+      this.rotateGripConnector.setAttribute('x1', cx.toString());
+      this.rotateGripConnector.setAttribute('x2', cx.toString());
+      this.rotateGripConnector.setAttribute('y1', y.toString());
+      this.rotateGripConnector.setAttribute('y2', (y - 5 * gripRadius).toString());
+      this.rotateGripTop.setAttribute('cx', cx.toString());
+      this.rotateGripTop.setAttribute('cy', (y - 5 * gripRadius).toString());
+      this.updateGripCursors();
+    }
+  }
+
+  updateDimensionInfo() {
+    const { x, y, width, height, angle } = this.dimension;
+    const elemDimension = ObjectPanelController.getDimensionValues();
+    let newContent = '';
+    if (svgCanvas.getCurrentMode() === 'rotate') {
+      const elemAngle = +angle.toFixed(1);
+      newContent = `${elemAngle}&deg;`;
+    } else {
+      const useInch = storage.get('default-units') === 'inches';
+      const unit = useInch ? 'inch' : 'mm';
+      const elemW = +units
+        .convertUnit(elemDimension.width / 10 || elemDimension.rx / 5, unit, 'mm')
+        .toFixed(1);
+      const elemH = +units
+        .convertUnit(elemDimension.height / 10 || elemDimension.ry / 5, unit, 'mm')
+        .toFixed(1);
+      if (![elemW, elemH].includes(NaN)) newContent = `${elemW}${unit} x ${elemH}${unit}`;
+    }
+    this.dimensionInfo.innerHTML = newContent;
+    if (newContent) {
+      const cx = x + width / 2;
+      const cy = y + height / 2;
+      let step = Math.round(angle / 90);
+      if (step < 0) step += 4;
+      let rectCx = cx;
+      let rectCy = y - rectDist;
+      let rotate = 0;
+      const textBBox = svgedit.utilities.getBBox(this.dimensionInfo);
+      const rectW = textBBox.width + 30;
+      const rectH = textBBox.height + 10;
+      switch (step) {
+        case 1:
+          rectCx = x - rectDist;
+          rectCy = cy;
+          rotate = 270;
+          break;
+        case 2:
+          rectCx = cx;
+          rectCy = y + height + 2 * gripRadius + 2 * btnRadius + rectDist;
+          rotate = 180;
+          break;
+        case 3:
+          rectCx = x + width + rectDist;
+          rectCy = cy;
+          rotate = 90;
+          break;
+        default:
+          break;
+      }
+      this.dimensionInfo.setAttribute('x', rectCx.toString());
+      this.dimensionInfo.setAttribute('y', rectCy.toString());
+      this.dimensionInfo.setAttribute('transform', `rotate(${rotate} ${rectCx} ${rectCy})`);
+      this.dimensionBG.setAttribute('x', (rectCx - rectW / 2).toString());
+      this.dimensionBG.setAttribute('y', (rectCy - rectH / 2).toString());
+      this.dimensionBG.setAttribute('width', rectW.toString());
+      this.dimensionBG.setAttribute('height', rectH.toString());
+      this.dimensionBG.setAttribute('transform', `rotate(${rotate} ${rectCx} ${rectCy})`);
+    } else {
+      this.dimensionBG.setAttribute('width', '0');
+    }
   }
 
   updateGripCursors() {

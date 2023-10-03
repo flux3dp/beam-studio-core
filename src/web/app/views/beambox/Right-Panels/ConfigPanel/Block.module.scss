@@ -2,4 +2,16 @@
 
 .panel {
   @include block.panel;
+
+  &.panel-item {
+    margin-top: 0;
+    width: 80vw;
+    .title {
+      font-weight: bold;
+    }
+  }
+}
+
+button.display-btn[class*='number-item'] {
+  min-width: 60px;
 }

@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import history from 'app/svgedit/history';
@@ -13,7 +14,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import clipboard from 'app/svgedit/operations/clipboard';
 import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
 import touchEvents from 'app/svgedit/touchEvents';
-import textEdit from 'app/svgedit/textedit';
+import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -76,6 +77,7 @@ let nextPos = {
   x: 0,
   y: 0,
 };
+let angleOffset = 90;
 const THRESHOLD_DIST = 0.8;
 const STEP_COUNT = 10;
 
@@ -148,6 +150,8 @@ const getEventPoint = (evt: MouseEvent | TouchEvent) => {
   return svgedit.math.transformPoint(x, y, matrix);
 };
 
+const checkShouldIgnore = () => ObjectPanelController.getActiveKey() && navigator.maxTouchPoints > 1;
+
 /**
  * Add transform for resizing operation
  * @param {Element} element svg element to init transform
@@ -174,6 +178,7 @@ let mouseSelectModeCmds;
 // - when we are in select mode, select the element, remember the position
 // and do nothing else
 const mouseDown = (evt: MouseEvent) => {
+  if (checkShouldIgnore()) return;
   const currentShape = svgCanvas.getCurrentShape();
   const currentZoom = svgCanvas.getCurrentZoom();
   let selectedElements = svgCanvas.getSelectedElems();
@@ -236,6 +241,7 @@ const mouseDown = (evt: MouseEvent) => {
     const gripType = $.data(grip, 'type');
     if (gripType === 'rotate') {
       // rotating
+      angleOffset = +(grip as HTMLElement).getAttribute('data-angleOffset') || 90;
       svgCanvas.unsafeAccess.setCurrentMode('rotate');
     } else if (gripType === 'resize') {
       // resizing
@@ -537,32 +543,7 @@ const mouseDown = (evt: MouseEvent) => {
       break;
     case 'text':
       svgCanvas.unsafeAccess.setStarted(true);
-      const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
-      const curText = textEdit.getCurText();
-      const newText = svgCanvas.addSvgElementFromJson({
-        element: 'text',
-        curStyles: true,
-        attr: {
-          x,
-          y,
-          id: svgCanvas.getNextId(),
-          fill: 'none',
-          'fill-opacity': curText.fill_opacity,
-          'stroke-width': 2,
-          'font-size': curText.font_size,
-          'font-family': usePostscriptAsFamily ? `'${curText.font_postscriptName}'` : curText.font_family,
-          'font-postscript': curText.font_postscriptName,
-          'text-anchor': curText.text_anchor,
-          'data-ratiofixed': true,
-          'xml:space': 'preserve',
-          opacity: currentShape.opacity,
-        },
-      });
-      if (usePostscriptAsFamily) newText.setAttribute('data-font-family', curText.font_family);
-      if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newText);
-      }
-      canvasEvents.emit('addText', newText);
+      createNewText(x, y);
       break;
     case 'polygon':
       // Polygon is created in ext-polygon.js
@@ -578,10 +559,14 @@ const mouseDown = (evt: MouseEvent) => {
         startX = xMatchPoint ? xMatchPoint.x * currentZoom : startX;
         startY = yMatchPoint ? yMatchPoint.y * currentZoom : startY;
       }
-      const { x: newX, y: newY } = svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
-      startX = newX;
-      startY = newY;
-      svgCanvas.unsafeAccess.setStarted(true);
+      const res = svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
+      if (res) {
+        const { x: newX, y: newY } = res;
+        startX = newX;
+        startY = newY;
+        svgCanvas.unsafeAccess.setStarted(true);
+        canvasEvents.emit('addPath');
+      }
       break;
     case 'textedit':
       startX *= currentZoom;
@@ -1120,7 +1105,7 @@ const mouseMove = (evt: MouseEvent) => {
       const center = svgedit.math.transformPoint(cx, cy, matrix);
       cx = center.x;
       cy = center.y;
-      angle = ((Math.atan2(cy - y, cx - x) * (180 / Math.PI)) - 90) % 360;
+      angle = (Math.atan2(cy - y, cx - x) * (180 / Math.PI) - angleOffset) % 360;
       if (currentConfig.gridSnapping) {
         angle = svgedit.utilities.snapToGrid(angle);
       }
@@ -1158,6 +1143,7 @@ const mouseMove = (evt: MouseEvent) => {
 // this is done in when we recalculate the selected dimensions()
 
 const mouseUp = async (evt: MouseEvent, blocked = false) => {
+  if (checkShouldIgnore()) return;
   const started = svgCanvas.getStarted();
   const currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();
@@ -1197,7 +1183,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
 
   const doPreview = () => {
     const callback = () => {
-      TopBarController.updateTopBar();
+      canvasEvents.emit('UPDATE_CONTEXT');
       if (TutorialController.getNextStepRequirement() === TutorialConstants.PREVIEW_PLATFORM) {
         TutorialController.handleNextStep();
       }
@@ -1710,6 +1696,8 @@ const dblClick = (evt: MouseEvent) => {
       } else if (path) {
         svgCanvas.pathActions.toEditMode(path);
       }
+    } else if (currentMode === 'pathedit' && mouseTarget.getAttribute('id') === 'svgroot') {
+      svgCanvas.pathActions.toSelectMode();
     }
   } else if (currentMode === 'textedit') {
     const curtext = svgCanvas.textActions.getCurtext();
@@ -1860,6 +1848,8 @@ const registerEvents = () => {
     touchEvents.setupCanvasTouchEvents(
       container,
       workarea,
+      svgCanvas.contentW,
+      svgCanvas.contentH,
       mouseDown,
       mouseMove,
       mouseUp,

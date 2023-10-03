@@ -620,6 +620,7 @@ exports[`should MediaTutorial next step should work 5`] = `
                   <video
                     autoplay=""
                     loop=""
+                    playsinline=""
                   >
                     <source
                       src="video/3.webm"
@@ -745,6 +746,7 @@ exports[`should MediaTutorial next step should work 6`] = `
                   <video
                     autoplay=""
                     loop=""
+                    playsinline=""
                   >
                     <source
                       src="video/3.webm"

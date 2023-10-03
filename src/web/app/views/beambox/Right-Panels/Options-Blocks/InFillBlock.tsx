@@ -1,10 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { Switch } from 'antd';
 
 import i18n from 'helpers/i18n';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
-import { Switch } from 'antd-mobile';
 
 let svgCanvas;
 
@@ -17,6 +18,7 @@ const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 interface Props {
   label?: string;
   elem: Element;
+  id?: string;
 }
 
 interface State {
@@ -70,9 +72,7 @@ class InFillBlock extends React.Component<Props, State> {
   renderSwitch = (): JSX.Element => {
     const { isAnyFilled } = this.state;
     if (isMobile()) {
-      return (
-        <Switch style={{ '--height': '32px' }} defaultChecked={isAnyFilled} onChange={() => this.onClick()} />
-      );
+      return <Switch checked={isAnyFilled} />;
     }
     return (
       <>
@@ -86,13 +86,20 @@ class InFillBlock extends React.Component<Props, State> {
   };
 
   render(): JSX.Element {
-    const { elem, label = LANG.fill } = this.props;
+    const { elem, label = LANG.fill, id = 'infill' } = this.props;
     const { isAnyFilled, isAllFilled, isFillable } = this.state;
     const isPartiallyFilled = elem.tagName === 'g' && (isAnyFilled && !isAllFilled);
     if (!isFillable) {
       return null;
     }
-    return (
+    return isMobile() ? (
+      <ObjectPanelItem.Item
+        id={id}
+        content={this.renderSwitch()}
+        label={label}
+        onClick={this.onClick}
+      />
+    ) : (
       <div className="option-block" key="infill">
         <div className="label">{label}</div>
         <div

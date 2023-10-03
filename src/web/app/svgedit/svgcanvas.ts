@@ -49,8 +49,8 @@ import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
 import selector from 'app/svgedit/selector';
-import textActions from 'app/svgedit/textactions';
-import textEdit from 'app/svgedit/textedit';
+import textActions from 'app/svgedit/text/textactions';
+import textEdit from 'app/svgedit/text/textedit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -921,7 +921,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               elem,
               bbox,
             });
-
           }
         }
       }
@@ -2673,7 +2672,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // arbitrary transform lists, but makes some assumptions about how the transform list
   // was obtained
   // * import should happen in top-left of current zoomed viewport
-  this.importSvgString = async function (xmlString, _type, layerName) {
+  this.importSvgString = async function (xmlString, _type, layerName, parentCmd) {
     const batchCmd = new history.BatchCommand('Import Image');
 
     async function appendUseElement(symbol, type, layerName) {
@@ -2815,8 +2814,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }));
 
     removeDefaultLayerIfEmpty();
-
-    addCommandToHistory(batchCmd);
+    if (parentCmd) parentCmd.addSubCommand(batchCmd);
+    else addCommandToHistory(batchCmd);
     call('changed', [svgcontent]);
 
     // we want to return the element so we can automatically select it
@@ -5094,28 +5093,34 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  this.disassembleUse2Group = async function (elems = null) {
+  this.disassembleUse2Group = async function (
+    elems = null,
+    skipConfirm = false,
+    addToHistory = true
+  ) {
     if (!elems) {
       elems = selectedElements;
     }
-    const confirm = await new Promise((resolve) => {
-      Alert.popUp({
-        type: AlertConstants.SHOW_POPUP_WARNING,
-        message: LANG.popup.ungroup_use,
-        buttonType: AlertConstants.YES_NO,
-        onYes: () => {
-          resolve(true);
-        },
-        onNo: () => {
-          resolve(false);
-        }
+    if (!skipConfirm){
+      const confirm = await new Promise((resolve) => {
+        Alert.popUp({
+          type: AlertConstants.SHOW_POPUP_WARNING,
+          message: LANG.popup.ungroup_use,
+          buttonType: AlertConstants.YES_NO,
+          onYes: () => {
+            resolve(true);
+          },
+          onNo: () => {
+            resolve(false);
+          }
+        });
       });
-    });
-    if (!confirm) {
-      return;
+      if (!confirm) {
+        return;
+      }
+      // Wait for alert close
+      await new Promise((resolve) => setTimeout(resolve, 20));
     }
-    // Wait for alert close
-    await new Promise((resolve) => setTimeout(resolve, 20));
     const batchCmd = new history.BatchCommand('Disassemble Use');
     for (let i = 0; i < elems.length; ++i) {
       const elem = elems[i];
@@ -5129,6 +5134,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
 
       const isFromNP = elem.getAttribute('data-np') === '1';
+      const ratioFixed = elem.getAttribute('data-ratiofixed');
       const cmd = SymbolMaker.switchImageSymbol(elem, false);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
@@ -5211,6 +5217,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           batchCmd.addSubCommand(cmd);
         }
       }
+      selectedElements.forEach((ele) => ele.setAttribute('data-ratiofixed', ratioFixed));
       Progress.update('disassemble-use', {
         message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 100%`,
         percentage: 100,
@@ -5222,7 +5229,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       svgCanvas.setHasUnsavedChange(true);
     }
     if (batchCmd && !batchCmd.isEmpty()) {
-      addCommandToHistory(batchCmd);
+      if (addToHistory) addCommandToHistory(batchCmd);
+      return batchCmd;
     }
   };
 
@@ -5430,7 +5438,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
    * @param {string} type type of element to group into 'a' or 'g', defaults to 'g'
    * @param {string} urlArg url if type if 'a'
    */
-  this.groupSelectedElements = function (type, urlArg) {
+  this.groupSelectedElements = (type, urlArg) => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
@@ -5721,7 +5729,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Function: ungroupSelectedElement
   // Unwraps all the elements in a selected group (g) element. This requires
   // significant recalculations to apply group's transforms, etc to its children
-  this.ungroupSelectedElement = function (isSubCmd = false) {
+  this.ungroupSelectedElement = (isSubCmd = false) => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
@@ -7010,7 +7018,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   };
 
-  this.setSvgElemPosition = function (para, val, elem?) {
+  this.setSvgElemPosition = function (para, val, elem?, addToHistory = true) {
     const selected = elem || selectedElements[0];
     const realLocation = this.getSvgRealLocation(selected);
     let dx = 0;
@@ -7035,8 +7043,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     selectorManager.requestSelector(selected).resize();
-    recalculateAllSelectedDimensions();
-
+    const cmd = recalculateAllSelectedDimensions(!addToHistory);
+    return cmd;
   };
   // refer to resize behavior in mouseup mousemove mousedown
   this.setSvgElemSize = function (para: string, val: number, addToHistory = false) {

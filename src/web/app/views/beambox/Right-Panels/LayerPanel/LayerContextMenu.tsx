@@ -1,17 +1,24 @@
 import React, { useContext } from 'react';
 
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
+import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import useI18n from 'helpers/useI18n';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
 import {
   cloneLayers,
   deleteLayers,
   getAllLayerNames,
+  getLayerElementByName,
   getLayerPosition,
   mergeLayers,
   setLayersLock,
 } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './LayerContextMenu.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -27,7 +34,11 @@ interface Props {
 const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX.Element => {
   const LANG = useI18n().beambox.right_panel.layer_panel.layers;
   const { selectedLayers, setSelectedLayers, forceUpdate } = useContext(LayerPanelContext);
-
+  const isMobile = useIsMobile();
+  const isLocked =
+    selectedLayers.length > 0
+      ? getLayerElementByName(selectedLayers[0])?.getAttribute('data-lock') === 'true'
+      : false;
   const onContextMenuShow = (e: CustomEvent) => {
     const trigger = e.detail.data?.target as Element;
     const layerItem = trigger?.closest('.layer-item');
@@ -58,6 +69,12 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     forceUpdate();
   };
 
+  const toggleLayerLocked = () => {
+    svgCanvas.clearSelection();
+    setLayersLock(selectedLayers, !isLocked);
+    forceUpdate();
+  };
+
   const handleMergeDown = () => {
     const layer = selectedLayers[0];
     const layerPosition = getLayerPosition(layer);
@@ -82,7 +99,43 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const isMultiSelecting = selectedLayers.length > 1;
   const isSelectingLast = (selectedLayers.length === 1) && (drawing.getLayerName(0) === selectedLayers[0]);
 
-  return (
+  return isMobile ? (
+    <div className={styles['item-group']}>
+      <ObjectPanelItem.Divider />
+      <ObjectPanelItem.Item
+        id="deletelayer"
+        content={<ObjectPanelIcons.Trash />}
+        label={LANG.del}
+        onClick={handleDeleteLayers}
+      />
+      <ObjectPanelItem.Item
+        id="merge_down_layer"
+        content={<LayerPanelIcons.Merge />}
+        label={LANG.merge_down}
+        onClick={handleMergeDown}
+        disabled={isMultiSelecting || isSelectingLast}
+      />
+      <ObjectPanelItem.Item
+        id="locklayer"
+        content={isLocked ? <ObjectPanelIcons.Unlock /> : <ObjectPanelIcons.Lock />}
+        label={isLocked ? LANG.unlock : LANG.lock}
+        onClick={toggleLayerLocked}
+      />
+      <ObjectPanelItem.Item
+        id="dupelayer"
+        content={<ObjectPanelIcons.Duplicate />}
+        label={LANG.dupe}
+        onClick={handleCloneLayers}
+      />
+      <ObjectPanelItem.Item
+        id="renameLayer"
+        content={<LayerPanelIcons.Rename />}
+        label={LANG.rename}
+        onClick={handleRename}
+        disabled={isMultiSelecting}
+      />
+    </div>
+  ) : (
     <ContextMenu id="layer-contextmenu" onShow={onContextMenuShow}>
       <MenuItem attributes={{ id: 'renameLayer' }} disabled={isMultiSelecting} onClick={handleRename}>
         {LANG.rename}

@@ -9,6 +9,8 @@ import Workarea from 'app/components/beambox/Workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 
+import styles from './SvgEditor.module.scss';
+
 export default class SvgEditor extends React.Component {
   componentDidMount(): void {
     const { $ } = window;
@@ -23,7 +25,7 @@ export default class SvgEditor extends React.Component {
 
   private renderSvgEditor = () => {
     const { isPathPreviewing } = this.context;
-    const platformClassNames = classNames({ mac: window.os === 'MacOS' });
+    const platformClassNames = classNames({ mac: window.os === 'MacOS', [styles.mac]: window.os === 'MacOS' });
     return (
       <div
         id="svg_editor"
@@ -31,19 +33,19 @@ export default class SvgEditor extends React.Component {
         style={isPathPreviewing ? { display: 'none' } : {}}
       >
         <div>
-          <div id="rulers" className={platformClassNames}>
-            <div id="ruler_corner" />
-            <div id="ruler_x">
+          <div id="rulers" className={classNames(styles.rulers, platformClassNames)}>
+            <div className={styles.corner} />
+            <div id="ruler_x" className={styles.x}>
               <div>
                 <canvas height={15} />
               </div>
             </div>
-            <div id="ruler_y">
+            <div id="ruler_y" className={styles.y}>
               <div>
                 <canvas width={15} />
               </div>
             </div>
-            <div id="ruler_unit_shower">
+            <div className={styles.unit}>
               {storage.get('default-units') === 'inches' ? 'inch' : 'mm'}
             </div>
           </div>
@@ -84,7 +86,7 @@ export default class SvgEditor extends React.Component {
               <div className="push_button" id="tool_source" title="Edit Source [U]" />
             </div>
             <div id="text_panel">
-              <input id="text" type="text" size={35} />
+              <input id="text" type="text" size={35} enterKeyHint="enter" />
             </div>
           </div>
           <div id="cur_context_panel" />
