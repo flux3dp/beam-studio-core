@@ -173,6 +173,7 @@ const ConnectMachineIp = (): JSX.Element => {
       fbb1b: 'fbb1b',
       fbb1p: 'fbb1p',
       fhexa1: 'fhexa1',
+      ado1: 'ado1',
     };
     const model = modelMap[device.model] || 'fbb1b';
     BeamboxPreference.write('model', model);
