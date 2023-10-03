@@ -5,11 +5,12 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import ShapePanel from './ShapePanel';
 
 window.innerHeight = 667;
-const mockElement = (
+const mockSVGElement = (
   <svg width="1em" height="1em" fill="currentColor" viewBox="0 0 50 50">
     mock-svg
   </svg>
 );
+const mockElement = document.createElement('use');
 const addSvgElementFromJson = jest.fn().mockReturnValue(mockElement);
 const getSvgRealLocation = jest.fn().mockReturnValue({ x: 15, y: 10, width: 15, height: 25 });
 const importSvgString = jest.fn().mockResolvedValue(mockElement);
@@ -56,9 +57,9 @@ jest.mock('app/constants/shape-panel-constants', () => ({
 }));
 
 jest.mock('app/icons/shape/ShapeIcon', () => ({
-  Circle: () => mockElement,
-  Minus: () => mockElement,
-  Triangle: () => mockElement,
+  Circle: () => mockSVGElement,
+  Minus: () => mockSVGElement,
+  Triangle: () => mockSVGElement,
 }));
 
 jest.mock('helpers/i18n', () => ({

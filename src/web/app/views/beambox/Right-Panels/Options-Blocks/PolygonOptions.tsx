@@ -17,7 +17,7 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
   const [sides, setSides] = React.useState(polygonSides || 5);
   const isMobile = useIsMobile();
   React.useEffect(() => {
-    setSides(polygonSides);
+    if (polygonSides) setSides(polygonSides);
   }, [polygonSides]);
 
   const handleSideChanage = (val) => {
@@ -35,6 +35,7 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
       <ObjectPanelItem.Number
         id="polygon-sides"
         value={sides}
+        min={3}
         updateValue={handleSideChanage}
         label={LANG.sides}
         unit=""

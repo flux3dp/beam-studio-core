@@ -3592,7 +3592,8 @@ const svgEditor = window['svgEditor'] = (function () {
           Alert.popUp({
             id: 'select first',
             message: LANG.popup.select_first,
-            caption: LANG.left_panel.label.array
+            caption: LANG.left_panel.label.array,
+            callbacks: () => ObjectPanelController.updateActiveKey(null),
           });
         }
       }
@@ -3621,6 +3622,7 @@ const svgEditor = window['svgEditor'] = (function () {
           id: 'select first',
           message: LANG.popup.select_first,
           caption: LANG.tool_panels.offset,
+          callbacks: () => ObjectPanelController.updateActiveKey(null),
         });
       }
     }

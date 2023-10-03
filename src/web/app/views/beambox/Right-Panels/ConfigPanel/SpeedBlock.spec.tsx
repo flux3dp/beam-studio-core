@@ -80,10 +80,7 @@ jest.mock('app/views/beambox/Right-Panels/contexts/LayerPanelContext', () => ({
 }));
 
 jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelContext', () => ({
-  ObjectPanelContext: React.createContext({
-    activeKey: null,
-    updateActiveKey: () => {},
-  }),
+  ObjectPanelContext: React.createContext({ activeKey: null }),
 }));
 
 jest.mock('helpers/layer/check-vector', () => jest.fn());

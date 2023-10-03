@@ -547,6 +547,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     const { mode } = this.props;
     const previewButton = (
       <Button
+        key="preview"
         onTouchStart={() => this.setState({ isShowingOriginal: true })}
         onTouchEnd={() => this.setState({ isShowingOriginal: false })}
         onMouseDown={() => this.setState({ isShowingOriginal: true })}
@@ -567,25 +568,16 @@ class PhotoEditPanel extends React.Component<Props, State> {
     };
 
     const cancelButton = (
-      <Button
-        onClick={() => this.handleCancel()}
-      >
+      <Button key="cancel" onClick={() => this.handleCancel()}>
         {LANG.cancel}
       </Button>
     );
     const okButton = (
-      <Button
-        onClick={() => handleOk()}
-        type="primary"
-      >
+      <Button key="ok" onClick={() => handleOk()} type="primary">
         {LANG.okay}
       </Button>
     );
-    return [
-      previewButton,
-      cancelButton,
-      okButton,
-    ];
+    return [previewButton, cancelButton, okButton];
   }
 
   render(): JSX.Element {

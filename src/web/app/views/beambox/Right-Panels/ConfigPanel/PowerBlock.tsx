@@ -24,7 +24,7 @@ function PowerBlock({
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
-  const { activeKey, updateActiveKey } = useContext(ObjectPanelContext);
+  const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'power';
   const { power } = state;
   const handleChange = (value: number) => {
@@ -101,7 +101,7 @@ function PowerBlock({
           </Button>
         }
         label={t.strength}
-        onClick={() => updateActiveKey('power')}
+        autoClose={false}
       />
     </Popover>
   ) : (

@@ -367,6 +367,7 @@ class TextOptions extends React.Component<Props, State> {
         id="font_size"
         label={LANG.font_size}
         value={fontSize}
+        min={1}
         updateValue={this.handleFontSizeChange}
         unit="px"
         decimal={0}
@@ -434,6 +435,7 @@ class TextOptions extends React.Component<Props, State> {
         id="line_spacing"
         label={LANG.line_spacing}
         value={lineSpacing}
+        min={0.8}
         updateValue={this.handleLineSpacingChange}
         unit=""
         decimal={1}

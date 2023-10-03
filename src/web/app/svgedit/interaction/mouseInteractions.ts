@@ -559,11 +559,14 @@ const mouseDown = (evt: MouseEvent) => {
         startX = xMatchPoint ? xMatchPoint.x * currentZoom : startX;
         startY = yMatchPoint ? yMatchPoint.y * currentZoom : startY;
       }
-      const { x: newX, y: newY } = svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
-      startX = newX;
-      startY = newY;
-      svgCanvas.unsafeAccess.setStarted(true);
-      canvasEvents.emit('addPath');
+      const res = svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
+      if (res) {
+        const { x: newX, y: newY } = res;
+        startX = newX;
+        startY = newY;
+        svgCanvas.unsafeAccess.setStarted(true);
+        canvasEvents.emit('addPath');
+      }
       break;
     case 'textedit':
       startX *= currentZoom;

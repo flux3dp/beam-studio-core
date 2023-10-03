@@ -26,7 +26,7 @@ function InkBlock({
   // TODO: add ink translation to i18n
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
-  const { activeKey, updateActiveKey } = useContext(ObjectPanelContext);
+  const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'power';
   const { ink } = state;
   const handleChange = (value: number) => {
@@ -95,7 +95,7 @@ function InkBlock({
           </Button>
         }
         label="tInk"
-        onClick={() => updateActiveKey('power')}
+        autoClose={false}
       />
     </Popover>
   ) : (

@@ -32,7 +32,6 @@ interface Props {
 function ObjectPanel({ elem }: Props): JSX.Element {
   const isMobile = useIsMobile();
   const context = useContext(ObjectPanelContext);
-  const { updateActiveKey } = context;
   const getAvailableFunctions = () => {
     if (!elem) {
       return {};
@@ -85,32 +84,22 @@ function ObjectPanel({ elem }: Props): JSX.Element {
         id="delete"
         content={<ObjectPanelIcon.Trash />}
         label={i18n.lang.topbar.menu.delete}
-        onClick={() => {
-          svgEditor.deleteSelected();
-          updateActiveKey(null);
-        }}
+        onClick={svgEditor.deleteSelected}
       />
       <ObjectPanelItem.Item
         id="duplicate"
         content={<ObjectPanelIcon.Duplicate />}
         label={i18n.lang.topbar.menu.duplicate}
-        onClick={() => {
-          svgCanvas.cloneSelectedElements(20, 20);
-          updateActiveKey(null);
-        }}
+        onClick={() => svgCanvas.cloneSelectedElements(20, 20)}
       />
       <ObjectPanelItem.Item
         id="parameter"
         content={<ObjectPanelIcon.Parameter />}
         label={i18n.lang.beambox.right_panel.laser_panel.parameters}
         onClick={() => {
-          const drawing = svgCanvas.getCurrentDrawing();
-          const currentLayerName = drawing.getCurrentLayerName();
-          dialogCaller.addDialogComponent(
-            'config-panel',
-            <ConfigPanel selectedLayers={[currentLayerName]} UIType="modal" />
-          );
+          dialogCaller.addDialogComponent('config-panel', <ConfigPanel UIType="modal" />);
         }}
+        autoClose={false}
       />
     </div>
   );

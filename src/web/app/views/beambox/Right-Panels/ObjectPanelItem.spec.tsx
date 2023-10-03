@@ -50,6 +50,7 @@ const MockNumberItem = ({ id, unit, decimal }: { id: string; unit?: string; deci
       <ObjectPanelItem.Number
         id={id}
         value={value}
+        max={50}
         updateValue={(val) => {
           mockUpdateValue(val);
           setValue(val);
@@ -347,6 +348,29 @@ describe('should render correctly', () => {
       expect(mask).not.toHaveClass('hide');
       expect(objectPanelItem).toHaveClass('active');
       expect(getByText('.').parentElement).toHaveClass('adm-button-disabled');
+    });
+
+    test('min&max should work', async () => {
+      const { baseElement, getByText } = render(<MockNumberItem id="mock-number-item-integer" />);
+      const mask = baseElement.querySelector('div.mask');
+      const objectPanelItem = baseElement.querySelector('div.object-panel-item');
+      const displayBtn = baseElement.querySelector('button.number-item');
+      expect(mask).toHaveClass('hide');
+      expect(displayBtn).toHaveTextContent('1');
+      expect(objectPanelItem).not.toHaveClass('active');
+      fireEvent.click(objectPanelItem);
+      expect(mask).not.toHaveClass('hide');
+      expect(objectPanelItem).toHaveClass('active');
+      fireEvent.click(getByText('5'));
+      fireEvent.click(getByText('1'));
+      expect(displayBtn).toHaveTextContent('51');
+      expect(mockUpdateValue).toBeCalledTimes(2);
+      fireEvent.click(mask);
+      expect(mask).toHaveClass('hide');
+      expect(baseElement.querySelector('.adm-popover')).toHaveClass('adm-popover-hidden');
+      expect(objectPanelItem).not.toHaveClass('active');
+      expect(mockUpdateValue).toBeCalledTimes(3);
+      expect(displayBtn).toHaveTextContent('50');
     });
   });
 

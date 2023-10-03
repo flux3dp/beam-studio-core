@@ -144,6 +144,6 @@ describe('test PathEditPanel', () => {
     expect(toSelectMode).not.toBeCalled();
     fireEvent.click(container.querySelector('.close-icon'));
     await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (0px)))'));
-    expect(toSelectMode).toBeCalledTimes(1);
+    await waitFor(() => expect(toSelectMode).toBeCalledTimes(1));
   });
 });

@@ -16,8 +16,16 @@ interface Props {
   label?: string | JSX.Element;
   onClick?: () => void;
   disabled?: boolean;
+  autoClose?: boolean;
 }
-const ObjectPanelItem = ({ id, content, label, onClick, disabled }: Props): JSX.Element => {
+const ObjectPanelItem = ({
+  id,
+  content,
+  label,
+  onClick,
+  disabled,
+  autoClose = true,
+}: Props): JSX.Element => {
   const context = useContext(ObjectPanelContext);
   const { activeKey, updateActiveKey } = context;
   if (disabled) {
@@ -29,9 +37,10 @@ const ObjectPanelItem = ({ id, content, label, onClick, disabled }: Props): JSX.
       className={classNames(styles['object-panel-item'], {
         [styles.active]: activeKey === id,
       })}
-      onClick={() => {
+      onClick={async () => {
         updateActiveKey(id);
-        onClick?.();
+        await onClick?.();
+        if (autoClose) setTimeout(() => updateActiveKey(null), 300);
       }}
     >
       <div className={styles.main}>{content}</div>
@@ -43,6 +52,8 @@ const ObjectPanelItem = ({ id, content, label, onClick, disabled }: Props): JSX.
 interface NumberItemProps {
   id: string;
   value: number;
+  min?: number;
+  max?: number;
   updateValue?: (val: number) => void;
   label?: string | JSX.Element;
   unit?: string;
@@ -52,6 +63,8 @@ const ObjectPanelNumber = ({
   id,
   label,
   value = 0,
+  min = Number.MIN_SAFE_INTEGER,
+  max = Number.MAX_SAFE_INTEGER,
   updateValue,
   unit = 'mm',
   decimal,
@@ -78,10 +91,14 @@ const ObjectPanelNumber = ({
   React.useEffect(() => {
     if (+displayValue !== +valueInUnit) {
       setDisplayValue(valueInUnit);
-    } else if (!isActive && !displayValue) {
-      setDisplayValue('0');
+    } else if (!isActive) {
+      let safeValue = Math.min(value, max);
+      safeValue = Math.max(safeValue, min);
+      if (safeValue !== value) updateValue(safeValue);
+      else if (!displayValue) setDisplayValue('0');
     }
-  }, [displayValue, valueInUnit, isActive]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayValue, value, valueInUnit, isActive]);
   const isKeyDisabled = (key: string) => {
     if (key === '.') {
       return displayValue.includes('.') || precision === 0;
@@ -134,6 +151,7 @@ const ObjectPanelNumber = ({
           </Button>
         }
         onClick={() => setHasInput(false)}
+        autoClose={false}
       />
     </Popover>
   );
@@ -198,7 +216,13 @@ const ObjectPanelActionList = ({
 
   return (
     <Popover className={styles['action-list']} visible={isActive} content={<ActionList />}>
-      <ObjectPanelItem id={id} content={content} label={label} disabled={disabled} />
+      <ObjectPanelItem
+        id={id}
+        content={content}
+        label={label}
+        disabled={disabled}
+        autoClose={false}
+      />
     </Popover>
   );
 };
@@ -268,6 +292,7 @@ const ObjectPanelSelect = ({
         }
         label={label}
         disabled={options.length <= 1}
+        autoClose={false}
       />
     </Popover>
   );

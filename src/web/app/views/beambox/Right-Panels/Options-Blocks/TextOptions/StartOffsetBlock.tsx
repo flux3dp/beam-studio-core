@@ -18,6 +18,8 @@ export default function StartOffsetBlock({ value, onValueChange }: Props): JSX.E
       id="start_offset"
       label={LANG.start_offset}
       value={value}
+      min={0}
+      max={100}
       updateValue={onValueChange}
       unit=""
       decimal={0}

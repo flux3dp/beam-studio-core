@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
-import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import useI18n from 'helpers/useI18n';
@@ -49,39 +48,30 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     }
   };
 
-  const resetActiveKey = () => {
-    setTimeout(() => ObjectPanelController.updateActiveKey(null), 300);
-  };
-
   const handleRename = () => {
     selectOnlyLayer(selectedLayers[0]);
     renameLayer();
-    resetActiveKey();
   };
 
   const handleCloneLayers = () => {
     const newLayers = cloneLayers(selectedLayers);
     setSelectedLayers(newLayers);
-    resetActiveKey();
   };
 
   const handleDeleteLayers = () => {
     deleteLayers(selectedLayers);
     setSelectedLayers([]);
-    resetActiveKey();
   };
 
   const handleLockLayers = () => {
     svgCanvas.clearSelection();
     setLayersLock(selectedLayers, true);
-    resetActiveKey();
     forceUpdate();
   };
 
   const toggleLayerLocked = () => {
     svgCanvas.clearSelection();
     setLayersLock(selectedLayers, !isLocked);
-    resetActiveKey();
     forceUpdate();
   };
 
@@ -92,21 +82,18 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayerName = drawing.getLayerName(layerPosition - 1);
     mergeLayers([layer], baseLayerName);
     selectOnlyLayer(baseLayerName);
-    resetActiveKey();
   };
 
   const handleMergeAll = () => {
     const allLayerNames = getAllLayerNames();
     const baseLayerName = mergeLayers(allLayerNames);
     selectOnlyLayer(baseLayerName);
-    resetActiveKey();
   };
 
   const handleMergeSelected = () => {
     const currentLayerName = drawing.getCurrentLayerName();
     const baseLayer = mergeLayers(selectedLayers, currentLayerName);
     setSelectedLayers([baseLayer]);
-    resetActiveKey();
   };
 
   const isMultiSelecting = selectedLayers.length > 1;
