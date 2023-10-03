@@ -6,8 +6,8 @@ import presprayIconUrl from 'app/icons/prespray.svg?url';
 
 let presprayAreaBlock: SVGImageElement;
 
-const areaWidth = 200;
-const areaHeight = 200;
+const areaWidth = 300;
+const areaHeight = 300;
 
 const round = (num: number, decimal: number): number => {
   const factor = 10 ** decimal;
@@ -45,7 +45,7 @@ const generatePresprayArea = (): void => {
     presprayAreaBlock = document.createElementNS(NS.SVG, 'image') as unknown as SVGImageElement;
     presprayAreaBlock.setAttribute('id', 'presprayArea');
     presprayAreaBlock.setAttribute('x', '4000');
-    presprayAreaBlock.setAttribute('y', '2500');
+    presprayAreaBlock.setAttribute('y', '2400');
     presprayAreaBlock.setAttribute('width', areaWidth.toFixed(0));
     presprayAreaBlock.setAttribute('height', areaHeight.toFixed(0));
     presprayAreaBlock.setAttribute('href', presprayIconUrl);
