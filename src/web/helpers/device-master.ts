@@ -266,6 +266,8 @@ class DeviceMaster {
     if (!deviceInfo) {
       return { success: false };
     }
+    // kill existing camera connection
+    this.disconnectCamera();
 
     const { uuid } = deviceInfo;
     const device: IDeviceConnection = this.getDeviceByUUID(uuid);
