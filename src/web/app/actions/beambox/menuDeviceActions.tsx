@@ -161,6 +161,7 @@ const getLog = async (device: IDeviceInfo, log: string) => {
 
 export default {
   DASHBOARD: async (device: IDeviceInfo): Promise<void> => {
+    Dialog.popDialogById('monitor');
     const res = await DeviceMaster.select(device);
     if (res.success) {
       MonitorController.showMonitor(device, device.st_id <= 0 ? Mode.FILE : Mode.WORKING);
