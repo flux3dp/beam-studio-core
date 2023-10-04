@@ -12,9 +12,9 @@ import Camera from 'app/components/settings/Camera';
 import Connection from 'app/components/settings/Connection';
 import Editor from 'app/components/settings/Editor';
 import Engraving from 'app/components/settings/Engraving';
+import Experimental from 'app/components/settings/Experimental';
 import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
-import isDev from 'helpers/is-dev';
 import Mask from 'app/components/settings/Mask';
 import Module from 'app/components/settings/Module';
 import Path from 'app/components/settings/Path';
@@ -245,6 +245,9 @@ class Settings extends React.PureComponent<null, State> {
     const isCustomPrevHeightEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-preview-height');
     const enableCustomPreviewHeightOptions = this.onOffOptionFactory<OptionValues>(isCustomPrevHeightEnabled);
 
+    const isMultipassCompensationEnabled = this.getBeamboxPreferenceEditingValue('multipass-compensation') === true;
+    const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(isMultipassCompensationEnabled);
+
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
@@ -372,7 +375,10 @@ class Settings extends React.PureComponent<null, State> {
             enableSentryOptions={enableSentryOptions}
             updateConfigChange={this.updateConfigChange}
           />
-
+          <Experimental
+            multipassCompensationOptions={multipassCompensationOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
           <div className="font5" onClick={this.resetBS}>
             <b>{lang.settings.reset_now}</b>
           </div>
