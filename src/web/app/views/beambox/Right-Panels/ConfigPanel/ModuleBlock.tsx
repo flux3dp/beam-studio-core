@@ -66,7 +66,7 @@ const ModuleBlock = (): JSX.Element => {
       } else {
         layer.removeAttribute('data-configName');
       }
-      toggleFullColorLayer(layer, val === LayerModule.PRINTER);
+      toggleFullColorLayer(layer, { val: val === LayerModule.PRINTER });
     });
     if (selectedLayers.length > 1) {
       const drawing = svgCanvas.getCurrentDrawing();
