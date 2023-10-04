@@ -20,6 +20,7 @@ export default (source: string | Blob, opts) => {
   if (opts.grayscale === undefined) {
     const url = typeof source === 'string' ? source : URL.createObjectURL(source);
     jimpHelper.urlToImage(url).then(async (image) => {
+      if (typeof source !== 'string') URL.revokeObjectURL(url);
       const imageCanvas = document.createElement('canvas');
       imageCanvas.width = image.bitmap.width;
       imageCanvas.height = image.bitmap.height;
