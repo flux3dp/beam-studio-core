@@ -4,7 +4,6 @@ import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {

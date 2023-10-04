@@ -63,6 +63,7 @@ const mockFishEyeParam: FisheyeCameraParameters = {
   points: [[[[0, 0]]]],
   heights: [0],
   center: [0, 0],
+  z3regParam: [[[[0, 0]]]],
 };
 
 describe('test Align', () => {
