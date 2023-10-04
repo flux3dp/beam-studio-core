@@ -47,6 +47,7 @@ interface CanvasContextType {
   updateCanvasContext: () => void,
   selectedDevice: IDeviceInfo | null,
   setSelectedDevice: (IDeviceInfo) => void,
+  updateTopBar: () => void,
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -73,6 +74,7 @@ const CanvasContext = createContext<CanvasContextType>({
   updateCanvasContext: () => {},
   selectedDevice: null,
   setSelectedDevice: () => {},
+  updateTopBar: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -170,7 +172,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   }, [setCurrentUser, isPreviewing, selectedDevice, updateTopBar, handleSetSelectedElem]);
 
   const updateCanvasContext = useCallback(() => {
-    console.log('force update');
     forceUpdate();
   }, [forceUpdate]);
 
@@ -229,6 +230,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           updateCanvasContext,
           selectedDevice,
           setSelectedDevice,
+          updateTopBar,
         }
       }
     >
