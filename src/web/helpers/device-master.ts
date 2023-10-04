@@ -966,9 +966,16 @@ class DeviceMaster {
     return res;
   }
 
-  async takeOnePicture() {
-    const res = await this.currentDevice.camera.oneShot();
-    return res;
+  async takeOnePicture(retryTimes = 3) {
+    for (let i = 0; i < retryTimes; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await this.currentDevice.camera.oneShot();
+      if (res) return res;
+      this.disconnectCamera();
+      // eslint-disable-next-line no-await-in-loop
+      await this.connectCamera();
+    }
+    return null;
   }
 
   async streamCamera(shouldCrop = true) {
