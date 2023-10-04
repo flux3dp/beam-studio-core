@@ -19,12 +19,6 @@ describe('test TopBarController', () => {
     jest.resetAllMocks();
   });
 
-  test('test updateTopBar', () => {
-    TopBarController.updateTopBar();
-    expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_TOP_BAR');
-  });
-
   test('test setElement null', () => {
     TopBarController.setElement(null);
     expect(mockOnObjectBlur).toHaveBeenCalledTimes(1);
