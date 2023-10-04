@@ -183,7 +183,7 @@ describe('test ModuleBlock', () => {
     expect(mockElem.setAttribute).toHaveBeenNthCalledWith(2, 'data-strength', '88');
     expect(mockElem.setAttribute).toHaveBeenNthCalledWith(3, 'data-repeat', '89');
     expect(mockToggleFullColorLayer).toBeCalledTimes(1);
-    expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(1, mockElem, false);
+    expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(1, mockElem, { val: false });
     expect(mockUpdateLayerColor).not.toBeCalled();
     expect(mockGetCurrentDrawing).not.toBeCalled();
     expect(mockGetCurrentLayerName).not.toBeCalled();
@@ -245,8 +245,8 @@ describe('test ModuleBlock', () => {
     expect(mockElem.removeAttribute).toHaveBeenNthCalledWith(1, 'data-configName');
     expect(mockElem.removeAttribute).toHaveBeenNthCalledWith(2, 'data-configName');
     expect(mockToggleFullColorLayer).toBeCalledTimes(2);
-    expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(1, mockElem, true);
-    expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(2, mockElem, true);
+    expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(1, mockElem, { val: true });
+    expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(2, mockElem, { val: true });
     expect(mockGetCurrentDrawing).toBeCalledTimes(1);
     expect(mockGetCurrentLayerName).toBeCalledTimes(1);
     expect(mockGetLayerConfig).not.toBeCalled();

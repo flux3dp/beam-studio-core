@@ -91,12 +91,16 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const handleMergeAll = () => {
     const allLayerNames = getAllLayerNames();
     const baseLayerName = mergeLayers(allLayerNames);
+    const elem = getLayerElementByName(baseLayerName);
+    toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
     selectOnlyLayer(baseLayerName);
   };
 
   const handleMergeSelected = () => {
     const currentLayerName = drawing.getCurrentLayerName();
     const baseLayer = mergeLayers(selectedLayers, currentLayerName);
+    const elem = getLayerElementByName(baseLayer);
+    toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
     setSelectedLayers([baseLayer]);
   };
 
