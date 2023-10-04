@@ -243,7 +243,7 @@ export const postPresetChange = (): void => {
     }
     if (!modelsWithModules.includes(workarea)) {
       layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
-      toggleFullColorLayer(layer, false);
+      toggleFullColorLayer(layer, { val: false });
     }
   }
 };

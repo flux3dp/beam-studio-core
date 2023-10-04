@@ -345,12 +345,18 @@ describe('test LayerContextMenu', () => {
     expect(mockMergeLayers).not.toBeCalled();
     mockMergeLayers.mockReturnValue('layer1');
     expect(mockSetSelectedLayers).not.toBeCalled();
+    mockGetLayerElementByName.mockReturnValue(mockElem);
+    mockElem.getAttribute.mockReturnValue('1');
     fireEvent.click(getByText('merge_all'));
     expect(mockGetAllLayerNames).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2', 'layer3']);
     expect(mockSelectOnlyLayer).toBeCalledTimes(1);
     expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer1');
+    expect(mockElem.getAttribute).toBeCalledTimes(1);
+    expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
+    expect(mockToggleFullColorLayer).toBeCalledTimes(1);
+    expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, { val: true, force: true });
   });
 
   test('merge selected should work', () => {
@@ -375,12 +381,20 @@ describe('test LayerContextMenu', () => {
     expect(mockDrawing.getCurrentLayerName).not.toBeCalled();
     expect(mockMergeLayers).not.toBeCalled();
     expect(mockSetSelectedLayers).not.toBeCalled();
+    mockGetLayerElementByName.mockReturnValue(mockElem);
+    mockElem.getAttribute.mockReturnValue('0');
     fireEvent.click(getByText('merge_selected'));
     expect(mockDrawing.getCurrentLayerName).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2'], 'layer2');
     expect(mockSetSelectedLayers).toBeCalledTimes(1);
     expect(mockSetSelectedLayers).toHaveBeenLastCalledWith(['layer2']);
+    expect(mockGetLayerElementByName).toBeCalledTimes(2);
+    expect(mockGetLayerElementByName).toHaveBeenLastCalledWith('layer2');
+    expect(mockElem.getAttribute).toBeCalledTimes(1);
+    expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
+    expect(mockToggleFullColorLayer).toBeCalledTimes(1);
+    expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, { val: false, force: true });
   });
 
   it('should render correctly when selecting printing layer', async () => {
