@@ -151,8 +151,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   }, [selectedLayers]);
 
-  const isMobile = useIsMobile();
-
   const parametersSet = getModulePresets(
     beamboxPreference.read('workarea') || beamboxPreference.read('model'),
     state.module.value
