@@ -266,10 +266,13 @@ class DeviceMaster {
     if (!deviceInfo) {
       return { success: false };
     }
-    // kill existing camera connection
-    this.disconnectCamera();
-
     const { uuid } = deviceInfo;
+
+    // kill existing camera connection
+    if (this.currentDevice?.info?.uuid !== uuid) {
+      this.disconnectCamera();
+    }
+
     const device: IDeviceConnection = this.getDeviceByUUID(uuid);
     console.log('Selecting', deviceInfo, device);
     Progress.openNonstopProgress({
