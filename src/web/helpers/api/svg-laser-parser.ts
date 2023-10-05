@@ -175,6 +175,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-mpp');
         args.push(localStorage.getItem('min_printing_padding'));
       }
+      if (isDevMode && localStorage.getItem('printing_top_padding')) {
+        args.push('-ptp');
+        args.push(localStorage.getItem('printing_top_padding'));
+      }
+      if (isDevMode && localStorage.getItem('printing_bot_padding')) {
+        args.push('-pbp');
+        args.push(localStorage.getItem('printing_bot_padding'));
+      }
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) await setParameter(loopCompensation);
