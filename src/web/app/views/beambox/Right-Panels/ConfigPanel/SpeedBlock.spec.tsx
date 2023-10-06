@@ -17,20 +17,41 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-jest.mock('app/widgets/Unit-Input-v2', () => (
-  { id, min, max, unit, defaultValue, decimal, displayMultiValue }: any
-) => (
-  <div>
-    MockUnitInput
-    <p>id: {id}</p>
-    <p>min: {min}</p>
-    <p>max: {max}</p>
-    <p>unit: {unit}</p>
-    <p>defaultValue: {defaultValue}</p>
-    <p>decimal: {decimal}</p>
-    <p>displayMultiValue: {displayMultiValue}</p>
-  </div>
-));
+jest.mock(
+  'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider',
+  () =>
+    ({ id, max, min, value, onChange }: any) =>
+      (
+        <input
+          id={id}
+          className="mock-config-slider"
+          type="range"
+          min={min}
+          max={max}
+          step={0.1}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+        />
+      )
+);
+
+jest.mock(
+  'app/widgets/Unit-Input-v2',
+  () =>
+    ({ id, min, max, unit, defaultValue, decimal, displayMultiValue }: any) =>
+      (
+        <div>
+          MockUnitInput
+          <p>id: {id}</p>
+          <p>min: {min}</p>
+          <p>max: {max}</p>
+          <p>unit: {unit}</p>
+          <p>defaultValue: {defaultValue}</p>
+          <p>decimal: {decimal}</p>
+          <p>displayMultiValue: {displayMultiValue}</p>
+        </div>
+      )
+);
 
 jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
   Item: ({ id, content, label, onClick }: any) => (
@@ -184,7 +205,11 @@ describe('test SpeedBlock', () => {
     const { container } = render(
       <LayerPanelContext.Provider value={{ hasVector: true } as any}>
         <ConfigPanelContext.Provider
-          value={{ state: state as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+          value={{
+            state: state as any,
+            dispatch: mockDispatch,
+            selectedLayers: mockSelectedLayers,
+          }}
         >
           <SpeedBlock />
         </ConfigPanelContext.Provider>

@@ -41,8 +41,8 @@ exports[`test SpeedBlock should render correctly when has low speed warning 1`] 
       </p>
     </div>
     <input
-      class="speed-for-vector"
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
@@ -94,8 +94,8 @@ exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
       </p>
     </div>
     <input
-      class="speed-for-vector"
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
@@ -188,8 +188,8 @@ exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
       </p>
     </div>
     <input
-      class=""
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
@@ -241,8 +241,8 @@ exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
       </p>
     </div>
     <input
-      class=""
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"

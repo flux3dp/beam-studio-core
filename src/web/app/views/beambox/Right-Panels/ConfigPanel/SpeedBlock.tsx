@@ -4,6 +4,7 @@ import { Button, Popover } from 'antd-mobile';
 import { ConfigProvider, InputNumber } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
 import constant from 'app/actions/beambox/constant';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -99,19 +100,14 @@ const SpeedBlock = ({
           step={10 ** -decimal}
         />
       )}
-      <input
-        id="speed_value"
-        className={classNames({
-          [styles['speed-for-vector']]:
-            // when type is modal, this component is called without LayerPanelContext
-            type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector,
-        })}
-        type="range"
+      <ConfigSlider
+        id="speed"
+        value={value}
+        onChange={handleChange}
         min={minValue}
         max={maxValue}
         step={0.1}
-        value={value}
-        onChange={(e) => handleChange(Number(e.target.value))}
+        speedLimit={type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector}
       />
       {warningText ? (
         <div className={styles.warning}>
