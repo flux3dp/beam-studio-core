@@ -15,6 +15,24 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+jest.mock(
+  'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider',
+  () =>
+    ({ id, max, min, value, onChange }: any) =>
+      (
+        <input
+          id={id}
+          className="mock-config-slider"
+          type="range"
+          min={min}
+          max={max}
+          step={0.1}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+        />
+      )
+);
+
 jest.mock('app/widgets/Unit-Input-v2', () => (
   { id, min, max, unit, defaultValue, decimal, displayMultiValue }: any
 ) => (

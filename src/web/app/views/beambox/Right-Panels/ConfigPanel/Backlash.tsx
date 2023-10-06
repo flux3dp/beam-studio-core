@@ -1,5 +1,6 @@
 import React, { memo, useContext } from 'react';
 
+import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
@@ -37,13 +38,13 @@ const Backlash = (): JSX.Element => {
         decimal={2}
         displayMultiValue={backlash.hasMultiValue}
       />
-      <input
-        type="range"
+      <ConfigSlider
+        id="backlash"
+        value={backlash.value}
+        onChange={handleChange}
         min={0}
         max={10}
         step={0.1}
-        value={backlash.value}
-        onChange={(e) => handleChange(Number(e.target.value))}
       />
     </div>
   );

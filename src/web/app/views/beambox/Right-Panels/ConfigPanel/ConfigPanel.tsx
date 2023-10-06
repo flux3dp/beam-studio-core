@@ -267,7 +267,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const commonContent = (
     <>
       {(isDevMode && module.value === LayerModule.PRINTER) && <UVBlock />}
-      {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
+      {module.value !== LayerModule.PRINTER && <PowerBlock simple type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {isDevMode && isCustomBacklashEnabled && <Backlash />}

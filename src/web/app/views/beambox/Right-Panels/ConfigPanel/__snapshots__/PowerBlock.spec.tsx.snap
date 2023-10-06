@@ -41,10 +41,11 @@ exports[`test PowerBlock should render correctly 1`] = `
       </p>
     </div>
     <input
+      class="mock-config-slider"
       id="power_value"
       max="100"
       min="1"
-      step="1"
+      step="0.1"
       type="range"
       value="87"
     />
@@ -93,10 +94,11 @@ exports[`test PowerBlock should render correctly whe power is low 1`] = `
       </p>
     </div>
     <input
+      class="mock-config-slider"
       id="power_value"
       max="100"
       min="1"
-      step="1"
+      step="0.1"
       type="range"
       value="7"
     />
