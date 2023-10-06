@@ -1,35 +1,3 @@
-@mixin rainbow-slider {
-  &::-webkit-slider-thumb {
-    width: 15px;
-    height: 15px;
-    border-radius: 7.5px;
-    background-color: #fdfdfd;
-    border: none;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-  }
-  &::-webkit-slider-runnable-track {
-    height: 6px;
-    border-radius: 25px;
-    border: 1px solid #ededed;
-    background-blend-mode: overlay, normal;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)),
-      linear-gradient(to right, #89d307, #9ede05 59%, #fff600 71%, #c50101);
-  }
-
-  &.speed-for-vector {
-    &::-webkit-slider-runnable-track {
-      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)),
-        linear-gradient(to right, #89d307 0%, #9ede05 2%, #fff600 4%, #c50101 6%);
-    }
-  }
-
-  &.hide-thumb {
-    &::-webkit-slider-thumb {
-      opacity: 0;
-    }
-  }
-}
-
 @mixin panel {
   margin-top: 20px;
   padding-left: 20px;
@@ -84,10 +52,6 @@
       margin-top: 2px;
       margin-right: 10%;
     }
-  }
-
-  > input[type="range"] {
-    @include rainbow-slider;
   }
 
   .warning {

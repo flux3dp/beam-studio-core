@@ -3,6 +3,7 @@ import React, { memo, useContext } from 'react';
 import { Button, Popover } from 'antd-mobile';
 import { ConfigProvider, InputNumber } from 'antd';
 
+import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -68,14 +69,13 @@ function PowerBlock({
           displayMultiValue={power.hasMultiValue}
         />
       )}
-      <input
+      <ConfigSlider
         id="power_value"
-        type="range"
+        value={power.value}
+        onChange={handleChange}
         min={MIN_VALUE}
         max={MAX_VALUE}
         step={1}
-        value={power.value}
-        onChange={(e) => handleChange(parseInt(e.target.value, 10))}
       />
       {power.value < 10 && (
         <div className={styles.warning}>
