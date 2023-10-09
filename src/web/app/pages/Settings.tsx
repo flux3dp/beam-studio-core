@@ -248,6 +248,9 @@ class Settings extends React.PureComponent<null, State> {
     const isMultipassCompensationEnabled = this.getBeamboxPreferenceEditingValue('multipass-compensation') === true;
     const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(isMultipassCompensationEnabled);
 
+    const isPrintAdvancedModeEnabled = this.getBeamboxPreferenceEditingValue('print-advanced-mode');
+    const printAdvancedModeOptions = this.onOffOptionFactory<OptionValues>(isPrintAdvancedModeEnabled);
+
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
@@ -369,6 +372,7 @@ class Settings extends React.PureComponent<null, State> {
             defaultUnit={this.getConfigEditingValue('default-units')}
             selectedModel={selectedModel}
             currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
+            printAdvancedModeOptions={printAdvancedModeOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Privacy

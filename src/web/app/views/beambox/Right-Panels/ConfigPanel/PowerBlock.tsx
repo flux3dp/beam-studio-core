@@ -1,17 +1,16 @@
 import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
 import { Button, Popover } from 'antd-mobile';
-import { ConfigProvider, InputNumber } from 'antd';
 
-import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import ConfigSlider from './ConfigSlider';
+import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
 const MAX_VALUE = 100;
@@ -43,32 +42,17 @@ function PowerBlock({
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.strength}</span>
-      {type === 'panel-item' ? (
-        <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
-          <InputNumber
-            className={styles.input}
-            type="number"
-            min={MIN_VALUE}
-            max={MAX_VALUE}
-            value={power.value}
-            onChange={handleChange}
-            precision={1}
-            controls={false}
-          />
-        </ConfigProvider>
-      ) : (
-        <UnitInput
-          id="power"
-          className={{ [styles.input]: true }}
-          min={MIN_VALUE}
-          max={MAX_VALUE}
-          unit="%"
-          defaultValue={power.value}
-          getValue={handleChange}
-          decimal={1}
-          displayMultiValue={power.hasMultiValue}
-        />
-      )}
+      <ConfigValueDisplay
+        inputId='power-input'
+        type={type}
+        max={MAX_VALUE}
+        min={MIN_VALUE}
+        value={power.value}
+        unit="%"
+        hasMultiValue={power.hasMultiValue}
+        decimal={1}
+        onChange={handleChange}
+      />
       <ConfigSlider
         id="power_value"
         value={power.value}

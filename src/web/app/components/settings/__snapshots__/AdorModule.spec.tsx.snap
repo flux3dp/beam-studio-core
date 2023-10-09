@@ -8,6 +8,27 @@ exports[`test AdorModule should render correctly 1`] = `
     ador_modules
   </div>
   <div>
+    Mock SelectControl
+    <div>
+      Printing Advanced Mode
+    </div>
+    <div>
+      print-advanced-mode
+    </div>
+    <div>
+      <button
+        type="button"
+      >
+        On
+      </button>
+      <button
+        type="button"
+      >
+        Off
+      </button>
+    </div>
+  </div>
+  <div>
     <div>
       Mock Control
       laser_10w_diode Offset

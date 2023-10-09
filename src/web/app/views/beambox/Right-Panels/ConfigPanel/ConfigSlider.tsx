@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Slider } from 'antd';
 
 import styles from './ConfigSlider.module.scss';
@@ -12,22 +12,55 @@ interface Props {
   max: number;
   step?: number;
   speedLimit?: boolean;
+  options?: { value: number, label?: string }[];
 }
 
-const ConfigSlider = ({ id, value, onChange, min, max, step = 1, speedLimit = false }: Props) => {
-  const [displayValue, setDisplayValue] = useState(value);
-  useEffect(() => setDisplayValue(value), [value]);
+const ConfigSlider = ({ id, value, onChange, min, max, step = 1, speedLimit = false, options }: Props) => {
+  // If value is not in options, add the value to options
+  const sliderOptions = useMemo(() => {
+    if (!options) return undefined;
+    const newOptions = [...options];
+    for (let i = 0; i < options.length; i += 1) {
+      if (options[i].value === value) return newOptions;
+      if (options[i].value > value) {
+        newOptions.splice(i, 0, { value, label: `${value}` });
+        return newOptions;
+      }
+    }
+    newOptions.push({ value, label: `${value}` });
+    return newOptions;
+  }, [value, options]);
+
+  const optionValues = useMemo(() => sliderOptions?.map((option) => option.value), [sliderOptions]);
+  const optionLabels = useMemo(() => sliderOptions?.map((option) => option.label ?? option.value), [sliderOptions]);
+  const getDisplayValueFromValue = useCallback((val: number) => {
+    if (optionValues) return optionValues.indexOf(val);
+    return val;
+  }, [optionValues]);
+
+  const [displayValue, setDisplayValue] = useState(getDisplayValueFromValue(value));
+  useEffect(() => setDisplayValue(getDisplayValueFromValue(value)), [value, getDisplayValueFromValue]);
+
+  const handleAfterChange = (val: number) => {
+    if (optionValues) onChange(optionValues[val]);
+    else onChange(val);
+  };
+
+  const handleChange = (val: number) => {
+    setDisplayValue(val);
+  };
 
   return (
     <div className={classNames(styles.container, { [styles.limit]: speedLimit })}>
       <Slider
         id={id}
-        min={min}
-        max={max}
-        step={step}
+        min={sliderOptions ? 0 : min}
+        max={sliderOptions ? sliderOptions.length - 1 : max}
+        step={sliderOptions ? 1: step}
         value={displayValue}
-        onAfterChange={onChange}
-        onChange={(val: number) => setDisplayValue(val)}
+        onAfterChange={handleAfterChange}
+        onChange={handleChange}
+        tooltip={{ formatter: (val: number) => sliderOptions ? optionLabels[val] : val }}
       />
     </div>
   );
