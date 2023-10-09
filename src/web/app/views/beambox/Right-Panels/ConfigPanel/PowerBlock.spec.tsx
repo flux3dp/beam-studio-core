@@ -15,38 +15,52 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+jest.mock('./ConfigSlider', () => ({ id, max, min, value, onChange }: any) => (
+  <input
+    id={id}
+    className="mock-config-slider"
+    type="range"
+    min={min}
+    max={max}
+    step={0.1}
+    value={value}
+    onChange={(e) => onChange(Number(e.target.value))}
+  />
+));
+
 jest.mock(
-  'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider',
+  './ConfigValueDisplay',
   () =>
-    ({ id, max, min, value, onChange }: any) =>
+    ({
+      inputId,
+      type = 'default',
+      max,
+      min,
+      value,
+      unit,
+      hasMultiValue = false,
+      decimal = 0,
+      onChange,
+      options,
+    }: any) =>
       (
-        <input
-          id={id}
-          className="mock-config-slider"
-          type="range"
-          min={min}
-          max={max}
-          step={0.1}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-        />
+        <div>
+          MockConfigValueDisplay
+          <p>inputId: {inputId}</p>
+          <p>type: {type}</p>
+          <p>max: {max}</p>
+          <p>min: {min}</p>
+          <p>value: {value}</p>
+          <p>unit: {unit}</p>
+          <p>hasMultiValue: {hasMultiValue}</p>
+          <p>decimal: {decimal}</p>
+          <p>options: {JSON.stringify(options)}</p>
+          <button type="button" onClick={() => onChange(88)}>
+            MockConfigValueDisplayButton
+          </button>
+        </div>
       )
 );
-
-jest.mock('app/widgets/Unit-Input-v2', () => (
-  { id, min, max, unit, defaultValue, decimal, displayMultiValue }: any
-) => (
-  <div>
-    MockUnitInput
-    <p>id: {id}</p>
-    <p>min: {min}</p>
-    <p>max: {max}</p>
-    <p>unit: {unit}</p>
-    <p>defaultValue: {defaultValue}</p>
-    <p>decimal: {decimal}</p>
-    <p>displayMultiValue: {displayMultiValue}</p>
-  </div>
-));
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -72,7 +86,11 @@ describe('test PowerBlock', () => {
   it('should render correctly', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <PowerBlock />
       </ConfigPanelContext.Provider>
@@ -83,7 +101,11 @@ describe('test PowerBlock', () => {
   it('should render correctly when type is panel-item', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <PowerBlock type="panel-item" />
       </ConfigPanelContext.Provider>
@@ -109,7 +131,11 @@ describe('test PowerBlock', () => {
   test('onChange should work', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <PowerBlock />
       </ConfigPanelContext.Provider>
@@ -125,23 +151,37 @@ describe('test PowerBlock', () => {
     });
     expect(mockWriteData).toBeCalledTimes(4);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'power', 88);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
     expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'power', 88);
-    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
   });
 
-  test('onChange should work correctly when type is modal', () => {
-    const { container } = render(
+  test('onChange of value display should work correctly', () => {
+    const { getByText } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <PowerBlock type="modal" />
       </ConfigPanelContext.Provider>
     );
+    expect(getByText('type: modal')).toBeInTheDocument();
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
-    const input = container.querySelector('input');
-    fireEvent.change(input, { target: { value: '88' } });
+    fireEvent.click(getByText('MockConfigValueDisplayButton'));
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',

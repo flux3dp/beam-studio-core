@@ -1,11 +1,11 @@
 import React, { memo, useContext } from 'react';
 
-import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import ConfigSlider from './ConfigSlider';
+import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
 const Backlash = (): JSX.Element => {
@@ -27,16 +27,15 @@ const Backlash = (): JSX.Element => {
   return (
     <div className={styles.panel}>
       <span className={styles.title}>{t.backlash}</span>
-      <UnitInput
-        id="backlash"
-        className={{ [styles.input]: true }}
-        min={0}
+      <ConfigValueDisplay
+        inputId='backlash-input'
+        type='default'
         max={10}
-        unit="mm"
-        defaultValue={backlash.value}
-        getValue={handleChange}
+        min={0}
+        value={backlash.value}
+        hasMultiValue={backlash.hasMultiValue}
         decimal={2}
-        displayMultiValue={backlash.hasMultiValue}
+        onChange={handleChange}
       />
       <ConfigSlider
         id="backlash"

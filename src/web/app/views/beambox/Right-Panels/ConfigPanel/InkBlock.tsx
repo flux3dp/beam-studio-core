@@ -1,27 +1,27 @@
 import classNames from 'classnames';
-import React, { memo, useContext } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
-import { ConfigProvider, InputNumber } from 'antd';
 
-import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import ConfigSlider from './ConfigSlider';
+import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
 const MAX_VALUE = 9;
 const MIN_VALUE = 1;
 
-// TODO: add unit test after UI confirmed
 function InkBlock({
   type = 'default',
+  simpleMode = true,
 }: {
   type?: 'default' | 'panel-item' | 'modal';
+  simpleMode?: boolean;
 }): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -40,41 +40,42 @@ function InkBlock({
       });
   };
 
+  const sliderOptions = useMemo(
+    () =>
+      simpleMode
+        ? [
+            { value: 1, label: 'super light' },
+            { value: 2, label: 'light' },
+            { value: 3, label: 'medium' },
+            { value: 4, label: 'i' },
+            { value: 5, label: "don't" },
+            { value: 6, label: 'know' },
+          ]
+        : null,
+    [simpleMode]
+  );
+
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.ink_saturation}</span>
-      {type === 'panel-item' ? (
-        <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
-          <InputNumber
-            className={styles.input}
-            type="number"
-            min={MIN_VALUE}
-            max={MAX_VALUE}
-            value={ink.value}
-            onChange={handleChange}
-            precision={0}
-            controls={false}
-          />
-        </ConfigProvider>
-      ) : (
-        <UnitInput
-          id="satutation"
-          className={{ [styles.input]: true }}
-          min={MIN_VALUE}
-          max={MAX_VALUE}
-          defaultValue={ink.value}
-          getValue={handleChange}
-          decimal={0}
-          displayMultiValue={ink.hasMultiValue}
-        />
-      )}
+      <ConfigValueDisplay
+        inputId="saturation-input"
+        type={type}
+        max={MAX_VALUE}
+        min={MIN_VALUE}
+        value={ink.value}
+        hasMultiValue={ink.hasMultiValue}
+        onChange={handleChange}
+        options={sliderOptions}
+      />
       <ConfigSlider
-        id="satutation"
+        id="saturation"
         value={ink.value}
         onChange={handleChange}
         min={MIN_VALUE}
         max={MAX_VALUE}
         step={1}
+        options={sliderOptions}
       />
     </div>
   );
@@ -93,7 +94,7 @@ function InkBlock({
             {ink.value}
           </Button>
         }
-        label="tInk"
+        label={t.ink_saturation}
         autoClose={false}
       />
     </Popover>

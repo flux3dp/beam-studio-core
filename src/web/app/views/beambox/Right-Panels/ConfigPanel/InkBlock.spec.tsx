@@ -15,38 +15,52 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+jest.mock('./ConfigSlider', () => ({ id, max, min, value, onChange }: any) => (
+  <input
+    id={id}
+    className="mock-config-slider"
+    type="range"
+    min={min}
+    max={max}
+    step={0.1}
+    value={value}
+    onChange={(e) => onChange(Number(e.target.value))}
+  />
+));
+
 jest.mock(
-  'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider',
+  './ConfigValueDisplay',
   () =>
-    ({ id, max, min, value, onChange }: any) =>
+    ({
+      inputId,
+      type = 'default',
+      max,
+      min,
+      value,
+      unit,
+      hasMultiValue = false,
+      decimal = 0,
+      onChange,
+      options,
+    }: any) =>
       (
-        <input
-          id={id}
-          className="mock-config-slider"
-          type="range"
-          min={min}
-          max={max}
-          step={0.1}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-        />
+        <div>
+          MockConfigValueDisplay
+          <p>inputId: {inputId}</p>
+          <p>type: {type}</p>
+          <p>max: {max}</p>
+          <p>min: {min}</p>
+          <p>value: {value}</p>
+          <p>unit: {unit}</p>
+          <p>hasMultiValue: {hasMultiValue}</p>
+          <p>decimal: {decimal}</p>
+          <p>options: {JSON.stringify(options)}</p>
+          <button type="button" onClick={() => onChange(8)}>
+            MockConfigValueDisplayButton
+          </button>
+        </div>
       )
 );
-
-jest.mock('app/widgets/Unit-Input-v2', () => (
-  { id, min, max, unit, defaultValue, decimal, displayMultiValue }: any
-) => (
-  <div>
-    MockUnitInput
-    <p>id: {id}</p>
-    <p>min: {min}</p>
-    <p>max: {max}</p>
-    <p>unit: {unit}</p>
-    <p>defaultValue: {defaultValue}</p>
-    <p>decimal: {decimal}</p>
-    <p>displayMultiValue: {displayMultiValue}</p>
-  </div>
-));
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -64,11 +78,19 @@ const mockContextState = {
 };
 const mockDispatch = jest.fn();
 
-describe('test PowerBlock', () => {
+describe('test InkBlock', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <InkBlock />
       </ConfigPanelContext.Provider>
@@ -79,7 +101,11 @@ describe('test PowerBlock', () => {
   test('onChange should work', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
       >
         <InkBlock />
       </ConfigPanelContext.Provider>
@@ -97,5 +123,29 @@ describe('test PowerBlock', () => {
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
     expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'ink', 8);
   });
-});
 
+  test('onChange of value display should work', () => {
+    const { getByText } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
+      >
+        <InkBlock />
+      </ConfigPanelContext.Provider>
+    );
+    expect(mockDispatch).not.toBeCalled();
+    expect(mockWriteData).not.toBeCalled();
+    fireEvent.click(getByText('MockConfigValueDisplayButton'));
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockDispatch).toHaveBeenLastCalledWith({
+      type: 'change',
+      payload: { ink: 8 },
+    });
+    expect(mockWriteData).toBeCalledTimes(2);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'ink', 8);
+  });
+});

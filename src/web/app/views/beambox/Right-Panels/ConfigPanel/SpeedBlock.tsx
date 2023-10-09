@@ -1,16 +1,14 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
-import { ConfigProvider, InputNumber } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import ConfigSlider from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigSlider';
 import constant from 'app/actions/beambox/constant';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import storage from 'implementations/storage';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
@@ -18,12 +16,16 @@ import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/Layer
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import ConfigSlider from './ConfigSlider';
+import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
 const SpeedBlock = ({
   type = 'default',
+  simpleMode = true,
 }: {
   type?: 'default' | 'panel-item' | 'modal';
+  simpleMode?: boolean;
 }): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
@@ -37,6 +39,7 @@ const SpeedBlock = ({
   );
 
   const { value, hasMultiValue } = state.speed;
+  const module = state.module.value;
 
   const { display: displayUnit, decimal } = useMemo(() => {
     const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
@@ -70,36 +73,35 @@ const SpeedBlock = ({
       });
   };
 
+  const sliderOptions = useMemo(
+    () =>
+      simpleMode && module === LayerModule.PRINTER
+        ? [
+            { value: 10, label: 'very slow' },
+            { value: 30, label: 'slow' },
+            { value: 60, label: 'medium' },
+            { value: 100, label: 'fast' },
+            { value: 150, label: 'very fast' },
+          ]
+        : null,
+    [simpleMode, module]
+  );
+
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.speed}</span>
-      {type === 'panel-item' ? (
-        <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
-          <InputNumber
-            className={styles.input}
-            type="number"
-            min={minValue}
-            max={maxValue}
-            value={value}
-            onChange={handleChange}
-            precision={decimal}
-            controls={false}
-          />
-        </ConfigProvider>
-      ) : (
-        <UnitInput
-          id="speed"
-          className={{ [styles.input]: true }}
-          min={minValue}
-          max={maxValue}
-          unit={displayUnit}
-          defaultValue={value}
-          getValue={handleChange}
-          decimal={decimal}
-          displayMultiValue={hasMultiValue}
-          step={10 ** -decimal}
-        />
-      )}
+      <ConfigValueDisplay
+        inputId="speed-input"
+        type={type}
+        max={maxValue}
+        min={minValue}
+        value={value}
+        unit={displayUnit}
+        hasMultiValue={hasMultiValue}
+        decimal={decimal}
+        onChange={handleChange}
+        options={sliderOptions}
+      />
       <ConfigSlider
         id="speed"
         value={value}
@@ -107,7 +109,11 @@ const SpeedBlock = ({
         min={minValue}
         max={maxValue}
         step={0.1}
-        speedLimit={type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector}
+        speedLimit={
+          module !== LayerModule.PRINTER &&
+          (type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector)
+        }
+        options={sliderOptions}
       />
       {warningText ? (
         <div className={styles.warning}>
