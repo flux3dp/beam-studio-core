@@ -14,20 +14,39 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-jest.mock('app/widgets/Unit-Input-v2', () => (
-  { id, min, max, unit, defaultValue, decimal, displayMultiValue }: any
-) => (
-  <div>
-    MockUnitInput
-    <p>id: {id}</p>
-    <p>min: {min}</p>
-    <p>max: {max}</p>
-    <p>unit: {unit}</p>
-    <p>defaultValue: {defaultValue}</p>
-    <p>decimal: {decimal}</p>
-    <p>displayMultiValue: {displayMultiValue}</p>
-  </div>
-));
+jest.mock(
+  './ConfigValueDisplay',
+  () =>
+    ({
+      inputId,
+      type = 'default',
+      max,
+      min,
+      value,
+      unit,
+      hasMultiValue = false,
+      decimal = 0,
+      onChange,
+      options,
+    }: any) =>
+      (
+        <div>
+          MockConfigValueDisplay
+          <p>inputId: {inputId}</p>
+          <p>type: {type}</p>
+          <p>max: {max}</p>
+          <p>min: {min}</p>
+          <p>value: {value}</p>
+          <p>unit: {unit}</p>
+          <p>hasMultiValue: {hasMultiValue}</p>
+          <p>decimal: {decimal}</p>
+          <p>options: {JSON.stringify(options)}</p>
+          <button type="button" onClick={() => onChange(8.8)}>
+            MockConfigValueDisplayButton
+          </button>
+        </div>
+      )
+);
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -56,7 +75,7 @@ describe('test Backlash', () => {
   });
 
   test('onChange should work', () => {
-    const { container } = render(
+    const { getByText } = render(
       <ConfigPanelContext.Provider
         value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
       >
@@ -65,8 +84,7 @@ describe('test Backlash', () => {
     );
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
-    const input = container.querySelector('input');
-    fireEvent.change(input, { target: { value: '8.8' } });
+    fireEvent.click(getByText('MockConfigValueDisplayButton'));
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',

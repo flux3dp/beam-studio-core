@@ -1,51 +1,112 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
+import { Button, Popover } from 'antd-mobile';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import UnitInput from 'app/widgets/Unit-Input-v2';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import ConfigSlider from './ConfigSlider';
+import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
+interface Props {
+  type?: 'default' | 'panel-item' | 'modal';
+  simpleMode?: boolean;
+}
+
 // TODO: add unit test
-const MultipassBlock = (): JSX.Element => {
+const MultipassBlock = ({ type = 'default', simpleMode = true }: Props): JSX.Element => {
+  const MIN_VALUE = 1;
+  const MAX_VALUE = 10;
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
 
+  const { activeKey } = useContext(ObjectPanelContext);
+
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
   const { multipass } = state;
+  const { value, hasMultiValue } = multipass;
   const timeEstimationButtonEventEmitter = useMemo(
-    () => eventEmitterFactory.createEventEmitter('time-estimation-button'), []
+    () => eventEmitterFactory.createEventEmitter('time-estimation-button'),
+    []
   );
 
-  const handleChange = (value: number) => {
+  const handleChange = (val: number) => {
     dispatch({
       type: 'change',
-      payload: { multipass: value },
+      payload: { multipass: val },
     });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.multipass, value);
+      writeData(layerName, DataType.multipass, val);
     });
   };
 
-  return (
-    <div className={classNames(styles.panel, styles['without-drag'])}>
+  const sliderOptions = useMemo(
+    () =>
+      simpleMode
+        ? [
+            { value: 1, label: 'very low' },
+            { value: 2, label: 'low' },
+            { value: 3, label: 'medium' },
+            { value: 4, label: 'high' },
+            { value: 5, label: 'very high' },
+          ]
+        : null,
+    [simpleMode]
+  );
+
+  const content =  (
+    <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.print_multipass}</span>
-      <UnitInput
-        id="multipass"
-        className={{ [styles.input]: true }}
-        min={1}
-        max={10}
+      <ConfigValueDisplay
+        inputId='multipass-input'
+        type={type}
+        max={MAX_VALUE}
+        min={MIN_VALUE}
+        value={value}
         unit={t.times}
-        defaultValue={multipass.value}
-        getValue={handleChange}
-        decimal={0}
-        displayMultiValue={multipass.hasMultiValue}
+        hasMultiValue={hasMultiValue}
+        onChange={handleChange}
+        options={sliderOptions}
+      />
+      <ConfigSlider
+        id="multipass"
+        value={value}
+        onChange={handleChange}
+        min={MIN_VALUE}
+        max={MAX_VALUE}
+        step={1}
+        options={sliderOptions}
       />
     </div>
+  );
+
+  return type === 'panel-item' ? (
+    <Popover visible={activeKey === 'multipass'} content={content}>
+      <ObjectPanelItem.Item
+        id="multipass"
+        content={
+          <Button
+            className={classNames(objectPanelItemStyles['number-item'], styles['display-btn'])}
+            shape="rounded"
+            size="mini"
+            fill="outline"
+          >
+            {value}
+          </Button>
+        }
+        label={t.print_multipass}
+        autoClose={false}
+      />
+    </Popover>
+  ) : (
+    content
   );
 };
 

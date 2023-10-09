@@ -4,12 +4,15 @@ import Controls from 'app/components/settings/Control';
 import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
+import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
+import { OptionValues } from 'app/constants/enums';
 
 interface Props {
   defaultUnit: string;
   selectedModel: WorkAreaModel;
+  printAdvancedModeOptions: { value: OptionValues; label: string; selected: boolean }[];
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
   currentModuleOffsets: { [m: number]: [number, number] };
 }
@@ -17,6 +20,7 @@ interface Props {
 const AdorModule = ({
   defaultUnit,
   selectedModel,
+  printAdvancedModeOptions,
   updateBeamboxPreferenceChange,
   currentModuleOffsets,
 }: Props): JSX.Element => {
@@ -38,6 +42,12 @@ const AdorModule = ({
   return (
     <>
       <div className="subtitle">{lang.settings.groups.ador_modules}</div>
+      <SelectControl
+        label="Printing Advanced Mode"
+        id="print-advanced-mode"
+        options={printAdvancedModeOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('print-advanced-mode', e.target.value)}
+      />
       <Controls label={`${lang.layer_module.laser_10w_diode} Offset`}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
