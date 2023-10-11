@@ -677,6 +677,17 @@ const lang: ILang = {
         custom_preset: 'Custom',
         various_preset: 'Various Presets',
         module: 'Module',
+        slider: {
+          regular: 'Regular',
+          low: 'Low',
+          extremely_low: 'Extremely Low',
+          high: 'High',
+          extremely_high: 'Extremely High',
+          slow: 'Slow',
+          extremely_slow: 'Extremely Slow',
+          fast: 'Fast',
+          extremely_fast: 'Extremely Fast',
+        },
         dropdown: {
           parameters: 'Presets',
           save: 'Add current parameters',
