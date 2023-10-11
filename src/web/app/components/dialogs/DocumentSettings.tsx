@@ -6,9 +6,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
-import EngraveDpiSliderV2 from 'app/widgets/EngraveDpiSliderV2';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import isDev from 'helpers/is-dev';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -32,12 +30,13 @@ const workareaOptions = [
   { label: 'Ador', value: 'ado1' },
 ];
 
-const dpiMap = {
-  low: 125,
-  medium: 250,
-  high: 500,
-  ultra: 1000,
-};
+// mpa for engrave dpi v2
+// const dpiMap = {
+//   low: 125,
+//   medium: 250,
+//   high: 500,
+//   ultra: 1000,
+// };
 
 interface Props {
   unmount: () => void;
@@ -48,9 +47,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const langDocumentSettings = lang.beambox.document_panel;
   const [form] = Form.useForm();
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
-  const [engraveDpiValue, setEngraveDpiValue] = useState(
-    BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
-  );
+  // state for engrave dpi v2
+  // const [engraveDpiValue, setEngraveDpiValue] = useState(
+  //   BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
+  // );
   const [workarea, setWorkarea] = useState(BeamboxPreference.read('workarea') || 'fbb1b');
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
   const [borderlessMode, setBorderlessMode] = useState(
@@ -63,28 +63,25 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
 
   const handleEngraveDpiChange = (value: string) => setEngraveDpi(value);
   const handleWorkareaChange = (value: string) => setWorkarea(value);
-  const handleRotaryModeChange = (value: number) => setRotaryMode(value);
+  const handleRotaryModeChange = (on: boolean) => setRotaryMode(on ? 1 : 0);
   const handleBorderlessModeChange = (value: boolean) => setBorderlessMode(value);
   const handleDiodeModuleChange = (value: boolean) => setEnableDiode(value);
   const handleAutofocusModuleChange = (value: boolean) => setEnableAutofocus(value);
 
   const rotaryModels = useMemo(() => constant.getRotaryModels(workarea), [workarea]);
-  const rotaryModalLabels = {
-    0: lang.settings.off,
-    1: lang.settings.on,
-  };
 
   useEffect(() => {
     if (!rotaryModels.includes(rotaryMode)) {
-      form.setFieldValue('rotary_mode', rotaryModels[0]);
-      handleRotaryModeChange(rotaryModels[0]);
+      form.setFieldValue('rotary_mode', 0);
+      handleRotaryModeChange(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rotaryModels]);
 
   const handleSave = () => {
     BeamboxPreference.write('engrave_dpi', engraveDpi);
-    BeamboxPreference.write('engrave-dpi-value', engraveDpiValue);
+    // state for engrave dpi v2
+    // BeamboxPreference.write('engrave-dpi-value', engraveDpiValue);
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
@@ -132,25 +129,21 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           </Select>
         </Form.Item>
         <strong>{langDocumentSettings.add_on}</strong>
-        <Form.Item
-          initialValue={rotaryMode}
-          name="rotary_mode"
-          label={langDocumentSettings.rotary_mode}
-        >
-          <Select
-            bordered
-            onChange={handleRotaryModeChange}
-            value={rotaryMode}
-            disabled={rotaryModels.length === 1}
-          >
-            {rotaryModels.map((model) => (
-              <Select.Option key={model} value={model}>
-                {rotaryModalLabels[model]}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Row>
+          <Col span={12}>
+              <Form.Item
+                name="rotary_mode"
+                className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
+                label={langDocumentSettings.rotary_mode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  checked={rotaryMode !== 0}
+                  disabled={rotaryModels.length === 1}
+                  onChange={handleRotaryModeChange}
+                />
+              </Form.Item>
+          </Col>
           <Col span={12}>
             <Form.Item
               name="borderless_mode"
