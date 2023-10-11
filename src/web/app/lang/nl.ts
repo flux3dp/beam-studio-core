@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'VERMOGEN TE HOOG',
       power_too_high_msg: 'Het gebruik van een lager laservermogen (minder dan 70%) verlengt de levensduur van de laserbuis.\nVoer "OPGEMERKT" in om door te gaan.',
       power_too_high_confirm: 'OK',
+      add_content_first: 'Voeg eerst objecten toe',
     },
     hint: {
       polygon: 'Druk op de + / - toets om de zijkanten te vergroten/verkleinen.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Anti-aliasing',
       disassemble_use: 'Demonteren',
     },
+    select_machine: 'Selecteer een machine',
   },
   support: {
     no_webgl: 'WebGL wordt niet ondersteund. Gebruik andere apparaten.',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: 'Omdraaien',
       object_actions: 'Objectacties',
       end_alert: 'Weet je zeker dat je de nieuwe UI-introductie wilt beëindigen?',
+      select_machine: 'Selecteer een machine',
+      frame: 'Voorbeeld frame',
+      path_preview: 'Pad voorbeeld',
+      start_work: 'Werk beginnen',
     },
     gesture: {
       pan: 'Scroll met twee vingers door het canvas.',

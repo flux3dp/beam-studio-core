@@ -103,7 +103,28 @@ jest.mock('app/contexts/CanvasContext', () => ({
 }));
 
 const mockCheckOldFirmware = jest.fn();
-jest.mock('helpers/device/checkOldFirmware', () => (...args) => mockCheckOldFirmware(...args));
+jest.mock(
+  'helpers/device/checkOldFirmware',
+  () =>
+    (...args) =>
+      mockCheckOldFirmware(...args)
+);
+
+const mockCheckDeviceStatus = jest.fn();
+jest.mock(
+  'helpers/check-device-status',
+  () =>
+    (...args) =>
+      mockCheckDeviceStatus(...args)
+);
+
+const mockGetDevice = jest.fn();
+jest.mock(
+  'helpers/device/get-device',
+  () =>
+    (...args) =>
+      mockGetDevice(...args)
+);
 
 describe('test GoButton', () => {
   test('should render correctly', () => {
@@ -114,12 +135,7 @@ describe('test GoButton', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any}
       >
-        <GoButton
-          hasText={false}
-          hasDiscoverdMachine={false}
-          hasDevice
-          showDeviceList={jest.fn()}
-        />
+        <GoButton hasText={false} hasDiscoverdMachine={false} />
       </CanvasContext.Provider>
     );
 

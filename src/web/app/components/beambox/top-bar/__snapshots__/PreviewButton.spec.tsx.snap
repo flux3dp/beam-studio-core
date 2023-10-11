@@ -3,15 +3,12 @@
 exports[`should render correctly when not previewing 1`] = `
 <div>
   <div
-    class="preview-button-container"
+    class="container"
   >
     <div
-      class="img-container"
+      class="button"
     >
-      <img
-        draggable="false"
-        src="img/top-bar/icon-camera.svg"
-      />
+      <svgr-url />
     </div>
   </div>
 </div>
@@ -22,20 +19,17 @@ exports[`should render correctly when path previewing 1`] = `<div />`;
 exports[`should render correctly when previewing and not support borderless 1`] = `
 <div>
   <div
-    class="preview-button-container previewing"
+    class="container previewing"
   >
     <div
-      class="img-container"
+      class="button"
     >
-      <img
-        draggable="false"
-        src="img/top-bar/icon-camera.svg"
-      />
-    </div>
-    <div
-      class="title"
-    >
-      PREVIEW
+      <svgr-url />
+      <div
+        class="title"
+      >
+        PREVIEW
+      </div>
     </div>
   </div>
 </div>
@@ -44,20 +38,17 @@ exports[`should render correctly when previewing and not support borderless 1`] 
 exports[`should render correctly when previewing and support borderless 1`] = `
 <div>
   <div
-    class="preview-button-container previewing"
+    class="container previewing"
   >
     <div
-      class="img-container"
+      class="button"
     >
-      <img
-        draggable="false"
-        src="img/top-bar/icon-camera.svg"
-      />
-    </div>
-    <div
-      class="title"
-    >
-      PREVIEW (OPEN BOTTOM)
+      <svgr-url />
+      <div
+        class="title"
+      >
+        PREVIEW (OPEN BOTTOM)
+      </div>
     </div>
   </div>
 </div>

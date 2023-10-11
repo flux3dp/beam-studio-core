@@ -1,0 +1,66 @@
+@use 'styles/variables' as variables;
+@use './_mixins.scss' as mixins;
+
+.container {
+  position: absolute;
+  min-width: 40px;
+  max-width: 40px;
+  height: variables.$topBarHeight;
+  margin-left: 80px;
+  transition: all 0.1s ease-in-out;
+
+  .button {
+    @include mixins.button();
+    width: 100%;
+    height: variables.$topBarHeight;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    gap: 10px;
+  }
+
+  .title {
+    width: calc(100% - 20px);
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0.64;
+  }
+
+  &.previewing {
+    min-width: 140px;
+    max-width: 260px;
+    background-color: #eeeeee;
+    color: #000000;
+    .button {
+      opacity: 0.7;
+      pointer-events: none;
+      .title {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+:global(.white) .container {
+  position: relative;
+  float: left;
+  margin-left: 0px;
+  overflow: hidden;
+  min-width: 50px;
+  max-width: 50px;
+
+  .button {
+    padding: 0 13px;
+  }
+
+  &.previewing {
+    background-color: unset;
+    min-width: 150px;
+    max-width: 270px;
+    border: 3px solid #595959;
+    border-width: 0 0 3px 0;
+  }
+}

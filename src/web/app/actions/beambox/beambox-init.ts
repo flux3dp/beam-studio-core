@@ -11,11 +11,11 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import checkQuestionnaire from 'helpers/check-questionnaire';
 import cloud from 'helpers/api/cloud';
 import Constant from 'app/actions/beambox/constant';
-import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'implementations/fontHelper';
+import getDevice from 'helpers/device/get-device';
 import InterProcess from 'helpers/api/inter-process';
 import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
@@ -268,7 +268,7 @@ class BeamboxInit {
       });
     });
 
-    const device = await Dialog.selectDevice();
+    const { device } = await getDevice();
     if (!device) {
       await this.onCameraCalibrationSkipped();
       return;
@@ -279,15 +279,10 @@ class BeamboxInit {
         await this.onCameraCalibrationSkipped();
         return;
       }
-      const selectRes = await DeviceMaster.select(device);
-      if (selectRes.success) {
-        const caliRes = await showCameraCalibration(device, false);
-        if (!caliRes) {
-          await this.onCameraCalibrationSkipped();
-        }
-        return;
+      const caliRes = await showCameraCalibration(device, false);
+      if (!caliRes) {
+        await this.onCameraCalibrationSkipped();
       }
-      await askForRetry();
     } catch (e) {
       console.error(e);
       await askForRetry();

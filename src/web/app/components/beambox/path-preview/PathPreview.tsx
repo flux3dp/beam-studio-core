@@ -16,6 +16,7 @@ import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import exportFuncs from 'app/actions/beambox/export-funcs';
+import getDevice from 'helpers/device/get-device';
 import i18n from 'helpers/i18n';
 import Pointable from 'app/components/beambox/path-preview/Pointable';
 import progressCaller from 'app/actions/progress-caller';
@@ -1072,7 +1073,7 @@ class PathPreview extends React.Component<Props, State> {
 
   private handleStartHere = async (): Promise<void> => {
     const { workspace } = this.state;
-    const device = await dialogCaller.selectDevice();
+    const { device } = await getDevice();
     if (!device) {
       return;
     }
@@ -1311,9 +1312,9 @@ class PathPreview extends React.Component<Props, State> {
                   modifiedGcodeList = modifiedGcodeList.concat(fastGradientGcodeList.slice(fixedIndex + 1));
 
                   const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
-                  const status = await deviceMaster.select(device);
-                  if (status && status.success) {
-                    const res = await checkDeviceStatus(device);
+                  let res = await deviceMaster.getReport();
+                  if (res) {
+                    res = await checkDeviceStatus(device);
                     if (res) {
                       exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
                     }
@@ -1368,9 +1369,9 @@ class PathPreview extends React.Component<Props, State> {
 
           modifiedGcodeList = preparation.concat(fastGradientGcodeList.slice(target));
           const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
-          const status = await deviceMaster.select(device);
-          if (status && status.success) {
-            const res = await checkDeviceStatus(device);
+          let res = await deviceMaster.getReport();
+          if (res) {
+            res = await checkDeviceStatus(device);
             if (res) {
               exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
             }
@@ -1393,9 +1394,9 @@ class PathPreview extends React.Component<Props, State> {
         modifiedGcodeList = preparation.concat(gcodeList.slice(target));
 
         const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(modifiedGcodeList.join('\n'), thumbnail);
-        const status = await deviceMaster.select(device);
-        if (status && status.success) {
-          const res = await checkDeviceStatus(device);
+        let res = await deviceMaster.getReport();
+        if (res) {
+          res = await checkDeviceStatus(device);
           if (res) {
             exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
           }

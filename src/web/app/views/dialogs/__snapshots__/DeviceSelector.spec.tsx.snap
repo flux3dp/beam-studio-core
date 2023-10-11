@@ -15,10 +15,11 @@ exports[`should render correctly no devices 1`] = `
         tabindex="-1"
       >
         <div
+          aria-labelledby="test-id"
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 385px;"
+          style="width: 415px;"
         >
           <div
             aria-hidden="true"
@@ -29,6 +30,16 @@ exports[`should render correctly no devices 1`] = `
             class="ant-modal-content"
           >
             <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                Select Machine
+              </div>
+            </div>
+            <div
               class="ant-modal-body"
             >
               <div
@@ -36,8 +47,30 @@ exports[`should render correctly no devices 1`] = `
               >
                 <ul>
                   <div
-                    class="spinner-roller spinner-roller-reverse"
-                  />
+                    aria-busy="true"
+                    aria-live="polite"
+                    class="ant-spin ant-spin-spinning spinner css-dev-only-do-not-override-hash"
+                  >
+                    <span
+                      aria-label="loading"
+                      class="anticon anticon-loading anticon-spin icon ant-spin-dot"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="loading"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
+                        />
+                      </svg>
+                    </span>
+                  </div>
                 </ul>
               </div>
             </div>
@@ -69,10 +102,11 @@ exports[`should render correctly no devices 2`] = `
         tabindex="-1"
       >
         <div
+          aria-labelledby="test-id"
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 385px;"
+          style="width: 415px;"
         >
           <div
             aria-hidden="true"
@@ -83,6 +117,16 @@ exports[`should render correctly no devices 2`] = `
             class="ant-modal-content"
           >
             <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                Select Machine
+              </div>
+            </div>
+            <div
               class="ant-modal-body"
             >
               <div
@@ -90,6 +134,7 @@ exports[`should render correctly no devices 2`] = `
               >
                 <ul>
                   <li
+                    class=""
                     data-testid="serial"
                   >
                     <label
@@ -98,23 +143,16 @@ exports[`should render correctly no devices 2`] = `
                       name
                     </label>
                     <label
-                      class="status"
+                      class="status grey"
                     >
                       Initiating
+                       
+                      
                     </label>
-                    <label
-                      class="progress"
-                    />
                     <label
                       class="connection-type"
                     >
-                      <div
-                        class="type"
-                      >
-                        <img
-                          src="img/icon_wifi.svg"
-                        />
-                      </div>
+                      <svgr-url />
                     </label>
                   </li>
                 </ul>

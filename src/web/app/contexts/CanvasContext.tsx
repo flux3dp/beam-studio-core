@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
+
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -6,6 +7,7 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IDeviceInfo } from 'interfaces/IDevice';
 import { IUser } from 'interfaces/IUser';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -38,11 +40,13 @@ interface CanvasContextType {
   setStartPreviewCallback: (callback: () => void | null) => void,
   setTopBarPreviewMode: (topBarPreviewMode: boolean) => void,
   shouldStartPreviewController: boolean,
-  showCameraPreviewDeviceList: () => void,
-  setShowCameraPreviewDeviceList: (callback: () => void | null) => void,
+  setupPreviewMode: () => void,
+  setSetupPreviewMode: (callback: () => void | null) => void,
   startPreviewCallback: () => void | null,
   togglePathPreview: () => void,
   updateCanvasContext: () => void,
+  selectedDevice: IDeviceInfo | null,
+  setSelectedDevice: (IDeviceInfo) => void,
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -62,11 +66,13 @@ const CanvasContext = createContext<CanvasContextType>({
   setStartPreviewCallback: () => {},
   setTopBarPreviewMode: () => {},
   shouldStartPreviewController: false,
-  showCameraPreviewDeviceList: () => {},
-  setShowCameraPreviewDeviceList: () => {},
+  setupPreviewMode: () => {},
+  setSetupPreviewMode: () => {},
   startPreviewCallback: () => {},
   togglePathPreview: () => {},
   updateCanvasContext: () => {},
+  selectedDevice: null,
+  setSelectedDevice: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -81,7 +87,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
   const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
-  const [showCameraPreviewDeviceList, setShowCameraPreviewDeviceList] = useState<() => void | null>(null);
+  const [setupPreviewMode, setSetupPreviewMode] = useState<() => void | null>(null);
+  const [selectedDevice, setSelectedDevice] = useState<IDeviceInfo | null>(null);
 
   const setTopBarPreviewMode = (preview: boolean): void => {
     const allLayers = document.querySelectorAll('g.layer');
@@ -133,6 +140,13 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }): void => {
       response.isPreviewMode = isPreviewing;
     });
+    topBarEventEmitter.on(
+      'GET_SELECTED_DEVICE',
+      (response: { selectedDevice: IDeviceInfo | null }): void => {
+        response.selectedDevice = selectedDevice;
+      }
+    );
+    topBarEventEmitter.on('SET_SELECTED_DEVICE', setSelectedDevice);
     window.addEventListener('update-user', (e: CustomEvent) => {
       setCurrentUser(e.detail.user);
     });
@@ -140,7 +154,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       fluxIDEventEmitter.removeListener('update-user', setCurrentUser);
       topBarEventEmitter.removeAllListeners();
     };
-  }, [setCurrentUser, isPreviewing]);
+  }, [setCurrentUser, isPreviewing, selectedDevice]);
 
   const updateCanvasContext = useCallback(() => {
     console.log('force update');
@@ -193,14 +207,16 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           setIsPathPreviewing,
           setIsPreviewing,
           setShouldStartPreviewController,
-          setShowCameraPreviewDeviceList,
+          setSetupPreviewMode,
           setStartPreviewCallback,
           setTopBarPreviewMode,
           shouldStartPreviewController,
-          showCameraPreviewDeviceList,
+          setupPreviewMode,
           startPreviewCallback,
           togglePathPreview,
           updateCanvasContext,
+          selectedDevice,
+          setSelectedDevice,
         }
       }
     >

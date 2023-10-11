@@ -38,6 +38,7 @@ export interface ILang {
       power_too_high: string,
       power_too_high_msg: string,
       power_too_high_confirm: string,
+      add_content_first: string,
     },
     hint: {
       polygon: string,
@@ -169,7 +170,8 @@ export interface ILang {
       show_layer_color: string;
       anti_aliasing: string;
       disassemble_use: string;
-    }
+    },
+    select_machine: string,
   },
   support: {
     no_webgl: string,
@@ -1361,6 +1363,10 @@ export interface ILang {
       flip: string,
       object_actions: string,
       end_alert: string,
+      select_machine: string,
+      frame: string,
+      path_preview: string,
+      start_work: string,
     },
     gesture: {
       pan: string,

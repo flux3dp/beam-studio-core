@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'POWER TOO HIGH',
       power_too_high_msg: 'Using lower laser power (under 70%) will extends laser tube\'s lifetime.\nEnter "NOTED" to proceed.',
       power_too_high_confirm: 'NOTED',
+      add_content_first: 'Please add objects first',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Anti-Aliasing',
       disassemble_use: 'Disassemble',
     },
+    select_machine: 'Select a machine',
   },
   support: {
     no_webgl: 'WebGL is not supported. Please use other devices.',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: 'Flip',
       object_actions: 'Object Actions',
       end_alert: 'Are you sure to end new UI introduction?',
+      select_machine: 'Select a machine',
+      frame: 'Running Frame',
+      path_preview: 'Path preview',
+      start_work: 'Start Work',
     },
     gesture: {
       pan: 'Scroll the canvas with two fingers.',
