@@ -676,6 +676,17 @@ const lang: ILang = {
         custom_preset: '自訂',
         various_preset: '多個參數',
         module: '模組',
+        slider: {
+          regular: '適中',
+          low: '低',
+          extremely_low: '極低',
+          high: '高',
+          extremely_high: '極高',
+          slow: '慢',
+          extremely_slow: '極慢',
+          fast: '快',
+          extremely_fast: '極快',
+        },
         dropdown: {
           parameters: '選擇參數',
           save: '新增目前參數',

@@ -77,14 +77,14 @@ const SpeedBlock = ({
     () =>
       simpleMode && module === LayerModule.PRINTER
         ? [
-            { value: 10, label: 'very slow' },
-            { value: 30, label: 'slow' },
-            { value: 60, label: 'medium' },
-            { value: 100, label: 'fast' },
-            { value: 150, label: 'very fast' },
+            { value: 10, label: t.slider.extremely_slow },
+            { value: 30, label: t.slider.slow },
+            { value: 60, label: t.slider.regular },
+            { value: 100, label: t.slider.fast },
+            { value: 150, label: t.slider.extremely_fast },
           ]
         : null,
-    [simpleMode, module]
+    [simpleMode, module, t.slider]
   );
 
   const content = (

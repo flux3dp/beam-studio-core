@@ -13,6 +13,13 @@ jest.mock('helpers/useI18n', () => () => ({
       laser_panel: {
         speed: 'speed',
         speed_contrain_warning: 'speed_contrain_warning',
+        slider: {
+          extremely_low: 'extremely_low',
+          low: 'low',
+          regular: 'regular',
+          high: 'high',
+          extremely_high: 'extremely_high',
+        },
       },
     },
   },

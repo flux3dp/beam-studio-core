@@ -673,6 +673,17 @@ export interface ILang {
         custom_preset: string,
         various_preset: string,
         module: string;
+        slider: {
+          regular: string;
+          low: string;
+          extremely_low: string;
+          high: string;
+          extremely_high: string;
+          slow: string;
+          extremely_slow: string;
+          fast: string;
+          extremely_fast: string;
+        };
         dropdown: {
           parameters: string,
           save: string,

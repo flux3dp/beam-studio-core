@@ -44,7 +44,7 @@ exports[`test InkBlock should render correctly 1`] = `
       </p>
       <p>
         options: 
-        [{"value":1,"label":"super light"},{"value":2,"label":"light"},{"value":3,"label":"medium"},{"value":4,"label":"i"},{"value":5,"label":"don't"},{"value":6,"label":"know"}]
+        [{"value":1,"label":"extremely_low"},{"value":2,"label":"low"},{"value":3,"label":"regular"},{"value":4,"label":"high"},{"value":5,"label":"extremely_high"}]
       </p>
       <button
         type="button"

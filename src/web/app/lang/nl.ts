@@ -676,6 +676,17 @@ const lang: ILang = {
         custom_preset: 'Aangepast',
         various_preset: 'Verschillende voorinstellingen',
         module: 'Module',
+        slider: {
+          regular: 'Regular',
+          low: 'Low',
+          extremely_low: 'Extremely Low',
+          high: 'High',
+          extremely_high: 'Extremely High',
+          slow: 'Slow',
+          extremely_slow: 'Extremely Slow',
+          fast: 'Fast',
+          extremely_fast: 'Extremely Fast',
+        },
         dropdown: {
           parameters: 'Voorinstellingen',
           save: 'Huidige parameters toevoegen',
