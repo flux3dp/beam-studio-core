@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { ConfigProvider, Slider } from 'antd';
+import { ConfigProvider, Slider, TooltipProps } from 'antd';
 
 import styles from './ConfigSlider.module.scss';
 
@@ -67,7 +67,7 @@ const ConfigSlider = ({
   const handleChange = (val: number) => {
     setDisplayValue(val);
   };
-
+  const maxValue = sliderOptions ? sliderOptions.length - 1 : max;
   return (
     <div className={classNames(styles.container, { [styles.limit]: speedLimit })}>
       <ConfigProvider
@@ -99,8 +99,10 @@ const ConfigSlider = ({
           onChange={handleChange}
           tooltip={{
             formatter: (val: number) => (sliderOptions ? optionLabels[val] : val),
-            placement: 'topRight',
-          }}
+            // hack because antd tooltip of slider won't autoslide
+            placement: displayValue === maxValue ? 'topLeft' : 'top',
+            arrow: { pointAtCenter: true },
+          } as TooltipProps as any}
         />
       </ConfigProvider>
     </div>
