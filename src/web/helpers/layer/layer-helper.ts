@@ -7,6 +7,7 @@ import i18n from 'helpers/i18n';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
@@ -394,7 +395,7 @@ export const moveToOtherLayer = (
 ): void => {
   const moveToLayer = (ok) => {
     if (!ok) return;
-    svgCanvas.moveSelectedToLayer(destLayer);
+    moveSelectedToLayer(destLayer);
     svgCanvas.getCurrentDrawing().setCurrentLayer(destLayer);
     LayerPanelController.setSelectedLayers([destLayer]);
     callback?.();
