@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Geben Sie bitte einen neuen Namen für die Ebene ein',
           layerHasThatName: 'Eine Ebene hat bereits diesen Namen',
           QmoveElemsToLayer: 'Verschiebe ausgewählte Objekte in die Ebene \'%s\'?',
+          moveElemFromPrintingLayerTitle: 'Ausgewählte Elemente nach %s verschieben und Druckelemente in ein Lasermodul konvertieren?',
+          moveElemFromPrintingLayerMsg: 'Bitte beachten Sie, dass bei Abschluss dieses Verfahrens die Farbeinstellungen des Druckobjekts entfernt werden.',
         },
         layers: {
           layer: 'Ebene',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: '20W Diodenlaser',
     laser_2w_infrared: '2W Infrarotlaser',
     printing: 'Drucken',
+    notification: {
+      convertFromPrintingModuleTitle: 'Möchten Sie das Druckmodul in das Lasermodul umwandeln?',
+      convertFromPrintingModuleMsg: 'Bitte beachten Sie, dass bei Abschluss dieses Verfahrens die Farbeinstellungen der Druckebenen entfernt und gemäß der aktuellen Ebene festgelegt werden.',
+    },
   },
 };
 

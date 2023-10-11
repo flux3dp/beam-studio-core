@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: '새 레이어 이름을 입력하세요.',
           layerHasThatName: '해당 이름의 레이어가 이미 존재합니다.',
           QmoveElemsToLayer: '선택한 요소를 \'%s\' 레이어로 이동하시겠습니까?',
+          moveElemFromPrintingLayerTitle: '선택한 요소를 %s로 이동하고 인쇄 요소를 레이저 모듈로 변환하시겠습니까?',
+          moveElemFromPrintingLayerMsg: '이 절차를 완료하면 인쇄 오브젝트의 색상 설정이 제거됩니다.',
         },
         layers: {
           layer: '레이어',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: '20W 다이오드 레이저',
     laser_2w_infrared: '2W 적외선 레이저',
     printing: '인쇄',
+    notification: {
+      convertFromPrintingModuleTitle: '인쇄 모듈을 레이저 모듈로 변환하시겠습니까?',
+      convertFromPrintingModuleMsg: '이 절차를 완료하면 인쇄 레이어의 색상 설정이 제거되어 현재 레이어에 따라 설정됩니다.',
+    },
   },
 };
 

@@ -1,6 +1,8 @@
 import React, { memo, useContext, useEffect } from 'react';
 import { Select } from 'antd';
 
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -49,7 +51,20 @@ const ModuleBlock = (): JSX.Element => {
 
   if (!modelsWithModules.includes(beamboxPreference.read('workarea'))) return null;
 
-  const handleChange = (val: number) => {
+  const handleChange = async (val: number) => {
+    if (value === LayerModule.PRINTER && val !== LayerModule.PRINTER) {
+      const res = await new Promise((resolve) => {
+        alertCaller.popUp({
+          id: 'switch-to-printer-module',
+          caption: lang.layer_module.notification.convertFromPrintingModuleTitle,
+          message: lang.layer_module.notification.convertFromPrintingModuleMsg,
+          buttonType: alertConstants.CONFIRM_CANCEL,
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false),
+        });
+      });
+      if (!res) return;
+    }
     const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.module, val);

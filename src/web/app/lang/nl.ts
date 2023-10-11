@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Voer de nieuwe laagnaam in',
           layerHasThatName: 'Laag heeft die naam al',
           QmoveElemsToLayer: 'Geselecteerde elementen verplaatsen naar laag \'%s\'?',
+          moveElemFromPrintingLayerTitle: 'Geselecteerde elementen verplaatsen naar %s en afdrukelementen converteren naar een lasermodule?',
+          moveElemFromPrintingLayerMsg: 'Let op dat als je deze procedure voltooit, de kleurinstellingen van het afdrukobject worden verwijderd.',
         },
         layers: {
           layer: 'Laag',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: '20W Diode Laser',
     laser_2w_infrared: '2W Infrarood Laser',
     printing: 'Printen',
+    notification: {
+      convertFromPrintingModuleTitle: 'Wil je het Afdrukmodule omzetten naar het Lasermodule?',
+      convertFromPrintingModuleMsg: 'Let op dat als je deze procedure voltooit, de kleurinstellingen van de afdruklagen worden verwijderd en ingesteld op basis van de huidige laag.',
+    },
   },
 };
 

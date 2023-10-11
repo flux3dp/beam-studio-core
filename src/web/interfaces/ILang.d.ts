@@ -610,6 +610,8 @@ export interface ILang {
           enterNewLayerName: string,
           layerHasThatName: string,
           QmoveElemsToLayer: string,
+          moveElemFromPrintingLayerTitle: string;
+          moveElemFromPrintingLayerMsg: string;
         },
         layers: {
           layer: string,
@@ -1435,5 +1437,9 @@ export interface ILang {
     laser_20w_diode: string;
     laser_2w_infrared: string;
     printing: string;
+    notification: {
+      convertFromPrintingModuleTitle: string;
+      convertFromPrintingModuleMsg: string;
+    };
   },
 }

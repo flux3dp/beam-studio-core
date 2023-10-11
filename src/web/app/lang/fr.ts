@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Veuillez entrer le nouveau nom de la couche',
           layerHasThatName: 'Le calque porte déjà ce nom',
           QmoveElemsToLayer: 'Déplacer les éléments sélectionnés vers la couche \'%s\' ?',
+          moveElemFromPrintingLayerTitle: 'Déplacer les éléments sélectionnés vers %s et convertir les éléments d\'impression en module laser ?',
+          moveElemFromPrintingLayerMsg: 'Veuillez noter que si vous terminez cette procédure, les paramètres de couleur de l\'objet d\'impression seront supprimés.',
         },
         layers: {
           layer: 'Couche',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: 'Laser à Diode 20W',
     laser_2w_infrared: 'Laser Infrarouge 2W',
     printing: 'Impression',
+    notification: {
+      convertFromPrintingModuleTitle: 'Souhaitez-vous convertir le module d\'impression en module laser?',
+      convertFromPrintingModuleMsg: 'TVeuillez noter que si vous terminez cette procédure, les paramètres de couleur des couches d\'impression seront supprimés et réglés en fonction de la couche actuelle.',
+    },
   },
 };
 

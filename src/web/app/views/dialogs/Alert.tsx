@@ -1,9 +1,11 @@
 /**
  * new Alert Modal using antd Modal
  */
+import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
 import { Button, Checkbox, Modal } from 'antd';
 
+import AlertIcons from 'app/icons/alerts/AlertIcons';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IAlert } from 'interfaces/IAlert';
 
@@ -14,35 +16,51 @@ const renderIcon = (url?: string): JSX.Element => {
   return <img className={styles.icon} src={url} />;
 };
 
-const renderMessage = (message: string | React.ReactNode): JSX.Element => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const messageIconMap: { [key: string]: (props: any) => JSX.Element } = {
+  notice: AlertIcons.Notice,
+};
+
+const renderMessage = (message: string | React.ReactNode, messageIcon = ''): JSX.Element => {
+  if (!message) return null;
+  let content = null;
+  const IconComponent = messageIconMap[messageIcon];
   if (typeof message === 'string') {
-    return (
+    content = (
       <div
-        className="message"
+        className={classNames(styles.message, { [styles['with-icon']]: !!IconComponent })}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: message }}
       />
     );
   }
-  return <div className="message">{message}</div>;
+  content = (
+    <div className={classNames(styles.message, { [styles['with-icon']]: !!IconComponent })}>
+      {message}
+    </div>
+  );
+  return (
+    <div className={styles['message-container']}>
+      {IconComponent && <IconComponent classNames={styles.icon} />}
+      {content}
+    </div>
+  );
 };
 
 interface Props {
-  data: IAlert
+  data: IAlert;
 }
 
 const Alert = ({ data }: Props): JSX.Element => {
   const { popFromStack } = useContext(AlertProgressContext);
-  const { caption, checkbox, message, buttons, iconUrl } = data;
+  const { caption, checkbox, message, messageIcon, buttons, iconUrl } = data;
 
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   const renderCheckbox = (): JSX.Element => {
     if (!checkbox) return null;
     const { text } = checkbox;
-    return (
-      <Checkbox onClick={() => setCheckboxChecked(!checkboxChecked)}>{text}</Checkbox>
-    );
+    return <Checkbox onClick={() => setCheckboxChecked(!checkboxChecked)}>{text}</Checkbox>;
   };
 
   const footer = buttons?.map((button, idx) => {
@@ -77,7 +95,7 @@ const Alert = ({ data }: Props): JSX.Element => {
       onCancel={popFromStack}
     >
       {renderIcon(iconUrl)}
-      {renderMessage(message)}
+      {renderMessage(message, messageIcon)}
       {renderCheckbox()}
     </Modal>
   );

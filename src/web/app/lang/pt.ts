@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Insira o nome da nova camada',
           layerHasThatName: 'Camada já tem esse nome',
           QmoveElemsToLayer: 'Mover elementos selecionados para a camada \'%s\'?',
+          moveElemFromPrintingLayerTitle: 'Mover elementos selecionados para %s e converter elementos de impressão em um módulo a laser?',
+          moveElemFromPrintingLayerMsg: 'Por favor, note que se completar este procedimento, as configurações de cor do objeto de impressão serão removidas.',
         },
         layers: {
           layer: 'Camada',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: 'Laser de Diodo 20W',
     laser_2w_infrared: 'Laser Infravermelho 2W',
     printing: 'Impressão',
+    notification: {
+      convertFromPrintingModuleTitle: 'Deseja converter o módulo de Impressão no módulo de Laser?',
+      convertFromPrintingModuleMsg: 'Por favor, note que se completar este procedimento, as configurações de cor das camadas de impressão serão removidas e ajustadas de acordo com a camada atual.',
+    },
   },
 };
 
