@@ -237,16 +237,6 @@ select {
 	background-color: rgba(0,0,0,.5);
 }
 
-#selLayerLabel {
-	white-space: nowrap;
-}
-
-#selLayerNames {
-	display: block;
-	width: auto;
-	padding: 10px 5px;
-}
-
 div.palette_item {
 	height: 15px;
 	width: 15px;
