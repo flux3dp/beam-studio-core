@@ -9,7 +9,13 @@ jest.mock('helpers/useI18n', () => () => ({
     right_panel: {
       laser_panel: {
         ink_saturation: 'ink_saturation',
-        low_power_warning: 'low_power_warning',
+        slider: {
+          extremely_low: 'extremely_low',
+          low: 'low',
+          regular: 'regular',
+          high: 'high',
+          extremely_high: 'extremely_high',
+        },
       },
     },
   },

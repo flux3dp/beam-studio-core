@@ -44,15 +44,14 @@ function InkBlock({
     () =>
       simpleMode
         ? [
-            { value: 1, label: 'super light' },
-            { value: 2, label: 'light' },
-            { value: 3, label: 'medium' },
-            { value: 4, label: 'i' },
-            { value: 5, label: "don't" },
-            { value: 6, label: 'know' },
+            { value: 1, label: t.slider.extremely_low },
+            { value: 2, label: t.slider.low },
+            { value: 3, label: t.slider.regular },
+            { value: 4, label: t.slider.high },
+            { value: 5, label: t.slider.extremely_high },
           ]
         : null,
-    [simpleMode]
+    [simpleMode, t.slider]
   );
 
   const content = (
