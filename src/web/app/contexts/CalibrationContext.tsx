@@ -1,8 +1,9 @@
 import React, { createContext, useState } from 'react';
 
-import storage from 'implementations/storage';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import DeviceMaster from 'helpers/device-master';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import storage from 'implementations/storage';
+import versionChecker from 'helpers/version-checker';
 import {
   CameraConfig, DEFAULT_CAMERA_OFFSET, STEP_ASK_READJUST, STEP_PUT_PAPER,
 } from 'app/constants/camera-calibration-constants';
@@ -77,13 +78,14 @@ export function CalibrationProvider({
   };
   const [imgBlobUrl, setImgBlobUrl] = useState('');
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0 });
-  const [originFanSpeed, setOriginFanSpeed] = useState(100);
+  const [originFanSpeed, setOriginFanSpeed] = useState(1000);
   const unit = storage.get('default-units') as string || 'mm';
 
   const wrappedOnClose = async (completed: boolean) => {
     onClose(completed);
     await PreviewModeController.end();
-    if (originFanSpeed) {
+    const tempCmdAvailable = versionChecker(device?.version).meetRequirement('TEMP_I2C_CMD');
+    if (originFanSpeed && !tempCmdAvailable) {
       await DeviceMaster.setFan(originFanSpeed);
     }
   };
