@@ -6,37 +6,44 @@ exports[`test ConfigSlider should work 1`] = `
     class="container"
   >
     <div>
-      Mock Antd Slider
+      Mock Antd ConfigProvider
       <p>
-        id: 
-        mock-id
+        theme: 
+        {"token":{"colorPrimaryBorder":"#cecece","colorPrimaryBorderHover":"#494949","colorPrimary":"#494949"},"components":{"Slider":{"handleColor":"#cecece","handleActiveColor":"#494949","dotActiveBorderColor":"#494949","trackBg":"transparent","trackBgDisabled":"transparent","trackHoverBg":"transparent"}}}
       </p>
-      <p>
-        min: 
-        0
-      </p>
-      <p>
-        max: 
-        100
-      </p>
-      <p>
-        step: 
-        1
-      </p>
-      <p>
-        value: 
-        10
-      </p>
-      <button
-        type="button"
-      >
-        onAfterChange
-      </button>
-      <button
-        type="button"
-      >
-        onChange
-      </button>
+      <div>
+        Mock Antd Slider
+        <p>
+          id: 
+          mock-id
+        </p>
+        <p>
+          min: 
+          0
+        </p>
+        <p>
+          max: 
+          100
+        </p>
+        <p>
+          step: 
+          1
+        </p>
+        <p>
+          value: 
+          10
+        </p>
+        <button
+          type="button"
+        >
+          onAfterChange
+        </button>
+        <button
+          type="button"
+        >
+          onChange
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -48,37 +55,44 @@ exports[`test ConfigSlider should work 2`] = `
     class="container limit"
   >
     <div>
-      Mock Antd Slider
+      Mock Antd ConfigProvider
       <p>
-        id: 
-        mock-id
+        theme: 
+        {"token":{"colorPrimaryBorder":"#cecece","colorPrimaryBorderHover":"#494949","colorPrimary":"#494949"},"components":{"Slider":{"handleColor":"#cecece","handleActiveColor":"#494949","dotActiveBorderColor":"#494949","trackBg":"transparent","trackBgDisabled":"transparent","trackHoverBg":"transparent"}}}
       </p>
-      <p>
-        min: 
-        0
-      </p>
-      <p>
-        max: 
-        100
-      </p>
-      <p>
-        step: 
-        1
-      </p>
-      <p>
-        value: 
-        7
-      </p>
-      <button
-        type="button"
-      >
-        onAfterChange
-      </button>
-      <button
-        type="button"
-      >
-        onChange
-      </button>
+      <div>
+        Mock Antd Slider
+        <p>
+          id: 
+          mock-id
+        </p>
+        <p>
+          min: 
+          0
+        </p>
+        <p>
+          max: 
+          100
+        </p>
+        <p>
+          step: 
+          1
+        </p>
+        <p>
+          value: 
+          7
+        </p>
+        <button
+          type="button"
+        >
+          onAfterChange
+        </button>
+        <button
+          type="button"
+        >
+          onChange
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -90,37 +104,44 @@ exports[`test ConfigSlider should work 3`] = `
     class="container limit"
   >
     <div>
-      Mock Antd Slider
+      Mock Antd ConfigProvider
       <p>
-        id: 
-        mock-id
+        theme: 
+        {"token":{"colorPrimaryBorder":"#cecece","colorPrimaryBorderHover":"#494949","colorPrimary":"#494949"},"components":{"Slider":{"handleColor":"#cecece","handleActiveColor":"#494949","dotActiveBorderColor":"#494949","trackBg":"transparent","trackBgDisabled":"transparent","trackHoverBg":"transparent"}}}
       </p>
-      <p>
-        min: 
-        0
-      </p>
-      <p>
-        max: 
-        100
-      </p>
-      <p>
-        step: 
-        1
-      </p>
-      <p>
-        value: 
-        88
-      </p>
-      <button
-        type="button"
-      >
-        onAfterChange
-      </button>
-      <button
-        type="button"
-      >
-        onChange
-      </button>
+      <div>
+        Mock Antd Slider
+        <p>
+          id: 
+          mock-id
+        </p>
+        <p>
+          min: 
+          0
+        </p>
+        <p>
+          max: 
+          100
+        </p>
+        <p>
+          step: 
+          1
+        </p>
+        <p>
+          value: 
+          88
+        </p>
+        <button
+          type="button"
+        >
+          onAfterChange
+        </button>
+        <button
+          type="button"
+        >
+          onChange
+        </button>
+      </div>
     </div>
   </div>
 </div>

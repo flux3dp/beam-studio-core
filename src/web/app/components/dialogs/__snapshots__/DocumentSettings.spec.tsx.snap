@@ -46,13 +46,14 @@ exports[`test DocumentSettings should render correctly 1`] = `
                     aria-hidden="true"
                     data-icon="close"
                     fill="currentColor"
+                    fill-rule="evenodd"
                     focusable="false"
                     height="1em"
                     viewBox="64 64 896 896"
                     width="1em"
                   >
                     <path
-                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                      d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
                     />
                   </svg>
                 </span>
@@ -122,11 +123,11 @@ exports[`test DocumentSettings should render correctly 1`] = `
                                 class="ant-select-selection-search"
                               >
                                 <input
-                                  aria-activedescendant="workarea_list_0"
                                   aria-autocomplete="list"
                                   aria-controls="workarea_list"
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
+                                  aria-label="Search"
                                   aria-owns="workarea_list"
                                   autocomplete="off"
                                   class="ant-select-selection-search-input"
@@ -182,100 +183,64 @@ exports[`test DocumentSettings should render correctly 1`] = `
                   Add-ons
                 </strong>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash"
+                  class="ant-row css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
-                    >
-                      <label
-                        class=""
-                        for="rotary_mode"
-                        title="Rotary"
-                      >
-                        Rotary
-                      </label>
-                    </div>
-                    <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-form-item css-dev-only-do-not-override-hash"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                       >
                         <div
-                          class="ant-form-item-control-input-content"
+                          class="ant-col ant-col-12 ant-form-item-label css-dev-only-do-not-override-hash"
+                        >
+                          <label
+                            class=""
+                            for="rotary_mode"
+                            title="Rotary"
+                          >
+                            Rotary
+                          </label>
+                        </div>
+                        <div
+                          class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
                         >
                           <div
-                            class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                            class="ant-form-item-control-input"
                           >
                             <div
-                              class="ant-select-selector"
+                              class="ant-form-item-control-input-content"
                             >
-                              <span
-                                class="ant-select-selection-search"
+                              <button
+                                aria-checked="false"
+                                class="ant-switch css-dev-only-do-not-override-hash"
+                                id="rotary_mode"
+                                role="switch"
+                                type="button"
                               >
-                                <input
-                                  aria-activedescendant="rotary_mode_list_0"
-                                  aria-autocomplete="list"
-                                  aria-controls="rotary_mode_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-owns="rotary_mode_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="rotary_mode"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
+                                <div
+                                  class="ant-switch-handle"
                                 />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="off"
-                              >
-                                off
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
+                                <span
+                                  class="ant-switch-inner"
                                 >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                  <span
+                                    class="ant-switch-inner-checked"
                                   />
-                                </svg>
-                              </span>
-                            </span>
+                                  <span
+                                    class="ant-switch-inner-unchecked"
+                                  />
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="ant-row css-dev-only-do-not-override-hash"
-                >
                   <div
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
@@ -464,6 +429,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
                 <span>
                   Cancel
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -472,6 +438,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
                 <span>
                   Save
                 </span>
+                
               </button>
             </div>
           </div>
@@ -533,13 +500,14 @@ exports[`test DocumentSettings should render correctly 2`] = `
                     aria-hidden="true"
                     data-icon="close"
                     fill="currentColor"
+                    fill-rule="evenodd"
                     focusable="false"
                     height="1em"
                     viewBox="64 64 896 896"
                     width="1em"
                   >
                     <path
-                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                      d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
                     />
                   </svg>
                 </span>
@@ -609,11 +577,11 @@ exports[`test DocumentSettings should render correctly 2`] = `
                                 class="ant-select-selection-search"
                               >
                                 <input
-                                  aria-activedescendant="workarea_list_0"
                                   aria-autocomplete="list"
                                   aria-controls="workarea_list"
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
+                                  aria-label="Search"
                                   aria-owns="workarea_list"
                                   autocomplete="off"
                                   class="ant-select-selection-search-input"
@@ -669,100 +637,64 @@ exports[`test DocumentSettings should render correctly 2`] = `
                   Add-ons
                 </strong>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash"
+                  class="ant-row css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
-                    >
-                      <label
-                        class=""
-                        for="rotary_mode"
-                        title="Rotary"
-                      >
-                        Rotary
-                      </label>
-                    </div>
-                    <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-form-item css-dev-only-do-not-override-hash"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                       >
                         <div
-                          class="ant-form-item-control-input-content"
+                          class="ant-col ant-col-12 ant-form-item-label css-dev-only-do-not-override-hash"
+                        >
+                          <label
+                            class=""
+                            for="rotary_mode"
+                            title="Rotary"
+                          >
+                            Rotary
+                          </label>
+                        </div>
+                        <div
+                          class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
                         >
                           <div
-                            class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                            class="ant-form-item-control-input"
                           >
                             <div
-                              class="ant-select-selector"
+                              class="ant-form-item-control-input-content"
                             >
-                              <span
-                                class="ant-select-selection-search"
+                              <button
+                                aria-checked="false"
+                                class="ant-switch css-dev-only-do-not-override-hash"
+                                id="rotary_mode"
+                                role="switch"
+                                type="button"
                               >
-                                <input
-                                  aria-activedescendant="rotary_mode_list_0"
-                                  aria-autocomplete="list"
-                                  aria-controls="rotary_mode_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-owns="rotary_mode_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="rotary_mode"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
+                                <div
+                                  class="ant-switch-handle"
                                 />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="off"
-                              >
-                                off
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
+                                <span
+                                  class="ant-switch-inner"
                                 >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                  <span
+                                    class="ant-switch-inner-checked"
                                   />
-                                </svg>
-                              </span>
-                            </span>
+                                  <span
+                                    class="ant-switch-inner-unchecked"
+                                  />
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="ant-row css-dev-only-do-not-override-hash"
-                >
                   <div
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
@@ -951,6 +883,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
                 <span>
                   Cancel
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -959,6 +892,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
                 <span>
                   Save
                 </span>
+                
               </button>
             </div>
           </div>
@@ -1020,13 +954,14 @@ exports[`test DocumentSettings should render correctly 3`] = `
                     aria-hidden="true"
                     data-icon="close"
                     fill="currentColor"
+                    fill-rule="evenodd"
                     focusable="false"
                     height="1em"
                     viewBox="64 64 896 896"
                     width="1em"
                   >
                     <path
-                      d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                      d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
                     />
                   </svg>
                 </span>
@@ -1096,11 +1031,11 @@ exports[`test DocumentSettings should render correctly 3`] = `
                                 class="ant-select-selection-search"
                               >
                                 <input
-                                  aria-activedescendant="workarea_list_0"
                                   aria-autocomplete="list"
                                   aria-controls="workarea_list"
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
+                                  aria-label="Search"
                                   aria-owns="workarea_list"
                                   autocomplete="off"
                                   class="ant-select-selection-search-input"
@@ -1156,100 +1091,65 @@ exports[`test DocumentSettings should render correctly 3`] = `
                   Add-ons
                 </strong>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash ant-form-item-has-success"
+                  class="ant-row css-dev-only-do-not-override-hash"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
-                    >
-                      <label
-                        class=""
-                        for="rotary_mode"
-                        title="Rotary"
-                      >
-                        Rotary
-                      </label>
-                    </div>
-                    <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-form-item css-dev-only-do-not-override-hash ant-form-item-has-success"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
                       >
                         <div
-                          class="ant-form-item-control-input-content"
+                          class="ant-col ant-col-12 ant-form-item-label css-dev-only-do-not-override-hash"
+                        >
+                          <label
+                            class=""
+                            for="rotary_mode"
+                            title="Rotary"
+                          >
+                            Rotary
+                          </label>
+                        </div>
+                        <div
+                          class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
                         >
                           <div
-                            class="ant-select ant-select-in-form-item ant-select-status-success css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                            class="ant-form-item-control-input"
                           >
                             <div
-                              class="ant-select-selector"
+                              class="ant-form-item-control-input-content"
                             >
-                              <span
-                                class="ant-select-selection-search"
+                              <button
+                                aria-checked="true"
+                                class="ant-switch css-dev-only-do-not-override-hash ant-switch-checked"
+                                id="rotary_mode"
+                                role="switch"
+                                type="button"
+                                value="true"
                               >
-                                <input
-                                  aria-activedescendant="rotary_mode_list_0"
-                                  aria-autocomplete="list"
-                                  aria-controls="rotary_mode_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-owns="rotary_mode_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="rotary_mode"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
+                                <div
+                                  class="ant-switch-handle"
                                 />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="on"
-                              >
-                                on
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
+                                <span
+                                  class="ant-switch-inner"
                                 >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                  <span
+                                    class="ant-switch-inner-checked"
                                   />
-                                </svg>
-                              </span>
-                            </span>
+                                  <span
+                                    class="ant-switch-inner-unchecked"
+                                  />
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="ant-row css-dev-only-do-not-override-hash"
-                >
                   <div
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
@@ -1438,6 +1338,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <span>
                   Cancel
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -1446,6 +1347,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <span>
                   Save
                 </span>
+                
               </button>
             </div>
           </div>
@@ -1461,7 +1363,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; min-width: 0; width: 0px; pointer-events: none;"
+      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -1586,106 +1488,6 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="rc-virtual-list-scrollbar"
-            style="width: 8px; top: 0px; bottom: 0px; right: 0px; position: absolute; display: none;"
-          >
-            <div
-              class="rc-virtual-list-scrollbar-thumb"
-              style="width: 100%; height: 128px; top: 0px; left: 0px; position: absolute; background: rgba(0, 0, 0, 0.5); border-radius: 99px; cursor: pointer; user-select: none;"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <div
-      class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; min-width: 0; width: 0px; pointer-events: none;"
-    >
-      <div>
-        <div
-          id="rotary_mode_list"
-          role="listbox"
-          style="height: 0px; width: 0px; overflow: hidden;"
-        >
-          <div
-            aria-label="off"
-            aria-selected="false"
-            id="rotary_mode_list_0"
-            role="option"
-          >
-            0
-          </div>
-          <div
-            aria-label="on"
-            aria-selected="true"
-            id="rotary_mode_list_1"
-            role="option"
-          >
-            1
-          </div>
-        </div>
-        <div
-          class="rc-virtual-list"
-          style="position: relative;"
-        >
-          <div
-            class="rc-virtual-list-holder"
-            style="max-height: 256px; overflow-y: hidden;"
-          >
-            <div>
-              <div
-                class="rc-virtual-list-holder-inner"
-                style="display: flex; flex-direction: column;"
-              >
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option ant-select-item-option-active"
-                  title="off"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    off
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
-                <div
-                  aria-selected="true"
-                  class="ant-select-item ant-select-item-option ant-select-item-option-selected"
-                  title="on"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    on
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="rc-virtual-list-scrollbar"
-            style="width: 8px; top: 0px; bottom: 0px; right: 0px; position: absolute; display: none;"
-          >
-            <div
-              class="rc-virtual-list-scrollbar-thumb"
-              style="width: 100%; height: 128px; top: 0px; left: 0px; position: absolute; background: rgba(0, 0, 0, 0.5); border-radius: 99px; cursor: pointer; user-select: none;"
-            />
           </div>
         </div>
       </div>
