@@ -1,3 +1,5 @@
+import { sprintf } from 'sprintf-js';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import history from 'app/svgedit/history';
@@ -145,7 +147,7 @@ export const cloneLayer = (
     name?: string; // if provided, use this name instead of auto generated name
     configOnly?: boolean; // if true, only clone layer config
   }
-): { name: string; cmd: ICommand, elem: SVGGElement } | null => {
+): { name: string; cmd: ICommand; elem: SVGGElement } | null => {
   const layer = getLayerElementByName(layerName);
   if (!layer) return null;
   const { isSub = false, name: clonedLayerName, configOnly = false } = opts;
@@ -400,12 +402,24 @@ export const moveToOtherLayer = (
     LayerPanelController.setSelectedLayers([destLayer]);
     callback?.();
   };
-  if (showAlert) {
+  const selectedElements = svgCanvas.getSelectedElems();
+  const origLayer = getObjectLayer(selectedElements[0])?.elem;
+  const isFullColor = origLayer?.getAttribute('data-fullcolor') === '1';
+  const isDestFullColor = getLayerByName(destLayer)?.getAttribute('data-fullcolor') === '1';
+  const moveOutFromFullColorLayer = isFullColor && !isDestFullColor;
+  if (showAlert || moveOutFromFullColorLayer) {
     Alert.popUp({
       id: 'move layer',
-      buttonType: AlertConstants.YES_NO,
-      message: LANG.notification.QmoveElemsToLayer.replace('%s', destLayer),
+      buttonType: moveOutFromFullColorLayer ? AlertConstants.CONFIRM_CANCEL : AlertConstants.YES_NO,
+      caption: moveOutFromFullColorLayer
+        ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
+        : undefined,
+      message: moveOutFromFullColorLayer
+        ? LANG.notification.moveElemFromPrintingLayerMsg
+        : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
+      messageIcon: 'notice',
       onYes: moveToLayer,
+      onConfirm: () => moveToLayer(true),
     });
   } else {
     moveToLayer(true);

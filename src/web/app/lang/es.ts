@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Por favor, introduce el nuevo nombre de la capa',
           layerHasThatName: 'La capa ya tiene ese nombre',
           QmoveElemsToLayer: '¿Mover los elementos seleccionados a la capa \'%s\'?',
+          moveElemFromPrintingLayerTitle: '¿Mover los elementos seleccionados a %s y convertir los elementos de impresión en un módulo láser?',
+          moveElemFromPrintingLayerMsg: 'Ten en cuenta que si completas este procedimiento, la configuración de color del objeto de impresión será eliminada.',
         },
         layers: {
           layer: 'Capa',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: 'Láser de Diodo de 20W',
     laser_2w_infrared: 'Láser Infrarrojo de 2W',
     printing: 'Impresión',
+    notification: {
+      convertFromPrintingModuleTitle: '¿Deseas convertir el módulo de Impresión en el módulo de Láser?',
+      convertFromPrintingModuleMsg: 'Ten en cuenta que si completas este procedimiento, la configuración de color de las capas de impresión se eliminará y se establecerá de acuerdo con la capa actual.',
+    },
   },
 };
 

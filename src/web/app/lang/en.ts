@@ -613,6 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Please enter the new layer name',
           layerHasThatName: 'Layer already has that name',
           QmoveElemsToLayer: 'Move selected elements to layer \'%s\'?',
+          moveElemFromPrintingLayerTitle: 'Move selected elements to %s and convert printing elements into a laser module?',
+          moveElemFromPrintingLayerMsg: 'Please note that if you complete this procedure, the color settings of the Printing object will be removed.',
         },
         layers: {
           layer: 'Layer',
@@ -1438,6 +1440,10 @@ const lang: ILang = {
     laser_20w_diode: '20W Diode Laser',
     laser_2w_infrared: '2W Infrared Laser',
     printing: 'Printing',
+    notification: {
+      convertFromPrintingModuleTitle: 'Do you want to convert the Printing module into the Laser module?',
+      convertFromPrintingModuleMsg: 'Please note that if you complete this procedure, the color settings of the Printing layers will be removed and set according to the current layer.',
+    },
   },
 };
 
