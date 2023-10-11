@@ -36,6 +36,7 @@ const Backlash = (): JSX.Element => {
         hasMultiValue={backlash.hasMultiValue}
         decimal={2}
         onChange={handleChange}
+        unit='mm'
       />
       <ConfigSlider
         id="backlash"
