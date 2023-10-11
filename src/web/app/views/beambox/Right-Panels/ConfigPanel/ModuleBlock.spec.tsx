@@ -19,6 +19,10 @@ jest.mock('helpers/useI18n', () => () => ({
     printing: 'printing',
     laser_2w_infrared: 'laser_2w_infrared',
     laser_20w_diode: 'laser_20w_diode',
+    notification: {
+      convertFromPrintingModuleTitle: 'convertFromPrintingModuleTitle',
+      convertFromPrintingModuleMsg: 'convertFromPrintingModuleMsg',
+    },
   },
 }));
 

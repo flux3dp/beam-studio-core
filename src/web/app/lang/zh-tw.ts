@@ -613,7 +613,9 @@ const lang: ILang = {
           enterUniqueLayerName: '請輸入一個不重複的名稱',
           enterNewLayerName: '請輸入新圖層的名稱',
           layerHasThatName: '圖層本來就是這個名稱',
-          QmoveElemsToLayer: '要搬移所選取的物件到\'%s\'層嗎?',
+          QmoveElemsToLayer: '要搬移所選取的物件到\'%s\'嗎?',
+          moveElemFromPrintingLayerTitle: '要將選取的元素移至 %s 並將列印元素轉換為雷射模組嗎？',
+          moveElemFromPrintingLayerMsg: '請注意，若您完成此程序，列印物件的顏色設定將被移除。',
         },
         layers: {
           layer: '圖層',
@@ -1439,6 +1441,10 @@ const lang: ILang = {
     laser_20w_diode: '20W 二極體雷射',
     laser_2w_infrared: '2W 紅外線雷射',
     printing: '列印',
+    notification: {
+      convertFromPrintingModuleTitle: '您要將列印模組轉換為雷射模組嗎？',
+      convertFromPrintingModuleMsg: '請注意，若您完成此程序，列印圖層的顏色設定將被移除並根據目前圖層重新設定。',
+    },
   },
 };
 

@@ -614,6 +614,8 @@ const lang: ILang = {
           enterNewLayerName: '请输入新的图层名称',
           layerHasThatName: '图层已经采用了该名称',
           QmoveElemsToLayer: '您确定移动所选元素到图层\'%s\'吗?',
+          moveElemFromPrintingLayerTitle: '将选定元素移至 %s 并将印刷元素转换为激光模块吗？',
+          moveElemFromPrintingLayerMsg: '请注意，如果完成此过程，打印对象的颜色设置将被删除。',
         },
         layers: {
           layer: '图层',
@@ -1439,6 +1441,10 @@ const lang: ILang = {
     laser_20w_diode: '20W 二极管激光器',
     laser_2w_infrared: '2W 红外激光器',
     printing: '打印',
+    notification: {
+      convertFromPrintingModuleTitle: '您要将打印模块转换为激光模块吗？',
+      convertFromPrintingModuleMsg: '请注意，如果完成此过程，打印层的颜色设置将被删除，并根据当前层设置。',
+    },
   },
 };
 
