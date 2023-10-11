@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { Slider } from 'antd';
+import { ConfigProvider, Slider } from 'antd';
 
 import styles from './ConfigSlider.module.scss';
 
@@ -12,10 +12,19 @@ interface Props {
   max: number;
   step?: number;
   speedLimit?: boolean;
-  options?: { value: number, label?: string }[];
+  options?: { value: number; label?: string }[];
 }
 
-const ConfigSlider = ({ id, value, onChange, min, max, step = 1, speedLimit = false, options }: Props) => {
+const ConfigSlider = ({
+  id,
+  value,
+  onChange,
+  min,
+  max,
+  step = 1,
+  speedLimit = false,
+  options,
+}: Props) => {
   // If value is not in options, add the value to options
   const sliderOptions = useMemo(() => {
     if (!options) return undefined;
@@ -32,14 +41,23 @@ const ConfigSlider = ({ id, value, onChange, min, max, step = 1, speedLimit = fa
   }, [value, options]);
 
   const optionValues = useMemo(() => sliderOptions?.map((option) => option.value), [sliderOptions]);
-  const optionLabels = useMemo(() => sliderOptions?.map((option) => option.label ?? option.value), [sliderOptions]);
-  const getDisplayValueFromValue = useCallback((val: number) => {
-    if (optionValues) return optionValues.indexOf(val);
-    return val;
-  }, [optionValues]);
+  const optionLabels = useMemo(
+    () => sliderOptions?.map((option) => option.label ?? option.value),
+    [sliderOptions]
+  );
+  const getDisplayValueFromValue = useCallback(
+    (val: number) => {
+      if (optionValues) return optionValues.indexOf(val);
+      return val;
+    },
+    [optionValues]
+  );
 
   const [displayValue, setDisplayValue] = useState(getDisplayValueFromValue(value));
-  useEffect(() => setDisplayValue(getDisplayValueFromValue(value)), [value, getDisplayValueFromValue]);
+  useEffect(
+    () => setDisplayValue(getDisplayValueFromValue(value)),
+    [value, getDisplayValueFromValue]
+  );
 
   const handleAfterChange = (val: number) => {
     if (optionValues) onChange(optionValues[val]);
@@ -52,16 +70,39 @@ const ConfigSlider = ({ id, value, onChange, min, max, step = 1, speedLimit = fa
 
   return (
     <div className={classNames(styles.container, { [styles.limit]: speedLimit })}>
-      <Slider
-        id={id}
-        min={sliderOptions ? 0 : min}
-        max={sliderOptions ? sliderOptions.length - 1 : max}
-        step={sliderOptions ? 1: step}
-        value={displayValue}
-        onAfterChange={handleAfterChange}
-        onChange={handleChange}
-        tooltip={{ formatter: (val: number) => sliderOptions ? optionLabels[val] : val }}
-      />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimaryBorder: '#cecece',
+            colorPrimaryBorderHover: '#494949',
+            colorPrimary: '#494949',
+          },
+          components: {
+            Slider: {
+              handleColor: '#cecece',
+              handleActiveColor: '#494949',
+              dotActiveBorderColor: '#494949',
+              trackBg: 'transparent',
+              trackBgDisabled: 'transparent',
+              trackHoverBg: 'transparent',
+            },
+          },
+        }}
+      >
+        <Slider
+          id={id}
+          min={sliderOptions ? 0 : min}
+          max={sliderOptions ? sliderOptions.length - 1 : max}
+          step={sliderOptions ? 1 : step}
+          value={displayValue}
+          onAfterChange={handleAfterChange}
+          onChange={handleChange}
+          tooltip={{
+            formatter: (val: number) => (sliderOptions ? optionLabels[val] : val),
+            placement: 'topRight',
+          }}
+        />
+      </ConfigProvider>
     </div>
   );
 };
