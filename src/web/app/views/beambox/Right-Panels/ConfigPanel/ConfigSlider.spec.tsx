@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */ // for mock components props
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
@@ -7,6 +8,12 @@ const MOCK_CHANGE_VALUE = 88;
 const MOCK_AFTER_CHANGE_VALUE = 87;
 
 jest.mock('antd', () => ({
+  ConfigProvider: ({ theme, children }: any) => (
+    <div>
+      Mock Antd ConfigProvider<p>theme: {JSON.stringify(theme)}</p>
+      {children}
+    </div>
+  ),
   Slider: ({ id, min, max, step, value, onAfterChange, onChange }: any) => (
     <div>
       Mock Antd Slider
@@ -15,10 +22,14 @@ jest.mock('antd', () => ({
       <p>max: {max}</p>
       <p>step: {step}</p>
       <p>value: {value}</p>
-      <button type="button" onClick={() => onAfterChange(MOCK_AFTER_CHANGE_VALUE)}>onAfterChange</button>
-      <button type="button" onClick={() => onChange(MOCK_CHANGE_VALUE)}>onChange</button>
+      <button type="button" onClick={() => onAfterChange(MOCK_AFTER_CHANGE_VALUE)}>
+        onAfterChange
+      </button>
+      <button type="button" onClick={() => onChange(MOCK_CHANGE_VALUE)}>
+        onChange
+      </button>
     </div>
-  )
+  ),
 }));
 
 const mockPropOnChange = jest.fn();
