@@ -58,6 +58,7 @@ const ModuleBlock = (): JSX.Element => {
           id: 'switch-to-printer-module',
           caption: lang.layer_module.notification.convertFromPrintingModuleTitle,
           message: lang.layer_module.notification.convertFromPrintingModuleMsg,
+          messageIcon: 'notice',
           buttonType: alertConstants.CONFIRM_CANCEL,
           onConfirm: () => resolve(true),
           onCancel: () => resolve(false),
