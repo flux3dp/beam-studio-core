@@ -1,9 +1,12 @@
+import classNames from 'classnames';
 import React, { memo, useContext, useEffect, useState } from 'react';
 
 import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+import styles from './SelLayerBlock.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -71,11 +74,11 @@ function SelLayerBlock(): JSX.Element {
     );
   }
   return (
-    <div className="selLayerBlock controls">
-      <span id="selLayerLabel">{lang.move_elems_to}</span>
+    <div className={classNames('controls', styles.container)}>
+      <span className={styles.label}>{lang.move_elems_to}</span>
       <select
+        className={styles.select}
         value={displayValue}
-        id="selLayerNames"
         title="Move selected elements to a different layer"
         onChange={onChange}
         disabled={options.length < 2}
