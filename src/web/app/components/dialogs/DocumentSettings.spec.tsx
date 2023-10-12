@@ -103,9 +103,11 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
 }));
 
 const mockUnmount = jest.fn();
+const mockQuerySelectorAll = jest.fn();
 
 describe('test DocumentSettings', () => {
   test('should render correctly', async () => {
+    document.querySelectorAll = mockQuerySelectorAll;
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     expect(baseElement).toMatchSnapshot();
 
@@ -127,6 +129,7 @@ describe('test DocumentSettings', () => {
     expect(update).not.toBeCalled();
     expect(emitUpdateWorkArea).not.toBeCalled();
     expect(mockUnmount).not.toBeCalled();
+    mockQuerySelectorAll.mockReturnValueOnce([1]);
     fireEvent.click(getByText('Save'));
     expect(mockPopUp).toBeCalledTimes(1);
     expect(mockPopUp).toHaveBeenLastCalledWith({
@@ -139,6 +142,7 @@ describe('test DocumentSettings', () => {
     });
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);

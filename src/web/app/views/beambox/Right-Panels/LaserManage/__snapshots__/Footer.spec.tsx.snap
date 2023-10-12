@@ -9,12 +9,11 @@ exports[`test Footer should render correctly 1`] = `
       class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
     >
       <div
-        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-start"
+        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-start ant-space-gap-row-small ant-space-gap-col-small"
         style="width: 100%;"
       >
         <div
           class="ant-space-item"
-          style="margin-right: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-dangerous"
@@ -42,6 +41,7 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               delete
             </span>
+            
           </button>
         </div>
         <div
@@ -54,6 +54,7 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               reset
             </span>
+            
           </button>
         </div>
       </div>
@@ -62,11 +63,10 @@ exports[`test Footer should render correctly 1`] = `
       class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
     >
       <div
-        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
       >
         <div
           class="ant-space-item"
-          style="margin-right: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -75,6 +75,7 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               save_and_exit
             </span>
+            
           </button>
         </div>
         <div
@@ -87,6 +88,7 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               cancel
             </span>
+            
           </button>
         </div>
       </div>

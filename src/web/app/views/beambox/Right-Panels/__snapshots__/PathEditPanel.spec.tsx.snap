@@ -44,12 +44,11 @@ exports[`test PathEditPanel should render correctly 1`] = `
         role="separator"
       />
       <div
-        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center actions"
-        style="flex-wrap: wrap; margin-bottom: -8px;"
+        class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small actions"
+        style="flex-wrap: wrap;"
       >
         <div
           class="ant-space-item"
-          style="margin-right: 8px; padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
@@ -62,11 +61,11 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Sharp
             </span>
+            
           </button>
         </div>
         <div
           class="ant-space-item"
-          style="margin-right: 8px; padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
@@ -78,11 +77,11 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Round
             </span>
+            
           </button>
         </div>
         <div
           class="ant-space-item"
-          style="margin-right: 8px; padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
@@ -95,11 +94,11 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Connect
             </span>
+            
           </button>
         </div>
         <div
           class="ant-space-item"
-          style="padding-bottom: 8px;"
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
@@ -111,6 +110,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Disconnect
             </span>
+            
           </button>
         </div>
       </div>
@@ -195,12 +195,11 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
             role="separator"
           />
           <div
-            class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center actions"
-            style="flex-wrap: wrap; margin-bottom: -8px;"
+            class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small actions"
+            style="flex-wrap: wrap;"
           >
             <div
               class="ant-space-item"
-              style="margin-right: 8px; padding-bottom: 8px;"
             >
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
@@ -213,11 +212,11 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Sharp
                 </span>
+                
               </button>
             </div>
             <div
               class="ant-space-item"
-              style="margin-right: 8px; padding-bottom: 8px;"
             >
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
@@ -229,11 +228,11 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Round
                 </span>
+                
               </button>
             </div>
             <div
               class="ant-space-item"
-              style="margin-right: 8px; padding-bottom: 8px;"
             >
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
@@ -246,11 +245,11 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Connect
                 </span>
+                
               </button>
             </div>
             <div
               class="ant-space-item"
-              style="margin-right: 8px; padding-bottom: 8px;"
             >
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
@@ -262,11 +261,11 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Disconnect
                 </span>
+                
               </button>
             </div>
             <div
               class="ant-space-item"
-              style="padding-bottom: 8px;"
             >
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
@@ -347,6 +346,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Delete
                 </span>
+                
               </button>
             </div>
           </div>
