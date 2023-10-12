@@ -613,8 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Geben Sie bitte einen neuen Namen für die Ebene ein',
           layerHasThatName: 'Eine Ebene hat bereits diesen Namen',
           QmoveElemsToLayer: 'Verschiebe ausgewählte Objekte in die Ebene \'%s\'?',
-          moveElemFromPrintingLayerTitle: 'Ausgewählte Elemente nach %s verschieben und Druckelemente in ein Lasermodul konvertieren?',
-          moveElemFromPrintingLayerMsg: 'Bitte beachten Sie, dass bei Abschluss dieses Verfahrens die Farbeinstellungen des Druckobjekts entfernt werden.',
+          moveElemFromPrintingLayerTitle: 'Möchten Sie ausgewählte Objekte auf %s verschieben und gedruckte Objekte in Laserobjekte umwandeln?',
+          moveElemFromPrintingLayerMsg: 'Bitte beachten Sie, dass die Farbeinstellungen des gedruckten Objekts entfernt werden, sobald der aktuelle Vorgang abgeschlossen ist.',
         },
         layers: {
           layer: 'Ebene',
@@ -677,15 +677,15 @@ const lang: ILang = {
         various_preset: 'Mehrere Voreinstellungen',
         module: 'Modul',
         slider: {
-          regular: 'Regular',
-          low: 'Low',
-          extremely_low: 'Extremely Low',
-          high: 'High',
+          regular: 'Regelmäßig',
+          low: 'Niedrig',
+          extremely_low: 'Extrem niedrig',
+          high: 'Extrem hoch',
           extremely_high: 'Extremely High',
-          slow: 'Slow',
-          extremely_slow: 'Extremely Slow',
-          fast: 'Fast',
-          extremely_fast: 'Extremely Fast',
+          slow: 'Langsam',
+          extremely_slow: 'Extrem langsam',
+          fast: 'Schnell',
+          extremely_fast: 'Extrem schnell',
         },
         dropdown: {
           parameters: 'Voreinstellungen',
@@ -933,6 +933,9 @@ const lang: ILang = {
       disable: 'Deaktivieren',
       cancel: 'Stornieren',
       save: 'Speichern',
+      notification: {
+        changeFromPrintingWorkareaTitle: 'Möchten Sie die Druckschichten in Laserschichten umwandeln?',
+      },
     },
     object_panels: {
       wait_for_parsing_font: 'Schriftart analysieren ... Bitte warten.',
@@ -1452,8 +1455,8 @@ const lang: ILang = {
     laser_2w_infrared: '2W Infrarotlaser',
     printing: 'Drucken',
     notification: {
-      convertFromPrintingModuleTitle: 'Möchten Sie das Druckmodul in das Lasermodul umwandeln?',
-      convertFromPrintingModuleMsg: 'Bitte beachten Sie, dass bei Abschluss dieses Verfahrens die Farbeinstellungen der Druckebenen entfernt und gemäß der aktuellen Ebene festgelegt werden.',
+      convertFromPrintingModuleTitle: 'Möchten Sie das Druckmodul in ein Lasermodul umwandeln?',
+      convertFromPrintingModuleMsg: 'Beachten Sie, dass die Farbeinstellungen der gedruckten Ebene auf die aktuelle Ebene zurückgesetzt werden, nachdem der aktuelle Vorgang abgeschlossen ist.',
     },
   },
 };

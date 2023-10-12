@@ -194,6 +194,21 @@ export const getLayersConfig = (layerNames: string[], currentLayerName?: string)
   return data;
 };
 
+export const toggleFullColorAfterWorkareaChange = (): void => {
+  const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const layerNames = getAllLayerNames();
+  for (let i = 0; i < layerNames.length; i += 1) {
+    const layerName = layerNames[i];
+    const layer = getLayerByName(layerName);
+    // eslint-disable-next-line no-continue
+    if (!layer) continue;
+    if (!modelsWithModules.includes(workarea)) {
+      layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
+      toggleFullColorLayer(layer, { val: false });
+    }
+  }
+};
+
 /**
  * Update all layer configs values due to preset and custom config value change
  */
@@ -240,10 +255,6 @@ export const postPresetChange = (): void => {
     const maxSpeed = constant.dimension.getMaxSpeed(workarea);
     if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
       layer.setAttribute('data-speed', String(maxSpeed));
-    }
-    if (!modelsWithModules.includes(workarea)) {
-      layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
-      toggleFullColorLayer(layer, { val: false });
     }
   }
 };

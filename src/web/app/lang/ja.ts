@@ -613,8 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'レイヤの新しい名前を入力してください。',
           layerHasThatName: '既に同名が付いています。',
           QmoveElemsToLayer: '選択した要素をレイヤー \'%s\' に移動しますか？',
-          moveElemFromPrintingLayerTitle: '選択した要素を%sに移動し、印刷要素をレーザーモジュールに変換しますか？',
-          moveElemFromPrintingLayerMsg: 'この手続きを完了すると、印刷オブジェクトの色設定が削除されます。',
+          moveElemFromPrintingLayerTitle: '選択したオブジェクトをレイヤー2に移動し、印刷オブジェクトをレーザーオブジェクトに変換しますか？',
+          moveElemFromPrintingLayerMsg: '現在の操作が完了すると、印刷オブジェクトのカラー設定は削除されますのでご注意ください。',
         },
         layers: {
           layer: 'レイヤ',
@@ -653,7 +653,7 @@ const lang: ILang = {
         z_step: 'Z Step',
         diode: 'ダイオードレーザー',
         backlash: 'バックラッシュ',
-        ink_saturation: 'インクの飽和度',
+        ink_saturation: '彩度',
         print_multipass: 'マルチパス',
         times: '回',
         cut: 'カット',
@@ -677,15 +677,15 @@ const lang: ILang = {
         various_preset: '複数のプリセット',
         module: 'モジュール',
         slider: {
-          regular: 'Regular',
-          low: 'Low',
-          extremely_low: 'Extremely Low',
-          high: 'High',
-          extremely_high: 'Extremely High',
-          slow: 'Slow',
-          extremely_slow: 'Extremely Slow',
-          fast: 'Fast',
-          extremely_fast: 'Extremely Fast',
+          regular: '普通',
+          low: '低い',
+          extremely_low: '極めて低い',
+          high: '高い',
+          extremely_high: '極めて高い',
+          slow: '遅い',
+          extremely_slow: '極めて遅い',
+          fast: '速い',
+          extremely_fast: '極めて速い',
         },
         dropdown: {
           parameters: 'パラメーター…',
@@ -933,6 +933,9 @@ const lang: ILang = {
       disable: '無効',
       cancel: 'キャンセル',
       save: '保存する',
+      notification: {
+        changeFromPrintingWorkareaTitle: '印刷レイヤーをレーザーレイヤーに変換しますか？',
+      },
     },
     object_panels: {
       wait_for_parsing_font: 'フォントの解析中です… 少々お待ちください',
@@ -1453,7 +1456,7 @@ const lang: ILang = {
     printing: '印刷',
     notification: {
       convertFromPrintingModuleTitle: '印刷モジュールをレーザーモジュールに変換しますか？',
-      convertFromPrintingModuleMsg: 'この手続きを完了すると、印刷レイヤーの色設定が削除され、現在のレイヤーに合わせて設定されます。',
+      convertFromPrintingModuleMsg: '印刷レイヤーのカラー設定は、現在の操作が完了した後、現在のレイヤーと一致するようにリセットされることに注意してください。',
     },
   },
 };

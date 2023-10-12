@@ -11,6 +11,7 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 const LANG = i18n.lang;
 let svgCanvas;
@@ -32,6 +33,7 @@ const showResizeAlert = (device: IDeviceInfo): Promise<boolean> =>
         const height = Constant.dimension.getHeight(device.model as WorkAreaModel);
         svgCanvas.setResolution(width, height);
         svgEditor.resetView();
+        toggleFullColorAfterWorkareaChange();
         PreviewModeBackgroundDrawer.updateCanvasSize();
         diodeBoundaryDrawer.updateCanvasSize();
         beamboxStore.emitUpdateWorkArea();

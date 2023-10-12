@@ -77,6 +77,9 @@ jest.mock('helpers/system-helper', () => ({
   useIsMobile: () => useIsMobile(),
 }));
 
+const mockUseWorkarea = jest.fn();
+jest.mock('helpers/hooks/useWorkarea', () => () => mockUseWorkarea());
+
 const mockDrawing = {
   getLayerName: jest.fn(),
   getCurrentLayerName: jest.fn(),
@@ -94,6 +97,7 @@ const mockRenameLayer = jest.fn();
 describe('test LayerContextMenu', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    mockUseWorkarea.mockReturnValue('ado1');
   });
 
   it('should render correctly when multiselecting', () => {
@@ -115,6 +119,7 @@ describe('test LayerContextMenu', () => {
       </LayerPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
+    expect(mockUseWorkarea).toBeCalledTimes(1);
   });
 
   it('should render correctly when selecting last', () => {

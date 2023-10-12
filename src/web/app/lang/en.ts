@@ -613,8 +613,8 @@ const lang: ILang = {
           enterNewLayerName: 'Please enter the new layer name',
           layerHasThatName: 'Layer already has that name',
           QmoveElemsToLayer: 'Move selected elements to layer \'%s\'?',
-          moveElemFromPrintingLayerTitle: 'Move selected elements to %s and convert printing elements into a laser module?',
-          moveElemFromPrintingLayerMsg: 'Please note that if you complete this procedure, the color settings of the Printing object will be removed.',
+          moveElemFromPrintingLayerTitle: 'Do you want to move the selected object to %s and convert the printed object to a laser object?',
+          moveElemFromPrintingLayerMsg: 'Please be aware that the color settings of the printed object will be removed once the current operation is completed.',
         },
         layers: {
           layer: 'Layer',
@@ -654,7 +654,7 @@ const lang: ILang = {
         diode: 'Diode Laser',
         backlash: 'Backlash',
         ink_saturation: 'Saturation',
-        print_multipass: 'Multipass',
+        print_multipass: 'Multi-pass',
         times: 'times',
         cut: 'Cut',
         engrave: 'Engrave',
@@ -933,6 +933,9 @@ const lang: ILang = {
       disable: 'Disable',
       cancel: 'Cancel',
       save: 'Save',
+      notification: {
+        changeFromPrintingWorkareaTitle: 'Do you want to convert the Printing Layers into Laser Layers?',
+      },
     },
     object_panels: {
       wait_for_parsing_font: 'Parsing font... Please wait a second',
@@ -1452,8 +1455,8 @@ const lang: ILang = {
     laser_2w_infrared: '2W Infrared Laser',
     printing: 'Printing',
     notification: {
-      convertFromPrintingModuleTitle: 'Do you want to convert the Printing module into the Laser module?',
-      convertFromPrintingModuleMsg: 'Please note that if you complete this procedure, the color settings of the Printing layers will be removed and set according to the current layer.',
+      convertFromPrintingModuleTitle: 'Do you want to convert the Printing module into Laser module?',
+      convertFromPrintingModuleMsg: 'Please be aware that the color settings for the printed layer will be reset to match the current layer once the current operation is completed.',
     },
   },
 };

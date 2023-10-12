@@ -613,8 +613,8 @@ const lang: ILang = {
           enterNewLayerName: '请输入新的图层名称',
           layerHasThatName: '图层已经采用了该名称',
           QmoveElemsToLayer: '您确定移动所选元素到图层\'%s\'吗?',
-          moveElemFromPrintingLayerTitle: '将选定元素移至 %s 并将印刷元素转换为激光模块吗？',
-          moveElemFromPrintingLayerMsg: '请注意，如果完成此过程，打印对象的颜色设置将被删除。',
+          moveElemFromPrintingLayerTitle: '您要将选定的物件移至%s，并将列印物件转换为雷射物件吗？',
+          moveElemFromPrintingLayerMsg: '请注意，当前操作完成后，打印对象的颜色设置将被删除。',
         },
         layers: {
           layer: '图层',
@@ -653,8 +653,8 @@ const lang: ILang = {
         z_step: '每次递降',
         diode: '二极体雷射',
         backlash: '背隙调整',
-        ink_saturation: '墨水饱和度',
-        print_multipass: '多次打印',
+        ink_saturation: '墨水浓度',
+        print_multipass: '多重打印次数',
         times: '次',
         cut: '切割',
         engrave: '雕刻',
@@ -933,6 +933,9 @@ const lang: ILang = {
       disable: '关闭',
       cancel: '取消',
       save: '储存',
+      notification: {
+        changeFromPrintingWorkareaTitle: '您要将打印图层转换至雷射图层吗？',
+      },
     },
     object_panels: {
       wait_for_parsing_font: '解析字体中...',
@@ -1453,7 +1456,7 @@ const lang: ILang = {
     printing: '打印',
     notification: {
       convertFromPrintingModuleTitle: '您要将打印模块转换为激光模块吗？',
-      convertFromPrintingModuleMsg: '请注意，如果完成此过程，打印层的颜色设置将被删除，并根据当前层设置。',
+      convertFromPrintingModuleMsg: '请注意，完成当前操作后，打印图层的颜色设定将被重置以符合当前图层。',
     },
   },
 };
