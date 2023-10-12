@@ -47,9 +47,13 @@ exports[`test Alert should render correctly 1`] = `
                 src="https://www.flux3dp.com/icon.svg"
               />
               <div
-                class="message"
+                class="message-container"
               >
-                Yes or No
+                <div
+                  class="message"
+                >
+                  Yes or No
+                </div>
               </div>
               <label
                 class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"

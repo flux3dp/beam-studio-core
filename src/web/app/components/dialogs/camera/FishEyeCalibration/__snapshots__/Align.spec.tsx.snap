@@ -331,6 +331,7 @@ exports[`test Align scroll and next should work 1`] = `
                 <span>
                   back
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -339,6 +340,7 @@ exports[`test Align scroll and next should work 1`] = `
                 <span>
                   tTake Picture
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -347,6 +349,7 @@ exports[`test Align scroll and next should work 1`] = `
                 <span>
                   next
                 </span>
+                
               </button>
             </div>
           </div>
@@ -693,6 +696,7 @@ exports[`test Align should render correctly 1`] = `
                 <span>
                   back
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -701,6 +705,7 @@ exports[`test Align should render correctly 1`] = `
                 <span>
                   tTake Picture
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -709,6 +714,7 @@ exports[`test Align should render correctly 1`] = `
                 <span>
                   next
                 </span>
+                
               </button>
             </div>
           </div>

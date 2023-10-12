@@ -6,7 +6,7 @@ exports[`test ArrowButtons should render correctly 1`] = `
     class="ant-col ant-col-2 css-dev-only-do-not-override-hash"
   >
     <div
-      class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center space"
+      class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small space"
     >
       <div
         class="ant-space-item"
@@ -35,6 +35,7 @@ exports[`test ArrowButtons should render correctly 1`] = `
                 />
               </svg>
             </span>
+            
           </button>
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm btn"
@@ -59,6 +60,7 @@ exports[`test ArrowButtons should render correctly 1`] = `
                 />
               </svg>
             </span>
+            
           </button>
         </div>
       </div>
