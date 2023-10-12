@@ -614,8 +614,8 @@ const lang: ILang = {
           enterNewLayerName: 'Por favor, introduce el nuevo nombre de la capa',
           layerHasThatName: 'La capa ya tiene ese nombre',
           QmoveElemsToLayer: '¿Mover los elementos seleccionados a la capa \'%s\'?',
-          moveElemFromPrintingLayerTitle: '¿Mover los elementos seleccionados a %s y convertir los elementos de impresión en un módulo láser?',
-          moveElemFromPrintingLayerMsg: 'Ten en cuenta que si completas este procedimiento, la configuración de color del objeto de impresión será eliminada.',
+          moveElemFromPrintingLayerTitle: '¿Desea mover los objetos seleccionados a la %s y convertir los objetos impresos en objetos láser?',
+          moveElemFromPrintingLayerMsg: 'Tenga en cuenta que los ajustes de color del objeto impreso se eliminarán una vez finalizada la operación en curso.',
         },
         layers: {
           layer: 'Capa',
@@ -655,7 +655,7 @@ const lang: ILang = {
         diode: 'Láser de diodo',
         backlash: 'Holgura',
         ink_saturation: 'Saturación',
-        print_multipass: 'Pase múltiple',
+        print_multipass: 'Multipase',
         times: 'veces',
         cut: 'Cortar',
         engrave: 'Grabar',
@@ -679,14 +679,14 @@ const lang: ILang = {
         module: 'Módulo',
         slider: {
           regular: 'Regular',
-          low: 'Low',
-          extremely_low: 'Extremely Low',
-          high: 'High',
-          extremely_high: 'Extremely High',
-          slow: 'Slow',
-          extremely_slow: 'Extremely Slow',
-          fast: 'Fast',
-          extremely_fast: 'Extremely Fast',
+          low: 'Bajo',
+          extremely_low: 'Extremadamente bajo',
+          high: 'Alto',
+          extremely_high: 'Extremadamente alto',
+          slow: 'Lento',
+          extremely_slow: 'Extremadamente lento',
+          fast: 'Rápido',
+          extremely_fast: 'Extremadamente rápido',
         },
         dropdown: {
           parameters: 'Preajustes',
@@ -934,6 +934,9 @@ const lang: ILang = {
       disable: 'Deshabilitar',
       cancel: 'Cancelar',
       save: 'Guardar',
+      notification: {
+        changeFromPrintingWorkareaTitle: '¿Desea convertir las capas de impresión en capas láser?',
+      },
     },
     object_panels: {
       wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',
@@ -1453,8 +1456,8 @@ const lang: ILang = {
     laser_2w_infrared: 'Láser Infrarrojo de 2W',
     printing: 'Impresión',
     notification: {
-      convertFromPrintingModuleTitle: '¿Deseas convertir el módulo de Impresión en el módulo de Láser?',
-      convertFromPrintingModuleMsg: 'Ten en cuenta que si completas este procedimiento, la configuración de color de las capas de impresión se eliminará y se establecerá de acuerdo con la capa actual.',
+      convertFromPrintingModuleTitle: '¿Desea convertir el módulo Impresión en módulo Láser?',
+      convertFromPrintingModuleMsg: 'Tenga en cuenta que los ajustes de color de la capa impresa se restablecerán para coincidir con la capa actual una vez finalizada la operación actual.',
     },
   },
 };

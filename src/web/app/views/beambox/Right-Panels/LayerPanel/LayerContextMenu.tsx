@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 
 import colorConstants, { PrintingColors } from 'app/constants/color-constants';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
-import LayerModule from 'app/constants/layer-module/layer-modules';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import useI18n from 'helpers/useI18n';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
 import {
   cloneLayers,
@@ -39,6 +40,7 @@ interface Props {
 
 const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX.Element => {
   const LANG = useI18n().beambox.right_panel.layer_panel.layers;
+  const workarea = useWorkarea();
   const { selectedLayers, setSelectedLayers, forceUpdate } = useContext(LayerPanelContext);
   const isMobile = useIsMobile();
   const layerElem = getLayerElementByName(selectedLayers[0]);
@@ -105,9 +107,10 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   };
 
   const isSelectingPrinterLayer =
-    selectedLayers.length === 1 && layerElem &&
-    getData<LayerModule>(layerElem, DataType.module) ===
-      LayerModule.PRINTER;
+    selectedLayers.length === 1 &&
+    layerElem &&
+    modelsWithModules.includes(workarea) &&
+    getData<LayerModule>(layerElem, DataType.module) === LayerModule.PRINTER;
   const isFullColor = layerElem?.getAttribute('data-fullcolor') === '1';
 
   const handleSplitColor = async () => {
@@ -212,7 +215,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
       >
         {LANG.merge_selected}
       </MenuItem>
-      {isSelectingPrinterLayer &&
+      {isSelectingPrinterLayer && (
         <>
           <MenuItem
             attributes={{ id: 'toggle_fullcolor_layer' }}
@@ -229,7 +232,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
             {LANG.splitFullColor}
           </MenuItem>
         </>
-      }
+      )}
     </ContextMenu>
   );
 };

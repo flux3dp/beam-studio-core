@@ -614,8 +614,8 @@ const lang: ILang = {
           enterNewLayerName: '請輸入新圖層的名稱',
           layerHasThatName: '圖層本來就是這個名稱',
           QmoveElemsToLayer: '要搬移所選取的物件到\'%s\'嗎?',
-          moveElemFromPrintingLayerTitle: '要將選取的元素移至 %s 並將列印元素轉換為雷射模組嗎？',
-          moveElemFromPrintingLayerMsg: '請注意，若您完成此程序，列印物件的顏色設定將被移除。',
+          moveElemFromPrintingLayerTitle: '您要將選定的物件移至 %s，並將列印物件轉換為雷射物件嗎？',
+          moveElemFromPrintingLayerMsg: '請注意，完成當前操作後，列印物件的顏色設定將被移除。',
         },
         layers: {
           layer: '圖層',
@@ -655,7 +655,7 @@ const lang: ILang = {
         diode: '二極體雷射',
         backlash: '背隙調整',
         ink_saturation: '墨水濃度',
-        print_multipass: '多行填充',
+        print_multipass: '多重列印次數',
         times: '次',
         cut: '切割',
         engrave: '雕刻',
@@ -934,6 +934,9 @@ const lang: ILang = {
       disable: '關閉',
       cancel: '取消',
       save: '儲存',
+      notification: {
+        changeFromPrintingWorkareaTitle: '您要將列印圖層轉換至雷射圖層嗎？',
+      },
     },
     object_panels: {
       wait_for_parsing_font: '解析字體中...',
@@ -1453,8 +1456,8 @@ const lang: ILang = {
     laser_2w_infrared: '2W 紅外線雷射',
     printing: '列印',
     notification: {
-      convertFromPrintingModuleTitle: '您要將列印模組轉換為雷射模組嗎？',
-      convertFromPrintingModuleMsg: '請注意，若您完成此程序，列印圖層的顏色設定將被移除並根據目前圖層重新設定。',
+      convertFromPrintingModuleTitle: '您要將列印模組轉換至雷射模組嗎？',
+      convertFromPrintingModuleMsg: '請注意，完成當前操作後，列印圖層的顏色設定將被重置以符合當前圖層',
     },
   },
 };

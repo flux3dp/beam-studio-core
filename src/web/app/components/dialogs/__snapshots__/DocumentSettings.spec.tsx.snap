@@ -142,9 +142,9 @@ exports[`test DocumentSettings should render correctly 1`] = `
                               </span>
                               <span
                                 class="ant-select-selection-item"
-                                title="Beambox"
+                                title="Ador"
                               >
-                                Beambox
+                                Ador
                               </span>
                             </div>
                             <span
@@ -189,7 +189,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-form-item css-dev-only-do-not-override-hash"
+                      class="ant-form-item disabled css-dev-only-do-not-override-hash"
                     >
                       <div
                         class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
@@ -216,7 +216,8 @@ exports[`test DocumentSettings should render correctly 1`] = `
                             >
                               <button
                                 aria-checked="false"
-                                class="ant-switch css-dev-only-do-not-override-hash"
+                                class="ant-switch css-dev-only-do-not-override-hash ant-switch-disabled"
+                                disabled=""
                                 id="rotary_mode"
                                 role="switch"
                                 type="button"
@@ -596,9 +597,9 @@ exports[`test DocumentSettings should render correctly 2`] = `
                               </span>
                               <span
                                 class="ant-select-selection-item"
-                                title="Beambox"
+                                title="Ador"
                               >
-                                Beambox
+                                Ador
                               </span>
                             </div>
                             <span
@@ -643,7 +644,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-form-item css-dev-only-do-not-override-hash"
+                      class="ant-form-item disabled css-dev-only-do-not-override-hash"
                     >
                       <div
                         class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
@@ -670,7 +671,8 @@ exports[`test DocumentSettings should render correctly 2`] = `
                             >
                               <button
                                 aria-checked="false"
-                                class="ant-switch css-dev-only-do-not-override-hash"
+                                class="ant-switch css-dev-only-do-not-override-hash ant-switch-disabled"
+                                disabled=""
                                 id="rotary_mode"
                                 role="switch"
                                 type="button"
