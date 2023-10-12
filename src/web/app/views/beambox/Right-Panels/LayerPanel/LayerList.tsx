@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
-import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   deleteLayerByName,
   getAllLayerNames,
@@ -72,6 +72,8 @@ const LayerList = ({
       ref.current.close();
     }
   }, [ref, draggingDestIndex, selectedLayers]);
+  const workarea = useWorkarea();
+
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -82,7 +84,7 @@ const LayerList = ({
 
   const allLayerNames = getAllLayerNames();
   if (draggingDestIndex === allLayerNames.length) items.push(renderDragBar());
-  const shouldShowModuleIcon = constant.adorModels.includes(beamboxPreference.read('workarea'));
+  const shouldShowModuleIcon = constant.adorModels.includes(workarea);
 
   for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
     const layerName = allLayerNames[i];

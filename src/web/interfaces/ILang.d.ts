@@ -930,6 +930,9 @@ export interface ILang {
       disable: string,
       cancel: string,
       save: string,
+      notification: {
+        changeFromPrintingWorkareaTitle: string;
+      };
     },
     object_panels: {
       wait_for_parsing_font: string,

@@ -5,6 +5,7 @@ import {
   getLayersConfig,
   initLayerConfig,
   writeData,
+  toggleFullColorAfterWorkareaChange,
 } from './layer-config-helper';
 
 const mockRead = jest.fn();
@@ -24,6 +25,19 @@ jest.mock('helpers/layer/layer-helper', () => ({
   getLayerByName: (name) => mockGetLayerByName(name),
 }));
 
+const mockToggleFullColorLayer = jest.fn();
+jest.mock(
+  'helpers/layer/full-color/toggleFullColorLayer',
+  () =>
+    (...args) =>
+      mockToggleFullColorLayer(...args)
+);
+
+const mockGetAllPresets = jest.fn();
+jest.mock('app/constants/right-panel-constants', () => ({
+  getAllPresets: () => mockGetAllPresets(),
+}));
+
 const defaultLaserConfigs = {
   speed: { value: 20 },
   printingSpeed: { value: 60 },
@@ -38,7 +52,7 @@ const defaultLaserConfigs = {
   backlash: { value: 0 },
   multipass: { value: 3 },
   uv: { value: 0 },
-}
+};
 
 const defaultMultiValueLaserConfigs = {
   speed: { value: 20, hasMultiValue: false },
@@ -93,7 +107,9 @@ describe('test layer-config-helper', () => {
   });
 
   test('getLayersConfig', () => {
-    expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual(defaultMultiValueLaserConfigs);
+    expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual(
+      defaultMultiValueLaserConfigs
+    );
     writeData('layer 1', DataType.speed, 30);
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
@@ -141,5 +157,20 @@ describe('test layer-config-helper', () => {
       printingSpeed: { value: 30 },
       module: { value: 5 },
     });
+  });
+
+  test('toggleFullColorAfterWorkareaChange', () => {
+    mockRead.mockReturnValue('fbm1');
+    mockGetAllLayerNames.mockReturnValue(['layer 1', 'layer 2', 'layer 3']);
+    const mockLayer = {
+      setAttribute: jest.fn(),
+    };
+    mockGetLayerByName.mockReturnValue(mockLayer);
+    toggleFullColorAfterWorkareaChange();
+    expect(mockToggleFullColorLayer).toBeCalledTimes(3);
+    expect(mockLayer.setAttribute).toBeCalledTimes(3);
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '1');
   });
 });

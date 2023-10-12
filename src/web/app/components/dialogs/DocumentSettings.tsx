@@ -2,14 +2,18 @@ import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Form, Modal, Row, Select, Switch } from 'antd';
 
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 import styles from './DocumentSettings.module.scss';
 
@@ -51,7 +55,8 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   // const [engraveDpiValue, setEngraveDpiValue] = useState(
   //   BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
   // );
-  const [workarea, setWorkarea] = useState(BeamboxPreference.read('workarea') || 'fbb1b');
+  const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
+  const [workarea, setWorkarea] = useState(origWorkarea || 'fbb1b');
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
   const [borderlessMode, setBorderlessMode] = useState(
     BeamboxPreference.read('borderless') === true
@@ -92,6 +97,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         constant.dimension.getHeight(BeamboxPreference.read('workarea'))
       );
       svgEditor.resetView();
+      toggleFullColorAfterWorkareaChange();
       eventEmitter.emit('workarea-change');
     }
     BeamboxPreference.write('rotary_mode', rotaryMode);
@@ -110,7 +116,25 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       centered
       title={langDocumentSettings.document_settings}
       onCancel={unmount}
-      onOk={() => {
+      onOk={async () => {
+        if (
+          origWorkarea !== workarea &&
+          modelsWithModules.includes(origWorkarea) &&
+          !modelsWithModules.includes(workarea) &&
+          document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]`).length
+        ) {
+          const res = await new Promise((resolve) => {
+            alertCaller.popUp({
+              id: 'save-document-settings',
+              message: langDocumentSettings.notification.changeFromPrintingWorkareaTitle,
+              messageIcon: 'notice',
+              buttonType: alertConstants.CONFIRM_CANCEL,
+              onConfirm: () => resolve(true),
+              onCancel: () => resolve(false),
+            });
+          });
+          if (!res) return;
+        }
         handleSave();
         unmount();
       }}
@@ -131,18 +155,18 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         <strong>{langDocumentSettings.add_on}</strong>
         <Row>
           <Col span={12}>
-              <Form.Item
-                name="rotary_mode"
-                className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
-                label={langDocumentSettings.rotary_mode}
-                labelCol={{ span: 12, offset: 0 }}
-              >
-                <Switch
-                  checked={rotaryMode !== 0}
-                  disabled={rotaryModels.length === 1}
-                  onChange={handleRotaryModeChange}
-                />
-              </Form.Item>
+            <Form.Item
+              name="rotary_mode"
+              className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
+              label={langDocumentSettings.rotary_mode}
+              labelCol={{ span: 12, offset: 0 }}
+            >
+              <Switch
+                checked={rotaryMode !== 0}
+                disabled={rotaryModels.length === 1}
+                onChange={handleRotaryModeChange}
+              />
+            </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
