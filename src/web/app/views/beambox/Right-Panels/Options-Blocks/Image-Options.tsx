@@ -6,8 +6,8 @@ import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -175,7 +175,7 @@ class ImageOptions extends React.Component<Props> {
       >
         <ObjectPanelItem.Item
           id="threshold"
-          content={<ObjectPanelIcon.Threshold />}
+          content={<OptionPanelIcons.Threshold />}
           label={LANG.threshold_short}
           autoClose={false}
         />

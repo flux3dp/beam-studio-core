@@ -1,6 +1,5 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import Icon from '@ant-design/icons';
 import { Button, ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
@@ -8,7 +7,6 @@ import DimensionPanelIcons from 'app/icons/dimension-panel/DimensionPanelIcons';
 import i18n from 'helpers/i18n';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import KeycodeConstants from 'app/constants/keycode-constants';
-import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SymbolMaker from 'helpers/symbol-maker';
 import storage from 'implementations/storage';
@@ -582,7 +580,7 @@ class DimensionPanel extends React.Component<Props> {
               key={type}
               id="lock"
               content={
-                <Icon component={isRatioFixed ? ObjectPanelIcon.Lock : ObjectPanelIcon.Unlock} />
+                isRatioFixed ? <DimensionPanelIcons.Locked /> : <DimensionPanelIcons.Unlocked />
               }
               onClick={this.handleFixRatio}
             />
@@ -618,17 +616,17 @@ class DimensionPanel extends React.Component<Props> {
         id="flip"
         actions={[
           {
-            icon: <Icon component={ObjectPanelIcon.Flip} />,
+            icon: <DimensionPanelIcons.HFlip />,
             label: LANG.hflip,
             onClick: () => svgCanvas.flipSelectedElements(-1, 1),
           },
           {
-            icon: <Icon component={ObjectPanelIcon.Flip} rotate={90} />,
+            icon: <DimensionPanelIcons.VFlip />,
             label: LANG.vflip,
             onClick: () => svgCanvas.flipSelectedElements(1, -1),
           },
         ]}
-        content={<ObjectPanelIcon.Flip />}
+        content={<DimensionPanelIcons.HFlip />}
         label={LANG.flip}
       />
     ) : (
