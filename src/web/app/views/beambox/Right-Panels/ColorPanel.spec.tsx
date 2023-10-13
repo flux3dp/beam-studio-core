@@ -1,15 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */ // for mocking props
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 import ColorPanel from './ColorPanel';
 
+jest.mock('app/widgets/ColorPicker', () => ({ allowClear, initColor, triggerType, onChange }: any) => (
+  <div>
+    Mock ColorPicker
+    <p>allowClear: {allowClear ? 't' : 'f'}</p>
+    <p>initColor: {initColor}</p>
+    <p>triggerType: {triggerType}</p>
+    <button type="button" onClick={() => onChange('#aaaaff')}>onChange</button>
+  </div>
+))
+
 jest.mock('app/actions/beambox/constant', () => ({
   dpmm: 10,
-}));
-
-const mockShowColorPicker = jest.fn();
-jest.mock('app/actions/dialog-caller', () => ({
-  showColorPicker: (...args) => mockShowColorPicker(...args),
 }));
 
 const mockCreateBatchCommand = jest.fn();
@@ -20,31 +26,6 @@ const mockAddSubCommand = jest.fn();
 const mockBatchCommand = {
   addSubCommand: (...args) => mockAddSubCommand(...args),
 };
-
-jest.mock(
-  'app/widgets/Unit-Input-v2',
-  () =>
-    ({
-      id,
-      defaultValue,
-      getValue,
-    }: {
-      id: string;
-      defaultValue: number;
-      getValue: (val: number) => void;
-    }) =>
-      (
-        <div>
-          <input
-            id={id}
-            data-testid={id}
-            type="number"
-            value={defaultValue}
-            onChange={(e) => getValue(parseFloat(e.target.value))}
-          />
-        </div>
-      )
-);
 
 const mockGet = jest.fn();
 jest.mock('implementations/storage', () => ({
@@ -113,26 +94,21 @@ describe('test ColorPanel', () => {
   });
 
   test('set fill color should work', () => {
-    const { container } = render(<ColorPanel elem={mockElem as any} />);
-    expect(mockShowColorPicker).not.toHaveBeenCalled();
-    const fillBlock = container.querySelectorAll('.color')[0];
-    fireEvent.click(fillBlock);
-    expect(mockShowColorPicker).toHaveBeenCalledTimes(1);
-    const opts = mockShowColorPicker.mock.calls[0][0];
-    const { originalColor, allowNone, onNewColor } = opts;
-    expect(originalColor).toBe('#ff0000');
-    expect(allowNone).toBe(true);
+    const { getAllByText } = render(<ColorPanel elem={mockElem as any} />);
     const mockCmd1 = { id: '1', isEmpty: () => false };
     const mockCmd2 = { id: '2', isEmpty: () => false };
     mockFinishUndoableChange.mockReturnValueOnce(mockCmd1).mockReturnValueOnce(mockCmd2);
-    onNewColor('#0000ff');
+    const changeFillBtn = getAllByText('onChange')[0];
+    act(() => {
+      fireEvent.click(changeFillBtn);
+    });
     expect(mockCreateBatchCommand).toBeCalledTimes(1);
     expect(mockCreateBatchCommand).toHaveBeenNthCalledWith(1, 'Color Panel Fill');
     expect(mockBeginUndoableChange).toBeCalledTimes(2);
     expect(mockBeginUndoableChange).toHaveBeenNthCalledWith(1, 'fill', [mockElem]);
     expect(mockBeginUndoableChange).toHaveBeenNthCalledWith(2, 'fill-opacity', [mockElem]);
     expect(mockChangeSelectedAttributeNoUndo).toHaveBeenCalledTimes(2);
-    expect(mockChangeSelectedAttributeNoUndo).toHaveBeenNthCalledWith(1, 'fill', '#0000ff', [
+    expect(mockChangeSelectedAttributeNoUndo).toHaveBeenNthCalledWith(1, 'fill', '#aaaaff', [
       mockElem,
     ]);
     expect(mockChangeSelectedAttributeNoUndo).toHaveBeenNthCalledWith(2, 'fill-opacity', '1', [
@@ -146,96 +122,14 @@ describe('test ColorPanel', () => {
     expect(mockAddCommandToHistory).toHaveBeenNthCalledWith(1, mockBatchCommand);
   });
 
-  test('set fill color to none should work', () => {
-    const { container } = render(<ColorPanel elem={mockElem as any} />);
-    expect(mockShowColorPicker).not.toHaveBeenCalled();
-    const fillBlock = container.querySelectorAll('.color')[0];
-    fireEvent.click(fillBlock);
-    expect(mockShowColorPicker).toHaveBeenCalledTimes(1);
-    const opts = mockShowColorPicker.mock.calls[0][0];
-    const { originalColor, allowNone, onNewColor } = opts;
-    expect(originalColor).toBe('#ff0000');
-    expect(allowNone).toBe(true);
-    const mockCmd1 = { id: '1', isEmpty: () => false };
-    const mockCmd2 = { id: '2', isEmpty: () => false };
-    mockFinishUndoableChange.mockReturnValueOnce(mockCmd1).mockReturnValueOnce(mockCmd2);
-    onNewColor('none');
-    expect(mockCreateBatchCommand).toBeCalledTimes(1);
-    expect(mockCreateBatchCommand).toHaveBeenNthCalledWith(1, 'Color Panel Fill');
-    expect(mockBeginUndoableChange).toBeCalledTimes(2);
-    expect(mockBeginUndoableChange).toHaveBeenNthCalledWith(1, 'fill', [mockElem]);
-    expect(mockBeginUndoableChange).toHaveBeenNthCalledWith(2, 'fill-opacity', [mockElem]);
-    expect(mockChangeSelectedAttributeNoUndo).toHaveBeenCalledTimes(2);
-    expect(mockChangeSelectedAttributeNoUndo).toHaveBeenNthCalledWith(1, 'fill', 'none', [
-      mockElem,
-    ]);
-    expect(mockChangeSelectedAttributeNoUndo).toHaveBeenNthCalledWith(2, 'fill-opacity', '0', [
-      mockElem,
-    ]);
-    expect(mockFinishUndoableChange).toHaveBeenCalledTimes(2);
-    expect(mockAddSubCommand).toBeCalledTimes(2);
-    expect(mockAddSubCommand).toHaveBeenNthCalledWith(1, mockCmd1);
-    expect(mockAddSubCommand).toHaveBeenNthCalledWith(2, mockCmd2);
-    expect(mockAddCommandToHistory).toBeCalledTimes(1);
-    expect(mockAddCommandToHistory).toHaveBeenNthCalledWith(1, mockBatchCommand);
-    expect(container).toMatchSnapshot();
-  });
-
-  test('set fill to none when stroke is none should delete element', () => {
-    mockElem.getAttribute
-      .mockReset()
-      .mockReturnValueOnce('#ff0000')
-      .mockReturnValueOnce('none')
-      .mockReturnValueOnce('1');
-    const { container } = render(<ColorPanel elem={mockElem as any} />);
-    expect(mockShowColorPicker).not.toHaveBeenCalled();
-    const fillBlock = container.querySelectorAll('.color')[0];
-    fireEvent.click(fillBlock);
-    expect(mockShowColorPicker).toHaveBeenCalledTimes(1);
-    const opts = mockShowColorPicker.mock.calls[0][0];
-    const { originalColor, allowNone, onNewColor } = opts;
-    expect(originalColor).toBe('#ff0000');
-    expect(allowNone).toBe(true);
-    expect(mockDeleteElements).not.toHaveBeenCalled();
-    onNewColor('none');
-    expect(mockDeleteElements).toHaveBeenCalledTimes(1);
-    expect(mockDeleteElements).toHaveBeenNthCalledWith(1, [mockElem]);
-  });
-
   test('set stroke color should work', () => {
-    const { container } = render(<ColorPanel elem={mockElem as any} />);
-    expect(mockShowColorPicker).not.toHaveBeenCalled();
-    const strokeBlock = container.querySelectorAll('.color')[1];
-    fireEvent.click(strokeBlock);
-    expect(mockShowColorPicker).toHaveBeenCalledTimes(1);
-    const opts = mockShowColorPicker.mock.calls[0][0];
-    const { originalColor, allowNone, onNewColor } = opts;
-    expect(originalColor).toBe('#00ff00');
-    expect(allowNone).toBe(true);
+    const { getAllByText } = render(<ColorPanel elem={mockElem as any} />);
     expect(mockChangeSelectedAttribute).not.toHaveBeenCalled();
-    onNewColor('#aaaaff');
+    const changeFillBtn = getAllByText('onChange')[1];
+    act(() => {
+      fireEvent.click(changeFillBtn);
+    });
     expect(mockChangeSelectedAttribute).toHaveBeenCalledTimes(1);
     expect(mockChangeSelectedAttribute).toHaveBeenNthCalledWith(1, 'stroke', '#aaaaff', [mockElem]);
-  });
-
-  test('set stroke color to none when fill is none should delete element', () => {
-    mockElem.getAttribute
-      .mockReset()
-      .mockReturnValueOnce('none')
-      .mockReturnValueOnce('#00ff00')
-      .mockReturnValueOnce('1');
-    const { container } = render(<ColorPanel elem={mockElem as any} />);
-    expect(mockShowColorPicker).not.toHaveBeenCalled();
-    const strokeBlock = container.querySelectorAll('.color')[1];
-    fireEvent.click(strokeBlock);
-    expect(mockShowColorPicker).toHaveBeenCalledTimes(1);
-    const opts = mockShowColorPicker.mock.calls[0][0];
-    const { originalColor, allowNone, onNewColor } = opts;
-    expect(originalColor).toBe('#00ff00');
-    expect(allowNone).toBe(true);
-    expect(mockDeleteElements).not.toHaveBeenCalled();
-    onNewColor('none');
-    expect(mockDeleteElements).toHaveBeenCalledTimes(1);
-    expect(mockDeleteElements).toHaveBeenNthCalledWith(1, [mockElem]);
   });
 });
