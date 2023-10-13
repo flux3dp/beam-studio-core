@@ -4612,7 +4612,6 @@ const svgEditor = window['svgEditor'] = (function () {
           });
 
           // 'fnkey' means 'cmd' or 'ctrl'
-          Shortcuts.on(['del'], deleteSelected);
           //Shortcuts.on(['fnkey', 'z'], clickUndo);
           //if (window.os === 'MacOS') {
           //    Shortcuts.on(['cmd', 'shift', 'z'], clickRedo);
@@ -4620,17 +4619,26 @@ const svgEditor = window['svgEditor'] = (function () {
           //    Shortcuts.on(['ctrl', 'y'], clickRedo);
           //}
           //Shortcuts.on(['fnkey', 'd'], clickClone);
+          const moveUnit = storage.get('default-units') === 'inches' ? 25.4 : 10; // 0.1 in : 1 mm
+
+          const isFocusingOnInputs = () => {
+            if (!document.activeElement) return false;
+            return document.activeElement.tagName.toLowerCase() === 'input'
+              || document.activeElement?.getAttribute('role') === 'slider';
+          };
+          Shortcuts.on(['del'], () => {
+            if (isFocusingOnInputs()) return;
+            deleteSelected();
+          });
           Shortcuts.on(['fnkey', 'a'], (e) => {
+            if (isFocusingOnInputs()) return;
             e.preventDefault();
             e.stopPropagation();
             svgCanvas.selectAll();
           });
-          const moveUnit = storage.get('default-units') === 'inches' ? 25.4 : 10; // 0.1 in : 1 mm
-          // handle slider only currently, can add other input as needed
-          const isFocusedOnAntdInputs = () => document.activeElement?.getAttribute('role') === 'slider';
           Shortcuts.on(['up'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [-moveUnit]);
             } else {
@@ -4640,7 +4648,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'up'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [-moveUnit * 10]);
             } else {
@@ -4650,7 +4658,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['down'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [moveUnit]);
             } else {
@@ -4660,7 +4668,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'down'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [moveUnit * 10]);
             } else {
@@ -4670,7 +4678,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['left'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([-moveUnit], [0]);
             } else {
@@ -4680,7 +4688,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'left'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([-moveUnit * 10], [0]);
             } else {
@@ -4690,7 +4698,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['right'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([moveUnit], [0]);
             } else {
@@ -4700,7 +4708,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'right'], (e) => {
             e.preventDefault();
-            if (isFocusedOnAntdInputs()) return;
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([moveUnit * 10], [0]);
             } else {
