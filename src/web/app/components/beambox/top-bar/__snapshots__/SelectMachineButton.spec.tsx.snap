@@ -19,7 +19,7 @@ exports[`test SelectMachineButton should render correctly 1`] = `
     <span
       class="text"
     >
-      Select Machine
+      Select a machine
     </span>
   </div>
 </div>
@@ -34,7 +34,7 @@ exports[`test SelectMachineButton when previewing 1`] = `
     <span
       class="text"
     >
-      Select Machine
+      Select a machine
     </span>
   </div>
 </div>

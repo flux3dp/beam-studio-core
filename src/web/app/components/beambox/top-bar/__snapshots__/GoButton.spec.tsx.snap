@@ -4,6 +4,7 @@ exports[`test GoButton should render correctly 1`] = `
 <div>
   <div
     class="button disabled"
+    title="Start Work"
   >
     <svgr-url />
   </div>

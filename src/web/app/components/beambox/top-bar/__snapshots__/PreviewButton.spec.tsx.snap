@@ -4,6 +4,7 @@ exports[`should render correctly when not previewing 1`] = `
 <div>
   <div
     class="container"
+    title="Camera Preview"
   >
     <div
       class="button"
@@ -20,6 +21,7 @@ exports[`should render correctly when previewing and not support borderless 1`] 
 <div>
   <div
     class="container previewing"
+    title="Camera Preview"
   >
     <div
       class="button"
@@ -39,6 +41,7 @@ exports[`should render correctly when previewing and support borderless 1`] = `
 <div>
   <div
     class="container previewing"
+    title="Camera Preview"
   >
     <div
       class="button"

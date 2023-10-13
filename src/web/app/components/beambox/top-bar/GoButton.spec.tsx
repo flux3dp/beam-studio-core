@@ -87,6 +87,11 @@ jest.mock('helpers/useI18n', () => () => ({
   message: {
     unavailableWorkarea: 'unavailableWorkarea',
   },
+  tutorial: {
+    newInterface: {
+      start_work: 'Start Work',
+    },
+  },
 }));
 
 const getCurrentDrawing = jest.fn();

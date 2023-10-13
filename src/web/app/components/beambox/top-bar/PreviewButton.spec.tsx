@@ -24,6 +24,11 @@ jest.mock('helpers/i18n', () => ({
       preview: 'PREVIEW',
       borderless: '(OPEN BOTTOM)',
     },
+    tutorial: {
+      newInterface: {
+        camera_preview: 'Camera Preview',
+      },
+    },
   },
 }));
 

@@ -5,12 +5,9 @@ import { CanvasContext } from 'app/contexts/CanvasContext';
 
 import SelectMachineButton from './SelectMachineButton';
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    topbar: {
-      preview: 'PREVIEW',
-      borderless: '(OPEN BOTTOM)',
-    },
+jest.mock('helpers/useI18n', () => () => ({
+  topbar: {
+    select_machine: 'Select a machine',
   },
 }));
 

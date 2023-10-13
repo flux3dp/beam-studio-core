@@ -36,7 +36,7 @@ exports[`should render correctly no devices 1`] = `
                 class="ant-modal-title"
                 id="test-id"
               >
-                Select Machine
+                Select a machine
               </div>
             </div>
             <div
@@ -123,7 +123,7 @@ exports[`should render correctly no devices 2`] = `
                 class="ant-modal-title"
                 id="test-id"
               >
-                Select Machine
+                Select a machine
               </div>
             </div>
             <div

@@ -48,6 +48,19 @@ jest.mock('helpers/useI18n', () => () => ({
     turningOffFan: 'Turning off fan...',
     turningOffAirPump: 'Turning off air pump...',
   },
+  topbar: {
+    alerts: {
+      add_content_first: 'Please add objects first',
+    }
+  },
+  device: {
+    processing: 'Processing',
+  },
+  tutorial: {
+    newInterface: {
+      frame: 'Running Frame',
+    },
+  },
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({

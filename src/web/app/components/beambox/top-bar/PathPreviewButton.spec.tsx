@@ -2,6 +2,14 @@
 import * as React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+jest.mock('helpers/useI18n', () => () => ({
+  tutorial: {
+    newInterface: {
+      path_preview: 'Path Preview',
+    },
+  },
+}));
+
 const checkWebGL = jest.fn();
 jest.mock('helpers/check-webgl', () => checkWebGL);
 

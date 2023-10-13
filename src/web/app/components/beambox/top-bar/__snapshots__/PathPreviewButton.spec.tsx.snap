@@ -4,6 +4,7 @@ exports[`should render correctly has WebGL no devices connected in desktop versi
 <div>
   <div
     class="button highlighted"
+    title="Path Preview"
   >
     <svgr-url />
   </div>
@@ -14,6 +15,7 @@ exports[`should render correctly has WebGL no devices connected in web version 1
 <div>
   <div
     class="button highlighted disabled"
+    title="Path Preview"
   >
     <svgr-url />
   </div>
