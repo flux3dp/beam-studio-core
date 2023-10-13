@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
 
@@ -13,6 +13,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImage';
 import { isMobile } from 'helpers/system-helper';
+import { sliderTheme } from 'app/views/beambox/Right-Panels/antd-config';
 
 import styles from './Image-Options.module.scss';
 
@@ -94,12 +95,6 @@ class ImageOptions extends React.Component<Props> {
     updateObjectPanel();
   };
 
-  handleSliderChange = (e: React.ChangeEvent): void => {
-    const target = e.target as HTMLInputElement;
-    const value = parseInt(target.value, 10);
-    this.handleThresholdChange(value);
-  };
-
   handleThresholdChange = async (val: number): Promise<void> => {
     const callId = this.nextCallId;
     this.nextCallId += 1;
@@ -134,14 +129,7 @@ class ImageOptions extends React.Component<Props> {
     ) : (
       <div className="option-block" key="gradient">
         <div className="label">{LANG.shading}</div>
-        <Switch checked={isGradient} onChange={this.handleGradientClick} />
-        {/* <div className="onoffswitch" onClick={this.handleGradientClick}>
-          <input type="checkbox" className="onoffswitch-checkbox" checked={isGradient} readOnly />
-          <label className="onoffswitch-label">
-            <span className="onoffswitch-inner" />
-            <span className="onoffswitch-switch" />
-          </label>
-        </div> */}
+        <Switch size="small" checked={isGradient} onChange={this.handleGradientClick} />
       </div>
     );
   }
@@ -193,7 +181,7 @@ class ImageOptions extends React.Component<Props> {
         />
       </Popover>
     ) : (
-      <div key="threshold">
+      <Fragment key="threshold">
         <div className="option-block with-slider">
           <div className="label">{LANG.threshold}</div>
           <UnitInput
@@ -206,18 +194,16 @@ class ImageOptions extends React.Component<Props> {
             getValue={this.handleThresholdChange}
           />
         </div>
-        <div className="option-block slider-container">
-          <input
-            className="threshold-slider"
-            type="range"
+        <ConfigProvider theme={sliderTheme}>
+          <Slider
             min={1}
             max={255}
             step={1}
             value={threshold}
-            onChange={this.handleSliderChange}
+            onChange={this.handleThresholdChange}
           />
-        </div>
-      </div>
+        </ConfigProvider>
+      </Fragment>
     );
   }
 

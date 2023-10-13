@@ -1,4 +1,5 @@
 import React from 'react';
+import { Select } from 'antd';
 
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -14,12 +15,12 @@ export default function VerticalAlignBlock({ value, onValueChange }: Props): JSX
   const LANG = i18n.lang.beambox.right_panel.object_panel;
   const label = LANG.option_panel.vertical_align;
   const isMobile = useIsMobile();
+  const options = [
+    { value: VerticalAlign.BOTTOM, label: LANG.bottom_align },
+    { value: VerticalAlign.MIDDLE, label: LANG.middle_align },
+    { value: VerticalAlign.TOP, label: LANG.top_align },
+  ];
   if (isMobile) {
-    const options = [
-      { value: VerticalAlign.BOTTOM, label: LANG.bottom_align },
-      { value: VerticalAlign.MIDDLE, label: LANG.middle_align },
-      { value: VerticalAlign.TOP, label: LANG.top_align },
-    ];
     return (
       <ObjectPanelItem.Select
         id="vertical_align"
@@ -30,21 +31,17 @@ export default function VerticalAlignBlock({ value, onValueChange }: Props): JSX
       />
     );
   }
-  const options = [
-    <option key={VerticalAlign.BOTTOM} value={VerticalAlign.BOTTOM}>{LANG.bottom_align}</option>,
-    <option key={VerticalAlign.MIDDLE} value={VerticalAlign.MIDDLE}>{LANG.middle_align}</option>,
-    <option key={VerticalAlign.TOP} value={VerticalAlign.TOP}>{LANG.top_align}</option>,
-  ];
   return (
     <div className="option-block">
       <div className="label">{label}</div>
       <div className="select-container">
-        <select
+        <Select
           value={value}
-          onChange={(e) => onValueChange(Number(e.target.value))}
-        >
-          {options}
-        </select>
+          options={options}
+          onChange={onValueChange}
+          onKeyDown={(e) => e.stopPropagation()}
+          dropdownMatchSelectWidth={false}
+        />
       </div>
     </div>
   );

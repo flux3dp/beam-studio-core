@@ -1,7 +1,10 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import Icon from '@ant-design/icons';
+import { Button, ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
+import DimensionPanelIcons from 'app/icons/dimension-panel/DimensionPanelIcons';
 import i18n from 'helpers/i18n';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import KeycodeConstants from 'app/constants/keycode-constants';
@@ -12,6 +15,7 @@ import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
+import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { isMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
@@ -22,16 +26,16 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
 const panelMap = {
-  g: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  path: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  polygon: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  rect: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  ellipse: ['cx', 'cy', 'rot', 'rx', 'ry', 'lock'],
-  line: ['x1', 'y1', 'rot', 'x2', 'y2', 'lock'],
-  image: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  img: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  text: ['x', 'y', 'rot', 'w', 'h', 'lock'],
-  use: ['x', 'y', 'rot', 'w', 'h', 'lock'],
+  g: ['x', 'y', 'w', 'h'],
+  path: ['x', 'y', 'w', 'h'],
+  polygon: ['x', 'y', 'w', 'h'],
+  rect: ['x', 'y', 'w', 'h'],
+  ellipse: ['cx', 'cy', 'rx', 'ry'],
+  line: ['x1', 'y1', 'x2', 'y2'],
+  image: ['x', 'y', 'w', 'h'],
+  img: ['x', 'y', 'w', 'h'],
+  text: ['x', 'y', 'w', 'h'],
+  use: ['x', 'y', 'w', 'h'],
 };
 
 const panelMapMobile = {
@@ -229,8 +233,8 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">X</div>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>X</div>
             <UnitInput
               id="x_position"
               unit={this.unit}
@@ -253,8 +257,8 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">Y</div>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>Y</div>
             <UnitInput
               id="y_position"
               unit={this.unit}
@@ -281,10 +285,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">
-              X
-              <sub>1</sub>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>
+              X<sub>1</sub>
             </div>
             <UnitInput
               id="x1_position"
@@ -312,10 +315,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">
-              Y
-              <sub>1</sub>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>
+              Y<sub>1</sub>
             </div>
             <UnitInput
               id="y1_position"
@@ -343,10 +345,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">
-              X
-              <sub>2</sub>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>
+              X<sub>2</sub>
             </div>
             <UnitInput
               id="x2_position"
@@ -374,10 +375,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">
-              Y
-              <sub>2</sub>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>
+              Y<sub>2</sub>
             </div>
             <UnitInput
               id="y2_position"
@@ -405,10 +405,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">
-              X
-              <sub>C</sub>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>
+              X<sub>C</sub>
             </div>
             <UnitInput
               id="cx_position"
@@ -436,10 +435,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">
-              Y
-              <sub>C</sub>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>
+              Y<sub>C</sub>
             </div>
             <UnitInput
               id="cy_position"
@@ -464,9 +462,9 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label img">
-              <img src="img/right-panel/icon-rotate.svg" alt="" />
+          <div className={styles.dimension} key={type}>
+            <div className={classNames(styles.label, styles.img)}>
+              <DimensionPanelIcons.Rotate />
             </div>
             <UnitInput
               id="rotate"
@@ -490,8 +488,8 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">W</div>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>W</div>
             <UnitInput
               id="width"
               unit={this.unit}
@@ -516,8 +514,8 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">H</div>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>H</div>
             <UnitInput
               id="height"
               unit={this.unit}
@@ -542,8 +540,8 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">W</div>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>W</div>
             <UnitInput
               id="rx_width"
               unit={this.unit}
@@ -566,8 +564,8 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div className="dimension-container" key={type}>
-            <div className="label">H</div>
+          <div className={styles.dimension} key={type}>
+            <div className={styles.label}>H</div>
             <UnitInput
               id="ry_height"
               unit={this.unit}
@@ -591,14 +589,14 @@ class DimensionPanel extends React.Component<Props> {
           );
         }
         return (
-          <div
-            className="dimension-lock"
-            title={isRatioFixed ? LANG.unlock_aspect : LANG.lock_aspect}
+          <Button
             key={type}
+            id="lock"
+            type="text"
+            title={isRatioFixed ? LANG.unlock_aspect : LANG.lock_aspect}
+            icon={isRatioFixed ? <DimensionPanelIcons.Locked /> : <DimensionPanelIcons.Unlocked />}
             onClick={() => this.handleFixRatio()}
-          >
-            <img src={isRatioFixed ? 'img/right-panel/icon-lock.svg' : 'img/right-panel/icon-unlock.svg'} alt="" />
-          </div>
+          />
         );
       default:
         break;
@@ -634,29 +632,27 @@ class DimensionPanel extends React.Component<Props> {
         label={LANG.flip}
       />
     ) : (
-      <div className="flip-btn-container">
-        <div
+      <div className={styles['flip-btn-container']}>
+        <Button
           id="horizontal_flip"
-          className="tool-btn"
+          type="text"
+          icon={<DimensionPanelIcons.HFlip />}
           onClick={() => svgCanvas.flipSelectedElements(-1, 1)}
           title={LANG.hflip}
-        >
-          <img src="img/right-panel/icon-hflip.svg" alt="" />
-        </div>
-        <div
+        />
+        <Button
           id="vertical_flip"
-          className="tool-btn"
+          type="text"
+          icon={<DimensionPanelIcons.VFlip />}
           onClick={() => svgCanvas.flipSelectedElements(1, -1)}
           title={LANG.vflip}
-        >
-          <img src="img/right-panel/icon-vflip.svg" alt="" />
-        </div>
+        />
       </div>
     );
 
   render(): JSX.Element {
     const { elem } = this.props;
-    let panels = ['x', 'y', 'rot', 'w', 'h'];
+    let panels = ['x', 'y', 'w', 'h'];
     if (elem) {
       panels = (isMobile() ? panelMapMobile : panelMap)[elem.tagName.toLowerCase()] || panels;
     }
@@ -667,9 +663,17 @@ class DimensionPanel extends React.Component<Props> {
         {this.renderFlipButtons()}
       </div>
     ) : (
-      <div className="dimension-panel">
-        {this.renderDimensionPanels(panels)}
-        {this.renderFlipButtons()}
+      <div className={styles.panel}>
+        <ConfigProvider theme={iconButtonTheme}>
+          <div className={styles.row}>
+            <div className={styles.dimensions}>{this.renderDimensionPanels(panels)}</div>
+            {this.renderDimensionPanels(['lock'])}
+          </div>
+          <div className={styles.row}>
+            {this.renderDimensionPanels(['rot'])}
+            {this.renderFlipButtons()}
+          </div>
+        </ConfigProvider>
       </div>
     );
   }

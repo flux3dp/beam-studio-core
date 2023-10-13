@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import Icon from '@ant-design/icons';
 import React, { useContext } from 'react';
+import { Button, ConfigProvider } from 'antd';
 
 import ActionsPanel from 'app/views/beambox/Right-Panels/ActionsPanel';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
@@ -12,6 +13,7 @@ import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -63,19 +65,12 @@ function ObjectPanel({ elem }: Props): JSX.Element {
 
   const renderToolBtn = (
     label: string,
-    src: string,
+    icon: JSX.Element,
     disabled: boolean,
     onClick: () => void,
     id: string
   ): JSX.Element => (
-    <div
-      id={id}
-      className={classNames(styles.btn, { [styles.disabled]: disabled })}
-      onClick={disabled ? null : onClick}
-      title={label}
-    >
-      <img src={src} draggable={false} />
-    </div>
+    <Button type="text" id={id} icon={icon} onClick={onClick} disabled={disabled} title={label} />
   );
 
   const renderCommonActionPanel = (): JSX.Element => (
@@ -213,116 +208,118 @@ function ObjectPanel({ elem }: Props): JSX.Element {
       </div>
     ) : (
       <div className={styles.tools}>
-        <div className={styles.row}>
-          <div className={classNames(styles.half, styles.left, styles.sep)}>
-            {renderToolBtn(
-              LANG.hdist,
-              'img/right-panel/icon-hdist.svg',
-              !buttonAvailability.dist,
-              svgCanvas.distHori,
-              'hdist'
-            )}
-            {renderToolBtn(
-              LANG.top_align,
-              'img/right-panel/icon-valign-top.svg',
-              false,
-              FnWrapper.alignTop,
-              'top_align'
-            )}
-            {renderToolBtn(
-              LANG.middle_align,
-              'img/right-panel/icon-valign-mid.svg',
-              false,
-              FnWrapper.alignMiddle,
-              'middle_align'
-            )}
-            {renderToolBtn(
-              LANG.bottom_align,
-              'img/right-panel/icon-valign-bot.svg',
-              false,
-              FnWrapper.alignBottom,
-              'bottom_align'
-            )}
+        <ConfigProvider theme={iconButtonTheme}>
+          <div className={styles.row}>
+            <div className={classNames(styles.half, styles.left, styles.sep)}>
+              {renderToolBtn(
+                LANG.hdist,
+                <ObjectPanelIcon.HDist />,
+                !buttonAvailability.dist,
+                svgCanvas.distHori,
+                'hdist'
+              )}
+              {renderToolBtn(
+                LANG.top_align,
+                <ObjectPanelIcon.VAlignTop />,
+                false,
+                FnWrapper.alignTop,
+                'top_align'
+              )}
+              {renderToolBtn(
+                LANG.middle_align,
+                <ObjectPanelIcon.VAlignMid />,
+                false,
+                FnWrapper.alignMiddle,
+                'middle_align'
+              )}
+              {renderToolBtn(
+                LANG.bottom_align,
+                <ObjectPanelIcon.VAlignBot />,
+                false,
+                FnWrapper.alignBottom,
+                'bottom_align'
+              )}
+            </div>
+            <div className={classNames(styles.half, styles.right)}>
+              {renderToolBtn(
+                LANG.vdist,
+                <ObjectPanelIcon.VDist />,
+                !buttonAvailability.dist,
+                svgCanvas.distVert,
+                'vdist'
+              )}
+              {renderToolBtn(
+                LANG.left_align,
+                <ObjectPanelIcon.HAlignLeft />,
+                false,
+                FnWrapper.alignLeft,
+                'left_align'
+              )}
+              {renderToolBtn(
+                LANG.center_align,
+                <ObjectPanelIcon.HAlignMid />,
+                false,
+                FnWrapper.alignCenter,
+                'center_align'
+              )}
+              {renderToolBtn(
+                LANG.right_align,
+                <ObjectPanelIcon.HAlignRight />,
+                false,
+                FnWrapper.alignRight,
+                'right_align'
+              )}
+            </div>
           </div>
-          <div className={classNames(styles.half, styles.right)}>
-            {renderToolBtn(
-              LANG.vdist,
-              'img/right-panel/icon-vdist.svg',
-              !buttonAvailability.dist,
-              svgCanvas.distVert,
-              'vdist'
-            )}
-            {renderToolBtn(
-              LANG.left_align,
-              'img/right-panel/icon-halign-left.svg',
-              false,
-              FnWrapper.alignLeft,
-              'left_align'
-            )}
-            {renderToolBtn(
-              LANG.center_align,
-              'img/right-panel/icon-halign-mid.svg',
-              false,
-              FnWrapper.alignCenter,
-              'center_align'
-            )}
-            {renderToolBtn(
-              LANG.right_align,
-              'img/right-panel/icon-halign-right.svg',
-              false,
-              FnWrapper.alignRight,
-              'right_align'
-            )}
+          <div className={styles.row}>
+            <div className={classNames(styles.half, styles.left)}>
+              {renderToolBtn(
+                LANG.group,
+                <ObjectPanelIcon.Group />,
+                false,
+                () => svgCanvas.groupSelectedElements(),
+                'group'
+              )}
+              {renderToolBtn(
+                LANG.ungroup,
+                <ObjectPanelIcon.Ungroup />,
+                !buttonAvailability.ungroup,
+                () => svgCanvas.ungroupSelectedElement(),
+                'ungroup'
+              )}
+            </div>
+            <div className={classNames(styles.half, styles.right)}>
+              {renderToolBtn(
+                LANG.union,
+                <ObjectPanelIcon.Union />,
+                !buttonAvailability.union,
+                () => svgCanvas.booleanOperationSelectedElements('union'),
+                'union'
+              )}
+              {renderToolBtn(
+                LANG.subtract,
+                <ObjectPanelIcon.Subtract />,
+                !buttonAvailability.subtract,
+                () => svgCanvas.booleanOperationSelectedElements('diff'),
+                'subtract'
+              )}
+              {renderToolBtn(
+                LANG.intersect,
+                <ObjectPanelIcon.Intersect />,
+                !buttonAvailability.intersect,
+                () => svgCanvas.booleanOperationSelectedElements('intersect'),
+                'intersect'
+              )}
+              {renderToolBtn(
+                LANG.difference,
+                <ObjectPanelIcon.Diff />,
+                !buttonAvailability.difference,
+                () => svgCanvas.booleanOperationSelectedElements('xor'),
+                'difference'
+              )}
+            </div>
           </div>
-        </div>
-        <div className={styles.row}>
-          <div className={classNames(styles.half, styles.left)}>
-            {renderToolBtn(
-              LANG.group,
-              'img/right-panel/icon-group.svg',
-              false,
-              () => svgCanvas.groupSelectedElements(),
-              'group'
-            )}
-            {renderToolBtn(
-              LANG.ungroup,
-              'img/right-panel/icon-ungroup.svg',
-              !buttonAvailability.ungroup,
-              () => svgCanvas.ungroupSelectedElement(),
-              'ungroup'
-            )}
-          </div>
-          <div className={classNames(styles.half, styles.right)}>
-            {renderToolBtn(
-              LANG.union,
-              'img/right-panel/icon-union.svg',
-              !buttonAvailability.union,
-              () => svgCanvas.booleanOperationSelectedElements('union'),
-              'union'
-            )}
-            {renderToolBtn(
-              LANG.subtract,
-              'img/right-panel/icon-subtract.svg',
-              !buttonAvailability.subtract,
-              () => svgCanvas.booleanOperationSelectedElements('diff'),
-              'subtract'
-            )}
-            {renderToolBtn(
-              LANG.intersect,
-              'img/right-panel/icon-intersect.svg',
-              !buttonAvailability.intersect,
-              () => svgCanvas.booleanOperationSelectedElements('intersect'),
-              'intersect'
-            )}
-            {renderToolBtn(
-              LANG.difference,
-              'img/right-panel/icon-diff.svg',
-              !buttonAvailability.difference,
-              () => svgCanvas.booleanOperationSelectedElements('xor'),
-              'difference'
-            )}
-          </div>
-        </div>
+        </ConfigProvider>
       </div>
     );
   };

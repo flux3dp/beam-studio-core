@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as React from 'react';
 import classNames from 'classnames';
-import { Select, Switch } from 'antd';
+import { Button, ConfigProvider, Select, Switch } from 'antd';
 
 import fontHelper from 'implementations/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import progressCaller from 'app/actions/progress-caller';
 import selector from 'app/svgedit/selector';
 import textEdit from 'app/svgedit/text/textedit';
@@ -17,9 +18,10 @@ import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/Text
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { iconButtonTheme, selectTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { isMobile } from 'helpers/system-helper';
 
-const { Option } = Select;
+import styles from './TextOptions.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -184,70 +186,22 @@ class TextOptions extends React.Component<Props, State> {
 
   renderFontFamilyBlock = (): JSX.Element => {
     const { fontFamily } = this.state;
-    if (window.os === 'MacOS' || window.FLUX.version === 'web') {
-      const renderOption = (option) => {
-        if (window.FLUX.version === 'web') {
-          const src = fontHelper.getWebFontPreviewUrl(option.value);
-          if (src) return <img src={src} alt={option.label} draggable="false" />;
-        }
-        return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 32 }}>{option.label}</div>;
-      };
-      if (isMobile()) {
-        const options = FontFuncs.availableFontFamilies.map((option) => {
-          const fontName = FontFuncs.fontNameMap.get(option);
-          const label = renderOption({
-            value: option,
-            label: typeof fontName === 'string' ? fontName : option,
-          });
-          return { value: option, label };
-        });
-        return (
-          <ObjectPanelItem.Select
-            id="font_family"
-            selected={{ value: fontFamily, label: fontFamily }}
-            options={options}
-            onChange={this.handleFontFamilyChange}
-            label={LANG.font_family}
-          />
-        );
+    const renderOption = (option) => {
+      if (window.FLUX.version === 'web') {
+        const src = fontHelper.getWebFontPreviewUrl(option.value);
+        if (src) return <img src={src} alt={option.label} draggable="false" />;
       }
-      const options = FontFuncs.availableFontFamilies.map((option) => {
-        const label = FontFuncs.fontNameMap.get(option);
-        return { value: option, label };
+      return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 32 }}>{option.label}</div>;
+    };
+    const options = FontFuncs.availableFontFamilies.map((option) => {
+      const fontName = FontFuncs.fontNameMap.get(option);
+      const label = renderOption({
+        value: option,
+        label: typeof fontName === 'string' ? fontName : option,
       });
-      const isOnlyOneOption = options.length === 1;
-      return (
-        <div className="option-block">
-          <div className="label">{LANG.font_family}</div>
-          <div className="select-container">
-            <Select
-              defaultValue={{ value: fontFamily }}
-              onChange={(value) => this.handleFontFamilyChange(value)}
-              onKeyDown={(e) => {
-                e.stopPropagation();
-              }}
-              disabled={isOnlyOneOption}
-            >
-              { options.map((option) => (
-                <Option key={option.value} value={option.value} label={option.label}>
-                  {renderOption(option)}
-                </Option>
-              )) }
-            </Select>
-          </div>
-        </div>
-      );
-    }
+      return { value: option, label };
+    });
     if (isMobile()) {
-      const options = FontFuncs.availableFontFamilies.map((option) => {
-        const fontName = FontFuncs.fontNameMap.get(option);
-        const label = (
-          <span style={{ fontFamily: option }}>
-            {typeof fontName === 'string' ? fontName : option}
-          </span>
-        );
-        return { value: option, label };
-      });
       return (
         <ObjectPanelItem.Select
           id="font_family"
@@ -258,30 +212,18 @@ class TextOptions extends React.Component<Props, State> {
         />
       );
     }
-    const options = FontFuncs.availableFontFamilies.map((option: string) => {
-      const fontName = FontFuncs.fontNameMap.get(option);
-      const label = typeof fontName === 'string' ? fontName : option;
-      return (
-        <option value={option} key={option} style={{ fontFamily: option }}>
-          {label}
-        </option>
-      );
-    });
     const isOnlyOneOption = options.length === 1;
     return (
-      <div className="option-block">
-        <div className="label">{LANG.font_family}</div>
-        <div className="select-container">
-          <select
-            value={fontFamily}
-            onChange={(e) => this.handleFontFamilyChange(e.target.value)}
-            className={classNames({ 'no-triangle': isOnlyOneOption })}
-            disabled={isOnlyOneOption}
-          >
-            {options}
-          </select>
-        </div>
-      </div>
+      <Select
+        className={styles['font-family']}
+        title={LANG.font_family}
+        value={{ value: fontFamily }}
+        options={options}
+        onChange={(value) => this.handleFontFamilyChange(value)}
+        onKeyDown={(e) => e.stopPropagation()}
+        dropdownMatchSelectWidth={false}
+        disabled={isOnlyOneOption}
+      />
     );
   };
 
@@ -319,8 +261,8 @@ class TextOptions extends React.Component<Props, State> {
   renderFontStyleBlock = (): JSX.Element => {
     const { fontFamily, fontStyle } = this.state;
     const fontStyles = FontFuncs.requestFontsOfTheFontFamily(fontFamily).map((f) => f.style);
+    const options = fontStyles.map((option: string) => ({ value: option, label: option }));
     if (isMobile()) {
-      const options = fontStyles.map((option: string) => ({ value: option, label: option }));
       return (
         <ObjectPanelItem.Select
           id="font_style"
@@ -331,24 +273,18 @@ class TextOptions extends React.Component<Props, State> {
         />
       );
     }
-    const options = fontStyles.map((option) => (
-      <option key={option} value={option}>{option}</option>
-    ));
     const isOnlyOneOption = options.length === 1;
     return (
-      <div className="option-block">
-        <div className="label">{LANG.font_style}</div>
-        <div className="select-container">
-          <select
-            value={fontStyle}
-            onChange={(e) => this.handleFontStyleChange(e.target.value)}
-            className={classNames({ 'no-triangle': isOnlyOneOption })}
-            disabled={isOnlyOneOption}
-          >
-            {options}
-          </select>
-        </div>
-      </div>
+      <Select
+        className={styles['font-style']}
+        title={LANG.font_style}
+        value={fontStyle}
+        options={options}
+        onChange={(value) => this.handleFontStyleChange(value)}
+        onKeyDown={(e) => e.stopPropagation()}
+        dropdownMatchSelectWidth={false}
+        disabled={isOnlyOneOption}
+      />
     );
   };
 
@@ -373,8 +309,7 @@ class TextOptions extends React.Component<Props, State> {
         decimal={0}
       />
     ) : (
-      <div className="option-block">
-        <div className="label">{LANG.font_size}</div>
+      <div className={styles['font-size']} title={LANG.font_size}>
         <UnitInput
           id="font_size"
           min={1}
@@ -407,11 +342,13 @@ class TextOptions extends React.Component<Props, State> {
         unit="em"
       />
     ) : (
-      <div className="option-block">
-        <div className="label">{LANG.letter_spacing}</div>
+      <div className={styles.spacing}>
+        <div className={styles.label} title={LANG.letter_spacing}>
+          <OptionPanelIcons.LetterSpacing />
+        </div>
         <UnitInput
           id="letter_spacing"
-          unit="em"
+          unit=""
           step={0.05}
           className={{ 'option-input': true }}
           defaultValue={letterSpacing}
@@ -441,8 +378,10 @@ class TextOptions extends React.Component<Props, State> {
         decimal={1}
       />
     ) : (
-      <div className="option-block">
-        <div className="label">{LANG.line_spacing}</div>
+      <div className={styles.spacing}>
+        <div className={styles.label} title={LANG.line_spacing}>
+          <OptionPanelIcons.LineSpacing />
+        </div>
         <UnitInput
           id="line_spacing"
           unit=""
@@ -473,10 +412,16 @@ class TextOptions extends React.Component<Props, State> {
         onClick={this.handleVerticalTextClick}
       />
     ) : (
-      <div className={classNames('option-block')}>
-        <div className="label">{LANG.vertical_text}</div>
-        <Switch defaultChecked={isVerti} onChange={this.handleVerticalTextClick} />
-      </div>
+      <ConfigProvider theme={iconButtonTheme}>
+        <Button
+          id="vertical-text"
+          type="text"
+          className={classNames(styles['vertical-text'], { [styles.active]: isVerti })}
+          title={LANG.vertical_text}
+          icon={<OptionPanelIcons.VerticalText />}
+          onClick={this.handleVerticalTextClick}
+        />
+      </ConfigProvider>
     );
   };
 
@@ -501,6 +446,7 @@ class TextOptions extends React.Component<Props, State> {
     return (
       <>
         {this.renderLineSpacingBlock()}
+        {this.renderLetterSpacingBlock()}
         {this.renderVerticalTextSwitch()}
         <InFillBlock elem={elem} />
       </>
@@ -513,14 +459,9 @@ class TextOptions extends React.Component<Props, State> {
     const { startOffset, verticalAlign } = this.state;
     return (
       <>
-        <StartOffsetBlock
-          value={startOffset}
-          onValueChange={this.handleStartOffsetChange}
-        />
-        <VerticalAlignBlock
-          value={verticalAlign}
-          onValueChange={this.handleVerticalAlignChange}
-        />
+        {this.renderLetterSpacingBlock()}
+        <StartOffsetBlock value={startOffset} onValueChange={this.handleStartOffsetChange} />
+        <VerticalAlignBlock value={verticalAlign} onValueChange={this.handleVerticalAlignChange} />
         <InFillBlock elem={textElement} label={LANG.text_infill} />
         <InFillBlock elem={path} label={LANG.path_infill} id="path_infill" />
       </>
@@ -534,17 +475,23 @@ class TextOptions extends React.Component<Props, State> {
         {this.renderFontFamilyBlock()}
         {this.renderFontStyleBlock()}
         {this.renderFontSizeBlock()}
-        {this.renderLetterSpacingBlock()}
         {isTextPath ? this.renderTextPathOptions() : this.renderMultiLineTextOptions()}
       </>
     ) : (
-      <div className="text-options">
-        {this.renderFontFamilyBlock()}
-        {this.renderFontStyleBlock()}
-        {this.renderFontSizeBlock()}
-        {this.renderLetterSpacingBlock()}
-        {isTextPath ? this.renderTextPathOptions() : this.renderMultiLineTextOptions()}
-      </div>
+      <ConfigProvider theme={selectTheme}>
+        <div className={styles.panel}>
+          {this.renderFontFamilyBlock()}
+          <div className={styles.row}>
+            {this.renderFontSizeBlock()}
+            {this.renderFontStyleBlock()}
+          </div>
+          {isTextPath ? (
+            this.renderTextPathOptions()
+          ) : (
+            <div className={styles.row}>{this.renderMultiLineTextOptions()}</div>
+          )}
+        </div>
+      </ConfigProvider>
     );
   }
 }
