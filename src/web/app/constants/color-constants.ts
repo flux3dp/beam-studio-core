@@ -72,6 +72,18 @@ const randomLayerColors = [
   '#9E9E9E',
 ];
 
+export const objectsColorPresets =[
+  '#F5222D',
+  '#FA8C16',
+  '#FADB14',
+  '#8BBB11',
+  '#52C41A',
+  '#13A8A8',
+  '#1677FF',
+  '#2F54EB',
+  '#722ED1',
+];
+
 export enum PrintingColors {
   CYAN = '#9FE3FF',
   MAGENTA = '#E6007E',
