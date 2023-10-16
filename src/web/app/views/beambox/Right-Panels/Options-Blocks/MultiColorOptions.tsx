@@ -48,7 +48,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     setColors(colloectColors(elem));
     if (elem.tagName.toLowerCase() === 'use') {
-      symbolMaker.reRenderImageSymbol(elem as SVGUseElement);
+      symbolMaker.reRenderImageSymbol(elem as SVGUseElement, { force: true });
     }
   };
   // TODO: controls horizontal scroll handler for windows
