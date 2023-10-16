@@ -17,7 +17,6 @@ import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
 import { CanvasProvider } from 'app/contexts/CanvasContext';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
 import { SelectedElementContextProvider } from 'app/contexts/SelectedElementContext';
@@ -44,24 +43,22 @@ const Beambox = (): JSX.Element => {
   return (
     <CanvasProvider>
       <SelectedElementContextProvider>
-        <ObjectPanelContextProvider>
-          <LayerPanelContextProvider>
-            <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
-              <TopBar />
-              <LeftPanel />
-              <RightPanelContextProvider>
-                <RightPanel />
-              </RightPanelContextProvider>
-              <SvgEditor />
-              <TimeEstimationButtonContextProvider>
-                <TimeEstimationButton />
-              </TimeEstimationButtonContextProvider>
-              <div id="tool-panels-placeholder" />
-              <ImageTracePanel />
-              <CanvasTabBar />
-            </div>
-          </LayerPanelContextProvider>
-        </ObjectPanelContextProvider>
+        <LayerPanelContextProvider>
+          <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
+            <TopBar />
+            <LeftPanel />
+            <RightPanelContextProvider>
+              <RightPanel />
+            </RightPanelContextProvider>
+            <SvgEditor />
+            <TimeEstimationButtonContextProvider>
+              <TimeEstimationButton />
+            </TimeEstimationButtonContextProvider>
+            <div id="tool-panels-placeholder" />
+            <ImageTracePanel />
+            <CanvasTabBar />
+          </div>
+        </LayerPanelContextProvider>
       </SelectedElementContextProvider>
     </CanvasProvider>
   );

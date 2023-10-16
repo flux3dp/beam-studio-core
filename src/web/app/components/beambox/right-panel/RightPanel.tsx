@@ -7,6 +7,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import {
   RightPanelContext,
   RightPanelMode,
@@ -66,8 +67,10 @@ const RightPanel = (): JSX.Element => {
     <div id="right-panel" style={{ display: 'block' }}>
       <div id="sidepanels" className={sideClass}>
         <Tab mode={mode} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-        <ObjectPanelItem.Mask />
-        {content}
+        <ObjectPanelContextProvider>
+          <ObjectPanelItem.Mask />
+          {content}
+        </ObjectPanelContextProvider>
         <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
       </div>
     </div>
