@@ -18,7 +18,12 @@ const setSelectedLayers = (selectedLayers: string[]): void => {
   layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', selectedLayers);
 };
 
+const checkVector = (): void => {
+  layerPanelEventEmitter.emit('CHECK_VECTOR');
+};
+
 export default {
+  checkVector,
   updateLayerPanel,
   getSelectedLayers,
   setSelectedLayers,
