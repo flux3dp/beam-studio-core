@@ -1,32 +1,5 @@
-.container {
-  -webkit-app-region: no-drag;
+@use './_mixins.scss' as mixins;
 
-  display: inline-flex;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  padding: 0 8px;
-  margin: 0 3px 0 0;
-
-  button {
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    border: none;
-    background: none;
-
-    .icon {
-      opacity: 0.7;
-      filter: brightness(0) invert(1);
-
-      svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
+.button {
+  @include mixins.button();
 }

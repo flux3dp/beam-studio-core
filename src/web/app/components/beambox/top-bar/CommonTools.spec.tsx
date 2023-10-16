@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -9,6 +8,7 @@ jest.mock('helpers/i18n', () => ({
       menu: {
         undo: 'Undo',
         redo: 'Redo',
+        delete: 'Delete',
       },
     },
   },
@@ -41,30 +41,34 @@ import CommonTools from './CommonTools';
 
 describe('should render correctly', () => {
   test('is not web version', () => {
-    expect(toJson(shallow(<CommonTools isWeb={false} hide={false} />))).toMatchSnapshot();
+    const { container } = render(<CommonTools isWeb={false} hide={false} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('hide', () => {
-    expect(toJson(shallow(<CommonTools isWeb hide />))).toMatchSnapshot();
+    const { container } = render(<CommonTools isWeb hide />);
+    expect(container).toMatchSnapshot();
   });
 
   test('is mobile', () => {
     useIsMobile.mockReturnValue(true);
-    expect(toJson(shallow(<CommonTools isWeb hide={false} />))).toMatchSnapshot();
+    const { container } = render(<CommonTools isWeb hide={false} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('not hiding, not mobile and in web version', () => {
     useIsMobile.mockReturnValue(false);
-    const wrapper = shallow(<CommonTools isWeb hide={false} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<CommonTools isWeb hide={false} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('img').at(0).simulate('click');
+    const buttons = container.querySelectorAll('div.common-tools-container > div');
+    fireEvent.click(buttons[0]);
     expect(clickUndo).toHaveBeenCalledTimes(1);
 
-    wrapper.find('img').at(1).simulate('click');
+    fireEvent.click(buttons[1]);
     expect(clickRedo).toHaveBeenCalledTimes(1);
 
-    wrapper.find('img').at(2).simulate('click');
+    fireEvent.click(buttons[2]);
     expect(deleteSelected).toHaveBeenCalledTimes(1);
   });
 });

@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: '파워 너무 높음',
       power_too_high_msg: '70% 미만의 낮은 레이저 파워를 사용하면 레이저 튜브의 수명이 연장됩니다. 계속하려면 "확인"을 눌러주세요.',
       power_too_high_confirm: '확인',
+      add_content_first: '먼저 개체를 추가해 주세요.',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: '앤티앨리어싱',
       disassemble_use: '분해하기',
     },
+    select_machine: '기계를 선택하세요',
   },
   support: {
     no_webgl: 'WebGL이 지원되지 않습니다. 다른 기기를 사용해 주세요.',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: '뒤집기',
       object_actions: '객체 동작',
       end_alert: '새 UI 소개를 종료하시겠습니까?',
+      select_machine: '기계를 선택하세요',
+      frame: '프레임 미리보기',
+      path_preview: '경로 미리보기',
+      start_work: '작업 시작',
     },
     gesture: {
       pan: '두 손가락으로 캔버스를 스크롤합니다.',

@@ -33,6 +33,9 @@ jest.mock('helpers/i18n', () => ({
     alert: {
       cancel: 'Cancel',
     },
+    topbar: {
+      select_machine: 'Select a machine'
+    }
   },
   getActiveLang: () => 'en',
 }));

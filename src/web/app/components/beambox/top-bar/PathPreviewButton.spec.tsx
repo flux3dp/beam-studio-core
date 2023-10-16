@@ -1,7 +1,14 @@
 /* eslint-disable import/first */
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { fireEvent, render } from '@testing-library/react';
+
+jest.mock('helpers/useI18n', () => () => ({
+  tutorial: {
+    newInterface: {
+      path_preview: 'Path Preview',
+    },
+  },
+}));
 
 const checkWebGL = jest.fn();
 jest.mock('helpers/check-webgl', () => checkWebGL);
@@ -20,17 +27,21 @@ getSVGAsync.mockImplementation((callback) => {
   });
 });
 
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({
+    isPreviewing: false,
+  }),
+}));
+
 import PathPreviewButton from './PathPreviewButton';
 
 describe('should render correctly', () => {
   test('no WebGL', () => {
     checkWebGL.mockReturnValue(false);
-    expect(toJson(shallow(<PathPreviewButton
-      isPathPreviewing
-      isDeviceConnected
-      togglePathPreview={jest.fn()}
-
-    />))).toMatchSnapshot();
+    const { container } = render(
+      <PathPreviewButton isPathPreviewing isDeviceConnected togglePathPreview={jest.fn()} />
+    );
+    expect(container).toMatchSnapshot();
   });
 
   describe('has WebGL', () => {
@@ -41,23 +52,27 @@ describe('should render correctly', () => {
     test('no devices connected in web version', () => {
       window.FLUX.version = 'web';
       checkWebGL.mockReturnValue(true);
-      const wrapper = shallow(<PathPreviewButton
-        isPathPreviewing
-        isDeviceConnected={false}
-        togglePathPreview={jest.fn()}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <PathPreviewButton
+          isPathPreviewing
+          isDeviceConnected={false}
+          togglePathPreview={jest.fn()}
+        />
+      );
+      expect(container).toMatchSnapshot();
     });
 
     test('no devices connected in desktop version', () => {
       checkWebGL.mockReturnValue(true);
       window.FLUX.version = '1.2.3';
-      const wrapper = shallow(<PathPreviewButton
-        isPathPreviewing
-        isDeviceConnected={false}
-        togglePathPreview={jest.fn()}
-      />);
-      wrapper.find('div.path-preview-button').simulate('click');
+      const { container } = render(
+        <PathPreviewButton
+          isPathPreviewing
+          isDeviceConnected={false}
+          togglePathPreview={jest.fn()}
+        />
+      );
+      expect(container).toMatchSnapshot();
     });
 
     describe('has devices connected', () => {
@@ -68,13 +83,15 @@ describe('should render correctly', () => {
       test('is path previewing', () => {
         checkWebGL.mockReturnValue(true);
         const togglePathPreview = jest.fn();
-        const wrapper = shallow(<PathPreviewButton
-          isPathPreviewing
-          isDeviceConnected
-          togglePathPreview={togglePathPreview}
-        />);
+        const { container } = render(
+          <PathPreviewButton
+            isPathPreviewing
+            isDeviceConnected
+            togglePathPreview={togglePathPreview}
+          />
+        );
 
-        wrapper.find('div.path-preview-button').simulate('click');
+        fireEvent.click(container.querySelector('div[class*="button"]'));
         expect(clearSelection).not.toHaveBeenCalled();
         expect(togglePathPreview).not.toHaveBeenCalled();
       });
@@ -82,13 +99,14 @@ describe('should render correctly', () => {
       test('is not path previewing', () => {
         checkWebGL.mockReturnValue(true);
         const togglePathPreview = jest.fn();
-        const wrapper = shallow(<PathPreviewButton
-          isPathPreviewing={false}
-          isDeviceConnected
-          togglePathPreview={togglePathPreview}
-        />);
-
-        wrapper.find('div.path-preview-button').simulate('click');
+        const { container } = render(
+          <PathPreviewButton
+            isPathPreviewing={false}
+            isDeviceConnected
+            togglePathPreview={togglePathPreview}
+          />
+        );
+        fireEvent.click(container.querySelector('div[class*="button"]'));
         expect(clearSelection).toHaveBeenCalledTimes(1);
         expect(togglePathPreview).toHaveBeenCalledTimes(1);
       });

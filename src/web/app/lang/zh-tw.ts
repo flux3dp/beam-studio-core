@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: '功率過高',
       power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
       power_too_high_confirm: '知道了',
+      add_content_first: '請先新增物件',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: '反鋸齒',
       disassemble_use: '解散圖檔',
     },
+    select_machine: '選擇機器',
   },
   support: {
     no_webgl: '您的系統不支援 WebGL，建議您使用其他電腦開啟 Beam Studio',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: '翻轉',
       object_actions: '物件操作',
       end_alert: '請問您是否確定要結束新介面介紹？',
+      select_machine: '選擇機器',
+      frame: '外框預覽',
+      path_preview: '路徑預覽',
+      start_work: '開始工作',
     },
     gesture: {
       pan: '雙指平移讓畫布隨著您的手指方向移動。',

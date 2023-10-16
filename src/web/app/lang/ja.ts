@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'パワーが高すぎる',
       power_too_high_msg: 'より低いレーザー出力（70％未満）を使用すると、レーザー管の寿命が延びます。\n「了解」と入力して続行します。',
       power_too_high_confirm: '了解',
+      add_content_first: '最初にオブジェクトを追加してください',
     },
     hint: {
       polygon: '+ / - キーを押して、辺を増減します。',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'アンチエイリアス',
       disassemble_use: '逆アセンブル',
     },
+    select_machine: 'マシンの選択',
   },
   support: {
     no_webgl: 'WebGLはサポートされていません。他のデバイスを使用してください。',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: 'フリップ',
       object_actions: 'オブジェクトアクション',
       end_alert: '新しいインターフェースの紹介を終了してもよろしいですか？',
+      select_machine: 'マシンの選択',
+      frame: 'フレームプレビュー',
+      path_preview: 'パスプレビュー',
+      start_work: '作業開始',
     },
     gesture: {
       pan: '二本指でキャンバスをスクロールします。',

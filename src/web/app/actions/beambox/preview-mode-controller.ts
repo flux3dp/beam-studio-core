@@ -5,6 +5,8 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import checkDeviceStatus from 'helpers/check-device-status';
+import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
 import deviceConstants from 'app/constants/device-constants';
@@ -150,6 +152,40 @@ class PreviewModeController {
       await deviceMaster.setLaserSpeed(this.originalSpeed);
       this.originalSpeed = 1;
     }
+  }
+
+  async checkDevice(device: IDeviceInfo | null) {
+    if (this.currentDevice && this.currentDevice.serial !== device?.serial) {
+      await this.end();
+      PreviewModeBackgroundDrawer.clear();
+    }
+    if (!device) return false;
+    const deviceStatus = await checkDeviceStatus(device);
+    if (!deviceStatus) return false;
+    const vc = VersionChecker(device.version);
+    if (!vc.meetRequirement('USABLE_VERSION')) {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: LANG.beambox.popup.should_update_firmware_to_continue,
+      });
+      Progress.popById('start-preview-controller');
+      return false;
+    }
+    if (BeamboxPreference.read('borderless') && !vc.meetRequirement('BORDERLESS_MODE')) {
+      // eslint-disable-next-line max-len
+      const message = `#814 ${LANG.camera_calibration.update_firmware_msg1} 2.5.1 ${LANG.camera_calibration.update_firmware_msg2} ${LANG.beambox.popup.or_turn_off_borderless_mode}`;
+      const caption = LANG.beambox.left_panel.borderless_preview;
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message,
+        caption,
+      });
+      Progress.popById('start-preview-controller');
+      return false;
+    }
+    const res = await checkOldFirmware(device.version);
+    if (!res) return false;
+    return true;
   }
 
   async start(device, errCallback) {
@@ -334,7 +370,7 @@ class PreviewModeController {
     MessageCaller.openMessage({
       key: 'camera-preview',
       level: MessageLevel.SUCCESS,
-      content: '相機預覽完成',
+      content: i18n.lang.device.completed,
       duration: 3,
     });
     callback();

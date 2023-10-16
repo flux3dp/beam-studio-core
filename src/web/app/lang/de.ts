@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'Leistung zu hoch',
       power_too_high_msg: 'Die Verwendung einer niedrigeren Laserleistung (unter 70%) verlängert die Lebensdauer der Laserröhre!\nGeben Sie "OK" ein, um fortzufahren.',
       power_too_high_confirm: 'OK',
+      add_content_first: 'Bitte fügen Sie zuerst Objekte hinzu',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Suavizado',
       disassemble_use: 'Zerlegen',
     },
+    select_machine: 'Wählen Sie eine Maschine aus',
   },
   support: {
     no_webgl: 'WebGL wird nicht unterstützt. Bitte verwenden Sie andere Geräte.',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: 'Flip',
       object_actions: 'Objektaktionen',
       end_alert: 'Sind Sie sicher, die neue Einführung in die Benutzeroberfläche zu beenden?',
+      select_machine: 'Wählen Sie eine Maschine aus',
+      frame: 'Frame-Vorschau',
+      path_preview: 'Pfadvorschau',
+      start_work: 'Arbeit beginnen',
     },
     gesture: {
       pan: 'Scrollen mit 2 Fingern auf dem Bildschirm.',

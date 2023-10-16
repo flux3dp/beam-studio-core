@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'PUISSANCE TROP ÉLEVÉE',
       power_too_high_msg: 'L\'utilisation d\'une puissance laser plus faible (inférieure à 70 %) permet de prolonger la durée de vie du tube laser.\nEntrez "NOTED" pour continuer.',
       power_too_high_confirm: 'NOTED',
+      add_content_first: 'Veuillez d\'abord ajouter des objets',
     },
     hint: {
       polygon: 'Appuyez sur la touche + / - pour augmenter / diminuer les côtés.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Anti-crénelage',
       disassemble_use: 'Démonter',
     },
+    select_machine: 'Sélectionnez une machine',
   },
   support: {
     no_webgl: 'WebGL n\'est pas pris en charge par cet ordinateur. Veuillez utiliser un autre appareil.',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: 'Retourner',
       object_actions: 'Actions sur les objets',
       end_alert: 'Êtes-vous sûr de terminer l\'introduction de la nouvelle interface utilisateur ?',
+      select_machine: 'Sélectionnez une machine',
+      frame: 'Aperçu du cadre',
+      path_preview: 'Aperçu de la trajectoire',
+      start_work: 'Commencer le travail',
     },
     gesture: {
       pan: 'Faites défiler le canevas avec deux doigts.',

@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: '功率过高',
       power_too_high_msg: '激光管在高功率（70％ 以上）下耗损较快，使用低功率可以延长雷试管使用寿命。\n输入「知道了」以继续。',
       power_too_high_confirm: '知道了',
+      add_content_first: '请先新增物件',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: '抗锯齿',
       disassemble_use: '解散图档',
     },
+    select_machine: '选择机器',
   },
   support: {
     no_webgl: '您的系统不支持 WebGL，建议您使用其他电脑开启 Mozu Studio',
@@ -1364,6 +1366,10 @@ const lang: ILang = {
       flip: '翻转',
       object_actions: '物件操作',
       end_alert: '请问您是否确定要结束新介面介绍？',
+      select_machine: '选择机器',
+      frame: '外框预览',
+      path_preview: '路径预览',
+      start_work: '开始工作',
     },
     gesture: {
       pan: '双指平移让画布随着您的手指方向移动。',
