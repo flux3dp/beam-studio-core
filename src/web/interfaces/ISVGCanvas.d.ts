@@ -35,6 +35,7 @@ export default interface ISVGCanvas {
   calculateTransformedBBox(elem: Element): IRect;
   call: (eventName: string, args?: SVGElement[] | any) => void;
   changeSelectedAttribute(attr: string, val: string | number): void;
+  changeSelectedAttributeNoUndo: (attr: string, val: string | number, elems: Element[]) => void;
   cleanupElement: (elem: SVGElement) => void;
   clear: () => void;
   clearBoundingBox: () => void;
