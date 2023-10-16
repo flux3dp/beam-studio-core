@@ -69,9 +69,9 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
         <ConfigProvider theme={{ token: { controlHeight: isMobile ? 30 : 24, borderRadius: 4 } }}>
           <Space.Compact block>
             {[
-              { title: 'tCorner', value: LINKTYPE_CORNER, icon: <PathEditIcons.Corner /> },
-              { title: 'tSmooth', value: LINKTYPE_SMOOTH, icon: <PathEditIcons.Smooth /> },
-              { title: 'tSymmetry', value: LINKTYPE_SYMMETRIC, icon: <PathEditIcons.Symmetry /> },
+              { title: 'Corner', value: LINKTYPE_CORNER, icon: <PathEditIcons.Corner /> },
+              { title: 'Smooth', value: LINKTYPE_SMOOTH, icon: <PathEditIcons.Smooth /> },
+              { title: 'Symmetry', value: LINKTYPE_SYMMETRIC, icon: <PathEditIcons.Symmetry /> },
             ].map(({ title, value, icon }) => (
               <Button
                 className={classNames(styles['compact-button'], {

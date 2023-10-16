@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { fireEvent, render } from '@testing-library/react';
 
 enum VerticalAlign {
   BOTTOM = 0,
@@ -40,26 +39,25 @@ import VerticalAlignBlock from './VerticalAlignBlock';
 describe('test VerticalAlignBlock', () => {
   test('should render correctly', () => {
     const onValueChange = jest.fn();
-    const wrapper = shallow(
+    const { baseElement, getByRole, getByText } = render(
       <VerticalAlignBlock value={VerticalAlign.BOTTOM} onValueChange={onValueChange} />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
 
-    wrapper.find('div.option-block').simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.mouseDown(getByRole('combobox'));
+    expect(baseElement).toMatchSnapshot();
 
-    wrapper.find('select').simulate('change', { target: { value: VerticalAlign.TOP } });
+    fireEvent.click(getByText('Top Align'));
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenNthCalledWith(1, VerticalAlign.TOP);
-    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('should render correctly in mobile', () => {
     useIsMobile.mockReturnValue(true);
     const onValueChange = jest.fn();
-    const wrapper = shallow(
+    const { container } = render(
       <VerticalAlignBlock value={VerticalAlign.BOTTOM} onValueChange={onValueChange} />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

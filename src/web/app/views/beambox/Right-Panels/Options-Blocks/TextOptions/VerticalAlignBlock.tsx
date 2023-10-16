@@ -39,7 +39,7 @@ export default function VerticalAlignBlock({ value, onValueChange }: Props): JSX
       <Select
         value={value}
         options={options}
-        onChange={onValueChange}
+        onChange={(val) => onValueChange(val)}
         onKeyDown={(e) => e.stopPropagation()}
         dropdownMatchSelectWidth={false}
       />

@@ -2,16 +2,15 @@
 
 exports[`test PolygonOptions should render correctly 1`] = `
 <div>
-  <div
-    class="polygon-options"
-  >
+  <div>
     <div
-      class="option-block"
+      class="polygon-sides"
     >
       <div
         class="label"
+        title="Sides"
       >
-        Sides
+        <svgr-url />
       </div>
       <div
         class="option-input ui ui-control-unit-input-v2"
@@ -33,16 +32,15 @@ exports[`test PolygonOptions should render correctly 1`] = `
 
 exports[`test PolygonOptions should render correctly 2`] = `
 <div>
-  <div
-    class="polygon-options"
-  >
+  <div>
     <div
-      class="option-block"
+      class="polygon-sides"
     >
       <div
         class="label"
+        title="Sides"
       >
-        Sides
+        <svgr-url />
       </div>
       <div
         class="option-input ui ui-control-unit-input-v2"
@@ -64,16 +62,15 @@ exports[`test PolygonOptions should render correctly 2`] = `
 
 exports[`test PolygonOptions should render correctly 3`] = `
 <div>
-  <div
-    class="polygon-options"
-  >
+  <div>
     <div
-      class="option-block"
+      class="polygon-sides"
     >
       <div
         class="label"
+        title="Sides"
       >
-        Sides
+        <svgr-url />
       </div>
       <div
         class="option-input ui ui-control-unit-input-v2"
@@ -95,16 +92,15 @@ exports[`test PolygonOptions should render correctly 3`] = `
 
 exports[`test PolygonOptions should render correctly 4`] = `
 <div>
-  <div
-    class="polygon-options"
-  >
+  <div>
     <div
-      class="option-block"
+      class="polygon-sides"
     >
       <div
         class="label"
+        title="Sides"
       >
-        Sides
+        <svgr-url />
       </div>
       <div
         class="option-input ui ui-control-unit-input-v2"

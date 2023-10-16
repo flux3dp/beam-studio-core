@@ -160,73 +160,46 @@ exports[`should render correctly in mobile is not fillable 1`] = `<div />`;
 
 exports[`should render correctly is fillable 1`] = `
 <div>
-  <div
-    class="option-block"
+  <button
+    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+    id="infill"
+    title="Infill"
+    type="button"
   >
-    <div
-      class="label"
-    >
-      Infill
-    </div>
-    <div
-      class="onoffswitch"
-      id="infill"
-    >
-      <input
-        class="onoffswitch-checkbox"
-        readonly=""
-        type="checkbox"
-      />
-      <label
-        class="onoffswitch-label"
-      >
-        <span
-          class="onoffswitch-inner"
-        />
-        <span
-          class="onoffswitch-switch"
-        />
-      </label>
-    </div>
-  </div>
+    <svgr-url />
+  </button>
 </div>
 `;
 
 exports[`should render correctly is fillable 2`] = `
 <div>
-  <div
-    class="option-block"
+  <button
+    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only filled"
+    id="infill"
+    title="Infill"
+    type="button"
   >
-    <div
-      class="label"
-    >
-      Infill
-    </div>
-    <div
-      class="onoffswitch"
-      id="infill"
-    >
-      <input
-        class="onoffswitch-checkbox"
-        readonly=""
-        type="checkbox"
-      />
-      <label
-        class="onoffswitch-label"
-      >
-        <span
-          class="onoffswitch-inner"
-        />
-        <span
-          class="onoffswitch-switch"
-        />
-      </label>
-    </div>
-  </div>
+    <svgr-url />
+  </button>
 </div>
 `;
 
 exports[`should render correctly is fillable 3`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+    id="infill"
+    title="Infill"
+    type="button"
+  >
+    <svgr-url />
+  </button>
+</div>
+`;
+
+exports[`should render correctly is not fillable 1`] = `<div />`;
+
+exports[`should render correctly with label 1`] = `
 <div>
   <div
     class="option-block"
@@ -236,28 +209,94 @@ exports[`should render correctly is fillable 3`] = `
     >
       Infill
     </div>
-    <div
-      class="onoffswitch"
-      id="infill"
+    <button
+      aria-checked="false"
+      class="ant-switch ant-switch-small css-dev-only-do-not-override-hash"
+      role="switch"
+      type="button"
     >
-      <input
-        class="onoffswitch-checkbox"
-        readonly=""
-        type="checkbox"
+      <div
+        class="ant-switch-handle"
       />
-      <label
-        class="onoffswitch-label"
+      <span
+        class="ant-switch-inner"
       >
         <span
-          class="onoffswitch-inner"
+          class="ant-switch-inner-checked"
         />
         <span
-          class="onoffswitch-switch"
+          class="ant-switch-inner-unchecked"
         />
-      </label>
-    </div>
+      </span>
+    </button>
   </div>
 </div>
 `;
 
-exports[`should render correctly is not fillable 1`] = `<div />`;
+exports[`should render correctly with label 2`] = `
+<div>
+  <div
+    class="option-block"
+  >
+    <div
+      class="label"
+    >
+      Infill
+    </div>
+    <button
+      aria-checked="true"
+      class="ant-switch ant-switch-small css-dev-only-do-not-override-hash ant-switch-checked"
+      role="switch"
+      type="button"
+    >
+      <div
+        class="ant-switch-handle"
+      />
+      <span
+        class="ant-switch-inner"
+      >
+        <span
+          class="ant-switch-inner-checked"
+        />
+        <span
+          class="ant-switch-inner-unchecked"
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`should render correctly with label 3`] = `
+<div>
+  <div
+    class="option-block"
+  >
+    <div
+      class="label"
+    >
+      Infill
+    </div>
+    <button
+      aria-checked="false"
+      class="ant-switch ant-switch-small css-dev-only-do-not-override-hash"
+      role="switch"
+      type="button"
+    >
+      <div
+        class="ant-switch-handle"
+      />
+      <span
+        class="ant-switch-inner"
+      >
+        <span
+          class="ant-switch-inner-checked"
+        />
+        <span
+          class="ant-switch-inner-unchecked"
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;

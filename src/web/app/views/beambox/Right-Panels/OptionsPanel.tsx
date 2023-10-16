@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
@@ -73,7 +72,7 @@ function OptionsPanel({
       {contents}
     </div>
   ) : (
-    <div className={classNames('options-panel', styles.panel)}>
+    <div className={styles.panel}>
       <div className={styles.title}>OPTIONS</div>
       {contents}
     </div>
