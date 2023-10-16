@@ -4,7 +4,6 @@ const getRealSymbol = (elem: Element): Element | null => {
   const refId = elem.getAttributeNS(NS.XLINK, 'href');
   if(!refId?.startsWith('#')) return null;
   const refElem = document.getElementById(refId.substring(1));
-  console.log(refElem);
   if (refElem.getAttribute('data-origin-symbol')) {
     const originalSymbol = document.getElementById(refElem.getAttribute('data-origin-symbol'));
     if (originalSymbol) return originalSymbol;
