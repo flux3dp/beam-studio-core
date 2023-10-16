@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -13,17 +14,16 @@ const LANG = i18n.lang.beambox.right_panel;
 
 interface Props {
   mode: 'element' | 'path-edit';
-  selectedElement: Element | null;
   selectedTab: 'layers' | 'objects';
   setSelectedTab: (selectedTab: 'layers' | 'objects') => void;
 }
 
 function Tab({
   mode,
-  selectedElement,
   selectedTab,
   setSelectedTab,
 }: Props): JSX.Element {
+  const { selectedElement } = useContext(SelectedElementContext);
   const isObjectDisabled = (mode === 'element' && !selectedElement);
   let objectTitle = LANG.tabs.objects;
   const LangTopBar = i18n.lang.topbar;
