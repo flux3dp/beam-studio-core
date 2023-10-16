@@ -25,6 +25,8 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     setColors(colloectColors(elem));
   }, [elem]);
 
+  if (Object.keys(colors).length === 0) return null;
+
   const handleColorChange = (origColor: string, newColor: string) => {
     const fillElements = [];
     const strokeElements = [];
