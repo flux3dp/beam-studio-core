@@ -49,7 +49,7 @@ exports[`test SelectMachineButton with device 1`] = `
     <span
       class="text"
     >
-      beamo (device name)
+      device name
     </span>
   </div>
 </div>
