@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 import { Button, ConfigProvider } from 'antd';
 
 import ActionsPanel from 'app/views/beambox/Right-Panels/ActionsPanel';
@@ -14,6 +14,7 @@ import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './ObjectPanel.module.scss';
@@ -26,13 +27,10 @@ getSVGAsync((globalSVG) => {
 });
 const LANG = i18n.lang.beambox.right_panel.object_panel;
 
-interface Props {
-  elem: Element;
-}
-
-function ObjectPanel({ elem }: Props): JSX.Element {
+function ObjectPanel(): JSX.Element {
   const isMobile = useIsMobile();
   const context = useContext(ObjectPanelContext);
+  const { selectedElement: elem } = useContext(SelectedElementContext);
   const getAvailableFunctions = () => {
     if (!elem) {
       return {};
@@ -371,4 +369,4 @@ function ObjectPanel({ elem }: Props): JSX.Element {
   );
 }
 
-export default ObjectPanel;
+export default memo(ObjectPanel);
