@@ -5,7 +5,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
-import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
+import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import i18n from 'helpers/i18n';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
