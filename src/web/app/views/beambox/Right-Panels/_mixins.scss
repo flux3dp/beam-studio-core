@@ -55,3 +55,38 @@
     color: #494949;
   }
 }
+
+@mixin option-block() {
+  margin: 7px 0;
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .label {
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    font-weight: 600;
+    color: #333333;
+  }
+
+  .option-input {
+    width: 40px;
+    height: 20px;
+    line-height: 20px;
+    margin: 0px;
+
+    input {
+      height: 20px;
+    }
+  }
+
+  &.with-select {
+    margin: 2px 0;
+  }
+
+  &.with-slider {
+    margin-bottom: 0;
+  }
+}

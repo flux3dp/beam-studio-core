@@ -89,8 +89,8 @@ class InFillBlock extends React.Component<Props, State> {
         onClick={this.onClick}
       />
     ) : label ? (
-      <div className="option-block" key="infill">
-        <div className="label">{label}</div>
+      <div className={styles['option-block']} key="infill">
+        <div className={styles.label}>{label}</div>
         <Switch size="small" checked={isAnyFilled} onClick={this.onClick} />
       </div>
     ) : (

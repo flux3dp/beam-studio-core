@@ -16,4 +16,8 @@
       margin-bottom: 4px;
     }
   }
+
+  .option-block {
+    @include mixins.option-block();
+  }
 }

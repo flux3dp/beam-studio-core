@@ -1,3 +1,9 @@
+@use '../_mixins.scss' as mixins;
+
 .filled > span {
   color: #1890ff;
+}
+
+.option-block {
+  @include mixins.option-block();
 }

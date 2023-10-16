@@ -22,19 +22,13 @@
     margin-right: auto;
 
     :global(.ui-control-unit-input-v2) {
-      height: 28px !important;
-      margin: 4px 0 !important;
+      height: 28px;
+      margin: 4px 0;
 
       input {
-        height: 28px !important;
-        width: 68px !important;
-        padding-left: 5px !important;
-      }
-
-      span {
-        display: inline-flex;
-        justify-content: flex-end;
-        width: 18px;
+        height: 28px;
+        width: 68px;
+        padding-left: 5px;
       }
     }
   }
@@ -48,9 +42,9 @@
     margin-right: 8px;
 
     :global(.ui-control-unit-input-v2) {
-      margin: 4px 0 !important;
+      margin: 4px 0;
       input {
-        padding: 1px !important;
+        padding: 1px;
       }
     }
   }
@@ -62,10 +56,5 @@
     &.active > span {
       color: #1890ff;
     }
-  }
-
-  :global(.option-block) {
-    height: 30px;
-    margin-bottom: 4px !important;
   }
 }

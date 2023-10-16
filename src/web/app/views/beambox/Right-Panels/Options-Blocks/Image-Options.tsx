@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
@@ -127,8 +128,8 @@ class ImageOptions extends React.Component<Props> {
         onClick={this.handleGradientClick}
       />
     ) : (
-      <div className="option-block" key="gradient">
-        <div className="label">{LANG.shading}</div>
+      <div className={styles['option-block']} key="gradient">
+        <div className={styles.label}>{LANG.shading}</div>
         <Switch size="small" checked={isGradient} onChange={this.handleGradientClick} />
       </div>
     );
@@ -182,14 +183,14 @@ class ImageOptions extends React.Component<Props> {
       </Popover>
     ) : (
       <Fragment key="threshold">
-        <div className="option-block with-slider">
-          <div className="label">{LANG.threshold}</div>
+        <div className={classNames(styles['option-block'], styles['with-slider'])}>
+          <div className={styles.label}>{LANG.threshold}</div>
           <UnitInput
             min={1}
             max={255}
             decimal={0}
             unit=""
-            className={{ 'option-input': true }}
+            className={{ [styles['option-input']]: true }}
             defaultValue={threshold}
             getValue={this.handleThresholdChange}
           />
@@ -208,13 +209,13 @@ class ImageOptions extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    return isMobile ? (
+    return isMobile() ? (
       <>
         {this.renderGradientBlock()}
         {this.renderThresholdBlock()}
       </>
     ) : (
-      <div>
+      <div className={styles.options}>
         {this.renderGradientBlock()}
         {this.renderThresholdBlock()}
       </div>

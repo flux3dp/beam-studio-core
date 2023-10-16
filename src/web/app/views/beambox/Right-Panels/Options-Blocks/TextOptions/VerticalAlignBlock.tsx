@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Select } from 'antd';
 
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import styles from 'app/views/beambox/Right-Panels/OptionsPanel.module.scss';
 import { useIsMobile } from 'helpers/system-helper';
 import { VerticalAlign } from 'app/actions/beambox/textPathEdit';
 
@@ -32,17 +34,15 @@ export default function VerticalAlignBlock({ value, onValueChange }: Props): JSX
     );
   }
   return (
-    <div className="option-block">
-      <div className="label">{label}</div>
-      <div className="select-container">
-        <Select
-          value={value}
-          options={options}
-          onChange={onValueChange}
-          onKeyDown={(e) => e.stopPropagation()}
-          dropdownMatchSelectWidth={false}
-        />
-      </div>
+    <div className={classNames(styles['option-block'], styles['with-select'])}>
+      <div className={styles.label}>{label}</div>
+      <Select
+        value={value}
+        options={options}
+        onChange={onValueChange}
+        onKeyDown={(e) => e.stopPropagation()}
+        dropdownMatchSelectWidth={false}
+      />
     </div>
   );
 }

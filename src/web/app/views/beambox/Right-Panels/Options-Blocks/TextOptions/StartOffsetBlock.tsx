@@ -2,6 +2,7 @@ import React from 'react';
 
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import styles from 'app/views/beambox/Right-Panels/OptionsPanel.module.scss';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -25,14 +26,14 @@ export default function StartOffsetBlock({ value, onValueChange }: Props): JSX.E
       decimal={0}
     />
   ) : (
-    <div className="option-block">
-      <div className="label">{LANG.start_offset}</div>
+    <div className={styles['option-block']}>
+      <div className={styles.label}>{LANG.start_offset}</div>
       <UnitInput
         min={0}
         max={100}
         unit=""
         decimal={0}
-        className={{ 'option-input': true }}
+        className={{ [styles['option-input']]: true }}
         defaultValue={value}
         getValue={onValueChange}
       />
