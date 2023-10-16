@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Button, ConfigProvider, Switch } from 'antd';
 
+import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
@@ -54,6 +55,7 @@ const InFillBlock = ({ elem, label, id = 'infill' }: Props): JSX.Element => {
       isAnyFilled: !isAnyFilled,
       isAllFilled: !isAnyFilled,
     }));
+    LayerPanelController.checkVector();
   };
 
   const isPartiallyFilled = elem.tagName === 'g' && isAnyFilled && !isAllFilled;
