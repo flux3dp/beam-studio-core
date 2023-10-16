@@ -31,6 +31,7 @@ import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
+import canvasEvents from 'app/actions/canvas/canvasEvents';
 import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -80,7 +81,6 @@ const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const { svgedit, $ } = window;
 
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
-const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 
 declare global {
   interface JQueryStatic {
@@ -1634,11 +1634,10 @@ const svgEditor = window['svgEditor'] = (function () {
       var is_node = currentMode === 'pathedit'; //elem ? (elem.id && elem.id.indexOf('pathpointgrip') == 0) : false;
       if (is_node) {
         RightPanelController.toPathEditMode();
-        // RightPanelController.setSelectedElement(null);
-        TopBarController.setElement(null);
+        canvasEvents.setSelectedElement(null);
       } else {
         RightPanelController.toElementMode();
-        TopBarController.setElement(elem);
+        canvasEvents.setSelectedElement(elem);
       }
 
       /*
@@ -3893,17 +3892,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
     editor.clickRedo = clickRedo;
 
-    var clickGroup = function () {
-      // group
-      if (multiselected) {
-        svgCanvas.groupSelectedElements();
-      }
-      // ungroup
-      else if (selectedElement) {
-        svgCanvas.ungroupSelectedElement();
-      }
-    };
-
     $('#svg_prefs_container').draggable({
       cancel: 'button,fieldset',
       containment: 'window'
@@ -5514,7 +5502,7 @@ const svgEditor = window['svgEditor'] = (function () {
             svgCanvas.setHasUnsavedChange(true);
             break;
         }
-        canvasEvents.emit('addImage');
+        canvasEvents.addImage();
       }
       editor.handleFile = handleFile;
 
