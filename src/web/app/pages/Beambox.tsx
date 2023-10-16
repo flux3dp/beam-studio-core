@@ -18,6 +18,7 @@ import TopBar from 'app/components/beambox/top-bar/TopBar';
 import { CanvasProvider } from 'app/contexts/CanvasContext';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
+import { SelectedElementContextProvider } from 'app/contexts/SelectedElementContext';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
@@ -37,22 +38,25 @@ const Beambox = (): JSX.Element => {
   });
 
   const activeLang = i18n.getActiveLang();
+  console.log('beambox rerender');
   return (
     <CanvasProvider>
-      <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
-        <TopBar />
-        <LeftPanel />
-        <RightPanelContextProvider>
-          <RightPanel />
-        </RightPanelContextProvider>
-        <SvgEditor />
-        <TimeEstimationButtonContextProvider>
-          <TimeEstimationButton />
-        </TimeEstimationButtonContextProvider>
-        <div id="tool-panels-placeholder" />
-        <ImageTracePanel />
-        <CanvasTabBar />
-      </div>
+      <SelectedElementContextProvider>
+        <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
+          <TopBar />
+          <LeftPanel />
+          <RightPanelContextProvider>
+            <RightPanel />
+          </RightPanelContextProvider>
+          <SvgEditor />
+          <TimeEstimationButtonContextProvider>
+            <TimeEstimationButton />
+          </TimeEstimationButtonContextProvider>
+          <div id="tool-panels-placeholder" />
+          <ImageTracePanel />
+          <CanvasTabBar />
+        </div>
+      </SelectedElementContextProvider>
     </CanvasProvider>
   );
 };

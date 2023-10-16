@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import ColorPanel from 'app/views/beambox/Right-Panels/ColorPanel';
 import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
+import MultiColorOptions from 'app/views/beambox/Right-Panels/Options-Blocks/MultiColorOptions';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PolygonOptions from 'app/views/beambox/Right-Panels/Options-Blocks/PolygonOptions';
 import RectOptions from 'app/views/beambox/Right-Panels/Options-Blocks/RectOptions';
@@ -31,7 +32,7 @@ function OptionsPanel({
   let contents: JSX.Element | JSX.Element[];
   const showColorPanel = useMemo(() => {
     if (!elem) return false;
-    if (!['rect', 'ellipse', 'path', 'text', 'polygon'].includes(elem?.tagName.toLowerCase())) return false;
+    if (!['rect', 'ellipse', 'path', 'text', 'polygon', 'g', 'use'].includes(elem?.tagName.toLowerCase())) return false;
     return getObjectLayer(elem as SVGElement)?.elem?.getAttribute('data-fullcolor') === '1';
   }, [elem]);
   if (elem) {
@@ -44,12 +45,12 @@ function OptionsPanel({
           rx={rx}
           updateDimensionValues={updateDimensionValues}
         />,
-        showColorPanel ? null : <InFillBlock key="fill" elem={elem} />,
+        showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock key="fill" elem={elem} />,
       ];
     } else if (tagName === 'polygon') {
       contents = [
         <PolygonOptions key="polygon" elem={elem} polygonSides={polygonSides} />,
-        showColorPanel ? null : <InFillBlock key="fill" elem={elem} />,
+        showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock key="fill" elem={elem} />,
       ];
     } else if (tagName === 'text') {
       contents = [
@@ -60,7 +61,7 @@ function OptionsPanel({
           updateObjectPanel={updateObjectPanel}
           updateDimensionValues={updateDimensionValues}
         />,
-        showColorPanel ? null : <InFillBlock key="fill" elem={elem} />,
+        showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock key="fill" elem={elem} />,
       ];
     } else if (tagName === 'image' || tagName === 'img') {
       if (elem.getAttribute('data-fullcolor') === '1') contents = null;
@@ -76,8 +77,12 @@ function OptionsPanel({
           updateDimensionValues={updateDimensionValues}
         />
       );
-    } else if (!showColorPanel) {
-      contents = <InFillBlock elem={elem} />;
+    } else if (tagName === 'g') {
+      contents = showColorPanel ? <MultiColorOptions elem={elem} /> : <InFillBlock elem={elem} />;
+    } else if (tagName === 'use') {
+      contents = showColorPanel ? <MultiColorOptions elem={elem} /> : null;
+    } else {
+      contents = showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock elem={elem} />;
     }
   }
 
@@ -85,17 +90,15 @@ function OptionsPanel({
     <div className={styles.container}>
       <ObjectPanelItem.Divider />
       {contents}
-      {showColorPanel && <ColorPanel elem={elem} />}
     </div>
   ) : (
     <>
-      {contents && (
+      {(contents) && (
         <div className={styles.panel}>
           <div className={styles.title}>OPTIONS</div>
-        {contents}
+          {contents}
       </div>
       )}
-      {showColorPanel && <ColorPanel elem={elem} />}
     </>
   );
 }

@@ -7,10 +7,11 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { CanvasContext } from 'app/contexts/CanvasContext';
-import { useIsMobile } from 'helpers/system-helper';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
+import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './RightPanel.module.scss';
 
@@ -19,15 +20,16 @@ let lastMode: RightPanelMode;
 
 const RightPanel = (): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState<'layers' | 'objects'>('layers');
-  const { displayLayer, setDisplayLayer, selectedElem } = useContext(CanvasContext);
+  const { displayLayer, setDisplayLayer } = useContext(CanvasContext);
+  const { selectedElement } = useContext(SelectedElementContext);
   const { mode } = useContext(RightPanelContext);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     if (mode === 'element') {
-      if (!selectedElem && selectedTab !== 'layers') {
+      if (!selectedElement && selectedTab !== 'layers') {
         setSelectedTab('layers');
-      } else if (selectedElem && !lastElement) {
+      } else if (selectedElement && !lastElement) {
         setSelectedTab('objects');
       }
     } else if (lastMode !== mode) {
@@ -41,18 +43,18 @@ const RightPanel = (): JSX.Element => {
       }
     }
     lastMode = mode;
-    lastElement = selectedElem;
-  }, [mode, selectedElem, selectedTab, displayLayer, isMobile]);
+    lastElement = selectedElement;
+  }, [mode, selectedElement, selectedTab, displayLayer, isMobile]);
 
   const showLayerPanel = mode === 'element'
-    && (selectedTab === 'layers' || !selectedElem)
+    && (selectedTab === 'layers' || !selectedElement)
     && (displayLayer || !isMobile);
 
   let content;
   if (mode === 'path-edit') {
     content = <PathEditPanel />;
-  } else if (selectedElem && selectedTab === 'objects') {
-    content = <ObjectPanel elem={selectedElem} />;
+  } else if (selectedElement && selectedTab === 'objects') {
+    content = <ObjectPanel elem={selectedElement} />;
   }
   const sideClass = classNames(styles.sidepanels, {
     [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
@@ -63,7 +65,7 @@ const RightPanel = (): JSX.Element => {
       <div id="sidepanels" className={sideClass}>
         <Tab
           mode={mode}
-          selectedElement={selectedElem}
+          selectedElement={selectedElement}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
