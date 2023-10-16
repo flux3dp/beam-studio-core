@@ -2,11 +2,11 @@ import React from 'react';
 import { TabBar } from 'antd-mobile';
 
 import svgEditor from 'app/actions/beambox/svg-editor';
-import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TrashIcon } from 'app/icons/icons';
 
 const CanvasActionBar = (): JSX.Element => {
-  const { selectedElem } = React.useContext(CanvasContext) as CanvasContextType;
+  const { selectedElement } = React.useContext(SelectedElementContext);
   const [activeKey, setActiveKey] = React.useState('dmkt');
 
   const tabs = [
@@ -14,7 +14,7 @@ const CanvasActionBar = (): JSX.Element => {
       key: 'trash',
       title: '刪除',
       icon: <TrashIcon />,
-      disabled: (!selectedElem)
+      disabled: (!selectedElement)
     },
   ];
 

@@ -32,7 +32,6 @@ interface CanvasContextType {
   hasUnsavedChange: boolean,
   isPathPreviewing: boolean,
   isPreviewing: boolean,
-  selectedElem: Element | null,
   setDisplayLayer: (displayLayer: boolean) => void;
   setIsPathPreviewing: (displayLayer: boolean) => void;
   setIsPreviewing: (displayLayer: boolean) => void;
@@ -59,7 +58,6 @@ const CanvasContext = createContext<CanvasContextType>({
   hasUnsavedChange: false,
   isPathPreviewing: false,
   isPreviewing: false,
-  selectedElem: null,
   setDisplayLayer: () => {},
   setIsPathPreviewing: () => {},
   setIsPreviewing: () => {},
@@ -85,7 +83,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
   const [fileName, setFileName] = useState<string>(null);
-  const [selectedElem, setSelectedElem] = useState<Element>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
   const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
@@ -131,18 +128,10 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     forceUpdate();
   }, [forceUpdate]);
 
-  const handleSetSelectedElem = useCallback((elem: Element): void => {
-    if (elem !== selectedElem) {
-      (document.activeElement as HTMLInputElement).blur();
-      setSelectedElem(elem);
-    }
-  }, [selectedElem]);
-
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setCurrentUser);
     topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
-    topBarEventEmitter.on('SET_ELEMENT', handleSetSelectedElem);
     topBarEventEmitter.on('SET_FILE_NAME', setFileName);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
@@ -169,7 +158,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       fluxIDEventEmitter.removeListener('update-user', setCurrentUser);
       topBarEventEmitter.removeAllListeners();
     };
-  }, [setCurrentUser, isPreviewing, selectedDevice, updateTopBar, handleSetSelectedElem]);
+  }, [setCurrentUser, isPreviewing, selectedDevice, updateTopBar]);
 
   const updateCanvasContext = useCallback(() => {
     forceUpdate();
@@ -215,7 +204,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           hasUnsavedChange,
           isPathPreviewing,
           isPreviewing,
-          selectedElem,
           setDisplayLayer,
           setIsPathPreviewing,
           setIsPreviewing,
