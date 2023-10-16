@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test MultiColorOptions editing color in use element should work 1`] = `
+<p>
+  initColor: 
+  #AAAAFF
+</p>
+`;
+
+exports[`test MultiColorOptions should render correctly 1`] = `
+<div>
+  <div
+    class="block"
+  >
+    <div
+      class="label"
+    >
+      Colors
+    </div>
+    <div
+      class="controls"
+    >
+      <div>
+        Mock ColorPicker
+        <p>
+          allowClear: 
+          f
+        </p>
+        <p>
+          initColor: 
+          #AAFFFF
+        </p>
+        <p>
+          triggerType: 
+        </p>
+        <button
+          type="button"
+        >
+          onChange
+        </button>
+      </div>
+      <div>
+        Mock ColorPicker
+        <p>
+          allowClear: 
+          f
+        </p>
+        <p>
+          initColor: 
+          #FFAAFF
+        </p>
+        <p>
+          triggerType: 
+        </p>
+        <button
+          type="button"
+        >
+          onChange
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
