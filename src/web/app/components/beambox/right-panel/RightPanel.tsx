@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from 'react';
+import React, { memo, useContext, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import LayerPanel from 'app/components/beambox/right-panel/LayerPanel';
@@ -7,9 +7,10 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import PathEditPanel from 'app/views/beambox/Right-Panels/PathEditPanel';
 import Tab from 'app/components/beambox/right-panel/Tab';
 import { CanvasContext } from 'app/contexts/CanvasContext';
-import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { ObjectPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
-import { RightPanelContext, RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import {
+  RightPanelContext,
+  RightPanelMode,
+} from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -46,15 +47,16 @@ const RightPanel = (): JSX.Element => {
     lastElement = selectedElement;
   }, [mode, selectedElement, selectedTab, displayLayer, isMobile]);
 
-  const showLayerPanel = mode === 'element'
-    && (selectedTab === 'layers' || !selectedElement)
-    && (displayLayer || !isMobile);
+  const showLayerPanel =
+    mode === 'element' &&
+    (selectedTab === 'layers' || !selectedElement) &&
+    (displayLayer || !isMobile);
 
   let content;
   if (mode === 'path-edit') {
     content = <PathEditPanel />;
   } else if (selectedElement && selectedTab === 'objects') {
-    content = <ObjectPanel elem={selectedElement} />;
+    content = <ObjectPanel />;
   }
   const sideClass = classNames(styles.sidepanels, {
     [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
@@ -63,19 +65,10 @@ const RightPanel = (): JSX.Element => {
   return (
     <div id="right-panel" style={{ display: 'block' }}>
       <div id="sidepanels" className={sideClass}>
-        <Tab
-          mode={mode}
-          selectedElement={selectedElement}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-        />
-        <ObjectPanelContextProvider>
-          <ObjectPanelItem.Mask />
-          {content}
-          <LayerPanelContextProvider>
-            <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
-          </LayerPanelContextProvider>
-        </ObjectPanelContextProvider>
+        <Tab mode={mode} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+        <ObjectPanelItem.Mask />
+        {content}
+        <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
       </div>
     </div>
   );
