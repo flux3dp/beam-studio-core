@@ -18,7 +18,6 @@ interface Props {
   elem: Element;
 }
 
-// TODO: add tests
 const MultiColorOptions = ({ elem }: Props): JSX.Element => {
   const [colors, setColors] = useState(colloectColors(elem));
   useEffect(() => {
@@ -46,10 +45,10 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     }
     if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    setColors(colloectColors(elem));
     if (elem.tagName.toLowerCase() === 'use') {
       symbolMaker.reRenderImageSymbol(elem as SVGUseElement, { force: true });
     }
+    setColors(colloectColors(elem));
   };
   // TODO: controls horizontal scroll handler for windows
   return (
