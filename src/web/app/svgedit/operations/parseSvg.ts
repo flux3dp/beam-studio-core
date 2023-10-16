@@ -1,3 +1,4 @@
+import getMainColorOfElement from 'helpers/color/getMainColorOfElement';
 import SymbolMaker from 'helpers/symbol-maker';
 import units, { Units } from 'helpers/units';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -125,22 +126,13 @@ const parseSvg = (
     return symbols;
   }
   function parseSvgByColor(svg) {
-    function getColorOfElement(node) {
-      let color;
-      color = node.getAttribute('stroke');
-      if (color === 'none') {
-        color = node.getAttribute('fill');
-      }
-      color = color || 'rgb(0%,0%,0%)';
-      return color;
-    }
     function getAllColorInNodes(nodes) {
       const allColorsInNodes: Set<string> = new Set();
 
       function traverseToGetAllColor(frontierNode) {
         Array.from(frontierNode.childNodes).forEach((child: Element) => {
           if (['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].includes(child.tagName)) {
-            allColorsInNodes.add(getColorOfElement(child));
+            allColorsInNodes.add(getMainColorOfElement(child));
           } else if (child.tagName === 'g') {
             traverseToGetAllColor(child);
           }
@@ -159,7 +151,7 @@ const parseSvg = (
         if (
           ['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].indexOf(grandchild.tagName) >= 0
         ) {
-          color = getColorOfElement(grandchild);
+          color = getMainColorOfElement(grandchild);
           if (color !== filter) {
             node.removeChild(grandchild);
           } else {
