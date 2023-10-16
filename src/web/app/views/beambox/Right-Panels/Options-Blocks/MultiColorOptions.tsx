@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ColorPicker from 'app/widgets/ColorPicker';
 import colloectColors from 'helpers/color/collectColors';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HorizontalScrollContainer from 'app/widgets/HorizontalScrollContainer';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -50,11 +51,11 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     }
     setColors(colloectColors(elem));
   };
-  // TODO: controls horizontal scroll handler for windows
+
   return (
     <div className={styles.block}>
       <div className={styles.label}>Colors</div>
-      <div className={styles.controls}>
+      <HorizontalScrollContainer className={styles.controls}>
         {Object.keys(colors).map((color) => (
           <ColorPicker
             key={color}
@@ -62,7 +63,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
             onChange={(newColor) => handleColorChange(color, newColor)}
           />
         ))}
-      </div>
+      </HorizontalScrollContainer>
     </div>
   );
 };
