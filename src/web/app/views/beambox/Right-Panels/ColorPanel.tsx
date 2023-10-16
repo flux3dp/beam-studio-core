@@ -70,8 +70,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
   const ratio = useMemo(() => constant.dpmm * (unit === 'inches' ? 25.4 : 1), [unit]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.title}>COLOR</div>
+    <>
       <div className={styles.block}>
         <div className={styles.label}>Fill</div>
         <ColorPicker allowClear initColor={fill} onChange={handleFillColorChange} />
@@ -107,7 +106,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
           </ConfigProvider>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

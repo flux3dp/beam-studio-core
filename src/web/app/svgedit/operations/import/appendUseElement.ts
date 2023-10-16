@@ -2,6 +2,7 @@ import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import layerConfigHelper, { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import NS from 'app/constants/namespaces';
+import rgbToHex from 'helpers/color/rgbToHex';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
@@ -10,22 +11,6 @@ let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-
-const rgbToHex = (rgbStr) => {
-  const rgb = rgbStr.substring(4).split(',');
-  let hex = (
-    Math.round(parseFloat(rgb[0]) * 2.55) * 65536 +
-    Math.round(parseFloat(rgb[1]) * 2.55) * 256 +
-    Math.round(parseFloat(rgb[2]) * 2.55)
-  ).toString(16);
-  if (hex === 'NaN') {
-    hex = '0';
-  }
-  while (hex.length < 6) {
-    hex = `0${hex}`;
-  }
-  return `#${hex.toUpperCase()}`; // ex: #0A23C5
-};
 
 const appendUseElement = (
   symbol: SVGSymbolElement | null,
