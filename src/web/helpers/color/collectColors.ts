@@ -6,7 +6,7 @@ const parseColorString = (color: string): string => {
   return color;
 };
 
-const isHex = (color: string): boolean => /#([0-9A-F]{6}|[0-9A-F]{3})/.test(color);
+const isHex = (color: string): boolean => /^#([0-9A-F]{6}|[0-9A-F]{3})$/.test(color);
 
 // TODO: add tests
 const colloectColors = (
