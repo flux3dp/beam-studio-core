@@ -1322,6 +1322,7 @@ const lang: ILang = {
     camera_calibration_failed: 'カメラの較正に失敗しました',
     ask_retry_calibration: 'カメラをもう一度キャリブレーションしますか？',
     skipped_camera_calibration: 'カメラのキャリブレーションをスキップしました。 メニューバー（メニュー> マシン> [マイマシン]> カメラのキャリブレーション）からいつでもカメラをキャリブレーションできます。',
+    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
     needNewUserTutorial: 'Beam Studioのチュートリアルはよろしいですか？',
     needNewInterfaceTutorial: 'Beam Studioのの新しいインターフェースの紹介はよろしいですか？',
     next: '次ヘ',

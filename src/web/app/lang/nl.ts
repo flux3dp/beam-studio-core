@@ -1322,6 +1322,7 @@ const lang: ILang = {
     camera_calibration_failed: 'Camerakalibratie mislukt',
     ask_retry_calibration: 'Wilt u de camera opnieuw kalibreren?',
     skipped_camera_calibration: 'U hebt de camerakalibratie overgeslagen. U kunt de camera op elk moment kalibreren via de menubalk (Menu > Machine > [Uw machine] > Camera kalibreren).',
+    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
     needNewUserTutorial: 'Wil je een tutorial starten?',
     needNewInterfaceTutorial: 'Wil je een tutorial starten voor de nieuwe interface van Beam Studio?',
     next: 'DE VOLGENDE',

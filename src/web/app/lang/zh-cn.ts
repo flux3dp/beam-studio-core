@@ -1322,6 +1322,7 @@ const lang: ILang = {
     camera_calibration_failed: '相机校正失败',
     ask_retry_calibration: '请问是否重新执行相机校正？',
     skipped_camera_calibration: '已跳过相机校正引导，您可从随时从上方选单「机器」>「您的机器名称」>「校正相机」进行相机校正。',
+    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
     needNewUserTutorial: '请问您是否需要 Beam Studio 的教学？',
     needNewInterfaceTutorial: '请问是否需要为您介绍 Beam Studio 的新介面？',
     next: '下一步',

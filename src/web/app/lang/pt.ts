@@ -1322,6 +1322,7 @@ const lang: ILang = {
     camera_calibration_failed: 'Falha na calibração da câmera',
     ask_retry_calibration: 'Gostaria de calibrar a câmera novamente?',
     skipped_camera_calibration: 'Você ignorou a calibração da câmera. Você pode calibrar a câmera a qualquer momento na barra de menus (Menu > Máquina > [Sua máquina] > Calibrar câmera).',
+    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
     needNewUserTutorial: 'Gostaria de iniciar um tutorial?',
     needNewInterfaceTutorial: 'Gostaria de iniciar um tutorial para a nova interface do Beam Studio?',
     next: 'AVANÇAR',

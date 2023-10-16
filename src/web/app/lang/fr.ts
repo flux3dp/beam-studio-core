@@ -1322,6 +1322,7 @@ const lang: ILang = {
     camera_calibration_failed: 'Échec du calibrage de l\'appareil photo',
     ask_retry_calibration: 'Souhaitez-vous calibrer à nouveau l\'appareil photo ?',
     skipped_camera_calibration: 'Vous avez sauté l\'étalonnage de la caméra. Vous pouvez calibrer la caméra à tout moment à partir de la barre de menu (Menu > Machine > [Votre machine] > Calibrer la caméra).',
+    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
     needNewUserTutorial: 'Souhaitez-vous lancer un tutoriel ?',
     needNewInterfaceTutorial: 'Souhaitez-vous lancer un tutoriel sur la nouvelle interface de Beam Studio ?',
     next: 'SUIVANT',
