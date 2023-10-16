@@ -373,10 +373,15 @@ const calculateImageRatio = (bb) => {
 
 const makeImageSymbol = async (
   symbol: SVGSymbolElement,
-  opts: { scale?: number; imageSymbol?: SVGSymbolElement; fullColor?: boolean } = {}
+  opts: {
+    scale?: number;
+    imageSymbol?: SVGSymbolElement;
+    fullColor?: boolean;
+    force?: boolean;
+  } = {}
 ): Promise<SVGSymbolElement> => {
   const { NS } = svgedit;
-  const { scale = 1, fullColor = false } = opts;
+  const { scale = 1, fullColor = false, force = false } = opts;
   let { imageSymbol } = opts;
   const svgdoc = document.getElementById('svgcanvas').ownerDocument;
   // eslint-disable-next-line no-async-promise-executor
@@ -423,10 +428,11 @@ const makeImageSymbol = async (
 
     const bb = calculateSVGBBox();
     const imageRatio = calculateImageRatio(bb);
-    const strokeWidth = getStrokeWidth(imageRatio, scale);
+    const strokeWidth = fullColor ? 1 : getStrokeWidth(imageRatio, scale);
     if (
       imageSymbol?.getAttribute('data-stroke-width') === stringifyStrokeWidth(strokeWidth) &&
-      imageSymbol.getAttribute('data-fullcolor') === (fullColor ? '1' : '0')
+      imageSymbol.getAttribute('data-fullcolor') === (fullColor ? '1' : '0') &&
+      !force
     ) {
       resolve(imageSymbol);
       return;
@@ -437,7 +443,7 @@ const makeImageSymbol = async (
     tempSymbol.setAttribute('y', `${-bb.y}`);
     const descendants = Array.from(tempSymbol.querySelectorAll('*'));
     descendants.forEach((d) => {
-      d.setAttribute('stroke-width', `${strokeWidth}px`);
+      if (!fullColor) d.setAttribute('stroke-width', `${strokeWidth}px`);
       d.setAttribute('vector-effect', 'non-scaling-stroke');
     });
     const styles = Array.from(tempSymbol.querySelectorAll('style'));
@@ -445,7 +451,7 @@ const makeImageSymbol = async (
       let styleText = styleNode.textContent;
       styleText = styleText.replace(
         /stroke-width: 1px !important;/g,
-        `stroke-width: ${strokeWidth}px !important;`
+        fullColor ? '' : `stroke-width: ${strokeWidth}px !important;`
       );
       styleNode.textContent = styleText;
     });
@@ -502,11 +508,15 @@ const makeImageSymbol = async (
   });
 };
 
-const reRenderImageSymbol = async (useElement: SVGUseElement): Promise<void> => {
+const reRenderImageSymbol = async (
+  useElement: SVGUseElement,
+  opts: { force?: boolean } = {}
+): Promise<void> => {
   if (!useElement.parentNode) {
     // Element has been deleted
     return;
   }
+  const { force = false } = opts;
   const { width, height } = svgCanvas.getSvgRealLocation(useElement);
   const { width: origWidth, height: origHeight } = useElement.getBBox();
   const fullColor = getObjectLayer(useElement)?.elem?.getAttribute('data-fullcolor') === '1';
@@ -520,15 +530,15 @@ const reRenderImageSymbol = async (useElement: SVGUseElement): Promise<void> => 
     if (origSymbolId) {
       const origSymbol = document.getElementById(origSymbolId) as unknown as SVGSymbolElement;
       if (origSymbol && origSymbol.tagName === 'symbol') {
-        await makeImageSymbol(origSymbol, { scale, imageSymbol: currentSymbol, fullColor });
+        await makeImageSymbol(origSymbol, { scale, imageSymbol: currentSymbol, fullColor, force });
       }
     } else if (imageSymbolId) {
       let imageSymbol = document.getElementById(imageSymbolId) as unknown as SVGSymbolElement;
       if (imageSymbol && imageSymbol.tagName === 'symbol') {
-        await makeImageSymbol(currentSymbol, { scale, imageSymbol, fullColor });
+        await makeImageSymbol(currentSymbol, { scale, imageSymbol, fullColor, force });
         useElement.setAttribute('xlink:href', `#${imageSymbolId}`);
       } else {
-        imageSymbol = await makeImageSymbol(currentSymbol, { fullColor });
+        imageSymbol = await makeImageSymbol(currentSymbol, { fullColor, force });
         useElement.setAttribute('xlink:href', `#${imageSymbol.id}`);
       }
     }
