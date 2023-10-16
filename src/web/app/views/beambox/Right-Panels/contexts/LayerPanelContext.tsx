@@ -35,9 +35,15 @@ export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
   }, [selectedLayers, setSelectedLayers]);
 
   useEffect(() => {
+    const checkVector = () => {
+      const newVal = doLayersContainsVector(selectedLayers);
+      setHasVector(newVal);
+    }
     layerPanelEventEmitter.on('UPDATE_LAYER_PANEL', forceUpdate);
+    layerPanelEventEmitter.on('CHECK_VECTOR', checkVector);
     return () => {
       layerPanelEventEmitter.removeListener('UPDATE_LAYER_PANEL', forceUpdate);
+      layerPanelEventEmitter.removeListener('CHECK_VECTOR', checkVector);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
