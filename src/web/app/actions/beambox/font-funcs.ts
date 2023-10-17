@@ -274,10 +274,9 @@ const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const svgString = e.target.result as string;
-      // console.log(svgString);
       const dRegex = svgString.match(/ d="([^"]+)"/g);
       const transRegex = svgString.match(/transform="([^"]+)/);
-      const d = dRegex.map((p) => p.substring(4, p.length - 1)).join('');
+      const d = dRegex ? dRegex.map((p) => p.substring(4, p.length - 1))?.join('') : '';
       const transform = transRegex ? transRegex[1] : '';
       resolve({ d, transform });
     };
@@ -343,9 +342,14 @@ const convertTextToPath = async (
 
   if (window.FLUX.version === 'web') {
     const postscript = textElement.getAttribute('font-postscript');
-
-    const res = await fontHelper.getWebFontAndUpload(postscript);
-    if (!res) {
+    try {
+      const res = await fontHelper.getWebFontAndUpload(postscript);
+      if (!res) {
+        Progress.popById('parsing-font');
+        Alert.popUpError({ message: `tUnable to get font ${postscript}` });
+        return ConvertResult.CANCEL_OPERATION;
+      }
+    } catch (err) {
       Progress.popById('parsing-font');
       Alert.popUpError({ message: `tUnable to get font ${postscript}` });
       return ConvertResult.CANCEL_OPERATION;
