@@ -223,10 +223,11 @@ class BeamboxInit {
   private showFirstCalibrationDialog = async () => {
     const isNewUser = storage.get('new-user');
     const hasDoneFirstCali = AlertConfig.read('done-first-cali');
-    const hasMachineConnection = checkConnection();
+    let hasMachineConnection = checkConnection();
     // in web, wait for websocket connection
     if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) {
       await new Promise((r) => setTimeout(r, 1000));
+      hasMachineConnection = checkConnection();
     }
     const shouldShow =
       window.FLUX.version === 'web'
