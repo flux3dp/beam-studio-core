@@ -189,9 +189,9 @@ class TextOptions extends React.Component<Props, State> {
     const renderOption = (option) => {
       if (window.FLUX.version === 'web') {
         const src = fontHelper.getWebFontPreviewUrl(option.value);
-        if (src) return <img src={src} alt={option.label} draggable="false" />;
+        if (src) return <img src={src} alt={option.label} draggable="false" style={{ maxHeight: 20 }}/>;
       }
-      return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 32 }}>{option.label}</div>;
+      return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 24 }}>{option.label}</div>;
     };
     const options = FontFuncs.availableFontFamilies.map((option) => {
       const fontName = FontFuncs.fontNameMap.get(option);
