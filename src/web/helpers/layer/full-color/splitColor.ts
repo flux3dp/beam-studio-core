@@ -1,10 +1,10 @@
 import { CMYK } from 'app/constants/color-constants';
 
 /**
- * split img into desired color channels
+ * split img into desired color channels, return null if empty
  */
 // TODO: add unit test
-const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
+const splitColor = async (imgBlobUrl: string): Promise<(Blob | null)[]> => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const img = new Image();
@@ -23,6 +23,7 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
   for (let i = 0; i < CMYK.length; i += 1) {
     channelDatas.push(new Uint8ClampedArray(data.length));
   }
+  const empty = [true, true, true, true];
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i];
     const g = data[i + 1];
@@ -39,17 +40,24 @@ const splitColor = async (imgBlobUrl: string): Promise<Blob[]> => {
       channelDatas[j][i + 1] = colors[j];
       channelDatas[j][i + 2] = colors[j];
       channelDatas[j][i + 3] = a;
+      if (a !== 0 && colors[j] !== 255 && empty[j]) {
+        empty[j] = false;
+      }
     }
   }
   const resultBlobs = [];
   for (let i = 0; i < channelDatas.length; i += 1) {
-    imageData.data.set(channelDatas[i]);
-    ctx.putImageData(imageData, 0, 0);
-    // eslint-disable-next-line no-await-in-loop
-    const blob = await new Promise<Blob>((resolve) => {
-      canvas.toBlob((b) => resolve(b));
-    });
-    resultBlobs.push(blob);
+    if (!empty[i]) {
+      imageData.data.set(channelDatas[i]);
+      ctx.putImageData(imageData, 0, 0);
+      // eslint-disable-next-line no-await-in-loop
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b));
+      });
+      resultBlobs.push(blob);
+    } else {
+      resultBlobs.push(null);
+    }
   }
   return resultBlobs;
 };
