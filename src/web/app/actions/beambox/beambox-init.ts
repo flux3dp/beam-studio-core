@@ -281,7 +281,7 @@ class BeamboxInit {
       await this.onCameraCalibrationSkipped();
       return;
     }
-    if (device.model === 'ado1') {
+    if (Constant.adorModels.includes(device.model)) {
       await new Promise((resolve) => {
         Alert.popUp({
           message: i18n.lang.tutorial.skipped_ador_calibration,
