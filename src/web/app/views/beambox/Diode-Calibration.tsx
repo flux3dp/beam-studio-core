@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import Alert from 'app/actions/alert-caller';
@@ -19,7 +19,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-const LANG = i18n.lang.diode_calibration;
+const LANG = i18n.lang.calibration;
 const LANG_ALERT = i18n.lang.alert;
 
 // View render the following steps
@@ -496,7 +496,7 @@ class DiodeCalibration extends React.Component<Props, State> {
     return (
       <AlertDialog
         caption={LANG.diode_calibration}
-        message={LANG.calibrate_done}
+        message={LANG.calibrate_done_diode}
         buttons={
           [{
             label: LANG.finish,
