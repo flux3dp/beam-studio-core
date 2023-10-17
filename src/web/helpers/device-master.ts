@@ -566,7 +566,7 @@ class DeviceMaster {
       throw Error('UPLOAD_FAILED');
     }
 
-    Progress.openSteppingProgress({ id: 'diode-cali-task', message: lang.diode_calibration.drawing_calibration_image });
+    Progress.openSteppingProgress({ id: 'diode-cali-task', message: lang.calibration.drawing_calibration_image });
     const taskTotalSecs = 35;
     let elapsedSecs = 0;
     const progressUpdateTimer = setInterval(() => {
