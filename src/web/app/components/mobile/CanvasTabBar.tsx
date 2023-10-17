@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Badge, TabBar } from 'antd-mobile';
 
@@ -13,8 +12,9 @@ import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-backgr
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
+import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
-import { CameraIcon, DmktIcon } from 'app/icons/icons';
+import { DmktIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
@@ -37,7 +37,7 @@ const CanvasTabBar = (): JSX.Element => {
     isPreviewing,
     endPreviewMode,
     changeToPreviewMode,
-    showCameraPreviewDeviceList,
+    setupPreviewMode,
   } = useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = useState('none');
 
@@ -57,7 +57,7 @@ const CanvasTabBar = (): JSX.Element => {
     {
       key: 'camera',
       title: lang.beambox.left_panel.label.choose_camera,
-      icon: <CameraIcon style={{}} />,
+      icon: <TopBarIcons.Camera />,
     },
     {
       key: 'image',
@@ -114,12 +114,12 @@ const CanvasTabBar = (): JSX.Element => {
     {
       key: 'undo',
       title: lang.topbar.menu.undo,
-      icon: <Icon component={TabBarIcons.Undo} viewBox="2 2 16 16" />,
+      icon: <TopBarIcons.Undo />,
     },
     {
       key: 'redo',
       title: lang.topbar.menu.redo,
-      icon: <Icon component={TabBarIcons.Redo} viewBox="2 2 16 16" />,
+      icon: <TopBarIcons.Redo />,
     },
   ];
 
@@ -129,7 +129,7 @@ const CanvasTabBar = (): JSX.Element => {
 
     if (key === 'camera') {
       changeToPreviewMode();
-      if (!PreviewModeController.isPreviewMode()) showCameraPreviewDeviceList();
+      if (!PreviewModeController.isPreviewMode()) setupPreviewMode();
       setActiveKey('choose-preview-device');
       setTimeout(resetActiveKey, 300);
     } else if (key === 'image') {
@@ -168,7 +168,7 @@ const CanvasTabBar = (): JSX.Element => {
     {
       key: 'end-preview',
       title: lang.beambox.left_panel.label.end_preview,
-      icon: <CameraIcon />,
+      icon: <TopBarIcons.Camera />,
     },
     {
       key: 'choose-preview-device',
@@ -193,7 +193,7 @@ const CanvasTabBar = (): JSX.Element => {
       endPreviewMode();
     } else if (key === 'choose-preview-device') {
       if (!PreviewModeController.isPreviewMode()) {
-        showCameraPreviewDeviceList();
+        setupPreviewMode();
       }
     } else if (key === 'image-trace') {
       endPreviewMode();

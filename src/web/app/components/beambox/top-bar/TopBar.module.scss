@@ -1,0 +1,25 @@
+@use 'styles/variables' as variables;
+
+.top-bar {
+  color: #ffffff;
+  font-size: 30px;
+
+  .right {
+    float: right;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 12px;
+    height: variables.$topBarHeight;
+    position: relative;
+    z-index: 1;
+  }
+
+  .menu{
+    font-size: 10pt;
+  }
+
+  &:global(.white) {
+    color: #000000;
+  }
+}

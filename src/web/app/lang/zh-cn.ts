@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: '功率过高',
       power_too_high_msg: '激光管在高功率（70％ 以上）下耗损较快，使用低功率可以延长雷试管使用寿命。\n输入「知道了」以继续。',
       power_too_high_confirm: '知道了',
+      add_content_first: '请先新增物件',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: '抗锯齿',
       disassemble_use: '解散图档',
     },
+    select_machine: '选择机器',
   },
   support: {
     no_webgl: '您的系统不支持 WebGL，建议您使用其他电脑开启 Mozu Studio',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: '跳过教学',
     welcome: '欢迎使用',
-    suggest_calibrate_camera_first: '提醒您：\n第一次使用请先进行相机校正。并在每次使用时将平台对焦，以取得最好的效果。',
+    suggest_calibrate_camera_first: '对于beamo、Beambox series和 HEXA 用户，我们建议在首次使用机器时校准相机（上方选单「机器」>「您的机器名称」>「校正相机」），并在每次使用时将平台对焦，以取得最好的效果。',
     camera_calibration_failed: '相机校正失败',
     ask_retry_calibration: '请问是否重新执行相机校正？',
     skipped_camera_calibration: '已跳过相机校正引导，您可从随时从上方选单「机器」>「您的机器名称」>「校正相机」进行相机校正。',
+    skipped_ador_calibration: 'Ador 相机已在出厂进行了校准。',
     needNewUserTutorial: '请问您是否需要 Beam Studio 的教学？',
     needNewInterfaceTutorial: '请问是否需要为您介绍 Beam Studio 的新介面？',
     next: '下一步',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: '翻转',
       object_actions: '物件操作',
       end_alert: '请问您是否确定要结束新介面介绍？',
+      select_machine: '选择机器',
+      frame: '外框预览',
+      path_preview: '路径预览',
+      start_work: '开始工作',
     },
     gesture: {
       pan: '双指平移让画布随着您的手指方向移动。',

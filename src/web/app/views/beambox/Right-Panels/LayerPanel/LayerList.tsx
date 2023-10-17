@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import {
   deleteLayerByName,
@@ -89,7 +90,7 @@ const LayerList = ({
         ? [
             {
               key: 'lock',
-              text: isLocked ? <ObjectPanelIcons.Unlock /> : <ObjectPanelIcons.Lock />,
+              text: isLocked ? <LayerPanelIcons.Unlock /> : <LayerPanelIcons.Lock />,
               color: 'warning',
               onClick: () => {
                 setLayerLock(layerName, !isLocked);
@@ -200,7 +201,7 @@ const LayerList = ({
               </div>
               {isMobile && (
                 <div>
-                  <ObjectPanelIcons.Move />
+                  <LayerPanelIcons.Move />
                 </div>
               )}
               {!isMobile && (

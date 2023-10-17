@@ -1,11 +1,15 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { Switch } from 'antd';
+import { Button, ConfigProvider, Switch } from 'antd';
 
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { isMobile } from 'helpers/system-helper';
+
+import styles from './InFillBlock.module.scss';
 
 let svgCanvas;
 
@@ -69,47 +73,39 @@ class InFillBlock extends React.Component<Props, State> {
     });
   };
 
-  renderSwitch = (): JSX.Element => {
-    const { isAnyFilled } = this.state;
-    if (isMobile()) {
-      return <Switch checked={isAnyFilled} />;
-    }
-    return (
-      <>
-        <input type="checkbox" className="onoffswitch-checkbox" checked={isAnyFilled} readOnly />
-        <label className="onoffswitch-label">
-          <span className="onoffswitch-inner" />
-          <span className="onoffswitch-switch" />
-        </label>
-      </>
-    );
-  };
-
   render(): JSX.Element {
-    const { elem, label = LANG.fill, id = 'infill' } = this.props;
+    const { elem, label, id = 'infill' } = this.props;
     const { isAnyFilled, isAllFilled, isFillable } = this.state;
-    const isPartiallyFilled = elem.tagName === 'g' && (isAnyFilled && !isAllFilled);
+    const isPartiallyFilled = elem.tagName === 'g' && isAnyFilled && !isAllFilled;
     if (!isFillable) {
       return null;
     }
+    // eslint-disable-next-line no-nested-ternary
     return isMobile() ? (
       <ObjectPanelItem.Item
         id={id}
-        content={this.renderSwitch()}
-        label={label}
+        content={<Switch checked={isAnyFilled} />}
+        label={label || LANG.fill}
         onClick={this.onClick}
       />
-    ) : (
-      <div className="option-block" key="infill">
-        <div className="label">{label}</div>
-        <div
-          id="infill"
-          className={classNames('onoffswitch', { 'partially-filled': isPartiallyFilled })}
-          onClick={() => this.onClick()}
-        >
-          {this.renderSwitch()}
-        </div>
+    ) : label ? (
+      <div className={styles['option-block']} key="infill">
+        <div className={styles.label}>{label}</div>
+        <Switch size="small" checked={isAnyFilled} onClick={this.onClick} />
       </div>
+    ) : (
+      <ConfigProvider theme={iconButtonTheme}>
+        <Button
+          id={id}
+          type="text"
+          className={classNames({ [styles.filled]: isAllFilled })}
+          title={LANG.fill}
+          icon={
+            isPartiallyFilled ? <OptionPanelIcons.InfillPartial /> : <OptionPanelIcons.Infill />
+          }
+          onClick={this.onClick}
+        />
+      </ConfigProvider>
     );
   }
 }

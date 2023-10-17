@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: '파워 너무 높음',
       power_too_high_msg: '70% 미만의 낮은 레이저 파워를 사용하면 레이저 튜브의 수명이 연장됩니다. 계속하려면 "확인"을 눌러주세요.',
       power_too_high_confirm: '확인',
+      add_content_first: '먼저 개체를 추가해 주세요.',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: '앤티앨리어싱',
       disassemble_use: '분해하기',
     },
+    select_machine: '기계를 선택하세요',
   },
   support: {
     no_webgl: 'WebGL이 지원되지 않습니다. 다른 기기를 사용해 주세요.',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: '건너뛰기',
     welcome: '환영합니다.',
-    suggest_calibrate_camera_first: '기기를 처음 사용할 때 카메라를 보정해주세요. (메뉴 > 기기 > [기기 이름] > 카메라 보정) 그리고 미리보기 전에 매번 플랫폼을 적절하게 조정하여 더 나은 미리보기 결과를 얻으세요.',
+    suggest_calibrate_camera_first: 'beamo, Beambox series 및 HEXA 사용자의 경우 처음으로 장비를 사용할 때 카메라 보정을 권장합니다. Ador 카메라는 공장 검사 중에 보정되었습니다. (메뉴 > 기기 > [기기 이름] > 카메라 보정) 그리고 미리보기 전에 매번 플랫폼을 적절하게 조정하여 더 나은 미리보기 결과를 얻으세요.',
     camera_calibration_failed: '카메라 보정 실패',
     ask_retry_calibration: '카메라를 다시 보정하시겠습니까?',
     skipped_camera_calibration: '카메라 보정을 건너뛰셨습니다. 언제든지 메뉴바에서 카메라 보정을 할 수 있습니다. (메뉴 > 기기 > [기기 이름] > 카메라 보정)',
+    skipped_ador_calibration: 'Ador 카메라는 공장 검사 중에 보정되었습니다.',
     needNewUserTutorial: '튜토리얼을 시작하시겠습니까?',
     needNewInterfaceTutorial: 'Beam Studio의 새로운 인터페이스를 위한 튜토리얼을 시작하시겠습니까?',
     next: '다음',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: '뒤집기',
       object_actions: '객체 동작',
       end_alert: '새 UI 소개를 종료하시겠습니까?',
+      select_machine: '기계를 선택하세요',
+      frame: '프레임 미리보기',
+      path_preview: '경로 미리보기',
+      start_work: '작업 시작',
     },
     gesture: {
       pan: '두 손가락으로 캔버스를 스크롤합니다.',

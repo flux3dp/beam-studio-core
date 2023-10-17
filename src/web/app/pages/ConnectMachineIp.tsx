@@ -3,6 +3,7 @@ import React, { KeyboardEventHandler, useEffect, useMemo, useRef, useState } fro
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConfig from 'helpers/api/alert-config';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkCamera from 'helpers/device/check-camera';
 import checkIPFormat from 'helpers/check-ip-format';
@@ -181,6 +182,12 @@ const ConnectMachineIp = (): JSX.Element => {
       storage.set('new-user', true);
     }
     storage.set('printer-is-ready', true);
+    storage.set('selected-device', device.serial);
+    if (device.model === 'ado1') {
+      alertConfig.write('done-first-cali', true);
+    } else if (device.model === 'fbm1') {
+      alertConfig.write('done-first-cali', false);
+    }
     dialogCaller.showLoadingWindow();
     window.location.hash = '#studio/beambox';
     window.location.reload();

@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'Leistung zu hoch',
       power_too_high_msg: 'Die Verwendung einer niedrigeren Laserleistung (unter 70%) verlängert die Lebensdauer der Laserröhre!\nGeben Sie "OK" ein, um fortzufahren.',
       power_too_high_confirm: 'OK',
+      add_content_first: 'Bitte fügen Sie zuerst Objekte hinzu',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Suavizado',
       disassemble_use: 'Zerlegen',
     },
+    select_machine: 'Wählen Sie eine Maschine aus',
   },
   support: {
     no_webgl: 'WebGL wird nicht unterstützt. Bitte verwenden Sie andere Geräte.',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Überspringen',
     welcome: 'WILLKOMMEN',
-    suggest_calibrate_camera_first: 'Bitte kalibrieren Sie die Kamera, wenn Sie das Gerät das erste Mal benutzen. (Menü > Gerät >  [Ihr Gerät] > Kamera kalibrieren) und fokussieren Sie die Plattform vor der Vorschau jedes Mal angemessen, um eine bessere Vorschau zu erhalten.',
+    suggest_calibrate_camera_first: 'Für Benutzer von Beamo, Beambox Serien und HEXA empfehlen wir, die Kamera zu kalibrieren, wenn Sie das Gerät zum ersten Mal verwenden. (Menü > Gerät >  [Ihr Gerät] > Kamera kalibrieren) und fokussieren Sie die Plattform vor der Vorschau jedes Mal angemessen, um eine bessere Vorschau zu erhalten.',
     camera_calibration_failed: 'Kamera Kalibrierung fehlgeschlagen',
     ask_retry_calibration: 'Möchten Sie die Kamera noch einmal kalibrieren?',
     skipped_camera_calibration: 'Sie haben die Kamera-Kalibrierung übersprungen. Sie können die Kamera jederzeit im Menü kalibrieren (Menü > Gerät > [Ihr Gerät] > Kamera kalibrieren).',
+    skipped_ador_calibration: 'Die Ador-Kamera wurde während der Werksinspektion kalibriert.',
     needNewUserTutorial: 'Benötigen Sie ein Tutorial zu Beam Studio?',
     needNewInterfaceTutorial: 'Möchten Sie ein Tutorial für die neue Benutzeroberfläche von Beam Studio starten?',
     next: 'NÄCHSTER',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: 'Flip',
       object_actions: 'Objektaktionen',
       end_alert: 'Sind Sie sicher, die neue Einführung in die Benutzeroberfläche zu beenden?',
+      select_machine: 'Wählen Sie eine Maschine aus',
+      frame: 'Frame-Vorschau',
+      path_preview: 'Pfadvorschau',
+      start_work: 'Arbeit beginnen',
     },
     gesture: {
       pan: 'Scrollen mit 2 Fingern auf dem Bildschirm.',

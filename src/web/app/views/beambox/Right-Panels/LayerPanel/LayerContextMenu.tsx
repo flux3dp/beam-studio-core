@@ -117,7 +117,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
       />
       <ObjectPanelItem.Item
         id="locklayer"
-        content={isLocked ? <ObjectPanelIcons.Unlock /> : <ObjectPanelIcons.Lock />}
+        content={isLocked ? <LayerPanelIcons.Unlock /> : <LayerPanelIcons.Lock />}
         label={isLocked ? LANG.unlock : LANG.lock}
         onClick={toggleLayerLocked}
       />

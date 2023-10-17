@@ -2,212 +2,227 @@
 
 exports[`should render correctly image 1`] = `
 <div
-  className="dimension-panel"
+  className="panel"
 >
-  <div
-    className="dimension-container"
-    key="x"
-  >
-    <div
-      className="label"
-    >
-      X
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
+  <ConfigProvider
+    theme={
+      {
+        "components": {
+          "Button": {
+            "colorText": "#494949",
+            "colorTextDisabled": "#CECECE",
+            "controlHeight": 24,
+            "fontSize": 24,
+            "lineHeight": 1,
+            "lineWidth": 0,
+          },
+        },
       }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="x_position"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="y"
+    }
   >
     <div
-      className="label"
+      className="row"
     >
-      Y
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="y_position"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="rot"
-  >
-    <div
-      className="label img"
-    >
-      <img
-        alt=""
-        src="img/right-panel/icon-rotate.svg"
-      />
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="rotate"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="deg"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="w"
-  >
-    <div
-      className="label"
-    >
-      W
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={108}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="width"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="h"
-  >
-    <div
-      className="label"
-    >
-      H
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={152.6}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="height"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-lock"
-    key="lock"
-    onClick={[Function]}
-  >
-    <img
-      alt=""
-      src="img/right-panel/icon-lock.svg"
-    />
-  </div>
-  <div
-    className="flip-btn-container"
-  >
-    <div
-      className="tool-btn"
-      id="horizontal_flip"
-      onClick={[Function]}
-      title="Horizontal Flip"
-    >
-      <img
-        alt=""
-        src="img/right-panel/icon-hflip.svg"
+      <div
+        className="dimensions"
+      >
+        <div
+          className="dimension"
+          key="x"
+        >
+          <div
+            className="label"
+          >
+            X
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="x_position"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="y"
+        >
+          <div
+            className="label"
+          >
+            Y
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="y_position"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="w"
+        >
+          <div
+            className="label"
+          >
+            W
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={108}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="width"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="h"
+        >
+          <div
+            className="label"
+          >
+            H
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={152.6}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="height"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+      </div>
+      <Button
+        icon={<svgr-url />}
+        id="lock"
+        key="lock"
+        onClick={[Function]}
+        type="text"
       />
     </div>
     <div
-      className="tool-btn"
-      id="vertical_flip"
-      onClick={[Function]}
-      title="Vertical Flip"
+      className="row"
     >
-      <img
-        alt=""
-        src="img/right-panel/icon-vflip.svg"
-      />
+      <div
+        className="dimension"
+        key="rot"
+      >
+        <div
+          className="label img"
+        >
+          <svgr-url />
+        </div>
+        <UnitInput
+          abbr={false}
+          className={
+            {
+              "dimension-input": true,
+            }
+          }
+          defaultValue={0}
+          disabled={false}
+          displayMultiValue={false}
+          forceUsePropsUnit={false}
+          getValue={[Function]}
+          id="rotate"
+          isDoOnInput={false}
+          max={9007199254740991}
+          min={-9007199254740991}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onKeyUp={[Function]}
+          step={1}
+          type="text"
+          unit="deg"
+        />
+      </div>
+      <div
+        className="flip-btn-container"
+      >
+        <Button
+          icon={<svgr-url />}
+          id="horizontal_flip"
+          onClick={[Function]}
+          title="Horizontal Flip"
+          type="text"
+        />
+        <Button
+          icon={<svgr-url />}
+          id="vertical_flip"
+          onClick={[Function]}
+          title="Vertical Flip"
+          type="text"
+        />
+      </div>
     </div>
-  </div>
+  </ConfigProvider>
 </div>
 `;
 
@@ -224,11 +239,7 @@ exports[`should render correctly in mobile image 1`] = `
     value={108}
   />
   <ObjectPanelItem
-    content={
-      <AntdIcon
-        component="svgr-url"
-      />
-    }
+    content={<svgr-url />}
     id="lock"
     key="lock"
     onClick={[Function]}
@@ -266,17 +277,12 @@ exports[`should render correctly in mobile image 1`] = `
     actions={
       [
         {
-          "icon": <AntdIcon
-            component="svgr-url"
-          />,
+          "icon": <svgr-url />,
           "label": "Horizontal Flip",
           "onClick": [Function],
         },
         {
-          "icon": <AntdIcon
-            component="svgr-url"
-            rotate={90}
-          />,
+          "icon": <svgr-url />,
           "label": "Vertical Flip",
           "onClick": [Function],
         },
@@ -309,14 +315,6 @@ exports[`should render correctly in mobile no elements 1`] = `
     value={0}
   />
   <ObjectPanelNumber
-    id="rotate"
-    key="rot"
-    label="Rotate"
-    unit="degree"
-    updateValue={[Function]}
-    value={0}
-  />
-  <ObjectPanelNumber
     id="width"
     key="w"
     label="W"
@@ -334,17 +332,12 @@ exports[`should render correctly in mobile no elements 1`] = `
     actions={
       [
         {
-          "icon": <AntdIcon
-            component="svgr-url"
-          />,
+          "icon": <svgr-url />,
           "label": "Horizontal Flip",
           "onClick": [Function],
         },
         {
-          "icon": <AntdIcon
-            component="svgr-url"
-            rotate={90}
-          />,
+          "icon": <svgr-url />,
           "label": "Vertical Flip",
           "onClick": [Function],
         },
@@ -377,14 +370,6 @@ exports[`should render correctly in mobile unsupported element 1`] = `
     value={0}
   />
   <ObjectPanelNumber
-    id="rotate"
-    key="rot"
-    label="Rotate"
-    unit="degree"
-    updateValue={[Function]}
-    value={0}
-  />
-  <ObjectPanelNumber
     id="width"
     key="w"
     label="W"
@@ -402,17 +387,12 @@ exports[`should render correctly in mobile unsupported element 1`] = `
     actions={
       [
         {
-          "icon": <AntdIcon
-            component="svgr-url"
-          />,
+          "icon": <svgr-url />,
           "label": "Horizontal Flip",
           "onClick": [Function],
         },
         {
-          "icon": <AntdIcon
-            component="svgr-url"
-            rotate={90}
-          />,
+          "icon": <svgr-url />,
           "label": "Vertical Flip",
           "onClick": [Function],
         },
@@ -427,402 +407,452 @@ exports[`should render correctly in mobile unsupported element 1`] = `
 
 exports[`should render correctly no elements 1`] = `
 <div
-  className="dimension-panel"
+  className="panel"
 >
-  <div
-    className="dimension-container"
-    key="x"
-  >
-    <div
-      className="label"
-    >
-      X
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
+  <ConfigProvider
+    theme={
+      {
+        "components": {
+          "Button": {
+            "colorText": "#494949",
+            "colorTextDisabled": "#CECECE",
+            "controlHeight": 24,
+            "fontSize": 24,
+            "lineHeight": 1,
+            "lineWidth": 0,
+          },
+        },
       }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="x_position"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="y"
+    }
   >
     <div
-      className="label"
+      className="row"
     >
-      Y
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="y_position"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="rot"
-  >
-    <div
-      className="label img"
-    >
-      <img
-        alt=""
-        src="img/right-panel/icon-rotate.svg"
-      />
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="rotate"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="deg"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="w"
-  >
-    <div
-      className="label"
-    >
-      W
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="width"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="h"
-  >
-    <div
-      className="label"
-    >
-      H
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="height"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="flip-btn-container"
-  >
-    <div
-      className="tool-btn"
-      id="horizontal_flip"
-      onClick={[Function]}
-      title="Horizontal Flip"
-    >
-      <img
-        alt=""
-        src="img/right-panel/icon-hflip.svg"
+      <div
+        className="dimensions"
+      >
+        <div
+          className="dimension"
+          key="x"
+        >
+          <div
+            className="label"
+          >
+            X
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="x_position"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="y"
+        >
+          <div
+            className="label"
+          >
+            Y
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="y_position"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="w"
+        >
+          <div
+            className="label"
+          >
+            W
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="width"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="h"
+        >
+          <div
+            className="label"
+          >
+            H
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="height"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+      </div>
+      <Button
+        icon={<svgr-url />}
+        id="lock"
+        key="lock"
+        onClick={[Function]}
+        type="text"
       />
     </div>
     <div
-      className="tool-btn"
-      id="vertical_flip"
-      onClick={[Function]}
-      title="Vertical Flip"
+      className="row"
     >
-      <img
-        alt=""
-        src="img/right-panel/icon-vflip.svg"
-      />
+      <div
+        className="dimension"
+        key="rot"
+      >
+        <div
+          className="label img"
+        >
+          <svgr-url />
+        </div>
+        <UnitInput
+          abbr={false}
+          className={
+            {
+              "dimension-input": true,
+            }
+          }
+          defaultValue={0}
+          disabled={false}
+          displayMultiValue={false}
+          forceUsePropsUnit={false}
+          getValue={[Function]}
+          id="rotate"
+          isDoOnInput={false}
+          max={9007199254740991}
+          min={-9007199254740991}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onKeyUp={[Function]}
+          step={1}
+          type="text"
+          unit="deg"
+        />
+      </div>
+      <div
+        className="flip-btn-container"
+      >
+        <Button
+          icon={<svgr-url />}
+          id="horizontal_flip"
+          onClick={[Function]}
+          title="Horizontal Flip"
+          type="text"
+        />
+        <Button
+          icon={<svgr-url />}
+          id="vertical_flip"
+          onClick={[Function]}
+          title="Vertical Flip"
+          type="text"
+        />
+      </div>
     </div>
-  </div>
+  </ConfigProvider>
 </div>
 `;
 
 exports[`should render correctly unsupported element 1`] = `
 <div
-  className="dimension-panel"
+  className="panel"
 >
-  <div
-    className="dimension-container"
-    key="x"
-  >
-    <div
-      className="label"
-    >
-      X
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
+  <ConfigProvider
+    theme={
+      {
+        "components": {
+          "Button": {
+            "colorText": "#494949",
+            "colorTextDisabled": "#CECECE",
+            "controlHeight": 24,
+            "fontSize": 24,
+            "lineHeight": 1,
+            "lineWidth": 0,
+          },
+        },
       }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="x_position"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="y"
+    }
   >
     <div
-      className="label"
+      className="row"
     >
-      Y
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="y_position"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="rot"
-  >
-    <div
-      className="label img"
-    >
-      <img
-        alt=""
-        src="img/right-panel/icon-rotate.svg"
-      />
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="rotate"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="deg"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="w"
-  >
-    <div
-      className="label"
-    >
-      W
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="width"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="dimension-container"
-    key="h"
-  >
-    <div
-      className="label"
-    >
-      H
-    </div>
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "dimension-input": true,
-        }
-      }
-      defaultValue={0}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="height"
-      isDoOnInput={false}
-      max={9007199254740991}
-      min={-9007199254740991}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="mm"
-    />
-  </div>
-  <div
-    className="flip-btn-container"
-  >
-    <div
-      className="tool-btn"
-      id="horizontal_flip"
-      onClick={[Function]}
-      title="Horizontal Flip"
-    >
-      <img
-        alt=""
-        src="img/right-panel/icon-hflip.svg"
+      <div
+        className="dimensions"
+      >
+        <div
+          className="dimension"
+          key="x"
+        >
+          <div
+            className="label"
+          >
+            X
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="x_position"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="y"
+        >
+          <div
+            className="label"
+          >
+            Y
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="y_position"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="w"
+        >
+          <div
+            className="label"
+          >
+            W
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="width"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+        <div
+          className="dimension"
+          key="h"
+        >
+          <div
+            className="label"
+          >
+            H
+          </div>
+          <UnitInput
+            abbr={false}
+            className={
+              {
+                "dimension-input": true,
+              }
+            }
+            defaultValue={0}
+            disabled={false}
+            displayMultiValue={false}
+            forceUsePropsUnit={false}
+            getValue={[Function]}
+            id="height"
+            isDoOnInput={false}
+            max={9007199254740991}
+            min={-9007199254740991}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyUp={[Function]}
+            step={1}
+            type="text"
+            unit="mm"
+          />
+        </div>
+      </div>
+      <Button
+        icon={<svgr-url />}
+        id="lock"
+        key="lock"
+        onClick={[Function]}
+        type="text"
       />
     </div>
     <div
-      className="tool-btn"
-      id="vertical_flip"
-      onClick={[Function]}
-      title="Vertical Flip"
+      className="row"
     >
-      <img
-        alt=""
-        src="img/right-panel/icon-vflip.svg"
-      />
+      <div
+        className="dimension"
+        key="rot"
+      >
+        <div
+          className="label img"
+        >
+          <svgr-url />
+        </div>
+        <UnitInput
+          abbr={false}
+          className={
+            {
+              "dimension-input": true,
+            }
+          }
+          defaultValue={0}
+          disabled={false}
+          displayMultiValue={false}
+          forceUsePropsUnit={false}
+          getValue={[Function]}
+          id="rotate"
+          isDoOnInput={false}
+          max={9007199254740991}
+          min={-9007199254740991}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onKeyUp={[Function]}
+          step={1}
+          type="text"
+          unit="deg"
+        />
+      </div>
+      <div
+        className="flip-btn-container"
+      >
+        <Button
+          icon={<svgr-url />}
+          id="horizontal_flip"
+          onClick={[Function]}
+          title="Horizontal Flip"
+          type="text"
+        />
+        <Button
+          icon={<svgr-url />}
+          id="vertical_flip"
+          onClick={[Function]}
+          title="Vertical Flip"
+          type="text"
+        />
+      </div>
     </div>
-  </div>
+  </ConfigProvider>
 </div>
 `;

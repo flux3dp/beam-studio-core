@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: '功率過高',
       power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
       power_too_high_confirm: '知道了',
+      add_content_first: '請先新增物件',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: '反鋸齒',
       disassemble_use: '解散圖檔',
     },
+    select_machine: '選擇機器',
   },
   support: {
     no_webgl: '您的系統不支援 WebGL，建議您使用其他電腦開啟 Beam Studio',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: '跳過教學',
     welcome: '歡迎使用',
-    suggest_calibrate_camera_first: '提醒您：<br/>第一次使用請先進行相機校正。並在每次使用時將平台對焦，以取得最好的效果。',
+    suggest_calibrate_camera_first: '如果您是 beamo、Beambox 系列和 HEXA 用戶，我們建議在第一次使用機器時校準相機（上方選單「機器」>「您的機器名稱」>「校正相機」），並在每次使用時將平台對焦，以取得最好的效果。',
     camera_calibration_failed: '相機校正失敗',
     ask_retry_calibration: '請問是否重新執行相機校正？',
     skipped_camera_calibration: '已跳過相機校正引導，您可從隨時從上方選單「機器」>「您的機器名稱」>「校正相機」進行相機校正。',
+    skipped_ador_calibration: '如果您是 Ador 用戶，相機已在出廠時校準完畢。',
     needNewUserTutorial: '請問您是否需要 Beam Studio 的教學？',
     needNewInterfaceTutorial: '請問是否需要為您介紹 Beam Studio 的新介面？',
     next: '下一步',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: '翻轉',
       object_actions: '物件操作',
       end_alert: '請問您是否確定要結束新介面介紹？',
+      select_machine: '選擇機器',
+      frame: '外框預覽',
+      path_preview: '路徑預覽',
+      start_work: '開始工作',
     },
     gesture: {
       pan: '雙指平移讓畫布隨著您的手指方向移動。',

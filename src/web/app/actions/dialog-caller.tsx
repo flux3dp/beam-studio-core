@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
-import BackgroundRemovalPanel from 'app/views/beambox/ImageEditPanel/BackgroundRemovalPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';

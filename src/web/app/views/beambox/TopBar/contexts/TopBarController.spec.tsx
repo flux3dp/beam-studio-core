@@ -51,4 +51,18 @@ describe('test TopBarController', () => {
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_START_PREVIEW_CALLBACK', callback);
   });
+
+  test('test getSelectedDevice', () => {
+    TopBarController.getSelectedDevice();
+    expect(mockEmit).toHaveBeenCalledTimes(1);
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'GET_SELECTED_DEVICE', { selectedDevice: null });
+  });
+
+  test('test setSelectedDevice', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mockDevice: any = { name: 'ABC' };
+    TopBarController.setSelectedDevice(mockDevice);
+    expect(mockEmit).toHaveBeenCalledTimes(1);
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_SELECTED_DEVICE', mockDevice);
+  });
 });

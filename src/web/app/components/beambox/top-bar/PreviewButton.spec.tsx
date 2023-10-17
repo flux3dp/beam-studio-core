@@ -24,6 +24,11 @@ jest.mock('helpers/i18n', () => ({
       preview: 'PREVIEW',
       borderless: '(OPEN BOTTOM)',
     },
+    tutorial: {
+      newInterface: {
+        camera_preview: 'Camera Preview',
+      },
+    },
   },
 }));
 
@@ -40,7 +45,7 @@ jest.mock('helpers/svg-editor-helper', () => ({
   }),
 }));
 
-const mockShowCameraPreviewDeviceList = jest.fn();
+const mockSetupPreviewMode = jest.fn();
 const mockChangeToPreviewMode = jest.fn();
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
@@ -63,12 +68,11 @@ describe('should render correctly', () => {
             isPreviewing: false,
             isPathPreviewing: true,
             changeToPreviewMode: mockChangeToPreviewMode,
+            setupPreviewMode: mockSetupPreviewMode,
           } as any
         }
       >
-        <PreviewButton
-          showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList}
-        />
+        <PreviewButton />
       </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -83,19 +87,14 @@ describe('should render correctly', () => {
             isPreviewing: true,
             isPathPreviewing: false,
             changeToPreviewMode: mockChangeToPreviewMode,
+            setupPreviewMode: mockSetupPreviewMode,
           } as any
         }
       >
-        <PreviewButton showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList} />
+        <PreviewButton />
       </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
-
-    fireEvent.click(container.querySelector('div.img-container'));
-    expect(mockShowCameraPreviewDeviceList).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(container.querySelector('div.title'));
-    expect(mockShowCameraPreviewDeviceList).toHaveBeenCalledTimes(2);
   });
 
   test('when previewing and not support borderless', () => {
@@ -107,10 +106,11 @@ describe('should render correctly', () => {
             isPreviewing: true,
             isPathPreviewing: false,
             changeToPreviewMode: mockChangeToPreviewMode,
+            setupPreviewMode: mockSetupPreviewMode,
           } as any
         }
       >
-        <PreviewButton showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList} />
+        <PreviewButton />
       </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -124,12 +124,16 @@ describe('should render correctly', () => {
             isPreviewing: false,
             isPathPreviewing: false,
             changeToPreviewMode: mockChangeToPreviewMode,
+            setupPreviewMode: mockSetupPreviewMode,
           } as any
         }
       >
-        <PreviewButton showCameraPreviewDeviceList={mockShowCameraPreviewDeviceList} />
+        <PreviewButton />
       </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
+
+    fireEvent.click(container.querySelector('div[class*="button"]'));
+    expect(mockSetupPreviewMode).toHaveBeenCalledTimes(1);
   });
 });

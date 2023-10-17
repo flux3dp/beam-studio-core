@@ -101,10 +101,31 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
           <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>{menuCms.machine_info}</MenuItem>
           <MenuDivider />
-          <MenuItem onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}>{menuCms.calibrate_beambox_camera}</MenuItem>
-          {model === 'fbm1' ? <MenuItem onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', serial)}>{menuCms.calibrate_beambox_camera_borderless}</MenuItem> : null}
-          {model === 'fbm1' ? <MenuItem onClick={() => callback('CALIBRATE_DIODE_MODULE', serial)}>{menuCms.calibrate_diode_module}</MenuItem> : null}
-          <MenuDivider />
+          {model !== 'ado1' && (
+            <MenuItem
+              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
+              disabled={isMobile}
+            >
+              {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
+            </MenuItem>
+          )}
+          {model === 'fbm1' ? (
+            <MenuItem
+              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', serial)}
+              disabled={isMobile}
+            >
+              {menuCms.calibrate_beambox_camera_borderless} {isMobile && '(PC Only)'}
+            </MenuItem>
+          ) : null}
+          {model === 'fbm1' ? (
+            <MenuItem
+              onClick={() => callback('CALIBRATE_DIODE_MODULE', serial)}
+              disabled={isMobile}
+            >
+              {menuCms.calibrate_diode_module} {isMobile && '(PC Only)'}
+            </MenuItem>
+          ) : null}
+          {model !== 'ado1' && <MenuDivider />}
           <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>{menuCms.update_firmware}</MenuItem>
           <SubMenu label={menuCms.download_log}>
             <MenuItem onClick={() => callback('LOG_NETWORK', serial)}>{menuCms.log.network}</MenuItem>

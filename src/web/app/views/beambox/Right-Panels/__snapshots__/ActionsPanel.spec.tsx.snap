@@ -2,7 +2,7 @@
 
 exports[`should render correctly ellipse 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -12,55 +12,84 @@ exports[`should render correctly ellipse 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="Convert to Path"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="convert_to_path"
-        type="button"
+      <div
+        className="btn-container"
+        key="Convert to Path"
       >
-        <TraceIcon />
-        Convert to Path
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Offset"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="offset"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="convert_to_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Convert to Path
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Offset"
       >
-        <OffsetIcon />
-        Offset
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="offset"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Offset
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly g multiple selection 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -70,41 +99,67 @@ exports[`should render correctly g multiple selection 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container half"
-      key="Offset"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="offset"
-        type="button"
+      <div
+        className="btn-container half"
+        key="Offset"
       >
-        <OffsetIcon />
-        Offset
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          disabled={false}
+          icon={<svgr-url />}
+          id="offset"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Offset
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly g single selection 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -114,27 +169,48 @@ exports[`should render correctly g single selection 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+      <div
+        className="btn-container"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly image 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -144,154 +220,204 @@ exports[`should render correctly image 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="Replace With..."
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="replace_with"
-        type="button"
+      <div
+        className="btn-container"
+        key="Replace With..."
       >
-        <ReplaceIcon />
-        Replace With...
-      </button>
-    </div>
-    <div
-      className="btn-container"
-      key="ai_bg_removal"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="bg-removal"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="replace_with"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Replace With...
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container"
+        key="ai_bg_removal"
       >
-        <svgr-url
-          className="icon"
-        />
-        ai_bg_removal
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Trace"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="trace"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="bg-removal"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            ai_bg_removal
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Trace"
       >
-        <svgr-url
-          className="icon"
-        />
-        Trace
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Grading"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="grading"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          disabled={false}
+          icon={<svgr-url />}
+          id="trace"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Trace
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Grading"
       >
-        <GrayscaleIcon />
-        Grading
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Sharpen"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="sharpen"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="grading"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Grading
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Sharpen"
       >
-        <SharpenIcon />
-        Sharpen
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Crop"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="crop"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="sharpen"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Sharpen
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Crop"
       >
-        <CropIcon />
-        Crop
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Bevel"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="bevel"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="crop"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Crop
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Bevel"
       >
-        <BevelIcon />
-        Bevel
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Invert"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="invert"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="bevel"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Bevel
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Invert"
       >
-        <svgr-url
-          className="icon"
-        />
-        Invert
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="invert"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Invert
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Outline"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="potrace"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Outline"
       >
-        <svgr-url
-          className="icon"
-        />
-        Outline
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="potrace"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Outline
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
@@ -653,7 +779,7 @@ exports[`should render correctly in mobile use 1`] = `
 
 exports[`should render correctly line 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -663,55 +789,84 @@ exports[`should render correctly line 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="Convert to Path"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="convert_to_path"
-        type="button"
+      <div
+        className="btn-container"
+        key="Convert to Path"
       >
-        <TraceIcon />
-        Convert to Path
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Offset"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="offset"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="convert_to_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Convert to Path
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Offset"
       >
-        <OffsetIcon />
-        Offset
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="offset"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Offset
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly no elements 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -720,13 +875,30 @@ exports[`should render correctly no elements 1`] = `
   </div>
   <div
     className="btns-container"
-  />
+  >
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
+    />
+  </div>
 </div>
 `;
 
 exports[`should render correctly path 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -736,83 +908,120 @@ exports[`should render correctly path 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="edit_path"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="edit_path"
-        type="button"
+      <div
+        className="btn-container"
+        key="edit_path"
       >
-        <PenIcon />
-        edit_path
-      </button>
-    </div>
-    <div
-      className="btn-container"
-      key="Decompose"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="decompose_path"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="edit_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            edit_path
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container"
+        key="Decompose"
       >
-        <DivideIcon />
-        Decompose
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Offset"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="offset"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="decompose_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Decompose
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Offset"
       >
-        <OffsetIcon />
-        Offset
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="offset"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Offset
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
-    <div
-      className="btn-container"
-      key="simplify"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="simplify"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container"
+        key="simplify"
       >
-        <SimplifyIcon />
-        simplify
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="simplify"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            simplify
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly polygon 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -822,55 +1031,84 @@ exports[`should render correctly polygon 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="Convert to Path"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="convert_to_path"
-        type="button"
+      <div
+        className="btn-container"
+        key="Convert to Path"
       >
-        <TraceIcon />
-        Convert to Path
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Offset"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="offset"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="convert_to_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Convert to Path
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Offset"
       >
-        <OffsetIcon />
-        Offset
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="offset"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Offset
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly rect 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -880,55 +1118,84 @@ exports[`should render correctly rect 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="Convert to Path"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="convert_to_path"
-        type="button"
+      <div
+        className="btn-container"
+        key="Convert to Path"
       >
-        <TraceIcon />
-        Convert to Path
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Offset"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="offset"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="convert_to_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Convert to Path
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Offset"
       >
-        <OffsetIcon />
-        Offset
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="offset"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Offset
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container half"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly text 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -938,57 +1205,84 @@ exports[`should render correctly text 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container"
-      key="Convert to Path"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="convert_to_path"
-        type="button"
+      <div
+        className="btn-container"
+        key="Convert to Path"
       >
-        <TraceIcon />
-        Convert to Path
-      </button>
-    </div>
-    <div
-      className="btn-container"
-      key="weld_text"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="weld"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="convert_to_path"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Convert to Path
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container"
+        key="weld_text"
       >
-        <svgr-url
-          className="icon"
-        />
-        weld_text
-      </button>
-    </div>
-    <div
-      className="btn-container"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="weld"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            weld_text
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;
 
 exports[`should render correctly use 1`] = `
 <div
-  className="actions-panel"
+  className="panel"
 >
   <div
     className="title"
@@ -998,34 +1292,59 @@ exports[`should render correctly use 1`] = `
   <div
     className="btns-container"
   >
-    <div
-      className="btn-container half"
-      key="Disassemble"
-      onClick={[Function]}
+    <ConfigProvider
+      theme={
+        {
+          "components": {
+            "Button": {
+              "colorText": "#494949",
+              "colorTextDisabled": "#B9B9B9",
+              "controlHeight": 30,
+              "fontSize": 24,
+              "lineHeight": 1,
+              "marginXS": 4,
+            },
+          },
+        }
+      }
     >
-      <button
-        className="btn"
-        id="disassemble_use"
-        type="button"
+      <div
+        className="btn-container"
+        key="Disassemble"
       >
-        <SeparateIcon />
-        Disassemble
-      </button>
-    </div>
-    <div
-      className="btn-container half"
-      key="Array"
-      onClick={[Function]}
-    >
-      <button
-        className="btn"
-        id="array"
-        type="button"
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="disassemble_use"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Disassemble
+          </span>
+        </Button>
+      </div>
+      <div
+        className="btn-container"
+        key="Array"
       >
-        <ArrayIcon />
-        Array
-      </button>
-    </div>
+        <Button
+          block={true}
+          className="btn"
+          icon={<svgr-url />}
+          id="array"
+          onClick={[Function]}
+        >
+          <span
+            className="label"
+          >
+            Array
+          </span>
+        </Button>
+      </div>
+    </ConfigProvider>
   </div>
 </div>
 `;

@@ -4,9 +4,11 @@ import { Modal, Progress as AntdProgress } from 'antd';
 import useI18n from 'helpers/useI18n';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { IProgressDialog } from 'interfaces/IProgress';
+import { useIsMobile } from 'helpers/system-helper';
 
 const Progress = ({ data }: { data: IProgressDialog }): JSX.Element => {
   const lang = useI18n();
+  const isMobile = useIsMobile();
   const { popById } = useContext(AlertProgressContext);
   const { message, percentage, timeout, key, id, caption, onCancel } = data;
   useEffect(() => {
@@ -31,9 +33,9 @@ const Progress = ({ data }: { data: IProgressDialog }): JSX.Element => {
     <Modal
       key={`${key}-${id}`}
       style={{
-        minWidth: window.outerWidth < 600 ? window.outerWidth - 40 : 520,
+        minWidth: isMobile ? window.innerWidth - 40 : 520,
       }}
-      width={window.outerWidth < 600 ? window.outerWidth - 40 : 520}
+      width={isMobile ? window.innerWidth - 40 : 520}
       open
       title={caption}
       onCancel={() => {

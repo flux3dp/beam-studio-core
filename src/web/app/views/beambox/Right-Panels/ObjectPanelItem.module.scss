@@ -6,6 +6,9 @@ $active-color: #0091ff;
   align-items: center;
   &[id='lock'] {
     min-width: auto;
+    .main {
+      font-size: 14px;
+    }
   }
   &.active {
     color: $active-color;
@@ -32,6 +35,7 @@ $active-color: #0091ff;
   .main {
     display: flex;
     height: 32px;
+    font-size: 32px;
     align-items: center;
   }
   .label {

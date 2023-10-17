@@ -1,3 +1,5 @@
+@use '../_mixins.scss' as mixins;
+
 .field {
   display: flex;
   flex-wrap: wrap;
@@ -16,5 +18,11 @@
     input {
       border-radius: 0;
     }
+  }
+}
+
+.options {
+  .option-block {
+    @include mixins.option-block();
   }
 }

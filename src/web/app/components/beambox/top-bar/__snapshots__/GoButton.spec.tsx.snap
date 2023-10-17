@@ -3,11 +3,10 @@
 exports[`test GoButton should render correctly 1`] = `
 <div>
   <div
-    class="go-button-container no-machine"
+    class="button disabled"
+    title="Start Work"
   >
-    <div
-      class="go-btn"
-    />
+    <svgr-url />
   </div>
 </div>
 `;

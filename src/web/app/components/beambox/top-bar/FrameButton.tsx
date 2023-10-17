@@ -1,15 +1,19 @@
-import React, { useCallback } from 'react';
+import classNames from 'classnames';
+import React, { useCallback, useContext } from 'react';
 import { sprintf } from 'sprintf-js';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import checkDeviceStatus from 'helpers/check-device-status';
 import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
-import dialogCaller from 'app/actions/dialog-caller';
-import progressCaller from 'app/actions/progress-caller';
+import getDevice from 'helpers/device/get-device';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import progressCaller from 'app/actions/progress-caller';
+import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
-import { FrameIcon } from 'app/icons/icons';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import styles from './FrameButton.module.scss';
@@ -22,6 +26,7 @@ getSVGAsync((globalSVG) => {
 const PROGRESS_ID = 'frame-task';
 const FrameButton = (): JSX.Element => {
   const lang = useI18n();
+  const { isPreviewing } = useContext(CanvasContext);
 
   const getCoords = useCallback(() => {
     const allBBox = svgCanvas.getVisibleElementsAndBBoxes();
@@ -57,78 +62,77 @@ const FrameButton = (): JSX.Element => {
   }, []);
 
   const handleClick = async () => {
-    const device = await dialogCaller.selectDevice();
     const coords = getCoords();
     // Only check minX because it's enough to know if there is any element
     if (coords.minX === undefined) {
-      // TODO: alert no element to frame
+      MessageCaller.openMessage({
+        key: 'no-element-to-frame',
+        level: MessageLevel.INFO,
+        content: lang.topbar.alerts.add_content_first,
+        duration: 3,
+      });
       return;
     }
 
-    const res = await deviceMaster.select(device);
-    if (!res.success) {
-      return;
-    }
+    const { device } = await getDevice();
+    if (!device) return;
+    const deviceStatus = await checkDeviceStatus(device);
+    if (!deviceStatus) return;
 
     progressCaller.openNonstopProgress({
       id: PROGRESS_ID,
       message: sprintf(lang.message.connectingMachine, device.name),
       timeout: 30000,
     });
-
-    progressCaller.update(PROGRESS_ID, { message: lang.message.enteringRawMode });
-    await deviceMaster.enterRawMode();
-    progressCaller.update(PROGRESS_ID, { message: lang.message.exitingRotaryMode });
-    await deviceMaster.rawSetRotary(false);
-    progressCaller.update(PROGRESS_ID, { message: lang.message.homing });
-    await deviceMaster.rawHome();
-    let isLineCheckEnabled = false;
-    const vc = versionChecker(device.version);
-    if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
-      await deviceMaster.rawStartLineCheckMode();
-      isLineCheckEnabled = true;
-    } else isLineCheckEnabled = false;
-    progressCaller.update('start-preview-mode', { message: lang.message.turningOffFan });
-    await deviceMaster.rawSetFan(false);
-    progressCaller.update('start-preview-mode', { message: lang.message.turningOffAirPump });
-    await deviceMaster.rawSetAirPump(false);
-    await deviceMaster.rawSetWaterPump(false);
-    // TODO: add progress update with time
-    const movementFeedrate = 6000; // mm/min
-    // TODO: check if we need to wait between each move
-    progressCaller.update(PROGRESS_ID, { message: 'tRunning frame' });
-    const { dpmm } = constant;
-    coords.minX /= dpmm;
-    coords.minY /= dpmm;
-    coords.maxX /= dpmm;
-    coords.maxY /= dpmm;
-    await deviceMaster.rawMove({
-      x: coords.minX, y: coords.minY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.maxX, y: coords.minY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.maxX, y: coords.maxY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.minX, y: coords.maxY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.minX, y: coords.minY, f: movementFeedrate,
-    });
-    if (isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
-    await deviceMaster.rawLooseMotor();
-    await deviceMaster.endRawMode();
+    try {
+      progressCaller.update(PROGRESS_ID, { message: lang.message.enteringRawMode });
+      await deviceMaster.enterRawMode();
+      progressCaller.update(PROGRESS_ID, { message: lang.message.exitingRotaryMode });
+      await deviceMaster.rawSetRotary(false);
+      progressCaller.update(PROGRESS_ID, { message: lang.message.homing });
+      await deviceMaster.rawHome();
+      let isLineCheckEnabled = false;
+      const vc = versionChecker(device.version);
+      if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
+        await deviceMaster.rawStartLineCheckMode();
+        isLineCheckEnabled = true;
+      } else isLineCheckEnabled = false;
+      progressCaller.update('start-preview-mode', { message: lang.message.turningOffFan });
+      await deviceMaster.rawSetFan(false);
+      progressCaller.update('start-preview-mode', { message: lang.message.turningOffAirPump });
+      await deviceMaster.rawSetAirPump(false);
+      await deviceMaster.rawSetWaterPump(false);
+      // TODO: add progress update with time
+      const movementFeedrate = 6000; // mm/min
+      // TODO: check if we need to wait between each move
+      progressCaller.update(PROGRESS_ID, { message: lang.device.processing });
+      const { dpmm } = constant;
+      coords.minX /= dpmm;
+      coords.minY /= dpmm;
+      coords.maxX /= dpmm;
+      coords.maxY /= dpmm;
+      await deviceMaster.rawMove({ x: coords.minX, y: coords.minY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.maxX, y: coords.minY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.maxX, y: coords.maxY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.minX, y: coords.maxY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.minX, y: coords.minY, f: movementFeedrate });
+      if (isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
+      await deviceMaster.rawLooseMotor();
+      await deviceMaster.endRawMode();
+    } catch (error) {
+      console.log('frame error:\n', error);
+    }
     progressCaller.popById(PROGRESS_ID);
     deviceMaster.kick();
   };
 
   return (
-    <div className={styles.container}>
-      <button type="button" className="path-preview-button" onClick={handleClick}>
-        <FrameIcon className={styles.icon} />
-      </button>
+    <div
+      className={classNames(styles.button, { [styles.disabled]: isPreviewing })}
+      onClick={handleClick}
+      title={lang.tutorial.newInterface.frame}
+    >
+      <TopBarIcons.Frame />
     </div>
   );
 };

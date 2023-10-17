@@ -6,13 +6,16 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
+import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
+import Constant from 'app/actions/beambox/constant';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
+import getDevice from 'helpers/device/get-device';
 import isDev from 'helpers/is-dev';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
+import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
@@ -21,6 +24,8 @@ import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+
+import styles from './GoButton.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -32,13 +37,11 @@ const { $ } = window;
 interface Props {
   hasText: boolean;
   hasDiscoverdMachine: boolean;
-  hasDevice: boolean;
-  showDeviceList: (type: string, selectDeviceCallback: (device: IDeviceInfo) => void) => void;
 }
 
 const GoButton = (props: Props): JSX.Element => {
   const lang = useI18n();
-  const { endPreviewMode } = useContext(CanvasContext);
+  const { endPreviewMode, isPreviewing } = useContext(CanvasContext);
 
   const handleExportAlerts = async () => {
     const layers = $('#svgcontent > g.layer').toArray();
@@ -202,7 +205,7 @@ const GoButton = (props: Props): JSX.Element => {
   };
 
   const handleExportClick = async () => {
-    const { hasDevice, showDeviceList } = props;
+    const { hasDiscoverdMachine } = props;
     endPreviewMode();
 
     if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
@@ -210,14 +213,18 @@ const GoButton = (props: Props): JSX.Element => {
     }
 
     const handleExport = async () => {
-      if (hasDevice) { // Only when there is usable machine
+      if (hasDiscoverdMachine) {
+        // Only when there is usable machine
         const confirmed = await handleExportAlerts();
         if (!confirmed) {
           return;
         }
       }
-
-      showDeviceList('export', (device) => exportTask(device));
+      const { device } = await getDevice();
+      if (!device) return;
+      const deviceStatus = await checkDeviceStatus(device);
+      if (!deviceStatus) return;
+      exportTask(device);
     };
 
     if (window.FLUX.version === 'web' && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
@@ -227,13 +234,14 @@ const GoButton = (props: Props): JSX.Element => {
   const { hasDiscoverdMachine, hasText } = props;
   return (
     <div
-      className={
-        classNames('go-button-container', { 'no-machine': !hasDiscoverdMachine })
-      }
+      className={classNames(styles.button, {
+        [styles.disabled]: !hasDiscoverdMachine || isPreviewing,
+      })}
       onClick={handleExportClick}
+      title={lang.tutorial.newInterface.start_work}
     >
-      {hasText ? <div className="go-text">{lang.topbar.export}</div> : null}
-      <div className={(classNames('go-btn'))} />
+      {hasText && <span className={styles.text}>{lang.topbar.export}</span>}
+      <TopBarIcons.Go />
     </div>
   );
 };

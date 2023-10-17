@@ -62,16 +62,15 @@ exports[`should render correctly in mobile unit is not inches 1`] = `
 
 exports[`should render correctly unit is inches 1`] = `
 <div>
-  <div
-    class="rect-options"
-  >
+  <div>
     <div
-      class="option-block"
+      class="rounded-corner"
     >
       <div
         class="label"
+        title="Rounded corner"
       >
-        Rounded corner
+        <svgr-url />
       </div>
       <div
         class="option-input ui ui-control-unit-input-v2"
@@ -97,16 +96,15 @@ exports[`should render correctly unit is inches 1`] = `
 
 exports[`should render correctly unit is not inches 1`] = `
 <div>
-  <div
-    class="rect-options"
-  >
+  <div>
     <div
-      class="option-block"
+      class="rounded-corner"
     >
       <div
         class="label"
+        title="Rounded corner"
       >
-        Rounded corner
+        <svgr-url />
       </div>
       <div
         class="option-input ui ui-control-unit-input-v2"

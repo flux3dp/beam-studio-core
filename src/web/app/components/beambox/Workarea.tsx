@@ -6,7 +6,6 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { isMobile } from 'helpers/system-helper';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -25,7 +24,7 @@ export default class Workarea extends React.PureComponent<{ className: string },
   constructor(props: { className: string }) {
     super(props);
     this.state = {
-      menuDisabled: isMobile(),
+      menuDisabled: false,
       select: false,
       paste: false,
       group: false,

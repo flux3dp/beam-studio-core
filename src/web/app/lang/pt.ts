@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'Força muito alta',
       power_too_high_msg: 'Usando força a baixo de 70% você prolongará a vida útil do tubo laser',
       power_too_high_confirm: 'OBSERVADO',
+      add_content_first: 'Adicione objetos primeiro',
     },
     hint: {
       polygon: 'Pressione as teclas  + / - para avançar ou retrocecer os slides',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Anti-Aliasing',
       disassemble_use: 'Desmontar',
     },
+    select_machine: 'Selecione uma máquina',
   },
   support: {
     no_webgl: 'WebGL não suportada. Tente outro dispositivo',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'IGNORAR',
     welcome: 'BEM VINDO',
-    suggest_calibrate_camera_first: 'Calibre a câmera ao usar a máquina pela primeira vez. (Menu > Máquina > [Sua máquina] > Calibrar câmera) E refoque a plataforma adequadamente todas as vezes antes da visualização para obter um resultado de visualização melhor.',
+    suggest_calibrate_camera_first: 'Para os utilizadores do beamo, da série Beambox e do HEXA, recomendamos que calibrem a câmara quando utilizarem a máquina pela primeira vez. (Menu > Máquina > [Sua máquina] > Calibrar câmera) E refoque a plataforma adequadamente todas as vezes antes da visualização para obter um resultado de visualização melhor.',
     camera_calibration_failed: 'Falha na calibração da câmera',
     ask_retry_calibration: 'Gostaria de calibrar a câmera novamente?',
     skipped_camera_calibration: 'Você ignorou a calibração da câmera. Você pode calibrar a câmera a qualquer momento na barra de menus (Menu > Máquina > [Sua máquina] > Calibrar câmera).',
+    skipped_ador_calibration: 'Ador câmara foi calibrada durante a inspeção de fábrica.',
     needNewUserTutorial: 'Gostaria de iniciar um tutorial?',
     needNewInterfaceTutorial: 'Gostaria de iniciar um tutorial para a nova interface do Beam Studio?',
     next: 'AVANÇAR',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: 'Virar',
       object_actions: 'Ações de Objetos',
       end_alert: 'Tem certeza de que deseja encerrar a introdução da nova interface do usuário?',
+      select_machine: 'Selecione uma máquina',
+      frame: 'Pré-visualização de fotogramas',
+      path_preview: 'Pré-visualização de trajetória',
+      start_work: 'Iniciar trabalho',
     },
     gesture: {
       pan: 'Role a tela com dois dedos.',

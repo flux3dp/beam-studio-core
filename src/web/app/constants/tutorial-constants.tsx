@@ -311,6 +311,47 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
+        position: { right: 220, top: calculateTop(10, TopRef.TOPBAR) },
+        arrowDirection: 'top',
+      },
+      hintCircle: {
+        right: 130, top: calculateTop(3), width: 180, height: 36,
+      },
+      text: LANG.newInterface.select_machine,
+    },
+    {
+      dialogBoxStyles: {
+        position: { right: 105, top: calculateTop(10, TopRef.TOPBAR) },
+        arrowDirection: 'top',
+      },
+      hintCircle: {
+        right: 89, top: calculateTop(3), width: 36, height: 36,
+      },
+      text: LANG.newInterface.frame,
+    },
+    {
+      dialogBoxStyles: {
+        position: { right: 66, top: calculateTop(10, TopRef.TOPBAR) },
+        arrowDirection: 'top',
+      },
+      hintCircle: {
+        right: 49, top: calculateTop(3), width: 36, height: 36,
+      },
+      text: LANG.newInterface.path_preview,
+    },
+    {
+      dialogBoxStyles: {
+        position: { right: 24, top: calculateTop(10, TopRef.TOPBAR) },
+        arrowDirection: 'top',
+        arrowPadding:  8,
+      },
+      hintCircle: {
+        right: 6, top: calculateTop(3), width: 36, height: 36,
+      },
+      text: LANG.newInterface.start_work,
+    },
+    {
+      dialogBoxStyles: {
         position: { left: 56, top: calculateTop(40, TopRef.TOPBAR) },
       },
       hintCircle: {
@@ -329,7 +370,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(330, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(372, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5, top: calculateTop(352, TopRef.TOPBAR), width: 40, height: 40,

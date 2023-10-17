@@ -51,11 +51,7 @@ describe('should render correctly', () => {
       isAllFilled: false,
     });
     document.body.innerHTML = '<div id="flux" />';
-    const { container } = render(
-      <InFillBlock
-        elem={document.getElementById('flux')}
-      />,
-    );
+    const { container } = render(<InFillBlock elem={document.getElementById('flux')} />);
 
     expect(container).toMatchSnapshot();
     expect(isElemFillable).toHaveBeenCalledTimes(1);
@@ -71,15 +67,36 @@ describe('should render correctly', () => {
       isAllFilled: false,
     });
     document.body.innerHTML = '<div id="flux" />';
-    const { container } = render(
-      <InFillBlock
-        elem={document.getElementById('flux')}
-      />,
-    );
-
+    const { container } = render(<InFillBlock elem={document.getElementById('flux')} />);
     expect(container).toMatchSnapshot();
 
-    const switchBtn = container.querySelector('div.onoffswitch');
+    const switchBtn = container.querySelector('button.ant-btn-text');
+    fireEvent.click(switchBtn);
+    expect(container).toMatchSnapshot();
+    expect(setElemsUnfill).not.toHaveBeenCalled();
+    expect(setElemsFill).toHaveBeenCalledTimes(1);
+    expect(setElemsFill).toHaveBeenNthCalledWith(1, [document.getElementById('flux')]);
+
+    fireEvent.click(switchBtn);
+    expect(container).toMatchSnapshot();
+    expect(setElemsUnfill).toHaveBeenCalledTimes(1);
+    expect(setElemsUnfill).toHaveBeenNthCalledWith(1, [document.getElementById('flux')]);
+    expect(setElemsFill).toHaveBeenCalledTimes(1);
+  });
+
+  test('with label', () => {
+    isElemFillable.mockReturnValue(true);
+    calcElemFilledInfo.mockReturnValue({
+      isAnyFilled: false,
+      isAllFilled: false,
+    });
+    document.body.innerHTML = '<div id="flux" />';
+    const { container } = render(
+      <InFillBlock label="Infill" elem={document.getElementById('flux')} />
+    );
+    expect(container).toMatchSnapshot();
+
+    const switchBtn = container.querySelector('button.ant-switch');
     fireEvent.click(switchBtn);
     expect(container).toMatchSnapshot();
     expect(setElemsUnfill).not.toHaveBeenCalled();
@@ -108,10 +125,7 @@ describe('should render correctly in mobile', () => {
     });
     document.body.innerHTML = '<div id="flux" />';
     const { container } = render(
-      <InFillBlock
-        elem={document.getElementById('flux')}
-        id='mock-infill-id'
-      />,
+      <InFillBlock elem={document.getElementById('flux')} id="mock-infill-id" />
     );
     expect(container).toMatchSnapshot();
   });
@@ -123,11 +137,7 @@ describe('should render correctly in mobile', () => {
       isAllFilled: false,
     });
     document.body.innerHTML = '<div id="flux" />';
-    const { container } = render(
-      <InFillBlock
-        elem={document.getElementById('flux')}
-      />,
-    );
+    const { container } = render(<InFillBlock elem={document.getElementById('flux')} />);
     expect(container).toMatchSnapshot();
     expect(isMobile).toHaveBeenCalledTimes(0);
     expect(isElemFillable).toHaveBeenCalledTimes(1);
@@ -143,11 +153,7 @@ describe('should render correctly in mobile', () => {
       isAllFilled: false,
     });
     document.body.innerHTML = '<div id="flux" />';
-    const { container } = render(
-      <InFillBlock
-        elem={document.getElementById('flux')}
-      />,
-    );
+    const { container } = render(<InFillBlock elem={document.getElementById('flux')} />);
     expect(container).toMatchSnapshot();
 
     const switchBtn = container.querySelector('button');

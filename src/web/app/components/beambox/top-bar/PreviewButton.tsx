@@ -4,31 +4,39 @@ import React, { useContext } from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
+import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { useIsMobile } from 'helpers/system-helper';
 
+import styles from './PreviewButton.module.scss';
+
 const LANG = i18n.lang.topbar;
 
-function PreviewButton(props: { showCameraPreviewDeviceList: () => void }): JSX.Element {
+function PreviewButton(): JSX.Element {
   const isMobile = useIsMobile();
-  const {
-    isPreviewing,
-    isPathPreviewing,
-    changeToPreviewMode,
-  } = useContext(CanvasContext);
+  const { changeToPreviewMode, isPathPreviewing, isPreviewing, setupPreviewMode } =
+    useContext(CanvasContext);
   if (isMobile || isPathPreviewing) return null;
 
   const borderless = BeamboxPreference.read('borderless') || false;
   const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));
   const previewText = (borderless && supportOpenBottom) ? `${LANG.preview} ${LANG.borderless}` : LANG.preview;
-  const { showCameraPreviewDeviceList } = props;
+  const startPreview = () => {
+    if (!isPreviewing) {
+      changeToPreviewMode();
+      setupPreviewMode();
+    }
+  };
 
   return (
-    <div className={classNames('preview-button-container', { previewing: isPreviewing })}>
-      <div className="img-container" onClick={isPreviewing ? showCameraPreviewDeviceList : changeToPreviewMode}>
-        <img src="img/top-bar/icon-camera.svg" draggable={false} />
+    <div
+      className={classNames(styles.container, { [styles.previewing]: isPreviewing })}
+      title={i18n.lang.tutorial.newInterface.camera_preview}
+    >
+      <div className={styles.button} onClick={startPreview}>
+        <TopBarIcons.Camera />
+        {isPreviewing && <div className={styles.title}>{previewText}</div>}
       </div>
-      {isPreviewing ? <div className="title" onClick={showCameraPreviewDeviceList}>{previewText}</div> : null}
     </div>
   );
 }

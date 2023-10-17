@@ -1,9 +1,14 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import checkWebGL from 'helpers/check-webgl';
+import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
+import useI18n from 'helpers/useI18n';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './PathPreviewButton.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -21,7 +26,9 @@ function PathPreviewButton({
   isDeviceConnected,
   togglePathPreview,
 }: Props): JSX.Element {
+  const i18n = useI18n();
   const isMobile = useIsMobile();
+  const { isPreviewing } = useContext(CanvasContext);
   if (isMobile || !checkWebGL()) return null;
 
   const changeToPathPreviewMode = (): void => {
@@ -30,18 +37,17 @@ function PathPreviewButton({
       togglePathPreview();
     }
   };
-  const className = classNames(
-    'path-preview-button-container',
-    {
-      highlighted: isPathPreviewing,
-      disabled: !isDeviceConnected && window.FLUX.version === 'web',
-    }
-  );
+  const className = classNames(styles.button, {
+    [styles.highlighted]: isPathPreviewing,
+    [styles.disabled]: isPreviewing || (!isDeviceConnected && window.FLUX.version === 'web'),
+  });
   return (
-    <div className={className}>
-      <div className="path-preview-button" onClick={changeToPathPreviewMode}>
-        <img src="img/path-preview.svg" draggable={false} />
-      </div>
+    <div
+      className={className}
+      onClick={changeToPathPreviewMode}
+      title={i18n.tutorial.newInterface.path_preview}
+    >
+      <TopBarIcons.PathPreview />
     </div>
   );
 }

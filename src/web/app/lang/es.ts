@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'POTENCIA DEMASIADO ALTA',
       power_too_high_msg: 'Usar una potencia de láser menor (menos del 70%) alargará la vida del tubo láser.\nPulsa "ANOTADO" para proceder.',
       power_too_high_confirm: 'ANOTADO',
+      add_content_first: 'Por favor agregue objetos primero',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Anti-Aliasing',
       disassemble_use: 'Desmontar',
     },
+    select_machine: 'Seleccione una máquina',
   },
   support: {
     no_webgl: 'WebGL no está disponible. Por favor, utiliza otros dispositivos.',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Saltar',
     welcome: 'BIENVENIDO',
-    suggest_calibrate_camera_first: 'Favor de calibrar la cámara al usar la máquina por primera vez. (Menú > Máquina > [Tu Máquina] > Calibrar Cámara) Recuerda ajustar el enfoque de la plataforma adecuadamente cada vez antes de la vista preliminar para una mejor pre-visualización.',
+    suggest_calibrate_camera_first: 'Para los usuarios de beamo, Beambox series y HEXA, recomendamos calibrar la cámara cuando se utilice la máquina por primera vez. (Menú > Máquina > [Tu Máquina] > Calibrar Cámara) Recuerda ajustar el enfoque de la plataforma adecuadamente cada vez antes de la vista preliminar para una mejor pre-visualización.',
     camera_calibration_failed: 'Falló la calibración de la cámara',
     ask_retry_calibration: 'Would you like to calibrate the camera again?', // TODO: translate
     skipped_camera_calibration: 'You have skipped the camera calibration. You can calibrate the camera anytime from menubar (Menu > Machine > [Your Machine] > Calibrate Camera).', // TODO: translate
+    skipped_ador_calibration: 'Ador cámara ha sido calibrada durante la inspección de fábrica.',
     needNewUserTutorial: '¿Te gustaría empezar un tutorial?',
     needNewInterfaceTutorial: '¿Le gustaría comenzar un tutorial para la nueva interfaz de Beam Studio?',
     next: 'SIGUIENTE',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: 'Voltear',
       object_actions: 'Acciones de Objeto',
       end_alert: '¿Estás seguro de terminar la nueva introducción de la UI?',
+      select_machine: 'Seleccione una máquina',
+      frame: 'Vista previa del cuadro',
+      path_preview: 'Previsualizar Trayectoria',
+      start_work: 'Empezar a trabajar',
     },
     gesture: {
       pan: 'Desplácese por el lienzo con dos dedos.',

@@ -11,11 +11,11 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import checkQuestionnaire from 'helpers/check-questionnaire';
 import cloud from 'helpers/api/cloud';
 import Constant from 'app/actions/beambox/constant';
-import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'implementations/fontHelper';
+import getDevice from 'helpers/device/get-device';
 import InterProcess from 'helpers/api/inter-process';
 import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
@@ -223,12 +223,16 @@ class BeamboxInit {
   private showFirstCalibrationDialog = async () => {
     const isNewUser = storage.get('new-user');
     const hasDoneFirstCali = AlertConfig.read('done-first-cali');
-    const hasMachineConnection = checkConnection();
+    let hasMachineConnection = checkConnection();
     // in web, wait for websocket connection
     if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) {
       await new Promise((r) => setTimeout(r, 1000));
+      hasMachineConnection = checkConnection();
     }
-    const shouldShow = window.FLUX.version === 'web' ? (hasMachineConnection && !hasDoneFirstCali) : isNewUser;
+    const shouldShow =
+      window.FLUX.version === 'web'
+        ? hasMachineConnection && !hasDoneFirstCali
+        : isNewUser || !hasDoneFirstCali;
     if (shouldShow) {
       if (await this.askFirstTimeCameraCalibration()) {
         await this.doFirstTimeCameraCalibration();
@@ -241,7 +245,7 @@ class BeamboxInit {
 
   private askFirstTimeCameraCalibration = () => new Promise<boolean>((resolve) => {
     Alert.popUp({
-      caption: i18n.lang.tutorial.welcome,
+      caption: i18n.lang.topbar.menu.calibrate_beambox_camera,
       message: i18n.lang.tutorial.suggest_calibrate_camera_first,
       buttonType: AlertConstants.YES_NO,
       onNo: () => resolve(false),
@@ -268,9 +272,18 @@ class BeamboxInit {
       });
     });
 
-    const device = await Dialog.selectDevice();
+    const { device } = await getDevice();
     if (!device) {
       await this.onCameraCalibrationSkipped();
+      return;
+    }
+    if (device.model === 'ado1') {
+      await new Promise((resolve) => {
+        Alert.popUp({
+          message: i18n.lang.tutorial.skipped_ador_calibration,
+          callbacks: resolve,
+        });
+      });
       return;
     }
     try {
@@ -279,15 +292,10 @@ class BeamboxInit {
         await this.onCameraCalibrationSkipped();
         return;
       }
-      const selectRes = await DeviceMaster.select(device);
-      if (selectRes.success) {
-        const caliRes = await showCameraCalibration(device, false);
-        if (!caliRes) {
-          await this.onCameraCalibrationSkipped();
-        }
-        return;
+      const caliRes = await showCameraCalibration(device, false);
+      if (!caliRes) {
+        await this.onCameraCalibrationSkipped();
       }
-      await askForRetry();
     } catch (e) {
       console.error(e);
       await askForRetry();

@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'PUISSANCE TROP ÉLEVÉE',
       power_too_high_msg: 'L\'utilisation d\'une puissance laser plus faible (inférieure à 70 %) permet de prolonger la durée de vie du tube laser.\nEntrez "NOTED" pour continuer.',
       power_too_high_confirm: 'NOTED',
+      add_content_first: 'Veuillez d\'abord ajouter des objets',
     },
     hint: {
       polygon: 'Appuyez sur la touche + / - pour augmenter / diminuer les côtés.',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'Anti-crénelage',
       disassemble_use: 'Démonter',
     },
+    select_machine: 'Sélectionnez une machine',
   },
   support: {
     no_webgl: 'WebGL n\'est pas pris en charge par cet ordinateur. Veuillez utiliser un autre appareil.',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Sauter',
     welcome: 'BIENVENUE',
-    suggest_calibrate_camera_first: 'Veuillez calibrer la caméra lorsque vous utilisez la machine pour la première fois. (Menu > Machine > [Votre machine] > Calibrer l\'appareil photo) Et refaites la mise au point de la plate-forme correctement à chaque fois avant la prévisualisation pour obtenir un meilleur résultat.',
+    suggest_calibrate_camera_first: 'Pour les utilisateurs de beamo, de la série Beambox et de HEXA, nous recommandons de calibrer la caméra lors de la première utilisation de la machine. (Menu > Machine > [Votre machine] > Calibrer l\'appareil photo) Et refaites la mise au point de la plate-forme correctement à chaque fois avant la prévisualisation pour obtenir un meilleur résultat.',
     camera_calibration_failed: 'Échec du calibrage de l\'appareil photo',
     ask_retry_calibration: 'Souhaitez-vous calibrer à nouveau l\'appareil photo ?',
     skipped_camera_calibration: 'Vous avez sauté l\'étalonnage de la caméra. Vous pouvez calibrer la caméra à tout moment à partir de la barre de menu (Menu > Machine > [Votre machine] > Calibrer la caméra).',
+    skipped_ador_calibration: 'L\'appareil photo Ador a été calibré lors de l\'inspection en usine.',
     needNewUserTutorial: 'Souhaitez-vous lancer un tutoriel ?',
     needNewInterfaceTutorial: 'Souhaitez-vous lancer un tutoriel sur la nouvelle interface de Beam Studio ?',
     next: 'SUIVANT',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: 'Retourner',
       object_actions: 'Actions sur les objets',
       end_alert: 'Êtes-vous sûr de terminer l\'introduction de la nouvelle interface utilisateur ?',
+      select_machine: 'Sélectionnez une machine',
+      frame: 'Aperçu du cadre',
+      path_preview: 'Aperçu de la trajectoire',
+      start_work: 'Commencer le travail',
     },
     gesture: {
       pan: 'Faites défiler le canevas avec deux doigts.',

@@ -41,6 +41,7 @@ const lang: ILang = {
       power_too_high: 'パワーが高すぎる',
       power_too_high_msg: 'より低いレーザー出力（70％未満）を使用すると、レーザー管の寿命が延びます。\n「了解」と入力して続行します。',
       power_too_high_confirm: '了解',
+      add_content_first: '最初にオブジェクトを追加してください',
     },
     hint: {
       polygon: '+ / - キーを押して、辺を増減します。',
@@ -173,6 +174,7 @@ const lang: ILang = {
       anti_aliasing: 'アンチエイリアス',
       disassemble_use: '逆アセンブル',
     },
+    select_machine: 'マシンの選択',
   },
   support: {
     no_webgl: 'WebGLはサポートされていません。他のデバイスを使用してください。',
@@ -1316,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'スキップ',
     welcome: 'ようこそ',
-    suggest_calibrate_camera_first: '本機を初めて使用する場合は、カメラのキャリブレーションを行ってください。 （メニュー> マシン> [マイマシン]> カメラのキャリブレーション）そして、プレビューの前に毎回プラットフォームの焦点を適切に合わせ直して、より良い撮影結果プレビューを取得します。',
+    suggest_calibrate_camera_first: 'beamo、Beamboxシリーズ、HEXAをお使いの方は、初めて使用する際にカメラのキャリブレーションを行うことをお勧めします。（メニュー> マシン> [マイマシン]> カメラのキャリブレーション）そして、プレビューの前に毎回プラットフォームの焦点を適切に合わせ直して、より良い撮影結果プレビューを取得します。',
     camera_calibration_failed: 'カメラの較正に失敗しました',
     ask_retry_calibration: 'カメラをもう一度キャリブレーションしますか？',
     skipped_camera_calibration: 'カメラのキャリブレーションをスキップしました。 メニューバー（メニュー> マシン> [マイマシン]> カメラのキャリブレーション）からいつでもカメラをキャリブレーションできます。',
+    skipped_ador_calibration: 'Ador カメラは工場検査時に調整されています。',
     needNewUserTutorial: 'Beam Studioのチュートリアルはよろしいですか？',
     needNewInterfaceTutorial: 'Beam Studioのの新しいインターフェースの紹介はよろしいですか？',
     next: '次ヘ',
@@ -1364,6 +1367,10 @@ const lang: ILang = {
       flip: 'フリップ',
       object_actions: 'オブジェクトアクション',
       end_alert: '新しいインターフェースの紹介を終了してもよろしいですか？',
+      select_machine: 'マシンの選択',
+      frame: 'フレームプレビュー',
+      path_preview: 'パスプレビュー',
+      start_work: '作業開始',
     },
     gesture: {
       pan: '二本指でキャンバスをスクロールします。',

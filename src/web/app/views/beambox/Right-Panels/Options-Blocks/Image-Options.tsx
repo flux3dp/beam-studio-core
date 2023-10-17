@@ -1,4 +1,5 @@
-import React from 'react';
+import classNames from 'classnames';
+import React, { Fragment } from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
 
@@ -6,13 +7,14 @@ import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import ObjectPanelIcon from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImage';
 import { isMobile } from 'helpers/system-helper';
+import { sliderTheme } from 'app/views/beambox/Right-Panels/antd-config';
 
 import styles from './Image-Options.module.scss';
 
@@ -94,12 +96,6 @@ class ImageOptions extends React.Component<Props> {
     updateObjectPanel();
   };
 
-  handleSliderChange = (e: React.ChangeEvent): void => {
-    const target = e.target as HTMLInputElement;
-    const value = parseInt(target.value, 10);
-    this.handleThresholdChange(value);
-  };
-
   handleThresholdChange = async (val: number): Promise<void> => {
     const callId = this.nextCallId;
     this.nextCallId += 1;
@@ -132,16 +128,9 @@ class ImageOptions extends React.Component<Props> {
         onClick={this.handleGradientClick}
       />
     ) : (
-      <div className="option-block" key="gradient">
-        <div className="label">{LANG.shading}</div>
-        <Switch checked={isGradient} onChange={this.handleGradientClick} />
-        {/* <div className="onoffswitch" onClick={this.handleGradientClick}>
-          <input type="checkbox" className="onoffswitch-checkbox" checked={isGradient} readOnly />
-          <label className="onoffswitch-label">
-            <span className="onoffswitch-inner" />
-            <span className="onoffswitch-switch" />
-          </label>
-        </div> */}
+      <div className={styles['option-block']} key="gradient">
+        <div className={styles.label}>{LANG.shading}</div>
+        <Switch size="small" checked={isGradient} onChange={this.handleGradientClick} />
       </div>
     );
   }
@@ -187,48 +176,46 @@ class ImageOptions extends React.Component<Props> {
       >
         <ObjectPanelItem.Item
           id="threshold"
-          content={<ObjectPanelIcon.Threshold />}
+          content={<OptionPanelIcons.Threshold />}
           label={LANG.threshold_short}
           autoClose={false}
         />
       </Popover>
     ) : (
-      <div key="threshold">
-        <div className="option-block with-slider">
-          <div className="label">{LANG.threshold}</div>
+      <Fragment key="threshold">
+        <div className={classNames(styles['option-block'], styles['with-slider'])}>
+          <div className={styles.label}>{LANG.threshold}</div>
           <UnitInput
             min={1}
             max={255}
             decimal={0}
             unit=""
-            className={{ 'option-input': true }}
+            className={{ [styles['option-input']]: true }}
             defaultValue={threshold}
             getValue={this.handleThresholdChange}
           />
         </div>
-        <div className="option-block slider-container">
-          <input
-            className="threshold-slider"
-            type="range"
+        <ConfigProvider theme={sliderTheme}>
+          <Slider
             min={1}
             max={255}
             step={1}
             value={threshold}
-            onChange={this.handleSliderChange}
+            onChange={this.handleThresholdChange}
           />
-        </div>
-      </div>
+        </ConfigProvider>
+      </Fragment>
     );
   }
 
   render(): JSX.Element {
-    return isMobile ? (
+    return isMobile() ? (
       <>
         {this.renderGradientBlock()}
         {this.renderThresholdBlock()}
       </>
     ) : (
-      <div>
+      <div className={styles.options}>
         {this.renderGradientBlock()}
         {this.renderThresholdBlock()}
       </div>

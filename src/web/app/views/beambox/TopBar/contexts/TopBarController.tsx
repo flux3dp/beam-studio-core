@@ -1,4 +1,5 @@
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
 
@@ -30,6 +31,18 @@ const setStartPreviewCallback = (callback: () => void): void => {
   topBarEventEmitter.emit('SET_START_PREVIEW_CALLBACK', callback);
 };
 
+const getSelectedDevice = (): IDeviceInfo | null => {
+  const response = {
+    selectedDevice: null,
+  };
+  topBarEventEmitter.emit('GET_SELECTED_DEVICE', response);
+  return response.selectedDevice;
+};
+
+const setSelectedDevice = (device: IDeviceInfo): void => {
+  topBarEventEmitter.emit('SET_SELECTED_DEVICE', device);
+};
+
 export default {
   setElement,
   setFileName,
@@ -37,4 +50,6 @@ export default {
   getTopBarPreviewMode,
   setShouldStartPreviewController,
   setStartPreviewCallback,
+  getSelectedDevice,
+  setSelectedDevice,
 };
