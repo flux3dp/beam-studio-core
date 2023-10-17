@@ -143,6 +143,9 @@ function tick() {
   });
 }
 
+const ActionButtonSelector = 'div.btn-container>Button';
+const ActionButtonSelectorMobile = 'ObjectPanelItem';
+
 describe('should render correctly', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -160,7 +163,7 @@ describe('should render correctly', () => {
 
     const blob = new Blob();
     getFileFromDialog.mockResolvedValueOnce(blob);
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     await tick();
     expect(getFileFromDialog).toHaveBeenCalledTimes(1);
     expect(getFileFromDialog).toHaveBeenNthCalledWith(1, {
@@ -190,37 +193,37 @@ describe('should render correctly', () => {
 
     jest.resetAllMocks();
     getFileFromDialog.mockResolvedValueOnce(null);
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     await tick();
     expect(replaceBitmap).not.toHaveBeenCalled();
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
     expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(3).simulate('click');
+    wrapper.find(ActionButtonSelector).at(3).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
-    wrapper.find('div.btn-container').at(4).simulate('click');
+    wrapper.find(ActionButtonSelector).at(4).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    wrapper.find('div.btn-container').at(5).simulate('click');
+    wrapper.find(ActionButtonSelector).at(5).simulate('click');
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(6).simulate('click');
+    wrapper.find(ActionButtonSelector).at(6).simulate('click');
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('div.btn-container').at(7).simulate('click');
+    wrapper.find(ActionButtonSelector).at(7).simulate('click');
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('div.btn-container').at(8).simulate('click');
+    wrapper.find(ActionButtonSelector).at(8).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -238,7 +241,7 @@ describe('should render correctly', () => {
     mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
@@ -253,7 +256,7 @@ describe('should render correctly', () => {
       height: 4,
     });
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(2);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
@@ -270,7 +273,7 @@ describe('should render correctly', () => {
       weldingTexts: true,
     });
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -279,16 +282,16 @@ describe('should render correctly', () => {
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(decomposePath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(3).simulate('click');
+    wrapper.find(ActionButtonSelector).at(3).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -297,13 +300,13 @@ describe('should render correctly', () => {
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -312,13 +315,13 @@ describe('should render correctly', () => {
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -327,13 +330,13 @@ describe('should render correctly', () => {
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -342,13 +345,13 @@ describe('should render correctly', () => {
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(2).simulate('click');
+    wrapper.find(ActionButtonSelector).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -357,10 +360,10 @@ describe('should render correctly', () => {
     const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('div.btn-container').at(0).simulate('click');
+    wrapper.find(ActionButtonSelector).at(0).simulate('click');
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-container').at(1).simulate('click');
+    wrapper.find(ActionButtonSelector).at(1).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -375,10 +378,10 @@ describe('should render correctly', () => {
       const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_3')} />);
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('div.btn-container').at(0).simulate('click');
+      wrapper.find(ActionButtonSelector).at(0).simulate('click');
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-      wrapper.find('div.btn-container').at(1).simulate('click');
+      wrapper.find(ActionButtonSelector).at(1).simulate('click');
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
 
@@ -387,7 +390,7 @@ describe('should render correctly', () => {
       const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('div.btn-container').at(0).simulate('click');
+      wrapper.find(ActionButtonSelector).at(0).simulate('click');
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
   });
@@ -415,7 +418,7 @@ describe('should render correctly in mobile', () => {
 
     const blob = new Blob();
     getFileFromDialog.mockResolvedValueOnce(blob);
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     await tick();
     expect(getFileFromDialog).toHaveBeenCalledTimes(1);
     expect(getFileFromDialog).toHaveBeenNthCalledWith(1, {
@@ -431,41 +434,41 @@ describe('should render correctly in mobile', () => {
 
     jest.resetAllMocks();
     getFileFromDialog.mockResolvedValueOnce(null);
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     await tick();
     expect(replaceBitmap).not.toHaveBeenCalled();
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(mockPotrace).toHaveBeenCalledTimes(1);
     expect(mockPotrace).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
     mockCheckConnection.mockReturnValueOnce(true);
-    wrapper.find('ObjectPanelItem').at(3).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(3).simulate('click');
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    wrapper.find('ObjectPanelItem').at(4).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(4).simulate('click');
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(5).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(5).simulate('click');
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('ObjectPanelItem').at(6).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(6).simulate('click');
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find('ObjectPanelItem').at(7).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(7).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(8).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(8).simulate('click');
     expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(9).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(9).simulate('click');
     expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
     expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
   });
@@ -486,7 +489,7 @@ describe('should render correctly in mobile', () => {
     mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
@@ -501,7 +504,7 @@ describe('should render correctly in mobile', () => {
       height: 4,
     });
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(2);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
@@ -518,7 +521,7 @@ describe('should render correctly in mobile', () => {
       weldingTexts: true,
     });
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -529,16 +532,16 @@ describe('should render correctly in mobile', () => {
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(decomposePath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(3).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(3).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -549,13 +552,13 @@ describe('should render correctly in mobile', () => {
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -566,13 +569,13 @@ describe('should render correctly in mobile', () => {
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -583,13 +586,13 @@ describe('should render correctly in mobile', () => {
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -600,13 +603,13 @@ describe('should render correctly in mobile', () => {
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(2).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -617,10 +620,10 @@ describe('should render correctly in mobile', () => {
     />);
     expect(toJson(wrapper)).toMatchSnapshot();
 
-    wrapper.find('ObjectPanelItem').at(0).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
 
-    wrapper.find('ObjectPanelItem').at(1).simulate('click');
+    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -637,10 +640,10 @@ describe('should render correctly in mobile', () => {
       />);
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('ObjectPanelItem').at(0).simulate('click');
+      wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-      wrapper.find('ObjectPanelItem').at(1).simulate('click');
+      wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
 
@@ -651,7 +654,7 @@ describe('should render correctly in mobile', () => {
       />);
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('ObjectPanelItem').at(0).simulate('click');
+      wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
   });

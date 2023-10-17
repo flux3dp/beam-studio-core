@@ -1318,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: '跳過教學',
     welcome: '歡迎使用',
-    suggest_calibrate_camera_first: '提醒您：<br/>第一次使用請先進行相機校正。並在每次使用時將平台對焦，以取得最好的效果。',
+    suggest_calibrate_camera_first: '如果您是 beamo、Beambox 系列和 HEXA 用戶，我們建議在第一次使用機器時校準相機（上方選單「機器」>「您的機器名稱」>「校正相機」），並在每次使用時將平台對焦，以取得最好的效果。',
     camera_calibration_failed: '相機校正失敗',
     ask_retry_calibration: '請問是否重新執行相機校正？',
     skipped_camera_calibration: '已跳過相機校正引導，您可從隨時從上方選單「機器」>「您的機器名稱」>「校正相機」進行相機校正。',
+    skipped_ador_calibration: '如果您是 Ador 用戶，相機已在出廠時校準完畢。',
     needNewUserTutorial: '請問您是否需要 Beam Studio 的教學？',
     needNewInterfaceTutorial: '請問是否需要為您介紹 Beam Studio 的新介面？',
     next: '下一步',

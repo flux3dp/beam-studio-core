@@ -9,7 +9,6 @@ import ConnectionTypeIcons from 'app/icons/connection-type/ConnectionTypeIcons';
 import deviceConstants from 'app/constants/device-constants';
 import discover from 'helpers/api/discover';
 import fileExportHelper from 'helpers/file-export-helper';
-import getDeviceName from 'helpers/device/get-display-name';
 import i18n from 'helpers/i18n';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -29,10 +28,14 @@ const DeviceSelector = ({ onSelect, onClose }: Props): JSX.Element => {
     () =>
       discover('device-selector', (discoverdDevices) => {
         const filteredDevices = discoverdDevices.filter((device) => device.serial !== 'XXXXXXXXXX');
-        filteredDevices.sort((deviceA, deviceB) => deviceA.name.localeCompare(deviceB.name));
+        filteredDevices.sort((deviceA, deviceB) => {
+          if (deviceA.serial === selectedKey && deviceB.serial !== selectedKey) return -1;
+          if (deviceA.serial !== selectedKey && deviceB.serial === selectedKey) return 1;
+          return deviceA.name.localeCompare(deviceB.name);
+        });
         setDeviceList(filteredDevices);
       }),
-    []
+    [selectedKey]
   );
   useEffect(
     () => () => {
@@ -91,7 +94,7 @@ const DeviceSelector = ({ onSelect, onClose }: Props): JSX.Element => {
             }}
             data-testid={device.serial}
           >
-            <label className={styles.name}>{getDeviceName(device)}</label>
+            <label className={styles.name}>{device.name}</label>
             <label className={classNames(styles.status, styles[statusColor])}>
               {statusText} {progress}
             </label>

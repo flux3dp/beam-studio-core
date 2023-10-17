@@ -84,51 +84,44 @@ const FrameButton = (): JSX.Element => {
       message: sprintf(lang.message.connectingMachine, device.name),
       timeout: 30000,
     });
-
-    progressCaller.update(PROGRESS_ID, { message: lang.message.enteringRawMode });
-    await deviceMaster.enterRawMode();
-    progressCaller.update(PROGRESS_ID, { message: lang.message.exitingRotaryMode });
-    await deviceMaster.rawSetRotary(false);
-    progressCaller.update(PROGRESS_ID, { message: lang.message.homing });
-    await deviceMaster.rawHome();
-    let isLineCheckEnabled = false;
-    const vc = versionChecker(device.version);
-    if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
-      await deviceMaster.rawStartLineCheckMode();
-      isLineCheckEnabled = true;
-    } else isLineCheckEnabled = false;
-    progressCaller.update('start-preview-mode', { message: lang.message.turningOffFan });
-    await deviceMaster.rawSetFan(false);
-    progressCaller.update('start-preview-mode', { message: lang.message.turningOffAirPump });
-    await deviceMaster.rawSetAirPump(false);
-    await deviceMaster.rawSetWaterPump(false);
-    // TODO: add progress update with time
-    const movementFeedrate = 6000; // mm/min
-    // TODO: check if we need to wait between each move
-    progressCaller.update(PROGRESS_ID, { message: lang.device.processing });
-    const { dpmm } = constant;
-    coords.minX /= dpmm;
-    coords.minY /= dpmm;
-    coords.maxX /= dpmm;
-    coords.maxY /= dpmm;
-    await deviceMaster.rawMove({
-      x: coords.minX, y: coords.minY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.maxX, y: coords.minY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.maxX, y: coords.maxY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.minX, y: coords.maxY, f: movementFeedrate,
-    });
-    await deviceMaster.rawMove({
-      x: coords.minX, y: coords.minY, f: movementFeedrate,
-    });
-    if (isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
-    await deviceMaster.rawLooseMotor();
-    await deviceMaster.endRawMode();
+    try {
+      progressCaller.update(PROGRESS_ID, { message: lang.message.enteringRawMode });
+      await deviceMaster.enterRawMode();
+      progressCaller.update(PROGRESS_ID, { message: lang.message.exitingRotaryMode });
+      await deviceMaster.rawSetRotary(false);
+      progressCaller.update(PROGRESS_ID, { message: lang.message.homing });
+      await deviceMaster.rawHome();
+      let isLineCheckEnabled = false;
+      const vc = versionChecker(device.version);
+      if (vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
+        await deviceMaster.rawStartLineCheckMode();
+        isLineCheckEnabled = true;
+      } else isLineCheckEnabled = false;
+      progressCaller.update('start-preview-mode', { message: lang.message.turningOffFan });
+      await deviceMaster.rawSetFan(false);
+      progressCaller.update('start-preview-mode', { message: lang.message.turningOffAirPump });
+      await deviceMaster.rawSetAirPump(false);
+      await deviceMaster.rawSetWaterPump(false);
+      // TODO: add progress update with time
+      const movementFeedrate = 6000; // mm/min
+      // TODO: check if we need to wait between each move
+      progressCaller.update(PROGRESS_ID, { message: lang.device.processing });
+      const { dpmm } = constant;
+      coords.minX /= dpmm;
+      coords.minY /= dpmm;
+      coords.maxX /= dpmm;
+      coords.maxY /= dpmm;
+      await deviceMaster.rawMove({ x: coords.minX, y: coords.minY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.maxX, y: coords.minY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.maxX, y: coords.maxY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.minX, y: coords.maxY, f: movementFeedrate });
+      await deviceMaster.rawMove({ x: coords.minX, y: coords.minY, f: movementFeedrate });
+      if (isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
+      await deviceMaster.rawLooseMotor();
+      await deviceMaster.endRawMode();
+    } catch (error) {
+      console.log('frame error:\n', error);
+    }
     progressCaller.popById(PROGRESS_ID);
     deviceMaster.kick();
   };

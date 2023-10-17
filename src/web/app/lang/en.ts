@@ -1318,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Skip',
     welcome: 'WELCOME',
-    suggest_calibrate_camera_first: 'Please calibrate the camera when using the machine for the first time. (Menu > Machine > [Your Machine] > Calibrate Camera) And refocus the platform properly every time before preview to get a better preview result.',
+    suggest_calibrate_camera_first: 'For beamo, Beambox series and HEXA users, we recommend calibrate the camera when using the machine for the first time (Menu > Machine > [Your Machine] > Calibrate Camera), and refocus the platform properly every time before preview to get a better preview result.',
     camera_calibration_failed: 'Camera Calibration Failed',
     ask_retry_calibration: 'Would you like to calibrate the camera again?',
     skipped_camera_calibration: 'You have skipped the camera calibration. You can calibrate the camera anytime from the menu bar (Menu > Machine > [Your Machine] > Calibrate Camera).',
+    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
     needNewUserTutorial: 'Would you like to start a tutorial?',
     needNewInterfaceTutorial: 'Would you like to start a tutorial for Beam Studio\'s new interface?',
     next: 'NEXT',

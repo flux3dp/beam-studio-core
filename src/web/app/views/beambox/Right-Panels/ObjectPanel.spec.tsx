@@ -196,19 +196,19 @@ describe('should render correctly', () => {
 
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('div[title="Top Align"]').simulate('click');
+      wrapper.find('button[title="Top Align"]').simulate('click');
       expect(alignTop).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Middle Align"]').simulate('click');
+      wrapper.find('button[title="Middle Align"]').simulate('click');
       expect(alignMiddle).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Bottom Align"]').simulate('click');
+      wrapper.find('button[title="Bottom Align"]').simulate('click');
       expect(alignBottom).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Left Align"]').simulate('click');
+      wrapper.find('button[title="Left Align"]').simulate('click');
       expect(alignLeft).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Center Align"]').simulate('click');
+      wrapper.find('button[title="Center Align"]').simulate('click');
       expect(alignCenter).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Right Align"]').simulate('click');
+      wrapper.find('button[title="Right Align"]').simulate('click');
       expect(alignRight).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Group"]').simulate('click');
+      wrapper.find('button[title="Group"]').simulate('click');
       expect(groupSelectedElements).toHaveBeenCalledTimes(1);
     });
 
@@ -235,7 +235,7 @@ describe('should render correctly', () => {
 
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('div[title="Ungroup"]').simulate('click');
+      wrapper.find('button[title="Ungroup"]').simulate('click');
       expect(ungroupSelectedElement).toHaveBeenCalledTimes(1);
     });
   });
@@ -268,30 +268,30 @@ describe('should render correctly', () => {
 
       expect(toJson(wrapper)).toMatchSnapshot();
 
-      wrapper.find('div[title="Top Align"]').simulate('click');
+      wrapper.find('button[title="Top Align"]').simulate('click');
       expect(alignTop).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Middle Align"]').simulate('click');
+      wrapper.find('button[title="Middle Align"]').simulate('click');
       expect(alignMiddle).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Bottom Align"]').simulate('click');
+      wrapper.find('button[title="Bottom Align"]').simulate('click');
       expect(alignBottom).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Left Align"]').simulate('click');
+      wrapper.find('button[title="Left Align"]').simulate('click');
       expect(alignLeft).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Center Align"]').simulate('click');
+      wrapper.find('button[title="Center Align"]').simulate('click');
       expect(alignCenter).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Right Align"]').simulate('click');
+      wrapper.find('button[title="Right Align"]').simulate('click');
       expect(alignRight).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Group"]').simulate('click');
+      wrapper.find('button[title="Group"]').simulate('click');
       expect(groupSelectedElements).toHaveBeenCalledTimes(1);
-      wrapper.find('div[title="Union"]').simulate('click');
+      wrapper.find('button[title="Union"]').simulate('click');
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(1);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(1, 'union');
-      wrapper.find('div[title="Subtract"]').simulate('click');
+      wrapper.find('button[title="Subtract"]').simulate('click');
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(2);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(2, 'diff');
-      wrapper.find('div[title="Intersect"]').simulate('click');
+      wrapper.find('button[title="Intersect"]').simulate('click');
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(3);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(3, 'intersect');
-      wrapper.find('div[title="Difference"]').simulate('click');
+      wrapper.find('button[title="Difference"]').simulate('click');
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(4);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(4, 'xor');
     });

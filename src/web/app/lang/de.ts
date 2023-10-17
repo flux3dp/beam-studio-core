@@ -1318,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Überspringen',
     welcome: 'WILLKOMMEN',
-    suggest_calibrate_camera_first: 'Bitte kalibrieren Sie die Kamera, wenn Sie das Gerät das erste Mal benutzen. (Menü > Gerät >  [Ihr Gerät] > Kamera kalibrieren) und fokussieren Sie die Plattform vor der Vorschau jedes Mal angemessen, um eine bessere Vorschau zu erhalten.',
+    suggest_calibrate_camera_first: 'Für Benutzer von Beamo, Beambox Serien und HEXA empfehlen wir, die Kamera zu kalibrieren, wenn Sie das Gerät zum ersten Mal verwenden. (Menü > Gerät >  [Ihr Gerät] > Kamera kalibrieren) und fokussieren Sie die Plattform vor der Vorschau jedes Mal angemessen, um eine bessere Vorschau zu erhalten.',
     camera_calibration_failed: 'Kamera Kalibrierung fehlgeschlagen',
     ask_retry_calibration: 'Möchten Sie die Kamera noch einmal kalibrieren?',
     skipped_camera_calibration: 'Sie haben die Kamera-Kalibrierung übersprungen. Sie können die Kamera jederzeit im Menü kalibrieren (Menü > Gerät > [Ihr Gerät] > Kamera kalibrieren).',
+    skipped_ador_calibration: 'Die Ador-Kamera wurde während der Werksinspektion kalibriert.',
     needNewUserTutorial: 'Benötigen Sie ein Tutorial zu Beam Studio?',
     needNewInterfaceTutorial: 'Möchten Sie ein Tutorial für die neue Benutzeroberfläche von Beam Studio starten?',
     next: 'NÄCHSTER',

@@ -95,7 +95,7 @@ describe('test PathEditPanel', () => {
     expect(container).toMatchSnapshot();
 
     expect(setSelectedNodeType).not.toBeCalled();
-    fireEvent.click(getByTitle('tSmooth'));
+    fireEvent.click(getByTitle('Smooth'));
     expect(setSelectedNodeType).toBeCalledTimes(1);
     expect(setSelectedNodeType).toHaveBeenLastCalledWith(1);
 
@@ -121,7 +121,7 @@ describe('test PathEditPanel', () => {
     expect(container).toMatchSnapshot();
 
     expect(setSelectedNodeType).not.toBeCalled();
-    fireEvent.click(getByTitle('tSmooth'));
+    fireEvent.click(getByTitle('Smooth'));
     expect(setSelectedNodeType).toBeCalledTimes(1);
     expect(setSelectedNodeType).toHaveBeenLastCalledWith(1);
 

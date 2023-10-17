@@ -3,8 +3,11 @@ import React from 'react';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './PolygonOptions.module.scss';
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
@@ -42,8 +45,10 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
         decimal={0}
       />
     ) : (
-      <div className="option-block" key="polygon-sides">
-        <div className="label">{LANG.sides}</div>
+      <div className={styles['polygon-sides']} key="polygon-sides">
+        <div className={styles.label} title={LANG.sides}>
+          <OptionPanelIcons.PolygonSide />
+        </div>
         <UnitInput
           min={3}
           className={{ 'option-input': true }}
@@ -60,7 +65,7 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
       {renderSides()}
     </>
   ) : (
-    <div className="polygon-options">
+    <div>
       {renderSides()}
       <InFillBlock elem={elem} />
     </div>

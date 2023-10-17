@@ -1318,10 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'スキップ',
     welcome: 'ようこそ',
-    suggest_calibrate_camera_first: '本機を初めて使用する場合は、カメラのキャリブレーションを行ってください。 （メニュー> マシン> [マイマシン]> カメラのキャリブレーション）そして、プレビューの前に毎回プラットフォームの焦点を適切に合わせ直して、より良い撮影結果プレビューを取得します。',
+    suggest_calibrate_camera_first: 'beamo、Beamboxシリーズ、HEXAをお使いの方は、初めて使用する際にカメラのキャリブレーションを行うことをお勧めします。（メニュー> マシン> [マイマシン]> カメラのキャリブレーション）そして、プレビューの前に毎回プラットフォームの焦点を適切に合わせ直して、より良い撮影結果プレビューを取得します。',
     camera_calibration_failed: 'カメラの較正に失敗しました',
     ask_retry_calibration: 'カメラをもう一度キャリブレーションしますか？',
     skipped_camera_calibration: 'カメラのキャリブレーションをスキップしました。 メニューバー（メニュー> マシン> [マイマシン]> カメラのキャリブレーション）からいつでもカメラをキャリブレーションできます。',
+    skipped_ador_calibration: 'Ador カメラは工場検査時に調整されています。',
     needNewUserTutorial: 'Beam Studioのチュートリアルはよろしいですか？',
     needNewInterfaceTutorial: 'Beam Studioのの新しいインターフェースの紹介はよろしいですか？',
     next: '次ヘ',

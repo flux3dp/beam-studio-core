@@ -223,12 +223,16 @@ class BeamboxInit {
   private showFirstCalibrationDialog = async () => {
     const isNewUser = storage.get('new-user');
     const hasDoneFirstCali = AlertConfig.read('done-first-cali');
-    const hasMachineConnection = checkConnection();
+    let hasMachineConnection = checkConnection();
     // in web, wait for websocket connection
     if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) {
       await new Promise((r) => setTimeout(r, 1000));
+      hasMachineConnection = checkConnection();
     }
-    const shouldShow = window.FLUX.version === 'web' ? (hasMachineConnection && !hasDoneFirstCali) : isNewUser;
+    const shouldShow =
+      window.FLUX.version === 'web'
+        ? hasMachineConnection && !hasDoneFirstCali
+        : isNewUser || !hasDoneFirstCali;
     if (shouldShow) {
       if (await this.askFirstTimeCameraCalibration()) {
         await this.doFirstTimeCameraCalibration();
@@ -241,7 +245,7 @@ class BeamboxInit {
 
   private askFirstTimeCameraCalibration = () => new Promise<boolean>((resolve) => {
     Alert.popUp({
-      caption: i18n.lang.tutorial.welcome,
+      caption: i18n.lang.topbar.menu.calibrate_beambox_camera,
       message: i18n.lang.tutorial.suggest_calibrate_camera_first,
       buttonType: AlertConstants.YES_NO,
       onNo: () => resolve(false),
@@ -271,6 +275,15 @@ class BeamboxInit {
     const { device } = await getDevice();
     if (!device) {
       await this.onCameraCalibrationSkipped();
+      return;
+    }
+    if (device.model === 'ado1') {
+      await new Promise((resolve) => {
+        Alert.popUp({
+          message: i18n.lang.tutorial.skipped_ador_calibration,
+          callbacks: resolve,
+        });
+      });
       return;
     }
     try {

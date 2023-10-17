@@ -5,10 +5,13 @@ import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
+
+import styles from './RectOptions.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -47,8 +50,10 @@ function RectOptions({
         label={LANG.rounded_corner}
       />
     ) : (
-      <div className="option-block" key="rounded-corner">
-        <div className="label">{LANG.rounded_corner}</div>
+      <div className={styles['rounded-corner']} key="rounded-corner">
+        <div className={styles.label} title={LANG.rounded_corner}>
+          <OptionPanelIcons.RoundedCorner />
+        </div>
         <UnitInput
           min={0}
           unit={isInch ? 'in' : 'mm'}
@@ -66,7 +71,7 @@ function RectOptions({
       {renderRoundCornerBlock()}
     </>
   ) : (
-    <div className="rect-options">
+    <div>
       {renderRoundCornerBlock()}
       <InFillBlock elem={elem} />
     </div>

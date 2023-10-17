@@ -72,8 +72,8 @@ function OptionsPanel({
       {contents}
     </div>
   ) : (
-    <div className="options-panel">
-      <div className="title">OPTIONS</div>
+    <div className={styles.panel}>
+      <div className={styles.title}>OPTIONS</div>
       {contents}
     </div>
   );

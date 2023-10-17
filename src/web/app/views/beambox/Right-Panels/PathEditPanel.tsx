@@ -1,19 +1,15 @@
 import * as React from 'react';
-import { Button, Divider, Space } from 'antd';
+import classNames from 'classnames';
+import { Button, ConfigProvider, Divider, Space } from 'antd';
 
 import FloatingPanel from 'app/widgets/FloatingPanel';
 import i18n from 'helpers/i18n';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import SegmentedControl from 'app/widgets/SegmentedControl';
+import PathEditIcons from 'app/icons/path-edit-panel/PathEditIcons';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ISVGPath } from 'interfaces/ISVGPath';
-import {
-  PathConnectIcon,
-  PathDisconnectIcon,
-  PathRoundIcon,
-  PathSharpIcon,
-  TrashIcon,
-} from 'app/icons/icons';
+import { textButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { TrashIcon } from 'app/icons/icons';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './PathEditPanel.module.scss';
@@ -69,86 +65,84 @@ const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
   return (
     <div className={styles['node-type-panel']}>
       {!isMobile && <div className={styles.title}>{LANG.node_type}</div>}
-      <SegmentedControl
-        isDisabled={isDisabled}
-        selectedIndexes={selectedNodeTypes}
-        onChanged={(newType) => onNodeTypeChange(newType)}
-        segments={[
-          {
-            imgSrc: 'img/right-panel/icon-nodetype-0.svg',
-            title: 'tCorner',
-            value: LINKTYPE_CORNER,
-            id: 'tCorner-seg-item',
-          },
-          {
-            imgSrc: 'img/right-panel/icon-nodetype-1.svg',
-            title: 'tSmooth',
-            value: LINKTYPE_SMOOTH,
-            id: 'tSmooth-seg-item',
-          },
-          {
-            imgSrc: 'img/right-panel/icon-nodetype-2.svg',
-            title: 'tSymmetry',
-            value: LINKTYPE_SYMMETRIC,
-            id: 'tSymmetry-seg-item',
-          },
-        ]}
-      />
-      <Divider className={styles.divider} />
-      <Space className={styles.actions} wrap>
-        <Button
-          disabled={!containsRoundNodes}
-          onClick={() => svgCanvas.pathActions.setSharp()}
-          size="small"
-          shape={buttonShape}
-          block={isMobile}
-        >
-          <PathSharpIcon />
-          {LANG.sharp}
-        </Button>
-        <Button
-          disabled={!containsSharpNodes}
-          onClick={() => svgCanvas.pathActions.setRound()}
-          size="small"
-          shape={buttonShape}
-          block={isMobile}
-        >
-          <PathRoundIcon />
-          {LANG.round}
-        </Button>
-        <Button
-          disabled={!canConnect}
-          onClick={svgCanvas.pathActions.connectNodes}
-          size="small"
-          shape={buttonShape}
-          block={isMobile}
-        >
-          <PathConnectIcon />
-          {LANG.connect}
-        </Button>
-        <Button
-          disabled={!canDisconnect}
-          onClick={svgCanvas.pathActions.disconnectNode}
-          size="small"
-          shape={buttonShape}
-          block={isMobile}
-        >
-          <PathDisconnectIcon />
-          {LANG.disconnect}
-        </Button>
-        {isMobile && (
+      <ConfigProvider theme={textButtonTheme}>
+        <ConfigProvider theme={{ token: { controlHeight: isMobile ? 30 : 24, borderRadius: 4 } }}>
+          <Space.Compact block>
+            {[
+              { title: 'Corner', value: LINKTYPE_CORNER, icon: <PathEditIcons.Corner /> },
+              { title: 'Smooth', value: LINKTYPE_SMOOTH, icon: <PathEditIcons.Smooth /> },
+              { title: 'Symmetry', value: LINKTYPE_SYMMETRIC, icon: <PathEditIcons.Symmetry /> },
+            ].map(({ title, value, icon }) => (
+              <Button
+                className={classNames(styles['compact-button'], {
+                  [styles.active]: selectedNodeTypes.includes(value),
+                })}
+                key={title}
+                title={title}
+                icon={icon}
+                onClick={() => onNodeTypeChange(value)}
+                shape={buttonShape}
+                disabled={isDisabled}
+              />
+            ))}
+          </Space.Compact>
+        </ConfigProvider>
+        <Divider className={styles.divider} />
+        <Space className={styles.actions} wrap>
           <Button
-            disabled={!canDelete}
-            onClick={svgEditor.deleteSelected}
-            size="small"
+            className={styles.button}
+            disabled={!containsRoundNodes}
+            onClick={() => svgCanvas.pathActions.setSharp()}
             shape={buttonShape}
-            block={isMobile}
+            icon={<PathEditIcons.Sharp />}
+            block
           >
-            <TrashIcon />
-            {LANG.delete}
+            <span className={styles.label}>{LANG.sharp}</span>
           </Button>
-        )}
-      </Space>
+          <Button
+            className={styles.button}
+            disabled={!containsSharpNodes}
+            onClick={() => svgCanvas.pathActions.setRound()}
+            shape={buttonShape}
+            icon={<PathEditIcons.Round />}
+            block
+          >
+            <span className={styles.label}>{LANG.round}</span>
+          </Button>
+          <Button
+            className={styles.button}
+            disabled={!canConnect}
+            onClick={svgCanvas.pathActions.connectNodes}
+            shape={buttonShape}
+            icon={<PathEditIcons.Connect />}
+            block
+          >
+            <span className={styles.label}>{LANG.connect}</span>
+          </Button>
+          <Button
+            className={styles.button}
+            disabled={!canDisconnect}
+            onClick={svgCanvas.pathActions.disconnectNode}
+            shape={buttonShape}
+            icon={<PathEditIcons.Disconnect />}
+            block
+          >
+            <span className={styles.label}>{LANG.disconnect}</span>
+          </Button>
+          {isMobile && (
+            <Button
+              className={styles.button}
+              disabled={!canDelete}
+              onClick={svgEditor.deleteSelected}
+              shape={buttonShape}
+              icon={<TrashIcon />}
+              block
+            >
+              <span className={styles.label}>{LANG.delete}</span>
+            </Button>
+          )}
+        </Space>
+      </ConfigProvider>
     </div>
   );
 };

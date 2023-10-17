@@ -33,7 +33,7 @@ jest.mock('helpers/i18n', () => ({
     },
     topbar: {
       menu: {
-        rotate: "Rotate",
+        rotate: 'Rotate',
       },
     },
   },
@@ -154,7 +154,7 @@ describe('should render correctly', () => {
 
     jest.resetAllMocks();
 
-    wrapper.find('UnitInput').at(2).props().getValue(90);
+    wrapper.find('UnitInput').at(4).props().getValue(90);
     expect(setRotationAngle).toHaveBeenCalledTimes(1);
     expect(setRotationAngle).toHaveBeenNthCalledWith(1, 90, false, document.getElementById('svg_1'));
     expect(updateDimensionValues).toHaveBeenCalledTimes(1);
