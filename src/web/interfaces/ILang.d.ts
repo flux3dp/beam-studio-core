@@ -1311,10 +1311,11 @@ export interface ILang {
     512: string;
     UNKNOWN: string,
   },
-  camera_calibration: {
-    update_firmware_msg1: string,
-    update_firmware_msg2: string,
-    camera_calibration: string,
+  calibration: {
+    update_firmware_msg1: string;
+    update_firmware_msg2: string;
+    camera_calibration: string;
+    diode_calibration: string;
     back: string,
     next: string,
     skip: string,
@@ -1344,36 +1345,15 @@ export interface ILang {
     analyze_result_fail: string,
     drawing_calibration_image: string,
     calibrate_done: string,
+    calibrate_done_diode;
     hint_red_square: string,
     hint_adjust_parameters: string,
     zendesk_link: string;
-  },
-  diode_calibration: {
-    update_firmware_msg1: string,
-    update_firmware_msg2: string,
-    diode_calibration: string,
-    back: string,
-    next: string,
-    skip: string,
-    cancel: string,
-    finish: string,
-    do_engraving: string,
-    start_engrave: string,
-    ask_for_readjust: string,
     please_do_camera_calibration_and_focus: {
       beambox: string,
       beamo: string,
-    },
-    please_place_paper: string,
-    dx: string,
-    dy: string,
-    drawing_calibration_image: string,
-    taking_picture: string,
-    calibrate_done: string,
-    hint_red_square: string,
-    hint_adjust_parameters: string,
-    zendesk_link: string;
-  },
+    };
+  };
   input_machine_password: {
     require_password: string,
     connect: string,

@@ -1,21 +1,20 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { Modal, Result } from 'antd';
-import i18n from 'helpers/i18n';
-import { getSVGCanvas } from 'helpers/svg-editor-helper';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import { CalibrationContext } from 'app/contexts/CalibrationContext';
-import { useContext } from 'react';
 
-const LANG = i18n.lang.camera_calibration;
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import useI18n from 'helpers/useI18n';
+import { CalibrationContext } from 'app/contexts/CalibrationContext';
+import { getSVGCanvas } from 'helpers/svg-editor-helper';
 
 const StepFinish = (): JSX.Element => {
+  const lang = useI18n().calibration;
   const { borderless, onClose } = useContext(CalibrationContext);
   return (
     <Modal
       width={400}
       open
       centered
-      title={LANG.camera_calibration}
+      title={lang.camera_calibration}
       cancelButtonProps={{ style: { display: 'none' } }}
       onOk={() => {
         BeamboxPreference.write('should_remind_calibrate_camera', false);
@@ -23,11 +22,11 @@ const StepFinish = (): JSX.Element => {
         onClose(true);
       }}
       className="modal-camera-calibration"
-      okText={LANG.finish}
+      okText={lang.finish}
     >
       <Result
         status="success"
-        title={LANG.calibrate_done}
+        title={lang.calibrate_done}
       />
     </Modal>
   );
