@@ -1318,11 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Overslaan',
     welcome: 'WELKOM',
-    suggest_calibrate_camera_first: 'Kalibreer de camera als u de machine voor de eerste keer gebruikt. (Menu > Machine > [Uw machine] > Camera kalibreren) En stel het platform elke keer opnieuw goed scherp voordat u een voorbeeld bekijkt om een beter voorbeeldresultaat te krijgen.',
+    suggest_calibrate_camera_first: 'Voor gebruikers van Beamo, Beambox series en HEXA raden wij aan om de camera te kalibreren wanneer u de machine voor de eerste keer gebruikt. De Ador-camera is gekalibreerd tijdens fabrieksinspectie. (Menu > Machine > [Uw machine] > Camera kalibreren) En stel het platform elke keer opnieuw goed scherp voordat u een voorbeeld bekijkt om een beter voorbeeldresultaat te krijgen.',
     camera_calibration_failed: 'Camerakalibratie mislukt',
     ask_retry_calibration: 'Wilt u de camera opnieuw kalibreren?',
     skipped_camera_calibration: 'U hebt de camerakalibratie overgeslagen. U kunt de camera op elk moment kalibreren via de menubalk (Menu > Machine > [Uw machine] > Camera kalibreren).',
-    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
+    skipped_ador_calibration: 'De Ador-camera is gekalibreerd tijdens fabrieksinspectie.',
     needNewUserTutorial: 'Wil je een tutorial starten?',
     needNewInterfaceTutorial: 'Wil je een tutorial starten voor de nieuwe interface van Beam Studio?',
     next: 'DE VOLGENDE',

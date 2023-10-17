@@ -1318,11 +1318,11 @@ const lang: ILang = {
   tutorial: {
     skip: '건너뛰기',
     welcome: '환영합니다.',
-    suggest_calibrate_camera_first: '기기를 처음 사용할 때 카메라를 보정해주세요. (메뉴 > 기기 > [기기 이름] > 카메라 보정) 그리고 미리보기 전에 매번 플랫폼을 적절하게 조정하여 더 나은 미리보기 결과를 얻으세요.',
+    suggest_calibrate_camera_first: 'beamo, Beambox series 및 HEXA 사용자의 경우 처음으로 장비를 사용할 때 카메라 보정을 권장합니다. Ador 카메라는 공장 검사 중에 보정되었습니다. (메뉴 > 기기 > [기기 이름] > 카메라 보정) 그리고 미리보기 전에 매번 플랫폼을 적절하게 조정하여 더 나은 미리보기 결과를 얻으세요.',
     camera_calibration_failed: '카메라 보정 실패',
     ask_retry_calibration: '카메라를 다시 보정하시겠습니까?',
     skipped_camera_calibration: '카메라 보정을 건너뛰셨습니다. 언제든지 메뉴바에서 카메라 보정을 할 수 있습니다. (메뉴 > 기기 > [기기 이름] > 카메라 보정)',
-    skipped_ador_calibration: 'Ador camera has been calibrated during factory inspection.',
+    skipped_ador_calibration: 'Ador 카메라는 공장 검사 중에 보정되었습니다.',
     needNewUserTutorial: '튜토리얼을 시작하시겠습니까?',
     needNewInterfaceTutorial: 'Beam Studio의 새로운 인터페이스를 위한 튜토리얼을 시작하시겠습니까?',
     next: '다음',
