@@ -8,6 +8,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkCamera from 'helpers/device/check-camera';
 import checkIPFormat from 'helpers/check-ip-format';
 import checkRpiIp from 'helpers/check-rpi-ip';
+import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import dialogCaller from 'app/actions/dialog-caller';
 import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
@@ -192,7 +193,7 @@ const ConnectMachineIp = (): JSX.Element => {
     }
     storage.set('printer-is-ready', true);
     storage.set('selected-device', device.serial);
-    if (device.model === 'ado1') {
+    if (constant.adorModels.includes(device.model)) {
       alertConfig.write('done-first-cali', true);
     } else if (device.model === 'fbm1') {
       alertConfig.write('done-first-cali', false);
