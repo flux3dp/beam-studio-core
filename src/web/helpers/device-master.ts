@@ -524,7 +524,7 @@ class DeviceMaster {
 
     Progress.openSteppingProgress({
       id: 'camera-cali-task',
-      message: lang.camera_calibration.drawing_calibration_image,
+      message: lang.calibration.drawing_calibration_image,
     });
     const taskTotalSecs = 30;
     let elapsedSecs = 0;
@@ -608,7 +608,7 @@ class DeviceMaster {
 
     Progress.openSteppingProgress({
       id: 'ador-cali-task',
-      message: lang.camera_calibration.drawing_calibration_image,
+      message: lang.calibration.drawing_calibration_image,
     });
     const taskTotalSecs = 10;
     let elapsedSecs = 0;
