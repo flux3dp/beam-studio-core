@@ -136,8 +136,10 @@ const splitFullColorLayer = async (
   }
 
   const promises = [];
-  for (let j = 0; j < newLayers.length; j += 1) {
-    const newImgUrl = URL.createObjectURL(channelBlobs[j]);
+  for (let i = 0; i < newLayers.length; i += 1) {
+    // eslint-disable-next-line no-continue
+    if (!channelBlobs[i]) continue;
+    const newImgUrl = URL.createObjectURL(channelBlobs[i]);
     const newImage = document.createElementNS(NS.SVG, 'image') as unknown as SVGImageElement;
     newImage.setAttribute('x', bbox.x.toString());
     newImage.setAttribute('y', bbox.y.toString());
@@ -151,7 +153,7 @@ const splitFullColorLayer = async (
     newImage.setAttribute('data-shading', 'true');
     newImage.setAttribute('data-ratiofixed', 'true');
     newImage.removeAttribute('data-fullcolor');
-    newLayers[j].appendChild(newImage);
+    newLayers[i].appendChild(newImage);
     const promise = updateImageDisplay(newImage);
     promises.push(promise);
   }
