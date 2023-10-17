@@ -126,7 +126,7 @@ export default function Menu({ email }: Props): JSX.Element {
               {menuCms.calibrate_diode_module} {isMobile && '(PC Only)'}
             </MenuItem>
           ) : null}
-          {model !== 'ado1' && <MenuDivider />}
+          {!constant.adorModels.includes(model) && <MenuDivider />}
           <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>{menuCms.update_firmware}</MenuItem>
           <SubMenu label={menuCms.download_log}>
             <MenuItem onClick={() => callback('LOG_NETWORK', serial)}>{menuCms.log.network}</MenuItem>
