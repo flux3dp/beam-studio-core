@@ -39,7 +39,6 @@ const Beambox = (): JSX.Element => {
   });
 
   const activeLang = i18n.getActiveLang();
-  console.log('beambox rerender');
   return (
     <CanvasProvider>
       <SelectedElementContextProvider>
