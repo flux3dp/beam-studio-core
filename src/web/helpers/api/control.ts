@@ -683,7 +683,7 @@ class Control extends EventEmitter {
     this.ws.send('fetch_fisheye_params');
   });
 
-  fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover') =>
+  fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover' | 'offset') =>
     new Promise<{ [key: string]: number }>((resolve, reject) => {
       const file = [];
       this.on(EVENT_COMMAND_MESSAGE, (response) => {

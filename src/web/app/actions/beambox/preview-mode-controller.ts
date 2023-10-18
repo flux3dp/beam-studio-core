@@ -47,6 +47,8 @@ class PreviewModeController {
 
   autoLevelingData: { [key: string]: number };
 
+  heightOffset: { [key: string]: number };
+
   lastPosition: number[];
 
   errorCallback: () => void;
@@ -109,6 +111,7 @@ class PreviewModeController {
       H: 0,
       I: 0,
     };
+    this.heightOffset = {...this.autoLevelingData};
     try {
       this.autoLevelingData = await deviceMaster.fetchAutoLevelingData('hexa_platform');
       console.log('hexa_platform leveling data', { ...this.autoLevelingData });
@@ -124,6 +127,11 @@ class PreviewModeController {
       });
     } catch (e) {
       console.error('Unable to get bottom_cover leveling data', e);
+    }
+    try {
+      this.heightOffset = await deviceMaster.fetchAutoLevelingData('offset');
+    } catch (e) {
+      console.error('Unable to get height offset data', e);
     }
   };
 
@@ -148,6 +156,7 @@ class PreviewModeController {
     const refHeight = this.autoLevelingData[refKey];
     keys.forEach((key) => {
       this.autoLevelingData[key] = Math.round((this.autoLevelingData[key] - refHeight) * 1000) / 1000;
+      this.autoLevelingData[key] += this.heightOffset[key] ?? 0;
     });
   };
 
@@ -161,6 +170,7 @@ class PreviewModeController {
         if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
       }
     } catch (e) {
+      console.log('Fail to get probe position, using custom height', e);
       // do nothing
     }
     const val = await dialogCaller.getPromptValue({
@@ -230,6 +240,7 @@ class PreviewModeController {
         this.fisheyeParameters = await deviceMaster.fetchFisheyeParams();
       } catch (err) {
         // TODO: add alert?
+        console.log('Fail to fetchFisheyeParams', err?.message);
         throw new Error(
           'Unable to get fisheye parameters, please make sure you have calibrated the camera'
         );
