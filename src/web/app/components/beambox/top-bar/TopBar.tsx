@@ -4,6 +4,7 @@ import React from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
+import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
 import FileName from 'app/components/beambox/top-bar/FileName';
@@ -132,7 +133,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
     try {
       await PreviewModeController.start(device, onPreviewError);
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-      if (Constant.adorModels.includes(device.model)) {
+      if (constant.adorModels.includes(device.model)) {
         PreviewModeController.previewFullWorkarea(() => updateTopBar());
       }
       setIsPreviewing(true);
