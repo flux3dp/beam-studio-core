@@ -144,7 +144,7 @@ export const sendPictureThenSetConfig = async (
       borderless
     );
   } else {
-    throw new Error(i18n.lang.camera_calibration.analyze_result_fail);
+    throw new Error(i18n.lang.calibration.analyze_result_fail);
   }
 };
 
