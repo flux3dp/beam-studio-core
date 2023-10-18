@@ -201,7 +201,7 @@ export default {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.camera_calibration.please_goto_beambox_first,
+        message: lang.calibration.please_goto_beambox_first,
       });
       return;
     }
@@ -211,7 +211,7 @@ export default {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.camera_calibration.please_goto_beambox_first,
+        message: lang.calibration.please_goto_beambox_first,
       });
       return;
     }
@@ -220,7 +220,7 @@ export default {
     if (isAvailableVersion) {
       calibrateCamera(device, true);
     } else {
-      const langCameraCali = lang.camera_calibration;
+      const langCameraCali = lang.calibration;
       const message = `${langCameraCali.update_firmware_msg1} 2.5.1 ${langCameraCali.update_firmware_msg2}`;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
@@ -232,7 +232,7 @@ export default {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.camera_calibration.please_goto_beambox_first,
+        message: lang.calibration.please_goto_beambox_first,
       });
       return;
     }
@@ -248,7 +248,7 @@ export default {
         console.error(error);
       }
     } else {
-      const langDiodeCali = lang.diode_calibration;
+      const langDiodeCali = lang.calibration;
       const message = `${langDiodeCali.update_firmware_msg1} 3.0.0 ${langDiodeCali.update_firmware_msg2}`;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
