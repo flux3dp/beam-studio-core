@@ -695,7 +695,7 @@ class DeviceMaster {
     return controlSocket.fetchFisheyeParams() as Promise<FisheyeCameraParameters>;
   }
 
-  fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover') {
+  fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover' | 'offset') {
     const controlSocket = this.currentDevice.control;
     return controlSocket.fetchAutoLevelingData(dataType);
   }
