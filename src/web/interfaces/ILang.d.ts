@@ -1345,7 +1345,7 @@ export interface ILang {
     analyze_result_fail: string,
     drawing_calibration_image: string,
     calibrate_done: string,
-    calibrate_done_diode;
+    calibrate_done_diode: string;
     hint_red_square: string,
     hint_adjust_parameters: string,
     zendesk_link: string;
@@ -1353,6 +1353,14 @@ export interface ILang {
       beambox: string,
       beamo: string,
     };
+    downloading_pictures: string;
+    failed_to_download_pictures: string;
+    uploading_images: string;
+    calculating_camera_matrix: string;
+    calculating_regression_parameters: string;
+    failed_to_calibrate_camera: string;
+    failed_to_save_calibration_results: string;
+    ador_autofocus: string;
   };
   input_machine_password: {
     require_password: string,

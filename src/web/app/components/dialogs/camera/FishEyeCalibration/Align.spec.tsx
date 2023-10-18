@@ -43,11 +43,21 @@ jest.mock('helpers/useI18n', () => () => ({
     back: 'back',
     next: 'next',
   },
+  calibration: {
+    taking_picture: 'taking_picture',
+  },
 }));
 
 const mockInterpolatePointsFromHeight = jest.fn();
 jest.mock('helpers/camera-calibration-helper', () => ({
   interpolatePointsFromHeight: (...args) => mockInterpolatePointsFromHeight(...args),
+}));
+
+const mockOpenNonstopProgress = jest.fn();
+const mockPopById = jest.fn();
+jest.mock('app/actions/progress-caller', () => ({
+  openNonstopProgress: (...args) => mockOpenNonstopProgress(...args),
+  popById: (...args) => mockPopById(...args),
 }));
 
 const mockCreateObjectURL = jest.fn();
@@ -141,6 +151,12 @@ describe('test Align', () => {
     await waitFor(() => {
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
+    expect(mockOpenNonstopProgress).toBeCalledTimes(2);
+    expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
+      id: 'calibration-align', message: 'taking_picture'
+    });
+    expect(mockPopById).toBeCalledTimes(2);
+    expect(mockPopById).toHaveBeenLastCalledWith('calibration-align');
     const img = baseElement.querySelector('img');
     fireEvent.load(img);
     expect(baseElement).toMatchSnapshot();
