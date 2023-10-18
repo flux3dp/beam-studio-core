@@ -17,24 +17,31 @@ const MockChild = () => {
 };
 
 describe('test LayerPanelContext', () => {
-  it('should render correctly', () => {
+  it('should render correctly', async () => {
     const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
     const { container, unmount } = render(
       <LayerPanelContextProvider>
         <MockChild />
       </LayerPanelContextProvider>
     );
-    expect(layerPanelEventEmitter.eventNames().length).toBe(3);
-    expect(mockDoLayersContainsVector).toBeCalledTimes(1);
+    expect(layerPanelEventEmitter.eventNames().length).toBe(4);
+    expect(mockDoLayersContainsVector).toBeCalledTimes(2);
     expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith([]);
 
     layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
     expect(mockForceUpdate).toHaveBeenCalledTimes(1);
-    act(() => {
+    await act(async () => {
       layerPanelEventEmitter.emit('SET_SELECTED_LAYERS', ['layer1', 'layer3']);
     });
+
     expect(container.textContent).toBe('["layer1","layer3"]');
-    expect(mockDoLayersContainsVector).toBeCalledTimes(2);
+    expect(mockDoLayersContainsVector).toBeCalledTimes(3);
+    expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer3']);
+
+    await act(async () => {
+      layerPanelEventEmitter.emit('CHECK_VECTOR');
+    });
+    expect(mockDoLayersContainsVector).toBeCalledTimes(4);
     expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith(['layer1', 'layer3']);
 
     const response = {
