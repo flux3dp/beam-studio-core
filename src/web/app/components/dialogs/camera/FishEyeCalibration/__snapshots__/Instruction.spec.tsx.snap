@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Cut should render correctly 1`] = `
+exports[`test Instruction should render correctly 1`] = `
 <body>
   <div />
   <div>
@@ -17,9 +17,9 @@ exports[`test Cut should render correctly 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          class="ant-modal css-dev-only-do-not-override-hash container ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px;"
+          style="width: 400px;"
         >
           <div
             aria-hidden="true"
@@ -36,15 +36,23 @@ exports[`test Cut should render correctly 1`] = `
                 class="ant-modal-title"
                 id="test-id"
               >
-                tCut Calibration File
+                title
               </div>
             </div>
             <div
               class="ant-modal-body"
             >
-              <div>
-                Please put the material in the center of the workarea
-              </div>
+              text
+              <video
+                autoplay=""
+                class="video"
+                loop=""
+              >
+                <source
+                  src="video.webm"
+                  type="image/webm"
+                />
+              </video>
             </div>
             <div
               class="ant-modal-footer"
@@ -54,16 +62,7 @@ exports[`test Cut should render correctly 1`] = `
                 type="button"
               >
                 <span>
-                  back
-                </span>
-                
-              </button>
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
-                type="button"
-              >
-                <span>
-                  next
+                  label
                 </span>
                 
               </button>
