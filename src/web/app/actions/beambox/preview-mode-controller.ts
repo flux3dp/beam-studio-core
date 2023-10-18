@@ -299,7 +299,7 @@ class PreviewModeController {
     }
     if (BeamboxPreference.read('borderless') && !vc.meetRequirement('BORDERLESS_MODE')) {
       // eslint-disable-next-line max-len
-      const message = `#814 ${LANG.camera_calibration.update_firmware_msg1} 2.5.1 ${LANG.camera_calibration.update_firmware_msg2} ${LANG.beambox.popup.or_turn_off_borderless_mode}`;
+      const message = `#814 ${LANG.calibration.update_firmware_msg1} 2.5.1 ${LANG.calibration.update_firmware_msg2} ${LANG.beambox.popup.or_turn_off_borderless_mode}`;
       const caption = LANG.beambox.left_panel.borderless_preview;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
