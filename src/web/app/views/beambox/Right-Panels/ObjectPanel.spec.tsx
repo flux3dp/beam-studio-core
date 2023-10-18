@@ -1,46 +1,59 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
-jest.mock('app/views/beambox/Right-Panels/ActionsPanel', () => function DummyActionsPanel() {
-  return (
-    <div>
-      This is dummy ActionsPanel
-    </div>
-  );
-});
+jest.mock(
+  'app/views/beambox/Right-Panels/ActionsPanel',
+  () =>
+    function DummyActionsPanel() {
+      return <div>This is dummy ActionsPanel</div>;
+    }
+);
 
-jest.mock('app/views/beambox/Right-Panels/DimensionPanel', () => function DummyDimensionPanel() {
-  return (
-    <div>
-      This is dummy DimensionPanel
-    </div>
-  );
-});
+jest.mock(
+  'app/views/beambox/Right-Panels/DimensionPanel',
+  () =>
+    function DummyDimensionPanel() {
+      return <div>This is dummy DimensionPanel</div>;
+    }
+);
 
-jest.mock('app/views/beambox/Right-Panels/OptionsPanel', () => function DummyOptionsPanel() {
-  return (
-    <div>
-      This is dummy OptionsPanel
-    </div>
-  );
-});
+jest.mock(
+  'app/views/beambox/Right-Panels/OptionsPanel',
+  () =>
+    function DummyOptionsPanel() {
+      return <div>This is dummy OptionsPanel</div>;
+    }
+);
 
-jest.mock('app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel', () => function DummyConfigPanel() {
-  return (
-    <div>
-      This is dummy ConfigPanel
-    </div>
-  );
-});
+jest.mock(
+  'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel',
+  () =>
+    function DummyConfigPanel() {
+      return <div>This is dummy ConfigPanel</div>;
+    }
+);
 
 jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
-  Item: function DummyObjectPanelItem() {
-    return <div>This is dummy ObjectPanelItem</div>;
+  Item: function DummyObjectPanelItem({ id, label, onClick }: any) {
+    return <div id={id}>This is dummy ObjectPanelItem
+      <button type="button" onClick={onClick}>{label}</button>
+    </div>;
   },
-  ActionList: function DummyObjectPanelActionList() {
-    return <div>This is dummy ObjectPanelActionList</div>;
+  ActionList: function DummyObjectPanelActionList({ id, actions }: any) {
+    return (
+      <div id={id}>
+        This is dummy ObjectPanelActionList
+        {actions.map(({ icon, label, onClick }) => (
+          <div key={label}>
+            {icon}
+            <button type="button" onClick={onClick}>
+              {label}
+            </button>
+          </div>
+        ))}
+      </div>
+    );
   },
   Divider: function DummyObjectPanelDivider() {
     return <div>This is dummy ObjectPanelDivider</div>;
@@ -138,6 +151,7 @@ jest.mock('app/actions/dialog-caller', () => ({
 }));
 
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
 import ObjectPanel from './ObjectPanel';
 
@@ -147,25 +161,29 @@ describe('should render correctly', () => {
   });
 
   test('no elements', () => {
-    const wrapper = mount(
-      <ObjectPanelContext.Provider value={{
-        activeKey: null,
-        polygonSides: 5,
-        dimensionValues: {
-          rx: 1,
-        },
-        updateActiveKey: jest.fn(),
-        updateDimensionValues: jest.fn(),
-        getDimensionValues: jest.fn(),
-        updateObjectPanel: jest.fn(),
-      }}
+    const { container } = render(
+      <SelectedElementContext.Provider
+        value={{ selectedElement: document.getElementById('svg_1') }}
       >
-        <ObjectPanel
-          elem={document.getElementById('svg_1')}
-        />
-      </ObjectPanelContext.Provider>,
+        <ObjectPanelContext.Provider
+          value={{
+            activeKey: null,
+            polygonSides: 5,
+            dimensionValues: {
+              rx: 1,
+            },
+            updateActiveKey: jest.fn(),
+            updateDimensionValues: jest.fn(),
+            getDimensionValues: jest.fn(),
+            updateObjectPanel: jest.fn(),
+          }}
+        >
+          <ObjectPanel />
+        </ObjectPanelContext.Provider>
+        ,
+      </SelectedElementContext.Provider>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   describe('one element', () => {
@@ -175,67 +193,71 @@ describe('should render correctly', () => {
 
     test('not g element', () => {
       document.body.innerHTML = '<rect id="svg_1" />';
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      const { container } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_1') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_1')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
-
-      wrapper.find('button[title="Top Align"]').simulate('click');
+      expect(container).toMatchSnapshot();
+      fireEvent.click(container.querySelector('button[title="Top Align"]'));
       expect(alignTop).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Middle Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Middle Align"]'));
       expect(alignMiddle).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Bottom Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Bottom Align"]'));
       expect(alignBottom).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Left Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Left Align"]'));
       expect(alignLeft).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Center Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Center Align"]'));
       expect(alignCenter).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Right Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Right Align"]'));
       expect(alignRight).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Group"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Group"]'));
       expect(groupSelectedElements).toHaveBeenCalledTimes(1);
     });
 
     test('is g element', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      const { container } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_1') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_1')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
-
-      wrapper.find('button[title="Ungroup"]').simulate('click');
+      expect(container).toMatchSnapshot();
+      fireEvent.click(container.querySelector('button[title="Ungroup"]'));
       expect(ungroupSelectedElement).toHaveBeenCalledTimes(1);
     });
   });
@@ -246,79 +268,87 @@ describe('should render correctly', () => {
     });
 
     test('contains rect, polygon or ellipse elements', () => {
-      document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><rect id="svg_1"></rect><ellipse id="svg_2"></ellipse></g>';
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      document.body.innerHTML =
+        '<g id="svg_3" data-tempgroup="true"><rect id="svg_1"></rect><ellipse id="svg_2"></ellipse></g>';
+      const { container } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_3') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_3')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
 
-      wrapper.find('button[title="Top Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Top Align"]'));
       expect(alignTop).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Middle Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Middle Align"]'));
       expect(alignMiddle).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Bottom Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Bottom Align"]'));
       expect(alignBottom).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Left Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Left Align"]'));
       expect(alignLeft).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Center Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Center Align"]'));
       expect(alignCenter).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Right Align"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Right Align"]'));
       expect(alignRight).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Group"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Group"]'));
       expect(groupSelectedElements).toHaveBeenCalledTimes(1);
-      wrapper.find('button[title="Union"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Union"]'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(1);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(1, 'union');
-      wrapper.find('button[title="Subtract"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Subtract"]'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(2);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(2, 'diff');
-      wrapper.find('button[title="Intersect"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Intersect"]'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(3);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(3, 'intersect');
-      wrapper.find('button[title="Difference"]').simulate('click');
+      fireEvent.click(container.querySelector('button[title="Difference"]'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(4);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(4, 'xor');
     });
 
     test('contains other types of elements', () => {
-      document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><path id="svg_1"></path><line id="svg_2"></line></g>';
+      document.body.innerHTML =
+        '<g id="svg_3" data-tempgroup="true"><path id="svg_1"></path><line id="svg_2"></line></g>';
       isElemFillable.mockReturnValue(true);
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      const { container } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_3') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_3')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
       expect(isElemFillable).toHaveBeenCalledTimes(5);
       expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
@@ -335,25 +365,28 @@ describe('should render correctly in mobile', () => {
   });
 
   test('no elements', () => {
-    const wrapper = mount(
-      <ObjectPanelContext.Provider value={{
-        activeKey: null,
-        polygonSides: 5,
-        dimensionValues: {
-          rx: 1,
-        },
-        updateActiveKey: jest.fn(),
-        updateDimensionValues: jest.fn(),
-        getDimensionValues: jest.fn(),
-        updateObjectPanel: jest.fn(),
-      }}
+    const { container } = render(
+      <SelectedElementContext.Provider
+        value={{ selectedElement: document.getElementById('svg_1') }}
       >
-        <ObjectPanel
-          elem={document.getElementById('svg_1')}
-        />
-      </ObjectPanelContext.Provider>,
+        <ObjectPanelContext.Provider
+          value={{
+            activeKey: null,
+            polygonSides: 5,
+            dimensionValues: {
+              rx: 1,
+            },
+            updateActiveKey: jest.fn(),
+            updateDimensionValues: jest.fn(),
+            getDimensionValues: jest.fn(),
+            updateObjectPanel: jest.fn(),
+          }}
+        >
+          <ObjectPanel />
+        </ObjectPanelContext.Provider>
+      </SelectedElementContext.Provider>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   describe('one element', () => {
@@ -364,74 +397,73 @@ describe('should render correctly in mobile', () => {
 
     test('not g element', () => {
       document.body.innerHTML = '<rect id="svg_1" />';
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      const { container, getByText } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_1') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_1')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
 
-      const alignActions = wrapper.find('DummyObjectPanelActionList[id="align"]').props().actions;
-      expect(alignActions[0].label).toBe('Top Align');
-      alignActions[0].onClick();
+      fireEvent.click(getByText('Top Align'));
       expect(alignTop).toHaveBeenCalledTimes(1);
-      expect(alignActions[1].label).toBe('Middle Align');
-      alignActions[1].onClick();
+      fireEvent.click(getByText('Middle Align'));
       expect(alignMiddle).toHaveBeenCalledTimes(1);
-      expect(alignActions[2].label).toBe('Bottom Align');
-      alignActions[2].onClick();
+      fireEvent.click(getByText('Bottom Align'));
       expect(alignBottom).toHaveBeenCalledTimes(1);
-      expect(alignActions[3].label).toBe('Left Align');
-      alignActions[3].onClick();
+      fireEvent.click(getByText('Left Align'));
       expect(alignLeft).toHaveBeenCalledTimes(1);
-      expect(alignActions[4].label).toBe('Center Align');
-      alignActions[4].onClick();
+      fireEvent.click(getByText('Center Align'));
       expect(alignCenter).toHaveBeenCalledTimes(1);
-      expect(alignActions[5].label).toBe('Right Align');
-      alignActions[5].onClick();
+      fireEvent.click(getByText('Right Align'));
       expect(alignRight).toHaveBeenCalledTimes(1);
-      wrapper.find('DummyObjectPanelItem[id="group"]').props().onClick();
+      fireEvent.click(getByText('Group'));
       expect(groupSelectedElements).toHaveBeenCalledTimes(1);
     });
 
     test('is g element', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      const { container, getByText } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_1') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_1')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
 
-      wrapper.find('DummyObjectPanelItem[id="ungroup"]').props().onClick();
+      fireEvent.click(getByText('Ungroup'));
       expect(ungroupSelectedElement).toHaveBeenCalledTimes(1);
     });
   });
@@ -443,93 +475,87 @@ describe('should render correctly in mobile', () => {
     });
 
     test('contains rect, polygon or ellipse elements', () => {
-      document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><rect id="svg_1"></rect><ellipse id="svg_2"></ellipse></g>';
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      document.body.innerHTML =
+        '<g id="svg_3" data-tempgroup="true"><rect id="svg_1"></rect><ellipse id="svg_2"></ellipse></g>';
+      const { container, getByText } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_3') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_3')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
 
-      const alignActions = wrapper.find('DummyObjectPanelActionList[id="align"]').props().actions;
-      expect(alignActions[0].label).toBe('Top Align');
-      alignActions[0].onClick();
+      fireEvent.click(getByText('Top Align'));
       expect(alignTop).toHaveBeenCalledTimes(1);
-      expect(alignActions[1].label).toBe('Middle Align');
-      alignActions[1].onClick();
+      fireEvent.click(getByText('Middle Align'));
       expect(alignMiddle).toHaveBeenCalledTimes(1);
-      expect(alignActions[2].label).toBe('Bottom Align');
-      alignActions[2].onClick();
+      fireEvent.click(getByText('Bottom Align'));
       expect(alignBottom).toHaveBeenCalledTimes(1);
-      expect(alignActions[3].label).toBe('Left Align');
-      alignActions[3].onClick();
+      fireEvent.click(getByText('Left Align'));
       expect(alignLeft).toHaveBeenCalledTimes(1);
-      expect(alignActions[4].label).toBe('Center Align');
-      alignActions[4].onClick();
+      fireEvent.click(getByText('Center Align'));
       expect(alignCenter).toHaveBeenCalledTimes(1);
-      expect(alignActions[5].label).toBe('Right Align');
-      alignActions[5].onClick();
+      fireEvent.click(getByText('Right Align'));
       expect(alignRight).toHaveBeenCalledTimes(1);
-      wrapper.find('DummyObjectPanelItem[id="group"]').props().onClick();
+      fireEvent.click(getByText('Group'));
       expect(groupSelectedElements).toHaveBeenCalledTimes(1);
-      const bolleanActions = wrapper
-        .find('DummyObjectPanelActionList[id="boolean"]')
-        .props().actions;
-      expect(bolleanActions[0].label).toBe('Union');
-      bolleanActions[0].onClick();
+      fireEvent.click(getByText('Union'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(1);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(1, 'union');
-      expect(bolleanActions[1].label).toBe('Subtract');
-      bolleanActions[1].onClick();
+      fireEvent.click(getByText('Subtract'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(2);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(2, 'diff');
-      expect(bolleanActions[2].label).toBe('Intersect');
-      bolleanActions[2].onClick();
+      fireEvent.click(getByText('Intersect'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(3);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(3, 'intersect');
-      expect(bolleanActions[3].label).toBe('Difference');
-      bolleanActions[3].onClick();
+      fireEvent.click(getByText('Difference'));
       expect(booleanOperationSelectedElements).toHaveBeenCalledTimes(4);
       expect(booleanOperationSelectedElements).toHaveBeenNthCalledWith(4, 'xor');
     });
 
     test('contains other types of elements', () => {
-      document.body.innerHTML = '<g id="svg_3" data-tempgroup="true"><path id="svg_1"></path><line id="svg_2"></line></g>';
+      document.body.innerHTML =
+        '<g id="svg_3" data-tempgroup="true"><path id="svg_1"></path><line id="svg_2"></line></g>';
       isElemFillable.mockReturnValue(true);
-      const wrapper = mount(
-        <ObjectPanelContext.Provider value={{
-          activeKey: null,
-          polygonSides: 5,
-          dimensionValues: {
-            rx: 1,
-          },
-          updateActiveKey: jest.fn(),
-          updateDimensionValues: jest.fn(),
-          getDimensionValues: jest.fn(),
-          updateObjectPanel: jest.fn(),
-        }}
+      const { container } = render(
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_3') }}
         >
-          <ObjectPanel
-            elem={document.getElementById('svg_3')}
-          />
-        </ObjectPanelContext.Provider>,
+          <ObjectPanelContext.Provider
+            value={{
+              activeKey: null,
+              polygonSides: 5,
+              dimensionValues: {
+                rx: 1,
+              },
+              updateActiveKey: jest.fn(),
+              updateDimensionValues: jest.fn(),
+              getDimensionValues: jest.fn(),
+              updateObjectPanel: jest.fn(),
+            }}
+          >
+            <ObjectPanel />
+          </ObjectPanelContext.Provider>
+        </SelectedElementContext.Provider>
       );
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
       expect(isElemFillable).toHaveBeenCalledTimes(5);
       expect(isElemFillable).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
       expect(isElemFillable).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));

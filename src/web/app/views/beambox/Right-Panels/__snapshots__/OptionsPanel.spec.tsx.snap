@@ -258,9 +258,9 @@ exports[`should render correctly rect in full color layer 1`] = `
         updateDimensionValues
       </button>
     </div>
-  </div>
-  <div>
-    This is dummy ColorPanel
+    <div>
+      This is dummy ColorPanel
+    </div>
   </div>
 </div>
 `;

@@ -78,6 +78,10 @@ jest.mock(
     }
 );
 
+jest.mock('app/views/beambox/Right-Panels/Options-Blocks/MultiColorOptions', () => () => (
+  <div>This is dummy MultiColorOptions</div>
+))
+
 const mockGetAttribute = jest.fn();
 jest.mock('helpers/layer/layer-helper', () => ({
   getObjectLayer: () => ({

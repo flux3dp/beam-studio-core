@@ -1,957 +1,771 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly in mobile no elements 1`] = `
-<ObjectPanel
-  elem={
-    <path
-      id="svg_1"
-    />
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+      <div
         id="delete"
-        label="Delete"
-        onClick={[MockFunction]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Delete
+        </button>
+      </div>
+      <div
         id="duplicate"
-        label="Duplicate"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        autoClose={false}
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Duplicate
+        </button>
+      </div>
+      <div
         id="parameter"
-        label="Parameters"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Parameters
+        </button>
+      </div>
     </div>
-    <DummyOptionsPanel
-      elem={
-        <path
-          id="svg_1"
-        />
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyDimensionPanel
-      elem={
-        <path
-          id="svg_1"
-        />
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy DimensionPanel
+    </div>
     <div
-      className="tools"
-    >
-      <DummyObjectPanelDivider>
-        <div>
-          This is dummy ObjectPanelDivider
-        </div>
-      </DummyObjectPanelDivider>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="group"
-        label="Group"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="ungroup"
-        label="Ungroup"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Top Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Middle Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Bottom Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Left Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Center Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Right Align",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        id="align"
-        label="Align"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Horizontal Distribute",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Vertical Distribute",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="distribute"
-        label="Distribute"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Union",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Subtract",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Intersect",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Difference",
-              "onClick": [Function],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="boolean"
-        label="Boolean"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-    </div>
-    <DummyActionsPanel
-      elem={
-        <path
-          id="svg_1"
-        />
-      }
+      class="tools"
     >
       <div>
-        This is dummy ActionsPanel
+        This is dummy ObjectPanelDivider
       </div>
-    </DummyActionsPanel>
+      <div
+        id="group"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Group
+        </button>
+      </div>
+      <div
+        id="ungroup"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Ungroup
+        </button>
+      </div>
+      <div
+        id="align"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Top Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Middle Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Bottom Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Left Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Center Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Right Align
+          </button>
+        </div>
+      </div>
+      <div
+        id="distribute"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Horizontal Distribute
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Vertical Distribute
+          </button>
+        </div>
+      </div>
+      <div
+        id="boolean"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Union
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Subtract
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Intersect
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Difference
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly in mobile one element is g element 1`] = `
-<ObjectPanel
-  elem={
-    <g
-      id="svg_1"
-    />
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+      <div
         id="delete"
-        label="Delete"
-        onClick={[MockFunction]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Delete
+        </button>
+      </div>
+      <div
         id="duplicate"
-        label="Duplicate"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        autoClose={false}
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Duplicate
+        </button>
+      </div>
+      <div
         id="parameter"
-        label="Parameters"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Parameters
+        </button>
+      </div>
     </div>
-    <DummyOptionsPanel
-      elem={
-        <g
-          id="svg_1"
-        />
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyDimensionPanel
-      elem={
-        <g
-          id="svg_1"
-        />
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy DimensionPanel
+    </div>
     <div
-      className="tools"
-    >
-      <DummyObjectPanelDivider>
-        <div>
-          This is dummy ObjectPanelDivider
-        </div>
-      </DummyObjectPanelDivider>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="group"
-        label="Group"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={false}
-        id="ungroup"
-        label="Ungroup"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Top Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Middle Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Bottom Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Left Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Center Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Right Align",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        id="align"
-        label="Align"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Horizontal Distribute",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Vertical Distribute",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="distribute"
-        label="Distribute"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Union",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Subtract",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Intersect",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Difference",
-              "onClick": [Function],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="boolean"
-        label="Boolean"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-    </div>
-    <DummyActionsPanel
-      elem={
-        <g
-          id="svg_1"
-        />
-      }
+      class="tools"
     >
       <div>
-        This is dummy ActionsPanel
+        This is dummy ObjectPanelDivider
       </div>
-    </DummyActionsPanel>
+      <div
+        id="group"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Group
+        </button>
+      </div>
+      <div
+        id="ungroup"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Ungroup
+        </button>
+      </div>
+      <div
+        id="align"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Top Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Middle Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Bottom Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Left Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Center Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Right Align
+          </button>
+        </div>
+      </div>
+      <div
+        id="distribute"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Horizontal Distribute
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Vertical Distribute
+          </button>
+        </div>
+      </div>
+      <div
+        id="boolean"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Union
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Subtract
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Intersect
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Difference
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly in mobile one element not g element 1`] = `
-<ObjectPanel
-  elem={
-    <rect
-      id="svg_1"
-    />
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+      <div
         id="delete"
-        label="Delete"
-        onClick={[MockFunction]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Delete
+        </button>
+      </div>
+      <div
         id="duplicate"
-        label="Duplicate"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        autoClose={false}
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Duplicate
+        </button>
+      </div>
+      <div
         id="parameter"
-        label="Parameters"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Parameters
+        </button>
+      </div>
     </div>
-    <DummyOptionsPanel
-      elem={
-        <rect
-          id="svg_1"
-        />
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyDimensionPanel
-      elem={
-        <rect
-          id="svg_1"
-        />
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy DimensionPanel
+    </div>
     <div
-      className="tools"
-    >
-      <DummyObjectPanelDivider>
-        <div>
-          This is dummy ObjectPanelDivider
-        </div>
-      </DummyObjectPanelDivider>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="group"
-        label="Group"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="ungroup"
-        label="Ungroup"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Top Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Middle Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Bottom Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Left Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Center Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Right Align",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        id="align"
-        label="Align"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Horizontal Distribute",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Vertical Distribute",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="distribute"
-        label="Distribute"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Union",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Subtract",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Intersect",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Difference",
-              "onClick": [Function],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="boolean"
-        label="Boolean"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-    </div>
-    <DummyActionsPanel
-      elem={
-        <rect
-          id="svg_1"
-        />
-      }
+      class="tools"
     >
       <div>
-        This is dummy ActionsPanel
+        This is dummy ObjectPanelDivider
       </div>
-    </DummyActionsPanel>
+      <div
+        id="group"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Group
+        </button>
+      </div>
+      <div
+        id="ungroup"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Ungroup
+        </button>
+      </div>
+      <div
+        id="align"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Top Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Middle Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Bottom Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Left Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Center Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Right Align
+          </button>
+        </div>
+      </div>
+      <div
+        id="distribute"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Horizontal Distribute
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Vertical Distribute
+          </button>
+        </div>
+      </div>
+      <div
+        id="boolean"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Union
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Subtract
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Intersect
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Difference
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly in mobile two elements contains other types of elements 1`] = `
-<ObjectPanel
-  elem={
-    <g
-      data-tempgroup="true"
-      id="svg_3"
-    >
-      <path
-        id="svg_1"
-      />
-      <line
-        id="svg_2"
-      />
-    </g>
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+      <div
         id="delete"
-        label="Delete"
-        onClick={[MockFunction]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Delete
+        </button>
+      </div>
+      <div
         id="duplicate"
-        label="Duplicate"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        autoClose={false}
-        content={<svgr-url />}
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Duplicate
+        </button>
+      </div>
+      <div
         id="parameter"
-        label="Parameters"
-        onClick={[Function]}
       >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Parameters
+        </button>
+      </div>
     </div>
-    <DummyOptionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <path
-            id="svg_1"
-          />
-          <line
-            id="svg_2"
-          />
-        </g>
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyDimensionPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <path
-            id="svg_1"
-          />
-          <line
-            id="svg_2"
-          />
-        </g>
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy DimensionPanel
+    </div>
     <div
-      className="tools"
-    >
-      <DummyObjectPanelDivider>
-        <div>
-          This is dummy ObjectPanelDivider
-        </div>
-      </DummyObjectPanelDivider>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={false}
-        id="group"
-        label="Group"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="ungroup"
-        label="Ungroup"
-        onClick={[MockFunction]}
-      >
-        <div>
-          This is dummy ObjectPanelItem
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Top Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Middle Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Bottom Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Left Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Center Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Right Align",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        id="align"
-        label="Align"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Horizontal Distribute",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Vertical Distribute",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="distribute"
-        label="Distribute"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Union",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Subtract",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Intersect",
-              "onClick": [Function],
-            },
-            {
-              "disabled": true,
-              "icon": <svgr-url />,
-              "label": "Difference",
-              "onClick": [Function],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="boolean"
-        label="Boolean"
-      >
-        <div>
-          This is dummy ObjectPanelActionList
-        </div>
-      </DummyObjectPanelActionList>
-    </div>
-    <DummyActionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <path
-            id="svg_1"
-          />
-          <line
-            id="svg_2"
-          />
-        </g>
-      }
+      class="tools"
     >
       <div>
-        This is dummy ActionsPanel
+        This is dummy ObjectPanelDivider
       </div>
-    </DummyActionsPanel>
+      <div
+        id="group"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Group
+        </button>
+      </div>
+      <div
+        id="ungroup"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Ungroup
+        </button>
+      </div>
+      <div
+        id="align"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Top Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Middle Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Bottom Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Left Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Center Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Right Align
+          </button>
+        </div>
+      </div>
+      <div
+        id="distribute"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Horizontal Distribute
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Vertical Distribute
+          </button>
+        </div>
+      </div>
+      <div
+        id="boolean"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Union
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Subtract
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Intersect
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Difference
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly in mobile two elements contains rect, polygon or ellipse elements 1`] = `
-<ObjectPanel
-  elem={
-    <g
-      data-tempgroup="true"
-      id="svg_3"
-    >
-      <rect
-        id="svg_1"
-      />
-      <ellipse
-        id="svg_2"
-      />
-    </g>
-  }
->
+<Memo(ObjectPanel)>
   <div
     className="container"
     id="object-panel"
@@ -965,8 +779,16 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         label="Delete"
         onClick={[MockFunction]}
       >
-        <div>
+        <div
+          id="delete"
+        >
           This is dummy ObjectPanelItem
+          <button
+            onClick={[MockFunction]}
+            type="button"
+          >
+            Delete
+          </button>
         </div>
       </DummyObjectPanelItem>
       <DummyObjectPanelItem
@@ -975,8 +797,16 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         label="Duplicate"
         onClick={[Function]}
       >
-        <div>
+        <div
+          id="duplicate"
+        >
           This is dummy ObjectPanelItem
+          <button
+            onClick={[Function]}
+            type="button"
+          >
+            Duplicate
+          </button>
         </div>
       </DummyObjectPanelItem>
       <DummyObjectPanelItem
@@ -986,8 +816,16 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         label="Parameters"
         onClick={[Function]}
       >
-        <div>
+        <div
+          id="parameter"
+        >
           This is dummy ObjectPanelItem
+          <button
+            onClick={[Function]}
+            type="button"
+          >
+            Parameters
+          </button>
         </div>
       </DummyObjectPanelItem>
     </div>
@@ -1050,8 +888,16 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         label="Group"
         onClick={[MockFunction]}
       >
-        <div>
+        <div
+          id="group"
+        >
           This is dummy ObjectPanelItem
+          <button
+            onClick={[MockFunction]}
+            type="button"
+          >
+            Group
+          </button>
         </div>
       </DummyObjectPanelItem>
       <DummyObjectPanelItem
@@ -1061,8 +907,16 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         label="Ungroup"
         onClick={[MockFunction]}
       >
-        <div>
+        <div
+          id="ungroup"
+        >
           This is dummy ObjectPanelItem
+          <button
+            onClick={[MockFunction]}
+            type="button"
+          >
+            Ungroup
+          </button>
         </div>
       </DummyObjectPanelItem>
       <DummyObjectPanelActionList
@@ -1104,8 +958,76 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         id="align"
         label="Align"
       >
-        <div>
+        <div
+          id="align"
+        >
           This is dummy ObjectPanelActionList
+          <div
+            key="Top Align"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Top Align
+            </button>
+          </div>
+          <div
+            key="Middle Align"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Middle Align
+            </button>
+          </div>
+          <div
+            key="Bottom Align"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Bottom Align
+            </button>
+          </div>
+          <div
+            key="Left Align"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Left Align
+            </button>
+          </div>
+          <div
+            key="Center Align"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Center Align
+            </button>
+          </div>
+          <div
+            key="Right Align"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Right Align
+            </button>
+          </div>
         </div>
       </DummyObjectPanelActionList>
       <DummyObjectPanelActionList
@@ -1128,8 +1050,32 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         id="distribute"
         label="Distribute"
       >
-        <div>
+        <div
+          id="distribute"
+        >
           This is dummy ObjectPanelActionList
+          <div
+            key="Horizontal Distribute"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Horizontal Distribute
+            </button>
+          </div>
+          <div
+            key="Vertical Distribute"
+          >
+            <svgr-url />
+            <button
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Vertical Distribute
+            </button>
+          </div>
         </div>
       </DummyObjectPanelActionList>
       <DummyObjectPanelActionList
@@ -1166,8 +1112,54 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
         id="boolean"
         label="Boolean"
       >
-        <div>
+        <div
+          id="boolean"
+        >
           This is dummy ObjectPanelActionList
+          <div
+            key="Union"
+          >
+            <svgr-url />
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Union
+            </button>
+          </div>
+          <div
+            key="Subtract"
+          >
+            <svgr-url />
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Subtract
+            </button>
+          </div>
+          <div
+            key="Intersect"
+          >
+            <svgr-url />
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Intersect
+            </button>
+          </div>
+          <div
+            key="Difference"
+          >
+            <svgr-url />
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Difference
+            </button>
+          </div>
         </div>
       </DummyObjectPanelActionList>
     </div>
@@ -1191,2328 +1183,1181 @@ exports[`should render correctly in mobile two elements contains rect, polygon o
       </div>
     </DummyActionsPanel>
   </div>
-</ObjectPanel>
+</Memo(ObjectPanel)>
 `;
 
 exports[`should render correctly no elements 1`] = `
-<ObjectPanel
-  elem={null}
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <ConfigProvider
-        theme={
-          {
-            "components": {
-              "Button": {
-                "colorText": "#494949",
-                "colorTextDisabled": "#CECECE",
-                "controlHeight": 24,
-                "fontSize": 24,
-                "lineHeight": 1,
-                "lineWidth": 0,
-              },
-            },
-          }
-        }
+      <div
+        class="row"
       >
-        <ProviderChildren
-          parentContext={
-            {
-              "getPrefixCls": [Function],
-              "iconPrefixCls": "anticon",
-            }
-          }
-          theme={
-            {
-              "components": {
-                "Button": {
-                  "colorText": "#494949",
-                  "colorTextDisabled": "#CECECE",
-                  "controlHeight": 24,
-                  "fontSize": 24,
-                  "lineHeight": 1,
-                  "lineWidth": 0,
-                },
-              },
-            }
-          }
+        <div
+          class="half left sep"
         >
-          <FormProvider
-            validateMessages={
-              {
-                "array": {
-                  "len": "Must be \${len} \${label}",
-                  "max": "At most \${max} \${label}",
-                  "min": "At least \${min} \${label}",
-                  "range": "The amount of \${label} must be between \${min}-\${max}",
-                },
-                "date": {
-                  "format": "\${label} date format is invalid",
-                  "invalid": "\${label} is an invalid date",
-                  "parse": "\${label} cannot be converted to a date",
-                },
-                "default": "Field validation error for \${label}",
-                "enum": "\${label} must be one of [\${enum}]",
-                "number": {
-                  "len": "\${label} must be equal to \${len}",
-                  "max": "\${label} must be maximum \${max}",
-                  "min": "\${label} must be minimum \${min}",
-                  "range": "\${label} must be between \${min}-\${max}",
-                },
-                "pattern": {
-                  "mismatch": "\${label} does not match the pattern \${pattern}",
-                },
-                "required": "Please enter \${label}",
-                "string": {
-                  "len": "\${label} must be \${len} characters",
-                  "max": "\${label} must be up to \${max} characters",
-                  "min": "\${label} must be at least \${min} characters",
-                  "range": "\${label} must be between \${min}-\${max} characters",
-                },
-                "types": {
-                  "array": "\${label} is not a valid \${type}",
-                  "boolean": "\${label} is not a valid \${type}",
-                  "date": "\${label} is not a valid \${type}",
-                  "email": "\${label} is not a valid \${type}",
-                  "float": "\${label} is not a valid \${type}",
-                  "hex": "\${label} is not a valid \${type}",
-                  "integer": "\${label} is not a valid \${type}",
-                  "method": "\${label} is not a valid \${type}",
-                  "number": "\${label} is not a valid \${type}",
-                  "object": "\${label} is not a valid \${type}",
-                  "regexp": "\${label} is not a valid \${type}",
-                  "string": "\${label} is not a valid \${type}",
-                  "url": "\${label} is not a valid \${type}",
-                },
-                "whitespace": "\${label} cannot be a blank character",
-              }
-            }
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="hdist"
+            title="Horizontal Distribute"
+            type="button"
           >
-            <div
-              className="row"
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left sep"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="hdist"
-                  onClick={[MockFunction]}
-                  title="Horizontal Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="hdist"
-                    onClick={[Function]}
-                    title="Horizontal Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="top_align"
-                  onClick={[MockFunction]}
-                  title="Top Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="top_align"
-                    onClick={[Function]}
-                    title="Top Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="middle_align"
-                  onClick={[MockFunction]}
-                  title="Middle Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="middle_align"
-                    onClick={[Function]}
-                    title="Middle Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="bottom_align"
-                  onClick={[MockFunction]}
-                  title="Bottom Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="bottom_align"
-                    onClick={[Function]}
-                    title="Bottom Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="vdist"
-                  onClick={[MockFunction]}
-                  title="Vertical Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="vdist"
-                    onClick={[Function]}
-                    title="Vertical Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="left_align"
-                  onClick={[MockFunction]}
-                  title="Left Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="left_align"
-                    onClick={[Function]}
-                    title="Left Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="center_align"
-                  onClick={[MockFunction]}
-                  title="Center Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="center_align"
-                    onClick={[Function]}
-                    title="Center Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="right_align"
-                  onClick={[MockFunction]}
-                  title="Right Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="right_align"
-                    onClick={[Function]}
-                    title="Right Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-            <div
-              className="row"
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="top_align"
+            title="Top Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left"
-              >
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="group"
-                  onClick={[Function]}
-                  title="Group"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="group"
-                    onClick={[Function]}
-                    title="Group"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="ungroup"
-                  onClick={[Function]}
-                  title="Ungroup"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="ungroup"
-                    onClick={[Function]}
-                    title="Ungroup"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="union"
-                  onClick={[Function]}
-                  title="Union"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="union"
-                    onClick={[Function]}
-                    title="Union"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="subtract"
-                  onClick={[Function]}
-                  title="Subtract"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="subtract"
-                    onClick={[Function]}
-                    title="Subtract"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="intersect"
-                  onClick={[Function]}
-                  title="Intersect"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="intersect"
-                    onClick={[Function]}
-                    title="Intersect"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="difference"
-                  onClick={[Function]}
-                  title="Difference"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="difference"
-                    onClick={[Function]}
-                    title="Difference"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-          </FormProvider>
-        </ProviderChildren>
-      </ConfigProvider>
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="middle_align"
+            title="Middle Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="bottom_align"
+            title="Bottom Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="vdist"
+            title="Vertical Distribute"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="left_align"
+            title="Left Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="center_align"
+            title="Center Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="right_align"
+            title="Right Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="half left"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="group"
+            title="Group"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="ungroup"
+            title="Ungroup"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="union"
+            title="Union"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="subtract"
+            title="Subtract"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="intersect"
+            title="Intersect"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="difference"
+            title="Difference"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
     </div>
-    <DummyDimensionPanel
-      elem={null}
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
-    <DummyOptionsPanel
-      elem={null}
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyActionsPanel
-      elem={null}
-    >
-      <div>
-        This is dummy ActionsPanel
-      </div>
-    </DummyActionsPanel>
+    <div>
+      This is dummy DimensionPanel
+    </div>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+  ,
+</div>
 `;
 
 exports[`should render correctly one element is g element 1`] = `
-<ObjectPanel
-  elem={
-    <g
-      id="svg_1"
-    />
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <ConfigProvider
-        theme={
-          {
-            "components": {
-              "Button": {
-                "colorText": "#494949",
-                "colorTextDisabled": "#CECECE",
-                "controlHeight": 24,
-                "fontSize": 24,
-                "lineHeight": 1,
-                "lineWidth": 0,
-              },
-            },
-          }
-        }
+      <div
+        class="row"
       >
-        <ProviderChildren
-          parentContext={
-            {
-              "getPrefixCls": [Function],
-              "iconPrefixCls": "anticon",
-            }
-          }
-          theme={
-            {
-              "components": {
-                "Button": {
-                  "colorText": "#494949",
-                  "colorTextDisabled": "#CECECE",
-                  "controlHeight": 24,
-                  "fontSize": 24,
-                  "lineHeight": 1,
-                  "lineWidth": 0,
-                },
-              },
-            }
-          }
+        <div
+          class="half left sep"
         >
-          <FormProvider
-            validateMessages={
-              {
-                "array": {
-                  "len": "Must be \${len} \${label}",
-                  "max": "At most \${max} \${label}",
-                  "min": "At least \${min} \${label}",
-                  "range": "The amount of \${label} must be between \${min}-\${max}",
-                },
-                "date": {
-                  "format": "\${label} date format is invalid",
-                  "invalid": "\${label} is an invalid date",
-                  "parse": "\${label} cannot be converted to a date",
-                },
-                "default": "Field validation error for \${label}",
-                "enum": "\${label} must be one of [\${enum}]",
-                "number": {
-                  "len": "\${label} must be equal to \${len}",
-                  "max": "\${label} must be maximum \${max}",
-                  "min": "\${label} must be minimum \${min}",
-                  "range": "\${label} must be between \${min}-\${max}",
-                },
-                "pattern": {
-                  "mismatch": "\${label} does not match the pattern \${pattern}",
-                },
-                "required": "Please enter \${label}",
-                "string": {
-                  "len": "\${label} must be \${len} characters",
-                  "max": "\${label} must be up to \${max} characters",
-                  "min": "\${label} must be at least \${min} characters",
-                  "range": "\${label} must be between \${min}-\${max} characters",
-                },
-                "types": {
-                  "array": "\${label} is not a valid \${type}",
-                  "boolean": "\${label} is not a valid \${type}",
-                  "date": "\${label} is not a valid \${type}",
-                  "email": "\${label} is not a valid \${type}",
-                  "float": "\${label} is not a valid \${type}",
-                  "hex": "\${label} is not a valid \${type}",
-                  "integer": "\${label} is not a valid \${type}",
-                  "method": "\${label} is not a valid \${type}",
-                  "number": "\${label} is not a valid \${type}",
-                  "object": "\${label} is not a valid \${type}",
-                  "regexp": "\${label} is not a valid \${type}",
-                  "string": "\${label} is not a valid \${type}",
-                  "url": "\${label} is not a valid \${type}",
-                },
-                "whitespace": "\${label} cannot be a blank character",
-              }
-            }
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="hdist"
+            title="Horizontal Distribute"
+            type="button"
           >
-            <div
-              className="row"
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left sep"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="hdist"
-                  onClick={[MockFunction]}
-                  title="Horizontal Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="hdist"
-                    onClick={[Function]}
-                    title="Horizontal Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="top_align"
-                  onClick={[MockFunction]}
-                  title="Top Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="top_align"
-                    onClick={[Function]}
-                    title="Top Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="middle_align"
-                  onClick={[MockFunction]}
-                  title="Middle Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="middle_align"
-                    onClick={[Function]}
-                    title="Middle Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="bottom_align"
-                  onClick={[MockFunction]}
-                  title="Bottom Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="bottom_align"
-                    onClick={[Function]}
-                    title="Bottom Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="vdist"
-                  onClick={[MockFunction]}
-                  title="Vertical Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="vdist"
-                    onClick={[Function]}
-                    title="Vertical Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="left_align"
-                  onClick={[MockFunction]}
-                  title="Left Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="left_align"
-                    onClick={[Function]}
-                    title="Left Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="center_align"
-                  onClick={[MockFunction]}
-                  title="Center Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="center_align"
-                    onClick={[Function]}
-                    title="Center Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="right_align"
-                  onClick={[MockFunction]}
-                  title="Right Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="right_align"
-                    onClick={[Function]}
-                    title="Right Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-            <div
-              className="row"
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="top_align"
+            title="Top Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left"
-              >
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="group"
-                  onClick={[Function]}
-                  title="Group"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="group"
-                    onClick={[Function]}
-                    title="Group"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="ungroup"
-                  onClick={[Function]}
-                  title="Ungroup"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="ungroup"
-                    onClick={[Function]}
-                    title="Ungroup"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="union"
-                  onClick={[Function]}
-                  title="Union"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="union"
-                    onClick={[Function]}
-                    title="Union"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="subtract"
-                  onClick={[Function]}
-                  title="Subtract"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="subtract"
-                    onClick={[Function]}
-                    title="Subtract"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="intersect"
-                  onClick={[Function]}
-                  title="Intersect"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="intersect"
-                    onClick={[Function]}
-                    title="Intersect"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="difference"
-                  onClick={[Function]}
-                  title="Difference"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="difference"
-                    onClick={[Function]}
-                    title="Difference"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-          </FormProvider>
-        </ProviderChildren>
-      </ConfigProvider>
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="middle_align"
+            title="Middle Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="bottom_align"
+            title="Bottom Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="vdist"
+            title="Vertical Distribute"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="left_align"
+            title="Left Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="center_align"
+            title="Center Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="right_align"
+            title="Right Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="half left"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="group"
+            title="Group"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="ungroup"
+            title="Ungroup"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="union"
+            title="Union"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="subtract"
+            title="Subtract"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="intersect"
+            title="Intersect"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="difference"
+            title="Difference"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
     </div>
-    <DummyDimensionPanel
-      elem={
-        <g
-          id="svg_1"
-        />
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
-    <DummyOptionsPanel
-      elem={
-        <g
-          id="svg_1"
-        />
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyActionsPanel
-      elem={
-        <g
-          id="svg_1"
-        />
-      }
-    >
-      <div>
-        This is dummy ActionsPanel
-      </div>
-    </DummyActionsPanel>
+    <div>
+      This is dummy DimensionPanel
+    </div>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly one element not g element 1`] = `
-<ObjectPanel
-  elem={
-    <rect
-      id="svg_1"
-    />
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <ConfigProvider
-        theme={
-          {
-            "components": {
-              "Button": {
-                "colorText": "#494949",
-                "colorTextDisabled": "#CECECE",
-                "controlHeight": 24,
-                "fontSize": 24,
-                "lineHeight": 1,
-                "lineWidth": 0,
-              },
-            },
-          }
-        }
+      <div
+        class="row"
       >
-        <ProviderChildren
-          parentContext={
-            {
-              "getPrefixCls": [Function],
-              "iconPrefixCls": "anticon",
-            }
-          }
-          theme={
-            {
-              "components": {
-                "Button": {
-                  "colorText": "#494949",
-                  "colorTextDisabled": "#CECECE",
-                  "controlHeight": 24,
-                  "fontSize": 24,
-                  "lineHeight": 1,
-                  "lineWidth": 0,
-                },
-              },
-            }
-          }
+        <div
+          class="half left sep"
         >
-          <FormProvider
-            validateMessages={
-              {
-                "array": {
-                  "len": "Must be \${len} \${label}",
-                  "max": "At most \${max} \${label}",
-                  "min": "At least \${min} \${label}",
-                  "range": "The amount of \${label} must be between \${min}-\${max}",
-                },
-                "date": {
-                  "format": "\${label} date format is invalid",
-                  "invalid": "\${label} is an invalid date",
-                  "parse": "\${label} cannot be converted to a date",
-                },
-                "default": "Field validation error for \${label}",
-                "enum": "\${label} must be one of [\${enum}]",
-                "number": {
-                  "len": "\${label} must be equal to \${len}",
-                  "max": "\${label} must be maximum \${max}",
-                  "min": "\${label} must be minimum \${min}",
-                  "range": "\${label} must be between \${min}-\${max}",
-                },
-                "pattern": {
-                  "mismatch": "\${label} does not match the pattern \${pattern}",
-                },
-                "required": "Please enter \${label}",
-                "string": {
-                  "len": "\${label} must be \${len} characters",
-                  "max": "\${label} must be up to \${max} characters",
-                  "min": "\${label} must be at least \${min} characters",
-                  "range": "\${label} must be between \${min}-\${max} characters",
-                },
-                "types": {
-                  "array": "\${label} is not a valid \${type}",
-                  "boolean": "\${label} is not a valid \${type}",
-                  "date": "\${label} is not a valid \${type}",
-                  "email": "\${label} is not a valid \${type}",
-                  "float": "\${label} is not a valid \${type}",
-                  "hex": "\${label} is not a valid \${type}",
-                  "integer": "\${label} is not a valid \${type}",
-                  "method": "\${label} is not a valid \${type}",
-                  "number": "\${label} is not a valid \${type}",
-                  "object": "\${label} is not a valid \${type}",
-                  "regexp": "\${label} is not a valid \${type}",
-                  "string": "\${label} is not a valid \${type}",
-                  "url": "\${label} is not a valid \${type}",
-                },
-                "whitespace": "\${label} cannot be a blank character",
-              }
-            }
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="hdist"
+            title="Horizontal Distribute"
+            type="button"
           >
-            <div
-              className="row"
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left sep"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="hdist"
-                  onClick={[MockFunction]}
-                  title="Horizontal Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="hdist"
-                    onClick={[Function]}
-                    title="Horizontal Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="top_align"
-                  onClick={[MockFunction]}
-                  title="Top Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="top_align"
-                    onClick={[Function]}
-                    title="Top Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="middle_align"
-                  onClick={[MockFunction]}
-                  title="Middle Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="middle_align"
-                    onClick={[Function]}
-                    title="Middle Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="bottom_align"
-                  onClick={[MockFunction]}
-                  title="Bottom Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="bottom_align"
-                    onClick={[Function]}
-                    title="Bottom Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="vdist"
-                  onClick={[MockFunction]}
-                  title="Vertical Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="vdist"
-                    onClick={[Function]}
-                    title="Vertical Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="left_align"
-                  onClick={[MockFunction]}
-                  title="Left Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="left_align"
-                    onClick={[Function]}
-                    title="Left Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="center_align"
-                  onClick={[MockFunction]}
-                  title="Center Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="center_align"
-                    onClick={[Function]}
-                    title="Center Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="right_align"
-                  onClick={[MockFunction]}
-                  title="Right Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="right_align"
-                    onClick={[Function]}
-                    title="Right Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-            <div
-              className="row"
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="top_align"
+            title="Top Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left"
-              >
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="group"
-                  onClick={[Function]}
-                  title="Group"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="group"
-                    onClick={[Function]}
-                    title="Group"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="ungroup"
-                  onClick={[Function]}
-                  title="Ungroup"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="ungroup"
-                    onClick={[Function]}
-                    title="Ungroup"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="union"
-                  onClick={[Function]}
-                  title="Union"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="union"
-                    onClick={[Function]}
-                    title="Union"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="subtract"
-                  onClick={[Function]}
-                  title="Subtract"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="subtract"
-                    onClick={[Function]}
-                    title="Subtract"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="intersect"
-                  onClick={[Function]}
-                  title="Intersect"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="intersect"
-                    onClick={[Function]}
-                    title="Intersect"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="difference"
-                  onClick={[Function]}
-                  title="Difference"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="difference"
-                    onClick={[Function]}
-                    title="Difference"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-          </FormProvider>
-        </ProviderChildren>
-      </ConfigProvider>
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="middle_align"
+            title="Middle Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="bottom_align"
+            title="Bottom Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="vdist"
+            title="Vertical Distribute"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="left_align"
+            title="Left Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="center_align"
+            title="Center Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="right_align"
+            title="Right Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="half left"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="group"
+            title="Group"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="ungroup"
+            title="Ungroup"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="union"
+            title="Union"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="subtract"
+            title="Subtract"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="intersect"
+            title="Intersect"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="difference"
+            title="Difference"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
     </div>
-    <DummyDimensionPanel
-      elem={
-        <rect
-          id="svg_1"
-        />
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
-    <DummyOptionsPanel
-      elem={
-        <rect
-          id="svg_1"
-        />
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyActionsPanel
-      elem={
-        <rect
-          id="svg_1"
-        />
-      }
-    >
-      <div>
-        This is dummy ActionsPanel
-      </div>
-    </DummyActionsPanel>
+    <div>
+      This is dummy DimensionPanel
+    </div>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly two elements contains other types of elements 1`] = `
-<ObjectPanel
-  elem={
-    <g
-      data-tempgroup="true"
-      id="svg_3"
-    >
-      <path
-        id="svg_1"
-      />
-      <line
-        id="svg_2"
-      />
-    </g>
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <ConfigProvider
-        theme={
-          {
-            "components": {
-              "Button": {
-                "colorText": "#494949",
-                "colorTextDisabled": "#CECECE",
-                "controlHeight": 24,
-                "fontSize": 24,
-                "lineHeight": 1,
-                "lineWidth": 0,
-              },
-            },
-          }
-        }
+      <div
+        class="row"
       >
-        <ProviderChildren
-          parentContext={
-            {
-              "getPrefixCls": [Function],
-              "iconPrefixCls": "anticon",
-            }
-          }
-          theme={
-            {
-              "components": {
-                "Button": {
-                  "colorText": "#494949",
-                  "colorTextDisabled": "#CECECE",
-                  "controlHeight": 24,
-                  "fontSize": 24,
-                  "lineHeight": 1,
-                  "lineWidth": 0,
-                },
-              },
-            }
-          }
+        <div
+          class="half left sep"
         >
-          <FormProvider
-            validateMessages={
-              {
-                "array": {
-                  "len": "Must be \${len} \${label}",
-                  "max": "At most \${max} \${label}",
-                  "min": "At least \${min} \${label}",
-                  "range": "The amount of \${label} must be between \${min}-\${max}",
-                },
-                "date": {
-                  "format": "\${label} date format is invalid",
-                  "invalid": "\${label} is an invalid date",
-                  "parse": "\${label} cannot be converted to a date",
-                },
-                "default": "Field validation error for \${label}",
-                "enum": "\${label} must be one of [\${enum}]",
-                "number": {
-                  "len": "\${label} must be equal to \${len}",
-                  "max": "\${label} must be maximum \${max}",
-                  "min": "\${label} must be minimum \${min}",
-                  "range": "\${label} must be between \${min}-\${max}",
-                },
-                "pattern": {
-                  "mismatch": "\${label} does not match the pattern \${pattern}",
-                },
-                "required": "Please enter \${label}",
-                "string": {
-                  "len": "\${label} must be \${len} characters",
-                  "max": "\${label} must be up to \${max} characters",
-                  "min": "\${label} must be at least \${min} characters",
-                  "range": "\${label} must be between \${min}-\${max} characters",
-                },
-                "types": {
-                  "array": "\${label} is not a valid \${type}",
-                  "boolean": "\${label} is not a valid \${type}",
-                  "date": "\${label} is not a valid \${type}",
-                  "email": "\${label} is not a valid \${type}",
-                  "float": "\${label} is not a valid \${type}",
-                  "hex": "\${label} is not a valid \${type}",
-                  "integer": "\${label} is not a valid \${type}",
-                  "method": "\${label} is not a valid \${type}",
-                  "number": "\${label} is not a valid \${type}",
-                  "object": "\${label} is not a valid \${type}",
-                  "regexp": "\${label} is not a valid \${type}",
-                  "string": "\${label} is not a valid \${type}",
-                  "url": "\${label} is not a valid \${type}",
-                },
-                "whitespace": "\${label} cannot be a blank character",
-              }
-            }
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="hdist"
+            title="Horizontal Distribute"
+            type="button"
           >
-            <div
-              className="row"
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left sep"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="hdist"
-                  onClick={[MockFunction]}
-                  title="Horizontal Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="hdist"
-                    onClick={[Function]}
-                    title="Horizontal Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="top_align"
-                  onClick={[MockFunction]}
-                  title="Top Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="top_align"
-                    onClick={[Function]}
-                    title="Top Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="middle_align"
-                  onClick={[MockFunction]}
-                  title="Middle Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="middle_align"
-                    onClick={[Function]}
-                    title="Middle Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="bottom_align"
-                  onClick={[MockFunction]}
-                  title="Bottom Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="bottom_align"
-                    onClick={[Function]}
-                    title="Bottom Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="vdist"
-                  onClick={[MockFunction]}
-                  title="Vertical Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="vdist"
-                    onClick={[Function]}
-                    title="Vertical Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="left_align"
-                  onClick={[MockFunction]}
-                  title="Left Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="left_align"
-                    onClick={[Function]}
-                    title="Left Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="center_align"
-                  onClick={[MockFunction]}
-                  title="Center Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="center_align"
-                    onClick={[Function]}
-                    title="Center Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="right_align"
-                  onClick={[MockFunction]}
-                  title="Right Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="right_align"
-                    onClick={[Function]}
-                    title="Right Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-            <div
-              className="row"
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="top_align"
+            title="Top Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left"
-              >
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="group"
-                  onClick={[Function]}
-                  title="Group"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="group"
-                    onClick={[Function]}
-                    title="Group"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="ungroup"
-                  onClick={[Function]}
-                  title="Ungroup"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="ungroup"
-                    onClick={[Function]}
-                    title="Ungroup"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="union"
-                  onClick={[Function]}
-                  title="Union"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="union"
-                    onClick={[Function]}
-                    title="Union"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="subtract"
-                  onClick={[Function]}
-                  title="Subtract"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="subtract"
-                    onClick={[Function]}
-                    title="Subtract"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="intersect"
-                  onClick={[Function]}
-                  title="Intersect"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="intersect"
-                    onClick={[Function]}
-                    title="Intersect"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="difference"
-                  onClick={[Function]}
-                  title="Difference"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="difference"
-                    onClick={[Function]}
-                    title="Difference"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-          </FormProvider>
-        </ProviderChildren>
-      </ConfigProvider>
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="middle_align"
+            title="Middle Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="bottom_align"
+            title="Bottom Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="vdist"
+            title="Vertical Distribute"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="left_align"
+            title="Left Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="center_align"
+            title="Center Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="right_align"
+            title="Right Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="half left"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="group"
+            title="Group"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="ungroup"
+            title="Ungroup"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="union"
+            title="Union"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="subtract"
+            title="Subtract"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="intersect"
+            title="Intersect"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="difference"
+            title="Difference"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
     </div>
-    <DummyDimensionPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <path
-            id="svg_1"
-          />
-          <line
-            id="svg_2"
-          />
-        </g>
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
-    <DummyOptionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <path
-            id="svg_1"
-          />
-          <line
-            id="svg_2"
-          />
-        </g>
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyActionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <path
-            id="svg_1"
-          />
-          <line
-            id="svg_2"
-          />
-        </g>
-      }
-    >
-      <div>
-        This is dummy ActionsPanel
-      </div>
-    </DummyActionsPanel>
+    <div>
+      This is dummy DimensionPanel
+    </div>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
 
 exports[`should render correctly two elements contains rect, polygon or ellipse elements 1`] = `
-<ObjectPanel
-  elem={
-    <g
-      data-tempgroup="true"
-      id="svg_3"
-    >
-      <rect
-        id="svg_1"
-      />
-      <ellipse
-        id="svg_2"
-      />
-    </g>
-  }
->
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <ConfigProvider
-        theme={
-          {
-            "components": {
-              "Button": {
-                "colorText": "#494949",
-                "colorTextDisabled": "#CECECE",
-                "controlHeight": 24,
-                "fontSize": 24,
-                "lineHeight": 1,
-                "lineWidth": 0,
-              },
-            },
-          }
-        }
+      <div
+        class="row"
       >
-        <ProviderChildren
-          parentContext={
-            {
-              "getPrefixCls": [Function],
-              "iconPrefixCls": "anticon",
-            }
-          }
-          theme={
-            {
-              "components": {
-                "Button": {
-                  "colorText": "#494949",
-                  "colorTextDisabled": "#CECECE",
-                  "controlHeight": 24,
-                  "fontSize": 24,
-                  "lineHeight": 1,
-                  "lineWidth": 0,
-                },
-              },
-            }
-          }
+        <div
+          class="half left sep"
         >
-          <FormProvider
-            validateMessages={
-              {
-                "array": {
-                  "len": "Must be \${len} \${label}",
-                  "max": "At most \${max} \${label}",
-                  "min": "At least \${min} \${label}",
-                  "range": "The amount of \${label} must be between \${min}-\${max}",
-                },
-                "date": {
-                  "format": "\${label} date format is invalid",
-                  "invalid": "\${label} is an invalid date",
-                  "parse": "\${label} cannot be converted to a date",
-                },
-                "default": "Field validation error for \${label}",
-                "enum": "\${label} must be one of [\${enum}]",
-                "number": {
-                  "len": "\${label} must be equal to \${len}",
-                  "max": "\${label} must be maximum \${max}",
-                  "min": "\${label} must be minimum \${min}",
-                  "range": "\${label} must be between \${min}-\${max}",
-                },
-                "pattern": {
-                  "mismatch": "\${label} does not match the pattern \${pattern}",
-                },
-                "required": "Please enter \${label}",
-                "string": {
-                  "len": "\${label} must be \${len} characters",
-                  "max": "\${label} must be up to \${max} characters",
-                  "min": "\${label} must be at least \${min} characters",
-                  "range": "\${label} must be between \${min}-\${max} characters",
-                },
-                "types": {
-                  "array": "\${label} is not a valid \${type}",
-                  "boolean": "\${label} is not a valid \${type}",
-                  "date": "\${label} is not a valid \${type}",
-                  "email": "\${label} is not a valid \${type}",
-                  "float": "\${label} is not a valid \${type}",
-                  "hex": "\${label} is not a valid \${type}",
-                  "integer": "\${label} is not a valid \${type}",
-                  "method": "\${label} is not a valid \${type}",
-                  "number": "\${label} is not a valid \${type}",
-                  "object": "\${label} is not a valid \${type}",
-                  "regexp": "\${label} is not a valid \${type}",
-                  "string": "\${label} is not a valid \${type}",
-                  "url": "\${label} is not a valid \${type}",
-                },
-                "whitespace": "\${label} cannot be a blank character",
-              }
-            }
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="hdist"
+            title="Horizontal Distribute"
+            type="button"
           >
-            <div
-              className="row"
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left sep"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="hdist"
-                  onClick={[MockFunction]}
-                  title="Horizontal Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="hdist"
-                    onClick={[Function]}
-                    title="Horizontal Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="top_align"
-                  onClick={[MockFunction]}
-                  title="Top Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="top_align"
-                    onClick={[Function]}
-                    title="Top Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="middle_align"
-                  onClick={[MockFunction]}
-                  title="Middle Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="middle_align"
-                    onClick={[Function]}
-                    title="Middle Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="bottom_align"
-                  onClick={[MockFunction]}
-                  title="Bottom Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="bottom_align"
-                    onClick={[Function]}
-                    title="Bottom Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="vdist"
-                  onClick={[MockFunction]}
-                  title="Vertical Distribute"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="vdist"
-                    onClick={[Function]}
-                    title="Vertical Distribute"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="left_align"
-                  onClick={[MockFunction]}
-                  title="Left Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="left_align"
-                    onClick={[Function]}
-                    title="Left Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="center_align"
-                  onClick={[MockFunction]}
-                  title="Center Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="center_align"
-                    onClick={[Function]}
-                    title="Center Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="right_align"
-                  onClick={[MockFunction]}
-                  title="Right Align"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="right_align"
-                    onClick={[Function]}
-                    title="Right Align"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-            <div
-              className="row"
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="top_align"
+            title="Top Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
             >
-              <div
-                className="half left"
-              >
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="group"
-                  onClick={[Function]}
-                  title="Group"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="group"
-                    onClick={[Function]}
-                    title="Group"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={true}
-                  icon={<svgr-url />}
-                  id="ungroup"
-                  onClick={[Function]}
-                  title="Ungroup"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={true}
-                    id="ungroup"
-                    onClick={[Function]}
-                    title="Ungroup"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-              <div
-                className="half right"
-              >
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="union"
-                  onClick={[Function]}
-                  title="Union"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="union"
-                    onClick={[Function]}
-                    title="Union"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="subtract"
-                  onClick={[Function]}
-                  title="Subtract"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="subtract"
-                    onClick={[Function]}
-                    title="Subtract"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="intersect"
-                  onClick={[Function]}
-                  title="Intersect"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="intersect"
-                    onClick={[Function]}
-                    title="Intersect"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-                <Button
-                  disabled={false}
-                  icon={<svgr-url />}
-                  id="difference"
-                  onClick={[Function]}
-                  title="Difference"
-                  type="text"
-                >
-                  <Empty />
-                  <button
-                    className="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
-                    disabled={false}
-                    id="difference"
-                    onClick={[Function]}
-                    title="Difference"
-                    type="button"
-                  >
-                    <svgr-url />
-                  </button>
-                </Button>
-              </div>
-            </div>
-          </FormProvider>
-        </ProviderChildren>
-      </ConfigProvider>
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="middle_align"
+            title="Middle Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="bottom_align"
+            title="Bottom Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="vdist"
+            title="Vertical Distribute"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="left_align"
+            title="Left Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="center_align"
+            title="Center Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="right_align"
+            title="Right Align"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="half left"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="group"
+            title="Group"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
+            id="ungroup"
+            title="Ungroup"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+        <div
+          class="half right"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="union"
+            title="Union"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="subtract"
+            title="Subtract"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="intersect"
+            title="Intersect"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            id="difference"
+            title="Difference"
+            type="button"
+          >
+            <span
+              class="ant-btn-icon"
+            >
+              <svgr-url />
+            </span>
+            
+          </button>
+        </div>
+      </div>
     </div>
-    <DummyDimensionPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <rect
-            id="svg_1"
-          />
-          <ellipse
-            id="svg_2"
-          />
-        </g>
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
-    <DummyOptionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <rect
-            id="svg_1"
-          />
-          <ellipse
-            id="svg_2"
-          />
-        </g>
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyActionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <rect
-            id="svg_1"
-          />
-          <ellipse
-            id="svg_2"
-          />
-        </g>
-      }
-    >
-      <div>
-        This is dummy ActionsPanel
-      </div>
-    </DummyActionsPanel>
+    <div>
+      This is dummy DimensionPanel
+    </div>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</ObjectPanel>
+</div>
 `;
