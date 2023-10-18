@@ -6,6 +6,7 @@ import { Button, Col, Form, InputNumber, Modal, Row } from 'antd';
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import deviceMaster from 'helpers/device-master';
+import isDev from 'helpers/is-dev';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
@@ -27,9 +28,10 @@ interface Props {
 const PROGRESS_ID = 'fish-eye-calibration';
 const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): JSX.Element => {
   const lang = useI18n();
-  const [mode, setMode] = useState(initMode);
-  const [img, setImg] = useState<{ blob: Blob, url: string }>(null);
-  const [imgs, setImgs] = useState<{ height: number; url: string, blob: Blob }[]>([]);
+  const isDevMode = isDev();
+  const [mode, setMode] = useState(isDevMode ? initMode : Mode.FETCH);
+  const [img, setImg] = useState<{ blob: Blob; url: string }>(null);
+  const [imgs, setImgs] = useState<{ height: number; url: string; blob: Blob }[]>([]);
   const imgsRef = useRef(imgs);
 
   const [form] = Form.useForm();
@@ -53,7 +55,17 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
     const topHeight = Math.floor(topImg.height / 2);
     const bottomHeight = topImg.height - topHeight;
     ctx.drawImage(topImg, 0, 0, topImg.width, topHeight, 0, 0, topImg.width, topHeight);
-    ctx.drawImage(bottomImg, 0, topHeight, topImg.width, bottomHeight, 0, topHeight, topImg.width, bottomHeight);
+    ctx.drawImage(
+      bottomImg,
+      0,
+      topHeight,
+      topImg.width,
+      bottomHeight,
+      0,
+      topHeight,
+      topImg.width,
+      bottomHeight
+    );
     return new Promise((resolve) => canvas.toBlob(resolve));
   };
 
@@ -63,7 +75,9 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
       const res = await deviceMaster.takeOnePicture();
       if (!res) alertCaller.popUpError({ message: 'tUnable to get image' });
       const newImgUrl = URL.createObjectURL(res.imgBlob);
-      const newBlob = await (isTopHalf ? combineImgs(newImgUrl, img.url) : combineImgs(img.url, newImgUrl));
+      const newBlob = await (isTopHalf
+        ? combineImgs(newImgUrl, img.url)
+        : combineImgs(img.url, newImgUrl));
       setImg({ blob: newBlob, url: URL.createObjectURL(newBlob) });
       URL.revokeObjectURL(newImgUrl);
       URL.revokeObjectURL(img.url);
@@ -91,28 +105,37 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
   };
 
   const fetchCalibImage = async () => {
-    const newImages: { height: number; url: string, blob: Blob }[] = [];
+    const newImages: { height: number; url: string; blob: Blob }[] = [];
     const startHeight = -19;
     const endHeight = 32;
     const total = endHeight - startHeight + 1;
     let step = parseInt(window?.localStorage.getItem('fisheye-cali-step'), 10);
     step = Number.isNaN(step) ? 4 : step;
 
-    progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: '下載圖片中', percentage: 0 });
+    progressCaller.openSteppingProgress({
+      id: PROGRESS_ID,
+      message: lang.calibration.downloading_pictures,
+      percentage: 0,
+    });
     try {
       for (let height = startHeight; height <= endHeight; height += 1) {
         // eslint-disable-next-line no-continue
         if (height !== startHeight && (endHeight - height) % step !== 0) continue;
         const heightStr = height.toFixed(1);
         progressCaller.update(PROGRESS_ID, {
-          message: '下載圖片中',
+          message: lang.calibration.downloading_pictures,
           percentage: Math.round(100 * ((height - startHeight + 1) / total)),
         });
-        const bottomImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_top_left.jpg`) as Blob;
+        const bottomImg = (await deviceMaster.fetchCameraCalibImage(
+          `pic_${heightStr}_top_left.jpg`
+        )) as Blob;
         const bottomImgUrl = URL.createObjectURL(bottomImg);
-        if (height < 20) newImages.push({ height, url: URL.createObjectURL(bottomImg), blob: bottomImg });
+        if (height < 20)
+          newImages.push({ height, url: URL.createObjectURL(bottomImg), blob: bottomImg });
         else {
-          const topImg = await deviceMaster.fetchCameraCalibImage(`pic_${heightStr}_bottom_right.jpg`) as Blob;
+          const topImg = (await deviceMaster.fetchCameraCalibImage(
+            `pic_${heightStr}_bottom_right.jpg`
+          )) as Blob;
           const topImgUrl = URL.createObjectURL(topImg);
           const combined = await combineImgs(topImgUrl, bottomImgUrl);
           newImages.push({ height, url: URL.createObjectURL(combined), blob: combined });
@@ -121,12 +144,22 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
         URL.revokeObjectURL(bottomImgUrl);
       }
     } catch (err) {
-      alertCaller.popUpError({ message: `tUnable to get image ${err}` });
+      let errMsg = err.message || err.error;
+      if (!errMsg) {
+        try {
+          errMsg = JSON.stringify(err);
+        } catch {
+          errMsg = 'Unknown Error';
+        }
+      }
+      console.error('Failed to download pictures', err);
+      alertCaller.popUpError({ message: `${lang.calibration.failed_to_download_pictures}: ${errMsg}` });
       onClose(false);
     } finally {
       progressCaller.popById(PROGRESS_ID);
     }
     setImgs(newImages);
+    if (!isDevMode) onNext(newImages);
   };
 
   useEffect(() => {
@@ -145,7 +178,7 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
         onNo: () => setMode(Mode.MANUAL),
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   useEffect(() => {
@@ -160,27 +193,30 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
     setImgs(imgs.filter((_, index) => index !== i));
   };
 
-  const btns = mode === Mode.MANUAL ? [
-    <Button onClick={() => takeHalfPicture(true)} key="take-upper-picture">
-      tTake Upper Picture
-    </Button>,
-    <Button onClick={() => takeHalfPicture(false)} key="take-lower-picture">
-      tTake Lower Picture
-    </Button>,
-    <Button onClick={handleTakePicture} key="take-picture">
-      tTake Picture
-    </Button>,
-    <Button onClick={handleAddImage} key="add-image">
-      tAdd Image
-    </Button>,
-    <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
-      {lang.buttons.next}
-    </Button>,
-  ] : [
-    <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
-      {lang.buttons.next}
-    </Button>,
-  ];
+  const btns =
+    mode === Mode.MANUAL
+      ? [
+          <Button onClick={() => takeHalfPicture(true)} key="take-upper-picture">
+            tTake Upper Picture
+          </Button>,
+          <Button onClick={() => takeHalfPicture(false)} key="take-lower-picture">
+            tTake Lower Picture
+          </Button>,
+          <Button onClick={handleTakePicture} key="take-picture">
+            tTake Picture
+          </Button>,
+          <Button onClick={handleAddImage} key="add-image">
+            tAdd Image
+          </Button>,
+          <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
+            {lang.buttons.next}
+          </Button>,
+        ]
+      : [
+          <Button type="primary" disabled={imgs.length < 1} onClick={() => onNext(imgs)} key="next">
+            {lang.buttons.next}
+          </Button>,
+        ];
 
   return (
     <Modal
@@ -201,11 +237,7 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
               </div>
             </Col>
             <Col span={12}>
-              <Form
-                size="small"
-                className="controls"
-                form={form}
-              >
+              <Form size="small" className="controls" form={form}>
                 <Form.Item name="height" label="tHeight" initialValue={3}>
                   <InputNumber<number>
                     type="number"
@@ -230,7 +262,9 @@ const Calibrate = ({ mode: initMode = Mode.UNKNOWN, onClose, onNext }: Props): J
               <div className={styles.container} key={url}>
                 <img src={url} />
                 <div>{height}mm</div>
-                <button type="button" onClick={() => removeImg(i)}>remove</button>
+                <button type="button" onClick={() => removeImg(i)}>
+                  remove
+                </button>
               </div>
             ))}
           </div>

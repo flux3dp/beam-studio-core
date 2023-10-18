@@ -17,6 +17,9 @@ jest.mock('helpers/device-master', () => ({
   takeOnePicture: () => mockTakeOnePicture(),
 }));
 
+const mockIsDev = jest.fn();
+jest.mock('helpers/is-dev', () => () => mockIsDev());
+
 jest.mock('helpers/useI18n', () => () => ({
   buttons: {
     next: 'next',
@@ -35,6 +38,7 @@ describe('test Calibrate', () => {
     global.URL.createObjectURL = mockCreateObjectURL;
     global.URL.revokeObjectURL = mockRevokeObjectURL;
     mockConnectCamera.mockResolvedValue(undefined);
+    mockIsDev.mockReturnValue(true);
   });
 
   it('should render correctly', async () => {

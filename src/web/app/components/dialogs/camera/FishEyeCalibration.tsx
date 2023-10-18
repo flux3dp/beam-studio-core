@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import dialogCaller from 'app/actions/dialog-caller';
 import deviceMaster from 'helpers/device-master';
+import isDev from 'helpers/is-dev';
 import progressCaller from 'app/actions/progress-caller';
+import useI18n from 'helpers/useI18n';
 import {
   addFisheyeCalibrateImg,
   calculateRegressionParam,
@@ -17,7 +19,7 @@ import { FisheyeCameraParameters } from 'app/constants/camera-calibration-consta
 
 import Align from './FishEyeCalibration/Align';
 import Calibrate from './FishEyeCalibration/Calibrate';
-import Cut from './FishEyeCalibration/Cut';
+import Instruction from './FishEyeCalibration/Instruction';
 
 const PROGRESS_ID = 'fish-eye-calibration';
 const DIALOG_ID = 'fish-eye-calibration';
@@ -25,20 +27,39 @@ const DIALOG_ID = 'fish-eye-calibration';
 enum Step {
   WAITING = 0,
   CALIBRATE = 1,
-  CUT = 2,
-  ALIGN = 3,
+  PUT_PAPER = 2,
+  FOCUS_AND_CUT = 3,
+  ALIGN = 4,
+}
+
+enum CalibrationType {
+  CAMERA = 1,
+  PRINTER_HEAD = 2,
+  IR_LASER = 3,
 }
 
 interface Props {
-  step?: Step;
+  type?: CalibrationType;
   onClose: (completed?: boolean) => void;
 }
 
+const calibrated = {
+  [CalibrationType.CAMERA]: new Set<string>(),
+  [CalibrationType.PRINTER_HEAD]: new Set<string>(),
+  [CalibrationType.IR_LASER]: new Set<string>(),
+};
+
 // TODO: add unit test
-const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): JSX.Element => {
+const FishEyeCalibration = ({
+  type = CalibrationType.CAMERA,
+  onClose,
+}: Props): JSX.Element => {
+  const isDevMode = isDev();
+  const lang = useI18n().calibration;
   const param = useRef<FisheyeCameraParameters>({} as any);
-  const [step, setStep] = useState<Step>(initStep);
-  const askSkipCalculation = async () => {
+  const [step, setStep] = useState<Step>(Step.WAITING);
+  const currentDeviceId = useMemo(() => deviceMaster.currentDevice.info.uuid, []);
+  const checkFirstStep = async () => {
     let fisheyeParameters: FisheyeCameraParameters = null;
     try {
       fisheyeParameters = await deviceMaster.fetchFisheyeParams();
@@ -49,110 +70,167 @@ const FishEyeCalibration = ({ step: initStep = Step.WAITING, onClose }: Props): 
       setStep(Step.CALIBRATE);
       return;
     }
-    const res = await new Promise<boolean>((resolve) => {
-      alertCaller.popUp({
-        message: 'Skip Caculating?',
-        buttonType: alertConstants.YES_NO,
-        onYes: () => resolve(true),
-        onNo: () => resolve(false),
+    if (isDevMode) {
+      const res = await new Promise<boolean>((resolve) => {
+        alertCaller.popUp({
+          message: 'Skip Caculating?',
+          buttonType: alertConstants.YES_NO,
+          onYes: () => resolve(true),
+          onNo: () => resolve(false),
+        });
       });
-    });
-    if (!res) {
-      setStep(Step.CALIBRATE);
-      return;
+      if (!res) {
+        setStep(Step.CALIBRATE);
+        return;
+      }
     }
     const { k, d, heights, points, z3regParam } = fisheyeParameters;
     param.current = { ...param.current, k, d, heights, points, z3regParam };
-    setStep(Step.CUT);
+    if (calibrated[type].has(currentDeviceId)) {
+      const res = await new Promise<boolean>((resolve) => {
+        alertCaller.popUp({
+          message: lang.ask_for_readjust,
+          buttonType: alertConstants.YES_NO,
+          onYes: () => resolve(true),
+          onNo: () => resolve(false),
+        });
+      });
+      if (res) {
+        setStep(Step.ALIGN);
+        return;
+      }
+    }
+    setStep(Step.PUT_PAPER);
   };
 
   useEffect(() => {
-    if (step === Step.WAITING) askSkipCalculation();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (step === Step.WAITING) checkFirstStep();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMultiHeightCalibrateNext = async (imgs: { height: number; blob: Blob }[]) => {
     try {
-      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'tUploading Images', percentage: 0 });
+      progressCaller.openSteppingProgress({
+        id: PROGRESS_ID,
+        message: lang.uploading_images,
+        percentage: 0,
+      });
       await startFisheyeCalibrate();
       for (let i = 0; i < imgs.length; i += 1) {
         const { height, blob } = imgs[i];
         // eslint-disable-next-line no-await-in-loop
         await addFisheyeCalibrateImg(height, blob);
         progressCaller.update(PROGRESS_ID, {
-          message: 'tUploading Images',
+          message: lang.uploading_images,
           percentage: Math.round(100 * ((i + 1) / imgs.length)),
         });
       }
       progressCaller.popById(PROGRESS_ID);
-      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Camera Matrix' });
+      progressCaller.openSteppingProgress({
+        id: PROGRESS_ID,
+        message: lang.calculating_camera_matrix,
+      });
       const { k, d } = await doFishEyeCalibration((val) => {
         progressCaller.update(PROGRESS_ID, {
-          message: 'Calculating Camera Matrix',
+          message: lang.calculating_camera_matrix,
           percentage: Math.round(100 * val),
         });
       });
       progressCaller.popById(PROGRESS_ID);
-      progressCaller.openSteppingProgress({ id: PROGRESS_ID, message: 'Calculating Perspective Points' });
+      progressCaller.openSteppingProgress({
+        id: PROGRESS_ID,
+        message: lang.calculating_regression_parameters,
+      });
       const { data, errors } = await calculateRegressionParam((val) => {
         progressCaller.update(PROGRESS_ID, {
-          message: 'Calculating Points Regression Parameters',
+          message: lang.calculating_regression_parameters,
           percentage: Math.round(100 * val),
         });
       });
-      // const { points, heights, errors } = await findPerspectivePoints((val) => {
-      //   progressCaller.update(PROGRESS_ID, {
-      //     message: 'Calculating Perspective Points',
-      //     percentage: Math.round(100 * val),
-      //   });
-      // });
       param.current = { ...param.current, k, d, z3regParam: data };
-      setStep(Step.CUT);
+      setStep(Step.PUT_PAPER);
       if (errors.length > 0) {
         console.log(errors);
-        const errorHeights = errors.map((e) => e.height).join(', ');
-        alertCaller.popUp({ message: `tUnable to find perspective points for heights: ${errorHeights}` });
+        if (isDevMode) {
+          const errorHeights = errors.map((e) => e.height).join(', ');
+          alertCaller.popUp({
+            message: `Unable to find perspective points for heights: ${errorHeights}`,
+          });
+        }
       }
     } catch (e) {
-      alertCaller.popUp({ message: `tUnable to calibrate camera ${e}` });
+      alertCaller.popUp({ message: `${lang.failed_to_calibrate_camera}: ${e}` });
     } finally {
       progressCaller.popById(PROGRESS_ID);
     }
   };
 
-  const handleCutNext = useCallback(() => setStep(Step.ALIGN), []);
-  const handleCutBack = useCallback(() => setStep(Step.CALIBRATE), []);
-
-  const handleAlignBack = useCallback(() => setStep(Step.CUT), []);
-  const handleAlignNext = useCallback((x: number, y: number) => {
-    param.current = { ...param.current, center: [x, y] };
-    try {
-      setFisheyeConfig(param.current);
-    } catch (err) {
-      alertCaller.popUp({ message: `tUnable to save camera config ${err}` });
-    }
-    onClose(true);
-  }, [onClose]);
-
+  const handleAlignNext = useCallback(
+    (x: number, y: number) => {
+      param.current = { ...param.current, center: [x, y] };
+      try {
+        setFisheyeConfig(param.current);
+      } catch (err) {
+        alertCaller.popUp({ message: `${lang.failed_to_save_calibration_results} ${err}` });
+      }
+      onClose(true);
+    },
+    [onClose, lang.failed_to_save_calibration_results]
+  );
   switch (step) {
     case Step.CALIBRATE:
-      return (
-        <Calibrate
-          onClose={onClose}
-          onNext={handleMultiHeightCalibrateNext}
-        />
-      );
-    case Step.CUT:
-      return (
-        <Cut onBack={handleCutBack} onClose={onClose} onNext={handleCutNext} />
-      );
+      return <Calibrate onClose={onClose} onNext={handleMultiHeightCalibrateNext} />;
     case Step.ALIGN:
       return (
         <Align
           fisheyeParam={param.current}
-          onBack={handleAlignBack}
+          onBack={() => setStep(Step.FOCUS_AND_CUT)}
           onNext={handleAlignNext}
           onClose={onClose}
+        />
+      );
+    case Step.PUT_PAPER:
+      return (
+        <Instruction
+          onClose={() => onClose(false)}
+          title={lang.camera_calibration}
+          text={lang.please_place_paper}
+          buttons={[
+            { label: lang.next, onClick: () => setStep(Step.FOCUS_AND_CUT), type: 'primary' },
+          ]}
+          animationSrcs={[
+            { src: 'video/put_paper.webm', type: 'video/webm' },
+            { src: 'video/put_paper.mp4', type: 'video/mp4' },
+          ]}
+        />
+      );
+    case Step.FOCUS_AND_CUT:
+      return (
+        <Instruction
+          onClose={() => onClose(false)}
+          title={lang.camera_calibration}
+          text={lang.ador_autofocus}
+          buttons={[
+            { label: lang.back, onClick: () => setStep(Step.PUT_PAPER) },
+            {
+              label: lang.start_engrave,
+              onClick: async () => {
+                progressCaller.openNonstopProgress({
+                  id: PROGRESS_ID,
+                  message: lang.drawing_calibration_image,
+                });
+                try {
+                  await deviceMaster.doAdorCalibrationCut();
+                  calibrated[type].add(currentDeviceId);
+                  setStep(Step.ALIGN);
+                } finally {
+                  progressCaller.popById(PROGRESS_ID);
+                }
+              },
+              type: 'primary',
+            },
+          ]}
+          animationSrcs={[{ src: 'video/autofocus.webm', type: 'video/webm' }]}
         />
       );
     default:

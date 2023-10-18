@@ -5,6 +5,7 @@ import { Button, Col, Form, InputNumber, Modal, Row } from 'antd';
 import alertCaller from 'app/actions/alert-caller';
 import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
+import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
 import { getPerspectivePointsZ3Regression, interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
@@ -21,6 +22,7 @@ interface Props {
 // Guess from half of the image size
 const initScrollLeft = Math.round(200 + 2150 / 2);
 const initScrollTop = Math.round(300 + 1500 / 2);
+const PROGRESS_ID = 'calibration-align';
 
 const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element => {
   const imgContainerRef = useRef<HTMLDivElement>(null);
@@ -28,42 +30,56 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
   const [form] = Form.useForm();
 
   const [img, setImg] = useState<{ blob: Blob, url: string }>(null);
-  const handleTakePicture = async () => {
-    const { imgBlob } = await deviceMaster.takeOnePicture();
-    if (!imgBlob) alertCaller.popUpError({ message: 'tUnable to get image' });
+  const handleTakePicture = async (retryTimes = 0) => {
+    progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.calibration.taking_picture });
+    const { imgBlob } = await deviceMaster.takeOnePicture() || {};
+    if (!imgBlob) {
+      if (retryTimes < 3) handleTakePicture(retryTimes + 1);
+      else alertCaller.popUpError({ message: 'Unable to get image' });
+    }
     else setImg({ blob: imgBlob, url: URL.createObjectURL(imgBlob) });
+    progressCaller.popById(PROGRESS_ID);
   };
 
+  const initSetup = useCallback(async () => {
+    progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.calibration.taking_picture });
+    try {
+      await deviceMaster.connectCamera();
+      let enteredRawMode = false;
+      let height = 0;
+      try {
+        await deviceMaster.enterRawMode();
+        enteredRawMode = true;
+        const res = await deviceMaster.rawGetProbePos();
+        const { z, didAf } = res;
+        if (didAf) height = deviceConstants.WORKAREA_DEEP[deviceMaster.currentDevice.info.model] - z;
+      } catch (e) {
+        // do nothing
+      } finally {
+        if (enteredRawMode) await deviceMaster.endRawMode();
+      }
+      const { k, d, z3regParam, heights, points } = fisheyeParam;
+      console.log('Use Height: ', height);
+      if (heights && points) {
+        let perspectivePoints = points[0];
+        if (height !== null && !Number.isNaN(height)) {
+          perspectivePoints = interpolatePointsFromHeight(height, heights, points);
+        }
+        await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
+      } else if (z3regParam) {
+        const perspectivePoints = getPerspectivePointsZ3Regression(height, z3regParam);
+        await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
+      }
+    } finally {
+      progressCaller.popById(PROGRESS_ID);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
-    deviceMaster.connectCamera()
-      .then(async () => {
-        let enteredRawMode = false;
-        let height = 0;
-        try {
-          await deviceMaster.enterRawMode();
-          enteredRawMode = true;
-          const res = await deviceMaster.rawGetProbePos();
-          const { z, didAf } = res;
-          if (didAf) height = deviceConstants.WORKAREA_DEEP[deviceMaster.currentDevice.info.model] - z;
-        } catch (e) {
-          // do nothing
-        } finally {
-          if (enteredRawMode) await deviceMaster.endRawMode();
-        }
-        const { k, d, z3regParam, heights, points } = fisheyeParam;
-        console.log('Use Height: ', height);
-        if (heights && points) {
-          let perspectivePoints = points[0];
-          if (height !== null && !Number.isNaN(height)) {
-            perspectivePoints = interpolatePointsFromHeight(height, heights, points);
-          }
-          await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
-        } else if (z3regParam) {
-          const perspectivePoints = getPerspectivePointsZ3Regression(height, z3regParam);
-          await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
-        }
-        handleTakePicture();
-      });
+    initSetup().then(() => {
+      handleTakePicture();
+    })
     return () => deviceMaster.disconnectCamera();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -111,7 +127,7 @@ const Align = ({ fisheyeParam, onClose, onBack, onNext }: Props): JSX.Element =>
         <Button onClick={onBack} key="back">
           {lang.buttons.back}
         </Button>,
-        <Button onClick={handleTakePicture} key="take-picture">
+        <Button onClick={() => handleTakePicture(0)} key="take-picture">
           tTake Picture
         </Button>,
         <Button type="primary" onClick={handleNext} key="next">
