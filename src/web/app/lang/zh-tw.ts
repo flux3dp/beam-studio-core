@@ -1364,6 +1364,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 校正相機失敗',
     failed_to_save_calibration_results: '#849 儲存校正結果失敗，請再試一次',
     ador_autofocus: '在機器面板上長壓「AF」圖示 3 秒鐘，讓探針觸碰對焦區塊。',
+    align_red_cross_cut: '請將紅色十字的中心對齊切割出來的十字中心。',
+    align_red_cross_print: '請將紅色十字的中心對齊列印出來的十字中心。',
+    retake: '重拍',
   },
   input_machine_password: {
     require_password: '"%s" 需要密碼',

@@ -1,3 +1,7 @@
+.text {
+  margin-bottom: 10px;
+}
+
 .container {
   position: relative;
 
@@ -16,6 +20,29 @@
       top: 0;
       position: absolute;
     }
+
+    .last {
+      position: absolute;
+
+      .bar {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.3);
+        width: 100px;
+        height: 100px;
+
+        &.hor {
+          top: -0.5px;
+          left: -50px;
+          height: 1px;
+        }
+
+        &.vert {
+          top: -50px;
+          left: -0.5px;
+          width: 1px;
+        }
+      }
+    }
   }
 
   .mark {
@@ -30,18 +57,28 @@
       background: rgba(255, 0, 0, 0.7);
       width: 100px;
       height: 100px;
-    }
 
-    .hor {
-      top: calc(50% - 1px);
-      left: calc(50% - 50px);
-      height: 2px;
-    }
+      &.hor {
+        top: calc(50% - 0.5px);
+        left: calc(50% - 50px);
+        height: 1px;
+      }
 
-    .vert {
-      top: calc(50% - 50px);
-      left: calc(50% - 1px);
-      width: 2px;
+      &.vert {
+        top: calc(50% - 50px);
+        left: calc(50% - 0.5px);
+        width: 1px;
+      }
     }
   }
+}
+
+.hints {
+  width: 100%;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.footer-button {
+  text-transform: uppercase;
 }
