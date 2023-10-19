@@ -84,8 +84,8 @@ const FishEyeCalibration = ({
         return;
       }
     }
-    const { k, d, heights, points, z3regParam } = fisheyeParameters;
-    param.current = { ...param.current, k, d, heights, points, z3regParam };
+    const { k, d, heights, points, z3regParam, center } = fisheyeParameters;
+    param.current = { ...param.current, k, d, heights, points, z3regParam, center };
     if (calibrated[type].has(currentDeviceId)) {
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
@@ -108,6 +108,7 @@ const FishEyeCalibration = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO: can be moved out of this component
   const handleMultiHeightCalibrateNext = async (imgs: { height: number; blob: Blob }[]) => {
     try {
       progressCaller.openSteppingProgress({

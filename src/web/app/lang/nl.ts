@@ -1364,6 +1364,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 Kalibreren van de camera mislukt',
     failed_to_save_calibration_results: '#849 Mislukt om kalibratieresultaten op te slaan, probeer opnieuw',
     ador_autofocus: 'Druk 3 seconden op het "AF" -pictogram op de hoofdpagina van de machine en laat de sonde het scherpstelblok raken.',
+    align_red_cross_cut: 'Graag het midden van het rode kruis uitlijnen met het uitgesneden kruis.',
+    align_red_cross_print: 'Graag het midden van het rode kruis uitlijnen met het afgedrukte kruis.',
+    retake: 'Opnieuw nemen',
   },
   input_machine_password: {
     require_password: '%s vereist een wachtwoord',

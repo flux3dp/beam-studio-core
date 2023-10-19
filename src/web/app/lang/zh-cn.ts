@@ -1364,6 +1364,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 无法校准相机',
     failed_to_save_calibration_results: '#849 保存校准结果失败，请重试',
     ador_autofocus: '在机器主页上按“AF”图标3秒钟，让探头触碰对焦块。',
+    align_red_cross_cut: '请将红色十字的中心与切割十字对齐。',
+    align_red_cross_print: '请将红色十字的中心与印刷十字对齐。',
+    retake: '重拍',
   },
   input_machine_password: {
     require_password: '"%s" 需要密码',
