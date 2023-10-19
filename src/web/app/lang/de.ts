@@ -1365,6 +1365,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 Fehler bei der Kamerakalibrierung',
     failed_to_save_calibration_results: '#849 Fehler beim Speichern der Kalibrierungsergebnisse, bitte versuchen Sie es erneut',
     ador_autofocus: 'Drücken Sie 3 Sekunden lang auf das "AF"-Symbol auf der Hauptseite der Maschine und lassen Sie die Sonde den Fokussierblock berühren.',
+    align_red_cross_cut: 'Bitte alignieren Sie die Mitte des roten Kreuzes mit dem geschnittenen Kreuz.',
+    align_red_cross_print: 'Bitte alignieren Sie die Mitte des roten Kreuzes mit dem gedruckten Kreuz.',
+    retake: 'Wiederholen',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',

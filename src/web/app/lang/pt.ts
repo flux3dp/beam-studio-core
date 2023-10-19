@@ -1365,6 +1365,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 Falha na calibração da câmera',
     failed_to_save_calibration_results: '#849 Falha ao salvar os resultados de calibração, por favor, tente novamente',
     ador_autofocus: 'Pressione o ícone "AF" na página principal da máquina por 3 segundos e deixe a sonda tocar no bloco de foco.',
+    align_red_cross_cut: 'Por favor, alinhe o centro da cruz vermelha com a cruz cortada.',
+    align_red_cross_print: 'Por favor, alinhe o centro da cruz vermelha com a cruz impressa.',
+    retake: 'Repetir',
   },
   input_machine_password: {
     require_password: 'requer uma senha',

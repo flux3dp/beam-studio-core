@@ -45,6 +45,9 @@ jest.mock('helpers/useI18n', () => () => ({
   },
   calibration: {
     taking_picture: 'taking_picture',
+    use_last_config: 'use_last_config',
+    retake: 'retake',
+    show_last_config: 'show_last_config',
   },
 }));
 
@@ -91,7 +94,7 @@ describe('test Align', () => {
     mockEnterRawMode.mockResolvedValue(undefined);
     mockRawGetProbePos.mockResolvedValue({ z: 10, didAf: true });
     mockEndRawMode.mockResolvedValue(undefined);
-    const { baseElement } = render(
+    const { baseElement, getByText } = render(
       <Align
         onClose={mockOnClose}
         onBack={mockOnBack}
@@ -113,6 +116,8 @@ describe('test Align', () => {
     expect(mockCreateObjectURL).toBeCalledTimes(1);
     expect(mockCreateObjectURL).toHaveBeenLastCalledWith('blob');
     expect(baseElement).toMatchSnapshot();
+    fireEvent.click(getByText('show_last_config'));
+    expect(baseElement.querySelector('.last')).toBeInTheDocument();
   });
 
   test('onBack, onClose', async () => {
@@ -160,11 +165,16 @@ describe('test Align', () => {
     const img = baseElement.querySelector('img');
     fireEvent.load(img);
     expect(baseElement).toMatchSnapshot();
-    const xInput = baseElement.querySelectorAll('input')[0];
-    const yInput = baseElement.querySelectorAll('input')[1];
+    const xInput = baseElement.querySelector('.ant-input-number-input#x');
+    const yInput = baseElement.querySelector('.ant-input-number-input#y');
     expect(xInput).toHaveValue(1275);
     expect(yInput).toHaveValue(1050);
     const imgContainer = baseElement.querySelector('.img-container');
+    expect(imgContainer.scrollLeft).not.toBe(0);
+    expect(imgContainer.scrollTop).not.toBe(0);
+    fireEvent.click(getByText('use_last_config'));
+    expect(imgContainer.scrollLeft).toBe(0);
+    expect(imgContainer.scrollTop).toBe(0);
     fireEvent.scroll(imgContainer, { target: { scrollLeft: 500, scrollTop: 600 } });
     expect(xInput).toHaveValue(500);
     expect(yInput).toHaveValue(600);

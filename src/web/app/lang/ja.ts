@@ -1365,6 +1365,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 カメラのキャリブレーションに失敗しました',
     failed_to_save_calibration_results: '#849 キャリブレーション結果の保存に失敗しました。もう一度試してみてください。',
     ador_autofocus: 'マシンのメインページで「AF」アイコンを3秒間押し、プローブをフォーカシングブロックに触れさせてください。',
+    align_red_cross_cut: '赤い十字の中心を切断された十字と合わせてください。',
+    align_red_cross_print: '赤い十字の中心を印刷された十字と合わせてください。',
+    retake: '撮り直し',
   },
   input_machine_password: {
     require_password: '「%s」にはパスワードが必要です。',

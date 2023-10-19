@@ -1365,6 +1365,9 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 Failed to calibrate camera',
     failed_to_save_calibration_results: '#849 Failed to save calibration results, please try again',
     ador_autofocus: 'Press the "AF" icon on the main page of the machine for 3 seconds and let the probe touch the Focusing block.',
+    align_red_cross_cut: 'Please align the middle of the red cross with the cut cross.',
+    align_red_cross_print: 'Please align the middle of the red cross with the printed cross.',
+    retake: 'Retake',
   },
   input_machine_password: {
     require_password: '"%s" requires a password',
