@@ -17,9 +17,9 @@ import {
 } from 'helpers/camera-calibration-helper';
 import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
 
-import Align from './FishEyeCalibration/Align';
-import Calibrate from './FishEyeCalibration/Calibrate';
-import Instruction from './FishEyeCalibration/Instruction';
+import Align from './AdorCalibration/Align';
+import Calibrate from './AdorCalibration/Calibrate';
+import Instruction from './AdorCalibration/Instruction';
 
 const PROGRESS_ID = 'fish-eye-calibration';
 const DIALOG_ID = 'fish-eye-calibration';
@@ -50,7 +50,7 @@ const calibrated = {
 };
 
 // TODO: add unit test
-const FishEyeCalibration = ({
+const AdorCalibration = ({
   type = CalibrationType.CAMERA,
   onClose,
 }: Props): JSX.Element => {
@@ -67,10 +67,15 @@ const FishEyeCalibration = ({
       // do nothing
     }
     if (!fisheyeParameters) {
-      setStep(Step.CALIBRATE);
+      if (type === CalibrationType.CAMERA) {
+        setStep(Step.CALIBRATE);
+        return;
+      }
+      alertCaller.popUp({ message: 'No Camera Parameters' });
+      onClose(false);
       return;
     }
-    if (isDevMode) {
+    if (type === CalibrationType.CAMERA && isDevMode) {
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
           message: 'Skip Caculating?',
@@ -239,12 +244,13 @@ const FishEyeCalibration = ({
   }
 };
 
-export const showFishEyeCalibration = async (): Promise<boolean> => {
+export const showAdorCalibration = async (type: CalibrationType = CalibrationType.CAMERA): Promise<boolean> => {
   if (dialogCaller.isIdExist(DIALOG_ID)) return false;
   return new Promise((resolve) => {
     dialogCaller.addDialogComponent(
       DIALOG_ID,
-      <FishEyeCalibration
+      <AdorCalibration
+        type={type}
         onClose={(completed = false) => {
           dialogCaller.popDialogById(DIALOG_ID);
           resolve(completed);
@@ -255,4 +261,4 @@ export const showFishEyeCalibration = async (): Promise<boolean> => {
   });
 };
 
-export default FishEyeCalibration;
+export default AdorCalibration;
