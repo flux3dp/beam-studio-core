@@ -591,14 +591,19 @@ class DeviceMaster {
     }
   }
 
-  async doAdorCalibrationCut() {
+  doCalibration = async (fcodeBase64: string, estTime: number) => {
     const vc = VersionChecker(this.currentDevice.info.version);
-    const fcode = DeviceConstants.ADOR_CALIBRATION;
-    const res = await fetch(fcode);
+    const res = await fetch(fcodeBase64);
     const blob = await res.blob();
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);
       await this.setOriginY(0);
+    }
+    try {
+      // Stop if there is any task running
+      await this.stop();
+    } catch {
+      // ignore
     }
     try {
       await this.go(blob);
@@ -607,31 +612,38 @@ class DeviceMaster {
     }
 
     Progress.openSteppingProgress({
-      id: 'ador-cali-task',
+      id: 'cali-task',
       message: lang.calibration.drawing_calibration_image,
     });
-    const taskTotalSecs = 10;
     let elapsedSecs = 0;
     const progressUpdateTimer = setInterval(() => {
       elapsedSecs += 0.1;
-      if (elapsedSecs > taskTotalSecs) {
+      if (elapsedSecs > estTime) {
         clearInterval(progressUpdateTimer);
         return;
       }
-      Progress.update('ador-cali-task', {
-        percentage: (elapsedSecs / taskTotalSecs) * 100,
+      Progress.update('cali-task', {
+        percentage: (elapsedSecs / estTime) * 100,
       });
     }, 100);
 
     try {
       await this.waitTillCompleted();
       clearInterval(progressUpdateTimer);
-      Progress.popById('ador-cali-task');
+      Progress.popById('cali-task');
     } catch (err) {
       clearInterval(progressUpdateTimer);
-      Progress.popById('ador-cali-task');
+      Progress.popById('cali-task');
       throw err; // Error while running test
     }
+  }
+
+  async doAdorCalibrationCut() {
+    await this.doCalibration(DeviceConstants.ADOR_CALIBRATION, 10);
+  }
+
+  async doAdorPrinterCalibration() {
+    await this.doCalibration(DeviceConstants.ADOR_PRINTER_CALIBRATION, 30);
   }
 
   // fs functions

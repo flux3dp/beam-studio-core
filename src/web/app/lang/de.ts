@@ -1326,6 +1326,7 @@ const lang: ILang = {
     finish: 'ERLEDIGT',
     do_engraving: 'GRAVIEREN',
     start_engrave: 'STARTE ENGRAVE',
+    start_printing: 'DRUCKEN STARTEN',
     ask_for_readjust: 'Möchten Sie den Schneideschritt überspringen und Bilder und Kalibrierungen aufnehmen?',
     please_goto_beambox_first: 'Bitte wechsle in den Gravurmodus (Beambox), um diese Funktion nutzen zu können.',
     please_place_paper: 'Bitte lege ein weißes Papier im A4- oder Letter-Format in die linke obere Ecke des Arbeitsbereichs',
