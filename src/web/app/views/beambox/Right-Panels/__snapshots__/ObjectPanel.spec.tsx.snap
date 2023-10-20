@@ -765,425 +765,194 @@ exports[`should render correctly in mobile two elements contains other types of 
 `;
 
 exports[`should render correctly in mobile two elements contains rect, polygon or ellipse elements 1`] = `
-<Memo(ObjectPanel)>
+<div>
   <div
-    className="container"
+    class="container"
     id="object-panel"
   >
     <div
-      className="tools"
+      class="tools"
     >
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+      <div
         id="delete"
-        label="Delete"
-        onClick={[MockFunction]}
       >
-        <div
-          id="delete"
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
         >
-          This is dummy ObjectPanelItem
-          <button
-            onClick={[MockFunction]}
-            type="button"
-          >
-            Delete
-          </button>
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
+          Delete
+        </button>
+      </div>
+      <div
         id="duplicate"
-        label="Duplicate"
-        onClick={[Function]}
       >
-        <div
-          id="duplicate"
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
         >
-          This is dummy ObjectPanelItem
-          <button
-            onClick={[Function]}
-            type="button"
-          >
-            Duplicate
-          </button>
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        autoClose={false}
-        content={<svgr-url />}
+          Duplicate
+        </button>
+      </div>
+      <div
         id="parameter"
-        label="Parameters"
-        onClick={[Function]}
       >
-        <div
-          id="parameter"
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
         >
-          This is dummy ObjectPanelItem
-          <button
-            onClick={[Function]}
-            type="button"
-          >
-            Parameters
-          </button>
-        </div>
-      </DummyObjectPanelItem>
+          Parameters
+        </button>
+      </div>
     </div>
-    <DummyOptionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <rect
-            id="svg_1"
-          />
-          <ellipse
-            id="svg_2"
-          />
-        </g>
-      }
-      polygonSides={5}
-      rx={1}
-      updateDimensionValues={[MockFunction]}
-      updateObjectPanel={[MockFunction]}
-    >
-      <div>
-        This is dummy OptionsPanel
-      </div>
-    </DummyOptionsPanel>
-    <DummyDimensionPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <rect
-            id="svg_1"
-          />
-          <ellipse
-            id="svg_2"
-          />
-        </g>
-      }
-      getDimensionValues={[MockFunction]}
-      updateDimensionValues={[MockFunction]}
-    >
-      <div>
-        This is dummy DimensionPanel
-      </div>
-    </DummyDimensionPanel>
+    <div>
+      This is dummy OptionsPanel
+    </div>
+    <div>
+      This is dummy DimensionPanel
+    </div>
     <div
-      className="tools"
-    >
-      <DummyObjectPanelDivider>
-        <div>
-          This is dummy ObjectPanelDivider
-        </div>
-      </DummyObjectPanelDivider>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={false}
-        id="group"
-        label="Group"
-        onClick={[MockFunction]}
-      >
-        <div
-          id="group"
-        >
-          This is dummy ObjectPanelItem
-          <button
-            onClick={[MockFunction]}
-            type="button"
-          >
-            Group
-          </button>
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelItem
-        content={<svgr-url />}
-        disabled={true}
-        id="ungroup"
-        label="Ungroup"
-        onClick={[MockFunction]}
-      >
-        <div
-          id="ungroup"
-        >
-          This is dummy ObjectPanelItem
-          <button
-            onClick={[MockFunction]}
-            type="button"
-          >
-            Ungroup
-          </button>
-        </div>
-      </DummyObjectPanelItem>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Top Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Middle Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Bottom Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Left Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Center Align",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Right Align",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        id="align"
-        label="Align"
-      >
-        <div
-          id="align"
-        >
-          This is dummy ObjectPanelActionList
-          <div
-            key="Top Align"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Top Align
-            </button>
-          </div>
-          <div
-            key="Middle Align"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Middle Align
-            </button>
-          </div>
-          <div
-            key="Bottom Align"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Bottom Align
-            </button>
-          </div>
-          <div
-            key="Left Align"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Left Align
-            </button>
-          </div>
-          <div
-            key="Center Align"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Center Align
-            </button>
-          </div>
-          <div
-            key="Right Align"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Right Align
-            </button>
-          </div>
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "icon": <svgr-url />,
-              "label": "Horizontal Distribute",
-              "onClick": [MockFunction],
-            },
-            {
-              "icon": <svgr-url />,
-              "label": "Vertical Distribute",
-              "onClick": [MockFunction],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={true}
-        id="distribute"
-        label="Distribute"
-      >
-        <div
-          id="distribute"
-        >
-          This is dummy ObjectPanelActionList
-          <div
-            key="Horizontal Distribute"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Horizontal Distribute
-            </button>
-          </div>
-          <div
-            key="Vertical Distribute"
-          >
-            <svgr-url />
-            <button
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Vertical Distribute
-            </button>
-          </div>
-        </div>
-      </DummyObjectPanelActionList>
-      <DummyObjectPanelActionList
-        actions={
-          [
-            {
-              "disabled": false,
-              "icon": <svgr-url />,
-              "label": "Union",
-              "onClick": [Function],
-            },
-            {
-              "disabled": false,
-              "icon": <svgr-url />,
-              "label": "Subtract",
-              "onClick": [Function],
-            },
-            {
-              "disabled": false,
-              "icon": <svgr-url />,
-              "label": "Intersect",
-              "onClick": [Function],
-            },
-            {
-              "disabled": false,
-              "icon": <svgr-url />,
-              "label": "Difference",
-              "onClick": [Function],
-            },
-          ]
-        }
-        content={<svgr-url />}
-        disabled={false}
-        id="boolean"
-        label="Boolean"
-      >
-        <div
-          id="boolean"
-        >
-          This is dummy ObjectPanelActionList
-          <div
-            key="Union"
-          >
-            <svgr-url />
-            <button
-              onClick={[Function]}
-              type="button"
-            >
-              Union
-            </button>
-          </div>
-          <div
-            key="Subtract"
-          >
-            <svgr-url />
-            <button
-              onClick={[Function]}
-              type="button"
-            >
-              Subtract
-            </button>
-          </div>
-          <div
-            key="Intersect"
-          >
-            <svgr-url />
-            <button
-              onClick={[Function]}
-              type="button"
-            >
-              Intersect
-            </button>
-          </div>
-          <div
-            key="Difference"
-          >
-            <svgr-url />
-            <button
-              onClick={[Function]}
-              type="button"
-            >
-              Difference
-            </button>
-          </div>
-        </div>
-      </DummyObjectPanelActionList>
-    </div>
-    <DummyActionsPanel
-      elem={
-        <g
-          data-tempgroup="true"
-          id="svg_3"
-        >
-          <rect
-            id="svg_1"
-          />
-          <ellipse
-            id="svg_2"
-          />
-        </g>
-      }
+      class="tools"
     >
       <div>
-        This is dummy ActionsPanel
+        This is dummy ObjectPanelDivider
       </div>
-    </DummyActionsPanel>
+      <div
+        id="group"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Group
+        </button>
+      </div>
+      <div
+        id="ungroup"
+      >
+        This is dummy ObjectPanelItem
+        <button
+          type="button"
+        >
+          Ungroup
+        </button>
+      </div>
+      <div
+        id="align"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Top Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Middle Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Bottom Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Left Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Center Align
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Right Align
+          </button>
+        </div>
+      </div>
+      <div
+        id="distribute"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Horizontal Distribute
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Vertical Distribute
+          </button>
+        </div>
+      </div>
+      <div
+        id="boolean"
+      >
+        This is dummy ObjectPanelActionList
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Union
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Subtract
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Intersect
+          </button>
+        </div>
+        <div>
+          <svgr-url />
+          <button
+            type="button"
+          >
+            Difference
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      This is dummy ActionsPanel
+    </div>
   </div>
-</Memo(ObjectPanel)>
+</div>
 `;
 
 exports[`should render correctly no elements 1`] = `
