@@ -11,14 +11,13 @@ import {
   addFisheyeCalibrateImg,
   calculateRegressionParam,
   doFishEyeCalibration,
-  // findPerspectivePoints,
-  setFisheyeConfig,
   startFisheyeCalibrate,
 } from 'helpers/camera-calibration-helper';
 import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
 
 import Align from './AdorCalibration/Align';
 import Calibrate from './AdorCalibration/Calibrate';
+import CalibrationType from './AdorCalibration/calibrationTypes';
 import Instruction from './AdorCalibration/Instruction';
 
 const PROGRESS_ID = 'fish-eye-calibration';
@@ -30,12 +29,6 @@ enum Step {
   PUT_PAPER = 2,
   FOCUS_AND_CUT = 3,
   ALIGN = 4,
-}
-
-enum CalibrationType {
-  CAMERA = 1,
-  PRINTER_HEAD = 2,
-  IR_LASER = 3,
 }
 
 interface Props {
@@ -171,27 +164,15 @@ const AdorCalibration = ({
     }
   };
 
-  const handleAlignNext = useCallback(
-    (x: number, y: number) => {
-      param.current = { ...param.current, center: [x, y] };
-      try {
-        setFisheyeConfig(param.current);
-      } catch (err) {
-        alertCaller.popUp({ message: `${lang.failed_to_save_calibration_results} ${err}` });
-      }
-      onClose(true);
-    },
-    [onClose, lang.failed_to_save_calibration_results]
-  );
   switch (step) {
     case Step.CALIBRATE:
       return <Calibrate onClose={onClose} onNext={handleMultiHeightCalibrateNext} />;
     case Step.ALIGN:
       return (
         <Align
+          type={type}
           fisheyeParam={param.current}
           onBack={() => setStep(Step.FOCUS_AND_CUT)}
-          onNext={handleAlignNext}
           onClose={onClose}
         />
       );
@@ -219,14 +200,15 @@ const AdorCalibration = ({
           buttons={[
             { label: lang.back, onClick: () => setStep(Step.PUT_PAPER) },
             {
-              label: lang.start_engrave,
+              label: type === CalibrationType.PRINTER_HEAD ? lang.start_printing : lang.start_engrave,
               onClick: async () => {
                 progressCaller.openNonstopProgress({
                   id: PROGRESS_ID,
                   message: lang.drawing_calibration_image,
                 });
                 try {
-                  await deviceMaster.doAdorCalibrationCut();
+                  if (type === CalibrationType.CAMERA) await deviceMaster.doAdorCalibrationCut();
+                  else if (type === CalibrationType.PRINTER_HEAD) await deviceMaster.doAdorPrinterCalibration();
                   calibrated[type].add(currentDeviceId);
                   setStep(Step.ALIGN);
                 } finally {

@@ -1323,6 +1323,7 @@ export interface ILang {
     finish: string,
     do_engraving: string,
     start_engrave: string,
+    start_printing: string;
     ask_for_readjust: string,
     please_goto_beambox_first: string,
     please_place_paper: string,

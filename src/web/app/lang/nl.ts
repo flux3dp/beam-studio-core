@@ -1326,6 +1326,7 @@ const lang: ILang = {
     finish: 'GEDAAN',
     do_engraving: 'GRAVEREN',
     start_engrave: 'BEGIN GRAVEN',
+    start_printing: 'AANVANGEN MET PRINTEN',
     ask_for_readjust: 'Wilt u de graveerstap overslaan en vervolgens direct een foto maken en kalibreren?',
     please_goto_beambox_first: 'Schakel over naar de graveermodus (Beambox) om deze functie te gebruiken.',
     please_place_paper: 'Plaats een wit papier van A4- of Letter-formaat in de linkerbovenhoek van het werkgebied',

@@ -1326,6 +1326,7 @@ const lang: ILang = {
     finish: '完了済み',
     do_engraving: '彫刻をする',
     start_engrave: '彫刻開始',
+    start_printing: '印刷開始',
     ask_for_readjust: '彫刻ステップをスキップして写真を撮り、キャリブレーションを行いますか？',
     please_goto_beambox_first: 'この機能を使用するには、彫刻モード（Beambox）に切り替えてください。',
     please_place_paper: 'ワークエリアの左上隅にA4またはレターサイズの白い用紙を置いてください',
