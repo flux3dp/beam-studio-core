@@ -646,6 +646,10 @@ class DeviceMaster {
     await this.doCalibration(DeviceConstants.ADOR_PRINTER_CALIBRATION, 30);
   }
 
+  async doAdorIRCalibration() {
+    await this.doCalibration(DeviceConstants.ADOR_IR_CALIBRATION, 12);
+  }
+
   // fs functions
   ls(path: string) {
     const controlSocket = this.currentDevice.control;
