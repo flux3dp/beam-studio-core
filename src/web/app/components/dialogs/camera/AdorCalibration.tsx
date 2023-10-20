@@ -84,7 +84,7 @@ const AdorCalibration = ({
     }
     const { k, d, heights, points, z3regParam, center } = fisheyeParameters;
     param.current = { ...param.current, k, d, heights, points, z3regParam, center };
-    if (calibrated[type].has(currentDeviceId)) {
+    if (true || calibrated[type].has(currentDeviceId)) {
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
           message: lang.ask_for_readjust,
@@ -185,6 +185,7 @@ const AdorCalibration = ({
           buttons={[
             { label: lang.next, onClick: () => setStep(Step.FOCUS_AND_CUT), type: 'primary' },
           ]}
+          // TODO: use put black acrylic video for ir
           animationSrcs={[
             { src: 'video/put_paper.webm', type: 'video/webm' },
             { src: 'video/put_paper.mp4', type: 'video/mp4' },
@@ -209,6 +210,7 @@ const AdorCalibration = ({
                 try {
                   if (type === CalibrationType.CAMERA) await deviceMaster.doAdorCalibrationCut();
                   else if (type === CalibrationType.PRINTER_HEAD) await deviceMaster.doAdorPrinterCalibration();
+                  else await deviceMaster.doAdorIRCalibration();
                   calibrated[type].add(currentDeviceId);
                   setStep(Step.ALIGN);
                 } finally {
