@@ -1327,6 +1327,7 @@ const lang: ILang = {
     finish: '완료',
     do_engraving: '각인 하기',
     start_engrave: '각인 시작',
+    start_printing: '인쇄 시작',
     ask_for_readjust: '각인 단계를 건너 뛰고 즉시 사진을 찍고 보정하시겠습니까?',
     please_goto_beambox_first: '이 기능을 사용하려면 Engraving Mode (Beambox)로 전환하십시오.',
     please_place_paper: '좌측 상단 모서리에 A4 또는 Letter 크기의 흰색 종이를 놓으십시오.',

@@ -1327,6 +1327,7 @@ const lang: ILang = {
     finish: 'FEITO',
     do_engraving: 'FAZER GRAVAÇÃO',
     start_engrave: 'COMEÇAR A GRAVAR',
+    start_printing: 'INICIAR IMPRESSÃO',
     ask_for_readjust: 'Deseja pular a etapa de gravação e tirar a foto e calibrar diretamente?',
     please_goto_beambox_first: 'Mude para o Modo de Gravação ( Beambox ) para usar este recurso.',
     please_place_paper: 'Coloque um papel branco de tamanho A4 ou Carta no canto superior esquerdo da área de trabalho',

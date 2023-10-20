@@ -1327,6 +1327,7 @@ const lang: ILang = {
     finish: 'DONE',
     do_engraving: 'DO ENGRAVING',
     start_engrave: 'START ENGRAVE',
+    start_printing: 'START PRINTING',
     ask_for_readjust: 'Do your want to skip the engraving step and then take photo and calibrate directly?',
     please_goto_beambox_first: 'Please switch to Engraving Mode ( Beambox ) in order to use this feature.',
     please_place_paper: 'Please place an A4 or Letter size white paper at left-top corner of workarea',

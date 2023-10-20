@@ -1327,6 +1327,7 @@ const lang: ILang = {
     finish: '完成',
     do_engraving: '執行切割',
     start_engrave: '開始繪製校正圖片',
+    start_printing: '開始列印校正圖片',
     ask_for_readjust: '是否需要跳過切割步驟，進行拍照及校正？',
     please_goto_beambox_first: '請先選擇 Beambox 功能，再進行校正',
     please_place_paper: '請將乾淨 A4 白紙放在工作區域的左上角',
