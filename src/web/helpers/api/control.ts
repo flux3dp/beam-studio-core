@@ -196,8 +196,8 @@ class Control extends EventEmitter {
         ws.close();
       }
     }
-    this.ws.send('kick');
-    this.ws.close();
+    this.ws?.send('kick');
+    this.ws?.close();
     await new Promise((r) => setTimeout(r, 500));
     return null;
   };
