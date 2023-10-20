@@ -1330,6 +1330,7 @@ const lang: ILang = {
     ask_for_readjust: 'Vous souhaitez sauter l\'étape de la gravure, puis prendre une photo et calibrer directement ?',
     please_goto_beambox_first: 'Veuillez passer en mode gravure (Beambox) afin d\'utiliser cette fonction.',
     please_place_paper: 'Placez une feuille blanche de format A4 ou Letter dans le coin supérieur gauche de la zone de travail.',
+    please_place_black_acrylic: 'Veuillez placer un acrylique noir de format A4 ou lettre dans le coin supérieur gauche de la zone de travail.',
     please_refocus: {
       beambox: 'Réglez la plate-forme sur le point focal (la hauteur de l\'acrylique abaissé).',
       beamo: 'Réglez la tête laser pour qu\'elle se concentre sur l\'objet à graver (la hauteur de l\'acrylique rabattu).',
