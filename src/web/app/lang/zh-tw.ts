@@ -1330,6 +1330,7 @@ const lang: ILang = {
     ask_for_readjust: '是否需要跳過切割步驟，進行拍照及校正？',
     please_goto_beambox_first: '請先選擇 Beambox 功能，再進行校正',
     please_place_paper: '請將乾淨 A4 白紙放在工作區域的左上角',
+    please_place_black_acrylic: '請將 A4 黑色壓克力板放置在工作區的左上角。',
     please_refocus: {
       beambox: '請旋轉升降平台旋鈕，直到輕觸焦距螺絲或焦距尺，完成對焦後，轉回對焦尺。',
       beamo: '請轉開焦距固定環，調整雷射頭至平台輕觸焦距尺，完成對焦後，旋緊固定環、轉回對焦尺。',

@@ -1330,6 +1330,7 @@ const lang: ILang = {
     ask_for_readjust: 'Wilt u de graveerstap overslaan en vervolgens direct een foto maken en kalibreren?',
     please_goto_beambox_first: 'Schakel over naar de graveermodus (Beambox) om deze functie te gebruiken.',
     please_place_paper: 'Plaats een wit papier van A4- of Letter-formaat in de linkerbovenhoek van het werkgebied',
+    please_place_black_acrylic: 'Plaats alstublieft een zwarte acrylplaat van A4- of letterformaat in de linkerbovenhoek van het werkgebied.',
     please_refocus: {
       beambox: 'Gelieve het platform aan te passen aan het brandpunt (de hoogte van afgewezen acryl)',
       beamo: 'Gelieve de laserkop aan te passen om zich te concentreren op het graveerobject (de hoogte van afgewezen acryl)',

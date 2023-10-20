@@ -1327,6 +1327,7 @@ export interface ILang {
     ask_for_readjust: string,
     please_goto_beambox_first: string,
     please_place_paper: string,
+    please_place_black_acrylic: string;
     please_refocus: {
       beambox: string,
       beamo: string,
