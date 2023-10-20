@@ -26,16 +26,20 @@ const AdorModule = ({
 }: Props): JSX.Element => {
   const lang = useI18n();
   const getModuleOffset = useCallback(
-    (module: LayerModule) => currentModuleOffsets[module] || moduleOffsets[module],
+    (module: LayerModule) => {
+      const val = currentModuleOffsets[module] || moduleOffsets[module];
+      return [val[0] - moduleOffsets[module][0], val[1] - moduleOffsets[module][1]];
+    },
     [currentModuleOffsets]
   );
 
   const editValue = useCallback((module: LayerModule, axis: 'x' | 'y', value: number) => {
     const index = axis === 'x' ? 0 : 1;
-    const moduleOffset = [...getModuleOffset(module)];
-    console.log(module, currentModuleOffsets, moduleOffsets, moduleOffset);
-    moduleOffset[index] = value;
-    updateBeamboxPreferenceChange('module-offsets', { ...currentModuleOffsets, [module]: moduleOffset });
+    const curVal = [...getModuleOffset(module)];
+    curVal[index] = value;
+    curVal[0] += moduleOffsets[module][0];
+    curVal[1] += moduleOffsets[module][1];
+    updateBeamboxPreferenceChange('module-offsets', { ...currentModuleOffsets, [module]: curVal });
   }, [currentModuleOffsets, getModuleOffset, updateBeamboxPreferenceChange]);
   const workareaWidth = useMemo(() => constant.dimension.getWidth(selectedModel) / 10, [selectedModel]);
   const workareaHeight = useMemo(() => constant.dimension.getHeight(selectedModel) / 10, [selectedModel]);

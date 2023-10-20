@@ -92,7 +92,7 @@ exports[`test AdorModule should render correctly 1`] = `
         data-testid="printer-y-offset"
         id="printer-y-offset"
         type="number"
-        value="-13.37"
+        value="0"
       />
     </div>
   </div>
@@ -126,7 +126,7 @@ exports[`test AdorModule should render correctly 1`] = `
         data-testid="2w-ir-laser-y-offset"
         id="2w-ir-laser-y-offset"
         type="number"
-        value="26.95"
+        value="0"
       />
     </div>
   </div>
