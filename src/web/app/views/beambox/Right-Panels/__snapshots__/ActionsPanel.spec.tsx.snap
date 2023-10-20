@@ -17,7 +17,7 @@ exports[`should render correctly ellipse 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -104,7 +104,7 @@ exports[`should render correctly g multiple selection 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -174,7 +174,7 @@ exports[`should render correctly g single selection 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -225,7 +225,7 @@ exports[`should render correctly image 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -794,7 +794,7 @@ exports[`should render correctly line 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -881,7 +881,7 @@ exports[`should render correctly no elements 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -913,7 +913,7 @@ exports[`should render correctly path 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -1036,7 +1036,7 @@ exports[`should render correctly polygon 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -1123,7 +1123,7 @@ exports[`should render correctly rect 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -1210,7 +1210,7 @@ exports[`should render correctly text 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,
@@ -1297,7 +1297,7 @@ exports[`should render correctly use 1`] = `
         {
           "components": {
             "Button": {
-              "colorText": "#494949",
+              "colorText": "#333333",
               "colorTextDisabled": "#B9B9B9",
               "controlHeight": 30,
               "fontSize": 24,

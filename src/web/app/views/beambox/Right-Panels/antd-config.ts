@@ -25,8 +25,8 @@ export const textButtonTheme: ThemeConfig = {
       // icon size
       fontSize: 24,
       lineHeight: 1,
-      // icon color
-      colorText: '#494949',
+      // icon and text color
+      colorText: '#333333',
       colorTextDisabled: '#B9B9B9',
       // margin between icon and text
       marginXS: 4,
