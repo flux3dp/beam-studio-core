@@ -21,11 +21,14 @@ const getDevice = async (
   if (device) {
     let selectRes: SelectionResult = { success: true };
     let statusRes;
-    if (DeviceMaster.currentDevice?.info.serial !== device.serial) {
+    if (
+      DeviceMaster.currentDevice?.info.serial !== device.serial ||
+      !DeviceMaster.currentDevice?.control?.isConnected
+    ) {
       selectRes = await DeviceMaster.select(device);
     }
     if (selectRes.success) {
-      // check connection and get current status
+      // get current status
       statusRes = await DeviceMaster.getReport();
     }
     if (!statusRes || !selectRes.success) {
