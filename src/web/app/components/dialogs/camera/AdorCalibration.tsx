@@ -85,9 +85,10 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
           message: lang.ask_for_readjust,
-          buttonType: alertConstants.YES_NO,
-          onYes: () => resolve(true),
-          onNo: () => resolve(false),
+          buttonType: alertConstants.CUSTOM_CANCEL,
+          buttonLabels: [lang.skip],
+          callbacks: () => resolve(true),
+          onCancel: () => resolve(false),
         });
       });
       if (res) {
