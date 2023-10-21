@@ -23,7 +23,10 @@ import {
   FisheyeCameraParameters,
 } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { getPerspectivePointsZ3Regression, interpolatePointsFromHeight } from 'helpers/camera-calibration-helper';
+import {
+  getPerspectivePointsZ3Regression,
+  interpolatePointsFromHeight,
+} from 'helpers/camera-calibration-helper';
 
 const { $ } = window;
 const LANG = i18n.lang;
@@ -49,7 +52,11 @@ class PreviewModeController {
 
   heightOffset: { [key: string]: number };
 
+  fisheyeObjectHeight: number;
+
   lastPosition: number[];
+
+  liveModeTimeOut: NodeJS.Timeout;
 
   errorCallback: () => void;
 
@@ -65,6 +72,7 @@ class PreviewModeController {
     this.autoLevelingData = null;
     this.lastPosition = [0, 0]; // in mm
     this.errorCallback = () => {};
+    this.fisheyeObjectHeight = 0;
   }
 
   async setupBeamSeriesPreviewMode() {
@@ -100,18 +108,8 @@ class PreviewModeController {
   }
 
   fetchAutoLevelingData = async () => {
-    this.autoLevelingData = {
-      A: 0,
-      B: 0,
-      C: 0,
-      D: 0,
-      E: 0,
-      F: 0,
-      G: 0,
-      H: 0,
-      I: 0,
-    };
-    this.heightOffset = {...this.autoLevelingData};
+    this.autoLevelingData = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, I: 0 };
+    this.heightOffset = { ...this.autoLevelingData };
     try {
       this.autoLevelingData = await deviceMaster.fetchAutoLevelingData('hexa_platform');
       console.log('hexa_platform leveling data', { ...this.autoLevelingData });
@@ -155,8 +153,8 @@ class PreviewModeController {
     const keys = Object.keys(this.autoLevelingData);
     const refHeight = this.autoLevelingData[refKey];
     keys.forEach((key) => {
-      this.autoLevelingData[key] = Math.round((this.autoLevelingData[key] - refHeight) * 1000) / 1000;
-      this.autoLevelingData[key] += this.heightOffset[key] ?? 0;
+      this.autoLevelingData[key] =
+        Math.round((this.autoLevelingData[key] - refHeight) * 1000) / 1000;
     });
   };
 
@@ -176,11 +174,19 @@ class PreviewModeController {
     const val = await dialogCaller.getPromptValue({
       message: 'Please enter the height of object (mm)',
     });
-    // Get value from machine
-    const heightOffset = 0;
-    console.log('Using height offset: ', heightOffset);
     if (val === null) return null;
-    return Number.isNaN(Number(val)) ? null : Number(val) + heightOffset;
+    return Number.isNaN(Number(val)) ? null : Number(val);
+  };
+
+  reloadHeightOffset = async () => {
+    this.heightOffset = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, I: 0 };
+    try {
+      this.heightOffset = await deviceMaster.fetchAutoLevelingData('offset');
+    } catch (e) {
+      console.error('Unable to get height offset data', e);
+    }
+    const height = this.fisheyeObjectHeight;
+    await this.setFishEyeObjectHeight(height);
   };
 
   setFishEyeObjectHeight = async (height: number) => {
@@ -191,6 +197,11 @@ class PreviewModeController {
       deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
     ];
     console.log('Use Height: ', height);
+    const levelingData = { ...this.autoLevelingData };
+    const keys = Object.keys(levelingData);
+    keys.forEach((key) => {
+      levelingData[key] += this.heightOffset[key] ?? 0;
+    });
     let perspectivePoints: [number, number][][];
     if (points && heights) {
       [perspectivePoints] = points;
@@ -198,14 +209,14 @@ class PreviewModeController {
         chessboard: [48, 36],
         workarea,
         center,
-        levelingOffsets: this.autoLevelingData,
+        levelingOffsets: levelingData,
       });
     } else if (z3regParam) {
       perspectivePoints = getPerspectivePointsZ3Regression(height ?? 0, z3regParam, {
         chessboard: [48, 36],
         workarea,
         center,
-        levelingOffsets: this.autoLevelingData,
+        levelingOffsets: levelingData,
       });
     }
     await deviceMaster.setFisheyeMatrix({ k, d, center, points: perspectivePoints }, true);
@@ -219,6 +230,7 @@ class PreviewModeController {
       });
       await deviceMaster.enterRawMode();
       const height = await this.getHeight();
+      this.fisheyeObjectHeight = height;
       Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
       await deviceMaster.endRawMode();
       await this.setFishEyeObjectHeight(height);
@@ -256,6 +268,7 @@ class PreviewModeController {
       await deviceMaster.rawLooseMotor();
       await this.applyAFPositionLevelingBias();
       const height = await this.getHeight();
+      this.fisheyeObjectHeight = height;
       Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
       await deviceMaster.endRawMode();
       await this.setFishEyeObjectHeight(height);
@@ -352,6 +365,8 @@ class PreviewModeController {
   async end() {
     console.log('end of pmc');
     this.isPreviewModeOn = false;
+    if (this.liveModeTimeOut) clearTimeout(this.liveModeTimeOut);
+    this.liveModeTimeOut = null;
     PreviewModeBackgroundDrawer.clearBoundary();
     PreviewModeBackgroundDrawer.end();
     const { currentDevice } = this;
@@ -365,6 +380,35 @@ class PreviewModeController {
         deviceMaster.kick();
       }
     }
+  }
+
+  isLiveModeOn = () => !!(this.isPreviewModeOn && this.liveModeTimeOut);
+
+  toggleFullWorkareaLiveMode() {
+    if (this.liveModeTimeOut) this.stopFullWorkareaLiveMode();
+    else this.startFullWorkareaLiveMode();
+  }
+
+  startFullWorkareaLiveMode() {
+    if (!this.isPreviewModeOn) return;
+    const setNextTimeout = () => {
+      this.liveModeTimeOut = setTimeout(() => {
+        this.fullWorkareaLiveUpdate(() => {
+          if (this.liveModeTimeOut) setNextTimeout();
+        });
+      }, 1000);
+    };
+    setNextTimeout();
+  }
+
+  stopFullWorkareaLiveMode() {
+    if (this.liveModeTimeOut) clearTimeout(this.liveModeTimeOut);
+    this.liveModeTimeOut = null;
+  }
+
+  async fullWorkareaLiveUpdate(callback = () => {}) {
+    await this.reloadHeightOffset();
+    await this.previewFullWorkarea(callback);
   }
 
   async previewFullWorkarea(callback = () => {}): Promise<boolean> {

@@ -20,6 +20,13 @@ exports[`should render correctly 1`] = `
   />
   <PreviewToolButton
     className="tool-btn"
+    iconName="shoot"
+    id="left-Shoot"
+    onClick={[Function]}
+    title="Camera Preview"
+  />
+  <PreviewToolButton
+    className="tool-btn"
     iconName="trace"
     id="left-Trace"
     onClick={[Function]}
