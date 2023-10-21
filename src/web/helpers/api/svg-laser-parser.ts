@@ -183,6 +183,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-pbp');
         args.push(localStorage.getItem('printing_bot_padding'));
       }
+      if (isDevMode && localStorage.getItem('nozzle_votage')) {
+        args.push('-nv');
+        args.push(localStorage.getItem('nozzle_votage'));
+      }
+      if (isDevMode && localStorage.getItem('nozzle_pulse_width')) {
+        args.push('-npw');
+        args.push(localStorage.getItem('nozzle_pulse_width'));
+      }
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) await setParameter(loopCompensation);
