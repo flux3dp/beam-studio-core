@@ -62,7 +62,7 @@ test('should render correctly', () => {
       className="left-toolbar"
       endPreviewMode={endPreviewMode}
       setShouldStartPreviewController={setShouldStartPreviewController}
-    />,
+    />
   );
   expect(toJson(wrapper)).toMatchSnapshot();
 });
