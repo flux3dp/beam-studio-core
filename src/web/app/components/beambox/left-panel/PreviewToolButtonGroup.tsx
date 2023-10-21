@@ -74,7 +74,6 @@ const PreviewToolButtonGroup = ({
 
   const disabled = PreviewModeController.isDrawing || PreviewModeBackgroundDrawer.isClean();
   const isLiveMode = PreviewModeController.isLiveModeOn();
-  console.log(isLiveMode);
   return (
     <div className={className}>
       {renderToolButton('back', 'Exit-Preview', LANG.label.end_preview, endPreviewMode)}
