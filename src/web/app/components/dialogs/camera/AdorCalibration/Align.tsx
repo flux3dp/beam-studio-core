@@ -190,7 +190,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
     [form, getOffsetValueFromScroll, type]
   );
 
-  const handleNext = useCallback(() => {
+  const handleDone = useCallback(() => {
     const { x, y } = form.getFieldsValue();
     if (type === CalibrationType.CAMERA) {
       const cx = Math.round(x + imgContainerRef.current.clientWidth / 2);
@@ -199,6 +199,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
       try {
         setFisheyeConfig(newParam);
       } catch (err) {
+        console.log(err);
         alertCaller.popUp({
           message: `${lang.calibration.failed_to_save_calibration_results} ${err}`,
         });
@@ -238,7 +239,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
         >
           {lang.calibration.retake}
         </Button>,
-        <Button className={styles['footer-button']} type="primary" onClick={handleNext} key="next">
+        <Button className={styles['footer-button']} type="primary" onClick={handleDone} key="done">
           {lang.buttons.done}
         </Button>,
       ]}
