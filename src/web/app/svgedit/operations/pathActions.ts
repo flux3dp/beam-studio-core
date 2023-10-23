@@ -10,6 +10,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
+import updateElementColor from 'helpers/color/updateElementColor';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import ISVGPathElement from 'interfaces/ISVGPathElement';
 import { isMobile } from 'helpers/system-helper';
@@ -291,7 +292,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(drawnPath);
+        updateElementColor(drawnPath);
       }
       // set stretchy line to first point
       stretchy.setAttribute(

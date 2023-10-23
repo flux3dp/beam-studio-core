@@ -8,6 +8,7 @@ import communicator from 'implementations/communicator';
 import history from 'app/svgedit/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import Progress from 'app/actions/progress-caller';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -586,7 +587,7 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
       svgCanvas.undoMgr.beginUndoableChange('xlink:href', [elem]);
       elem.setAttribute('xlink:href', `#${targetId}`);
       const cmd = svgCanvas.undoMgr.finishUndoableChange();
-      svgCanvas.updateElementColor(elem);
+      updateElementColor(elem);
       return cmd;
     }
     console.warn(`Switcing failed, Unable to find symbol ${targetId}.`);
