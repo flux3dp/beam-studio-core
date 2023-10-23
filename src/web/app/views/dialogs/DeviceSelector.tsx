@@ -65,7 +65,7 @@ const DeviceSelector = ({ onSelect, onClose }: Props): JSX.Element => {
             if (res) window.location.hash = '#initialize/connect/select-connection-type';
           },
         });
-      }, 15000);
+      }, 5000);
     } else {
       clearTimeout(timeout.current);
     }
