@@ -322,7 +322,7 @@ class ActionsPanel extends React.Component<Props> {
           textEdit.renderText(text);
           svgCanvas.multiSelect([text, path], true);
         },
-        <ActionPanelIcons.Decompose />,
+        <ActionPanelIcons.DecomposeTextpath />,
         <ActionPanelIcons.DecomposeTextpath />,
         { isFullLine: true, mobileLabel: LANG.detach_path_short }
       ),
@@ -581,7 +581,7 @@ class ActionsPanel extends React.Component<Props> {
                 svgCanvas.updateElementColor(text);
               }
             },
-            undefined,
+            <ActionPanelIcons.CreateTextpath />,
             <ActionPanelIcons.CreateTextpath />,
             { isFullLine: true, mobileLabel: LANG.create_textpath_short }
           )

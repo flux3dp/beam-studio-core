@@ -21,12 +21,23 @@ const getDevice = async (
   if (device) {
     let selectRes: SelectionResult = { success: true };
     let statusRes;
-    if (DeviceMaster.currentDevice?.info.serial !== device.serial) {
-      selectRes = await DeviceMaster.select(device);
-    }
-    if (selectRes.success) {
-      // check connection and get current status
-      statusRes = await DeviceMaster.getReport();
+    try {
+      if (
+        DeviceMaster.currentDevice?.info.serial !== device.serial ||
+        !DeviceMaster.currentDevice?.control?.isConnected
+      ) {
+        selectRes = await DeviceMaster.select(device);
+      } else if (DeviceMaster.currentDevice?.control?.getMode() === 'raw') {
+        await DeviceMaster.endRawMode();
+      } else if (DeviceMaster.currentDevice?.control?.getMode() === 'maintain') {
+        await DeviceMaster.endMaintainMode();
+      }
+      if (selectRes.success) {
+        // get current status
+        statusRes = await DeviceMaster.getReport();
+      }
+    } catch (error) {
+      await DeviceMaster.currentDevice?.control?.killSelf();
     }
     if (!statusRes || !selectRes.success) {
       device = null;
