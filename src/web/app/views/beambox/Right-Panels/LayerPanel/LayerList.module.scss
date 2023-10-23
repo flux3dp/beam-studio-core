@@ -109,6 +109,7 @@ $active-color: #0091ff;
     .vis {
       display: flex;
       align-items: center;
+      font-size: 24px;
       width: 24px;
       height: 25px;
       text-align: center;
@@ -120,13 +121,10 @@ $active-color: #0091ff;
       }
 
       @media screen and (max-width: 600px) {
+        font-size: 32px;
         width: 32px;
         margin: 0;
         justify-content: center;
-
-        > img {
-          min-width: 40px;
-        }
       }
     }
 

@@ -221,13 +221,7 @@ const LayerList = ({
                   setLayerVisibility(layerName);
                 }}
               >
-                <img
-                  className={styles.icon}
-                  src={
-                    isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'
-                  }
-                  alt="vis-icon"
-                />
+                {isVis ? <LayerPanelIcons.Visible /> : <LayerPanelIcons.Invisible />}
               </div>
               {isMobile && (
                 <div>
