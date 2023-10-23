@@ -17,6 +17,7 @@ import {
 } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
+import { isMobile } from 'helpers/system-helper';
 
 import splitColor from './splitColor';
 
@@ -142,7 +143,7 @@ const splitFullColorLayer = async (
       const { cmd, elem } = res;
       batchCmd.addSubCommand(cmd);
       elem.setAttribute('data-color', color);
-      elem.setAttribute('data-fixedcolor', '1');
+      if (!isMobile()) elem.setAttribute('data-fixedcolor', '1');
       if (i === 0) {
         const whiteSpeed = getData<number>(layer, DataType.wSpeed);
         const whiteMultipass = getData<number>(layer, DataType.wMultipass);
