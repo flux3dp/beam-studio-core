@@ -15,6 +15,7 @@ import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
+import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import dialogCaller from 'app/actions/dialog-caller';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
@@ -24,6 +25,7 @@ import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
@@ -35,16 +37,17 @@ import useI18n from 'helpers/useI18n';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
+  getData,
   getLayerConfig,
   getLayersConfig,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
+import { getLayerByName, getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { getLayerByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import AddOnBlock from './AddOnBlock';
@@ -355,26 +358,35 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const layerOptions = [];
     for (let i = layerCount - 1; i >= 0; i -= 1) {
       const layerName = drawing.getLayerName(i);
+      const layer = getLayerElementByName(layerName);
+      const layerModule = getData<LayerModule>(layer, DataType.module);
+      const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       layerOptions.push(
-        <div
-          className={classNames(styles.layer, {
-            [styles.active]: selectedLayers.includes(layerName),
-          })}
-          key={layerName}
-          onClick={() => setSelectedLayers([layerName])}
-          style={{ backgroundColor: drawing.getLayerColor(layerName) }}
-        />
+        <Select.Option key={layerName} value={layerName} label={layerName}>
+          <div className={styles.option}>
+            <ColorBlock
+              size="mini"
+              color={isFullColor ? 'fullcolor' : drawing.getLayerColor(layerName)}
+            />
+            {layerModule === LayerModule.PRINTER ? (
+              <LayerPanelIcons.Print />
+            ) : (
+              <LayerPanelIcons.Laser />
+            )}
+            <span>{layerName}</span>
+          </div>
+        </Select.Option>
       );
     }
     return (
       <ConfigProvider
         theme={{
-          components: { Button: { borderRadius: 100 }, Select: { borderRadius: 100 } },
+          components: { Button: { borderRadius: 100, controlHeight: 30 } },
         }}
       >
         <Modal
           className={styles.modal}
-          title={sprintf(lang.preset_setting, displayName)}
+          title={lang.preset_setting.slice(0, -4)}
           onCancel={onClose}
           onOk={onSave}
           cancelText={i18n.lang.beambox.tool_panels.cancel}
@@ -382,25 +394,43 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           centered
           open
         >
+          {selectedLayers.length > 0 && (
+            <div className={styles['change-layer']}>
+              <span className={styles.title}>Current Layer:</span>
+              <Select className={styles.select} defaultValue={selectedLayers[0]} disabled>
+                {layerOptions}
+              </Select>
+            </div>
+          )}
           {layerCount > 1 && (
             <div className={styles['change-layer']}>
               <span className={styles.title}>
                 {i18n.lang.beambox.right_panel.layer_panel.move_elems_to}
               </span>
-              <div className={styles.layers}>{layerOptions}</div>
+              <Select
+                className={styles.select}
+                popupMatchSelectWidth={false}
+                value={selectedLayers[0]}
+                onChange={(layerName) => setSelectedLayers([layerName])}
+              >
+                {layerOptions}
+              </Select>
             </div>
           )}
-          <ModuleBlock />
-          <Select
-            id="laser-config-dropdown"
-            className={styles.select}
-            value={dropdownValue}
-            onChange={handleSelectPresets}
-            options={[
-              ...dropdownOptions,
-              ...hiddenOptions.filter((option) => option.value === dropdownValue),
-            ]}
-          />
+          <ConfigProvider
+            theme={{ components: { Select: { borderRadius: 100, controlHeight: 30 } } }}
+          >
+            <Select
+              id="laser-config-dropdown"
+              className={styles.select}
+              value={dropdownValue}
+              onChange={handleSelectPresets}
+              options={[
+                ...dropdownOptions,
+                ...hiddenOptions.filter((option) => option.value === dropdownValue),
+              ]}
+            />
+          </ConfigProvider>
           {commonContent}
         </Modal>
       </ConfigProvider>
