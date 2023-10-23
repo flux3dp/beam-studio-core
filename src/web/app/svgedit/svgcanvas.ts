@@ -483,9 +483,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             if (changedValues.includes('transform')) {
               svgedit.transformlist.removeElementFromListMap(cmd.elem);
             }
-            if (values['data-fullcolor'] && cmd.elem.tagName === 'image') {
-              updateElementColor(cmd.elem);
-            }
             // This is resolved in later versions of webkit, perhaps we should
             // have a featured detection for correct 'use' behavior?
             // ——————————
