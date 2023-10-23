@@ -5,9 +5,19 @@
   border: 0;
 }
 
+.option {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 4px;
+  > svg {
+    font-size: 24px;
+  }
+}
+
 .modal {
   .change-layer {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     .title {
       color: #7c7c7c;
       font-size: 12px;
