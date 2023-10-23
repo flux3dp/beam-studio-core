@@ -1,10 +1,18 @@
 import imageData from 'helpers/image-data';
 import NS from 'app/constants/namespaces';
+import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { IImageDataResult } from 'interfaces/IImage';
 
+// TODO: add test
 const updateImageDisplay = (elem: SVGImageElement): Promise<void> => {
   const imgUrl = elem.getAttribute('origImage');
-  const isFullColor = elem.getAttribute('data-fullcolor') === '1';
+  const layer = getObjectLayer(elem)?.elem;
+  let isFullColor = false;
+  if (layer) {
+    isFullColor = layer.getAttribute('data-fullcolor') === '1';
+    if (isFullColor) elem.setAttribute('data-fullcolor', '1');
+    else elem.removeAttribute('data-fullcolor');
+  } else isFullColor = elem.getAttribute('data-fullcolor') === '1';
   const displayingFullColor = elem.getAttribute('display-fullcolor') === '1';
   if ((isFullColor && displayingFullColor) || (!isFullColor && !displayingFullColor))
     return Promise.resolve();
