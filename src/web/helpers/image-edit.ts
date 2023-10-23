@@ -12,6 +12,7 @@ import imageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
 import progress from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -218,7 +219,7 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
   path.setAttribute('d', d);
   moveElements([dx], [dy], [path], false);
   svgCanvas.setRotationAngle(angle, true, path);
-  if (svgCanvas.isUsingLayerColor) svgCanvas.updateElementColor(path);
+  updateElementColor(path);
   svgCanvas.selectOnly([path], true);
   batchCmd.addSubCommand(new history.InsertElementCommand(path));
   const cmd = deleteElements([img], true);
@@ -438,7 +439,7 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   path.remove();
   tempOuterContour.remove();
   const batchCmd = new history.BatchCommand('Potrace Image');
-  if (svgCanvas.isUsingLayerColor) svgCanvas.updateElementColor(finalContour);
+  updateElementColor(finalContour);
   svgCanvas.selectOnly([finalContour], true);
   batchCmd.addSubCommand(new history.InsertElementCommand(finalContour));
   svgCanvas.addCommandToHistory(batchCmd);

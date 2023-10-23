@@ -1,10 +1,9 @@
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import updateImageDisplay from 'helpers/image/updateImageDisplay';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import symbolMaker from 'helpers/symbol-maker';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 let svgCanvas: ISVGCanvas;
@@ -33,17 +32,15 @@ const moveElementsToLayer = (layerName: string, elements: SVGElement[]): IBatchC
     layer.appendChild(element);
     if (targetLayerFullColor !== oldLayerFullColor) {
       descendants.filter((descendant) => descendant.tagName === 'image').forEach((image) => {
+        const origFullColor = image.getAttribute('data-fullcolor') ?? null;
         if (targetLayerFullColor) image.setAttribute('data-fullcolor', '1');
         else image.removeAttribute('data-fullcolor');
-        updateImageDisplay(image as SVGImageElement);
-      });
-      descendants.filter((descendant) => descendant.tagName === 'use').forEach((use) => {
-        symbolMaker.reRenderImageSymbol(use as SVGUseElement);
+        batchCmd.addSubCommand(new history.ChangeElementCommand(image, {
+          'data-fullcolor': origFullColor,
+        }));
       });
     }
-    if (svgCanvas.isUsingLayerColor) {
-      svgCanvas.updateElementColor(element);
-    }
+    updateElementColor(element);
     batchCmd.addSubCommand(new history.MoveElementCommand(element, oldNextSibling, oldParent));
   });
 

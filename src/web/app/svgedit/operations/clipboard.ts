@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import history from 'app/svgedit/history';
 import symbolMaker from 'helpers/symbol-maker';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
@@ -164,7 +165,7 @@ const pasteRef = (useElement: SVGUseElement) => {
   defs.appendChild(copiedRef);
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
   symbolMaker.reRenderImageSymbol(useElement).then(() => {
-    svgCanvas.updateElementColor(useElement);
+    updateElementColor(useElement);
   });
 };
 
@@ -213,7 +214,7 @@ const pasteElements = (
 
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
     svgCanvas.restoreRefElems(copy);
-    svgCanvas.updateElementColor(copy);
+    updateElementColor(copy);
   }
 
   svgCanvas.selectOnly(pasted, true);

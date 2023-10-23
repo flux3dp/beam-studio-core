@@ -29,23 +29,6 @@ const importBitmap = async (file: File): Promise<void> => {
       return;
     }
   }
-  // if (modelsWithModules.includes(workarea)) {
-  //   const PRINT = 1;
-  //   const LASER = 2;
-  //   const res = await new Promise((resolve) => {
-  //     alertCaller.popUp({
-  //       id: 'select-import-method',
-  //       message: 'Select module:',
-  //       buttonLabels: [i18n.lang.layer_module.printing, 'Laser'],
-  //       callbacks: [() => resolve(PRINT), () => resolve(LASER)],
-  //     });
-  //   });
-  //   if (res === PRINT) {
-  //     if (currentLayer.getAttribute('data-fullcolor') !== '1') createFullColorLayer();
-  //     await readBitmapFile(file, { gray: false });
-  //     return;
-  //   }
-  // }
   await readBitmapFile(file);
 };
 

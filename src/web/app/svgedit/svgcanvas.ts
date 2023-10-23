@@ -79,8 +79,10 @@ import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import sanitizeXmlString from 'helpers/sanitize-xml-string';
+import setElementsColor from 'helpers/color/setElementsColor';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import units, { Units } from 'helpers/units';
 import jimpHelper from 'helpers/jimp-helper';
@@ -444,7 +446,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               if (elem.classList.contains('layer')) {
                 LayerPanelController.setSelectedLayers([]);
               } else {
-                canvas.updateElementColor(elem);
+                updateElementColor(elem);
               }
             });
           } else if (cmdType === InsertElementCommand.type() ||
@@ -480,6 +482,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             }
             if (changedValues.includes('transform')) {
               svgedit.transformlist.removeElementFromListMap(cmd.elem);
+            }
+            if (values['data-fullcolor'] && cmd.elem.tagName === 'image') {
+              updateElementColor(cmd.elem);
             }
             // This is resolved in later versions of webkit, perhaps we should
             // have a featured detection for correct 'use' behavior?
@@ -2642,7 +2647,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const imageSymbol = await SymbolMaker.makeImageSymbol(symbol, { fullColor: layer?.getAttribute('data-fullcolor') === '1' });
       setHref(element, '#' + imageSymbol.id);
       if (this.isUsingLayerColor) {
-        this.updateElementColor(element);
+        updateElementColor(element);
       }
     }));
 
@@ -2889,75 +2894,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const multiSelectedElems = tempGroup.querySelectorAll(`[data-original-layer="${layerName}"]`);
       elems.push(...multiSelectedElems);
     }
-    this.setElementsColor(elems, color, isFullColor);
+    setElementsColor(elems as Element[], color, isFullColor);
   };
 
-  this.updateElementColor = function (elem) {
-    const layer = LayerHelper.getObjectLayer(elem)?.elem;
-    const isFullColor = layer?.getAttribute('data-fullcolor') === '1';
-    if (isFullColor && elem.tagName === 'image') {
-      elem.removeAttribute('filter');
-      return;
-    }
-    const color = this.isUsingLayerColor ? layer?.getAttribute('data-color') : '#000';
-    this.setElementsColor([elem], color, isFullColor);
-  };
-
-  this.setElementsColor = function (elems, color, isFullColor = false) {
-    const descendants = [...elems];
-    let svg_by_color = 0;
-    let svg_by_layer = false;
-    while (descendants.length > 0) {
-      const elem = descendants.pop();
-      if (elem === 'end datacolor') {
-        svg_by_color -= 1;
-        continue;
-      }
-      if (elem === 'end by_layer') {
-        svg_by_layer = false;
-        continue;
-      }
-      const attrStroke = elem.getAttribute('stroke');
-      const attrFill = elem.getAttribute('fill');
-      if (['rect', 'circle', 'ellipse', 'path', 'polygon', 'text', 'line'].includes(elem.tagName)) {
-        if (isFullColor) {
-          elem.removeAttribute('vector-effect');
-          continue;
-        }
-        elem.removeAttribute('stroke-width');
-        elem.setAttribute('vector-effect', 'non-scaling-stroke')
-        if (((svg_by_layer && svg_by_color === 0) || attrStroke) && attrStroke !== 'none') {
-          elem.setAttribute('stroke', color);
-        }
-        if (attrFill !== 'none') {
-          elem.setAttribute('fill', color);
-        }
-      } else if (elem.tagName === 'image') {
-        if (color === '#000' || isFullColor) {
-          elem.removeAttribute('filter');
-        } else {
-          elem.setAttribute('filter', `url(#filter${color})`);
-        }
-      } else if (['g', 'svg', 'symbol'].includes(elem.tagName)) {
-        if ($(elem).data('color')) {
-          descendants.push('end datacolor');
-          svg_by_color += 1;
-        }
-        descendants.push(...elem.childNodes);
-      } else if (elem.tagName === 'use') {
-        if ($(elem).data('wireframe')) {
-          descendants.push('end by_layer');
-          svg_by_layer = true;
-        }
-        descendants.push(...elem.childNodes);
-        const href = $(elem).attr('href') || $(elem).attr('xlink:href');
-        const shadow_root = $(href).toArray();
-        descendants.push(...shadow_root);
-      } else {
-        // console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
-      }
-    }
-  };
+  this.updateElementColor = updateElementColor;
 
   // Function: leaveContext
   // Return from a group context to the regular kind, make any previously
@@ -4583,7 +4523,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
     pathActions.fixEnd(element);
     if (this.isUsingLayerColor) {
-      this.updateElementColor(element);
+      updateElementColor(element);
     }
     batchCmd.addSubCommand(new history.InsertElementCommand(element));
     const cmd = deleteSelectedElements(true);
@@ -4777,7 +4717,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!skipUndoStack) {
       batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
       if (this.isUsingLayerColor) {
-        this.updateElementColor(newElem);
+        updateElementColor(newElem);
       }
 
       selectOnly([newElem], true);
@@ -5275,7 +5215,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     if (canvas.isUsingLayerColor) {
-      canvas.updateElementColor(group);
+      updateElementColor(group);
     }
 
     // update selection
@@ -5550,7 +5490,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         if (originalLayer) {
           originalLayer.appendChild(elem);
           if (this.isUsingLayerColor) {
-            this.updateElementColor(elem);
+            updateElementColor(elem);
           }
         } else {
           elem = parent.insertBefore(elem, anchor);
@@ -5704,7 +5644,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       targetLayer.appendChild(elem);
     }
     if (this.isUsingLayerColor) {
-      this.updateElementColor(elem);
+      updateElementColor(elem);
     }
     if (tempGroup.childNodes.length > 1) {
       selectorManager.requestSelector(tempGroup).resize();
@@ -5779,7 +5719,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           targetLayer.appendChild(elem);
         }
         if (this.isUsingLayerColor) {
-          this.updateElementColor(elem);
+          updateElementColor(elem);
         }
         children[i++] = elem;
       }

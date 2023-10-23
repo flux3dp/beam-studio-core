@@ -2,6 +2,7 @@ import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import imageData from 'helpers/image-data';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas: ISVGCanvas;
@@ -90,7 +91,7 @@ const readBitmapFile = async (
         svgCanvas.setHref(newImage, result.pngBase64);
       },
     });
-    svgCanvas.updateElementColor(newImage);
+    updateElementColor(newImage);
     svgCanvas.selectOnly([newImage]);
     svgCanvas.undoMgr.addCommandToHistory(new history.InsertElementCommand(newImage));
     if (!offset) {
