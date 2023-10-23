@@ -9,6 +9,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
@@ -23,6 +24,7 @@ import {
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { useIsMobile } from 'helpers/system-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './ModuleBlock.module.scss';
@@ -34,6 +36,7 @@ getSVGAsync((globalSVG) => {
 const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
 const ModuleBlock = (): JSX.Element => {
+  const isMobile = useIsMobile();
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
@@ -104,7 +107,15 @@ const ModuleBlock = (): JSX.Element => {
     { label: lang.layer_module.laser_2w_infrared, value: LayerModule.LASER_1064 },
   ];
 
-  return (
+  return isMobile ? (
+    <ObjectPanelItem.Select
+      id="module"
+      selected={options.find((option) => option.value === value)}
+      onChange={handleChange}
+      options={options}
+      label={t.module}
+    />
+  ) : (
     <div className={styles.panel}>
       <div className={styles.title}>{t.module}</div>
       <Select className={styles.select} onChange={handleChange} value={value as LayerModule}>
