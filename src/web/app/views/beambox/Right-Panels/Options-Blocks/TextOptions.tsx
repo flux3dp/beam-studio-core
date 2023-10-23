@@ -35,6 +35,7 @@ interface Props {
   isTextPath?: boolean;
   updateObjectPanel: () => void;
   updateDimensionValues?: (data: { fontStyle: string }) => void;
+  showColorPanel?: boolean;
 }
 
 interface State {
@@ -442,12 +443,13 @@ class TextOptions extends React.Component<Props, State> {
   };
 
   renderMultiLineTextOptions(): JSX.Element {
-    const { elem } = this.props;
+    const { elem, showColorPanel } = this.props;
     return (
       <>
         {this.renderLineSpacingBlock()}
         {this.renderLetterSpacingBlock()}
         {this.renderVerticalTextSwitch()}
+        {!showColorPanel && !isMobile() && <InFillBlock elem={elem} />}
       </>
     );
   }
