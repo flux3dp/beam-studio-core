@@ -143,6 +143,15 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   return isMobile ? (
     <div className={styles['item-group']}>
       <ObjectPanelItem.Divider />
+      {isSelectingPrinterLayer && (
+        <ObjectPanelItem.Item
+          id="split_color"
+          content={<LayerPanelIcons.Expand />}
+          label={LANG.splitFullColor}
+          onClick={handleSplitColor}
+          disabled={isMultiSelecting}
+        />
+      )}
       <ObjectPanelItem.Item
         id="deletelayer"
         content={<ObjectPanelIcons.Trash />}
