@@ -82,6 +82,12 @@ function InkBlock({
     </div>
   );
 
+  const getDisplayValue = useCallback(() => {
+    const selectedOption = sliderOptions?.find((opt) => opt.value === ink.value);
+    if (selectedOption) return selectedOption.label;
+    return ink.value;
+  }, [ink.value, sliderOptions]);
+
   return (
     <>
       {type === 'panel-item' ? (
@@ -95,7 +101,7 @@ function InkBlock({
                 size="mini"
                 fill="outline"
               >
-                {ink.value}
+                <span style={{ whiteSpace: 'nowrap' }}>{getDisplayValue()}</span>
               </Button>
             }
             label={t.ink_saturation}
@@ -107,7 +113,7 @@ function InkBlock({
       )}
       {showModal && <ColorRationModal onClose={closeModal} />}
     </>
-  );
+  )
 }
 
 export default memo(InkBlock);
