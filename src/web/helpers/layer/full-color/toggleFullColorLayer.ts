@@ -16,15 +16,6 @@ const toggleFullColorLayer = (layer: Element, opts: { val?: boolean; force?: boo
   if (targetVal === origVal && !force) return;
   if (targetVal) layer.setAttribute('data-fullcolor', '1');
   else layer.removeAttribute('data-fullcolor');
-  const images = [...layer.querySelectorAll('image')];
-  for (let i = 0; i < images.length; i += 1) {
-    const image = images[i];
-    if (targetVal) {
-      image.setAttribute('data-fullcolor', '1');
-    } else {
-      image.removeAttribute('data-fullcolor');
-    }
-  }
   svgCanvas.updateLayerColor(layer);
 };
 

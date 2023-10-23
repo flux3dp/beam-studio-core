@@ -63,7 +63,6 @@ const readBitmapFile = async (
       preserveAspectRatio: 'none',
       'data-threshold': 254,
       'data-shading': true,
-      'data-fullcolor': gray ? 0 : 1,
       origImage: img.src,
       'data-ratiofixed': true,
     },

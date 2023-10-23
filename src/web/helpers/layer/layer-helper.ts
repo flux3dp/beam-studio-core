@@ -22,24 +22,30 @@ getSVGAsync((globalSVG) => {
 });
 
 export function getObjectLayer(elem: SVGElement): { elem: SVGGElement; title: string } {
-  let p: SVGElement = elem;
-  while (p) {
-    p = p.parentNode as SVGElement;
-    if (p?.getAttribute?.('class')?.indexOf('layer') >= 0) {
-      const title = $(p).find('title')[0];
-      if (title) {
-        return { elem: p as SVGGElement, title: title.innerHTML };
-      }
+  const layer = elem.closest('g.layer');
+  if (layer) {
+    const title = layer.querySelector('title');
+    if (title) {
+      return { elem: layer as SVGGElement, title: title.innerHTML };
     }
   }
+  // while (p) {
+  //   p = p.parentNode as SVGElement;
+  //   if (p?.getAttribute?.('class')?.indexOf('layer') >= 0) {
+  //     const title = $(p).find('title')[0];
+  //     if (title) {
+  //       return { elem: p as SVGGElement, title: title.innerHTML };
+  //     }
+  //   }
+  // }
   // When multi selecting, elements does not belong to any layer
   // So get layer from data original layer
-  const origLayer = elem.getAttribute('data-original-layer');
-  if (origLayer) {
+  const origLayerName = elem.getAttribute('data-original-layer');
+  if (origLayerName) {
     const drawing = svgCanvas.getCurrentDrawing();
-    const layer = drawing.getLayerByName(origLayer);
-    if (layer) {
-      return { elem: layer, title: origLayer };
+    const origLayer = drawing.getLayerByName(origLayerName);
+    if (origLayer) {
+      return { elem: origLayer, title: origLayerName };
     }
   }
   return null;
