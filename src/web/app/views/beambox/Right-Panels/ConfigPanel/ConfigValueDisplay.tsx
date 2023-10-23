@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ConfigProvider, InputNumber } from 'antd';
 
 import ConfigOption from 'interfaces/ConfigOption';
@@ -32,6 +32,7 @@ const ConfigValueDisplay = ({
   options,
 }: Props): JSX.Element => {
   const selectedOption = options?.find((opt) => opt.value === value);
+  const ratio = useMemo(() => (unit?.includes('in') ? 25.4 : 1), [unit]);
   if (selectedOption) return <span className={styles.value}>{selectedOption.label || selectedOption.value}</span>;
   if (type === 'panel-item')
     return (
@@ -41,8 +42,13 @@ const ConfigValueDisplay = ({
           type="number"
           min={min}
           max={max}
+          step={ratio}
           value={value}
           onChange={onChange}
+          formatter={(v, { userTyping, input }) =>
+            userTyping ? input : (v / ratio).toFixed(decimal)
+          }
+          parser={(v) => Number(v) * ratio}
           precision={decimal}
           controls={false}
         />

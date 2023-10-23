@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useCallback, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
 import configOptions from 'app/constants/config-options';
@@ -73,6 +73,12 @@ function InkBlock({
     </div>
   );
 
+  const getDisplayValue = useCallback(() => {
+    const selectedOption = sliderOptions?.find((opt) => opt.value === ink.value);
+    if (selectedOption) return selectedOption.label;
+    return ink.value;
+  }, [ink.value, sliderOptions]);
+
   return type === 'panel-item' ? (
     <Popover visible={visible} content={content}>
       <ObjectPanelItem.Item
@@ -84,7 +90,7 @@ function InkBlock({
             size="mini"
             fill="outline"
           >
-            {ink.value}
+            <span style={{ whiteSpace: 'nowrap' }}>{getDisplayValue()}</span>
           </Button>
         }
         label={t.ink_saturation}
