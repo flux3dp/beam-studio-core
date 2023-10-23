@@ -18,6 +18,7 @@ import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHints
 import touchEvents from 'app/svgedit/touchEvents';
 import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
+import updateElementColor from 'helpers/color/updateElementColor';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
@@ -478,7 +479,7 @@ const mouseDown = (evt: MouseEvent) => {
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newRect);
+        updateElementColor(newRect);
       }
       svgCanvas.selectOnly([newRect], true);
       break;
@@ -504,7 +505,7 @@ const mouseDown = (evt: MouseEvent) => {
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newLine);
+        updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
       canvasEvents.emit('addLine', newLine);
@@ -543,7 +544,7 @@ const mouseDown = (evt: MouseEvent) => {
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newEllipse);
+        updateElementColor(newEllipse);
       }
       svgCanvas.selectOnly([newEllipse], true);
       break;

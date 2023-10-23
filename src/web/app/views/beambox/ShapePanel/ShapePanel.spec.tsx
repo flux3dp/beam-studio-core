@@ -21,22 +21,30 @@ const setSvgElemSize = jest.fn();
 const disassembleUse2Group = jest.fn();
 const addCommandToHistory = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => callback({
-    Canvas: {
-      addSvgElementFromJson: (...args) => addSvgElementFromJson(...args),
-      getNextId: jest.fn(),
-      getSvgRealLocation: (...args) => getSvgRealLocation(...args),
-      importSvgString: (...args) => importSvgString(...args),
-      isUsingLayerColor: true,
-      selectOnly: (...args) => selectOnly(...args),
-      setSvgElemPosition: (...args) => setSvgElemPosition(...args),
-      setSvgElemSize: (...args) => setSvgElemSize(...args),
-      updateElementColor: jest.fn(),
-      disassembleUse2Group: (...args) => disassembleUse2Group(...args),
-      addCommandToHistory: (...args) => addCommandToHistory(...args),
-    },
-  }),
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        addSvgElementFromJson: (...args) => addSvgElementFromJson(...args),
+        getNextId: jest.fn(),
+        getSvgRealLocation: (...args) => getSvgRealLocation(...args),
+        importSvgString: (...args) => importSvgString(...args),
+        isUsingLayerColor: true,
+        selectOnly: (...args) => selectOnly(...args),
+        setSvgElemPosition: (...args) => setSvgElemPosition(...args),
+        setSvgElemSize: (...args) => setSvgElemSize(...args),
+        disassembleUse2Group: (...args) => disassembleUse2Group(...args),
+        addCommandToHistory: (...args) => addCommandToHistory(...args),
+      },
+    }),
 }));
+
+const mockUpdateElementColor = jest.fn();
+jest.mock(
+  'helpers/color/updateElementColor',
+  () =>
+    (...args) =>
+      mockUpdateElementColor(...args)
+);
 
 jest.mock('app/constants/shape-panel-constants', () => ({
   __esModule: true,

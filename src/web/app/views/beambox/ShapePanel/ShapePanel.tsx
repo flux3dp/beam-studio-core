@@ -10,6 +10,7 @@ import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import i18n from 'helpers/i18n';
 import ShapeIcon from 'app/icons/shape/ShapeIcon';
 import Shapes, { ShapeTabs } from 'app/constants/shape-panel-constants';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
