@@ -23,7 +23,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
-import LayerModule from 'app/constants/layer-module/layer-modules';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
@@ -152,10 +152,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   }, [selectedLayers]);
 
-  const parametersSet = getModulePresets(
-    beamboxPreference.read('workarea') || beamboxPreference.read('model'),
-    state.module.value
-  );
+  const model = beamboxPreference.read('workarea') || beamboxPreference.read('model');
+  const parametersSet = getModulePresets(model, state.module.value);
   const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
   const moduleCustomConfigs = customizedConfigs?.filter(
     (c) => !c.isDefault || parametersSet[c.key]
@@ -267,7 +265,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const isDevMode = isDev();
   const commonContent = (
     <>
-      {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
+      {isDevMode && module.value === LayerModule.PRINTER && UIType === 'default' && <UVBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
@@ -306,20 +304,28 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
     if (UIType === 'panel-item') {
       return (
-        <div className={styles['item-group']}>
-          <ObjectPanelItem.Select
-            id="laser-config-dropdown"
-            selected={{ value: dropdownValue, label: dropdownValue }}
-            onChange={handleSelectPresets}
-            options={[
-              ...dropdownOptions,
-              ...hiddenOptions.filter((option) => option.value === dropdownValue),
-            ]}
-            label={lang.presets}
-          />
-          <ModuleBlock />
-          {commonContent}
-        </div>
+        <>
+          {modelsWithModules.includes(model) && (
+            <div className={styles['item-group']}>
+              <ModuleBlock />
+              {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
+              <ObjectPanelItem.Divider />
+            </div>
+          )}
+          <div className={styles['item-group']}>
+            <ObjectPanelItem.Select
+              id="laser-config-dropdown"
+              selected={{ value: dropdownValue, label: dropdownValue }}
+              onChange={handleSelectPresets}
+              options={[
+                ...dropdownOptions,
+                ...hiddenOptions.filter((option) => option.value === dropdownValue),
+              ]}
+              label={lang.presets}
+            />
+            {commonContent}
+          </div>
+        </>
       );
     }
     const drawing = svgCanvas.getCurrentDrawing();
