@@ -33,9 +33,11 @@ jest.mock('app/actions/beambox/preview-mode-background-drawer', () => ({
 }));
 
 const isPreviewMode = jest.fn();
+const mockIsLiveModeOn = jest.fn();
 jest.mock('app/actions/beambox/preview-mode-controller', () => ({
   isDrawing: false,
   isPreviewMode,
+  isLiveModeOn: () => mockIsLiveModeOn(),
 }));
 
 const getSVGAsync = jest.fn();
