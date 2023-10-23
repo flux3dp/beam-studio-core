@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
+import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import constant from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
@@ -73,7 +74,6 @@ const LayerList = ({
     }
   }, [ref, draggingDestIndex, selectedLayers]);
   const workarea = useWorkarea();
-
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -164,21 +164,15 @@ const LayerList = ({
               data-layer={layerName}
               onDragEnter={() => onLayerCenterDragEnter(layerName)}
             >
-              <div className={styles.color}>
-                <div
-                  className={classNames({
-                    [styles['no-pointer']]: !canEditColor,
-                    [styles['full-color']]: isFullColor,
-                  })}
-                  id={`layerbackgroundColor-${i}`}
-                  style={
-                    isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(layerName) }
-                  }
-                  onClick={(e: React.MouseEvent) => {
-                    if (canEditColor) openLayerColorPanel(e, layerName);
-                  }}
-                />
-              </div>
+              <ColorBlock
+                id={`layerbackgroundColor-${i}`}
+                className={classNames(styles.color, { [styles['no-pointer']]: !canEditColor })}
+                size="mini"
+                color={isFullColor ? 'fullcolor' : drawing.getLayerColor(layerName)}
+                onClick={(e: React.MouseEvent) => {
+                  if (canEditColor) openLayerColorPanel(e, layerName);
+                }}
+              />
               {shouldShowModuleIcon && (
                 <div className={styles.module}>
                   {module === LayerModule.PRINTER ? (

@@ -7,42 +7,12 @@ $active-color: #0091ff;
   background-color: #ffffff;
 
   .color {
-    width: 24px;
-
+    margin-left: 10px;
     > div {
-      position: relative;
-      width: 14px;
-      height: 14px;
       cursor: pointer;
-      border: 2px solid white;
-      border-radius: 4px;
-      margin-left: 10px;
-      background: black;
-
-      &.no-pointer {
-        cursor: default;
-      }
-
-      &.full-color {
-        background: rgb(255, 0, 0);
-        background: linear-gradient(
-          135deg,
-          rgba(255, 0, 0, 1) 0%,
-          rgba(255, 255, 0, 1) 20%,
-          rgba(0, 255, 19, 1) 40%,
-          rgba(0, 255, 254, 1) 60%,
-          rgba(0, 16, 255, 1) 80%,
-          rgba(246, 0, 255, 1) 100%
-        );
-      }
     }
-    @media screen and (max-width: 600px) {
-      width: 30px;
-
-      > div {
-        width: 20px;
-        height: 20px;
-      }
+    &.no-pointer > div {
+      cursor: default;
     }
   }
 
@@ -224,10 +194,6 @@ $active-color: #0091ff;
         .name {
           color: white;
         }
-      }
-
-      .color {
-        margin-right: 10px;
       }
 
       .vis {
