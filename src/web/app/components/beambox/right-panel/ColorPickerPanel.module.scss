@@ -9,6 +9,16 @@
   @media screen and (max-width: 600px) {
     width: 240px;
     height: 300px;
+    border-radius: 8px;
+  }
+
+  &.simple {
+    height: 90px;
+
+    @media screen and (max-width: 600px) {
+      width: fit-content;
+      border-radius: 6px;
+    }
   }
 
   [class~="pcr-button"] {
@@ -60,7 +70,7 @@
   .app {
     position: relative;
     width: 100%;
-    height: calc(100% - 70px);
+    height: calc(100% - 90px);
     padding: 0 10px 10px;
 
     [class~="pcr-picker"] {
@@ -134,7 +144,7 @@
         width: 180px;
 
         @media screen and (max-width: 600px) {
-          top: 220px;
+          top: 230px;
           width: 220px;
         }
 
