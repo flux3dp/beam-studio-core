@@ -152,6 +152,22 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
           disabled={isMultiSelecting}
         />
       )}
+      {isSelectingPrinterLayer && (
+        <ObjectPanelItem.Item
+          id="toggle_fullcolor_layer"
+          content={
+            isFullColor ? (
+              <LayerPanelIcons.SwithToSingleColor />
+            ) : (
+              <LayerPanelIcons.SwithToFullColor />
+            )
+          }
+          // TODO: shorter label
+          label={isFullColor ? LANG.switchToSingleColor : LANG.switchToFullColor}
+          onClick={handleLayerFullColor}
+          disabled={isMultiSelecting}
+        />
+      )}
       <ObjectPanelItem.Item
         id="deletelayer"
         content={<ObjectPanelIcons.Trash />}
