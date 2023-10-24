@@ -653,6 +653,8 @@ export interface ILang {
         backlash: string;
         ink_saturation: string;
         print_multipass: string;
+        white_ink: string;
+        white_ink_settings: string;
         times: string,
         cut: string,
         engrave: string,

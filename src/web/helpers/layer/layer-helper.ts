@@ -29,15 +29,6 @@ export function getObjectLayer(elem: SVGElement): { elem: SVGGElement; title: st
       return { elem: layer as SVGGElement, title: title.innerHTML };
     }
   }
-  // while (p) {
-  //   p = p.parentNode as SVGElement;
-  //   if (p?.getAttribute?.('class')?.indexOf('layer') >= 0) {
-  //     const title = $(p).find('title')[0];
-  //     if (title) {
-  //       return { elem: p as SVGGElement, title: title.innerHTML };
-  //     }
-  //   }
-  // }
   // When multi selecting, elements does not belong to any layer
   // So get layer from data original layer
   const origLayerName = elem.getAttribute('data-original-layer');

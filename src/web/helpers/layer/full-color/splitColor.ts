@@ -4,7 +4,7 @@ import { CMYK } from 'app/constants/color-constants';
  * split img into desired color channels, return null if empty
  */
 // TODO: add unit test
-const splitColor = async (imgBlobUrl: string): Promise<(Blob | null)[]> => {
+const splitColor = async (imgBlobUrl: string, includeWhite = false): Promise<(Blob | null)[]> => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const img = new Image();
@@ -23,6 +23,7 @@ const splitColor = async (imgBlobUrl: string): Promise<(Blob | null)[]> => {
   for (let i = 0; i < CMYK.length; i += 1) {
     channelDatas.push(new Uint8ClampedArray(data.length));
   }
+  const whiteChannel = includeWhite ? new Uint8ClampedArray(data.length) : null;
   const empty = [true, true, true, true];
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i];
@@ -35,29 +36,41 @@ const splitColor = async (imgBlobUrl: string): Promise<(Blob | null)[]> => {
     const y = 255 - b - k;
     // invert color because we print black part
     const colors = [255 - k, 255 - c, 255 - m, 255 -y];
+    let hasColor = false;
     for (let j = 0; j < colors.length; j += 1) {
       channelDatas[j][i] = colors[j];
       channelDatas[j][i + 1] = colors[j];
       channelDatas[j][i + 2] = colors[j];
       channelDatas[j][i + 3] = a;
-      if (a !== 0 && colors[j] !== 255 && empty[j]) {
-        empty[j] = false;
+      if (a !== 0 && colors[j] !== 255) {
+        if (empty[j]) empty[j] = false;
+        hasColor = true;
       }
     }
+    if (hasColor && whiteChannel) {
+      // we print black part so set to black
+      whiteChannel[i] = 0;
+      whiteChannel[i + 1] = 0;
+      whiteChannel[i + 2] = 0;
+      whiteChannel[i + 3] = a;
+    }
+  }
+  const channelToBlob = async (channelData: Uint8ClampedArray | null): Promise<Blob | null> => {
+    if (!channelData) return null;
+    imageData.data.set(channelData);
+    ctx.putImageData(imageData, 0, 0);
+    const blob = await new Promise<Blob>((resolve) => {
+      canvas.toBlob((b) => resolve(b));
+    });
+    return blob
   }
   const resultBlobs = [];
+  resultBlobs.push(await channelToBlob(whiteChannel));
   for (let i = 0; i < channelDatas.length; i += 1) {
     if (!empty[i]) {
-      imageData.data.set(channelDatas[i]);
-      ctx.putImageData(imageData, 0, 0);
       // eslint-disable-next-line no-await-in-loop
-      const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((b) => resolve(b));
-      });
-      resultBlobs.push(blob);
-    } else {
-      resultBlobs.push(null);
-    }
+      resultBlobs.push(await channelToBlob(channelDatas[i]));
+    } else resultBlobs.push(null);
   }
   return resultBlobs;
 };

@@ -1,0 +1,14 @@
+@use "./block" as block;
+
+.panel {
+  @include block.panel;
+
+  display: inline-flex;
+  align-items: center;
+
+  .setting {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+  }
+}

@@ -655,6 +655,8 @@ const lang: ILang = {
         backlash: 'Folga',
         ink_saturation: 'Saturação',
         print_multipass: 'Multi-passagem',
+        white_ink: 'Tinta Branca',
+        white_ink_settings: 'Configurações de Tinta Branca',
         diode: 'Laser de Diodo',
         times: 'Vezes',
         cut: 'Cortar',

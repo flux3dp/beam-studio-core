@@ -19,7 +19,6 @@ interface Props {
   simpleMode?: boolean;
 }
 
-// TODO: add unit test
 const MultipassBlock = ({ type = 'default', simpleMode = true }: Props): JSX.Element => {
   const MIN_VALUE = 1;
   const MAX_VALUE = 10;

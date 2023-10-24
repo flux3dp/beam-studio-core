@@ -656,6 +656,8 @@ const lang: ILang = {
         backlash: 'Speling',
         ink_saturation: 'Verzadiging',
         print_multipass: 'Multi-Pass',
+        white_ink: 'Witte Inkt',
+        white_ink_settings: 'Instellingen voor Witte Inkt',
         times: 'keer',
         cut: 'Snee',
         engrave: 'Graveren',

@@ -656,6 +656,8 @@ const lang: ILang = {
         backlash: 'Holgura',
         ink_saturation: 'Saturación',
         print_multipass: 'Multipase',
+        white_ink: 'Tinta Blanca',
+        white_ink_settings: 'Configuración de Tinta Blanca',
         times: 'veces',
         cut: 'Cortar',
         engrave: 'Grabar',

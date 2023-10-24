@@ -16,4 +16,8 @@ export interface ILayerConfig {
   backlash: IConfig<number>;
   multipass: IConfig<number>;
   uv: IConfig<number>;
+  wInk: IConfig<number>;
+  wSpeed: IConfig<number>;
+  wMultipass: IConfig<number>;
+  wRepeat: IConfig<number>;
 }

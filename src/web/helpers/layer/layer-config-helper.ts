@@ -34,6 +34,11 @@ export enum DataType {
   backlash = 'backlash',
   multipass = 'multipass',
   UV = 'uv',
+  // parameters for white ink
+  wSpeed = 'wSpeed',
+  wInk = 'wInk',
+  wMultipass = 'wMultipass',
+  wRepeat = 'wRepeat',
 }
 
 export const dataKey = {
@@ -50,6 +55,11 @@ export const dataKey = {
   [DataType.backlash]: 'backlash',
   [DataType.multipass]: 'multipass',
   [DataType.UV]: 'uv',
+  // parameters for white ink
+  [DataType.wSpeed]: 'wSpeed',
+  [DataType.wInk]: 'wInk',
+  [DataType.wMultipass]: 'wMultipass',
+  [DataType.wRepeat]: 'wRepeat',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -68,6 +78,11 @@ export const defaultConfig = {
   [DataType.backlash]: 0,
   [DataType.multipass]: 3,
   [DataType.UV]: 0,
+  // parameters for white ink
+  [DataType.wSpeed]: 60,
+  [DataType.wInk]: BeamboxPreference.read('multipass-compensation') !== false ? -3 : -1,
+  [DataType.wMultipass]: 1,
+  [DataType.wRepeat]: 1,
 };
 
 /**
@@ -87,21 +102,22 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
     targetDataType = DataType.printingSpeed;
   }
   if (![DataType.configName].includes(targetDataType)) {
-    return Number(layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]) as T;
+    return Number(
+      layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]
+    ) as T;
   }
-  return (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T);
+  return (
+    (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
+  );
 };
 
-export const writeData = (
-  layerName: string,
+export const writeDataLayer = (
+  layer: Element,
   dataType: DataType,
   value: number | string,
   applyPrinting = false
 ): void => {
-  const layer = getLayerElementByName(layerName);
-  if (!layer) {
-    return;
-  }
+  if (!layer) return;
   let targetDataType = dataType;
   if (
     targetDataType === DataType.speed &&
@@ -111,6 +127,17 @@ export const writeData = (
     targetDataType = DataType.printingSpeed;
   }
   layer.setAttribute(`data-${targetDataType}`, String(value));
+};
+
+export const writeData = (
+  layerName: string,
+  dataType: DataType,
+  value: number | string,
+  applyPrinting = false
+): void => {
+  const layer = getLayerElementByName(layerName);
+  if (!layer) return;
+  writeDataLayer(layer, dataType, value, applyPrinting);
 };
 
 const getMultiSelectData = <T = number>(
