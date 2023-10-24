@@ -655,6 +655,8 @@ const lang: ILang = {
         backlash: 'Jeu',
         ink_saturation: 'Saturation',
         print_multipass: 'Multi-pass',
+        white_ink: 'Encre Blanche',
+        white_ink_settings: 'Paramètres de l\'Encre Blanche',
         times: 'fois',
         cut: 'Couper',
         engrave: 'Graver',

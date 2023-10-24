@@ -655,6 +655,8 @@ const lang: ILang = {
         backlash: 'Backlash',
         ink_saturation: 'Saturation',
         print_multipass: 'Multi-pass',
+        white_ink: 'White Ink',
+        white_ink_settings: 'White Ink Settings',
         times: 'times',
         cut: 'Cut',
         engrave: 'Engrave',

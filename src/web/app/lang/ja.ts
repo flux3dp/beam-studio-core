@@ -655,6 +655,8 @@ const lang: ILang = {
         backlash: 'バックラッシュ',
         ink_saturation: '彩度',
         print_multipass: 'マルチパス',
+        white_ink: 'ホワイトインク',
+        white_ink_settings: 'ホワイトインク設定',
         times: '回',
         cut: 'カット',
         engrave: '彫刻する',

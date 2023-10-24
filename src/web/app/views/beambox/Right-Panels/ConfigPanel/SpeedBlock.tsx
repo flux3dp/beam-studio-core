@@ -9,8 +9,8 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
-import useI18n from 'helpers/useI18n';
 import storage from 'implementations/storage';
+import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
@@ -48,7 +48,7 @@ const SpeedBlock = ({
     return { display, decimal: d };
   }, []);
   const workarea = BeamboxPreference.read('workarea');
-  const maxValue = constant.dimension.getMaxSpeed(workarea);
+  const maxValue = useMemo(() => constant.dimension.getMaxSpeed(workarea), [workarea]);
   const workareaMinSpeed = constant.dimension.getMinSpeed(workarea);
   let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');

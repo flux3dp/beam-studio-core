@@ -655,6 +655,8 @@ const lang: ILang = {
         backlash: '背隙調整',
         ink_saturation: '墨水濃度',
         print_multipass: '多重列印次數',
+        white_ink: '白墨',
+        white_ink_settings: '白墨設定',
         times: '次',
         cut: '切割',
         engrave: '雕刻',

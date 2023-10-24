@@ -58,8 +58,9 @@ import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
 import SaveConfigButton from './SaveConfigButton';
 import SpeedBlock from './SpeedBlock';
-import UVBlock from './UVBlock';
 import styles from './ConfigPanel.module.scss';
+import UVBlock from './UVBlock';
+import WhiteInkCheckbox from './WhiteInkCheckbox';
 
 const PARAMETERS_CONSTANT = 'parameters';
 
@@ -272,6 +273,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} simpleMode={!printingAdvancedMode} />}
       <SpeedBlock type={UIType} simpleMode={!printingAdvancedMode && module.value === LayerModule.PRINTER} />
       {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} simpleMode={!printingAdvancedMode} />}
+      {module.value === LayerModule.PRINTER && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
       <RepeatBlock type={UIType} />
     </>

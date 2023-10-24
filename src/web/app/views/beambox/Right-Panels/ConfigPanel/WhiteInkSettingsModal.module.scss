@@ -1,0 +1,7 @@
+@use "./block" as block;
+
+.panel {
+  @include block.panel;
+
+  padding: 0;
+}

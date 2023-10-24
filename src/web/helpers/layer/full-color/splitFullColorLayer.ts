@@ -7,7 +7,8 @@ import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import updateImagesResolution from 'helpers/image/updateImagesResolution';
-import { CMYK, PrintingColors } from 'app/constants/color-constants';
+import { DataType, getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { PrintingColors } from 'app/constants/color-constants';
 import {
   cloneLayer,
   deleteLayerByName,
@@ -25,6 +26,8 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgedit = globalSVG.Edit;
 });
+
+const PROGRESS_ID = 'split-full-color';
 
 const layerToImage = async (
   layer: SVGGElement,
@@ -93,7 +96,7 @@ const splitFullColorLayer = async (
     return null;
   }
   progressCaller.openNonstopProgress({
-    id: 'split full color',
+    id: PROGRESS_ID,
     message: 'Splitting Full Color Layer',
     timeout: 120000,
   });
@@ -103,18 +106,28 @@ const splitFullColorLayer = async (
   const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
   if (!blob || bbox.width === 0 || bbox.height === 0) {
-    progressCaller.popById('split full color');
+    progressCaller.popById(PROGRESS_ID);
     return null;
   }
+  const whiteInkStaturation = getData<number>(layer, DataType.wInk);
+  const includeWhite = whiteInkStaturation > 0;
   const layerImageUrl = URL.createObjectURL(blob);
-  const channelBlobs = await splitColor(layerImageUrl);
+  const channelBlobs = await splitColor(layerImageUrl, includeWhite);
+  console.log(channelBlobs);
 
   const batchCmd = new history.BatchCommand('Split Full Color Layer');
   const newLayers: Element[] = [];
-  const nameSuffix = ['K', 'C', 'M', 'Y'];
+  const nameSuffix = ['W', 'K', 'C', 'M', 'Y'];
   // revert order to make sure the order of new layers is correct
-  for (let i = 0; i < CMYK.length; i += 1) {
+  for (let i = 0; i < nameSuffix.length; i += 1) {
+    // eslint-disable-next-line no-continue
+    if (i === 0 && !includeWhite) {
+      newLayers.push(null);
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     const color = {
+      W: PrintingColors.WHITE,
       C: PrintingColors.CYAN,
       M: PrintingColors.MAGENTA,
       Y: PrintingColors.YELLOW,
@@ -130,6 +143,15 @@ const splitFullColorLayer = async (
       batchCmd.addSubCommand(cmd);
       elem.setAttribute('data-color', color);
       elem.setAttribute('data-fixedcolor', '1');
+      if (i === 0) {
+        const whiteSpeed = getData<number>(layer, DataType.wSpeed);
+        const whiteMultipass = getData<number>(layer, DataType.wMultipass);
+        const whiteRepeat = getData<number>(layer, DataType.wRepeat);
+        writeDataLayer(elem, DataType.ink, whiteInkStaturation);
+        writeDataLayer(elem, DataType.printingSpeed, whiteSpeed);
+        writeDataLayer(elem, DataType.multipass, whiteMultipass);
+        writeDataLayer(elem, DataType.repeat, whiteRepeat);
+      }
       layer.parentNode.insertBefore(elem, layer.nextSibling);
       newLayers.push(elem);
     }
@@ -165,11 +187,11 @@ const splitFullColorLayer = async (
   const drawing = svgCanvas.getCurrentDrawing();
   drawing.identifyLayers();
   for (let i = 0; i < newLayers.length; i += 1) {
-    svgCanvas.updateLayerColor(newLayers[i]);
+    if (newLayers[i]) svgCanvas.updateLayerColor(newLayers[i]);
   }
   svgCanvas.clearSelection();
-  progressCaller.popById('split full color');
-  return { cmd: batchCmd, newLayers };
+  progressCaller.popById(PROGRESS_ID);
+  return { cmd: batchCmd, newLayers: newLayers.filter((l) => !!l) };
 };
 
 export const tempSplitFullColorLayers = async (): Promise<() => void> => {
