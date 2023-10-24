@@ -58,7 +58,7 @@ export const defaultConfig = {
   [DataType.speed]: 20,
   [DataType.printingSpeed]: 60,
   [DataType.strength]: 15,
-  [DataType.ink]: 1,
+  [DataType.ink]: BeamboxPreference.read('multipass-compensation') !== false ? 3 : 1,
   [DataType.repeat]: 1,
   [DataType.height]: -3,
   [DataType.zstep]: 0,
