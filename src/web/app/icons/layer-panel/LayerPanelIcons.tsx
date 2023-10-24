@@ -9,6 +9,8 @@ import Move from './move.svg';
 import Print from './print.svg';
 import Rename from './rename.svg';
 import Setting from './setting.svg';
+import SwithToFullColor from './switch-to-full-color.svg';
+import SwithToSingleColor from './switch-to-single-color.svg';
 import Unlock from './unlock.svg';
 import Visible from './visible.svg';
 
@@ -24,6 +26,8 @@ export default {
   Print,
   Rename,
   Setting,
+  SwithToFullColor,
+  SwithToSingleColor,
   Unlock,
   Visible,
 };
