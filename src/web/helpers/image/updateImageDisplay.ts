@@ -6,6 +6,7 @@ import { IImageDataResult } from 'interfaces/IImage';
 // TODO: add test
 const updateImageDisplay = (elem: SVGImageElement): Promise<void> => {
   const imgUrl = elem.getAttribute('origImage');
+  if (!imgUrl) return Promise.resolve();
   const layer = getObjectLayer(elem)?.elem;
   let isFullColor = false;
   if (layer) {
