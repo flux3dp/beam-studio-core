@@ -14,7 +14,10 @@ const updateImageDisplay = (elem: SVGImageElement): Promise<void> => {
     else elem.removeAttribute('data-fullcolor');
   } else isFullColor = elem.getAttribute('data-fullcolor') === '1';
   const displayingFullColor = elem.getAttribute('display-fullcolor') === '1';
-  if ((isFullColor && displayingFullColor) || (!isFullColor && !displayingFullColor))
+  if (
+    elem.getAttributeNS(NS.XLINK, 'xlink:href') &&
+    ((isFullColor && displayingFullColor) || (!isFullColor && !displayingFullColor))
+  )
     return Promise.resolve();
   const isShading = elem.getAttribute('data-shading') === 'true';
   const threshold = parseInt(elem.getAttribute('data-threshold') || '128', 10);
