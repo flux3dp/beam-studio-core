@@ -31,15 +31,17 @@ const ColorPickerPanel = ({
   const lang = useI18n().beambox.photo_edit_panel;
   const isMobile = useIsMobile();
   const width = 200;
-  const height = isMobile ? 300 : 270;
+  // eslint-disable-next-line no-nested-ternary
+  const height = isPrinting ? 90 : isMobile ? 300 : 270;
   const style = {
     top: top + height > window.innerHeight ? window.innerHeight - height : top,
     left: left > width ? left - width : left,
-  }
+  };
   const pickrRef = useRef<Pickr>(null);
   const colorPresetContainerRef = useRef<HTMLDivElement>(null);
   const [currentColor, setCurrentColor] = useState(originalColor);
   const [isNone, setIsNone] = useState(originalColor === 'none');
+  const buttonShape = isMobile ? 'round' : 'default';
 
   useEffect(() => {
     if (isPrinting) return;
@@ -93,7 +95,13 @@ const ColorPickerPanel = ({
   };
 
   return (
-    <div className={classNames(styles.container, { [styles['selecting-none']]: isNone })} style={style}>
+    <div
+      className={classNames(styles.container, {
+        [styles['selecting-none']]: isNone,
+        [styles.simple]: isPrinting,
+      })}
+      style={style}
+    >
       <div className={styles.background} onClick={onClose} />
       <div className={styles.presets} ref={colorPresetContainerRef} onWheelCapture={handleWheel}>
         {allowNone && (
@@ -126,8 +134,10 @@ const ColorPickerPanel = ({
       </div>
       <div className="pickr" />
       <div className={styles.footer}>
-        <Button onClick={onClose}>{lang.cancel}</Button>
-        <Button onClick={onApply} type="primary">
+        <Button onClick={onClose} shape={buttonShape}>
+          {lang.cancel}
+        </Button>
+        <Button onClick={onApply} type="primary" shape={buttonShape}>
           {lang.okay}
         </Button>
       </div>
