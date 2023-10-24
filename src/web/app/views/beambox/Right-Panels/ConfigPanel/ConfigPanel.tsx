@@ -44,7 +44,7 @@ import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { moveToOtherLayer } from 'helpers/layer/layer-helper';
+import { getLayerByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import AddOnBlock from './AddOnBlock';
@@ -79,6 +79,7 @@ interface Props {
 const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const { selectedLayers: initLayers } = useContext(LayerPanelContext);
   const [selectedLayers, setSelectedLayers] = useState(initLayers);
+  const mainLayerElem = useMemo(() => getLayerByName(selectedLayers[0]), [selectedLayers]);
   useEffect(() => {
     if (UIType === 'modal') {
       const drawing = svgCanvas.getCurrentDrawing();
@@ -268,12 +269,20 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const printingAdvancedMode = beamboxPreference.read('print-advanced-mode');
   const commonContent = (
     <>
-      {(isDevMode && module.value === LayerModule.PRINTER) && <UVBlock />}
+      {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
-      {module.value === LayerModule.PRINTER && <InkBlock type={UIType} simpleMode={!printingAdvancedMode} />}
-      <SpeedBlock type={UIType} simpleMode={!printingAdvancedMode && module.value === LayerModule.PRINTER} />
-      {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} simpleMode={!printingAdvancedMode} />}
-      {module.value === LayerModule.PRINTER && <WhiteInkCheckbox />}
+      {module.value === LayerModule.PRINTER && (
+        <InkBlock type={UIType} simpleMode={!printingAdvancedMode} />
+      )}
+      <SpeedBlock
+        type={UIType}
+        simpleMode={!printingAdvancedMode && module.value === LayerModule.PRINTER}
+      />
+      {module.value === LayerModule.PRINTER && (
+        <MultipassBlock type={UIType} simpleMode={!printingAdvancedMode} />
+      )}
+      {module.value === LayerModule.PRINTER &&
+        mainLayerElem?.getAttribute('data-fullcolor') === '1' && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
       <RepeatBlock type={UIType} />
     </>
