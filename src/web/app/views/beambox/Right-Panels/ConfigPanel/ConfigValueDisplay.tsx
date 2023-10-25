@@ -42,6 +42,7 @@ const ConfigValueDisplay = ({
           type="number"
           min={min}
           max={max}
+          suffix={unit}
           step={ratio}
           value={value}
           onChange={onChange}
