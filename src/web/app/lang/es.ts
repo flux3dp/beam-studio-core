@@ -7,9 +7,9 @@ const lang: ILang = {
     choose_folder: 'Elegir Carpeta',
   },
   buttons: {
-    next: 'SIGUIENTE',
-    back: 'VUELVE',
-    done: 'APLICAR',
+    next: 'Siguiente',
+    back: 'Vuelve',
+    done: 'Aplicar',
   },
   topbar: {
     untitled: 'Sin título',
@@ -1371,7 +1371,7 @@ const lang: ILang = {
     ador_autofocus: 'Presione el ícono "AF" en la página principal de la máquina durante 3 segundos y deje que la sonda toque el bloque de enfoque.',
     align_red_cross_cut: 'Por favor, alinee el centro de la cruz roja con la cruz de corte.',
     align_red_cross_print: 'Por favor, alinee el centro de la cruz roja con la cruz impresa.',
-    retake: 'Repetir',
+    retake: 'Volver a tomar foto',
   },
   input_machine_password: {
     require_password: '"%s" requiere una contraseña',

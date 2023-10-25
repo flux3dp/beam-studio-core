@@ -7,9 +7,9 @@ const lang: ILang = {
     choose_folder: 'Kies folder',
   },
   buttons: {
-    next: 'DE VOLGENDE',
-    back: 'RUG',
-    done: 'GEDAAN',
+    next: 'De Volgende',
+    back: 'Rug',
+    done: 'Gedaan',
   },
   topbar: {
     untitled: 'Ongetiteld',
@@ -1371,7 +1371,7 @@ const lang: ILang = {
     ador_autofocus: 'Druk 3 seconden op het "AF" -pictogram op de hoofdpagina van de machine en laat de sonde het scherpstelblok raken.',
     align_red_cross_cut: 'Graag het midden van het rode kruis uitlijnen met het uitgesneden kruis.',
     align_red_cross_print: 'Graag het midden van het rode kruis uitlijnen met het afgedrukte kruis.',
-    retake: 'Opnieuw nemen',
+    retake: 'Foto opnieuw maken',
   },
   input_machine_password: {
     require_password: '%s vereist een wachtwoord',

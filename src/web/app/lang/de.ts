@@ -7,9 +7,9 @@ const lang: ILang = {
     choose_folder: 'Ordner Auswählen',
   },
   buttons: {
-    next: 'NÄCHSTER',
-    back: 'ZURÜCK',
-    done: 'ANWENDEN',
+    next: 'Nächster',
+    back: 'Zurück',
+    done: 'Anwenden',
   },
   topbar: {
     untitled: 'Ohne Titel',
@@ -1371,7 +1371,7 @@ const lang: ILang = {
     ador_autofocus: 'Drücken Sie 3 Sekunden lang auf das "AF"-Symbol auf der Hauptseite der Maschine und lassen Sie die Sonde den Fokussierblock berühren.',
     align_red_cross_cut: 'Bitte alignieren Sie die Mitte des roten Kreuzes mit dem geschnittenen Kreuz.',
     align_red_cross_print: 'Bitte alignieren Sie die Mitte des roten Kreuzes mit dem gedruckten Kreuz.',
-    retake: 'Wiederholen',
+    retake: 'Foto erneut aufnehmen',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',
