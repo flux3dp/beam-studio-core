@@ -230,7 +230,17 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
               type: 'primary',
             },
           ]}
-          animationSrcs={[{ src: 'video/autofocus.webm', type: 'video/webm' }]}
+          animationSrcs={
+            type === CalibrationType.PRINTER_HEAD
+              ? [
+                  { src: 'video/ador-focus-printer.webm', type: 'video/webm' },
+                  { src: 'video/ador-focus-printer.mp4', type: 'video/mp4' },
+                ]
+              : [
+                  { src: 'video/ador-focus-laser.webm', type: 'video/webm' },
+                  { src: 'video/ador-focus-laser.mp4', type: 'video/mp4' },
+                ]
+          }
         />
       );
     default:
