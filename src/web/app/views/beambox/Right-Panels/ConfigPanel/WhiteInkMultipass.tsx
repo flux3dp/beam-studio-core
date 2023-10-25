@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 
+import configOptions from 'app/constants/config-options';
 import useI18n from 'helpers/useI18n';
 
+import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 
@@ -19,6 +21,12 @@ const WhiteInkMultipass = ({ value, hasMultiValue, onChange }: Props): JSX.Eleme
   const MAX_VALUE = 10;
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
+  const { simpleMode = true } = useContext(ConfigPanelContext);
+
+  const sliderOptions = useMemo(
+    () => (simpleMode ? configOptions.whiteMultipassOptions : null),
+    [simpleMode]
+  );
   return (
     <div className={styles.panel}>
       <span className={styles.title}>{t.print_multipass}</span>
@@ -30,6 +38,7 @@ const WhiteInkMultipass = ({ value, hasMultiValue, onChange }: Props): JSX.Eleme
         value={value}
         hasMultiValue={hasMultiValue}
         onChange={onChange}
+        options={sliderOptions}
       />
       <ConfigSlider
         id='white-multipass-slider'
@@ -37,6 +46,7 @@ const WhiteInkMultipass = ({ value, hasMultiValue, onChange }: Props): JSX.Eleme
         min={MIN_VALUE}
         value={value}
         onChange={onChange}
+        options={sliderOptions}
       />
     </div>
   );

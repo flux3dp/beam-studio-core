@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
+import configOptions from 'app/constants/config-options';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
@@ -13,19 +14,17 @@ import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
-const MAX_VALUE = 9;
+const MAX_VALUE = 15;
 const MIN_VALUE = 1;
 
 function InkBlock({
   type = 'default',
-  simpleMode = true,
 }: {
   type?: 'default' | 'panel-item' | 'modal';
-  simpleMode?: boolean;
 }): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, dispatch, simpleMode = true } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'power';
   const { ink } = state;
@@ -39,19 +38,9 @@ function InkBlock({
         writeData(layerName, DataType.ink, value);
       });
   };
-
   const sliderOptions = useMemo(
-    () =>
-      simpleMode
-        ? [
-            { value: 1, label: t.slider.extremely_low },
-            { value: 2, label: t.slider.low },
-            { value: 3, label: t.slider.regular },
-            { value: 4, label: t.slider.high },
-            { value: 5, label: t.slider.extremely_high },
-          ]
-        : null,
-    [simpleMode, t.slider]
+    () => (simpleMode ? configOptions.getSaturationOptions(lang) : null),
+    [simpleMode, lang]
   );
 
   const content = (

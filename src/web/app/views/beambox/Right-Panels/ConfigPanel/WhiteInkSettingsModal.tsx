@@ -61,6 +61,7 @@ const WhiteInkSettingsModal = ({ onClose }: Props): JSX.Element => {
       width={290}
       title={t.white_ink_settings}
       okText={t.save}
+      maskClosable={false}
       cancelText={t.cancel}
       onCancel={onClose}
       onOk={handleSave}

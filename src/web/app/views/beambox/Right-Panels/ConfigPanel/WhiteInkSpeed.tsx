@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import configOptions from 'app/constants/config-options';
 import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 
+import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 
@@ -20,6 +22,12 @@ interface Props {
 const WhiteInkSpeed = ({ value, hasMultiValue, onChange }: Props): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
+  const { simpleMode = true } = useContext(ConfigPanelContext);
+
+  const sliderOptions = useMemo(
+    () => (simpleMode ? configOptions.getPrintingSpeedOptions(lang) : null),
+    [simpleMode, lang]
+  );
 
   const { display: displayUnit, decimal } = useMemo(() => {
     const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
@@ -30,7 +38,6 @@ const WhiteInkSpeed = ({ value, hasMultiValue, onChange }: Props): JSX.Element =
   const workarea = beamboxPreference.read('workarea');
   const maxValue = useMemo(() => constant.dimension.getMaxSpeed(workarea), [workarea]);
   const minValue = useMemo(() => constant.dimension.getMinSpeed(workarea), [workarea]);
-  const sliderOptions = null;
 
   return (
     <div className={styles.panel}>
