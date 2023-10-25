@@ -1369,6 +1369,7 @@ export interface ILang {
     align_red_cross_cut: string;
     align_red_cross_print: string;
     retake: string;
+    calibrate_camera_before_calibrate_modules: string;
   };
   input_machine_password: {
     require_password: string,

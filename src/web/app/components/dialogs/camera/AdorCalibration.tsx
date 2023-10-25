@@ -61,7 +61,7 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
         setStep(Step.CALIBRATE);
         return;
       }
-      alertCaller.popUp({ message: 'No Camera Parameters' });
+      alertCaller.popUp({ message: lang.calibrate_camera_before_calibrate_modules });
       onClose(false);
       return;
     }
