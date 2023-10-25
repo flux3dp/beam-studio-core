@@ -321,9 +321,12 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'USB 연결',
-      title_sub: '(HEXA 전용)',
-      tutorial1: '1. USB 케이블로 기계를 컴퓨터에 연결하세요.',
-      tutorial2: '2. 다음을 클릭하세요.',
+      title_sub: '(HEXA 및 Ador 전용)',
+      tutorial1: 'USB 케이블로 기계를 컴퓨터에 연결하세요.',
+      tutorial2: '\'다음\'을 클릭하세요.',
+      turn_off_machine: '기계를 끄십시오.',
+      turn_on_machine: '기계의 전원을 켜십시오.',
+      wait_for_turning_on: '부팅 프로세스가 완료되면 \'다음\'을 클릭하십시오.',
     },
     connect_machine_ip: {
       check_usb: 'USB 연결 확인',

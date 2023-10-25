@@ -12,7 +12,6 @@ import { ILaserConfig } from 'interfaces/ILaserConfig';
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './SaveConfigButton.module.scss';
 
-// TODO: add test
 const SaveConfigButton = (): JSX.Element => {
   const lang = useI18n().beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);

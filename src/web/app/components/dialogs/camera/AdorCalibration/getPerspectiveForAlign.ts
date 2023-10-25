@@ -63,7 +63,6 @@ const getHeight = async (device: IDeviceInfo) => {
   return 0;
 };
 
-// TODO: add test
 const getPerspectiveForAlign = async (
   device: IDeviceInfo,
   param: FisheyeCameraParameters,
