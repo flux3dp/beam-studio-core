@@ -266,21 +266,13 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
   const { module } = state;
   const isDevMode = isDev();
-  const printingAdvancedMode = beamboxPreference.read('print-advanced-mode');
   const commonContent = (
     <>
       {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
-      {module.value === LayerModule.PRINTER && (
-        <InkBlock type={UIType} simpleMode={!printingAdvancedMode} />
-      )}
-      <SpeedBlock
-        type={UIType}
-        simpleMode={!printingAdvancedMode && module.value === LayerModule.PRINTER}
-      />
-      {module.value === LayerModule.PRINTER && (
-        <MultipassBlock type={UIType} simpleMode={!printingAdvancedMode} />
-      )}
+      {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
+      <SpeedBlock type={UIType} />
+      {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} />}
       {module.value === LayerModule.PRINTER &&
         mainLayerElem?.getAttribute('data-fullcolor') === '1' && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
@@ -414,6 +406,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   return (
     <ConfigPanelContext.Provider
       value={{
+        simpleMode: !beamboxPreference.read('print-advanced-mode'),
         state,
         dispatch,
         selectedLayers,

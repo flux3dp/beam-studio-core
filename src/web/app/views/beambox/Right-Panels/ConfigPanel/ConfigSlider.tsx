@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ConfigProvider, Slider, TooltipProps } from 'antd';
 
+import ConfigOption from 'interfaces/ConfigOption';
+
 import styles from './ConfigSlider.module.scss';
 
 interface Props {
@@ -12,7 +14,7 @@ interface Props {
   max: number;
   step?: number;
   speedLimit?: boolean;
-  options?: { value: number; label?: string }[];
+  options?: ConfigOption[];
 }
 
 const ConfigSlider = ({

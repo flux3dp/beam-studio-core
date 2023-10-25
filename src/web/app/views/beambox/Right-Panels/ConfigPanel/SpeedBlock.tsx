@@ -3,6 +3,7 @@ import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import configOptions from 'app/constants/config-options';
 import constant from 'app/actions/beambox/constant';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -22,14 +23,12 @@ import styles from './Block.module.scss';
 
 const SpeedBlock = ({
   type = 'default',
-  simpleMode = true,
 }: {
   type?: 'default' | 'panel-item' | 'modal';
-  simpleMode?: boolean;
 }): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, dispatch, simpleMode = true } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'speed';
   const { hasVector } = useContext(LayerPanelContext);
@@ -76,15 +75,9 @@ const SpeedBlock = ({
   const sliderOptions = useMemo(
     () =>
       simpleMode && module === LayerModule.PRINTER
-        ? [
-            { value: 10, label: t.slider.extremely_slow },
-            { value: 30, label: t.slider.slow },
-            { value: 60, label: t.slider.regular },
-            { value: 100, label: t.slider.fast },
-            { value: 150, label: t.slider.extremely_fast },
-          ]
+        ? configOptions.getPrintingSpeedOptions(lang)
         : null,
-    [simpleMode, module, t.slider]
+    [simpleMode, module, lang]
   );
 
   const content = (

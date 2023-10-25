@@ -1,6 +1,7 @@
 import React from 'react';
 import { ConfigProvider, InputNumber } from 'antd';
 
+import ConfigOption from 'interfaces/ConfigOption';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 
 import styles from './ConfigValueDisplay.module.scss';
@@ -15,7 +16,7 @@ interface Props {
   hasMultiValue?: boolean;
   decimal?: number;
   onChange: (value: number) => void;
-  options?: { value: number; label?: string }[];
+  options?: ConfigOption[];
 }
 
 const ConfigValueDisplay = ({

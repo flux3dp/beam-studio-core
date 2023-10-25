@@ -58,6 +58,7 @@ interface Context {
   state: State;
   selectedLayers: string[];
   dispatch: Dispatch<Action>;
+  simpleMode?: boolean;
 }
 
 export default createContext<Context>({} as Context);

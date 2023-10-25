@@ -79,9 +79,9 @@ export const defaultConfig = {
   [DataType.multipass]: 3,
   [DataType.UV]: 0,
   // parameters for white ink
-  [DataType.wSpeed]: 60,
-  [DataType.wInk]: BeamboxPreference.read('multipass-compensation') !== false ? -3 : -1,
-  [DataType.wMultipass]: 1,
+  [DataType.wSpeed]: 100,
+  [DataType.wInk]: BeamboxPreference.read('multipass-compensation') !== false ? -9 : -3,
+  [DataType.wMultipass]: 3,
   [DataType.wRepeat]: 1,
 };
 
