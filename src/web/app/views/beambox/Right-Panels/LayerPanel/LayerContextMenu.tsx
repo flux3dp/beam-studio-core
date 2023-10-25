@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import colorConstants, { PrintingColors } from 'app/constants/color-constants';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
@@ -116,6 +118,19 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const handleSplitColor = async () => {
     svgCanvas.clearSelection();
     if (!isSelectingPrinterLayer) return;
+    const res = await new Promise<boolean>((resolve) => {
+      alertCaller.popUp({
+        id: 'split-color',
+        caption: 'Expand the selected layer into CMYK layers?',
+        message:
+          'Please note that if you complete this procedure, you will not be able to restore.',
+        messageIcon: 'notice',
+        buttonType: alertConstants.CONFIRM_CANCEL,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      });
+    });
+    if (!res) return;
     const layer = selectedLayers[0];
     await splitFullColorLayer(layer);
     setSelectedLayers([]);
