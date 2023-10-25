@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Checkbox, Col, Form, InputNumber, Modal, Row, Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -10,9 +11,7 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
-import {
-  setFisheyeConfig,
-} from 'helpers/camera-calibration-helper';
+import { setFisheyeConfig } from 'helpers/camera-calibration-helper';
 
 import CalibrationType from './calibrationTypes';
 import getPerspectiveForAlign from './getPerspectiveForAlign';
@@ -251,6 +250,13 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
           {type === CalibrationType.PRINTER_HEAD
             ? lang.calibration.align_red_cross_print
             : lang.calibration.align_red_cross_cut}
+          <Tooltip
+            className={styles.tooltip}
+            trigger="hover"
+            title={lang.calibration.hint_adjust_parameters}
+          >
+            <QuestionCircleOutlined />
+          </Tooltip>
         </div>
       </Row>
       <Row gutter={[16, 0]}>
@@ -277,14 +283,9 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
               <div className={classNames(styles.bar, styles.vert)} />
             </div>
           </div>
-          {lastResult && (
-            <Checkbox onChange={(e) => setShowLastResult(e.target.checked)}>
-              {lang.calibration.show_last_config}
-            </Checkbox>
-          )}
         </Col>
         <Col span={12}>
-          <Form size="small" className="controls" form={form}>
+          <Form size="middle" form={form}>
             <Form.Item name="x" label={lang.calibration.dx} initialValue={0}>
               <InputNumber<number>
                 type="number"
@@ -304,15 +305,20 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
               />
             </Form.Item>
           </Form>
+          {lastResult && (
+            <Checkbox
+              className={styles.checkbox}
+              onChange={(e) => setShowLastResult(e.target.checked)}
+            >
+              {lang.calibration.show_last_config}
+            </Checkbox>
+          )}
           <div className={styles.hints}>
             {lastResult && (
               <Button onClick={useLastConfig} size="small">
                 {lang.calibration.use_last_config}
               </Button>
             )}
-            <Tooltip trigger="click" title={lang.calibration.hint_adjust_parameters}>
-              <Button size="small">?</Button>
-            </Tooltip>
           </div>
         </Col>
       </Row>
