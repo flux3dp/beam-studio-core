@@ -321,9 +321,12 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'USB接続',
-      title_sub: '（HEXAのみ）',
-      tutorial1: '1. USBケーブルでコンピュータに機器を接続してください。',
-      tutorial2: '2.「次へ」をクリックしてください。',
+      title_sub: '（HEXA と Ador 専用）',
+      tutorial1: 'USBケーブルでコンピュータに機器を接続してください。',
+      tutorial2: '「次へ」をクリックしてください。',
+      turn_off_machine: 'マシンの電源を切ってください。',
+      turn_on_machine: 'マシンの電源を入れてください。',
+      wait_for_turning_on: '起動プロセスが完了した後、「次へ」をクリックしてください。',
     },
     connect_machine_ip: {
       check_usb: 'USB接続の確認',

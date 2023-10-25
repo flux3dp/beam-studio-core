@@ -321,9 +321,12 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'USB 連線',
-      title_sub: '（僅支援 HEXA）',
-      tutorial1: '1. 將您的機器與您的電腦以 USB 線連接。',
-      tutorial2: '2. 點選 下一步。',
+      title_sub: '（僅支援 HEXA & Ador）',
+      tutorial1: '將您的機器與您的電腦以 USB 線連接。',
+      tutorial2: '點選 下一步。',
+      turn_off_machine: '將您的機器關機',
+      turn_on_machine: '將您的機器開機',
+      wait_for_turning_on: '待開機程序完成後，點選 下一步',
     },
     connect_machine_ip: {
       check_usb: '確認 USB 連線',

@@ -321,6 +321,9 @@ export interface ILang {
       title_sub: string,
       tutorial1: string,
       tutorial2: string,
+      turn_off_machine: string;
+      turn_on_machine: string;
+      wait_for_turning_on: string;
     },
     connect_machine_ip: {
       check_usb: string,

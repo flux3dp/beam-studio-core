@@ -321,9 +321,12 @@ const lang: ILang = {
     },
     connect_usb: {
       title: 'Conexión USB',
-      title_sub: ' (Solo HEXA)',
-      tutorial1: '1. Conecta la máquina a tu computadora con el cable USB.',
-      tutorial2: '2. Haz clic en Siguiente.',
+      title_sub: ' (Solo para HEXA y Ador)',
+      tutorial1: 'Conecta la máquina a tu computadora con el cable USB.',
+      tutorial2: 'Haz clic en \'Siguiente\'.',
+      turn_off_machine: 'Apague la máquina.',
+      turn_on_machine: 'Encienda la máquina.',
+      wait_for_turning_on: 'Haga clic en \'Siguiente\' después de que se complete el proceso de inicio.',
     },
     connect_machine_ip: {
       check_usb: 'Verificar la conexión USB',
