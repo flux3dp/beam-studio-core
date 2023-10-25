@@ -33,12 +33,13 @@ const renderMessage = (message: string | React.ReactNode, messageIcon = ''): JSX
         dangerouslySetInnerHTML={{ __html: message }}
       />
     );
+  } else {
+    content = (
+      <div className={classNames(styles.message, { [styles['with-icon']]: !!IconComponent })}>
+        {message}
+      </div>
+    );
   }
-  content = (
-    <div className={classNames(styles.message, { [styles['with-icon']]: !!IconComponent })}>
-      {message}
-    </div>
-  );
   return (
     <div className={styles['message-container']}>
       {IconComponent && <IconComponent classNames={styles.icon} />}
