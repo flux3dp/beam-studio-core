@@ -1,6 +1,16 @@
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Checkbox, Col, Form, InputNumber, Modal, Row, Tooltip } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  ConfigProvider,
+  Form,
+  InputNumber,
+  Modal,
+  Row,
+  Tooltip,
+} from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -36,6 +46,12 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
   const lang = useI18n();
   const [form] = Form.useForm();
   const [showLastResult, setShowLastResult] = useState(false);
+  const dragStartPos = useRef<{
+    x: number;
+    y: number;
+    scrollLeft: number;
+    scrollTop: number;
+  } | null>(null);
 
   const [img, setImg] = useState<{ blob: Blob; url: string }>(null);
   const handleTakePicture = async (retryTimes = 0) => {
@@ -221,6 +237,27 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
     return [left, top];
   }, [getPxFromOffsetValue, type, lastResult]);
 
+  const handleContainerDragStart = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    dragStartPos.current = {
+      x: e.screenX,
+      y: e.screenY,
+      scrollLeft: e.currentTarget.scrollLeft,
+      scrollTop: e.currentTarget.scrollTop,
+    };
+  }, []);
+
+  const handleContainerDragMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragStartPos.current) {
+      const { x, y, scrollLeft, scrollTop } = dragStartPos.current;
+      e.currentTarget.scrollLeft = scrollLeft - (e.screenX - x);
+      e.currentTarget.scrollTop = scrollTop - (e.screenY - y);
+    }
+  }, []);
+
+  const handleContainerDragEnd = useCallback(() => {
+    dragStartPos.current = null;
+  }, []);
+
   return (
     <Modal
       open
@@ -266,6 +303,10 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
               ref={imgContainerRef}
               className={styles['img-container']}
               onScroll={handleContainerScroll}
+              onMouseDown={handleContainerDragStart}
+              onMouseMove={handleContainerDragMove}
+              onMouseUp={handleContainerDragEnd}
+              onMouseLeave={handleContainerDragEnd}
             >
               <img src={img?.url} onLoad={handleImgLoad} />
               {lastResult && showLastResult && (
@@ -285,26 +326,36 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
           </div>
         </Col>
         <Col span={12}>
-          <Form size="middle" form={form}>
-            <Form.Item name="x" label={lang.calibration.dx} initialValue={0}>
-              <InputNumber<number>
-                type="number"
-                onChange={(val) => handleValueChange('x', val)}
-                step={inputStep}
-                onKeyUp={(e) => e.stopPropagation()}
-                onKeyDown={(e) => e.stopPropagation()}
-              />
-            </Form.Item>
-            <Form.Item name="y" label={lang.calibration.dy} initialValue={0}>
-              <InputNumber<number>
-                type="number"
-                onChange={(val) => handleValueChange('y', val)}
-                step={inputStep}
-                onKeyUp={(e) => e.stopPropagation()}
-                onKeyDown={(e) => e.stopPropagation()}
-              />
-            </Form.Item>
-          </Form>
+          <ConfigProvider
+            theme={{
+              components: {
+                Form: {
+                  itemMarginBottom: 12,
+                },
+              },
+            }}
+          >
+            <Form size="middle" form={form}>
+              <Form.Item name="x" label={lang.calibration.dx} initialValue={0}>
+                <InputNumber<number>
+                  type="number"
+                  onChange={(val) => handleValueChange('x', val)}
+                  step={inputStep}
+                  onKeyUp={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.stopPropagation()}
+                />
+              </Form.Item>
+              <Form.Item name="y" label={lang.calibration.dy} initialValue={0}>
+                <InputNumber<number>
+                  type="number"
+                  onChange={(val) => handleValueChange('y', val)}
+                  step={inputStep}
+                  onKeyUp={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.stopPropagation()}
+                />
+              </Form.Item>
+            </Form>
+          </ConfigProvider>
           {lastResult && (
             <Checkbox
               className={styles.checkbox}

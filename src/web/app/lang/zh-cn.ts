@@ -1370,7 +1370,7 @@ const lang: ILang = {
     ador_autofocus: '在机器主页上按“AF”图标3秒钟，让探头触碰对焦块。',
     align_red_cross_cut: '请将红色十字的中心与切割十字对齐。',
     align_red_cross_print: '请将红色十字的中心与印刷十字对齐。',
-    retake: '重拍',
+    retake: '重拍照片',
   },
   input_machine_password: {
     require_password: '"%s" 需要密码',

@@ -1370,7 +1370,7 @@ const lang: ILang = {
     ador_autofocus: 'Appuyez sur l\'icône "AF" sur la page principale de la machine pendant 3 secondes et laissez la sonde toucher le bloc de mise au point.',
     align_red_cross_cut: 'Veuillez aligner le centre de la croix rouge avec la croix coupée.',
     align_red_cross_print: 'Veuillez aligner le centre de la croix rouge avec la croix imprimée.',
-    retake: 'Reprendre',
+    retake: 'Reprendre la photo',
   },
   input_machine_password: {
     require_password: '%s requiert un mot de passe',

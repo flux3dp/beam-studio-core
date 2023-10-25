@@ -1370,7 +1370,7 @@ const lang: ILang = {
     ador_autofocus: '在機器面板上長壓「AF」圖示 3 秒鐘，讓探針觸碰對焦區塊。',
     align_red_cross_cut: '請將紅色十字的中心對齊切割出來的十字中心。',
     align_red_cross_print: '請將紅色十字的中心對齊列印出來的十字中心。',
-    retake: '重拍',
+    retake: '重拍照片',
   },
   input_machine_password: {
     require_password: '"%s" 需要密碼',

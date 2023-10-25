@@ -1370,7 +1370,7 @@ const lang: ILang = {
     ador_autofocus: 'マシンのメインページで「AF」アイコンを3秒間押し、プローブをフォーカシングブロックに触れさせてください。',
     align_red_cross_cut: '赤い十字の中心を切断された十字と合わせてください。',
     align_red_cross_print: '赤い十字の中心を印刷された十字と合わせてください。',
-    retake: '撮り直し',
+    retake: '写真を撮り直す',
   },
   input_machine_password: {
     require_password: '「%s」にはパスワードが必要です。',

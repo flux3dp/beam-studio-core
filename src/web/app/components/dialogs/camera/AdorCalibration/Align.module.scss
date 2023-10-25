@@ -8,13 +8,23 @@
 
 .container {
   position: relative;
-  border: 1px solid #000000;
+  box-sizing: 0 0 0 1px #000000;
 
   .img-container {
     position: relative;
     width: 100%;
     padding-top: 100%;
     overflow: scroll;
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+
+    &:active {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -87,5 +97,5 @@
 }
 
 .footer-button {
-  text-transform: uppercase;
+  text-transform: capitalize;
 }

@@ -1370,7 +1370,7 @@ const lang: ILang = {
     ador_autofocus: '기계의 메인 페이지에서 "AF" 아이콘을 3초 동안 누르고 프로브를 포커싱 블록에 닿게 하십시오.',
     align_red_cross_cut: '빨간 십자의 중심을 잘린 십자와 맞추십시오.',
     align_red_cross_print: '빨간 십자의 중심을 인쇄된 십자와 맞추십시오.',
-    retake: '다시 찍기',
+    retake: '사진 다시 찍기',
   },
   input_machine_password: {
     require_password: '%s은(는) 비밀번호가 필요합니다.',
