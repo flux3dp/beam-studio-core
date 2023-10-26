@@ -231,6 +231,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
     }
   }, [form, onClose, type, fisheyeParam, lang.calibration.failed_to_save_calibration_results]);
   const inputStep = useMemo(() => (type === CalibrationType.CAMERA ? 1 : 0.1), [type]);
+  const inputPrecision = useMemo(() => (type === CalibrationType.CAMERA ? 0 : 1), [type]);
   const lastValueDisplay = useMemo(() => {
     if (type === CalibrationType.CAMERA) return lastResult;
     const { left, top } = getPxFromOffsetValue(lastResult[0], lastResult[1]);
@@ -341,6 +342,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
                   type="number"
                   onChange={(val) => handleValueChange('x', val)}
                   step={inputStep}
+                  precision={inputPrecision}
                   onKeyUp={(e) => e.stopPropagation()}
                   onKeyDown={(e) => e.stopPropagation()}
                 />
@@ -350,6 +352,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
                   type="number"
                   onChange={(val) => handleValueChange('y', val)}
                   step={inputStep}
+                  precision={inputPrecision}
                   onKeyUp={(e) => e.stopPropagation()}
                   onKeyDown={(e) => e.stopPropagation()}
                 />
