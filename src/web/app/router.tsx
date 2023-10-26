@@ -57,6 +57,12 @@ const App = (): JSX.Element => {
           theme={{
             algorithm: defaultAlgorithm,
             token: { screenMD: 601, screenMDMin: 601, screenSMMax: 600 },
+            components: {
+              Message: {
+                // set this value because zIndex of windows custom title bar is 99999
+                zIndexPopup: 100000,
+              }
+            }
           }}
           locale={localeMap[navigator.language]}
         >
