@@ -647,7 +647,7 @@ const lang: ILang = {
         strength: '功率',
         low_power_warning: '功率较低时（低于 10 %），有可能不出光。',
         speed: '速度',
-        speed_contrain_warning: '矢量路径速度将被限制在 20mm/s，您可以在偏好设定解除此限制。',
+        speed_contrain_warning: '矢量路径速度将被限制在 20mm/s (0.79in/s)，您可以在偏好设定解除此限制。',
         low_speed_warning: '低速度下可能会导致材料燃烧。',
         repeat: '运行次数',
         add_on: '扩充模组',

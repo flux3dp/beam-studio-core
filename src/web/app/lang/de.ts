@@ -647,7 +647,7 @@ const lang: ILang = {
         strength: 'Leistung',
         low_power_warning: 'Niedrigere Laserleistung (unter 10 %) emittiert das Laserlicht möglicherweise nicht.',
         speed: 'Geschwindigkeit',
-        speed_contrain_warning: 'Die Schnittgeschwindigkeit von Vektorpfadobjekten wird auf 20mm/s begrenzt. Sie können diese Grenze in den Einstellungen für Einstellungen entfernen.',
+        speed_contrain_warning: 'Die Schnittgeschwindigkeit von Vektorpfadobjekten wird auf 20mm/s (0.79in/s) begrenzt. Sie können diese Grenze in den Einstellungen für Einstellungen entfernen.',
         low_speed_warning: 'Niedrigere Geschwindigkeit kann zu Verbrennungen des Materials führen.',
         repeat: 'Ausführen',
         add_on: 'Zusatz-Module',

@@ -647,7 +647,7 @@ const lang: ILang = {
         strength: '파워',
         low_power_warning: '10% 이하의 레이저 파워는 레이저 빛을 내지 못할 수 있습니다.',
         speed: '스피드',
-        speed_contrain_warning: '벡터 경로 객체의 절단 속도는 20 mm/s로 제한됩니다. 환경설정에서 이 제한을 삭제할 수 있습니다.',
+        speed_contrain_warning: '벡터 경로 객체의 절단 속도는 20 mm/s (0.79in/s) 로 제한됩니다. 환경설정에서 이 제한을 삭제할 수 있습니다.',
         low_speed_warning: '속도가 낮으면 재료가 타버릴 수 있습니다.',
         repeat: '실행',
         add_on: '애드온',

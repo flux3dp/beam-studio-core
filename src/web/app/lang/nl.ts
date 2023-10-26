@@ -647,7 +647,7 @@ const lang: ILang = {
         strength: 'Stroom',
         low_power_warning: 'Bij een lager laservermogen (minder dan 10%) wordt het laserlicht mogelijk niet uitgezonden.',
         speed: 'Snelheid',
-        speed_contrain_warning: 'De snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s. U kunt deze limiet verwijderen bij Voorkeursinstellingen.',
+        speed_contrain_warning: 'De snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s (0.79in/s). U kunt deze limiet verwijderen bij Voorkeursinstellingen.',
         low_speed_warning: 'Bij een lage snelheid kan het materiaal aanbranden.',
         repeat: 'Uitvoeren',
         add_on: 'Toevoegen',

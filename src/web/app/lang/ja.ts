@@ -647,7 +647,7 @@ const lang: ILang = {
         strength: '出力',
         low_power_warning: 'レーザー出力が低い (10% 未満) と、レーザー光が放出されない場合があります。',
         speed: '速度',
-        speed_contrain_warning: 'ベクトルパスオブジェクトの切断速度は 20mm/s に制限されます。この制限は[好み]で削除できます。',
+        speed_contrain_warning: 'ベクトルパスオブジェクトの切断速度は 20mm/s (0.79in/s) に制限されます。この制限は[好み]で削除できます。',
         low_speed_warning: '低速では、材料が焼き付く可能性があります。',
         repeat: '実行',
         add_on: '拡張機能',

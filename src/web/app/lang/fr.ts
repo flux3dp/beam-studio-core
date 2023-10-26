@@ -647,7 +647,7 @@ const lang: ILang = {
         strength: 'Puissance',
         low_power_warning: 'Une puissance laser inférieure (moins de 10 %) peut ne pas émettre la lumière laser.',
         speed: 'Vitesse',
-        speed_contrain_warning: 'La vitesse de découpe des objets de la trajectoire vectorielle sera limitée à 20 mm/s.Vous pouvez supprimer cette limite dans les Paramètres des Préférences.',
+        speed_contrain_warning: 'La vitesse de découpe des objets de la trajectoire vectorielle sera limitée à 20 mm/s (0.79in/s).Vous pouvez supprimer cette limite dans les Paramètres des Préférences.',
         low_speed_warning: 'Une vitesse inférieure peut provoquer une brûlure du matériau.',
         repeat: 'Exécuter',
         add_on: 'Add-on',
