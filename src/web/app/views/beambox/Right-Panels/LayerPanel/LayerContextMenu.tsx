@@ -83,26 +83,28 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     forceUpdate();
   };
 
-  const handleMergeDown = () => {
+  const handleMergeDown = async () => {
     const layer = selectedLayers[0];
     const layerPosition = getLayerPosition(layer);
     if (layerPosition === 0) return;
     const baseLayerName = drawing.getLayerName(layerPosition - 1);
-    mergeLayers([layer], baseLayerName);
-    selectOnlyLayer(baseLayerName);
+    const merged = await mergeLayers([layer], baseLayerName);
+    if (merged) selectOnlyLayer(baseLayerName);
   };
 
-  const handleMergeAll = () => {
+  const handleMergeAll = async () => {
     const allLayerNames = getAllLayerNames();
-    const baseLayerName = mergeLayers(allLayerNames);
+    const baseLayerName = await mergeLayers(allLayerNames);
+    if (!baseLayerName) return;
     const elem = getLayerElementByName(baseLayerName);
     toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
     selectOnlyLayer(baseLayerName);
   };
 
-  const handleMergeSelected = () => {
+  const handleMergeSelected = async () => {
     const currentLayerName = drawing.getCurrentLayerName();
-    const baseLayer = mergeLayers(selectedLayers, currentLayerName);
+    const baseLayer = await mergeLayers(selectedLayers, currentLayerName);
+    if (!baseLayer) return;
     const elem = getLayerElementByName(baseLayer);
     toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
     setSelectedLayers([baseLayer]);
