@@ -685,13 +685,13 @@ const lang: ILang = {
         slider: {
           regular: '普通',
           low: '低い',
-          extremely_low: '極めて低い',
+          very_low: '非常に低い',
           high: '高い',
-          extremely_high: '極めて高い',
+          very_high: '非常に高い',
           slow: '遅い',
-          extremely_slow: '極めて遅い',
+          very_slow: '非常に遅い',
           fast: '速い',
-          extremely_fast: '極めて速い',
+          very_fast: '非常に速い',
         },
         dropdown: {
           parameters: 'パラメーター…',

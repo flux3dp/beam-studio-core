@@ -14,11 +14,11 @@ jest.mock('helpers/useI18n', () => () => ({
         speed: 'speed',
         speed_contrain_warning: 'speed_contrain_warning',
         slider: {
-          extremely_low: 'extremely_low',
+          very_low: 'very_low',
           low: 'low',
           regular: 'regular',
           high: 'high',
-          extremely_high: 'extremely_high',
+          very_high: 'very_high',
         },
       },
     },

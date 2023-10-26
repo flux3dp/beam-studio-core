@@ -685,13 +685,13 @@ const lang: ILang = {
         slider: {
           regular: 'Régulier',
           low: 'Faible',
-          extremely_low: 'Extrêmement faible',
+          very_low: 'Très faible',
           high: 'Élevé',
-          extremely_high: 'Extrêmement élevé',
+          very_high: 'Très élevé',
           slow: 'Lent',
-          extremely_slow: 'Extrêmement lent',
+          very_slow: 'Très lent',
           fast: 'Rapide',
-          extremely_fast: 'Extrêmement rapide',
+          very_fast: 'Très rapide',
         },
         dropdown: {
           parameters: 'Presets',

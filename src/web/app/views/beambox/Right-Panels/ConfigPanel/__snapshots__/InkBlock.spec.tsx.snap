@@ -22,7 +22,7 @@ exports[`test InkBlock should render correctly 1`] = `
       </p>
       <p>
         max: 
-        9
+        15
       </p>
       <p>
         min: 
@@ -44,7 +44,7 @@ exports[`test InkBlock should render correctly 1`] = `
       </p>
       <p>
         options: 
-        [{"value":1,"label":"extremely_low"},{"value":2,"label":"low"},{"value":3,"label":"regular"},{"value":4,"label":"high"},{"value":5,"label":"extremely_high"}]
+        [{"value":1,"label":"very_low"},{"value":2,"label":"low"},{"value":3,"label":"regular"},{"value":4,"label":"high"},{"value":5,"label":"very_high"}]
       </p>
       <button
         type="button"
@@ -55,7 +55,7 @@ exports[`test InkBlock should render correctly 1`] = `
     <input
       class="mock-config-slider"
       id="saturation"
-      max="9"
+      max="15"
       min="1"
       step="0.1"
       type="range"

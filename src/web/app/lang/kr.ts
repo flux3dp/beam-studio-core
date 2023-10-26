@@ -685,13 +685,13 @@ const lang: ILang = {
         slider: {
           regular: '보통',
           low: '낮음',
-          extremely_low: '매우 낮음',
+          very_low: '매우 낮음',
           high: '높음',
-          extremely_high: '매우 높음',
+          very_high: '매우 높음',
           slow: '느림',
-          extremely_slow: '매우 느림',
+          very_slow: '매우 느림',
           fast: '빠름',
-          extremely_fast: '매우 빠름',
+          very_fast: '매우 빠름',
         },
         dropdown: {
           parameters: '프리셋',

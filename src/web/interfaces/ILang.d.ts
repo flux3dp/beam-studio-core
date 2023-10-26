@@ -682,13 +682,13 @@ export interface ILang {
         slider: {
           regular: string;
           low: string;
-          extremely_low: string;
+          very_low: string;
           high: string;
-          extremely_high: string;
+          very_high: string;
           slow: string;
-          extremely_slow: string;
+          very_slow: string;
           fast: string;
-          extremely_fast: string;
+          very_fast: string;
         };
         dropdown: {
           parameters: string,
