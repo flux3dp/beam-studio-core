@@ -47,10 +47,13 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
       const cmd = svgCanvas.undoMgr.finishUndoableChange();
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     }
-    if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     if (elem.tagName.toLowerCase() === 'use') {
       symbolMaker.reRenderImageSymbol(elem as SVGUseElement, { force: true });
+      batchCmd.onAfter = () => {
+        symbolMaker.reRenderImageSymbol(elem as SVGUseElement, { force: true });
+      }
     }
+    if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     setColors(colloectColors(elem));
   };
 

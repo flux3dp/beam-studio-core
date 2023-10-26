@@ -429,6 +429,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       // TODO: handle setBlurOffsets.
       if (eventType === EventTypes.BEFORE_UNAPPLY || eventType === EventTypes.BEFORE_APPLY) {
         onBefore();
+        cmd?.onBefore?.();
         canvas.clearSelection();
       } else if (eventType === EventTypes.AFTER_APPLY || eventType === EventTypes.AFTER_UNAPPLY) {
         try {
@@ -517,6 +518,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             }
           }
         } finally {
+          cmd?.onAfter?.();
           onAfter();
         }
       }
