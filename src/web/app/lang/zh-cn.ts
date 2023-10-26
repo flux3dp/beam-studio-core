@@ -684,13 +684,13 @@ const lang: ILang = {
         slider: {
           regular: '正常',
           low: '低',
-          extremely_low: '极低',
+          very_low: '非常低',
           high: '高',
-          extremely_high: '极高',
+          very_high: '非常高',
           slow: '慢',
-          extremely_slow: '极慢',
+          very_slow: '非常慢',
           fast: '快',
-          extremely_fast: '极快',
+          very_fast: '非常快',
         },
         dropdown: {
           parameters: '选择参数',

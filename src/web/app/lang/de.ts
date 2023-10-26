@@ -684,13 +684,13 @@ const lang: ILang = {
         slider: {
           regular: 'Regelmäßig',
           low: 'Niedrig',
-          extremely_low: 'Extrem niedrig',
-          high: 'Extrem hoch',
-          extremely_high: 'Extremely High',
+          very_low: 'Sehr niedrig',
+          high: 'Hoch',
+          very_high: 'Sehr hoch',
           slow: 'Langsam',
-          extremely_slow: 'Extrem langsam',
+          very_slow: 'Sehr langsam',
           fast: 'Schnell',
-          extremely_fast: 'Extrem schnell',
+          very_fast: 'Sehr schnell',
         },
         dropdown: {
           parameters: 'Voreinstellungen',
