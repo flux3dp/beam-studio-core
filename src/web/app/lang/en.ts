@@ -662,7 +662,7 @@ const lang: ILang = {
         strength: 'Power',
         low_power_warning: 'Lower laser power (under 10%) might not emit the laser light.',
         speed: 'Speed',
-        speed_contrain_warning: 'The cutting speed of vector path objects will be constrained to 20 mm/s.You can remove this limit at Preferences Settings.',
+        speed_contrain_warning: 'The cutting speed of vector path objects will be constrained to 20 mm/s (0.79in/s).You can remove this limit at Preferences Settings.',
         low_speed_warning: 'Low speed might cause burning of the material.',
         repeat: 'Execute',
         add_on: 'Add-on',

@@ -662,7 +662,7 @@ const lang: ILang = {
         strength: 'Força',
         low_power_warning: 'Potência menor do laser (abaixo de 10%) pode não emitir a luz do laser.',
         speed: 'Velocidade',
-        speed_contrain_warning: 'A velocidade de corte de objetos de caminho vetorial será limitada a 20 mm/s. Você pode remover esse limite em Configurações de preferências.',
+        speed_contrain_warning: 'A velocidade de corte de objetos de caminho vetorial será limitada a 20 mm/s (0.79in/s). Você pode remover esse limite em Configurações de preferências.',
         low_speed_warning: 'Baixa velocidade pode causar queima do material.',
         repeat: 'Executar',
         add_on: 'Adicionais',
