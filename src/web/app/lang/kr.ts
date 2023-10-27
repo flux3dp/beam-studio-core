@@ -1348,7 +1348,8 @@ const lang: ILang = {
     ask_for_readjust: '각인 단계를 건너 뛰고 즉시 사진을 찍고 보정하시겠습니까?',
     please_goto_beambox_first: '이 기능을 사용하려면 Engraving Mode (Beambox)로 전환하십시오.',
     please_place_paper: '좌측 상단 모서리에 A4 또는 Letter 크기의 흰색 종이를 놓으십시오.',
-    please_place_black_acrylic: '작업 영역의 왼쪽 상단 모퉁이에 A4 또는 레터 사이즈의 블랙 아크릴을 놓아주세요.',
+    please_place_paper_center: 'A4 또는 편지 사이즈의 흰 종이를 작업 영역 가운데 놓아 주십시오.',
+    please_place_black_acrylic: 'A4 또는 편지 사이즈의 검은 아크릴을 작업 영역 가운데 놓아 주십시오.',
     please_refocus: {
       beambox: '대상물의 초점 (뒤집힌 아크릴의 높이)에 대한 플랫폼을 조정하십시오.',
       beamo: '레이저 헤드를 각인 대상물 (뒤집힌 아크릴의 높이)에 맞추십시오.',

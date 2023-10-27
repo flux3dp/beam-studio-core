@@ -182,7 +182,7 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
           text={
             type === CalibrationType.IR_LASER
               ? lang.please_place_black_acrylic
-              : lang.please_place_paper
+              : lang.please_place_paper_center
           }
           buttons={[
             { label: lang.next, onClick: () => setStep(Step.FOCUS_AND_CUT), type: 'primary' },

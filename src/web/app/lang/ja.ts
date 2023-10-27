@@ -1348,7 +1348,8 @@ const lang: ILang = {
     ask_for_readjust: '彫刻ステップをスキップして写真を撮り、キャリブレーションを行いますか？',
     please_goto_beambox_first: 'この機能を使用するには、彫刻モード（Beambox）に切り替えてください。',
     please_place_paper: 'ワークエリアの左上隅にA4またはレターサイズの白い用紙を置いてください',
-    please_place_black_acrylic: '作業エリアの左上隅にA4またはレターサイズの黒いアクリルを置いてください。',
+    please_place_paper_center: 'A4 サイズまたはレターサイズの白紙を作業エリアの中央に置いてください。',
+    please_place_black_acrylic: 'A4 サイズまたはレターサイズの黒アクリルを作業エリアの中央に置いてください。',
     please_refocus: {
       beambox: 'プラットフォームを焦点に合わせてください（折り返されたアクリルの高さ）',
       beamo: 'レーザーヘッドを調整して、彫刻オブジェクトに焦点を合わせます（折り返されたアクリルの高さ',
