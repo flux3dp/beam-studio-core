@@ -17,6 +17,7 @@ import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
+import PreviewHeight from 'app/components/dialogs/PreviewHeight';
 import Prompt from 'app/views/dialogs/Prompt';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
@@ -245,6 +246,16 @@ export default {
       />);
   },
   promptDialog,
+  getPreviewHeight: (args: { initValue: number }): Promise<number | null> => new Promise((resolve) => {
+    const id = 'get-preview-height';
+    if (isIdExist(id)) popDialogById(id);
+    addDialogComponent(id,
+      <PreviewHeight
+        initValue={args.initValue}
+        onOk={(val) => resolve(val)}
+        onClose={() => popDialogById(id)}
+      />);
+  }),
   getPromptValue: (args: IPrompt): Promise<string | null> => new Promise((resolve) => {
     const onYes = (val?: string) => resolve(val);
     const onCancel = () => resolve(null);

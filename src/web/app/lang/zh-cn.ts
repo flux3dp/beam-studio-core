@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: '正在连接相机...',
     homing: '归零中...',
     connectionTimeout: '#805 连接机器逾时，请确认你的网路状态和机器的 Wi-Fi 讯号符号。',
+    getProbePosition: '获取探针位置中...',
     device_not_found: {
       caption: '找不到默认机器',
       message: '#812 请确认默认机器的 Wi-Fi 指示灯，或取消设置默认机器',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 与机器相机的连线无预期的中断。如果问题持续发生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/4402755805071">此则引导</a>。',
       continue_preview: '继续预览',
       abort_preview: '中断预览',
+    },
+    preview: {
+      camera_preview: '相机预览',
+      auto_focus: '自动对焦',
+      auto_focus_instruction: '请将激光模块头部移至物体上方，在机器的主页面上长按“AF”图标3秒钟。这是为了获得准确的校准图像。',
+      already_performed_auto_focus: '您已经执行了自动对焦，要使用现有数值吗？',
+      please_enter_height: '请输入物体的高度。',
+      redo_auto_focus: '重新自动对焦',
+      save_and_use: '保存并使用',
+      enter_manually: '手动输入',
+      adjust: '调整',
+      adjust_height_tooltip: '单击复选框以启用编辑。',
     },
   },
   machine_status: {

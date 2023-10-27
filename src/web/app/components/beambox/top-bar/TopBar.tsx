@@ -132,6 +132,10 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
 
     try {
       await PreviewModeController.start(device, onPreviewError);
+      if (!PreviewModeController.isPreviewModeOn) {
+        $(workarea).css('cursor', 'auto');
+        return;
+      }
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
       if (constant.adorModels.includes(device.model)) {
         PreviewModeController.previewFullWorkarea(() => updateTopBar());

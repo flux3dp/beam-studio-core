@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: '카메라에 연결 중입니다...',
     homing: '홈을 찾고 있습니다...',
     connectionTimeout: '#805 기기 연결 시간 초과. 네트워크 상태와 기기의 Wi-Fi 표시기를 확인해주세요.',
+    getProbePosition: '프로브 위치 가져오는 중...',
     device_not_found: {
       caption: '기본 기기를 찾을 수 없습니다',
       message: '#812 기기의 Wi-Fi 표시기를 확인해주세요.',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 기계 카메라 연결이 예기치 않게 종료되었습니다. 만약 이 오류가 계속 발생한다면, <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">이 가이드</a>를 따라주세요.',
       continue_preview: '계속하기',
       abort_preview: '중지',
+    },
+    preview: {
+      camera_preview: '카메라 미리보기',
+      auto_focus: '오토포커스',
+      auto_focus_instruction: '레이저 모듈 헤드를 대상물 위에 이동하고, 기계의 메인 페이지에서 "AF" 아이콘을 3초 동안 눌러주세요. 정확한 보정 이미지를 얻기 위해 필요합니다.',
+      already_performed_auto_focus: '이미 오토포커스를 수행했습니다. 기존 값 사용하시겠습니까?',
+      please_enter_height: '객체의 높이를 입력해 주십시오.',
+      redo_auto_focus: '오토포커스 다시 하기',
+      save_and_use: '저장 및 사용',
+      enter_manually: '수동 입력',
+      adjust: '조절',
+      adjust_height_tooltip: '편집을 활성화하려면 확인란을 클릭하세요.',
     },
   },
   machine_status: {

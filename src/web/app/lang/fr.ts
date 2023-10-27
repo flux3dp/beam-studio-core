@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: 'Connexion de la caméra...',
     homing: 'Homing...',
     connectionTimeout: '#805 Délai de connexion du périphérique. Veuillez vérifier l\'état de votre réseau et l\'indicateur Wi-Fi de votre machine.',
+    getProbePosition: 'Obtention de la position de la sonde...',
     device_not_found: {
       caption: 'Défaut Machine non trouvée',
       message: '#812 Veuillez vérifier l\'indicateur Wi-Fi de votre machine.',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 La connexion à la caméra de la machine a été fermée de manière inattendue. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">ce guide</a>.',
       continue_preview: 'Continuer',
       abort_preview: 'Avorter',
+    },
+    preview: {
+      camera_preview: 'Aperçu de la caméra',
+      auto_focus: 'Mise au point automatique',
+      auto_focus_instruction: 'Veuillez déplacer la tête du module laser au-dessus de l\'objet, appuyez sur l\'icône "AF" sur la page principale de la machine pendant 3 secondes. Ceci est nécessaire pour obtenir une image de calibrage précise.',
+      already_performed_auto_focus: 'Vous avez déjà effectué la mise au point automatique, utiliser les valeurs existantes ?',
+      please_enter_height: 'Veuillez entrer la hauteur de l\'objet.',
+      redo_auto_focus: 'Refaire la mise au point automatique',
+      save_and_use: 'Enregistrer et utiliser',
+      enter_manually: 'Entrer manuellement',
+      adjust: 'Ajuster',
+      adjust_height_tooltip: 'Cliquez sur la case à cocher pour activer la modification.',
     },
   },
   machine_status: {

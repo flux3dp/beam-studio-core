@@ -1007,6 +1007,7 @@ class DeviceMaster {
       const res = await this.currentDevice.camera.oneShot();
       if (res) return res;
       this.disconnectCamera();
+      // TODO: for ador: setFisheyeMatrix
       // eslint-disable-next-line no-await-in-loop
       await this.connectCamera();
     }

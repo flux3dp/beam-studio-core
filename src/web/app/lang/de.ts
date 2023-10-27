@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: 'Kamera anschließen...',
     homing: 'Homing...',
     connectionTimeout: '#805 Zeitlimit für Geräteverbindung. Bitte überprüfe den Zustand Ihres Netzwerks und die Wi-Fi-Anzeige Ihres Geräts.',
+    getProbePosition: 'Sondenposition wird abgerufen...',
     device_not_found: {
       caption: 'Standard-Maschine nicht gefunden',
       message: '#812 Bitte überprüfe die Wi-Fi-Anzeige Ihres Geräts',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 Die Verbindung zur Maschinenkamera wurde unerwartet geschlossen. Wenn dieser Fehler weiterhin besteht, befolgen Sie <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">diese Anleitung</a>.',
       continue_preview: 'Fortsetzen',
       abort_preview: 'Abbrechen',
+    },
+    preview: {
+      camera_preview: 'Kameravorschau',
+      auto_focus: 'Autofokus',
+      auto_focus_instruction: 'Bitte bewegen Sie den Kopf des Lasermoduls über das Objekt, drücken Sie das "AF"-Symbol auf der Hauptseite der Maschine für 3 Sekunden. Dies ist erforderlich, um ein genaues Kalibrierungsbild zu erhalten.',
+      already_performed_auto_focus: 'Sie haben bereits den Autofokus durchgeführt. Möchten Sie die vorhandenen Werte verwenden?',
+      please_enter_height: 'Bitte geben Sie die Höhe des Objekts ein.',
+      redo_auto_focus: 'Autofokus erneut durchführen',
+      save_and_use: 'Speichern und verwenden',
+      enter_manually: 'Manuell eingeben',
+      adjust: 'Anpassen',
+      adjust_height_tooltip: 'Klicken Sie auf das Kontrollkästchen, um die Bearbeitung zu aktivieren.',
     },
   },
   machine_status: {

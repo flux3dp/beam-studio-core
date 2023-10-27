@@ -1258,6 +1258,7 @@ export interface ILang {
     connectingCamera: string,
     homing: string,
     connectionTimeout: string,
+    getProbePosition: string;
     device_not_found: {
       caption: string,
       message: string,
@@ -1292,6 +1293,18 @@ export interface ILang {
       continue_preview: string,
       abort_preview: string,
     },
+    preview: {
+      camera_preview: string;
+      auto_focus: string;
+      auto_focus_instruction: string;
+      already_performed_auto_focus: string;
+      please_enter_height: string;
+      redo_auto_focus: string;
+      save_and_use: string;
+      enter_manually: string;
+      adjust: string;
+      adjust_height_tooltip: string;
+    };
   },
   machine_status: {
     '-10': string,

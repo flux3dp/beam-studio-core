@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: 'カメラを接続中…',
     homing: 'ホーミング…',
     connectionTimeout: '#805 デバイス接続タイムアウト，ネットワークの状態とマシンのWi-Fiインジケーターを確認してください。',
+    getProbePosition: 'プローブ位置の取得中...',
     device_not_found: {
       caption: '出るフォトのマシンが見つかりません',
       message: '#812 マシンのWi-Fiインジケーターを確認してください',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 マシンカメラへの接続が予期せず閉じられました。このエラーが続く場合は、この<a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">ガイド</a>に従ってください。',
       continue_preview: '継続する',
       abort_preview: '中止する',
+    },
+    preview: {
+      camera_preview: 'カメラプレビュー',
+      auto_focus: 'オートフォーカス',
+      auto_focus_instruction: 'レーザーモジュールのヘッドを対象の上に移動し、機械のメインページで「AF」アイコンを3秒間押してください。正確なキャリブレーション画像を取得するために必要です。',
+      already_performed_auto_focus: 'すでにオートフォーカスを行っています。既存の値を使用しますか？',
+      please_enter_height: 'オブジェクトの高さを入力してください。',
+      redo_auto_focus: 'オートフォーカスをやり直す',
+      save_and_use: '保存して使用する',
+      enter_manually: '手動で入力',
+      adjust: '調整',
+      adjust_height_tooltip: '編集を有効にするにはチェックボックスをクリックしてください。',
     },
   },
   machine_status: {

@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: 'Connecting camera...',
     homing: 'Homing...',
     connectionTimeout: '#805 Device Connection Timeout. Please check your network state and your machine\'s Wi-Fi indicator.',
+    getProbePosition: 'Getting Probe Position...',
     device_not_found: {
       caption: 'Default Machine not found',
       message: '#812 Please check your machine\'s Wi-Fi indicator',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 Connection to machine camera has been closed unexpectedly. If this error persists, please follow <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">this guide</a>.',
       continue_preview: 'Continue',
       abort_preview: 'Abort',
+    },
+    preview: {
+      camera_preview: 'Camera Preview',
+      auto_focus: 'Auto Focus',
+      auto_focus_instruction: 'Please move laser module head above the object, press the “AF” icon on the main page of the machine for 3 seconds. In order to obtain an accurate calibration image.',
+      already_performed_auto_focus: 'You have already performed autofocus, use existing values?',
+      please_enter_height: 'Please enter height of object.',
+      redo_auto_focus: 'Redo Auto Focus',
+      save_and_use: 'Save and Use',
+      enter_manually: 'Enter Manually',
+      adjust: 'Adjust',
+      adjust_height_tooltip: 'Click the checkbox to enable editing.',
     },
   },
   machine_status: {

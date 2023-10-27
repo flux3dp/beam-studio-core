@@ -1261,6 +1261,7 @@ const lang: ILang = {
     connectingCamera: 'Conectando a câmera...',
     homing: 'Homing...',
     connectionTimeout: '#805 Tempo limite de conexão  do dispositivo excedido. Verifique o estado da sua rede e o indicador Wi-Fi da sua máquina.',
+    getProbePosition: 'Obtendo posição da sonda...',
     device_not_found: {
       caption: 'Máquina padrão não encontrada',
       message: '#812 Por favor, verifique o indicador Wi-Fi da sua máquina',
@@ -1294,6 +1295,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 A conexão com a câmera da máquina foi encerrada inesperadamente. Se o erro persistir, siga <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">este guia</a>.',
       continue_preview: 'Cotinuar',
       abort_preview: 'Abordar',
+    },
+    preview: {
+      camera_preview: 'Visualização da câmera',
+      auto_focus: 'Foco automático',
+      auto_focus_instruction: 'Por favor, mova a cabeça do módulo laser acima do objeto, pressione o ícone "AF" na página principal da máquina por 3 segundos. Isso é necessário para obter uma imagem de calibração precisa.',
+      already_performed_auto_focus: 'Você já realizou o foco automático, deseja usar os valores existentes?',
+      please_enter_height: 'Por favor, insira a altura do objeto.',
+      redo_auto_focus: 'Refazer o foco automático',
+      save_and_use: 'Salvar e usar',
+      enter_manually: 'Inserir manualmente',
+      adjust: 'Ajustar',
+      adjust_height_tooltip: 'Clique na caixa de seleção para habilitar a edição.',
     },
   },
   machine_status: {
