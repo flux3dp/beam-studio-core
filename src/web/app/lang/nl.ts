@@ -1260,6 +1260,7 @@ const lang: ILang = {
     connectingCamera: 'Camera aansluiten...',
     homing: 'Homing...',
     connectionTimeout: '#805 Time-out voor apparaatverbinding. Controleer uw netwerkstatus en de wifi-indicator van uw machine.',
+    getProbePosition: 'Probe positie ophalen...',
     device_not_found: {
       caption: 'Standaardmachine niet gevonden',
       message: '#812 Controleer de wifi-indicator van uw machine',
@@ -1293,6 +1294,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 Verbinding met machinecamera is onverwacht gesloten. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">deze handleiding</a>.',
       continue_preview: 'Doorgaan',
       abort_preview: 'Afbreken',
+    },
+    preview: {
+      camera_preview: 'Cameravoorbeeld',
+      auto_focus: 'Automatische scherpstelling',
+      auto_focus_instruction: 'Plaats alstublieft de kop van de lasermodule boven het object, druk gedurende 3 seconden op het "AF" pictogram op de hoofdpagina van de machine. Dit is nodig om een nauwkeurige kalibratieafbeelding te verkrijgen.',
+      already_performed_auto_focus: 'U heeft al automatisch scherp gesteld, wilt u de bestaande waarden gebruiken?',
+      please_enter_height: 'Voer de hoogte van het object in.',
+      redo_auto_focus: 'Automatisch opnieuw scherpstellen',
+      save_and_use: 'Opslaan en gebruiken',
+      enter_manually: 'Handmatig invoeren',
+      adjust: 'Aanpassen',
+      adjust_height_tooltip: 'Klik op het selectievakje om bewerken in te schakelen.',
     },
   },
   machine_status: {

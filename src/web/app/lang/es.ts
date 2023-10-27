@@ -1260,6 +1260,7 @@ const lang: ILang = {
     connectingCamera: 'Conectando cámara ...',
     homing: 'Buscador de blancos...',
     connectionTimeout: '#805 Por favor, comprueba el estado de tu red y el indicador de Wi-Fi de tu máquina.',
+    getProbePosition: 'Obteniendo posición de la sonda...',
     device_not_found: {
       caption: 'Máquina por defecto no encontrada',
       message: '#812 Por favor, comprueba el indicador de Wi-Fi de tu máquina',
@@ -1293,6 +1294,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 La conexión a la cámara de la máquina se ha cerrado inesperadamente. Si este error persiste, por favor sigue <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402755805071">esta guía</a>.',
       continue_preview: 'Continuar',
       abort_preview: 'Abortar',
+    },
+    preview: {
+      camera_preview: 'Vista de la cámara',
+      auto_focus: 'Enfoque automático',
+      auto_focus_instruction: 'Por favor, coloque la cabeza del módulo láser sobre el objeto, presione el ícono "AF" en la página principal de la máquina durante 3 segundos. Esto es necesario para obtener una imagen de calibración precisa.',
+      already_performed_auto_focus: 'Ya ha realizado el enfoque automático, ¿utilizar los valores existentes?',
+      please_enter_height: 'Por favor, introduzca la altura del objeto.',
+      redo_auto_focus: 'Repetir enfoque automático',
+      save_and_use: 'Guardar y usar',
+      enter_manually: 'Introducir manualmente',
+      adjust: 'Ajustar',
+      adjust_height_tooltip: 'Haga clic en la casilla para habilitar la edición.',
     },
   },
   machine_status: {

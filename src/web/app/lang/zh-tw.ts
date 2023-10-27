@@ -1260,6 +1260,7 @@ const lang: ILang = {
     connectingCamera: '正在連接相機...',
     homing: '歸零中...',
     connectionTimeout: '#805 連接機器逾時，請確認你的網路狀態和機器的 Wi-Fi 訊號符號。',
+    getProbePosition: '取得探針位置中...',
     device_not_found: {
       caption: '找不到預設機器',
       message: '#812 請確認預設機器的 Wi-Fi 指示燈，或取消設定預設機器',
@@ -1293,6 +1294,18 @@ const lang: ILang = {
       ws_closed_unexpectly: '#844 與機器相機的連線無預期的中斷。如果問題持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/4402755805071">此則引導</a>。',
       continue_preview: '繼續預覽',
       abort_preview: '中斷預覽',
+    },
+    preview: {
+      camera_preview: '相機預覽',
+      auto_focus: '自動對焦',
+      auto_focus_instruction: '請將模組頭移至物體上方，在機器的主頁上長按“AF”圖標3秒鐘。這是為了獲得準確的校準圖像。',
+      already_performed_auto_focus: '您已經執行了自動對焦，要使用現有數值嗎？',
+      please_enter_height: '請輸入物體的高度。',
+      redo_auto_focus: '重新自動對焦',
+      save_and_use: '保存並使用',
+      enter_manually: '手動輸入',
+      adjust: '調整',
+      adjust_height_tooltip: '點選方塊以啟用編輯。',
     },
   },
   machine_status: {

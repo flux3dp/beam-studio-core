@@ -139,7 +139,7 @@ class PreviewModeController {
       deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
       deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
     ];
-    Progress.update('preview-mode-controller', { message: 'Getting probe position' });
+    Progress.update('preview-mode-controller', { message: LANG.message.getProbePosition });
     const lastPosition = await deviceMaster.rawGetLastPos();
     const { x, y } = lastPosition;
     let xIndex = 0;
@@ -160,22 +160,19 @@ class PreviewModeController {
 
   getHeight = async () => {
     const device = this.currentDevice;
+    let height: number;
     try {
-      if (!BeamboxPreference.read('enable-custom-preview-height')) {
-        Progress.update('preview-mode-controller', { message: 'Getting probe position' });
-        const res = await deviceMaster.rawGetProbePos();
-        const { z, didAf } = res;
-        if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
-      }
+      Progress.update('preview-mode-controller', { message: 'Getting probe position' });
+      const res = await deviceMaster.rawGetProbePos();
+      const { z, didAf } = res;
+      if (didAf) height = deviceConstants.WORKAREA_DEEP[device.model] - z;
     } catch (e) {
       console.log('Fail to get probe position, using custom height', e);
       // do nothing
     }
-    const val = await dialogCaller.getPromptValue({
-      message: 'Please enter the height of object (mm)',
-    });
-    if (val === null) return null;
-    return Number.isNaN(Number(val)) ? null : Number(val);
+    Progress.popById('preview-mode-controller');
+    height = await dialogCaller.getPreviewHeight({ initValue: height });
+    return height;
   };
 
   reloadHeightOffset = async () => {
@@ -231,7 +228,7 @@ class PreviewModeController {
       await deviceMaster.enterRawMode();
       const height = await this.getHeight();
       this.fisheyeObjectHeight = height;
-      Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
+      Progress.openNonstopProgress({ id: 'preview-mode-controller', message: LANG.message.endingRawMode });
       await deviceMaster.endRawMode();
       await this.setFishEyeObjectHeight(height);
     } catch (err) {
@@ -268,10 +265,12 @@ class PreviewModeController {
       await deviceMaster.rawLooseMotor();
       await this.applyAFPositionLevelingBias();
       const height = await this.getHeight();
+      if (typeof height !== 'number') return false;
       this.fisheyeObjectHeight = height;
-      Progress.update('preview-mode-get-height', { message: LANG.message.endingRawMode });
+      Progress.openNonstopProgress({ id: 'preview-mode-controller', message: LANG.message.endingRawMode });
       await deviceMaster.endRawMode();
       await this.setFishEyeObjectHeight(height);
+      return true;
     } catch (err) {
       if (deviceMaster.currentControlMode === 'raw') {
         await deviceMaster.rawLooseMotor();
@@ -345,7 +344,10 @@ class PreviewModeController {
       if (!Constant.adorModels.includes(device.model)) await this.setupBeamSeriesPreviewMode();
       Progress.update('preview-mode-controller', { message: LANG.message.connectingCamera });
       await deviceMaster.connectCamera();
-      if (Constant.adorModels.includes(device.model)) await this.setUpFishEyePreviewMode();
+      if (Constant.adorModels.includes(device.model)) {
+        const setUpRes = await this.setUpFishEyePreviewMode();
+        if (!setUpRes) return;
+      }
 
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
       PreviewModeBackgroundDrawer.drawBoundary();
