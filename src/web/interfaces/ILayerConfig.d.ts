@@ -20,4 +20,6 @@ export interface ILayerConfig {
   wSpeed: IConfig<number>;
   wMultipass: IConfig<number>;
   wRepeat: IConfig<number>;
+  color: IConfig<string>;
+  fullcolor: IConfig<boolean>;
 }

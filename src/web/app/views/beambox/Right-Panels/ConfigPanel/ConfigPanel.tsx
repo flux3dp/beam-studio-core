@@ -79,7 +79,6 @@ interface Props {
 const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const { selectedLayers: initLayers } = useContext(LayerPanelContext);
   const [selectedLayers, setSelectedLayers] = useState(initLayers);
-  const mainLayerElem = useMemo(() => getLayerByName(selectedLayers[0]), [selectedLayers]);
   useEffect(() => {
     if (UIType === 'modal') {
       const drawing = svgCanvas.getCurrentDrawing();
@@ -264,7 +263,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       });
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
-  const { module } = state;
+  const { module, fullcolor } = state;
   const isDevMode = isDev();
   const commonContent = (
     <>
@@ -273,8 +272,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} />}
-      {module.value === LayerModule.PRINTER &&
-        mainLayerElem?.getAttribute('data-fullcolor') === '1' && <WhiteInkCheckbox />}
+      {module.value === LayerModule.PRINTER && fullcolor.value && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
       <RepeatBlock type={UIType} />
     </>

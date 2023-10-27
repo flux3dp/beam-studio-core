@@ -8,6 +8,7 @@ import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelIte
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { PrintingColors } from 'app/constants/color-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
@@ -27,7 +28,7 @@ function InkBlock({
   const { selectedLayers, state, dispatch, simpleMode = true } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'power';
-  const { ink } = state;
+  const { ink, color } = state;
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
@@ -39,8 +40,12 @@ function InkBlock({
       });
   };
   const sliderOptions = useMemo(
-    () => (simpleMode ? configOptions.getSaturationOptions(lang) : null),
-    [simpleMode, lang]
+    () => {
+      if (!simpleMode) return null;
+      if (color.value === PrintingColors.WHITE) return configOptions.getWhiteSaturationOptions(lang);
+      return configOptions.getSaturationOptions(lang);
+    },
+    [simpleMode, color.value, lang]
   );
 
   const content = (
