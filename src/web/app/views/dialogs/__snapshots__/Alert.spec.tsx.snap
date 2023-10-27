@@ -55,7 +55,7 @@ exports[`test Alert should render correctly 1`] = `
                 class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
               >
                 <span
-                  class="ant-checkbox css-dev-only-do-not-override-hash"
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-hash"
                 >
                   <input
                     class="ant-checkbox-input"
@@ -80,6 +80,7 @@ exports[`test Alert should render correctly 1`] = `
                 <span>
                   Yes
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -88,6 +89,7 @@ exports[`test Alert should render correctly 1`] = `
                 <span>
                   No
                 </span>
+                
               </button>
             </div>
           </div>
