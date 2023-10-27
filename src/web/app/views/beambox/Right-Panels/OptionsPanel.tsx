@@ -45,12 +45,20 @@ function OptionsPanel({
           rx={rx}
           updateDimensionValues={updateDimensionValues}
         />,
-        showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock key="fill" elem={elem} />,
+        showColorPanel ? (
+          <ColorPanel key="color" elem={elem} />
+        ) : (
+          <InFillBlock key="fill" elem={elem} />
+        ),
       ];
     } else if (tagName === 'polygon') {
       contents = [
         <PolygonOptions key="polygon" elem={elem} polygonSides={polygonSides} />,
-        showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock key="fill" elem={elem} />,
+        showColorPanel ? (
+          <ColorPanel key="color" elem={elem} />
+        ) : (
+          <InFillBlock key="fill" elem={elem} />
+        ),
       ];
     } else if (tagName === 'text') {
       contents = [
@@ -64,18 +72,20 @@ function OptionsPanel({
         />,
         // eslint-disable-next-line no-nested-ternary
         showColorPanel ? (
-          <ColorPanel elem={elem} />
+          <ColorPanel key="color" elem={elem} />
         ) : isMobile ? (
           <InFillBlock key="fill" elem={elem} />
         ) : null,
       ];
     } else if (tagName === 'image' || tagName === 'img') {
       if (elem.getAttribute('data-fullcolor') === '1') contents = [];
-      else contents = [<ImageOptions elem={elem} updateObjectPanel={updateObjectPanel} />];
+      else
+        contents = [<ImageOptions key="image" elem={elem} updateObjectPanel={updateObjectPanel} />];
     } else if (tagName === 'g' && elem.getAttribute('data-textpath-g')) {
       const textElem = elem.querySelector('text');
       contents = [
         <TextOptions
+          key="textpath"
           isTextPath
           elem={elem}
           textElement={textElem}
@@ -84,11 +94,23 @@ function OptionsPanel({
         />,
       ];
     } else if (tagName === 'g') {
-      contents = [showColorPanel ? <MultiColorOptions elem={elem} /> : <InFillBlock elem={elem} />];
+      contents = [
+        showColorPanel ? (
+          <MultiColorOptions key="multi-color" elem={elem} />
+        ) : (
+          <InFillBlock key="infill" elem={elem} />
+        ),
+      ];
     } else if (tagName === 'use') {
-      contents = [showColorPanel ? <MultiColorOptions elem={elem} /> : null];
+      contents = [showColorPanel ? <MultiColorOptions key="multi-color" elem={elem} /> : null];
     } else {
-      contents = [showColorPanel ? <ColorPanel elem={elem} /> : <InFillBlock elem={elem} />];
+      contents = [
+        showColorPanel ? (
+          <ColorPanel key="color" elem={elem} />
+        ) : (
+          <InFillBlock key="infill" elem={elem} />
+        ),
+      ];
     }
   }
 
