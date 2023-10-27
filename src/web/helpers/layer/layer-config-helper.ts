@@ -39,6 +39,8 @@ export enum DataType {
   wInk = 'wInk',
   wMultipass = 'wMultipass',
   wRepeat = 'wRepeat',
+  color = 'color',
+  fullColor = 'fullcolor',
 }
 
 export const dataKey = {
@@ -60,6 +62,8 @@ export const dataKey = {
   [DataType.wInk]: 'wInk',
   [DataType.wMultipass]: 'wMultipass',
   [DataType.wRepeat]: 'wRepeat',
+  [DataType.color]: 'color',
+  [DataType.fullColor]: 'fullcolor',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -101,14 +105,15 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
   ) {
     targetDataType = DataType.printingSpeed;
   }
-  if (![DataType.configName].includes(targetDataType)) {
-    return Number(
-      layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]
-    ) as T;
+  if ([DataType.configName, DataType.color].includes(targetDataType)) {
+    return (
+      (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
+    );
   }
-  return (
-    (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
-  );
+  if (targetDataType === DataType.fullColor) return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
+  return Number(
+    layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]
+  ) as T;
 };
 
 export const writeDataLayer = (
@@ -176,7 +181,8 @@ const getMultiSelectData = <T = number>(
 export const initLayerConfig = (layerName: string): void => {
   const dataTypes = Object.values(DataType);
   for (let i = 0; i < dataTypes.length; i += 1) {
-    writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
+    if (defaultConfig[dataTypes[i]] !== undefined)
+      writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
   }
 };
 
