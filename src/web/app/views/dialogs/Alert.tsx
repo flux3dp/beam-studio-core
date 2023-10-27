@@ -72,6 +72,7 @@ const Alert = ({ data }: Props): JSX.Element => {
       title={caption}
       footer={footer}
       closable={false}
+      maskClosable={false}
       centered
       onCancel={popFromStack}
     >
