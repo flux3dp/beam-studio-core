@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-export type RightPanelMode = 'element' | 'path-edit';
+export type RightPanelMode = 'element' | 'path-edit' | 'preview-color';
 interface IRightPanelContext {
   mode: RightPanelMode;
 }

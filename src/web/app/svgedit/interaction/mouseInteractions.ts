@@ -20,6 +20,7 @@ import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
 
@@ -1578,6 +1579,10 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       element = null;
       svgCanvas.setMode('select');
       break;
+    case 'preview_color':
+      keep = true;
+      element = null;
+      break;
     default:
       // This could occur in an extension
       break;
@@ -1705,7 +1710,7 @@ const dblClick = (evt: MouseEvent) => {
   const mouseTarget: Element = svgCanvas.getMouseTarget(evt);
   const { tagName } = mouseTarget;
   const pt = getEventPoint(evt);
-  if (!['textedit', 'text'].includes(currentMode)) {
+  if (!['textedit', 'text', 'preview_color'].includes(currentMode)) {
     if (tagName === 'text') {
       svgCanvas.textActions.select(mouseTarget, pt.x, pt.y);
     } else if (mouseTarget.getAttribute('data-textpath-g')) {
@@ -1729,6 +1734,8 @@ const dblClick = (evt: MouseEvent) => {
     ) {
       svgCanvas.textActions.dbClickSelectAll();
     }
+  } else if (currentMode === 'preview_color') {
+    RightPanelController.toElementMode();
   }
 
   if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {
