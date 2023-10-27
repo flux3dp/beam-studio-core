@@ -1349,7 +1349,8 @@ const lang: ILang = {
     ask_for_readjust: 'Deseja pular a etapa de gravação e tirar a foto e calibrar diretamente?',
     please_goto_beambox_first: 'Mude para o Modo de Gravação ( Beambox ) para usar este recurso.',
     please_place_paper: 'Coloque um papel branco de tamanho A4 ou Carta no canto superior esquerdo da área de trabalho',
-    please_place_black_acrylic: 'Por favor, coloque um acrílico preto de tamanho A4 ou carta no canto superior esquerdo da área de trabalho.',
+    please_place_paper_center: 'Coloque uma folha de papel branca de tamanho A4 ou carta no centro da área de trabalho.',
+    please_place_black_acrylic: 'Coloque uma folha de acrílico preto de tamanho A4 ou carta no centro da área de trabalho.',
     please_refocus: {
       beambox: 'Por favor, ajuste a plataforma para o ponto focal (a altura do acrílico virado para baixo)',
       beamo: 'Por favor, ajuste a cabeça do laser para focar no objeto gravado (a altura do acrílico virado para baixo)',

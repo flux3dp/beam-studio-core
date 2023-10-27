@@ -1349,7 +1349,8 @@ const lang: ILang = {
     ask_for_readjust: 'Möchten Sie den Schneideschritt überspringen und Bilder und Kalibrierungen aufnehmen?',
     please_goto_beambox_first: 'Bitte wechsle in den Gravurmodus (Beambox), um diese Funktion nutzen zu können.',
     please_place_paper: 'Bitte lege ein weißes Papier im A4- oder Letter-Format in die linke obere Ecke des Arbeitsbereichs.',
-    please_place_black_acrylic: 'Bitte platzieren Sie eine schwarze Acrylplatte im A4- oder Letterformat oben links in der Arbeitsfläche.',
+    please_place_paper_center: 'Legen Sie ein A4- oder Letter-Format weißes Papier in die Mitte des Arbeitsbereichs.',
+    please_place_black_acrylic: 'Legen Sie ein A4- oder Letter-Format schwarzes Acryl in die Mitte des Arbeitsbereichs.',
     please_refocus: {
       beambox: 'Stelle die Plattform bitte auf den Brennpunkt ein (die Höhe des umgedrehten Acryls).',
       beamo: 'Stelle den Laserkopf bitte so ein, dass er auf das Gravurobjekt fokussiert (Höhe des umgedrehten Acryls).',
