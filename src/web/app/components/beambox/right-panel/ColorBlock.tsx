@@ -8,18 +8,10 @@ interface Props {
   className?: string;
   size?: 'mini' | 'small' | 'defalut' | 'large';
   color: string;
-  type?: 'fill' | 'stroke';
   onClick?: (e: React.MouseEvent) => void;
 }
 
-const ColorBlock = ({
-  id,
-  className,
-  size = 'defalut',
-  color,
-  type = 'fill',
-  onClick,
-}: Props): JSX.Element => {
+const ColorBlock = ({ id, className, size = 'defalut', color, onClick }: Props): JSX.Element => {
   const isFullColor = color === 'fullcolor';
   const isCleared = color === 'none';
 
@@ -29,9 +21,7 @@ const ColorBlock = ({
         className={classNames({ [styles['full-color']]: isFullColor, [styles.clear]: isCleared })}
         style={isFullColor || isCleared ? undefined : { backgroundColor: color }}
         onClick={onClick}
-      >
-        {type === 'stroke' && <div className={styles['stroke-inner']} />}
-      </div>
+      />
     </div>
   );
 };

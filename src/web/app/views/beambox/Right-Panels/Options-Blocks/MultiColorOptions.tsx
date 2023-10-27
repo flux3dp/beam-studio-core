@@ -1,14 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
+import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import ColorPicker from 'app/widgets/ColorPicker';
+import ColorPickerMobile from 'app/widgets/ColorPickerMobile';
 import colloectColors from 'helpers/color/collectColors';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FloatingPanel from 'app/widgets/FloatingPanel';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import HorizontalScrollContainer from 'app/widgets/HorizontalScrollContainer';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import symbolMaker from 'helpers/symbol-maker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './MultiColorOptions.module.scss';
+
+const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
@@ -19,21 +30,42 @@ interface Props {
   elem: Element;
 }
 
+const EditStep = {
+  Closed: 0,
+  Color: 1,
+  Previewing: 2,
+};
+
 const MultiColorOptions = ({ elem }: Props): JSX.Element => {
+  const isMobile = useIsMobile();
   const [colors, setColors] = useState(colloectColors(elem));
   useEffect(() => {
     setColors(colloectColors(elem));
   }, [elem]);
+  const [previewState, setPreviewState] = useState({
+    currentStep: EditStep.Closed,
+    origColor: '',
+    newColor: '',
+  });
+  const { mode } = useContext(RightPanelContext);
 
-  if (Object.keys(colors).length === 0) return null;
-
-  const handleColorChange = (origColor: string, newColor: string) => {
+  const handleColorChange = (
+    origColor: string,
+    newColor: string,
+    actual = true,
+    rerender = true
+  ) => {
     const fillElements = [];
     const strokeElements = [];
-    colors[origColor].forEach(({ element, attribute }) => {
+    const useElems = new Set<SVGUseElement>();
+    colors[origColor].forEach(({ element, attribute, useElement }) => {
       if (attribute === 'fill') fillElements.push(element);
       else if (attribute === 'stroke') strokeElements.push(element);
+      if (useElement) useElems.add(useElement);
     });
+    if (actual && previewState.origColor !== previewState.newColor) {
+      handleColorChange(previewState.origColor, previewState.origColor, false, false);
+    }
     const batchCmd = HistoryCommandFactory.createBatchCommand('Update Color');
     if (fillElements.length > 0) {
       svgCanvas.undoMgr.beginUndoableChange('fill', fillElements);
@@ -47,17 +79,94 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
       const cmd = svgCanvas.undoMgr.finishUndoableChange();
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     }
-    if (elem.tagName.toLowerCase() === 'use') {
-      symbolMaker.reRenderImageSymbol(elem as SVGUseElement, { force: true });
+    if (useElems.size > 0) {
+      const reRenderArray = Array.from(useElems);
+      if (rerender) symbolMaker.reRenderImageSymbolArray(reRenderArray, { force: true });
       batchCmd.onAfter = () => {
-        symbolMaker.reRenderImageSymbol(elem as SVGUseElement, { force: true });
-      }
+        symbolMaker.reRenderImageSymbolArray(reRenderArray, { force: true });
+      };
     }
-    if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    setColors(colloectColors(elem));
+    if (actual) {
+      if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+      setColors(colloectColors(elem));
+      previewState.origColor = newColor;
+    }
+    setPreviewState((state) => ({ ...state, newColor }));
   };
 
-  return (
+  const startPreviewMode = (color: string) => {
+    RightPanelController.toPreviewMode();
+    svgCanvas.unsafeAccess.setCurrentMode('preview_color');
+    svgCanvas.selectorManager.requestSelector(elem).resize();
+    workareaEvents.emit('update-context-menu', { menuDisabled: true });
+    setPreviewState({ currentStep: EditStep.Previewing, origColor: color, newColor: color });
+  };
+
+  const endPreviewMode = (newStatus = EditStep.Closed) => {
+    const { currentStep, origColor, newColor } = previewState;
+    if (currentStep === EditStep.Previewing) {
+      if (origColor !== newColor) handleColorChange(origColor, origColor, false);
+      RightPanelController.toElementMode();
+      svgCanvas.unsafeAccess.setCurrentMode('select');
+      svgCanvas.selectorManager.requestSelector(elem).resize();
+      workareaEvents.emit('update-context-menu', { menuDisabled: false });
+    }
+    setPreviewState((state) => ({ ...state, currentStep: newStatus }));
+  };
+
+  useEffect(() => {
+    if (mode !== 'preview-color' && previewState.currentStep === EditStep.Previewing) {
+      endPreviewMode();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+  if (Object.keys(colors).length === 0) return null;
+
+  return isMobile ? (
+    <>
+      <ObjectPanelItem.Item
+        id="color"
+        content={<OptionPanelIcons.Color />}
+        label="Color"
+        onClick={() => {
+          setPreviewState({ currentStep: EditStep.Color, origColor: '', newColor: '' });
+        }}
+      />
+      <FloatingPanel
+        anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
+        title="Color"
+        forceClose={previewState.currentStep === EditStep.Closed}
+        onClose={endPreviewMode}
+        fixedContent={
+          previewState.currentStep === EditStep.Previewing && (
+            <div className={styles.back} onClick={() => endPreviewMode(EditStep.Color)}>
+              <OptionPanelIcons.Left />
+            </div>
+          )
+        }
+      >
+        <div className={styles.colors}>
+          {Object.keys(colors).map((color) => (
+            <ColorBlock
+              key={color}
+              size="large"
+              color={color}
+              onClick={() => startPreviewMode(color)}
+            />
+          ))}
+          <ColorPickerMobile
+            color={previewState.newColor}
+            onChange={(newColor, actual) => {
+              handleColorChange(previewState.origColor, newColor, actual);
+            }}
+            open={previewState.currentStep === EditStep.Previewing}
+            onClose={() => endPreviewMode(EditStep.Color)}
+          />
+        </div>
+      </FloatingPanel>
+    </>
+  ) : (
     <div className={styles.block}>
       <div className={styles.label}>Colors</div>
       <HorizontalScrollContainer className={styles.controls}>

@@ -1,19 +1,42 @@
-import React, { useMemo, useState } from 'react';
-import { ConfigProvider, InputNumber } from 'antd';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ConfigProvider, InputNumber, Slider, TooltipProps } from 'antd';
 
+import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import ColorPicker from 'app/widgets/ColorPicker';
+import ColorPickerMobile from 'app/widgets/ColorPickerMobile';
 import constant from 'app/actions/beambox/constant';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FloatingPanel from 'app/widgets/FloatingPanel';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import storage from 'implementations/storage';
 import useDidUpdateEffect from 'helpers/hooks/useDidUpdateEffect';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './ColorPanel.module.scss';
+
+const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
+
+const EditStep = {
+  Closed: 0,
+  Color: 1,
+  Previewing: 2,
+};
+
+const EditType = {
+  None: 0,
+  Fill: 1,
+  Stroke: 2,
+};
 
 const deriveElementState = (element: Element) => {
   const fill = element.getAttribute('fill');
@@ -34,13 +57,23 @@ interface State {
 }
 
 const ColorPanel = ({ elem }: Props): JSX.Element => {
+  const isMobile = useIsMobile();
   const [state, setState] = useState<State>(deriveElementState(elem));
+  const [previewState, setPreviewState] = useState({
+    currentStep: EditStep.Closed,
+    type: EditType.None,
+  });
+  const previewRef = useRef({ origColor: '', newColor: '' });
+  const { mode } = useContext(RightPanelContext);
   const { fill, stroke, strokeWidth } = state;
   useDidUpdateEffect(() => {
     setState(deriveElementState(elem));
   }, [elem]);
 
-  const handleFillColorChange = (newColor: string) => {
+  const handleFillColorChange = (newColor: string, actual = true) => {
+    if (actual && previewRef.current.origColor !== previewRef.current.newColor) {
+      handleFillColorChange(previewRef.current.origColor, false);
+    }
     const batchCmd = HistoryCommandFactory.createBatchCommand('Color Panel Fill');
     svgCanvas.undoMgr.beginUndoableChange('fill', [elem]);
     svgCanvas.changeSelectedAttributeNoUndo('fill', newColor, [elem]);
@@ -52,12 +85,26 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
     ]);
     cmd = svgCanvas.undoMgr.finishUndoableChange();
     if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    if (actual) {
+      svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+      previewRef.current.origColor = newColor;
+    }
+    previewRef.current.newColor = newColor;
     setState({ ...state, fill: newColor });
   };
 
-  const handleStrokeColorChange = (newColor: string) => {
-    svgCanvas.changeSelectedAttribute('stroke', newColor, [elem]);
+  const handleStrokeColorChange = (newColor: string, actual = true) => {
+    if (actual && previewRef.current.origColor !== previewRef.current.newColor) {
+      handleStrokeColorChange(previewRef.current.origColor, false);
+    }
+    svgCanvas.undoMgr.beginUndoableChange('stroke', [elem]);
+    svgCanvas.changeSelectedAttributeNoUndo('stroke', newColor, [elem]);
+    const cmd = svgCanvas.undoMgr.finishUndoableChange();
+    if (actual) {
+      if (!cmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(cmd);
+      previewRef.current.origColor = newColor;
+    }
+    previewRef.current.newColor = newColor;
     setState({ ...state, stroke: newColor });
   };
 
@@ -66,10 +113,174 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
     setState({ ...state, strokeWidth: val });
   };
 
-  const unit = storage.get('default-units') || 'mm';
-  const ratio = useMemo(() => constant.dpmm * (unit === 'inches' ? 25.4 : 1), [unit]);
+  const { ratio, decimal, step, max, unit } = useMemo(
+    () =>
+      storage.get('default-units') === 'inches'
+        ? {
+            ratio: constant.dpmm * 25.4,
+            decimal: 2,
+            step: constant.dpmm * 0.254,
+            max: 12.7,
+            unit: 'inch',
+          }
+        : { ratio: constant.dpmm, decimal: 1, step: constant.dpmm * 0.1, max: 10, unit: 'mm' },
+    []
+  );
 
-  return (
+  const startPreviewMode = (type: number, color: string) => {
+    RightPanelController.toPreviewMode();
+    svgCanvas.unsafeAccess.setCurrentMode('preview_color');
+    svgCanvas.selectorManager.requestSelector(elem).resize();
+    workareaEvents.emit('update-context-menu', { menuDisabled: true });
+    setPreviewState({ currentStep: EditStep.Previewing, type });
+    previewRef.current = { origColor: color, newColor: color };
+  };
+
+  const endPreviewMode = (newStatus = EditStep.Closed) => {
+    const { currentStep, type } = previewState;
+    const { origColor, newColor } = previewRef.current;
+    if (currentStep === EditStep.Previewing) {
+      if (origColor !== newColor) {
+        if (type === EditType.Fill) handleFillColorChange(origColor, false);
+        else handleStrokeColorChange(origColor, false);
+      }
+      RightPanelController.toElementMode();
+      svgCanvas.unsafeAccess.setCurrentMode('select');
+      svgCanvas.selectorManager.requestSelector(elem).resize();
+      workareaEvents.emit('update-context-menu', { menuDisabled: false });
+    }
+    setPreviewState({ currentStep: newStatus, type });
+  };
+
+  useEffect(() => {
+    if (mode !== 'preview-color' && previewState.currentStep === EditStep.Previewing) {
+      endPreviewMode();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+  const renderBackIcon = () => {
+    if (previewState.currentStep !== EditStep.Previewing) return null;
+    return (
+      <div className={styles.back} onClick={() => endPreviewMode(EditStep.Color)}>
+        <OptionPanelIcons.Left />
+      </div>
+    );
+  };
+
+  return isMobile ? (
+    <>
+      <ObjectPanelItem.Item
+        id="fill"
+        content={<ColorBlock size="small" color={fill} />}
+        label="Fill"
+        onClick={() => {
+          setPreviewState({ currentStep: EditStep.Color, type: EditType.Fill });
+          previewRef.current = { origColor: '', newColor: '' };
+        }}
+      />
+      {previewState.type === EditType.Fill && (
+        <FloatingPanel
+          anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
+          title={previewState.currentStep === EditStep.Color ? 'Fill' : 'Fill Color'}
+          forceClose={previewState.currentStep === EditStep.Closed}
+          onClose={endPreviewMode}
+          fixedContent={renderBackIcon()}
+        >
+          <div className={styles.panel}>
+            <ColorBlock
+              size="large"
+              color={fill}
+              onClick={() => startPreviewMode(EditType.Fill, fill)}
+            />
+            <ColorPickerMobile
+              color={fill}
+              onChange={handleFillColorChange}
+              open={previewState.currentStep === EditStep.Previewing}
+              onClose={() => endPreviewMode(EditStep.Color)}
+            />
+          </div>
+        </FloatingPanel>
+      )}
+      <ObjectPanelItem.Item
+        id="stroke"
+        content={<OptionPanelIcons.Stroke />}
+        label="Stroke"
+        onClick={() => {
+          setPreviewState({
+            currentStep: EditStep.Color,
+            type: EditType.Stroke,
+          });
+          previewRef.current = { origColor: '', newColor: '' };
+        }}
+      />
+      {previewState.type === EditType.Stroke && (
+        <FloatingPanel
+          anchors={previewState.currentStep === EditStep.Color ? [0, 270] : [0, 320]}
+          title={previewState.currentStep === EditStep.Color ? 'Stroke' : 'Stroke Color'}
+          forceClose={previewState.currentStep === EditStep.Closed}
+          onClose={endPreviewMode}
+          fixedContent={renderBackIcon()}
+        >
+          <div className={styles.panel}>
+            <div className={styles.label}>Stroke Color</div>
+            <ColorBlock
+              size="large"
+              color={strokeWidth === 0 ? 'none' : stroke}
+              onClick={() => startPreviewMode(EditType.Stroke, strokeWidth === 0 ? 'none' : stroke)}
+            />
+            <ColorPickerMobile
+              color={strokeWidth === 0 ? 'none' : stroke}
+              onChange={handleStrokeColorChange}
+              open={previewState.currentStep === EditStep.Previewing}
+              onClose={() => endPreviewMode(EditStep.Color)}
+            />
+            <div className={styles.field}>
+              <div>
+                <span className={styles.label}>Stroke Width</span>
+                <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
+                  <InputNumber
+                    value={strokeWidth}
+                    min={0}
+                    step={step}
+                    suffix={<span className={styles.suffix}>{unit}</span>}
+                    onChange={handleStrokeWidthChange}
+                    precision={decimal}
+                    formatter={(v, { userTyping, input }) =>
+                      userTyping ? input : (v / ratio).toFixed(decimal)
+                    }
+                    parser={(value) => Number(value) * ratio}
+                    controls={false}
+                  />
+                </ConfigProvider>
+              </div>
+              <Slider
+                min={0}
+                max={max}
+                step={step}
+                value={strokeWidth}
+                onChange={handleStrokeWidthChange}
+                tooltip={
+                  {
+                    formatter: (val: number) => (val / ratio).toFixed(decimal),
+                    placement:
+                      // eslint-disable-next-line no-nested-ternary
+                      strokeWidth < max * 0.1
+                        ? 'topRight'
+                        : strokeWidth > max * 0.9
+                        ? 'topLeft'
+                        : 'top',
+                    arrow: { pointAtCenter: true },
+                  } as TooltipProps as any
+                }
+              />
+            </div>
+          </div>
+        </FloatingPanel>
+      )}
+      <ObjectPanelItem.Divider />
+    </>
+  ) : (
     <>
       <div className={styles.block}>
         <div className={styles.label}>Fill</div>
@@ -97,10 +308,13 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
               value={strokeWidth}
               size="small"
               min={0}
+              step={step}
               onChange={handleStrokeWidthChange}
-              precision={0}
+              precision={decimal}
               // addonAfter={isInch ? 'in' : 'mm'}
-              formatter={(value) => `${value / ratio}`}
+              formatter={(v, { userTyping, input }) =>
+                userTyping ? input : (v / ratio).toFixed(decimal)
+              }
               parser={(value) => Number(value) * ratio}
             />
           </ConfigProvider>

@@ -41,7 +41,7 @@
     }
   }
 
-  &.clear {
+  &.clear:not(.with-clear) {
     :global(.ant-color-picker-slider-container) {
       :global(.ant-color-picker-color-block) {
         @include clear-box();
@@ -50,6 +50,29 @@
         :global(.ant-color-picker-color-block-inner) {
           background-color: #ffffff !important;
         }
+      }
+    }
+  }
+
+  &.with-clear {
+    :global(.ant-color-picker-panel) :global(.ant-color-picker-slider-container) {
+      margin-left: 40px;
+      height: 30px;
+      :global(.ant-color-picker-color-block) {
+        display: none;
+      }
+    }
+    :global(.ant-color-picker-input-container) {
+      display: none;
+    }
+
+    + .clear-button {
+      position: absolute;
+      bottom: 40px;
+      transition: all 0.2s;
+      &.active {
+        border-color: #1677ff;
+        box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
       }
     }
   }
@@ -144,11 +167,23 @@
 .footer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 8px;
 
   .btn {
     &:not(:last-child) {
       margin-right: 8px;
+    }
+  }
+
+  .input {
+    width: 140px;
+    margin-right: auto;
+    .prefix {
+      color: #cecece;
+    }
+    input {
+      height: 28px;
     }
   }
 }
@@ -184,7 +219,6 @@
       @include clear-box();
     }
 
-
     .stroke-inner {
       margin: 4px;
       width: 8px;
@@ -195,5 +229,44 @@
         border: 1px solid #d9d9d9;
       }
     }
+  }
+}
+
+.mobile-container {
+  position: absolute;
+  inset: 52px 10px auto !important;
+  animation-duration: 0s;
+  :global(.ant-popover-inner) {
+    box-shadow: none;
+    padding: 0;
+  }
+  :global(.ant-color-picker-inner-content) {
+    width: 100%;
+  }
+}
+
+.mask-container {
+  animation-duration: 0s;
+  :global(.ant-popover-inner) {
+    padding: 0;
+  }
+  .top-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.2);
+    &.white {
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+  }
+  .bottom-mask {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    width: 100vw;
+    background-color: rgba(255, 255, 255, 0.6);
   }
 }

@@ -34,3 +34,22 @@
     }
   }
 }
+
+.back {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.colors {
+  display: flex;
+  padding: 0 16px;
+  gap: 8px;
+  overflow-x: scroll;
+}

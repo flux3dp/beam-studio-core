@@ -546,8 +546,11 @@ const reRenderImageSymbol = async (
   }
 };
 
-const reRenderImageSymbolArray = async (useElements: SVGUseElement[]): Promise<void> => {
-  const convertAllUses = useElements.map((use) => reRenderImageSymbol(use));
+const reRenderImageSymbolArray = async (
+  useElements: SVGUseElement[],
+  opts: { force?: boolean } = {}
+): Promise<void> => {
+  const convertAllUses = useElements.map((use) => reRenderImageSymbol(use, opts));
   await Promise.all(convertAllUses);
 };
 
