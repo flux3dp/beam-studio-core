@@ -587,7 +587,7 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
       svgCanvas.undoMgr.beginUndoableChange('xlink:href', [elem]);
       elem.setAttribute('xlink:href', `#${targetId}`);
       const cmd = svgCanvas.undoMgr.finishUndoableChange();
-      updateElementColor(elem);
+      if (shouldUseImage) updateElementColor(elem);
       return cmd;
     }
     console.warn(`Switcing failed, Unable to find symbol ${targetId}.`);
