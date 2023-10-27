@@ -8,7 +8,6 @@ import Merge from './merge.svg';
 import Move from './move.svg';
 import Print from './print.svg';
 import Rename from './rename.svg';
-import Setting from './setting.svg';
 import SwithToFullColor from './switch-to-full-color.svg';
 import SwithToSingleColor from './switch-to-single-color.svg';
 import Unlock from './unlock.svg';
@@ -25,7 +24,6 @@ export default {
   Move,
   Print,
   Rename,
-  Setting,
   SwithToFullColor,
   SwithToSingleColor,
   Unlock,
