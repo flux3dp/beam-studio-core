@@ -497,6 +497,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain: 'Following layers: %s\ncontain vector path objects, and have speed exceeding 20 mm/s.\nThe cutting speed of vector path objects will be constrained to 20 mm/s.\nYou can remove this limit at Preferences Settings.',
       should_update_firmware_to_continue: '#814 Your firmware does not support this version of Beam Studio. Kindly update firmware to continue. (Menu > Machine > [Your Machine] > Update Firmware)',
       recommend_downgrade_software: 'We detected an older firmware version. We are actively addressing compatibility issues, but for now, we recommend reverting to <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'We detected an older firmware version. We are actively addressing compatibility issues, but for now, we recommend updating to the latest firmware.',
       still_continue: 'Continue',
       more_than_two_object: 'Too many objects. Only support for 2 objects',
       not_support_object_type: 'Not support object type',

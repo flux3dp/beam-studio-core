@@ -497,6 +497,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain: 'Volgende lagen: %s\nbevatten vectorpadobjecten en hebben een snelheid van meer dan 20 mm/s.\nDe snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s. U kunt deze limiet verwijderen bij Voorkeursinstellingen.',
       should_update_firmware_to_continue: '#814 Uw firmware ondersteunt deze versie van Beam Studio niet. Werk de firmware bij om door te gaan. (Menu > Machine > [Uw machine] > Firmware bijwerken)',
       recommend_downgrade_software: 'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan het oplossen van compatibiliteitsproblemen, maar voor nu raden we aan om terug te keren naar <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan het oplossen van compatibiliteitsproblemen, maar voor nu raden we aan om bij te werken naar de nieuwste firmware.',
       still_continue: 'Doorgaan',
       more_than_two_object: 'Te veel objecten. Alleen ondersteuning voor 2 objecten',
       not_support_object_type: 'Geen ondersteuning voor objecttype',

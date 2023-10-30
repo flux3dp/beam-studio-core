@@ -497,6 +497,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain: 'Capas siguientes: %s\nLa velocidad de corte de los objetos de trayectoria vectorial se limitará a 20 mm/s.\nLa velocidad de corte de los objetos de trayectoria vectorial se limitará a 20 mm/s.\nPuedes eliminar este límite en la Configuración de las Preferencias.',
       should_update_firmware_to_continue: '#814 tu firmware no es compatible con esta versión de Beam Studio. Por favor, actualiza el firmware para continuar. (Menú > Máquina > [tu máquina] > Actualizar el firmware)',
       recommend_downgrade_software: 'Detectamos una versión más antigua del firmware. Estamos abordando activamente problemas de compatibilidad, pero por ahora, recomendamos volver a <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'Hemos detectado una versión de firmware más antigua. Estamos abordando activamente problemas de compatibilidad, pero por ahora, recomendamos actualizar al firmware más reciente.',
       still_continue: 'Continuar',
       more_than_two_object: 'Demasiados objetos. Sólo soporte para 2 objetos',
       not_support_object_type: 'No apoyar el tipo de objeto',

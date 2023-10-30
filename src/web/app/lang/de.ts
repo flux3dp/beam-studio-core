@@ -497,6 +497,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain: 'Folgende Ebenen: %s\nenthalten Vektorpfadobjekte und eine Geschwindigkeit von mehr als 20 mm/s \nDie Schnittgeschwindigkeit von Vektorpfadobjekten wird auf 20 mm/s reduziert.\nDu kannst diese Beschränkung unter Präferenzen-Einstellungen entfernen.',
       should_update_firmware_to_continue: '#814 Deine Firmware unterstützt diese Version von Beam Studio nicht. Bitte aktualisiere die Firmware, um fortzufahren. (Menü > Maschine > [Ihre Maschine] > Firmware aktualisieren)',
       recommend_downgrade_software: 'Wir haben eine ältere Firmware-Version erkannt. Wir arbeiten aktiv an der Behebung von Kompatibilitätsproblemen, aber vorerst empfehlen wir, auf <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a> zurückzukehren.',
+      recommend_upgrade_firmware: 'Wir haben eine ältere Firmware-Version erkannt. Wir arbeiten aktiv an der Behebung von Kompatibilitätsproblemen, aber im Moment empfehlen wir ein Update auf die neueste Firmware.',
       still_continue: 'Weiter',
       more_than_two_object: 'Zu viele Objekte. Es werden nur 2 Objekte unterstützt.',
       not_support_object_type: 'Objekttyp wird nicht unterstützt.',

@@ -494,6 +494,7 @@ export interface ILang {
       too_fast_for_path_and_constrain: string,
       should_update_firmware_to_continue: string,
       recommend_downgrade_software: string;
+      recommend_upgrade_firmware: string;
       still_continue: string;
       more_than_two_object: string,
       not_support_object_type: string,

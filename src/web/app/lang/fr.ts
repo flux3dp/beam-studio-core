@@ -497,6 +497,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain: 'Couches suivantes : %s.\ncontiennent des objets de type "vector path", et ont une vitesse supérieure à 20 mm/s.\nLa vitesse de découpe des objets de type "vector path" sera limitée à 20 mm/s.\nVous pouvez supprimer cette limite dans les paramètres des préférences.',
       should_update_firmware_to_continue: '#814 Votre firmware ne prend pas en charge cette version de Beam Studio. Veuillez mettre à jour le firmware pour continuer. (Menu > Machine > [Votre machine] > Mettre à jour le micrologiciel)',
       recommend_downgrade_software: 'Nous avons détecté une version plus ancienne du firmware. Nous travaillons activement à résoudre les problèmes de compatibilité, mais pour le moment, nous vous recommandons de revenir à <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'Nous avons détecté une version de firmware plus ancienne. Nous travaillons activement à résoudre les problèmes de compatibilité, mais pour le moment, nous vous recommandons de mettre à jour vers la dernière version du firmware.',
       still_continue: 'Continuer',
       more_than_two_object: 'Trop d\'objets. Prise en charge de 2 objets seulement',
       not_support_object_type: 'Le type d\'objet n\'est pas pris en charge',
