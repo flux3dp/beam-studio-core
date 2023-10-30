@@ -68,8 +68,11 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   }
 
   componentDidUpdate(): void {
-    const { setShouldStartPreviewController, shouldStartPreviewController, setSetupPreviewMode } =
-      this.context;
+    const {
+      setShouldStartPreviewController,
+      shouldStartPreviewController,
+      setSetupPreviewMode
+    } = this.context;
     setSetupPreviewMode(() => this.setupPreviewMode);
     if (shouldStartPreviewController) {
       this.setupPreviewMode();
