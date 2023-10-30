@@ -13,6 +13,7 @@ import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import storage from 'implementations/storage';
 import useDidUpdateEffect from 'helpers/hooks/useDidUpdateEffect';
+import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
@@ -58,6 +59,8 @@ interface State {
 
 const ColorPanel = ({ elem }: Props): JSX.Element => {
   const isMobile = useIsMobile();
+  const lang = useI18n();
+  const t = lang.beambox.right_panel.object_panel.option_panel;
   const [state, setState] = useState<State>(deriveElementState(elem));
   const [previewState, setPreviewState] = useState({
     currentStep: EditStep.Closed,
@@ -173,7 +176,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
       <ObjectPanelItem.Item
         id="fill"
         content={<ColorBlock size="small" color={fill} />}
-        label="Fill"
+        label={t.fill}
         onClick={() => {
           setPreviewState({ currentStep: EditStep.Color, type: EditType.Fill });
           previewRef.current = { origColor: '', newColor: '' };
@@ -182,7 +185,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
       {previewState.type === EditType.Fill && (
         <FloatingPanel
           anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
-          title={previewState.currentStep === EditStep.Color ? 'Fill' : 'Fill Color'}
+          title={previewState.currentStep === EditStep.Color ? t.fill : t.color}
           forceClose={previewState.currentStep === EditStep.Closed}
           onClose={endPreviewMode}
           fixedContent={renderBackIcon()}
@@ -205,7 +208,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
       <ObjectPanelItem.Item
         id="stroke"
         content={<OptionPanelIcons.Stroke />}
-        label="Stroke"
+        label={t.stroke}
         onClick={() => {
           setPreviewState({
             currentStep: EditStep.Color,
@@ -217,13 +220,13 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
       {previewState.type === EditType.Stroke && (
         <FloatingPanel
           anchors={previewState.currentStep === EditStep.Color ? [0, 270] : [0, 320]}
-          title={previewState.currentStep === EditStep.Color ? 'Stroke' : 'Stroke Color'}
+          title={previewState.currentStep === EditStep.Color ? t.stroke : t.stroke_color}
           forceClose={previewState.currentStep === EditStep.Closed}
           onClose={endPreviewMode}
           fixedContent={renderBackIcon()}
         >
           <div className={styles.panel}>
-            <div className={styles.label}>Stroke Color</div>
+            <div className={styles.label}>{t.stroke_color}</div>
             <ColorBlock
               size="large"
               color={strokeWidth === 0 ? 'none' : stroke}
@@ -237,7 +240,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
             />
             <div className={styles.field}>
               <div>
-                <span className={styles.label}>Stroke Width</span>
+                <span className={styles.label}>{t.stroke_width}</span>
                 <ConfigProvider theme={{ token: { borderRadius: 100 } }}>
                   <InputNumber
                     value={strokeWidth}
@@ -271,6 +274,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
                         ? 'topLeft'
                         : 'top',
                     arrow: { pointAtCenter: true },
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   } as TooltipProps as any
                 }
               />
@@ -283,11 +287,11 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
   ) : (
     <>
       <div className={styles.block}>
-        <div className={styles.label}>Fill</div>
+        <div className={styles.label}>{t.fill}</div>
         <ColorPicker allowClear initColor={fill} onChange={handleFillColorChange} />
       </div>
       <div className={styles.block}>
-        <div className={styles.label}>Stroke</div>
+        <div className={styles.label}>{t.stroke}</div>
         <div className={styles.controls}>
           <ColorPicker
             initColor={strokeWidth === 0 ? 'none' : stroke}

@@ -623,6 +623,7 @@ const lang: ILang = {
         layer_bitmap: 'Bitmap',
         layer_engraving: 'Gravur',
         layer_cutting: 'Schneiden',
+        current_layer: 'Aktuelle Ebene',
         move_elems_to: 'Verschiebe ausgewählte Objekte:',
         notification: {
           dupeLayerName: 'TEine Ebene hat bereits diesen Namen',
@@ -633,6 +634,12 @@ const lang: ILang = {
           QmoveElemsToLayer: 'Verschiebe ausgewählte Objekte in die Ebene \'%s\'?',
           moveElemFromPrintingLayerTitle: 'Möchten Sie ausgewählte Objekte auf %s verschieben und gedruckte Objekte in Laserobjekte umwandeln?',
           moveElemFromPrintingLayerMsg: 'Bitte beachten Sie, dass die Farbeinstellungen des gedruckten Objekts entfernt werden, sobald der aktuelle Vorgang abgeschlossen ist.',
+          splitColorTitle: 'Die ausgewählte Ebene in CMYK-Ebenen erweitern?',
+          splitColorMsg: 'Bitte beachten Sie, dass nach Abschluss dieses Vorgangs keine Wiederherstellung möglich ist.',
+          mergeLaserLayerToPrintingLayerTitle: 'Möchten Sie die Ebenen im Druckmodul zusammenführen?',
+          mergeLaserLayerToPrintingLayerMsg: 'Bitte beachten Sie, dass nach Abschluss dieses Vorgangs die Einstellungen der Laserebenen entfernt und entsprechend der aktuellen Ebene eingestellt werden.',
+          mergePrintingLayerToLaserLayerTitle: 'Möchten Sie die Ebenen im Lasermodul zusammenführen?',
+          mergePrintingLayerToLaserLayerMsg: 'Bitte beachten Sie, dass nach Abschluss dieses Vorgangs die Farbeinstellungen der Druckebenen entfernt und entsprechend der aktuellen Ebene eingestellt werden.',
         },
         layers: {
           layer: 'Ebene',
@@ -808,6 +815,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'Tintentyp',
+          normal: 'Gewöhnliche Tinte',
+          UV: 'UV-Tinte',
+        },
         para_in_use: 'Dieser Parameter wird verwendet.',
         do_not_adjust_default_para: 'Standardparameter kann nicht angepasst werden.',
         existing_name: 'Dieser Parametername wurde verwendet.',
@@ -854,6 +866,10 @@ const lang: ILang = {
           shading: 'Schattierung',
           threshold: 'Schwellenhelligkeit',
           threshold_short: 'Schwellenwert',
+          stroke: 'Rahmen',
+          stroke_color: 'Randfarbe',
+          stroke_width: 'Rahmenbreite',
+          color: 'Farbe',
         },
         actions_panel: {
           replace_with: 'Ersetzen mit...',

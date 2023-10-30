@@ -13,6 +13,7 @@ import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightP
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import symbolMaker from 'helpers/symbol-maker';
+import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
@@ -38,6 +39,8 @@ const EditStep = {
 
 const MultiColorOptions = ({ elem }: Props): JSX.Element => {
   const isMobile = useIsMobile();
+  const lang = useI18n();
+  const t = lang.beambox.right_panel.object_panel.option_panel;
   const [colors, setColors] = useState(colloectColors(elem));
   useEffect(() => {
     setColors(colloectColors(elem));
@@ -128,14 +131,14 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
       <ObjectPanelItem.Item
         id="color"
         content={<OptionPanelIcons.Color />}
-        label="Color"
+        label={t.color}
         onClick={() => {
           setPreviewState({ currentStep: EditStep.Color, origColor: '', newColor: '' });
         }}
       />
       <FloatingPanel
         anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
-        title="Color"
+        title={t.color}
         forceClose={previewState.currentStep === EditStep.Closed}
         onClose={endPreviewMode}
         fixedContent={
@@ -168,7 +171,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     </>
   ) : (
     <div className={styles.block}>
-      <div className={styles.label}>Colors</div>
+      <div className={styles.label}>{t.color}</div>
       <HorizontalScrollContainer className={styles.controls}>
         {Object.keys(colors).map((color) => (
           <ColorPicker

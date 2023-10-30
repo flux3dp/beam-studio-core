@@ -620,6 +620,7 @@ export interface ILang {
         layer_bitmap: string,
         layer_engraving: string,
         layer_cutting: string,
+        current_layer: string,
         move_elems_to: string,
         notification: {
           dupeLayerName: string,
@@ -630,6 +631,12 @@ export interface ILang {
           QmoveElemsToLayer: string,
           moveElemFromPrintingLayerTitle: string;
           moveElemFromPrintingLayerMsg: string;
+          splitColorTitle: string;
+          splitColorMsg: string;
+          mergeLaserLayerToPrintingLayerTitle: string;
+          mergeLaserLayerToPrintingLayerMsg: string;
+          mergePrintingLayerToLaserLayerTitle: string;
+          mergePrintingLayerToLaserLayerMsg: string;
         },
         layers: {
           layer: string,
@@ -805,6 +812,11 @@ export interface ILang {
           max: number,
           step: number,
         },
+        ink_type: {
+          text: string,
+          normal: string,
+          UV: string,
+        },
         para_in_use: string,
         do_not_adjust_default_para: string,
         existing_name: string,
@@ -851,6 +863,10 @@ export interface ILang {
           shading: string,
           threshold: string,
           threshold_short: string,
+          stroke: string,
+          stroke_color: string,
+          stroke_width: string,
+          color: string,
         },
         actions_panel: {
           replace_with: string,

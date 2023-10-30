@@ -623,6 +623,7 @@ const lang: ILang = {
         layer_bitmap: 'ビットマップ',
         layer_engraving: '彫る',
         layer_cutting: '切る',
+        current_layer: '現在のレイヤー',
         move_elems_to: '移動先レイヤ:',
         notification: {
           dupeLayerName: '同名のレイヤーが既に存在します。',
@@ -633,6 +634,12 @@ const lang: ILang = {
           QmoveElemsToLayer: '選択した要素をレイヤー \'%s\' に移動しますか？',
           moveElemFromPrintingLayerTitle: '選択したオブジェクトをレイヤー2に移動し、印刷オブジェクトをレーザーオブジェクトに変換しますか？',
           moveElemFromPrintingLayerMsg: '現在の操作が完了すると、印刷オブジェクトのカラー設定は削除されますのでご注意ください。',
+          splitColorTitle: '選択したレイヤーをCMYKレイヤーに展開しますか?',
+          splitColorMsg: 'この手順を完了すると復元できなくなりますのでご注意ください。',
+          mergeLaserLayerToPrintingLayerTitle: 'レイヤーを印刷モジュールに結合しますか?',
+          mergeLaserLayerToPrintingLayerMsg: 'この手順を完了すると、レーザー レイヤの設定が削除され、%s レイヤに従って設定されることに注意してください。',
+          mergePrintingLayerToLaserLayerTitle: 'レイヤーをレーザー モジュールに結合しますか?',
+          mergePrintingLayerToLaserLayerMsg: 'この手順を完了すると、印刷レイヤーのカラー設定が削除され、%s レイヤーに従って設定されることに注意してください。',
         },
         layers: {
           layer: 'レイヤ',
@@ -808,6 +815,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'インクの種類',
+          normal: '普通のインク',
+          UV: 'UVインク',
+        },
         para_in_use: 'このパラメーターは使用中です。',
         do_not_adjust_default_para: 'デフォルトのパラメーターは調整できません。',
         existing_name: 'このパラメーター名は使用されています。',
@@ -854,6 +866,10 @@ const lang: ILang = {
           shading: 'シェーディング',
           threshold: 'しきい値',
           threshold_short: 'しきい値',
+          stroke: 'フレーム',
+          stroke_color: 'ボーダの色',
+          stroke_width: '境界線の幅',
+          color: '色',
         },
         actions_panel: {
           replace_with: '置き換える',

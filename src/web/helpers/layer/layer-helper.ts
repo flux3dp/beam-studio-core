@@ -230,17 +230,16 @@ export const showMergeAlert = async (
   modules.add(targetModule);
   if (modules.has(LayerModule.PRINTER) && modules.size > 1) {
     return new Promise<boolean>((resolve) => {
-      // TODO: update wordings
       Alert.popUp({
         id: 'merge-layers',
         caption:
           targetModule === LayerModule.PRINTER
-            ? 'Do you want to merge the layers into Printing module?'
-            : 'Do you want to merge the layers into Laser module?',
+            ? LANG.notification.mergeLaserLayerToPrintingLayerTitle
+            : LANG.notification.mergePrintingLayerToLaserLayerTitle,
         message:
           targetModule === LayerModule.PRINTER
-            ? 'Please note that if you complete this procedure, the settings of the laser layers will be removed and set according to the current layer.'
-            : 'Please note that if you complete this procedure, the color settings of the printing layers will be removed and set according to the current layer.',
+            ? LANG.notification.mergeLaserLayerToPrintingLayerMsg.replace('%s', baseLayerName)
+            : LANG.notification.mergePrintingLayerToLaserLayerMsg.replace('%s', baseLayerName),
         messageIcon: 'notice',
         buttonType: AlertConstants.CONFIRM_CANCEL,
         onConfirm: () => resolve(true),

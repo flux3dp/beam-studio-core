@@ -623,6 +623,7 @@ const lang: ILang = {
         layer_bitmap: 'Bitmap',
         layer_engraving: 'Gravure',
         layer_cutting: 'Snijden',
+        current_layer: 'Huidige laag',
         move_elems_to: 'Verplaats elementen naar:',
         notification: {
           dupeLayerName: 'Er is al een laag met de naam!',
@@ -633,6 +634,12 @@ const lang: ILang = {
           QmoveElemsToLayer: 'Geselecteerde elementen verplaatsen naar laag \'%s\'?',
           moveElemFromPrintingLayerTitle: 'Wil je geselecteerde objecten verplaatsen naar %s en afgedrukte objecten converteren naar laserobjecten?',
           moveElemFromPrintingLayerMsg: 'Houd er rekening mee dat de kleurinstellingen van het afgedrukte object worden verwijderd zodra de huidige bewerking is voltooid.',
+          splitColorTitle: 'De geselecteerde laag uitbreiden naar CMYK-lagen?',
+          splitColorMsg: 'Houd er rekening mee dat als u deze procedure voltooit, u niet kunt herstellen.',
+          mergeLaserLayerToPrintingLayerTitle: 'Wilt u de lagen samenvoegen in de module Afdrukken?',
+          mergeLaserLayerToPrintingLayerMsg: 'Houd er rekening mee dat als u deze procedure voltooit, de instellingen van de laserlagen worden verwijderd en worden ingesteld volgens de %s laag.',
+          mergePrintingLayerToLaserLayerTitle: 'Wilt u de lagen samenvoegen in de Lasermodule?',
+          mergePrintingLayerToLaserLayerMsg: 'Houd er rekening mee dat als u deze procedure voltooit, de kleurinstellingen van de afdruklagen worden verwijderd en worden ingesteld volgens de %s laag.',
         },
         layers: {
           layer: 'Laag',
@@ -808,6 +815,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'Inkttype',
+          normal: 'Gewone inkt',
+          UV: 'UV-inkt',
+        },
         para_in_use: 'Deze parameter wordt gebruikt.',
         do_not_adjust_default_para: 'Voorinstellingen kunnen niet worden aangepast.',
         existing_name: 'Deze naam is gebruikt.',
@@ -854,6 +866,10 @@ const lang: ILang = {
           shading: 'Verloop',
           threshold: 'Drempelhelderheid',
           threshold_short: 'Drempel',
+          stroke: 'Kader',
+          stroke_color: 'Rand kleur',
+          stroke_width: 'Grensbreedte',
+          color: 'Kleur',
         },
         actions_panel: {
           replace_with: 'Vervangen door...',

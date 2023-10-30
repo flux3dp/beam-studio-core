@@ -623,6 +623,7 @@ const lang: ILang = {
         layer_bitmap: 'Bitmap',
         layer_engraving: 'Engraving',
         layer_cutting: 'Cutting',
+        current_layer: 'Current Layer',
         move_elems_to: 'Move elements to:',
         notification: {
           dupeLayerName: 'There is already a layer named that!',
@@ -633,6 +634,12 @@ const lang: ILang = {
           QmoveElemsToLayer: 'Move selected elements to layer \'%s\'?',
           moveElemFromPrintingLayerTitle: 'Do you want to move the selected object to %s and convert the printed object to a laser object?',
           moveElemFromPrintingLayerMsg: 'Please be aware that the color settings of the printed object will be removed once the current operation is completed.',
+          splitColorTitle: 'Expand the selected layer into CMYK layers?',
+          splitColorMsg: 'Please note that if you complete this procedure, you will not be able to restore full color layer.',
+          mergeLaserLayerToPrintingLayerTitle: 'Do you want to merge the layers into Printing module?',
+          mergeLaserLayerToPrintingLayerMsg: 'Please note that if you complete this procedure, the settings of the laser layers will be removed and set according to the %s layer.',
+          mergePrintingLayerToLaserLayerTitle: 'Do you want to merge the layers into Laser module?',
+          mergePrintingLayerToLaserLayerMsg: 'Please note that if you complete this procedure, the color settings of the printing layers will be removed and set according to the %s layer.',
         },
         layers: {
           layer: 'Layer',
@@ -808,6 +815,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'Ink Type',
+          normal: 'Ink',
+          UV: 'UV Ink',
+        },
         para_in_use: 'This parameter is being used.',
         do_not_adjust_default_para: 'Presets can not be adjusted.',
         existing_name: 'This name has been used.',
@@ -854,6 +866,10 @@ const lang: ILang = {
           shading: 'Gradient',
           threshold: 'Threshold brightness',
           threshold_short: 'Threshold',
+          stroke: 'Stroke',
+          stroke_color: 'Stroke Color',
+          stroke_width: 'Stroke Width',
+          color: 'Color',
         },
         actions_panel: {
           replace_with: 'Replace With...',

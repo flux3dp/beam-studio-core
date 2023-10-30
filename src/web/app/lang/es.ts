@@ -623,6 +623,7 @@ const lang: ILang = {
         layer_bitmap: 'Mapa de bits',
         layer_engraving: 'Grabado',
         layer_cutting: 'Corte',
+        current_layer: 'Capa actual',
         move_elems_to: 'Mover los elementos a:',
         notification: {
           dupeLayerName: '¡Ya hay una capa llamada así!',
@@ -633,6 +634,12 @@ const lang: ILang = {
           QmoveElemsToLayer: '¿Mover los elementos seleccionados a la capa \'%s\'?',
           moveElemFromPrintingLayerTitle: '¿Desea mover los objetos seleccionados a la %s y convertir los objetos impresos en objetos láser?',
           moveElemFromPrintingLayerMsg: 'Tenga en cuenta que los ajustes de color del objeto impreso se eliminarán una vez finalizada la operación en curso.',
+          splitColorTitle: '¿Expandir la capa seleccionada a capas CMYK?',
+          splitColorMsg: 'Tenga en cuenta que si completa este procedimiento, no podrá restaurar.',
+          mergeLaserLayerToPrintingLayerTitle: '¿Quieres fusionar las capas en el módulo de Impresión?',
+          mergeLaserLayerToPrintingLayerMsg: 'Tenga en cuenta que si completa este procedimiento, la configuración de las capas del láser se eliminará y se establecerá de acuerdo con la capa %s.',
+          mergePrintingLayerToLaserLayerTitle: '¿Quieres fusionar las capas en el módulo Láser?',
+          mergePrintingLayerToLaserLayerMsg: 'Tenga en cuenta que si completa este procedimiento, la configuración de color de las capas de impresión se eliminará y se establecerá de acuerdo con la capa %s.',
         },
         layers: {
           layer: 'Capa',
@@ -808,6 +815,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'Tipo de tinta',
+          normal: 'Tinta ordinaria',
+          UV: 'Tinta UV',
+        },
         para_in_use: 'Este parámetro está siendo utilizado.',
         do_not_adjust_default_para: 'Los preajustes no pueden ser ajustados.',
         existing_name: 'Se ha utilizado este nombre.',
@@ -854,6 +866,10 @@ const lang: ILang = {
           shading: 'Gradiente',
           threshold: 'Brillo de umbral',
           threshold_short: 'Umbral',
+          stroke: 'Borde',
+          stroke_color: 'Color del borde',
+          stroke_width: 'Ancho del borde',
+          color: 'Color',
         },
         actions_panel: {
           replace_with: 'Reemplazar con...',
