@@ -41,7 +41,9 @@ interface Props {
 }
 
 const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX.Element => {
-  const LANG = useI18n().beambox.right_panel.layer_panel.layers;
+  const lang = useI18n().beambox.right_panel.layer_panel;
+  const LANG = lang.layers;
+  const LANG2 = lang.notification;
   const workarea = useWorkarea();
   const { selectedLayers, setSelectedLayers, forceUpdate } = useContext(LayerPanelContext);
   const isMobile = useIsMobile();
@@ -123,9 +125,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
         id: 'split-color',
-        caption: 'Expand the selected layer into CMYK layers?',
-        message:
-          'Please note that if you complete this procedure, you will not be able to restore.',
+        caption: LANG2.splitColorTitle,
+        message: LANG2.splitColorMsg,
         messageIcon: 'notice',
         buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: () => resolve(true),

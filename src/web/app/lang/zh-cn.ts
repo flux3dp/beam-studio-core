@@ -608,6 +608,7 @@ const lang: ILang = {
         layer_bitmap: '位图层',
         layer_engraving: '雕刻图层',
         layer_cutting: '切割图层',
+        current_layer: '目前图层',
         move_elems_to: '移动到：',
         notification: {
           dupeLayerName: '图层名称与现有图层重复，请使用别的名称。',
@@ -618,6 +619,12 @@ const lang: ILang = {
           QmoveElemsToLayer: '您确定移动所选元素到图层\'%s\'吗?',
           moveElemFromPrintingLayerTitle: '您要将选定的物件移至%s，并将列印物件转换为雷射物件吗？',
           moveElemFromPrintingLayerMsg: '请注意，当前操作完成后，打印对象的颜色设置将被删除。',
+          splitColorTitle: '将所选图层扩展为 CMYK 图层？',
+          splitColorMsg: '请注意，如果完成此过程，您将无法執行恢復彩色圖層。',
+          mergeLaserLayerToPrintingLayerTitle: '您想将图层合并到打印模块中吗？',
+          mergeLaserLayerToPrintingLayerMsg: '请注意，如果完成此过程，激光层的设置将被删除并根据 %s 图层进行设置。',
+          mergePrintingLayerToLaserLayerTitle: '您想将图层合并到激光模块中吗？',
+          mergePrintingLayerToLaserLayerMsg: '请注意，如果完成此过程，打印层的颜色设置将被删除并根据%s 图层进行设置。',
         },
         layers: {
           layer: '图层',
@@ -792,6 +799,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: '墨水类型',
+          normal: '一般墨',
+          UV: 'UV 墨',
+        },
         para_in_use: '此参数已在使用中。',
         do_not_adjust_default_para: '无法调整预设参数。',
         existing_name: '已存在此名称的自订参数。',
@@ -838,6 +850,10 @@ const lang: ILang = {
           shading: '渐层',
           threshold: '曝光阈值',
           threshold_short: '临界值',
+          stroke: '边框',
+          stroke_color: '边框颜色',
+          stroke_width: '边框宽度',
+          color: '颜色',
         },
         actions_panel: {
           replace_with: '替换影像',

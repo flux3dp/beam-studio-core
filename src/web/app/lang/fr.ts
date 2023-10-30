@@ -608,6 +608,7 @@ const lang: ILang = {
         layer_bitmap: 'Bitmap',
         layer_engraving: 'Gravure',
         layer_cutting: 'Découpe',
+        current_layer: 'Couche actuelle',
         move_elems_to: 'Déplacer les éléments vers :',
         notification: {
           dupeLayerName: 'Il existe déjà un calque portant ce nom !',
@@ -618,6 +619,12 @@ const lang: ILang = {
           QmoveElemsToLayer: 'Déplacer les éléments sélectionnés vers la couche \'%s\' ?',
           moveElemFromPrintingLayerTitle: 'Vous souhaitez déplacer les objets sélectionnés vers %s et convertir les objets imprimés en objets laser ? ',
           moveElemFromPrintingLayerMsg: 'Veuillez noter que les paramètres de couleur de l\'objet imprimé seront supprimés une fois l\'opération en cours terminée.',
+          splitColorTitle: 'Développer le calque sélectionné en calques CMJN ?',
+          splitColorMsg: 'Veuillez noter que si vous terminez cette procédure, vous ne pourrez pas restaurer.',
+          mergeLaserLayerToPrintingLayerTitle: 'Voulez-vous fusionner les calques dans le module d\'impression ?',
+          mergeLaserLayerToPrintingLayerMsg: 'Veuillez noter que si vous terminez cette procédure, les paramètres des calques laser seront supprimés et définis en fonction du calque %s.',
+          mergePrintingLayerToLaserLayerTitle: 'Voulez-vous fusionner les calques dans le module Laser ?',
+          mergePrintingLayerToLaserLayerMsg: 'Veuillez noter que si vous terminez cette procédure, les paramètres de couleur des calques d\'impression seront supprimés et définis en fonction du calque %s.',
         },
         layers: {
           layer: 'Couche',
@@ -792,6 +799,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'Type d\'encre',
+          normal: 'Encre ordinaire',
+          UV: 'Encre UV',
+        },
         para_in_use: 'Ce paramètre est en cours d\'utilisation.',
         do_not_adjust_default_para: 'Les préréglages ne peuvent pas être ajustés.',
         existing_name: 'Ce nom a été utilisé.',
@@ -838,6 +850,10 @@ const lang: ILang = {
           shading: 'Gradient',
           threshold: 'Seuil de luminosité',
           threshold_short: 'Seuil',
+          stroke: 'Cadre',
+          stroke_color: 'Couleur de la bordure',
+          stroke_width: 'Largeur de la bordure',
+          color: 'Couleur',
         },
         actions_panel: {
           replace_with: 'Remplacer par...',

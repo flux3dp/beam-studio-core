@@ -608,6 +608,7 @@ const lang: ILang = {
         layer_bitmap: '비트맵',
         layer_engraving: '조각',
         layer_cutting: '절단',
+        current_layer: '현재 레이어',
         move_elems_to: '요소 이동:',
         notification: {
           dupeLayerName: '해당 이름의 레이어가 이미 존재합니다!',
@@ -618,6 +619,12 @@ const lang: ILang = {
           QmoveElemsToLayer: '선택한 요소를 \'%s\' 레이어로 이동하시겠습니까?',
           moveElemFromPrintingLayerTitle: '선택한 개체를 %s로 이동하고 인쇄된 개체를 레이저 개체로 변환하시겠습니까?',
           moveElemFromPrintingLayerMsg: '현재 작업이 완료되면 인쇄된 개체의 색상 설정이 제거된다는 점에 유의하세요.',
+          splitColorTitle: '선택한 레이어를 CMYK 레이어로 확장하시겠습니까?',
+          splitColorMsg: '이 절차를 완료하면 복원할 수 없다는 점에 유의하세요.',
+          mergeLaserLayerToPrintingLayerTitle: '레이어를 인쇄 모듈에 병합하시겠습니까?',
+          mergeLaserLayerToPrintingLayerMsg: '이 절차를 완료하면 레이저 레이어의 설정이 제거되고 %s 레이어에 따라 설정됩니다.',
+          mergePrintingLayerToLaserLayerTitle: '레이어를 레이저 모듈에 병합하시겠습니까?',
+          mergePrintingLayerToLaserLayerMsg: '이 절차를 완료하면 인쇄 레이어의 색상 설정이 제거되고 %s 레이어에 따라 설정됩니다.',
         },
         layers: {
           layer: '레이어',
@@ -792,6 +799,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: '잉크 종류',
+          normal: '일반 잉크',
+          UV: 'UV 잉크',
+        },
         para_in_use: '이 매개 변수가 사용 중입니다.',
         do_not_adjust_default_para: '프리셋은 조정할 수 없습니다.',
         existing_name: '이름이 이미 사용되었습니다.',
@@ -838,6 +850,10 @@ const lang: ILang = {
           shading: '그라데이션',
           threshold: '임계 밝기',
           threshold_short: '임계값',
+          stroke: '액자',
+          stroke_color: '테두리 색상',
+          stroke_width: '테두리 너비',
+          color: '색깔',
         },
         actions_panel: {
           replace_with: '다른 것으로 바꾸기...',

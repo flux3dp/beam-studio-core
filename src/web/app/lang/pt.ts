@@ -608,6 +608,7 @@ const lang: ILang = {
         layer_bitmap: 'Imagem Bitmap',
         layer_engraving: 'Gravação',
         layer_cutting: 'Cortando',
+        current_layer: 'Camada atual',
         move_elems_to: 'Mover Elementos para',
         notification: {
           dupeLayerName: 'Já existe uma camada com esse nome!',
@@ -618,6 +619,12 @@ const lang: ILang = {
           QmoveElemsToLayer: 'Mover elementos selecionados para a camada \'%s\'?',
           moveElemFromPrintingLayerTitle: 'Pretende mover objectos seleccionados para %s e converter objectos impressos em objectos laser?',
           moveElemFromPrintingLayerMsg: 'Tenha em atenção que as definições de cor do objeto impresso serão removidas quando a operação atual estiver concluída.',
+          splitColorTitle: 'Expandir a camada selecionada em camadas CMYK?',
+          splitColorMsg: 'Observe que se você concluir este procedimento, não será possível restaurar.',
+          mergeLaserLayerToPrintingLayerTitle: 'Deseja mesclar as camadas no módulo Impressão?',
+          mergeLaserLayerToPrintingLayerMsg: 'Observe que se você concluir este procedimento, as configurações das camadas de laser serão removidas e definidas de acordo com a camada %s.',
+          mergePrintingLayerToLaserLayerTitle: 'Você deseja mesclar as camadas no módulo Laser?',
+          mergePrintingLayerToLaserLayerMsg: 'Observe que se você concluir este procedimento, as configurações de cores das camadas de impressão serão removidas e definidas de acordo com a camada %s.',
         },
         layers: {
           layer: 'Camada',
@@ -792,6 +799,11 @@ const lang: ILang = {
           max: 100,
           step: 0.1,
         },
+        ink_type: {
+          text: 'Tipo de tinta',
+          normal: 'Tinta comum',
+          UV: 'Tinta UV',
+        },
         para_in_use: 'Este parâmetro está sendo usado.',
         do_not_adjust_default_para: 'As predefinições não podem ser ajustadas.',
         existing_name: 'Este nome foi usado.',
@@ -838,6 +850,10 @@ const lang: ILang = {
           shading: 'Gradiente',
           threshold: 'Limiar de brilho',
           threshold_short: 'Limiar',
+          stroke: 'Quadro',
+          stroke_color: 'Cor da borda',
+          stroke_width: 'Largura da borda',
+          color: 'Cor',
         },
         actions_panel: {
           replace_with: 'Substituir com...',

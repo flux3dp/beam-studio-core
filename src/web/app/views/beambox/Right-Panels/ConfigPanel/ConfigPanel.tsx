@@ -43,7 +43,7 @@ import {
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
-import { getLayerByName, getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
+import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
@@ -273,12 +273,14 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} />}
-      {module.value === LayerModule.PRINTER && fullcolor.value && <WhiteInkCheckbox />}
-      {isDevMode && isCustomBacklashEnabled && <Backlash />}
+      {module.value === LayerModule.PRINTER && fullcolor.value && UIType === 'default' && (
+        <WhiteInkCheckbox />
+      )}
+      {isDevMode && isCustomBacklashEnabled && <Backlash type={UIType} />}
       <RepeatBlock type={UIType} />
-      {module.value === LayerModule.PRINTER &&
-        mainLayerElem?.getAttribute('data-fullcolor') === '1' &&
-        UIType === 'panel-item' && <WhiteInkCheckbox type={UIType} />}
+      {module.value === LayerModule.PRINTER && fullcolor.value && UIType === 'panel-item' && (
+        <WhiteInkCheckbox type={UIType} />
+      )}
     </>
   );
 
@@ -399,7 +401,9 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         >
           {selectedLayers.length > 0 && (
             <div className={styles['change-layer']}>
-              <span className={styles.title}>Current Layer:</span>
+              <span className={styles.title}>
+                {i18n.lang.beambox.right_panel.layer_panel.current_layer}:
+              </span>
               <Select className={styles.select} defaultValue={selectedLayers[0]} disabled>
                 {layerOptions}
               </Select>
