@@ -409,7 +409,7 @@ class TextOptions extends React.Component<Props, State> {
       <ObjectPanelItem.Item
         id="vertical-text"
         content={<Switch checked={isVerti} />}
-        label="Vertical"
+        label={LANG.vertical_text}
         onClick={this.handleVerticalTextClick}
       />
     ) : (
