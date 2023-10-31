@@ -37,7 +37,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
       });
       svgCanvas.addCommandToHistory(new history.InsertElementCommand(newElement));
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newElement);
+        updateElementColor(newElement);
       }
       // Ensure ObjectPanelContextProvider has mounted in mobile
       await svgCanvas.selectOnly([newElement]);

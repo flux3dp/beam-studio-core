@@ -32,7 +32,12 @@ const ConfigValueDisplay = ({
   options,
 }: Props): JSX.Element => {
   const selectedOption = options?.find((opt) => opt.value === value);
-  if (selectedOption) return <span className={styles.value}>{selectedOption.label || selectedOption.value}</span>;
+  if (selectedOption)
+    return (
+      <span className={styles.value}>
+        {hasMultiValue ? '-' : selectedOption.label || selectedOption.value}
+      </span>
+    );
   if (type === 'panel-item')
     return (
       <ConfigProvider theme={{ token: { borderRadius: 100 } }}>

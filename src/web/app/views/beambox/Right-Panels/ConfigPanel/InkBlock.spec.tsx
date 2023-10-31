@@ -1,6 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { PrintingColors } from 'app/constants/color-constants';
+
 import ConfigPanelContext from './ConfigPanelContext';
 import InkBlock from './InkBlock';
 
@@ -81,6 +83,7 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   ink: { value: 7, hasMultiValue: false },
+  color: { value: PrintingColors.CYAN, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
 

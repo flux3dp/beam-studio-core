@@ -1,3 +1,9 @@
+const mockRead = jest.fn();
+jest.mock('app/actions/beambox/beambox-preference', () => ({
+  read: (key: string) => mockRead(key),
+}));
+
+// eslint-disable-next-line import/first
 import {
   cloneLayerConfig,
   DataType,
@@ -7,11 +13,6 @@ import {
   writeData,
   toggleFullColorAfterWorkareaChange,
 } from './layer-config-helper';
-
-const mockRead = jest.fn();
-jest.mock('app/actions/beambox/beambox-preference', () => ({
-  read: (key: string) => mockRead(key),
-}));
 
 const mockGet = jest.fn();
 jest.mock('implementations/storage', () => ({
@@ -42,7 +43,7 @@ const defaultLaserConfigs = {
   speed: { value: 20 },
   printingSpeed: { value: 60 },
   power: { value: 15 },
-  ink: { value: 1 },
+  ink: { value: 3 },
   repeat: { value: 1 },
   height: { value: -3 },
   zStep: { value: 0 },
@@ -52,13 +53,19 @@ const defaultLaserConfigs = {
   backlash: { value: 0 },
   multipass: { value: 3 },
   uv: { value: 0 },
+  wInk: { value: -9 },
+  wMultipass: { value: 3 },
+  wRepeat: { value: 1 },
+  wSpeed: { value: 100 },
+  color: { value: '#333333' },
+  fullcolor: { value: false },
 };
 
 const defaultMultiValueLaserConfigs = {
   speed: { value: 20, hasMultiValue: false },
   printingSpeed: { value: 60, hasMultiValue: false },
   power: { value: 15, hasMultiValue: false },
-  ink: { value: 1, hasMultiValue: false },
+  ink: { value: 3, hasMultiValue: false },
   repeat: { value: 1, hasMultiValue: false },
   height: { value: -3, hasMultiValue: false },
   zStep: { value: 0, hasMultiValue: false },
@@ -68,15 +75,21 @@ const defaultMultiValueLaserConfigs = {
   backlash: { value: 0, hasMultiValue: false },
   multipass: { value: 3, hasMultiValue: false },
   uv: { value: 0, hasMultiValue: false },
+  wInk: { value: -9, hasMultiValue: false },
+  wMultipass: { value: 3, hasMultiValue: false },
+  wRepeat: { value: 1, hasMultiValue: false },
+  wSpeed: { value: 100, hasMultiValue: false },
+  color: { value: '#333333', hasMultiValue: false },
+  fullcolor: { value: false, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <g class="layer"></g>
-      <g class="layer"><title>layer 1</title></g>
-      <g class="layer"><title>layer 2</title></g>
-      <g class="layer"><title>layer 3</title></g>
+      <g class="layer" data-color="#333333" ><title>layer 1</title></g>
+      <g class="layer" data-color="#333333"><title>layer 2</title></g>
+      <g class="layer" data-color="#333333"><title>layer 3</title></g>
     `;
   });
 
