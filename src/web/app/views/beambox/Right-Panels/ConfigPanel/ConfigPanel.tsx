@@ -323,7 +323,12 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           <div className={styles['item-group']}>
             <ObjectPanelItem.Select
               id="laser-config-dropdown"
-              selected={{ value: dropdownValue, label: dropdownValue }}
+              selected={
+                dropdownOptions.find((option) => option.value === dropdownValue) || {
+                  value: dropdownValue,
+                  label: dropdownValue,
+                }
+              }
               onChange={handleSelectPresets}
               options={[
                 ...dropdownOptions,
