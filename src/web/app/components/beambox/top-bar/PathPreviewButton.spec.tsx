@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-import * as React from 'react';
+import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -33,6 +33,9 @@ jest.mock('app/contexts/CanvasContext', () => ({
 
 import PathPreviewButton from './PathPreviewButton';
 
+const mockUseWorkarea = jest.fn();
+jest.mock('helpers/hooks/useWorkarea', () => () => mockUseWorkarea());
+
 describe('test PathPreviewButton', () => {
   test('no WebGL', () => {
     checkWebGL.mockReturnValue(false);
@@ -40,6 +43,16 @@ describe('test PathPreviewButton', () => {
       <PathPreviewButton isPathPreviewing isDeviceConnected togglePathPreview={jest.fn()} />
     );
     expect(container).toMatchSnapshot();
+  });
+
+  describe('workarea is Ador', () => {
+    it('should not render', () => {
+      mockUseWorkarea.mockReturnValue('ado1');
+      const { container } = render(
+        <PathPreviewButton isPathPreviewing isDeviceConnected togglePathPreview={jest.fn()} />
+      );
+      expect(container).toMatchSnapshot();
+    });
   });
 
   describe('has WebGL', () => {
