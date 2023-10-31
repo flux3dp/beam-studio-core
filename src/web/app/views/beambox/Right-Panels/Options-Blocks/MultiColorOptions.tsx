@@ -61,7 +61,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     const fillElements = [];
     const strokeElements = [];
     const useElems = new Set<SVGUseElement>();
-    colors[origColor].forEach(({ element, attribute, useElement }) => {
+    colors[origColor]?.forEach(({ element, attribute, useElement }) => {
       if (attribute === 'fill') fillElements.push(element);
       else if (attribute === 'stroke') strokeElements.push(element);
       if (useElement) useElems.add(useElement);
@@ -94,7 +94,8 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
       setColors(colloectColors(elem));
       previewState.origColor = newColor;
     }
-    setPreviewState((state) => ({ ...state, newColor }));
+    previewState.newColor = newColor;
+    setPreviewState({ ...previewState });
   };
 
   const startPreviewMode = (color: string) => {

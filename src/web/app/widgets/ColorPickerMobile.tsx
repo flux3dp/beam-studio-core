@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Color } from 'antd/es/color-picker';
-import { ColorPicker as AntdColorPicker, Button, Input, Popover } from 'antd';
+import { ColorPicker, Button, Input, Popover } from 'antd';
 
 import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import useI18n from 'helpers/useI18n';
@@ -73,7 +73,7 @@ const ColorPickerMobile = ({ color, onChange, open, onClose }: Props): JSX.Eleme
 
   return (
     <>
-      <AntdColorPicker
+      <ColorPicker
         rootClassName={styles['mobile-container']}
         getPopupContainer={(triggerNode) => triggerNode.parentElement}
         open={open}
@@ -84,7 +84,7 @@ const ColorPickerMobile = ({ color, onChange, open, onClose }: Props): JSX.Eleme
         disabledAlpha
       >
         <div />
-      </AntdColorPicker>
+      </ColorPicker>
       <Popover
         rootClassName={styles['mask-container']}
         open={open}

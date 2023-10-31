@@ -78,10 +78,10 @@ exports[`should render correctly in mobile polygon desktop version 1`] = `
       class="adm-divider adm-divider-vertical adm-divider-center divider"
     />
     <div>
-      This is dummy PolygonOptions
+      This is dummy InFillBlock
     </div>
     <div>
-      This is dummy InFillBlock
+      This is dummy PolygonOptions
     </div>
   </div>
 </div>
@@ -96,10 +96,10 @@ exports[`should render correctly in mobile polygon web version 1`] = `
       class="adm-divider adm-divider-vertical adm-divider-center divider"
     />
     <div>
-      This is dummy PolygonOptions
+      This is dummy InFillBlock
     </div>
     <div>
-      This is dummy InFillBlock
+      This is dummy PolygonOptions
     </div>
   </div>
 </div>
@@ -114,15 +114,15 @@ exports[`should render correctly in mobile rect 1`] = `
       class="adm-divider adm-divider-vertical adm-divider-center divider"
     />
     <div>
+      This is dummy InFillBlock
+    </div>
+    <div>
       This is dummy RectOptions
       <button
         type="button"
       >
         updateDimensionValues
       </button>
-    </div>
-    <div>
-      This is dummy InFillBlock
     </div>
   </div>
 </div>
@@ -137,6 +137,9 @@ exports[`should render correctly in mobile text 1`] = `
       class="adm-divider adm-divider-vertical adm-divider-center divider"
     />
     <div>
+      This is dummy InFillBlock
+    </div>
+    <div>
       This is dummy TextOptions
       <button
         type="button"
@@ -148,9 +151,6 @@ exports[`should render correctly in mobile text 1`] = `
       >
         updateObjectPanel
       </button>
-    </div>
-    <div>
-      This is dummy InFillBlock
     </div>
   </div>
 </div>
@@ -287,9 +287,6 @@ exports[`should render correctly text 1`] = `
       >
         updateObjectPanel
       </button>
-    </div>
-    <div>
-      This is dummy InFillBlock
     </div>
   </div>
 </div>

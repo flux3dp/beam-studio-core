@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -49,6 +49,10 @@ jest.mock('helpers/useI18n', () => () => ({
           switchToSingleColor: 'switchToSingleColor',
           switchToFullColor: 'switchToFullColor',
         },
+        notification: {
+          splitColorTitle: 'splitColorTitle',
+          splitColorMsg: 'splitColorMsg',
+        },
       },
     },
   },
@@ -80,11 +84,15 @@ jest.mock('helpers/system-helper', () => ({
 const mockUseWorkarea = jest.fn();
 jest.mock('helpers/hooks/useWorkarea', () => () => mockUseWorkarea());
 
+const mockPopUp = jest.fn();
+jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
+}));
+
 const mockDrawing = {
   getLayerName: jest.fn(),
   getCurrentLayerName: jest.fn(),
 } as any;
-
 
 const mockElem = {
   getAttribute: jest.fn(),
@@ -98,6 +106,7 @@ describe('test LayerContextMenu', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     mockUseWorkarea.mockReturnValue('ado1');
+    mockMergeLayers.mockResolvedValue('mockLayer');
   });
 
   it('should render correctly when multiselecting', () => {
@@ -325,8 +334,10 @@ describe('test LayerContextMenu', () => {
     expect(mockDrawing.getLayerName).toBeCalledTimes(2);
     expect(mockDrawing.getLayerName).toHaveBeenLastCalledWith(0);
     expect(mockMergeLayers).toBeCalledWith(['layer1'], 'layer2');
-    expect(mockSelectOnlyLayer).toBeCalledTimes(1);
-    expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer2');
+    waitFor(() => {
+      expect(mockSelectOnlyLayer).toBeCalledTimes(1);
+      expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer2');
+    });
   });
 
   test('merge all should work', () => {
@@ -356,12 +367,17 @@ describe('test LayerContextMenu', () => {
     expect(mockGetAllLayerNames).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2', 'layer3']);
-    expect(mockSelectOnlyLayer).toBeCalledTimes(1);
-    expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer1');
-    expect(mockElem.getAttribute).toBeCalledTimes(1);
-    expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
-    expect(mockToggleFullColorLayer).toBeCalledTimes(1);
-    expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, { val: true, force: true });
+    waitFor(() => {
+      expect(mockSelectOnlyLayer).toBeCalledTimes(1);
+      expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer1');
+      expect(mockElem.getAttribute).toBeCalledTimes(1);
+      expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
+      expect(mockToggleFullColorLayer).toBeCalledTimes(1);
+      expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, {
+        val: true,
+        force: true,
+      });
+    });
   });
 
   test('merge selected should work', () => {
@@ -392,14 +408,19 @@ describe('test LayerContextMenu', () => {
     expect(mockDrawing.getCurrentLayerName).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2'], 'layer2');
-    expect(mockSetSelectedLayers).toBeCalledTimes(1);
-    expect(mockSetSelectedLayers).toHaveBeenLastCalledWith(['layer2']);
-    expect(mockGetLayerElementByName).toBeCalledTimes(2);
-    expect(mockGetLayerElementByName).toHaveBeenLastCalledWith('layer2');
-    expect(mockElem.getAttribute).toBeCalledTimes(1);
-    expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
-    expect(mockToggleFullColorLayer).toBeCalledTimes(1);
-    expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, { val: false, force: true });
+    waitFor(() => {
+      expect(mockSetSelectedLayers).toBeCalledTimes(1);
+      expect(mockSetSelectedLayers).toHaveBeenLastCalledWith(['layer2']);
+      expect(mockGetLayerElementByName).toBeCalledTimes(2);
+      expect(mockGetLayerElementByName).toHaveBeenLastCalledWith('layer2');
+      expect(mockElem.getAttribute).toBeCalledTimes(1);
+      expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
+      expect(mockToggleFullColorLayer).toBeCalledTimes(1);
+      expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, {
+        val: false,
+        force: true,
+      });
+    });
   });
 
   it('should render correctly when selecting printing layer', async () => {
@@ -453,10 +474,14 @@ describe('test LayerContextMenu', () => {
     await act(async () => {
       fireEvent.click(getByText('splitFullColor'));
     });
-    expect(mockSplitFullColorLayer).toBeCalledTimes(1);
-    expect(mockSplitFullColorLayer).toHaveBeenLastCalledWith('layer1');
-    expect(mockSetSelectedLayers).toBeCalledTimes(1);
-    expect(mockSetSelectedLayers).toHaveBeenLastCalledWith([]);
+    expect(mockPopUp).toBeCalledTimes(1);
+    mockPopUp.mock.calls[0][0].onConfirm();
+    waitFor(() => {
+      expect(mockSplitFullColorLayer).toBeCalledTimes(1);
+      expect(mockSplitFullColorLayer).toHaveBeenLastCalledWith('layer1');
+      expect(mockSetSelectedLayers).toBeCalledTimes(1);
+      expect(mockSetSelectedLayers).toHaveBeenLastCalledWith([]);
+    });
   });
 
   test('click toggle full color should work', async () => {

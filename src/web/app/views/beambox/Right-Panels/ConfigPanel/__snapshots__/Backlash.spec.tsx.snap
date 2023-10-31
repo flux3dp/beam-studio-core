@@ -3,7 +3,7 @@
 exports[`test Backlash should render correctly 1`] = `
 <div>
   <div
-    class="panel"
+    class="panel default"
   >
     <span
       class="title"

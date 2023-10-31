@@ -117,7 +117,7 @@ function OptionsPanel({
   return isMobile ? (
     <div className={styles.container}>
       <ObjectPanelItem.Divider />
-      {contents.reverse()}
+      {contents?.reverse()}
     </div>
   ) : (
     <>

@@ -167,7 +167,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
           content={<LayerPanelIcons.Expand />}
           label={LANG.splitFullColor}
           onClick={handleSplitColor}
-          disabled={isMultiSelecting}
+          disabled={isMultiSelecting || !isFullColor}
         />
       )}
       {isSelectingPrinterLayer && (

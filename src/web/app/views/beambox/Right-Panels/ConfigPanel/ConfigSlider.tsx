@@ -114,6 +114,7 @@ const ConfigSlider = ({
               // hack because antd tooltip of slider won't autoslide
               placement: displayValue === maxValue ? 'topLeft' : 'top',
               arrow: { pointAtCenter: true },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as TooltipProps as any
           }
         />
