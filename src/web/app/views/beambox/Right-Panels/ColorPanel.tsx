@@ -123,10 +123,10 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
             ratio: constant.dpmm * 25.4,
             decimal: 2,
             step: constant.dpmm * 0.254,
-            max: 12.7,
+            max: 127,
             unit: 'inch',
           }
-        : { ratio: constant.dpmm, decimal: 1, step: constant.dpmm * 0.1, max: 10, unit: 'mm' },
+        : { ratio: constant.dpmm, decimal: 1, step: constant.dpmm * 0.1, max: 100, unit: 'mm' },
     []
   );
 
@@ -185,7 +185,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
       {previewState.type === EditType.Fill && (
         <FloatingPanel
           anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
-          title={previewState.currentStep === EditStep.Color ? t.fill : t.color}
+          title={t.fill}
           forceClose={previewState.currentStep === EditStep.Closed}
           onClose={endPreviewMode}
           fixedContent={renderBackIcon()}
