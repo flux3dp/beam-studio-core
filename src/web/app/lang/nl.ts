@@ -661,6 +661,7 @@ const lang: ILang = {
         print_multipass: 'Multi-Pass',
         white_ink: 'Witte Inkt',
         white_ink_settings: 'Instellingen voor Witte Inkt',
+        color_adjustment: 'Kleurinstelling',
         times: 'keer',
         cut: 'Snee',
         engrave: 'Graveren',

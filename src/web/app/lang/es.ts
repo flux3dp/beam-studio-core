@@ -661,6 +661,7 @@ const lang: ILang = {
         print_multipass: 'Multipase',
         white_ink: 'Tinta Blanca',
         white_ink_settings: 'Configuración de Tinta Blanca',
+        color_adjustment: 'Ajuste de color',
         times: 'veces',
         cut: 'Cortar',
         engrave: 'Grabar',

@@ -661,6 +661,7 @@ const lang: ILang = {
         print_multipass: 'Multi-pass',
         white_ink: 'White Ink',
         white_ink_settings: 'White Ink Settings',
+        color_adjustment: 'Color Adjustment',
         times: 'times',
         cut: 'Cut',
         engrave: 'Engrave',

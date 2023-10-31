@@ -660,6 +660,7 @@ const lang: ILang = {
         print_multipass: 'Multi-passagem',
         white_ink: 'Tinta Branca',
         white_ink_settings: 'Configurações de Tinta Branca',
+        color_adjustment: 'Ajuste de cor',
         diode: 'Laser de Diodo',
         times: 'Vezes',
         cut: 'Cortar',

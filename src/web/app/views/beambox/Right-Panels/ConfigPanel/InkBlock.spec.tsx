@@ -11,6 +11,7 @@ jest.mock('helpers/useI18n', () => () => ({
     right_panel: {
       laser_panel: {
         ink_saturation: 'ink_saturation',
+        color_adjustment: 'color_adjustment',
         slider: {
           very_low: 'very_low',
           low: 'low',
@@ -70,6 +71,15 @@ jest.mock(
       )
 );
 
+jest.mock('./ColorRatioModal', () => ({ onClose }: any) => (
+  <div>
+    MockColorRatioModal
+    <button type="button" onClick={onClose}>
+      MockColorRatioModalCloseButton
+    </button>
+  </div>
+));
+
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
@@ -84,6 +94,7 @@ const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   ink: { value: 7, hasMultiValue: false },
   color: { value: PrintingColors.CYAN, hasMultiValue: false },
+  fullcolor: { value: true, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
 
@@ -156,5 +167,23 @@ describe('test InkBlock', () => {
     expect(mockWriteData).toBeCalledTimes(2);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
     expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'ink', 8);
+  });
+
+  test('open and close modal should work', () => {
+    const { container, queryByText } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+        }}
+      >
+        <InkBlock />
+      </ConfigPanelContext.Provider>
+    );
+    fireEvent.click(container.querySelector('.icon'));
+    expect(queryByText('MockColorRatioModal')).toBeInTheDocument();
+    fireEvent.click(queryByText('MockColorRatioModalCloseButton'));
+    expect(queryByText('MockColorRatioModal')).not.toBeInTheDocument();
   });
 });

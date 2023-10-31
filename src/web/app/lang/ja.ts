@@ -661,6 +661,7 @@ const lang: ILang = {
         print_multipass: 'マルチパス',
         white_ink: 'ホワイトインク',
         white_ink_settings: 'ホワイトインク設定',
+        color_adjustment: '色の調整',
         times: '回',
         cut: 'カット',
         engrave: '彫刻する',

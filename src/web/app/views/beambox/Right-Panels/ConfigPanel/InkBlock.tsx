@@ -1,7 +1,8 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useCallback, useContext, useMemo, useState } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
+import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import configOptions from 'app/constants/config-options';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
@@ -11,9 +12,10 @@ import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/Obje
 import { PrintingColors } from 'app/constants/color-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
+import ColorRationModal from './ColorRatioModal';
 import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
-import styles from './Block.module.scss';
+import styles from './InkBlock.module.scss';
 
 const MAX_VALUE = 15;
 const MIN_VALUE = 1;
@@ -27,8 +29,9 @@ function InkBlock({
   const t = lang.beambox.right_panel.laser_panel;
   const { selectedLayers, state, dispatch, simpleMode = true } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
+  const [showModal, setShowModal] = useState(false);
   const visible = activeKey === 'power';
-  const { ink, color } = state;
+  const { ink, color, fullcolor } = state;
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
@@ -39,18 +42,24 @@ function InkBlock({
         writeData(layerName, DataType.ink, value);
       });
   };
-  const sliderOptions = useMemo(
-    () => {
-      if (!simpleMode) return null;
-      if (color.value === PrintingColors.WHITE) return configOptions.getWhiteSaturationOptions(lang);
-      return configOptions.getSaturationOptions(lang);
-    },
-    [simpleMode, color.value, lang]
-  );
+  const sliderOptions = useMemo(() => {
+    if (!simpleMode) return null;
+    if (color.value === PrintingColors.WHITE) return configOptions.getWhiteSaturationOptions(lang);
+    return configOptions.getSaturationOptions(lang);
+  }, [simpleMode, color.value, lang]);
+  const openModal = useCallback(() => setShowModal(true), []);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
-      <span className={styles.title}>{t.ink_saturation}</span>
+      <span className={styles.title}>
+        {t.ink_saturation}
+        {fullcolor.value && (
+          <span className={styles.icon} title={t.color_adjustment} onClick={openModal}>
+            <ConfigPanelIcons.ColorAdjustment />
+          </span>
+        )}
+      </span>
       <ConfigValueDisplay
         inputId="saturation-input"
         type={type}
@@ -73,26 +82,31 @@ function InkBlock({
     </div>
   );
 
-  return type === 'panel-item' ? (
-    <Popover visible={visible} content={content}>
-      <ObjectPanelItem.Item
-        id="power"
-        content={
-          <Button
-            className={objectPanelItemStyles['number-item']}
-            shape="rounded"
-            size="mini"
-            fill="outline"
-          >
-            {ink.value}
-          </Button>
-        }
-        label={t.ink_saturation}
-        autoClose={false}
-      />
-    </Popover>
-  ) : (
-    content
+  return (
+    <>
+      {type === 'panel-item' ? (
+        <Popover visible={visible} content={content}>
+          <ObjectPanelItem.Item
+            id="power"
+            content={
+              <Button
+                className={objectPanelItemStyles['number-item']}
+                shape="rounded"
+                size="mini"
+                fill="outline"
+              >
+                {ink.value}
+              </Button>
+            }
+            label={t.ink_saturation}
+            autoClose={false}
+          />
+        </Popover>
+      ) : (
+        content
+      )}
+      {showModal && <ColorRationModal onClose={closeModal} />}
+    </>
   );
 }
 

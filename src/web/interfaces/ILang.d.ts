@@ -658,6 +658,7 @@ export interface ILang {
         print_multipass: string;
         white_ink: string;
         white_ink_settings: string;
+        color_adjustment: string;
         times: string,
         cut: string,
         engrave: string,

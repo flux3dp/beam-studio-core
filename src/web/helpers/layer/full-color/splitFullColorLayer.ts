@@ -110,9 +110,21 @@ const splitFullColorLayer = async (
     return null;
   }
   const whiteInkStaturation = getData<number>(layer, DataType.wInk);
+  const cRatio = getData<number>(layer, DataType.cRatio);
+  const mRatio = getData<number>(layer, DataType.mRatio);
+  const yRatio = getData<number>(layer, DataType.yRatio);
+  const kRatio = getData<number>(layer, DataType.kRatio);
   const includeWhite = whiteInkStaturation > 0;
   const layerImageUrl = URL.createObjectURL(blob);
-  const channelBlobs = await splitColor(layerImageUrl, includeWhite);
+  const channelBlobs = await splitColor(layerImageUrl, {
+    includeWhite,
+    colorRatio: {
+      c: cRatio,
+      m: mRatio,
+      y: yRatio,
+      k: kRatio,
+    },
+  });
   console.log(channelBlobs);
 
   const batchCmd = new history.BatchCommand('Split Full Color Layer');

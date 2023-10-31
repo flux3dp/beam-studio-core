@@ -44,7 +44,7 @@ import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { getLayerByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
+import { moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import AddOnBlock from './AddOnBlock';

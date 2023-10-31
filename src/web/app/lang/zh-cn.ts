@@ -661,6 +661,7 @@ const lang: ILang = {
         print_multipass: '多重打印次数',
         white_ink: '白墨',
         white_ink_settings: '白墨设置',
+        color_adjustment: '颜色调整',
         times: '次',
         cut: '切割',
         engrave: '雕刻',

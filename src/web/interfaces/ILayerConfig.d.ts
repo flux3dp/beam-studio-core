@@ -22,4 +22,8 @@ export interface ILayerConfig {
   wRepeat: IConfig<number>;
   color: IConfig<string>;
   fullcolor: IConfig<boolean>;
+  cRatio: IConfig<number>;
+  mRatio: IConfig<number>;
+  yRatio: IConfig<number>;
+  kRatio: IConfig<number>;
 }

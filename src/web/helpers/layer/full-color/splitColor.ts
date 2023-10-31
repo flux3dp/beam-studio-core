@@ -4,8 +4,19 @@ import { CMYK } from 'app/constants/color-constants';
  * split img into desired color channels, return null if empty
  */
 // TODO: add unit test
-const splitColor = async (imgBlobUrl: string, includeWhite = false): Promise<(Blob | null)[]> => {
+const splitColor = async (
+  imgBlobUrl: string,
+  opts: {
+    includeWhite?: boolean;
+    colorRatio?: { c: number; m: number; y: number; k: number };
+  } = {}
+): Promise<(Blob | null)[]> => {
   const canvas = document.createElement('canvas');
+  const { includeWhite = false, colorRatio = { c: 100, m: 100, y: 100, k: 100 } } = opts;
+  colorRatio.c = Math.max(0, Math.min(100, colorRatio.c)) / 100;
+  colorRatio.m = Math.max(0, Math.min(100, colorRatio.m)) / 100;
+  colorRatio.y = Math.max(0, Math.min(100, colorRatio.y)) / 100;
+  colorRatio.k = Math.max(0, Math.min(100, colorRatio.k)) / 100;
   const ctx = canvas.getContext('2d');
   const img = new Image();
   await new Promise<void>((resolve) => {
@@ -30,12 +41,13 @@ const splitColor = async (imgBlobUrl: string, includeWhite = false): Promise<(Bl
     const g = data[i + 1];
     const b = data[i + 2];
     const a = data[i + 3];
-    const k = 255 - Math.max(r, g, b);
-    const c = 255 - r - k;
-    const m = 255 - g - k;
-    const y = 255 - b - k;
+    let k = 255 - Math.max(r, g, b);
+    const c = Math.round((255 - r - k) * colorRatio.c);
+    const m = Math.round((255 - g - k) * colorRatio.m);
+    const y = Math.round((255 - b - k) * colorRatio.y);
+    k = Math.round(k * colorRatio.k);
     // invert color because we print black part
-    const colors = [255 - k, 255 - c, 255 - m, 255 -y];
+    const colors = [255 - k, 255 - c, 255 - m, 255 - y];
     let hasColor = false;
     for (let j = 0; j < colors.length; j += 1) {
       channelDatas[j][i] = colors[j];
@@ -62,8 +74,8 @@ const splitColor = async (imgBlobUrl: string, includeWhite = false): Promise<(Bl
     const blob = await new Promise<Blob>((resolve) => {
       canvas.toBlob((b) => resolve(b));
     });
-    return blob
-  }
+    return blob;
+  };
   const resultBlobs = [];
   resultBlobs.push(await channelToBlob(whiteChannel));
   for (let i = 0; i < channelDatas.length; i += 1) {

@@ -9,6 +9,12 @@ exports[`test InkBlock should render correctly 1`] = `
       class="title"
     >
       ink_saturation
+      <span
+        class="icon"
+        title="color_adjustment"
+      >
+        <svgr-url />
+      </span>
     </span>
     <div>
       MockConfigValueDisplay

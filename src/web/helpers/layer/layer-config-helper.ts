@@ -41,6 +41,11 @@ export enum DataType {
   wRepeat = 'wRepeat',
   color = 'color',
   fullColor = 'fullcolor',
+  // parameters for split color
+  cRatio = 'cRatio',
+  mRatio = 'mRatio',
+  yRatio = 'yRatio',
+  kRatio = 'kRatio',
 }
 
 export const dataKey = {
@@ -64,6 +69,11 @@ export const dataKey = {
   [DataType.wRepeat]: 'wRepeat',
   [DataType.color]: 'color',
   [DataType.fullColor]: 'fullcolor',
+  // parameters for split color
+  [DataType.cRatio]: 'cRatio',
+  [DataType.mRatio]: 'mRatio',
+  [DataType.yRatio]: 'yRatio',
+  [DataType.kRatio]: 'kRatio',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -87,6 +97,11 @@ export const defaultConfig = {
   [DataType.wInk]: BeamboxPreference.read('multipass-compensation') !== false ? -9 : -3,
   [DataType.wMultipass]: 3,
   [DataType.wRepeat]: 1,
+  // parameters for split color
+  [DataType.cRatio]: 100,
+  [DataType.mRatio]: 100,
+  [DataType.yRatio]: 100,
+  [DataType.kRatio]: 100,
 };
 
 /**
