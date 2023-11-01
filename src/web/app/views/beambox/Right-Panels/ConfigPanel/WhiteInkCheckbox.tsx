@@ -70,7 +70,7 @@ const WhiteInkCheckbox = ({ type = 'default' }: Props): JSX.Element => {
                   <ConfigPanelIcons.Settings />
                 </div>
               }
-              label={t.white_ink_settings}
+              label={lang.settings.caption}
               onClick={() => setShowModal(true)}
             />
           )}

@@ -634,6 +634,8 @@ const lang: ILang = {
           QmoveElemsToLayer: 'Geselecteerde elementen verplaatsen naar laag \'%s\'?',
           moveElemFromPrintingLayerTitle: 'Wil je geselecteerde objecten verplaatsen naar %s en afgedrukte objecten converteren naar laserobjecten?',
           moveElemFromPrintingLayerMsg: 'Houd er rekening mee dat de kleurinstellingen van het afgedrukte object worden verwijderd zodra de huidige bewerking is voltooid.',
+          moveElemToPrintingLayerTitle: 'Move selected element to %s and convert it into laser element?',
+          moveElemToPrintingLayerMsg: 'Please note that if you complete this procedure, the color settings of the printing element will be removed.',
           splitColorTitle: 'De geselecteerde laag uitbreiden naar CMYK-lagen?',
           splitColorMsg: 'Houd er rekening mee dat als u deze procedure voltooit, u niet kunt herstellen.',
           mergeLaserLayerToPrintingLayerTitle: 'Wilt u de lagen samenvoegen in de module Afdrukken?',
@@ -1506,6 +1508,8 @@ const lang: ILang = {
     notification: {
       convertFromPrintingModuleTitle: 'Wilt u de module Afdrukken omzetten in Lasermodule?',
       convertFromPrintingModuleMsg: 'Merk op dat de kleurinstellingen van de afgedrukte laag opnieuw worden ingesteld om overeen te komen met de huidige laag nadat de huidige bewerking is voltooid.',
+      convertFromLaserModuleTitle: 'Do you want to convert the Laser module into Printing module?',
+      convertFromLaserModuleMsg: 'Please note that if you complete this procedure, the settings of the laser layer will be removed and set according to the current layer.',
     },
   },
 };

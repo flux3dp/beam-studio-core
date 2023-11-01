@@ -634,6 +634,8 @@ const lang: ILang = {
           QmoveElemsToLayer: '¿Mover los elementos seleccionados a la capa \'%s\'?',
           moveElemFromPrintingLayerTitle: '¿Desea mover los objetos seleccionados a la %s y convertir los objetos impresos en objetos láser?',
           moveElemFromPrintingLayerMsg: 'Tenga en cuenta que los ajustes de color del objeto impreso se eliminarán una vez finalizada la operación en curso.',
+          moveElemToPrintingLayerTitle: 'Move selected element to %s and convert it into laser element?',
+          moveElemToPrintingLayerMsg: 'Please note that if you complete this procedure, the color settings of the printing element will be removed.',
           splitColorTitle: '¿Expandir la capa seleccionada a capas CMYK?',
           splitColorMsg: 'Tenga en cuenta que si completa este procedimiento, no podrá restaurar.',
           mergeLaserLayerToPrintingLayerTitle: '¿Quieres fusionar las capas en el módulo de Impresión?',
@@ -1506,6 +1508,8 @@ const lang: ILang = {
     notification: {
       convertFromPrintingModuleTitle: '¿Desea convertir el módulo Impresión en módulo Láser?',
       convertFromPrintingModuleMsg: 'Tenga en cuenta que los ajustes de color de la capa impresa se restablecerán para coincidir con la capa actual una vez finalizada la operación actual.',
+      convertFromLaserModuleTitle: 'Do you want to convert the Laser module into Printing module?',
+      convertFromLaserModuleMsg: 'Please note that if you complete this procedure, the settings of the laser layer will be removed and set according to the current layer.',
     },
   },
 };

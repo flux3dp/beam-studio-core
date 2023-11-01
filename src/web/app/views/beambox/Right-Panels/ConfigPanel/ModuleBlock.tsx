@@ -68,6 +68,20 @@ const ModuleBlock = (): JSX.Element => {
         });
       });
       if (!res) return;
+    } else if (value !== LayerModule.PRINTER && val === LayerModule.PRINTER) {
+      const res = await new Promise((resolve) => {
+        alertCaller.popUp({
+          id: 'switch-to-laser-module',
+          // TODO: add translation
+          caption: lang.layer_module.notification.convertFromLaserModuleTitle,
+          message: lang.layer_module.notification.convertFromLaserModuleMsg,
+          messageIcon: 'notice',
+          buttonType: alertConstants.CONFIRM_CANCEL,
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false),
+        });
+      });
+      if (!res) return;
     }
     const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
     selectedLayers.forEach((layerName) => {

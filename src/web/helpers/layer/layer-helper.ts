@@ -439,18 +439,30 @@ export const moveToOtherLayer = (
   };
   const selectedElements = svgCanvas.getSelectedElems();
   const origLayer = getObjectLayer(selectedElements[0])?.elem;
-  const isFullColor = origLayer?.getAttribute('data-fullcolor') === '1';
-  const isDestFullColor = getLayerByName(destLayer)?.getAttribute('data-fullcolor') === '1';
-  const moveOutFromFullColorLayer = isFullColor && !isDestFullColor;
-  if (showAlert || moveOutFromFullColorLayer) {
+  const isPrintingLayer = getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
+  const isDestPrintingLayer =
+    getData<LayerModule>(getLayerByName(destLayer), DataType.module) === LayerModule.PRINTER;
+  const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
+  const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
+  if (showAlert || moveOutFromFullColorLayer || moveInToFullColorLayer) {
     Alert.popUp({
       id: 'move layer',
-      buttonType: moveOutFromFullColorLayer ? AlertConstants.CONFIRM_CANCEL : AlertConstants.YES_NO,
+      buttonType:
+        moveOutFromFullColorLayer || moveInToFullColorLayer
+          ? AlertConstants.CONFIRM_CANCEL
+          : AlertConstants.YES_NO,
+      // TODO: add translation
+      // eslint-disable-next-line no-nested-ternary
       caption: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
+        : moveInToFullColorLayer
+        ? sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer)
         : undefined,
+      // eslint-disable-next-line no-nested-ternary
       message: moveOutFromFullColorLayer
         ? LANG.notification.moveElemFromPrintingLayerMsg
+        : moveInToFullColorLayer
+        ? LANG.notification.moveElemToPrintingLayerMsg
         : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
       messageIcon: 'notice',
       onYes: moveToLayer,

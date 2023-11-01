@@ -634,6 +634,8 @@ const lang: ILang = {
           QmoveElemsToLayer: '您确定移动所选元素到图层\'%s\'吗?',
           moveElemFromPrintingLayerTitle: '您要将选定的物件移至%s，并将列印物件转换为雷射物件吗？',
           moveElemFromPrintingLayerMsg: '请注意，当前操作完成后，打印对象的颜色设置将被删除。',
+          moveElemToPrintingLayerTitle: 'Move selected element to %s and convert it into laser element?',
+          moveElemToPrintingLayerMsg: 'Please note that if you complete this procedure, the color settings of the printing element will be removed.',
           splitColorTitle: '将所选图层扩展为 CMYK 图层？',
           splitColorMsg: '请注意，如果完成此过程，您将无法執行恢復彩色圖層。',
           mergeLaserLayerToPrintingLayerTitle: '您想将图层合并到打印模块中吗？',
@@ -1506,6 +1508,8 @@ const lang: ILang = {
     notification: {
       convertFromPrintingModuleTitle: '您要将打印模块转换为激光模块吗？',
       convertFromPrintingModuleMsg: '请注意，完成当前操作后，打印图层的颜色设定将被重置以符合当前图层。',
+      convertFromLaserModuleTitle: 'Do you want to convert the Laser module into Printing module?',
+      convertFromLaserModuleMsg: 'Please note that if you complete this procedure, the settings of the laser layer will be removed and set according to the current layer.',
     },
   },
 };

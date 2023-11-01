@@ -634,6 +634,8 @@ const lang: ILang = {
           QmoveElemsToLayer: '선택한 요소를 \'%s\' 레이어로 이동하시겠습니까?',
           moveElemFromPrintingLayerTitle: '선택한 개체를 %s로 이동하고 인쇄된 개체를 레이저 개체로 변환하시겠습니까?',
           moveElemFromPrintingLayerMsg: '현재 작업이 완료되면 인쇄된 개체의 색상 설정이 제거된다는 점에 유의하세요.',
+          moveElemToPrintingLayerTitle: 'Move selected element to %s and convert it into laser element?',
+          moveElemToPrintingLayerMsg: 'Please note that if you complete this procedure, the color settings of the printing element will be removed.',
           splitColorTitle: '선택한 레이어를 CMYK 레이어로 확장하시겠습니까?',
           splitColorMsg: '이 절차를 완료하면 복원할 수 없다는 점에 유의하세요.',
           mergeLaserLayerToPrintingLayerTitle: '레이어를 인쇄 모듈에 병합하시겠습니까?',
@@ -1506,6 +1508,8 @@ const lang: ILang = {
     notification: {
       convertFromPrintingModuleTitle: '인쇄 모듈을 레이저 모듈로 변환하시겠습니까?',
       convertFromPrintingModuleMsg: '현재 작업이 완료되면 인쇄된 레이어의 색상 설정이 현재 레이어와 일치하도록 재설정됩니다.',
+      convertFromLaserModuleTitle: 'Do you want to convert the Laser module into Printing module?',
+      convertFromLaserModuleMsg: 'Please note that if you complete this procedure, the settings of the laser layer will be removed and set according to the current layer.',
     },
   },
 };

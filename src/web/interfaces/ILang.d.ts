@@ -631,6 +631,8 @@ export interface ILang {
           QmoveElemsToLayer: string,
           moveElemFromPrintingLayerTitle: string;
           moveElemFromPrintingLayerMsg: string;
+          moveElemToPrintingLayerTitle: string;
+          moveElemToPrintingLayerMsg: string;
           splitColorTitle: string;
           splitColorMsg: string;
           mergeLaserLayerToPrintingLayerTitle: string;
@@ -1503,6 +1505,8 @@ export interface ILang {
     notification: {
       convertFromPrintingModuleTitle: string;
       convertFromPrintingModuleMsg: string;
+      convertFromLaserModuleTitle: string;
+      convertFromLaserModuleMsg: string;
     };
   },
 }
