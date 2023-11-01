@@ -1056,6 +1056,4 @@ class DeviceMaster {
 }
 
 const deviceMaster = new DeviceMaster();
-// eslint-disable-next-line @typescript-eslint/dot-notation
-window['deviceMaster'] = deviceMaster;
 export default deviceMaster;
