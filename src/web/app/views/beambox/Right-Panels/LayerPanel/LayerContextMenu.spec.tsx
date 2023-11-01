@@ -89,6 +89,11 @@ jest.mock('app/actions/alert-caller', () => ({
   popUp: (...args) => mockPopUp(...args),
 }));
 
+const mockShowColorPicker = jest.fn();
+jest.mock('app/actions/dialog-caller', () => ({
+  showColorPicker: (...args) => mockShowColorPicker(...args),
+}));
+
 const mockDrawing = {
   getLayerName: jest.fn(),
   getCurrentLayerName: jest.fn(),
