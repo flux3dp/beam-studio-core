@@ -657,6 +657,7 @@ export interface ILang {
           switchToFullColor: string;
           switchToSingleColor: string;
           splitFullColor: string;
+          fullColor: string;
         },
       },
       laser_panel: {

@@ -660,6 +660,7 @@ const lang: ILang = {
           switchToFullColor: '切换到全彩图层',
           switchToSingleColor: '切换到单色图层',
           splitFullColor: '拆分颜色',
+          fullColor: '全彩',
         },
       },
       laser_panel: {

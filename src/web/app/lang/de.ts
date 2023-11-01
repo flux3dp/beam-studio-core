@@ -660,6 +660,7 @@ const lang: ILang = {
           switchToFullColor: 'Zu Vollfarben-Ebene wechseln',
           switchToSingleColor: 'Zu Einzelfarben-Ebene wechseln',
           splitFullColor: 'Farben aufteilen',
+          fullColor: 'Full color',
         },
       },
       laser_panel: {

@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { Switch } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import colorConstants, { PrintingColors } from 'app/constants/color-constants';
+import dialogCaller from 'app/actions/dialog-caller';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
@@ -154,6 +156,31 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     setSelectedLayers([]);
   };
 
+  const handleLayerFullColorToggle = () => {
+    svgCanvas.clearSelection();
+    if (!isSelectingPrinterLayer) return;
+    if (isFullColor) {
+      const layerPosition = getLayerPosition(selectedLayers[0]);
+      const colorBlock = document.querySelector(`#layerbackgroundColor-${layerPosition}`);
+      if (!colorBlock) return;
+      const { left, top } = colorBlock.getBoundingClientRect();
+      dialogCaller.showColorPicker({
+        originalColor: 'fullcolor',
+        left: left + 6,
+        top: top + 6,
+        isPrinting: true,
+        onNewColor: (newColor: string) => {
+          layerElem.removeAttribute('data-fullcolor');
+          layerElem.setAttribute('data-color', newColor);
+          svgCanvas.updateLayerColor(layerElem);
+          setSelectedLayers([]);
+        },
+      });
+    } else {
+      handleLayerFullColor();
+    }
+  };
+
   const isMultiSelecting = selectedLayers.length > 1;
   const isSelectingLast =
     selectedLayers.length === 1 && drawing.getLayerName(0) === selectedLayers[0];
@@ -173,16 +200,10 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
       {isSelectingPrinterLayer && (
         <ObjectPanelItem.Item
           id="toggle_fullcolor_layer"
-          content={
-            isFullColor ? (
-              <LayerPanelIcons.SwithToSingleColor />
-            ) : (
-              <LayerPanelIcons.SwithToFullColor />
-            )
-          }
-          // TODO: shorter label
-          label={isFullColor ? LANG.switchToSingleColor : LANG.switchToFullColor}
-          onClick={handleLayerFullColor}
+          content={<Switch checked={isFullColor} />}
+          // TODO: add translation
+          label={LANG.fullColor}
+          onClick={handleLayerFullColorToggle}
           disabled={isMultiSelecting}
         />
       )}

@@ -660,6 +660,7 @@ const lang: ILang = {
           switchToFullColor: 'フルカラーレイヤーに切り替える',
           switchToSingleColor: 'シングルカラーレイヤーに切り替える',
           splitFullColor: 'カラー分割',
+          fullColor: 'Full color',
         },
       },
       laser_panel: {
