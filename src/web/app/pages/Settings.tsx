@@ -248,6 +248,9 @@ class Settings extends React.PureComponent<null, State> {
     const isMultipassCompensationEnabled = this.getBeamboxPreferenceEditingValue('multipass-compensation') !== false;
     const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(isMultipassCompensationEnabled);
 
+    const oneWayPrintingEnabled = this.getBeamboxPreferenceEditingValue('one-way-printing') !== false;
+    const oneWayPrintingOptions = this.onOffOptionFactory<OptionValues>(oneWayPrintingEnabled);
+
     const isPrintAdvancedModeEnabled = this.getBeamboxPreferenceEditingValue('print-advanced-mode');
     const printAdvancedModeOptions = this.onOffOptionFactory<OptionValues>(isPrintAdvancedModeEnabled);
 
@@ -381,6 +384,7 @@ class Settings extends React.PureComponent<null, State> {
           />
           <Experimental
             multipassCompensationOptions={multipassCompensationOptions}
+            oneWayPrintingOptions={oneWayPrintingOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <div className="font5" onClick={this.resetBS}>

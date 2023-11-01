@@ -1,16 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Checkbox, Modal, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import getDevice from 'helpers/device/get-device';
-import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
-import progressCaller from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import { ILang } from 'interfaces/ILang';
 
 import styles from './PreviewHeight.module.scss';
 
@@ -25,19 +22,16 @@ interface Props {
   onClose: () => void;
 }
 
-const getProbeHeight = async (lang: ILang) => {
+const getProbeHeight = async () => {
   try {
-    progressCaller.openNonstopProgress({ id: 'preview-height', message: lang.message.getProbePosition });
     if (!deviceMaster.currentDevice) await getDevice();
     const device = deviceMaster.currentDevice;
     if (device.control.getMode() !== 'raw') deviceMaster.enterRawMode();
     const { didAf, z } = await deviceMaster.rawGetProbePos();
     if (!didAf) return null;
-    return deviceConstants.WORKAREA_DEEP[device.info.model] - z;
+    return Math.round((deviceConstants.WORKAREA_DEEP[device.info.model] - z) * 100) / 100;
   } catch {
     return null;
-  } finally {
-    progressCaller.popById('preview-height');
   }
 };
 
@@ -47,9 +41,25 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
   const hasInitValue = useMemo(() => typeof initValue === 'number', [initValue]);
   const [adjustChecked, setAdjustChecked] = useState(!hasInitValue);
   const [step, setStep] = useState(hasInitValue ? Step.ADJUST : Step.ASK_FOCUS);
-  const [value, setValue] = useState(initValue ?? 0);
+  const [value, setValue] = useState(initValue);
   const unit = useMemo(() => (storage.get('default-units') === 'inches' ? 'in' : 'mm'), []);
   const isInch = useMemo(() => unit === 'in', [unit]);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (step === Step.ASK_FOCUS && (value === undefined || value === null)) {
+      const checkHeight = async () => {
+        const probeHeight = await getProbeHeight();
+        if (probeHeight !== null) {
+          setValue(probeHeight);
+        } else {
+          timeout = setTimeout(checkHeight, 1000);
+        }
+      };
+      checkHeight();
+    }
+    return () => clearTimeout(timeout);
+  }, [step, value]);
 
   if (step === Step.ASK_FOCUS) {
     return (
@@ -59,25 +69,43 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
         closable={false}
         maskClosable={false}
         title={lang.message.preview.auto_focus}
-        cancelText={lang.message.preview.enter_manually}
-        onOk={async () => {
-          const probeHeight = await getProbeHeight(lang);
-          if (typeof probeHeight !== 'number') {
-            MessageCaller.openMessage({
-              level: MessageLevel.WARNING,
-              duration: 3,
-              content: 'get well soon',
-            });
-            return;
-          }
-          setValue(probeHeight);
-          setStep(Step.ADJUST);
-        }}
-        onCancel={() => setStep(Step.ADJUST)}
+        footer={[
+          <Button
+            key="cancel"
+            onClick={() => {
+              onOk(null);
+              onClose();
+            }}
+          >
+            {lang.alert.cancel}
+          </Button>,
+          <Button
+            key="enter_manually"
+            onClick={() => {
+              setValue(0);
+              setStep(Step.ADJUST);
+            }}
+          >
+            {lang.message.preview.enter_manually}
+          </Button>,
+          <Button
+            type="primary"
+            key="ok"
+            disabled={value === undefined || value === null}
+            onClick={() => {
+              onOk(value);
+              onClose();
+            }}
+          >
+            {lang.message.preview.apply}
+          </Button>,
+        ]}
       >
-        <div className={styles.text}>
-          {lang.message.preview.auto_focus_instruction}
-        </div>
+        <div className={styles.text}>{lang.message.preview.auto_focus_instruction}</div>
+        <video className={styles.video} autoPlay loop muted>
+          <source src="video/ador-focus-laser.webm" type="video/webm" />
+          <source src="video/ador-focus-laser.mp4" type="video/mp4" />
+      </video>
       </Modal>
     );
   }
@@ -90,28 +118,40 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
       maskClosable={false}
       title={lang.message.preview.camera_preview}
       footer={[
-        <Button key="cancel" onClick={() => {
-          onOk(null);
-          onClose();
-        }}>
+        <Button
+          key="cancel"
+          onClick={() => {
+            onOk(null);
+            onClose();
+          }}
+        >
           {lang.alert.cancel}
         </Button>,
-        <Button key="back" onClick={() => setStep(Step.ASK_FOCUS)}>
-          {hasInitValue ? lang.message.preview.redo_auto_focus : lang.buttons.back}
-        </Button>,
-        <Button type="primary" key="ok" onClick={() => {
-          onOk(value);
-          onClose();
-        }}>
-          {lang.message.preview.save_and_use}
+        <Button
+          type="primary"
+          key="ok"
+          onClick={() => {
+            onOk(value);
+            onClose();
+          }}
+        >
+          {lang.message.preview.apply}
         </Button>,
       ]}
     >
       <div className={styles.text}>
-        {hasInitValue ? lang.message.preview.already_performed_auto_focus : lang.message.preview.please_enter_height}
-        <Tooltip className={styles.tooltip} trigger="hover" title={lang.message.preview.adjust_height_tooltip}>
-          <QuestionCircleOutlined />
-        </Tooltip>
+        {hasInitValue
+          ? lang.message.preview.already_performed_auto_focus
+          : lang.message.preview.please_enter_height}
+        {hasInitValue && (
+          <Tooltip
+            className={styles.tooltip}
+            trigger="hover"
+            title={lang.message.preview.adjust_height_tooltip}
+          >
+            <QuestionCircleOutlined />
+          </Tooltip>
+        )}
       </div>
       <div className={styles.inputs}>
         <UnitInput

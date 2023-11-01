@@ -1300,8 +1300,7 @@ export interface ILang {
       auto_focus_instruction: string;
       already_performed_auto_focus: string;
       please_enter_height: string;
-      redo_auto_focus: string;
-      save_and_use: string;
+      apply: string;
       enter_manually: string;
       adjust: string;
       adjust_height_tooltip: string;

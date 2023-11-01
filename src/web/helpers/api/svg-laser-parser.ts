@@ -126,6 +126,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-prespray');
         args.push(`${x},${y},${w},${h}`);
         if (BeamboxPreference.read('multipass-compensation') !== false) args.push('-mpc');
+        if (BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
       }
 
       if (

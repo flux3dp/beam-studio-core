@@ -160,18 +160,17 @@ class PreviewModeController {
 
   getHeight = async () => {
     const device = this.currentDevice;
-    let height: number;
     try {
       Progress.update('preview-mode-controller', { message: 'Getting probe position' });
       const res = await deviceMaster.rawGetProbePos();
       const { z, didAf } = res;
-      if (didAf) height = deviceConstants.WORKAREA_DEEP[device.model] - z;
+      if (didAf) return Math.round((deviceConstants.WORKAREA_DEEP[device.model] - z) * 100) / 100;
     } catch (e) {
       console.log('Fail to get probe position, using custom height', e);
       // do nothing
     }
     Progress.popById('preview-mode-controller');
-    height = await dialogCaller.getPreviewHeight({ initValue: height });
+    const height = await dialogCaller.getPreviewHeight({ initValue: undefined });
     return height;
   };
 
@@ -263,8 +262,8 @@ class PreviewModeController {
       Progress.update('preview-mode-controller', { message: LANG.message.homing });
       await deviceMaster.rawHome();
       await deviceMaster.rawLooseMotor();
-      await this.applyAFPositionLevelingBias();
       const height = await this.getHeight();
+      await this.applyAFPositionLevelingBias();
       if (typeof height !== 'number') return false;
       this.fisheyeObjectHeight = height;
       Progress.openNonstopProgress({ id: 'preview-mode-controller', message: LANG.message.endingRawMode });
