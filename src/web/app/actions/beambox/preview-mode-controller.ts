@@ -220,24 +220,17 @@ class PreviewModeController {
 
   resetFishEyeObjectHeight = async () => {
     try {
-      Progress.openNonstopProgress({
-        id: 'preview-mode-controller',
-        message: LANG.message.enteringRawMode,
-      });
-      await deviceMaster.enterRawMode();
-      const height = await this.getHeight();
-      this.fisheyeObjectHeight = height;
-      Progress.openNonstopProgress({ id: 'preview-mode-controller', message: LANG.message.endingRawMode });
-      await deviceMaster.endRawMode();
-      await this.setFishEyeObjectHeight(height);
-    } catch (err) {
+      const newHeight = await dialogCaller.getPreviewHeight({ initValue: this.fisheyeObjectHeight });
+      if (typeof newHeight !== 'number') return;
+      this.fisheyeObjectHeight = newHeight;
+      await this.setFishEyeObjectHeight(newHeight);
+      if (!PreviewModeBackgroundDrawer.isClean()) await this.previewFullWorkarea();
+    } finally {
       if (deviceMaster.currentControlMode === 'raw') {
         await deviceMaster.rawLooseMotor();
         Progress.update('preview-mode-controller', { message: LANG.message.endingRawMode });
         await deviceMaster.endRawMode();
       }
-      throw err;
-    } finally {
       Progress.popById('preview-mode-controller');
     }
   };

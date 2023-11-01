@@ -596,6 +596,8 @@ const lang: ILang = {
         end_preview: '結束預覽',
         clear_preview: '清除預覽',
         choose_camera: '相機預覽',
+        live_feed: '即時視訊',
+        adjust_height: '調整高度',
       },
     },
     right_panel: {
@@ -1310,6 +1312,7 @@ const lang: ILang = {
     },
   },
   machine_status: {
+    '-17': '墨匣模式',
     '-10': '動作模式',
     '-2': '掃描中',
     '-1': '維護中',

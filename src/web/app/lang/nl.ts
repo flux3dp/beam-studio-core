@@ -596,6 +596,8 @@ const lang: ILang = {
         end_preview: 'Voorbeeld beëindigen',
         clear_preview: 'Voorvertoning wissen',
         choose_camera: 'Camera',
+        live_feed: 'Live feed',
+        adjust_height: 'Hoogte aanpassen',
       },
     },
     right_panel: {
@@ -1310,6 +1312,7 @@ const lang: ILang = {
     },
   },
   machine_status: {
+    '-17': 'Cartridge IO Mode',
     '-10': 'Modus behouden',
     '-2': 'Scannen',
     '-1': 'Onderhouden',

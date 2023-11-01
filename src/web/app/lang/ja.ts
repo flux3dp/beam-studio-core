@@ -596,6 +596,8 @@ const lang: ILang = {
         end_preview: 'プレビューを終了',
         clear_preview: 'プレビューをクリア',
         choose_camera: 'カメラ',
+        live_feed: 'ライブフィード',
+        adjust_height: '高さ調整',
       },
     },
     right_panel: {
@@ -1310,6 +1312,7 @@ const lang: ILang = {
     },
   },
   machine_status: {
+    '-17': 'Cartridge IO Mode',
     '-10': '維持モード',
     '-2': 'スキャン中',
     '-1': '維持中',

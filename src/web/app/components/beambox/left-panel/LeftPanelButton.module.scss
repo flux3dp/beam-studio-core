@@ -1,0 +1,25 @@
+.container {
+  text-align: center;
+  line-height: 24px;
+  filter: brightness(0);
+  margin: 13px 6px 13px 7px;
+  height: 30px;
+  width: 36px;
+  opacity: 0.5;
+
+  &.active {
+    opacity: 1;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+  }
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+
+  &:hover:not(.disabled) {
+    opacity: 1;
+  }
+}

@@ -596,6 +596,8 @@ const lang: ILang = {
         end_preview: 'Fim do Preview',
         clear_preview: 'Limpar Preview',
         choose_camera: 'Câmera',
+        live_feed: 'Feed ao vivo',
+        adjust_height: 'Ajustar altura',
       },
     },
     right_panel: {
@@ -1310,6 +1312,7 @@ const lang: ILang = {
     },
   },
   machine_status: {
+    '-17': 'Cartridge IO Mode',
     '-10': 'Modo de Manutenção',
     '-2': 'Digitalizando',
     '-1': 'Consertando',

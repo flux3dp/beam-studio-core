@@ -596,6 +596,8 @@ const lang: ILang = {
         end_preview: '미리보기 종료',
         clear_preview: '미리보기 지우기',
         choose_camera: '카메라',
+        live_feed: '라이브 피드',
+        adjust_height: '높이 조절',
       },
     },
     right_panel: {
@@ -1310,6 +1312,7 @@ const lang: ILang = {
     },
   },
   machine_status: {
+    '-17': 'Cartridge IO Mode',
     '-10': '유지보수 모드',
     '-2': '스캔 중',
     '-1': '유지보수 중',

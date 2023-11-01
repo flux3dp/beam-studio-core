@@ -593,6 +593,8 @@ export interface ILang {
         end_preview: string,
         clear_preview: string,
         choose_camera: string,
+        live_feed: string;
+        adjust_height: string;
       },
     },
     right_panel: {
@@ -1307,6 +1309,7 @@ export interface ILang {
     };
   },
   machine_status: {
+    '-17': string,
     '-10': string,
     '-2': string,
     '-1': string,
