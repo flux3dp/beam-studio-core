@@ -686,6 +686,7 @@ const lang: ILang = {
         white_ink: 'Encre Blanche',
         white_ink_settings: 'Paramètres de l\'Encre Blanche',
         color_adjustment: 'Ajustement des couleurs',
+        color_adjustment_short: 'Adjustment',
         times: 'fois',
         cut: 'Couper',
         engrave: 'Graver',

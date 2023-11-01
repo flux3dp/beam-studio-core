@@ -686,6 +686,7 @@ const lang: ILang = {
         white_ink: 'Witte Inkt',
         white_ink_settings: 'Instellingen voor Witte Inkt',
         color_adjustment: 'Kleurinstelling',
+        color_adjustment_short: 'Adjustment',
         times: 'keer',
         cut: 'Snee',
         engrave: 'Graveren',

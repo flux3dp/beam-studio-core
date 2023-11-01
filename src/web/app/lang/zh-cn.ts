@@ -686,6 +686,7 @@ const lang: ILang = {
         white_ink: '白墨',
         white_ink_settings: '白墨设置',
         color_adjustment: '颜色调整',
+        color_adjustment_short: 'Adjustment',
         times: '次',
         cut: '切割',
         engrave: '雕刻',

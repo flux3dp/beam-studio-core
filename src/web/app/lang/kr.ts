@@ -686,6 +686,7 @@ const lang: ILang = {
         white_ink: '화이트 잉크',
         white_ink_settings: '화이트 잉크 설정',
         color_adjustment: '색상 조정',
+        color_adjustment_short: 'Adjustment',
         times: '회',
         cut: '절단',
         engrave: '각인',

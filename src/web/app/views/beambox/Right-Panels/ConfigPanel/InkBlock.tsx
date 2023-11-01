@@ -4,6 +4,7 @@ import { Button, Popover } from 'antd-mobile';
 
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import configOptions from 'app/constants/config-options';
+import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
@@ -54,7 +55,7 @@ function InkBlock({
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>
         {t.ink_saturation}
-        {fullcolor.value && (
+        {fullcolor.value && type !== 'panel-item' && (
           <span className={styles.icon} title={t.color_adjustment} onClick={openModal}>
             <ConfigPanelIcons.ColorAdjustment />
           </span>
@@ -91,29 +92,41 @@ function InkBlock({
   return (
     <>
       {type === 'panel-item' ? (
-        <Popover visible={visible} content={content}>
+        <>
+          {fullcolor.value && <ObjectPanelItem.Divider />}
+          <Popover visible={visible} content={content}>
+            <ObjectPanelItem.Item
+              id="power"
+              content={
+                <Button
+                  className={objectPanelItemStyles['number-item']}
+                  shape="rounded"
+                  size="mini"
+                  fill="outline"
+                >
+                  <span style={{ whiteSpace: 'nowrap' }}>{getDisplayValue()}</span>
+                </Button>
+              }
+              label={t.ink_saturation}
+              autoClose={false}
+            />
+          </Popover>
           <ObjectPanelItem.Item
-            id="power"
-            content={
-              <Button
-                className={objectPanelItemStyles['number-item']}
-                shape="rounded"
-                size="mini"
-                fill="outline"
-              >
-                <span style={{ whiteSpace: 'nowrap' }}>{getDisplayValue()}</span>
-              </Button>
-            }
-            label={t.ink_saturation}
-            autoClose={false}
+            id="color-adjustment"
+            content={<ObjectPanelIcons.Parameter />}
+            // TODO: add translation
+            label={t.color_adjustment_short}
+            onClick={openModal}
+            disabled={!fullcolor.value}
           />
-        </Popover>
+          {fullcolor.value && <ObjectPanelItem.Divider />}
+        </>
       ) : (
         content
       )}
       {showModal && <ColorRationModal onClose={closeModal} />}
     </>
-  )
+  );
 }
 
 export default memo(InkBlock);
