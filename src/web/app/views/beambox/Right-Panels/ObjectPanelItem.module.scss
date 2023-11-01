@@ -109,6 +109,7 @@ div.divider {
   }
 }
 .select {
+  --z-index: 100;
   :global(.adm-popover-inner-content) {
     padding: 8px 0;
   }
