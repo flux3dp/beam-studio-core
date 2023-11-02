@@ -16,7 +16,7 @@ interface Props {
 }
 
 const getDisplayValue = (c: string) =>
-  !c || c === 'none' ? 'Colorless' : c.replace('#', '').toUpperCase();
+  !c || c === 'none' ? '00000000' : c.replace('#', '').toUpperCase();
 const isHex = (c: string) => c && c.match(/^[A-Fa-f0-9]{6}$/);
 const isWhiteTopBar = window.os !== 'MacOS' && window.FLUX.version !== 'web';
 
