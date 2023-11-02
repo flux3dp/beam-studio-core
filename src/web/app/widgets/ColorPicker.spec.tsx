@@ -28,6 +28,24 @@ describe('test ColorPicker', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
+  it('should render correctly when is small', () => {
+    const { baseElement } = render(
+      <ColorPicker allowClear initColor="#ff0000" triggerType="fill" triggerSize="small" onChange={mockOnChange} />
+    );
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.click(baseElement.querySelector('.trigger'));
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  it('should render correctly when is for printing colors', () => {
+    const { baseElement } = render(
+      <ColorPicker allowClear initColor="#ff0000" triggerType="fill" printerColor onChange={mockOnChange} />
+    );
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.click(baseElement.querySelector('.trigger'));
+    expect(baseElement).toMatchSnapshot();
+  });
+
   test('preset color and complete should work', () => {
     const { baseElement, container, getByText } = render(
       <ColorPicker allowClear initColor="#ff0000" triggerType="fill" onChange={mockOnChange} />

@@ -1,4 +1,5 @@
 import Add from './add.svg';
+import FullColor from './fullcolor.svg';
 import Lock from './lock.svg';
 import Merge from './merge.svg';
 import Move from './move.svg';
@@ -9,6 +10,7 @@ import Unlock from './unlock.svg';
 
 export default {
   Add,
+  FullColor,
   Lock,
   Merge,
   Move,

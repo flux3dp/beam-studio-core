@@ -138,6 +138,22 @@
     &.clear {
       @include clear-box();
     }
+
+    &.printing {
+      width: 24px;
+      height: 24px;
+
+      &::before {
+        width: 28px;
+        height: 28px;
+      }
+
+      &::after {
+        inset-inline-start: 28%;
+        width: 30%;
+        height: 48%;
+      }
+    }
   }
 }
 
@@ -194,6 +210,18 @@
       &.clear {
         border: 1px solid #d9d9d9;
       }
+    }
+  }
+
+  &.small {
+    min-width: 16px;
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+
+    .color {
+      width: 12px;
+      height: 12px;
     }
   }
 }

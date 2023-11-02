@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import ColorPicker from 'app/widgets/ColorPicker';
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import styles from './DragImage.module.scss';
@@ -37,12 +39,16 @@ function DragImage({ selectedLayers, draggingLayer = null }: Props): JSX.Element
         <div className={styles['sensor-area']} />
         <div className={styles.row}>
           <div className={styles.color}>
-            <div
-              className={classNames({ [styles['full-color']]: isFullColor })}
-              style={
-                isFullColor ? undefined : { backgroundColor: drawing.getLayerColor(draggingLayer) }
-              }
-            />
+            {isFullColor ? (
+              <LayerPanelIcons.FullColor />
+            ) : (
+              <ColorPicker
+                disabled
+                initColor={drawing.getLayerColor(draggingLayer)}
+                triggerSize="small"
+                onChange={(color) => console.log(color)}
+              />
+            )}
           </div>
           <div className={styles.name}>{draggingLayer}</div>
           <div

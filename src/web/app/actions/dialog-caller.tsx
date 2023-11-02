@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
-import ColorPickerPanel from 'app/components/beambox/right-panel/ColorPickerPanel';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
@@ -113,27 +112,6 @@ export default {
     addDialogComponent('about-bs',
       <AboutBeamStudio
         onClose={() => popDialogById('about-bs')}
-      />);
-  },
-  showColorPicker: (opts: {
-    originalColor: string,
-    left: number,
-    top: number,
-    isPrinting?: boolean,
-    allowNone?: boolean,
-    onNewColor: (color: string) => void,
-  }): void => {
-    if (isIdExist('color-picker')) return;
-    const { originalColor, left, top, isPrinting, allowNone, onNewColor} = opts;
-    addDialogComponent('color-picker',
-      <ColorPickerPanel
-        originalColor={originalColor}
-        left={left}
-        top={top}
-        isPrinting={isPrinting}
-        onNewColor={onNewColor}
-        onClose={() => popDialogById('color-picker')}
-        allowNone={allowNone}
       />);
   },
   showDocumentSettings: (): void => {

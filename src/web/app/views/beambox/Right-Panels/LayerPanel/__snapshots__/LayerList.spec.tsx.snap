@@ -39,10 +39,7 @@ exports[`test LayerList should render correctly 1`] = `
                 <div
                   class="color"
                 >
-                  <div
-                    class="no-pointer full-color"
-                    id="layerbackgroundColor-1"
-                  />
+                  <svgr-url />
                 </div>
                 <div
                   class="name"
@@ -115,11 +112,30 @@ exports[`test LayerList should render correctly 1`] = `
                 <div
                   class="color"
                 >
-                  <div
-                    class="no-pointer"
-                    id="layerbackgroundColor-0"
-                    style="background-color: rgb(0, 0, 0);"
-                  />
+                  <div>
+                    MockColorPicker
+                    <p>
+                      disabled: 
+                      y
+                    </p>
+                    <p>
+                      initColor: 
+                      #000000
+                    </p>
+                    <p>
+                      triggerSize: 
+                      small
+                    </p>
+                    <p>
+                      printerColor: 
+                      n
+                    </p>
+                    <button
+                      type="button"
+                    >
+                      changeColor
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="name"
@@ -212,11 +228,30 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                 <div
                   class="color"
                 >
-                  <div
-                    class=""
-                    id="layerbackgroundColor-1"
-                    style="background-color: rgb(0, 0, 0);"
-                  />
+                  <div>
+                    MockColorPicker
+                    <p>
+                      disabled: 
+                      n
+                    </p>
+                    <p>
+                      initColor: 
+                      #000000
+                    </p>
+                    <p>
+                      triggerSize: 
+                      small
+                    </p>
+                    <p>
+                      printerColor: 
+                      n
+                    </p>
+                    <button
+                      type="button"
+                    >
+                      changeColor
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="name"
@@ -312,11 +347,30 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                 <div
                   class="color"
                 >
-                  <div
-                    class=""
-                    id="layerbackgroundColor-0"
-                    style="background-color: rgb(255, 255, 255);"
-                  />
+                  <div>
+                    MockColorPicker
+                    <p>
+                      disabled: 
+                      n
+                    </p>
+                    <p>
+                      initColor: 
+                      #ffffff
+                    </p>
+                    <p>
+                      triggerSize: 
+                      small
+                    </p>
+                    <p>
+                      printerColor: 
+                      n
+                    </p>
+                    <button
+                      type="button"
+                    >
+                      changeColor
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="name"

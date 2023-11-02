@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Color } from 'antd/es/color-picker';
 import { ColorPicker as AntdColorPicker, Button } from 'antd';
 
+import colorConstants, { objectsColorPresets } from 'app/constants/color-constants';
 import useI18n from 'helpers/useI18n';
-import { objectsColorPresets } from 'app/constants/color-constants';
 
 import styles from './ColorPicker.module.scss';
 
@@ -12,21 +12,27 @@ interface Props {
   allowClear?: boolean;
   initColor: string;
   triggerType?: 'fill' | 'stroke';
+  triggerSize?: 'small' | 'middle';
   onChange: (color: string) => void;
+  disabled?: boolean;
+  printerColor?: boolean;
 }
 
 const ColorPicker = ({
   allowClear,
   initColor,
   triggerType = 'fill',
+  triggerSize = 'middle',
   onChange,
+  disabled = false,
+  printerColor = false,
 }: Props): JSX.Element => {
   const [color, setColor] = useState<string>(initColor);
   const [open, setOpen] = useState<boolean>(false);
   const lang = useI18n().alert;
 
   const panelRender = (panel: React.ReactNode) => (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <div className={styles.preset}>
         {allowClear && (
           <div>
@@ -38,11 +44,12 @@ const ColorPicker = ({
             />
           </div>
         )}
-        {objectsColorPresets.map((preset) => (
+        {(printerColor ? colorConstants.printingLayerColor : objectsColorPresets).map((preset) => (
           <div
             key={preset}
             className={classNames(styles['preset-block'], styles.color, {
               [styles.checked]: preset === color,
+              [styles.printing]: printerColor,
             })}
             onClick={() => setColor(preset)}
           >
@@ -50,7 +57,11 @@ const ColorPicker = ({
           </div>
         ))}
       </div>
-      <div className={classNames(styles.panel, { [styles.clear]: color === 'none' })}>{panel}</div>
+      {!printerColor && (
+        <div className={classNames(styles.panel, { [styles.clear]: color === 'none' })}>
+          {panel}
+        </div>
+      )}
       <div className={styles.footer}>
         <Button
           type="primary"
@@ -81,14 +92,20 @@ const ColorPicker = ({
       <AntdColorPicker
         placement="bottomLeft"
         disabledAlpha
+        disabled={disabled}
         open={open}
         onOpenChange={(o: boolean) => setOpen(o)}
-        size="small"
         value={color === 'none' ? '#000000' : color}
         onChangeComplete={(c: Color) => setColor(c.toHexString())}
         panelRender={panelRender}
       >
-        <div className={classNames(styles.trigger, { [styles.open]: open })}>
+        <div
+          className={classNames(styles.trigger, {
+            [styles.open]: open,
+            [styles.small]: triggerSize === 'small',
+          })}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div
             className={classNames(styles.color, { [styles.clear]: initColor === 'none' })}
             style={{ background: initColor }}

@@ -37,30 +37,9 @@
 
     .color {
       width: 24px;
-
-      > div {
-        cursor: pointer;
-        position: relative;
-        border: 2px solid white;
-        border-radius: 4px;
-        background: black;
-        width: 14px;
-        height: 14px;
-        margin-left: 10px;
-
-        &.full-color {
-          background: rgb(255, 0, 0);
-          background: linear-gradient(
-            135deg,
-            rgba(255, 0, 0, 1) 0%,
-            rgba(255, 255, 0, 1) 20%,
-            rgba(0, 255, 19, 1) 40%,
-            rgba(0, 255, 254, 1) 60%,
-            rgba(0, 16, 255, 1) 80%,
-            rgba(246, 0, 255, 1) 100%
-          );
-        }
-      }
+      height: 24px;
+      padding: 4px;
+      margin-left: 6px;
     }
 
     .vis {

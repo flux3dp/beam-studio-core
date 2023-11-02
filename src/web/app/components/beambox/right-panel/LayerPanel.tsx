@@ -229,21 +229,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
     this.forceUpdate();
   };
 
-  openLayerColorPanel = (e: React.MouseEvent, layerName: string): void => {
-    e.stopPropagation();
-    const layer = getLayerElementByName(layerName);
-    const layerColor = layer.getAttribute('data-color') || '#333333';
-    const module = getData(layer, DataType.module);
-    const isPrinting = module === LayerModule.PRINTER;
-    Dialog.showColorPicker({
-      originalColor: layerColor,
-      left: e.clientX,
-      top: e.clientY,
-      isPrinting,
-      onNewColor: (newColor: string) => this.setLayerColor(layerName, newColor),
-    });
-  };
-
   onLayerDragStart = (layerName: string, e?: React.DragEvent): void => {
     const dragImage = document.getElementById('drag-image') as Element;
     e?.dataTransfer?.setDragImage(dragImage, 0, 0);
@@ -420,7 +405,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               onSensorAreaDragEnter={this.onSensorAreaDragEnter}
               onLayerCenterDragEnter={this.onLayerCenterDragEnter}
               onLayerDoubleClick={this.layerDoubleClick}
-              openLayerColorPanel={this.openLayerColorPanel}
+              onLayerColorChange={this.setLayerColor}
               setLayerVisibility={this.setLayerVisibility}
               unLockLayers={this.unLockLayers}
             />

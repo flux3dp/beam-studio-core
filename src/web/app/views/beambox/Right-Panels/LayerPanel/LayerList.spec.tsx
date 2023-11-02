@@ -23,7 +23,12 @@ jest.mock('helpers/svg-editor-helper', () => ({
 }));
 
 const mockUseWorkarea = jest.fn();
-jest.mock('helpers/hooks/useWorkarea', () => (...args) => mockUseWorkarea(...args));
+jest.mock(
+  'helpers/hooks/useWorkarea',
+  () =>
+    (...args) =>
+      mockUseWorkarea(...args)
+);
 
 const mockGetData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -49,6 +54,24 @@ jest.mock('helpers/system-helper', () => ({
   useIsMobile: () => mockUseIsMobile(),
 }));
 
+jest.mock(
+  'app/widgets/ColorPicker',
+  () =>
+    ({ disabled, initColor, triggerSize, printerColor, onChange }: any) =>
+      (
+        <div>
+          MockColorPicker
+          <p>disabled: {disabled ? 'y' : 'n'}</p>
+          <p>initColor: {initColor}</p>
+          <p>triggerSize: {triggerSize}</p>
+          <p>printerColor: {printerColor ? 'y' : 'n'}</p>
+          <button type="button" onClick={() => onChange('#000000')}>
+            changeColor
+          </button>
+        </div>
+      )
+);
+
 const mockOnLayerClick = jest.fn();
 const mockHighlightLayer = jest.fn();
 const mockOnLayerDragStart = jest.fn();
@@ -59,7 +82,7 @@ const mockOnLayerTouchEnd = jest.fn();
 const mockOnSensorAreaDragEnter = jest.fn();
 const mockOnLayerCenterDragEnter = jest.fn();
 const mockOnLayerDoubleClick = jest.fn();
-const mockOpenLayerColorPanel = jest.fn();
+const mockOnLayerColorChange = jest.fn();
 const mockSetLayerVisibility = jest.fn();
 const mockUnLockLayers = jest.fn();
 
@@ -101,7 +124,7 @@ describe('test LayerList', () => {
           onSensorAreaDragEnter={mockOnSensorAreaDragEnter}
           onLayerCenterDragEnter={mockOnLayerCenterDragEnter}
           onLayerDoubleClick={mockOnLayerDoubleClick}
-          openLayerColorPanel={mockOpenLayerColorPanel}
+          onLayerColorChange={mockOnLayerColorChange}
           setLayerVisibility={mockSetLayerVisibility}
           unLockLayers={mockUnLockLayers}
         />
@@ -150,7 +173,7 @@ describe('test LayerList', () => {
           onSensorAreaDragEnter={mockOnSensorAreaDragEnter}
           onLayerCenterDragEnter={mockOnLayerCenterDragEnter}
           onLayerDoubleClick={mockOnLayerDoubleClick}
-          openLayerColorPanel={mockOpenLayerColorPanel}
+          onLayerColorChange={mockOnLayerColorChange}
           setLayerVisibility={mockSetLayerVisibility}
           unLockLayers={mockUnLockLayers}
         />
@@ -169,7 +192,7 @@ describe('test LayerList', () => {
     mockDrawing.getLayerVisibility.mockReturnValueOnce(true).mockReturnValueOnce(false);
     mockDrawing.getLayerColor.mockReturnValueOnce('#000000').mockReturnValueOnce('#ffffff');
 
-    const { container, getByTestId } = render(
+    const { container, getAllByText, getByTestId } = render(
       <LayerPanelContext.Provider value={{ selectedLayers: ['layer1'] } as any}>
         <LayerList
           draggingDestIndex={null}
@@ -183,7 +206,7 @@ describe('test LayerList', () => {
           onSensorAreaDragEnter={mockOnSensorAreaDragEnter}
           onLayerCenterDragEnter={mockOnLayerCenterDragEnter}
           onLayerDoubleClick={mockOnLayerDoubleClick}
-          openLayerColorPanel={mockOpenLayerColorPanel}
+          onLayerColorChange={mockOnLayerColorChange}
           setLayerVisibility={mockSetLayerVisibility}
           unLockLayers={mockUnLockLayers}
         />
@@ -238,11 +261,10 @@ describe('test LayerList', () => {
     expect(mockOnLayerCenterDragEnter).toBeCalledTimes(1);
     expect(mockOnLayerCenterDragEnter).toHaveBeenLastCalledWith('layer2');
 
-    const layer2ColorBlock = container.querySelectorAll('.color > div')[0];
-    expect(mockOpenLayerColorPanel).not.toBeCalled();
-    fireEvent.click(layer2ColorBlock);
-    expect(mockOpenLayerColorPanel).toBeCalledTimes(1);
-    expect(mockOpenLayerColorPanel).toHaveBeenLastCalledWith(expect.anything(), 'layer2');
+    expect(mockOnLayerColorChange).not.toBeCalled();
+    fireEvent.click(getAllByText('changeColor')[0]);
+    expect(mockOnLayerColorChange).toBeCalledTimes(1);
+    expect(mockOnLayerColorChange).toHaveBeenLastCalledWith('layer2', '#000000');
 
     const layer1Vis = container.querySelectorAll('.vis')[1];
     expect(mockSetLayerVisibility).not.toBeCalled();
