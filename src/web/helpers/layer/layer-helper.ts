@@ -238,8 +238,8 @@ export const showMergeAlert = async (
             : LANG.notification.mergePrintingLayerToLaserLayerTitle,
         message:
           targetModule === LayerModule.PRINTER
-            ? LANG.notification.mergeLaserLayerToPrintingLayerMsg.replace('%s', baseLayerName)
-            : LANG.notification.mergePrintingLayerToLaserLayerMsg.replace('%s', baseLayerName),
+            ? LANG.notification.mergeLaserLayerToPrintingLayerMsg
+            : LANG.notification.mergePrintingLayerToLaserLayerMsg,
         messageIcon: 'notice',
         buttonType: AlertConstants.CONFIRM_CANCEL,
         onConfirm: () => resolve(true),
@@ -451,7 +451,6 @@ export const moveToOtherLayer = (
         moveOutFromFullColorLayer || moveInToFullColorLayer
           ? AlertConstants.CONFIRM_CANCEL
           : AlertConstants.YES_NO,
-      // TODO: add translation
       // eslint-disable-next-line no-nested-ternary
       caption: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
@@ -460,9 +459,9 @@ export const moveToOtherLayer = (
         : undefined,
       // eslint-disable-next-line no-nested-ternary
       message: moveOutFromFullColorLayer
-        ? LANG.notification.moveElemFromPrintingLayerMsg
+        ? sprintf(LANG.notification.moveElemFromPrintingLayerMsg, destLayer)
         : moveInToFullColorLayer
-        ? LANG.notification.moveElemToPrintingLayerMsg
+        ? sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer)
         : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
       messageIcon: 'notice',
       onYes: moveToLayer,

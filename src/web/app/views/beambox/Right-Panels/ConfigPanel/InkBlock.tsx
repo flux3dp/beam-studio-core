@@ -114,7 +114,6 @@ function InkBlock({
           <ObjectPanelItem.Item
             id="color-adjustment"
             content={<ObjectPanelIcons.Parameter />}
-            // TODO: add translation
             label={t.color_adjustment_short}
             onClick={openModal}
             disabled={!fullcolor.value}

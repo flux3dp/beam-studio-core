@@ -72,7 +72,6 @@ const ModuleBlock = (): JSX.Element => {
       const res = await new Promise((resolve) => {
         alertCaller.popUp({
           id: 'switch-to-laser-module',
-          // TODO: add translation
           caption: lang.layer_module.notification.convertFromLaserModuleTitle,
           message: lang.layer_module.notification.convertFromLaserModuleMsg,
           messageIcon: 'notice',

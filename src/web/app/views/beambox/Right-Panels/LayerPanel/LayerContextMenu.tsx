@@ -201,7 +201,6 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
         <ObjectPanelItem.Item
           id="toggle_fullcolor_layer"
           content={<Switch checked={isFullColor} />}
-          // TODO: add translation
           label={LANG.fullColor}
           onClick={handleLayerFullColorToggle}
           disabled={isMultiSelecting}
