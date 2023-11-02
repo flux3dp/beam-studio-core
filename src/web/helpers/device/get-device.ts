@@ -31,7 +31,9 @@ const getDevice = async (
         await DeviceMaster.endRawMode();
       } else if (DeviceMaster.currentDevice?.control?.getMode() === 'maintain') {
         await DeviceMaster.endMaintainMode();
-      }
+      } else if (DeviceMaster.currentDevice?.control?.getMode() === 'cartridge_io') {
+        await DeviceMaster.endCartridgeIOMode();
+      };
       if (selectRes.success) {
         // get current status
         statusRes = await DeviceMaster.getReport();

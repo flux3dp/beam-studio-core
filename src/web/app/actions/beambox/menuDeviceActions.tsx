@@ -17,6 +17,7 @@ import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
+import { parsingChipData } from 'app/components/dialogs/CatridgeSettingPanel';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
@@ -290,6 +291,29 @@ export default {
         type: AlertConstants.SHOW_POPUP_INFO,
         message,
       });
+    }
+  },
+  CATRIDGE_CHIP_SETTING: async (device: IDeviceInfo): Promise<void> => {
+    const res = await DeviceMaster.select(device);
+    if (!res.success) return;
+    ProgressCaller.openNonstopProgress({ id: 'fetch-cartridge-data', message: 'Fetching Cartridge Data' });
+    try {
+      await DeviceMaster.enterCartridgeIOMode();
+      const chipDataRes = await DeviceMaster.getCartridgeChipData();
+      if (chipDataRes.status === 'ok') {
+        const parsed = parsingChipData(chipDataRes.data.result);
+        Dialog.showCatridgeSettingPanel(parsed);
+      } else {
+        Alert.popUp({
+          id: 'cant-get-chip-data',
+          type: AlertConstants.SHOW_POPUP_ERROR,
+          message: `Failed to get chip data: ${JSON.stringify(chipDataRes)}`,
+        });
+      }
+    } catch (error) {
+      await DeviceMaster.endCartridgeIOMode();
+    } finally {
+      ProgressCaller.popById('fetch-cartridge-data');
     }
   },
   UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {

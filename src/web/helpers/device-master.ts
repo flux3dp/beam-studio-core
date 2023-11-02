@@ -731,6 +731,26 @@ class DeviceMaster {
     return res;
   }
 
+  enterCartridgeIOMode() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.enterCartridgeIOMode);
+  }
+
+  endCartridgeIOMode() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.endCartridgeIOMode);
+  }
+
+  getCartridgeChipData() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.getCartridgeChipData);
+  }
+
+  cartridgeIOJsonRpcReq(method: string, params: any[]) {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.cartridgeIOJsonRpcReq, method, params);
+  }
+
   // Maintain mode functions
   async enterMaintainMode() {
     const controlSocket = this.currentDevice.control;
@@ -1056,4 +1076,6 @@ class DeviceMaster {
 }
 
 const deviceMaster = new DeviceMaster();
+// eslint-disable-next-line @typescript-eslint/dot-notation
+window['deviceMaster'] = deviceMaster;
 export default deviceMaster;

@@ -51,6 +51,8 @@ class Control extends EventEmitter {
 
   private _isLineCheckMode = false;
 
+  private _cartridgeTaskId = 0;
+
   protected uuid: string;
 
   constructor(uuid: string) {
@@ -805,6 +807,38 @@ class Control extends EventEmitter {
   maintainCloseFan = () => this.useWaitAnyResponse('maintain close_fan');
 
   maintainHome = () => this.useWaitAnyResponse('maintain home');
+
+  enterCartridgeIOMode = async () => {
+    const res = await this.useWaitAnyResponse('task cartridge_io');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    this.mode = 'cartridge_io';
+    this._cartridgeTaskId = Math.floor(Math.random() * 2e9)
+    return res;
+  };
+
+  endCartridgeIOMode = () => {
+    this.mode = '';
+    this._cartridgeTaskId = 0
+    return this.useWaitAnyResponse('task quit');
+  };
+
+  getCartridgeChipData = async () => {
+    if (this.mode !== 'cartridge_io') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = JSON.stringify({ id: this._cartridgeTaskId, method: 'cartridge.get_info' }).replace(/"/g, '\\"');
+    const resp = await this.useWaitAnyResponse(`jsonrpc_req ${command}`);
+    return resp;
+  };
+
+  cartridgeIOJsonRpcReq = async (method: string, params: any[]) => {
+    if (this.mode !== 'cartridge_io') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = JSON.stringify({ id: this._cartridgeTaskId, method, params }).replace(/"/g, '\\"');
+    const resp = await this.useWaitAnyResponse(`jsonrpc_req "${command}"`);
+    return resp;
+  };
 
   enterRawMode = async () => {
     const res = await this.useWaitAnyResponse('task raw');

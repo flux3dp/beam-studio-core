@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import CatridgeSettingPanel from 'app/components/dialogs/CatridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
@@ -364,6 +365,16 @@ export default {
           onClose();
           popDialogById('shape-panel');
         }}
+      />
+    );
+  },
+  showCatridgeSettingPanel: (initData: any): void => {
+    if (isIdExist('catridge-setting')) return;
+    addDialogComponent(
+      'catridge-setting',
+      <CatridgeSettingPanel
+        initData={initData}
+        onClose={() => popDialogById('catridge-setting')}
       />
     );
   },

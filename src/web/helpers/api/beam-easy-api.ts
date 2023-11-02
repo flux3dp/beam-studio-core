@@ -15,6 +15,7 @@ getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
 
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
 const MACHINE_STATUS = {
+  '-17': 'Cartridge IO Mode',
   '-10': 'Maintain mode',
   '-2': 'Scanning',
   '-1': 'Maintaining',
@@ -113,7 +114,7 @@ export default window['EasyManipulator'] = class EasyManipulator extends EventEm
     this.bvg = bvgString;
     /*
     this.bvg = `
-    <svg id="svgcontent" width="3000" height="2100" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" data-top="-1300" data-left="-512" data-zoom="0.115" data-rotary_mode="false" data-engrave_dpi="medium">
+    <svg id="svgcontent" width="3000" height="2100" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" data-top="-1300" data-left="-512" data-zoom="0.115" data-rotary_mode="0" data-engrave_dpi="medium">
       <g data-repeat="1" data-strength="1" data-speed="20" clip-path="url(#scene_mask)" data-color="#333333" class="layer">
         <title>預設圖層</title>
         <rect fill="black" vector-effect="non-scaling-stroke" fill-opacity="0" id="svg_1" stroke="#333333" height="913.57312" width="713.4571" y="196.98372" x="201.85626"/>

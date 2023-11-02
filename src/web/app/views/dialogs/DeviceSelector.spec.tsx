@@ -21,6 +21,7 @@ jest.mock('helpers/file-export-helper', () => ({
 jest.mock('helpers/i18n', () => ({
   lang: {
     machine_status: {
+      '-17': 'Cartridge IO Mode',
       '-10': 'Maintain mode',
       '-2': 'Scanning',
       '-1': 'Maintaining',
