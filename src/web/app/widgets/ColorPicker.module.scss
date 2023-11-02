@@ -262,7 +262,9 @@
 
 .mobile-container {
   position: absolute;
-  inset: 52px 10px auto !important;
+  inset: 52px 0 auto !important;
+  padding: 0 10px;
+  background-color: #ffffff;
   animation-duration: 0s;
   :global(.ant-popover-inner) {
     box-shadow: none;

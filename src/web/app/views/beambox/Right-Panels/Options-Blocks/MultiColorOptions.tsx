@@ -138,7 +138,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
         }}
       />
       <FloatingPanel
-        anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
+        anchors={previewState.currentStep === EditStep.Color ? [0, 180] : [0, 320]}
         title={t.color}
         forceClose={previewState.currentStep === EditStep.Closed}
         onClose={endPreviewMode}
@@ -154,6 +154,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
           {Object.keys(colors).map((color) => (
             <ColorBlock
               key={color}
+              className={styles.color}
               size="large"
               color={color}
               onClick={() => startPreviewMode(color)}

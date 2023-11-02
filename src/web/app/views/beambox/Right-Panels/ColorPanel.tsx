@@ -184,7 +184,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
       />
       {previewState.type === EditType.Fill && (
         <FloatingPanel
-          anchors={previewState.currentStep === EditStep.Color ? [0, 170] : [0, 320]}
+          anchors={previewState.currentStep === EditStep.Color ? [0, 180] : [0, 320]}
           title={t.fill}
           forceClose={previewState.currentStep === EditStep.Closed}
           onClose={endPreviewMode}
