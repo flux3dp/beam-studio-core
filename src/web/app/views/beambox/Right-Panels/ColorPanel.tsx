@@ -40,8 +40,8 @@ const EditType = {
 };
 
 const deriveElementState = (element: Element) => {
-  const fill = element.getAttribute('fill');
-  const stroke = element.getAttribute('stroke');
+  const fill = element.getAttribute('fill') || '#000000';
+  const stroke = element.getAttribute('stroke') || 'none';
   const strokeWidthAttr = element.getAttribute('stroke-width') || '1';
   const strokeWidth = Number.isNaN(Number(strokeWidthAttr)) ? 1 : Number(strokeWidthAttr);
   return { fill, stroke, strokeWidth };
