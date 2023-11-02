@@ -106,7 +106,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       else if (opts.model === 'fbm1') args.push('-beamo');
       else if (opts.model === 'ado1') {
         args.push('-ado1');
-        if (!isDevMode || !paddingAccel) args.push('-acc', '3800');
+        if (!isDevMode || !paddingAccel) args.push('-acc', '3200');
       }
       if (isDevMode && paddingAccel) args.push('-acc', paddingAccel);
       if (opts.codeType === 'gcode') args.push('-gc');
