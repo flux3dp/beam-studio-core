@@ -1,6 +1,7 @@
 import constant from 'app/actions/beambox/constant';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import isDev from 'helpers/is-dev';
 import NS from 'app/constants/namespaces';
 import progressCaller from 'app/actions/progress-caller';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
@@ -114,7 +115,7 @@ const splitFullColorLayer = async (
   const mRatio = getData<number>(layer, DataType.mRatio);
   const yRatio = getData<number>(layer, DataType.yRatio);
   const kRatio = getData<number>(layer, DataType.kRatio);
-  const includeWhite = whiteInkStaturation > 0;
+  const includeWhite = isDev() && whiteInkStaturation > 0;
   const layerImageUrl = URL.createObjectURL(blob);
   const channelBlobs = await splitColor(layerImageUrl, {
     includeWhite,

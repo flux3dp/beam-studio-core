@@ -272,7 +272,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} />}
-      {module.value === LayerModule.PRINTER && fullcolor.value && <WhiteInkCheckbox />}
+      {isDevMode && module.value === LayerModule.PRINTER && fullcolor.value && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash />}
       <RepeatBlock type={UIType} />
     </>
