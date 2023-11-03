@@ -27,59 +27,63 @@ class LeftPanel extends React.PureComponent {
 
     // Add class color to #svg_editor
     $('#svg_editor').addClass('color');
+    const isFocusingOnInputs = () => {
+      if (!document.activeElement) return false;
+      return document.activeElement.tagName.toLowerCase() === 'input';
+    };
 
     shortcuts.on(['v'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.useSelectTool();
       }
     });
 
     shortcuts.on(['i'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.importImage();
       }
     });
 
     shortcuts.on(['t'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.insertText();
       }
     });
 
     shortcuts.on(['m'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.insertRectangle();
       }
     });
 
     shortcuts.on(['l'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.insertEllipse();
       }
     });
 
     shortcuts.on(['\\'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.insertLine();
       }
     });
 
     shortcuts.on(['p'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         FnWrapper.insertPath();
       }
     });
 
     shortcuts.on(['e'], () => {
       const { isPreviewing } = this.context;
-      if (!isPreviewing) {
+      if (!isPreviewing && !isFocusingOnInputs()) {
         $('#left-Element').trigger('click');
       }
     });

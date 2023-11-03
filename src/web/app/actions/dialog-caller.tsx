@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
-import CatridgeSettingPanel from 'app/components/dialogs/CatridgeSettingPanel';
+import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
@@ -372,7 +372,7 @@ export default {
     if (isIdExist('catridge-setting')) return;
     addDialogComponent(
       'catridge-setting',
-      <CatridgeSettingPanel
+      <CartridgeSettingPanel
         initData={initData}
         onClose={() => popDialogById('catridge-setting')}
       />

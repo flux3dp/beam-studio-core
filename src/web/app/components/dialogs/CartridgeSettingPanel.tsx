@@ -111,12 +111,12 @@ let publicKeyCache = '';
 let privateKeyCache = '';
 let editValueCache: ChipSettings = null;
 
-const CatridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
+const CartridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
   const [publicKey, setPublicKey] = useState(publicKeyCache);
   const [privateKey, setPrivateKey] = useState(privateKeyCache);
   const [chipSettings, setChipSettings] = useState<ChipSettings>(initData);
   const [editingValues, setEditingValues] = useState<ChipSettings>(
-    { ...editValueCache, plScale: initPlScale, totalCapacity: initCapacity } ?? initData
+    editValueCache ?? { ...initData, plScale: initPlScale, totalCapacity: initCapacity }
   );
   const [tabKey, setTabKey] = useState<string>('info');
   const handleSave = async () => {
@@ -334,7 +334,19 @@ const CatridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
             </Col>
             <Col span={8}>PL Scale</Col>
             <Col span={16}>
-              <InputNumber disabled value={values.plScale} />
+              <InputNumber
+                disabled={!isEditing}
+                value={values.plScale}
+                onChange={(val) => setEditingValues({ ...editingValues, plScale: val })}
+              />
+            </Col>
+            <Col span={8}>Total Capacity</Col>
+            <Col span={16}>
+              <InputNumber
+                disabled={!isEditing}
+                value={values.totalCapacity}
+                onChange={(val) => setEditingValues({ ...editingValues, totalCapacity: val })}
+              />
             </Col>
             <Col span={8}>Ink Storage</Col>
             <Col span={16}>
@@ -353,4 +365,4 @@ const CatridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
   );
 };
 
-export default CatridgeSettingPanel;
+export default CartridgeSettingPanel;
