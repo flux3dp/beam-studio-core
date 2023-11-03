@@ -4,6 +4,7 @@ import Alert from 'app/actions/alert-caller';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
 import checkQuestionnaire from 'helpers/check-questionnaire';
+import constant from 'app/actions/beambox/constant';
 import clipboard from 'app/svgedit/operations/clipboard';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
@@ -27,7 +28,37 @@ getSVGAsync((globalSVG) => {
 
 const { lang } = i18n;
 
+const getExampleFileName = (key: string) => {
+  const workarea = BeamboxPreference.read('workarea') || 'fbm1';
+  if (!constant.adorModels.includes(workarea)) {
+    return {
+      example: 'examples/badge.bvg',
+      mat_test_old: 'examples/mat_test_old.bvg',
+      mat_test_simple_cut: 'examples/mat_test_simple_cut.bvg',
+      mat_test_cut: 'examples/mat_test_cut.bvg',
+      mat_test_engrave: 'examples/mat_test_engrave.bvg',
+      mat_test_line: 'examples/mat_test_line.bvg',
+      focus_probe: 'examples/focus_probe.bvg',
+      hello_beambox: 'examples/hello-beambox.bvg',
+    }[key];
+  }
+  return {
+    mat_test_old: 'examples/ador_engraving_test_classic.bvg',
+    mat_test_simple_cut: 'examples/ador_cutting_test_simple.bvg',
+    mat_test_cut: 'examples/ador_cutting_test.bvg',
+    mat_test_engrave: 'examples/ador_engraving_test.bvg',
+    mat_test_printing: 'examples/ador_color_ring.bvg',
+    ador_example_laser: 'examples/ador_example_laser.bvg',
+    ador_example_printing_full: 'examples/ador_example_printing_full.bvg',
+    ador_example_printing_single: 'examples/ador_example_printing_single.bvg',
+  }[key];
+};
+
 const loadExampleFile = async (path: string) => {
+  if (!path) {
+    Alert.popUp({ message: 'lang.message.unsupported_example_file' });
+    return;
+  }
   const res = await FileExportHelper.toggleUnsavedChangedDialog();
   if (!res) return;
   const oReq = new XMLHttpRequest();
@@ -66,14 +97,18 @@ export default {
     if (res) window.location.hash = '#initialize/connect/select-connection-type';
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
-  IMPORT_EXAMPLE: () => loadExampleFile('examples/badge.bvg'),
-  IMPORT_MATERIAL_TESTING_OLD: () => loadExampleFile('examples/mat_test_old.bvg'),
-  IMPORT_MATERIAL_TESTING_SIMPLECUT: () => loadExampleFile('examples/mat_test_simple_cut.bvg'),
-  IMPORT_MATERIAL_TESTING_CUT: () => loadExampleFile('examples/mat_test_cut.bvg'),
-  IMPORT_MATERIAL_TESTING_ENGRAVE: () => loadExampleFile('examples/mat_test_engrave.bvg'),
-  IMPORT_MATERIAL_TESTING_LINE: () => loadExampleFile('examples/mat_test_line.bvg'),
-  IMPORT_ACRYLIC_FOCUS_PROBE: () => loadExampleFile('examples/focus_probe.bvg'),
-  IMPORT_HELLO_BEAMBOX: () => loadExampleFile('examples/hello-beambox.bvg'),
+  IMPORT_EXAMPLE: () => loadExampleFile(getExampleFileName('example')),
+  IMPORT_EXAMPLE_ADOR_LASER: () => loadExampleFile(getExampleFileName('ador_example_laser')),
+  IMPORT_EXAMPLE_ADOR_PRINT_SINGLE: () => loadExampleFile(getExampleFileName('ador_example_printing_single')),
+  IMPORT_EXAMPLE_ADOR_PRINT_FULL: () => loadExampleFile(getExampleFileName('ador_example_printing_full')),
+  IMPORT_MATERIAL_TESTING_OLD: () => loadExampleFile(getExampleFileName('mat_test_old')),
+  IMPORT_MATERIAL_TESTING_SIMPLECUT: () => loadExampleFile(getExampleFileName('mat_test_simple_cut')),
+  IMPORT_MATERIAL_TESTING_CUT: () => loadExampleFile(getExampleFileName('mat_test_cut')),
+  IMPORT_MATERIAL_TESTING_ENGRAVE: () => loadExampleFile(getExampleFileName('mat_test_engrave')),
+  IMPORT_MATERIAL_TESTING_LINE: () => loadExampleFile(getExampleFileName('mat_test_line')),
+  IMPORT_MATERIAL_TESTING_PRINT: () => loadExampleFile(getExampleFileName('mat_test_printing')),
+  IMPORT_ACRYLIC_FOCUS_PROBE: () => loadExampleFile(getExampleFileName('focus_probe')),
+  IMPORT_HELLO_BEAMBOX: () => loadExampleFile(getExampleFileName('hello_beambox')),
   SAVE_SCENE: () => FileExportHelper.saveFile(),
   SAVE_AS: () => FileExportHelper.saveAsFile(),
   EXPORT_BVG: () => FileExportHelper.exportAsBVG(),
