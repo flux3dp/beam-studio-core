@@ -17,7 +17,7 @@ import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
-import { parsingChipData } from 'app/components/dialogs/CatridgeSettingPanel';
+import { parsingChipData } from 'app/components/dialogs/CartridgeSettingPanel';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';

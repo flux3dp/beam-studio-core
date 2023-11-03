@@ -201,8 +201,8 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
                   { src: 'video/put_black_acrylic.mp4', type: 'video/mp4' },
                 ]
               : [
-                  { src: 'video/put_paper.webm', type: 'video/webm' },
-                  { src: 'video/put_paper.mp4', type: 'video/mp4' },
+                  { src: 'video/ador-put-paper.webm', type: 'video/webm' },
+                  { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
                 ]
           }
         />
