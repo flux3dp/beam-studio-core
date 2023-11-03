@@ -8,7 +8,7 @@ import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { PrintingColors } from 'app/constants/color-constants';
 
@@ -36,11 +36,12 @@ function InkBlock({
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
-      payload: { ink: value },
+      payload: { ink: value, configName: CUSTOM_PRESET_CONSTANT },
     });
     if (type !== 'modal')
       selectedLayers.forEach((layerName) => {
         writeData(layerName, DataType.ink, value);
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
       });
   };
   const sliderOptions = useMemo(() => {

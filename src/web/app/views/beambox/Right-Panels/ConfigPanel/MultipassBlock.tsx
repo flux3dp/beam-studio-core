@@ -7,7 +7,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -38,11 +38,12 @@ const MultipassBlock = ({ type = 'default' }: Props): JSX.Element => {
   const handleChange = (val: number) => {
     dispatch({
       type: 'change',
-      payload: { multipass: val },
+      payload: { multipass: val, configName: CUSTOM_PRESET_CONSTANT },
     });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     selectedLayers.forEach((layerName) => {
       writeData(layerName, DataType.multipass, val);
+      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
     });
   };
 

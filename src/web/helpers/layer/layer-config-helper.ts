@@ -277,6 +277,8 @@ export const postPresetChange = (): void => {
 
     const configName = getData<string>(layer, DataType.configName);
     const layerModule = getData<LayerModule>(layer, DataType.module);
+    const speedAttributeName =
+      layerModule === LayerModule.PRINTER ? 'data-printingSpeed' : 'data-speed';
     // Looking for preset with same name and correct module
     const configIndex = customizedLaserConfigs.findIndex((config) =>
       modelsWithModules.includes(workarea)
@@ -287,24 +289,41 @@ export const postPresetChange = (): void => {
       const config = customizedLaserConfigs[configIndex];
       if (config.isDefault) {
         if (parametersSet[config.key]) {
-          const { speed, power, repeat } = parametersSet[config.key];
-          layer.setAttribute('data-speed', String(speed));
+          const {
+            speed,
+            power = defaultConfig.strength,
+            repeat = defaultConfig.repeat,
+            ink = defaultConfig.ink,
+            multipass = defaultConfig.multipass,
+          } = parametersSet[config.key];
+          layer.setAttribute(speedAttributeName, String(speed));
           layer.setAttribute('data-strength', String(power));
-          layer.setAttribute('data-repeat', String(repeat || 1));
+          layer.setAttribute('data-repeat', String(repeat));
+          layer.setAttribute('data-ink', String(ink));
+          layer.setAttribute('data-multipass', String(multipass));
         } else {
           layer.removeAttribute('data-configName');
         }
       } else {
-        const { speed, power, repeat, zStep } = config;
-        layer.setAttribute('data-speed', String(speed));
+        const {
+          speed,
+          power = defaultConfig.strength,
+          repeat = defaultConfig.repeat,
+          zStep,
+          ink = defaultConfig.ink,
+          multipass = defaultConfig.multipass,
+        } = config;
+        layer.setAttribute(speedAttributeName, String(speed));
         layer.setAttribute('data-strength', String(power));
-        layer.setAttribute('data-repeat', String(repeat || 1));
+        layer.setAttribute('data-repeat', String(repeat));
+        layer.setAttribute('data-ink', String(ink));
+        layer.setAttribute('data-multipass', String(multipass));
         if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
       }
     }
     const maxSpeed = constant.dimension.getMaxSpeed(workarea);
-    if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
-      layer.setAttribute('data-speed', String(maxSpeed));
+    if (Number(layer.getAttribute(speedAttributeName)) > maxSpeed) {
+      layer.setAttribute(speedAttributeName, String(maxSpeed));
     }
   }
 };

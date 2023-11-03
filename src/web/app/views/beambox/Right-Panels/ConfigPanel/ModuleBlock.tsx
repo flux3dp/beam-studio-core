@@ -16,6 +16,7 @@ import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer'
 import useI18n from 'helpers/useI18n';
 import {
   DataType,
+  defaultConfig,
   getData,
   getLayerConfig,
   getLayersConfig,
@@ -97,6 +98,14 @@ const ModuleBlock = (): JSX.Element => {
         layer.setAttribute('data-repeat', String(repeat || 1));
       } else {
         layer.removeAttribute('data-configName');
+        if (value === LayerModule.PRINTER && val !== LayerModule.PRINTER) {
+          layer.setAttribute('data-speed', String(defaultConfig.speed));
+          layer.setAttribute('data-strength', String(defaultConfig.strength));
+        } else if (value !== LayerModule.PRINTER && val === LayerModule.PRINTER) {
+          layer.setAttribute('data-printingSpeed', String(defaultConfig.printingSpeed));
+          layer.setAttribute('data-ink', String(defaultConfig.ink));
+          layer.setAttribute('data-multipass', String(defaultConfig.multipass));
+        }
       }
       toggleFullColorLayer(layer, { val: val === LayerModule.PRINTER });
     });

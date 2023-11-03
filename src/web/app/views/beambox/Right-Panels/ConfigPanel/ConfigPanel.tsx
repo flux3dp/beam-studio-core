@@ -37,6 +37,7 @@ import useI18n from 'helpers/useI18n';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
+  defaultConfig,
   getData,
   getLayerConfig,
   getLayersConfig,
@@ -163,7 +164,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   );
 
   const dropdownValue = useMemo(() => {
-    const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
+    const { configName: name, speed, power, ink, repeat, zStep, diode, multipass } = state;
     // multi select
     if (
       speed.hasMultiValue ||
@@ -172,7 +173,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       repeat.hasMultiValue ||
       diode.hasMultiValue ||
       zStep.hasMultiValue ||
-      name.hasMultiValue
+      name.hasMultiValue ||
+      multipass.hasMultiValue
     ) {
       return lang.various_preset;
     }
@@ -198,7 +200,17 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       console.error('No such value', value);
       return;
     }
-    const { speed: dataSpeed, power, repeat, zStep, isDefault, key, name } = selectedConfig;
+    const {
+      speed: dataSpeed,
+      power = defaultConfig.strength,
+      repeat = defaultConfig.repeat,
+      zStep = defaultConfig.zstep,
+      isDefault,
+      key,
+      name,
+      ink = defaultConfig.ink,
+      multipass = defaultConfig.multipass,
+    } = selectedConfig;
     const workarea = beamboxPreference.read('workarea');
     const maxSpeed = constant.dimension.getMaxSpeed(workarea);
     const minSpeed = constant.dimension.getMinSpeed(workarea);
@@ -209,19 +221,23 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       payload: {
         speed,
         power,
-        repeat: repeat || 1,
-        zStep: zStep || 0,
+        repeat,
+        zStep,
         configName: name,
         selectedItem: name,
+        ink,
+        multipass,
       },
     });
     if (UIType !== 'modal')
       selectedLayers.forEach((layerName: string) => {
-        writeData(layerName, DataType.speed, speed);
+        writeData(layerName, DataType.speed, speed, true);
         writeData(layerName, DataType.strength, power);
-        writeData(layerName, DataType.repeat, repeat || 1);
-        writeData(layerName, DataType.zstep, zStep || 0);
+        writeData(layerName, DataType.repeat, repeat);
+        writeData(layerName, DataType.zstep, zStep);
         writeData(layerName, DataType.configName, name);
+        writeData(layerName, DataType.ink, ink);
+        writeData(layerName, DataType.multipass, multipass);
       });
 
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
@@ -302,7 +318,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
                 options={dropdownOptions}
                 hiddenOptions={hiddenOptions}
               />
-              <SaveConfigButton />
+              {module.value !== LayerModule.PRINTER && <SaveConfigButton />}
             </div>
             {commonContent}
           </div>
@@ -351,11 +367,13 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       const destLayer = selectedLayers[0];
       const saveDataAndClose = () => {
         selectedLayers.forEach((layerName: string) => {
-          writeData(layerName, DataType.speed, state.speed.value);
+          writeData(layerName, DataType.speed, state.speed.value, true);
           writeData(layerName, DataType.strength, state.power.value);
           writeData(layerName, DataType.repeat, state.repeat.value);
           writeData(layerName, DataType.zstep, state.zStep.value);
           writeData(layerName, DataType.configName, state.configName.value);
+          writeData(layerName, DataType.ink, state.ink.value);
+          writeData(layerName, DataType.multipass, state.multipass.value);
         });
         onClose();
       };
