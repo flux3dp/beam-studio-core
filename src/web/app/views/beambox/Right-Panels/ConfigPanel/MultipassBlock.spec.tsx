@@ -82,8 +82,10 @@ jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
+  CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
   DataType: {
     multipass: 'multipass',
+    configName: 'configName',
   },
   writeData: (...args) => mockWriteData(...args),
 }));
@@ -140,13 +142,25 @@ describe('test MultipassBlock when type is not panel-item', () => {
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',
-      payload: { multipass: 7 },
+      payload: { multipass: 7, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
-    expect(mockWriteData).toHaveBeenCalledTimes(2);
+    expect(mockWriteData).toHaveBeenCalledTimes(4);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'multipass', 7);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'multipass', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'multipass', 7);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
   });
 
   test('edit value with value display', () => {
@@ -166,13 +180,25 @@ describe('test MultipassBlock when type is not panel-item', () => {
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',
-      payload: { multipass: 10 },
+      payload: { multipass: 10, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
-    expect(mockWriteData).toHaveBeenCalledTimes(2);
+    expect(mockWriteData).toHaveBeenCalledTimes(4);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'multipass', 10);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'multipass', 10);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'multipass', 10);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
   });
 });
 

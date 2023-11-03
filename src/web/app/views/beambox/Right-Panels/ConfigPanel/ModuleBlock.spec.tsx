@@ -84,6 +84,13 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
     module: 'module',
     configName: 'configName',
   },
+  defaultConfig: {
+    speed: 20,
+    printingSpeed: 60,
+    strength: 15,
+    ink: 3,
+    multipass: 3,
+  },
   getData: (...args) => mockGetData(...args),
   getLayerConfig: (...args) => mockGetLayerConfig(...args),
   getLayersConfig: (...args) => mockGetLayersConfig(...args),

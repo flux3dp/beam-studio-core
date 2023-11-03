@@ -699,7 +699,7 @@ exports[`test ColorPicker should render correctly when is for printing colors 2`
                   >
                     <div
                       class="inner"
-                      style="background-color: rgb(159, 227, 255);"
+                      style="background-color: rgb(0, 159, 227);"
                     />
                   </div>
                   <div

@@ -137,11 +137,23 @@ describe('test InkBlock', () => {
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',
-      payload: { ink: 8 },
+      payload: { ink: 8, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
-    expect(mockWriteData).toBeCalledTimes(2);
+    expect(mockWriteData).toBeCalledTimes(4);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
   });
 
   test('onChange of value display should work', () => {
@@ -162,11 +174,23 @@ describe('test InkBlock', () => {
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',
-      payload: { ink: 8 },
+      payload: { ink: 8, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
-    expect(mockWriteData).toBeCalledTimes(2);
+    expect(mockWriteData).toBeCalledTimes(4);
     expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer2', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT'
+    );
   });
 
   test('open and close modal should work', () => {
