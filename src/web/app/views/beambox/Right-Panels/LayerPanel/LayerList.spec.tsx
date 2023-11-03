@@ -135,13 +135,11 @@ describe('test LayerList', () => {
     expect(mockGetData).toBeCalledTimes(2);
     expect(mockGetData).toHaveBeenNthCalledWith(1, mockLayer, 'module');
     expect(mockGetData).toHaveBeenNthCalledWith(2, mockLayer, 'module');
-    expect(mockLayer.getAttribute).toBeCalledTimes(6);
+    expect(mockLayer.getAttribute).toBeCalledTimes(4);
     expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(1, 'data-lock');
     expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(2, 'data-fullcolor');
-    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(3, 'data-fixedcolor');
-    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(4, 'data-lock');
-    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(5, 'data-fullcolor');
-    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(6, 'data-fixedcolor');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(3, 'data-lock');
+    expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(4, 'data-fullcolor');
     expect(mockDrawing.getLayerVisibility).toBeCalledTimes(2);
     expect(mockDrawing.getLayerVisibility).toHaveBeenNthCalledWith(1, 'layer2');
     expect(mockDrawing.getLayerVisibility).toHaveBeenNthCalledWith(2, 'layer1');

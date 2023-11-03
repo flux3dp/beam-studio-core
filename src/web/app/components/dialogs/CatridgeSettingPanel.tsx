@@ -24,6 +24,9 @@ interface Props {
   onClose: () => void;
 }
 
+const initCapacity = 33330000000;
+const initPlScale = 54.8;
+
 export const parsingChipData = (data: any): ChipSettings => ({
   uid: data.uid ?? '',
   serial: data.serial ?? '',
@@ -31,8 +34,8 @@ export const parsingChipData = (data: any): ChipSettings => ({
   type: data.type ?? 0,
   color: data.color ?? 0,
   offset: data.pos_offset ?? [0, 0, 0],
-  plScale: data.pl_scale ?? 1,
-  totalCapacity: data.total_capacity ?? 10000,
+  plScale: data.pl_scale ?? initPlScale,
+  totalCapacity: data.total_capacity ?? initCapacity,
   inkStorage: 100 - (data.used_capacity ?? 0),
   timeUsed: data.used_time ?? 0,
   verified: data.verified !== false,
@@ -45,31 +48,33 @@ const verifyChip = async (uid: string, privateKey: string, publicKey: string) =>
   try {
     let resp = await deviceMaster.cartridgeIOJsonRpcReq('cartridge.generate_chip_hash', [uid]);
     if (resp.status !== 'ok') {
-      alertCaller.popUpError({ message: `generate_chip_hash failed ${JSON.stringify(resp)}}`});
+      alertCaller.popUpError({ message: `generate_chip_hash failed ${JSON.stringify(resp)}}` });
       return false;
     }
     const { hash } = resp.data.result;
     resp = await deviceMaster.cartridgeIOJsonRpcReq('crypto.sign', [privateKey, hash]);
     if (resp.status !== 'ok') {
-      alertCaller.popUpError({ message: `crypto.sign failed ${JSON.stringify(resp)}}`});
+      alertCaller.popUpError({ message: `crypto.sign failed ${JSON.stringify(resp)}}` });
       return false;
     }
     const { sign } = resp.data.result;
     resp = await deviceMaster.cartridgeIOJsonRpcReq('crypto.verify', [publicKey, hash, sign]);
     if (resp.status !== 'ok' || !resp.data.result) {
-      alertCaller.popUpError({ message: `crypto.verify failed ${JSON.stringify(resp)}}`});
+      alertCaller.popUpError({ message: `crypto.verify failed ${JSON.stringify(resp)}}` });
       return false;
     }
     resp = await deviceMaster.cartridgeIOJsonRpcReq('cartridge.load_sign_data', [hash, sign]);
     if (resp.status !== 'ok' || !resp.data.result) {
-      alertCaller.popUpError({ message: `cartridge.load_sign_data failed ${JSON.stringify(resp)}}`});
+      alertCaller.popUpError({
+        message: `cartridge.load_sign_data failed ${JSON.stringify(resp)}}`,
+      });
       return false;
     }
     return resp.data.result;
   } catch (error) {
     const message = error.error ? JSON.stringify(error) : error.message;
-    alertCaller.popUpError({ message: `Failed to verify chip: ${message}`});
-    return false
+    alertCaller.popUpError({ message: `Failed to verify chip: ${message}` });
+    return false;
   }
 };
 
@@ -89,14 +94,16 @@ const writeChipData = async (data: ChipSettings) => {
     ];
     const resp = await deviceMaster.cartridgeIOJsonRpcReq('cartridge.write_mfg_info', params);
     if (resp.status !== 'ok' || !resp.data.result) {
-      alertCaller.popUpError({ message: `cartridge.write_mfg_info failed ${JSON.stringify(resp)}}`});
+      alertCaller.popUpError({
+        message: `cartridge.write_mfg_info failed ${JSON.stringify(resp)}}`,
+      });
       return false;
     }
     return true;
   } catch (error) {
     const message = error.error ? JSON.stringify(error) : error.message;
-    alertCaller.popUpError({ message: `Failed to verify chip: ${message}`});
-    return false
+    alertCaller.popUpError({ message: `Failed to verify chip: ${message}` });
+    return false;
   }
 };
 
@@ -108,7 +115,9 @@ const CatridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
   const [publicKey, setPublicKey] = useState(publicKeyCache);
   const [privateKey, setPrivateKey] = useState(privateKeyCache);
   const [chipSettings, setChipSettings] = useState<ChipSettings>(initData);
-  const [editingValues, setEditingValues] = useState<ChipSettings>(editValueCache ?? initData);
+  const [editingValues, setEditingValues] = useState<ChipSettings>(
+    { ...editValueCache, plScale: initPlScale, totalCapacity: initCapacity } ?? initData
+  );
   const [tabKey, setTabKey] = useState<string>('info');
   const handleSave = async () => {
     progressCaller.openNonstopProgress({ id: 'chip-settings', message: 'Saving Chip Data' });
@@ -196,19 +205,25 @@ const CatridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
           <>
             <Col span={4}>Public Key</Col>
             <Col span={20}>
-              <Input value={publicKey} onChange={(e) => {
-                const { value } = e.currentTarget;
-                setPublicKey(value);
-                publicKeyCache = value;
-              }} />
+              <Input
+                value={publicKey}
+                onChange={(e) => {
+                  const { value } = e.currentTarget;
+                  setPublicKey(value);
+                  publicKeyCache = value;
+                }}
+              />
             </Col>
             <Col span={4}>Private Key</Col>
             <Col span={20}>
-              <Input value={privateKey} onChange={(e) => {
-                const { value } = e.currentTarget;
-                setPrivateKey(value);
-                privateKeyCache = value;
-              }} />
+              <Input
+                value={privateKey}
+                onChange={(e) => {
+                  const { value } = e.currentTarget;
+                  setPrivateKey(value);
+                  privateKeyCache = value;
+                }}
+              />
             </Col>
           </>
         )}

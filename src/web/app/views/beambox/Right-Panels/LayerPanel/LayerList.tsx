@@ -92,7 +92,6 @@ const LayerList = ({
     if (layer) {
       const isLocked = layer.getAttribute('data-lock') === 'true';
       const isFullColor = layer.getAttribute('data-fullcolor') === '1';
-      const isFixedColor = layer.getAttribute('data-fixedcolor') === '1';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
       const leftActions: Action[] = isMobile
@@ -123,7 +122,6 @@ const LayerList = ({
           ]
         : undefined;
       const module = getData<LayerModule>(layer, DataType.module);
-      const canEditColor = !isFullColor && !isFixedColor;
       items.push(
         <SwipeAction
           key={layerName}
@@ -169,7 +167,6 @@ const LayerList = ({
                   <LayerPanelIcons.FullColor />
                 ) : (
                   <ColorPicker
-                    disabled={!canEditColor}
                     initColor={drawing.getLayerColor(layerName)}
                     printerColor={module === LayerModule.PRINTER}
                     triggerSize="small"

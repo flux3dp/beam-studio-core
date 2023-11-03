@@ -74,7 +74,6 @@
       "text-anchor",
       "data-color",
       "data-fullcolor",
-      "data-fixedcolor",
       "data-speed",
       "data-lock",
       "data-strength",

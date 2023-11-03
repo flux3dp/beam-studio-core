@@ -116,7 +116,7 @@ exports[`test LayerList should render correctly 1`] = `
                     MockColorPicker
                     <p>
                       disabled: 
-                      y
+                      n
                     </p>
                     <p>
                       initColor: 
