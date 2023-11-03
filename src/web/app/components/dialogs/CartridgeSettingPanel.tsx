@@ -153,7 +153,7 @@ const CartridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
     const chipData = await deviceMaster.getCartridgeChipData();
     const parsed = parsingChipData(chipData.data.result);
     setChipSettings(parsed);
-    if (!editValueCache) setEditingValues(parsed);
+    if (!editValueCache) setEditingValues({ ...parsed, plScale: initPlScale, totalCapacity: initCapacity });
     progressCaller.popById('chip-settings');
   }, []);
 
