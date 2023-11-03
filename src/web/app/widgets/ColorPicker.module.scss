@@ -15,6 +15,10 @@
   }
 }
 
+.no-panel div:global(.ant-color-picker-inner-content){
+  width: fit-content;
+}
+
 .panel {
   // antd style overrides
   :global(.ant-color-picker-format-select) {
