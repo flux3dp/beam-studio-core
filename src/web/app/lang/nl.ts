@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: 'of hoger om door te gaan。 (Menu > Machine > [Uw machine] > Firmware bijwerken)',
     camera_calibration: 'Camerakalibratie',
     diode_calibration: 'Diode Laser Module Kalibratie',
+    module_calibration_printer: 'Printer Module Kalibratie',
+    module_calibration_2w_ir: 'Infrarood Module Kalibratie',
     back: 'RUG',
     next: 'DE VOLGENDE',
     skip: 'OVERSLAAN',

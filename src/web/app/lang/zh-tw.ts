@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: '以上以繼續。 (主選單 > 機器 > [ Your Beambox ] > 韌體更新',
     camera_calibration: '相機校正',
     diode_calibration: '二極體雷射模組校正',
+    module_calibration_printer: '列印模組校正',
+    module_calibration_2w_ir: '紅外線模組校正',
     back: '上一步',
     next: '下一步',
     skip: '跳過',

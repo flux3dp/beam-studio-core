@@ -1343,6 +1343,8 @@ export interface ILang {
     update_firmware_msg2: string;
     camera_calibration: string;
     diode_calibration: string;
+    module_calibration_printer: string;
+    module_calibration_2w_ir: string;
     back: string,
     next: string,
     skip: string,

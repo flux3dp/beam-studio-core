@@ -162,12 +162,19 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
     }
   };
 
+  const title = useMemo(() => {
+    if (type === CalibrationType.PRINTER_HEAD) return lang.module_calibration_printer;
+    if (type === CalibrationType.IR_LASER) return lang.module_calibration_2w_ir;
+    return lang.camera_calibration;
+  }, [type, lang]);
+
   switch (step) {
     case Step.CALIBRATE:
       return <Calibrate onClose={onClose} onNext={handleMultiHeightCalibrateNext} />;
     case Step.ALIGN:
       return (
         <Align
+          title={title}
           type={type}
           fisheyeParam={param.current}
           onBack={() => setStep(Step.FOCUS_AND_CUT)}
@@ -178,7 +185,7 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
       return (
         <Instruction
           onClose={() => onClose(false)}
-          title={lang.camera_calibration}
+          title={title}
           text={
             type === CalibrationType.IR_LASER
               ? lang.please_place_black_acrylic
@@ -204,7 +211,7 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
       return (
         <Instruction
           onClose={() => onClose(false)}
-          title={lang.camera_calibration}
+          title={title}
           text={lang.ador_autofocus}
           buttons={[
             { label: lang.back, onClick: () => setStep(Step.PUT_PAPER) },

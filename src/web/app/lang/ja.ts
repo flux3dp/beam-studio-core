@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: 'またはそれ以上にアップデートして。続行してください。（メニュー > マシン > [お使いのマシン] >ファームウェアのアップデート）',
     camera_calibration: 'カメラの較正',
     diode_calibration: 'ダイオードレーザーモジュールの較正',
+    module_calibration_printer: 'プリンターモジュールのキャリブレーション',
+    module_calibration_2w_ir: '赤外線モジュールのキャリブレーション',
     back: '戻る',
     next: '次へ',
     skip: 'スキップ',

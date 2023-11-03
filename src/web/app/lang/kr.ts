@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: '(메뉴> 기계> [당신의 기계]> 펌웨어 업데이트)',
     camera_calibration: '카메라 보정',
     diode_calibration: '다이오드 레이저 모듈 보정',
+    module_calibration_printer: '프린터 모듈 보정',
+    module_calibration_2w_ir: '적외선 모듈 보정',
     back: '뒤로',
     next: '다음',
     skip: '건너 뛰기',

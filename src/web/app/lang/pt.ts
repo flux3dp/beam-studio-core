@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: 'ou acima para continuar (Menu > Máquina > [Sua máquina] > Atualizar firmware)',
     camera_calibration: 'Calibração de Câmera',
     diode_calibration: 'Calibração do módulo de laser de diodo',
+    module_calibration_printer: 'Calibração do Módulo de Impressora',
+    module_calibration_2w_ir: 'Calibração do Módulo Infravermelho',
     back: 'VOLTAR',
     next: 'AVANÇAR',
     skip: 'IGNORAR',

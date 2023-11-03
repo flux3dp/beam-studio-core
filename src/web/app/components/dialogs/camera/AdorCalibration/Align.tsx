@@ -28,6 +28,7 @@ import getPerspectiveForAlign from './getPerspectiveForAlign';
 import styles from './Align.module.scss';
 
 interface Props {
+  title: string;
   fisheyeParam: FisheyeCameraParameters;
   type: CalibrationType;
   onClose: (complete: boolean) => void;
@@ -41,7 +42,7 @@ const PX_PER_MM = 5;
 const PROGRESS_ID = 'calibration-align';
 
 // TODO: fix test
-const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
+const Align = ({ title, fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
   const imgContainerRef = useRef<HTMLDivElement>(null);
   const lang = useI18n();
   const [form] = Form.useForm();
@@ -264,7 +265,7 @@ const Align = ({ fisheyeParam, type, onClose, onBack }: Props): JSX.Element => {
       open
       centered
       onCancel={() => onClose(false)}
-      title={lang.calibration.camera_calibration}
+      title={title}
       footer={[
         <Button className={styles['footer-button']} onClick={onBack} key="back">
           {lang.buttons.back}

@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: '以上以继续。 (主选单 > 机器 > [ Your Beambox ] > 固件更新',
     camera_calibration: '相机校正',
     diode_calibration: '二极管激光模组校正',
+    module_calibration_printer: '打印机模块校准',
+    module_calibration_2w_ir: '红外模块校准',
     back: '上一步',
     next: '下一步',
     skip: '跳過',

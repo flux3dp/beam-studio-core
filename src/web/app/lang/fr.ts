@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: 'ou supérieur pour continuer。 (Menu > Machine > [Votre machine] > Mise à jour du micrologiciel)',
     camera_calibration: 'Calibrage de l\'appareil photo',
     diode_calibration: 'Calibrage du module laser à diode',
+    module_calibration_printer: 'Calibration du Module d\'Imprimante',
+    module_calibration_2w_ir: 'Calibration du Module Infrarouge',
     back: 'RETOUR',
     next: 'SUIVANT',
     skip: 'SAUTER',

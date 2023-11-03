@@ -100,6 +100,7 @@ describe('test Align', () => {
     mockCreateObjectURL.mockReturnValue('file://url');
     const { baseElement, getByText } = render(
       <Align
+        title="title"
         type={CalibrationType.CAMERA}
         onClose={mockOnClose}
         onBack={mockOnBack}
@@ -126,6 +127,7 @@ describe('test Align', () => {
     mockCreateObjectURL.mockReturnValue('file://url');
     const { baseElement, getByText } = render(
       <Align
+        title="title"
         type={CalibrationType.CAMERA}
         onClose={mockOnClose}
         onBack={mockOnBack}
@@ -147,6 +149,7 @@ describe('test Align', () => {
     mockCreateObjectURL.mockReturnValue('file://url');
     const { baseElement, getByText } = render(
       <Align
+        title="title"
         type={CalibrationType.CAMERA}
         onClose={mockOnClose}
         onBack={mockOnBack}
@@ -196,6 +199,7 @@ describe('test Align', () => {
     mockCreateObjectURL.mockReturnValue('file://url');
     const { baseElement, getByText } = render(
       <Align
+        title="title"
         type={CalibrationType.PRINTER_HEAD}
         onClose={mockOnClose}
         onBack={mockOnBack}

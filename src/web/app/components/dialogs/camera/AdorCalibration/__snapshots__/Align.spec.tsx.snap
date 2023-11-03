@@ -15,6 +15,7 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
         tabindex="-1"
       >
         <div
+          aria-labelledby="test-id"
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
@@ -58,6 +59,16 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
                 </span>
               </span>
             </button>
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                title
+              </div>
+            </div>
             <div
               class="ant-modal-body"
             >
@@ -414,6 +425,7 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
         tabindex="-1"
       >
         <div
+          aria-labelledby="test-id"
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
@@ -457,6 +469,16 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
                 </span>
               </span>
             </button>
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                title
+              </div>
+            </div>
             <div
               class="ant-modal-body"
             >
@@ -813,6 +835,7 @@ exports[`test Align should render correctly 1`] = `
         tabindex="-1"
       >
         <div
+          aria-labelledby="test-id"
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
@@ -856,6 +879,16 @@ exports[`test Align should render correctly 1`] = `
                 </span>
               </span>
             </button>
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                title
+              </div>
+            </div>
             <div
               class="ant-modal-body"
             >

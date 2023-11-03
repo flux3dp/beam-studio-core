@@ -1346,6 +1346,8 @@ const lang: ILang = {
     update_firmware_msg2: 'oder höher, um fortzufahren。 (Menü> Maschine> [Ihre Maschine]> Firmware aktualisieren)',
     camera_calibration: 'Kamerakalibrierung',
     diode_calibration: 'Kalibrierung des Diodenlasermodul',
+    module_calibration_printer: 'Druckermodul-Kalibrierung',
+    module_calibration_2w_ir: 'Infrarot-Modul-Kalibrierung',
     back: 'ZURÜCK',
     next: 'NÄCHSTER',
     skip: 'ÜBERSPRINGEN',
