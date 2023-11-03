@@ -156,6 +156,7 @@ const splitFullColorLayer = async (
       batchCmd.addSubCommand(cmd);
       elem.setAttribute('data-color', color);
       elem.setAttribute('data-fixedcolor', '1');
+      elem.removeAttribute('data-fullcolor');
       if (i === 0) {
         const whiteSpeed = getData<number>(layer, DataType.wSpeed);
         const whiteMultipass = getData<number>(layer, DataType.wMultipass);
