@@ -208,7 +208,9 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
   } else {
     const dataTypes = Object.values(DataType);
     for (let i = 0; i < dataTypes.length; i += 1) {
-      writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
+      if (dataTypes[i] === DataType.fullColor) {
+        if (getData(baseLayer, DataType.fullColor))  writeData(targetLayerName, DataType.fullColor, '1');
+      } else writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
     }
   }
 };
