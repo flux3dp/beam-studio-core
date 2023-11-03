@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: '移動被點選的物件其他圖層',
           switchToFullColor: '切換成彩色圖層',
           switchToSingleColor: '切換成單色圖層',
-          splitFullColor: '切分圖層色版',
+          splitFullColor: '展開圖層',
           fullColor: '全彩',
         },
       },

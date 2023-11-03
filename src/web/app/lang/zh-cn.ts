@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: '移动元素至另一个图层',
           switchToFullColor: '切换到全彩图层',
           switchToSingleColor: '切换到单色图层',
-          splitFullColor: '拆分颜色',
+          splitFullColor: '展开图层',
           fullColor: '全彩',
         },
       },

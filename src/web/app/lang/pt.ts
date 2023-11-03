@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: 'Mover Elementos Selecionadas para Camada',
           switchToFullColor: 'Alternar para camada de cor completa',
           switchToSingleColor: 'Alternar para camada de cor única',
-          splitFullColor: 'Dividir Cores',
+          splitFullColor: 'Expandir Camada',
           fullColor: 'Cor completa',
         },
       },

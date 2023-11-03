@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: 'Move selected elements to a different layer',
           switchToFullColor: 'Switch to full color layer',
           switchToSingleColor: 'Switch to single color layer',
-          splitFullColor: 'Split Colors',
+          splitFullColor: 'Expand Layer',
           fullColor: 'Full color',
         },
       },

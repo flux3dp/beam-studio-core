@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: 'Déplacer les éléments sélectionnés vers une couche différente',
           switchToFullColor: 'Passer à la couche en couleur complète',
           switchToSingleColor: 'Passer à la couche en couleur unique',
-          splitFullColor: 'Séparer les Couleurs',
+          splitFullColor: 'Étendre la couche',
           fullColor: 'Couleur complète',
         },
       },

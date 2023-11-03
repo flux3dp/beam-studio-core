@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: '選択対象を別のレイヤに移動',
           switchToFullColor: 'フルカラーレイヤーに切り替える',
           switchToSingleColor: 'シングルカラーレイヤーに切り替える',
-          splitFullColor: 'カラー分割',
+          splitFullColor: 'レイヤーを展開',
           fullColor: 'フルカラー',
         },
       },

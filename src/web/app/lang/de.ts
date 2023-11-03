@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: 'Verschiebe ausgewählte Objekte auf eine andere Ebene',
           switchToFullColor: 'Zu Vollfarben-Ebene wechseln',
           switchToSingleColor: 'Zu Einzelfarben-Ebene wechseln',
-          splitFullColor: 'Farben aufteilen',
+          splitFullColor: 'Ebene erweitern',
           fullColor: 'Vollfarbe',
         },
       },

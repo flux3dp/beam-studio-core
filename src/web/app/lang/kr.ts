@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: '선택한 요소를 다른 레이어로 이동하시겠습니까?',
           switchToFullColor: '전체 색상 레이어로 전환',
           switchToSingleColor: '단일 색상 레이어로 전환',
-          splitFullColor: '색상 분할',
+          splitFullColor: '레이어 확장',
           fullColor: '풀 컬러',
         },
       },

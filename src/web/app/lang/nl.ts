@@ -661,7 +661,7 @@ const lang: ILang = {
           move_selected: 'Geselecteerde elementen naar een andere laag verplaatsen',
           switchToFullColor: 'Overschakelen naar volledige kleurlaag',
           switchToSingleColor: 'Overschakelen naar enkele kleurlaag',
-          splitFullColor: 'Kleuren Opsplitsen',
+          splitFullColor: 'Laag uitbreiden',
           fullColor: 'Volledige kleur',
         },
       },
