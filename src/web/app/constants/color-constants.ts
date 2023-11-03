@@ -85,7 +85,7 @@ export const objectsColorPresets =[
 ];
 
 export enum PrintingColors {
-  CYAN = '#9FE3FF',
+  CYAN = '#009FE3',
   MAGENTA = '#E6007E',
   YELLOW = '#FFED00',
   BLACK = '#1D1D1B',
