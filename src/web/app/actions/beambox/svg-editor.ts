@@ -5237,7 +5237,7 @@ const svgEditor = window['svgEditor'] = (function () {
       };
 
       const handleFile = async (file) => {
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
+        await Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
         svgCanvas.clearSelection();
         const fileType = (function () {
           if (file.name.toLowerCase().endsWith('.beam')) {
