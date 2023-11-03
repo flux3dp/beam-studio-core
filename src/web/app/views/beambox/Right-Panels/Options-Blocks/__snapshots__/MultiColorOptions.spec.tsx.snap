@@ -39,7 +39,7 @@ exports[`test MultiColorOptions mobile should render correctly 1`] = `
       class="colors"
     >
       <div
-        class="color large"
+        class="color color large"
       >
         <div
           class=""
@@ -47,7 +47,7 @@ exports[`test MultiColorOptions mobile should render correctly 1`] = `
         />
       </div>
       <div
-        class="color large"
+        class="color color large"
       >
         <div
           class=""

@@ -37,8 +37,7 @@ exports[`test LayerList should render correctly 1`] = `
                 data-layer="layer2"
               >
                 <div
-                  class="color no-pointer color mini"
-                  id="layerbackgroundColor-1"
+                  class="color"
                 >
                   <svgr-url />
                 </div>
@@ -107,8 +106,7 @@ exports[`test LayerList should render correctly 1`] = `
                 data-layer="layer1"
               >
                 <div
-                  class="color no-pointer color mini"
-                  id="layerbackgroundColor-0"
+                  class="color"
                 >
                   <div>
                     MockColorPicker
@@ -220,8 +218,7 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                 data-layer="layer2"
               >
                 <div
-                  class="color color mini"
-                  id="layerbackgroundColor-1"
+                  class="color"
                 >
                   <div>
                     MockColorPicker
@@ -336,8 +333,7 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                 data-layer="layer1"
               >
                 <div
-                  class="color color mini"
-                  id="layerbackgroundColor-0"
+                  class="color"
                 >
                   <div>
                     MockColorPicker
