@@ -67,6 +67,10 @@ export interface ILang {
       import_material_testing_cut: string;
       import_material_testing_engrave: string;
       import_material_testing_line: string;
+      import_material_printing_test: string;
+      import_ador_laser_example: string;
+      import_ador_printing_example_single: string;
+      import_ador_printing_example_full: string;
       import_acrylic_focus_probe: string;
       export_to: string;
       export_flux_task: string;
@@ -133,6 +137,8 @@ export interface ILang {
       using_beam_studio_api: string;
       set_as_default: string;
       calibrate_beambox_camera: string;
+      calibrate_printer_module: string;
+      calibrate_ir_module: string;
       calibrate_beambox_camera_borderless: string;
       calibrate_diode_module: string;
       manage_account: string;
