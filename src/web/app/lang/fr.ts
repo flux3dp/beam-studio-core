@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: 'Désactivé',
     cancel: 'Annuler',
     done: 'Appliquer',
+    module_offset_10w: 'Décalage du laser à diode de 10W',
+    module_offset_20w: 'Décalage du laser à diode de 20W',
+    module_offset_printer: 'Décalage de l\'imprimante',
+    module_offset_2w_ir: 'Décalage du laser infrarouge de 2W',
+    printer_advanced_mode: 'Mode Avancé de l\'Impression',
     groups: {
       general: 'Général',
       update: 'Mises à jour du logiciel',

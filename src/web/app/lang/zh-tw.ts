@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: '不啟用',
     cancel: '取消',
     done: '套用',
+    module_offset_10w: '10W 二極體雷射偏移',
+    module_offset_20w: '20W 二極體雷射偏移',
+    module_offset_printer: '列印模組偏移',
+    module_offset_2w_ir: '2W 紅外線雷射偏移',
+    printer_advanced_mode: '列印高級模式',
     groups: {
       general: '一般',
       update: '軟體更新',

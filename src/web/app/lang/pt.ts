@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: 'Desabilitado',
     cancel: 'Cancelar',
     done: 'Aplicar',
+    module_offset_10w: 'Deslocamento do Laser de Diodo de 10W',
+    module_offset_20w: 'Deslocamento do Laser de Diodo de 20W',
+    module_offset_printer: 'Deslocamento da Impressora',
+    module_offset_2w_ir: 'Deslocamento do Laser Infravermelho de 2W',
+    printer_advanced_mode: 'Modo Avançado da Impressora',
     groups: {
       general: 'Geral',
       update: 'Atualização de Software',

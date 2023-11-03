@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: 'Disabled',
     cancel: 'Cancel',
     done: 'Apply',
+    module_offset_10w: '10W Diode Laser Offset',
+    module_offset_20w: '20W Diode Laser Offset',
+    module_offset_printer: 'Printer Offset',
+    module_offset_2w_ir: '2W Infrared Laser Offset',
+    printer_advanced_mode: 'Printer Advanced Mode',
     groups: {
       general: 'General',
       update: 'Software Updates',

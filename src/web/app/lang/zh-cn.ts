@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: '不启用',
     cancel: '取消',
     done: '套用',
+    module_offset_10w: '10W 二极管激光偏移',
+    module_offset_20w: '20W 二极管激光偏移',
+    module_offset_printer: '打印偏移',
+    module_offset_2w_ir: '2W 红外激光偏移',
+    printer_advanced_mode: '打印机高级模式',
     groups: {
       general: '一般',
       update: '软体更新',

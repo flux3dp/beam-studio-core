@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: 'Gehandicapt',
     cancel: 'Annuleren',
     done: 'Van toepassing zijn',
+    module_offset_10w: '10W Diodelaser Verschuiving',
+    module_offset_20w: '20W Diodelaser Verschuiving',
+    module_offset_printer: 'Printer Verschuiving',
+    module_offset_2w_ir: '2W Infraroodlaser Verschuiving',
+    printer_advanced_mode: 'Geavanceerde afdrukmodus',
     groups: {
       general: 'Algemeen',
       update: 'Software Updates',

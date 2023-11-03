@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: '無効',
     cancel: 'キャンセル',
     done: '適用する',
+    module_offset_10w: '10Wダイオードレーザーオフセット',
+    module_offset_20w: '20Wダイオードレーザーオフセット',
+    module_offset_printer: 'プリンターオフセット',
+    module_offset_2w_ir: '2W赤外線レーザーオフセット',
+    printer_advanced_mode: 'プリンターの高級なモード',
     groups: {
       general: '一般',
       update: 'ソフトウェア更新',

@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: 'ausgeschaltet',
     cancel: 'Stornieren',
     done: 'Anwenden',
+    module_offset_10w: '10W Diodenlaser-Versatz',
+    module_offset_20w: '20W Diodenlaser-Versatz',
+    module_offset_printer: 'Druckerversatz',
+    module_offset_2w_ir: '2W Infrarotlaser-Versatz',
+    printer_advanced_mode: 'Druckerfortgeschrittener Modus',
     groups: {
       general: 'Allgemeines',
       update: 'Software-Updates',

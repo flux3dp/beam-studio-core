@@ -428,7 +428,12 @@ export interface ILang {
     enabled: string,
     disabled: string,
     cancel: string,
-    done: string,
+    done: string;
+    module_offset_10w: string;
+    module_offset_20w: string;
+    module_offset_printer: string;
+    module_offset_2w_ir: string;
+    printer_advanced_mode: string;
     groups: {
       general: string,
       update: string,

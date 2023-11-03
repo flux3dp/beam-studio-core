@@ -432,6 +432,11 @@ const lang: ILang = {
     disabled: '사용 안 함',
     cancel: '취소',
     done: '적용',
+    module_offset_10w: '10W 다이오드 레이저 오프셋',
+    module_offset_20w: '20W 다이오드 레이저 오프셋',
+    module_offset_printer: '프린터 오프셋',
+    module_offset_2w_ir: '2W 적외선 레이저 오프셋',
+    printer_advanced_mode: '프린터 고급 모드',
     groups: {
       general: '일반',
       update: '소프트웨어 업데이트',

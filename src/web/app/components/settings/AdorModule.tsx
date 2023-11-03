@@ -47,12 +47,12 @@ const AdorModule = ({
     <>
       <div className="subtitle">{lang.settings.groups.ador_modules}</div>
       <SelectControl
-        label="Printing Advanced Mode"
+        label={lang.settings.printer_advanced_mode}
         id="print-advanced-mode"
         options={printAdvancedModeOptions}
         onChange={(e) => updateBeamboxPreferenceChange('print-advanced-mode', e.target.value)}
       />
-      <Controls label={`${lang.layer_module.laser_10w_diode} Offset`}>
+      <Controls label={lang.settings.module_offset_10w}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
           id="10w-laser-x-offset"
@@ -76,7 +76,31 @@ const AdorModule = ({
           className={{ half: true }}
         />
       </Controls>
-      <Controls label={`${lang.layer_module.printing} Offset`}>
+      <Controls label={lang.settings.module_offset_20w}>
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
+        <UnitInput
+          id="20w-laser-x-offset"
+          unit={defaultUnit === 'inches' ? 'in' : 'mm'}
+          min={-workareaWidth}
+          max={workareaWidth}
+          defaultValue={getModuleOffset(LayerModule.LASER_20W_DIODE)[0]}
+          getValue={(val) => editValue(LayerModule.LASER_20W_DIODE, 'x', val)}
+          forceUsePropsUnit
+          className={{ half: true }}
+        />
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
+        <UnitInput
+          id="20w-laser-y-offset"
+          unit={defaultUnit === 'inches' ? 'in' : 'mm'}
+          min={-workareaHeight}
+          max={workareaHeight}
+          defaultValue={getModuleOffset(LayerModule.LASER_20W_DIODE)[1]}
+          getValue={(val) => editValue(LayerModule.LASER_20W_DIODE, 'y', val)}
+          forceUsePropsUnit
+          className={{ half: true }}
+        />
+      </Controls>
+      <Controls label={lang.settings.module_offset_printer}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
           id="printer-x-offset"
@@ -100,7 +124,7 @@ const AdorModule = ({
           className={{ half: true }}
         />
       </Controls>
-      <Controls label={`${lang.layer_module.laser_2w_infrared} Offset`}>
+      <Controls label={lang.settings.module_offset_2w_ir}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
         <UnitInput
           id="2w-ir-laser-x-offset"
