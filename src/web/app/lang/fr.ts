@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: 'Sélectionnez le style de superposition :',
+      select_import_module: 'Sélectionner le module :',
       touchpad: 'TouchPad',
       mouse: 'Souris',
       layer_by_layer: 'Couche',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: 'C\'est tout pour le tutoriel. Il est maintenant temps de créer !',
   },
   layer_module: {
+    general_laser: 'Laser',
     laser_10w_diode: 'Laser à Diode 10W',
     laser_20w_diode: 'Laser à Diode 20W',
     laser_2w_infrared: 'Laser Infrarouge 2W',

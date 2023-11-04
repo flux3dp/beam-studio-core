@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Icon from '@ant-design/icons';
 import ReactDomServer from 'react-dom/server';
 import { CapsuleTabs } from 'antd-mobile';
@@ -8,6 +8,7 @@ import FloatingPanel from 'app/widgets/FloatingPanel';
 import history from 'app/svgedit/history';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import i18n from 'helpers/i18n';
+import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import ShapeIcon from 'app/icons/shape/ShapeIcon';
 import Shapes, { ShapeTabs } from 'app/constants/shape-panel-constants';
 import updateElementColor from 'helpers/color/updateElementColor';
@@ -49,7 +50,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
         'fill="none"'
       );
       const batchCmd = HistoryCommandFactory.createBatchCommand('Shape Panel Import SVG');
-      const newElementnewElement = await svgCanvas.importSvgString(iconString, 'layer', undefined, batchCmd);
+      const newElementnewElement = await importSvgString(iconString, { type: 'layer', parentCmd: batchCmd });
       const { width, height } = svgCanvas.getSvgRealLocation(newElementnewElement);
       const [newWidth, newHeight] = width > height ? [500, (height * 500) / width] : [(width * 500) / height, 500];
       svgCanvas.selectOnly([newElementnewElement]);

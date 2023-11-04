@@ -499,6 +499,7 @@ export interface ILang {
     },
     popup: {
       select_import_method: string,
+      select_import_module: string;
       touchpad: string,
       mouse: string,
       layer_by_layer: string,
@@ -1477,6 +1478,7 @@ export interface ILang {
     tutorial_complete: string,
   },
   layer_module: {
+    general_laser: string;
     laser_10w_diode: string;
     laser_20w_diode: string;
     laser_2w_infrared: string;

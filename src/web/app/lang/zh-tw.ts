@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: '選擇分層方式:',
+      select_import_module: '選擇模組:',
       touchpad: '觸控板',
       mouse: '滑鼠',
       layer_by_layer: '依圖層分層',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: '介紹完畢，開始創作吧！',
   },
   layer_module: {
+    general_laser: '雷射',
     laser_10w_diode: '10W 二極體雷射',
     laser_20w_diode: '20W 二極體雷射',
     laser_2w_infrared: '2W 紅外線雷射',

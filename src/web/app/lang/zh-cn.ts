@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: '选择分层方式:',
+      select_import_module: '选择模块：',
       touchpad: '触摸板',
       mouse: '鼠标',
       layer_by_layer: '依图层分层',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: '介绍完毕，开始创作吧！',
   },
   layer_module: {
+    general_laser: '激光',
     laser_10w_diode: '10W 二极管激光器',
     laser_20w_diode: '20W 二极管激光器',
     laser_2w_infrared: '2W 红外激光器',

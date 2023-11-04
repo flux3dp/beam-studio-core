@@ -49,7 +49,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
 import Dialog from 'app/actions/dialog-caller';
-import AwsHelper from 'helpers/aws-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
@@ -68,6 +67,7 @@ import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
 import importBitmap from 'app/svgedit/operations/import/importBitmap';
+import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
 
@@ -115,7 +115,6 @@ interface ISVGEditor {
   curConfig: ISVGConfig
   curPrefs: ISVGPref
   disableUI: (featList: any) => void
-  importSvg: (file: any, args: { skipByLayer?: boolean }) => Promise<void>
   init: () => void
   loadFromDataURI: (str: any) => void
   loadFromURL: (url: any, opts?: any) => void
@@ -202,7 +201,6 @@ const svgEditor = window['svgEditor'] = (function () {
     curConfig: null,
     curPrefs: null,
     disableUI: (featList: any) => { },
-    importSvg: async (file: any, args: { skipByLayer?: boolean } = {}) => { },
     init: () => { },
     loadFromDataURI: (str: any) => { },
     loadFromURL: (url: any, opts: any) => { },
@@ -4935,164 +4933,6 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.replaceBitmap = replaceBitmap;
-      const getBasename = (path) => {
-        const pathMatch = path.match(/(.+)[\/\\].+/);
-        if (pathMatch[1]) return pathMatch[1];
-        return "";
-      }
-      const readSVG = (blob, type, layerName?: string) => {
-        return new Promise((resolve, reject) => {
-          var reader = new FileReader();
-          reader.onloadend = async function (e) {
-            let svgString = e.target.result as string;
-            if (!['color', 'layer'].includes(type)) {
-              svgString = svgString.replace(/<svg[^>]*>/, (svgTagString) => {
-                svgTagString = svgTagString.replace(/"([^"]*)pt"/g, (_, valWithoutPt) => {
-                  return `"${valWithoutPt}"`
-                });
-                return svgTagString;
-              });
-            }
-
-            if (blob.path) {
-              svgString = svgString.replace('xlink:href="../', 'xlink:href="' + getBasename(blob.path) + '/../');
-              svgString = svgString.replace('xlink:href="./', 'xlink:href="' + getBasename(blob.path) + '/');
-            }
-
-            svgString = svgString.replace(/<!\[CDATA\[([^\]]*)\]\]>/g, (match, p1) => {
-              return p1;
-            });
-
-            if (svgString.indexOf('<switch>') > -1) {
-              const indexLeft = svgString.indexOf('<switch>');
-              const indexRight = svgString.indexOf('</switch>');
-
-              svgString = svgString.substr(0, indexLeft) + svgString.substring(indexLeft + 8, indexRight) + svgString.substr(indexRight + 9);
-            }
-
-            if (!['color', 'layer'].includes(type)) {
-              svgString = svgString.replace(/<image[^>]*>[^<]*<[^\/]*\/image>/g, (match) => {
-                return '';
-              });
-              svgString = svgString.replace(/<image[^>]*>/g, (match) => {
-                return '';
-              });
-            }
-
-            const modifiedSvgString = svgString.replace(/fill(: ?#(fff(fff)?|FFF(FFF)?));/g, 'fill: none;').replace(/fill= ?"#(fff(fff)?|FFF(FFF))"/g, 'fill="none"');
-            const newElement = await svgCanvas.importSvgString(modifiedSvgString, type, layerName);
-
-            //Apply style
-            svgCanvas.svgToString($('#svgcontent')[0], 0);
-
-            resolve(newElement);
-          };
-          reader.readAsText(blob);
-        });
-      }
-      editor.readSVG = readSVG;
-      const importSvg = async (file: File, args: { skipByLayer?: boolean, isFromNounProject?: boolean, isFromAI?: boolean } = {}) => {
-        async function importAs(type) {
-          const result = await svgWebSocket.uploadPlainSVG(file);
-          if (result !== 'ok') {
-            Progress.popById('loading_image');
-            switch (result) {
-              case 'invalid_path':
-                Alert.popUp({
-                  type: AlertConstants.SHOW_POPUP_ERROR,
-                  message: LANG.popup.import_file_contain_invalid_path
-                });
-                break;
-            }
-            return;
-          }
-          let outputs;
-          if (type === 'layer') {
-            outputs = await svgWebSocket.divideSVGbyLayer();
-          } else {
-            outputs = await svgWebSocket.divideSVG();
-          }
-          if (!outputs.res) {
-            Alert.popUp({
-              type: AlertConstants.SHOW_POPUP_ERROR,
-              buttonType: AlertConstants.YES_NO,
-              message: `#809 ${outputs.data}\n${LANG.popup.import_file_error_ask_for_upload}`,
-              onYes: () => {
-                let fileReader = new FileReader();
-                fileReader.onloadend = function (e) {
-                  let svgString = e.target.result;
-                  AwsHelper.uploadToS3(file.name, svgString);
-                }
-                fileReader.readAsText(file);
-              }
-            });
-            return;
-          } else {
-            outputs = outputs.data;
-          }
-          let newElements = [];
-          let newElement;
-          if (type === 'color') {
-            newElement = await readSVG(outputs['strokes'], type);
-            newElements.push(newElement);
-            newElement = await readSVG(outputs['colors'], type);
-            newElements.push(newElement);
-          } else if (type === 'layer') {
-            for (let key in outputs) {
-              if (!['bitmap', 'bitmap_offset'].includes(key)) {
-                if (key === 'nolayer') {
-                  newElement = await readSVG(outputs[key], type);
-                } else {
-                  newElement = await readSVG(outputs[key], type, key);
-                }
-                newElements.push(newElement);
-              }
-            }
-          } else {
-            newElement = await readSVG(file, type);
-            newElements.push(newElement);
-          }
-
-          if (outputs['bitmap'].size > 0) {
-            const layerName = LANG.right_panel.layer_panel.layer_bitmap;
-
-            if (!svgCanvas.setCurrentLayer(layerName)) {
-              svgCanvas.createLayer(layerName);
-            }
-            await readBitmapFile(outputs['bitmap'], { offset: outputs['bitmap_offset'] });
-          }
-          Progress.popById('loading_image');
-          newElements = newElements.filter((elem) => elem);
-          if (args.isFromNounProject) {
-            for (let i = 0; i < newElements.length; i++) {
-              const elem = newElements[i];
-              elem.setAttribute('data-np', '1');
-            }
-          }
-          svgCanvas.selectOnly(newElements);
-          if (newElements.length > 1) {
-            svgCanvas.tempGroupSelectedElements();
-          }
-        }
-        const buttonLabels = [LANG.popup.layer_by_layer, LANG.popup.layer_by_color, LANG.popup.nolayer];
-        const callbacks = [() => importAs('layer'), () => importAs('color'), () => importAs('nolayer')];
-        if (args.skipByLayer) {
-          buttonLabels.splice(0, 1);
-          callbacks.splice(0, 1);
-        }
-
-        if (args.isFromAI) {
-          importAs('layer');
-        } else {
-          Alert.popUp({
-            id: 'select-import-method',
-            message: LANG.popup.select_import_method,
-            buttonLabels: buttonLabels,
-            callbacks: callbacks,
-          });
-        }
-      };
-      editor.importSvg = importSvg;
       const importDxf = async file => {
         const Dxf2Svg = await requirejsHelper('dxf2svg');
         const ImageTracer = await requirejsHelper('imagetracer');
@@ -5439,7 +5279,8 @@ const svgEditor = window['svgEditor'] = (function () {
             BeamFileHelper.readBeam(file);
             break;
           case 'svg':
-            importSvg(file);
+            await importSvg(file);
+            Progress.popById('loading_image');
             break;
           case 'bitmap':
             await importBitmap(file);

@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: '積層スタイルを選択：',
+      select_import_module: 'モジュールを選択：',
       touchpad: 'タッチパッド',
       mouse: 'マウス',
       layer_by_layer: '層',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: '紹介が終わりました、作っていきましょう！',
   },
   layer_module: {
+    general_laser: 'レーザー',
     laser_10w_diode: '10Wダイオードレーザー',
     laser_20w_diode: '20Wダイオードレーザー',
     laser_2w_infrared: '2W赤外線レーザー',

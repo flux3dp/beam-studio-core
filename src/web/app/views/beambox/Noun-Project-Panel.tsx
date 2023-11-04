@@ -5,6 +5,7 @@ import EventEmitter from 'eventemitter3';
 import defaultIcons from 'app/constants/noun-project-constants';
 import DraggableWindow from 'app/widgets/DraggableWindow';
 import i18n from 'helpers/i18n';
+import importSvg from 'app/svgedit/operations/import/importSvg';
 import Modal from 'app/widgets/Modal';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import storage from 'implementations/storage';
@@ -432,7 +433,7 @@ class NounProjectPanel extends React.Component<Props, State> {
         const response = await fetch(icon.icon_url);
         console.log(response);
         const blob = await response.blob();
-        svgEditor.importSvg(blob, {
+        importSvg(blob, {
           isFromNounProject: true,
         });
       } else {

@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: 'Selecionar estilo de camada:',
+      select_import_module: 'Selecionar módulo:',
       touchpad: 'TouchPaienl Touch',
       mouse: 'Mouse',
       layer_by_layer: 'Camada',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: 'Isso é tudo para o tutorial. Agora é hora de criar!',
   },
   layer_module: {
+    general_laser: 'Laser',
     laser_10w_diode: 'Laser de Diodo 10W',
     laser_20w_diode: 'Laser de Diodo 20W',
     laser_2w_infrared: 'Laser Infravermelho 2W',

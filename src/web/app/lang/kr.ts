@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: '레이어링 스타일 선택:',
+      select_import_module: '모듈 선택:',
       touchpad: '터치패드',
       mouse: '마우스',
       layer_by_layer: '레이어',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: '튜토리얼은 여기까지입니다. 이제 창작의 시간입니다!',
   },
   layer_module: {
+    general_laser: '레이저',
     laser_10w_diode: '10W 다이오드 레이저',
     laser_20w_diode: '20W 다이오드 레이저',
     laser_2w_infrared: '2W 적외선 레이저',

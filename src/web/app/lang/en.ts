@@ -502,6 +502,7 @@ const lang: ILang = {
     },
     popup: {
       select_import_method: 'Select layering style:',
+      select_import_module: 'Select Module:',
       touchpad: 'TouchPad',
       mouse: 'Mouse',
       layer_by_layer: 'Layer',
@@ -1480,6 +1481,7 @@ const lang: ILang = {
     tutorial_complete: 'That\'s all for the tutorial. Now it\'s time to create!',
   },
   layer_module: {
+    general_laser: 'Laser',
     laser_10w_diode: '10W Diode Laser',
     laser_20w_diode: '20W Diode Laser',
     laser_2w_infrared: '2W Infrared Laser',

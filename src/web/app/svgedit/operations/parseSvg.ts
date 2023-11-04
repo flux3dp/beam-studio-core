@@ -14,15 +14,6 @@ const parseSvg = (
   symbols: SVGSymbolElement[];
   confirmedType: string;
 } => {
-  // function removeSvgText() {
-  //   if ($(svg).find('text').length) {
-  //     Alert.popUp({
-  //       type: AlertConstants.SHOW_POPUP_INFO,
-  //       message: LANG.popup.no_support_text,
-  //     });
-  //     $(svg).find('text').remove();
-  //   }
-  // }
   function unit2Pixel(val, unit?: Units) {
     if (val === false || val === undefined || val === null) {
       return false;
@@ -33,9 +24,8 @@ const parseSvg = (
       console.error('SVG Parse, Unsupported unit "%" for', val);
       return null;
     }
-
     if (!Number.isNaN(Number(val))) {
-      return units.convertUnit(Number(val), 'pt', 'px');
+      return val;
     }
     // eslint-disable-next-line no-param-reassign
     unit = unit || val.substr(-2);
@@ -171,24 +161,20 @@ const parseSvg = (
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
 
-    const originLayerNodes = Array.from(svg.childNodes).filter(
-      (child: Element) => child.tagName === 'g'
-    );
-    originLayerNodes.forEach((node: Element) => {
-      const uses = Array.from(node.getElementsByTagName('use'));
-      uses.forEach((use) => {
-        const href = $(svg).find(use.getAttribute('xlink:href'));
-        if (href.length > 0) {
-          const newElem = href[0].cloneNode(true);
-          use.parentNode.appendChild(newElem);
-          use.remove();
-        }
-      });
+    const parentNodes = [svg];
+    const uses = Array.from(svg.getElementsByTagName('use')) as SVGUseElement[];
+    uses.forEach((use) => {
+      const href = $(svg).find(use.getAttribute('xlink:href'));
+      if (href.length > 0) {
+        const newElem = href[0].cloneNode(true);
+        use.parentNode.appendChild(newElem);
+        use.remove();
+      }
     });
-    const availableColors = getAllColorInNodes(originLayerNodes);
+    const availableColors = getAllColorInNodes(parentNodes);
     // re-classify elements by their color
     const groupColorMap: { [key: string]: Element } = {};
-    originLayerNodes.forEach((child: Element) => {
+    parentNodes.forEach((child: Element) => {
       Array.from(availableColors).forEach((strokeColor) => {
         const clonedGroup = child.cloneNode(true);
         filterColor(strokeColor, clonedGroup);

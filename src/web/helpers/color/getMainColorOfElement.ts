@@ -6,7 +6,7 @@
  */
 const getMainColorOfElement = (node: Element): string => {
   let color;
-  color = node.getAttribute('stroke');
+  color = node.getAttribute('stroke') || 'none';
   if (color === 'none') {
     color = node.getAttribute('fill');
   }

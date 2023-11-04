@@ -44,11 +44,11 @@
 // 13) coords.js
 // 14) recalculate.js
 // svgedit libs
-import appendUseElement from 'app/svgedit/operations/import/appendUseElement';
 import canvasBackground from 'app/svgedit/canvasBackground';
 import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history';
 import historyRecording from 'app/svgedit/historyrecording';
+import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
@@ -2603,62 +2603,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // arbitrary transform lists, but makes some assumptions about how the transform list
   // was obtained
   // * import should happen in top-left of current zoomed viewport
-  this.importSvgString = async function (xmlString, _type, layerName, parentCmd) {
-    const batchCmd = new history.BatchCommand('Import Image');
-    function setDataXform(use_el, it) {
-      const bb = svgedit.utilities.getBBox(use_el);
-      let dataXform = '';
-
-      if (it) {
-        dataXform = `x=0 y=0 width=${bb.width} height=${bb.height}`;
-      } else {
-        $.each(bb, function (key: string, value) {
-          dataXform = `${dataXform}${key}=${value} `;
-        });
-      }
-
-      use_el.setAttribute('data-xform', dataXform);
-      return use_el;
-    }
-    const newDoc = svgedit.utilities.text2xml(xmlString);
-    svgCanvas.prepareSvg(newDoc);
-    const svg = svgdoc.adoptNode(newDoc.documentElement);
-    const { symbols } = parseSvg(batchCmd, svg, _type);
-
-    const results = (await Promise.all(symbols.map(
-      async (symbol) => appendUseElement(symbol, _type, layerName)
-    ))).filter((res) => res?.element);
-    const commands = results.map(({ command }) => command);
-    commands.forEach((cmd) => {
-      if (cmd) batchCmd.addSubCommand(cmd);
-    })
-    const useElements = results.map(({ element }) => element);
-    useElements.forEach((elem) => {
-      elem.addEventListener('mouseover', this.handleGenerateSensorArea);
-      elem.addEventListener('mouseleave', this.handleGenerateSensorArea);
-    });
-
-    useElements.forEach(element => setDataXform(element, _type === 'image-trace'));
-    await Promise.all(useElements.map(async (element) => {
-      const ref_id = this.getHref(element);
-      const symbol = document.querySelector(ref_id);
-      const layer = LayerHelper.getObjectLayer(element as SVGUseElement)?.elem;
-      const imageSymbol = await SymbolMaker.makeImageSymbol(symbol, { fullColor: layer?.getAttribute('data-fullcolor') === '1' });
-      setHref(element, '#' + imageSymbol.id);
-      if (this.isUsingLayerColor) {
-        updateElementColor(element);
-      }
-    }));
-
-    removeDefaultLayerIfEmpty();
-    if (parentCmd) parentCmd.addSubCommand(batchCmd);
-    else addCommandToHistory(batchCmd);
-    call('changed', [svgcontent]);
-
-    // we want to return the element so we can automatically select it
-    return useElements[useElements.length - 1];
-
-  };
+  this.importSvgString = importSvgString;
 
   // TODO(codedread): Move all layer/context functions in draw.js
   // Layer API Functions
