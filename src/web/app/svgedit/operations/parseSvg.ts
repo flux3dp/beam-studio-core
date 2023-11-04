@@ -182,7 +182,9 @@ const parseSvg = (
           groupColorMap[strokeColor] = document.createElementNS(NS.SVG, 'g') as Element;
           groupColorMap[strokeColor].setAttribute('data-color', strokeColor);
         }
-        groupColorMap[strokeColor].appendChild(clonedGroup);
+        for (let i = clonedGroup.childNodes.length - 1; i >= 0; i -= 1) {
+          groupColorMap[strokeColor].appendChild(clonedGroup.childNodes[i]);
+        }
       });
     });
 
