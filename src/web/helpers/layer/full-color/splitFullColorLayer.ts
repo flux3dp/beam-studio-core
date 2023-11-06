@@ -101,7 +101,7 @@ const splitFullColorLayer = async (
     message: 'Splitting Full Color Layer',
     timeout: 120000,
   });
-  updateImagesResolution(true, layer);
+  await updateImagesResolution(true, layer);
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
   const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
