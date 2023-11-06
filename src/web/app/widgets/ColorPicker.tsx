@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Color } from 'antd/es/color-picker';
 import { ColorPicker as AntdColorPicker, Button } from 'antd';
 
-import colorConstants, { objectsColorPresets } from 'app/constants/color-constants';
+import colorConstants, { CMYK, objectsColorPresets } from 'app/constants/color-constants';
+import isDev from 'helpers/is-dev';
 import useI18n from 'helpers/useI18n';
 
 import styles from './ColorPicker.module.scss';
@@ -31,61 +32,67 @@ const ColorPicker = ({
   const [open, setOpen] = useState<boolean>(false);
   const lang = useI18n().alert;
 
-  const panelRender = (panel: React.ReactNode) => (
-    <div onClick={(e) => e.stopPropagation()}>
-      <div className={styles.preset}>
-        {allowClear && (
-          <div>
+  const panelRender = (panel: React.ReactNode) => {
+    let colorPresets = objectsColorPresets;
+    if (printerColor) {
+      colorPresets = isDev() ? colorConstants.printingLayerColor : CMYK;
+    }
+    return (
+      <div onClick={(e) => e.stopPropagation()}>
+        <div className={styles.preset}>
+          {allowClear && (
+            <div>
+              <div
+                className={classNames(styles['preset-block'], styles.clear, {
+                  [styles.checked]: color === 'none',
+                })}
+                onClick={() => setColor('none')}
+              />
+            </div>
+          )}
+          {colorPresets.map((preset) => (
             <div
-              className={classNames(styles['preset-block'], styles.clear, {
-                [styles.checked]: color === 'none',
+              key={preset}
+              className={classNames(styles['preset-block'], styles.color, {
+                [styles.checked]: preset === color,
+                [styles.printing]: printerColor,
               })}
-              onClick={() => setColor('none')}
-            />
+              onClick={() => setColor(preset)}
+            >
+              <div className={styles.inner} style={{ backgroundColor: preset }} />
+            </div>
+          ))}
+        </div>
+        {!printerColor && (
+          <div className={classNames(styles.panel, { [styles.clear]: color === 'none' })}>
+            {panel}
           </div>
         )}
-        {(printerColor ? colorConstants.printingLayerColor : objectsColorPresets).map((preset) => (
-          <div
-            key={preset}
-            className={classNames(styles['preset-block'], styles.color, {
-              [styles.checked]: preset === color,
-              [styles.printing]: printerColor,
-            })}
-            onClick={() => setColor(preset)}
+        <div className={styles.footer}>
+          <Button
+            type="primary"
+            className={styles.btn}
+            onClick={() => {
+              setOpen(false);
+              onChange(color);
+            }}
           >
-            <div className={styles.inner} style={{ backgroundColor: preset }} />
-          </div>
-        ))}
-      </div>
-      {!printerColor && (
-        <div className={classNames(styles.panel, { [styles.clear]: color === 'none' })}>
-          {panel}
+            {lang.ok}
+          </Button>
+          <Button
+            type="default"
+            className={styles.btn}
+            onClick={() => {
+              setOpen(false);
+              setColor(initColor);
+            }}
+          >
+            {lang.cancel}
+          </Button>
         </div>
-      )}
-      <div className={styles.footer}>
-        <Button
-          type="primary"
-          className={styles.btn}
-          onClick={() => {
-            setOpen(false);
-            onChange(color);
-          }}
-        >
-          {lang.ok}
-        </Button>
-        <Button
-          type="default"
-          className={styles.btn}
-          onClick={() => {
-            setOpen(false);
-            setColor(initColor);
-          }}
-        >
-          {lang.cancel}
-        </Button>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div>

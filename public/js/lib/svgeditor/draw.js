@@ -450,13 +450,14 @@
     /**
      * Given a set of names, return a new unique name.
      * @param {Array.<string>} existingLayerNames - Existing layer names.
+     * @param {string} name - The given name. If the layer name exists, a name + id will be generated.
      * @returns {string} - The new name.
      */
-    function getNewLayerName(existingLayerNames) {
-        var i = 1;
-        // TODO(codedread): What about internationalization of "Layer"?
-        while (existingLayerNames.indexOf(('Layer ' + i)) >= 0) { i++; }
-        return 'Layer ' + i;
+    function getNewLayerName(existingLayerNames, name = 'Layer') {
+      let i = 1;
+      // TODO(codedread): What about internationalization of "Layer"?
+      while (existingLayerNames.indexOf((`${name} ${i}`)) >= 0) { i++; }
+      return `${name} ${i}`;
     }
 
     /**
@@ -526,7 +527,7 @@
         }
         // Check for duplicate name.
         if (name === undefined || name === null || name === '' || this.layer_map[name]) {
-            name = getNewLayerName(Object.keys(this.layer_map));
+            name = getNewLayerName(Object.keys(this.layer_map), name || 'Layer');
         }
 
         // Crate new layer and add to DOM as last layer
