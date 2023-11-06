@@ -11,6 +11,7 @@ interface Props<T = string> {
   onCancel: () => void;
 }
 
+// TODO: add test
 function RadioSelectDialog<T = string>({
   title,
   options,
@@ -20,9 +21,19 @@ function RadioSelectDialog<T = string>({
 }: Props<T>): JSX.Element {
   const [value, setValue] = useState(defaultValue);
   const handleOk = () => onOk(value);
+  const lang = useI18n().alert;
 
   return (
-    <Modal title={title} open centered maskClosable={false} onOk={handleOk} onCancel={onCancel}>
+    <Modal
+      title={title}
+      open
+      centered
+      maskClosable={false}
+      okText={lang.ok}
+      cancelText={lang.cancel}
+      onOk={handleOk}
+      onCancel={onCancel}
+    >
       <Radio.Group onChange={(e) => setValue(e.target.value)} value={value}>
         <Space direction="vertical">
           {options.map((option) => (
