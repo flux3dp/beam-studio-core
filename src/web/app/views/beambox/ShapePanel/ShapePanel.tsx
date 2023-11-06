@@ -9,10 +9,13 @@ import history from 'app/svgedit/history';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import i18n from 'helpers/i18n';
 import importSvgString from 'app/svgedit/operations/import/importSvgString';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import ShapeIcon from 'app/icons/shape/ShapeIcon';
 import Shapes, { ShapeTabs } from 'app/constants/shape-panel-constants';
 import updateElementColor from 'helpers/color/updateElementColor';
+import { DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getLayerByName } from 'helpers/layer/layer-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './ShapePanel.module.scss';
@@ -49,8 +52,16 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
         /fill= ?"#(fff(fff)?|FFF(FFF))"/g,
         'fill="none"'
       );
+      const drawing = svgCanvas.getCurrentDrawing();
+      const layerName = drawing.getCurrentLayerName();
+      const layerModule = getData<LayerModule>(getLayerByName(layerName), DataType.module);
       const batchCmd = HistoryCommandFactory.createBatchCommand('Shape Panel Import SVG');
-      const newElementnewElement = await importSvgString(iconString, { type: 'layer', parentCmd: batchCmd });
+      const newElementnewElement = await importSvgString(iconString, {
+        type: 'layer',
+        parentCmd: batchCmd,
+        layerName,
+        targetModule: layerModule,
+      });
       const { width, height } = svgCanvas.getSvgRealLocation(newElementnewElement);
       const [newWidth, newHeight] = width > height ? [500, (height * 500) / width] : [(width * 500) / height, 500];
       svgCanvas.selectOnly([newElementnewElement]);

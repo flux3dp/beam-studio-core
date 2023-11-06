@@ -1,3 +1,4 @@
+import getRealSymbol from 'helpers/symbol-helper/getRealSymbol';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 
@@ -51,9 +52,8 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
           svgByLayer = true;
         }
         descendants.push(...(elem.childNodes as unknown as Element[]));
-        const href = $(elem).attr('href') || $(elem).attr('xlink:href');
-        const shadowRoot = $(href).toArray();
-        descendants.push(...shadowRoot);
+        const symbol = getRealSymbol(elem);
+        descendants.push(symbol);
         symbolMaker.reRenderImageSymbol(elem as SVGUseElement);
       } else {
         // console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
