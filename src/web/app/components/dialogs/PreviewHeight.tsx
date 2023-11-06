@@ -103,8 +103,8 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
       >
         <div className={styles.text}>{lang.message.preview.auto_focus_instruction}</div>
         <video className={styles.video} autoPlay loop muted>
-          <source src="video/ador-focus-laser.webm" type="video/webm" />
-          <source src="video/ador-focus-laser.mp4" type="video/mp4" />
+          <source src="video/ador-preview-af.webm" type="video/webm" />
+          <source src="video/ador-preview-af.mp4" type="video/mp4" />
       </video>
       </Modal>
     );
