@@ -3,6 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ConfigProvider, Slider, TooltipProps } from 'antd';
 
 import ConfigOption from 'interfaces/ConfigOption';
+import units from 'helpers/units';
 
 import styles from './ConfigSlider.module.scss';
 
@@ -15,6 +16,8 @@ interface Props {
   step?: number;
   speedLimit?: boolean;
   options?: ConfigOption[];
+  unit?: string;
+  decimal?: number;
 }
 
 const ConfigSlider = ({
@@ -26,6 +29,8 @@ const ConfigSlider = ({
   step = 1,
   speedLimit = false,
   options,
+  unit,
+  decimal = 0,
 }: Props) => {
   // If value is not in options, add the value to options
   const sliderOptions = useMemo(() => {
@@ -47,6 +52,7 @@ const ConfigSlider = ({
     () => sliderOptions?.map((option) => option.label ?? option.value),
     [sliderOptions]
   );
+  const fakeUnit = useMemo(() => (unit?.includes('in') ? 'inch' : 'mm'), [unit]);
   const getDisplayValueFromValue = useCallback(
     (val: number) => {
       if (optionValues) return optionValues.indexOf(val);
@@ -99,12 +105,18 @@ const ConfigSlider = ({
           value={displayValue}
           onAfterChange={handleAfterChange}
           onChange={handleChange}
-          tooltip={{
-            formatter: (val: number) => (sliderOptions ? optionLabels[val] : val),
-            // hack because antd tooltip of slider won't autoslide
-            placement: displayValue === maxValue ? 'topLeft' : 'top',
-            arrow: { pointAtCenter: true },
-          } as TooltipProps as any}
+          tooltip={
+            {
+              formatter: (val: number) =>
+                sliderOptions
+                  ? optionLabels[val]
+                  : units.convertUnit(val, fakeUnit, 'mm').toFixed(decimal),
+              // hack because antd tooltip of slider won't autoslide
+              placement: displayValue === maxValue ? 'topLeft' : 'top',
+              arrow: { pointAtCenter: true },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } as TooltipProps as any
+          }
         />
       </ConfigProvider>
     </div>

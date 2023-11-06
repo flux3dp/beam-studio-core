@@ -70,8 +70,8 @@ const RightPanel = (): JSX.Element => {
         <ObjectPanelContextProvider>
           <ObjectPanelItem.Mask />
           {content}
+          <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
         </ObjectPanelContextProvider>
-        <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
       </div>
     </div>
   );

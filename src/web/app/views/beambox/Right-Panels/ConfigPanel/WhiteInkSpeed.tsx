@@ -61,6 +61,8 @@ const WhiteInkSpeed = ({ value, hasMultiValue, onChange }: Props): JSX.Element =
         max={maxValue}
         step={0.1}
         options={sliderOptions}
+        unit={displayUnit}
+        decimal={decimal}
       />
     </div>
   );

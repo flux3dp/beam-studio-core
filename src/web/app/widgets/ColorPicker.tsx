@@ -90,6 +90,7 @@ const ColorPicker = ({
   return (
     <div>
       <AntdColorPicker
+        rootClassName={classNames({ [styles['no-panel']]: printerColor })}
         placement="bottomLeft"
         disabledAlpha
         disabled={disabled}

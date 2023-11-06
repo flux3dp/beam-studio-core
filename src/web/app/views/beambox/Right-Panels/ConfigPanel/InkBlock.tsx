@@ -4,10 +4,11 @@ import { Button, Popover } from 'antd-mobile';
 
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import configOptions from 'app/constants/config-options';
+import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { PrintingColors } from 'app/constants/color-constants';
 
@@ -35,11 +36,12 @@ function InkBlock({
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
-      payload: { ink: value },
+      payload: { ink: value, configName: CUSTOM_PRESET_CONSTANT },
     });
     if (type !== 'modal')
       selectedLayers.forEach((layerName) => {
         writeData(layerName, DataType.ink, value);
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
       });
   };
   const sliderOptions = useMemo(() => {
@@ -54,7 +56,7 @@ function InkBlock({
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>
         {t.ink_saturation}
-        {fullcolor.value && (
+        {fullcolor.value && type !== 'panel-item' && (
           <span className={styles.icon} title={t.color_adjustment} onClick={openModal}>
             <ConfigPanelIcons.ColorAdjustment />
           </span>
@@ -82,26 +84,43 @@ function InkBlock({
     </div>
   );
 
+  const displayValue = useMemo(() => {
+    const selectedOption = sliderOptions?.find((opt) => opt.value === ink.value);
+    if (selectedOption) return selectedOption.label;
+    return ink.value;
+  }, [ink.value, sliderOptions]);
+
   return (
     <>
       {type === 'panel-item' ? (
-        <Popover visible={visible} content={content}>
+        <>
+          {fullcolor.value && <ObjectPanelItem.Divider />}
+          <Popover visible={visible} content={content}>
+            <ObjectPanelItem.Item
+              id="power"
+              content={
+                <Button
+                  className={objectPanelItemStyles['number-item']}
+                  shape="rounded"
+                  size="mini"
+                  fill="outline"
+                >
+                  <span style={{ whiteSpace: 'nowrap' }}>{displayValue}</span>
+                </Button>
+              }
+              label={t.ink_saturation}
+              autoClose={false}
+            />
+          </Popover>
           <ObjectPanelItem.Item
-            id="power"
-            content={
-              <Button
-                className={objectPanelItemStyles['number-item']}
-                shape="rounded"
-                size="mini"
-                fill="outline"
-              >
-                {ink.value}
-              </Button>
-            }
-            label={t.ink_saturation}
-            autoClose={false}
+            id="color-adjustment"
+            content={<ObjectPanelIcons.Parameter />}
+            label={t.color_adjustment_short}
+            onClick={openModal}
+            disabled={!fullcolor.value}
           />
-        </Popover>
+          {fullcolor.value && <ObjectPanelItem.Divider />}
+        </>
       ) : (
         content
       )}

@@ -56,6 +56,11 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
 }));
 
+const mockStorage = jest.fn();
+jest.mock('implementations/storage', () => ({
+  get: (key) => mockStorage(key),
+}));
+
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   backlash: { value: 8.7, hasMultiValue: false },

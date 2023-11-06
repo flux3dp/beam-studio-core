@@ -665,7 +665,7 @@ exports[`test ColorPicker should render correctly when is for printing colors 2`
   </div>
   <div>
     <div
-      class="ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big ant-color-picker css-dev-only-do-not-override-hash css-dev-only-do-not-override-hash ant-popover-placement-bottomLeft"
+      class="ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big ant-color-picker css-dev-only-do-not-override-hash no-panel css-dev-only-do-not-override-hash ant-popover-placement-bottomLeft"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box;"
     >
       <div
@@ -699,7 +699,7 @@ exports[`test ColorPicker should render correctly when is for printing colors 2`
                   >
                     <div
                       class="inner"
-                      style="background-color: rgb(159, 227, 255);"
+                      style="background-color: rgb(0, 159, 227);"
                     />
                   </div>
                   <div

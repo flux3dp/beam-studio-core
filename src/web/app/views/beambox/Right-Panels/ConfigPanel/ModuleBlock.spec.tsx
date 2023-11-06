@@ -84,6 +84,13 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
     module: 'module',
     configName: 'configName',
   },
+  defaultConfig: {
+    speed: 20,
+    printingSpeed: 60,
+    strength: 15,
+    ink: 3,
+    multipass: 3,
+  },
   getData: (...args) => mockGetData(...args),
   getLayerConfig: (...args) => mockGetLayerConfig(...args),
   getLayersConfig: (...args) => mockGetLayersConfig(...args),
@@ -100,6 +107,11 @@ jest.mock('helpers/layer/full-color/toggleFullColorLayer', () => (...args) => mo
 
 jest.mock('app/constants/color-constants', () => ({
   printingLayerColor: ['#123'],
+}));
+
+const mockPopUp = jest.fn();
+jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
 }));
 
 const mockSelectedLayers = ['layer1', 'layer2'];
@@ -203,7 +215,7 @@ describe('test ModuleBlock', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  test('change to printer should work when selecting 2 layer', () => {
+  test('change to printer should work when selecting 2 layer', async () => {
     const { baseElement, getByText } = render(
       <ConfigPanelContext.Provider
         value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
@@ -230,6 +242,8 @@ describe('test ModuleBlock', () => {
     act(() => {
       fireEvent.click(getByText('printing'));
     });
+    expect(mockPopUp).toBeCalledTimes(1);
+    await mockPopUp.mock.calls[0][0].onConfirm();
     expect(mockGetData).toBeCalledTimes(2);
     expect(mockGetData).toHaveBeenNthCalledWith(1, mockElem, 'configName');
     expect(mockGetData).toHaveBeenNthCalledWith(2, mockElem, 'configName');

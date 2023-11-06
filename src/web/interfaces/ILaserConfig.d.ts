@@ -7,9 +7,12 @@ export interface ILaserConfig extends ILaserData {
 
 export interface ILaserData {
   speed: number,
-  power: number,
+  power?: number,
   repeat?: number,
   zStep?: number,
+  // printer
+  ink?: number,
+  multipass?: number,
 }
 
 export interface ILaserDataChanges {

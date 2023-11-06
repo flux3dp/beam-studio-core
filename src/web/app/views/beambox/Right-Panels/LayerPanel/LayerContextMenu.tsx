@@ -1,6 +1,12 @@
-import React, { useContext } from 'react';
+import classNames from 'classnames';
+import React, { useContext, useState } from 'react';
+import { Button, Switch } from 'antd';
+import { Popover } from 'antd-mobile';
 
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import colorConstants, { PrintingColors } from 'app/constants/color-constants';
+import colorPickerStyles from 'app/widgets/ColorPicker.module.scss';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
@@ -23,6 +29,7 @@ import {
 import { DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './LayerContextMenu.module.scss';
@@ -39,10 +46,14 @@ interface Props {
 }
 
 const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX.Element => {
-  const LANG = useI18n().beambox.right_panel.layer_panel.layers;
+  const lang = useI18n();
+  const LANG = lang.beambox.right_panel.layer_panel;
+  const LANG2 = lang.alert;
   const workarea = useWorkarea();
   const { selectedLayers, setSelectedLayers, forceUpdate } = useContext(LayerPanelContext);
   const isMobile = useIsMobile();
+  const { activeKey, updateActiveKey } = useContext(ObjectPanelContext);
+  const [color, setColor] = useState(colorConstants.printingLayerColor[0]);
   const layerElem = getLayerElementByName(selectedLayers[0]);
   const isLocked = layerElem?.getAttribute('data-lock') === 'true';
   const onContextMenuShow = (e: CustomEvent) => {
@@ -81,26 +92,28 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     forceUpdate();
   };
 
-  const handleMergeDown = () => {
+  const handleMergeDown = async () => {
     const layer = selectedLayers[0];
     const layerPosition = getLayerPosition(layer);
     if (layerPosition === 0) return;
     const baseLayerName = drawing.getLayerName(layerPosition - 1);
-    mergeLayers([layer], baseLayerName);
-    selectOnlyLayer(baseLayerName);
+    const merged = await mergeLayers([layer], baseLayerName);
+    if (merged) selectOnlyLayer(baseLayerName);
   };
 
-  const handleMergeAll = () => {
+  const handleMergeAll = async () => {
     const allLayerNames = getAllLayerNames();
-    const baseLayerName = mergeLayers(allLayerNames);
+    const baseLayerName = await mergeLayers(allLayerNames);
+    if (!baseLayerName) return;
     const elem = getLayerElementByName(baseLayerName);
     toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
     selectOnlyLayer(baseLayerName);
   };
 
-  const handleMergeSelected = () => {
+  const handleMergeSelected = async () => {
     const currentLayerName = drawing.getCurrentLayerName();
-    const baseLayer = mergeLayers(selectedLayers, currentLayerName);
+    const baseLayer = await mergeLayers(selectedLayers, currentLayerName);
+    if (!baseLayer) return;
     const elem = getLayerElementByName(baseLayer);
     toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
     setSelectedLayers([baseLayer]);
@@ -116,21 +129,34 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const handleSplitColor = async () => {
     svgCanvas.clearSelection();
     if (!isSelectingPrinterLayer) return;
+    const res = await new Promise<boolean>((resolve) => {
+      alertCaller.popUp({
+        id: 'split-color',
+        caption: LANG.notification.splitColorTitle,
+        message: LANG.notification.splitColorMsg,
+        messageIcon: 'notice',
+        buttonType: alertConstants.CONFIRM_CANCEL,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      });
+    });
+    if (!res) return;
     const layer = selectedLayers[0];
     await splitFullColorLayer(layer);
     setSelectedLayers([]);
   };
 
-  const handleLayerFullColor = () => {
+  const handleLayerFullColor = (newColor?: string) => {
     svgCanvas.clearSelection();
     if (!isSelectingPrinterLayer) return;
     if (
       isFullColor &&
-      !colorConstants.printingLayerColor.includes(
-        layerElem.getAttribute('data-color') as PrintingColors
-      )
+      (newColor ||
+        !colorConstants.printingLayerColor.includes(
+          layerElem.getAttribute('data-color') as PrintingColors
+        ))
     ) {
-      layerElem.setAttribute('data-color', colorConstants.printingLayerColor[0]);
+      layerElem.setAttribute('data-color', newColor || colorConstants.printingLayerColor[0]);
     }
     toggleFullColorLayer(layerElem);
     setSelectedLayers([]);
@@ -143,35 +169,106 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   return isMobile ? (
     <div className={styles['item-group']}>
       <ObjectPanelItem.Divider />
+      {isSelectingPrinterLayer && (
+        <ObjectPanelItem.Item
+          id="split_color"
+          content={<LayerPanelIcons.Expand />}
+          label={LANG.layers.splitFullColor}
+          onClick={handleSplitColor}
+          disabled={isMultiSelecting || !isFullColor}
+        />
+      )}
+      {isSelectingPrinterLayer && (
+        <Popover
+          visible={activeKey === 'toggle_fullcolor_layer' && isFullColor}
+          content={
+            <>
+              <div className={colorPickerStyles.preset}>
+                {colorConstants.printingLayerColor.map((preset) => (
+                  <div
+                    key={preset}
+                    className={classNames(
+                      colorPickerStyles['preset-block'],
+                      colorPickerStyles.color,
+                      colorPickerStyles.printing,
+                      { [colorPickerStyles.checked]: preset === color }
+                    )}
+                    onClick={() => setColor(preset)}
+                  >
+                    <div className={colorPickerStyles.inner} style={{ backgroundColor: preset }} />
+                  </div>
+                ))}
+              </div>
+              <div className={colorPickerStyles.footer}>
+                <Button
+                  type="primary"
+                  className={colorPickerStyles.btn}
+                  onClick={() => {
+                    updateActiveKey(null);
+                    handleLayerFullColor(color);
+                    setColor(colorConstants.printingLayerColor[0]);
+                  }}
+                >
+                  {LANG2.ok}
+                </Button>
+                <Button
+                  type="default"
+                  className={colorPickerStyles.btn}
+                  onClick={() => {
+                    updateActiveKey(null);
+                    setColor(colorConstants.printingLayerColor[0]);
+                  }}
+                >
+                  {LANG2.cancel}
+                </Button>
+              </div>
+            </>
+          }
+        >
+          <ObjectPanelItem.Item
+            id="toggle_fullcolor_layer"
+            content={<Switch checked={isFullColor} />}
+            label={LANG.layers.fullColor}
+            onClick={() => {
+              if (!isFullColor) {
+                handleLayerFullColor();
+                updateActiveKey(null);
+              }
+            }}
+            disabled={isMultiSelecting}
+            autoClose={false}
+          />
+        </Popover>
+      )}
       <ObjectPanelItem.Item
         id="deletelayer"
         content={<ObjectPanelIcons.Trash />}
-        label={LANG.del}
+        label={LANG.layers.del}
         onClick={handleDeleteLayers}
       />
       <ObjectPanelItem.Item
         id="merge_down_layer"
         content={<LayerPanelIcons.Merge />}
-        label={LANG.merge_down}
+        label={LANG.layers.merge_down}
         onClick={handleMergeDown}
         disabled={isMultiSelecting || isSelectingLast}
       />
       <ObjectPanelItem.Item
         id="locklayer"
         content={isLocked ? <LayerPanelIcons.Unlock /> : <LayerPanelIcons.Lock />}
-        label={isLocked ? LANG.unlock : LANG.lock}
+        label={isLocked ? LANG.layers.unlock : LANG.layers.lock}
         onClick={toggleLayerLocked}
       />
       <ObjectPanelItem.Item
         id="dupelayer"
         content={<ObjectPanelIcons.Duplicate />}
-        label={LANG.dupe}
+        label={LANG.layers.dupe}
         onClick={handleCloneLayers}
       />
       <ObjectPanelItem.Item
         id="renameLayer"
         content={<LayerPanelIcons.Rename />}
-        label={LANG.rename}
+        label={LANG.layers.rename}
         onClick={handleRename}
         disabled={isMultiSelecting}
       />
@@ -183,53 +280,53 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
         disabled={isMultiSelecting}
         onClick={handleRename}
       >
-        {LANG.rename}
+        {LANG.layers.rename}
       </MenuItem>
       <MenuItem attributes={{ id: 'dupelayer' }} onClick={handleCloneLayers}>
-        {LANG.dupe}
+        {LANG.layers.dupe}
       </MenuItem>
       <MenuItem attributes={{ id: 'locklayer' }} onClick={handleLockLayers}>
-        {LANG.lock}
+        {LANG.layers.lock}
       </MenuItem>
       <MenuItem attributes={{ id: 'deletelayer' }} onClick={handleDeleteLayers}>
-        {LANG.del}
+        {LANG.layers.del}
       </MenuItem>
       <MenuItem
         attributes={{ id: 'merge_down_layer' }}
         disabled={isMultiSelecting || isSelectingLast}
         onClick={handleMergeDown}
       >
-        {LANG.merge_down}
+        {LANG.layers.merge_down}
       </MenuItem>
       <MenuItem
         attributes={{ id: 'merge_all_layer' }}
         disabled={isMultiSelecting}
         onClick={handleMergeAll}
       >
-        {LANG.merge_all}
+        {LANG.layers.merge_all}
       </MenuItem>
       <MenuItem
         attributes={{ id: 'merge_selected_layer' }}
         disabled={!isMultiSelecting}
         onClick={handleMergeSelected}
       >
-        {LANG.merge_selected}
+        {LANG.layers.merge_selected}
       </MenuItem>
       {isSelectingPrinterLayer && (
         <>
           <MenuItem
             attributes={{ id: 'toggle_fullcolor_layer' }}
             disabled={isMultiSelecting}
-            onClick={handleLayerFullColor}
+            onClick={() => handleLayerFullColor()}
           >
-            {isFullColor ? LANG.switchToSingleColor : LANG.switchToFullColor}
+            {isFullColor ? LANG.layers.switchToSingleColor : LANG.layers.switchToFullColor}
           </MenuItem>
           <MenuItem
             attributes={{ id: 'split_color' }}
             disabled={isMultiSelecting}
             onClick={handleSplitColor}
           >
-            {LANG.splitFullColor}
+            {LANG.layers.splitFullColor}
           </MenuItem>
         </>
       )}

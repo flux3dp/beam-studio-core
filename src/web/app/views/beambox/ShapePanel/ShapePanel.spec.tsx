@@ -13,13 +13,14 @@ const mockSVGElement = (
 const mockElement = document.createElement('use');
 const addSvgElementFromJson = jest.fn().mockReturnValue(mockElement);
 const getSvgRealLocation = jest.fn().mockReturnValue({ x: 15, y: 10, width: 15, height: 25 });
-const importSvgString = jest.fn().mockResolvedValue(mockElement);
 const mockOnClose = jest.fn();
 const selectOnly = jest.fn();
 const setSvgElemPosition = jest.fn();
 const setSvgElemSize = jest.fn();
 const disassembleUse2Group = jest.fn();
 const addCommandToHistory = jest.fn();
+const getCurrentLayerName = jest.fn();
+const getSelectedElems = jest.fn().mockReturnValue(['mock-path-elem']);
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) =>
     callback({
@@ -27,13 +28,14 @@ jest.mock('helpers/svg-editor-helper', () => ({
         addSvgElementFromJson: (...args) => addSvgElementFromJson(...args),
         getNextId: jest.fn(),
         getSvgRealLocation: (...args) => getSvgRealLocation(...args),
-        importSvgString: (...args) => importSvgString(...args),
         isUsingLayerColor: true,
         selectOnly: (...args) => selectOnly(...args),
         setSvgElemPosition: (...args) => setSvgElemPosition(...args),
         setSvgElemSize: (...args) => setSvgElemSize(...args),
         disassembleUse2Group: (...args) => disassembleUse2Group(...args),
         addCommandToHistory: (...args) => addCommandToHistory(...args),
+        getCurrentDrawing: () => ({ getCurrentLayerName }),
+        getSelectedElems: () => getSelectedElems(),
       },
     }),
 }));
@@ -45,6 +47,27 @@ jest.mock(
     (...args) =>
       mockUpdateElementColor(...args)
 );
+
+const mockImportSvgString = jest.fn().mockResolvedValue(mockElement);
+jest.mock(
+  'app/svgedit/operations/import/importSvgString',
+  () =>
+    (...args) =>
+      mockImportSvgString(...args)
+);
+
+const mockGetData = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  DataType: {
+    module: 'module',
+  },
+  getData: (...args) => mockGetData(...args),
+}));
+
+const mockGetLayerByName = jest.fn().mockReturnValue('mock-layer-elem');
+jest.mock('helpers/layer/layer-helper', () => ({
+  getLayerByName: (...args) => mockGetLayerByName(...args),
+}));
 
 jest.mock('app/constants/shape-panel-constants', () => ({
   __esModule: true,
@@ -108,13 +131,18 @@ describe('test ShapePanel', () => {
     fireEvent.click(shapeIcons[0]);
     await waitFor(() => expect(modalEl).not.toBeVisible());
     expect(addSvgElementFromJson).toBeCalledTimes(1);
+    expect(getCurrentLayerName).not.toBeCalled();
+    expect(mockGetLayerByName).not.toBeCalled();
+    expect(mockGetData).not.toBeCalled();
+    expect(mockImportSvgString).not.toBeCalled();
     expect(getSvgRealLocation).not.toBeCalled();
-    expect(importSvgString).not.toBeCalled();
     expect(selectOnly).toBeCalledTimes(2);
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
     expect(disassembleUse2Group).not.toBeCalled();
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith(mockElement);
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
@@ -132,9 +160,13 @@ describe('test ShapePanel', () => {
     fireEvent.click(shapeIcons[0]);
     await waitFor(() => expect(modalEl).not.toBeVisible());
     expect(addSvgElementFromJson).not.toBeCalled();
+    expect(getCurrentLayerName).toBeCalledTimes(1);
+    expect(mockGetLayerByName).toBeCalledTimes(1);
+    expect(mockGetData).toBeCalledTimes(1);
+    expect(mockGetData).toBeCalledWith('mock-layer-elem', 'module');
+    expect(mockImportSvgString).toBeCalledTimes(1);
     expect(getSvgRealLocation).toBeCalledTimes(1);
     expect(getSvgRealLocation).toBeCalledWith(mockElement);
-    expect(importSvgString).toBeCalledTimes(1);
     expect(selectOnly).toBeCalledTimes(1);
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).toBeCalledTimes(2);
@@ -145,6 +177,8 @@ describe('test ShapePanel', () => {
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
     expect(disassembleUse2Group).toBeCalledTimes(1);
     expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith('mock-path-elem');
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
@@ -177,13 +211,18 @@ describe('test ShapePanel in mobile', () => {
     fireEvent.click(shapeIcons[0]);
     await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (0px)))'));
     expect(addSvgElementFromJson).toBeCalledTimes(1);
+    expect(getCurrentLayerName).not.toBeCalled();
+    expect(mockGetLayerByName).not.toBeCalled();
+    expect(mockGetData).not.toBeCalled();
+    expect(mockImportSvgString).not.toBeCalled();
     expect(getSvgRealLocation).not.toBeCalled();
-    expect(importSvgString).not.toBeCalled();
     expect(selectOnly).toBeCalledTimes(2);
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
     expect(disassembleUse2Group).not.toBeCalled();
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith(mockElement);
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
@@ -201,9 +240,13 @@ describe('test ShapePanel in mobile', () => {
     fireEvent.click(shapeIcons[0]);
     await waitFor(() => expect(panelEl.style.transform).toBe('translateY(calc(100% + (0px)))'));
     expect(addSvgElementFromJson).not.toBeCalled();
+    expect(getCurrentLayerName).toBeCalledTimes(1);
+    expect(mockGetLayerByName).toBeCalledTimes(1);
+    expect(mockGetData).toBeCalledTimes(1);
+    expect(mockGetData).toBeCalledWith('mock-layer-elem', 'module');
+    expect(mockImportSvgString).toBeCalledTimes(1);
     expect(getSvgRealLocation).toBeCalledTimes(1);
     expect(getSvgRealLocation).toBeCalledWith(mockElement);
-    expect(importSvgString).toBeCalledTimes(1);
     expect(selectOnly).toBeCalledTimes(1);
     expect(selectOnly).toBeCalledWith([mockElement]);
     expect(setSvgElemPosition).toBeCalledTimes(2);
@@ -214,6 +257,8 @@ describe('test ShapePanel in mobile', () => {
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
     expect(disassembleUse2Group).toBeCalledTimes(1);
     expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith('mock-path-elem');
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });

@@ -51,11 +51,7 @@ exports[`test LayerList should render correctly 1`] = `
                   class="vis"
                   id="layervis-1"
                 >
-                  <img
-                    alt="vis-icon"
-                    class="icon"
-                    src="img/right-panel/icon-eyeopen.svg"
-                  />
+                  <svgr-url />
                 </div>
                 <div
                   class="lock"
@@ -147,11 +143,7 @@ exports[`test LayerList should render correctly 1`] = `
                   class="vis"
                   id="layervis-0"
                 >
-                  <img
-                    alt="vis-icon"
-                    class="icon"
-                    src="img/right-panel/icon-eyeclose.svg"
-                  />
+                  <svgr-url />
                 </div>
                 <div
                   class="lock"
@@ -272,11 +264,7 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                   class="vis"
                   id="layervis-1"
                 >
-                  <img
-                    alt="vis-icon"
-                    class="icon"
-                    src="img/right-panel/icon-eyeopen.svg"
-                  />
+                  <svgr-url />
                 </div>
                 <div>
                   <svgr-url />
@@ -391,11 +379,7 @@ exports[`test LayerList should render correctly on mobile 1`] = `
                   class="vis"
                   id="layervis-0"
                 >
-                  <img
-                    alt="vis-icon"
-                    class="icon"
-                    src="img/right-panel/icon-eyeclose.svg"
-                  />
+                  <svgr-url />
                 </div>
                 <div>
                   <svgr-url />

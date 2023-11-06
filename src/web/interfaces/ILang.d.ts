@@ -620,6 +620,7 @@ export interface ILang {
         layer_bitmap: string,
         layer_engraving: string,
         layer_cutting: string,
+        current_layer: string,
         move_elems_to: string,
         notification: {
           dupeLayerName: string,
@@ -630,6 +631,14 @@ export interface ILang {
           QmoveElemsToLayer: string,
           moveElemFromPrintingLayerTitle: string;
           moveElemFromPrintingLayerMsg: string;
+          moveElemToPrintingLayerTitle: string;
+          moveElemToPrintingLayerMsg: string;
+          splitColorTitle: string;
+          splitColorMsg: string;
+          mergeLaserLayerToPrintingLayerTitle: string;
+          mergeLaserLayerToPrintingLayerMsg: string;
+          mergePrintingLayerToLaserLayerTitle: string;
+          mergePrintingLayerToLaserLayerMsg: string;
         },
         layers: {
           layer: string,
@@ -650,6 +659,7 @@ export interface ILang {
           switchToFullColor: string;
           switchToSingleColor: string;
           splitFullColor: string;
+          fullColor: string;
         },
       },
       laser_panel: {
@@ -673,6 +683,7 @@ export interface ILang {
         white_ink: string;
         white_ink_settings: string;
         color_adjustment: string;
+        color_adjustment_short: string;
         times: string,
         cut: string,
         engrave: string,
@@ -748,6 +759,18 @@ export interface ILang {
             abs_engraving: string;
             silver_engraving: string;
             iron_engraving: string;
+            fabric_printing: string;
+            canvas_printing: string;
+            cardstock_printing: string;
+            wood_printing: string;
+            bamboo_printing: string;
+            cork_printing: string;
+            flat_stone_printing: string;
+            acrylic_printing: string;
+            pc_printing: string;
+            stainless_steel_printing: string;
+            gloss_leather_printing: string;
+            glass_printing: string;
           },
           inches: {
             wood_3mm_cutting: string;
@@ -786,6 +809,18 @@ export interface ILang {
             abs_engraving: string;
             silver_engraving: string;
             iron_engraving: string;
+            fabric_printing: string;
+            canvas_printing: string;
+            cardstock_printing: string;
+            wood_printing: string;
+            bamboo_printing: string;
+            cork_printing: string;
+            flat_stone_printing: string;
+            acrylic_printing: string;
+            pc_printing: string;
+            stainless_steel_printing: string;
+            gloss_leather_printing: string;
+            glass_printing: string;
           },
         },
         laser_speed: {
@@ -804,6 +839,11 @@ export interface ILang {
           min: number,
           max: number,
           step: number,
+        },
+        ink_type: {
+          text: string,
+          normal: string,
+          UV: string,
         },
         para_in_use: string,
         do_not_adjust_default_para: string,
@@ -851,6 +891,10 @@ export interface ILang {
           shading: string,
           threshold: string,
           threshold_short: string,
+          stroke: string,
+          stroke_color: string,
+          stroke_width: string,
+          color: string,
         },
         actions_panel: {
           replace_with: string,
@@ -1486,6 +1530,8 @@ export interface ILang {
     notification: {
       convertFromPrintingModuleTitle: string;
       convertFromPrintingModuleMsg: string;
+      convertFromLaserModuleTitle: string;
+      convertFromLaserModuleMsg: string;
     };
   },
 }

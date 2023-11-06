@@ -11,6 +11,7 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import storage from 'implementations/storage';
+import units from 'helpers/units';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -40,11 +41,17 @@ const SpeedBlock = ({
   const { value, hasMultiValue } = state.speed;
   const module = state.module.value;
 
-  const { display: displayUnit, decimal } = useMemo(() => {
+  const {
+    display: displayUnit,
+    decimal,
+    calculateUnit: fakeUnit,
+  } = useMemo(() => {
     const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
     const display = { mm: 'mm/s', inches: 'in/s' }[unit];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const calculateUnit: 'mm' | 'inch' = { mm: 'mm', inches: 'inch' }[unit] as any;
     const d = { mm: 1, inches: 2 }[unit];
-    return { display, decimal: d };
+    return { display, decimal: d, calculateUnit };
   }, []);
   const workarea = BeamboxPreference.read('workarea');
   const maxValue = useMemo(() => constant.dimension.getMaxSpeed(workarea), [workarea]);
@@ -107,6 +114,8 @@ const SpeedBlock = ({
           (type === 'modal' ? doLayersContainsVector(selectedLayers) : hasVector)
         }
         options={sliderOptions}
+        decimal={decimal}
+        unit={displayUnit}
       />
       {warningText ? (
         <div className={styles.warning}>
@@ -116,6 +125,12 @@ const SpeedBlock = ({
       ) : null}
     </div>
   );
+
+  const displayValue = useMemo(() => {
+    const selectedOption = sliderOptions?.find((opt) => opt.value === value);
+    if (selectedOption) return selectedOption.label;
+    return +units.convertUnit(value, fakeUnit, 'mm').toFixed(decimal);
+  }, [decimal, sliderOptions, value, fakeUnit]);
 
   return type === 'panel-item' ? (
     <Popover visible={visible} content={content}>
@@ -128,7 +143,7 @@ const SpeedBlock = ({
             size="mini"
             fill="outline"
           >
-            {value}
+            <span style={{ whiteSpace: 'nowrap' }}>{displayValue}</span>
           </Button>
         }
         label={t.speed}

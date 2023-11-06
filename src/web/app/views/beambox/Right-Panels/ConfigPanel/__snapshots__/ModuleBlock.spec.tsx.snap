@@ -2,6 +2,13 @@
 
 exports[`test ModuleBlock change to 20w should work when selecting 1 layer 1`] = `
 <body>
+  <div
+    class="adm-px-tester"
+    style="--size: 10;"
+  />
+  <div
+    class="adm-px-tester"
+  />
   <div>
     <div
       class="panel"
@@ -195,6 +202,13 @@ exports[`test ModuleBlock change to 20w should work when selecting 1 layer 1`] =
 
 exports[`test ModuleBlock change to printer should work when selecting 2 layer 1`] = `
 <body>
+  <div
+    class="adm-px-tester"
+    style="--size: 10;"
+  />
+  <div
+    class="adm-px-tester"
+  />
   <div>
     <div
       class="panel"

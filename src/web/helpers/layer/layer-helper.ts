@@ -6,8 +6,9 @@ import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
+import { cloneLayerConfig, DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -216,6 +217,39 @@ export const setLayersLock = (layerNames: string[], isLocked: boolean): void => 
   }
 };
 
+export const showMergeAlert = async (
+  baseLayerName: string,
+  layerNames: string[]
+): Promise<boolean> => {
+  const targetModule = getData<LayerModule>(getLayerElementByName(baseLayerName), DataType.module);
+  const modules = new Set(
+    layerNames.map((layerName) =>
+      getData<LayerModule>(getLayerElementByName(layerName), DataType.module)
+    )
+  );
+  modules.add(targetModule);
+  if (modules.has(LayerModule.PRINTER) && modules.size > 1) {
+    return new Promise<boolean>((resolve) => {
+      Alert.popUp({
+        id: 'merge-layers',
+        caption:
+          targetModule === LayerModule.PRINTER
+            ? LANG.notification.mergeLaserLayerToPrintingLayerTitle
+            : LANG.notification.mergePrintingLayerToLaserLayerTitle,
+        message:
+          targetModule === LayerModule.PRINTER
+            ? LANG.notification.mergeLaserLayerToPrintingLayerMsg
+            : LANG.notification.mergePrintingLayerToLaserLayerMsg,
+        messageIcon: 'notice',
+        buttonType: AlertConstants.CONFIRM_CANCEL,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      });
+    });
+  }
+  return true;
+};
+
 const mergeLayer = (
   baseLayerName: string,
   layersToBeMerged: string[],
@@ -252,14 +286,18 @@ const mergeLayer = (
   return batchCmd;
 };
 
-export const mergeLayers = (layerNames: string[], baseLayerName?: string): string => {
+export const mergeLayers = async (
+  layerNames: string[],
+  baseLayerName?: string
+): Promise<string | null> => {
   svgCanvas.clearSelection();
   const batchCmd = new history.BatchCommand('Merge Layer(s)');
   const drawing = svgCanvas.getCurrentDrawing();
   sortLayerNamesByPosition(layerNames);
   const mergeBase = baseLayerName || layerNames[0];
   const baseLayerIndex = layerNames.findIndex((layerName) => layerName === mergeBase);
-
+  const res = await showMergeAlert(mergeBase, layerNames);
+  if (!res) return null;
   let cmd = mergeLayer(mergeBase, layerNames.slice(0, baseLayerIndex), true);
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
@@ -401,18 +439,29 @@ export const moveToOtherLayer = (
   };
   const selectedElements = svgCanvas.getSelectedElems();
   const origLayer = getObjectLayer(selectedElements[0])?.elem;
-  const isFullColor = origLayer?.getAttribute('data-fullcolor') === '1';
-  const isDestFullColor = getLayerByName(destLayer)?.getAttribute('data-fullcolor') === '1';
-  const moveOutFromFullColorLayer = isFullColor && !isDestFullColor;
-  if (showAlert || moveOutFromFullColorLayer) {
+  const isPrintingLayer = getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
+  const isDestPrintingLayer =
+    getData<LayerModule>(getLayerByName(destLayer), DataType.module) === LayerModule.PRINTER;
+  const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
+  const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
+  if (showAlert || moveOutFromFullColorLayer || moveInToFullColorLayer) {
     Alert.popUp({
       id: 'move layer',
-      buttonType: moveOutFromFullColorLayer ? AlertConstants.CONFIRM_CANCEL : AlertConstants.YES_NO,
+      buttonType:
+        moveOutFromFullColorLayer || moveInToFullColorLayer
+          ? AlertConstants.CONFIRM_CANCEL
+          : AlertConstants.YES_NO,
+      // eslint-disable-next-line no-nested-ternary
       caption: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
+        : moveInToFullColorLayer
+        ? sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer)
         : undefined,
+      // eslint-disable-next-line no-nested-ternary
       message: moveOutFromFullColorLayer
-        ? LANG.notification.moveElemFromPrintingLayerMsg
+        ? sprintf(LANG.notification.moveElemFromPrintingLayerMsg, destLayer)
+        : moveInToFullColorLayer
+        ? sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer)
         : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
       messageIcon: 'notice',
       onYes: moveToLayer,

@@ -5,8 +5,16 @@ import storage from 'implementations/storage';
 import { getAllKeys, getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 
-export const getDefaultPresetData = (presetKey: string): {
-  speed: number; power: number; repeat: number, module?: LayerModule; name?: string;
+export const getDefaultPresetData = (
+  presetKey: string
+): {
+  speed: number;
+  power?: number;
+  ink?: number;
+  multipass?: number;
+  repeat: number;
+  module?: LayerModule;
+  name?: string;
 } => {
   const presets = getAllPresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
   if (!presets[presetKey]) {
@@ -14,16 +22,32 @@ export const getDefaultPresetData = (presetKey: string): {
     console.error(`Unable to get default preset key: ${presetKey}`);
     return { speed: 20, power: 15, repeat: 1 };
   }
-  const { speed, power, name, module } = presets[presetKey];
+  const { speed, power, name, module, ink, multipass } = presets[presetKey];
   const repeat = presets[presetKey].repeat || 1;
   const presetModule = module || LayerModule.LASER_10W_DIODE;
-  return { speed, power, repeat, module: presetModule, name: name || presetKey };
+  if (presetModule === LayerModule.PRINTER) {
+    return {
+      speed,
+      ink: ink || 3,
+      multipass: multipass || 3,
+      repeat: 1,
+      module: presetModule,
+      name: name || presetKey,
+    };
+  }
+  return {
+    speed,
+    power,
+    repeat,
+    module: presetModule,
+    name: name || presetKey,
+  };
 };
 
 const initStorage = (defaultPresetKeys: string[], unit: string) => {
   const LANG = i18n.lang.beambox.right_panel.laser_panel;
   const defaultPresets = defaultPresetKeys.map((key) => {
-    const { speed, power, repeat, name, module } = getDefaultPresetData(key);
+    const { speed, power, repeat, name, module, ink, multipass } = getDefaultPresetData(key);
     return {
       name: LANG.dropdown[unit][name],
       speed,
@@ -32,6 +56,8 @@ const initStorage = (defaultPresetKeys: string[], unit: string) => {
       module,
       isDefault: true,
       key,
+      ink,
+      multipass,
     };
   });
   let customizedLaserConfigs = storage.get('customizedLaserConfigs') || [];
@@ -54,12 +80,16 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
   for (let i = 0; i < customized.length; i += 1) {
     if (customized[i].isDefault) {
       if (defaultPresetKeys.includes(customized[i].key)) {
-        const { speed, power, repeat, name, module } = getDefaultPresetData(customized[i].key);
+        const { speed, power, repeat, name, module, ink, multipass } = getDefaultPresetData(
+          customized[i].key
+        );
         customized[i].name = LANG.dropdown[unit][name];
         customized[i].speed = speed;
         customized[i].power = power;
         customized[i].repeat = repeat || 1;
         customized[i].module = module || LayerModule.LASER_10W_DIODE;
+        customized[i].ink = ink;
+        customized[i].multipass = multipass;
       } else if (!allKeys.has(customized[i].key)) {
         // deleting old presets remove due to software update
         delete defaultLaserConfigsInUse[customized[i].key];
@@ -72,7 +102,8 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
   const newPreset = defaultPresetKeys.filter((option) => defaultLaserConfigsInUse[option] === undefined);
   newPreset.forEach((presetKey) => {
     if (defaultPresetKeys.includes(presetKey)) {
-      const { speed, power, repeat, name, module } = getDefaultPresetData(presetKey);
+      const { speed, power, repeat, name, module, ink, multipass } =
+        getDefaultPresetData(presetKey);
       customized.push({
         name: LANG.dropdown[unit][name],
         speed,
@@ -81,6 +112,8 @@ const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
         module: module || LayerModule.LASER_10W_DIODE,
         isDefault: true,
         key: presetKey,
+        ink,
+        multipass,
       });
       defaultLaserConfigsInUse[presetKey] = true;
     } else {

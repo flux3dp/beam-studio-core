@@ -54,6 +54,24 @@ getSVGAsync.mockImplementation((callback) => {
   });
 });
 
+const useWorkarea = jest.fn();
+jest.mock('helpers/hooks/useWorkarea', () => useWorkarea);
+
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    left_panel: {
+      label: {
+        end_preview: 'End Preview',
+        preview: 'Camera Preview',
+        live_feed: 'Live Feed',
+        trace: 'Trace Image',
+        adjust_height: 'Adjust Height',
+        clear_preview: 'Clear Preview',
+      },
+    },
+  },
+}));
+
 import PreviewToolButtonGroup from './PreviewToolButtonGroup';
 
 test('should render correctly', () => {

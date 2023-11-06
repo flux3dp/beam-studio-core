@@ -631,6 +631,90 @@ const constants = {
       module: LayerModule.LASER_1064,
       name: 'iron_engraving',
     },
+    fabric_printing: {
+      ink: 3,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'fabric_printing',
+    },
+    canvas_printing: {
+      ink: 3,
+      speed: 60,
+      multipass: 4,
+      module: LayerModule.PRINTER,
+      name: 'canvas_printing',
+    },
+    cardstock_printing: {
+      ink: 2,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'cardstock_printing',
+    },
+    wood_printing: {
+      ink: 2,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'wood_printing',
+    },
+    bamboo_printing: {
+      ink: 2,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'bamboo_printing',
+    },
+    cork_printing: {
+      ink: 2,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'cork_printing',
+    },
+    flat_stone_printing: {
+      ink: 3,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'flat_stone_printing',
+    },
+    acrylic_printing: {
+      ink: 2,
+      speed: 30,
+      multipass: 4,
+      module: LayerModule.PRINTER,
+      name: 'acrylic_printing',
+    },
+    pc_printing: {
+      ink: 2,
+      speed: 30,
+      multipass: 4,
+      module: LayerModule.PRINTER,
+      name: 'pc_printing',
+    },
+    stainless_steel_printing: {
+      ink: 3,
+      speed: 30,
+      multipass: 4,
+      module: LayerModule.PRINTER,
+      name: 'stainless_steel_printing',
+    },
+    gloss_leather_printing: {
+      ink: 3,
+      speed: 60,
+      multipass: 3,
+      module: LayerModule.PRINTER,
+      name: 'gloss_leather_printing',
+    },
+    glass_printing: {
+      ink: 3,
+      speed: 30,
+      multipass: 4,
+      module: LayerModule.PRINTER,
+      name: 'glass_printing',
+    },
   },
 };
 
@@ -643,16 +727,36 @@ const modelMap = {
   ado1: 'ADOR',
 };
 
-export const getAllPresets = (model: string): {
-  [key: string]: { name: string; power: number; speed: number; repeat?: number, module?: LayerModule };
+export const getAllPresets = (
+  model: string
+): {
+  [key: string]: {
+    name: string;
+    power?: number;
+    ink?: number;
+    multipass?: number;
+    speed: number;
+    repeat?: number;
+    module?: LayerModule;
+  };
 } => {
   const modelName = modelMap[model] || 'BEAMO';
   return constants[modelName];
 };
 
 export const getModulePresets = (
-  model: string, module = LayerModule.LASER_10W_DIODE
-): { [key: string]: { name: string; power: number; speed: number; repeat?: number } } => {
+  model: string,
+  module = LayerModule.LASER_10W_DIODE
+): {
+  [key: string]: {
+    name: string;
+    power?: number;
+    ink?: number;
+    multipass?: number;
+    speed: number;
+    repeat?: number;
+  };
+} => {
   const modelName = modelMap[model] || 'BEAMO';
   if (modelsWithModules.includes(model)) {
     const data = Object.keys(constants[modelName]).reduce((acc, key) => {

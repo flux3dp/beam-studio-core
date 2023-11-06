@@ -15,6 +15,7 @@ import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
+import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import DropdownControl from 'app/widgets/Dropdown-Control';
 import dialogCaller from 'app/actions/dialog-caller';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
@@ -23,7 +24,8 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
-import LayerModule from 'app/constants/layer-module/layer-modules';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
@@ -35,16 +37,18 @@ import useI18n from 'helpers/useI18n';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
+  defaultConfig,
+  getData,
   getLayerConfig,
   getLayersConfig,
   postPresetChange,
   writeData,
 } from 'helpers/layer/layer-config-helper';
+import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import AddOnBlock from './AddOnBlock';
@@ -152,17 +156,15 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   }, [selectedLayers]);
 
-  const parametersSet = getModulePresets(
-    beamboxPreference.read('workarea') || beamboxPreference.read('model'),
-    state.module.value
-  );
+  const model = beamboxPreference.read('workarea') || beamboxPreference.read('model');
+  const parametersSet = getModulePresets(model, state.module.value);
   const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
   const moduleCustomConfigs = customizedConfigs?.filter(
     (c) => !c.isDefault || parametersSet[c.key]
   );
 
   const dropdownValue = useMemo(() => {
-    const { configName: name, speed, power, ink, repeat, zStep, diode } = state;
+    const { configName: name, speed, power, ink, repeat, zStep, diode, multipass } = state;
     // multi select
     if (
       speed.hasMultiValue ||
@@ -171,7 +173,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       repeat.hasMultiValue ||
       diode.hasMultiValue ||
       zStep.hasMultiValue ||
-      name.hasMultiValue
+      name.hasMultiValue ||
+      multipass.hasMultiValue
     ) {
       return lang.various_preset;
     }
@@ -197,7 +200,17 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       console.error('No such value', value);
       return;
     }
-    const { speed: dataSpeed, power, repeat, zStep, isDefault, key, name } = selectedConfig;
+    const {
+      speed: dataSpeed,
+      power = defaultConfig.strength,
+      repeat = defaultConfig.repeat,
+      zStep = defaultConfig.zstep,
+      isDefault,
+      key,
+      name,
+      ink = defaultConfig.ink,
+      multipass = defaultConfig.multipass,
+    } = selectedConfig;
     const workarea = beamboxPreference.read('workarea');
     const maxSpeed = constant.dimension.getMaxSpeed(workarea);
     const minSpeed = constant.dimension.getMinSpeed(workarea);
@@ -208,19 +221,23 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       payload: {
         speed,
         power,
-        repeat: repeat || 1,
-        zStep: zStep || 0,
+        repeat,
+        zStep,
         configName: name,
         selectedItem: name,
+        ink,
+        multipass,
       },
     });
     if (UIType !== 'modal')
       selectedLayers.forEach((layerName: string) => {
-        writeData(layerName, DataType.speed, speed);
+        writeData(layerName, DataType.speed, speed, true);
         writeData(layerName, DataType.strength, power);
-        writeData(layerName, DataType.repeat, repeat || 1);
-        writeData(layerName, DataType.zstep, zStep || 0);
+        writeData(layerName, DataType.repeat, repeat);
+        writeData(layerName, DataType.zstep, zStep);
         writeData(layerName, DataType.configName, name);
+        writeData(layerName, DataType.ink, ink);
+        writeData(layerName, DataType.multipass, multipass);
       });
 
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
@@ -267,14 +284,19 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const isDevMode = isDev();
   const commonContent = (
     <>
-      {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
+      {isDevMode && module.value === LayerModule.PRINTER && UIType === 'default' && <UVBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} />}
-      {isDevMode && module.value === LayerModule.PRINTER && fullcolor.value && <WhiteInkCheckbox />}
-      {isDevMode && isCustomBacklashEnabled && <Backlash />}
+      {isDevMode && module.value === LayerModule.PRINTER && fullcolor.value && UIType === 'default' && (
+        <WhiteInkCheckbox />
+      )}
+      {isDevMode && isCustomBacklashEnabled && <Backlash type={UIType} />}
       <RepeatBlock type={UIType} />
+      {isDevMode && module.value === LayerModule.PRINTER && fullcolor.value && UIType === 'panel-item' && (
+        <WhiteInkCheckbox type={UIType} />
+      )}
     </>
   );
 
@@ -296,7 +318,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
                 options={dropdownOptions}
                 hiddenOptions={hiddenOptions}
               />
-              <SaveConfigButton />
+              {module.value !== LayerModule.PRINTER && <SaveConfigButton />}
             </div>
             {commonContent}
           </div>
@@ -306,20 +328,33 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
     if (UIType === 'panel-item') {
       return (
-        <div className={styles['item-group']}>
-          <ObjectPanelItem.Select
-            id="laser-config-dropdown"
-            selected={{ value: dropdownValue, label: dropdownValue }}
-            onChange={handleSelectPresets}
-            options={[
-              ...dropdownOptions,
-              ...hiddenOptions.filter((option) => option.value === dropdownValue),
-            ]}
-            label={lang.presets}
-          />
-          <ModuleBlock />
-          {commonContent}
-        </div>
+        <>
+          {modelsWithModules.includes(model) && (
+            <div className={styles['item-group']}>
+              <ModuleBlock />
+              {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
+              <ObjectPanelItem.Divider />
+            </div>
+          )}
+          <div className={styles['item-group']}>
+            <ObjectPanelItem.Select
+              id="laser-config-dropdown"
+              selected={
+                dropdownOptions.find((option) => option.value === dropdownValue) || {
+                  value: dropdownValue,
+                  label: dropdownValue,
+                }
+              }
+              onChange={handleSelectPresets}
+              options={[
+                ...dropdownOptions,
+                ...hiddenOptions.filter((option) => option.value === dropdownValue),
+              ]}
+              label={lang.presets}
+            />
+            {commonContent}
+          </div>
+        </>
       );
     }
     const drawing = svgCanvas.getCurrentDrawing();
@@ -332,11 +367,13 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       const destLayer = selectedLayers[0];
       const saveDataAndClose = () => {
         selectedLayers.forEach((layerName: string) => {
-          writeData(layerName, DataType.speed, state.speed.value);
+          writeData(layerName, DataType.speed, state.speed.value, true);
           writeData(layerName, DataType.strength, state.power.value);
           writeData(layerName, DataType.repeat, state.repeat.value);
           writeData(layerName, DataType.zstep, state.zStep.value);
           writeData(layerName, DataType.configName, state.configName.value);
+          writeData(layerName, DataType.ink, state.ink.value);
+          writeData(layerName, DataType.multipass, state.multipass.value);
         });
         onClose();
       };
@@ -349,26 +386,35 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const layerOptions = [];
     for (let i = layerCount - 1; i >= 0; i -= 1) {
       const layerName = drawing.getLayerName(i);
+      const layer = getLayerElementByName(layerName);
+      const layerModule = getData<LayerModule>(layer, DataType.module);
+      const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       layerOptions.push(
-        <div
-          className={classNames(styles.layer, {
-            [styles.active]: selectedLayers.includes(layerName),
-          })}
-          key={layerName}
-          onClick={() => setSelectedLayers([layerName])}
-          style={{ backgroundColor: drawing.getLayerColor(layerName) }}
-        />
+        <Select.Option key={layerName} value={layerName} label={layerName}>
+          <div className={styles.option}>
+            <ColorBlock
+              size="mini"
+              color={isFullColor ? 'fullcolor' : drawing.getLayerColor(layerName)}
+            />
+            {layerModule === LayerModule.PRINTER ? (
+              <LayerPanelIcons.Print />
+            ) : (
+              <LayerPanelIcons.Laser />
+            )}
+            <span>{layerName}</span>
+          </div>
+        </Select.Option>
       );
     }
     return (
       <ConfigProvider
         theme={{
-          components: { Button: { borderRadius: 100 }, Select: { borderRadius: 100 } },
+          components: { Button: { borderRadius: 100, controlHeight: 30 } },
         }}
       >
         <Modal
           className={styles.modal}
-          title={sprintf(lang.preset_setting, displayName)}
+          title={lang.preset_setting.slice(0, -4)}
           onCancel={onClose}
           onOk={onSave}
           cancelText={i18n.lang.beambox.tool_panels.cancel}
@@ -376,25 +422,45 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           centered
           open
         >
+          {selectedLayers.length > 0 && (
+            <div className={styles['change-layer']}>
+              <span className={styles.title}>
+                {i18n.lang.beambox.right_panel.layer_panel.current_layer}:
+              </span>
+              <Select className={styles.select} defaultValue={selectedLayers[0]} disabled>
+                {layerOptions}
+              </Select>
+            </div>
+          )}
           {layerCount > 1 && (
             <div className={styles['change-layer']}>
               <span className={styles.title}>
                 {i18n.lang.beambox.right_panel.layer_panel.move_elems_to}
               </span>
-              <div className={styles.layers}>{layerOptions}</div>
+              <Select
+                className={styles.select}
+                popupMatchSelectWidth={false}
+                value={selectedLayers[0]}
+                onChange={(layerName) => setSelectedLayers([layerName])}
+              >
+                {layerOptions}
+              </Select>
             </div>
           )}
-          <ModuleBlock />
-          <Select
-            id="laser-config-dropdown"
-            className={styles.select}
-            value={dropdownValue}
-            onChange={handleSelectPresets}
-            options={[
-              ...dropdownOptions,
-              ...hiddenOptions.filter((option) => option.value === dropdownValue),
-            ]}
-          />
+          <ConfigProvider
+            theme={{ components: { Select: { borderRadius: 100, controlHeight: 30 } } }}
+          >
+            <Select
+              id="laser-config-dropdown"
+              className={styles.select}
+              value={dropdownValue}
+              onChange={handleSelectPresets}
+              options={[
+                ...dropdownOptions,
+                ...hiddenOptions.filter((option) => option.value === dropdownValue),
+              ]}
+            />
+          </ConfigProvider>
           {commonContent}
         </Modal>
       </ConfigProvider>

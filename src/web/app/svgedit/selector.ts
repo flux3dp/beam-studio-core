@@ -344,6 +344,11 @@ class Selector {
     const cy = y + (height / 2);
     const dStr = `M${x},${y}L${x + width},${y}L${x + width},${y + height}L${x},${y + height}z`;
     this.selectorRect.setAttribute('d', dStr);
+    if (svgCanvas.getCurrentMode() === 'preview_color') {
+      this.gripsGroup.setAttribute('display', 'none');
+      return;
+    }
+    this.gripsGroup.removeAttribute('display');
     const xform = angle ? `rotate(${angle} ${cx} ${cy})` : '';
     this.selectorGroup.setAttribute('transform', xform);
 
