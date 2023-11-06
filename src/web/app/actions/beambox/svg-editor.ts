@@ -70,6 +70,7 @@ import importBitmap from 'app/svgedit/operations/import/importBitmap';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
+import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -5134,6 +5135,7 @@ const svgEditor = window['svgEditor'] = (function () {
           }
         }
         beamboxStore.emitUpdateWorkArea();
+        toggleFullColorAfterWorkareaChange();
         svgedit.utilities.findDefs().remove();
         svgedit.utilities.moveDefsOutfromSvgContent();
         await SymbolMaker.reRenderAllImageSymbol();
