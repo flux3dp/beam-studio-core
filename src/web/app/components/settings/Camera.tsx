@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
-import isDev from 'helpers/is-dev';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { OptionValues } from 'app/constants/enums';
@@ -65,14 +64,12 @@ function Camera({
           className={{ half: true }}
         />
       </Controls>
-      {isDev() && (
-        <SelectControl
-          id="set-enable-custom-preview-height"
-          label={lang.settings.custom_preview_height}
-          options={enableCustomPreviewHeightOptions}
-          onChange={(e) => updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)}
-        />
-      )}
+      <SelectControl
+        id="set-enable-custom-preview-height"
+        label={lang.settings.custom_preview_height}
+        options={enableCustomPreviewHeightOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)}
+      />
     </>
   );
 }

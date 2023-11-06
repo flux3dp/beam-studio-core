@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  Menu as TopBarMenu,
-  MenuItem,
-  MenuDivider,
-  SubMenu,
-} from '@szhsin/react-menu';
+import { Menu as TopBarMenu, MenuItem, MenuDivider, SubMenu } from '@szhsin/react-menu';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
+import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
@@ -22,12 +18,21 @@ interface Props {
 let discover;
 
 export default function Menu({ email }: Props): JSX.Element {
-  const eventEmitter = React.useMemo(() => eventEmitterFactory.createEventEmitter('top-bar-menu'), []);
+  const eventEmitter = React.useMemo(
+    () => eventEmitterFactory.createEventEmitter('top-bar-menu'),
+    []
+  );
   const [devices, setDevices] = React.useState<IDeviceInfo[]>([]);
-  const [shouldShowRulers, changeShouldShowRulers] = React.useState(BeamboxPreference.read('show_rulers'));
+  const [shouldShowRulers, changeShouldShowRulers] = React.useState(
+    BeamboxPreference.read('show_rulers')
+  );
   const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
-  const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(BeamboxPreference.read('use_layer_color') !== false);
-  const [isUsingAntiAliasing, setIsUsingAntiAliasing] = React.useState(BeamboxPreference.read('anti-aliasing') !== false);
+  const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(
+    BeamboxPreference.read('use_layer_color') !== false
+  );
+  const [isUsingAntiAliasing, setIsUsingAntiAliasing] = React.useState(
+    BeamboxPreference.read('anti-aliasing') !== false
+  );
   const [shouldZoomWithWindow, changeShouldZoomWithWindow] = React.useState(false);
   const [duplicateDisabled, setDuplicateDisabled] = React.useState(true);
   const [svgEditDisabled, setSvgEditDisabled] = React.useState(true);
@@ -99,15 +104,33 @@ export default function Menu({ email }: Props): JSX.Element {
       submenus.push(
         <SubMenu label={name} key={serial}>
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
-          <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>{menuCms.machine_info}</MenuItem>
+          <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>
+            {menuCms.machine_info}
+          </MenuItem>
           <MenuDivider />
-          {model !== 'ado1' && (
+          {!constant.adorModels.includes(model) && (
             <MenuItem
               onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
               disabled={isMobile}
             >
               {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
             </MenuItem>
+          )}
+          {constant.adorModels.includes(model) && (
+            <>
+              <MenuItem
+                onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}
+                disabled={isMobile}
+              >
+                {menuCms.calibrate_printer_module} {isMobile && '(PC Only)'}
+              </MenuItem>
+              <MenuItem
+                onClick={() => callback('CALIBRATE_IR_MODULE', serial)}
+                disabled={isMobile}
+              >
+                {menuCms.calibrate_ir_module} {isMobile && '(PC Only)'}
+              </MenuItem>
+            </>
           )}
           {model === 'fbm1' ? (
             <MenuItem
@@ -125,32 +148,43 @@ export default function Menu({ email }: Props): JSX.Element {
               {menuCms.calibrate_diode_module} {isMobile && '(PC Only)'}
             </MenuItem>
           ) : null}
-          {model !== 'ado1' && <MenuDivider />}
-          <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>{menuCms.update_firmware}</MenuItem>
+          {!constant.adorModels.includes(model) && <MenuDivider />}
+          <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>
+            {menuCms.update_firmware}
+          </MenuItem>
           <SubMenu label={menuCms.download_log}>
-            <MenuItem onClick={() => callback('LOG_NETWORK', serial)}>{menuCms.log.network}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_HARDWARE', serial)}>{menuCms.log.hardware}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_DISCOVER', serial)}>{menuCms.log.discover}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_NETWORK', serial)}>
+              {menuCms.log.network}
+            </MenuItem>
+            <MenuItem onClick={() => callback('LOG_HARDWARE', serial)}>
+              {menuCms.log.hardware}
+            </MenuItem>
+            <MenuItem onClick={() => callback('LOG_DISCOVER', serial)}>
+              {menuCms.log.discover}
+            </MenuItem>
             <MenuItem onClick={() => callback('LOG_USB', serial)}>{menuCms.log.usb}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_USBLIST', serial)}>{menuCms.log.usblist}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_USBLIST', serial)}>
+              {menuCms.log.usblist}
+            </MenuItem>
             <MenuItem onClick={() => callback('LOG_CAMERA', serial)}>{menuCms.log.camera}</MenuItem>
             <MenuItem onClick={() => callback('LOG_CLOUD', serial)}>{menuCms.log.cloud}</MenuItem>
             <MenuItem onClick={() => callback('LOG_PLAYER', serial)}>{menuCms.log.player}</MenuItem>
             <MenuItem onClick={() => callback('LOG_ROBOT', serial)}>{menuCms.log.robot}</MenuItem>
           </SubMenu>
-        </SubMenu>,
+        </SubMenu>
       );
     }
     return submenus;
   };
 
   return (
-    <TopBarMenu menuButton={(
-      <div className="menu-btn-container">
-        <img className="icon" src="img/logo-line.svg" />
-        <img className="icon-arrow" src="img/icon-arrow-d.svg" />
-      </div>
-    )}
+    <TopBarMenu
+      menuButton={
+        <div className="menu-btn-container">
+          <img className="icon" src="img/logo-line.svg" />
+          <img className="icon-arrow" src="img/icon-arrow-d.svg" />
+        </div>
+      }
     >
       <SubMenu label={menuCms.file}>
         <MenuItem onClick={() => callback('OPEN')}>{menuCms.open}</MenuItem>
@@ -159,14 +193,42 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('SAVE_AS')}>{hotkey('save_as')}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>{menuCms.import_hello_beamo}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>{menuCms.import_hello_beambox}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>{menuCms.import_material_testing_engrave}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>{menuCms.import_material_testing_old}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>{menuCms.import_material_testing_cut}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>{menuCms.import_material_testing_simple_cut}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_LINE')}>{menuCms.import_material_testing_line}</MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_ACRYLIC_FOCUS_PROBE')}>{menuCms.import_acrylic_focus_probe}</MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_LASER')}>
+            {menuCms.import_ador_laser_example}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_PRINT_SINGLE')}>
+            {menuCms.import_ador_printing_example_single}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_PRINT_FULL')}>
+            {menuCms.import_ador_printing_example_full}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>
+            {menuCms.import_hello_beamo}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>
+            {menuCms.import_hello_beambox}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>
+            {menuCms.import_material_testing_engrave}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>
+            {menuCms.import_material_testing_old}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>
+            {menuCms.import_material_testing_cut}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>
+            {menuCms.import_material_testing_simple_cut}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_LINE')}>
+            {menuCms.import_material_testing_line}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_PRINT')}>
+            {menuCms.import_material_printing_test}
+          </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_ACRYLIC_FOCUS_PROBE')}>
+            {menuCms.import_acrylic_focus_probe}
+          </MenuItem>
         </SubMenu>
         <MenuDivider />
         <SubMenu label={menuCms.export_to}>
@@ -174,7 +236,9 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('EXPORT_SVG')}>{menuCms.export_SVG}</MenuItem>
           <MenuItem onClick={() => callback('EXPORT_PNG')}>{menuCms.export_PNG}</MenuItem>
           <MenuItem onClick={() => callback('EXPORT_JPG')}>{menuCms.export_JPG}</MenuItem>
-          <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>{hotkey('export_flux_task')}</MenuItem>
+          <MenuItem onClick={() => callback('EXPORT_FLUX_TASK')}>
+            {hotkey('export_flux_task')}
+          </MenuItem>
         </SubMenu>
         <MenuDivider />
         <MenuItem onClick={() => callback('PREFERENCE')}>{hotkey('preferences')}</MenuItem>
@@ -187,14 +251,22 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('COPY')}>{hotkey('copy')}</MenuItem>
         <MenuItem onClick={() => callback('PASTE')}>{hotkey('paste')}</MenuItem>
         <MenuItem onClick={() => callback('PASTE_IN_PLACE')}>{hotkey('paste_in_place')}</MenuItem>
-        <MenuItem disabled={duplicateDisabled} onClick={() => callback('DUPLICATE')}>{hotkey('duplicate')}</MenuItem>
+        <MenuItem disabled={duplicateDisabled} onClick={() => callback('DUPLICATE')}>
+          {hotkey('duplicate')}
+        </MenuItem>
         <MenuDivider />
-        <MenuItem disabled={groupDisabled} onClick={() => callback('GROUP')}>{hotkey('group')}</MenuItem>
-        <MenuItem disabled={ungroupDisabled} onClick={() => callback('UNGROUP')}>{hotkey('ungroup')}</MenuItem>
+        <MenuItem disabled={groupDisabled} onClick={() => callback('GROUP')}>
+          {hotkey('group')}
+        </MenuItem>
+        <MenuItem disabled={ungroupDisabled} onClick={() => callback('UNGROUP')}>
+          {hotkey('ungroup')}
+        </MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.path}>
           <MenuItem onClick={() => callback('OFFSET')}>{menuCms.offset}</MenuItem>
-          <MenuItem disabled={decomposePathDisabled} onClick={() => callback('DECOMPOSE_PATH')}>{menuCms.decompose_path}</MenuItem>
+          <MenuItem disabled={decomposePathDisabled} onClick={() => callback('DECOMPOSE_PATH')}>
+            {menuCms.decompose_path}
+          </MenuItem>
         </SubMenu>
         <SubMenu disabled={imageEditDisabled} label={menuCms.photo_edit}>
           <MenuItem onClick={() => callback('IMAGE_SHARPEN')}>{menuCms.image_sharpen}</MenuItem>
@@ -208,22 +280,35 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('DISASSEMBLE_USE')}>{menuCms.disassemble_use}</MenuItem>
         </SubMenu>
         <SubMenu label={menuCms.layer_setting}>
-          <MenuItem onClick={() => callback('LAYER_COLOR_CONFIG')}>{menuCms.layer_color_config}</MenuItem>
+          <MenuItem onClick={() => callback('LAYER_COLOR_CONFIG')}>
+            {menuCms.layer_color_config}
+          </MenuItem>
         </SubMenu>
         <MenuDivider />
         <MenuItem onClick={() => callback('ALIGN_TO_EDGES')}>{menuCms.align_to_edges}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.optimization}>
-          <MenuItem onClick={() => callback('SVG_NEST')}>{menuCms.arrangement_optimization}</MenuItem>
+          <MenuItem onClick={() => callback('SVG_NEST')}>
+            {menuCms.arrangement_optimization}
+          </MenuItem>
         </SubMenu>
         <MenuDivider />
         <MenuItem onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
         <MenuItem onClick={() => callback('CLEAR_SCENE')}>{hotkey('clear_scene')}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.view}>
-        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>{hotkey('zoom_in')}</MenuItem>
-        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_OUT')}>{hotkey('zoom_out')}</MenuItem>
-        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('FITS_TO_WINDOW')}>{menuCms.fit_to_window}</MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>
+          {hotkey('zoom_in')}
+        </MenuItem>
+        <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_OUT')}>
+          {hotkey('zoom_out')}
+        </MenuItem>
+        <MenuItem
+          className="rc-menu__item--type-checkbox"
+          onClick={() => callback('FITS_TO_WINDOW')}
+        >
+          {menuCms.fit_to_window}
+        </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => {
@@ -282,7 +367,9 @@ export default function Menu({ email }: Props): JSX.Element {
         {deviceMenus()}
       </SubMenu>
       <SubMenu label={menuCms.help}>
-        <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>{menuCms.about_beam_studio}</MenuItem>
+        <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>
+          {menuCms.about_beam_studio}
+        </MenuItem>
         {!isMobile && (
           <MenuItem onClick={() => callback('START_TUTORIAL')}>
             {menuCms.show_start_tutorial}
@@ -291,7 +378,9 @@ export default function Menu({ email }: Props): JSX.Element {
         {!isMobile && (
           <MenuItem onClick={() => callback('START_UI_INTRO')}>{menuCms.show_ui_intro}</MenuItem>
         )}
-        <MenuItem onClick={() => callback('START_GESTURE_INTRO')}>{menuCms.show_gesture_tutorial}</MenuItem>
+        <MenuItem onClick={() => callback('START_GESTURE_INTRO')}>
+          {menuCms.show_gesture_tutorial}
+        </MenuItem>
         <MenuItem onClick={() => callback('QUESTIONNAIRE')}>{menuCms.questionnaire}</MenuItem>
         <MenuItem onClick={() => callback('CHANGE_LOGS')}>{menuCms.change_logs}</MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.help_center)}>
@@ -304,12 +393,16 @@ export default function Menu({ email }: Props): JSX.Element {
         </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
         <MenuDivider />
-        <MenuItem disabled={email === null} onClick={() => callback('MANAGE_ACCOUNT')}>{menuCms.manage_account}</MenuItem>
-        {
-          email == null
-            ? (<MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>)
-            : (<MenuItem onClick={() => callback('SIGN_OUT')}>{`${menuCms.sign_out} (${email})`}</MenuItem>)
-        }
+        <MenuItem disabled={email === null} onClick={() => callback('MANAGE_ACCOUNT')}>
+          {menuCms.manage_account}
+        </MenuItem>
+        {email == null ? (
+          <MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>
+        ) : (
+          <MenuItem
+            onClick={() => callback('SIGN_OUT')}
+          >{`${menuCms.sign_out} (${email})`}</MenuItem>
+        )}
       </SubMenu>
     </TopBarMenu>
   );

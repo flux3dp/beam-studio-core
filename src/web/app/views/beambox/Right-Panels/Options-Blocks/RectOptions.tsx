@@ -2,7 +2,6 @@ import React from 'react';
 
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
-import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
@@ -14,7 +13,9 @@ import { useIsMobile } from 'helpers/system-helper';
 import styles from './RectOptions.module.scss';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 
@@ -24,9 +25,7 @@ interface Props {
   updateDimensionValues: (val: { [key: string]: any }) => void;
 }
 
-function RectOptions({
-  elem, rx, updateDimensionValues,
-}: Props): JSX.Element {
+function RectOptions({ elem, rx, updateDimensionValues }: Props): JSX.Element {
   const isMobile = useIsMobile();
   const handleRoundedCornerChange = (val) => {
     // eslint-disable-next-line no-param-reassign
@@ -65,17 +64,7 @@ function RectOptions({
     );
   };
 
-  return isMobile ? (
-    <>
-      <InFillBlock elem={elem} />
-      {renderRoundCornerBlock()}
-    </>
-  ) : (
-    <div>
-      {renderRoundCornerBlock()}
-      <InFillBlock elem={elem} />
-    </div>
-  );
+  return isMobile ? renderRoundCornerBlock() : <div>{renderRoundCornerBlock()}</div>;
 }
 
 export default RectOptions;

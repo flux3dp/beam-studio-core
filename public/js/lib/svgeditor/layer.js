@@ -170,6 +170,24 @@ Layer.prototype.setColor = function(color) {
 	this.group_.setAttribute('data-color', color);
 };
 
+Layer.prototype.setFullColor = function(val) {
+  if (val) this.group_.setAttribute('data-fullcolor', '1');
+  else this.group_.removeAttribute('data-fullcolor');
+}
+
+Layer.prototype.getFullColor = function() {
+  return this.group_.getAttribute('data-fullcolor') === '1';
+}
+
+Layer.prototype.setFixedColor = (val) => {
+  if (val) this.group_.setAttribute('data-fixedcolor', '1');
+  else this.group_.removeAttribute('data-fixedcolor');
+}
+
+Layer.prototype.getFixedColor = function() {
+  return this.group_.getAttribute('data-fixedcolor') === '1';
+}
+
 /**
  * Append children to this layer.
  * @param {SVGGElement} children - The children to append to this layer.

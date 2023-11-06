@@ -3,14 +3,19 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action';
 import { SwipeAction } from 'antd-mobile';
 
+import ColorPicker from 'app/widgets/ColorPicker';
+import constant from 'app/actions/beambox/constant';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   deleteLayerByName,
   getAllLayerNames,
   getLayerElementByName,
   setLayerLock,
 } from 'helpers/layer/layer-helper';
+import { getData, DataType } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
@@ -34,7 +39,7 @@ interface Props {
   onSensorAreaDragEnter: (index: number) => void;
   onLayerCenterDragEnter: (layerName: string) => void;
   onLayerDoubleClick: () => void;
-  openLayerColorPanel: (e: React.MouseEvent, layerName: string) => void;
+  onLayerColorChange: (layerName: string, color: string) => void;
   setLayerVisibility: (layerName: string) => void;
   unLockLayers: (layerName: string) => void;
 }
@@ -53,7 +58,7 @@ const LayerList = ({
   onSensorAreaDragEnter,
   onLayerCenterDragEnter,
   onLayerDoubleClick,
-  openLayerColorPanel,
+  onLayerColorChange,
   setLayerVisibility,
   unLockLayers,
 }: Props): JSX.Element => {
@@ -68,6 +73,7 @@ const LayerList = ({
       ref.current.close();
     }
   }, [ref, draggingDestIndex, selectedLayers]);
+  const workarea = useWorkarea();
 
   const isAnyLayerMissing = drawing.all_layers.some((layer) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -78,12 +84,14 @@ const LayerList = ({
 
   const allLayerNames = getAllLayerNames();
   if (draggingDestIndex === allLayerNames.length) items.push(renderDragBar());
+  const shouldShowModuleIcon = constant.adorModels.includes(workarea);
 
   for (let i = allLayerNames.length - 1; i >= 0; i -= 1) {
     const layerName = allLayerNames[i];
     const layer = getLayerElementByName(layerName);
     if (layer) {
       const isLocked = layer.getAttribute('data-lock') === 'true';
+      const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
       const leftActions: Action[] = isMobile
@@ -113,6 +121,7 @@ const LayerList = ({
             },
           ]
         : undefined;
+      const module = getData<LayerModule>(layer, DataType.module);
       items.push(
         <SwipeAction
           key={layerName}
@@ -154,15 +163,31 @@ const LayerList = ({
               onDragEnter={() => onLayerCenterDragEnter(layerName)}
             >
               <div className={styles.color}>
-                <div
-                  id={`layerbackgroundColor-${i}`}
-                  style={{ backgroundColor: drawing.getLayerColor(layerName) }}
-                  onClick={(e: React.MouseEvent) => openLayerColorPanel(e, layerName)}
-                />
+                {isFullColor ? (
+                  <LayerPanelIcons.FullColor />
+                ) : (
+                  <ColorPicker
+                    initColor={drawing.getLayerColor(layerName)}
+                    printerColor={module === LayerModule.PRINTER}
+                    triggerSize="small"
+                    onChange={(color) => onLayerColorChange(layerName, color)}
+                  />
+                )}
               </div>
+              {shouldShowModuleIcon && (
+                <div className={styles.module}>
+                  {module === LayerModule.PRINTER ? (
+                    <LayerPanelIcons.Print />
+                  ) : (
+                    <LayerPanelIcons.Laser />
+                  )}
+                </div>
+              )}
               <div
                 id={`layerdoubleclick-${i}`}
-                className={styles.name}
+                className={classNames(styles.name, {
+                  [styles['with-module']]: shouldShowModuleIcon,
+                })}
                 onDoubleClick={(e: React.MouseEvent) => {
                   if (!isMobile && !e.ctrlKey && !e.shiftKey && !e.metaKey) onLayerDoubleClick();
                 }}
@@ -191,13 +216,7 @@ const LayerList = ({
                   setLayerVisibility(layerName);
                 }}
               >
-                <img
-                  className={styles.icon}
-                  src={
-                    isVis ? 'img/right-panel/icon-eyeopen.svg' : 'img/right-panel/icon-eyeclose.svg'
-                  }
-                  alt="vis-icon"
-                />
+                {isVis ? <LayerPanelIcons.Visible /> : <LayerPanelIcons.Invisible />}
               </div>
               {isMobile && (
                 <div>

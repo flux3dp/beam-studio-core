@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Modal, Segmented } from 'antd';
-import { useState, useRef, useEffect, useContext } from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -10,18 +9,18 @@ import Constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
-import i18n from 'helpers/i18n';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
+import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
 import { CalibrationContext } from 'app/contexts/CalibrationContext';
 import { CameraConfig, STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
 import { doGetOffsetFromPicture } from 'helpers/camera-calibration-helper';
 
-const LANG = i18n.lang.camera_calibration;
-const LANG_ALERT = i18n.lang.alert;
-
 const StepRefocus = (): JSX.Element => {
+  const lang = useI18n();
+  const langAlert = lang.alert;
+  const langCalibration = lang.calibration;
   const context = useContext(CalibrationContext);
   const {
     calibratedMachines,
@@ -59,7 +58,7 @@ const StepRefocus = (): JSX.Element => {
       setLastConfig(PreviewModeController.getCameraOffsetStandard());
       Progress.openNonstopProgress({
         id: 'taking-picture',
-        message: LANG.taking_picture,
+        message: langCalibration.taking_picture,
         timeout: 30000,
       });
       const movementX = Constant.camera.calibrationPicture.centerX - Constant.camera.offsetX_ideal;
@@ -98,8 +97,8 @@ const StepRefocus = (): JSX.Element => {
         <div className="tab-container">
           <Segmented
             block
-            options={[LANG.without_af, LANG.with_af]}
-            onChange={(v) => setIsAutoFocus(v === LANG.with_af)}
+            options={[langCalibration.without_af, langCalibration.with_af]}
+            onChange={(v) => setIsAutoFocus(v === langCalibration.with_af)}
           />
         </div>
         <video className="video" ref={videoElem} autoPlay loop muted>
@@ -108,9 +107,9 @@ const StepRefocus = (): JSX.Element => {
         </video>
       </div>
     );
-    message = isAutoFocus ? LANG.please_refocus.beamo_af : LANG.please_refocus.beamo;
+    message = isAutoFocus ? langCalibration.please_refocus.beamo_af : langCalibration.please_refocus.beamo;
   } else if (device.model === DeviceConstants.Model.HEXA) {
-    message = LANG.please_refocus.hexa;
+    message = langCalibration.please_refocus.hexa;
     child = (
       <video className="video" ref={videoElem} autoPlay loop>
         <source src="video/bb2_focus.webm" type="video/webm" />
@@ -118,7 +117,7 @@ const StepRefocus = (): JSX.Element => {
       </video>
     );
   } else {
-    message = LANG.please_refocus.beambox;
+    message = langCalibration.please_refocus.beambox;
     child = (
       <video className="video" ref={videoElem} autoPlay loop muted>
         <source src="video/bb_focus.webm" type="video/webm" />
@@ -149,14 +148,14 @@ const StepRefocus = (): JSX.Element => {
         id: 'camera-cali-err',
         type: AlertConstants.SHOW_POPUP_ERROR,
         message: `#815 ${errorMessage || 'Fail to cut and capture'}`,
-        buttonLabels: [LANG_ALERT.ok, LANG_ALERT.learn_more],
+        buttonLabels: [langAlert.ok, langAlert.learn_more],
         callbacks: [
           async () => {
             const report = await DeviceMaster.getReport();
             device.st_id = report.st_id;
             await CheckDeviceStatus(device, false, true);
           },
-          () => Browser.open(LANG.zendesk_link),
+          () => Browser.open(langCalibration.zendesk_link),
         ],
         primaryButtonIndex: 0,
       });
@@ -169,10 +168,10 @@ const StepRefocus = (): JSX.Element => {
       open
       centered
       className="modal-camera-calibration"
-      title={LANG.camera_calibration}
+      title={langCalibration.camera_calibration}
       onCancel={() => onClose(false)}
-      cancelText={LANG.cancel}
-      okText={LANG.start_engrave}
+      cancelText={langCalibration.cancel}
+      okText={langCalibration.start_engrave}
       onOk={onEngrave}
       okButtonProps={{ disabled: isCutButtonDisabled }}
     >

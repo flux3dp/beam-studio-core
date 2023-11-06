@@ -12,6 +12,18 @@ export interface ILayerConfig {
   zStep: IConfig<number>;
   diode: IConfig<number>;
   configName: IConfig<string>;
-  type: IConfig<number>;
+  module: IConfig<number>;
   backlash: IConfig<number>;
+  multipass: IConfig<number>;
+  uv: IConfig<number>;
+  wInk: IConfig<number>;
+  wSpeed: IConfig<number>;
+  wMultipass: IConfig<number>;
+  wRepeat: IConfig<number>;
+  color: IConfig<string>;
+  fullcolor: IConfig<boolean>;
+  cRatio: IConfig<number>;
+  mRatio: IConfig<number>;
+  yRatio: IConfig<number>;
+  kRatio: IConfig<number>;
 }

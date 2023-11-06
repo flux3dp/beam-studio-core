@@ -15,6 +15,9 @@ export interface ILang {
     },
     export: string,
     preview: string,
+    preview_title: string;
+    task_preview: string;
+    frame_task: string;
     borderless: string,
     tag_names: {
       rect: string,
@@ -64,6 +67,10 @@ export interface ILang {
       import_material_testing_cut: string;
       import_material_testing_engrave: string;
       import_material_testing_line: string;
+      import_material_printing_test: string;
+      import_ador_laser_example: string;
+      import_ador_printing_example_single: string;
+      import_ador_printing_example_full: string;
       import_acrylic_focus_probe: string;
       export_to: string;
       export_flux_task: string;
@@ -130,6 +137,8 @@ export interface ILang {
       using_beam_studio_api: string;
       set_as_default: string;
       calibrate_beambox_camera: string;
+      calibrate_printer_module: string;
+      calibrate_ir_module: string;
       calibrate_beambox_camera_borderless: string;
       calibrate_diode_module: string;
       manage_account: string;
@@ -318,6 +327,9 @@ export interface ILang {
       title_sub: string,
       tutorial1: string,
       tutorial2: string,
+      turn_off_machine: string;
+      turn_on_machine: string;
+      wait_for_turning_on: string;
     },
     connect_machine_ip: {
       check_usb: string,
@@ -422,7 +434,12 @@ export interface ILang {
     enabled: string,
     disabled: string,
     cancel: string,
-    done: string,
+    done: string;
+    module_offset_10w: string;
+    module_offset_20w: string;
+    module_offset_printer: string;
+    module_offset_2w_ir: string;
+    printer_advanced_mode: string;
     groups: {
       general: string,
       update: string,
@@ -434,7 +451,8 @@ export interface ILang {
       path: string,
       mask: string,
       text_to_path: string,
-      modules: string,
+      modules: string;
+      ador_modules: string;
       privacy: string,
     },
     notification_on: string,
@@ -481,6 +499,7 @@ export interface ILang {
     },
     popup: {
       select_import_method: string,
+      select_import_module: string;
       touchpad: string,
       mouse: string,
       layer_by_layer: string,
@@ -586,6 +605,8 @@ export interface ILang {
         end_preview: string,
         clear_preview: string,
         choose_camera: string,
+        live_feed: string;
+        adjust_height: string;
       },
     },
     right_panel: {
@@ -599,6 +620,7 @@ export interface ILang {
         layer_bitmap: string,
         layer_engraving: string,
         layer_cutting: string,
+        current_layer: string,
         move_elems_to: string,
         notification: {
           dupeLayerName: string,
@@ -607,6 +629,16 @@ export interface ILang {
           enterNewLayerName: string,
           layerHasThatName: string,
           QmoveElemsToLayer: string,
+          moveElemFromPrintingLayerTitle: string;
+          moveElemFromPrintingLayerMsg: string;
+          moveElemToPrintingLayerTitle: string;
+          moveElemToPrintingLayerMsg: string;
+          splitColorTitle: string;
+          splitColorMsg: string;
+          mergeLaserLayerToPrintingLayerTitle: string;
+          mergeLaserLayerToPrintingLayerMsg: string;
+          mergePrintingLayerToLaserLayerTitle: string;
+          mergePrintingLayerToLaserLayerMsg: string;
         },
         layers: {
           layer: string,
@@ -624,6 +656,10 @@ export interface ILang {
           merge_selected: string,
           move_elems_to: string,
           move_selected: string,
+          switchToFullColor: string;
+          switchToSingleColor: string;
+          splitFullColor: string;
+          fullColor: string;
         },
       },
       laser_panel: {
@@ -642,6 +678,12 @@ export interface ILang {
         z_step: string,
         diode: string,
         backlash: string;
+        ink_saturation: string;
+        print_multipass: string;
+        white_ink: string;
+        white_ink_settings: string;
+        color_adjustment: string;
+        color_adjustment_short: string;
         times: string,
         cut: string,
         engrave: string,
@@ -662,6 +704,18 @@ export interface ILang {
         sure_to_load_config: string,
         custom_preset: string,
         various_preset: string,
+        module: string;
+        slider: {
+          regular: string;
+          low: string;
+          very_low: string;
+          high: string;
+          very_high: string;
+          slow: string;
+          very_slow: string;
+          fast: string;
+          very_fast: string;
+        };
         dropdown: {
           parameters: string,
           save: string,
@@ -669,48 +723,104 @@ export interface ILang {
           import: string,
           more: string,
           mm: {
-            wood_3mm_cutting: string,
-            wood_5mm_cutting: string,
-            wood_8mm_cutting: string,
-            wood_10mm_cutting: string,
-            wood_engraving: string,
-            acrylic_3mm_cutting: string,
-            acrylic_5mm_cutting: string,
-            acrylic_8mm_cutting: string,
-            acrylic_10mm_cutting: string,
-            acrylic_engraving: string,
-            leather_3mm_cutting: string,
-            leather_5mm_cutting: string,
-            leather_engraving: string,
-            fabric_3mm_cutting: string,
-            fabric_5mm_cutting: string,
-            fabric_engraving: string,
-            rubber_bw_engraving: string,
-            glass_bw_engraving: string,
-            metal_bw_engraving: string,
-            stainless_steel_bw_engraving_diode: string,
+            wood_3mm_cutting: string;
+            wood_5mm_cutting: string;
+            wood_7mm_cutting: string;
+            wood_8mm_cutting: string;
+            wood_10mm_cutting: string;
+            wood_engraving: string;
+            acrylic_3mm_cutting: string;
+            acrylic_5mm_cutting: string;
+            acrylic_8mm_cutting: string;
+            acrylic_10mm_cutting: string;
+            acrylic_engraving: string;
+            mdf_3mm_cutting: string;
+            mdf_5mm_cutting: string;
+            mdf_engraving: string;
+            leather_3mm_cutting: string;
+            leather_5mm_cutting: string;
+            leather_engraving: string;
+            denim_1mm_cutting: string;
+            fabric_3mm_cutting: string;
+            fabric_5mm_cutting: string;
+            fabric_engraving: string;
+            rubber_bw_engraving: string;
+            glass_bw_engraving: string;
+            metal_bw_engraving: string;
+            stainless_steel_bw_engraving_diode: string;
+            gold_engraving: string;
+            brass_engraving: string;
+            ti_engraving: string;
+            stainless_steel_engraving;
+            aluminum_engraving: string;
+            black_acrylic_3mm_cutting: string;
+            black_acrylic_5mm_cutting: string;
+            black_acrylic_engraving: string;
+            abs_engraving: string;
+            silver_engraving: string;
+            iron_engraving: string;
+            fabric_printing: string;
+            canvas_printing: string;
+            cardstock_printing: string;
+            wood_printing: string;
+            bamboo_printing: string;
+            cork_printing: string;
+            flat_stone_printing: string;
+            acrylic_printing: string;
+            pc_printing: string;
+            stainless_steel_printing: string;
+            gloss_leather_printing: string;
+            glass_printing: string;
           },
           inches: {
-            wood_3mm_cutting: string,
-            wood_5mm_cutting: string,
-            wood_8mm_cutting: string,
-            wood_10mm_cutting: string,
-            wood_engraving: string,
-            acrylic_3mm_cutting: string,
-            acrylic_5mm_cutting: string,
-            acrylic_8mm_cutting: string,
-            acrylic_10mm_cutting: string,
-            acrylic_engraving: string,
-            leather_3mm_cutting: string,
-            leather_5mm_cutting: string,
-            leather_engraving: string,
-            fabric_3mm_cutting: string,
-            fabric_5mm_cutting: string,
-            fabric_engraving: string,
-            rubber_bw_engraving: string,
-            glass_bw_engraving: string,
-            metal_bw_engraving: string,
-            stainless_steel_bw_engraving_diode: string,
+            wood_3mm_cutting: string;
+            wood_5mm_cutting: string;
+            wood_7mm_cutting: string;
+            wood_8mm_cutting: string;
+            wood_10mm_cutting: string;
+            wood_engraving: string;
+            acrylic_3mm_cutting: string;
+            acrylic_5mm_cutting: string;
+            acrylic_8mm_cutting: string;
+            acrylic_10mm_cutting: string;
+            acrylic_engraving: string;
+            mdf_3mm_cutting: string;
+            mdf_5mm_cutting: string;
+            mdf_engraving: string;
+            leather_3mm_cutting: string;
+            leather_5mm_cutting: string;
+            leather_engraving: string;
+            denim_1mm_cutting: string;
+            fabric_3mm_cutting: string;
+            fabric_5mm_cutting: string;
+            fabric_engraving: string;
+            rubber_bw_engraving: string;
+            glass_bw_engraving: string;
+            metal_bw_engraving: string;
+            stainless_steel_bw_engraving_diode: string;
+            gold_engraving: string;
+            brass_engraving: string;
+            ti_engraving: string;
+            stainless_steel_engraving: string;
+            aluminum_engraving: string;
+            black_acrylic_3mm_cutting: string;
+            black_acrylic_5mm_cutting: string;
+            black_acrylic_engraving: string;
+            abs_engraving: string;
+            silver_engraving: string;
+            iron_engraving: string;
+            fabric_printing: string;
+            canvas_printing: string;
+            cardstock_printing: string;
+            wood_printing: string;
+            bamboo_printing: string;
+            cork_printing: string;
+            flat_stone_printing: string;
+            acrylic_printing: string;
+            pc_printing: string;
+            stainless_steel_printing: string;
+            gloss_leather_printing: string;
+            glass_printing: string;
           },
         },
         laser_speed: {
@@ -729,6 +839,11 @@ export interface ILang {
           min: number,
           max: number,
           step: number,
+        },
+        ink_type: {
+          text: string,
+          normal: string,
+          UV: string,
         },
         para_in_use: string,
         do_not_adjust_default_para: string,
@@ -776,6 +891,10 @@ export interface ILang {
           shading: string,
           threshold: string,
           threshold_short: string,
+          stroke: string,
+          stroke_color: string,
+          stroke_width: string,
+          color: string,
         },
         actions_panel: {
           replace_with: string,
@@ -876,6 +995,9 @@ export interface ILang {
       disable: string,
       cancel: string,
       save: string,
+      notification: {
+        changeFromPrintingWorkareaTitle: string;
+      };
     },
     object_panels: {
       wait_for_parsing_font: string,
@@ -1005,6 +1127,9 @@ export interface ILang {
       label: string,
     },
   },
+  editor: {
+    prespray_area: string;
+  };
   flux_id_login: {
     connection_fail: string,
     login_success: string,
@@ -1112,8 +1237,13 @@ export interface ILang {
     HARDWARE_ERROR_FIRE_DETECTED: string;
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: string;
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: string;
-    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: string,
+    HARDWARE_ERROR_HOMING_PULLOFF_FAILED: string;
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: string;
+    HARDWARE_ERROR_HEADTYPE_NONE: string;
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: string;
+    HARDWARE_ERROR_PRINTER_NO_RESPONSE: string;
     USER_OPERATION_ROTARY_PAUSE: string,
+    USER_OPERATION_REMOVE_CARTRIDGE: string;
     RESOURCE_BUSY: string,
     DEVICE_ERROR: string,
     NO_RESPONSE: string,
@@ -1149,6 +1279,7 @@ export interface ILang {
     info: string,
     warning: string,
     error: string,
+    instruction: string;
     oops: string,
     retry: string,
     abort: string,
@@ -1186,6 +1317,7 @@ export interface ILang {
     connectingCamera: string,
     homing: string,
     connectionTimeout: string,
+    getProbePosition: string;
     device_not_found: {
       caption: string,
       message: string,
@@ -1220,8 +1352,21 @@ export interface ILang {
       continue_preview: string,
       abort_preview: string,
     },
+    preview: {
+      camera_preview: string;
+      auto_focus: string;
+      auto_focus_instruction: string;
+      already_performed_auto_focus: string;
+      please_enter_height: string;
+      apply: string;
+      enter_manually: string;
+      adjust: string;
+      adjust_height_tooltip: string;
+    };
+    unsupported_example_file: string;
   },
   machine_status: {
+    '-17': string,
     '-10': string,
     '-2': string,
     '-1': string,
@@ -1245,10 +1390,13 @@ export interface ILang {
     512: string;
     UNKNOWN: string,
   },
-  camera_calibration: {
-    update_firmware_msg1: string,
-    update_firmware_msg2: string,
-    camera_calibration: string,
+  calibration: {
+    update_firmware_msg1: string;
+    update_firmware_msg2: string;
+    camera_calibration: string;
+    diode_calibration: string;
+    module_calibration_printer: string;
+    module_calibration_2w_ir: string;
     back: string,
     next: string,
     skip: string,
@@ -1256,9 +1404,12 @@ export interface ILang {
     finish: string,
     do_engraving: string,
     start_engrave: string,
+    start_printing: string;
     ask_for_readjust: string,
     please_goto_beambox_first: string,
     please_place_paper: string,
+    please_place_paper_center: string;
+    please_place_dark_colored_paper: string;
     please_refocus: {
       beambox: string,
       beamo: string,
@@ -1278,36 +1429,27 @@ export interface ILang {
     analyze_result_fail: string,
     drawing_calibration_image: string,
     calibrate_done: string,
+    calibrate_done_diode: string;
     hint_red_square: string,
     hint_adjust_parameters: string,
     zendesk_link: string;
-  },
-  diode_calibration: {
-    update_firmware_msg1: string,
-    update_firmware_msg2: string,
-    diode_calibration: string,
-    back: string,
-    next: string,
-    skip: string,
-    cancel: string,
-    finish: string,
-    do_engraving: string,
-    start_engrave: string,
-    ask_for_readjust: string,
     please_do_camera_calibration_and_focus: {
       beambox: string,
       beamo: string,
-    },
-    please_place_paper: string,
-    dx: string,
-    dy: string,
-    drawing_calibration_image: string,
-    taking_picture: string,
-    calibrate_done: string,
-    hint_red_square: string,
-    hint_adjust_parameters: string,
-    zendesk_link: string;
-  },
+    };
+    downloading_pictures: string;
+    failed_to_download_pictures: string;
+    uploading_images: string;
+    calculating_camera_matrix: string;
+    calculating_regression_parameters: string;
+    failed_to_calibrate_camera: string;
+    failed_to_save_calibration_results: string;
+    ador_autofocus: string;
+    align_red_cross_cut: string;
+    align_red_cross_print: string;
+    retake: string;
+    calibrate_camera_before_calibrate_modules: string;
+  };
   input_machine_password: {
     require_password: string,
     connect: string,
@@ -1366,8 +1508,6 @@ export interface ILang {
       object_actions: string,
       end_alert: string,
       select_machine: string,
-      frame: string,
-      path_preview: string,
       start_work: string,
     },
     gesture: {
@@ -1381,5 +1521,18 @@ export interface ILang {
       adjust_focus: string,
     },
     tutorial_complete: string,
+  },
+  layer_module: {
+    general_laser: string;
+    laser_10w_diode: string;
+    laser_20w_diode: string;
+    laser_2w_infrared: string;
+    printing: string;
+    notification: {
+      convertFromPrintingModuleTitle: string;
+      convertFromPrintingModuleMsg: string;
+      convertFromLaserModuleTitle: string;
+      convertFromLaserModuleMsg: string;
+    };
   },
 }

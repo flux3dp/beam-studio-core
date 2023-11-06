@@ -16,6 +16,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { checkConnection } from 'helpers/api/discover';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
@@ -577,9 +578,7 @@ class ActionsPanel extends React.Component<Props> {
                 path = svgCanvas.convertToPath(path);
               }
               textPathEdit.attachTextToPath(text, path);
-              if (svgCanvas.isUsingLayerColor) {
-                svgCanvas.updateElementColor(text);
-              }
+              updateElementColor(text);
             },
             <ActionPanelIcons.CreateTextpath />,
             <ActionPanelIcons.CreateTextpath />,

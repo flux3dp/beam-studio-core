@@ -26,7 +26,7 @@ export default {
             uploadFormData.append('file', reportFile);
             uploadFormData.append('Content-Type', reportFile.type);
             uploadFormData.append('acl', 'bucket-owner-full-control');
-            uploadFormData.append('key', `svg&bvg/reportName`);
+            uploadFormData.append('key', `svg&bvg/${reportName}`);
 
             const url = `https://beamstudio-bug-report.s3.amazonaws.com/svg&bvg/reportName`;
             const config = {

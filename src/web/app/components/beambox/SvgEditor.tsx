@@ -86,7 +86,7 @@ export default class SvgEditor extends React.Component {
               <div className="push_button" id="tool_source" title="Edit Source [U]" />
             </div>
             <div id="text_panel">
-              <input id="text" type="text" size={35} enterKeyHint="enter" />
+              <input id="text" type="text" size={35} />
             </div>
           </div>
           <div id="cur_context_panel" />

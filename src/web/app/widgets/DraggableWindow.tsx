@@ -29,6 +29,7 @@ class DraggableWindow extends React.PureComponent<Props> {
       handleClass,
     } = this.props;
     return (
+      // @ts-expect-error 'Draggable' cannot be used as a JSX component.
       <Draggable
         handle=".handle"
         defaultClassName={classNames('react-draggable', containerClass)}

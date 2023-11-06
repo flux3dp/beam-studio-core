@@ -11,40 +11,53 @@ exports[`test PowerBlock should render correctly 1`] = `
       strength
     </span>
     <div>
-      MockUnitInput
+      MockConfigValueDisplay
       <p>
-        id: 
-        power
+        inputId: 
+        power-input
       </p>
       <p>
-        min: 
-        1
+        type: 
+        default
       </p>
       <p>
         max: 
         100
       </p>
       <p>
+        min: 
+        1
+      </p>
+      <p>
+        value: 
+        87
+      </p>
+      <p>
         unit: 
         %
       </p>
       <p>
-        defaultValue: 
-        87
+        hasMultiValue: 
       </p>
       <p>
         decimal: 
         1
       </p>
       <p>
-        displayMultiValue: 
+        options: 
       </p>
+      <button
+        type="button"
+      >
+        MockConfigValueDisplayButton
+      </button>
     </div>
     <input
+      class="mock-config-slider"
       id="power_value"
       max="100"
       min="1"
-      step="1"
+      step="0.1"
       type="range"
       value="87"
     />
@@ -63,40 +76,53 @@ exports[`test PowerBlock should render correctly whe power is low 1`] = `
       strength
     </span>
     <div>
-      MockUnitInput
+      MockConfigValueDisplay
       <p>
-        id: 
-        power
+        inputId: 
+        power-input
       </p>
       <p>
-        min: 
-        1
+        type: 
+        default
       </p>
       <p>
         max: 
         100
       </p>
       <p>
+        min: 
+        1
+      </p>
+      <p>
+        value: 
+        7
+      </p>
+      <p>
         unit: 
         %
       </p>
       <p>
-        defaultValue: 
-        7
+        hasMultiValue: 
       </p>
       <p>
         decimal: 
         1
       </p>
       <p>
-        displayMultiValue: 
+        options: 
       </p>
+      <button
+        type="button"
+      >
+        MockConfigValueDisplayButton
+      </button>
     </div>
     <input
+      class="mock-config-slider"
       id="power_value"
       max="100"
       min="1"
-      step="1"
+      step="0.1"
       type="range"
       value="7"
     />

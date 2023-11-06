@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Icon from '@ant-design/icons';
 import ReactDomServer from 'react-dom/server';
 import { CapsuleTabs } from 'antd-mobile';
@@ -8,9 +8,14 @@ import FloatingPanel from 'app/widgets/FloatingPanel';
 import history from 'app/svgedit/history';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import i18n from 'helpers/i18n';
+import importSvgString from 'app/svgedit/operations/import/importSvgString';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import ShapeIcon from 'app/icons/shape/ShapeIcon';
 import Shapes, { ShapeTabs } from 'app/constants/shape-panel-constants';
+import updateElementColor from 'helpers/color/updateElementColor';
+import { DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getLayerByName } from 'helpers/layer/layer-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './ShapePanel.module.scss';
@@ -36,7 +41,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
       });
       svgCanvas.addCommandToHistory(new history.InsertElementCommand(newElement));
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newElement);
+        updateElementColor(newElement);
       }
       // Ensure ObjectPanelContextProvider has mounted in mobile
       await svgCanvas.selectOnly([newElement]);
@@ -47,8 +52,16 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
         /fill= ?"#(fff(fff)?|FFF(FFF))"/g,
         'fill="none"'
       );
+      const drawing = svgCanvas.getCurrentDrawing();
+      const layerName = drawing.getCurrentLayerName();
+      const layerModule = getData<LayerModule>(getLayerByName(layerName), DataType.module);
       const batchCmd = HistoryCommandFactory.createBatchCommand('Shape Panel Import SVG');
-      const newElementnewElement = await svgCanvas.importSvgString(iconString, 'layer', undefined, batchCmd);
+      const newElementnewElement = await importSvgString(iconString, {
+        type: 'layer',
+        parentCmd: batchCmd,
+        layerName,
+        targetModule: layerModule,
+      });
       const { width, height } = svgCanvas.getSvgRealLocation(newElementnewElement);
       const [newWidth, newHeight] = width > height ? [500, (height * 500) / width] : [(width * 500) / height, 500];
       svgCanvas.selectOnly([newElementnewElement]);
@@ -58,6 +71,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
       batchCmd.addSubCommand(svgCanvas.setSvgElemPosition('y', 0, newElementnewElement, false));
       newElementnewElement.setAttribute('data-ratiofixed', 'true');
       batchCmd.addSubCommand(await svgCanvas.disassembleUse2Group([newElementnewElement], true, false));
+      updateElementColor(svgCanvas.getSelectedElems()[0]);
       svgCanvas.addCommandToHistory(batchCmd);
     }
     setClose(true);

@@ -108,7 +108,7 @@ exports[`should render correctly initially no warning 1`] = `
         {
           "label": "Ador",
           "selected": false,
-          "value": "fad1",
+          "value": "ado1",
         },
       ]
     }
@@ -416,7 +416,7 @@ exports[`should render correctly initially no warning 2`] = `
         {
           "label": "Ador",
           "selected": false,
-          "value": "fad1",
+          "value": "ado1",
         },
       ]
     }
@@ -739,7 +739,7 @@ exports[`should render correctly initially no warning 3`] = `
         {
           "label": "Ador",
           "selected": false,
-          "value": "fad1",
+          "value": "ado1",
         },
       ]
     }
@@ -1062,7 +1062,7 @@ exports[`should render correctly initially no warning 4`] = `
         {
           "label": "Ador",
           "selected": false,
-          "value": "fad1",
+          "value": "ado1",
         },
       ]
     }

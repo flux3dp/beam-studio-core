@@ -23,9 +23,6 @@ exports[`test PolygonOptions should render correctly 1`] = `
         
       </div>
     </div>
-    <div>
-      DummyInFillBlock
-    </div>
   </div>
 </div>
 `;
@@ -52,9 +49,6 @@ exports[`test PolygonOptions should render correctly 2`] = `
         />
         
       </div>
-    </div>
-    <div>
-      DummyInFillBlock
     </div>
   </div>
 </div>
@@ -83,9 +77,6 @@ exports[`test PolygonOptions should render correctly 3`] = `
         
       </div>
     </div>
-    <div>
-      DummyInFillBlock
-    </div>
   </div>
 </div>
 `;
@@ -113,18 +104,12 @@ exports[`test PolygonOptions should render correctly 4`] = `
         
       </div>
     </div>
-    <div>
-      DummyInFillBlock
-    </div>
   </div>
 </div>
 `;
 
 exports[`test PolygonOptions should render correctly in mobile 1`] = `
 <div>
-  <div>
-    DummyInFillBlock
-  </div>
   <div
     class="object-panel-item"
     id="polygon-sides"
@@ -152,9 +137,6 @@ exports[`test PolygonOptions should render correctly in mobile 1`] = `
 
 exports[`test PolygonOptions should render correctly in mobile 2`] = `
 <div>
-  <div>
-    DummyInFillBlock
-  </div>
   <div
     class="object-panel-item"
     id="polygon-sides"

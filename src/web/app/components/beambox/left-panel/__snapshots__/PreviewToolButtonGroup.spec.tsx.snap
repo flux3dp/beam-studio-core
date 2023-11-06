@@ -4,31 +4,28 @@ exports[`should render correctly 1`] = `
 <div
   className="left-toolbar"
 >
-  <PreviewToolButton
-    className="tool-btn"
-    iconName="back"
-    id="left-Exit-Preview"
+  <LeftPanelButton
+    icon={<svgr-url />}
+    id="preview back"
     onClick={[MockFunction]}
     title="End Preview"
   />
-  <PreviewToolButton
-    className="tool-btn"
-    iconName="shoot"
-    id="left-Shoot"
+  <LeftPanelButton
+    active={true}
+    icon={<svgr-url />}
+    id="preview-shoot"
     onClick={[Function]}
     title="Camera Preview"
   />
-  <PreviewToolButton
-    className="tool-btn"
-    iconName="trace"
-    id="left-Trace"
+  <LeftPanelButton
+    icon={<svgr-url />}
+    id="image-trace"
     onClick={[Function]}
     title="Trace Image"
   />
-  <PreviewToolButton
-    className="tool-btn"
-    iconName="trash"
-    id="left-Trash"
+  <LeftPanelButton
+    icon={<svgr-url />}
+    id="clear-preview"
     onClick={[Function]}
     title="Clear Preview"
   />

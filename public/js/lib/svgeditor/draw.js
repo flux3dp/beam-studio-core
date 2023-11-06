@@ -340,51 +340,6 @@
         return pos;
     };
 
-    /**
-     * Set the current layer's position.
-     * @param {number} newpos - The zero-based index of the new position of the layer. Range should be 0 to layers-1
-     * @returns {Object} If the name was changed, returns {title:SVGGElement, previousName:string}; otherwise null.
-     */
-    svgedit.draw.Drawing.prototype.setCurrentLayerPosition = function (newpos) {
-        var layer_count = this.getNumLayers();
-        if (!this.current_layer || newpos < 0 || newpos >= layer_count) {
-            return null;
-        }
-
-        var oldpos;
-        for (oldpos = 0; oldpos < layer_count; ++oldpos) {
-            if (this.all_layers[oldpos] === this.current_layer) { break; }
-        }
-        // some unknown error condition (current_layer not in all_layers)
-        if (oldpos == layer_count) { return null; }
-
-        if (oldpos != newpos) {
-            // if our new position is below us, we need to insert before the node after newpos
-            var refGroup = null;
-            var current_group = this.current_layer.getGroup();
-            var oldNextSibling = current_group.nextSibling;
-            if (newpos > oldpos) {
-                if (newpos < layer_count - 1) {
-                    refGroup = this.all_layers[newpos + 1].getGroup();
-                }
-            }
-            // if our new position is above us, we need to insert before the node at newpos
-            else {
-                refGroup = this.all_layers[newpos].getGroup();
-            }
-            this.svgElem_.insertBefore(current_group, refGroup);
-
-            this.identifyLayers();
-            this.setCurrentLayer(this.getLayerName(newpos));
-
-            return {
-                currentGroup: current_group,
-                oldNextSibling: oldNextSibling
-            };
-        }
-        return null;
-    };
-
     svgedit.draw.Drawing.prototype.mergeLayer = function (hrService) {
         var current_group = this.current_layer.getGroup();
         var prevGroup = $(current_group).prev()[0];
@@ -495,13 +450,14 @@
     /**
      * Given a set of names, return a new unique name.
      * @param {Array.<string>} existingLayerNames - Existing layer names.
+     * @param {string} name - The given name. If the layer name exists, a name + id will be generated.
      * @returns {string} - The new name.
      */
-    function getNewLayerName(existingLayerNames) {
-        var i = 1;
-        // TODO(codedread): What about internationalization of "Layer"?
-        while (existingLayerNames.indexOf(('Layer ' + i)) >= 0) { i++; }
-        return 'Layer ' + i;
+    function getNewLayerName(existingLayerNames, name = 'Layer') {
+      let i = 1;
+      // TODO(codedread): What about internationalization of "Layer"?
+      while (existingLayerNames.indexOf((`${name} ${i}`)) >= 0) { i++; }
+      return `${name} ${i}`;
     }
 
     /**
@@ -571,7 +527,7 @@
         }
         // Check for duplicate name.
         if (name === undefined || name === null || name === '' || this.layer_map[name]) {
-            name = getNewLayerName(Object.keys(this.layer_map));
+            name = getNewLayerName(Object.keys(this.layer_map), name || 'Layer');
         }
 
         // Crate new layer and add to DOM as last layer

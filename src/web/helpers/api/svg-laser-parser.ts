@@ -13,7 +13,9 @@ import constant from 'app/actions/beambox/constant';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -61,6 +63,22 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
     return null;
   };
 
+  const setModuleOffset = (clear = false) => new Promise<null>((resolve, reject) => {
+    events.onMessage = (data) => {
+      if (data.status === 'ok') {
+        resolve(null);
+      }
+    };
+    events.onError = (data) => {
+      reject(data);
+    };
+    if (clear) ws.send(['set_params', 'module_offsets', JSON.stringify({})].join(' '));
+    else {
+      const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
+      ws.send(['set_params', 'module_offsets', JSON.stringify(offsets)].join(' '));
+    }
+  });
+
   return {
     async getTaskCode(names, opts) {
       opts = opts || {};
@@ -79,18 +97,18 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let blob;
 
       const isDevMode = isDev();
+      const paddingAccel = BeamboxPreference.read('padding_accel');
+      // Not real acceleration, just for calculating padding distance
       if (opts.model === 'fhexa1') {
         args.push('-hexa');
-        if (!isDevMode) args.push('-acc', '7500');
+        if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
       } else if (opts.model === 'fbb1p') args.push('-pro');
       else if (opts.model === 'fbm1') args.push('-beamo');
-      else if (opts.model === 'fad1') args.push('-fad1');
-
-      if (isDevMode) {
-        const accel = BeamboxPreference.read('padding_accel') || 7500;
-        args.push('-acc', accel);
+      else if (opts.model === 'ado1') {
+        args.push('-ado1');
+        if (!isDevMode || !paddingAccel) args.push('-acc', '3200');
       }
-
+      if (isDevMode && paddingAccel) args.push('-acc', paddingAccel);
       if (opts.codeType === 'gcode') args.push('-gc');
 
       const rotaryMode = BeamboxPreference.read('rotary_mode');
@@ -101,6 +119,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
         }
+      }
+
+      if (constant.adorModels.includes(opts.model)) {
+        const { x, y, w, h } = presprayArea.getPosition(true);
+        args.push('-prespray');
+        args.push(`${x},${y},${w},${h}`);
+        if (BeamboxPreference.read('multipass-compensation') !== false) args.push('-mpc');
+        if (BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
       }
 
       if (
@@ -137,7 +163,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
+      const modelMinSpeed = constant.dimension.getMinSpeed(opts.model);
+      if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
+      else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
       if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
       if (isDevMode && localStorage.getItem('min_engraving_padding')) {
@@ -148,11 +176,27 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-mpp');
         args.push(localStorage.getItem('min_printing_padding'));
       }
+      if (isDevMode && localStorage.getItem('printing_top_padding')) {
+        args.push('-ptp');
+        args.push(localStorage.getItem('printing_top_padding'));
+      }
+      if (isDevMode && localStorage.getItem('printing_bot_padding')) {
+        args.push('-pbp');
+        args.push(localStorage.getItem('printing_bot_padding'));
+      }
+      if (isDevMode && localStorage.getItem('nozzle_votage')) {
+        args.push('-nv');
+        args.push(localStorage.getItem('nozzle_votage'));
+      }
+      if (isDevMode && localStorage.getItem('nozzle_pulse_width')) {
+        args.push('-npw');
+        args.push(localStorage.getItem('nozzle_pulse_width'));
+      }
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
-      if (loopCompensation > 0) {
-        await setParameter(loopCompensation);
-      }
+      if (loopCompensation > 0) await setParameter(loopCompensation);
+      if (opts.model === 'ado1') await setModuleOffset();
+      else await setModuleOffset(true);
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);
@@ -538,24 +582,28 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          else if (opts.model === 'fad1') args.push('-fad1');
+          else if (opts.model === 'ado1') args.push('-ado1');
 
-          switch (opts.engraveDpi) {
-            case 'low':
-              args.push('-ldpi');
-              break;
-            case 'medium':
-              args.push('-mdpi');
-              break;
-            case 'high':
-              args.push('-hdpi');
-              break;
-            case 'ultra':
-              args.push('-udpi');
-              break;
-            default:
-              args.push('-mdpi');
-              break;
+          if (typeof opts.engraveDpi === 'number') {
+            args.push(`-dpi ${opts.engraveDpi}`);
+          } else {
+            switch (opts.engraveDpi) {
+              case 'low':
+                args.push('-ldpi');
+                break;
+              case 'medium':
+                args.push('-mdpi');
+                break;
+              case 'high':
+                args.push('-hdpi');
+                break;
+              case 'ultra':
+                args.push('-udpi');
+                break;
+              default:
+                args.push('-mdpi');
+                break;
+            }
           }
         }
         ws.send(args.join(' '));

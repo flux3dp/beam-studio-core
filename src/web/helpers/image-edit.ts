@@ -12,6 +12,7 @@ import imageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
 import progress from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -42,33 +43,36 @@ const getSelectedElem = (): SVGImageElement => {
 
 const getImageAttributes = (elem: Element) => {
   const imgUrl = elem.getAttribute('origImage') || elem.getAttribute('xlink:href');
+  const isFullColor = elem.getAttribute('data-fullcolor') === '1';
   const shading = elem.getAttribute('data-shading') === 'true';
   let threshold = parseInt(elem.getAttribute('data-threshold'), 10);
   if (Number.isNaN(threshold)) {
     threshold = 128;
   }
   return {
+    isFullColor,
     imgUrl,
     shading,
     threshold,
   };
 };
 
-const generateBase64Image = (imgSrc: string, shading: boolean, threshold: number) =>
-  new Promise<string>((resolve) => {
-    imageData(imgSrc, {
-      grayscale: {
-        is_rgba: true,
-        is_shading: shading,
-        threshold,
-        is_svg: false,
-      },
-      isFullResolution: true,
-      onComplete(result) {
-        resolve(result.pngBase64);
-      },
-    });
+const generateBase64Image = (
+  imgSrc: string, shading: boolean, threshold: number, isFullColor = false,
+) => new Promise<string>((resolve) => {
+  imageData(imgSrc, {
+    grayscale: isFullColor ? undefined : {
+      is_rgba: true,
+      is_shading: shading,
+      threshold,
+      is_svg: false,
+    },
+    isFullResolution: true,
+    onComplete(result) {
+      resolve(result.pngBase64);
+    },
   });
+});
 
 const addBatchCommand = (
   commandName: string,
@@ -102,11 +106,11 @@ const colorInvert = async (elem?: SVGImageElement): Promise<void> => {
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
   });
-  const { imgUrl, shading, threshold } = getImageAttributes(element);
+  const { imgUrl, shading, threshold, isFullColor } = getImageAttributes(element);
   const newImgUrl = await jimpHelper.colorInvert(imgUrl);
   if (newImgUrl) {
     const newThreshold = shading ? threshold : 256 - threshold;
-    const base64Img = await generateBase64Image(newImgUrl, shading, newThreshold);
+    const base64Img = await generateBase64Image(newImgUrl, shading, newThreshold, isFullColor);
     addBatchCommand('Image Edit: invert', element, {
       origImage: newImgUrl,
       'data-threshold': newThreshold,
@@ -124,10 +128,10 @@ const generateStampBevel = async (elem?: SVGImageElement): Promise<void> => {
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
   });
-  const { imgUrl, shading, threshold } = getImageAttributes(element);
+  const { imgUrl, shading, threshold, isFullColor } = getImageAttributes(element);
   const newImgUrl = await jimpHelper.generateStampBevel(imgUrl, shading ? 128 : threshold);
   if (newImgUrl) {
-    const base64Img = await generateBase64Image(newImgUrl, shading, threshold);
+    const base64Img = await generateBase64Image(newImgUrl, shading, threshold, isFullColor);
     addBatchCommand('Image Edit: bevel', element, {
       origImage: newImgUrl,
       'data-shading': true,
@@ -215,7 +219,7 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
   path.setAttribute('d', d);
   moveElements([dx], [dy], [path], false);
   svgCanvas.setRotationAngle(angle, true, path);
-  if (svgCanvas.isUsingLayerColor) svgCanvas.updateElementColor(path);
+  updateElementColor(path);
   svgCanvas.selectOnly([path], true);
   batchCmd.addSubCommand(new history.InsertElementCommand(path));
   const cmd = deleteElements([img], true);
@@ -257,7 +261,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     id: 'photo-edit-processing',
     message: i18n.lang.beambox.photo_edit_panel.processing,
   });
-  const { imgUrl } = getImageAttributes(element);
+  const { imgUrl, isFullColor } = getImageAttributes(element);
   if (!imgUrl) return;
   const imgGet = await fetch(imgUrl);
   const imgData = await imgGet.blob();
@@ -339,10 +343,11 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     }
     const blob = removeResult.data as Blob;
     const blobUrl = URL.createObjectURL(blob);
-    const newThreshold = 255;
-    const base64Img = await generateBase64Image(blobUrl, true, newThreshold);
+    const newThreshold = 254;
+    const base64Img = await generateBase64Image(blobUrl, true, newThreshold, isFullColor);
     addBatchCommand('Image Edit: Remove background', element, {
       origImage: blobUrl,
+      'data-shading': true,
       'data-threshold': newThreshold,
       'data-no-bg': 'true',
       'xlink:href': base64Img,
@@ -434,7 +439,7 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   path.remove();
   tempOuterContour.remove();
   const batchCmd = new history.BatchCommand('Potrace Image');
-  if (svgCanvas.isUsingLayerColor) svgCanvas.updateElementColor(finalContour);
+  updateElementColor(finalContour);
   svgCanvas.selectOnly([finalContour], true);
   batchCmd.addSubCommand(new history.InsertElementCommand(finalContour));
   svgCanvas.addCommandToHistory(batchCmd);

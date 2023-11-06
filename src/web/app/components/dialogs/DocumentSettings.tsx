@@ -2,15 +2,18 @@ import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Form, Modal, Row, Select, Switch } from 'antd';
 
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import isDev from 'helpers/is-dev';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 import styles from './DocumentSettings.module.scss';
 
@@ -28,11 +31,16 @@ const workareaOptions = [
   { label: 'Beambox', value: 'fbb1b' },
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
+  { label: 'Ador', value: 'ado1' },
 ];
 
-if (isDev()) {
-  workareaOptions.push({ label: 'Ador', value: 'fad1' });
-}
+// mpa for engrave dpi v2
+// const dpiMap = {
+//   low: 125,
+//   medium: 250,
+//   high: 500,
+//   ultra: 1000,
+// };
 
 interface Props {
   unmount: () => void;
@@ -43,7 +51,12 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const langDocumentSettings = lang.beambox.document_panel;
   const [form] = Form.useForm();
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
-  const [workarea, setWorkarea] = useState(BeamboxPreference.read('workarea') || 'fbb1b');
+  // state for engrave dpi v2
+  // const [engraveDpiValue, setEngraveDpiValue] = useState(
+  //   BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
+  // );
+  const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
+  const [workarea, setWorkarea] = useState(origWorkarea || 'fbb1b');
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
   const [borderlessMode, setBorderlessMode] = useState(
     BeamboxPreference.read('borderless') === true
@@ -55,27 +68,25 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
 
   const handleEngraveDpiChange = (value: string) => setEngraveDpi(value);
   const handleWorkareaChange = (value: string) => setWorkarea(value);
-  const handleRotaryModeChange = (value: number) => setRotaryMode(value);
+  const handleRotaryModeChange = (on: boolean) => setRotaryMode(on ? 1 : 0);
   const handleBorderlessModeChange = (value: boolean) => setBorderlessMode(value);
   const handleDiodeModuleChange = (value: boolean) => setEnableDiode(value);
   const handleAutofocusModuleChange = (value: boolean) => setEnableAutofocus(value);
 
   const rotaryModels = useMemo(() => constant.getRotaryModels(workarea), [workarea]);
-  const rotaryModalLabels = {
-    0: lang.settings.off,
-    1: lang.settings.on,
-  };
 
   useEffect(() => {
     if (!rotaryModels.includes(rotaryMode)) {
-      form.setFieldValue('rotary_mode', rotaryModels[0]);
-      handleRotaryModeChange(rotaryModels[0]);
+      form.setFieldValue('rotary_mode', 0);
+      handleRotaryModeChange(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rotaryModels]);
 
   const handleSave = () => {
     BeamboxPreference.write('engrave_dpi', engraveDpi);
+    // state for engrave dpi v2
+    // BeamboxPreference.write('engrave-dpi-value', engraveDpiValue);
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
@@ -86,6 +97,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         constant.dimension.getHeight(BeamboxPreference.read('workarea'))
       );
       svgEditor.resetView();
+      toggleFullColorAfterWorkareaChange();
       eventEmitter.emit('workarea-change');
     }
     BeamboxPreference.write('rotary_mode', rotaryMode);
@@ -104,7 +116,25 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       centered
       title={langDocumentSettings.document_settings}
       onCancel={unmount}
-      onOk={() => {
+      onOk={async () => {
+        if (
+          origWorkarea !== workarea &&
+          modelsWithModules.includes(origWorkarea) &&
+          !modelsWithModules.includes(workarea) &&
+          document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]`).length
+        ) {
+          const res = await new Promise((resolve) => {
+            alertCaller.popUp({
+              id: 'save-document-settings',
+              message: langDocumentSettings.notification.changeFromPrintingWorkareaTitle,
+              messageIcon: 'notice',
+              buttonType: alertConstants.CONFIRM_CANCEL,
+              onConfirm: () => resolve(true),
+              onCancel: () => resolve(false),
+            });
+          });
+          if (!res) return;
+        }
         handleSave();
         unmount();
       }}
@@ -116,19 +146,28 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         <Form.Item name="workarea" initialValue={workarea} label={langDocumentSettings.workarea}>
           <Select bordered onChange={handleWorkareaChange}>
             {workareaOptions.map((option) => (
-              <Select.Option key={option.value} value={option.value}>{option.label}</Select.Option>
+              <Select.Option key={option.value} value={option.value}>
+                {option.label}
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>
         <strong>{langDocumentSettings.add_on}</strong>
-        <Form.Item initialValue={rotaryMode} name="rotary_mode" label={langDocumentSettings.rotary_mode}>
-          <Select bordered onChange={handleRotaryModeChange} value={rotaryMode} disabled={rotaryModels.length === 1}>
-            {rotaryModels.map((model) => (
-              <Select.Option key={model} value={model}>{rotaryModalLabels[model]}</Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Row>
+          <Col span={12}>
+            <Form.Item
+              name="rotary_mode"
+              className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
+              label={langDocumentSettings.rotary_mode}
+              labelCol={{ span: 12, offset: 0 }}
+            >
+              <Switch
+                checked={rotaryMode !== 0}
+                disabled={rotaryModels.length === 1}
+                onChange={handleRotaryModeChange}
+              />
+            </Form.Item>
+          </Col>
           <Col span={12}>
             <Form.Item
               name="borderless_mode"

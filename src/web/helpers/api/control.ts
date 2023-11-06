@@ -51,6 +51,8 @@ class Control extends EventEmitter {
 
   private _isLineCheckMode = false;
 
+  private _cartridgeTaskId = 0;
+
   protected uuid: string;
 
   constructor(uuid: string) {
@@ -249,6 +251,26 @@ class Control extends EventEmitter {
         clearTimeout(timeoutTimer);
         this.removeCommandListeners();
         resolve(response);
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      this.ws.send(command);
+    });
+  }
+
+  useRawWaitOKResponse(command: string, timeout = 30000) {
+    // Resolve after get ok from raw response
+    return new Promise<any>((resolve, reject) => {
+      const timeoutTimer = this.setTimeoutTimer(reject, timeout);
+      let responseString = '';
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        clearTimeout(timeoutTimer);
+        if (response && response.status === 'raw') responseString += response.text;
+        const resps = responseString.split('\r\n');
+        if (resps.findIndex((r) => r === 'ok')) {
+          this.removeCommandListeners();
+          resolve(responseString);
+        }
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
@@ -642,19 +664,19 @@ class Control extends EventEmitter {
       } else if (!Object.keys(response).includes('completed')) {
         file.push(response);
       }
-
       if (response instanceof Blob) {
         this.removeCommandListeners();
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-          const jsonString = e.target.result as string;
-          console.log(jsonString);
-          const data = JSON.parse(jsonString);
-          console.log(data);
-          resolve(data);
+          try {
+            const jsonString = e.target.result as string;
+            const data = JSON.parse(jsonString);
+            resolve(data);
+          } catch (err) {
+            reject(err);
+          }
         };
         fileReader.readAsText(response);
-        console.log(response);
       }
     });
     this.setDefaultErrorResponse(reject);
@@ -662,6 +684,36 @@ class Control extends EventEmitter {
 
     this.ws.send('fetch_fisheye_params');
   });
+
+  fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover' | 'offset') =>
+    new Promise<{ [key: string]: number }>((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'transfer') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else if (!Object.keys(response).includes('completed')) {
+          file.push(response);
+        }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          const fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            try {
+              const jsonString = e.target.result as string;
+              const data = JSON.parse(jsonString);
+              resolve(data);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          fileReader.readAsText(response);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+
+      this.ws.send(`fetch_auto_leveling_data ${dataType}`);
+    });
 
   getLaserPower = async () => {
     const res = (await this.useWaitOKResponse('play get_laser_power')).response;
@@ -756,6 +808,38 @@ class Control extends EventEmitter {
 
   maintainHome = () => this.useWaitAnyResponse('maintain home');
 
+  enterCartridgeIOMode = async () => {
+    const res = await this.useWaitAnyResponse('task cartridge_io');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    this.mode = 'cartridge_io';
+    this._cartridgeTaskId = Math.floor(Math.random() * 2e9)
+    return res;
+  };
+
+  endCartridgeIOMode = () => {
+    this.mode = '';
+    this._cartridgeTaskId = 0
+    return this.useWaitAnyResponse('task quit');
+  };
+
+  getCartridgeChipData = async () => {
+    if (this.mode !== 'cartridge_io') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = JSON.stringify({ id: this._cartridgeTaskId, method: 'cartridge.get_info' }).replace(/"/g, '\\"');
+    const resp = await this.useWaitAnyResponse(`jsonrpc_req ${command}`);
+    return resp;
+  };
+
+  cartridgeIOJsonRpcReq = async (method: string, params: any[]) => {
+    if (this.mode !== 'cartridge_io') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = JSON.stringify({ id: this._cartridgeTaskId, method, params }).replace(/"/g, '\\"');
+    const resp = await this.useWaitAnyResponse(`jsonrpc_req "${command}"`);
+    return resp;
+  };
+
   enterRawMode = async () => {
     const res = await this.useWaitAnyResponse('task raw');
     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -784,16 +868,16 @@ class Control extends EventEmitter {
           responseString += response.text;
           console.log('raw homing:\t', responseString);
         }
-        const resps = responseString.split('\n');
+        const resps = responseString.replace(/\r/g, '').split('\n');
         if (resps.some((resp) => resp.includes('ok')) && !didErrorOccur) {
           this.removeCommandListeners();
           resolve(response);
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || response.text.indexOf('DEBUG: RESET') >= 0
-          || response.text.indexOf('error:') >= 0
+          response.text?.indexOf('ER:RESET') >= 0
+          || response.text?.indexOf('DEBUG: RESET') >= 0
+          || response.text?.indexOf('error:') >= 0
           || resps.some((resp) => resp.includes('ER:RESET'))
           || resps.some((resp) => resp.includes('DEBUG: RESET'))
           || resps.some((resp) => resp.includes('error:'))
@@ -1023,6 +1107,15 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
+  adorRawLooseMotor = () => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = 'M137P34';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
   rawGetProbePos = (): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
@@ -1039,17 +1132,81 @@ class Control extends EventEmitter {
           console.log('raw get probe position:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\n');
-        const i = resps.findIndex((r) => r === 'ok\r');
+        const resps = responseString.split('\r\n');
+        const i = resps.findIndex((r) => r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
-          const resIdx = resps.findIndex((r) => r.match(/\[PRB:([\d.]+),([\d.]+),([\d.]+),([\d.]+):(\d)\]/));
+          const resIdx = resps.findIndex((r) => r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/));
           if (resIdx >= 0) {
             const resStr = resps[resIdx];
-            const match = resStr.match(/\[PRB:([\d.]+),([\d.]+),([\d.]+),([\d.]+):(\d)\]/);
+            const match = resStr.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/);
             const [, x, y, z, a, didAf] = match;
             this.removeCommandListeners();
             resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a), didAf: didAf === '1' });
+          } else {
+            this.removeCommandListeners();
+            reject(response);
+          }
+          return;
+        }
+        if (
+          response.text.indexOf('ER:RESET') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || response.text.indexOf('error:') >= 0
+        ) {
+          if (retryTimes >= 5) {
+            this.removeCommandListeners();
+            reject(response);
+            return;
+          }
+          if (!isCmdResent) {
+            isCmdResent = true;
+            setTimeout(() => {
+              isCmdResent = false;
+              responseString = '';
+              this.ws.send(command);
+              retryTimes += 1;
+            }, 200);
+          }
+        } else {
+          timeoutTimer = this.setTimeoutTimer(reject, 10000);
+        }
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      timeoutTimer = this.setTimeoutTimer(reject, 10000);
+
+      this.ws.send(command);
+    });
+  };
+
+  rawGetLastPos = (): Promise<{ x: number; y: number; z: number; a: number }> => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return new Promise((resolve, reject) => {
+      let isCmdResent = false;
+      let responseString = '';
+      const command = 'M136P255';
+      let retryTimes = 0;
+      let timeoutTimer: null | NodeJS.Timeout;
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        clearTimeout(timeoutTimer);
+        if (response && response.status === 'raw') {
+          console.log('raw get last position:\t', response.text);
+          responseString += response.text;
+        }
+        const resps = responseString.split('\r\n');
+        const i = resps.findIndex((r) => r === 'ok');
+        if (i < 0) responseString = resps[resps.length - 1] || '';
+        if (i >= 0) {
+          const resIdx = resps.findIndex((r) => r.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/));
+          if (resIdx >= 0) {
+            const resStr = resps[resIdx];
+            const match = resStr.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
+            const [, x, y, z, a] = match;
+            this.removeCommandListeners();
+            resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a) });
           } else {
             this.removeCommandListeners();
             reject(response);

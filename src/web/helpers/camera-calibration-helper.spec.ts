@@ -6,7 +6,7 @@ jest.mock('helpers/device-master', () => null);
 
 jest.mock('helpers/i18n', () => ({
   lang: {
-    camera_calibration: {
+    calibration: {
       analyze_result_fail: 'analyze_result_fail',
     },
   },

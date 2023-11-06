@@ -1,7 +1,9 @@
 /* eslint-disable no-case-declarations */
+import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer/layer-helper';
@@ -16,7 +18,9 @@ import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHints
 import touchEvents from 'app/svgedit/touchEvents';
 import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
+import updateElementColor from 'helpers/color/updateElementColor';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
 
@@ -256,14 +260,18 @@ const mouseDown = (evt: MouseEvent) => {
 
   extensionResult = svgCanvas.runExtensions('checkMouseTarget', { mouseTarget }, true);
   if (extensionResult) {
+    let currentStarted = svgCanvas.getStarted();
     $.each(extensionResult, (i, r) => {
-      svgCanvas.unsafeAccess.setStarted(started || (r && r.started));
+      currentStarted = currentStarted || (r && r.started);
     });
-    if (started && currentMode !== 'path') {
+    svgCanvas.unsafeAccess.setStarted(currentStarted);
+    if (currentStarted && currentMode !== 'path') {
       console.log('extension ate the mouseDown event');
       return;
     }
   }
+
+  if (presprayArea.checkMouseTarget(mouseTarget)) svgCanvas.setMode('drag-prespray-area');
 
   svgCanvas.unsafeAccess.setStartTransform(mouseTarget.getAttribute('transform'));
   currentMode = svgCanvas.getCurrentMode();
@@ -472,7 +480,7 @@ const mouseDown = (evt: MouseEvent) => {
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newRect);
+        updateElementColor(newRect);
       }
       svgCanvas.selectOnly([newRect], true);
       break;
@@ -498,7 +506,7 @@ const mouseDown = (evt: MouseEvent) => {
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newLine);
+        updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
       canvasEvents.emit('addLine', newLine);
@@ -537,7 +545,7 @@ const mouseDown = (evt: MouseEvent) => {
         },
       });
       if (svgCanvas.isUsingLayerColor) {
-        svgCanvas.updateElementColor(newEllipse);
+        updateElementColor(newEllipse);
       }
       svgCanvas.selectOnly([newEllipse], true);
       break;
@@ -585,6 +593,11 @@ const mouseDown = (evt: MouseEvent) => {
           Array.from(svgCanvas.getTempGroup().childNodes as unknown as SVGElement[])
         );
       }
+      break;
+    case 'drag-prespray-area':
+      svgCanvas.unsafeAccess.setStarted(true);
+      svgCanvas.clearSelection();
+      presprayArea.startDrag();
       break;
     default:
       // This could occur in an extension
@@ -661,7 +674,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
     ty = height;
   }
 
-  // if we dragging on the east side, then adjust the scale factor and tx
+  // if we dragging on the west side, then adjust the scale factor and tx
   if (resizeMode.indexOf('w') >= 0) {
     sx = width ? (width - dx) / width : 1;
     tx = width;
@@ -695,7 +708,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
     const diff = angle ? 1 : 0;
     transforms.replaceItem(translateOrigin, 2 + diff);
     transforms.replaceItem(scale, 1 + diff);
-    transforms.replaceItem(translateBack, Number(diff));
+    transforms.replaceItem(translateBack, diff);
   } else {
     const N = transforms.numberOfItems;
     transforms.replaceItem(translateBack, N - 3);
@@ -1123,6 +1136,11 @@ const mouseMove = (evt: MouseEvent) => {
         svgCanvas.textActions.init();
       }
       break;
+    case 'drag-prespray-area':
+      dx = x - startX;
+      dy = y - startY;
+      presprayArea.drag(dx, dy);
+      break;
     default:
       break;
   }
@@ -1190,7 +1208,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     };
     if (PreviewModeController.isPreviewMode()) {
       const workarea = BeamboxPreference.read('workarea');
-      if (workarea !== 'fad1') {
+      if (!constant.adorModels.includes(workarea)) {
         if (startX === realX && startY === realY) {
           PreviewModeController.preview(realX, realY, true, callback);
         } else {
@@ -1556,6 +1574,15 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       svgCanvas.recalculateAllSelectedDimensions();
       svgCanvas.call('changed', selectedElements);
       break;
+    case 'drag-prespray-area':
+      keep = true;
+      element = null;
+      svgCanvas.setMode('select');
+      break;
+    case 'preview_color':
+      keep = true;
+      element = null;
+      break;
     default:
       // This could occur in an extension
       break;
@@ -1683,7 +1710,7 @@ const dblClick = (evt: MouseEvent) => {
   const mouseTarget: Element = svgCanvas.getMouseTarget(evt);
   const { tagName } = mouseTarget;
   const pt = getEventPoint(evt);
-  if (!['textedit', 'text'].includes(currentMode)) {
+  if (!['textedit', 'text', 'preview_color'].includes(currentMode)) {
     if (tagName === 'text') {
       svgCanvas.textActions.select(mouseTarget, pt.x, pt.y);
     } else if (mouseTarget.getAttribute('data-textpath-g')) {
@@ -1707,6 +1734,8 @@ const dblClick = (evt: MouseEvent) => {
     ) {
       svgCanvas.textActions.dbClickSelectAll();
     }
+  } else if (currentMode === 'preview_color') {
+    RightPanelController.toElementMode();
   }
 
   if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {

@@ -38,6 +38,7 @@ function EngraveDpiSlider({ value, onChange }: Props): JSX.Element {
             max={3}
             value={dpiMap.indexOf(value)}
             onChange={onSliderValueChange}
+            tooltip={{ formatter: (num: number) => dpiValueMap[dpiMap[num]] } }
           />
         </Col>
         <Col span={12}>

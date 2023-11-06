@@ -31,6 +31,7 @@ import textPathEdit from 'app/actions/beambox/textPathEdit';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
+import canvasEvents from 'app/actions/canvas/canvasEvents';
 import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -48,7 +49,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
 import Dialog from 'app/actions/dialog-caller';
-import AwsHelper from 'helpers/aws-helper';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
@@ -65,7 +65,12 @@ import { IIcon } from 'interfaces/INoun-Project'
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
+import importBitmap from 'app/svgedit/operations/import/importBitmap';
+import importSvg from 'app/svgedit/operations/import/importSvg';
+import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
+import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -77,7 +82,6 @@ const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const { svgedit, $ } = window;
 
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
-const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 
 declare global {
   interface JQueryStatic {
@@ -112,15 +116,12 @@ interface ISVGEditor {
   curConfig: ISVGConfig
   curPrefs: ISVGPref
   disableUI: (featList: any) => void
-  getExifRotationFlag: any
-  importSvg: (file: any, args: { skipByLayer?: boolean }) => Promise<void>
   init: () => void
   loadFromDataURI: (str: any) => void
   loadFromURL: (url: any, opts?: any) => void
   putLocale(lang: string | number | string[], good_langs: any[])
   randomizeIds: () => void
   readSVG: (blob: any, type: any, layerName: any) => Promise<unknown>
-  readImage: (file: any, scale?: number, offset?: any) => Promise<unknown>,
   replaceBitmap: any
   runCallbacks: () => void
   savePreferences: () => void
@@ -201,15 +202,12 @@ const svgEditor = window['svgEditor'] = (function () {
     curConfig: null,
     curPrefs: null,
     disableUI: (featList: any) => { },
-    getExifRotationFlag: null,
-    importSvg: async (file: any, args: { skipByLayer?: boolean } = {}) => { },
     init: () => { },
     loadFromDataURI: (str: any) => { },
     loadFromURL: (url: any, opts: any) => { },
     putLocale: (lang: string | number | string[], good_langs: any[]) => { },
     randomizeIds: () => { },
     readSVG: async (blob: any, type: any, layerName: any) => { },
-    readImage: async (file: any, scale?: number, offset?: any) => { },
     replaceBitmap: null,
     runCallbacks: () => { },
     savePreferences: () => { },
@@ -436,7 +434,6 @@ const svgEditor = window['svgEditor'] = (function () {
         enterUniqueLayerName: 'Please enter a unique layer name',
         enterNewLayerName: 'Please enter the new layer name',
         layerHasThatName: 'Layer already has that name',
-        QmoveElemsToLayer: 'Move selected elements to layer \'%s\'?',
         QwantToClear: 'Do you want to clear the drawing?\nThis will also erase your undo history!',
         QwantToOpen: 'Do you want to open a new file?\nThis will also erase your undo history!',
         QerrorsRevertToSource: 'There were parsing errors in your SVG source.\nRevert back to original SVG source?',
@@ -1042,7 +1039,6 @@ const svgEditor = window['svgEditor'] = (function () {
       if (curr.length && curr[0].id !== 'tool_select') {
         curr.removeClass('tool_button_current').addClass('tool_button');
         $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
-        //$('#styleoverrides').text('#svgcanvas svg *{cursor:move;pointer-events:all} #svgcanvas svg{cursor:default}');
       }
       svgCanvas.setMode('select');
       workarea.css('cursor', 'auto');
@@ -1060,51 +1056,6 @@ const svgEditor = window['svgEditor'] = (function () {
     var preferences = false;
     var cur_context = '';
     var origTitle = $('title:first').text();
-
-    // TODO: handle this in react element
-    const displayChangeLayerBlock = function (maybeVisible) {
-      const block = $('.selLayerBlock');
-
-      const isHide = (function () {
-        if (!maybeVisible) { return true; }
-        if (svgCanvas.getCurrentDrawing().getNumLayers() <= 1) { return true; }
-
-        if (multiselected) { return false; }
-        if (selectedElement) { return false; }
-
-        if (!(multiselected && selectedElement)) { return true; }
-
-        return true;
-      })();
-
-      if (isHide) {
-        block.hide();
-      } else {
-        block.show();
-      }
-    };
-
-    // This function highlights the layer passed in (by fading out the other layers)
-    // if no layer is passed in, this function restores the other layers
-    var toggleHighlightLayer = function (layerNameToHighlight) {
-      var i, curNames = [],
-        numLayers = svgCanvas.getCurrentDrawing().getNumLayers();
-      for (i = 0; i < numLayers; i++) {
-        curNames[i] = svgCanvas.getCurrentDrawing().getLayerName(i);
-      }
-
-      if (layerNameToHighlight) {
-        for (i = 0; i < numLayers; ++i) {
-          if (curNames[i] !== layerNameToHighlight) {
-            svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 0.5);
-          }
-        }
-      } else {
-        for (i = 0; i < numLayers; ++i) {
-          svgCanvas.getCurrentDrawing().setLayerOpacity(curNames[i], 1.0);
-        }
-      }
-    };
 
     var showSourceEditor = function (e, forSaving) {
       if (editingsource) {
@@ -1235,7 +1186,6 @@ const svgEditor = window['svgEditor'] = (function () {
       if (!noHiding) {
         $('.tools_flyout').fadeOut(fadeFlyouts);
       }
-      $('#styleoverrides').text('');
       workarea.css('cursor', 'auto');
       $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
       $(button).addClass('tool_button_current').removeClass('tool_button');
@@ -1248,7 +1198,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       if (toolButtonClick('#tool_select')) {
         svgCanvas.setMode('select');
-        $('#styleoverrides').text('#svgcanvas svg *:not(#previewBoundary *){cursor:move;pointer-events:all;stroke-width:1px;vector-effect:non-scaling-stroke;}, #svgcanvas svg{cursor:default}');
       }
       if (clearSelection) svgCanvas.clearSelection();
     };
@@ -1684,14 +1633,12 @@ const svgEditor = window['svgEditor'] = (function () {
       var is_node = currentMode === 'pathedit'; //elem ? (elem.id && elem.id.indexOf('pathpointgrip') == 0) : false;
       if (is_node) {
         RightPanelController.toPathEditMode();
-        // RightPanelController.setSelectedElement(null);
-        TopBarController.setElement(null);
+        canvasEvents.setSelectedElement(null);
       } else {
-        RightPanelController.setSelectedElement(elem);
         RightPanelController.toElementMode();
-        TopBarController.setElement(elem);
+        canvasEvents.setSelectedElement(elem);
       }
-      LayerPanelController.updateLayerPanel();
+
       /*
       $('#selected_panel, #multiselected_panel, #g_panel, #rect_panel, #circle_panel,' +
       '#ellipse_panel, #line_panel, #text_panel, #image_panel, #container_panel,' +
@@ -3944,17 +3891,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
     editor.clickRedo = clickRedo;
 
-    var clickGroup = function () {
-      // group
-      if (multiselected) {
-        svgCanvas.groupSelectedElements();
-      }
-      // ungroup
-      else if (selectedElement) {
-        svgCanvas.ungroupSelectedElement();
-      }
-    };
-
     $('#svg_prefs_container').draggable({
       cancel: 'button,fieldset',
       containment: 'window'
@@ -4663,7 +4599,6 @@ const svgEditor = window['svgEditor'] = (function () {
           });
 
           // 'fnkey' means 'cmd' or 'ctrl'
-          Shortcuts.on(['del'], deleteSelected);
           //Shortcuts.on(['fnkey', 'z'], clickUndo);
           //if (window.os === 'MacOS') {
           //    Shortcuts.on(['cmd', 'shift', 'z'], clickRedo);
@@ -4671,14 +4606,26 @@ const svgEditor = window['svgEditor'] = (function () {
           //    Shortcuts.on(['ctrl', 'y'], clickRedo);
           //}
           //Shortcuts.on(['fnkey', 'd'], clickClone);
+          const moveUnit = storage.get('default-units') === 'inches' ? 25.4 : 10; // 0.1 in : 1 mm
+
+          const isFocusingOnInputs = () => {
+            if (!document.activeElement) return false;
+            return document.activeElement.tagName.toLowerCase() === 'input'
+              || document.activeElement?.getAttribute('role') === 'slider';
+          };
+          Shortcuts.on(['del'], () => {
+            if (isFocusingOnInputs()) return;
+            deleteSelected();
+          });
           Shortcuts.on(['fnkey', 'a'], (e) => {
+            if (isFocusingOnInputs()) return;
             e.preventDefault();
             e.stopPropagation();
             svgCanvas.selectAll();
           });
-          const moveUnit = storage.get('default-units') === 'inches' ? 25.4 : 10; // 0.1 in : 1 mm
           Shortcuts.on(['up'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [-moveUnit]);
             } else {
@@ -4688,6 +4635,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'up'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [-moveUnit * 10]);
             } else {
@@ -4697,6 +4645,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['down'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [moveUnit]);
             } else {
@@ -4706,6 +4655,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'down'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([0], [moveUnit * 10]);
             } else {
@@ -4715,6 +4665,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['left'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([-moveUnit], [0]);
             } else {
@@ -4724,6 +4675,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'left'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([-moveUnit * 10], [0]);
             } else {
@@ -4733,6 +4685,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['right'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([moveUnit], [0]);
             } else {
@@ -4742,6 +4695,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['shift', 'right'], (e) => {
             e.preventDefault();
+            if (isFocusingOnInputs()) return;
             if (selectedElement) {
               moveSelected([moveUnit * 10], [0]);
             } else {
@@ -4925,95 +4879,6 @@ const svgEditor = window['svgEditor'] = (function () {
     // and provide a file input to click. When that change event fires, it will
     // get the text contents of the file and send it to the canvas
     if (window.FileReader) {
-      const imageToPngBlob = async (image) => {
-        return new Promise((resolve, reject) => {
-          const canvas = document.createElement('canvas');
-          canvas.width = image.width;
-          canvas.height = image.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(image, 0, 0);
-          canvas.toBlob((blob) => {
-            resolve(blob);
-          });
-        });
-      }
-
-      const readImage = (file, scale = 1, offset = null) => {
-        return new Promise<void>((resolve, reject) => {
-          var defaultX = 0, defaultY = 0;
-          if (offset) {
-            defaultX = offset[0];
-            defaultY = offset[1];
-          }
-          const reader = new FileReader();
-          reader.onloadend = async function (e) {
-            let rotationFlag = getExifRotationFlag(e.target.result);
-
-            // let's insert the new image until we know its dimensions
-            var insertNewImage = async function (img, width, height) {
-              var newImage = svgCanvas.addSvgElementFromJson({
-                element: 'image',
-                attr: {
-                  x: defaultX * scale,
-                  y: defaultY * scale,
-                  width: (rotationFlag <= 4 ? width : height) * scale,
-                  height: (rotationFlag <= 4 ? height : width) * scale,
-                  id: svgCanvas.getNextId(),
-                  style: 'pointer-events:inherit',
-                  preserveAspectRatio: 'none',
-                  'data-threshold': 254,
-                  'data-shading': true,
-                  origImage: img.src,
-                  'data-ratiofixed': true,
-                }
-              });
-              if (file.type === 'image/webp') {
-                const pngBlob = await imageToPngBlob(img);
-                const newSrc = URL.createObjectURL(pngBlob);
-                URL.revokeObjectURL(img.src);
-                newImage.setAttribute('origImage', newSrc);
-              }
-              ImageData(
-                newImage.getAttribute('origImage'), {
-                height: height,
-                width: width,
-                rotationFlag,
-                grayscale: {
-                  is_rgba: true,
-                  is_shading: true,
-                  threshold: 254,
-                  is_svg: false
-                },
-                onComplete: function (result) {
-                  svgCanvas.setHref(newImage, result.pngBase64);
-                }
-              }
-              );
-              svgCanvas.updateElementColor(newImage);
-              svgCanvas.selectOnly([newImage]);
-              svgCanvas.undoMgr.addCommandToHistory(new history.InsertElementCommand(newImage));
-              if (!offset) {
-                svgCanvas.alignSelectedElements('l', 'page');
-                svgCanvas.alignSelectedElements('t', 'page');
-              }
-              resolve(null);
-              updateContextPanel();
-              Progress.popById('loading_image');
-            };
-            var img = new Image();
-            var blob = new Blob([reader.result]);
-            img.src = URL.createObjectURL(blob);
-            img.style.opacity = '0';
-            img.onload = function () {
-              let imgWidth = img.width;
-              let imgHeight = img.height;
-              insertNewImage(img, imgWidth, imgHeight);
-            };
-          };
-          reader.readAsArrayBuffer(file);
-        });
-      }
-      editor.readImage = readImage;
       const replaceBitmap = async (file, imageElem) => {
         Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage, });
         return new Promise<void>((resolve, reject) => {
@@ -5069,204 +4934,6 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.replaceBitmap = replaceBitmap;
-
-      // Get exif rotation data ref: https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side
-      const getExifRotationFlag = (arrayBuffer) => {
-        let view = new DataView(arrayBuffer);
-        if (view.getUint16(0, false) != 0xFFD8) {
-          return -2;
-        }
-        let length = view.byteLength, offset = 2;
-        while (offset < length) {
-          if (view.getUint16(offset + 2, false) <= 8) return -1;
-          let marker = view.getUint16(offset, false);
-          offset += 2;
-          if (marker == 0xFFE1) {
-            if (view.getUint32(offset += 2, false) != 0x45786966) {
-              return -1;
-            }
-            let little = view.getUint16(offset += 6, false) == 0x4949;
-            offset += view.getUint32(offset + 4, little);
-            let tags = view.getUint16(offset, little);
-            offset += 2;
-            for (var i = 0; i < tags; i++) {
-              if (view.getUint16(offset + (i * 12), little) == 0x0112) {
-                return view.getUint16(offset + (i * 12) + 8, little);
-              }
-            }
-          }
-          else if ((marker & 0xFF00) != 0xFF00) {
-            break;
-          }
-          else {
-            offset += view.getUint16(offset, false);
-          }
-        }
-        return -1;
-      };
-      editor.getExifRotationFlag = getExifRotationFlag;
-      const getBasename = (path) => {
-        const pathMatch = path.match(/(.+)[\/\\].+/);
-        if (pathMatch[1]) return pathMatch[1];
-        return "";
-      }
-      const readSVG = (blob, type, layerName?: string) => {
-        return new Promise((resolve, reject) => {
-          var reader = new FileReader();
-          reader.onloadend = async function (e) {
-            let svgString = e.target.result as string;
-            if (!['color', 'layer'].includes(type)) {
-              svgString = svgString.replace(/<svg[^>]*>/, (svgTagString) => {
-                svgTagString = svgTagString.replace(/"([^"]*)pt"/g, (_, valWithoutPt) => {
-                  return `"${valWithoutPt}"`
-                });
-                return svgTagString;
-              });
-            }
-
-            if (blob.path) {
-              svgString = svgString.replace('xlink:href="../', 'xlink:href="' + getBasename(blob.path) + '/../');
-              svgString = svgString.replace('xlink:href="./', 'xlink:href="' + getBasename(blob.path) + '/');
-            }
-
-            svgString = svgString.replace(/<!\[CDATA\[([^\]]*)\]\]>/g, (match, p1) => {
-              return p1;
-            });
-
-            if (svgString.indexOf('<switch>') > -1) {
-              const indexLeft = svgString.indexOf('<switch>');
-              const indexRight = svgString.indexOf('</switch>');
-
-              svgString = svgString.substr(0, indexLeft) + svgString.substring(indexLeft + 8, indexRight) + svgString.substr(indexRight + 9);
-            }
-
-            if (!['color', 'layer'].includes(type)) {
-              svgString = svgString.replace(/<image[^>]*>[^<]*<[^\/]*\/image>/g, (match) => {
-                return '';
-              });
-              svgString = svgString.replace(/<image[^>]*>/g, (match) => {
-                return '';
-              });
-            }
-
-            const modifiedSvgString = svgString.replace(/fill(: ?#(fff(fff)?|FFF(FFF)?));/g, 'fill: none;').replace(/fill= ?"#(fff(fff)?|FFF(FFF))"/g, 'fill="none"');
-            const newElement = await svgCanvas.importSvgString(modifiedSvgString, type, layerName);
-
-            //Apply style
-            svgCanvas.svgToString($('#svgcontent')[0], 0);
-
-            resolve(newElement);
-          };
-          reader.readAsText(blob);
-        });
-      }
-      editor.readSVG = readSVG;
-      const importSvg = async (file: File, args: { skipByLayer?: boolean, isFromNounProject?: boolean, isFromAI?: boolean } = {}) => {
-        async function importAs(type) {
-          const result = await svgWebSocket.uploadPlainSVG(file);
-          if (result !== 'ok') {
-            Progress.popById('loading_image');
-            switch (result) {
-              case 'invalid_path':
-                Alert.popUp({
-                  type: AlertConstants.SHOW_POPUP_ERROR,
-                  message: LANG.popup.import_file_contain_invalid_path
-                });
-                break;
-            }
-            return;
-          }
-          let outputs;
-          if (type === 'layer') {
-            outputs = await svgWebSocket.divideSVGbyLayer();
-          } else {
-            outputs = await svgWebSocket.divideSVG();
-          }
-          if (!outputs.res) {
-            Alert.popUp({
-              type: AlertConstants.SHOW_POPUP_ERROR,
-              buttonType: AlertConstants.YES_NO,
-              message: `#809 ${outputs.data}\n${LANG.popup.import_file_error_ask_for_upload}`,
-              onYes: () => {
-                let fileReader = new FileReader();
-                fileReader.onloadend = function (e) {
-                  let svgString = e.target.result;
-                  AwsHelper.uploadToS3(file.name, svgString);
-                }
-                fileReader.readAsText(file);
-              }
-            });
-            return;
-          } else {
-            outputs = outputs.data;
-          }
-          let newElements = [];
-          let newElement;
-          if (type === 'color') {
-            newElement = await readSVG(outputs['strokes'], type);
-            newElements.push(newElement);
-            newElement = await readSVG(outputs['colors'], type);
-            newElements.push(newElement);
-          } else if (type === 'layer') {
-            for (let key in outputs) {
-              if (!['bitmap', 'bitmap_offset'].includes(key)) {
-                if (key === 'nolayer') {
-                  newElement = await readSVG(outputs[key], type);
-                } else {
-                  newElement = await readSVG(outputs[key], type, key);
-                }
-                newElements.push(newElement);
-              }
-            }
-          } else {
-            newElement = await readSVG(file, type);
-            newElements.push(newElement);
-          }
-
-          if (outputs['bitmap'].size > 0) {
-            const layerName = LANG.right_panel.layer_panel.layer_bitmap;
-
-            if (!svgCanvas.setCurrentLayer(layerName)) {
-              svgCanvas.createLayer(layerName);
-            }
-
-            await readImage(outputs['bitmap'], 1, outputs['bitmap_offset']); //magic number dpi/ inch/pixel
-          }
-          Progress.popById('loading_image');
-          newElements = newElements.filter((elem) => elem);
-          if (args.isFromNounProject) {
-            for (let i = 0; i < newElements.length; i++) {
-              const elem = newElements[i];
-              elem.setAttribute('data-np', '1');
-            }
-          }
-          svgCanvas.selectOnly(newElements);
-          if (newElements.length > 1) {
-            svgCanvas.tempGroupSelectedElements();
-          }
-        }
-        const buttonLabels = [LANG.popup.layer_by_layer, LANG.popup.layer_by_color, LANG.popup.nolayer];
-        const callbacks = [() => importAs('layer'), () => importAs('color'), () => importAs('nolayer')];
-        if (args.skipByLayer) {
-          buttonLabels.splice(0, 1);
-          callbacks.splice(0, 1);
-        }
-
-        if (args.isFromAI) {
-          importAs('layer');
-        } else {
-          Alert.popUp({
-            id: 'select-import-method',
-            message: LANG.popup.select_import_method,
-            buttonLabels: buttonLabels,
-            callbacks: callbacks,
-          });
-        }
-      };
-      editor.importSvg = importSvg;
-      const importBitmap = file => {
-        readImage(file);
-      };
       const importDxf = async file => {
         const Dxf2Svg = await requirejsHelper('dxf2svg');
         const ImageTracer = await requirejsHelper('imagetracer');
@@ -5340,7 +5007,7 @@ const svgEditor = window['svgEditor'] = (function () {
           const isLayerExist = svgCanvas.setCurrentLayer(layerName);
           if (!isLayerExist) {
             svgCanvas.getCurrentDrawing();
-            svgCanvas.createLayer(layerName, null, layer.rgbCode);
+            svgCanvas.createLayer(layerName, layer.rgbCode);
           }
           const id = svgCanvas.getNextId();
           const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
@@ -5412,9 +5079,14 @@ const svgEditor = window['svgEditor'] = (function () {
             let rotaryMode = match[0].substring(18, match[0].length - 1);
             if (rotaryMode === 'true') rotaryMode = '1';
             const isRotaryModeOn = ['true', '1', '2'].includes(rotaryMode);
-            svgCanvas.setRotaryMode(isRotaryModeOn);
+            if (Constant.addonsSupportList.rotary.includes(BeamboxPreference.read('workarea'))) {
+              BeamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
+              svgCanvas.setRotaryMode(isRotaryModeOn);
+            } else {
+              BeamboxPreference.write('rotary_mode', 0);
+              svgCanvas.setRotaryMode(false);
+            }
             svgCanvas.runExtensions('updateRotaryAxis');
-            BeamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
           }
           match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
           if (match) {
@@ -5463,6 +5135,7 @@ const svgEditor = window['svgEditor'] = (function () {
           }
         }
         beamboxStore.emitUpdateWorkArea();
+        toggleFullColorAfterWorkareaChange();
         svgedit.utilities.findDefs().remove();
         svgedit.utilities.moveDefsOutfromSvgContent();
         await SymbolMaker.reRenderAllImageSymbol();
@@ -5559,12 +5232,12 @@ const svgEditor = window['svgEditor'] = (function () {
         } else {
           const response = await fetch(icon.preview_url);
           const blob = await response.blob();
-          readImage(blob);
+          readBitmapFile(blob);
         }
       };
 
       const handleFile = async (file) => {
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
+        await Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
         svgCanvas.clearSelection();
         const fileType = (function () {
           if (file.name.toLowerCase().endsWith('.beam')) {
@@ -5608,10 +5281,12 @@ const svgEditor = window['svgEditor'] = (function () {
             BeamFileHelper.readBeam(file);
             break;
           case 'svg':
-            importSvg(file);
+            await importSvg(file);
+            Progress.popById('loading_image');
             break;
           case 'bitmap':
-            importBitmap(file);
+            await importBitmap(file);
+            Progress.popById('loading_image');
             break;
           case 'dxf':
             importDxf(file);
@@ -5670,7 +5345,7 @@ const svgEditor = window['svgEditor'] = (function () {
             svgCanvas.setHasUnsavedChange(true);
             break;
         }
-        canvasEvents.emit('addImage');
+        canvasEvents.addImage();
       }
       editor.handleFile = handleFile;
 

@@ -5,12 +5,13 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
-import diodeBoundaryDrawer from 'app/actions/beambox/diode-boundary-drawer';
+import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import i18n from 'helpers/i18n';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 const LANG = i18n.lang;
 let svgCanvas;
@@ -32,6 +33,7 @@ const showResizeAlert = (device: IDeviceInfo): Promise<boolean> =>
         const height = Constant.dimension.getHeight(device.model as WorkAreaModel);
         svgCanvas.setResolution(width, height);
         svgEditor.resetView();
+        toggleFullColorAfterWorkareaChange();
         PreviewModeBackgroundDrawer.updateCanvasSize();
         diodeBoundaryDrawer.updateCanvasSize();
         beamboxStore.emitUpdateWorkArea();

@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import i18n from 'helpers/i18n';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -12,18 +14,17 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const LANG = i18n.lang.beambox.right_panel;
 
 interface Props {
-  mode: 'element' | 'path-edit';
-  selectedElement: Element | null;
+  mode: RightPanelMode;
   selectedTab: 'layers' | 'objects';
   setSelectedTab: (selectedTab: 'layers' | 'objects') => void;
 }
 
 function Tab({
   mode,
-  selectedElement,
   selectedTab,
   setSelectedTab,
 }: Props): JSX.Element {
+  const { selectedElement } = useContext(SelectedElementContext);
   const isObjectDisabled = (mode === 'element' && !selectedElement);
   let objectTitle = LANG.tabs.objects;
   const LangTopBar = i18n.lang.topbar;

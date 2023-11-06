@@ -8,7 +8,7 @@ exports[`test Breadcrumbs should render correctly 1`] = `
     <ol>
       <li>
         <span
-          class="item"
+          class="ant-breadcrumb-link item"
         >
           <span
             aria-label="home"
@@ -39,7 +39,7 @@ exports[`test Breadcrumbs should render correctly 1`] = `
       </li>
       <li>
         <span
-          class="item"
+          class="ant-breadcrumb-link item"
         >
           a
         </span>
@@ -52,7 +52,7 @@ exports[`test Breadcrumbs should render correctly 1`] = `
       </li>
       <li>
         <span
-          class="item"
+          class="ant-breadcrumb-link item"
         >
           b
         </span>
@@ -65,7 +65,7 @@ exports[`test Breadcrumbs should render correctly 1`] = `
       </li>
       <li>
         <span
-          class="item"
+          class="ant-breadcrumb-link item"
         >
           c
         </span>

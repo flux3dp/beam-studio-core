@@ -1,11 +1,27 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 import DeviceSelector from './DeviceSelector';
+
+const mockGetSelectedDevice = jest.fn();
+jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
+  getSelectedDevice: () => mockGetSelectedDevice(),
+}));
+
+const mockPopUp = jest.fn();
+jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
+}));
+
+const mockToggleUnsavedChangedDialog = jest.fn();
+jest.mock('helpers/file-export-helper', () => ({
+  toggleUnsavedChangedDialog: (...args) => mockToggleUnsavedChangedDialog(...args),
+}));
 
 jest.mock('helpers/i18n', () => ({
   lang: {
     machine_status: {
+      '-17': 'Cartridge IO Mode',
       '-10': 'Maintain mode',
       '-2': 'Scanning',
       '-1': 'Maintaining',
@@ -72,7 +88,9 @@ describe('should render correctly', () => {
       serial: 'serial',
       name: 'name',
     };
-    discoverListener([mockDevice]);
+    act(() => {
+      discoverListener([mockDevice]);
+    });
     expect(baseElement).toMatchSnapshot();
 
     expect(mockOnSelect).not.toBeCalled();

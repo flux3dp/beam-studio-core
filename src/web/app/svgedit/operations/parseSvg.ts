@@ -1,3 +1,4 @@
+import getMainColorOfElement from 'helpers/color/getMainColorOfElement';
 import SymbolMaker from 'helpers/symbol-maker';
 import units, { Units } from 'helpers/units';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -5,22 +6,16 @@ import { IBatchCommand } from 'interfaces/IHistory';
 const { svgedit } = window;
 const { NS } = svgedit;
 
-const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, type: string): {
-  symbols: SVGSymbolElement[],
-  confirmedType: string,
+const parseSvg = (
+  batchCmd: IBatchCommand,
+  svgElement: Element,
+  type: string
+): {
+  symbols: SVGSymbolElement[];
+  confirmedType: string;
 } => {
-  const { svgdoc } = svgCanvas;
-  // function removeSvgText() {
-  //   if ($(svg).find('text').length) {
-  //     Alert.popUp({
-  //       type: AlertConstants.SHOW_POPUP_INFO,
-  //       message: LANG.popup.no_support_text,
-  //     });
-  //     $(svg).find('text').remove();
-  //   }
-  // }
   function unit2Pixel(val, unit?: Units) {
-    if ((val === false) || (val === undefined) || (val === null)) {
+    if (val === false || val === undefined || val === null) {
       return false;
     }
 
@@ -29,9 +24,8 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       console.error('SVG Parse, Unsupported unit "%" for', val);
       return null;
     }
-
     if (!Number.isNaN(Number(val))) {
-      return units.convertUnit(Number(val), 'pt', 'px');
+      return val;
     }
     // eslint-disable-next-line no-param-reassign
     unit = unit || val.substr(-2);
@@ -43,15 +37,15 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
     console.log(num, unit, 'convert');
     return units.convertUnit(num, 'pt', unit);
   }
-  function removeComments() {
+  const removeComments = () => {
     // only remove comment which level is svg.children.
     // should traverse all svg level and remove all comments if you have time
-    $(svgElement).contents().each(function () {
-      if (this.nodeType === Node.COMMENT_NODE) {
-        $(this).remove();
+    svgElement.childNodes.forEach((node) => {
+      if (node.nodeType === Node.COMMENT_NODE) {
+        svgElement.removeChild(node);
       }
     });
-  }
+  };
   function symbolWrapper(symbolContents, unit?) {
     if (symbolContents.tagName === 'g' && symbolContents.childNodes.length === 0) {
       console.log('wrapping empty group, return null');
@@ -78,7 +72,7 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       transformList.unshift(`scale(${svgUnitScaling})`);
     }
 
-    const wrappedSymbolContent = svgdoc.createElementNS(NS.SVG, 'g');
+    const wrappedSymbolContent = document.createElementNS(NS.SVG, 'g');
     if (symbolContents.length) {
       symbolContents.forEach((content) => {
         wrappedSymbolContent.appendChild(content);
@@ -90,43 +84,48 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
         console.log(e);
       }
     }
+    if (wrappedSymbolContent.childNodes.length === 0) {
+      return null;
+    }
     wrappedSymbolContent.setAttribute('viewBox', rootViewBox);
     wrappedSymbolContent.setAttribute('transform', transformList.join(' '));
 
     return wrappedSymbolContent;
   }
   function parseSvgByLayer() {
-    const defNodes = Array.from(svgElement.childNodes).filter((node: Element) => node.tagName === 'defs');
+    const defNodes = Array.from(svgElement.childNodes).filter(
+      (node: Element) => node.tagName === 'defs'
+    );
     let defChildren = [];
     defNodes.forEach((def: Element) => {
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
 
-    const layerNodes = Array.from(svgElement.childNodes).filter((node: Element) => !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName));
+    const layerNodes = Array.from(svgElement.childNodes).filter(
+      (node: Element) =>
+        !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
+    );
     const symbols = layerNodes.map((node) => {
-      const symbol = SymbolMaker.makeSymbol(symbolWrapper(node), [], batchCmd, defChildren, 'layer');
+      const symbol = SymbolMaker.makeSymbol(
+        symbolWrapper(node),
+        [],
+        batchCmd,
+        defChildren,
+        'layer'
+      );
       return symbol;
     });
 
     return symbols;
   }
   function parseSvgByColor(svg) {
-    function getColorOfElement(node) {
-      let color;
-      color = node.getAttribute('stroke');
-      if (color === 'none') {
-        color = node.getAttribute('fill');
-      }
-      color = color || 'rgb(0%,0%,0%)';
-      return color;
-    }
     function getAllColorInNodes(nodes) {
       const allColorsInNodes: Set<string> = new Set();
 
       function traverseToGetAllColor(frontierNode) {
         Array.from(frontierNode.childNodes).forEach((child: Element) => {
           if (['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].includes(child.tagName)) {
-            allColorsInNodes.add(getColorOfElement(child));
+            allColorsInNodes.add(getMainColorOfElement(child));
           } else if (child.tagName === 'g') {
             traverseToGetAllColor(child);
           }
@@ -142,8 +141,10 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       const children = Array.from(node.childNodes);
       let color;
       children.forEach((grandchild: Element) => {
-        if (['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].indexOf(grandchild.tagName) >= 0) {
-          color = getColorOfElement(grandchild);
+        if (
+          ['polygon', 'path', 'line', 'rect', 'ellipse', 'circle'].indexOf(grandchild.tagName) >= 0
+        ) {
+          color = getMainColorOfElement(grandchild);
           if (color !== filter) {
             node.removeChild(grandchild);
           } else {
@@ -163,30 +164,30 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
 
-    const originLayerNodes = Array.from(svg.childNodes).filter((child: Element) => child.tagName === 'g');
-    originLayerNodes.forEach((node: Element) => {
-      const uses = Array.from(node.getElementsByTagName('use'));
-      uses.forEach((use) => {
-        const href = $(svg).find(use.getAttribute('xlink:href'));
-        if (href.length > 0) {
-          const newElem = href[0].cloneNode(true);
-          use.parentNode.appendChild(newElem);
-          use.remove();
-        }
-      });
+    const parentNodes = [svg];
+    const uses = Array.from(svg.getElementsByTagName('use')) as SVGUseElement[];
+    uses.forEach((use) => {
+      const href = $(svg).find(use.getAttribute('xlink:href'));
+      if (href.length > 0) {
+        const newElem = href[0].cloneNode(true);
+        use.parentNode.appendChild(newElem);
+        use.remove();
+      }
     });
-    const availableColors = getAllColorInNodes(originLayerNodes);
+    const availableColors = getAllColorInNodes(parentNodes);
     // re-classify elements by their color
     const groupColorMap: { [key: string]: Element } = {};
-    originLayerNodes.forEach((child: Element) => {
+    parentNodes.forEach((child: Element) => {
       Array.from(availableColors).forEach((strokeColor) => {
         const clonedGroup = child.cloneNode(true);
         filterColor(strokeColor, clonedGroup);
         if (!groupColorMap[strokeColor]) {
-          groupColorMap[strokeColor] = svgdoc.createElementNS(NS.SVG, 'g') as Element;
+          groupColorMap[strokeColor] = document.createElementNS(NS.SVG, 'g') as Element;
           groupColorMap[strokeColor].setAttribute('data-color', strokeColor);
         }
-        groupColorMap[strokeColor].appendChild(clonedGroup);
+        for (let i = clonedGroup.childNodes.length - 1; i >= 0; i -= 1) {
+          groupColorMap[strokeColor].appendChild(clonedGroup.childNodes[i]);
+        }
       });
     });
 
@@ -198,7 +199,13 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
       if (color) {
         wrappedSymbolContent.setAttribute('data-color', color);
       }
-      const symbol = SymbolMaker.makeSymbol(wrappedSymbolContent, [], batchCmd, defChildren, 'color');
+      const symbol = SymbolMaker.makeSymbol(
+        wrappedSymbolContent,
+        [],
+        batchCmd,
+        defChildren,
+        'color'
+      );
       return symbol;
     });
     return symbols;
@@ -206,16 +213,27 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
   function parseSvgByNolayer(svg) {
     // this is same as parseByLayer .....
     const defNodes = Array.from(svg.childNodes).filter((node: Element) => node.tagName === 'defs');
-    const styleNodes = Array.from(svg.childNodes).filter((node: Element) => node.tagName === 'style');
+    const styleNodes = Array.from(svg.childNodes).filter(
+      (node: Element) => node.tagName === 'style'
+    );
     let defChildren = [];
     defNodes.forEach((def: Element) => {
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
     defChildren = defChildren.concat(styleNodes);
 
-    const layerNodes = Array.from(svg.childNodes).filter((node: Element) => !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName));
+    const layerNodes = Array.from(svg.childNodes).filter(
+      (node: Element) =>
+        !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
+    );
+    const wrappedSymbolContent = symbolWrapper(layerNodes);
+    if (!wrappedSymbolContent) return [];
     const symbol = SymbolMaker.makeSymbol(
-      symbolWrapper(layerNodes), [], batchCmd, defChildren, type,
+      wrappedSymbolContent,
+      [],
+      batchCmd,
+      defChildren,
+      type
     );
 
     return [symbol];
@@ -249,7 +267,6 @@ const parseSvg = (batchCmd: IBatchCommand, svgCanvas: any, svgElement: Element, 
         symbols: parseSvgByNolayer(svgElement),
         confirmedType: 'nolayer',
       };
-
     case 'image-trace':
       return {
         symbols: parseSvgByColor(svgElement),

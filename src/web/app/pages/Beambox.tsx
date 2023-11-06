@@ -16,8 +16,10 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
 import { CanvasProvider } from 'app/contexts/CanvasContext';
+import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
+import { SelectedElementContextProvider } from 'app/contexts/SelectedElementContext';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();
@@ -39,20 +41,24 @@ const Beambox = (): JSX.Element => {
   const activeLang = i18n.getActiveLang();
   return (
     <CanvasProvider>
-      <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
-        <TopBar />
-        <LeftPanel />
-        <RightPanelContextProvider>
-          <RightPanel />
-        </RightPanelContextProvider>
-        <SvgEditor />
-        <TimeEstimationButtonContextProvider>
-          <TimeEstimationButton />
-        </TimeEstimationButtonContextProvider>
-        <div id="tool-panels-placeholder" />
-        <ImageTracePanel />
-        <CanvasTabBar />
-      </div>
+      <SelectedElementContextProvider>
+        <LayerPanelContextProvider>
+          <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
+            <TopBar />
+            <LeftPanel />
+            <RightPanelContextProvider>
+              <RightPanel />
+            </RightPanelContextProvider>
+            <SvgEditor />
+            <TimeEstimationButtonContextProvider>
+              <TimeEstimationButton />
+            </TimeEstimationButtonContextProvider>
+            <div id="tool-panels-placeholder" />
+            <ImageTracePanel />
+            <CanvasTabBar />
+          </div>
+        </LayerPanelContextProvider>
+      </SelectedElementContextProvider>
     </CanvasProvider>
   );
 };

@@ -1,64 +1,42 @@
-import * as React from 'react';
-import classNames from 'classnames';
+import React, { useMemo } from 'react';
 
 import beamboxStore from 'app/stores/beambox-store';
-import i18n from 'helpers/i18n';
+import constant from 'app/actions/beambox/constant';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
+import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import useI18n from 'helpers/useI18n';
+import useForceUpdate from 'helpers/use-force-update';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-
-const LANG = i18n.lang.beambox.left_panel;
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 interface Props {
-  id: string;
   className: string;
-  title: string;
-  iconName: string;
-  onClick: () => void;
+  endPreviewMode: () => void;
+  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
 }
-
-const PreviewToolButton = ({
-  id, className, title, iconName, onClick,
-}: Props) => (
-  <div id={id} className={className} title={title} onClick={onClick}>
-    <img src={`img/left-bar/icon-${iconName}.svg`} draggable="false" />
-  </div>
-);
 
 const PreviewToolButtonGroup = ({
   className,
   endPreviewMode,
   setShouldStartPreviewController,
-}: {
-  className: string;
-  endPreviewMode: () => void;
-  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
-}) => {
-  const renderToolButton = (
-    iconName: string,
-    id: string,
-    label: string,
-    onClick: () => void,
-    active = false,
-    disabled = false,
-  ) => (
-    <PreviewToolButton
-      id={`left-${id}`}
-      className={classNames('tool-btn', active, { disabled })}
-      title={label}
-      iconName={iconName}
-      onClick={disabled ? () => { } : onClick}
-    />
-  );
+}: Props): JSX.Element => {
+  const lang = useI18n().beambox.left_panel;
+  const workarea = useWorkarea();
+  const isAdorSeries = useMemo(() => constant.adorModels.includes(workarea), [workarea]);
+  const forceUpdate = useForceUpdate();
 
   const startImageTrace = () => {
     endPreviewMode();
     svgCanvas.clearSelection();
     beamboxStore.emitShowCropper();
-    $('#left-Cursor').addClass('active');
   };
 
   const clearPreview = () => {
@@ -66,20 +44,71 @@ const PreviewToolButtonGroup = ({
       PreviewModeBackgroundDrawer.resetCoordinates();
       PreviewModeBackgroundDrawer.clear();
     }
-    $('#left-Shoot').addClass('active');
   };
 
-  const disabled = PreviewModeController.isDrawing || PreviewModeBackgroundDrawer.isClean();
+  const isCanvasEmpty = PreviewModeController.isDrawing || PreviewModeBackgroundDrawer.isClean();
+  const isLiveMode = PreviewModeController.isLiveModeOn();
+  const isPreviewMode = PreviewModeController.isPreviewMode();
   return (
     <div className={className}>
-      {renderToolButton('back', 'Exit-Preview', LANG.label.end_preview, endPreviewMode)}
-      {renderToolButton('shoot', 'Shoot', LANG.label.preview, () => {
-        if (!PreviewModeController.isPreviewMode()) {
-          setShouldStartPreviewController(true);
-        }
-      }, true)}
-      {renderToolButton('trace', 'Trace', LANG.label.trace, startImageTrace, false, disabled)}
-      {renderToolButton('trash', 'Trash', LANG.label.clear_preview, clearPreview, false, disabled)}
+      <LeftPanelButton
+        id="preview back"
+        icon={<LeftPanelIcons.Back />}
+        title={lang.label.end_preview}
+        onClick={endPreviewMode}
+      />
+      <LeftPanelButton
+        id="preview-shoot"
+        icon={<LeftPanelIcons.Shoot />}
+        title={lang.label.preview}
+        active
+        onClick={() => {
+          if (!PreviewModeController.isPreviewMode()) {
+            setShouldStartPreviewController(true);
+          }
+        }}
+      />
+      {isAdorSeries && (
+        <LeftPanelButton
+          id="preview-live"
+          icon={<LeftPanelIcons.Live />}
+          title={lang.label.live_feed}
+          active={isLiveMode}
+          disabled={!isPreviewMode}
+          onClick={() => {
+            if (PreviewModeController.isPreviewMode()) {
+              PreviewModeController.toggleFullWorkareaLiveMode();
+              forceUpdate();
+            }
+          }}
+        />
+      )}
+      <LeftPanelButton
+        id="image-trace"
+        icon={<LeftPanelIcons.Trace />}
+        title={lang.label.trace}
+        disabled={isCanvasEmpty}
+        onClick={startImageTrace}
+      />
+      {isAdorSeries && (
+        <LeftPanelButton
+          id="adjust-height"
+          icon={<LeftPanelIcons.AdjustHeight />}
+          title={lang.label.adjust_height}
+          disabled={!isPreviewMode}
+          onClick={() => {
+            if (PreviewModeController.isPreviewMode())
+              PreviewModeController.resetFishEyeObjectHeight();
+          }}
+        />
+      )}
+      <LeftPanelButton
+        id="clear-preview"
+        icon={<LeftPanelIcons.Delete />}
+        title={lang.label.clear_preview}
+        disabled={isCanvasEmpty}
+        onClick={clearPreview}
+      />
     </div>
   );
 };

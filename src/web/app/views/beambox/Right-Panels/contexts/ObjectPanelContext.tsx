@@ -32,7 +32,7 @@ interface State {
   activeKey: string | null;
 }
 
-export class ObjectPanelContextProvider extends React.Component<any, State> {
+export class ObjectPanelContextProvider extends React.PureComponent<any, State> {
   private dimensionValues: any;
 
   private updateTimeout: NodeJS.Timeout;

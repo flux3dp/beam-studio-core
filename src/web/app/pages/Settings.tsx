@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import AdorModule from 'app/components/settings/AdorModule';
 import AutoSave from 'app/components/settings/AutoSave';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
@@ -11,6 +12,7 @@ import Camera from 'app/components/settings/Camera';
 import Connection from 'app/components/settings/Connection';
 import Editor from 'app/components/settings/Editor';
 import Engraving from 'app/components/settings/Engraving';
+import Experimental from 'app/components/settings/Experimental';
 import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
 import Mask from 'app/components/settings/Mask';
@@ -243,6 +245,15 @@ class Settings extends React.PureComponent<null, State> {
     const isCustomPrevHeightEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-preview-height');
     const enableCustomPreviewHeightOptions = this.onOffOptionFactory<OptionValues>(isCustomPrevHeightEnabled);
 
+    const isMultipassCompensationEnabled = this.getBeamboxPreferenceEditingValue('multipass-compensation') !== false;
+    const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(isMultipassCompensationEnabled);
+
+    const oneWayPrintingEnabled = this.getBeamboxPreferenceEditingValue('one-way-printing') !== false;
+    const oneWayPrintingOptions = this.onOffOptionFactory<OptionValues>(oneWayPrintingEnabled);
+
+    const isPrintAdvancedModeEnabled = this.getBeamboxPreferenceEditingValue('print-advanced-mode');
+    const printAdvancedModeOptions = this.onOffOptionFactory<OptionValues>(isPrintAdvancedModeEnabled);
+
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
@@ -360,11 +371,22 @@ class Settings extends React.PureComponent<null, State> {
             diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
+          <AdorModule
+            defaultUnit={this.getConfigEditingValue('default-units')}
+            selectedModel={selectedModel}
+            currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
+            printAdvancedModeOptions={printAdvancedModeOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
           <Privacy
             enableSentryOptions={enableSentryOptions}
             updateConfigChange={this.updateConfigChange}
           />
-
+          <Experimental
+            multipassCompensationOptions={multipassCompensationOptions}
+            oneWayPrintingOptions={oneWayPrintingOptions}
+            updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+          />
           <div className="font5" onClick={this.resetBS}>
             <b>{lang.settings.reset_now}</b>
           </div>

@@ -24,6 +24,7 @@ interface Props {
 }
 
 export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
+  const [hasVector, setHasVector] = useState<boolean>(false);
   const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
   const forceUpdate = useForceUpdate();
   const lazySetSelectedLayers = useCallback((newLayers: string[]) => {
@@ -53,11 +54,25 @@ export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
       response.selectedLayers = selectedLayers;
     };
     layerPanelEventEmitter.on('GET_SELECTED_LAYERS', getSelectedLayers);
+    const checkVector = () => {
+      const newVal = doLayersContainsVector(selectedLayers);
+      setHasVector(newVal);
+    }
+    layerPanelEventEmitter.on('CHECK_VECTOR', checkVector);
     return () => {
       layerPanelEventEmitter.removeListener('GET_SELECTED_LAYERS', getSelectedLayers);
+      layerPanelEventEmitter.removeListener('CHECK_VECTOR', checkVector);
     };
   }, [selectedLayers]);
-  const hasVector = doLayersContainsVector(selectedLayers);
+
+  // move doLayersContainsVector and setVector in effect to avoid heavy render process
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const newVal = doLayersContainsVector(selectedLayers);
+    if (hasVector !== newVal) {
+      setHasVector(newVal);
+    }
+  });
 
   return (
     <LayerPanelContext.Provider value={{
