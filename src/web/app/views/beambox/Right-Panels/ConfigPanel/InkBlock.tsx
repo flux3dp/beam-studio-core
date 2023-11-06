@@ -84,7 +84,7 @@ function InkBlock({
     </div>
   );
 
-  const getDisplayValue = useCallback(() => {
+  const displayValue = useMemo(() => {
     const selectedOption = sliderOptions?.find((opt) => opt.value === ink.value);
     if (selectedOption) return selectedOption.label;
     return ink.value;
@@ -105,7 +105,7 @@ function InkBlock({
                   size="mini"
                   fill="outline"
                 >
-                  <span style={{ whiteSpace: 'nowrap' }}>{getDisplayValue()}</span>
+                  <span style={{ whiteSpace: 'nowrap' }}>{displayValue}</span>
                 </Button>
               }
               label={t.ink_saturation}

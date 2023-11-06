@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useCallback, useContext, useMemo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -126,7 +126,7 @@ const SpeedBlock = ({
     </div>
   );
 
-  const getDisplayValue = useCallback(() => {
+  const displayValue = useMemo(() => {
     const selectedOption = sliderOptions?.find((opt) => opt.value === value);
     if (selectedOption) return selectedOption.label;
     return +units.convertUnit(value, fakeUnit, 'mm').toFixed(decimal);
@@ -143,7 +143,7 @@ const SpeedBlock = ({
             size="mini"
             fill="outline"
           >
-            <span style={{ whiteSpace: 'nowrap' }}>{getDisplayValue()}</span>
+            <span style={{ whiteSpace: 'nowrap' }}>{displayValue}</span>
           </Button>
         }
         label={t.speed}

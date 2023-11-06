@@ -10,12 +10,12 @@ const toElementMode = (): void => {
   rightPanelEventEmitter.emit('SET_MODE', 'element');
 };
 
-const toPreviewMode = (): void => {
+const toColorPreviewMode = (): void => {
   rightPanelEventEmitter.emit('SET_MODE', 'preview-color');
 };
 
 export default {
   toPathEditMode,
   toElementMode,
-  toPreviewMode,
+  toColorPreviewMode,
 };

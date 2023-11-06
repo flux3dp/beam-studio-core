@@ -20,6 +20,7 @@ const setSvgElemSize = jest.fn();
 const disassembleUse2Group = jest.fn();
 const addCommandToHistory = jest.fn();
 const getCurrentLayerName = jest.fn();
+const getSelectedElems = jest.fn().mockReturnValue(['mock-path-elem']);
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) =>
     callback({
@@ -34,6 +35,7 @@ jest.mock('helpers/svg-editor-helper', () => ({
         disassembleUse2Group: (...args) => disassembleUse2Group(...args),
         addCommandToHistory: (...args) => addCommandToHistory(...args),
         getCurrentDrawing: () => ({ getCurrentLayerName }),
+        getSelectedElems: () => getSelectedElems(),
       },
     }),
 }));
@@ -139,6 +141,8 @@ describe('test ShapePanel', () => {
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
     expect(disassembleUse2Group).not.toBeCalled();
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith(mockElement);
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
@@ -173,6 +177,8 @@ describe('test ShapePanel', () => {
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
     expect(disassembleUse2Group).toBeCalledTimes(1);
     expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith('mock-path-elem');
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
@@ -215,6 +221,8 @@ describe('test ShapePanel in mobile', () => {
     expect(setSvgElemPosition).not.toBeCalled();
     expect(setSvgElemSize).not.toBeCalled();
     expect(disassembleUse2Group).not.toBeCalled();
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith(mockElement);
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });
@@ -249,6 +257,8 @@ describe('test ShapePanel in mobile', () => {
     expect(setSvgElemSize).toHaveBeenNthCalledWith(2, 'height', 500);
     expect(disassembleUse2Group).toBeCalledTimes(1);
     expect(disassembleUse2Group).toHaveBeenNthCalledWith(1, [mockElement], true, false);
+    expect(mockUpdateElementColor).toBeCalledTimes(1);
+    expect(mockUpdateElementColor).toBeCalledWith('mock-path-elem');
     expect(addCommandToHistory).toBeCalledTimes(1);
     expect(mockOnClose).toBeCalledTimes(1);
   });

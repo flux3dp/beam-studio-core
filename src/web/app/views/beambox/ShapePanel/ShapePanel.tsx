@@ -71,6 +71,7 @@ const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
       batchCmd.addSubCommand(svgCanvas.setSvgElemPosition('y', 0, newElementnewElement, false));
       newElementnewElement.setAttribute('data-ratiofixed', 'true');
       batchCmd.addSubCommand(await svgCanvas.disassembleUse2Group([newElementnewElement], true, false));
+      updateElementColor(svgCanvas.getSelectedElems()[0]);
       svgCanvas.addCommandToHistory(batchCmd);
     }
     setClose(true);

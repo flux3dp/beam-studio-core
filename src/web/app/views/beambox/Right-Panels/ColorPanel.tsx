@@ -131,7 +131,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
   );
 
   const startPreviewMode = (type: number, color: string) => {
-    RightPanelController.toPreviewMode();
+    RightPanelController.toColorPreviewMode();
     svgCanvas.unsafeAccess.setCurrentMode('preview_color');
     svgCanvas.selectorManager.requestSelector(elem).resize();
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
