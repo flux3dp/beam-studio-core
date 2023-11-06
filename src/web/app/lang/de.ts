@@ -1364,8 +1364,9 @@ const lang: ILang = {
       apply: 'Anwenden',
       enter_manually: 'Manuell eingeben',
       adjust: 'Anpassen',
-      adjust_height_tooltip: 'Klicken Sie auf das Kontrollkästchen, um die Bearbeitung zu aktivieren.',
+      adjust_height_tooltip: 'Die ausgewählte Beispieldatei wird von der aktuellen Arbeitsfläche nicht unterstützt.',
     },
+    unsupported_example_file: 'The selected example file is not supported by current workarea.',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',

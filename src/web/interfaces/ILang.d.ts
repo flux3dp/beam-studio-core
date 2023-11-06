@@ -1363,6 +1363,7 @@ export interface ILang {
       adjust: string;
       adjust_height_tooltip: string;
     };
+    unsupported_example_file: string;
   },
   machine_status: {
     '-17': string,

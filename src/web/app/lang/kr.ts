@@ -1366,6 +1366,7 @@ const lang: ILang = {
       adjust: '조절',
       adjust_height_tooltip: '편집을 활성화하려면 확인란을 클릭하세요.',
     },
+    unsupported_example_file: '선택한 예제 파일은 현재 작업 영역에서 지원되지 않습니다.',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',

@@ -1366,6 +1366,7 @@ const lang: ILang = {
       adjust: '調整',
       adjust_height_tooltip: '點選方塊以啟用編輯。',
     },
+    unsupported_example_file: '選取範例文件不支援的目前工作範圍。',
   },
   machine_status: {
     '-17': '墨匣模式',

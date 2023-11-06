@@ -1366,6 +1366,7 @@ const lang: ILang = {
       adjust: 'Aanpassen',
       adjust_height_tooltip: 'Klik op het selectievakje om bewerken in te schakelen.',
     },
+    unsupported_example_file: 'Het geselecteerde voorbeeldbestand wordt niet ondersteund door het huidige werkgebied.',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',

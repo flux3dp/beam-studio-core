@@ -1366,6 +1366,7 @@ const lang: ILang = {
       adjust: 'Ajustar',
       adjust_height_tooltip: 'Haga clic en la casilla para habilitar la edición.',
     },
+    unsupported_example_file: 'El archivo de ejemplo seleccionado no es compatible con el área de trabajo actual.',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',

@@ -43,6 +43,8 @@ const getExampleFileName = (key: string) => {
     }[key];
   }
   return {
+    example: 'examples/badge.bvg',
+    hello_beambox: 'examples/hello-beambox.bvg',
     mat_test_old: 'examples/ador_engraving_test_classic.bvg',
     mat_test_simple_cut: 'examples/ador_cutting_test_simple.bvg',
     mat_test_cut: 'examples/ador_cutting_test.bvg',
@@ -56,7 +58,7 @@ const getExampleFileName = (key: string) => {
 
 const loadExampleFile = async (path: string) => {
   if (!path) {
-    Alert.popUp({ message: 'lang.message.unsupported_example_file' });
+    Alert.popUp({ message: lang.message.unsupported_example_file });
     return;
   }
   const res = await FileExportHelper.toggleUnsavedChangedDialog();

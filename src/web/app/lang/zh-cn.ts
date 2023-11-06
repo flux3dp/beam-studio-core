@@ -1366,6 +1366,7 @@ const lang: ILang = {
       adjust: '调整',
       adjust_height_tooltip: '单击复选框以启用编辑。',
     },
+    unsupported_example_file: '所选示例文件不受当前工作区支持。',
   },
   machine_status: {
     '-17': '墨匣模式',
