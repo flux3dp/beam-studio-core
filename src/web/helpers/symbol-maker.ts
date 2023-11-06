@@ -200,27 +200,27 @@ const makeSymbol = (
     return prefix + replace;
   });
   prefixedStyle = `${prefixedStyle}
-        *[data-color] ellipse[fill=none],
-        *[data-color] circle[fill=none],
-        *[data-color] rect[fill=none],
-        *[data-color] path[fill=none],
-        *[data-color] polygon[fill=none] {
+        #${symbol.id} *[data-color] ellipse[fill=none],
+        #${symbol.id} *[data-color] circle[fill=none],
+        #${symbol.id} *[data-color] rect[fill=none],
+        #${symbol.id} *[data-color] path[fill=none],
+        #${symbol.id} *[data-color] polygon[fill=none] {
             fill-opacity: 0 !important;
             stroke-width: 1px !important;
             stroke-opacity: 1 !important;
             vector-effect: non-scaling-stroke !important;
         }
 
-        *[data-color] ellipse[stroke=none],
-        *[data-color] circle[stroke=none],
-        *[data-color] rect[stroke=none],
-        *[data-color] path[stroke=none],
-        *[data-color] polygon[stroke=none],
-        *[data-color] ellipse:not([stroke]),
-        *[data-color] circle:not([stroke]),
-        *[data-color] rect:not([stroke]),
-        *[data-color] path:not([stroke]),
-        *[data-color] polygon:not([stroke]) {
+        #${symbol.id} *[data-color] ellipse[stroke=none],
+        #${symbol.id} *[data-color] circle[stroke=none],
+        #${symbol.id} *[data-color] rect[stroke=none],
+        #${symbol.id} *[data-color] path[stroke=none],
+        #${symbol.id} *[data-color] polygon[stroke=none],
+        #${symbol.id} *[data-color] ellipse:not([stroke]),
+        #${symbol.id} *[data-color] circle:not([stroke]),
+        #${symbol.id} *[data-color] rect:not([stroke]),
+        #${symbol.id} *[data-color] path:not([stroke]),
+        #${symbol.id} *[data-color] polygon:not([stroke]) {
             fill-opacity: 1 !important;
             stroke-width: 0 !important;
         }
