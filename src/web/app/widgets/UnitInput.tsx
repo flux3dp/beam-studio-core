@@ -1,5 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback } from 'react';
-import { InputNumber, InputNumberProps } from 'antd';
+import { ConfigProvider, InputNumber, InputNumberProps } from 'antd';
+
+import styles from './UnitInput.module.scss';
 
 interface Props extends InputNumberProps<number> {
   unit: string;
@@ -18,23 +21,43 @@ const UnitInput = ({ unit, isInch, precision = 4, ...Props }: Props): JSX.Elemen
     (value: string | number) => {
       // eslint-disable-next-line no-param-reassign
       if (typeof value === 'string') value = parseFloat(value);
-      if (isInch) return `${(value / 25.4).toFixed(precision)} ${unit}`;
-      return `${value.toFixed(precision)} ${unit}`;
+      if (isInch) return (value / 25.4).toFixed(precision);
+      return value.toFixed(precision);
     },
-    [isInch, unit, precision]
+    [isInch, precision]
   );
 
   const parser = useCallback(
     (value: string) => {
-      const newVal = value.replace(unit, '').trim();
+      const newVal = value.trim();
       if (isInch) return parseFloat(newVal) * 25.4;
       return parseFloat(newVal);
     },
-    [isInch, unit]
+    [isInch]
   );
 
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <InputNumber {...Props} formatter={formatter} parser={parser} />;
+  return (
+    <div className={styles.input}>
+      <ConfigProvider
+        theme={{
+          token: {
+            lineWidth: 0,
+            colorBgContainerDisabled: 'none',
+            controlPaddingHorizontal: 6,
+          },
+          components: {
+            InputNumber: {
+              activeShadow: 'none',
+              controlWidth: 70,
+            },
+          },
+        }}
+      >
+        <InputNumber {...Props} formatter={formatter} parser={parser} />
+        <span className={styles.unit}>{unit}</span>
+      </ConfigProvider>
+    </div>
+  );
 };
 
 export default UnitInput;
