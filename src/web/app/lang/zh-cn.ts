@@ -1367,7 +1367,7 @@ const lang: ILang = {
     please_goto_beambox_first: '请先选择 Beambox 功能，再进行校正',
     please_place_paper: '请将干净 A4 白纸放在工作区域的左上角',
     please_place_paper_center: '请将干净 A4 白纸放在工作区的中央。',
-    please_place_black_acrylic: '请将干净 A4 黑色亚克力放在工作区的中央。',
+    please_place_dark_colored_paper: '请将 A4 深色纸放置在工作区的中央。',
     please_refocus: {
       beambox: '请旋转升降平台旋钮，直到轻触焦距螺丝或焦距尺，完成对焦后，转回对焦尺。',
       beamo: '请转开焦距固定环，调整雷射头至平台轻触焦距尺，完成对焦后，旋紧固定环、转回对焦尺。',

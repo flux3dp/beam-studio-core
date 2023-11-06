@@ -1367,7 +1367,7 @@ const lang: ILang = {
     please_goto_beambox_first: 'Schakel over naar de graveermodus (Beambox) om deze functie te gebruiken.',
     please_place_paper: 'Plaats een wit papier van A4- of Letter-formaat in de linkerbovenhoek van het werkgebied',
     please_place_paper_center: 'Plaats een A4- of Letterformaat wit papier in het midden van het werkgebied.',
-    please_place_black_acrylic: 'Plaats een A4- of Letterformaat zwart acryl in het midden van het werkgebied.',
+    please_place_dark_colored_paper: 'Plaats alstublieft een A4- of Letter-formaat donkergekleurd papier in het midden van het werkgebied.',
     please_refocus: {
       beambox: 'Gelieve het platform aan te passen aan het brandpunt (de hoogte van afgewezen acryl)',
       beamo: 'Gelieve de laserkop aan te passen om zich te concentreren op het graveerobject (de hoogte van afgewezen acryl)',

@@ -1367,7 +1367,7 @@ const lang: ILang = {
     please_goto_beambox_first: 'Bitte wechsle in den Gravurmodus (Beambox), um diese Funktion nutzen zu können.',
     please_place_paper: 'Bitte lege ein weißes Papier im A4- oder Letter-Format in die linke obere Ecke des Arbeitsbereichs.',
     please_place_paper_center: 'Legen Sie ein A4- oder Letter-Format weißes Papier in die Mitte des Arbeitsbereichs.',
-    please_place_black_acrylic: 'Legen Sie ein A4- oder Letter-Format schwarzes Acryl in die Mitte des Arbeitsbereichs.',
+    please_place_dark_colored_paper: 'Bitte legen Sie ein A4- oder Letter-Format dunkles Papier in die Mitte des Arbeitsbereichs.',
     please_refocus: {
       beambox: 'Stelle die Plattform bitte auf den Brennpunkt ein (die Höhe des umgedrehten Acryls).',
       beamo: 'Stelle den Laserkopf bitte so ein, dass er auf das Gravurobjekt fokussiert (Höhe des umgedrehten Acryls).',

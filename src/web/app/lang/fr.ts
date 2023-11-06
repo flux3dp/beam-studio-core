@@ -1367,7 +1367,7 @@ const lang: ILang = {
     please_goto_beambox_first: 'Veuillez passer en mode gravure (Beambox) afin d\'utiliser cette fonction.',
     please_place_paper: 'Placez une feuille blanche de format A4 ou Letter dans le coin supérieur gauche de la zone de travail.',
     please_place_paper_center: 'Placez une feuille de papier blanc au format A4 ou lettre au centre de la zone de travail.',
-    please_place_black_acrylic: 'Placez une feuille d\'acrylique noir au format A4 ou lettre au centre de la zone de travail.',
+    please_place_dark_colored_paper: 'Veuillez placer une feuille de papier de couleur sombre de format A4 ou lettre au centre de la zone de travail.',
     please_refocus: {
       beambox: 'Réglez la plate-forme sur le point focal (la hauteur de l\'acrylique abaissé).',
       beamo: 'Réglez la tête laser pour qu\'elle se concentre sur l\'objet à graver (la hauteur de l\'acrylique rabattu).',

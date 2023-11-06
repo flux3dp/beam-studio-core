@@ -1367,7 +1367,7 @@ const lang: ILang = {
     please_goto_beambox_first: 'Por favor, cambia al Modo de Grabación ( Beambox ) para poder usar esta función.',
     please_place_paper: 'Por favor, coloca un papel blanco tamaño A4 o Carta en la esquina tuperior izquierda del área de trabajo',
     please_place_paper_center: 'Coloque una hoja de papel blanco de tamaño A4 o carta en el centro del área de trabajo.',
-    please_place_black_acrylic: 'Coloque una hoja de acrílico negro de tamaño A4 o carta en el centro del área de trabajo.',
+    please_place_dark_colored_paper: 'Coloque un papel de tamaño A4 o carta de color oscuro en el centro del área de trabajo.',
     please_refocus: {
       beambox: 'Por favor, ajusta la plataforma al punto focal (la altura del acrílico rechazado)',
       beamo: 'Por favor, ajusta el cabezal del láser para enfocar el objeto grabado (la altura del acrílico rechazado)',

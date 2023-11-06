@@ -188,7 +188,7 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
           title={title}
           text={
             type === CalibrationType.IR_LASER
-              ? lang.please_place_black_acrylic
+              ? lang.please_place_dark_colored_paper
               : lang.please_place_paper_center
           }
           buttons={[
@@ -197,8 +197,8 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
           animationSrcs={
             type === CalibrationType.IR_LASER
               ? [
-                  { src: 'video/put_black_acrylic.webm', type: 'video/webm' },
-                  { src: 'video/put_black_acrylic.mp4', type: 'video/mp4' },
+                  { src: 'video/put-dark-paper.webm', type: 'video/webm' },
+                  { src: 'video/put-dark-paper.mp4', type: 'video/mp4' },
                 ]
               : [
                   { src: 'video/ador-put-paper.webm', type: 'video/webm' },

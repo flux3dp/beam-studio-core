@@ -1367,7 +1367,7 @@ const lang: ILang = {
     please_goto_beambox_first: 'Please switch to Engraving Mode ( Beambox ) in order to use this feature.',
     please_place_paper: 'Please place an A4 or Letter size white paper at left-top corner of workarea.',
     please_place_paper_center: 'Please place an A4 or Letter size white paper at the center of workarea.',
-    please_place_black_acrylic: 'Please place an A4 or Letter size black acrylic at the center of workarea',
+    please_place_dark_colored_paper: 'Please place an A4 or Letter size dark-colored paper in the center of the workarea.',
     please_refocus: {
       beambox: 'Kindly adjust the platform to the focal point (the height of turned down acrylic)',
       beamo: 'Kindly adjust the laser head to focus on the engraving object (the height of turned down acrylic)',

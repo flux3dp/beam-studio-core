@@ -1364,7 +1364,7 @@ export interface ILang {
     please_goto_beambox_first: string,
     please_place_paper: string,
     please_place_paper_center: string;
-    please_place_black_acrylic: string;
+    please_place_dark_colored_paper: string;
     please_refocus: {
       beambox: string,
       beamo: string,
