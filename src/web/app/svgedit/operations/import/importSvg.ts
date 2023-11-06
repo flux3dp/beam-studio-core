@@ -149,7 +149,7 @@ const importSvg = async (
   outputs = outputs.data;
   let newElements: SVGUseElement[] = [];
   let newElement: SVGUseElement;
-  if (importType === 'color') {
+  if (['color', 'nolayer'].includes(importType)) {
     newElement = await readSVG(outputs.strokes, { type: importType, targetModule });
     newElements.push(newElement);
     newElement = await readSVG(outputs.colors, { type: importType, targetModule });

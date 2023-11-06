@@ -84,6 +84,9 @@ const parseSvg = (
         console.log(e);
       }
     }
+    if (wrappedSymbolContent.childNodes.length === 0) {
+      return null;
+    }
     wrappedSymbolContent.setAttribute('viewBox', rootViewBox);
     wrappedSymbolContent.setAttribute('transform', transformList.join(' '));
 
@@ -223,8 +226,10 @@ const parseSvg = (
       (node: Element) =>
         !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
     );
+    const wrappedSymbolContent = symbolWrapper(layerNodes);
+    if (!wrappedSymbolContent) return [];
     const symbol = SymbolMaker.makeSymbol(
-      symbolWrapper(layerNodes),
+      wrappedSymbolContent,
       [],
       batchCmd,
       defChildren,
