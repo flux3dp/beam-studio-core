@@ -9,6 +9,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import { useIsMobile } from 'helpers/system-helper';
 
 interface Props {
@@ -101,6 +102,7 @@ export default function Menu({ email }: Props): JSX.Element {
     const submenus = [];
     for (let i = 0; i < devices.length; i += 1) {
       const { model, name, serial } = devices[i];
+      const hasModules = modelsWithModules.includes(model);
       submenus.push(
         <SubMenu label={name} key={serial}>
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
@@ -108,29 +110,24 @@ export default function Menu({ email }: Props): JSX.Element {
             {menuCms.machine_info}
           </MenuItem>
           <MenuDivider />
-          {!constant.adorModels.includes(model) && (
+          <MenuItem
+            onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
+            disabled={isMobile}
+          >
+            {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
+          </MenuItem>
+          {hasModules && (
             <MenuItem
-              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
+              onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}
               disabled={isMobile}
             >
-              {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
+              {menuCms.calibrate_printer_module}
             </MenuItem>
           )}
-          {constant.adorModels.includes(model) && (
-            <>
-              <MenuItem
-                onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}
-                disabled={isMobile}
-              >
-                {menuCms.calibrate_printer_module} {isMobile && '(PC Only)'}
-              </MenuItem>
-              <MenuItem
-                onClick={() => callback('CALIBRATE_IR_MODULE', serial)}
-                disabled={isMobile}
-              >
-                {menuCms.calibrate_ir_module} {isMobile && '(PC Only)'}
-              </MenuItem>
-            </>
+          {hasModules && (
+            <MenuItem onClick={() => callback('CALIBRATE_IR_MODULE', serial)} disabled={isMobile}>
+              {menuCms.calibrate_ir_module}
+            </MenuItem>
           )}
           {model === 'fbm1' ? (
             <MenuItem
