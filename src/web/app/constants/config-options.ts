@@ -2,7 +2,6 @@ import ConfigOption from 'interfaces/ConfigOption';
 import { ILang } from 'interfaces/ILang';
 
 const multipassOptions: ConfigOption[] = [
-  { value: 1 },
   { value: 2 },
   { value: 3 },
   { value: 4 },
