@@ -1021,8 +1021,10 @@ class DeviceMaster {
     return res;
   }
 
-  async takeOnePicture(retryTimes = 3) {
-    for (let i = 0; i < retryTimes; i += 1) {
+  async takeOnePicture(opts: { timeout? : number } = {}) {
+    const { timeout = 30 } = opts;
+    const startTime = Date.now();
+    while (Date.now() - startTime < (timeout * 1000)) {
       // eslint-disable-next-line no-await-in-loop
       const res = await this.currentDevice.camera.oneShot();
       if (res) return res;
