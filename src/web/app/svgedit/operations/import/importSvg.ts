@@ -175,13 +175,16 @@ const importSvg = async (
   }
 
   if (outputs.bitmap.size > 0) {
-    const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
-    const newLayer = svgCanvas.createLayer(layerName);
-    if (targetModule === LayerModule.PRINTER) {
-      writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
-      writeDataLayer(newLayer, DataType.fullColor, '1');
+    const isPrinting = targetModule === LayerModule.PRINTER;
+    if (!isPrinting || !newElements.length) {
+      const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
+      const newLayer = svgCanvas.createLayer(layerName);
+      if (isPrinting) {
+        writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
+        writeDataLayer(newLayer, DataType.fullColor, '1');
+      }
     }
-    await readBitmapFile(outputs.bitmap, { offset: outputs.bitmap_offset });
+    await readBitmapFile(outputs.bitmap, { offset: outputs.bitmap_offset, gray: !isPrinting });
   }
   presprayArea.togglePresprayArea();
   progressCaller.popById('loading_image');
