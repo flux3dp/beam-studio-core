@@ -28,14 +28,14 @@
       width: 50%;
       height: 100%;
       padding: 0 8px;
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      justify-items: center;
       align-items: center;
-      gap: 2px;
     }
 
     .left {
       float: left;
-      padding-left: 12px;
       border: solid rgba(0, 0, 0, 0);
       border-width: 0 1px 0 0;
 
@@ -47,7 +47,6 @@
 
     .right {
       float: right;
-      padding-right: 12px;
     }
   }
 
@@ -55,17 +54,22 @@
     height: 25px;
     line-height: 25px;
     margin: 10px 0;
-    border: solid #e0e0e0;
+    border: solid #d9d9d9;
     border-width: 0 0 1px 0;
 
     input {
       width: 40px;
       height: 25px;
       font-size: 12px;
-      padding: 1px 19px 1px 1px;
-      border: none;
+      padding: 1px 24px 1px 4px;
+      border: 1px solid transparent;
       background-color: unset;
       color: #333333;
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        border-color: #1890ff;
+      }
     }
 
     span {
