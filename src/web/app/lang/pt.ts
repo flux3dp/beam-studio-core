@@ -443,6 +443,7 @@ const lang: ILang = {
     module_offset_printer: 'Deslocamento da Impressora',
     module_offset_2w_ir: 'Deslocamento do Laser Infravermelho de 2W',
     printer_advanced_mode: 'Modo Avançado da Impressora',
+    default_laser_module: 'Módulo laser padrão',
     groups: {
       general: 'Geral',
       update: 'Atualização de Software',

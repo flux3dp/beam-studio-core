@@ -4,9 +4,9 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import layerConfigHelper, {
   DataType,
   getData,
-  writeData,
   writeDataLayer,
 } from 'helpers/layer/layer-config-helper';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import NS from 'app/constants/namespaces';
 import rgbToHex from 'helpers/color/rgbToHex';
 import storage from 'implementations/storage';
@@ -40,7 +40,7 @@ const appendUseElement = (
     return null;
   }
 
-  const { type, layerName, targetModule = LayerModule.LASER_10W_DIODE } = args;
+  const { type, layerName, targetModule = layerModuleHelper.getDefaultLaserModule() } = args;
   const useEl = document.createElementNS(NS.SVG, 'use');
   useEl.id = svgCanvas.getNextId();
   useEl.setAttributeNS(NS.XLINK, 'xlink:href', `#${symbol.id}`);

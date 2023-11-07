@@ -443,6 +443,7 @@ const lang: ILang = {
     module_offset_printer: 'Desplazamiento de impresora',
     module_offset_2w_ir: 'Desplazamiento del láser infrarrojo de 2W',
     printer_advanced_mode: 'Modo Avanzado de Impresión',
+    default_laser_module: 'Módulo láser predeterminado',
     groups: {
       general: 'General',
       update: 'Actualizaciones de software',

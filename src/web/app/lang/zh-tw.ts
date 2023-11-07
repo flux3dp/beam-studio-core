@@ -442,7 +442,8 @@ const lang: ILang = {
     module_offset_20w: '20W 二極體雷射偏移',
     module_offset_printer: '列印模組偏移',
     module_offset_2w_ir: '2W 紅外線雷射偏移',
-    printer_advanced_mode: '列印高級模式',
+    printer_advanced_mode: '列印進階模式',
+    default_laser_module: '預設雷射模組',
     groups: {
       general: '一般',
       update: '軟體更新',

@@ -443,6 +443,7 @@ const lang: ILang = {
     module_offset_printer: 'Printer Verschuiving',
     module_offset_2w_ir: '2W Infraroodlaser Verschuiving',
     printer_advanced_mode: 'Geavanceerde afdrukmodus',
+    default_laser_module: 'Standaard lasermodule',
     groups: {
       general: 'Algemeen',
       update: 'Software Updates',

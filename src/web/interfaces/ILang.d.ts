@@ -440,6 +440,7 @@ export interface ILang {
     module_offset_printer: string;
     module_offset_2w_ir: string;
     printer_advanced_mode: string;
+    default_laser_module: string;
     groups: {
       general: string,
       update: string,
