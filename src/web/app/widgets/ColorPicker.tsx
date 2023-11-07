@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Color } from 'antd/es/color-picker';
 import { ColorPicker as AntdColorPicker, Button } from 'antd';
 
@@ -31,6 +31,10 @@ const ColorPicker = ({
   const [color, setColor] = useState<string>(initColor);
   const [open, setOpen] = useState<boolean>(false);
   const lang = useI18n().alert;
+
+  useEffect(() => {
+    setColor(initColor);
+  }, [initColor]);
 
   const panelRender = (panel: React.ReactNode) => {
     let colorPresets = objectsColorPresets;

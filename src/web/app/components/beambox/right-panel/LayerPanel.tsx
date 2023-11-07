@@ -4,6 +4,7 @@ import React from 'react';
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
+import changeLayersColor from 'helpers/layer/changeLayersColor';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
 import FloatingPanel from 'app/widgets/FloatingPanel';
@@ -16,9 +17,10 @@ import presprayArea from 'app/actions/beambox/prespray-area';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
-import { getLayerElementByName, highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
+import { highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { IBatchCommand } from 'interfaces/IHistory';
 import { isMobile } from 'helpers/system-helper';
 
 import styles from './LayerPanel.module.scss';
@@ -194,22 +196,13 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   setLayerColor = (layerName: string, newColor: string): void => {
     const { selectedLayers } = this.context;
-    const { isUsingLayerColor } = svgCanvas;
+    let cmd: IBatchCommand;
     if (selectedLayers.includes(layerName)) {
-      for (let i = 0; i < selectedLayers.length; i += 1) {
-        const layer = getLayerElementByName(selectedLayers[i]);
-        layer.setAttribute('data-color', newColor);
-        if (isUsingLayerColor) {
-          svgCanvas.updateLayerColor(layer);
-        }
-      }
+      cmd = changeLayersColor(selectedLayers, newColor);
     } else {
-      const layer = getLayerElementByName(layerName);
-      layer.setAttribute('data-color', newColor);
-      if (isUsingLayerColor) {
-        svgCanvas.updateLayerColor(layer);
-      }
+      cmd = changeLayersColor([layerName], newColor);
     }
+    if (cmd && !cmd.isEmpty()) svgCanvas.addCommandToHistory(cmd);
     this.forceUpdate();
   };
 
