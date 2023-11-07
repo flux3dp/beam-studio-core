@@ -65,6 +65,8 @@ class Camera {
 
   private requireFrameRetry: number;
 
+  private fishEyeSetting: { matrix: FisheyeMatrix, shouldCrop?: boolean } = null;
+
   constructor(shouldCrop = true, cameraNeedFlip: boolean = null) {
     this.shouldCrop = shouldCrop;
     this.device = {
@@ -169,7 +171,10 @@ class Camera {
     return cameraOffset.value;
   }
 
+  getFisheyeSetting = (): { matrix: FisheyeMatrix, shouldCrop?: boolean } => this.fishEyeSetting;
+
   setFisheyeMatrix = async (mat: FisheyeMatrix, setCrop = false): Promise<boolean> => {
+    this.fishEyeSetting = { matrix: mat, shouldCrop: setCrop };
     const { center, ...matrix } = { ...mat };
     const [cx, cy] = center || [];
     const matrixString = JSON.stringify(matrix, (key, val) => {

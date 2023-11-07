@@ -1024,14 +1024,18 @@ class DeviceMaster {
   async takeOnePicture(opts: { timeout? : number } = {}) {
     const { timeout = 30 } = opts;
     const startTime = Date.now();
+    const cameraFishEyeSetting = this.currentDevice.camera?.getFisheyeSetting();
     while (Date.now() - startTime < (timeout * 1000)) {
       // eslint-disable-next-line no-await-in-loop
       const res = await this.currentDevice.camera.oneShot();
       if (res) return res;
       this.disconnectCamera();
-      // TODO: for ador: setFisheyeMatrix
       // eslint-disable-next-line no-await-in-loop
       await this.connectCamera();
+      if (cameraFishEyeSetting) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
+      }
     }
     return null;
   }
