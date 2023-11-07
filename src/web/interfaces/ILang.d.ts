@@ -1444,7 +1444,8 @@ export interface ILang {
     calculating_regression_parameters: string;
     failed_to_calibrate_camera: string;
     failed_to_save_calibration_results: string;
-    ador_autofocus: string;
+    ador_autofocus_material: string;
+    ador_autofocus_focusing_block: string;
     align_red_cross_cut: string;
     align_red_cross_print: string;
     retake: string;

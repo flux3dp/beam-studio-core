@@ -212,7 +212,11 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
         <Instruction
           onClose={() => onClose(false)}
           title={title}
-          text={lang.ador_autofocus}
+          text={
+            type === CalibrationType.PRINTER_HEAD
+              ? lang.ador_autofocus_focusing_block
+              : lang.ador_autofocus_material
+          }
           buttons={[
             { label: lang.back, onClick: () => setStep(Step.PUT_PAPER) },
             {
