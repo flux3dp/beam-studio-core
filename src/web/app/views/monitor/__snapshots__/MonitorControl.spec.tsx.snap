@@ -3,7 +3,7 @@
 exports[`test MonitorControl should render correctly in mobile mode is preview 1`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
@@ -34,6 +34,7 @@ exports[`test MonitorControl should render correctly in mobile mode is preview 1
         <span>
           Start
         </span>
+        
       </button>
     </div>
   </div>
@@ -43,7 +44,7 @@ exports[`test MonitorControl should render correctly in mobile mode is preview 1
 exports[`test MonitorControl should render correctly in mobile mode is working 1`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
@@ -75,6 +76,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 1
         <span>
           Start
         </span>
+        
       </button>
     </div>
   </div>
@@ -84,11 +86,10 @@ exports[`test MonitorControl should render correctly in mobile mode is working 1
 exports[`test MonitorControl should render correctly in mobile mode is working 2`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
-      style="margin-right: 8px;"
     >
       <button
         class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default"
@@ -116,6 +117,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
         <span>
           Stop
         </span>
+        
       </button>
     </div>
     <div
@@ -147,6 +149,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
         <span>
           Pause
         </span>
+        
       </button>
     </div>
   </div>
@@ -156,11 +159,10 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
 exports[`test MonitorControl should render correctly in mobile mode is working 3`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
-      style="margin-right: 8px;"
     >
       <button
         class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default"
@@ -188,6 +190,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
         <span>
           Stop
         </span>
+        
       </button>
     </div>
     <div
@@ -216,6 +219,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
             />
           </svg>
         </span>
+        
       </button>
     </div>
   </div>
@@ -225,7 +229,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
 exports[`test MonitorControl should render correctly mode is preview 1`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
@@ -256,6 +260,7 @@ exports[`test MonitorControl should render correctly mode is preview 1`] = `
         <span>
           Start
         </span>
+        
       </button>
     </div>
   </div>
@@ -265,7 +270,7 @@ exports[`test MonitorControl should render correctly mode is preview 1`] = `
 exports[`test MonitorControl should render correctly mode is working 1`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
@@ -297,6 +302,7 @@ exports[`test MonitorControl should render correctly mode is working 1`] = `
         <span>
           Start
         </span>
+        
       </button>
     </div>
   </div>
@@ -306,11 +312,10 @@ exports[`test MonitorControl should render correctly mode is working 1`] = `
 exports[`test MonitorControl should render correctly mode is working 2`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
-      style="margin-right: 8px;"
     >
       <button
         class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -338,6 +343,7 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
         <span>
           Stop
         </span>
+        
       </button>
     </div>
     <div
@@ -369,6 +375,7 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
         <span>
           Pause
         </span>
+        
       </button>
     </div>
   </div>
@@ -378,11 +385,10 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
 exports[`test MonitorControl should render correctly mode is working 3`] = `
 <div>
   <div
-    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center"
+    class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
   >
     <div
       class="ant-space-item"
-      style="margin-right: 8px;"
     >
       <button
         class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -410,6 +416,7 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
         <span>
           Stop
         </span>
+        
       </button>
     </div>
     <div
@@ -438,6 +445,7 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
             />
           </svg>
         </span>
+        
       </button>
     </div>
   </div>

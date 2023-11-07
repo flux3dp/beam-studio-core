@@ -11,17 +11,6 @@ exports[`test workarea should render correctly 1`] = `
       className="mac"
       id="workarea"
     >
-      <style
-        dangerouslySetInnerHTML={
-          {
-            "__html": "",
-          }
-        }
-        id="styleoverrides"
-        media="screen"
-        scoped={true}
-        type="text/css"
-      />
       <div
         id="svgcanvas"
         style={
@@ -129,17 +118,6 @@ exports[`test workarea should render correctly 2`] = `
       className="mac"
       id="workarea"
     >
-      <style
-        dangerouslySetInnerHTML={
-          {
-            "__html": "",
-          }
-        }
-        id="styleoverrides"
-        media="screen"
-        scoped={true}
-        type="text/css"
-      />
       <div
         id="svgcanvas"
         style={

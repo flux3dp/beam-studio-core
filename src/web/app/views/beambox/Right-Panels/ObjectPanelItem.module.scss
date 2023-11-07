@@ -48,7 +48,13 @@ $active-color: #0091ff;
 }
 div.divider {
   height: 40px;
-  margin: auto 0 auto 10px;
+  margin: auto 0;
+  &:first-child {
+    margin-left: 10px;
+  }
+  &:last-child {
+    margin-right: 10px;
+  }
 }
 .number-keyboard {
   .input-keys {
@@ -103,6 +109,7 @@ div.divider {
   }
 }
 .select {
+  --z-index: 100;
   :global(.adm-popover-inner-content) {
     padding: 8px 0;
   }

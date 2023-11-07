@@ -3,9 +3,18 @@ import { fireEvent, render } from '@testing-library/react';
 
 import DocumentSettings from './DocumentSettings';
 
+const mockPopUp = jest.fn();
+jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
+}));
+
+jest.mock('app/constants/alert-constants', () => ({
+  CONFIRM_CANCEL: 'CONFIRM_CANCEL',
+}));
+
 const beamboxPreferences = {
   engrave_dpi: 'medium',
-  workarea: 'fbb1b',
+  workarea: 'ado1',
   rotary_mode: 0,
   borderless: false,
   'enable-diode': false,
@@ -23,6 +32,38 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 const emitUpdateWorkArea = jest.fn();
 jest.mock('app/stores/beambox-store', () => ({
   emitUpdateWorkArea: () => emitUpdateWorkArea(),
+}));
+
+jest.mock('app/widgets/EngraveDpiSlider', () => ({ value, onChange }: any) => (
+  <div>
+    DummyEngraveDpiSlider
+    <p>value: {value}</p>
+    <button type="button" onClick={() => onChange('high')}>change dpi</button>
+  </div>
+));
+
+const update = jest.fn();
+jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
+  update: () => update(),
+}));
+
+const setRotaryMode = jest.fn();
+const runExtensions = jest.fn();
+const setResolution = jest.fn();
+const resetView = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) => {
+    callback({
+      Canvas: {
+        setRotaryMode: (value) => setRotaryMode(value),
+        runExtensions: (value) => runExtensions(value),
+        setResolution: (w, h) => setResolution(w, h),
+      },
+      Editor: {
+        resetView: () => resetView(),
+      },
+    });
+  },
 }));
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -49,46 +90,24 @@ jest.mock('helpers/useI18n', () => () => ({
       disable: 'Disable',
       cancel: 'Cancel',
       save: 'Save',
+      notification: {
+        changeFromPrintingWorkareaTitle: 'changeFromPrintingWorkareaTitle',
+      },
     },
   },
 }));
 
-const update = jest.fn();
-jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
-  update: () => update(),
+const mockToggleFullColorAfterWorkareaChange = jest.fn();
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  toggleFullColorAfterWorkareaChange: (...args) => mockToggleFullColorAfterWorkareaChange(...args),
 }));
-
-const setRotaryMode = jest.fn();
-const runExtensions = jest.fn();
-const setResolution = jest.fn();
-const resetView = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => {
-    callback({
-      Canvas: {
-        setRotaryMode: (value) => setRotaryMode(value),
-        runExtensions: (value) => runExtensions(value),
-        setResolution: (w, h) => setResolution(w, h),
-      },
-      Editor: {
-        resetView: () => resetView(),
-      },
-    });
-  },
-}));
-
-jest.mock('app/widgets/EngraveDpiSlider', () => ({ value, onChange }: any) => (
-  <div>
-    DummyEngraveDpiSlider
-    <p>value: {value}</p>
-    <button type="button" onClick={() => onChange('high')}>change dpi</button>
-  </div>
-));
 
 const mockUnmount = jest.fn();
+const mockQuerySelectorAll = jest.fn();
 
 describe('test DocumentSettings', () => {
   test('should render correctly', async () => {
+    document.querySelectorAll = mockQuerySelectorAll;
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     expect(baseElement).toMatchSnapshot();
 
@@ -98,8 +117,7 @@ describe('test DocumentSettings', () => {
     const workareaToggle = baseElement.querySelector('input#workarea');
     fireEvent.mouseDown(workareaToggle);
     fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]);
-    fireEvent.mouseDown(baseElement.querySelector('input#rotary_mode'));
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]);
+    fireEvent.click(baseElement.querySelector('button#rotary_mode'));
     fireEvent.click(baseElement.querySelector('button#borderless_mode'));
     fireEvent.click(baseElement.querySelector('button#autofocus-module'));
     fireEvent.click(baseElement.querySelector('button#diode_module'));
@@ -111,7 +129,20 @@ describe('test DocumentSettings', () => {
     expect(update).not.toBeCalled();
     expect(emitUpdateWorkArea).not.toBeCalled();
     expect(mockUnmount).not.toBeCalled();
+    mockQuerySelectorAll.mockReturnValueOnce([1]);
     fireEvent.click(getByText('Save'));
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toHaveBeenLastCalledWith({
+      id: 'save-document-settings',
+      message: 'changeFromPrintingWorkareaTitle',
+      messageIcon: 'notice',
+      buttonType: 'CONFIRM_CANCEL',
+      onConfirm: expect.any(Function),
+      onCancel: expect.any(Function),
+    });
+    const { onConfirm } = mockPopUp.mock.calls[0][0];
+    onConfirm();
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
@@ -124,6 +155,7 @@ describe('test DocumentSettings', () => {
     expect(runExtensions).toHaveBeenCalledTimes(1);
     expect(runExtensions).toHaveBeenLastCalledWith('updateRotaryAxis');
     expect(setResolution).toHaveBeenLastCalledWith(3000, 2100);
+    expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
     expect(resetView).toBeCalledTimes(1);
     expect(update).toBeCalledTimes(1);
     expect(emitUpdateWorkArea).toBeCalledTimes(1);

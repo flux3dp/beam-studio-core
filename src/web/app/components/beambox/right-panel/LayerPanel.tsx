@@ -12,6 +12,7 @@ import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import presprayArea from 'app/actions/beambox/prespray-area';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
@@ -223,15 +224,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
     } else {
       svgCanvas.setLayerVisibility(layerName, !isVis);
     }
+    presprayArea.togglePresprayArea();
     this.forceUpdate();
-  };
-
-  openLayerColorPanel = (e: React.MouseEvent, layerName: string): void => {
-    e.stopPropagation();
-    const layer = getLayerElementByName(layerName);
-    const layerColor = layer.getAttribute('data-color') || '#333333';
-    Dialog.showColorPicker(layerColor, e.clientX, e.clientY,
-      (newColor: string) => this.setLayerColor(layerName, newColor));
   };
 
   onLayerDragStart = (layerName: string, e?: React.DragEvent): void => {
@@ -410,7 +404,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               onSensorAreaDragEnter={this.onSensorAreaDragEnter}
               onLayerCenterDragEnter={this.onLayerCenterDragEnter}
               onLayerDoubleClick={this.layerDoubleClick}
-              openLayerColorPanel={this.openLayerColorPanel}
+              onLayerColorChange={this.setLayerColor}
               setLayerVisibility={this.setLayerVisibility}
               unLockLayers={this.unLockLayers}
             />

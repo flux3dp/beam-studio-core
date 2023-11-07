@@ -8,22 +8,27 @@ import communicator from 'implementations/communicator';
 import history from 'app/svgedit/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import Progress from 'app/actions/progress-caller';
+import updateElementColor from 'helpers/color/updateElementColor';
+import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 import { getSVGAsync } from './svg-editor-helper';
 
 let svgCanvas;
 let svgedit;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+  svgedit = globalSVG.Edit;
+});
 
 let clipCount = 1;
 
 const makeSymbol = (
   elem: Element,
-  attrs: { nodeName: string, value: string }[],
+  attrs: { nodeName: string; value: string }[],
   batchCmd: IBatchCommand,
   defs: Element[],
-  type: string,
+  type: string
 ): SVGSymbolElement => {
   if (!elem) {
     return null;
@@ -57,12 +62,16 @@ const makeSymbol = (
       const attr = node.attributes.item(i);
       const re = /url\(#([^)]+)\)/g;
       const linkRe = /#(.+)/g;
-      const urlMatch = attr.nodeName === 'xlink:href' ? linkRe.exec(attr.value) : re.exec(attr.value);
+      const urlMatch =
+        attr.nodeName === 'xlink:href' ? linkRe.exec(attr.value) : re.exec(attr.value);
 
       if (urlMatch) {
         const oldId = urlMatch[1];
         if (oldLinkMap.get(oldId)) {
-          node.setAttribute(attr.nodeName, attr.value.replace(`#${oldId}`, `#${oldLinkMap.get(oldId)}`));
+          node.setAttribute(
+            attr.nodeName,
+            attr.value.replace(`#${oldId}`, `#${oldLinkMap.get(oldId)}`)
+          );
         }
       }
     }
@@ -88,7 +97,7 @@ const makeSymbol = (
       });
       child.innerHTML = mappedStyle;
     });
-  }());
+  })();
 
   for (let i = 0; i < attrs.length; i += 1) {
     const attr = attrs[i];
@@ -167,8 +176,9 @@ const makeSymbol = (
     if (!$(textElem).attr('y')) {
       $(textElem).attr('y', 0);
     }
-    const texts = Array.from(textElem.childNodes)
-      .filter((child: ChildNode) => child.nodeType === 3);
+    const texts = Array.from(textElem.childNodes).filter(
+      (child: ChildNode) => child.nodeType === 3
+    );
     for (let j = texts.length - 1; j >= 0; j -= 1) {
       const t = texts[j] as SVGTextContentElement;
       const tspan = document.createElementNS(svgedit.NS.SVG, 'tspan');
@@ -190,27 +200,27 @@ const makeSymbol = (
     return prefix + replace;
   });
   prefixedStyle = `${prefixedStyle}
-        *[data-color] ellipse[fill=none],
-        *[data-color] circle[fill=none],
-        *[data-color] rect[fill=none],
-        *[data-color] path[fill=none],
-        *[data-color] polygon[fill=none] {
+        #${symbol.id} *[data-color] ellipse[fill=none],
+        #${symbol.id} *[data-color] circle[fill=none],
+        #${symbol.id} *[data-color] rect[fill=none],
+        #${symbol.id} *[data-color] path[fill=none],
+        #${symbol.id} *[data-color] polygon[fill=none] {
             fill-opacity: 0 !important;
             stroke-width: 1px !important;
             stroke-opacity: 1 !important;
             vector-effect: non-scaling-stroke !important;
         }
 
-        *[data-color] ellipse[stroke=none],
-        *[data-color] circle[stroke=none],
-        *[data-color] rect[stroke=none],
-        *[data-color] path[stroke=none],
-        *[data-color] polygon[stroke=none],
-        *[data-color] ellipse:not([stroke]),
-        *[data-color] circle:not([stroke]),
-        *[data-color] rect:not([stroke]),
-        *[data-color] path:not([stroke]),
-        *[data-color] polygon:not([stroke]) {
+        #${symbol.id} *[data-color] ellipse[stroke=none],
+        #${symbol.id} *[data-color] circle[stroke=none],
+        #${symbol.id} *[data-color] rect[stroke=none],
+        #${symbol.id} *[data-color] path[stroke=none],
+        #${symbol.id} *[data-color] polygon[stroke=none],
+        #${symbol.id} *[data-color] ellipse:not([stroke]),
+        #${symbol.id} *[data-color] circle:not([stroke]),
+        #${symbol.id} *[data-color] rect:not([stroke]),
+        #${symbol.id} *[data-color] path:not([stroke]),
+        #${symbol.id} *[data-color] polygon:not([stroke]) {
             fill-opacity: 1 !important;
             stroke-width: 0 !important;
         }
@@ -224,7 +234,7 @@ const makeSymbol = (
             filter: none !important;
         }
 
-        #svg_editor:not(.color) #${symbol.id} * {
+        #svg_editor:not(.color) g:not(.data-fullcolor) #${symbol.id} * {
             fill-opacity: 0;
             stroke: #000 !important;
             filter: none;
@@ -238,15 +248,12 @@ const makeSymbol = (
         #${symbol.id} {
             overflow: visible;
         }
-
     `;
 
   if ($(symbol).find('style').length) {
     $(symbol).find('style').text(prefixedStyle);
   } else {
-    $(symbol).find('defs').append(
-      `<style>${prefixedStyle}</style>`,
-    );
+    $(symbol).find('defs').append(`<style>${prefixedStyle}</style>`);
   }
 
   batchCmd.addSubCommand(new history.InsertElementCommand(symbol));
@@ -269,15 +276,16 @@ const getStrokeWidth = (imageRatio, scale) => {
 
 const stringifyStrokeWidth = (strokeWidth: number) => strokeWidth.toPrecision(6);
 
-const sendTaskToWorker = async (data) => new Promise((resolve) => {
-  const worker = new ImageSymbolWorker('');
-  worker.postMessage(data);
-  worker.onerror = (e) => console.log(e);
-  worker.onmessage = (e) => {
-    resolve(e.data);
-    worker.terminate();
-  };
-});
+const sendTaskToWorker = async (data) =>
+  new Promise((resolve) => {
+    const worker = new ImageSymbolWorker('');
+    worker.postMessage(data);
+    worker.onerror = (e) => console.log(e);
+    worker.onmessage = (e) => {
+      resolve(e.data);
+      worker.terminate();
+    };
+  });
 
 let requestId = 0;
 
@@ -289,85 +297,93 @@ const getRequestID = () => {
 
 // For debug, same as svgToImgUrlByShadowWindow
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const svgToImgUrl = async (data) => new Promise<string>((resolve) => {
-  const {
-    svgUrl, imgWidth: width, imgHeight: height, strokeWidth,
-  } = data;
-  const img = new Image(width + parseInt(strokeWidth, 10), height + parseInt(strokeWidth, 10));
-  img.onload = async () => {
-    const imgCanvas = document.createElement('canvas');
-    imgCanvas.width = img.width;
-    imgCanvas.height = img.height;
-    const ctx = imgCanvas.getContext('2d');
-    ctx.imageSmoothingEnabled = false;
-    if (svgedit.browser.isSafari()) {
-      ctx.drawImage(
-        img,
-        -parseInt(strokeWidth, 10),
-        -parseInt(strokeWidth, 10),
-        width + parseInt(strokeWidth, 10),
-        height + parseInt(strokeWidth, 10),
-        0,
-        0,
-        img.width,
-        img.height,
-      );
-      img.remove();
-    } else {
-      ctx.drawImage(img, 0, 0, img.width, img.height);
-    }
-    const outCanvas = document.createElement('canvas');
-    outCanvas.width = Math.max(1, width);
-    outCanvas.height = Math.max(1, height);
-    const outCtx = outCanvas.getContext('2d');
-    outCtx.imageSmoothingEnabled = false;
-    outCtx.filter = 'brightness(0%)';
-    outCtx.drawImage(imgCanvas, 0, 0, outCanvas.width, outCanvas.height);
-    if (svgedit.browser.isSafari()) {
-      // canvas context does not work in safari
-      const imageData = outCtx.getImageData(0, 0, outCanvas.width, outCanvas.height);
-      const d = imageData.data;
-      for (let i = 0; i < d.length; i += 4) {
-        if (d[i + 3] !== 0) {
-          d[i] = 0;
-          d[i + 1] = 0;
-          d[i + 2] = 0;
-        }
+const svgToImgUrl = async (data) =>
+  new Promise<string>((resolve) => {
+    const { svgUrl, imgWidth: width, imgHeight: height, strokeWidth, fullColor } = data;
+    const img = new Image(width + parseInt(strokeWidth, 10), height + parseInt(strokeWidth, 10));
+    img.onload = async () => {
+      const imgCanvas = document.createElement('canvas');
+      imgCanvas.width = img.width;
+      imgCanvas.height = img.height;
+      const ctx = imgCanvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      if (svgedit.browser.isSafari()) {
+        ctx.drawImage(
+          img,
+          -parseInt(strokeWidth, 10),
+          -parseInt(strokeWidth, 10),
+          width + parseInt(strokeWidth, 10),
+          height + parseInt(strokeWidth, 10),
+          0,
+          0,
+          img.width,
+          img.height
+        );
+        img.remove();
+      } else {
+        ctx.drawImage(img, 0, 0, img.width, img.height);
       }
-      outCtx.putImageData(imageData, 0, 0);
+      const outCanvas = document.createElement('canvas');
+      outCanvas.width = Math.max(1, width);
+      outCanvas.height = Math.max(1, height);
+      const outCtx = outCanvas.getContext('2d');
+      outCtx.imageSmoothingEnabled = false;
+      if (!fullColor) outCtx.filter = 'brightness(0%)';
+      outCtx.drawImage(imgCanvas, 0, 0, outCanvas.width, outCanvas.height);
+      if (svgedit.browser.isSafari()) {
+        // canvas context does not work in safari
+        const imageData = outCtx.getImageData(0, 0, outCanvas.width, outCanvas.height);
+        const d = imageData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          if (d[i + 3] !== 0) {
+            d[i] = 0;
+            d[i + 1] = 0;
+            d[i + 2] = 0;
+          }
+        }
+        outCtx.putImageData(imageData, 0, 0);
+      }
+      const imageBase64 = outCanvas.toDataURL('image/png');
+      const res = await fetch(imageBase64);
+      const imageBlob = await res.blob();
+      const imageUrl = URL.createObjectURL(imageBlob);
+      resolve(imageUrl);
+    };
+    img.src = svgUrl;
+    if (svgedit.browser.isSafari()) {
+      document.body.appendChild(img);
     }
-    const imageBase64 = outCanvas.toDataURL('image/png');
-    const res = await fetch(imageBase64);
-    const imageBlob = await res.blob();
-    const imageUrl = URL.createObjectURL(imageBlob);
-    resolve(imageUrl);
-  };
-  img.src = svgUrl;
-  if (svgedit.browser.isSafari()) {
-    document.body.appendChild(img);
-  }
-});
-
-const svgToImgUrlByShadowWindow = async (data) => new Promise<string>((resolve) => {
-  communicator.once(`SVG_URL_TO_IMG_URL_DONE_${requestId}`, (sender, url) => {
-    resolve(url);
   });
-  communicator.send('SVG_URL_TO_IMG_URL', data);
-});
+
+const svgToImgUrlByShadowWindow = async (data) =>
+  new Promise<string>((resolve) => {
+    communicator.once(`SVG_URL_TO_IMG_URL_DONE_${requestId}`, (sender, url) => {
+      resolve(url);
+    });
+    communicator.send('SVG_URL_TO_IMG_URL', data);
+  });
 
 const calculateImageRatio = (bb) => {
   const zoomRatio = Math.max(1, svgCanvas.getZoom());
   const widthRatio = Math.min(4096, window.innerWidth * zoomRatio) / bb.width;
   const heightRatio = Math.min(4096, window.innerHeight * zoomRatio) / bb.height;
-  let imageRatio = (Math.ceil(10000 * Math.min(widthRatio, heightRatio))) / 10000;
+  let imageRatio = Math.ceil(10000 * Math.min(widthRatio, heightRatio)) / 10000;
   imageRatio *= svgedit.browser.isSafari() ? 0.95 : 2;
   return imageRatio;
 };
 
 const makeImageSymbol = async (
-  symbol: SVGSymbolElement, scale = 1, imageSymbol?: SVGSymbolElement,
+  symbol: SVGSymbolElement,
+  opts: {
+    scale?: number;
+    imageSymbol?: SVGSymbolElement;
+    fullColor?: boolean;
+    force?: boolean;
+  } = {}
 ): Promise<SVGSymbolElement> => {
   const { NS } = svgedit;
+  const { scale = 1, fullColor = false, force = false } = opts;
+  let { imageSymbol } = opts;
   const svgdoc = document.getElementById('svgcanvas').ownerDocument;
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<SVGSymbolElement>(async (resolve) => {
@@ -383,7 +399,7 @@ const makeImageSymbol = async (
 
     const calculateSVGBBox = () => {
       const bbText = symbol.getAttribute('data-bbox');
-      let bb: { height: number, width: number, x: number, y: number };
+      let bb: { height: number; width: number; x: number; y: number };
       if (!bbText) {
         // Unable to getBBox if <use> not mounted
         const useElemForBB = svgedit.utilities.findTempUse();
@@ -403,15 +419,22 @@ const makeImageSymbol = async (
         bb = JSON.parse(bbText);
       }
       const bbObject = {
-        x: bb.x, y: bb.y, width: bb.width, height: bb.height,
+        x: bb.x,
+        y: bb.y,
+        width: bb.width,
+        height: bb.height,
       };
       return bbObject;
     };
 
     const bb = calculateSVGBBox();
     const imageRatio = calculateImageRatio(bb);
-    const strokeWidth = getStrokeWidth(imageRatio, scale);
-    if (imageSymbol?.getAttribute('data-stroke-width') === stringifyStrokeWidth(strokeWidth)) {
+    const strokeWidth = fullColor ? 1 : getStrokeWidth(imageRatio, scale);
+    if (
+      imageSymbol?.getAttribute('data-stroke-width') === stringifyStrokeWidth(strokeWidth) &&
+      imageSymbol.getAttribute('data-fullcolor') === (fullColor ? '1' : '0') &&
+      !force
+    ) {
       resolve(imageSymbol);
       return;
     }
@@ -421,25 +444,38 @@ const makeImageSymbol = async (
     tempSymbol.setAttribute('y', `${-bb.y}`);
     const descendants = Array.from(tempSymbol.querySelectorAll('*'));
     descendants.forEach((d) => {
-      d.setAttribute('stroke-width', `${strokeWidth}px`);
+      if (!fullColor) d.setAttribute('stroke-width', `${strokeWidth}px`);
       d.setAttribute('vector-effect', 'non-scaling-stroke');
     });
     const styles = Array.from(tempSymbol.querySelectorAll('style'));
     styles.forEach((styleNode) => {
       let styleText = styleNode.textContent;
-      styleText = styleText.replace(/stroke-width: 1px !important;/g, `stroke-width: ${strokeWidth}px !important;`);
+      styleText = styleText.replace(
+        /stroke-width: 1px !important;/g,
+        fullColor ? '' : `stroke-width: ${strokeWidth}px !important;`
+      );
       styleNode.textContent = styleText;
     });
-    tempUse.setAttribute('transform', `translate(${0.5 * strokeWidth}, ${0.5 * strokeWidth}) scale(${imageRatio})`);
+    tempUse.setAttribute(
+      'transform',
+      `translate(${0.5 * strokeWidth}, ${0.5 * strokeWidth}) scale(${imageRatio})`
+    );
 
     const svgString = new XMLSerializer().serializeToString(tempSvg);
-    const svgBlob = await sendTaskToWorker({ type: 'svgStringToBlob', svgString }) as Blob;
+    const svgBlob = (await sendTaskToWorker({ type: 'svgStringToBlob', svgString })) as Blob;
     const svgUrl = URL.createObjectURL(svgBlob);
     const imgWidth = Math.max(bb.width * imageRatio, 1);
     const imgHeight = Math.max(bb.height * imageRatio, 1);
     const id = getRequestID();
     const param = {
-      id, svgUrl, imgWidth, imgHeight, bb, imageRatio, strokeWidth,
+      id,
+      svgUrl,
+      imgWidth,
+      imgHeight,
+      bb,
+      imageRatio,
+      strokeWidth,
+      fullColor,
     };
     const imageUrl = window.FLUX.version === 'web' ? await svgToImgUrl(param) : await svgToImgUrlByShadowWindow(param);
     URL.revokeObjectURL(svgUrl);
@@ -468,17 +504,23 @@ const makeImageSymbol = async (
       if (!defs.querySelector(`image[href="${oldImageUrl}"]`)) URL.revokeObjectURL(oldImageUrl);
     }
     imageSymbol.setAttribute('data-stroke-width', stringifyStrokeWidth(strokeWidth));
+    imageSymbol.setAttribute('data-fullcolor', fullColor ? '1' : '0');
     resolve(imageSymbol);
   });
 };
 
-const reRenderImageSymbol = async (useElement: SVGUseElement): Promise<void> => {
+const reRenderImageSymbol = async (
+  useElement: SVGUseElement,
+  opts: { force?: boolean } = {}
+): Promise<void> => {
   if (!useElement.parentNode) {
     // Element has been deleted
     return;
   }
+  const { force = false } = opts;
   const { width, height } = svgCanvas.getSvgRealLocation(useElement);
   const { width: origWidth, height: origHeight } = useElement.getBBox();
+  const fullColor = getObjectLayer(useElement)?.elem?.getAttribute('data-fullcolor') === '1';
 
   const scale = Math.sqrt((width * height) / (origWidth * origHeight));
   const href = svgCanvas.getHref(useElement);
@@ -489,23 +531,26 @@ const reRenderImageSymbol = async (useElement: SVGUseElement): Promise<void> => 
     if (origSymbolId) {
       const origSymbol = document.getElementById(origSymbolId) as unknown as SVGSymbolElement;
       if (origSymbol && origSymbol.tagName === 'symbol') {
-        await makeImageSymbol(origSymbol, scale, currentSymbol);
+        await makeImageSymbol(origSymbol, { scale, imageSymbol: currentSymbol, fullColor, force });
       }
     } else if (imageSymbolId) {
       let imageSymbol = document.getElementById(imageSymbolId) as unknown as SVGSymbolElement;
       if (imageSymbol && imageSymbol.tagName === 'symbol') {
-        await makeImageSymbol(currentSymbol, scale, imageSymbol);
+        await makeImageSymbol(currentSymbol, { scale, imageSymbol, fullColor, force });
         useElement.setAttribute('xlink:href', `#${imageSymbolId}`);
       } else {
-        imageSymbol = await makeImageSymbol(currentSymbol);
+        imageSymbol = await makeImageSymbol(currentSymbol, { fullColor, force });
         useElement.setAttribute('xlink:href', `#${imageSymbol.id}`);
       }
     }
   }
 };
 
-const reRenderImageSymbolArray = async (useElements: SVGUseElement[]): Promise<void> => {
-  const convertAllUses = useElements.map((use) => reRenderImageSymbol(use));
+const reRenderImageSymbolArray = async (
+  useElements: SVGUseElement[],
+  opts: { force?: boolean } = {}
+): Promise<void> => {
+  const convertAllUses = useElements.map((use) => reRenderImageSymbol(use, opts));
   await Promise.all(convertAllUses);
 };
 
@@ -532,7 +577,9 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
   const symbolFound = $(href);
   if (symbolFound.length > 0 && symbolFound[0].tagName === 'symbol') {
     const currentSymbol = symbolFound[0] as HTMLElement;
-    const targetId = shouldUseImage ? currentSymbol.getAttribute('data-image-symbol') : currentSymbol.getAttribute('data-origin-symbol');
+    const targetId = shouldUseImage
+      ? currentSymbol.getAttribute('data-image-symbol')
+      : currentSymbol.getAttribute('data-origin-symbol');
     console.log(targetId);
     if (!targetId) {
       console.warn(`Switcing failed, Unable to find target origin/image symbol ${targetId}.`);
@@ -543,7 +590,7 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
       svgCanvas.undoMgr.beginUndoableChange('xlink:href', [elem]);
       elem.setAttribute('xlink:href', `#${targetId}`);
       const cmd = svgCanvas.undoMgr.finishUndoableChange();
-      svgCanvas.updateElementColor(elem);
+      if (shouldUseImage) updateElementColor(elem);
       return cmd;
     }
     console.warn(`Switcing failed, Unable to find symbol ${targetId}.`);

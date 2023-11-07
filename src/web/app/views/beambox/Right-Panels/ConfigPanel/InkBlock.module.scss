@@ -1,0 +1,29 @@
+@use "./block" as block;
+
+.panel {
+  @include block.panel;
+
+  .title {
+    display: inline-flex;
+    align-items: center;
+
+    .icon {
+      cursor: pointer;
+      line-height: 16px;
+      height: 16px;
+      margin: 0 6px;
+    }
+  }
+
+  &.panel-item {
+    margin-top: 0;
+    width: 80vw;
+    .title {
+      font-weight: bold;
+    }
+  }
+}
+
+button.display-btn[class*='number-item'] {
+  min-width: 60px;
+}

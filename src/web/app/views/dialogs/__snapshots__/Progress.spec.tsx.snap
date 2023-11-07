@@ -48,7 +48,8 @@ exports[`test Progress should render correctly 1`] = `
                 message
               </div>
               <div
-                class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
+                aria-valuenow="0"
+                class="ant-progress ant-progress-status-active ant-progress-line ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
                 role="progressbar"
               >
                 <div
@@ -82,6 +83,7 @@ exports[`test Progress should render correctly 1`] = `
                 <span>
                   Cancel
                 </span>
+                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -91,6 +93,7 @@ exports[`test Progress should render correctly 1`] = `
                 <span>
                   OK
                 </span>
+                
               </button>
             </div>
           </div>

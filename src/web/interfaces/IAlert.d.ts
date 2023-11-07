@@ -6,6 +6,7 @@ export interface IAlert {
   key?: number;
   type?: string;
   message: string | JSX.Element;
+  messageIcon?: string;
   caption?: string;
   iconUrl?: string;
   children?: Element;

@@ -2,8 +2,11 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import checkWebGL from 'helpers/check-webgl';
+import constant from 'app/actions/beambox/constant';
+import isDev from 'helpers/is-dev';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
@@ -26,10 +29,12 @@ function PathPreviewButton({
   isDeviceConnected,
   togglePathPreview,
 }: Props): JSX.Element {
-  const i18n = useI18n();
+  const lang = useI18n().topbar;
   const isMobile = useIsMobile();
   const { isPreviewing } = useContext(CanvasContext);
+  const workarea = useWorkarea();
   if (isMobile || !checkWebGL()) return null;
+  if (!isDev() && constant.adorModels.includes(workarea)) return null;
 
   const changeToPathPreviewMode = (): void => {
     if (!isPathPreviewing) {
@@ -45,7 +50,7 @@ function PathPreviewButton({
     <div
       className={className}
       onClick={changeToPathPreviewMode}
-      title={i18n.tutorial.newInterface.path_preview}
+      title={lang.task_preview}
     >
       <TopBarIcons.PathPreview />
     </div>

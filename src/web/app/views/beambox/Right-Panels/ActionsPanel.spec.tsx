@@ -137,6 +137,9 @@ getSVGAsync.mockImplementation((callback) => {
 
 import ActionsPanel from './ActionsPanel';
 
+const mockUpdateElementColor = jest.fn();
+jest.mock('helpers/color/updateElementColor', () => (...args) => mockUpdateElementColor(...args));
+
 function tick() {
   return new Promise((resolve) => {
     setTimeout(resolve, 0);

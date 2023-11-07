@@ -10,6 +10,8 @@ export interface ICommand {
   oldParent?: Node | Element;
   newValues?: { [key: string]: string };
   oldValues?: { [key: string]: string };
+  onBefore: () => void | null;
+  onAfter: () => void | null;
 }
 
 export interface IBatchCommand extends ICommand {

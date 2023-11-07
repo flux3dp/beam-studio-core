@@ -4,6 +4,7 @@ import React from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
+import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
 import FileName from 'app/components/beambox/top-bar/FileName';
@@ -42,15 +43,12 @@ interface State {
   hasDiscoverdMachine: boolean;
 }
 
-interface Props {
-}
-
-export default class TopBar extends React.Component<Props, State> {
+export default class TopBar extends React.PureComponent<Record<string, never>, State> {
   private discover: any;
 
   private defaultDeviceSerial: string | undefined;
 
-  constructor(props: Props) {
+  constructor(props: Record<string, never>) {
     super(props);
     this.defaultDeviceSerial = storage.get('selected-device');
     this.state = {
@@ -107,6 +105,7 @@ export default class TopBar extends React.Component<Props, State> {
       setTopBarPreviewMode,
       startPreviewCallback,
       setStartPreviewCallback,
+      updateTopBar,
     } = this.context;
     const workarea = document.getElementById('workarea');
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -133,7 +132,14 @@ export default class TopBar extends React.Component<Props, State> {
 
     try {
       await PreviewModeController.start(device, onPreviewError);
+      if (!PreviewModeController.isPreviewModeOn) {
+        $(workarea).css('cursor', 'auto');
+        return;
+      }
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      if (constant.adorModels.includes(device.model)) {
+        PreviewModeController.previewFullWorkarea(() => updateTopBar());
+      }
       setIsPreviewing(true);
       if (startPreviewCallback) {
         startPreviewCallback();

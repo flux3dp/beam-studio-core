@@ -32,7 +32,6 @@ interface CanvasContextType {
   hasUnsavedChange: boolean,
   isPathPreviewing: boolean,
   isPreviewing: boolean,
-  selectedElem: Element | null,
   setDisplayLayer: (displayLayer: boolean) => void;
   setIsPathPreviewing: (displayLayer: boolean) => void;
   setIsPreviewing: (displayLayer: boolean) => void;
@@ -47,6 +46,7 @@ interface CanvasContextType {
   updateCanvasContext: () => void,
   selectedDevice: IDeviceInfo | null,
   setSelectedDevice: (IDeviceInfo) => void,
+  updateTopBar: () => void,
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -58,7 +58,6 @@ const CanvasContext = createContext<CanvasContextType>({
   hasUnsavedChange: false,
   isPathPreviewing: false,
   isPreviewing: false,
-  selectedElem: null,
   setDisplayLayer: () => {},
   setIsPathPreviewing: () => {},
   setIsPreviewing: () => {},
@@ -73,6 +72,7 @@ const CanvasContext = createContext<CanvasContextType>({
   updateCanvasContext: () => {},
   selectedDevice: null,
   setSelectedDevice: () => {},
+  updateTopBar: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -83,7 +83,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
   const [fileName, setFileName] = useState<string>(null);
-  const [selectedElem, setSelectedElem] = useState<Element>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
   const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
@@ -124,10 +123,15 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   };
 
+  const updateTopBar = useCallback((): void => {
+    console.log('Force update?');
+    forceUpdate();
+  }, [forceUpdate]);
+
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setCurrentUser);
-    topBarEventEmitter.on('SET_ELEMENT', setSelectedElem);
+    topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
     topBarEventEmitter.on('SET_FILE_NAME', setFileName);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
@@ -154,10 +158,9 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       fluxIDEventEmitter.removeListener('update-user', setCurrentUser);
       topBarEventEmitter.removeAllListeners();
     };
-  }, [setCurrentUser, isPreviewing, selectedDevice]);
+  }, [setCurrentUser, isPreviewing, selectedDevice, updateTopBar]);
 
   const updateCanvasContext = useCallback(() => {
-    console.log('force update');
     forceUpdate();
   }, [forceUpdate]);
 
@@ -189,7 +192,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const togglePathPreview = () => { setIsPathPreviewing(!isPathPreviewing); };
 
   const { children } = props;
-
   return (
     <CanvasContext.Provider
       value={
@@ -202,7 +204,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           hasUnsavedChange,
           isPathPreviewing,
           isPreviewing,
-          selectedElem,
           setDisplayLayer,
           setIsPathPreviewing,
           setIsPreviewing,
@@ -217,6 +218,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           updateCanvasContext,
           selectedDevice,
           setSelectedDevice,
+          updateTopBar,
         }
       }
     >

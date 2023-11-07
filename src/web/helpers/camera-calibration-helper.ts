@@ -4,7 +4,10 @@ import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import VersionChecker from 'helpers/version-checker';
 import {
-  CALIBRATION_PARAMS, CameraConfig, DEFAULT_CAMERA_OFFSET, FisheyeCameraParameters,
+  CALIBRATION_PARAMS,
+  CameraConfig,
+  DEFAULT_CAMERA_OFFSET,
+  FisheyeCameraParameters,
 } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
@@ -16,9 +19,9 @@ const doAnalyzeResult = async (
   y: number,
   angle: number,
   squareWidth: number,
-  squareHeight: number,
+  squareHeight: number
 ): Promise<CameraConfig | null> => {
-  const blobImgSize = await new Promise<{ width: number, height: number }>((resolve) => {
+  const blobImgSize = await new Promise<{ width: number; height: number }>((resolve) => {
     const img = new Image();
     img.src = imgBlobUrl;
     img.onload = () => {
@@ -41,13 +44,13 @@ const doAnalyzeResult = async (
   const offsetX = -(deviationX * scaleRatioX) / Constant.dpmm + CALIBRATION_PARAMS.idealOffsetX;
   const offsetY = -(deviationY * scaleRatioY) / Constant.dpmm + CALIBRATION_PARAMS.idealOffsetY;
 
-  if ((scaleRatioX / idealScaleRatio < 0.8) || (scaleRatioX / idealScaleRatio > 1.2)) {
+  if (scaleRatioX / idealScaleRatio < 0.8 || scaleRatioX / idealScaleRatio > 1.2) {
     return null;
   }
-  if ((scaleRatioY / idealScaleRatio < 0.8) || (scaleRatioY / idealScaleRatio > 1.2)) {
+  if (scaleRatioY / idealScaleRatio < 0.8 || scaleRatioY / idealScaleRatio > 1.2) {
     return null;
   }
-  if ((Math.abs(deviationX) > 400) || (Math.abs(deviationY) > 400)) {
+  if (Math.abs(deviationX) > 400 || Math.abs(deviationY) > 400) {
     return null;
   }
   if (Math.abs(angle) > (10 * Math.PI) / 180) {
@@ -83,9 +86,7 @@ export const doSendPictureTask = async (imgBlobUrl: string): Promise<CameraConfi
     });
 
   const resp = await d.promise();
-  const {
-    status, x, y, angle, width, height,
-  } = resp;
+  const { status, x, y, angle, width, height } = resp;
   let result = null;
   switch (status) {
     case 'ok':
@@ -101,7 +102,7 @@ export const doSendPictureTask = async (imgBlobUrl: string): Promise<CameraConfi
 
 export const doGetOffsetFromPicture = async (
   imgBlobUrl: string,
-  setCurrentOffset: (offset: CameraConfig) => void,
+  setCurrentOffset: (offset: CameraConfig) => void
 ): Promise<boolean> => {
   const offset = await doSendPictureTask(imgBlobUrl);
   if (!offset) {
@@ -113,13 +114,14 @@ export const doGetOffsetFromPicture = async (
 };
 
 const doSetConfigTask = async (device, data: CameraConfig, borderless) => {
-  const {
-    X, Y, R, SX, SY,
-  } = data;
+  const { X, Y, R, SX, SY } = data;
   const parameterName = borderless ? 'camera_offset_borderless' : 'camera_offset';
   const vc = VersionChecker(device.version);
   if (vc.meetRequirement('BEAMBOX_CAMERA_CALIBRATION_XY_RATIO')) {
-    await deviceMaster.setDeviceSetting(parameterName, `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2} SX:${SX} SY:${SY}`);
+    await deviceMaster.setDeviceSetting(
+      parameterName,
+      `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2} SX:${SX} SY:${SY}`
+    );
   } else {
     await deviceMaster.setDeviceSetting(parameterName, `Y:${Y} X:${X} R:${R} S:${(SX + SY) / 2}`);
   }
@@ -128,61 +130,276 @@ const doSetConfigTask = async (device, data: CameraConfig, borderless) => {
 export const sendPictureThenSetConfig = async (
   result: CameraConfig,
   device: IDeviceInfo,
-  borderless: boolean,
+  borderless: boolean
 ): Promise<void> => {
   console.log('Setting camera_offset', borderless ? 'borderless' : '', result);
   if (result) {
-    await doSetConfigTask(device, {
-      ...result,
-      X: Math.round(result.X * 10) / 10,
-      Y: Math.round(result.Y * 10) / 10,
-    }, borderless);
+    await doSetConfigTask(
+      device,
+      {
+        ...result,
+        X: Math.round(result.X * 10) / 10,
+        Y: Math.round(result.Y * 10) / 10,
+      },
+      borderless
+    );
   } else {
-    throw new Error(i18n.lang.camera_calibration.analyze_result_fail);
+    throw new Error(i18n.lang.calibration.analyze_result_fail);
   }
 };
 
 export const startFisheyeCalibrate = (): Promise<boolean> => api.startFisheyeCalibrate();
-export const addFisheyeCalibrateImg = (
-  height: number, imgBlob: Blob
-): Promise<boolean> => api.addFisheyeCalibrateImg(height, imgBlob);
+export const addFisheyeCalibrateImg = (height: number, imgBlob: Blob): Promise<boolean> =>
+  api.addFisheyeCalibrateImg(height, imgBlob);
 export const doFishEyeCalibration = (
   onProgress?: (val: number) => void
 ): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration(onProgress);
-export const findPerspectivePoints = (onProgress?: (val: number) => void): Promise<{
-  points: [number, number][][][]; heights: number[]; errors: { height: number; err: string }[];
+export const findPerspectivePoints = (
+  onProgress?: (val: number) => void
+): Promise<{
+  points: [number, number][][][];
+  heights: number[];
+  errors: { height: number; err: string }[];
 }> => api.findPerspectivePoints(onProgress);
+export const calculateRegressionParam = (
+  onProgress?: (val: number) => void
+): Promise<{ data: number[][][][]; errors: { height: number; err: string }[] }> =>
+  api.calculateRegressionParam(onProgress);
 
 export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<void> => {
   const strData = JSON.stringify(data, (key, val) => {
     if (typeof val === 'number') {
-      return Math.round(val * 1e3) / 1e3;
+      return Math.round(val * 1e6) / 1e6;
     }
     return val;
   });
   await deviceMaster.uploadFisheyeParams(strData, () => {});
 };
 
+const interpolateValue = (p1: number, v1: number[], p2: number, v2: number[], p: number) => {
+  const r1 = (p - p1) / (p2 - p1);
+  const r2 = (p2 - p) / (p2 - p1);
+  const result = [...v1];
+  for (let i = 0; i < v1.length; i += 1) {
+    result[i] = v1[i] * r2 + v2[i] * r1;
+  }
+  return result;
+};
+
+const binarySearchFindHeightIndex = (heights: number[], height: number): number => {
+  let left = 0;
+  // Because we need to use index + 1, so the max index is heights.length - 2
+  let right = heights.length - 2;
+  let result = -1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (heights[mid] <= height) {
+      result = mid; // Update result and continue searching in the right half
+      left = mid + 1;
+    } else {
+      right = mid - 1; // Search in the left half
+    }
+  }
+  return result > -1 ? result : 0;
+};
+
+/**
+ * Using the split indices and chessboard size to calculate the index of each split in chessboard
+ * @param split the split of chessboard in x and y direction, [splitX, splitY]
+ * @param chessboard the dimension of chessboard
+ * @returns the index of each split in chessboard, shape should be [splitX + 1, splitY + 1, 2]
+ */
+const getAllSplitIndices = (split: number[], chessboard: number[]): number[][][] => {
+  const [splitX, splitY] = split;
+  const result: number[][][] = [];
+  for (let i = 0; i < splitX + 1; i += 1) {
+    result.push([]);
+    for (let j = 0; j < splitY + 1; j += 1) {
+      result[i].push([
+        Math.min(Math.floor((i * chessboard[0]) / splitX), chessboard[0] - 1),
+        Math.min(Math.floor((j * chessboard[1]) / splitY), chessboard[1] - 1),
+      ]);
+    }
+  }
+  return result;
+};
+
+/**
+ * using the split indices and chessboard size to calculate the real position of each split
+ * @param split the split of chessboard
+ * @param chessboard the dimension of chessboard
+ * @param workarea the dimension of workarea in mm
+ * @param center the workarea center of perspective transformed image, mapping the image dimension to workarea dimension
+ * @returns number[][][] the real position of each split
+ */
+const getRealPositionOfSplitIndices = (
+  split: number[],
+  chessboard: number[],
+  workarea: number[],
+  center: number[]
+): number[][][] => {
+  const dpmm = 5;
+  const padding = 100;
+  const allIndices = getAllSplitIndices(split, chessboard);
+  // center in pixel
+  const [centerX, centerY] = center;
+  const [w, h] = workarea;
+  const centerRealX = w / 2;
+  const centerRealY = h / 2;
+  const result: number[][][] = [];
+  for (let i = 0; i < allIndices.length; i += 1) {
+    result.push([]);
+    for (let j = 0; j < allIndices[i].length; j += 1) {
+      const [x, y] = allIndices[i][j];
+      const pixelX = padding + x * 10 * dpmm;
+      const pixelY = padding + y * 10 * dpmm;
+      const realX = (pixelX - centerX) / dpmm + centerRealX;
+      const realY = (pixelY - centerY) / dpmm + centerRealY;
+      result[i].push([realX, realY]);
+    }
+  }
+  return result;
+};
+
+// use leveing region data to get the height of a point
+/** levelingOffsets:
+ * A | B | C
+ * D | E | F
+ * G | H | I
+ */
+const getHeightOffsetFromLevelingRegion = (
+  x: number,
+  y: number,
+  workarea: number[],
+  levelingOffsets: { [key: string]: number }
+) => {
+  let xIndex = 0;
+  if (x > workarea[0] * (2 / 3)) xIndex = 2;
+  else if (x > workarea[0] * (1 / 3)) xIndex = 1;
+  let yIndex = 0;
+  if (y > workarea[1] * (2 / 3)) yIndex = 2;
+  else if (y > workarea[1] * (1 / 3)) yIndex = 1;
+  const key = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'][yIndex * 3 + xIndex];
+  return levelingOffsets[key];
+};
+
+// use bilinear interpolation to get the height of a point
+const getHeightOffset = (
+  x: number,
+  y: number,
+  workarea: number[],
+  cornerOffsets: { lt: number; rt: number; lb: number; rb: number }
+) => {
+  const [w, h] = workarea;
+  const { lt, rt, lb, rb } = cornerOffsets;
+  const fxy1 = ((w - x) / w) * lt + (x / w) * rt;
+  const fxy2 = ((w - x) / w) * lb + (x / w) * rb;
+  const result = ((h - y) / h) * fxy1 + (y / h) * fxy2;
+  return result;
+};
+
 export const interpolatePointsFromHeight = (
-  height: number, heights: number[], points: [number, number][][][]
+  height: number,
+  heights: number[],
+  points: [number, number][][][],
+  heightCompenstationDetail?: {
+    chessboard: number[]; // dimension of chessboard, [x, y] in pixel
+    workarea: number[];
+    levelingOffsets: { [key: string]: number };
+    center: number[]; // center in pixel
+  }
 ): [number, number][][] => {
   if (points.length === 0) return [];
   if (points.length === 1) return points[0];
 
-  let index = 0;
-  for (let i = 1; i < heights.length - 1; i += 1) {
-    if (height > heights[i]) index += 1;
-    else break;
+  const heightIndexDict: { [height: number]: number } = {};
+  const result = JSON.parse(JSON.stringify(points[0])) as [number, number][][];
+  let pointPositions: number[][][];
+  if (heightCompenstationDetail) {
+    const { chessboard, workarea, center } = heightCompenstationDetail;
+    pointPositions = getRealPositionOfSplitIndices(
+      [points[0].length - 1, points[0][0].length - 1],
+      chessboard,
+      workarea,
+      center
+    );
   }
 
-  const result = [...points[0]] as [number, number][][];
-  const d = heights[index + 1] - heights[index];
-  const r1 = (height - heights[index]) / d;
-  const r2 = (heights[index + 1] - height) / d;
-  for (let i = 0; i < points[index].length; i += 1) {
-    for (let j = 0; j < points[index][i].length; j += 1) {
-      result[i][j][0] = points[index][i][j][0] * r2 + points[index + 1][i][j][0] * r1;
-      result[i][j][1] = points[index][i][j][1] * r2 + points[index + 1][i][j][1] * r1;
+  for (let i = 0; i < result.length; i += 1) {
+    for (let j = 0; j < result[i].length; j += 1) {
+      let h = height;
+      if (heightCompenstationDetail) {
+        const { workarea, levelingOffsets } = heightCompenstationDetail;
+        h += getHeightOffsetFromLevelingRegion(
+          pointPositions[i][j][0],
+          pointPositions[i][j][1],
+          workarea,
+          levelingOffsets
+        );
+      }
+      const floorH = Math.floor(h);
+      if (heightIndexDict[floorH] === undefined)
+        heightIndexDict[floorH] = binarySearchFindHeightIndex(heights, floorH);
+      const index = heightIndexDict[floorH];
+      result[i][j] = interpolateValue(
+        heights[index],
+        points[index][i][j] as number[],
+        heights[index + 1],
+        points[index + 1][i][j] as number[],
+        h
+      ) as [number, number];
+    }
+  }
+  return result;
+};
+
+export const getPerspectivePointsZ3Regression = (
+  height: number,
+  regParam: number[][][][],
+  heightCompenstationDetail?: {
+    chessboard: number[]; // dimension of chessboard, [x, y] in pixel
+    workarea: number[];
+    levelingOffsets: { [key: string]: number };
+    center: number[]; // center in pixel
+  }
+): [number, number][][] => {
+  let pointPositions: number[][][];
+  if (heightCompenstationDetail) {
+    const { chessboard, workarea, center } = heightCompenstationDetail;
+    pointPositions = getRealPositionOfSplitIndices(
+      [regParam.length - 1, regParam[0].length - 1],
+      chessboard,
+      workarea,
+      center
+    );
+  }
+  const result: [number, number][][] = [];
+  for (let i = 0; i < regParam.length; i += 1) {
+    result.push([]);
+    for (let j = 0; j < regParam[0].length; j += 1) {
+      let h = height;
+      if (heightCompenstationDetail) {
+        const { workarea, levelingOffsets } = heightCompenstationDetail;
+        h += getHeightOffsetFromLevelingRegion(
+          pointPositions[i][j][0],
+          pointPositions[i][j][1],
+          workarea,
+          levelingOffsets
+        );
+      }
+      const x =
+        regParam[i][j][0][0] * h ** 3 +
+        regParam[i][j][0][1] * h ** 2 +
+        regParam[i][j][0][2] * h +
+        regParam[i][j][0][3];
+      const y =
+        regParam[i][j][1][0] * h ** 3 +
+        regParam[i][j][1][1] * h ** 2 +
+        regParam[i][j][1][2] * h +
+        regParam[i][j][1][3];
+      result[i].push([x, y]);
     }
   }
   return result;

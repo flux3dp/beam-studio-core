@@ -15,9 +15,9 @@ import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import storage from 'implementations/storage';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import weldPath from 'helpers/weldPath';
+import { FontDescriptor, IFont, IFontQuery } from 'interfaces/IFont';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
-import { IFont, IFontQuery } from 'interfaces/IFont';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -176,11 +176,13 @@ const substitutedFont = (textElement: Element) => {
 
   const originPostscriptName = originFont.postscriptName;
   const unsupportedChar = [];
-  const fontList = Array.from(text).map((char) => {
+  const fontOptions: { [postscriptName: string]: FontDescriptor } = {};
+  Array.from(text).forEach((char) => {
     const sub = fontHelper.substituteFont(originPostscriptName, char);
     if (sub.postscriptName !== originPostscriptName) unsupportedChar.push(char);
-    return sub;
+    if (!fontOptions[sub.postscriptName]) fontOptions[sub.postscriptName] = sub;
   });
+  const fontList = Object.values(fontOptions);
 
   if (fontList.length === 1) {
     return {
@@ -218,8 +220,8 @@ const showSubstitutedFamilyPopup = (textElement: Element, newFont, origFont, uns
     const message = sprintf(
       LANG.text_to_path.font_substitute_pop,
       textElement.textContent,
-      fontNameMap.get(origFont),
       unsupportedChar.join(', '),
+      fontNameMap.get(origFont),
       fontNameMap.get(newFont)
     );
     const buttonLabels = [
@@ -272,10 +274,9 @@ const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const svgString = e.target.result as string;
-      // console.log(svgString);
       const dRegex = svgString.match(/ d="([^"]+)"/g);
       const transRegex = svgString.match(/transform="([^"]+)/);
-      const d = dRegex.map((p) => p.substring(4, p.length - 1)).join('');
+      const d = dRegex ? dRegex.map((p) => p.substring(4, p.length - 1))?.join('') : '';
       const transform = transRegex ? transRegex[1] : '';
       resolve({ d, transform });
     };
@@ -341,9 +342,14 @@ const convertTextToPath = async (
 
   if (window.FLUX.version === 'web') {
     const postscript = textElement.getAttribute('font-postscript');
-
-    const res = await fontHelper.getWebFontAndUpload(postscript);
-    if (!res) {
+    try {
+      const res = await fontHelper.getWebFontAndUpload(postscript);
+      if (!res) {
+        Progress.popById('parsing-font');
+        Alert.popUpError({ message: `tUnable to get font ${postscript}` });
+        return ConvertResult.CANCEL_OPERATION;
+      }
+    } catch (err) {
       Progress.popById('parsing-font');
       Alert.popUpError({ message: `tUnable to get font ${postscript}` });
       return ConvertResult.CANCEL_OPERATION;

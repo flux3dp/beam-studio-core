@@ -5,6 +5,7 @@ import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
+import importSvg from 'app/svgedit/operations/import/importSvg';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -55,9 +56,9 @@ const funcs = {
     if (file) svgEditor.handleFile(file);
     funcs.useSelectTool();
   },
+  // TODO: replace this
   insertSvg(svgString: string, callback: () => void): void {
-    svgEditor.importSvg(new Blob([svgString], { type: 'text/plain' }), { isFromAI: true });
-
+    importSvg(new Blob([svgString], { type: 'text/plain' }), { isFromAI: true });
     setTimeout(callback, 1500);
   },
   insertImage(

@@ -88,7 +88,8 @@ exports[`should render correctly should render correctly 1`] = `
         class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
       >
         <div
-          class="ant-progress ant-progress-line ant-progress-status-active ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
+          aria-valuenow="12300"
+          class="ant-progress ant-progress-status-active ant-progress-line ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
           role="progressbar"
         >
           <div
@@ -215,7 +216,8 @@ exports[`should render correctly should render correctly when completed 1`] = `
         class="ant-col ant-col-24 ant-col-md-12 css-dev-only-do-not-override-hash"
       >
         <div
-          class="ant-progress ant-progress-line ant-progress-status-success ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
+          aria-valuenow="100"
+          class="ant-progress ant-progress-status-success ant-progress-line ant-progress-show-info ant-progress-default css-dev-only-do-not-override-hash"
           role="progressbar"
         >
           <div

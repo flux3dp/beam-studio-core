@@ -2,8 +2,10 @@ import React from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import CalibrationType from 'app/components/dialogs/camera/AdorCalibration/calibrationTypes';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
+import constant from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
@@ -15,9 +17,10 @@ import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
+import { parsingChipData } from 'app/components/dialogs/CartridgeSettingPanel';
+import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
-import { showFishEyeCalibration } from 'app/components/dialogs/camera/FishEyeCalibration';
 
 const { lang } = i18n;
 
@@ -29,8 +32,23 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
     }
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      if (device.model === 'fad1') showFishEyeCalibration();
+      if (constant.adorModels.includes(device.model)) showAdorCalibration();
       else showCameraCalibration(device, isBorderless);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const calibrateModule = async(device: IDeviceInfo, type: CalibrationType) => {
+  try {
+    const deviceStatus = await checkDeviceStatus(device);
+    if (!deviceStatus) {
+      return;
+    }
+    const res = await DeviceMaster.select(device);
+    if (res.success) {
+      showAdorCalibration(type);
     }
   } catch (error) {
     console.error(error);
@@ -160,6 +178,7 @@ const getLog = async (device: IDeviceInfo, log: string) => {
 
 export default {
   DASHBOARD: async (device: IDeviceInfo): Promise<void> => {
+    Dialog.popDialogById('monitor');
     const res = await DeviceMaster.select(device);
     if (res.success) {
       MonitorController.showMonitor(device, device.st_id <= 0 ? Mode.FILE : Mode.WORKING);
@@ -199,17 +218,37 @@ export default {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.camera_calibration.please_goto_beambox_first,
+        message: lang.calibration.please_goto_beambox_first,
       });
       return;
     }
     calibrateCamera(device, false);
   },
+  CALIBRATE_PRINTER_MODULE: async (device: IDeviceInfo): Promise<void> => {
+    if (window.location.hash !== '#/studio/beambox') {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_INFO,
+        message: lang.calibration.please_goto_beambox_first,
+      });
+      return;
+    }
+    calibrateModule(device, CalibrationType.PRINTER_HEAD);
+  },
+  CALIBRATE_IR_MODULE: async (device: IDeviceInfo): Promise<void> => {
+    if (window.location.hash !== '#/studio/beambox') {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_INFO,
+        message: lang.calibration.please_goto_beambox_first,
+      });
+      return;
+    }
+    calibrateModule(device, CalibrationType.IR_LASER);
+  },
   CALIBRATE_BEAMBOX_CAMERA_BORDERLESS: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.camera_calibration.please_goto_beambox_first,
+        message: lang.calibration.please_goto_beambox_first,
       });
       return;
     }
@@ -218,7 +257,7 @@ export default {
     if (isAvailableVersion) {
       calibrateCamera(device, true);
     } else {
-      const langCameraCali = lang.camera_calibration;
+      const langCameraCali = lang.calibration;
       const message = `${langCameraCali.update_firmware_msg1} 2.5.1 ${langCameraCali.update_firmware_msg2}`;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
@@ -230,7 +269,7 @@ export default {
     if (window.location.hash !== '#/studio/beambox') {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
-        message: lang.camera_calibration.please_goto_beambox_first,
+        message: lang.calibration.please_goto_beambox_first,
       });
       return;
     }
@@ -246,12 +285,35 @@ export default {
         console.error(error);
       }
     } else {
-      const langDiodeCali = lang.diode_calibration;
+      const langDiodeCali = lang.calibration;
       const message = `${langDiodeCali.update_firmware_msg1} 3.0.0 ${langDiodeCali.update_firmware_msg2}`;
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_INFO,
         message,
       });
+    }
+  },
+  CATRIDGE_CHIP_SETTING: async (device: IDeviceInfo): Promise<void> => {
+    const res = await DeviceMaster.select(device);
+    if (!res.success) return;
+    ProgressCaller.openNonstopProgress({ id: 'fetch-cartridge-data', message: 'Fetching Cartridge Data' });
+    try {
+      await DeviceMaster.enterCartridgeIOMode();
+      const chipDataRes = await DeviceMaster.getCartridgeChipData();
+      if (chipDataRes.status === 'ok') {
+        const parsed = parsingChipData(chipDataRes.data.result);
+        Dialog.showCatridgeSettingPanel(parsed);
+      } else {
+        Alert.popUp({
+          id: 'cant-get-chip-data',
+          type: AlertConstants.SHOW_POPUP_ERROR,
+          message: `Failed to get chip data: ${JSON.stringify(chipDataRes)}`,
+        });
+      }
+    } catch (error) {
+      await DeviceMaster.endCartridgeIOMode();
+    } finally {
+      ProgressCaller.popById('fetch-cartridge-data');
     }
   },
   UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {

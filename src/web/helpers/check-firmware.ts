@@ -12,7 +12,7 @@ export default async function checkFirmware(
   try {
     const key = {
       fhexa1: 'hexa-latest',
-      fad1: 'ador-latet',
+      ado1: 'ador-latest',
     }[device.model.toLowerCase()] || 'firmware-latest';
     const resp = await axiosFluxId.get(`api/check-update?key=${key}`);
     console.log(resp);
@@ -21,7 +21,6 @@ export default async function checkFirmware(
     const [name, link] = latestVersion;
     const version = name.split(' ').pop();
     const needUpdate = versionCompare(device.version, version);
-    console.log(link, version);
     return {
       needUpdate,
       latestVersion: version,

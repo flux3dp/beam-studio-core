@@ -52,16 +52,16 @@ export default async function(printer, allowPause?: boolean, forceAbort?: boolea
                 break;
         }
     };
-
     switch (printer.st_id) {
         // null for simulate
+        // undefined for not found default device
         case null:
-        // null for not found default device
         case undefined:
         case DeviceConstants.status.IDLE:
             // no problem
             deferred.resolve('ok');
             break;
+        case DeviceConstants.status.CARTDRIDGE_IO:
         case DeviceConstants.status.RAW:
         case DeviceConstants.status.SCAN:
         case DeviceConstants.status.MAINTAIN:

@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -12,25 +13,64 @@ jest.mock('helpers/useI18n', () => () => ({
       laser_panel: {
         speed: 'speed',
         speed_contrain_warning: 'speed_contrain_warning',
+        slider: {
+          very_low: 'very_low',
+          low: 'low',
+          regular: 'regular',
+          high: 'high',
+          very_high: 'very_high',
+        },
       },
     },
   },
 }));
 
-jest.mock('app/widgets/Unit-Input-v2', () => (
-  { id, min, max, unit, defaultValue, decimal, displayMultiValue }: any
-) => (
-  <div>
-    MockUnitInput
-    <p>id: {id}</p>
-    <p>min: {min}</p>
-    <p>max: {max}</p>
-    <p>unit: {unit}</p>
-    <p>defaultValue: {defaultValue}</p>
-    <p>decimal: {decimal}</p>
-    <p>displayMultiValue: {displayMultiValue}</p>
-  </div>
+jest.mock('./ConfigSlider', () => ({ id, max, min, value, onChange }: any) => (
+  <input
+    id={id}
+    className="mock-config-slider"
+    type="range"
+    min={min}
+    max={max}
+    step={0.1}
+    value={value}
+    onChange={(e) => onChange(Number(e.target.value))}
+  />
 ));
+
+jest.mock(
+  './ConfigValueDisplay',
+  () =>
+    ({
+      inputId,
+      type = 'default',
+      max,
+      min,
+      value,
+      unit,
+      hasMultiValue = false,
+      decimal = 0,
+      onChange,
+      options,
+    }: any) =>
+      (
+        <div>
+          MockConfigValueDisplay
+          <p>inputId: {inputId}</p>
+          <p>type: {type}</p>
+          <p>max: {max}</p>
+          <p>min: {min}</p>
+          <p>value: {value}</p>
+          <p>unit: {unit}</p>
+          <p>hasMultiValue: {hasMultiValue}</p>
+          <p>decimal: {decimal}</p>
+          <p>options: {JSON.stringify(options)}</p>
+          <button type="button" onClick={() => onChange(88)}>
+            MockConfigValueDisplayButton
+          </button>
+        </div>
+      )
+);
 
 jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
   Item: ({ id, content, label, onClick }: any) => (
@@ -66,6 +106,7 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   speed: { value: 87, hasMultiValue: false },
+  module: { value: LayerModule.LASER_10W_DIODE, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
 
@@ -184,7 +225,11 @@ describe('test SpeedBlock', () => {
     const { container } = render(
       <LayerPanelContext.Provider value={{ hasVector: true } as any}>
         <ConfigPanelContext.Provider
-          value={{ state: state as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+          value={{
+            state: state as any,
+            dispatch: mockDispatch,
+            selectedLayers: mockSelectedLayers,
+          }}
         >
           <SpeedBlock />
         </ConfigPanelContext.Provider>
@@ -224,14 +269,14 @@ describe('test SpeedBlock', () => {
       payload: { speed: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88, true);
     expect(mockWriteData).toHaveBeenNthCalledWith(
       2,
       'layer1',
       'configName',
       'CUSTOM_PRESET_CONSTANT'
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88, true);
     expect(mockWriteData).toHaveBeenNthCalledWith(
       4,
       'layer2',
@@ -242,10 +287,10 @@ describe('test SpeedBlock', () => {
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
   });
 
-  test('onChange should work correctly when type is modal', () => {
+  test('onChange of value display should work correctly', () => {
     mockStorageGet.mockReturnValueOnce('mm');
     mockPrefRead.mockReturnValueOnce('fbm1').mockReturnValueOnce(true).mockReturnValueOnce(true);
-    const { container } = render(
+    const { getByText } = render(
       <ConfigPanelContext.Provider
         value={{
           state: mockContextState as any,
@@ -258,12 +303,12 @@ describe('test SpeedBlock', () => {
     );
     expect(mockCreateEventEmitter).toBeCalledTimes(1);
     expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('time-estimation-button');
+    expect(getByText('type: modal')).toBeInTheDocument();
 
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
     expect(mockEmit).not.toBeCalled();
-    const input = container.querySelector('input');
-    fireEvent.change(input, { target: { value: '88' } });
+    fireEvent.click(getByText('MockConfigValueDisplayButton'));
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',

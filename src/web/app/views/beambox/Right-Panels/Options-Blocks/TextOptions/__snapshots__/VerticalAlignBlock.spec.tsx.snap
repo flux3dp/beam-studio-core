@@ -28,11 +28,11 @@ exports[`test VerticalAlignBlock should render correctly 1`] = `
             class="ant-select-selection-search"
           >
             <input
-              aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
               aria-autocomplete="list"
               aria-controls="rc_select_TEST_OR_SSR_list"
               aria-expanded="false"
               aria-haspopup="listbox"
+              aria-label="Search"
               aria-owns="rc_select_TEST_OR_SSR_list"
               autocomplete="off"
               class="ant-select-selection-search-input"
@@ -117,6 +117,7 @@ exports[`test VerticalAlignBlock should render correctly 2`] = `
               aria-controls="rc_select_TEST_OR_SSR_list"
               aria-expanded="true"
               aria-haspopup="listbox"
+              aria-label="Search"
               aria-owns="rc_select_TEST_OR_SSR_list"
               autocomplete="off"
               class="ant-select-selection-search-input"
@@ -168,7 +169,7 @@ exports[`test VerticalAlignBlock should render correctly 2`] = `
   <div>
     <div
       class="ant-select-dropdown ant-slide-up-appear ant-slide-up-appear-prepare ant-slide-up css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: -1000vw; top: -1000vh; box-sizing: border-box; min-width: 0;"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box;"
     >
       <div>
         <div

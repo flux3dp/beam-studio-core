@@ -1,19 +1,12 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 
 import styles from './ConnectUsb.module.scss';
 
-let lang = i18n.lang.initialize;
-const updateLang = () => {
-  lang = i18n.lang.initialize;
-};
-
 const ConnectUsb = (): JSX.Element => {
-  useEffect(() => {
-    updateLang();
-  }, []);
+  const lang = useI18n().initialize;
 
   return (
     <div className={styles.container}>
@@ -48,8 +41,16 @@ const ConnectUsb = (): JSX.Element => {
             <span className={styles.sub}>{lang.connect_usb.title_sub}</span>
           </div>
           <div className={classNames(styles.contents, styles.tutorial)}>
-            <div>{lang.connect_usb.tutorial1}</div>
-            <div>{lang.connect_usb.tutorial2}</div>
+            <div className={styles.subtitle}>HEXA</div>
+            <div>1. {lang.connect_usb.tutorial1}</div>
+            <div>2. {lang.connect_usb.tutorial2}</div>
+          </div>
+          <div className={classNames(styles.contents, styles.tutorial)}>
+            <div className={styles.subtitle}>Ador</div>
+            <div>1. {lang.connect_usb.turn_off_machine}</div>
+            <div>2. {lang.connect_usb.tutorial2}</div>
+            <div>3. {lang.connect_usb.turn_on_machine}</div>
+            <div>4. {lang.connect_usb.wait_for_turning_on}</div>
           </div>
         </div>
       </div>

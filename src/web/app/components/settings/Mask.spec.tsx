@@ -21,21 +21,23 @@ import Mask from './Mask';
 
 test('should render correctly', () => {
   const updateBeamboxPreferenceChange = jest.fn();
-  const wrapper = shallow(<Mask
-    maskOptions={[
-      {
-        value: 'TRUE',
-        label: 'On',
-        selected: true,
-      },
-      {
-        value: 'FALSE',
-        label: 'Off',
-        selected: false,
-      },
-    ]}
-    updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
-  />);
+  const wrapper = shallow(
+    <Mask
+      maskOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: true,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: false,
+        },
+      ]}
+      updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
+    />
+  );
   expect(toJson(wrapper)).toMatchSnapshot();
 
   wrapper.find('SelectControl').simulate('change', {

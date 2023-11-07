@@ -13,7 +13,7 @@ type AlertConfigKey =
   'skip_image_path_warning' |
   'skip-fb-group-invitation' |
   'skip_bg_removal_warning' |
-  'skip-old-firmware-hint' |
+  'skip-old-firmware-hint-2' |
   'done-first-cali';
 
 export default {

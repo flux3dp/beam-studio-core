@@ -4,13 +4,14 @@
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
-import Dialog from 'app/actions/dialog-caller';
-import Progress from 'app/actions/progress-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import { SelectionResult, ConnectionError } from 'app/constants/connection-constants';
+import constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
+import Dialog from 'app/actions/dialog-caller';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
+import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
+import { ConnectionError, SelectionResult } from 'app/constants/connection-constants';
 import { FisheyeCameraParameters, FisheyeMatrix } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
@@ -265,8 +266,13 @@ class DeviceMaster {
     if (!deviceInfo) {
       return { success: false };
     }
-
     const { uuid } = deviceInfo;
+
+    // kill existing camera connection
+    if (this.currentDevice?.info?.uuid !== uuid) {
+      this.disconnectCamera();
+    }
+
     const device: IDeviceConnection = this.getDeviceByUUID(uuid);
     console.log('Selecting', deviceInfo, device);
     Progress.openNonstopProgress({
@@ -518,7 +524,7 @@ class DeviceMaster {
 
     Progress.openSteppingProgress({
       id: 'camera-cali-task',
-      message: lang.camera_calibration.drawing_calibration_image,
+      message: lang.calibration.drawing_calibration_image,
     });
     const taskTotalSecs = 30;
     let elapsedSecs = 0;
@@ -560,7 +566,7 @@ class DeviceMaster {
       throw Error('UPLOAD_FAILED');
     }
 
-    Progress.openSteppingProgress({ id: 'diode-cali-task', message: lang.diode_calibration.drawing_calibration_image });
+    Progress.openSteppingProgress({ id: 'diode-cali-task', message: lang.calibration.drawing_calibration_image });
     const taskTotalSecs = 35;
     let elapsedSecs = 0;
     const progressUpdateTimer = setInterval(() => {
@@ -585,14 +591,19 @@ class DeviceMaster {
     }
   }
 
-  async doAdorCalibrationCut() {
+  doCalibration = async (fcodeBase64: string, estTime: number) => {
     const vc = VersionChecker(this.currentDevice.info.version);
-    const fcode = DeviceConstants.ADOR_CALIBRATION;
-    const res = await fetch(fcode);
+    const res = await fetch(fcodeBase64);
     const blob = await res.blob();
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);
       await this.setOriginY(0);
+    }
+    try {
+      // Stop if there is any task running
+      await this.stop();
+    } catch {
+      // ignore
     }
     try {
       await this.go(blob);
@@ -601,31 +612,42 @@ class DeviceMaster {
     }
 
     Progress.openSteppingProgress({
-      id: 'ador-cali-task',
-      message: lang.camera_calibration.drawing_calibration_image,
+      id: 'cali-task',
+      message: lang.calibration.drawing_calibration_image,
     });
-    const taskTotalSecs = 10;
     let elapsedSecs = 0;
     const progressUpdateTimer = setInterval(() => {
       elapsedSecs += 0.1;
-      if (elapsedSecs > taskTotalSecs) {
+      if (elapsedSecs > estTime) {
         clearInterval(progressUpdateTimer);
         return;
       }
-      Progress.update('ador-cali-task', {
-        percentage: (elapsedSecs / taskTotalSecs) * 100,
+      Progress.update('cali-task', {
+        percentage: (elapsedSecs / estTime) * 100,
       });
     }, 100);
 
     try {
       await this.waitTillCompleted();
       clearInterval(progressUpdateTimer);
-      Progress.popById('ador-cali-task');
+      Progress.popById('cali-task');
     } catch (err) {
       clearInterval(progressUpdateTimer);
-      Progress.popById('ador-cali-task');
+      Progress.popById('cali-task');
       throw err; // Error while running test
     }
+  }
+
+  async doAdorCalibrationCut() {
+    await this.doCalibration(DeviceConstants.ADOR_CALIBRATION, 10);
+  }
+
+  async doAdorPrinterCalibration() {
+    await this.doCalibration(DeviceConstants.ADOR_PRINTER_CALIBRATION, 30);
+  }
+
+  async doAdorIRCalibration() {
+    await this.doCalibration(DeviceConstants.ADOR_IR_CALIBRATION, 12);
   }
 
   // fs functions
@@ -689,6 +711,11 @@ class DeviceMaster {
     return controlSocket.fetchFisheyeParams() as Promise<FisheyeCameraParameters>;
   }
 
+  fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover' | 'offset') {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.fetchAutoLevelingData(dataType);
+  }
+
   async getLogsTexts(logs: string[], onProgress: (...args: any[]) => void = () => { }) {
     const res = {};
     for (let i = 0; i < logs.length; i += 1) {
@@ -702,6 +729,26 @@ class DeviceMaster {
       }
     }
     return res;
+  }
+
+  enterCartridgeIOMode() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.enterCartridgeIOMode);
+  }
+
+  endCartridgeIOMode() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.endCartridgeIOMode);
+  }
+
+  getCartridgeChipData() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.getCartridgeChipData);
+  }
+
+  cartridgeIOJsonRpcReq(method: string, params: any[]) {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.cartridgeIOJsonRpcReq, method, params);
   }
 
   // Maintain mode functions
@@ -792,6 +839,9 @@ class DeviceMaster {
 
   rawLooseMotor() {
     const controlSocket = this.currentDevice.control;
+    if (this.currentDevice.info.model.startsWith('ado')) {
+      return controlSocket.addTask(controlSocket.adorRawLooseMotor);
+    }
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('B34_LOOSE_MOTOR')) {
       return controlSocket.addTask(controlSocket.rawLooseMotorB34);
@@ -802,6 +852,11 @@ class DeviceMaster {
   rawGetProbePos(): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> {
     const controlSocket = this.currentDevice.control;
     return controlSocket.addTask(controlSocket.rawGetProbePos);
+  }
+
+  rawGetLastPos(): Promise<{ x: number; y: number; z: number; a: number }> {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.rawGetLastPos);
   }
 
   // Get, Set functions
@@ -947,7 +1002,7 @@ class DeviceMaster {
   async connectCamera(shouldCrop = true) {
     const { currentDevice } = this;
     if (currentDevice.cameraNeedsFlip === null) {
-      if (currentDevice.info.model === 'fad1') {
+      if (constant.adorModels.includes(currentDevice.info.model)) {
         currentDevice.cameraNeedsFlip = false;
       } else if (currentDevice.control && currentDevice.control.getMode() === '') {
         await this.getDeviceSetting('camera_offset');
@@ -972,6 +1027,7 @@ class DeviceMaster {
       const res = await this.currentDevice.camera.oneShot();
       if (res) return res;
       this.disconnectCamera();
+      // TODO: for ador: setFisheyeMatrix
       // eslint-disable-next-line no-await-in-loop
       await this.connectCamera();
     }

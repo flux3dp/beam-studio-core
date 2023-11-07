@@ -1,22 +1,20 @@
 /* eslint-disable no-console */
-import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Col, Form, InputNumber, Modal, Row, Space } from 'antd';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import Constant from 'app/actions/beambox/constant';
-import i18n from 'helpers/i18n';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
+import useI18n from 'helpers/useI18n';
 import { CalibrationContext } from 'app/contexts/CalibrationContext';
 import { CameraConfig, STEP_FINISH, STEP_REFOCUS } from 'app/constants/camera-calibration-constants';
 import { QuestionOutlined } from '@ant-design/icons';
 import { sendPictureThenSetConfig } from 'helpers/camera-calibration-helper';
 
-const LANG = i18n.lang.camera_calibration;
-
 const StepBeforeAnalyzePicture = (): JSX.Element => {
+  const lang = useI18n().calibration;
   const [showHint, setShowHint] = useState(false);
   const [showLastConfig, setShowLastConfig] = useState(false);
   const [form] = Form.useForm();
@@ -53,12 +51,12 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
         <div className="hint-box" style={position1}>
           <div className="arrowup" />
           <div className="hint-body">
-            {LANG.hint_red_square}
+            {lang.hint_red_square}
           </div>
         </div>
         <div className="hint-box" style={position2}>
           <div className="hint-body">
-            {LANG.hint_adjust_parameters}
+            {lang.hint_adjust_parameters}
           </div>
           <div className="arrowdown" />
         </div>
@@ -70,7 +68,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
     try {
       Progress.openNonstopProgress({
         id: 'taking-picture',
-        message: LANG.taking_picture,
+        message: lang.taking_picture,
         timeout: 30000,
       });
       let { x, y } = cameraPosition;
@@ -159,7 +157,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
         </div>
         <div className="checkbox-container" onClick={() => setShowLastConfig(!showLastConfig)}>
           <input type="checkbox" checked={showLastConfig} onChange={() => { }} />
-          <div className="title">{LANG.show_last_config}</div>
+          <div className="title">{lang.show_last_config}</div>
         </div>
       </Col>
       <Col span={12}>
@@ -168,7 +166,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
           className="controls"
           form={form}
         >
-          <Form.Item name="X" label={LANG.dx} initialValue={currentOffset.X - 15}>
+          <Form.Item name="X" label={lang.dx} initialValue={currentOffset.X - 15}>
             <InputNumber
               type="number"
               min={-50}
@@ -179,7 +177,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={unit === 'inches' ? 0.005 : 0.1}
             />
           </Form.Item>
-          <Form.Item name="Y" label={LANG.dy} initialValue={currentOffset.Y - 30}>
+          <Form.Item name="Y" label={lang.dy} initialValue={currentOffset.Y - 30}>
             <InputNumber
               min={-50}
               max={50}
@@ -189,7 +187,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={unit === 'inches' ? 0.005 : 0.1}
             />
           </Form.Item>
-          <Form.Item name="R" label={LANG.rotation_angle} initialValue={currentOffset.R * (180 / Math.PI)}>
+          <Form.Item name="R" label={lang.rotation_angle} initialValue={currentOffset.R * (180 / Math.PI)}>
             <InputNumber
               min={-180}
               max={180}
@@ -199,7 +197,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={0.1}
             />
           </Form.Item>
-          <Form.Item name="SX" label={LANG.x_ratio} initialValue={(3.25 - currentOffset.SX) * (100 / 1.625)}>
+          <Form.Item name="SX" label={lang.x_ratio} initialValue={(3.25 - currentOffset.SX) * (100 / 1.625)}>
             <InputNumber
               type="number"
               min={10}
@@ -210,7 +208,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={0.1}
             />
           </Form.Item>
-          <Form.Item name="SY" label={LANG.y_ratio} initialValue={(3.25 - currentOffset.SY) * (100 / 1.625)}>
+          <Form.Item name="SY" label={lang.y_ratio} initialValue={(3.25 - currentOffset.SY) * (100 / 1.625)}>
             <InputNumber
               type="number"
               min={10}
@@ -223,7 +221,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
           </Form.Item>
           <Space>
             <Button onClick={useLastConfigValue}>
-              {LANG.use_last_config}
+              {lang.use_last_config}
             </Button>
             <Button onClick={() => setShowHint(true)}>
               <QuestionOutlined />
@@ -258,7 +256,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
       centered
       closable={false}
       className="modal-camera-calibration"
-      title={LANG.camera_calibration}
+      title={lang.camera_calibration}
       footer={
           [
             <Button onClick={async () => {
@@ -266,13 +264,13 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               gotoNextStep(STEP_REFOCUS);
             }}
             >
-              {LANG.back}
+              {lang.back}
             </Button>,
             <Button onClick={() => onClose(false)}>
-              {LANG.cancel}
+              {lang.cancel}
             </Button>,
             <Button type="primary" onClick={refocus}>
-              {LANG.next}
+              {lang.next}
             </Button>,
           ]
         }

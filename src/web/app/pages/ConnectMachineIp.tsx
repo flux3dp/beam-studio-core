@@ -8,6 +8,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkCamera from 'helpers/device/check-camera';
 import checkIPFormat from 'helpers/check-ip-format';
 import checkRpiIp from 'helpers/check-rpi-ip';
+import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import dialogCaller from 'app/actions/dialog-caller';
 import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
@@ -60,33 +61,37 @@ const ConnectMachineIp = (): JSX.Element => {
       isUsb: urlParams.get('usb') === '1',
     };
   }, []);
-  const usbConnectionIp = useMemo(() => (window.os === 'Windows' ? '10.55.0.17' : '10.55.0.1'), []);
-  const testingIp = isUsb ? usbConnectionIp : ipValue;
+  const testingIps = isUsb ? ['10.55.0.1', '10.55.0.17'] : [ipValue];
 
   const testIpFormat = () => {
-    const res = checkIPFormat(testingIp);
+    const res = testingIps.every((ip) => checkIPFormat(ip));
     if (!res) setState((prev) => ({ ...prev, testState: TestState.IP_FORMAT_ERROR }));
     return res;
   };
 
   const testIpReachability = async () => {
     setState((prev) => ({ ...prev, testState: TestState.IP_TESTING }));
-    const { error, isExisting } = await network.checkIPExist(testingIp, 3);
-    if (!error && !isExisting) {
-      setState((prev) => ({ ...prev, testState: TestState.IP_UNREACHABLE }));
-      return false;
+    let hasError = false
+    for (let i = 0; i < testingIps.length; i += 1) {
+      const ip = testingIps[i];
+      // eslint-disable-next-line no-await-in-loop
+      const { error, isExisting } = await network.checkIPExist(ip, 3);
+      if (isExisting)  return ip;
+      if (error) hasError = true;
     }
-    return true;
+    if (!hasError) {
+      setState((prev) => ({ ...prev, testState: TestState.IP_UNREACHABLE }));
+      return null;
+    }
+    // if error occurs, ip may exist but unable to reach due to error, use the first ip to test
+    return testingIps[0];
   };
 
-  const setUpLocalStorageIp = () => {
+  const setUpLocalStorageIp = (ip: string) => {
     if (window.FLUX.version === 'web') {
-      localStorage.setItem('host', testingIp);
+      localStorage.setItem('host', ip);
       localStorage.setItem('port', '8000');
     }
-    discoverer.poke(testingIp);
-    discoverer.pokeTcp(testingIp);
-    discoverer.testTcp(testingIp);
   };
 
   const testConnection = async () => {
@@ -99,7 +104,7 @@ const ConnectMachineIp = (): JSX.Element => {
     return new Promise<IDeviceInfo>((resolve) => {
       intervalId.current = setInterval(() => {
         if (countDown.current > 0) {
-          const device = discoveredDevicesRef.current.find((d) => d.ipaddr === testingIp);
+          const device = discoveredDevicesRef.current.find((d) => testingIps.includes(d.ipaddr));
           if (device) {
             if (
               window.FLUX.version === 'web'
@@ -148,11 +153,15 @@ const ConnectMachineIp = (): JSX.Element => {
   const handleStartTest = async () => {
     const { testState } = state;
     if (isTesting(testState)) return;
-    let res = testIpFormat();
-    if (!res) return;
-    res = await testIpReachability();
-    if (!res) return;
-    setUpLocalStorageIp();
+    if (!testIpFormat()) return;
+    const ip = await testIpReachability();
+    if (!ip) return;
+    setUpLocalStorageIp(ip);
+    testingIps.forEach((testingIp) => {
+      discoverer.poke(testingIp);
+      discoverer.pokeTcp(testingIp);
+      discoverer.testTcp(testingIp);
+    });
     const device = await testConnection();
     if (!device) return;
     testCamera(device);
@@ -165,6 +174,7 @@ const ConnectMachineIp = (): JSX.Element => {
       fbb1b: 'fbb1b',
       fbb1p: 'fbb1p',
       fhexa1: 'fhexa1',
+      ado1: 'ado1',
     };
     const model = modelMap[device.model] || 'fbb1b';
     BeamboxPreference.write('model', model);
@@ -183,7 +193,7 @@ const ConnectMachineIp = (): JSX.Element => {
     }
     storage.set('printer-is-ready', true);
     storage.set('selected-device', device.serial);
-    if (device.model === 'ado1') {
+    if (constant.adorModels.includes(device.model)) {
       alertConfig.write('done-first-cali', true);
     } else if (device.model === 'fbm1') {
       alertConfig.write('done-first-cali', false);

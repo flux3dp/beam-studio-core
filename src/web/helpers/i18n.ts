@@ -26,7 +26,6 @@ const langCache = {
   'zh-cn': LangZHCN,
 };
 
-// TODO: Difference between activeLang and currentLang?
 let activeLang = storage.get(ACTIVE_LANG) as string || AppSettings.i18n.default_lang;
 
 /**

@@ -1,333 +1,333 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly in element node in layers tab in tutorial mode 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers selected"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers selected"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects"
     >
-      Oval
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Oval
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in element node in objects tab dxf object 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects selected"
     >
-      DXF Object
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        DXF Object
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in element node in objects tab multiple objects 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects selected"
     >
-      Multiple Objects
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Multiple Objects
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in element node in objects tab not use tag 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects selected"
     >
-      Oval
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Oval
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in element node in objects tab other types 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects selected"
     >
-      Imported Object
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Imported Object
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in element node in objects tab svg object 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects selected"
     >
-      SVG Object
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        SVG Object
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in element node in objects tab textpath object 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects selected"
     >
-      Text on Path
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Text on Path
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in path edit mode 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers selected"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects selected"
-    onClick={[Function]}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects"
     >
-      Path Edit
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Path
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly no selected element 1`] = `
-<div
-  className="right-panel-tabs"
->
+<div>
   <div
-    className="tab layers selected"
-    onClick={[Function]}
+    class="right-panel-tabs"
   >
-    <img
-      className="tab-icon"
-      draggable={false}
-      src="img/right-panel/icon-layers.svg"
-    />
     <div
-      className="tab-title"
+      class="tab layers selected"
     >
-      Layers
+      <img
+        class="tab-icon"
+        draggable="false"
+        src="img/right-panel/icon-layers.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Layers
+      </div>
     </div>
-  </div>
-  <div
-    className="tab objects disabled"
-    onClick={null}
-  >
-    <img
-      className="tab-icon object"
-      draggable={false}
-      src="img/right-panel/icon-adjust.svg"
-    />
     <div
-      className="tab-title"
+      class="tab objects disabled"
     >
-      Objects
+      <img
+        class="tab-icon object"
+        draggable="false"
+        src="img/right-panel/icon-adjust.svg"
+      />
+      <div
+        class="tab-title"
+      >
+        Objects
+      </div>
     </div>
   </div>
 </div>

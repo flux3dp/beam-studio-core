@@ -31,7 +31,9 @@ const getDevice = async (
         await DeviceMaster.endRawMode();
       } else if (DeviceMaster.currentDevice?.control?.getMode() === 'maintain') {
         await DeviceMaster.endMaintainMode();
-      }
+      } else if (DeviceMaster.currentDevice?.control?.getMode() === 'cartridge_io') {
+        await DeviceMaster.endCartridgeIOMode();
+      };
       if (selectRes.success) {
         // get current status
         statusRes = await DeviceMaster.getReport();
@@ -67,7 +69,7 @@ const getDevice = async (
       }
       const res = await DeviceMaster.select(device);
       if (res.success) {
-        if (['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1'].includes(device.model)) {
+        if (['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1'].includes(device.model)) {
           isWorkareaMatched = device.model === BeamboxPreference.read('workarea');
           if (!isWorkareaMatched && isNewDevice) {
             isWorkareaMatched = await showResizeAlert(device);

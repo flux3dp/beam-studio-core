@@ -32,13 +32,14 @@ import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 class BeamboxInit {
   constructor() {
     migrate();
-    if (Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))) {
+    const workarea = BeamboxPreference.read('workarea');
+    if (Constant.addonsSupportList.autoFocus.includes(workarea)) {
       const defaultAutoFocus = BeamboxPreference.read('default-autofocus');
       BeamboxPreference.write('enable-autofocus', defaultAutoFocus);
     } else {
       BeamboxPreference.write('enable-autofocus', false);
     }
-    if (Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
+    if (Constant.addonsSupportList.hybridLaser.includes(workarea)) {
       const defaultDiode = BeamboxPreference.read('default-diode');
       BeamboxPreference.write('enable-diode', defaultDiode);
     } else {
@@ -50,10 +51,13 @@ class BeamboxInit {
       BeamboxPreference.write('default-borderless', BeamboxPreference.read('borderless'));
       defaultBorderless = BeamboxPreference.read('default-borderless');
     }
-    if (Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'))) {
+    if (Constant.addonsSupportList.openBottom.includes(workarea)) {
       BeamboxPreference.write('borderless', defaultBorderless);
     } else {
       BeamboxPreference.write('borderless', false);
+    }
+    if (!Constant.addonsSupportList.rotary.includes(workarea)) {
+      BeamboxPreference.write('rotary_mode', 0);
     }
 
     if (!storage.get('default-units')) {
@@ -277,7 +281,7 @@ class BeamboxInit {
       await this.onCameraCalibrationSkipped();
       return;
     }
-    if (device.model === 'ado1') {
+    if (Constant.adorModels.includes(device.model)) {
       await new Promise((resolve) => {
         Alert.popUp({
           message: i18n.lang.tutorial.skipped_ador_calibration,

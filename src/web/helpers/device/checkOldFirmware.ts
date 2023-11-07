@@ -8,7 +8,7 @@ import versionChecker from 'helpers/version-checker';
 const checkOldFirmware = async (version: string): Promise<boolean> => {
   const lang = i18n.lang.beambox.popup;
   const vc = versionChecker(version);
-  if (!vc.meetRequirement('BEAM_STUDIO_2') && !alertConfig.read('skip-old-firmware-hint')) {
+  if (!vc.meetRequirement('BEAM_STUDIO_2') && !alertConfig.read('skip-old-firmware-hint-2')) {
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
         id: 'old-firmware',
@@ -22,7 +22,7 @@ const checkOldFirmware = async (version: string): Promise<boolean> => {
           text: lang.dont_show_again,
           callbacks: [
             () => {
-              alertConfig.write('skip-old-firmware-hint', true);
+              alertConfig.write('skip-old-firmware-hint-2', true);
               resolve(true);
             },
             () => resolve(false),

@@ -46,7 +46,7 @@ const GoButton = (props: Props): JSX.Element => {
   const handleExportAlerts = async () => {
     const layers = $('#svgcontent > g.layer').toArray();
 
-    const isPowerTooHigh = layers.some((layer) => {
+    const isPowerTooHigh = !Constant.adorModels.includes(BeamboxPreference.read('workarea')) && layers.some((layer) => {
       const strength = Number(layer.getAttribute('data-strength'));
       const diode = Number(layer.getAttribute('data-diode'));
       return strength > 70 && diode !== 1;

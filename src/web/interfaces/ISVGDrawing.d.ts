@@ -3,7 +3,7 @@ import ISVGLayer, { ISVGLayerConscrtuctor } from 'interfaces/ISVGLayer';
 export default interface ISVGDrawing {
   all_layers: ISVGLayer[];
   copyElem: (elem: Element) => Element;
-  getCurrentLayer: () => ISVGLayer | null;
+  getCurrentLayer: () => SVGGElement | null;
   setCurrentLayer: (layerName: string) => boolean;
   getCurrentLayerName: () => string | null;
   getLayerVisibility: (layerName: string) => boolean;

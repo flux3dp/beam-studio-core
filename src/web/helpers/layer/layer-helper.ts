@@ -1,12 +1,16 @@
+import { sprintf } from 'sprintf-js';
+
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
+import { cloneLayerConfig, DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
@@ -18,25 +22,22 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-export function getObjectLayer(elem: SVGElement): { elem: SVGGElement, title: string } {
-  let p: SVGElement = elem;
-  while (p) {
-    p = p.parentNode as SVGElement;
-    if (p && p.getAttribute && p.getAttribute('class') && p.getAttribute('class').indexOf('layer') >= 0) {
-      const title = $(p).find('title')[0];
-      if (title) {
-        return { elem: p as SVGGElement, title: title.innerHTML };
-      }
+export function getObjectLayer(elem: SVGElement): { elem: SVGGElement; title: string } {
+  const layer = elem.closest('g.layer');
+  if (layer) {
+    const title = layer.querySelector('title');
+    if (title) {
+      return { elem: layer as SVGGElement, title: title.innerHTML };
     }
   }
   // When multi selecting, elements does not belong to any layer
   // So get layer from data original layer
-  const origLayer = elem.getAttribute('data-original-layer');
-  if (origLayer) {
+  const origLayerName = elem.getAttribute('data-original-layer');
+  if (origLayerName) {
     const drawing = svgCanvas.getCurrentDrawing();
-    const layer = drawing.getLayerByName(origLayer);
-    if (layer) {
-      return { elem: layer, title: origLayer };
+    const origLayer = drawing.getLayerByName(origLayerName);
+    if (origLayer) {
+      return { elem: origLayer, title: origLayerName };
     }
   }
   return null;
@@ -122,7 +123,12 @@ export const deleteLayers = (layerNames: string[]): void => {
   const layerCounts = document.querySelectorAll('g.layer').length;
   if (!layerCounts) {
     const svgcontent = document.getElementById('svgcontent');
-    const newLayer = new svgedit.draw.Layer(LANG.layer1, null, svgcontent, '#333333').getGroup() as Element;
+    const newLayer = new svgedit.draw.Layer(
+      LANG.layer1,
+      null,
+      svgcontent,
+      '#333333'
+    ).getGroup() as Element;
     batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
   }
   if (!batchCmd.isEmpty()) {
@@ -132,14 +138,22 @@ export const deleteLayers = (layerNames: string[]): void => {
   svgCanvas.clearSelection();
 };
 
-export const cloneLayer = (layerName: string, isSub = false): { name: string; cmd: ICommand } | null => {
+export const cloneLayer = (
+  layerName: string,
+  opts: {
+    isSub?: boolean; // if true, do not add command to history
+    name?: string; // if provided, use this name instead of auto generated name
+    configOnly?: boolean; // if true, only clone layer config
+  }
+): { name: string; cmd: ICommand; elem: SVGGElement } | null => {
   const layer = getLayerElementByName(layerName);
   if (!layer) return null;
+  const { isSub = false, name: clonedLayerName, configOnly = false } = opts;
 
   const drawing = svgCanvas.getCurrentDrawing();
   const color = layer.getAttribute('data-color') || '#333';
   const svgcontent = document.getElementById('svgcontent');
-  const baseName = `${layerName} copy`;
+  const baseName = clonedLayerName || `${layerName} copy`;
   let newName = baseName;
   let j = 0;
   while (drawing.hasLayer(newName)) {
@@ -147,12 +161,14 @@ export const cloneLayer = (layerName: string, isSub = false): { name: string; cm
     newName = `${baseName} ${j}`;
   }
   const newLayer = new svgedit.draw.Layer(newName, null, svgcontent, color).getGroup();
-  const children = layer.childNodes;
-  for (let i = 0; i < children.length; i += 1) {
-    const child = children[i] as Element;
-    if (child.tagName !== 'title') {
-      const copiedElem = drawing.copyElem(child);
-      newLayer.appendChild(copiedElem);
+  if (!configOnly) {
+    const children = layer.childNodes;
+    for (let i = 0; i < children.length; i += 1) {
+      const child = children[i] as Element;
+      if (child.tagName !== 'title') {
+        const copiedElem = drawing.copyElem(child);
+        newLayer.appendChild(copiedElem);
+      }
     }
   }
   cloneLayerConfig(newName, layerName);
@@ -162,7 +178,7 @@ export const cloneLayer = (layerName: string, isSub = false): { name: string; cm
     drawing.identifyLayers();
     svgCanvas.clearSelection();
   }
-  return { name: newName, cmd };
+  return { name: newName, cmd, elem: newLayer };
 };
 
 export const cloneLayers = (layerNames: string[]): string[] => {
@@ -171,7 +187,7 @@ export const cloneLayers = (layerNames: string[]): string[] => {
   const drawing = svgCanvas.getCurrentDrawing();
   const batchCmd = new history.BatchCommand('Clone Layer(s)');
   for (let i = 0; i < layerNames.length; i += 1) {
-    const res = cloneLayer(layerNames[i], true);
+    const res = cloneLayer(layerNames[i], { isSub: true });
     if (res) {
       const { cmd, name } = res;
       batchCmd.addSubCommand(cmd);
@@ -201,11 +217,44 @@ export const setLayersLock = (layerNames: string[], isLocked: boolean): void => 
   }
 };
 
+export const showMergeAlert = async (
+  baseLayerName: string,
+  layerNames: string[]
+): Promise<boolean> => {
+  const targetModule = getData<LayerModule>(getLayerElementByName(baseLayerName), DataType.module);
+  const modules = new Set(
+    layerNames.map((layerName) =>
+      getData<LayerModule>(getLayerElementByName(layerName), DataType.module)
+    )
+  );
+  modules.add(targetModule);
+  if (modules.has(LayerModule.PRINTER) && modules.size > 1) {
+    return new Promise<boolean>((resolve) => {
+      Alert.popUp({
+        id: 'merge-layers',
+        caption:
+          targetModule === LayerModule.PRINTER
+            ? LANG.notification.mergeLaserLayerToPrintingLayerTitle
+            : LANG.notification.mergePrintingLayerToLaserLayerTitle,
+        message:
+          targetModule === LayerModule.PRINTER
+            ? LANG.notification.mergeLaserLayerToPrintingLayerMsg
+            : LANG.notification.mergePrintingLayerToLaserLayerMsg,
+        messageIcon: 'notice',
+        buttonType: AlertConstants.CONFIRM_CANCEL,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      });
+    });
+  }
+  return true;
+};
+
 const mergeLayer = (
   baseLayerName: string,
   layersToBeMerged: string[],
-  shouldInsertBefore: boolean,
-) : IBatchCommand | null => {
+  shouldInsertBefore: boolean
+): IBatchCommand | null => {
   const baseLayer = getLayerElementByName(baseLayerName);
   if (!baseLayer) return null;
 
@@ -237,14 +286,18 @@ const mergeLayer = (
   return batchCmd;
 };
 
-export const mergeLayers = (layerNames: string[], baseLayerName?: string): string => {
+export const mergeLayers = async (
+  layerNames: string[],
+  baseLayerName?: string
+): Promise<string | null> => {
   svgCanvas.clearSelection();
   const batchCmd = new history.BatchCommand('Merge Layer(s)');
   const drawing = svgCanvas.getCurrentDrawing();
   sortLayerNamesByPosition(layerNames);
   const mergeBase = baseLayerName || layerNames[0];
-  const baseLayerIndex = layerNames.findIndex(((layerName) => layerName === mergeBase));
-
+  const baseLayerIndex = layerNames.findIndex((layerName) => layerName === mergeBase);
+  const res = await showMergeAlert(mergeBase, layerNames);
+  if (!res) return null;
   let cmd = mergeLayer(mergeBase, layerNames.slice(0, baseLayerIndex), true);
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
@@ -266,8 +319,8 @@ export const mergeLayers = (layerNames: string[], baseLayerName?: string): strin
 // use insertBefore node[pos], so moving from i to pos i or i+1 means nothing.
 export const moveLayerToPosition = (
   layerName: string,
-  newPosition: number,
-): { success: boolean, cmd?: ICommand } => {
+  newPosition: number
+): { success: boolean; cmd?: ICommand } => {
   const allLayers = document.querySelectorAll('g.layer');
   let layer = null as Element;
   let currentPosition = null;
@@ -379,17 +432,40 @@ export const moveToOtherLayer = (
 ): void => {
   const moveToLayer = (ok) => {
     if (!ok) return;
-    svgCanvas.moveSelectedToLayer(destLayer);
+    moveSelectedToLayer(destLayer);
     svgCanvas.getCurrentDrawing().setCurrentLayer(destLayer);
     LayerPanelController.setSelectedLayers([destLayer]);
     callback?.();
   };
-  if (showAlert) {
+  const selectedElements = svgCanvas.getSelectedElems();
+  const origLayer = getObjectLayer(selectedElements[0])?.elem;
+  const isPrintingLayer = getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
+  const isDestPrintingLayer =
+    getData<LayerModule>(getLayerByName(destLayer), DataType.module) === LayerModule.PRINTER;
+  const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
+  const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
+  if (showAlert || moveOutFromFullColorLayer || moveInToFullColorLayer) {
     Alert.popUp({
       id: 'move layer',
-      buttonType: AlertConstants.YES_NO,
-      message: LANG.notification.QmoveElemsToLayer.replace('%s', destLayer),
+      buttonType:
+        moveOutFromFullColorLayer || moveInToFullColorLayer
+          ? AlertConstants.CONFIRM_CANCEL
+          : AlertConstants.YES_NO,
+      // eslint-disable-next-line no-nested-ternary
+      caption: moveOutFromFullColorLayer
+        ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
+        : moveInToFullColorLayer
+        ? sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer)
+        : undefined,
+      // eslint-disable-next-line no-nested-ternary
+      message: moveOutFromFullColorLayer
+        ? sprintf(LANG.notification.moveElemFromPrintingLayerMsg, destLayer)
+        : moveInToFullColorLayer
+        ? sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer)
+        : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
+      messageIcon: 'notice',
       onYes: moveToLayer,
+      onConfirm: () => moveToLayer(true),
     });
   } else {
     moveToLayer(true);

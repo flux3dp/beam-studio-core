@@ -2,6 +2,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import textEdit from 'app/svgedit/text/textedit';
+import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas: ISVGCanvas;
@@ -37,9 +38,7 @@ const createNewText = (x: number, y: number, text = '', addToHistory = false) =>
     },
   });
   if (usePostscriptAsFamily) newText.setAttribute('data-font-family', curText.font_family);
-  if (svgCanvas.isUsingLayerColor) {
-    svgCanvas.updateElementColor(newText);
-  }
+  updateElementColor(newText);
   if (text) {
     textEdit.renderText(newText, text);
     svgCanvas.selectOnly([newText]);

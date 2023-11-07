@@ -64,16 +64,6 @@ export default class Workarea extends React.PureComponent<{ className: string },
           disable={menuDisabled}
         >
           <div id="workarea" className={className}>
-            <style
-              id="styleoverrides"
-              type="text/css"
-              media="screen"
-              scoped
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: '',
-              }}
-            />
             <div
               id="svgcanvas"
               style={{

@@ -7,18 +7,20 @@ import Constant from 'app/actions/beambox/constant';
 import dialog from 'implementations/dialog';
 import DeviceMaster from 'helpers/device-master';
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
-import ImageData from 'helpers/image-data';
 import MonitorController from 'app/actions/monitor-controller';
 import Progress from 'app/actions/progress-caller';
-import svgLaserParser from 'helpers/api/svg-laser-parser';
 import SymbolMaker from 'helpers/symbol-maker';
+import svgLaserParser from 'helpers/api/svg-laser-parser';
+import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
+import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
 
-let svgCanvas;
+let svgCanvas: ISVGCanvas;
 let svgedit;
 
 getSVGAsync((globalSVG) => {
@@ -89,44 +91,6 @@ const fetchThumbnail = async () => {
   return urls;
 };
 
-const updateImageResolution = (isFullResolution = true) => new Promise<void>((resolve) => {
-  if (BeamboxPreference.read('image_downsampling') === false) {
-    resolve();
-  }
-  const imgs = $('#svgcontent image').toArray();
-  const numImgs = imgs.length;
-  let done = 0;
-  if (numImgs === 0) {
-    resolve();
-  } else {
-    imgs.forEach((img) => {
-      if (img.getAttribute('origImage')) {
-        ImageData(img.getAttribute('origImage'), {
-          grayscale: {
-            is_rgba: true,
-            is_shading: $(img).attr('data-shading') === 'true',
-            threshold: parseInt($(img).attr('data-threshold'), 10),
-            is_svg: false,
-          },
-          isFullResolution,
-          onComplete(result) {
-            $(img).attr('xlink:href', result.pngBase64);
-            done += 1;
-            if (done === numImgs) {
-              resolve();
-            }
-          },
-        });
-      } else {
-        done += 1;
-        if (done === numImgs) {
-          resolve();
-        }
-      }
-    });
-  }
-});
-
 interface WrappedFile {
   data: string | ArrayBuffer;
   name: string;
@@ -139,14 +103,19 @@ interface WrappedFile {
   totalFiles: number;
 }
 
-const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
+const generateThumbnail = async () => {
   svgedit.utilities.moveDefsIntoSvgContent();
   const [thumbnail, thumbnailBlobURL] = await fetchThumbnail();
   svgedit.utilities.moveDefsOutfromSvgContent();
+  return { thumbnail, thumbnailBlobURL };
+};
+
+const generateUploadFile = async (thumbnail: string, thumbnailUrl: string) => {
   Progress.openNonstopProgress({
-    id: 'retreive-image-data', message: lang.beambox.bottom_right_panel.retreive_image_data,
+    id: 'retreive-image-data',
+    message: lang.beambox.bottom_right_panel.retreive_image_data,
   });
-  await updateImageResolution(true);
+  await updateImagesResolution(true);
   Progress.popById('retreive-image-data');
   const svgString = svgCanvas.getSvgString();
   console.log('File Size', svgString.length);
@@ -158,7 +127,7 @@ const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
       const file = {
         data: reader.result,
         name: 'svgeditor.svg',
-        uploadName: thumbnailBlobURL.split('/').pop(),
+        uploadName: thumbnailUrl.split('/').pop(),
         extension: 'svg',
         type: 'application/octet-stream',
         size: blob.size,
@@ -170,44 +139,66 @@ const prepareFileWrappedFromSvgStringAndThumbnail = async () => {
     };
     reader.readAsArrayBuffer(blob);
   });
-  await updateImageResolution(false);
-  return {
-    uploadFile,
-    thumbnailBlobURL,
-  };
+  return uploadFile;
 };
 
 // Send svg string calculate taskcode, output Fcode in default
-const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = false) => {
-  let isErrorOccur = false;
+const fetchTaskCode = async (
+  device: IDeviceInfo = null,
+  opts: { output?: 'fcode' | 'gcode'; fgGcode?: boolean } = {}
+) => {
+  svgCanvas.removeUnusedDefs();
+  let didErrorOccur = false;
   let isCanceled = false;
+
   SymbolMaker.switchImageSymbolForAll(false);
   Progress.openNonstopProgress({
-    id: 'convert-text',
+    id: 'fetch-task-code',
     caption: i18n.lang.beambox.popup.progress.calculating,
     message: lang.beambox.bottom_right_panel.convert_text_to_path_before_export,
   });
   const res = await FontFuncs.tempConvertTextToPathAmoungSvgcontent();
-  Progress.popById('convert-text');
   if (!res) {
+    Progress.popById('fetch-task-code');
     SymbolMaker.switchImageSymbolForAll(true);
     return {};
   }
-  const { uploadFile, thumbnailBlobURL } = await prepareFileWrappedFromSvgStringAndThumbnail();
+  Progress.update('fetch-task-code', {
+    caption: i18n.lang.beambox.popup.progress.calculating,
+    message: 'Generating Thumbnail',
+  });
+  const { thumbnail, thumbnailBlobURL } = await generateThumbnail();
+  Progress.update('fetch-task-code', {
+    caption: i18n.lang.beambox.popup.progress.calculating,
+    message: 'Spliting Full color layer',
+  });
+  const revertTempSplitFullColorLayers = await tempSplitFullColorLayers();
+  const cleanUp = async () => {
+    revertTempSplitFullColorLayers();
+    await FontFuncs.revertTempConvert();
+    SymbolMaker.switchImageSymbolForAll(true);
+  };
+  Progress.update('fetch-task-code', {
+    caption: i18n.lang.beambox.popup.progress.calculating,
+    message: 'Generating Upload File',
+  });
+  const uploadFile = await generateUploadFile(thumbnail, thumbnailBlobURL);
+  await cleanUp();
+  Progress.popById('fetch-task-code');
   Progress.openSteppingProgress({
     id: 'upload-scene',
     caption: i18n.lang.beambox.popup.progress.calculating,
     message: '',
     onCancel: async () => {
       svgeditorParser.interruptCalculation();
-      await FontFuncs.revertTempConvert();
-      SymbolMaker.switchImageSymbolForAll(true);
       isCanceled = true;
     },
   });
   await svgeditorParser.uploadToSvgeditorAPI([uploadFile], {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
-    engraveDpi: BeamboxPreference.read('engrave_dpi'),
+    engraveDpi:
+      // (isDev() && BeamboxPreference.read('engrave-dpi-value')) ||
+      BeamboxPreference.read('engrave_dpi'),
     onProgressing: (data) => {
       Progress.update('upload-scene', {
         caption: i18n.lang.beambox.popup.progress.calculating,
@@ -224,7 +215,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     },
     onError: (message) => {
       if (isCanceled) return;
-      isErrorOccur = true;
+      didErrorOccur = true;
       Progress.popById('upload-scene');
       Alert.popUp({
         id: 'get-taskcode-error',
@@ -238,12 +229,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
       });
     },
   });
-  if (isCanceled) {
-    return {};
-  }
-  await FontFuncs.revertTempConvert();
-  SymbolMaker.switchImageSymbolForAll(true);
-  if (isErrorOccur) {
+  if (isCanceled || didErrorOccur) {
     return {};
   }
 
@@ -264,16 +250,18 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
     },
   });
 
-  const getTaskCode = (codeType: 'gcode' | 'fcode', opts = {}) => new Promise<{
-    fileTimeCost: null | number;
-    taskCodeBlob: Blob | null;
-  }>((resolve) => {
-    const names = [];
-    svgeditorParser.getTaskCode(
-      names,
-      {
+  const getTaskCode = (codeType: 'gcode' | 'fcode', getTaskCodeOpts = {}) =>
+    new Promise<{
+      fileTimeCost: null | number;
+      taskCodeBlob: Blob | null;
+    }>((resolve) => {
+      const names = [];
+      svgeditorParser.getTaskCode(names, {
         onProgressing: (data) => {
-          Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
+          Progress.update('fetch-task', {
+            message: data.message,
+            percentage: data.percentage * 100,
+          });
         },
         onFinished: (taskBlob, fileName, timeCost) => {
           Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
@@ -291,7 +279,7 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
               AwsHelper.uploadToS3('output.bvg', svgString);
             },
           });
-          isErrorOccur = true;
+          didErrorOccur = true;
           resolve({
             taskCodeBlob: null,
             fileTimeCost: null,
@@ -300,63 +288,52 @@ const fetchTaskCode = async (device: IDeviceInfo = null, shouldOutputGcode = fal
         fileMode: '-f',
         codeType,
         model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
-        enableAutoFocus: (
-          doesSupportDiodeAndAF
-          && BeamboxPreference.read('enable-autofocus')
-          && Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))
-        ),
-        enableDiode: (
-          doesSupportDiodeAndAF
-          && BeamboxPreference.read('enable-diode')
-          && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
-        ),
+        enableAutoFocus:
+          doesSupportDiodeAndAF &&
+          BeamboxPreference.read('enable-autofocus') &&
+          Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
+        enableDiode:
+          doesSupportDiodeAndAF &&
+          BeamboxPreference.read('enable-diode') &&
+          Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
         shouldUseFastGradient,
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
-        ...opts,
-      },
-    );
-  });
-  const taskCodeRes = await getTaskCode(shouldOutputGcode ? 'gcode' : 'fcode');
+        ...getTaskCodeOpts,
+      });
+    });
+  const { output = 'fcode' } = opts;
+  const { fgGcode = false } = opts;
+  const taskCodeRes = await getTaskCode(
+    output,
+    output === 'gcode' && !fgGcode
+      ? {
+          shouldUseFastGradient: false,
+          shouldMockFastGradient: true,
+        }
+      : undefined
+  );
   const { taskCodeBlob } = taskCodeRes;
   let { fileTimeCost } = taskCodeRes;
 
-  let gcodeBlobNoFastGradient = null;
-
-  if (shouldOutputGcode) {
-    if (shouldUseFastGradient) {
-      const mockFastGradientRes = await getTaskCode('gcode', {
-        shouldUseFastGradient: false,
-        shouldMockFastGradient: true,
-      });
-      gcodeBlobNoFastGradient = mockFastGradientRes.taskCodeBlob;
-    }
+  if (output === 'gcode' && !fgGcode) {
     const fcodeRes = await getTaskCode('fcode');
     fileTimeCost = fcodeRes.fileTimeCost;
   }
 
   Progress.popById('fetch-task');
-  if (isCanceled || isErrorOccur) {
+  if (isCanceled || didErrorOccur) {
     return {};
   }
 
-  if (!shouldOutputGcode) {
+  if (output === 'fcode') {
     return {
       fcodeBlob: taskCodeBlob,
       thumbnailBlobURL,
       fileTimeCost,
     };
   }
-  if (shouldUseFastGradient) {
-    return {
-      gcodeBlob: gcodeBlobNoFastGradient,
-      gcodeBlobFastGradient: taskCodeBlob,
-      thumbnailBlobURL,
-      fileTimeCost,
-    };
-  }
   return {
     gcodeBlob: taskCodeBlob,
-    gcodeBlobFastGradient: '',
     thumbnailBlobURL,
     fileTimeCost,
   };
@@ -378,14 +355,18 @@ const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => 
     },
   });
   const { taskCodeBlob, fileTimeCost } = await new Promise<{
-    taskCodeBlob: Blob | null; fileTimeCost: number | null
+    taskCodeBlob: Blob | null;
+    fileTimeCost: number | null;
   }>((resolve) => {
     const codeType = 'fcode';
     svgeditorParser.gcodeToFcode(
       { arrayBuffer, thumbnailSize: thumbnail.length, size: blob.size },
       {
         onProgressing: (data) => {
-          Progress.update('fetch-task', { message: data.message, percentage: data.percentage * 100 });
+          Progress.update('fetch-task', {
+            message: data.message,
+            percentage: data.percentage * 100,
+          });
         },
         onFinished: (taskBlob, fileName, timeCost) => {
           Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
@@ -412,7 +393,7 @@ const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => 
         codeType,
         model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
-      },
+      }
     );
   });
   Progress.popById('fetch-task');
@@ -430,7 +411,7 @@ const openTaskInDeviceMonitor = (
   device: IDeviceInfo,
   fcodeBlob: Blob,
   taskImageURL: string,
-  taskTime: number,
+  taskTime: number
 ): void => {
   const fileName = svgCanvas.getLatestImportFileName() || i18n.lang.topbar.untitled;
   MonitorController.showMonitor(device, Mode.PREVIEW, {
@@ -475,7 +456,10 @@ export default {
     fileReader.onload = function onLoad() {
       const getContent = () => new Blob([this.result as ArrayBuffer]);
       dialog.writeFileDialog(getContent, langFile.save_fcode, defaultFCodeName, [
-        { name: window.os === 'MacOS' ? `${langFile.fcode_files} (*.fc)` : langFile.fcode_files, extensions: ['fc'] },
+        {
+          name: window.os === 'MacOS' ? `${langFile.fcode_files} (*.fc)` : langFile.fcode_files,
+          extensions: ['fc'],
+        },
         { name: langFile.all_files, extensions: ['*'] },
       ]);
     };
@@ -484,15 +468,17 @@ export default {
   },
   getGcode: async (): Promise<{
     gcodeBlob?: Blob;
-    gcodeBlobFastGradient?: Blob | string;
     fileTimeCost: number;
   }> => {
-    const { gcodeBlob, gcodeBlobFastGradient, fileTimeCost } = await fetchTaskCode(null, true);
-    console.log(fileTimeCost);
+    const { gcodeBlob, fileTimeCost } = await fetchTaskCode(null, { output: 'gcode' });
     if (!gcodeBlob) {
       return { gcodeBlob, fileTimeCost: 0 };
     }
-    return { gcodeBlob, gcodeBlobFastGradient, fileTimeCost: fileTimeCost || 0 };
+    return { gcodeBlob, fileTimeCost: fileTimeCost || 0 };
+  },
+  getFastGradientGcode: async (): Promise<Blob> => {
+    const { gcodeBlob } = await fetchTaskCode(null, { output: 'gcode', fgGcode: true });
+    return gcodeBlob;
   },
   estimateTime: async (): Promise<number> => {
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
@@ -501,9 +487,12 @@ export default {
     }
     return fileTimeCost;
   },
-  gcodeToFcode: async (gcodeString: string, thumbnail: string): Promise<{
-    fcodeBlob: Blob,
-    fileTimeCost: number,
+  gcodeToFcode: async (
+    gcodeString: string,
+    thumbnail: string
+  ): Promise<{
+    fcodeBlob: Blob;
+    fileTimeCost: number;
   }> => {
     const { fcodeBlob, fileTimeCost } = await fetchTransferredFcode(gcodeString, thumbnail);
     if (!fcodeBlob) {
@@ -512,11 +501,12 @@ export default {
     return { fcodeBlob, fileTimeCost };
   },
   prepareFileWrappedFromSvgStringAndThumbnail: async (): Promise<{
-    uploadFile: WrappedFile,
-    thumbnailBlobURL: string
+    uploadFile: WrappedFile;
+    thumbnailBlobURL: string;
   }> => {
     await FontFuncs.tempConvertTextToPathAmoungSvgcontent();
-    const { uploadFile, thumbnailBlobURL } = await prepareFileWrappedFromSvgStringAndThumbnail();
+    const { thumbnail, thumbnailBlobURL } = await generateThumbnail();
+    const uploadFile = await generateUploadFile(thumbnail, thumbnailBlobURL);
     await FontFuncs.revertTempConvert();
     return { uploadFile, thumbnailBlobURL };
   },

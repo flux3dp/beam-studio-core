@@ -4,29 +4,13 @@ $active-color: #0091ff;
   padding: 0;
   width: 100%;
   border-collapse: collapse;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   .color {
     width: 24px;
-
-    > div {
-      position: relative;
-      width: 14px;
-      height: 14px;
-      cursor: pointer;
-      border: 2px solid white;
-      border-radius: 4px;
-      margin-left: 10px;
-      background: black;
-    }
-    @media screen and (max-width: 600px) {
-      width: 30px;
-
-      > div {
-        width: 20px;
-        height: 20px;
-      }
-    }
+    height: 24px;
+    padding: 4px;
+    margin-left: 6px;
   }
 
   .item {
@@ -59,12 +43,26 @@ $active-color: #0091ff;
       height: 5px;
     }
 
+    .module {
+      height: 24px;
+      padding-left: 16px;
+      font-size: 24px;
+
+      svg {
+        stroke-width: 2px;
+      }
+    }
+
     .name {
       width: 140px;
       padding: 3px 0px;
       margin-left: 5px;
       text-align: center;
       cursor: pointer;
+
+      &.with-module {
+        width: 100px;
+      }
 
       @media screen and (max-width: 600px) {
         margin-left: 10px;
@@ -78,6 +76,7 @@ $active-color: #0091ff;
     .vis {
       display: flex;
       align-items: center;
+      font-size: 24px;
       width: 24px;
       height: 25px;
       text-align: center;
@@ -89,13 +88,10 @@ $active-color: #0091ff;
       }
 
       @media screen and (max-width: 600px) {
+        font-size: 32px;
         width: 32px;
         margin: 0;
         justify-content: center;
-
-        > img {
-          min-width: 40px;
-        }
       }
     }
 
@@ -148,6 +144,10 @@ $active-color: #0091ff;
         border-color: $active-color;
       }
 
+      .module {
+        filter: brightness(0) invert(1);
+      }
+
       .vis {
         filter: brightness(0) invert(1);
       }
@@ -171,8 +171,33 @@ $active-color: #0091ff;
   width: 100%;
   height: 2px;
   background-color: $active-color;
+}
 
-  @media screen and (max-width: 600px) {
-    background-color: #666;
+@media screen and (max-width: 600px) {
+  .list {
+    .row {
+      display: flex;
+      .name {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+        flex-grow: 2;
+      }
+
+      &:active,
+      &:hover {
+        .name {
+          color: white;
+        }
+      }
+
+      .color {
+        margin-right: 10px;
+      }
+
+      .vis {
+        margin-right: 5px;
+      }
+    }
   }
 }

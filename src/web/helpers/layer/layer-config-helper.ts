@@ -1,8 +1,10 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
+import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
-import { getParametersSet } from 'app/constants/right-panel-constants';
+import { getAllPresets } from 'app/constants/right-panel-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
@@ -18,13 +20,9 @@ const getLayerElementByName = (layerName: string) => {
   return layer;
 };
 
-export enum LayerType {
-  LASER = 1,
-  PRINTER = 2,
-}
-
 export enum DataType {
   speed = 'speed',
+  printingSpeed = 'printingSpeed',
   strength = 'strength',
   ink = 'ink',
   repeat = 'repeat',
@@ -32,64 +30,163 @@ export enum DataType {
   zstep = 'zstep',
   diode = 'diode',
   configName = 'configName',
-  type = 'type', // 1: laser, 2: printer
+  module = 'module',
   backlash = 'backlash',
+  multipass = 'multipass',
+  UV = 'uv',
+  // parameters for white ink
+  wSpeed = 'wSpeed',
+  wInk = 'wInk',
+  wMultipass = 'wMultipass',
+  wRepeat = 'wRepeat',
+  color = 'color',
+  fullColor = 'fullcolor',
+  // parameters for split color
+  cRatio = 'cRatio',
+  mRatio = 'mRatio',
+  yRatio = 'yRatio',
+  kRatio = 'kRatio',
 }
+
+export const dataKey = {
+  [DataType.module]: 'module',
+  [DataType.speed]: 'speed',
+  [DataType.printingSpeed]: 'printingSpeed',
+  [DataType.strength]: 'power',
+  [DataType.ink]: 'ink',
+  [DataType.repeat]: 'repeat',
+  [DataType.height]: 'height',
+  [DataType.zstep]: 'zStep',
+  [DataType.diode]: 'diode',
+  [DataType.configName]: 'configName',
+  [DataType.backlash]: 'backlash',
+  [DataType.multipass]: 'multipass',
+  [DataType.UV]: 'uv',
+  // parameters for white ink
+  [DataType.wSpeed]: 'wSpeed',
+  [DataType.wInk]: 'wInk',
+  [DataType.wMultipass]: 'wMultipass',
+  [DataType.wRepeat]: 'wRepeat',
+  [DataType.color]: 'color',
+  [DataType.fullColor]: 'fullcolor',
+  // parameters for split color
+  [DataType.cRatio]: 'cRatio',
+  [DataType.mRatio]: 'mRatio',
+  [DataType.yRatio]: 'yRatio',
+  [DataType.kRatio]: 'kRatio',
+};
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
 
 export const defaultConfig = {
   [DataType.speed]: 20,
+  [DataType.printingSpeed]: 60,
   [DataType.strength]: 15,
-  [DataType.ink]: 3,
+  [DataType.ink]: BeamboxPreference.read('multipass-compensation') !== false ? 3 : 1,
   [DataType.repeat]: 1,
   [DataType.height]: -3,
   [DataType.zstep]: 0,
   [DataType.diode]: 0,
   [DataType.configName]: '',
-  [DataType.type]: LayerType.LASER,
+  [DataType.module]: LayerModule.LASER_10W_DIODE,
   [DataType.backlash]: 0,
+  [DataType.multipass]: 3,
+  [DataType.UV]: 0,
+  // parameters for white ink
+  [DataType.wSpeed]: 100,
+  [DataType.wInk]: BeamboxPreference.read('multipass-compensation') !== false ? -9 : -3,
+  [DataType.wMultipass]: 3,
+  [DataType.wRepeat]: 1,
+  // parameters for split color
+  [DataType.cRatio]: 100,
+  [DataType.mRatio]: 100,
+  [DataType.yRatio]: 100,
+  [DataType.kRatio]: 100,
 };
 
-const getData = (layer: Element, dataType: DataType) => {
-  if (![DataType.configName].includes(dataType)) {
-    return Number(layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType]);
+/**
+ * getData from layer element
+ * @param layer layer Element
+ * @param dataType DataType
+ * @param applyPrinting if true, return printingSpeed if module is printer and type is speed
+ * @returns data value in type T
+ */
+export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = false): T => {
+  let targetDataType = dataType;
+  if (
+    targetDataType === DataType.speed &&
+    applyPrinting &&
+    layer.getAttribute(`data-${DataType.module}`) === String(LayerModule.PRINTER)
+  ) {
+    targetDataType = DataType.printingSpeed;
   }
-  return layer.getAttribute(`data-${dataType}`) || defaultConfig[dataType];
+  if ([DataType.configName, DataType.color].includes(targetDataType)) {
+    return (
+      (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
+    );
+  }
+  if (targetDataType === DataType.fullColor) return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
+  return Number(
+    layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]
+  ) as T;
 };
 
-export const writeData = (layerName: string, dataType: DataType, value: number | string): void => {
+export const writeDataLayer = (
+  layer: Element,
+  dataType: DataType,
+  value: number | string,
+  applyPrinting = false
+): void => {
+  if (!layer) return;
+  let targetDataType = dataType;
+  if (
+    targetDataType === DataType.speed &&
+    applyPrinting &&
+    layer.getAttribute(`data-${DataType.module}`) === String(LayerModule.PRINTER)
+  ) {
+    targetDataType = DataType.printingSpeed;
+  }
+  layer.setAttribute(`data-${targetDataType}`, String(value));
+};
+
+export const writeData = (
+  layerName: string,
+  dataType: DataType,
+  value: number | string,
+  applyPrinting = false
+): void => {
   const layer = getLayerElementByName(layerName);
-  if (!layer) {
-    return;
-  }
-  layer.setAttribute(`data-${dataType}`, String(value));
+  if (!layer) return;
+  writeDataLayer(layer, dataType, value, applyPrinting);
 };
 
 const getMultiSelectData = <T = number>(
   layers: Element[],
-  dataType: DataType,
+  currentLayerIdx: number,
+  dataType: DataType
 ): { value: T; hasMultiValue: boolean } => {
-  let value;
+  const mainIndex = currentLayerIdx > -1 ? currentLayerIdx : 0;
+  const mainLayer = layers[mainIndex] || layers.find((l) => !!l);
+  if (!mainLayer) return { value: undefined, hasMultiValue: false };
+  let value = getData<T>(mainLayer, dataType, true);
   let hasMultiValue = false;
   for (let i = 0; i < layers.length; i += 1) {
+    // eslint-disable-next-line no-continue
+    if (i === currentLayerIdx) continue;
     const layer = layers[i];
     if (layer) {
-      if (value === undefined) {
-        value = getData(layer, dataType);
-      } else if (value !== getData(layer, dataType)) {
+      const layerValue = getData<T>(layer, dataType, true);
+      if (value !== layerValue) {
         hasMultiValue = true;
         if ([DataType.height].includes(dataType)) {
-          value = Math.max(value, getData(layer, dataType) as number);
-          if (value > 0) {
-            break;
-          }
+          // Always use the max value
+          value = Math.max(value as number, layerValue as number) as T;
+          if ((value as number) > 0) break;
         } else if ([DataType.diode].includes(dataType)) {
-          value = 1;
+          // Always use on if there is any on
+          value = 1 as T;
           break;
-        } else {
-          break;
-        }
+        } else break;
       }
     }
   }
@@ -99,7 +196,8 @@ const getMultiSelectData = <T = number>(
 export const initLayerConfig = (layerName: string): void => {
   const dataTypes = Object.values(DataType);
   for (let i = 0; i < dataTypes.length; i += 1) {
-    writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
+    if (defaultConfig[dataTypes[i]] !== undefined)
+      writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
   }
 };
 
@@ -110,7 +208,9 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
   } else {
     const dataTypes = Object.values(DataType);
     for (let i = 0; i < dataTypes.length; i += 1) {
-      writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
+      if (dataTypes[i] === DataType.fullColor) {
+        if (getData(baseLayer, DataType.fullColor))  writeData(targetLayerName, DataType.fullColor, '1');
+      } else writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
     }
   }
 };
@@ -120,56 +220,43 @@ export const getLayerConfig = (layerName: string): ILayerConfig => {
   if (!layer) {
     return null;
   }
-  const speed = getData(layer, DataType.speed) as number;
-  const power = getData(layer, DataType.strength) as number;
-  const ink = getData(layer, DataType.ink) as number;
-  const repeat = getData(layer, DataType.repeat) as number;
-  const height = getData(layer, DataType.height) as number;
-  const zStep = getData(layer, DataType.zstep) as number;
-  const diode = getData(layer, DataType.diode) as number;
-  const configName = getData(layer, DataType.configName) as string;
-  const type = getData(layer, DataType.type) as number;
-  const backlash = getData(layer, DataType.backlash) as number;
 
-  return {
-    speed: { value: speed },
-    power: { value: power },
-    ink: { value: ink },
-    repeat: { value: repeat },
-    height: { value: height },
-    zStep: { value: zStep },
-    diode: { value: diode },
-    configName: { value: configName },
-    type: { value: type },
-    backlash: { value: backlash },
-  };
+  const data = {} as ILayerConfig;
+  const dataTypes = Object.values(DataType);
+  for (let i = 0; i < dataTypes.length; i += 1) {
+    const type = dataTypes[i];
+    data[dataKey[type]] = { value: getData(layer, dataTypes[i], true) };
+  }
+
+  return data;
 };
 
-export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
+export const getLayersConfig = (layerNames: string[], currentLayerName?: string): ILayerConfig => {
   const layers = layerNames.map((layerName) => getLayerElementByName(layerName));
-  const speedData = getMultiSelectData(layers, DataType.speed);
-  const powerData = getMultiSelectData(layers, DataType.strength);
-  const inkData = getMultiSelectData(layers, DataType.ink);
-  const repeatData = getMultiSelectData(layers, DataType.repeat);
-  const heightData = getMultiSelectData(layers, DataType.height);
-  const zStepData = getMultiSelectData(layers, DataType.zstep);
-  const diodeData = getMultiSelectData(layers, DataType.diode);
-  const configNameData = getMultiSelectData<string>(layers, DataType.configName);
-  const typeData = getMultiSelectData(layers, DataType.type);
-  const backlashData = getMultiSelectData(layers, DataType.backlash);
+  const currentLayerIdx = layerNames.indexOf(currentLayerName);
+  const data = {} as ILayerConfig;
+  const dataTypes = Object.values(DataType);
+  for (let i = 0; i < dataTypes.length; i += 1) {
+    const type = dataTypes[i];
+    data[dataKey[type]] = getMultiSelectData(layers, currentLayerIdx, dataTypes[i]);
+  }
 
-  return {
-    speed: speedData,
-    power: powerData,
-    ink: inkData,
-    repeat: repeatData,
-    height: heightData,
-    zStep: zStepData,
-    diode: diodeData,
-    configName: configNameData,
-    type: typeData,
-    backlash: backlashData,
-  };
+  return data;
+};
+
+export const toggleFullColorAfterWorkareaChange = (): void => {
+  const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const layerNames = getAllLayerNames();
+  for (let i = 0; i < layerNames.length; i += 1) {
+    const layerName = layerNames[i];
+    const layer = getLayerByName(layerName);
+    // eslint-disable-next-line no-continue
+    if (!layer) continue;
+    if (!modelsWithModules.includes(workarea)) {
+      layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
+      toggleFullColorLayer(layer, { val: false });
+    }
+  }
 };
 
 /**
@@ -177,9 +264,9 @@ export const getLayersConfig = (layerNames: string[]): ILayerConfig => {
  */
 export const postPresetChange = (): void => {
   // TODO: add test
-  const customizedLaserConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
+  const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
   const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-  const parametersSet = getParametersSet(workarea);
+  const parametersSet = getAllPresets(workarea);
   const layerNames = getAllLayerNames();
 
   for (let i = 0; i < layerNames.length; i += 1) {
@@ -188,30 +275,55 @@ export const postPresetChange = (): void => {
     // eslint-disable-next-line no-continue
     if (!layer) continue;
 
-    const configName = layer.getAttribute('data-configName');
-    const configIndex = customizedLaserConfigs.findIndex((config) => config.name === configName);
+    const configName = getData<string>(layer, DataType.configName);
+    const layerModule = getData<LayerModule>(layer, DataType.module);
+    const speedAttributeName =
+      layerModule === LayerModule.PRINTER ? 'data-printingSpeed' : 'data-speed';
+    // Looking for preset with same name and correct module
+    const configIndex = customizedLaserConfigs.findIndex((config) =>
+      modelsWithModules.includes(workarea)
+        ? config.name === configName && config.module === layerModule
+        : config.name === configName
+    );
     if (configIndex >= 0) {
       const config = customizedLaserConfigs[configIndex];
       if (config.isDefault) {
         if (parametersSet[config.key]) {
-          const { speed, power, repeat } = parametersSet[config.key];
-          layer.setAttribute('data-speed', String(speed));
+          const {
+            speed,
+            power = defaultConfig.strength,
+            repeat = defaultConfig.repeat,
+            ink = defaultConfig.ink,
+            multipass = defaultConfig.multipass,
+          } = parametersSet[config.key];
+          layer.setAttribute(speedAttributeName, String(speed));
           layer.setAttribute('data-strength', String(power));
-          layer.setAttribute('data-repeat', String(repeat || 1));
+          layer.setAttribute('data-repeat', String(repeat));
+          layer.setAttribute('data-ink', String(ink));
+          layer.setAttribute('data-multipass', String(multipass));
         } else {
           layer.removeAttribute('data-configName');
         }
       } else {
-        const { speed, power, repeat, zStep } = config;
-        layer.setAttribute('data-speed', String(speed));
+        const {
+          speed,
+          power = defaultConfig.strength,
+          repeat = defaultConfig.repeat,
+          zStep,
+          ink = defaultConfig.ink,
+          multipass = defaultConfig.multipass,
+        } = config;
+        layer.setAttribute(speedAttributeName, String(speed));
         layer.setAttribute('data-strength', String(power));
-        layer.setAttribute('data-repeat', String(repeat || 1));
+        layer.setAttribute('data-repeat', String(repeat));
+        layer.setAttribute('data-ink', String(ink));
+        layer.setAttribute('data-multipass', String(multipass));
         if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
       }
     }
     const maxSpeed = constant.dimension.getMaxSpeed(workarea);
-    if (Number(layer.getAttribute('data-speed')) > maxSpeed) {
-      layer.setAttribute('data-speed', String(maxSpeed));
+    if (Number(layer.getAttribute(speedAttributeName)) > maxSpeed) {
+      layer.setAttribute(speedAttributeName, String(maxSpeed));
     }
   }
 };

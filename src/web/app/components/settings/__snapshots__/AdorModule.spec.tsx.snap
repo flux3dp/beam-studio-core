@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test AdorModule should render correctly 1`] = `
+<div>
+  <div
+    class="subtitle"
+  >
+    ador_modules
+  </div>
+  <div>
+    Mock SelectControl
+    <div />
+    <div>
+      print-advanced-mode
+    </div>
+    <div>
+      <button
+        type="button"
+      >
+        On
+      </button>
+      <button
+        type="button"
+      >
+        Off
+      </button>
+    </div>
+  </div>
+  <div>
+    <div>
+      Mock Control
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      X
+    </span>
+    <div>
+      <input
+        data-testid="10w-laser-x-offset"
+        id="10w-laser-x-offset"
+        type="number"
+        value="10"
+      />
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      Y
+    </span>
+    <div>
+      <input
+        data-testid="10w-laser-y-offset"
+        id="10w-laser-y-offset"
+        type="number"
+        value="10"
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      Mock Control
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      X
+    </span>
+    <div>
+      <input
+        data-testid="20w-laser-x-offset"
+        id="20w-laser-x-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      Y
+    </span>
+    <div>
+      <input
+        data-testid="20w-laser-y-offset"
+        id="20w-laser-y-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      Mock Control
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      X
+    </span>
+    <div>
+      <input
+        data-testid="printer-x-offset"
+        id="printer-x-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      Y
+    </span>
+    <div>
+      <input
+        data-testid="printer-y-offset"
+        id="printer-y-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      Mock Control
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      X
+    </span>
+    <div>
+      <input
+        data-testid="2w-ir-laser-x-offset"
+        id="2w-ir-laser-x-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+    <span
+      class="font2"
+      style="margin-right: 10px; line-height: 32px;"
+    >
+      Y
+    </span>
+    <div>
+      <input
+        data-testid="2w-ir-laser-y-offset"
+        id="2w-ir-laser-y-offset"
+        type="number"
+        value="0"
+      />
+    </div>
+  </div>
+</div>
+`;

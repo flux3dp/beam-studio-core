@@ -6,9 +6,8 @@ import imageProcessor from 'implementations/imageProcessor';
 
 const urlToImage = async (url: string) => {
   const resp = await fetch(url);
-  const respData = await resp.blob();
-  const imageData = await new Response(respData).arrayBuffer();
-  const image = await imageProcessor.read(imageData as Buffer);
+  const arrayBuffer = await resp.arrayBuffer();
+  const image = await imageProcessor.read(arrayBuffer as Buffer);
   return image;
 };
 

@@ -14,8 +14,20 @@ const getDimensionValues = (key?: string): any => {
   return response.dimensionValues;
 };
 
+const minEventInterval = 100;
+let lastUpdateObjectPanelTime = 0
+let updateObjectPanelTimeout = null;
 const updateObjectPanel = (): void => {
-  objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
+  clearTimeout(updateObjectPanelTimeout);
+  const time = Date.now();
+  if (time - lastUpdateObjectPanelTime >= minEventInterval) {
+    objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
+  } else {
+    updateObjectPanelTimeout = setTimeout(() => {
+      lastUpdateObjectPanelTime = Date.now();
+      objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
+    }, lastUpdateObjectPanelTime + minEventInterval - time);
+  }
 };
 
 const updatePolygonSides = (polygonSides: number): void => {

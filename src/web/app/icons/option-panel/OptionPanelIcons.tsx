@@ -1,19 +1,25 @@
-import PolygonSide from './polygon-side.svg';
+import Color from './color.svg';
 import Infill from './infill.svg';
 import InfillPartial from './infill-partial.svg';
-import RoundedCorner from './rounded-corner.svg';
-import LineSpacing from './line-spacing.svg';
+import Left from './left.svg';
 import LetterSpacing from './letter-spacing.svg';
+import LineSpacing from './line-spacing.svg';
+import PolygonSide from './polygon-side.svg';
+import RoundedCorner from './rounded-corner.svg';
+import Stroke from './stroke.svg';
 import Threshold from './threshold.svg';
 import VerticalText from './vertical-text.svg';
 
 export default {
-  PolygonSide,
+  Color,
   Infill,
   InfillPartial,
-  RoundedCorner,
-  LineSpacing,
+  Left,
   LetterSpacing,
+  LineSpacing,
+  PolygonSide,
+  RoundedCorner,
+  Stroke,
   Threshold,
   VerticalText,
 };

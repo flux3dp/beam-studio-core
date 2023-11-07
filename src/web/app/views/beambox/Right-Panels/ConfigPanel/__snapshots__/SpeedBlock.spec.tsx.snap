@@ -11,38 +11,51 @@ exports[`test SpeedBlock should render correctly when has low speed warning 1`] 
       speed
     </span>
     <div>
-      MockUnitInput
+      MockConfigValueDisplay
       <p>
-        id: 
-        speed
+        inputId: 
+        speed-input
       </p>
       <p>
-        min: 
-        1
+        type: 
+        default
       </p>
       <p>
         max: 
         300
       </p>
       <p>
+        min: 
+        1
+      </p>
+      <p>
+        value: 
+        1
+      </p>
+      <p>
         unit: 
         mm/s
       </p>
       <p>
-        defaultValue: 
-        1
+        hasMultiValue: 
       </p>
       <p>
         decimal: 
         1
       </p>
       <p>
-        displayMultiValue: 
+        options: 
+        null
       </p>
+      <button
+        type="button"
+      >
+        MockConfigValueDisplayButton
+      </button>
     </div>
     <input
-      class="speed-for-vector"
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
@@ -64,38 +77,51 @@ exports[`test SpeedBlock should render correctly when has vector warning 1`] = `
       speed
     </span>
     <div>
-      MockUnitInput
+      MockConfigValueDisplay
       <p>
-        id: 
-        speed
+        inputId: 
+        speed-input
       </p>
       <p>
-        min: 
-        1
+        type: 
+        default
       </p>
       <p>
         max: 
         300
       </p>
       <p>
+        min: 
+        1
+      </p>
+      <p>
+        value: 
+        87
+      </p>
+      <p>
         unit: 
         mm/s
       </p>
       <p>
-        defaultValue: 
-        87
+        hasMultiValue: 
       </p>
       <p>
         decimal: 
         1
       </p>
       <p>
-        displayMultiValue: 
+        options: 
+        null
       </p>
+      <button
+        type="button"
+      >
+        MockConfigValueDisplayButton
+      </button>
     </div>
     <input
-      class="speed-for-vector"
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
@@ -135,7 +161,11 @@ exports[`test SpeedBlock should render correctly when type is panel-item 1`] = `
         type="button"
       >
         <span>
-          87
+          <span
+            style="white-space: nowrap;"
+          >
+            87
+          </span>
         </span>
       </button>
     </div>
@@ -158,38 +188,51 @@ exports[`test SpeedBlock should render correctly when unit is inches 1`] = `
       speed
     </span>
     <div>
-      MockUnitInput
+      MockConfigValueDisplay
       <p>
-        id: 
-        speed
+        inputId: 
+        speed-input
       </p>
       <p>
-        min: 
-        1
+        type: 
+        default
       </p>
       <p>
         max: 
         300
       </p>
       <p>
+        min: 
+        1
+      </p>
+      <p>
+        value: 
+        87
+      </p>
+      <p>
         unit: 
         in/s
       </p>
       <p>
-        defaultValue: 
-        87
+        hasMultiValue: 
       </p>
       <p>
         decimal: 
         2
       </p>
       <p>
-        displayMultiValue: 
+        options: 
+        null
       </p>
+      <button
+        type="button"
+      >
+        MockConfigValueDisplayButton
+      </button>
     </div>
     <input
-      class=""
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
@@ -211,38 +254,51 @@ exports[`test SpeedBlock should render correctly when unit is mm 1`] = `
       speed
     </span>
     <div>
-      MockUnitInput
+      MockConfigValueDisplay
       <p>
-        id: 
-        speed
+        inputId: 
+        speed-input
       </p>
       <p>
-        min: 
-        1
+        type: 
+        default
       </p>
       <p>
         max: 
         300
       </p>
       <p>
+        min: 
+        1
+      </p>
+      <p>
+        value: 
+        87
+      </p>
+      <p>
         unit: 
         mm/s
       </p>
       <p>
-        defaultValue: 
-        87
+        hasMultiValue: 
       </p>
       <p>
         decimal: 
         1
       </p>
       <p>
-        displayMultiValue: 
+        options: 
+        null
       </p>
+      <button
+        type="button"
+      >
+        MockConfigValueDisplayButton
+      </button>
     </div>
     <input
-      class=""
-      id="speed_value"
+      class="mock-config-slider"
+      id="speed"
       max="300"
       min="1"
       step="0.1"
