@@ -263,13 +263,12 @@ class PreviewModeController {
       await deviceMaster.endRawMode();
       await this.setFishEyeObjectHeight(height);
       return true;
-    } catch (err) {
+    } finally {
       if (deviceMaster.currentControlMode === 'raw') {
         await deviceMaster.rawLooseMotor();
         Progress.update('preview-mode-controller', { message: LANG.message.endingRawMode });
         await deviceMaster.endRawMode();
       }
-      throw err;
     }
   };
 
