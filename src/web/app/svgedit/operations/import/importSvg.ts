@@ -5,6 +5,7 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import dialogCaller from 'app/actions/dialog-caller';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import progressCaller from 'app/actions/progress-caller';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -34,7 +35,7 @@ const readSVG = (
   args: { type: ImportType; targetModule?: LayerModule; layerName?: string }
 ) =>
   new Promise<SVGUseElement>((resolve) => {
-    const { type, targetModule = LayerModule.LASER_10W_DIODE, layerName } = args;
+    const { type, targetModule = layerModuleHelper.getDefaultLaserModule(), layerName } = args;
     const reader = new FileReader();
     reader.onloadend = async (e) => {
       let svgString = e.target.result as string;
@@ -88,7 +89,7 @@ const importSvg = async (
       id: 'import-module',
       title: lang.beambox.popup.select_import_module,
       options: [
-        { label: lang.layer_module.general_laser, value: LayerModule.LASER_10W_DIODE },
+        { label: lang.layer_module.general_laser, value: layerModuleHelper.getDefaultLaserModule() },
         { label: lang.layer_module.printing, value: LayerModule.PRINTER },
       ],
     });

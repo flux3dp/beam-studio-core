@@ -443,6 +443,7 @@ const lang: ILang = {
     module_offset_printer: '打印偏移',
     module_offset_2w_ir: '2W 红外激光偏移',
     printer_advanced_mode: '打印机高级模式',
+    default_laser_module: '默认激光模块',
     groups: {
       general: '一般',
       update: '软体更新',

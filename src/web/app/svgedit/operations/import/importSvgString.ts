@@ -1,6 +1,8 @@
 import appendUseElement from 'app/svgedit/operations/import/appendUseElement';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import LayerModule from 'app/constants/layer-module/layer-modules';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import parseSvg from 'app/svgedit/operations/parseSvg';
 import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
@@ -8,7 +10,6 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import { ImportType } from 'interfaces/ImportSvg';
 import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import LayerModule from 'app/constants/layer-module/layer-modules';
 
 let svgedit;
 let svgCanvas: ISVGCanvas;
@@ -30,7 +31,7 @@ const importSvgString = async (
     type = 'nolayer',
     layerName,
     parentCmd,
-    targetModule = LayerModule.LASER_10W_DIODE,
+    targetModule = layerModuleHelper.getDefaultLaserModule(),
   } = args;
   const batchCmd = new history.BatchCommand('Import Image');
   function setDataXform(use_el, it) {
