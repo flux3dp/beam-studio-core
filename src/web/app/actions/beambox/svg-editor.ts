@@ -5135,7 +5135,9 @@ const svgEditor = window['svgEditor'] = (function () {
           }
         }
         beamboxStore.emitUpdateWorkArea();
-        toggleFullColorAfterWorkareaChange();
+        if (!modelsWithModules.includes(BeamboxPreference.read('workarea'))) {
+          toggleFullColorAfterWorkareaChange();
+        }
         svgedit.utilities.findDefs().remove();
         svgedit.utilities.moveDefsOutfromSvgContent();
         await SymbolMaker.reRenderAllImageSymbol();
