@@ -24,7 +24,7 @@ interface Props {
   onClose: () => void;
 }
 
-const initCapacity = 33330000000;
+const initCapacity = 34737000000;
 const initPlScale = 54.8;
 
 export const parsingChipData = (data: any): ChipSettings => ({
