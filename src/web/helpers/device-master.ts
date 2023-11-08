@@ -830,17 +830,23 @@ class DeviceMaster {
 
   rawSetFan(on: boolean) {
     const controlSocket = this.currentDevice.control;
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.adorRawSetFan, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetFan, on);
   }
 
   rawSetAirPump(on: boolean) {
     const controlSocket = this.currentDevice.control;
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.adorRawSetAirPump, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetAirPump, on);
   }
 
   rawLooseMotor() {
     const controlSocket = this.currentDevice.control;
-    if (this.currentDevice.info.model.startsWith('ado')) {
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
       return controlSocket.addTask(controlSocket.adorRawLooseMotor);
     }
     const vc = VersionChecker(this.currentDevice.info.version);
