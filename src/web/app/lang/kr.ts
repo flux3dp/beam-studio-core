@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: '전환 가능한 버전을 찾을 수 없습니다.',
       yes: '예',
       no: '아니요',
+      update_for_ador: '현재 소프트웨어 버전 %s가 오래되었습니다. Ador용 Beam Studio의 최신 버전을 다운로드하세요.',
     },
     updating: '업데이트 중...',
     skip: '이 버전 건너뛰기',

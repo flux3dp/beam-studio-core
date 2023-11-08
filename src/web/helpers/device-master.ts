@@ -5,6 +5,7 @@ import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import checkSoftwareForAdor from 'helpers/check-software';
 import constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import Dialog from 'app/actions/dialog-caller';
@@ -263,7 +264,7 @@ class DeviceMaster {
 
   async selectDevice(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
     // Match the device from the newest received device list
-    if (!deviceInfo) {
+    if (!deviceInfo || !checkSoftwareForAdor(deviceInfo)) {
       return { success: false };
     }
     const { uuid } = deviceInfo;

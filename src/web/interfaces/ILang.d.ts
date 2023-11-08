@@ -231,6 +231,7 @@ export interface ILang {
       switch_version_not_found: string,
       yes: string,
       no: string,
+      update_for_ador: string,
     },
     updating: string,
     skip: string,

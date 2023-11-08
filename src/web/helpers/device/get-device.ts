@@ -1,6 +1,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import checkSoftwareForAdor from 'helpers/check-software';
 import dialogCaller from 'app/actions/dialog-caller';
 import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
@@ -14,7 +15,7 @@ import showResizeAlert from './fit-device-workarea-alert';
 
 const getDevice = async (
   showModal = false
-): Promise<{ device: IDeviceInfo; isWorkareaMatched?: boolean }> => {
+): Promise<{ device: IDeviceInfo | null; isWorkareaMatched?: boolean }> => {
   const currentDevice = TopBarController.getSelectedDevice();
   let device = showModal ? null : currentDevice;
   let isWorkareaMatched = null;
@@ -61,6 +62,9 @@ const getDevice = async (
       !showModal && autoSelect && devices.length === 1
         ? devices[0]
         : await dialogCaller.selectDevice();
+    if (device && !checkSoftwareForAdor(device)) {
+      return { device: null };
+    }
     TopBarController.setSelectedDevice(device);
     if (device) {
       const isNewDevice = currentDevice?.serial !== device.serial;

@@ -8,6 +8,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkCamera from 'helpers/device/check-camera';
 import checkIPFormat from 'helpers/check-ip-format';
 import checkRpiIp from 'helpers/check-rpi-ip';
+import checkSoftwareForAdor from 'helpers/check-software';
 import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import dialogCaller from 'app/actions/dialog-caller';
@@ -164,6 +165,11 @@ const ConnectMachineIp = (): JSX.Element => {
     });
     const device = await testConnection();
     if (!device) return;
+    if (!checkSoftwareForAdor(device)) {
+      setIpValue('');
+      setState((prev) => ({ ...prev, device: null, testState: TestState.NONE }));
+      return;
+    }
     testCamera(device);
   };
 
