@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Veuillez noter que si vous terminez cette opération, les paramètres de couleur de la couche d\'impression seront supprimés et définis en fonction de la couche actuelle.',
       convertFromLaserModuleTitle: 'Souhaitez-vous convertir le module Laser en module d\'impression ?',
       convertFromLaserModuleMsg: 'Veuillez noter que si vous terminez cette opération, les paramètres de la couche laser seront supprimés et définis en fonction de la couche actuelle.',
+      importedDocumentContainsPrinting: 'Le document contient des couches d\'impression. Souhaitez-vous changer la zone de travail vers Ador ?',
+      printingLayersCoverted: 'Les couches d\'impression ont été converties en couches laser.',
     },
   },
 };

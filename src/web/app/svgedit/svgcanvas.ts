@@ -1609,19 +1609,21 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         $(this).replaceWith(svg);
       }
     });
+    const workarea = BeamboxPreference.read('workarea');
     const engraveDpi = BeamboxPreference.read('engrave_dpi');
     rotaryMode = BeamboxPreference.read('rotary_mode');
-    const isUsingDiode = BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'));
+    const isUsingDiode = BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(workarea);
     const isUsingAF = BeamboxPreference.read('enable-autofocus');
     svgcontent.setAttribute('data-engrave_dpi', engraveDpi);
     svgcontent.setAttribute('data-rotary_mode', rotaryMode);
     svgcontent.setAttribute('data-en_diode', isUsingDiode);
     svgcontent.setAttribute('data-en_af', isUsingAF);
-    const x = $('#workarea').scrollLeft() / current_zoom - Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-    const y = $('#workarea').scrollTop() / current_zoom - Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
-    svgcontent.setAttribute('data-zoom', (Math.round(current_zoom * 1000) / 1000));
-    svgcontent.setAttribute('data-left', Math.round(x));
-    svgcontent.setAttribute('data-top', Math.round(y));
+    const x = $('#workarea').scrollLeft() / current_zoom - Constant.dimension.getWidth(workarea);
+    const y = $('#workarea').scrollTop() / current_zoom - Constant.dimension.getHeight(workarea);
+    svgcontent.setAttribute('data-workarea', workarea);
+    svgcontent.setAttribute('data-zoom', (Math.round(current_zoom * 1000) / 1000).toString());
+    svgcontent.setAttribute('data-left', Math.round(x).toString());
+    svgcontent.setAttribute('data-top', Math.round(y).toString());
     var output = this.svgToString(svgcontent, 0, unit);
 
     // Rewrap gsvg

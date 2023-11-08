@@ -13,7 +13,8 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const changeWorkarea = (workarea: WorkAreaModel): void => {
+const changeWorkarea = (workarea: WorkAreaModel, opts: { toggleModule?: boolean } = {}): void => {
+  const { toggleModule = true } = opts;
   const documentEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
   beamboxPreferences.write('workarea', workarea);
   svgCanvas.setResolution(
@@ -22,7 +23,7 @@ const changeWorkarea = (workarea: WorkAreaModel): void => {
   );
   svgEditor.resetView();
   openBottomBoundaryDrawer.update();
-  toggleFullColorAfterWorkareaChange();
+  if (toggleModule) toggleFullColorAfterWorkareaChange();
   documentEventEmitter.emit('workarea-change');
   beamboxStore.emitUpdateWorkArea();
 };

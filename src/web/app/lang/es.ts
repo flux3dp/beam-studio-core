@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Tenga en cuenta que si completa esta operación, la configuración de color de la capa de impresión se eliminará y se establecerá de acuerdo con la capa actual.',
       convertFromLaserModuleTitle: '¿Desea convertir el módulo láser en un módulo de impresión?',
       convertFromLaserModuleMsg: 'Tenga en cuenta que si completa esta operación, la configuración de la capa láser se eliminará y se establecerá de acuerdo con la capa actual.',
+      importedDocumentContainsPrinting: 'El documento contiene capas de impresión. ¿Desea cambiar al área de trabajo a Ador?',
+      printingLayersCoverted: 'Las capas de impresión se han convertido en capas láser.',
     },
   },
 };

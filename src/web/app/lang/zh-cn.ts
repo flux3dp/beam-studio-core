@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: '请注意，如果您继续此操作，打印图层的颜色设置将会被删除，并根据当前图层参数而定。',
       convertFromLaserModuleTitle: '您是否要将激光图层转换为打印图层？',
       convertFromLaserModuleMsg: '请注意，如果您继续此操作，激光图层的设置将会被删除，并根据当前图层参数而定。',
+      importedDocumentContainsPrinting: '文档包含打印图层，您想将工作区更改为Ador吗？',
+      printingLayersCoverted: '打印图层已转换为激光图层。',
     },
   },
 };

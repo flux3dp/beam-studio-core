@@ -1536,6 +1536,8 @@ export interface ILang {
       convertFromPrintingModuleMsg: string;
       convertFromLaserModuleTitle: string;
       convertFromLaserModuleMsg: string;
+      importedDocumentContainsPrinting: string;
+      printingLayersCoverted: string;
     };
   },
 }

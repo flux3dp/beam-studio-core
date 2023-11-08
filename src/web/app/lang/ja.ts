@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'この操作を完了すると、印刷レイヤーの色設定が削除され、現在のレイヤに設定されます。',
       convertFromLaserModuleTitle: 'レーザーモジュールを印刷モジュールに変換しますか？',
       convertFromLaserModuleMsg: 'この操作を完了すると、レーザーレイヤの設定が削除され、現在のレイヤに設定されます。',
+      importedDocumentContainsPrinting: 'このドキュメントには印刷レイヤーが含まれています。Adorの作業領域に切り替えますか？',
+      printingLayersCoverted: '印刷レイヤーはレーザーレイヤーに変換されました。',
     },
   },
 };

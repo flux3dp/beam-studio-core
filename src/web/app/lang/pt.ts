@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Esteja ciente de que se você concluir esta operação, as configurações de cor da camada de impressão serão removidas e definidas de acordo com a camada atual.',
       convertFromLaserModuleTitle: 'Deseja converter o módulo a laser em um módulo de impressão?',
       convertFromLaserModuleMsg: 'Esteja ciente de que se você concluir esta operação, as configurações da camada de laser serão removidas e definidas de acordo com a camada atual.',
+      importedDocumentContainsPrinting: 'O documento contém camadas de impressão. Deseja alterar a área de trabalho para Ador?',
+      printingLayersCoverted: 'As camadas de impressão foram convertidas em camadas de laser.',
     },
   },
 };

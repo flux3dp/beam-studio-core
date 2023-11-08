@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: '이 작업을 완료하면 인쇄 레이어의 색상 설정이 제거되어 현재 레이어에 따라 설정됩니다.',
       convertFromLaserModuleTitle: '레이저 모듈을 인쇄 모듈로 변환하시겠습니까?',
       convertFromLaserModuleMsg: '이 작업을 완료하면 레이저 레이어의 설정이 제거되어 현재 레이어에 따라 설정됩니다.',
+      importedDocumentContainsPrinting: '이 문서에는 인쇄 레이어가 포함되어 있습니다. 작업 영역을 Ador로 변경하시겠습니까?',
+      printingLayersCoverted: '인쇄 레이어가 레이저 레이어로 변환되었습니다.',
     },
   },
 };

@@ -18,6 +18,7 @@ import viewMenu from 'helpers/menubar/view';
 import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 
 let svgCanvas;
 let svgEditor;
@@ -79,7 +80,7 @@ const loadExampleFile = async (path: string) => {
       const LANG = i18n.lang.beambox.right_panel.layer_panel;
       string = string.replace(/Engraving/g, LANG.layer_engraving).replace(/Cutting/g, LANG.layer_cutting);
     }
-    await svgEditor.importBvgStringAsync(string);
+    await importBvgString(string);
   };
 
   oReq.send();

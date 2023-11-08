@@ -67,11 +67,10 @@ import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
 import importBitmap from 'app/svgedit/operations/import/importBitmap';
+import importBvg from 'app/svgedit/operations/import/importBvg';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
-import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
-import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -140,10 +139,8 @@ interface ISVGEditor {
   triggerGridTool: () => void
   triggerOffsetTool: () => void
   loadFromStringAsync(arg0: any)
-  importBvgStringAsync: (str: any) => Promise<void>
   handleFile: (file: any) => Promise<void>
   loadFromString(arg0: any)
-  importBvg: (file: any) => Promise<void>
   importLaserConfig: (file: any) => Promise<void>
   openPrep(arg0: (ok: any) => void)
   resetView: () => void
@@ -226,10 +223,8 @@ const svgEditor = window['svgEditor'] = (function () {
     triggerGridTool: () => { },
     triggerOffsetTool: () => { },
     loadFromStringAsync: () => { },
-    importBvgStringAsync: async (str) => { },
     handleFile: async (file) => { },
     loadFromString: (arg0) => { },
-    importBvg: async (file) => { },
     importLaserConfig: async (file) => { },
     openPrep: () => { },
     resetView: () => { },
@@ -5047,120 +5042,6 @@ const svgEditor = window['svgEditor'] = (function () {
         Progress.popById('loading_image');
       };
 
-      const importBvgStringAsync = async (str) => {
-        svgCanvas.clearSelection();
-        await editor.loadFromStringAsync(str.replace(/STYLE>/g, 'style>').replace(/<STYLE/g, '<style'));
-        // loadFromString will lose data-xform and data-wireframe of `use` so set it back here
-        if (typeof (str) === 'string') {
-          let tmp = str.substr(str.indexOf('<use')).split('<use');
-
-          for (let i = 1; i < tmp.length; ++i) {
-            let elem, match, id, wireframe, xform;
-
-            tmp[i] = tmp[i].substring(0, tmp[i].indexOf('/>'))
-            match = tmp[i].match(/id="svg_\d+"/)[0];
-            id = match.substring(match.indexOf('"') + 1, match.lastIndexOf('"'));
-            match = tmp[i].match(/data-xform="[^"]*"/);
-            if (match) {
-              match = match[0];
-              xform = match.substring(match.indexOf('"') + 1, match.lastIndexOf('"'));
-            }
-            match = tmp[i].match(/data-wireframe="[a-z]*"/);
-            if (match) {
-              match = match[0];
-              wireframe = match.substring(match.indexOf('"') + 1, match.lastIndexOf('"'));
-            }
-
-            elem = document.getElementById(id);
-            elem.setAttribute('data-xform', xform);
-            elem.setAttribute('data-wireframe', wireframe === 'true');
-          }
-          let match = str.match(/data-rotary_mode="[a-zA-Z]+"/);
-          if (match) {
-            let rotaryMode = match[0].substring(18, match[0].length - 1);
-            if (rotaryMode === 'true') rotaryMode = '1';
-            const isRotaryModeOn = ['true', '1', '2'].includes(rotaryMode);
-            if (Constant.addonsSupportList.rotary.includes(BeamboxPreference.read('workarea'))) {
-              BeamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
-              svgCanvas.setRotaryMode(isRotaryModeOn);
-            } else {
-              BeamboxPreference.write('rotary_mode', 0);
-              svgCanvas.setRotaryMode(false);
-            }
-            svgCanvas.runExtensions('updateRotaryAxis');
-          }
-          match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
-          if (match) {
-            let engraveDpi = match[0].substring(18, match[0].length - 1);
-            BeamboxPreference.write('engrave_dpi', engraveDpi);
-          } else {
-            BeamboxPreference.write('engrave_dpi', 'medium');
-          }
-          if (Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))) {
-            match = str.match(/data-en_diode="([a-zA-Z]+)"/);
-            if (match && match[1]) {
-              if (match[1] === 'true') {
-                BeamboxPreference.write('enable-diode', true);
-              } else {
-                BeamboxPreference.write('enable-diode', false);
-              }
-            }
-          }
-          if (Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea'))) {
-            match = str.match(/data-en_af="([a-zA-Z]+)"/);
-            if (match && match[1]) {
-              if (match[1] === 'true') {
-                BeamboxPreference.write('enable-autofocus', true);
-              } else {
-                BeamboxPreference.write('enable-autofocus', false);
-              }
-            }
-          }
-          LayerPanelController.updateLayerPanel();
-          match = str.match(/data-zoom="[0-9\.]+"/);
-          if (match) {
-            let zoom = parseFloat(match[0].substring(11, match[0].length - 1));
-            zoomChanged(window, { zoomLevel: zoom, staticPoint: { x: 0, y: 0 } });
-          }
-          match = str.match(/data-left="[-0-9]+"/);
-          if (match) {
-            let left = parseInt(match[0].substring(11, match[0].length - 1));
-            left = Math.round((left + Constant.dimension.getWidth(BeamboxPreference.read('workarea'))) * svgCanvas.getZoom());
-            $('#workarea').scrollLeft(left);
-          }
-          match = str.match(/data-top="[-0-9]+"/);
-          if (match) {
-            let top = parseInt(match[0].substring(10, match[0].length - 1));
-            top = Math.round((top + Constant.dimension.getHeight(BeamboxPreference.read('workarea'))) * svgCanvas.getZoom());
-            $('#workarea').scrollTop(top);
-          }
-        }
-        beamboxStore.emitUpdateWorkArea();
-        if (!modelsWithModules.includes(BeamboxPreference.read('workarea'))) {
-          toggleFullColorAfterWorkareaChange();
-        }
-        svgedit.utilities.findDefs().remove();
-        svgedit.utilities.moveDefsOutfromSvgContent();
-        await SymbolMaker.reRenderAllImageSymbol();
-        LayerPanelController.setSelectedLayers([]);
-      }
-      editor.importBvgStringAsync = importBvgStringAsync;
-
-      const importBvg = async (file) => {
-        Progress.popById('loading_image');
-        const parsedSvg = await new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onloadend = (evt) => {
-            let str = evt.target.result;
-            importBvgStringAsync(str);
-          };
-          reader.readAsText(file);
-        });
-        svgCanvas.setHasUnsavedChange(false);
-      };
-
-      editor.importBvg = importBvg;
-
       const importJsScript = async (file) => {
         Progress.popById('loading_image');
         const reader = new FileReader();
@@ -5278,8 +5159,8 @@ const svgEditor = window['svgEditor'] = (function () {
         console.log("File type name:", fileType);
         switch (fileType) {
           case 'bvg':
-            importBvg(file);
-            break;
+            await importBvg(file);
+            Progress.popById('loading_image');
           case 'beam':
             BeamFileHelper.readBeam(file);
             break;
