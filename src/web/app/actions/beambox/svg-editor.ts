@@ -70,6 +70,7 @@ import importBitmap from 'app/svgedit/operations/import/importBitmap';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
+import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
