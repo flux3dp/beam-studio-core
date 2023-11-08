@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: 'Switchable versão não encontrada.',
       yes: 'Sim',
       no: 'Não foi possível identificar a versão de firmware',
+      update_for_ador: 'A versão atual do software %s está desatualizada, por favor, faça o download da versão mais recente do Beam Studio para Ador.',
     },
     updating: 'Atualizando...',
     skip: 'Ignorar essa versão',

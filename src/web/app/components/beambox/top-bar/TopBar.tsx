@@ -3,6 +3,7 @@ import React from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import checkSoftwareForAdor from 'helpers/check-software';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
@@ -88,7 +89,11 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
     const { selectedDevice, setSelectedDevice } = this.context;
     if (!selectedDevice && this.defaultDeviceSerial) {
       const defauldDevice = deviceList.find((device) => device.serial === this.defaultDeviceSerial);
-      setSelectedDevice(defauldDevice);
+      if (defauldDevice && !checkSoftwareForAdor(defauldDevice, false)) {
+        this.defaultDeviceSerial = null;
+      } else {
+        setSelectedDevice(defauldDevice);
+      }
     }
   };
 

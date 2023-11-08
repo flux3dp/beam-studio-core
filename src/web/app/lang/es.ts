@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: 'No se encontró la versión conmutable.',
       yes: 'Sí',
       no: 'No',
+      update_for_ador: 'La versión actual del software %s es antigua, por favor descargue la última versión de Beam Studio para Ador.',
     },
     updating: 'Actualizando...',
     skip: 'Saltar esta versión',

@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: '切り替えられるバージョンが見つかりません',
       yes: 'はい',
       no: 'いいえ',
+      update_for_ador: '現在のソフトウェアバージョン %s は古いです。Ador用のBeam Studioの最新バージョンをダウンロードしてください。',
     },
     updating: 'アップデート中…',
     skip: 'このバージョンをスキップ',

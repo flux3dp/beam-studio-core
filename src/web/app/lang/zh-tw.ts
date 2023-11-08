@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: '無法找到可切換的版本',
       yes: '是',
       no: '否',
+      update_for_ador: '目前軟體版本 %s 較舊，請下載最新版 Beam Studio for Ador 。',
     },
     updating: '更新中...',
     skip: '跳過此版本',

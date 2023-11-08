@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: 'Wechselbare Version nicht gefunden.',
       yes: 'Ja',
       no: 'Nein',
+      update_for_ador: 'Die aktuelle Softwareversion %s ist veraltet, bitte laden Sie die neueste Version von Beam Studio für Ador herunter.',
     },
     updating: 'Aktualisierung...',
     skip: 'Überspringe diese Version',
