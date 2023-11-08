@@ -43,14 +43,32 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
 }));
 
 describe('test changeWorkarea', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should work correctly', () => {
     changeWorkarea('fbm1');
-    expect(mockWrite).toBeCalledWith('workarea', 'fbm1');
-    expect(mockSetResolution).toBeCalledWith(3000, 2100);
-    expect(mockResetView).toBeCalled();
-    expect(mockUpdate).toBeCalled();
-    expect(mockToggleFullColorAfterWorkareaChange).toBeCalled();
-    expect(mockEmit).toBeCalled();
-    expect(mockEmitUpdateWorkArea).toBeCalled();
+    expect(mockWrite).toBeCalledTimes(1);
+    expect(mockWrite).toHaveBeenLastCalledWith('workarea', 'fbm1');
+    expect(mockSetResolution).toBeCalledTimes(1);
+    expect(mockSetResolution).toHaveBeenLastCalledWith(3000, 2100);
+    expect(mockResetView).toBeCalledTimes(1);
+    expect(mockUpdate).toBeCalledTimes(1);
+    expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmitUpdateWorkArea).toBeCalledTimes(1);
+  });
+
+  it('should work correctly with toggleModule = false', () => {
+    changeWorkarea('fbm1', { toggleModule: false });
+    expect(mockWrite).toBeCalledTimes(1);
+    expect(mockWrite).toHaveBeenLastCalledWith('workarea', 'fbm1');
+    expect(mockSetResolution).toHaveBeenLastCalledWith(3000, 2100);
+    expect(mockResetView).toBeCalledTimes(1);
+    expect(mockUpdate).toBeCalledTimes(1);
+    expect(mockToggleFullColorAfterWorkareaChange).not.toBeCalled();
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmitUpdateWorkArea).toBeCalledTimes(1);
   });
 });
