@@ -126,10 +126,9 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
       (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
     );
   }
-  if (targetDataType === DataType.fullColor) return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
-  return Number(
-    layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]
-  ) as T;
+  if (targetDataType === DataType.fullColor)
+    return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
+  return Number(layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]) as T;
 };
 
 export const writeDataLayer = (
@@ -199,7 +198,7 @@ export const initLayerConfig = (layerName: string): void => {
   const layer = getLayerElementByName(layerName);
   for (let i = 0; i < dataTypes.length; i += 1) {
     if (defaultConfig[dataTypes[i]] !== undefined)
-    writeDataLayer(layer, dataTypes[i], defaultConfig[dataTypes[i]]);
+      writeDataLayer(layer, dataTypes[i], defaultConfig[dataTypes[i]]);
   }
 };
 
@@ -211,7 +210,8 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     const dataTypes = Object.values(DataType);
     for (let i = 0; i < dataTypes.length; i += 1) {
       if (dataTypes[i] === DataType.fullColor) {
-        if (getData(baseLayer, DataType.fullColor))  writeData(targetLayerName, DataType.fullColor, '1');
+        if (getData(baseLayer, DataType.fullColor))
+          writeData(targetLayerName, DataType.fullColor, '1');
       } else writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
     }
   }
