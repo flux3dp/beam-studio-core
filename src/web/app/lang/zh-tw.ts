@@ -1450,7 +1450,7 @@ const lang: ILang = {
     failed_to_calibrate_camera: '#848 校正相機失敗，請聯絡 FLUX 客服。',
     failed_to_save_calibration_results: '#849 儲存校正結果失敗，請再試一次。若此錯誤持續發生，請聯絡 FLUX 客服。',
     ador_autofocus_material: '在機器的主頁上長按「AF」圖示 3 秒鐘，並讓探針輕輕觸碰材料。',
-    ador_autofocus_focusing_block: '在機器面板上長壓「AF」圖示 3 秒鐘，讓探針觸碰對焦區塊。',
+    ador_autofocus_focusing_block: '在機器面板上長壓「AF」圖示 3 秒鐘，讓探針觸碰對焦塊。',
     align_red_cross_cut: '請將紅色十字的中心對齊切割出來的十字中心。',
     align_red_cross_print: '請將紅色十字的中心對齊列印出來的十字中心。',
     retake: '重拍照片',

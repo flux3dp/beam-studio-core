@@ -207,7 +207,10 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
           }
         />
       );
-    case Step.FOCUS_AND_CUT:
+    case Step.FOCUS_AND_CUT: {
+      let videoName = 'ador-focus-laser';
+      if (type === CalibrationType.PRINTER_HEAD) videoName = 'ador-focus-printer';
+      else if (type === CalibrationType.IR_LASER) videoName = 'ador-focus-ir';
       return (
         <Instruction
           onClose={() => onClose(false)}
@@ -241,19 +244,13 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
               type: 'primary',
             },
           ]}
-          animationSrcs={
-            type === CalibrationType.PRINTER_HEAD
-              ? [
-                  { src: 'video/ador-focus-printer.webm', type: 'video/webm' },
-                  { src: 'video/ador-focus-printer.mp4', type: 'video/mp4' },
-                ]
-              : [
-                  { src: 'video/ador-focus-laser.webm', type: 'video/webm' },
-                  { src: 'video/ador-focus-laser.mp4', type: 'video/mp4' },
-                ]
-          }
+          animationSrcs={[
+            { src: `video/${videoName}.webm`, type: 'video/webm' },
+            { src: `video/${videoName}.mp4`, type: 'video/mp4' },
+          ]}
         />
       );
+    }
     default:
       return null;
   }
