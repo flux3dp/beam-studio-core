@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: '請注意，如果您繼續此操作，列印圖層的顏色設定將會被刪除，並根據當前圖層參數而定。',
       convertFromLaserModuleTitle: '您是否要將雷射圖層轉換為列印圖層？',
       convertFromLaserModuleMsg: '請注意，如果您繼續此操作，雷射圖層的設定將會被刪除，並根據當前圖層參數而定。',
+      importedDocumentContainsPrinting: '這份文件包含列印圖層，您是否要將工作範圍切換成 Ador ？',
+      printingLayersCoverted: '列印圖層已轉換為雷射圖層。',
     },
   },
 };

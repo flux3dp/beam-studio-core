@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Please be aware that if you complete this operation, the color settings of the printing layer will be removed and set according to the current layer.',
       convertFromLaserModuleTitle: 'Do you want to convert the Laser module into Printing module?',
       convertFromLaserModuleMsg: 'Please be aware that if you complete this operation, the settings of the laser layer will be removed and set according to the current layer.',
+      importedDocumentContainsPrinting: 'The document contains printing layer, would you like to change workarea to Ador?',
+      printingLayersCoverted: 'The printing layers have been converted into laser layers.',
     },
   },
 };

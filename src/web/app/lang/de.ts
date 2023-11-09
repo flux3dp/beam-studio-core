@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Bitte beachten Sie, dass bei Abschluss dieser Operation die Farbeinstellungen der Druckebene entfernt und entsprechend der aktuellen Ebene festgelegt werden.',
       convertFromLaserModuleTitle: 'Möchten Sie das Lasermodul in ein Druckmodul umwandeln?',
       convertFromLaserModuleMsg: 'Bitte beachten Sie, dass bei Abschluss dieser Operation die Einstellungen der Laser-Ebene entfernt und entsprechend der aktuellen Ebene festgelegt werden.',
+      importedDocumentContainsPrinting: 'Das Dokument enthält Druckebenen. Möchten Sie den Arbeitsbereich auf Ador ändern?',
+      printingLayersCoverted: 'Die Druckschichten wurden in Laserschichten umgewandelt.',
     },
   },
 };

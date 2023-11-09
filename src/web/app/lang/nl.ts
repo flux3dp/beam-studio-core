@@ -1539,6 +1539,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Wees u ervan bewust dat als u deze operatie voltooit, de kleurinstellingen van de afdrukmethode worden verwijderd en worden ingesteld volgens de huidige laag.',
       convertFromLaserModuleTitle: 'Wilt u het Lasermodule omzetten in een Afdrukmodule?',
       convertFromLaserModuleMsg: 'Wees u ervan bewust dat als u deze operatie voltooit, de instellingen van de laserlaag worden verwijderd en worden ingesteld volgens de huidige laag.',
+      importedDocumentContainsPrinting: 'Het document bevat afdruklagen. Wilt u de werkruimte wijzigen naar Ador?',
+      printingLayersCoverted: 'De afdruklagen zijn omgezet in laserkwaliteiten.',
     },
   },
 };
