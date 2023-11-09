@@ -196,9 +196,10 @@ const getMultiSelectData = <T = number>(
 
 export const initLayerConfig = (layerName: string): void => {
   const dataTypes = Object.values(DataType);
+  const layer = getLayerElementByName(layerName);
   for (let i = 0; i < dataTypes.length; i += 1) {
     if (defaultConfig[dataTypes[i]] !== undefined)
-      writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
+    writeDataLayer(layer, dataTypes[i], defaultConfig[dataTypes[i]]);
   }
 };
 
