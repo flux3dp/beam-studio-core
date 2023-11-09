@@ -333,7 +333,7 @@ const lang: ILang = {
       tutorial2: '\'다음\'을 클릭하세요.',
       turn_off_machine: '기계를 끄십시오.',
       turn_on_machine: '기계의 전원을 켜십시오.',
-      wait_for_turning_on: '부팅 프로세스가 완료되면 \'다음\'을 클릭하십시오.',
+      wait_for_turning_on: '시작 프로세스가 완료되고 주 화면에 접속한 후 \'다음\'을 클릭하세요.',
     },
     connect_machine_ip: {
       check_usb: 'USB 연결 확인',

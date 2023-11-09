@@ -333,7 +333,7 @@ const lang: ILang = {
       tutorial2: 'Klik op \'Volgende\'.',
       turn_off_machine: 'Zet de machine uit.',
       turn_on_machine: 'Zet de machine aan.',
-      wait_for_turning_on: 'Klik op \'Volgende\' nadat het opstartproces is voltooid.',
+      wait_for_turning_on: 'Klik op \'Volgende\' nadat het opstartproces is voltooid en u het hoofdscherm hebt betreden.',
     },
     connect_machine_ip: {
       check_usb: 'Controleer USB-verbinding',

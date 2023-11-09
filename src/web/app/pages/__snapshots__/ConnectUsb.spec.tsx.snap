@@ -83,7 +83,7 @@ exports[`test ConnectUsb should render correctly 1`] = `
           </div>
           <div>
             2. 
-            Click Next.
+            Connect the machine with your computer with USB cable.
           </div>
           <div>
             3. 

@@ -333,7 +333,7 @@ const lang: ILang = {
       tutorial2: '点击 \'下一步\'。',
       turn_off_machine: '关闭机器',
       turn_on_machine: '打开机器',
-      wait_for_turning_on: '在启动过程完成后，点击 \'下一步\'',
+      wait_for_turning_on: '启动过程完成并进入主屏幕后，点击 \'下一步\'。',
     },
     connect_machine_ip: {
       check_usb: '确认 USB 连线',

@@ -333,7 +333,7 @@ const lang: ILang = {
       tutorial2: 'Klicken Sie auf \'Nächster\'.',
       turn_off_machine: 'Schalten Sie Ihre Maschine aus.',
       turn_on_machine: 'Schalten Sie die Maschine ein.',
-      wait_for_turning_on: 'Klicken Sie \'Nächster\', nachdem der Startvorgang abgeschlossen ist.',
+      wait_for_turning_on: 'Klicken Sie auf \'Nächster\', nachdem der Startvorgang abgeschlossen ist und Sie den Hauptbildschirm betreten haben.',
     },
     connect_machine_ip: {
       check_usb: 'Überprüfen Sie die USB-Verbindung',

@@ -48,7 +48,7 @@ const ConnectUsb = (): JSX.Element => {
           <div className={classNames(styles.contents, styles.tutorial)}>
             <div className={styles.subtitle}>Ador</div>
             <div>1. {lang.connect_usb.turn_off_machine}</div>
-            <div>2. {lang.connect_usb.tutorial2}</div>
+            <div>2. {lang.connect_usb.tutorial1}</div>
             <div>3. {lang.connect_usb.turn_on_machine}</div>
             <div>4. {lang.connect_usb.wait_for_turning_on}</div>
           </div>
