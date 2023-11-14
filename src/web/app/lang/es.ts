@@ -301,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Conectando a Wi-Fi',
       tutorial1: '1. Ves al panel táctil > Haz clic en "Red" > "Conectarse a WiFi".',
+      tutorial1_ador: '1. Ve a Panel táctil > Haz clic en "MÁQUINA" > Haz clic en "Red" > "Conectar a Wi-Fi".',
       tutorial2: '2. Selecciona y conecta tu WiFi preferido.',
       what_if_1: '¿Qué pasa si no veo mi Wi-Fi?',
       what_if_1_content: '1. El modo de cifrado de la Wi-Fi debe ser WPA2 o sin contraseña.\n2. El modo de cifrado se puede establecer en la interfaz de administración del router Wi-Fi. Si el router no es compatible con WPA2 enrutador y necesitas ayuda para elegir el router adecuado, ponte en contacto con el servicio de asistencia técnica de FLUX.',
@@ -311,6 +312,7 @@ const lang: ILang = {
       title: 'Conexión a la red cableada',
       tutorial1: '1. Conecta la máquina con tu router.',
       tutorial2: '2. Presiona "Red" para obtener la IP de la red.',
+      tutorial2_ador: '2. Presiona "MÁQUINA" > "Red" para obtener la IP de la red.',
       what_if_1: '¿Qué pasa si la IP está vacía?',
       what_if_1_content: '1. Asegúrate de que el cable Ethernet esté completamente enchufado.\n2. Si no hay una dirección MAC de la red alámbrica en la pantalla táctil, por favor contacta con el soporte de FLUX.',
       what_if_2: '¿Qué pasa si la IP comienza con 169?',

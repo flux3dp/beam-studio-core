@@ -301,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: '连接 Wi-Fi',
       tutorial1: '1. 到机器控制面板 > 点击 「网路」 > 「设定 Wi-Fi」。',
+      tutorial1_ador: '1. 到机器控制面板 > 点击 「机器」> 点击 「网路」 > 「设定 Wi-Fi」。',
       tutorial2: '2. 选择并连接您想使用的 Wi-Fi 。',
       what_if_1: '机器找不到我想使用的 Wi-Fi',
       what_if_1_content: '1. Wi-Fi 加密方式需为 WPA2 或无密码。 \n2. 加密方式可由 Wi-Fi 路由器设定，如果路由器不支援 WPA2，可联系客服购买，如果不确定路由器是否支援，可以将型号传给客服询问。',
@@ -311,6 +312,7 @@ const lang: ILang = {
       title: '连接有线网路',
       tutorial1: '1. 请将您的机器以乙太网路线与路由器连接。',
       tutorial2: '2. 在触控面板点击「网路」以获得有线网路 IP 。',
+      tutorial2_ador: '在触控面板点击「机器」>「网路」以获得有线网路 IP 。',
       what_if_1: '机器显示的有线网路 IP 是空的',
       what_if_1_content: '1. 确认您的乙太网路线是否有着实插上。 \n2. 如果面板上没有出现有线网路硬体位置，请联系客服。',
       what_if_2: '机器显示的 IP 开头为 169',

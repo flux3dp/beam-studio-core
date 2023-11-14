@@ -49,7 +49,7 @@ const ConnectWiFi = (): JSX.Element => {
         <div className={styles.text}>
           <div className={styles.title}>{lang.connect_wifi.title}</div>
           <div className={classNames(styles.contents, styles.tutorial)}>
-            <div>{lang.connect_wifi.tutorial1}</div>
+            <div>{isAdor ? lang.connect_wifi.tutorial1_ador : lang.connect_wifi.tutorial1}</div>
             <div>{lang.connect_wifi.tutorial2}</div>
           </div>
           <Collapse

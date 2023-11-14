@@ -50,7 +50,7 @@ const ConnectWired = (): JSX.Element => {
           <div className={styles.title}>{lang.connect_wired.title}</div>
           <div className={classNames(styles.contents, styles.tutorial)}>
             <div>{lang.connect_wired.tutorial1}</div>
-            <div>{lang.connect_wired.tutorial2}</div>
+            <div>{isAdor ? lang.connect_wired.tutorial2_ador : lang.connect_wired.tutorial2}</div>
           </div>
           <Collapse
             accordion

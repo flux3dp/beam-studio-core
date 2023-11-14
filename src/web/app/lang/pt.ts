@@ -300,7 +300,8 @@ const lang: ILang = {
     },
     connect_wifi: {
       title: 'Conectando ao Wi-Fi',
-      tutorial1: '1. Vá ao painel  Touch > Clique em Rede> Connectar pelo Wi-Fi.',
+      tutorial1: '1. Vá ao painel  Touch > Clique em Rede > Connectar pelo Wi-Fi.',
+      tutorial1_ador: '1. Vá ao painel  Touch > Clique em "MÁQUINA" > Clique em "Rede" > "Conecte-se à rede".',
       tutorial2: '2. Selecione e conecte-se pela sua rede preferida Wi-Fi.',
       what_if_1: 'E se eu não achar a minha rede Wi-Fi?',
       what_if_1_content: '1. O modo de encriptação do  Wi-Fi deve ser  WPA2 ou sem senha\n2. O modo de criptografia pode ser definido na interface de administração do roteador Wi-Fi. Se o roteador não for compatível com WPA2 e você precisar de ajuda para escolher o roteador certo, entre em contato.',
@@ -310,7 +311,8 @@ const lang: ILang = {
     connect_wired: {
       title: 'Conectando em uma rede com fios',
       tutorial1: '1. Conecte sua maquina diretamente ao seu roteador.',
-      tutorial2: '2. Pressione  Rede para encontrar o endereço IP.',
+      tutorial2: '2. Pressione Rede para encontrar o endereço IP.',
+      tutorial2_ador: '2. Pressione "MÁQUINA" > "Rede" para encontrar o endereço IP.',
       what_if_1: 'E seu o IP estiver em branco?',
       what_if_1_content: '1. Tenha certeza que o cabo de rede esta totalmente plugado.\n2. Se não houver endereço MAC da rede com fio na tela Touch da maquina, entre em contato com o suporte da FLUX.',
       what_if_2: 'E se o IP começar com 169?',

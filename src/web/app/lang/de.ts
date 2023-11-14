@@ -301,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Verbindung zu Wi-Fi',
       tutorial1: '1. Gehen Sie zu Touch Panel > Klicken Sie auf "Netzwerk" > "Stellen Sie eine Verbindung zu WiFi her".',
+      tutorial1_ador: '1. Gehe zu Touch Panel > Klicke auf "MASCHINE" > Klicke auf "Netzwerk" > "Mit Wi-Fi verbinden".',
       tutorial2: '2. Wählen Sie Ihr bevorzugtes WLAN aus und verbinden Sie es.',
       what_if_1: 'Was ist, wenn ich mein WLAN nicht sehe?',
       what_if_1_content: '1. Der Wi-Fi-Verschlüsselungsmodus sollte WPA2 oder kein Kennwort sein.\n 2. Der Verschlüsselungsmodus kann in der Administrationsoberfläche des WLAN-Routers eingestellt werden. Wenn der Router WPA2 nicht unterstützt und Sie Hilfe bei der Auswahl des richtigen Routers benötigen, wenden Sie sich an den FLUX-Support.',
@@ -311,6 +312,7 @@ const lang: ILang = {
       title: 'Verbindung zum kabelgebundenen Netzwerk herstellen',
       tutorial1: '1. Verbinden Sie das Gerät mit Ihrem Router.',
       tutorial2: '2. Drücken Sie "Netzwerk", um die IP des kabelgebundenen Netzwerks abzurufen.',
+      tutorial2_ador: '2. Drücken Sie "MASCHINE" > "Netzwerk", um die IP des kabelgebundenen Netzwerks abzurufen.',
       what_if_1: 'Was ist, wenn die IP leer ist?',
       what_if_1_content: '1. Stellen Sie sicher, dass das Ethernet-Kabel vollständig eingesteckt ist.\n2. Wenn auf dem Touchscreen keine MAC-Adresse des kabelgebundenen Netzwerks vorhanden ist, wenden Sie sich an den FLUX-Support.',
       what_if_2: 'Was ist, wenn die IP mit 169 beginnt??',

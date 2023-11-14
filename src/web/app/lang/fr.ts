@@ -301,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Connexion au Wi-Fi',
       tutorial1: '1. Allez dans l\'Écran tactile > Cliquez sur "Réseau" > "Connexion au WiFi".',
+      tutorial1_ador: '1. Allez sur le panneau tactile > Cliquez sur "MACHINE" > Cliquez sur "Réseau" > "Connectez-vous au Wi-Fi".',
       tutorial2: '2. Sélectionnez et connectez votre Wi-Fi préféré.',
       what_if_1: 'Que faire si je ne vois pas mon Wi-Fi ?',
       what_if_1_content: '1. Le mode de cryptage Wi-Fi doit être WPA2 ou sans mot de passe.\n2. Le mode de cryptage peut être défini dans l\'interface d\'administration du routeur Wi-Fi. Si le routeur ne supporte pas WPA2 et que vous avez besoin d\'aide pour choisir le bon routeur, veuillez contacter le support FLUX.',
@@ -311,6 +312,7 @@ const lang: ILang = {
       title: 'Connexion à un réseau câblé',
       tutorial1: '1. Connectez l\'appareil à votre routeur.',
       tutorial2: '2. Appuyez sur "Réseau" pour obtenir l\'IP du réseau câblé.',
+      tutorial2_ador: '2. Appuyez sur "MACHINE" > "Réseau" pour obtenir l\'IP du réseau câblé.',
       what_if_1: 'Que faire si l\'IP est vide ?',
       what_if_1_content: '1. Le mode de cryptage Wi-Fi doit être WPA2 ou sans mot de passe.\n2. S\'il n\'y a pas d\'adresse MAC du réseau câblé sur l\'écran tactile, veuillez contacter le support FLUX.',
       what_if_2: 'Et si l\'IP commence par 169 ?',
