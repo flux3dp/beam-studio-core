@@ -27,12 +27,9 @@ jest.mock('helpers/useI18n', () => () => ({
 const mockWindowLocationReload = jest.fn();
 jest.mock('app/actions/windowLocation', () => () => mockWindowLocationReload());
 
-const mockBack = jest.fn();
-
 describe('test SelectConnectionType', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    window.history.back = mockBack;
     window.location.hash = '?model=ado1'
   });
 
@@ -53,6 +50,6 @@ describe('test SelectConnectionType', () => {
     expect(window.location.hash).toBe('#initialize/connect/connect-usb?model=ado1');
 
     fireEvent.click(getByText('back'));
-    expect(mockBack).toHaveBeenCalledTimes(1);
+    expect(window.location.hash).toBe('#initialize/connect/select-machine-model');
   });
 });
