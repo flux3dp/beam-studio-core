@@ -95,7 +95,7 @@ const handleOAuthLoginSuccess = (data) => {
   updateUser(data, true);
   fluxIDEvents.emit('oauth-logged-in');
   if (window.location.hash === '#/initialize/connect/flux-id-login') {
-    window.location.hash = '#initialize/connect/select-connection-type';
+    window.location.hash = '#initialize/connect/select-machine-model';
   } else {
     alert.popUp({ message: i18n.lang.flux_id_login.login_success });
   }
