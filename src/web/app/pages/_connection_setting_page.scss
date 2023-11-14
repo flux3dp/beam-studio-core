@@ -159,6 +159,32 @@
         }
       }
     }
+
+    &.ador {
+      .image {
+        width: calc(100vw - 450px);
+
+        img {
+          width: calc(100vw - 450px);
+          border-radius: 4px;
+        }
+
+        @media screen and (max-width: 600px) {
+          width: 100%;
+          height: unset;
+
+          img {
+            width: 100%;
+            height: unset;
+          }
+        }
+      }
+
+      .text {
+        width: 350px;
+        margin-left: 60px;
+      }
+    }
   }
 
   > .btns {
@@ -250,5 +276,32 @@
         }
       }
     }
+  }
+}
+
+@mixin ador-network-hint {
+  $image-width: calc(100vw - 450px);
+  width: calc(0.25 * $image-width);
+  height: calc(0.25 * $image-width);
+  margin: calc(0.34 * $image-width) 0 0 calc(-0.03 * $image-width);
+  border-radius: 100%;
+
+  @media screen and (max-width: 600px) {
+    $image-width: calc(100vw - 60px);
+    width: calc(0.15 * $image-width);
+    height: calc(0.15 * $image-width);
+    margin: calc(0.39 * $image-width) 0 0 calc(-0.81 * $image-width);
+  }
+}
+
+@mixin ador-ip-hint {
+  $image-width: calc(100vw - 450px);
+  width: calc(0.40 * $image-width);
+  height: calc(0.05 * $image-width);
+  margin: calc(0.11 * $image-width) 0 0 calc(0.15 * $image-width);
+  border-radius: calc(0.05 * $image-width);
+
+  &.wired {
+    margin: calc(0.11 * $image-width) 0 0 calc(0.55 * $image-width);
   }
 }

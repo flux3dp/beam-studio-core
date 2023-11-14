@@ -97,7 +97,7 @@ export default {
   },
   ADD_NEW_MACHINE: async () => {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
-    if (res) window.location.hash = '#initialize/connect/select-connection-type';
+    if (res) window.location.hash = '#initialize/connect/select-machine-model';
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
   IMPORT_EXAMPLE: () => loadExampleFile(getExampleFileName('example')),
@@ -119,8 +119,9 @@ export default {
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
   EXPORT_JPG: () => FileExportHelper.exportAsImage('jpg'),
   EXPORT_FLUX_TASK: (): void => {
-    if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
-    else ExportFuncs.exportFcode();
+    ExportFuncs.exportFcode();
+    // if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
+    // else ExportFuncs.exportFcode();
   },
   UNDO: () => svgEditor.clickUndo(),
   REDO: () => svgEditor.clickRedo(),

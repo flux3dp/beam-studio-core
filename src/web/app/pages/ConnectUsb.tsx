@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import useI18n from 'helpers/useI18n';
 
@@ -8,24 +8,28 @@ import styles from './ConnectUsb.module.scss';
 const ConnectUsb = (): JSX.Element => {
   const lang = useI18n().initialize;
 
+  const { model } = useMemo(() => {
+    const queryString = window.location.hash.split('?')[1] || '';
+    const urlParams = new URLSearchParams(queryString);
+    return {
+      model: urlParams.get('model'),
+    };
+  }, []);
+
+  const handleNext = () => {
+    const urlParams = new URLSearchParams({ model, usb: '1' });
+    const queryString = urlParams.toString();
+    window.location.hash = `#initialize/connect/connect-machine-ip?${queryString}`;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles['top-bar']} />
       <div className={styles.btns}>
-        <div
-          className={styles.btn}
-          onClick={() => {
-            window.location.hash = '#initialize/connect/select-connection-type';
-          }}
-        >
+        <div className={styles.btn} onClick={() => window.history.back()}>
           {lang.back}
         </div>
-        <div
-          className={classNames(styles.btn, styles.primary)}
-          onClick={() => {
-            window.location.hash = '#initialize/connect/connect-machine-ip?usb=1';
-          }}
-        >
+        <div className={classNames(styles.btn, styles.primary)} onClick={handleNext}>
           {lang.next}
         </div>
       </div>
