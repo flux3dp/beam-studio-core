@@ -1032,10 +1032,16 @@ class DeviceMaster {
     const { timeout = 30 } = opts;
     const startTime = Date.now();
     const cameraFishEyeSetting = this.currentDevice.camera?.getFisheyeSetting();
+    let lastErr = null;
     while (Date.now() - startTime < (timeout * 1000)) {
-      // eslint-disable-next-line no-await-in-loop
-      const res = await this.currentDevice.camera.oneShot();
-      if (res) return res;
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const res = await this.currentDevice.camera.oneShot();
+        if (res) return res;
+      } catch (err) {
+        console.log('Error when getting camera image', err);
+        lastErr = err;
+      }
       this.disconnectCamera();
       // eslint-disable-next-line no-await-in-loop
       await this.connectCamera();
@@ -1044,6 +1050,7 @@ class DeviceMaster {
         await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
       }
     }
+    if (lastErr) throw lastErr;
     return null;
   }
 

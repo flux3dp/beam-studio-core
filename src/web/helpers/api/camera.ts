@@ -204,17 +204,12 @@ class Camera {
       throw new Error(LANG.message.camera.ws_closed_unexpectly);
     }
     this.ws.send('require_frame');
-    try {
-      const data = await lastValueFrom(
-        this.source
-          .pipe(take(1))
-          .pipe(timeout(TIMEOUT))
-      );
-      return data;
-    } catch (e) {
-      console.log(e);
-      throw new Error(`${LANG.message.camera.ws_closed_unexpectly} ${e.message}`);
-    }
+    const data = await lastValueFrom(
+      this.source
+        .pipe(take(1))
+        .pipe(timeout(TIMEOUT))
+    );
+    return data;
   }
 
   getLiveStreamSource() {
