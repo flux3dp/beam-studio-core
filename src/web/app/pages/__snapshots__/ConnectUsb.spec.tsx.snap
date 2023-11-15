@@ -46,11 +46,6 @@ exports[`test ConnectUsb should render correctly 1`] = `
           class="title"
         >
           USB Connection
-          <span
-            class="sub"
-          >
-             (HEXA & Ador Only)
-          </span>
         </div>
         <div
           class="contents tutorial"

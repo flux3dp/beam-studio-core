@@ -40,10 +40,7 @@ const ConnectUsb = (): JSX.Element => {
           <div className={classNames(styles.circle, styles.c2)} />
         </div>
         <div className={styles.text}>
-          <div className={styles.title}>
-            {lang.connect_usb.title}
-            <span className={styles.sub}>{lang.connect_usb.title_sub}</span>
-          </div>
+          <div className={styles.title}>{lang.connect_usb.title}</div>
           <div className={classNames(styles.contents, styles.tutorial)}>
             <div className={styles.subtitle}>HEXA</div>
             <div>1. {lang.connect_usb.tutorial1}</div>
