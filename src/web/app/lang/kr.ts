@@ -301,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Wi-Fi 연결 중',
       tutorial1: '1. 터치 패널로 이동 > "네트워크" 클릭 > "Wi-Fi 연결".',
+      tutorial1_ador: '1. 터치 패널로 이동 > "기계"를 클릭 > "네트워크"를 클릭 > "Wi-Fi 접속"을 클릭합니다.',
       tutorial2: '2. 선호하는 Wi-Fi 선택 및 연결.',
       what_if_1: 'Wi-Fi를 찾지 못하면 어떻게 하나요?',
       what_if_1_content: '1. Wi-Fi 암호화 모드는 WPA2 또는 비밀번호가 없어야 합니다. 2. 암호화 모드는 Wi-Fi 라우터 관리 인터페이스에서 설정할 수 있습니다. 라우터가 WPA2를 지원하지 않고 적합한 라우터를 선택하는 데 도움이 필요하면 FLUX 지원팀에 문의하십시오.',
@@ -311,6 +312,7 @@ const lang: ILang = {
       title: '유선 네트워크 연결 중',
       tutorial1: '1. 기계를 라우터와 연결합니다.',
       tutorial2: '2. 네트워크를 눌러 유선 네트워크 IP를 확인하세요.',
+      tutorial2_ador: '2. "기계" > "네트워크"를 눌러 유선 네트워크 IP를 확인하세요.',
       what_if_1: '만약 IP가 비어있다면?',
       what_if_1_content: '1. 이더넷 케이블이 완전히 꽂혀 있는지 확인하세요. 2. 만약 터치스크린에 유선 네트워크의 MAC 주소가 없다면, FLUX 지원팀에 문의하세요.',
       what_if_2: '만약 IP가 169로 시작한다면?',

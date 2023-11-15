@@ -38,5 +38,13 @@
         }
       }
     }
+
+    &.ador {
+      .image {
+        .hint {
+          @include connectionSettingPage.ador-network-hint;
+        }
+      }
+    }
   }
 }

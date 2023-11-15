@@ -7,11 +7,9 @@ import ExportFuncs from 'app/actions/beambox/export-funcs';
 import DeviceMaster from 'helpers/device-master';
 import Discover from 'helpers/api/discover';
 import svgLaserParser from 'helpers/api/svg-laser-parser';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 
-let svgEditor;
-getSVGAsync((globalSVG) => { svgEditor = globalSVG.Editor; });
 
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
 const MACHINE_STATUS = {
@@ -120,7 +118,7 @@ export default window['EasyManipulator'] = class EasyManipulator extends EventEm
         <rect fill="black" vector-effect="non-scaling-stroke" fill-opacity="0" id="svg_1" stroke="#333333" height="913.57312" width="713.4571" y="196.98372" x="201.85626"/>
       </g>
     </svg>`; */
-    await svgEditor.importBvgStringAsync(this.bvg);
+    await importBvgString(this.bvg);
     const { uploadFile } = await ExportFuncs.prepareFileWrappedFromSvgStringAndThumbnail();
     const r = await svgeditorParser.uploadToSvgeditorAPI([uploadFile], {
       model: this.device ? this.device.model : BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),

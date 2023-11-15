@@ -298,6 +298,7 @@ export interface ILang {
     connect_wifi: {
       title: string,
       tutorial1: string,
+      tutorial1_ador: string;
       tutorial2: string,
       what_if_1: string,
       what_if_1_content: string,
@@ -308,6 +309,7 @@ export interface ILang {
       title: string,
       tutorial1: string,
       tutorial2: string,
+      tutorial2_ador: string;
       what_if_1: string,
       what_if_1_content: string,
       what_if_2: string,

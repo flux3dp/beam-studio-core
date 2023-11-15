@@ -49,19 +49,25 @@ const ConnectMachineIp = (): JSX.Element => {
     };
   }, []);
 
-  const discoverer = useMemo(() => Discover('connect-machine-ip', (devices) => {
-    discoveredDevicesRef.current = devices;
-  }), []);
+  const discoverer = useMemo(
+    () =>
+      Discover('connect-machine-ip', (devices) => {
+        discoveredDevicesRef.current = devices;
+      }),
+    []
+  );
   useEffect(() => () => discoverer.removeListener('connect-machine-ip'), [discoverer]);
 
-  const { isWired, isUsb } = useMemo(() => {
+  const { isWired, isUsb, model } = useMemo(() => {
     const queryString = window.location.hash.split('?')[1] || '';
     const urlParams = new URLSearchParams(queryString);
     return {
       isWired: urlParams.get('wired') === '1',
       isUsb: urlParams.get('usb') === '1',
+      model: urlParams.get('model'),
     };
   }, []);
+  const isAdor = useMemo(() => constant.adorModels.includes(model), [model]);
   const testingIps = isUsb ? ['10.55.0.1', '10.55.0.17'] : [ipValue];
 
   const testIpFormat = () => {
@@ -72,12 +78,12 @@ const ConnectMachineIp = (): JSX.Element => {
 
   const testIpReachability = async () => {
     setState((prev) => ({ ...prev, testState: TestState.IP_TESTING }));
-    let hasError = false
+    let hasError = false;
     for (let i = 0; i < testingIps.length; i += 1) {
       const ip = testingIps[i];
       // eslint-disable-next-line no-await-in-loop
       const { error, isExisting } = await network.checkIPExist(ip, 3);
-      if (isExisting)  return ip;
+      if (isExisting) return ip;
       if (error) hasError = true;
     }
     if (!hasError) {
@@ -108,8 +114,8 @@ const ConnectMachineIp = (): JSX.Element => {
           const device = discoveredDevicesRef.current.find((d) => testingIps.includes(d.ipaddr));
           if (device) {
             if (
-              window.FLUX.version === 'web'
-              && !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')
+              window.FLUX.version === 'web' &&
+              !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')
             ) {
               alertCaller.popUp({
                 message: sprintf(lang.update.firmware.too_old_for_web, device.version),
@@ -126,7 +132,10 @@ const ConnectMachineIp = (): JSX.Element => {
             setState((prev) => ({
               ...prev,
               countDownDisplay: countDown.current,
-              testState: countDown.current > 0 ? TestState.CONNECTION_TESTING : TestState.CONNECTION_TEST_FAILED,
+              testState:
+                countDown.current > 0
+                  ? TestState.CONNECTION_TESTING
+                  : TestState.CONNECTION_TEST_FAILED,
             }));
             if (countDown.current <= 0) {
               clearInterval(intervalId.current);
@@ -182,11 +191,11 @@ const ConnectMachineIp = (): JSX.Element => {
       fhexa1: 'fhexa1',
       ado1: 'ado1',
     };
-    const model = modelMap[device.model] || 'fbb1b';
-    BeamboxPreference.write('model', model);
-    BeamboxPreference.write('workarea', model);
+    const deviceModel = modelMap[device.model] || 'fbb1b';
+    BeamboxPreference.write('model', deviceModel);
+    BeamboxPreference.write('workarea', deviceModel);
     let pokeIPs = storage.get('poke-ip-addr');
-    pokeIPs = (pokeIPs ? pokeIPs.split(/[,;] ?/) : []);
+    pokeIPs = pokeIPs ? pokeIPs.split(/[,;] ?/) : [];
     if (!pokeIPs.includes(device.ipaddr)) {
       if (pokeIPs.length > 19) {
         pokeIPs = pokeIPs.slice(pokeIPs.length - 19, pokeIPs.length);
@@ -222,7 +231,9 @@ const ConnectMachineIp = (): JSX.Element => {
 
     return (
       <div
-        className={classNames(styles.btn, styles.primary, { [styles.disabled]: isTesting(testState) })}
+        className={classNames(styles.btn, styles.primary, {
+          [styles.disabled]: isTesting(testState),
+        })}
         onClick={handleClick}
       >
         {label}
@@ -235,7 +246,11 @@ const ConnectMachineIp = (): JSX.Element => {
   };
 
   const { testState, countDownDisplay, device } = state;
-  const touchPanelSrc = `img/init-panel/network-panel-${isWired ? 'wired' : 'wireless'}.jpg`;
+
+  const touchPanelSrc = useMemo(() => {
+    if (isAdor) return 'core-img/init-panel/ador-ip.jpg';
+    return `img/init-panel/network-panel-${isWired ? 'wired' : 'wireless'}.jpg`;
+  }, [isAdor, isWired]);
   return (
     <div className={styles.container}>
       <div className={styles['top-bar']} />
@@ -245,26 +260,29 @@ const ConnectMachineIp = (): JSX.Element => {
         </div>
         {renderNextBtn()}
       </div>
-      <div className={styles.main}>
-        <div className={styles.image}>
-          <div className={classNames(styles.hint, { [styles.wired]: isWired })} />
-          <img src={touchPanelSrc} draggable="false" />
-        </div>
+      <div className={classNames(styles.main, { [styles.ador]: isAdor })}>
+        {!isUsb && (
+          <div className={styles.image}>
+            <div className={classNames(styles.hint, { [styles.wired]: isWired })} />
+            <img src={touchPanelSrc} draggable="false" />
+          </div>
+        )}
         <div className={styles.text}>
           <div className={styles.title}>
-            {isUsb ? lang.initialize.connect_machine_ip.check_usb : lang.initialize.connect_machine_ip.enter_ip}
+            {isUsb
+              ? lang.initialize.connect_machine_ip.check_usb
+              : lang.initialize.connect_machine_ip.enter_ip}
           </div>
-          {!isUsb
-            ? (
-              <input
-                className={classNames(styles.input)}
-                value={ipValue}
-                onChange={(e) => setIpValue(e.currentTarget.value)}
-                placeholder="192.168.0.1"
-                type="text"
-                onKeyDown={handleInputKeyDown}
-              />
-            ) : null}
+          {!isUsb ? (
+            <input
+              className={classNames(styles.input)}
+              value={ipValue}
+              onChange={(e) => setIpValue(e.currentTarget.value)}
+              placeholder="192.168.0.1"
+              type="text"
+              onKeyDown={handleInputKeyDown}
+            />
+          ) : null}
           <TestInfo
             testState={testState}
             connectionCountDown={countDownDisplay}

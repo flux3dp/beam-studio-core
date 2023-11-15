@@ -301,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Verbinding maken met wifi',
       tutorial1: '1. Ga naar Touch Panel > Klik op "Netwerk" > "Verbind met wifi".',
+      tutorial1_ador: '1. Ga naar Touch Panel > Klik op "MACHINE" > Klik op "Netwerk" > "Met WiFi verbinden".',
       tutorial2: '2. Selecteer en verbind uw gewenste Wi-Fi.',
       what_if_1: 'Wat als ik mijn wifi niet zie?',
       what_if_1_content: '1. De Wi-Fi-coderingsmodus moet WPA2 of geen wachtwoord zijn.\n2. De coderingsmodus kan worden ingesteld in de beheerinterface van de Wi-Fi-router. Als de router geen WPA2 ondersteunt en je hulp nodig hebt bij het kiezen van de juiste router, neem dan contact op met FLUX Support.',
@@ -311,6 +312,7 @@ const lang: ILang = {
       title: 'Verbinding maken met een bekabeld netwerk',
       tutorial1: '1. Verbind de machine met uw router.',
       tutorial2: '2. Druk op "Netwerk" om het bekabelde netwerk IP te krijgen.',
+      tutorial2_ador: '2. Druk op "MACHINE" > "Netwerk" om het bekabelde netwerk IP te krijgen.',
       what_if_1: 'Wat als het IP-adres leeg is?',
       what_if_1_content: '1. Zorg ervoor dat de Ethernet-kabel volledig is aangesloten.\n2. Als er geen MAC-adres van het bekabelde netwerk op het touchscreen staat, neem dan contact op met FLUX Support.',
       what_if_2: 'Wat als het IP begint met 169?',

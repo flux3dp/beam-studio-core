@@ -2,6 +2,7 @@ import isDev from 'helpers/is-dev';
 
 export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
 export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1' | 'ado1';
+export const modelsSupportUsb = new Set(['fhexa1', 'ado1'])
 
 interface WorkArea {
   label: WorkAreaLabel;

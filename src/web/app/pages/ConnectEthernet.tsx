@@ -1,38 +1,41 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 
 import browser from 'implementations/browser';
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 
 import styles from './ConnectEthernet.module.scss';
 
-let lang = i18n.lang.initialize;
-const updateLang = () => {
-  lang = i18n.lang.initialize;
-};
-
 const ConnectEthernet = (): JSX.Element => {
-  useEffect(() => {
-    updateLang();
+  const lang = useI18n().initialize;
+
+  const { model } = useMemo(() => {
+    const queryString = window.location.hash.split('?')[1] || '';
+    const urlParams = new URLSearchParams(queryString);
+    return {
+      model: urlParams.get('model'),
+    };
   }, []);
 
-  const guideHref = window.os === 'MacOS'
-    ? lang.connect_ethernet.tutorial2_a_href_mac : lang.connect_ethernet.tutorial2_a_href_win;
+  const guideHref =
+    window.os === 'MacOS'
+      ? lang.connect_ethernet.tutorial2_a_href_mac
+      : lang.connect_ethernet.tutorial2_a_href_win;
+
+  const handleNext = () => {
+    const urlParams = new URLSearchParams({ model, wired: '1' });
+    const queryString = urlParams.toString();
+    window.location.hash = `#initialize/connect/connect-machine-ip?${queryString}`;
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles['top-bar']} />
       <div className={styles.btns}>
-        <div
-          className={styles.btn}
-          onClick={() => { window.location.hash = '#initialize/connect/select-connection-type'; }}
-        >
+        <div className={styles.btn} onClick={() => window.history.back()}>
           {lang.back}
         </div>
-        <div
-          className={classNames(styles.btn, styles.primary)}
-          onClick={() => { window.location.hash = '#initialize/connect/connect-machine-ip?wired=1'; }}
-        >
+        <div className={classNames(styles.btn, styles.primary)} onClick={handleNext}>
           {lang.next}
         </div>
       </div>
