@@ -2,6 +2,7 @@ import React, { memo, useContext, useEffect } from 'react';
 import { Select } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
@@ -56,7 +57,11 @@ const ModuleBlock = (): JSX.Element => {
   if (!modelsWithModules.includes(beamboxPreference.read('workarea'))) return null;
 
   const handleChange = async (val: number) => {
-    if (value === LayerModule.PRINTER && val !== LayerModule.PRINTER) {
+    if (
+      value === LayerModule.PRINTER &&
+      val !== LayerModule.PRINTER &&
+      !alertConfig.read('skip-switch-to-printer-module')
+    ) {
       const res = await new Promise((resolve) => {
         alertCaller.popUp({
           id: 'switch-to-printer-module',
@@ -66,10 +71,24 @@ const ModuleBlock = (): JSX.Element => {
           buttonType: alertConstants.CONFIRM_CANCEL,
           onConfirm: () => resolve(true),
           onCancel: () => resolve(false),
+          checkbox: {
+            text: lang.beambox.popup.dont_show_again,
+            callbacks: [
+              () => {
+                alertConfig.write('skip-switch-to-printer-module', true);
+                resolve(true);
+              },
+              () => resolve(false),
+            ],
+          },
         });
       });
       if (!res) return;
-    } else if (value !== LayerModule.PRINTER && val === LayerModule.PRINTER) {
+    } else if (
+      value !== LayerModule.PRINTER &&
+      val === LayerModule.PRINTER &&
+      !alertConfig.read('skip-switch-to-laser-module')
+    ) {
       const res = await new Promise((resolve) => {
         alertCaller.popUp({
           id: 'switch-to-laser-module',
@@ -79,6 +98,16 @@ const ModuleBlock = (): JSX.Element => {
           buttonType: alertConstants.CONFIRM_CANCEL,
           onConfirm: () => resolve(true),
           onCancel: () => resolve(false),
+          checkbox: {
+            text: lang.beambox.popup.dont_show_again,
+            callbacks: [
+              () => {
+                alertConfig.write('skip-switch-to-laser-module', true);
+                resolve(true);
+              },
+              () => resolve(false),
+            ],
+          },
         });
       });
       if (!res) return;
