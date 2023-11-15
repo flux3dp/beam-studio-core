@@ -4890,13 +4890,13 @@ const svgEditor = window['svgEditor'] = (function () {
             img.onload = function () {
               let imgWidth = img.width;
               let imgHeight = img.height;
-              console.log(imgWidth, imgHeight);
+              const isFullColor = imageElem.getAttribute('data-fullcolor') === '1';
               ImageData(
                 src, {
                 width: imgWidth,
                 height: imgHeight,
                 rotationFlag,
-                grayscale: {
+                grayscale: isFullColor ? undefined : {
                   is_rgba: true,
                   is_shading: imageElem.getAttribute('data-shading') === 'true',
                   threshold: parseInt(imageElem.getAttribute('data-threshold')),
