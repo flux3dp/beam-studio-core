@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'Bitte beachten Sie, dass bei Abschluss dieser Operation die Einstellungen der Laser-Ebene entfernt und entsprechend der aktuellen Ebene festgelegt werden.',
       importedDocumentContainsPrinting: 'Das Dokument enthält Druckebenen. Möchten Sie den Arbeitsbereich auf Ador ändern?',
       printingLayersCoverted: 'Die Druckschichten wurden in Laserschichten umgewandelt.',
+      performPrintingCaliTitle: 'Führen Sie die Kalibrierung des Druckmoduls durch',
+      performPrintingCaliMsg: 'Klicken Sie auf \'Bestätigen\', um die Kalibrierung durchzuführen, oder greifen Sie über das Hauptmenü darauf zu.<br />(Maschine > [Ihr Maschinenname] > Druckmodul kalibrieren)',
+      performIRCaliTitle: 'Führen Sie die Kalibrierung des Infrarotmoduls durch.',
+      performIRCaliMsg: 'Klicken Sie auf \'Bestätigen\', um die Kalibrierung durchzuführen, oder greifen Sie über das Hauptmenü darauf zu.<br />(Maschine > [Ihr Maschinenname] > Infrarotmodul kalibrieren)',
     },
   },
 };

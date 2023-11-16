@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'この操作を完了すると、レーザーレイヤの設定が削除され、現在のレイヤに設定されます。',
       importedDocumentContainsPrinting: 'このドキュメントには印刷レイヤーが含まれています。Adorの作業領域に切り替えますか？',
       printingLayersCoverted: '印刷レイヤーはレーザーレイヤーに変換されました。',
+      performPrintingCaliTitle: 'プリンターモジュールのキャリブレーション実行',
+      performPrintingCaliMsg: '「確認」をクリックしてキャリブレーションを実行する、または上部メニューからアクセスしてください。<br />（機器 > [ご使用の機器名] > プリンターモジュールのキャリブレーション',
+      performIRCaliTitle: '赤外線モジュールのキャリブレーション実行',
+      performIRCaliMsg: '「確認」をクリックしてキャリブレーションを実行する、または上部メニューからアクセスしてください。<br />（機器 > [ご使用の機器名] > 赤外線モジュールのキャリブレーション）',
     },
   },
 };

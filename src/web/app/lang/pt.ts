@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'Esteja ciente de que se você concluir esta operação, as configurações da camada de laser serão removidas e definidas de acordo com a camada atual.',
       importedDocumentContainsPrinting: 'O documento contém camadas de impressão. Deseja alterar a área de trabalho para Ador?',
       printingLayersCoverted: 'As camadas de impressão foram convertidas em camadas de laser.',
+      performPrintingCaliTitle: 'Execute a calibração do módulo de impressão',
+      performPrintingCaliMsg: 'Clique em \'Confirmar\' para executar a calibração, ou acesse a calibração através do menu superior.<br />(Máquina > [Nome da sua Máquina] > Calibrar o módulo de impressão)',
+      performIRCaliTitle: 'Execute a calibração do módulo infravermelho.',
+      performIRCaliMsg: 'Clique em \'Confirmar\' para executar a calibração, ou acesse a calibração através do menu superior.<br />(Máquina > [Nome da sua Máquina] > Calibrar o módulo infravermelho)',
     },
   },
 };

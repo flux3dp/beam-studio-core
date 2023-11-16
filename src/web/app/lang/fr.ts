@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'Veuillez noter que si vous terminez cette opération, les paramètres de la couche laser seront supprimés et définis en fonction de la couche actuelle.',
       importedDocumentContainsPrinting: 'Le document contient des couches d\'impression. Souhaitez-vous changer la zone de travail vers Ador ?',
       printingLayersCoverted: 'Les couches d\'impression ont été converties en couches laser.',
+      performPrintingCaliTitle: 'Effectuez l\'étalonnage du module d\'impression',
+      performPrintingCaliMsg: 'Cliquez sur "Confirmer" pour exécuter la calibration, ou accédez à la calibration via le menu supérieur.<br />(Machines > [Nome da sua Máquina] > Calibrer le Module d\'Impression)',
+      performIRCaliTitle: 'Effectuer la calibration du module infrarouge.',
+      performIRCaliMsg: 'Cliquez sur "Confirmer" pour exécuter la calibration, ou accédez à la calibration via le menu supérieur.<br />(Machines > [Nome da sua Máquina] > Calibrer le module infrarouge)',
     },
   },
 };

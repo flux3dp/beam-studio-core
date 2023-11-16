@@ -92,6 +92,14 @@ jest.mock('helpers/useI18n', () => () => ({
       start_work: 'Start Work',
     },
   },
+  layer_module: {
+    notification: {
+      performPrintingCaliTitle: 'performPrintingCaliTitle',
+      performPrintingCaliMsg: 'performPrintingCaliMsg',
+      performIRCaliTitle: 'performIRCaliTitle',
+      performIRCaliMsg: 'performIRCaliMsg',
+    },
+  },
 }));
 
 const getCurrentDrawing = jest.fn();
@@ -130,6 +138,11 @@ jest.mock(
     (...args) =>
       mockGetDevice(...args)
 );
+
+const mockShowAdorCalibration = jest.fn();
+jest.mock('app/components/dialogs/camera/AdorCalibration', () => ({
+  showAdorCalibration: (...args) => mockShowAdorCalibration(...args),
+}));
 
 describe('test GoButton', () => {
   test('should render correctly', () => {

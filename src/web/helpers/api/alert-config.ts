@@ -1,6 +1,6 @@
 import storage from 'implementations/storage';
 
-type AlertConfigKey =
+export type AlertConfigKey =
   'skip-interface-tutorial' |
   'skip_os_version_warning' |
   'skip_check_thumbnail_warning' |

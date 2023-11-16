@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'Please be aware that if you complete this operation, the settings of the laser layer will be removed and set according to the current layer.',
       importedDocumentContainsPrinting: 'The document contains printing layer, would you like to change workarea to Ador?',
       printingLayersCoverted: 'The printing layers have been converted into laser layers.',
+      performPrintingCaliTitle: 'Perform the printing module calibration',
+      performPrintingCaliMsg: 'Click “Confirm” to execute the calibration, or access calibration through the top menu.<br />(Machine > [Your Machine Name] >  Calibrate Printing Module)',
+      performIRCaliTitle: 'Perform the Infrared module calibration',
+      performIRCaliMsg: 'Click “Confirm” to execute the calibration, or access calibration through the top menu.<br />(Machine > [Your Machine Name] >  Calibrate Infrared Module)',
     },
   },
 };

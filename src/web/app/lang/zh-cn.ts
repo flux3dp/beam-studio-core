@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: '请注意，如果您继续此操作，激光图层的设置将会被删除，并根据当前图层参数而定。',
       importedDocumentContainsPrinting: '文档包含打印图层，您想将工作区更改为Ador吗？',
       printingLayersCoverted: '打印图层已转换为激光图层。',
+      performPrintingCaliTitle: '执行打印模块校准',
+      performPrintingCaliMsg: '点击「确认」执行校准，或通过顶部菜单中的「机器」 > 「您的机器名称」 > 「校准打印模块」进行校准。',
+      performIRCaliTitle: '执行红外模块校准',
+      performIRCaliMsg: '点击「确认」执行校准，或通过顶部菜单中的「机器」 > 「您的机器名称」 > 「校准红外模块」进行校准。',
     },
   },
 };
