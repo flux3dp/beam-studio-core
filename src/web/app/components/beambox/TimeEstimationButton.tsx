@@ -32,7 +32,7 @@ const TimeEstimationButton = (): JSX.Element => {
         buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
         callbacks: async () => {
           const res = await fileExportHelper.toggleUnsavedChangedDialog();
-          if (res) window.location.hash = '#initialize/connect/select-connection-type';
+          if (res) window.location.hash = '#initialize/connect/select-machine-model';
         },
       });
       return;

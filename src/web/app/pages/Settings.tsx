@@ -15,6 +15,7 @@ import Engraving from 'app/components/settings/Engraving';
 import Experimental from 'app/components/settings/Experimental';
 import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import Mask from 'app/components/settings/Mask';
 import Module from 'app/components/settings/Module';
 import Path from 'app/components/settings/Path';
@@ -132,8 +133,12 @@ class Settings extends React.PureComponent<null, State> {
   };
 
   onOffOptionFactory = <T,>(
-    isOnSelected: boolean, onValue?: T, offValue?: T, onLabel?: string, offLabel?: string,
-  ): { value: T, label: string, selected: boolean, }[] => {
+    isOnSelected: boolean,
+    onValue?: T,
+    offValue?: T,
+    onLabel?: string,
+    offLabel?: string
+  ): { value: T; label: string; selected: boolean }[] => {
     const { lang } = this.state;
 
     return [
@@ -153,21 +158,24 @@ class Settings extends React.PureComponent<null, State> {
   render() {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { supported_langs } = settings.i18n;
-    const {
-      lang,
-      selectedModel,
-      editingAutosaveConfig,
-      warnings,
-    } = this.state;
+    const { lang, selectedModel, editingAutosaveConfig, warnings } = this.state;
 
     const isNotificationOn = this.getConfigEditingValue('notification') === 1;
     const notificationOptions = this.onOffOptionFactory(
-      isNotificationOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
+      isNotificationOn,
+      1,
+      0,
+      lang.settings.notification_on,
+      lang.settings.notification_off
     );
 
     const isAutoCheckUpdateOn = this.getConfigEditingValue('auto_check_update') !== 0;
     const updateNotificationOptions = this.onOffOptionFactory(
-      isAutoCheckUpdateOn, 1, 0, lang.settings.notification_on, lang.settings.notification_off,
+      isAutoCheckUpdateOn,
+      1,
+      0,
+      lang.settings.notification_on,
+      lang.settings.notification_off
     );
 
     const isGuessingPokeOn = this.getConfigEditingValue('guessing_poke') !== 0;
@@ -185,7 +193,7 @@ class Settings extends React.PureComponent<null, State> {
       OptionValues.TRUE,
       OptionValues.FALSE,
       lang.settings.low,
-      lang.settings.high,
+      lang.settings.high
     );
 
     const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing') !== false;
@@ -206,10 +214,11 @@ class Settings extends React.PureComponent<null, State> {
       OptionValues.TRUE,
       OptionValues.FALSE,
       lang.settings.bottom_up,
-      lang.settings.top_down,
+      lang.settings.top_down
     );
 
-    const isVectorSpeedConstrainOn = this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
+    const isVectorSpeedConstrainOn =
+      this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
     const vectorSpeedConstraintOptions = this.onOffOptionFactory(isVectorSpeedConstrainOn);
 
     const isPrecutSwitchOn = this.getBeamboxPreferenceEditingValue('blade_precut') === true;
@@ -230,8 +239,10 @@ class Settings extends React.PureComponent<null, State> {
     const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
     const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
 
-    const isDiodeOneWayEngravingOn = this.getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
-    const diodeOneWayEngravingOpts = this.onOffOptionFactory<OptionValues>(isDiodeOneWayEngravingOn);
+    const isDiodeOneWayEngravingOn =
+      this.getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
+    const diodeOneWayEngravingOpts =
+      this.onOffOptionFactory<OptionValues>(isDiodeOneWayEngravingOn);
 
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
@@ -240,28 +251,42 @@ class Settings extends React.PureComponent<null, State> {
     const enableLowSpeedOptions = this.onOffOptionFactory(isLowSpeedEnabled);
 
     const isCustomBacklashEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-backlash');
-    const enableCustomBacklashOptions = this.onOffOptionFactory<OptionValues>(isCustomBacklashEnabled);
+    const enableCustomBacklashOptions =
+      this.onOffOptionFactory<OptionValues>(isCustomBacklashEnabled);
 
-    const isCustomPrevHeightEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-preview-height');
-    const enableCustomPreviewHeightOptions = this.onOffOptionFactory<OptionValues>(isCustomPrevHeightEnabled);
+    const isCustomPrevHeightEnabled = this.getBeamboxPreferenceEditingValue(
+      'enable-custom-preview-height'
+    );
+    const enableCustomPreviewHeightOptions =
+      this.onOffOptionFactory<OptionValues>(isCustomPrevHeightEnabled);
 
-    const isMultipassCompensationEnabled = this.getBeamboxPreferenceEditingValue('multipass-compensation') !== false;
-    const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(isMultipassCompensationEnabled);
+    const isMultipassCompensationEnabled =
+      this.getBeamboxPreferenceEditingValue('multipass-compensation') !== false;
+    const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(
+      isMultipassCompensationEnabled
+    );
 
-    const oneWayPrintingEnabled = this.getBeamboxPreferenceEditingValue('one-way-printing') !== false;
+    const oneWayPrintingEnabled =
+      this.getBeamboxPreferenceEditingValue('one-way-printing') !== false;
     const oneWayPrintingOptions = this.onOffOptionFactory<OptionValues>(oneWayPrintingEnabled);
 
     const isPrintAdvancedModeEnabled = this.getBeamboxPreferenceEditingValue('print-advanced-mode');
-    const printAdvancedModeOptions = this.onOffOptionFactory<OptionValues>(isPrintAdvancedModeEnabled);
+    const printAdvancedModeOptions = this.onOffOptionFactory<OptionValues>(
+      isPrintAdvancedModeEnabled
+    );
+
+    const defaultLaserModule =
+      this.getBeamboxPreferenceEditingValue('default-laser-module') ||
+      layerModuleHelper.getDefaultLaserModule();
 
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
       BeamboxConstant.camera.movementSpeed.x,
-      BeamboxConstant.camera.movementSpeed.y,
+      BeamboxConstant.camera.movementSpeed.y
     );
 
-    const isAllValid = !warnings || (Object.keys(warnings).length === 0);
+    const isAllValid = !warnings || Object.keys(warnings).length === 0;
 
     return (
       <div className="studio-container settings-studio">
@@ -296,16 +321,20 @@ class Settings extends React.PureComponent<null, State> {
             speed={{
               unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
               decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
-              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed')
-                || cameraMovementSpeed) / 60,
-              getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
+              defaultValue:
+                (this.getBeamboxPreferenceEditingValue('preview_movement_speed') ||
+                  cameraMovementSpeed) / 60,
+              getValue: (val) =>
+                this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
             }}
             speedHL={{
               unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
               decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
-              defaultValue: (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl')
-                || (cameraMovementSpeed * 0.6)) / 60,
-              getValue: (val) => this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
+              defaultValue:
+                (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') ||
+                  cameraMovementSpeed * 0.6) / 60,
+              getValue: (val) =>
+                this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
             }}
             enableCustomPreviewHeightOptions={enableCustomPreviewHeightOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
@@ -372,6 +401,7 @@ class Settings extends React.PureComponent<null, State> {
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <AdorModule
+            defaultLaserModule={defaultLaserModule}
             defaultUnit={this.getConfigEditingValue('default-units')}
             selectedModel={selectedModel}
             currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
@@ -391,10 +421,15 @@ class Settings extends React.PureComponent<null, State> {
             <b>{lang.settings.reset_now}</b>
           </div>
           <div className="clearfix" />
-          <div className={classNames('btn btn-done', { disabled: !isAllValid })} onClick={this.handleDone}>
+          <div
+            className={classNames('btn btn-done', { disabled: !isAllValid })}
+            onClick={this.handleDone}
+          >
             {lang.settings.done}
           </div>
-          <div className="btn btn-cancel" onClick={this.handleCancel}>{lang.settings.cancel}</div>
+          <div className="btn btn-cancel" onClick={this.handleCancel}>
+            {lang.settings.cancel}
+          </div>
         </div>
       </div>
     );

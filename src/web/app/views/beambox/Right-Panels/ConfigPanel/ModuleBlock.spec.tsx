@@ -13,6 +13,9 @@ jest.mock('helpers/useI18n', () => () => ({
         module: 'module',
       },
     },
+    popup: {
+      dont_show_again: 'dont_show_again',
+    }
   },
   layer_module: {
     laser_10w_diode: 'laser_10w_diode',
@@ -119,6 +122,13 @@ const mockContextState = {
   module: { value: LayerModule.LASER_10W_DIODE, hasMultiValue: false },
 };
 
+const mockAlertConfigRead = jest.fn();
+const mockAlertConfigWrite = jest.fn();
+jest.mock('helpers/api/alert-config', () => ({
+  read: (...args) => mockAlertConfigRead(...args),
+  write: (...args) => mockAlertConfigWrite(...args),
+}));
+
 const mockDispatch = jest.fn();
 
 describe('test ModuleBlock', () => {
@@ -128,6 +138,7 @@ describe('test ModuleBlock', () => {
     mockGetCurrentDrawing.mockReturnValue({
       getCurrentLayerName: (...args) => mockGetCurrentLayerName(...args),
     });
+    mockAlertConfigRead.mockReturnValue(false);
   });
 
   it('should render correctly', () => {

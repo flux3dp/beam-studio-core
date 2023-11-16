@@ -8,7 +8,7 @@ import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import { cloneLayerConfig, DataType, getData } from 'helpers/layer/layer-config-helper';
+import { cloneLayerConfig, DataType, getData, initLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -130,6 +130,7 @@ export const deleteLayers = (layerNames: string[]): void => {
       '#333333'
     ).getGroup() as Element;
     batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
+    initLayerConfig(LANG.layer1);
   }
   if (!batchCmd.isEmpty()) {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);

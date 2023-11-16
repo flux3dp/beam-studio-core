@@ -17,6 +17,7 @@ import GoogleOAuth from 'app/pages/GoogleOAuth';
 import Home from 'app/pages/Home';
 import Settings from 'app/pages/Settings';
 import SelectConnectionType from 'app/pages/SelectConnectionType';
+import SelectMachineModel from 'app/pages/SelectMachineModel';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
 import { DialogContextProvider } from 'app/contexts/DialogContext';
 import { StyleProvider } from '@ant-design/cssinjs';
@@ -75,6 +76,7 @@ const App = (): JSX.Element => {
                 <Route exact path="/google-auth" component={GoogleOAuth} />
                 <Route exact path="/fb-auth" component={FacebookOAuth} />
                 <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
+                <Route exact path="/initialize/connect/select-machine-model" component={SelectMachineModel} />
                 <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
                 <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
                 <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />

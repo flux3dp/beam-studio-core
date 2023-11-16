@@ -1,6 +1,7 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
@@ -88,7 +89,7 @@ export const defaultConfig = {
   [DataType.zstep]: 0,
   [DataType.diode]: 0,
   [DataType.configName]: '',
-  [DataType.module]: LayerModule.LASER_10W_DIODE,
+  [DataType.module]: layerModuleHelper.getDefaultLaserModule(),
   [DataType.backlash]: 0,
   [DataType.multipass]: 3,
   [DataType.UV]: 0,
@@ -125,10 +126,9 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
       (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
     );
   }
-  if (targetDataType === DataType.fullColor) return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
-  return Number(
-    layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]
-  ) as T;
+  if (targetDataType === DataType.fullColor)
+    return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
+  return Number(layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]) as T;
 };
 
 export const writeDataLayer = (
@@ -195,9 +195,10 @@ const getMultiSelectData = <T = number>(
 
 export const initLayerConfig = (layerName: string): void => {
   const dataTypes = Object.values(DataType);
+  const layer = getLayerElementByName(layerName);
   for (let i = 0; i < dataTypes.length; i += 1) {
     if (defaultConfig[dataTypes[i]] !== undefined)
-      writeData(layerName, dataTypes[i], defaultConfig[dataTypes[i]]);
+      writeDataLayer(layer, dataTypes[i], defaultConfig[dataTypes[i]]);
   }
 };
 
@@ -209,7 +210,8 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     const dataTypes = Object.values(DataType);
     for (let i = 0; i < dataTypes.length; i += 1) {
       if (dataTypes[i] === DataType.fullColor) {
-        if (getData(baseLayer, DataType.fullColor))  writeData(targetLayerName, DataType.fullColor, '1');
+        if (getData(baseLayer, DataType.fullColor))
+          writeData(targetLayerName, DataType.fullColor, '1');
       } else writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
     }
   }
@@ -247,6 +249,7 @@ export const getLayersConfig = (layerNames: string[], currentLayerName?: string)
 export const toggleFullColorAfterWorkareaChange = (): void => {
   const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const layerNames = getAllLayerNames();
+  const defaultLaserModule = layerModuleHelper.getDefaultLaserModule();
   for (let i = 0; i < layerNames.length; i += 1) {
     const layerName = layerNames[i];
     const layer = getLayerByName(layerName);
@@ -255,6 +258,8 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
     if (!modelsWithModules.includes(workarea)) {
       layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
       toggleFullColorLayer(layer, { val: false });
+    } else {
+      layer.setAttribute(`data-${DataType.module}`, String(defaultLaserModule));
     }
   }
 };

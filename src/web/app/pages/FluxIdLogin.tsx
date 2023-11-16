@@ -9,7 +9,7 @@ function FluxIdLogin(): JSX.Element {
     dialog.clearAllDialogComponents();
     const isReady = storage.get('printer-is-ready');
     dialog.showLoginDialog(() => {
-      window.location.hash = isReady ? '#studio/beambox' : '#initialize/connect/select-connection-type';
+      window.location.hash = isReady ? '#studio/beambox' : '#initialize/connect/select-machine-model';
     }, !isReady);
   }, []);
   return <div className="top-bar" />;

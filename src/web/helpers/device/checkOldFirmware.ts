@@ -13,7 +13,7 @@ const checkOldFirmware = async (version: string): Promise<boolean> => {
       alertCaller.popUp({
         id: 'old-firmware',
         type: alertConstants.SHOW_POPUP_INFO,
-        message: lang.recommend_downgrade_software,
+        message: lang.recommend_upgrade_firmware,
         buttonType: alertConstants.CUSTOM_CANCEL,
         buttonLabels: [lang.still_continue],
         callbacks: () => resolve(true),

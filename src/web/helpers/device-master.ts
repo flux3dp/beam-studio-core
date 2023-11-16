@@ -5,6 +5,7 @@ import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import checkSoftwareForAdor from 'helpers/check-software';
 import constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import Dialog from 'app/actions/dialog-caller';
@@ -263,7 +264,7 @@ class DeviceMaster {
 
   async selectDevice(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
     // Match the device from the newest received device list
-    if (!deviceInfo) {
+    if (!deviceInfo || !checkSoftwareForAdor(deviceInfo)) {
       return { success: false };
     }
     const { uuid } = deviceInfo;
@@ -829,17 +830,23 @@ class DeviceMaster {
 
   rawSetFan(on: boolean) {
     const controlSocket = this.currentDevice.control;
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.adorRawSetFan, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetFan, on);
   }
 
   rawSetAirPump(on: boolean) {
     const controlSocket = this.currentDevice.control;
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.adorRawSetAirPump, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetAirPump, on);
   }
 
   rawLooseMotor() {
     const controlSocket = this.currentDevice.control;
-    if (this.currentDevice.info.model.startsWith('ado')) {
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
       return controlSocket.addTask(controlSocket.adorRawLooseMotor);
     }
     const vc = VersionChecker(this.currentDevice.info.version);
@@ -1021,16 +1028,29 @@ class DeviceMaster {
     return res;
   }
 
-  async takeOnePicture(retryTimes = 3) {
-    for (let i = 0; i < retryTimes; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      const res = await this.currentDevice.camera.oneShot();
-      if (res) return res;
+  async takeOnePicture(opts: { timeout? : number } = {}) {
+    const { timeout = 30 } = opts;
+    const startTime = Date.now();
+    const cameraFishEyeSetting = this.currentDevice.camera?.getFisheyeSetting();
+    let lastErr = null;
+    while (Date.now() - startTime < (timeout * 1000)) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const res = await this.currentDevice.camera.oneShot();
+        if (res) return res;
+      } catch (err) {
+        console.log('Error when getting camera image', err);
+        lastErr = err;
+      }
       this.disconnectCamera();
-      // TODO: for ador: setFisheyeMatrix
       // eslint-disable-next-line no-await-in-loop
       await this.connectCamera();
+      if (cameraFishEyeSetting) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
+      }
     }
+    if (lastErr) throw lastErr;
     return null;
   }
 

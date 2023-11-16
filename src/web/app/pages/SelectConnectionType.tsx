@@ -1,17 +1,11 @@
 import classNames from 'classnames';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
-import dialog from 'app/actions/dialog-caller';
-import i18n from 'helpers/i18n';
-import storage from 'implementations/storage';
-import windowLocationReload from 'app/actions/windowLocation';
+import useI18n from 'helpers/useI18n';
+import { modelsSupportUsb } from 'app/actions/beambox/constant';
 
 import styles from './SelectConnectionType.module.scss';
 
-let lang = i18n.lang.initialize;
-const updateLang = () => {
-  lang = i18n.lang.initialize;
-};
 
 const TYPE_URL_MAP = {
   wifi: '#initialize/connect/connect-wi-fi',
@@ -21,25 +15,25 @@ const TYPE_URL_MAP = {
 };
 
 const SelectConnectionType = (): JSX.Element => {
-  useEffect(() => {
-    updateLang();
+  const lang = useI18n().initialize;
+
+  const { model } = useMemo(() => {
+    const queryString = window.location.hash.split('?')[1] || '';
+    const urlParams = new URLSearchParams(queryString);
+    return {
+      model: urlParams.get('model'),
+    };
   }, []);
 
-  const isNewUser = useMemo(() => !storage.get('printer-is-ready'), []);
-
-  const handleBtnClick = () => {
-    if (isNewUser) {
-      storage.set('new-user', true);
-    }
-    storage.set('printer-is-ready', true);
-    dialog.showLoadingWindow();
-    window.location.hash = '#studio/beambox';
-    windowLocationReload();
+  const handleBack = () => {
+    window.location.hash = '#initialize/connect/select-machine-model';
   };
 
   const handleConnectionTypeClick = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb') => {
     const url = TYPE_URL_MAP[type];
-    window.location.hash = url;
+    const urlParams = new URLSearchParams({ model });
+    const queryString = urlParams.toString();
+    window.location.hash = `${url}?${queryString}`;
   };
 
   const renderConnectionTypeButton = (type: 'wifi' | 'wired' | 'ether2ether' | 'usb'): JSX.Element => (
@@ -49,9 +43,7 @@ const SelectConnectionType = (): JSX.Element => {
       className={classNames('btn', styles.btn)}
       onClick={() => handleConnectionTypeClick(type)}
     >
-      {/* add a white space so that sub text can be placed on next line */}
-      {lang.connection_types[type]}{' '}
-      {type === 'usb' ? <span className={styles.sub}>{lang.connect_usb.title_sub}</span> : null}
+      {lang.connection_types[type]}
     </button>
   );
 
@@ -66,8 +58,8 @@ const SelectConnectionType = (): JSX.Element => {
     <div className={styles.container}>
       <div className={styles['top-bar']} />
       <div className={styles.btns}>
-        <div className={classNames(styles.btn, styles.primary)} onClick={handleBtnClick}>
-          {isNewUser ? lang.skip : lang.cancel}
+        <div className={classNames(styles.btn, styles.primary)} onClick={handleBack}>
+          {lang.back}
         </div>
       </div>
       <div className={styles.main}>
@@ -76,7 +68,7 @@ const SelectConnectionType = (): JSX.Element => {
           {renderConnectionTypeContainer('wifi')}
           {renderConnectionTypeContainer('wired')}
           {renderConnectionTypeContainer('ether2ether')}
-          {renderConnectionTypeContainer('usb')}
+          {modelsSupportUsb.has(model) && renderConnectionTypeContainer('usb')}
         </div>
       </div>
     </div>

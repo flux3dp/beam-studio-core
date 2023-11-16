@@ -7,7 +7,9 @@
     .image {
       img {
         width: 200px;
-        box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.1);
+        box-shadow:
+          0 7px 15px rgba(0, 0, 0, 0.2),
+          0 10px 20px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
       }
 
@@ -61,6 +63,14 @@
         border-width: 0px;
         border-bottom-width: 1px;
         outline: none;
+      }
+    }
+
+    &.ador {
+      .image {
+        .hint {
+          @include connectionSettingPage.ador-ip-hint;
+        }
       }
     }
   }

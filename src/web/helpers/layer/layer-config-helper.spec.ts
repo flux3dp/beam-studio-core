@@ -1,4 +1,8 @@
-import { ILayerConfig } from 'interfaces/ILayerConfig';
+const mockGetDefaultLaserModule = jest.fn();
+jest.mock('helpers/layer-module/layer-module-helper', () => ({
+  getDefaultLaserModule: () => mockGetDefaultLaserModule(),
+}));
+mockGetDefaultLaserModule.mockReturnValue(1);
 
 const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({

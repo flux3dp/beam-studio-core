@@ -192,11 +192,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-npw');
         args.push(localStorage.getItem('nozzle_pulse_width'));
       }
+      if (opts.model === 'ado1') {
+        const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
+        args.push('-mof');
+        args.push(JSON.stringify(offsets));
+      }
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) await setParameter(loopCompensation);
-      if (opts.model === 'ado1') await setModuleOffset();
-      else await setModuleOffset(true);
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);

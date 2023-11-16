@@ -14,6 +14,8 @@ type AlertConfigKey =
   'skip-fb-group-invitation' |
   'skip_bg_removal_warning' |
   'skip-old-firmware-hint-2' |
+  'skip-switch-to-printer-module' |
+  'skip-switch-to-laser-module' |
   'done-first-cali';
 
 export default {

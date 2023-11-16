@@ -37,7 +37,7 @@ const startNewUserTutorial = async (callback) => {
             {
                 label: LANG.set_connection,
                 className: 'btn-default primary',
-                onClick: () => location.hash = '#initialize/connect/select-connection-type',
+                onClick: () => { window.location.hash = '#initialize/connect/select-machine-model'; },
             },
             {
                 label: LANG.retry,

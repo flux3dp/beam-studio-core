@@ -9,12 +9,19 @@ import AdorModule from './AdorModule';
 
 jest.mock('helpers/useI18n', () => () => ({
   settings: {
+    printer_advanced_mode: 'printer_advanced_mode',
+    default_laser_module: 'default_laser_module',
+    module_offset_10w: 'module_offset_10w',
+    module_offset_20w: 'module_offset_20w',
+    module_offset_printer: 'module_offset_printer',
+    module_offset_2w_ir: 'module_offset_2w_ir',
     groups: {
       ador_modules: 'ador_modules',
     },
   },
   layer_module: {
     laser_10w_diode: 'laser_10w_diode',
+    laser_20w_diode: 'laser_20w_diode',
     printing: 'printing',
     laser_2w_infrared: 'laser_2w_infrared',
   },
@@ -104,6 +111,7 @@ describe('test AdorModule', () => {
   it('should render correctly', () => {
     const { container } = render(
       <AdorModule
+        defaultLaserModule={LayerModule.LASER_10W_DIODE}
         defaultUnit="mm"
         selectedModel="ado1"
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
@@ -117,6 +125,7 @@ describe('test AdorModule', () => {
   test('edit value', () => {
     const { rerender, getByTestId } = render(
       <AdorModule
+        defaultLaserModule={LayerModule.LASER_10W_DIODE}
         defaultUnit="mm"
         selectedModel="ado1"
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
@@ -134,6 +143,7 @@ describe('test AdorModule', () => {
     offsetValue[LayerModule.LASER_10W_DIODE] = [10, 20];
     rerender(
       <AdorModule
+        defaultLaserModule={LayerModule.LASER_10W_DIODE}
         defaultUnit="mm"
         selectedModel="ado1"
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
@@ -156,6 +166,7 @@ describe('test AdorModule', () => {
     };
     const { getByText } = render(
       <AdorModule
+        defaultLaserModule={LayerModule.LASER_10W_DIODE}
         defaultUnit="mm"
         selectedModel="ado1"
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
@@ -166,6 +177,32 @@ describe('test AdorModule', () => {
     const button = getByText('On');
     fireEvent.click(button);
     expect(mockUpdateBeamboxPreferenceChange).toBeCalledTimes(1);
-    expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith('print-advanced-mode', OptionValues.TRUE);
+    expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith(
+      'print-advanced-mode',
+      OptionValues.TRUE
+    );
+  });
+
+  test('edit default laser module', () => {
+    const mockInitValue: { [m: number]: [number, number] } = {
+      [LayerModule.LASER_10W_DIODE]: [10, 10],
+    };
+    const { getByText } = render(
+      <AdorModule
+        defaultLaserModule={LayerModule.LASER_10W_DIODE}
+        defaultUnit="mm"
+        selectedModel="ado1"
+        updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
+        printAdvancedModeOptions={mockOptions}
+        currentModuleOffsets={mockInitValue}
+      />
+    );
+    const button = getByText('laser_20w_diode');
+    fireEvent.click(button);
+    expect(mockUpdateBeamboxPreferenceChange).toBeCalledTimes(1);
+    expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith(
+      'default-laser-module',
+      LayerModule.LASER_20W_DIODE
+    );
   });
 });

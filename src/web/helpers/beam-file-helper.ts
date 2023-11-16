@@ -57,14 +57,9 @@ import { Buffer } from 'buffer';
 
 import fs from 'implementations/fileSystem';
 import Progress from 'app/actions/progress-caller';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 
 const { $ } = window;
-let svgEditor;
-
-getSVGAsync((globalSVG) => {
-  svgEditor = globalSVG.Editor;
-});
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
 const valueToVIntBuffer = (value) => {
@@ -245,7 +240,7 @@ const readBlocks = async (buf, offset) => {
     currentOffset = vint.offset;
     size = vint.value;
     const svgString = buf.toString('utf-8', currentOffset, currentOffset + size);
-    await svgEditor.importBvgStringAsync(svgString);
+    await importBvgString(svgString);
     currentOffset += size;
   } else if (blockType === 2) {
     // image source

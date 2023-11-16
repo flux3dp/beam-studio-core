@@ -231,7 +231,6 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
 const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
-  alertConfig.write('skip_bg_removal_warning', undefined);
 
   if (!alertConfig.read('skip_bg_removal_warning')) {
     const res = await new Promise<boolean>((resolve) => {

@@ -231,6 +231,7 @@ export interface ILang {
       switch_version_not_found: string,
       yes: string,
       no: string,
+      update_for_ador: string,
     },
     updating: string,
     skip: string,
@@ -297,6 +298,7 @@ export interface ILang {
     connect_wifi: {
       title: string,
       tutorial1: string,
+      tutorial1_ador: string;
       tutorial2: string,
       what_if_1: string,
       what_if_1_content: string,
@@ -307,6 +309,7 @@ export interface ILang {
       title: string,
       tutorial1: string,
       tutorial2: string,
+      tutorial2_ador: string;
       what_if_1: string,
       what_if_1_content: string,
       what_if_2: string,
@@ -440,6 +443,7 @@ export interface ILang {
     module_offset_printer: string;
     module_offset_2w_ir: string;
     printer_advanced_mode: string;
+    default_laser_module: string;
     groups: {
       general: string,
       update: string,
@@ -1444,7 +1448,8 @@ export interface ILang {
     calculating_regression_parameters: string;
     failed_to_calibrate_camera: string;
     failed_to_save_calibration_results: string;
-    ador_autofocus: string;
+    ador_autofocus_material: string;
+    ador_autofocus_focusing_block: string;
     align_red_cross_cut: string;
     align_red_cross_print: string;
     retake: string;
@@ -1533,6 +1538,8 @@ export interface ILang {
       convertFromPrintingModuleMsg: string;
       convertFromLaserModuleTitle: string;
       convertFromLaserModuleMsg: string;
+      importedDocumentContainsPrinting: string;
+      printingLayersCoverted: string;
     };
   },
 }

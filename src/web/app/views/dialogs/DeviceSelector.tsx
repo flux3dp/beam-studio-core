@@ -62,7 +62,7 @@ const DeviceSelector = ({ onSelect, onClose }: Props): JSX.Element => {
             onSelect(null);
             onClose();
             const res = await fileExportHelper.toggleUnsavedChangedDialog();
-            if (res) window.location.hash = '#initialize/connect/select-connection-type';
+            if (res) window.location.hash = '#initialize/connect/select-machine-model';
           },
         });
       }, 5000);

@@ -9,6 +9,9 @@ import ModalWithHole from 'app/widgets/Modal-With-Hole';
 import { ITutorialDialog } from 'interfaces/ITutorial';
 import { TutorialContext, TutorialContextProvider } from 'app/views/tutorials/TutorialContext';
 
+// TODO: move all styles from web to modules.scss
+import styles from './Tutorial.module.scss';
+
 const LANG = i18n.lang.tutorial;
 
 class TutorialComponent extends React.Component<{
@@ -68,7 +71,7 @@ class TutorialComponent extends React.Component<{
     const hintCircle = this.renderHintCircle();
     if (!holePosition) {
       return (
-        <Modal className={{ 'no-background': true }}>
+        <Modal className={{ 'no-background': true, [styles.tutorial]: true }}>
           <div className="tutorial-container">
             {tutorialDialog}
             {hintCircle}
@@ -78,6 +81,7 @@ class TutorialComponent extends React.Component<{
     }
     return (
       <ModalWithHole
+        className={styles.tutorial}
         holePosition={holePosition}
         holeSize={holeSize}
       >

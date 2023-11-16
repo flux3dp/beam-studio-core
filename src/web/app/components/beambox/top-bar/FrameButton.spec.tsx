@@ -105,6 +105,7 @@ jest.mock('helpers/device-master', () => ({
   rawLooseMotor: (...args) => mockRawLooseMotor(...args),
   endRawMode: (...args) => mockEndRawMode(...args),
   kick: (...args) => mockKick(...args),
+  currentControlMode: 'raw',
 }));
 
 const mockGetDevice = jest.fn().mockResolvedValue({ device: {} });
@@ -122,6 +123,7 @@ describe('test FrameButton', () => {
   test('should render correctly', async () => {
     const { container } = render(<FrameButton />);
     expect(container).toMatchSnapshot();
+    mockGetDevice.mockResolvedValueOnce({ device: { model: 'fbm1', version: '4.1.7' } });
     fireEvent.click(container.querySelector('div[class*="button"]'));
     await waitFor(() => expect(mockPopById).toBeCalledTimes(1));
     expect(mockGetDevice).toBeCalledTimes(1);

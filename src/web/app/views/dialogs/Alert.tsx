@@ -42,7 +42,7 @@ const renderMessage = (message: string | React.ReactNode, messageIcon = ''): JSX
   }
   return (
     <div className={styles['message-container']}>
-      {IconComponent && <IconComponent classNames={styles.icon} />}
+      {IconComponent && <IconComponent className={styles.icon} />}
       {content}
     </div>
   );

@@ -45,7 +45,7 @@ exports[`test MultipassBlock when type is not panel-item should render correctly
       </p>
       <p>
         options: 
-        [{"value":1},{"value":2},{"value":3},{"value":4},{"value":5}]
+        [{"value":2},{"value":3},{"value":4},{"value":5}]
       </p>
       <button
         type="button"

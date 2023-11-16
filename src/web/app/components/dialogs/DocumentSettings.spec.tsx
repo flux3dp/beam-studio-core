@@ -29,11 +29,6 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   },
 }));
 
-const emitUpdateWorkArea = jest.fn();
-jest.mock('app/stores/beambox-store', () => ({
-  emitUpdateWorkArea: () => emitUpdateWorkArea(),
-}));
-
 jest.mock('app/widgets/EngraveDpiSlider', () => ({ value, onChange }: any) => (
   <div>
     DummyEngraveDpiSlider
@@ -49,18 +44,12 @@ jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
 
 const setRotaryMode = jest.fn();
 const runExtensions = jest.fn();
-const setResolution = jest.fn();
-const resetView = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => {
     callback({
       Canvas: {
         setRotaryMode: (value) => setRotaryMode(value),
         runExtensions: (value) => runExtensions(value),
-        setResolution: (w, h) => setResolution(w, h),
-      },
-      Editor: {
-        resetView: () => resetView(),
       },
     });
   },
@@ -97,10 +86,8 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-const mockToggleFullColorAfterWorkareaChange = jest.fn();
-jest.mock('helpers/layer/layer-config-helper', () => ({
-  toggleFullColorAfterWorkareaChange: (...args) => mockToggleFullColorAfterWorkareaChange(...args),
-}));
+const mockChangeWorkarea = jest.fn();
+jest.mock('app/svgedit/operations/changeWorkarea', () => (...args) => mockChangeWorkarea(...args));
 
 const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
@@ -124,11 +111,9 @@ describe('test DocumentSettings', () => {
     expect(baseElement).toMatchSnapshot();
 
     expect(mockBeamboxPreferenceWrite).not.toBeCalled();
-    expect(setResolution).not.toBeCalled();
-    expect(resetView).not.toBeCalled();
     expect(update).not.toBeCalled();
-    expect(emitUpdateWorkArea).not.toBeCalled();
     expect(mockUnmount).not.toBeCalled();
+    expect(mockChangeWorkarea).not.toBeCalled();
     mockQuerySelectorAll.mockReturnValueOnce([1]);
     fireEvent.click(getByText('Save'));
     expect(mockPopUp).toBeCalledTimes(1);
@@ -143,22 +128,19 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(5);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(3, 'enable-diode', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(4, 'enable-autofocus', true);
-    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'workarea', 'fbm1');
-    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'rotary_mode', 1);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 1);
+    expect(mockChangeWorkarea).toBeCalledTimes(1);
+    expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1');
     expect(setRotaryMode).toHaveBeenCalledTimes(1);
     expect(setRotaryMode).toHaveBeenLastCalledWith(1);
     expect(runExtensions).toHaveBeenCalledTimes(1);
     expect(runExtensions).toHaveBeenLastCalledWith('updateRotaryAxis');
-    expect(setResolution).toHaveBeenLastCalledWith(3000, 2100);
-    expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
-    expect(resetView).toBeCalledTimes(1);
     expect(update).toBeCalledTimes(1);
-    expect(emitUpdateWorkArea).toBeCalledTimes(1);
     expect(mockUnmount).toBeCalledTimes(1);
   });
 });

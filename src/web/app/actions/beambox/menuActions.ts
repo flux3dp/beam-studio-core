@@ -18,6 +18,7 @@ import viewMenu from 'helpers/menubar/view';
 import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 
 let svgCanvas;
 let svgEditor;
@@ -79,7 +80,7 @@ const loadExampleFile = async (path: string) => {
       const LANG = i18n.lang.beambox.right_panel.layer_panel;
       string = string.replace(/Engraving/g, LANG.layer_engraving).replace(/Cutting/g, LANG.layer_cutting);
     }
-    await svgEditor.importBvgStringAsync(string);
+    await importBvgString(string);
   };
 
   oReq.send();
@@ -96,7 +97,7 @@ export default {
   },
   ADD_NEW_MACHINE: async () => {
     const res = await FileExportHelper.toggleUnsavedChangedDialog();
-    if (res) window.location.hash = '#initialize/connect/select-connection-type';
+    if (res) window.location.hash = '#initialize/connect/select-machine-model';
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
   IMPORT_EXAMPLE: () => loadExampleFile(getExampleFileName('example')),
@@ -118,8 +119,9 @@ export default {
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
   EXPORT_JPG: () => FileExportHelper.exportAsImage('jpg'),
   EXPORT_FLUX_TASK: (): void => {
-    if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
-    else ExportFuncs.exportFcode();
+    ExportFuncs.exportFcode();
+    // if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
+    // else ExportFuncs.exportFcode();
   },
   UNDO: () => svgEditor.clickUndo(),
   REDO: () => svgEditor.clickRedo(),

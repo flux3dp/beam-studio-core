@@ -306,7 +306,7 @@ class Control extends EventEmitter {
         if (response && response.status === 'raw') {
           console.log(response.text);
           responseString += response.text;
-          let responseStrings = responseString.split('\n');
+          let responseStrings = responseString.replace(/\r/g, '').split('\n');
           responseStrings = responseStrings.filter(
             (s, i) => !s.startsWith('DEBUG:') || i === responseStrings.length - 1
           );
@@ -928,8 +928,8 @@ class Control extends EventEmitter {
           console.log('raw line check:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\n');
-        const i = resps.findIndex((r) => r === 'CTRL LINECHECK_ENABLED');
+        const resps = responseString.replace(/\r/g, '').split('\n');
+        const i = resps.findIndex((r) => r === 'CTRL LINECHECK_ENABLED' || r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
           this._isLineCheckMode = true;
@@ -1064,6 +1064,15 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
+  adorRawSetAirPump = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P3' : 'M136P4';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
+  }
+
   rawSetFan = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
@@ -1072,6 +1081,15 @@ class Control extends EventEmitter {
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };
+
+  adorRawSetFan = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P5' : 'M136P6';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
+  }
 
   rawSetRotary = (on: boolean) => {
     if (this.mode !== 'raw') {

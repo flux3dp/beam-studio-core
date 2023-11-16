@@ -65,6 +65,8 @@ class Camera {
 
   private requireFrameRetry: number;
 
+  private fishEyeSetting: { matrix: FisheyeMatrix, shouldCrop?: boolean } = null;
+
   constructor(shouldCrop = true, cameraNeedFlip: boolean = null) {
     this.shouldCrop = shouldCrop;
     this.device = {
@@ -169,7 +171,10 @@ class Camera {
     return cameraOffset.value;
   }
 
+  getFisheyeSetting = (): { matrix: FisheyeMatrix, shouldCrop?: boolean } => this.fishEyeSetting;
+
   setFisheyeMatrix = async (mat: FisheyeMatrix, setCrop = false): Promise<boolean> => {
+    this.fishEyeSetting = { matrix: mat, shouldCrop: setCrop };
     const { center, ...matrix } = { ...mat };
     const [cx, cy] = center || [];
     const matrixString = JSON.stringify(matrix, (key, val) => {
@@ -199,17 +204,12 @@ class Camera {
       throw new Error(LANG.message.camera.ws_closed_unexpectly);
     }
     this.ws.send('require_frame');
-    try {
-      const data = await lastValueFrom(
-        this.source
-          .pipe(take(1))
-          .pipe(timeout(TIMEOUT))
-      );
-      return data;
-    } catch (e) {
-      console.log(e);
-      throw new Error(`${LANG.message.camera.ws_closed_unexpectly} ${e.message}`);
-    }
+    const data = await lastValueFrom(
+      this.source
+        .pipe(take(1))
+        .pipe(timeout(TIMEOUT))
+    );
+    return data;
   }
 
   getLiveStreamSource() {

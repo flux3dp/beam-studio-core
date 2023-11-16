@@ -46,11 +46,6 @@ exports[`test ConnectUsb should render correctly 1`] = `
           class="title"
         >
           USB Connection
-          <span
-            class="sub"
-          >
-             (HEXA & Ador Only)
-          </span>
         </div>
         <div
           class="contents tutorial"
@@ -83,7 +78,7 @@ exports[`test ConnectUsb should render correctly 1`] = `
           </div>
           <div>
             2. 
-            Click Next.
+            Connect the machine with your computer with USB cable.
           </div>
           <div>
             3. 

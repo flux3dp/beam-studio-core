@@ -234,6 +234,7 @@ const lang: ILang = {
       switch_version_not_found: 'Switchable Version not found.',
       yes: 'Yes',
       no: 'No',
+      update_for_ador: 'The current software version %s is incompatible, please download the latest version of Beam Studio for Ador.',
     },
     updating: 'Updating...',
     skip: 'Skip This Version',
@@ -289,7 +290,7 @@ const lang: ILang = {
 
     // specific caption/content
     select_language: 'Select Language',
-    select_machine_type: 'Select Your Model',
+    select_machine_type: 'Select Your Machine Type',
     select_connection_type: 'How do you wish to connect?',
     connection_types: {
       wifi: 'Wi-Fi',
@@ -300,6 +301,7 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Connecting to Wi-Fi',
       tutorial1: '1. Go to Touch Panel > Click "Network" > "Connect to WiFi".',
+      tutorial1_ador: '1. Go to Touch Panel > Click "MACHINE" > Click "Network" > "Connect to WiFi".',
       tutorial2: '2. Select and connect your prefered Wi-Fi.',
       what_if_1: 'What if I don\'t see my Wi-Fi?',
       what_if_1_content: '1. The Wi-Fi encryption mode should be WPA2 or no password.\n2. The encryption mode can be set in the Wi-Fi router administration interface. If the router doesn’t support WPA2 and you need help picking out the right router, please contact FLUX Support.',
@@ -310,6 +312,7 @@ const lang: ILang = {
       title: 'Connecting to Wired Network',
       tutorial1: '1. Connect the machine with your router.',
       tutorial2: '2. Press "Network" to get the wired network IP.',
+      tutorial2_ador: '2. Press "MACHINE" > "Network" to get the wired network IP.',
       what_if_1: 'What if the IP is empty?',
       what_if_1_content: '1. Make sure the Ethernet Cable is fully plugged in.\n2. If there is no MAC Address of the wired network on the touchscreen, please contact FLUX Support.',
       what_if_2: 'What if the IP starts with 169?',
@@ -332,7 +335,7 @@ const lang: ILang = {
       tutorial2: 'Click \'Next\'.',
       turn_off_machine: 'Turn off the machine.',
       turn_on_machine: 'Turn on the machine.',
-      wait_for_turning_on: 'Click \'Next\' after the startup process is complete.',
+      wait_for_turning_on: 'Click \'Next\' after the startup process is complete and you have entered the main screen.',
     },
     connect_machine_ip: {
       check_usb: 'Check USB Connection',
@@ -443,6 +446,7 @@ const lang: ILang = {
     module_offset_printer: 'Printer Offset',
     module_offset_2w_ir: '2W Infrared Laser Offset',
     printer_advanced_mode: 'Printer Advanced Mode',
+    default_laser_module: 'Default Laser Module',
     groups: {
       general: 'General',
       update: 'Software Updates',
@@ -1447,7 +1451,8 @@ const lang: ILang = {
     calculating_regression_parameters: 'Calculating Regression Parameters...',
     failed_to_calibrate_camera: '#848 Failed to calibrate camera, please contact FLUX Support.',
     failed_to_save_calibration_results: '#849 Failed to save calibration results, please try again. If this keeps happening, please contact FLUX Support.',
-    ador_autofocus: 'Press the "AF" icon on the main page of the machine for 3 seconds and let the probe touch the Focusing block.',
+    ador_autofocus_material: 'Press the “AF” icon on the main page of the machine for 3 seconds and let the probe touch the material softly.',
+    ador_autofocus_focusing_block: 'Press the "AF" icon on the main page of the machine for 3 seconds and let the probe touch the Focusing block.',
     align_red_cross_cut: 'Please align the middle of the red cross with the cut cross.',
     align_red_cross_print: 'Please align the middle of the red cross with the printed cross.',
     retake: 'Retake Picture',
@@ -1536,6 +1541,8 @@ const lang: ILang = {
       convertFromPrintingModuleMsg: 'Please be aware that if you complete this operation, the color settings of the printing layer will be removed and set according to the current layer.',
       convertFromLaserModuleTitle: 'Do you want to convert the Laser module into Printing module?',
       convertFromLaserModuleMsg: 'Please be aware that if you complete this operation, the settings of the laser layer will be removed and set according to the current layer.',
+      importedDocumentContainsPrinting: 'The document contains printing layer, would you like to change workarea to Ador?',
+      printingLayersCoverted: 'The printing layers have been converted into laser layers.',
     },
   },
 };

@@ -46,19 +46,23 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
   const isInch = useMemo(() => unit === 'in', [unit]);
 
   useEffect(() => {
+    let effectEnded = false;
     let timeout: NodeJS.Timeout;
     if (step === Step.ASK_FOCUS && (value === undefined || value === null)) {
       const checkHeight = async () => {
         const probeHeight = await getProbeHeight();
         if (probeHeight !== null) {
           setValue(probeHeight);
-        } else {
+        } else if (!effectEnded) {
           timeout = setTimeout(checkHeight, 1000);
         }
       };
       checkHeight();
     }
-    return () => clearTimeout(timeout);
+    return () => {
+      effectEnded = true;
+      clearTimeout(timeout);
+    };
   }, [step, value]);
 
   if (step === Step.ASK_FOCUS) {
@@ -105,7 +109,7 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
         <video className={styles.video} autoPlay loop muted>
           <source src="video/ador-preview-af.webm" type="video/webm" />
           <source src="video/ador-preview-af.mp4" type="video/mp4" />
-      </video>
+        </video>
       </Modal>
     );
   }

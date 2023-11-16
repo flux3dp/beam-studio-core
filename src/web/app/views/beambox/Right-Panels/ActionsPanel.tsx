@@ -48,7 +48,7 @@ class ActionsPanel extends React.Component<Props> {
         callbacks: async () => {
           ObjectPanelController.updateActiveKey(null);
           const res = await fileExportHelper.toggleUnsavedChangedDialog();
-          if (res) window.location.hash = '#initialize/connect/select-connection-type';
+          if (res) window.location.hash = '#initialize/connect/select-machine-model';
         },
       });
       return;
