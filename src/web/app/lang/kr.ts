@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: '이 작업을 완료하면 레이저 레이어의 설정이 제거되어 현재 레이어에 따라 설정됩니다.',
       importedDocumentContainsPrinting: '이 문서에는 인쇄 레이어가 포함되어 있습니다. 작업 영역을 Ador로 변경하시겠습니까?',
       printingLayersCoverted: '인쇄 레이어가 레이저 레이어로 변환되었습니다.',
+      performPrintingCaliTitle: '인쇄 모듈 캘리브레이션을 수행하세요.',
+      performPrintingCaliMsg: '확인"을 클릭하여 보정을 실행하거나 상단 메뉴에서 보정에 접근하십시오.<br />(기계 > [귀하의 기계 이름] > 프린터 모듈 보정)',
+      performIRCaliTitle: '적외선 모듈 보정을 수행하세요."',
+      performIRCaliMsg: '확인"을 클릭하여 보정을 실행하거나 상단 메뉴에서 보정에 접근하십시오.<br />(기계 > [귀하의 기계 이름] > 적외선 모듈 보정)',
     },
   },
 };

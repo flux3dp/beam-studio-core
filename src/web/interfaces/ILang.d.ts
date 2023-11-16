@@ -1540,6 +1540,10 @@ export interface ILang {
       convertFromLaserModuleMsg: string;
       importedDocumentContainsPrinting: string;
       printingLayersCoverted: string;
+      performPrintingCaliTitle: string;
+      performPrintingCaliMsg: string;
+      performIRCaliTitle: string;
+      performIRCaliMsg: string;
     };
   },
 }

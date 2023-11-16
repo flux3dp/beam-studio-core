@@ -1,20 +1,22 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { sprintf } from 'sprintf-js';
 
-import Alert from 'app/actions/alert-caller';
-import AlertConfig from 'helpers/api/alert-config';
-import AlertConstants from 'app/constants/alert-constants';
+import alertCaller from 'app/actions/alert-caller';
+import alertConfig, { AlertConfigKey } from 'helpers/api/alert-config';
+import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import CalibrationType from 'app/components/dialogs/camera/AdorCalibration/calibrationTypes';
+import Constant from 'app/actions/beambox/constant';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
-import Constant from 'app/actions/beambox/constant';
 import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import getDevice from 'helpers/device/get-device';
 import isDev from 'helpers/is-dev';
-import storage from 'implementations/storage';
+import LayerModules, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import SymbolMaker from 'helpers/symbol-maker';
+import storage from 'implementations/storage';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import useI18n from 'helpers/useI18n';
@@ -24,6 +26,7 @@ import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 
 import styles from './GoButton.module.scss';
 
@@ -44,19 +47,24 @@ const GoButton = (props: Props): JSX.Element => {
   const { endPreviewMode, isPreviewing } = useContext(CanvasContext);
 
   const handleExportAlerts = async () => {
-    const layers = $('#svgcontent > g.layer').toArray();
+    const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
 
-    const isPowerTooHigh = !Constant.adorModels.includes(BeamboxPreference.read('workarea')) && layers.some((layer) => {
-      const strength = Number(layer.getAttribute('data-strength'));
-      const diode = Number(layer.getAttribute('data-diode'));
-      return strength > 70 && diode !== 1;
-    });
+    const isPowerTooHigh =
+      !Constant.adorModels.includes(BeamboxPreference.read('workarea')) &&
+      layers.some((layer) => {
+        const strength = Number(layer.getAttribute('data-strength'));
+        const diode = Number(layer.getAttribute('data-diode'));
+        return strength > 70 && diode !== 1;
+      });
     SymbolMaker.switchImageSymbolForAll(false);
     let isTooFastForPath = false;
     const tooFastLayers = [];
     for (let i = 0; i < layers.length; i += 1) {
       const layer = layers[i];
-      if (parseFloat(layer.getAttribute('data-speed')) > 20 && layer.getAttribute('display') !== 'none') {
+      if (
+        parseFloat(layer.getAttribute('data-speed')) > 20 &&
+        layer.getAttribute('display') !== 'none'
+      ) {
         const paths = Array.from($(layer).find('path, rect, ellipse, polygon, line'));
         const uses = $(layer).find('use');
         let hasWireframe = false;
@@ -100,46 +108,45 @@ const GoButton = (props: Props): JSX.Element => {
     if (isTooFastForPath) {
       await new Promise((resolve) => {
         if (BeamboxPreference.read('vector_speed_contraint') === false) {
-          if (!AlertConfig.read('skip_path_speed_warning')) {
+          if (!alertConfig.read('skip_path_speed_warning')) {
             let message = lang.beambox.popup.too_fast_for_path;
             if (storage.get('default-units') === 'inches') {
               message = message.replace(/20mm\/s/g, '0.8in/s');
             }
-            Alert.popUp({
+            alertCaller.popUp({
               message,
-              type: AlertConstants.SHOW_POPUP_WARNING,
+              type: alertConstants.SHOW_POPUP_WARNING,
               checkbox: {
                 text: lang.beambox.popup.dont_show_again,
                 callbacks: () => {
-                  AlertConfig.write('skip_path_speed_warning', true);
+                  alertConfig.write('skip_path_speed_warning', true);
                   resolve(null);
                 },
               },
-              callbacks: () => {
-                resolve(null);
-              },
+              callbacks: () => resolve(null),
             });
           } else {
             resolve(null);
           }
-        } else if (!AlertConfig.read('skip_path_speed_constraint_warning')) {
-          let message = sprintf(lang.beambox.popup.too_fast_for_path_and_constrain, tooFastLayers.join(', '));
+        } else if (!alertConfig.read('skip_path_speed_constraint_warning')) {
+          let message = sprintf(
+            lang.beambox.popup.too_fast_for_path_and_constrain,
+            tooFastLayers.join(', ')
+          );
           if (storage.get('default-units') === 'inches') {
             message = message.replace(/20mm\/s/g, '0.8in/s');
           }
-          Alert.popUp({
+          alertCaller.popUp({
             message,
-            type: AlertConstants.SHOW_POPUP_WARNING,
+            type: alertConstants.SHOW_POPUP_WARNING,
             checkbox: {
               text: lang.beambox.popup.dont_show_again,
               callbacks: () => {
-                AlertConfig.write('skip_path_speed_constraint_warning', true);
+                alertConfig.write('skip_path_speed_constraint_warning', true);
                 resolve(null);
               },
             },
-            callbacks: () => {
-              resolve(null);
-            },
+            callbacks: () => resolve(null),
           });
         } else {
           resolve(null);
@@ -149,20 +156,75 @@ const GoButton = (props: Props): JSX.Element => {
     return true;
   };
 
+  const checkModuleCalibration = useCallback(
+    async (device: IDeviceInfo) => {
+      const workarea = BeamboxPreference.read('workarea');
+      if (!modelsWithModules.includes(workarea) || !modelsWithModules.includes(device.model))
+        return;
+      const moduleOffsets = BeamboxPreference.read('module-offsets') || {};
+      const getLayers = (module: LayerModules) =>
+        document.querySelectorAll(
+          `#svgcontent > g.layer[data-module="${module}"]:not([display="none"]):not([data-repeat="0"])`
+        );
+      const checkCalibration = async (
+        layerModule: LayerModules,
+        calibrationType: CalibrationType,
+        alertTitle: string,
+        alertMsg: string
+      ) => {
+        const alertConfigKey = `skip-cali-${layerModule}-warning`;
+        if (!moduleOffsets?.[layerModule] && !alertConfig.read(alertConfigKey as AlertConfigKey)) {
+          const moduleLayers = [...getLayers(layerModule)];
+          if (
+            moduleLayers.some(
+              (g) => !!g.querySelector(':not(title):not(filter):not(g):not(feColorMatrix)')
+            )
+          ) {
+            const doCali = await new Promise((resolve) => {
+              alertCaller.popUp({
+                id: 'module-cali-warning',
+                caption: alertTitle,
+                message: alertMsg,
+                buttonType: alertConstants.YES_NO,
+                onYes: () => resolve(true),
+                onNo: () => resolve(false),
+              });
+            });
+            if (doCali) await showAdorCalibration(calibrationType);
+          }
+        }
+      };
+      const langNotification = lang.layer_module.notification;
+      await checkCalibration(
+        LayerModules.PRINTER,
+        CalibrationType.PRINTER_HEAD,
+        langNotification.performPrintingCaliTitle,
+        langNotification.performPrintingCaliMsg
+      );
+      await checkCalibration(
+        LayerModules.LASER_1064,
+        CalibrationType.IR_LASER,
+        langNotification.performIRCaliTitle,
+        langNotification.performIRCaliMsg
+      );
+    },
+    [lang]
+  );
+
   const exportTask = async (device: IDeviceInfo) => {
     const showForceUpdateAlert = (id: string) => {
-      Alert.popUp({
+      alertCaller.popUp({
         id,
         message: lang.update.firmware.force_update_message,
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        buttonType: AlertConstants.CUSTOM_CANCEL,
+        type: alertConstants.SHOW_POPUP_ERROR,
+        buttonType: alertConstants.CUSTOM_CANCEL,
         buttonLabels: [lang.update.update],
         callbacks: () => {
           executeFirmwareUpdate(device, 'firmware');
         },
         onCancel: () => {},
       });
-    }
+    };
     const { version, model } = device;
     if (version === '4.1.1' && model !== 'fhexa1') {
       showForceUpdateAlert('4.1.1-version-alert');
@@ -180,10 +242,10 @@ const GoButton = (props: Props): JSX.Element => {
 
     const vc = VersionChecker(version);
     if (!vc.meetRequirement('USABLE_VERSION')) {
-      Alert.popUp({
+      alertCaller.popUp({
         id: 'fatal-occurred',
         message: lang.beambox.popup.should_update_firmware_to_continue,
-        type: AlertConstants.SHOW_POPUP_ERROR,
+        type: alertConstants.SHOW_POPUP_ERROR,
       });
       return;
     }
@@ -193,10 +255,10 @@ const GoButton = (props: Props): JSX.Element => {
     const allowedWorkareas = Constant.allowedWorkarea[model];
     if (currentWorkarea && allowedWorkareas) {
       if (!allowedWorkareas.includes(currentWorkarea)) {
-        Alert.popUp({
+        alertCaller.popUp({
           id: 'workarea unavailable',
           message: lang.message.unavailableWorkarea,
-          type: AlertConstants.SHOW_POPUP_ERROR,
+          type: alertConstants.SHOW_POPUP_ERROR,
         });
         return;
       }
@@ -224,10 +286,12 @@ const GoButton = (props: Props): JSX.Element => {
       if (!device) return;
       const deviceStatus = await checkDeviceStatus(device);
       if (!deviceStatus) return;
+      await checkModuleCalibration(device);
       exportTask(device);
     };
 
-    if (window.FLUX.version === 'web' && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
+    if (window.FLUX.version === 'web' && navigator.language !== 'da')
+      Dialog.forceLoginWrapper(handleExport);
     else handleExport();
   };
 

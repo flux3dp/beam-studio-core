@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'Tenga en cuenta que si completa esta operación, la configuración de la capa láser se eliminará y se establecerá de acuerdo con la capa actual.',
       importedDocumentContainsPrinting: 'El documento contiene capas de impresión. ¿Desea cambiar al área de trabajo a Ador?',
       printingLayersCoverted: 'Las capas de impresión se han convertido en capas láser.',
+      performPrintingCaliTitle: 'Realice la calibración del módulo de impresión',
+      performPrintingCaliMsg: 'Haz clic en "Confirmar" para ejecutar la calibración o accede a la calibración a través del menú superior.<br />(Máquina > [Nombre de tu máquina] > Calibrar Módulo de Impresión)',
+      performIRCaliTitle: 'Realizar la calibración del módulo infrarrojo.',
+      performIRCaliMsg: 'Haz clic en "Confirmar" para ejecutar la calibración o accede a la calibración a través del menú superior.<br />(Máquina > [Nombre de tu máquina] > Calibrar módulo infrarrojo)',
     },
   },
 };
