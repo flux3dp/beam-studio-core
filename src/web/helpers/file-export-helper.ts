@@ -180,7 +180,7 @@ const exportAsSVG = async (): Promise<void> => {
     svgCanvas.removeUnusedDefs();
     const res = removeNPElementsWrapper(
       () => switchSymbolWrapper(
-        () => svgCanvas.getSvgString('mm'),
+        () => svgCanvas.getSvgString({ unit: 'mm' }),
       ),
     );
     $('g.layer').attr('clip-path', 'url(#scene_mask)');
