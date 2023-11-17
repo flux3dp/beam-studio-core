@@ -23,6 +23,10 @@ class UtilsWebSocket extends EventEmitter {
     });
   }
 
+  isAlive(): boolean {
+    return this.ws.getReadyState() === 1;
+  }
+
   removeCommandListeners(): void {
     this.removeAllListeners('message');
     this.removeAllListeners('error');
@@ -137,7 +141,7 @@ class UtilsWebSocket extends EventEmitter {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
-      this.on('message', (response: { status: string, progress?: number }) => {
+      this.on('message', (response: { status: string; progress?: number }) => {
         const { status } = response;
         if (['ok', 'fail'].includes(status)) {
           this.removeCommandListeners();
@@ -159,6 +163,61 @@ class UtilsWebSocket extends EventEmitter {
       this.ws.send(`upload_to ${data.byteLength} ${path}`);
     });
   }
+
+  transformRgbImageToCmyk = async (
+    blob: Blob,
+    opts: { onProgress?: (progress: number) => void; resultType?: 'binary' | 'base64' } = {}
+  ) => {
+    const data = await arrayBuffer(blob);
+    const { onProgress, resultType = 'binary' } = opts;
+    return new Promise<string | Blob>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      let totalLength = 0;
+      const blobs: Blob[] = [];
+      this.on(
+        'message',
+        (response: Blob | { data?: string; status: string; length: number; progress?: number }) => {
+          console.log(response);
+          if (response instanceof Blob) {
+            blobs.push(response as Blob);
+            const result = new Blob(blobs);
+            if (totalLength === result.size) {
+              resolve(result);
+            }
+          } else {
+            const { status, length, progress } = response as {
+              status: string;
+              length: number;
+              progress?: number;
+            };
+            if (status === 'continue') {
+              let sentLength = 0;
+              while (sentLength < data.byteLength) {
+                const end = Math.min(sentLength + 1000000, data.byteLength);
+                this.ws.send(data.slice(sentLength, end));
+                sentLength = end;
+              }
+            } else if (status === 'progress' && progress) {
+              if (onProgress) onProgress(progress);
+            } else if (status === 'complete') {
+              totalLength = length;
+            } else if (status === 'uploaded') {
+              console.log('Upload finished');
+            } else if (status === 'ok') {
+              resolve(response.data);
+            } else {
+              console.log('strange message from /ws/utils', response);
+              reject(Error('strange message from /ws/utils'));
+            }
+          }
+        }
+      );
+      const args = ['rgb_to_cmyk', data.byteLength, resultType === 'binary' ? 'binary' : 'base64'];
+      this.ws.send(args.join(' '));
+    });
+  };
 }
 
 let singleton: UtilsWebSocket = null;

@@ -11,9 +11,7 @@ const updateImagesResolution = async (
   fullResolution: boolean,
   parent?: Element
 ): Promise<void> => {
-  if (beamboxPreference.read('image_downsampling') === false) {
-    return;
-  }
+  if (beamboxPreference.read('image_downsampling') === false) return;
   const svgcontent = document.getElementById('svgcontent');
   const images = parent ? parent.querySelectorAll('image') : svgcontent?.querySelectorAll('image');
   if (!images) return;
