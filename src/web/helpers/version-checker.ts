@@ -5,7 +5,7 @@ const requirement = {
   B34_LOOSE_MOTOR: '3.3.0',
   UPDATE_BY_SOFTWARE: '3.2.6',
   MAINTAIN_WITH_LINECHECK: '3.2.6',
-  BEAM_STUDIO_2: '3.2.6',
+  BEAM_STUDIO_2: '3.5.1',
   RELOCATE_ORIGIN: '3.2.2',
   FAST_GRADIENT: '3.0.1',
   TEMP_I2C_CMD: '3.0.1',
