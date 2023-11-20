@@ -2,16 +2,18 @@
 /**
  * To get image data
  */
+import exifr from 'exifr';
+
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import imageProcessor from 'implementations/imageProcessor';
 
 import getExifRotationFlag from './image/getExifRotationFlag';
 import grayScale from './grayscale';
-import jimpHelper from './jimp-helper';
 
 const MAX_IMAGE_PIXEL = 1e8;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default (source: string | Blob, opts) => {
+export default async (source: string | Blob, opts) => {
   opts.onComplete = opts.onComplete || (() => {});
   opts.type = opts.type || 'image/png';
   // using jimp is slower, but generate correct white for full color image
@@ -19,66 +21,78 @@ export default (source: string | Blob, opts) => {
   // now we use jimp for full color image, and use new Image() for grayscale image
   if (opts.grayscale === undefined) {
     const url = typeof source === 'string' ? source : URL.createObjectURL(source);
-    jimpHelper.urlToImage(url).then(async (image) => {
-      if (typeof source !== 'string') URL.revokeObjectURL(url);
-      const imageCanvas = document.createElement('canvas');
-      imageCanvas.width = image.bitmap.width;
-      imageCanvas.height = image.bitmap.height;
-      const imageCtx = imageCanvas.getContext('2d') as CanvasRenderingContext2D;
-      const imageData = imageCtx.createImageData(imageCanvas.width, imageCanvas.height);
-      imageData.data.set(image.bitmap.data);
-      imageCtx.putImageData(imageData, 0, 0);
-      const resultCanvas = document.createElement('canvas');
-      const resultCtx = resultCanvas.getContext('2d') as CanvasRenderingContext2D;
-
-      const size = {
-        width: opts.width || image.bitmap.width,
-        height: opts.height || image.bitmap.height,
-      };
-      // DownSampling
-      if (BeamboxPreference.read('image_downsampling') !== false) {
-        if (!opts.isFullResolution) {
-          const longSide = Math.max(size.width, size.height);
-          const downRatio = Math.min(1, (1.5 * window.innerWidth) / longSide);
-          size.width = Math.round(size.width * downRatio);
-          size.height = Math.round(size.height * downRatio);
-        }
-      }
-      if (size.width * size.height > MAX_IMAGE_PIXEL) {
-        const downRatio = Math.sqrt(MAX_IMAGE_PIXEL / (size.width * size.height));
-        size.width = Math.floor(size.width * downRatio);
-        size.height = Math.floor(size.height * downRatio);
-        // eslint-disable-next-line no-console
-        console.log(`Size exceeds MAX_IMAGE_PIXEL, downsample to ${size.width} * ${size.height}`);
-      }
-      resultCanvas.width = size.width;
-      resultCanvas.height = size.height;
-      resultCtx.drawImage(
-        imageCanvas,
-        0,
-        0,
-        imageCanvas.width,
-        imageCanvas.height,
-        0,
-        0,
-        size.width,
-        size.height
-      );
-      const resultImageData = resultCtx.getImageData(0, 0, size.width, size.height);
-      if (typeof opts.grayscale !== 'undefined') {
-        const grayScaledBinary = grayScale(resultImageData.data, opts.grayscale);
-        resultImageData.data.set(grayScaledBinary);
-        resultCtx.putImageData(resultImageData, 0, 0);
-      }
-      const pngBase64 = resultCanvas.toDataURL('image/png');
-      await opts.onComplete({
-        resultCanvas,
-        size,
-        data: resultImageData,
-        imageBinary: resultImageData.data,
-        blob: new Blob([resultImageData.data], { type: opts.type }),
-        pngBase64,
+    const exifrData = await exifr.parse(url, { icc: true });
+    const isCMYK = exifrData?.ColorSpaceData === 'CMYK';
+    const resp = await fetch(url);
+    if (opts?.purpose !== 'spliting' && isCMYK) {
+      // for cmyk image display, we use the source url to display icc profile color
+      opts.onComplete({
+        pngBase64: url,
       });
+      return;
+    }
+
+    const arrayBuffer = await resp.arrayBuffer();
+    const image = await imageProcessor.read(arrayBuffer as Buffer);
+    if (typeof source !== 'string') URL.revokeObjectURL(url);
+    const imageCanvas = document.createElement('canvas');
+    imageCanvas.width = image.bitmap.width;
+    imageCanvas.height = image.bitmap.height;
+    const imageCtx = imageCanvas.getContext('2d') as CanvasRenderingContext2D;
+    const imageData = imageCtx.createImageData(imageCanvas.width, imageCanvas.height);
+    imageData.data.set(image.bitmap.data);
+    imageCtx.putImageData(imageData, 0, 0);
+    const resultCanvas = document.createElement('canvas');
+    const resultCtx = resultCanvas.getContext('2d') as CanvasRenderingContext2D;
+
+    const size = {
+      width: opts.width || image.bitmap.width,
+      height: opts.height || image.bitmap.height,
+    };
+    // DownSampling
+    const imageDownsampling = BeamboxPreference.read('image_downsampling');
+    if (imageDownsampling !== false && !opts.isFullResolution) {
+      const longSide = Math.max(size.width, size.height);
+      const downRatio = Math.min(1, (1.5 * window.innerWidth) / longSide);
+      if (downRatio < 1) {
+        size.width = Math.round(size.width * downRatio);
+        size.height = Math.round(size.height * downRatio);
+      }
+    }
+    if (size.width * size.height > MAX_IMAGE_PIXEL) {
+      const downRatio = Math.sqrt(MAX_IMAGE_PIXEL / (size.width * size.height));
+      size.width = Math.floor(size.width * downRatio);
+      size.height = Math.floor(size.height * downRatio);
+      // eslint-disable-next-line no-console
+      console.log(`Size exceeds MAX_IMAGE_PIXEL, downsample to ${size.width} * ${size.height}`);
+    }
+    resultCanvas.width = size.width;
+    resultCanvas.height = size.height;
+    resultCtx.drawImage(
+      imageCanvas,
+      0,
+      0,
+      imageCanvas.width,
+      imageCanvas.height,
+      0,
+      0,
+      size.width,
+      size.height
+    );
+    const resultImageData = resultCtx.getImageData(0, 0, size.width, size.height);
+    if (typeof opts.grayscale !== 'undefined') {
+      const grayScaledBinary = grayScale(resultImageData.data, opts.grayscale);
+      resultImageData.data.set(grayScaledBinary);
+      resultCtx.putImageData(resultImageData, 0, 0);
+    }
+    const pngBase64 = resultCanvas.toDataURL('image/png');
+    await opts.onComplete({
+      resultCanvas,
+      size,
+      data: resultImageData,
+      imageBinary: resultImageData.data,
+      blob: new Blob([resultImageData.data], { type: opts.type }),
+      pngBase64,
     });
   } else {
     const img = new Image();
@@ -90,9 +104,8 @@ export default (source: string | Blob, opts) => {
         height: opts.height || e.target.naturalHeight,
       };
       let imageBinary;
-      const fetchedData = await fetch(img.src);
-      const response = await fetchedData.blob();
-      const arrayBuffer = await new Response(response).arrayBuffer();
+      const response = await fetch(img.src);
+      const arrayBuffer = await response.arrayBuffer();
       const rotationFlag = getExifRotationFlag(arrayBuffer);
 
       // DownSampling

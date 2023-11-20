@@ -22,7 +22,6 @@ const updateImageForSpliting = async (layerElement: SVGGElement): Promise<void> 
       const blob = await resp.blob();
       const newBase64 = await utilWS.transformRgbImageToCmyk(blob, { resultType: 'base64' }) as string;
       image.setAttributeNS(NS.XLINK, 'xlink:href', `data:image/jpeg;base64,${newBase64}`);
-
     } else if (!isFullResolution) {
       await new Promise<void>((resolve) => {
         imageData(origImage, {
@@ -32,6 +31,7 @@ const updateImageForSpliting = async (layerElement: SVGGElement): Promise<void> 
             image.setAttributeNS(NS.XLINK, 'xlink:href', result.pngBase64);
             resolve();
           },
+          purpose: 'spliting',
         });
       });
     }
