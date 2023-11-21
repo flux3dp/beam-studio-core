@@ -367,7 +367,7 @@ class Control extends EventEmitter {
       }
     }
     crc %= 65536;
-    return `${newCommand} *${crc}`;
+    return `${newCommand}*${crc}`;
   }
 
   ls = async (path: string) => (await this.useWaitOKResponse(`file ls ${path}`)).response;
@@ -986,8 +986,8 @@ class Control extends EventEmitter {
           console.log('raw end line check:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\n');
-        const i = resps.findIndex((r) => r === 'CTRL LINECHECK_DISABLED');
+        const resps = responseString.replace(/\r/g, '').split('\n');
+        const i = resps.findIndex((r) => r === 'CTRL LINECHECK_DISABLED' || r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
           this._isLineCheckMode = false;
