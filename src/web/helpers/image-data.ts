@@ -25,9 +25,21 @@ export default async (source: string | Blob, opts) => {
     const isCMYK = exifrData?.ColorSpaceData === 'CMYK';
     const resp = await fetch(url);
     if (opts?.purpose !== 'spliting' && isCMYK) {
+      const blob = await resp.blob();
+      const jpgBase64 = await new Promise<string>((resolve) => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          console.log('fileReader.onload');
+          const base64String = (fileReader.result as string).split(',')[1];
+          console.log(base64String);
+          resolve(`data:image/jpeg;base64,${base64String}`);
+        };
+        fileReader.readAsDataURL(blob);
+      });
+      console.log(jpgBase64);
       // for cmyk image display, we use the source url to display icc profile color
       opts.onComplete({
-        pngBase64: url,
+        pngBase64: jpgBase64,
       });
       return;
     }
