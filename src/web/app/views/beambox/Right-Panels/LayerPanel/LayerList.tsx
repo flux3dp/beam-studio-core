@@ -94,158 +94,166 @@ const LayerList = ({
       const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
-      const leftActions: Action[] = isMobile
-        ? [
-            {
-              key: 'lock',
-              text: isLocked ? <LayerPanelIcons.Unlock /> : <LayerPanelIcons.Lock />,
-              color: 'warning',
-              onClick: () => {
-                setLayerLock(layerName, !isLocked);
-                // let SwipeAction close before force update
-                setTimeout(forceUpdate);
-              },
-            },
-          ]
-        : undefined;
-      const rightActions: Action[] = isMobile
-        ? [
-            {
-              key: 'delete',
-              text: <ObjectPanelIcons.Trash />,
-              color: 'danger',
-              onClick: () => {
-                deleteLayerByName(layerName);
-                setSelectedLayers([]);
-              },
-            },
-          ]
-        : undefined;
       const module = getData<LayerModule>(layer, DataType.module);
-      items.push(
-        <SwipeAction
+      const layerItem = (
+        <div
           key={layerName}
-          ref={isSelected && layerName === selectedLayers[0] ? ref : undefined}
-          leftActions={leftActions}
-          rightActions={rightActions}
-          onActionsReveal={() => setSelectedLayers([layerName])}
+          data-testid={layerName}
+          data-layer={layerName}
+          className={classNames('layer-item', styles.item, {
+            [styles.selected]: isSelected,
+            [styles.locked]: isLocked,
+            [styles.current]: currentLayerName === layerName,
+          })}
+          onClick={(e: React.MouseEvent) => onLayerClick(e, layerName)}
+          onMouseOver={() => highlightLayer(layerName)}
+          onMouseOut={() => highlightLayer()}
+          draggable
+          onDragStart={(e: React.DragEvent) => onLayerDragStart(layerName, e)}
+          onDragEnd={onlayerDragEnd}
+          onTouchStart={(e: React.TouchEvent) => {
+            onLayerTouchStart(layerName, e, isMobile ? 100 : 800);
+          }}
+          onTouchMove={onLayerTouchMove}
+          onTouchEnd={onLayerTouchEnd}
+          onFocus={() => {}}
+          onBlur={() => {}}
         >
           <div
-            data-testid={layerName}
+            className={styles['drag-sensor-area']}
+            data-index={i + 1}
+            onDragEnter={() => onSensorAreaDragEnter(i + 1)}
+          />
+          <div
+            className={styles.row}
             data-layer={layerName}
-            className={classNames('layer-item', styles.item, {
-              [styles.selected]: isSelected,
-              [styles.locked]: isLocked,
-              [styles.current]: currentLayerName === layerName,
-            })}
-            onClick={(e: React.MouseEvent) => onLayerClick(e, layerName)}
-            onMouseOver={() => highlightLayer(layerName)}
-            onMouseOut={() => highlightLayer()}
-            draggable
-            onDragStart={(e: React.DragEvent) => onLayerDragStart(layerName, e)}
-            onDragEnd={onlayerDragEnd}
-            onTouchStart={(e: React.TouchEvent) => {
-              onLayerTouchStart(layerName, e, isMobile ? 100 : 800);
-            }}
-            onTouchMove={onLayerTouchMove}
-            onTouchEnd={onLayerTouchEnd}
-            onFocus={() => {}}
-            onBlur={() => {}}
+            onDragEnter={() => onLayerCenterDragEnter(layerName)}
           >
-            <div
-              className={styles['drag-sensor-area']}
-              data-index={i + 1}
-              onDragEnter={() => onSensorAreaDragEnter(i + 1)}
-            />
-            <div
-              className={styles.row}
-              data-layer={layerName}
-              onDragEnter={() => onLayerCenterDragEnter(layerName)}
-            >
-              <div className={styles.color}>
-                {isFullColor ? (
-                  <LayerPanelIcons.FullColor />
-                ) : (
-                  <ColorPicker
-                    initColor={drawing.getLayerColor(layerName)}
-                    printerColor={module === LayerModule.PRINTER}
-                    triggerSize="small"
-                    onChange={(color) => onLayerColorChange(layerName, color)}
-                  />
-                )}
-              </div>
-              {shouldShowModuleIcon && (
-                <div className={styles.module}>
-                  {module === LayerModule.PRINTER ? (
-                    <LayerPanelIcons.Print />
-                  ) : (
-                    <LayerPanelIcons.Laser />
-                  )}
-                </div>
-              )}
-              <div
-                id={`layerdoubleclick-${i}`}
-                className={classNames(styles.name, {
-                  [styles['with-module']]: shouldShowModuleIcon,
-                })}
-                onDoubleClick={(e: React.MouseEvent) => {
-                  if (!isMobile && !e.ctrlKey && !e.shiftKey && !e.metaKey) onLayerDoubleClick();
-                }}
-              >
-                {layerName}
-              </div>
-              {isMobile && (
-                <div
-                  id={`layerlock-${i}`}
-                  className={styles.lock}
-                  onClick={(e: React.MouseEvent) => {
-                    if (isLocked) {
-                      e.stopPropagation();
-                      unLockLayers(layerName);
-                    }
-                  }}
-                >
-                  <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
-                </div>
-              )}
-              <div
-                id={`layervis-${i}`}
-                className={styles.vis}
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  setLayerVisibility(layerName);
-                }}
-              >
-                {isVis ? <LayerPanelIcons.Visible /> : <LayerPanelIcons.Invisible />}
-              </div>
-              {isMobile && (
-                <div>
-                  <LayerPanelIcons.Move />
-                </div>
-              )}
-              {!isMobile && (
-                <div
-                  id={`layerlock-${i}`}
-                  className={styles.lock}
-                  onClick={(e: React.MouseEvent) => {
-                    if (isLocked) {
-                      e.stopPropagation();
-                      unLockLayers(layerName);
-                    }
-                  }}
-                >
-                  <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
-                </div>
+            <div className={styles.color}>
+              {isFullColor ? (
+                <LayerPanelIcons.FullColor />
+              ) : (
+                <ColorPicker
+                  initColor={drawing.getLayerColor(layerName)}
+                  printerColor={module === LayerModule.PRINTER}
+                  triggerSize="small"
+                  onChange={(color) => onLayerColorChange(layerName, color)}
+                />
               )}
             </div>
+            {shouldShowModuleIcon && (
+              <div className={styles.module}>
+                {module === LayerModule.PRINTER ? (
+                  <LayerPanelIcons.Print />
+                ) : (
+                  <LayerPanelIcons.Laser />
+                )}
+              </div>
+            )}
             <div
-              className={styles['drag-sensor-area']}
-              data-index={i}
-              onDragEnter={() => onSensorAreaDragEnter(i)}
-            />
+              id={`layerdoubleclick-${i}`}
+              className={classNames(styles.name, {
+                [styles['with-module']]: shouldShowModuleIcon,
+              })}
+              onDoubleClick={(e: React.MouseEvent) => {
+                if (!isMobile && !e.ctrlKey && !e.shiftKey && !e.metaKey) onLayerDoubleClick();
+              }}
+            >
+              {layerName}
+            </div>
+            {isMobile && (
+              <div
+                id={`layerlock-${i}`}
+                className={styles.lock}
+                onClick={(e: React.MouseEvent) => {
+                  if (isLocked) {
+                    e.stopPropagation();
+                    unLockLayers(layerName);
+                  }
+                }}
+              >
+                <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
+              </div>
+            )}
+            <div
+              id={`layervis-${i}`}
+              className={styles.vis}
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                setLayerVisibility(layerName);
+              }}
+            >
+              {isVis ? <LayerPanelIcons.Visible /> : <LayerPanelIcons.Invisible />}
+            </div>
+            {isMobile && (
+              <div>
+                <LayerPanelIcons.Move />
+              </div>
+            )}
+            {!isMobile && (
+              <div
+                id={`layerlock-${i}`}
+                className={styles.lock}
+                onClick={(e: React.MouseEvent) => {
+                  if (isLocked) {
+                    e.stopPropagation();
+                    unLockLayers(layerName);
+                  }
+                }}
+              >
+                <img src="img/right-panel/icon-layerlock.svg" alt="lock-icon" />
+              </div>
+            )}
           </div>
-        </SwipeAction>
+          <div
+            className={styles['drag-sensor-area']}
+            data-index={i}
+            onDragEnter={() => onSensorAreaDragEnter(i)}
+          />
+        </div>
       );
+      if (!isMobile) {
+        items.push(layerItem);
+      } else {
+        const leftActions: Action[] = isMobile
+          ? [
+              {
+                key: 'lock',
+                text: isLocked ? <LayerPanelIcons.Unlock /> : <LayerPanelIcons.Lock />,
+                color: 'warning',
+                onClick: () => {
+                  setLayerLock(layerName, !isLocked);
+                  // let SwipeAction close before force update
+                  setTimeout(forceUpdate);
+                },
+              },
+            ]
+          : undefined;
+        const rightActions: Action[] = isMobile
+          ? [
+              {
+                key: 'delete',
+                text: <ObjectPanelIcons.Trash />,
+                color: 'danger',
+                onClick: () => {
+                  deleteLayerByName(layerName);
+                  setSelectedLayers([]);
+                },
+              },
+            ]
+          : undefined;
+        items.push(
+          <SwipeAction
+            key={layerName}
+            ref={isSelected && layerName === selectedLayers[0] ? ref : undefined}
+            leftActions={leftActions}
+            rightActions={rightActions}
+            onActionsReveal={() => setSelectedLayers([layerName])}
+          >
+            {layerItem}
+          </SwipeAction>
+        );
+      }
       if (draggingDestIndex === i) {
         items.push(renderDragBar());
       }

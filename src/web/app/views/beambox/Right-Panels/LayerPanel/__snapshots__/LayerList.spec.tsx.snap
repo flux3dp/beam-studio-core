@@ -7,165 +7,119 @@ exports[`test LayerList should render correctly 1`] = `
     id="layerlist"
   >
     <div
-      class="adm-swipe-action"
+      class="layer-item item locked"
+      data-layer="layer2"
+      data-testid="layer2"
+      draggable="true"
     >
       <div
-        class="adm-swipe-action-track"
-        style="transform: none;"
+        class="drag-sensor-area"
+        data-index="2"
+      />
+      <div
+        class="row"
+        data-layer="layer2"
       >
         <div
-          class="adm-swipe-action-actions adm-swipe-action-actions-left"
-        />
-        <div
-          class="adm-swipe-action-content"
+          class="color"
         >
-          <div
-            style="pointer-events: auto;"
-          >
-            <div
-              class="layer-item item locked"
-              data-layer="layer2"
-              data-testid="layer2"
-              draggable="true"
-            >
-              <div
-                class="drag-sensor-area"
-                data-index="2"
-              />
-              <div
-                class="row"
-                data-layer="layer2"
-              >
-                <div
-                  class="color"
-                >
-                  <svgr-url />
-                </div>
-                <div
-                  class="name"
-                  id="layerdoubleclick-1"
-                >
-                  layer2
-                </div>
-                <div
-                  class="vis"
-                  id="layervis-1"
-                >
-                  <svgr-url />
-                </div>
-                <div
-                  class="lock"
-                  id="layerlock-1"
-                >
-                  <img
-                    alt="lock-icon"
-                    src="img/right-panel/icon-layerlock.svg"
-                  />
-                </div>
-              </div>
-              <div
-                class="drag-sensor-area"
-                data-index="1"
-              />
-            </div>
-          </div>
+          <svgr-url />
         </div>
         <div
-          class="adm-swipe-action-actions adm-swipe-action-actions-right"
-        />
+          class="name"
+          id="layerdoubleclick-1"
+        >
+          layer2
+        </div>
+        <div
+          class="vis"
+          id="layervis-1"
+        >
+          <svgr-url />
+        </div>
+        <div
+          class="lock"
+          id="layerlock-1"
+        >
+          <img
+            alt="lock-icon"
+            src="img/right-panel/icon-layerlock.svg"
+          />
+        </div>
       </div>
+      <div
+        class="drag-sensor-area"
+        data-index="1"
+      />
     </div>
     <div
-      class="adm-swipe-action"
+      class="layer-item item selected"
+      data-layer="layer1"
+      data-testid="layer1"
+      draggable="true"
     >
       <div
-        class="adm-swipe-action-track"
-        style="transform: none;"
+        class="drag-sensor-area"
+        data-index="1"
+      />
+      <div
+        class="row"
+        data-layer="layer1"
       >
         <div
-          class="adm-swipe-action-actions adm-swipe-action-actions-left"
-        />
-        <div
-          class="adm-swipe-action-content"
+          class="color"
         >
-          <div
-            style="pointer-events: auto;"
-          >
-            <div
-              class="layer-item item selected"
-              data-layer="layer1"
-              data-testid="layer1"
-              draggable="true"
+          <div>
+            MockColorPicker
+            <p>
+              disabled: 
+              n
+            </p>
+            <p>
+              initColor: 
+              #000000
+            </p>
+            <p>
+              triggerSize: 
+              small
+            </p>
+            <p>
+              printerColor: 
+              n
+            </p>
+            <button
+              type="button"
             >
-              <div
-                class="drag-sensor-area"
-                data-index="1"
-              />
-              <div
-                class="row"
-                data-layer="layer1"
-              >
-                <div
-                  class="color"
-                >
-                  <div>
-                    MockColorPicker
-                    <p>
-                      disabled: 
-                      n
-                    </p>
-                    <p>
-                      initColor: 
-                      #000000
-                    </p>
-                    <p>
-                      triggerSize: 
-                      small
-                    </p>
-                    <p>
-                      printerColor: 
-                      n
-                    </p>
-                    <button
-                      type="button"
-                    >
-                      changeColor
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="name"
-                  id="layerdoubleclick-0"
-                >
-                  layer1
-                </div>
-                <div
-                  class="vis"
-                  id="layervis-0"
-                >
-                  <svgr-url />
-                </div>
-                <div
-                  class="lock"
-                  id="layerlock-0"
-                >
-                  <img
-                    alt="lock-icon"
-                    src="img/right-panel/icon-layerlock.svg"
-                  />
-                </div>
-              </div>
-              <div
-                class="drag-sensor-area"
-                data-index="0"
-              />
-            </div>
+              changeColor
+            </button>
           </div>
         </div>
         <div
-          class="adm-swipe-action-actions adm-swipe-action-actions-right"
-        />
+          class="name"
+          id="layerdoubleclick-0"
+        >
+          layer1
+        </div>
+        <div
+          class="vis"
+          id="layervis-0"
+        >
+          <svgr-url />
+        </div>
+        <div
+          class="lock"
+          id="layerlock-0"
+        >
+          <img
+            alt="lock-icon"
+            src="img/right-panel/icon-layerlock.svg"
+          />
+        </div>
       </div>
+      <div
+        class="drag-sensor-area"
+        data-index="0"
+      />
     </div>
   </div>
 </div>
