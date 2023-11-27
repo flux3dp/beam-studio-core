@@ -7,6 +7,7 @@ import LangFr from 'app/lang/fr';
 import LangJa from 'app/lang/ja';
 import LangKr from 'app/lang/kr';
 import LangNl from 'app/lang/nl';
+import LangPl from 'app/lang/pl';
 import LangZHCN from 'app/lang/zh-cn';
 import LangZHTW from 'app/lang/zh-tw';
 import storage from 'implementations/storage';
@@ -24,6 +25,7 @@ const langCache = {
   ja: LangJa,
   kr: LangKr,
   'zh-cn': LangZHCN,
+  pl: LangPl,
 };
 
 let activeLang = storage.get(ACTIVE_LANG) as string || AppSettings.i18n.default_lang;

@@ -32,6 +32,7 @@ import frFR from 'antd/locale/fr_FR';
 import zhTW from 'antd/locale/zh_TW';
 import koKR from 'antd/locale/ko_KR';
 import jaJP from 'antd/locale/ja_JP';
+import plPL from 'antd/locale/pl_PL';
 
 const { defaultAlgorithm } = theme;
 
@@ -45,6 +46,7 @@ const localeMap = {
   'it-IT': itIT,
   'de-DE': deDE,
   'en-US': enUS,
+  'pl-PL': plPL,
 };
 
 console.log('Loading language', navigator.language);
