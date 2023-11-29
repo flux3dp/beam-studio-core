@@ -354,7 +354,7 @@ export default class SvgEditor extends React.Component {
                       Nederlands
                     </option>
                     <option id="lang_pl" value="pl">
-                      język polski
+                      Polski
                     </option>
                   </select>
                 </label>
