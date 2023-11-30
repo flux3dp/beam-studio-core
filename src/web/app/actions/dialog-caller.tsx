@@ -21,6 +21,7 @@ import PreviewHeight from 'app/components/dialogs/PreviewHeight';
 import Prompt from 'app/views/dialogs/Prompt';
 import RadioSelectDialog from 'app/components/dialogs/RadioSelectDialog';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
+import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationParameters3DPanel';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
@@ -30,6 +31,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
+import { RotationParameters3D } from 'app/constants/camera-calibration-constants';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -428,4 +430,20 @@ export default {
         />
       );
     }),
+  showRotationParameters3DPanel: ({ initParams, onApply, onSave }: {
+    initParams?: RotationParameters3D;
+    onApply: (params: RotationParameters3D) => void;
+    onSave: (params: RotationParameters3D) => void;
+  }): void => {
+    if (isIdExist('rotation-parameters-3d')) return;
+    addDialogComponent(
+      'rotation-parameters-3d',
+      <RotationParameters3DPanel
+        initialParams={initParams}
+        onApply={onApply}
+        onSave={onSave}
+        onClose={() => popDialogById('rotation-parameters-3d')}
+      />
+    );
+  }
 };
