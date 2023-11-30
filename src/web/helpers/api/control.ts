@@ -660,6 +660,7 @@ class Control extends EventEmitter {
   fetchFisheyeParams = () => new Promise((resolve, reject) => {
     const file = [];
     this.on(EVENT_COMMAND_MESSAGE, async (response) => {
+      console.log(response);
       if (response.status === 'transfer') {
         this.emit(EVENT_COMMAND_PROGRESS, response);
       } else if (!Object.keys(response).includes('completed')) {
@@ -672,6 +673,7 @@ class Control extends EventEmitter {
           try {
             const jsonString = e.target.result as string;
             const data = JSON.parse(jsonString);
+            console.log(data);
             resolve(data);
           } catch (err) {
             reject(err);

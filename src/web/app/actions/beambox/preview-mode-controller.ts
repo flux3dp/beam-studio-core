@@ -207,7 +207,7 @@ class PreviewModeController {
       const z = deviceConstants.WORKAREA_DEEP[device.model] - this.fisheyeObjectHeight;
       const rotationZ = sh * (z + ch);
       await deviceMaster.set3dRoation({ rx, ry, rz, h: rotationZ });
-      if (dhChanged && this.fisheyeObjectHeight) {
+      if (dhChanged) {
         await this.setFishEyeObjectHeight(this.fisheyeObjectHeight);
       }
     } else {
