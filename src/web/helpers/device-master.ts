@@ -1051,6 +1051,7 @@ class DeviceMaster {
     const { timeout = 30 } = opts;
     const startTime = Date.now();
     const cameraFishEyeSetting = this.currentDevice.camera?.getFisheyeSetting();
+    const fisheyeRotation = this.currentDevice.camera?.getRotationAngles();
     let lastErr = null;
     while (Date.now() - startTime < (timeout * 1000)) {
       try {
@@ -1068,6 +1069,8 @@ class DeviceMaster {
         // eslint-disable-next-line no-await-in-loop
         await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
       }
+      // eslint-disable-next-line no-await-in-loop
+      if (fisheyeRotation) await this.set3dRoation(fisheyeRotation);
     }
     if (lastErr) throw lastErr;
     return null;
