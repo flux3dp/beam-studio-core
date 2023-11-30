@@ -79,6 +79,11 @@ exports[`should render correctly 1`] = `
                   "selected": false,
                   "value": "nl",
                 },
+                {
+                  "label": "Polski",
+                  "selected": false,
+                  "value": "pl",
+                },
               ]
             }
           />
