@@ -186,6 +186,12 @@
       .text {
         width: 350px;
         margin-left: 60px;
+
+        @media screen and (max-width: 600px) {
+          margin-left: 0;
+          width: 100%;
+          clear: right;
+        }
       }
     }
   }

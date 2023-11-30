@@ -12,6 +12,7 @@ export default {
       'zh-cn': '简体中文',
       fr: 'Français',
       nl: 'Nederlands',
+      pl: 'Polski',
     },
   },
 

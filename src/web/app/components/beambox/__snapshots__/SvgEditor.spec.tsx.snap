@@ -777,6 +777,12 @@ exports[`test svg-editor should render correctly in mac 1`] = `
               >
                 Nederlands
               </option>
+              <option
+                id="lang_pl"
+                value="pl"
+              >
+                Polski
+              </option>
             </select>
           </label>
           <label>
@@ -1769,6 +1775,12 @@ exports[`test svg-editor should render correctly in win 1`] = `
                 value="nl"
               >
                 Nederlands
+              </option>
+              <option
+                id="lang_pl"
+                value="pl"
+              >
+                Polski
               </option>
             </select>
           </label>

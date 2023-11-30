@@ -263,6 +263,7 @@ const svgEditor = window['svgEditor'] = (function () {
     'zh-cn': 'zh-CN',
     fr: 'fr',
     nl: 'nl',
+    pl: 'pl',
   }
   const defaultFont = storage.get('default-font') as IFont;
   let pressedKey = [];
