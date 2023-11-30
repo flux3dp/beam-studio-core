@@ -95,11 +95,12 @@ const GoButton = (props: Props): JSX.Element => {
     }
     SymbolMaker.switchImageSymbolForAll(true);
 
-    if (isPowerTooHigh && !isDev()) {
+    if (!alertConfig.read('skip-high-power-confirm') && isPowerTooHigh && !isDev()) {
       const confirmed = await Dialog.showConfirmPromptDialog({
         caption: lang.topbar.alerts.power_too_high,
         message: lang.topbar.alerts.power_too_high_msg,
         confirmValue: lang.topbar.alerts.power_too_high_confirm,
+        alertConfigKey: 'skip-high-power-confirm',
       });
       if (!confirmed) {
         return false;

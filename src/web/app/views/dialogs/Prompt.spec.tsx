@@ -3,6 +3,25 @@ import { fireEvent, render } from '@testing-library/react';
 
 import Prompt from './Prompt';
 
+const mockWrite = jest.fn();
+const mockRead = jest.fn();
+jest.mock('helpers/api/alert-config', () => ({
+  write: (...args: any[]) => mockWrite(...args),
+  read: (...args: any[]) => mockRead(...args),
+}));
+
+jest.mock('helpers/useI18n', () => () => ({
+  alert: {
+    ok2: 'OK',
+    cancel: 'Cancel',
+  },
+  beambox: {
+    popup: {
+      dont_show_again: 'dont_show_again'
+    },
+  },
+}));
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     alert: {

@@ -25,6 +25,7 @@ import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationPar
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
+import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -251,6 +252,7 @@ export default {
     caption?: string;
     message?: string;
     confirmValue?: string;
+    alertConfigKey?: AlertConfigKey;
   }): Promise<boolean> =>
     new Promise((resolve) => {
       const id = getPromptId();
@@ -264,6 +266,7 @@ export default {
           onYes={(value) => {
             if (value === args.confirmValue) resolve(true);
           }}
+          alertConfigKey={args.alertConfigKey}
           onCancel={() => resolve(false)}
           onClose={() => popDialogById(id)}
         />
