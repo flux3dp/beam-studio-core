@@ -97,4 +97,41 @@ describe('test Prompt', () => {
     expect(onCancel).toBeCalledTimes(1);
     expect(onClose).toBeCalledTimes(2);
   });
+
+  it('should work with alertConfigKey', () => {
+    const { baseElement, getByText } = render(
+      <Prompt
+        caption="New Preset Name"
+        defaultValue=""
+        confirmValue="value"
+        alertConfigKey="skip_svg_version_warning"
+        onYes={onYes}
+        onCancel={onCancel}
+        onClose={onClose}
+      />
+    );
+    expect(baseElement).toMatchSnapshot();
+
+    fireEvent.click(baseElement.querySelector('input[type="checkbox"]'));
+    expect(onYes).not.toBeCalled();
+    baseElement.querySelector('input').value = 'not-value';
+    fireEvent.click(getByText('OK'));
+    expect(onYes).toBeCalledTimes(1);
+    expect(onYes).toHaveBeenLastCalledWith('not-value');
+    expect(onClose).not.toBeCalled();
+    expect(mockWrite).not.toBeCalled();
+
+    baseElement.querySelector('input').value = 'value';
+    fireEvent.click(getByText('OK'));
+    expect(onYes).toBeCalledTimes(2);
+    expect(onYes).toHaveBeenLastCalledWith('value');
+    expect(onClose).toBeCalledTimes(1);
+    expect(mockWrite).toBeCalledTimes(1);
+    expect(mockWrite).toHaveBeenLastCalledWith('skip_svg_version_warning', true);
+
+    expect(onCancel).not.toBeCalled();
+    fireEvent.click(getByText('Cancel'));
+    expect(onCancel).toBeCalledTimes(1);
+    expect(onClose).toBeCalledTimes(2);
+  });
 });
