@@ -13,7 +13,11 @@ import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { ConnectionError, SelectionResult } from 'app/constants/connection-constants';
-import { FisheyeCameraParameters, FisheyeMatrix } from 'app/constants/camera-calibration-constants';
+import {
+  FisheyeCameraParameters,
+  FisheyeMatrix,
+  RotationParameters3D,
+} from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
 import Camera from './api/camera';
@@ -712,6 +716,11 @@ class DeviceMaster {
     return controlSocket.fetchFisheyeParams() as Promise<FisheyeCameraParameters>;
   }
 
+  fetchFisheye3DRotation(): Promise<RotationParameters3D> {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.fetchFisheye3DRotation();
+  }
+
   fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover' | 'offset') {
     const controlSocket = this.currentDevice.control;
     return controlSocket.fetchAutoLevelingData(dataType);
@@ -999,6 +1008,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.uploadFisheyeParams, data);
   };
 
+  updateFisheye3DRotation = (data: RotationParameters3D) => {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.updateFisheye3DRotation, data);
+  };
+
   // Camera functions
   checkCameraNeedFlip(cameraOffset: string) {
     const { currentDevice } = this;
@@ -1025,6 +1039,11 @@ class DeviceMaster {
    */
   async setFisheyeMatrix(matrix: FisheyeMatrix, setCrop?: boolean) {
     const res = await this.currentDevice.camera.setFisheyeMatrix(matrix, setCrop);
+    return res;
+  }
+
+  async set3dRoation(data: {rx: number, ry: number, rz: number, h: number}) {
+    const res = await this.currentDevice.camera.set3dRotation(data);
     return res;
   }
 

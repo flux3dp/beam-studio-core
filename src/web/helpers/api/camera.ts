@@ -67,6 +67,8 @@ class Camera {
 
   private fishEyeSetting: { matrix: FisheyeMatrix, shouldCrop?: boolean } = null;
 
+  private rotationAngles: { rx: number; ry: number; rz: number; h: number; } = null;
+
   constructor(shouldCrop = true, cameraNeedFlip: boolean = null) {
     this.shouldCrop = shouldCrop;
     this.device = {
@@ -173,6 +175,8 @@ class Camera {
 
   getFisheyeSetting = (): { matrix: FisheyeMatrix, shouldCrop?: boolean } => this.fishEyeSetting;
 
+  getRotationAngles = (): { rx: number; ry: number; rz: number; h: number; } => this.rotationAngles;
+
   setFisheyeMatrix = async (mat: FisheyeMatrix, setCrop = false): Promise<boolean> => {
     this.fishEyeSetting = { matrix: mat, shouldCrop: setCrop };
     const { center, ...matrix } = { ...mat };
@@ -193,6 +197,26 @@ class Camera {
     const cropParamString = JSON.stringify(cropParam);
     this.ws.send(`set_crop_param ${cropParamString}`);
     res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
+    return res.status === 'ok';
+  };
+
+  // set 3d rotation angles, rx, ry, rz is rotation angle in degree, h is height in mm
+  set3dRotation = async (data: {rx: number, ry: number, rz: number, h: number }): Promise<boolean> => {
+    this.rotationAngles = { ...data };
+    const radiusData =  {
+      rx: data.rx * Math.PI / 180,
+      ry: data.ry * Math.PI / 180,
+      rz: data.rz * Math.PI / 180,
+      h: data.h,
+    };
+    const dataString = JSON.stringify(radiusData, (key, val) => {
+      if (typeof val === 'number') {
+        return Math.round(val * 1e3) / 1e3;
+      }
+      return val;
+    });
+    this.ws.send(`set_3d_rotation ${dataString}`);
+    const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
     return res.status === 'ok';
   };
 
