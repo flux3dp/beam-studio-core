@@ -202,6 +202,7 @@ class PreviewModeController {
     if (newParams) {
       const dhChanged = this.camera3dRotaion?.dh !== newParams.dh;
       this.camera3dRotaion = { ...newParams };
+      console.log('Applying', this.camera3dRotaion);
       const { rx, ry, rz, sh, ch, tx, ty } = this.camera3dRotaion;
       const device = this.currentDevice;
       const z = deviceConstants.WORKAREA_DEEP[device.model] - this.fisheyeObjectHeight;
