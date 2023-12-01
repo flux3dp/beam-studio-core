@@ -21,7 +21,7 @@ import {
   CameraConfig,
   CameraParameters,
   FisheyeCameraParameters,
-  RotationParameters3D,
+  RotationParameters3DCalibration,
 } from 'app/constants/camera-calibration-constants';
 import {
   getPerspectivePointsZ3Regression,
@@ -61,7 +61,7 @@ class PreviewModeController {
 
   errorCallback: () => void;
 
-  camera3dRotaion: RotationParameters3D;
+  camera3dRotaion: RotationParameters3DCalibration;
 
   constructor() {
     this.isDrawing = false;
@@ -192,21 +192,22 @@ class PreviewModeController {
     try {
       const data = await deviceMaster.fetchFisheye3DRotation();
       console.log('fetchFisheye3DRotation', data);
-      if (data) this.handle3DRotationChanged(data);
+      if (data) this.handle3DRotationChanged({ ...data, tx: 0, ty: 0 });
     } catch (e) {
       console.error('Unable to get fisheye 3d rotation', e);
     }
   };
 
-  handle3DRotationChanged = async (newParams: RotationParameters3D) => {
+  handle3DRotationChanged = async (newParams: RotationParameters3DCalibration) => {
     if (newParams) {
       const dhChanged = this.camera3dRotaion?.dh !== newParams.dh;
       this.camera3dRotaion = { ...newParams };
-      const { rx, ry, rz, sh, ch } = this.camera3dRotaion;
+      console.log('Applying', this.camera3dRotaion);
+      const { rx, ry, rz, sh, ch, tx, ty } = this.camera3dRotaion;
       const device = this.currentDevice;
       const z = deviceConstants.WORKAREA_DEEP[device.model] - this.fisheyeObjectHeight;
       const rotationZ = sh * (z + ch);
-      await deviceMaster.set3dRoation({ rx, ry, rz, h: rotationZ });
+      await deviceMaster.set3dRotation({ rx, ry, rz, h: rotationZ, tx, ty });
       if (dhChanged) {
         await this.setFishEyeObjectHeight(this.fisheyeObjectHeight);
       }
@@ -216,15 +217,26 @@ class PreviewModeController {
   };
 
   editCamera3dRotation = async () => {
-    const handleApply = async (newParams: RotationParameters3D) => {
+    const handleApply = async (newParams: RotationParameters3DCalibration) => {
       await this.handle3DRotationChanged(newParams);
       await this.previewFullWorkarea();
     };
-    const handleSave = async (newParams: RotationParameters3D) => {
+    const handleSave = async (newParams: RotationParameters3DCalibration) => {
       await handleApply(newParams);
       Progress.openNonstopProgress({ id: 'saving-fisheye-3d', message: 'Saving fisheye 3d rotation' });
       try {
         await deviceMaster.updateFisheye3DRotation(newParams);
+        if (newParams.tx !== 0 || newParams.ty !== 0) {
+          const oldCenter = this.fisheyeParameters.center || [0, 0];
+          const newCenter = [oldCenter[0] + newParams.tx, oldCenter[1] + newParams.ty];
+          const strData = JSON.stringify({ ...this.fisheyeParameters, center: newCenter }, (key, val) => {
+            if (typeof val === 'number') {
+              return Math.round(val * 1e6) / 1e6;
+            }
+            return val;
+          });
+          await deviceMaster.uploadFisheyeParams(strData, () => {});
+        }
         Alert.popUp({ message: 'Saved Successfully!'});
       } catch (e) {
         console.error('Fail to save fisheye 3d rotation', e);
@@ -307,6 +319,7 @@ class PreviewModeController {
         );
       }
       await this.fetchAutoLevelingData();
+      this.camera3dRotaion = null;
       await this.loadCamera3dRotation();
       console.log('autoLevelingData', this.autoLevelingData);
       Progress.update('preview-mode-controller', { message: LANG.message.enteringRawMode });
