@@ -12,7 +12,7 @@ import Progress from 'app/actions/progress-caller';
 import rsaKey from 'helpers/rsa-key';
 import VersionChecker from 'helpers/version-checker';
 import Websocket from 'helpers/websocket';
-import { FisheyeMatrix } from 'app/constants/camera-calibration-constants';
+import { FisheyeMatrix, RotationParameters3DGhostApi } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const TIMEOUT = 120000;
@@ -67,7 +67,7 @@ class Camera {
 
   private fishEyeSetting: { matrix: FisheyeMatrix, shouldCrop?: boolean } = null;
 
-  private rotationAngles: { rx: number; ry: number; rz: number; h: number; } = null;
+  private rotationAngles: RotationParameters3DGhostApi = null;
 
   constructor(shouldCrop = true, cameraNeedFlip: boolean = null) {
     this.shouldCrop = shouldCrop;
@@ -175,7 +175,7 @@ class Camera {
 
   getFisheyeSetting = (): { matrix: FisheyeMatrix, shouldCrop?: boolean } => this.fishEyeSetting;
 
-  getRotationAngles = (): { rx: number; ry: number; rz: number; h: number; } => this.rotationAngles;
+  getRotationAngles = (): RotationParameters3DGhostApi => this.rotationAngles;
 
   setFisheyeMatrix = async (mat: FisheyeMatrix, setCrop = false): Promise<boolean> => {
     this.fishEyeSetting = { matrix: mat, shouldCrop: setCrop };
@@ -201,13 +201,15 @@ class Camera {
   };
 
   // set 3d rotation angles, rx, ry, rz is rotation angle in degree, h is height in mm
-  set3dRotation = async (data: {rx: number, ry: number, rz: number, h: number }): Promise<boolean> => {
+  set3dRotation = async (data: RotationParameters3DGhostApi): Promise<boolean> => {
     this.rotationAngles = { ...data };
     const radiusData =  {
       rx: data.rx * Math.PI / 180,
       ry: data.ry * Math.PI / 180,
       rz: data.rz * Math.PI / 180,
       h: data.h,
+      tx: data.tx,
+      ty: data.ty,
     };
     const dataString = JSON.stringify(radiusData, (key, val) => {
       if (typeof val === 'number') {

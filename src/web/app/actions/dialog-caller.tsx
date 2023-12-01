@@ -32,7 +32,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-import { RotationParameters3D } from 'app/constants/camera-calibration-constants';
+import { RotationParameters3DCalibration } from 'app/constants/camera-calibration-constants';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -434,9 +434,9 @@ export default {
       );
     }),
   showRotationParameters3DPanel: ({ initParams, onApply, onSave }: {
-    initParams?: RotationParameters3D;
-    onApply: (params: RotationParameters3D) => void;
-    onSave: (params: RotationParameters3D) => void;
+    initParams?: RotationParameters3DCalibration;
+    onApply: (params: RotationParameters3DCalibration) => void;
+    onSave: (params: RotationParameters3DCalibration) => void;
   }): void => {
     if (isIdExist('rotation-parameters-3d')) return;
     addDialogComponent(

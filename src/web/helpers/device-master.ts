@@ -17,6 +17,7 @@ import {
   FisheyeCameraParameters,
   FisheyeMatrix,
   RotationParameters3D,
+  RotationParameters3DGhostApi,
 } from 'app/constants/camera-calibration-constants';
 import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
 
@@ -1042,7 +1043,7 @@ class DeviceMaster {
     return res;
   }
 
-  async set3dRoation(data: {rx: number, ry: number, rz: number, h: number}) {
+  async set3dRotation(data: RotationParameters3DGhostApi) {
     const res = await this.currentDevice.camera.set3dRotation(data);
     return res;
   }
@@ -1070,7 +1071,7 @@ class DeviceMaster {
         await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
       }
       // eslint-disable-next-line no-await-in-loop
-      if (fisheyeRotation) await this.set3dRoation(fisheyeRotation);
+      if (fisheyeRotation) await this.set3dRotation(fisheyeRotation);
     }
     if (lastErr) throw lastErr;
     return null;

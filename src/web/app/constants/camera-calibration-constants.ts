@@ -49,6 +49,9 @@ export interface FisheyeCameraParameters {
   z3regParam: number[][][][]; // [i][j][k][l] i: row, j: column, k: x/y, l: 3/2/1/0 th order
 }
 
+/**
+ * RotationParameters3D to save in the machine
+ */
 export interface RotationParameters3D {
   // rotation in 3 axes
   rx: number;
@@ -62,4 +65,28 @@ export interface RotationParameters3D {
   ch: number;
   // dh: the height deviation of the camera, would apply to preview height
   dh: number;
+}
+
+/**
+ * RotationParameters3D for calibration
+ * add tx and ty to handle translation error
+ * tx and ty will be saved in FisheyeMatrix center
+ */
+export interface RotationParameters3DCalibration extends RotationParameters3D {
+  tx: number;
+  ty: number;
+}
+
+/**
+ * RotationParameters3D for ghost api,
+ * need to calculate h from sh, ch and object height
+ */
+export interface RotationParameters3DGhostApi {
+  // rotation in 3 axes
+  rx: number;
+  ry: number;
+  rz: number;
+  h: number;
+  tx: number;
+  ty: number;
 }
