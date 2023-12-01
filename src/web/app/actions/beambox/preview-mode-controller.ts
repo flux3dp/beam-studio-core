@@ -21,7 +21,6 @@ import {
   CameraConfig,
   CameraParameters,
   FisheyeCameraParameters,
-  RotationParameters3D,
   RotationParameters3DCalibration,
 } from 'app/constants/camera-calibration-constants';
 import {
@@ -319,6 +318,7 @@ class PreviewModeController {
         );
       }
       await this.fetchAutoLevelingData();
+      this.camera3dRotaion = null;
       await this.loadCamera3dRotation();
       console.log('autoLevelingData', this.autoLevelingData);
       Progress.update('preview-mode-controller', { message: LANG.message.enteringRawMode });
