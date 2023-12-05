@@ -14,20 +14,13 @@ const getDimensionValues = (key?: string): any => {
   return response.dimensionValues;
 };
 
-const minEventInterval = 100;
-let lastUpdateObjectPanelTime = 0
+const minEventInterval = 50;
 let updateObjectPanelTimeout = null;
 const updateObjectPanel = (): void => {
   clearTimeout(updateObjectPanelTimeout);
-  const time = Date.now();
-  if (time - lastUpdateObjectPanelTime >= minEventInterval) {
+  updateObjectPanelTimeout = setTimeout(() => {
     objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
-  } else {
-    updateObjectPanelTimeout = setTimeout(() => {
-      lastUpdateObjectPanelTime = Date.now();
-      objectPanelEventEmitter.emit('UPDATE_OBJECT_PANEL');
-    }, lastUpdateObjectPanelTime + minEventInterval - time);
-  }
+  }, minEventInterval);
 };
 
 const updatePolygonSides = (polygonSides: number): void => {
