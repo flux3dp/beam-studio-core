@@ -7,7 +7,7 @@ import alertConfig, { AlertConfigKey } from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import CalibrationType from 'app/components/dialogs/camera/AdorCalibration/calibrationTypes';
-import Constant from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Dialog from 'app/actions/dialog-caller';
@@ -29,7 +29,6 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 
 import styles from './GoButton.module.scss';
-import constant from 'app/actions/beambox/constant';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -51,7 +50,7 @@ const GoButton = (props: Props): JSX.Element => {
     const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
 
     const isPowerTooHigh =
-      !Constant.adorModels.includes(BeamboxPreference.read('workarea')) &&
+      !constant.adorModels.includes(BeamboxPreference.read('workarea')) &&
       layers.some((layer) => {
         const strength = Number(layer.getAttribute('data-strength'));
         const diode = Number(layer.getAttribute('data-diode'));
@@ -258,7 +257,7 @@ const GoButton = (props: Props): JSX.Element => {
     const res = await checkOldFirmware(device.version);
     if (!res) return;
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    const allowedWorkareas = Constant.allowedWorkarea[model];
+    const allowedWorkareas = constant.allowedWorkarea[model];
     if (currentWorkarea && allowedWorkareas) {
       if (!allowedWorkareas.includes(currentWorkarea)) {
         alertCaller.popUp({
