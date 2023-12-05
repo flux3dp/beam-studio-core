@@ -184,7 +184,10 @@ class PreviewModeBackgroundDrawer {
   preprocessFullWorkareaImg = async (imgUrl: string, callBack = () => { }) => new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      this.canvas.getContext('2d').drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      const imgDpmm = 5;
+      const canvasDpmm = 10;
+      const imageRatio = canvasDpmm / imgDpmm;
+      this.canvas.getContext('2d').drawImage(img, 0, 0, img.naturalWidth * imageRatio, img.naturalHeight * imageRatio);
       this.canvas.toBlob((blob) => {
         resolve(blob);
         setTimeout(callBack, 1000);
