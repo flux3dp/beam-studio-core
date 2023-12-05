@@ -193,7 +193,11 @@ class Camera {
     const { model } = this.device;
     const width = constant.dimension.getWidth(model as WorkAreaModel) / constant.dpmm;
     const height = constant.dimension.getHeight(model as WorkAreaModel) / constant.dpmm;
-    const cropParam = { cx, cy, width, height };
+    const cameraCenter = constant.dimension.cameraCenter(model as WorkAreaModel);
+    const cropParam: { [key: string]: number } = { cx, cy, width, height };
+    if (cameraCenter) {
+      [cropParam.left, cropParam.top] = cameraCenter;
+    }
     const cropParamString = JSON.stringify(cropParam);
     this.ws.send(`set_crop_param ${cropParamString}`);
     res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));

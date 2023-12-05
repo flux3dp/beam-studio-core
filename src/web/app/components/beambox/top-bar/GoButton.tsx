@@ -242,7 +242,7 @@ const GoButton = (props: Props): JSX.Element => {
       return;
     }
     const vc = VersionChecker(version);
-    if (constant.adorModels.includes(model) && !vc.meetRequirement('ADOR_RELEASE')) {
+    if (!isDev() && constant.adorModels.includes(model) && !vc.meetRequirement('ADOR_RELEASE')) {
       showForceUpdateAlert('ador-release-alert');
       return;
     }
