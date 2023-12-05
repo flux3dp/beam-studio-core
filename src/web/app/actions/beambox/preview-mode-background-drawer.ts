@@ -187,6 +187,7 @@ class PreviewModeBackgroundDrawer {
       const imgDpmm = 5;
       const canvasDpmm = 10;
       const imageRatio = canvasDpmm / imgDpmm;
+      // assuming the left-top corner of the image is the correct
       this.canvas.getContext('2d').drawImage(img, 0, 0, img.naturalWidth * imageRatio, img.naturalHeight * imageRatio);
       this.canvas.toBlob((blob) => {
         resolve(blob);
