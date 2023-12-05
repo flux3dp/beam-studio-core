@@ -158,8 +158,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const model = beamboxPreference.read('workarea') || beamboxPreference.read('model');
   const parametersSet = getModulePresets(model, state.module.value);
-  const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
-  const moduleCustomConfigs = customizedConfigs?.filter(
+  const customizedConfigs = (storage.get('customizedLaserConfigs')||[]) as ILaserConfig[];
+  const moduleCustomConfigs = customizedConfigs.filter(
     (c) => !c.isDefault || parametersSet[c.key]
   );
 
