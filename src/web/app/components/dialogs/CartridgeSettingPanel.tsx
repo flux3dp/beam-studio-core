@@ -14,12 +14,12 @@ interface ChipSettings {
   offset: number[];
   plScale: number;
   totalCapacity: number;
-  inkStorage: number;
   timeUsed: number;
   verified?: boolean;
 }
 
 interface Props {
+  inkLevel: number;
   initData: ChipSettings;
   onClose: () => void;
 }
@@ -36,7 +36,6 @@ export const parsingChipData = (data: any): ChipSettings => ({
   offset: data.pos_offset ?? [0, 0, 0],
   plScale: data.pl_scale ?? initPlScale,
   totalCapacity: data.total_capacity ?? initCapacity,
-  inkStorage: 100 - (data.used_capacity ?? 0),
   timeUsed: data.used_time ?? 0,
   verified: data.verified !== false,
 });
@@ -111,7 +110,7 @@ let publicKeyCache = '';
 let privateKeyCache = '';
 let editValueCache: ChipSettings = null;
 
-const CartridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
+const CartridgeSettingPanel = ({ inkLevel, initData, onClose }: Props): JSX.Element => {
   const [publicKey, setPublicKey] = useState(publicKeyCache);
   const [privateKey, setPrivateKey] = useState(privateKeyCache);
   const [chipSettings, setChipSettings] = useState<ChipSettings>(initData);
@@ -350,7 +349,7 @@ const CartridgeSettingPanel = ({ initData, onClose }: Props): JSX.Element => {
             </Col>
             <Col span={8}>Ink Storage</Col>
             <Col span={16}>
-              <InputNumber disabled addonAfter="%" value={values.inkStorage} />
+              <InputNumber disabled addonAfter="%" value={inkLevel * 100} precision={2} />
             </Col>
             <Col span={8}>Time Used</Col>
             <Col span={16}>

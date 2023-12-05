@@ -584,7 +584,7 @@ class Control extends EventEmitter {
     return this.useWaitAnyResponse('task quit');
   };
 
-  deviceInfo = () => this.useWaitAnyResponse('deviceInfo');
+  deviceInfo = () => this.useWaitAnyResponse('deviceinfo');
 
   getPreview = async () => {
     const { data } = await this.useWaitOKResponse('play info');

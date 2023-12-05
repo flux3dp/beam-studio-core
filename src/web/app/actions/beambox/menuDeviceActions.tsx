@@ -297,12 +297,18 @@ export default {
     const res = await DeviceMaster.select(device);
     if (!res.success) return;
     ProgressCaller.openNonstopProgress({ id: 'fetch-cartridge-data', message: 'Fetching Cartridge Data' });
+    let inkLevel = 1;
+    try {
+      const deviceInfo = await DeviceMaster.getDeviceInfo();
+      const headSubmoduleInfo = JSON.parse(deviceInfo.head_submodule_info);
+      inkLevel = headSubmoduleInfo.ink_level;
+    } catch { /* do nothing */ }
     try {
       await DeviceMaster.enterCartridgeIOMode();
       const chipDataRes = await DeviceMaster.getCartridgeChipData();
       if (chipDataRes.status === 'ok') {
         const parsed = parsingChipData(chipDataRes.data.result);
-        Dialog.showCatridgeSettingPanel(parsed);
+        Dialog.showCatridgeSettingPanel(parsed, inkLevel);
       } else {
         Alert.popUp({
           id: 'cant-get-chip-data',

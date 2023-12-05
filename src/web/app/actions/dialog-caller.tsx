@@ -397,11 +397,12 @@ export default {
       />
     );
   },
-  showCatridgeSettingPanel: (initData: any): void => {
+  showCatridgeSettingPanel: (initData: any, inkLevel: number): void => {
     if (isIdExist('catridge-setting')) return;
     addDialogComponent(
       'catridge-setting',
       <CartridgeSettingPanel
+        inkLevel={inkLevel}
         initData={initData}
         onClose={() => popDialogById('catridge-setting')}
       />
