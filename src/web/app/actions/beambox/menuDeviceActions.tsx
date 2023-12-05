@@ -299,8 +299,8 @@ export default {
     ProgressCaller.openNonstopProgress({ id: 'fetch-cartridge-data', message: 'Fetching Cartridge Data' });
     let inkLevel = 1;
     try {
-      const deviceInfo = await DeviceMaster.getDeviceInfo();
-      const headSubmoduleInfo = JSON.parse(deviceInfo.head_submodule_info);
+      const deviceDetailInfo = await DeviceMaster.getDeviceDetailInfo();
+      const headSubmoduleInfo = JSON.parse(deviceDetailInfo.head_submodule_info);
       inkLevel = headSubmoduleInfo.ink_level;
     } catch { /* do nothing */ }
     try {

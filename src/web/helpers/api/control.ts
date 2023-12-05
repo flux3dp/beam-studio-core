@@ -6,6 +6,7 @@ import EventEmitter from 'eventemitter3';
 import ErrorConstants from 'app/constants/error-constants';
 import rsaKey from 'helpers/rsa-key';
 import Websocket from 'helpers/websocket';
+import { IDeviceDetailInfo } from 'interfaces/IDevice';
 import { RotationParameters3D } from 'app/constants/camera-calibration-constants';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
@@ -584,7 +585,7 @@ class Control extends EventEmitter {
     return this.useWaitAnyResponse('task quit');
   };
 
-  deviceInfo = () => this.useWaitAnyResponse('deviceinfo');
+  deviceDetailInfo = (): Promise<IDeviceDetailInfo> => this.useWaitAnyResponse('deviceinfo');
 
   getPreview = async () => {
     const { data } = await this.useWaitOKResponse('play info');

@@ -19,7 +19,7 @@ import {
   RotationParameters3D,
   RotationParameters3DGhostApi,
 } from 'app/constants/camera-calibration-constants';
-import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
+import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/IDevice';
 
 import Camera from './api/camera';
 import Control from './api/control';
@@ -963,9 +963,9 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
   }
 
-  getDeviceInfo() {
+  getDeviceDetailInfo(): Promise<IDeviceDetailInfo> {
     const controlSocket = this.currentDevice.control;
-    return controlSocket.addTask(controlSocket.deviceInfo);
+    return controlSocket.addTask(controlSocket.deviceDetailInfo);
   }
 
   async getReport() {
