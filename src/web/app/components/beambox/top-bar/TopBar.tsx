@@ -26,6 +26,7 @@ import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
 // TODO: move all styles from web to modules.scss
@@ -194,7 +195,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.context;
     const { hasDiscoverdMachine } = this.state;
-    const { isPreviewing, fileName, hasUnsavedChange, selectedElem } = this.context;
+    const { isPreviewing, fileName, hasUnsavedChange } = this.context;
     return (
       <div
         className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
@@ -212,7 +213,9 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
           />
           <GoButton hasText={isWhiteTopBar} hasDiscoverdMachine={hasDiscoverdMachine} />
         </div>
-        <ElementTitle selectedElem={selectedElem} />
+        <SelectedElementContext.Consumer>
+          {({ selectedElement }) => <ElementTitle selectedElem={selectedElement} />}
+        </SelectedElementContext.Consumer>
         {this.renderHint()}
         {this.renderMenu()}
         <CommonTools

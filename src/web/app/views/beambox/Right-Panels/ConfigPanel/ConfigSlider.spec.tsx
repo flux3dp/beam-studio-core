@@ -14,10 +14,9 @@ jest.mock('antd', () => ({
       {children}
     </div>
   ),
-  Slider: ({ id, min, max, step, value, onAfterChange, onChange }: any) => (
+  Slider: ({ min, max, step, value, onAfterChange, onChange }: any) => (
     <div>
       Mock Antd Slider
-      <p>id: {id}</p>
       <p>min: {min}</p>
       <p>max: {max}</p>
       <p>step: {step}</p>

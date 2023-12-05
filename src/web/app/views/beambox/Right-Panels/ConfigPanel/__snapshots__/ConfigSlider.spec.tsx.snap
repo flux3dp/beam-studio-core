@@ -4,6 +4,7 @@ exports[`test ConfigSlider should work 1`] = `
 <div>
   <div
     class="container"
+    id="mock-id"
   >
     <div>
       Mock Antd ConfigProvider
@@ -13,10 +14,6 @@ exports[`test ConfigSlider should work 1`] = `
       </p>
       <div>
         Mock Antd Slider
-        <p>
-          id: 
-          mock-id
-        </p>
         <p>
           min: 
           0
@@ -53,6 +50,7 @@ exports[`test ConfigSlider should work 2`] = `
 <div>
   <div
     class="container limit"
+    id="mock-id"
   >
     <div>
       Mock Antd ConfigProvider
@@ -62,10 +60,6 @@ exports[`test ConfigSlider should work 2`] = `
       </p>
       <div>
         Mock Antd Slider
-        <p>
-          id: 
-          mock-id
-        </p>
         <p>
           min: 
           0
@@ -102,6 +96,7 @@ exports[`test ConfigSlider should work 3`] = `
 <div>
   <div
     class="container limit"
+    id="mock-id"
   >
     <div>
       Mock Antd ConfigProvider
@@ -111,10 +106,6 @@ exports[`test ConfigSlider should work 3`] = `
       </p>
       <div>
         Mock Antd Slider
-        <p>
-          id: 
-          mock-id
-        </p>
         <p>
           min: 
           0

@@ -384,7 +384,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         width: 36,
         height: 36,
       },
-      text: LANG.newInterface.frame,
+      text: i18n.lang.topbar.frame_task,
     },
     {
       dialogBoxStyles: {
@@ -397,7 +397,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         width: 36,
         height: 36,
       },
-      text: LANG.newInterface.path_preview,
+      text: i18n.lang.topbar.task_preview,
     },
     {
       dialogBoxStyles: {
