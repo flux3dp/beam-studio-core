@@ -29,6 +29,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 
 import styles from './GoButton.module.scss';
+import constant from 'app/actions/beambox/constant';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -240,8 +241,12 @@ const GoButton = (props: Props): JSX.Element => {
       showForceUpdateAlert('4.1.5,6-rotary-alert');
       return;
     }
-
     const vc = VersionChecker(version);
+    if (constant.adorModels.includes(model) && !vc.meetRequirement('ADOR_RELEASE')) {
+      showForceUpdateAlert('ador-release-alert');
+      return;
+    }
+
     if (!vc.meetRequirement('USABLE_VERSION')) {
       alertCaller.popUp({
         id: 'fatal-occurred',

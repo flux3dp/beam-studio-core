@@ -1,5 +1,5 @@
 const requirement = {
-  ADOR_MAINTAIN_WITH_LINECHECK: '5.1.12',
+  ADOR_RELEASE: '5.1.12',
   LATEST_GHOST_FOR_WEB: '3.5.2',
   CALIBRATION_MODE: '3.5.1',
   NEW_PLAYER: '3.3.0',
