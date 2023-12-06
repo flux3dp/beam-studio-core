@@ -271,7 +271,6 @@ export const showAdorCalibration = async (
         }}
       />
     );
-    resolve(true);
   });
 };
 

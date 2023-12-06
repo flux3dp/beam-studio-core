@@ -10,10 +10,11 @@ import colorPickerStyles from 'app/widgets/ColorPicker.module.scss';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
-import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
-import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import presprayArea from 'app/actions/beambox/prespray-area';
+import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
+import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
@@ -78,6 +79,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const handleDeleteLayers = () => {
     deleteLayers(selectedLayers);
     setSelectedLayers([]);
+    presprayArea.togglePresprayArea();
   };
 
   const handleLockLayers = () => {

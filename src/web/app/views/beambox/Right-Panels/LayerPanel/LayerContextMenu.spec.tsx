@@ -89,6 +89,11 @@ jest.mock('app/actions/alert-caller', () => ({
   popUp: (...args) => mockPopUp(...args),
 }));
 
+const mockTogglePresprayArea = jest.fn();
+jest.mock('app/actions/beambox/prespray-area', () => ({
+  togglePresprayArea: () => mockTogglePresprayArea(),
+}));
+
 const mockDrawing = {
   getLayerName: jest.fn(),
   getCurrentLayerName: jest.fn(),
@@ -302,9 +307,11 @@ describe('test LayerContextMenu', () => {
     );
     expect(mockDeleteLayers).not.toBeCalled();
     expect(mockSetSelectedLayers).not.toBeCalled();
+    expect(mockTogglePresprayArea).not.toBeCalled();
     fireEvent.click(getByText('del'));
     expect(mockDeleteLayers).toBeCalledWith(['layer1', 'layer2']);
     expect(mockSetSelectedLayers).toBeCalledWith([]);
+    expect(mockTogglePresprayArea).toBeCalledTimes(1);
   });
 
   test('merge down should work', () => {

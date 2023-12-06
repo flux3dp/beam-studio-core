@@ -36,7 +36,10 @@ const FrameButton = (): JSX.Element => {
       maxX: number | undefined;
       maxY: number | undefined;
     } = {
-      minX: undefined, minY: undefined, maxX: undefined, maxY: undefined,
+      minX: undefined,
+      minY: undefined,
+      maxX: undefined,
+      maxY: undefined,
     };
     const workarea = beamboxPreference.read('workarea');
     const workareaWidth = constant.dimension.getWidth(workarea);
@@ -94,10 +97,13 @@ const FrameButton = (): JSX.Element => {
       progressCaller.update(PROGRESS_ID, { message: lang.message.homing });
       await deviceMaster.rawHome();
       const vc = versionChecker(device.version);
-      if (!isAdor && vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) {
+      if (
+        (!isAdor && vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) ||
+        (isAdor && vc.meetRequirement('MAINTAIN_WITH_LINECHECK'))
+      ) {
         await deviceMaster.rawStartLineCheckMode();
         isLineCheckEnabled = true;
-      } else isLineCheckEnabled = false;
+      }
       progressCaller.update(PROGRESS_ID, { message: lang.message.turningOffFan });
       await deviceMaster.rawSetFan(false);
       progressCaller.update(PROGRESS_ID, { message: lang.message.turningOffAirPump });

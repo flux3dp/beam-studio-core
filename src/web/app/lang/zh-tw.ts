@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: '請注意，如果您繼續此操作，雷射圖層的設定將會被刪除，並根據當前圖層參數而定。',
       importedDocumentContainsPrinting: '這份文件包含列印圖層，您是否要將工作範圍切換成 Ador ？',
       printingLayersCoverted: '列印圖層已轉換為雷射圖層。',
+      performPrintingCaliTitle: '執行列印模組校正',
+      performPrintingCaliMsg: '點選 「確認」 以執行校正，或者透過上方選單中的「機器」>「您的機器名稱」>「校正列印模組」進行校正。',
+      performIRCaliTitle: '執行紅外線模組校正',
+      performIRCaliMsg: '點選 「確認」 以執行校正，或者透過上方選單中的「機器」>「您的機器名稱」>「校正紅外線模組」進行校正。',
     },
   },
 };

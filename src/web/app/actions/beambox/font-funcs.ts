@@ -433,8 +433,8 @@ const convertTextToPath = async (
 const tempConvertTextToPathAmoungSvgcontent = async () => {
   let isAnyFontUnsupported = false;
   const texts = [
-    ...$('#svgcontent').find('text').toArray(),
-    ...$('#svg_defs').find('text').toArray(),
+    ...document.querySelectorAll('#svgcontent g.layer:not([display="none"]) text'),
+    ...document.querySelectorAll('#svg_defs text'),
   ];
   for (let i = 0; i < texts.length; i += 1) {
     const el = texts[i];

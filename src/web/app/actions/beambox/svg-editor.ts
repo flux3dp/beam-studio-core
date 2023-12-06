@@ -5182,7 +5182,8 @@ const svgEditor = window['svgEditor'] = (function () {
               Object.assign(blob, {
                 name: file.name,
               });
-              importSvg(blob as File, { skipByLayer: true });
+              await importSvg(blob as File, { skipByLayer: true });
+              Progress.popById('loading_image');
             } else {
               Progress.popById('loading_image');
               Alert.popUp({

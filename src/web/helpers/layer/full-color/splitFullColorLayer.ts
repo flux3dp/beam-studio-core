@@ -7,7 +7,6 @@ import progressCaller from 'app/actions/progress-caller';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
-import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import { DataType, getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { PrintingColors } from 'app/constants/color-constants';
 import {
@@ -20,6 +19,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 import splitColor from './splitColor';
+import updateImageForSpliting from './updateImageForSpliting';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -35,6 +35,7 @@ const layerToImage = async (
   dpi: number
 ): Promise<{ blob: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
   const layerClone = layer.cloneNode(true) as SVGGElement;
+  await updateImageForSpliting(layerClone);
   const canvasWidth = Math.round((svgCanvas.contentW * dpi) / (25.4 * constant.dpmm));
   const canvasHeight = Math.round((svgCanvas.contentH * dpi) / (25.4 * constant.dpmm));
   const svgDefs = svgedit.utilities.findDefs();
@@ -54,8 +55,8 @@ const layerToImage = async (
   const ctx = canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
   const { data } = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
   const bounds = { minX: canvasWidth, minY: canvasHeight, maxX: 0, maxY: 0 };
-  for (let y = 0; y < canvasHeight; y += 1) {
-    for (let x = 0; x < canvasWidth; x += 1) {
+  for (let y = 0; y < svgCanvas.contentH; y += 1) {
+    for (let x = 0; x < svgCanvas.contentW; x += 1) {
       const i = (y * canvasWidth + x) * 4;
       const alpha = data[i + 3];
       if (alpha > 0) {
@@ -101,7 +102,6 @@ const splitFullColorLayer = async (
     message: 'Splitting Full Color Layer',
     timeout: 120000,
   });
-  await updateImagesResolution(true, layer);
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
   const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);

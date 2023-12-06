@@ -1543,6 +1543,10 @@ const lang: ILang = {
       convertFromLaserModuleMsg: 'Wees u ervan bewust dat als u deze operatie voltooit, de instellingen van de laserlaag worden verwijderd en worden ingesteld volgens de huidige laag.',
       importedDocumentContainsPrinting: 'Het document bevat afdruklagen. Wilt u de werkruimte wijzigen naar Ador?',
       printingLayersCoverted: 'De afdruklagen zijn omgezet in laserkwaliteiten.',
+      performPrintingCaliTitle: 'Voer de kalibratie van de afdrukmodule uit',
+      performPrintingCaliMsg: 'Klik op \'Bevestigen\' om de kalibratie uit te voeren, of ga naar de kalibratie via het bovenste menu.<br />(Machine > [Uw machinenaam] > Kalibreer de printfunctie)',
+      performIRCaliTitle: 'Voer de kalibratie van het infraroodmodule uit',
+      performIRCaliMsg: 'Klik op \'Bevestigen\' om de kalibratie uit te voeren, of ga naar de kalibratie via het bovenste menu.<br />(Machine > [Uw machine naam] > Kalibreer het infraroodmodule).',
     },
   },
 };
