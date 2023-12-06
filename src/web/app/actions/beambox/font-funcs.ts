@@ -96,10 +96,10 @@ const availableFontFamilies = (function requestAvailableFontFamilies() {
 
   // transfer to array and sort!
   return Array.from(fontFamilySet).sort((a, b) => {
-    if (a < b) {
+    if (a?.toLowerCase?.() < b?.toLowerCase?.()) {
       return -1;
     }
-    if (a > b) {
+    if (a?.toLowerCase?.() > b?.toLowerCase?.()) {
       return 1;
     }
     return 0;
