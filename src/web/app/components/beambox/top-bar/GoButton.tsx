@@ -186,9 +186,9 @@ const GoButton = (props: Props): JSX.Element => {
                 id: 'module-cali-warning',
                 caption: alertTitle,
                 message: alertMsg,
-                buttonType: alertConstants.YES_NO,
-                onYes: () => resolve(true),
-                onNo: () => resolve(false),
+                buttonType: alertConstants.CONFIRM_CANCEL,
+                onConfirm: () => resolve(true),
+                onCancel: () => resolve(false),
               });
             });
             if (doCali) await showAdorCalibration(calibrationType);
