@@ -2,7 +2,9 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamFileHelper from 'helpers/beam-file-helper';
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import communicator from 'implementations/communicator';
+import constant from 'app/actions/beambox/constant';
 import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
@@ -11,10 +13,11 @@ import SymbolMaker from 'helpers/symbol-maker';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-const { $ } = window;
 let svgCanvas;
+let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
+  svgedit = globalSVG.Edit;
 });
 
 const LANG = i18n.lang;
@@ -33,14 +36,79 @@ const setCurrentFileName = (filePath: string) => {
   svgCanvas.updateRecentFiles(filePath);
 };
 
+const switchSymbolWrapper = <T = string>(fn: () => T) => {
+  SymbolMaker.switchImageSymbolForAll(false);
+  const res = fn();
+  SymbolMaker.switchImageSymbolForAll(true);
+  return res;
+};
+
+const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
+  const workarea = beamboxPreference.read('workarea');
+  const width = constant.dimension.getWidth(workarea);
+  const height = constant.dimension.getHeight(workarea);
+  const svgContent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
+  const bbox = svgContent.getBBox();
+  if (bbox.x < 0) {
+    bbox.width += bbox.x;
+    bbox.x = 0;
+  }
+  if (bbox.y < 0) {
+    bbox.height += bbox.y;
+    bbox.y = 0;
+  }
+  if (bbox.width <= 0 || bbox.height <= 0) return null
+  bbox.width = Math.min(bbox.width, width);
+  bbox.height = Math.min(bbox.height, height);
+  const downRatio = 300 / Math.max(bbox.width, bbox.height);
+  const imageWidth = Math.ceil(bbox.width * downRatio);
+  const imageHeight = Math.ceil(bbox.height * downRatio);
+  const svgDefs = svgedit.utilities.findDefs();
+  const clonedSvgContent = svgContent.cloneNode(true) as SVGSVGElement;
+  const useElements = clonedSvgContent.querySelectorAll('use');
+  useElements.forEach((useElement) => SymbolMaker.switchImageSymbol(useElement, false));
+  const svgString = `
+    <svg
+      width="${imageWidth}"
+      height="${imageHeight}"
+      viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}"
+      style="background: #fff"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+      ${svgDefs.outerHTML}
+      ${clonedSvgContent.innerHTML}
+    </svg>`;
+  const canvas = await svgStringToCanvas(svgString, imageWidth, imageHeight);
+  const blob = await new Promise<Blob>((resolve) => {
+    canvas.toBlob((b) => {
+      resolve(b);
+    }, 'image/jpeg', 1.0);
+  });
+  const arrayBuffer = await blob.arrayBuffer();
+  return arrayBuffer;
+};
+
+export const generateBeamBuffer = async () => {
+  const svgCanvasString = svgCanvas.getSvgString();
+  const imageSource = await svgCanvas.getImageSource();
+  const thumbnail = await generateBeamThumbnail();
+  const buffer = beamFileHelper.generateBeamBuffer(svgCanvasString, imageSource, thumbnail);
+  return buffer;
+};
+
 const saveAsFile = async (): Promise<boolean> => {
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
-  const output = svgCanvas.getSvgString();
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
-  const imageSource = await svgCanvas.getImageSource();
-  const getContent = () => beamFileHelper.getBeamBlob(output, imageSource);
+  const getContent =  async () => {
+    const buffer = await generateBeamBuffer();
+    const arrayBuffer = Uint8Array.from(buffer).buffer;
+    const blob = new Blob([arrayBuffer]);
+    return blob;
+  };
   const filePath = await dialog.writeFileDialog(
     getContent,
     langFile.save_scene,
@@ -80,8 +148,8 @@ const saveFile = async (): Promise<boolean> => {
     return true;
   }
   if (svgCanvas.currentFilePath.endsWith('.beam')) {
-    const imageSource = await svgCanvas.getImageSource();
-    await beamFileHelper.saveBeam(svgCanvas.currentFilePath, output, imageSource);
+    const buffer = await generateBeamBuffer();
+    fs.writeStream(svgCanvas.currentFilePath, 'w', [buffer]);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
@@ -106,8 +174,7 @@ const checkNounProjectElements = () => {
   });
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const removeNPElementsWrapper = (fn: () => any) => {
+const removeNPElementsWrapper = <T = string>(fn: () => T) => {
   const svgContent = document.getElementById('svgcontent');
   const npElements = svgContent.querySelectorAll('[data-np="1"]');
   const removedElements = [] as { elem: Element, parentNode: Element, nextSibling: Element }[];
@@ -132,14 +199,6 @@ const removeNPElementsWrapper = (fn: () => any) => {
   return res;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const switchSymbolWrapper = (fn: () => any) => {
-  SymbolMaker.switchImageSymbolForAll(false);
-  const res = fn();
-  SymbolMaker.switchImageSymbolForAll(true);
-  return res;
-};
-
 const exportAsBVG = async (): Promise<boolean> => {
   if (!await checkNounProjectElements()) {
     return false;
@@ -149,7 +208,7 @@ const exportAsBVG = async (): Promise<boolean> => {
   const langFile = LANG.topmenu.file;
   svgCanvas.removeUnusedDefs();
   const getContent = () => removeNPElementsWrapper(
-    () => switchSymbolWrapper(
+    () => switchSymbolWrapper<string>(
       () => svgCanvas.getSvgString(),
     ),
   );
@@ -176,14 +235,14 @@ const exportAsSVG = async (): Promise<void> => {
   }
   svgCanvas.clearSelection();
   const getContent = () => {
-    $('g.layer').removeAttr('clip-path');
+    document.querySelectorAll('g.layer').forEach((layer) => layer.removeAttribute('clip-path'));
     svgCanvas.removeUnusedDefs();
     const res = removeNPElementsWrapper(
-      () => switchSymbolWrapper(
+      () => switchSymbolWrapper<string>(
         () => svgCanvas.getSvgString({ unit: 'mm' }),
       ),
     );
-    $('g.layer').attr('clip-path', 'url(#scene_mask)');
+    document.querySelectorAll('g.layer').forEach((layer) => layer.setAttribute('clip-path', 'url(#scene_mask)'));
     return res;
   };
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
@@ -198,7 +257,7 @@ const exportAsSVG = async (): Promise<void> => {
 const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
-  const output = switchSymbolWrapper(() => svgCanvas.getSvgString());
+  const output = switchSymbolWrapper<string>(() => svgCanvas.getSvgString());
   const langFile = LANG.topmenu.file;
   Progress.openNonstopProgress({ id: 'export_image', message: langFile.converting });
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
