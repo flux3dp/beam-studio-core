@@ -192,13 +192,16 @@ const readHeader = (headerBuf: Buffer) => {
   // console.log(metaData);
   offset += metadataSize;
   vInt = readVInt(headerBuf, offset);
+  offset = vInt.offset;
   // console.log('svgBlockSize', vInt.value);
-  offset = vInt.offset;
   vInt = readVInt(headerBuf, offset);
+  offset = vInt.offset;
   // console.log('Image Source block Size', vInt.value);
-  offset = vInt.offset;
-  vInt = readVInt(headerBuf, offset);
-  // console.log('Thumbnail block Size', vInt.value);
+  if (offset < headerBuf.length) {
+    vInt = readVInt(headerBuf, offset);
+    offset = vInt.offset;
+    // console.log('Thumbnail block Size', vInt.value);
+  }
 };
 
 const readImageSource = (buf, offset, end) => {
