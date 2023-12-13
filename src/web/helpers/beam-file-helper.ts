@@ -19,6 +19,8 @@
    ---------------------------------------------------------------------------------
   | image source Len |     VINT   | indicate size of image source block             |
    ---------------------------------------------------------------------------------
+  | Thumbnail Len |     VINT   | indicate size of Thumbnail block             |
+    ---------------------------------------------------------------------------------
 
     Blocks:
 
@@ -52,14 +54,22 @@
   |                 Repeat Image Id Len, Image Id, Image Len, Image                 |
    ---------------------------------------------------------------------------------
 
+   =================================================================================
+  |   Thumbnail    |  content len |         Block Containing Thumbnail           |
+   =================================================================================
+   ---------------------------------------------------------------------------------
+  |   block type   |    1 Bytes   | 0x03 for Thumbnail                              |
+   ---------------------------------------------------------------------------------
+  |  string length |     VINT     | indicate size of svg string                     |
+   ---------------------------------------------------------------------------------
+  |   Image        | ↖            | Image binary ofr thumbnail (jpeg)               |
+   ---------------------------------------------------------------------------------
+
 */
 import { Buffer } from 'buffer';
 
-import fs from 'implementations/fileSystem';
 import Progress from 'app/actions/progress-caller';
 import { importBvgString } from 'app/svgedit/operations/import/importBvg';
-
-const { $ } = window;
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
 const valueToVIntBuffer = (value) => {
@@ -91,12 +101,14 @@ const readVInt = (buffer, offset = 0) => {
   };
 };
 
-const localHeaderTypeBuffer = (type): Buffer => {
+const localHeaderTypeBuffer = (type: 'svgContent' | 'imageSource' | 'thumbnail'): Buffer => {
   switch (type) {
     case 'svgContent':
       return Buffer.from([0x01]);
     case 'imageSource':
       return Buffer.from([0x02]);
+    case 'thumbnail':
+      return Buffer.from([0x03]);
     default:
       break;
   }
@@ -133,16 +145,29 @@ const generateImageSourceBlockBuffer = (imageSources: { [id: string]: ArrayBuffe
   return imageSourceBlockBuffer;
 };
 
-const getBeamBlob = (svgString: string, imageSources: { [id: string]: ArrayBuffer }): Blob => {
+const generateThumbnailBlockBuffer = (thumbnail: ArrayBuffer): Buffer => {
+  let blocBuffer = localHeaderTypeBuffer('thumbnail');
+  const imageBuffer = Buffer.from(thumbnail);
+  blocBuffer = Buffer.concat([blocBuffer, valueToVIntBuffer(imageBuffer.length), imageBuffer]);
+  return blocBuffer;
+};
+
+const generateBeamBuffer = (
+  svgString: string,
+  imageSources: { [id: string]: ArrayBuffer },
+  thumbnail?: ArrayBuffer
+): Buffer => {
   const signatureBuffer = Buffer.from([66, 101, 97, 109, 2]); // Bvg{version in uint} max to 255
   const svgBlockBuf = genertateSvgBlockBuffer(svgString);
   const imageSourceBlockBuffer = generateImageSourceBlockBuffer(imageSources);
+  const thumbnailBlockBuffer = thumbnail ? generateThumbnailBlockBuffer(thumbnail) : null;
   const metaDataBuf = Buffer.from('Hi, I am meta data O_<');
   const headerBuffer = Buffer.concat([
     valueToVIntBuffer(metaDataBuf.length),
     metaDataBuf,
     valueToVIntBuffer(svgBlockBuf.length),
     valueToVIntBuffer(imageSourceBlockBuffer.length),
+    valueToVIntBuffer(thumbnailBlockBuffer?.length || 0),
   ]);
   const headerSizeBuf = valueToVIntBuffer(headerBuffer.length);
   const buffer = Buffer.concat([
@@ -151,42 +176,13 @@ const getBeamBlob = (svgString: string, imageSources: { [id: string]: ArrayBuffe
     headerBuffer,
     svgBlockBuf,
     imageSourceBlockBuffer,
+    thumbnailBlockBuffer || Buffer.from([]),
     Buffer.from([0x00]),
   ]);
-  const arrayBuffer = Uint8Array.from(buffer).buffer;
-  const blob = new Blob([arrayBuffer]);
-  return blob;
+  return buffer;
 };
 
-const saveBeam = async (
-  path: string,
-  svgString: string,
-  imageSources: { [id: string]: ArrayBuffer },
-): Promise<void> => {
-  const signatureBuffer = Buffer.from([66, 101, 97, 109, 2]); // Bvg{version in uint} max to 255
-  const svgBlockBuf = genertateSvgBlockBuffer(svgString);
-  const imageSourceBlockBuffer = generateImageSourceBlockBuffer(imageSources);
-  const metaDataBuf = Buffer.from('Hi, I am meta data O_<');
-  const headerBuffer = Buffer.concat([
-    valueToVIntBuffer(metaDataBuf.length),
-    metaDataBuf,
-    valueToVIntBuffer(svgBlockBuf.length),
-    valueToVIntBuffer(imageSourceBlockBuffer.length),
-  ]);
-  const headerSizeBuf = valueToVIntBuffer(headerBuffer.length);
-  fs.writeStream(path, 'w', [
-    Buffer.concat([
-      signatureBuffer,
-      headerSizeBuf,
-      headerBuffer,
-      svgBlockBuf,
-      imageSourceBlockBuffer,
-    ]),
-    Buffer.from([0x00]),
-  ]);
-};
-
-const readHeader = (headerBuf) => {
+const readHeader = (headerBuf: Buffer) => {
   let vInt;
   let offset = 0;
   vInt = readVInt(headerBuf, offset);
@@ -196,12 +192,13 @@ const readHeader = (headerBuf) => {
   // console.log(metaData);
   offset += metadataSize;
   vInt = readVInt(headerBuf, offset);
-  // const svgBlockSize = vInt.value;
-  // console.log('svgBlockSize', svgBlockSize);
+  // console.log('svgBlockSize', vInt.value);
   offset = vInt.offset;
   vInt = readVInt(headerBuf, offset);
-  // const imageSourceBlockSize = vInt.value;
-  // console.log('Image Source block Size', imageSourceBlockSize);
+  // console.log('Image Source block Size', vInt.value);
+  offset = vInt.offset;
+  vInt = readVInt(headerBuf, offset);
+  // console.log('Thumbnail block Size', vInt.value);
 };
 
 const readImageSource = (buf, offset, end) => {
@@ -216,7 +213,7 @@ const readImageSource = (buf, offset, end) => {
     const blob = new Blob([buf.slice(currentOffset, currentOffset + imageSize)]);
     const src = URL.createObjectURL(blob);
     currentOffset += imageSize;
-    $(`#${id}`).attr('origImage', src);
+    document.querySelector(`#${id}`).setAttribute('origImage', src);
   }
 };
 
@@ -228,27 +225,33 @@ const readBlocks = async (buf, offset) => {
   }
   let currentOffset = offset;
   const blockType = buf.readUInt8(currentOffset);
-  let vint;
-  let size;
   currentOffset += 1;
   if (blockType === 0) {
     // Ending Block
     currentOffset = -1;
   } else if (blockType === 1) {
     // Svg Content
-    vint = readVInt(buf, currentOffset);
-    currentOffset = vint.offset;
-    size = vint.value;
-    const svgString = buf.toString('utf-8', currentOffset, currentOffset + size);
+    console.log('Svg Content Block');
+    const { offset: newOffset, value } = readVInt(buf, currentOffset);
+    currentOffset = newOffset;
+    console.log('Size', value);
+    const svgString = buf.toString('utf-8', currentOffset, currentOffset + value);
     await importBvgString(svgString);
-    currentOffset += size;
+    currentOffset += value;
   } else if (blockType === 2) {
     // image source
-    vint = readVInt(buf, currentOffset);
-    currentOffset = vint.offset;
-    size = vint.value;
-    readImageSource(buf, currentOffset, currentOffset + size);
-    currentOffset += size;
+    console.log('Image Source Block');
+    const { offset: newOffset, value } = readVInt(buf, currentOffset);
+    currentOffset = newOffset
+    console.log('Size', value);
+    readImageSource(buf, currentOffset, currentOffset + value);
+    currentOffset += value;
+  } else if (blockType === 3) {
+    // thumbnail
+    console.log('Thumbnail Block');
+    const { offset: newOffset, value } = readVInt(buf, currentOffset);
+    console.log('Size', value);
+    currentOffset = newOffset + value;
   } else {
     // eslint-disable-next-line no-console
     console.error(`Unknown Block Type: ${blockType}`);
@@ -290,7 +293,6 @@ const readBeam = async (file: File): Promise<void> => {
 };
 
 export default {
-  getBeamBlob,
-  saveBeam,
+  generateBeamBuffer,
   readBeam,
 };

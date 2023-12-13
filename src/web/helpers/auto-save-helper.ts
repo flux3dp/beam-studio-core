@@ -1,14 +1,8 @@
 /* eslint-disable no-console */
-import beamFileHelper from 'helpers/beam-file-helper';
 import fs from 'implementations/fileSystem';
 import storage from 'implementations/storage';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { generateBeamBuffer } from 'helpers/file-export-helper';
 import { IConfig } from 'interfaces/IAutosave';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 let autoSaveInterval = null;
 
@@ -70,8 +64,6 @@ const startAutoSave = (): void => {
     autoSaveInterval = setInterval(async () => {
       if (window.location.hash === '#/studio/beambox') {
         console.log('auto save triggered');
-        const svgString = svgCanvas.getSvgString();
-        const imageSource = await svgCanvas.getImageSource();
         for (let i = fileNumber - 1; i >= 1; i -= 1) {
           const from = fs.join(directory, `beam-studio auto-save-${i}.beam`);
           if (fs.exists(from)) {
@@ -81,7 +73,8 @@ const startAutoSave = (): void => {
           }
         }
         const target = fs.join(directory, 'beam-studio auto-save-1.beam');
-        beamFileHelper.saveBeam(target, svgString, imageSource);
+        const buffer = await generateBeamBuffer();
+        fs.writeStream(target, 'w', [buffer]);
       }
     }, timeInterval * 60 * 1000);
   }
