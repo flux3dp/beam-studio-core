@@ -90,7 +90,7 @@ const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
   return arrayBuffer;
 };
 
-export const generateBeamBuffer = async () => {
+export const generateBeamBuffer = async (): Promise<Buffer> => {
   const svgCanvasString = svgCanvas.getSvgString();
   const imageSource = await svgCanvas.getImageSource();
   const thumbnail = await generateBeamThumbnail();
