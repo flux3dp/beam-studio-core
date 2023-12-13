@@ -235,6 +235,7 @@ class PreviewModeController {
             }
             return val;
           });
+          await new Promise<void>((resolve) => setTimeout(() => resolve(), 3000));
           await deviceMaster.uploadFisheyeParams(strData, () => {});
         }
         Alert.popUp({ message: 'Saved Successfully!'});
