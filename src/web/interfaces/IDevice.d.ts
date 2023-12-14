@@ -40,4 +40,5 @@ export interface IReport {
 export interface IDeviceDetailInfo {
   head_submodule_info: string;
   x_acc: string;
+  head_type: string;
 }

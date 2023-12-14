@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: 'Machinelijst',
     disable: 'Uitzetten',
     enable: 'Inschakelen',
+    submodule_type: 'Module',
+    cartridge_serial_number: 'Serienummer inktcartridge',
+    ink_color: 'Inktkleur',
+    ink_type: 'Inkttype',
+    ink_level: 'Resterend inktvolume',
+    close_door_to_read_cartridge_info: 'Om toegang te krijgen tot de inktinformatie, sluit u alstublieft de deur van de machine.',
+    cartridge_info_read_failed: 'Zorg ervoor dat de inktcartridge volledig is ingebracht. Probeer de inkt te verwijderen en opnieuw te installeren.',
+    cartridge_info_verification_failed: 'Controleer alstublieft of uw inkt authentiek is van FLUX.',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: 'Dat is alles voor de tutorial. Nu is het tijd om te creëren!',
   },
   layer_module: {
+    none: 'Keine',
     general_laser: 'Laser',
     laser_10w_diode: '10W Diode Laser',
     laser_20w_diode: '20W Diode Laser',
     laser_2w_infrared: '2W Infrarood Laser',
     printing: 'Printen',
+    unknown: 'Unbekanntes Modul',
     notification: {
       convertFromPrintingModuleTitle: 'Wilt u het Afdrukmodule omzetten in een Lasermodule?',
       convertFromPrintingModuleMsg: 'Wees u ervan bewust dat als u deze operatie voltooit, de kleurinstellingen van de afdrukmethode worden verwijderd en worden ingesteld volgens de huidige laag.',

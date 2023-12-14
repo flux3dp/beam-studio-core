@@ -5,6 +5,7 @@ enum LayerModule {
   LASER_20W_DIODE = 2,
   LASER_1064 = 4,
   PRINTER = 5,
+  UNKNOWN = 9,
 }
 
 export const modelsWithModules = ['fad1', 'ado1'];

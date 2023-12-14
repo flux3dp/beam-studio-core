@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: 'Machine List',
     disable: 'Disable',
     enable: 'Enable',
+    submodule_type: 'Module',
+    cartridge_serial_number: 'Ink cartridge serial number',
+    ink_color: 'Ink color',
+    ink_type: 'Ink type',
+    ink_level: 'Ink level',
+    close_door_to_read_cartridge_info: 'To access ink information, please close the machine\'s door cover.',
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: 'That\'s all for the tutorial. Now it\'s time to create!',
   },
   layer_module: {
+    none: 'None',
     general_laser: 'Laser',
     laser_10w_diode: '10W Diode Laser',
     laser_20w_diode: '20W Diode Laser',
     laser_2w_infrared: '2W Infrared Laser',
     printing: 'Printing',
+    unknown: 'Unknown Module',
     notification: {
       convertFromPrintingModuleTitle: 'Do you want to convert the Printing module into Laser module?',
       convertFromPrintingModuleMsg: 'Please be aware that if you complete this operation, the color settings of the printing layer will be removed and set according to the current layer.',

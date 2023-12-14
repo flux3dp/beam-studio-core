@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: 'Lista de máquinas',
     disable: 'Deshabilitar',
     enable: 'Habilitar',
+    submodule_type: 'Módulo',
+    cartridge_serial_number: 'Número de serie del cartucho de tinta',
+    ink_color: 'Color de tinta',
+    ink_type: 'Tipo de tinta',
+    ink_level: 'Volumen de tinta restante',
+    close_door_to_read_cartridge_info: 'Para acceder a la información de la tinta, por favor cierre la cubierta de la puerta de la máquina.',
+    cartridge_info_read_failed: 'Por favor, verifique que su tinta es auténtica de FLUX.',
+    cartridge_info_verification_failed: 'Por favor, asegúrese de que la tinta esté completamente insertada. Intente quitar la tinta e instalarla nuevamente.',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: 'Eso es todo por el tutorial. ¡Ahora es el momento de crear!',
   },
   layer_module: {
+    none: 'Ninguno',
     general_laser: 'Láser',
     laser_10w_diode: 'Láser de Diodo de 10W',
     laser_20w_diode: 'Láser de Diodo de 20W',
     laser_2w_infrared: 'Láser Infrarrojo de 2W',
     printing: 'Impresión',
+    unknown: 'Módulo desconocido',
     notification: {
       convertFromPrintingModuleTitle: '¿Desea convertir el módulo de impresión en un módulo láser?',
       convertFromPrintingModuleMsg: 'Tenga en cuenta que si completa esta operación, la configuración de color de la capa de impresión se eliminará y se establecerá de acuerdo con la capa actual.',

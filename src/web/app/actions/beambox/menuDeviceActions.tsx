@@ -11,11 +11,13 @@ import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
 import firmwareUpdater from 'helpers/firmware-updater';
 import i18n from 'helpers/i18n';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import MonitorController from 'app/actions/monitor-controller';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { InkDetectionStatus } from 'app/constants/layer-module/ink-cartridge';
 import { Mode } from 'app/constants/monitor-constants';
 import { parsingChipData } from 'app/components/dialogs/CartridgeSettingPanel';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
@@ -40,7 +42,7 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
   }
 };
 
-const calibrateModule = async(device: IDeviceInfo, type: CalibrationType) => {
+const calibrateModule = async (device: IDeviceInfo, type: CalibrationType) => {
   try {
     const deviceStatus = await checkDeviceStatus(device);
     if (!deviceStatus) {
@@ -184,7 +186,75 @@ export default {
       MonitorController.showMonitor(device, device.st_id <= 0 ? Mode.FILE : Mode.WORKING);
     }
   },
-  MACHINE_INFO: (device: IDeviceInfo): void => {
+  MACHINE_INFO: async (device: IDeviceInfo): Promise<void> => {
+    const isAdor = constant.adorModels.includes(device.model);
+    let subModuleInfo = null;
+    if (isAdor) {
+      try {
+        await DeviceMaster.select(device);
+        const deviceDetailInfo = await DeviceMaster.getDeviceDetailInfo();
+        const headType = parseInt(deviceDetailInfo.head_type, 10);
+        const headSubmoduleInfo = JSON.parse(deviceDetailInfo.head_submodule_info);
+        console.log(headSubmoduleInfo);
+        const moduleName =
+          {
+            0: lang.layer_module.none,
+            [LayerModule.LASER_10W_DIODE]: lang.layer_module.laser_10w_diode,
+            [LayerModule.LASER_20W_DIODE]: lang.layer_module.laser_20w_diode,
+            [LayerModule.LASER_1064]: lang.layer_module.laser_2w_infrared,
+            [LayerModule.PRINTER]: lang.layer_module.printing,
+            [LayerModule.UNKNOWN]: lang.layer_module.unknown,
+          }[headType] || lang.layer_module.unknown;
+        const {
+          state,
+          serial_number: serialNumber,
+          color,
+          type,
+          ink_level: inkLevel,
+        } = headSubmoduleInfo;
+        subModuleInfo = (
+          <div>
+            <br />
+            <div>
+              {lang.device.submodule_type}: {moduleName}
+            </div>
+            <br />
+            {headType === LayerModule.PRINTER && (
+              <>
+                {state === InkDetectionStatus.PENDING && (
+                  <div>{lang.device.close_door_to_read_cartridge_info}</div>
+                )}
+                {state === InkDetectionStatus.FAILED && (
+                  <div>{lang.device.cartridge_info_read_failed}</div>
+                )}
+                {state === InkDetectionStatus.VALIDATE_FAILED && (
+                  <div>{lang.device.cartridge_info_verification_failed}</div>
+                )}
+                {[InkDetectionStatus.SUCCESS, InkDetectionStatus.UNUSED].includes(state) && (
+                  <>
+                    <div>
+                      {lang.device.cartridge_serial_number}: {serialNumber ?? '-'}
+                    </div>
+                    <div>
+                      {lang.device.ink_color}: {color}
+                    </div>
+                    <div>
+                      {lang.device.ink_type}: {type}
+                    </div>
+                    <div>
+                      {lang.device.ink_level}:{' '}
+                      {Math.round((InkDetectionStatus.UNUSED ? 1 : inkLevel) * 100)}%
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
     const info = (
       <div>
         <div>
@@ -202,6 +272,7 @@ export default {
         <div>
           {lang.device.UUID}: {device.uuid}
         </div>
+        {subModuleInfo}
       </div>
     );
     Alert.popUp({
@@ -296,13 +367,18 @@ export default {
   CATRIDGE_CHIP_SETTING: async (device: IDeviceInfo): Promise<void> => {
     const res = await DeviceMaster.select(device);
     if (!res.success) return;
-    ProgressCaller.openNonstopProgress({ id: 'fetch-cartridge-data', message: 'Fetching Cartridge Data' });
+    ProgressCaller.openNonstopProgress({
+      id: 'fetch-cartridge-data',
+      message: 'Fetching Cartridge Data',
+    });
     let inkLevel = 1;
     try {
       const deviceDetailInfo = await DeviceMaster.getDeviceDetailInfo();
       const headSubmoduleInfo = JSON.parse(deviceDetailInfo.head_submodule_info);
       inkLevel = headSubmoduleInfo.ink_level;
-    } catch { /* do nothing */ }
+    } catch {
+      /* do nothing */
+    }
     try {
       await DeviceMaster.enterCartridgeIOMode();
       const chipDataRes = await DeviceMaster.getCartridgeChipData();

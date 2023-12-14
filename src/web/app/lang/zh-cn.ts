@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: '机器列表',
     disable: '关闭',
     enable: '开启',
+    submodule_type: '模块',
+    cartridge_serial_number: '墨盒序号',
+    ink_color: '墨水颜色',
+    ink_type: '墨水类型',
+    ink_level: '剩余墨水量',
+    close_door_to_read_cartridge_info: '请关闭机器的门盖以访问墨盒信息。',
+    cartridge_info_read_failed: '请确认墨盒完全插入。尝试将墨水取出并重新安装。',
+    cartridge_info_verification_failed: '请确认您是否使用 FLUX 原厂墨盒。',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: '介绍完毕，开始创作吧！',
   },
   layer_module: {
+    none: '无',
     general_laser: '激光',
     laser_10w_diode: '10W 二极管激光器',
     laser_20w_diode: '20W 二极管激光器',
     laser_2w_infrared: '2W 红外激光器',
     printing: '打印',
+    unknown: '未知模块',
     notification: {
       convertFromPrintingModuleTitle: '您是否要将打印图层转换为激光图层？',
       convertFromPrintingModuleMsg: '请注意，如果您继续此操作，打印图层的颜色设置将会被删除，并根据当前图层参数而定。',
