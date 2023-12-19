@@ -439,7 +439,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   // eslint-disable-next-line class-methods-use-this
   getTaskInfo(info: any[]): { imageBlob: Blob; taskTime: number } {
     const imageBlob = getFirstBlobInArray(info);
-    const taskTime = findKeyInObjectArray(info, 'TIME_COST');
+    const taskTime = findKeyInObjectArray(info, 'TIME_COST') || findKeyInObjectArray(info, 'time_cost');
 
     return { imageBlob, taskTime };
   }
