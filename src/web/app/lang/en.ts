@@ -302,7 +302,7 @@ const lang: ILang = {
       title: 'Connecting to Wi-Fi',
       tutorial1: '1. Go to Touch Panel > Click "Network" > "Connect to WiFi".',
       tutorial1_ador: '1. Go to Touch Panel > Click "MACHINE" > Click "Network" > "Connect to WiFi".',
-      tutorial2: '2. Select and connect your prefered Wi-Fi.',
+      tutorial2: '2. Select and connect your preferred Wi-Fi.',
       what_if_1: 'What if I don\'t see my Wi-Fi?',
       what_if_1_content: '1. The Wi-Fi encryption mode should be WPA2 or no password.\n2. The encryption mode can be set in the Wi-Fi router administration interface. If the router doesn’t support WPA2 and you need help picking out the right router, please contact FLUX Support.',
       what_if_2: 'What if I don\'t see any Wi-Fi?',
