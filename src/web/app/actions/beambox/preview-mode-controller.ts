@@ -39,6 +39,8 @@ class PreviewModeController {
 
   currentDevice: IDeviceInfo;
 
+  isStarting: boolean;
+
   isPreviewModeOn: boolean;
 
   isPreviewBlocked: boolean;
@@ -362,6 +364,7 @@ class PreviewModeController {
   }
 
   async checkDevice(device: IDeviceInfo | null) {
+    if (this.isStarting) return false;
     if (this.currentDevice && this.currentDevice.serial !== device?.serial) {
       await this.end();
       PreviewModeBackgroundDrawer.clear();
@@ -395,11 +398,13 @@ class PreviewModeController {
     return true;
   }
 
-  async start(device, errCallback) {
+  async start(device: IDeviceInfo, errCallback) {
     await this.reset();
+    this.isStarting = true;
 
     const res = await deviceMaster.select(device);
     if (!res.success) {
+      this.isStarting = false;
       return;
     }
 
@@ -415,7 +420,10 @@ class PreviewModeController {
       await deviceMaster.connectCamera();
       if (Constant.adorModels.includes(device.model)) {
         const setUpRes = await this.setUpFishEyePreviewMode();
-        if (!setUpRes) return;
+        if (!setUpRes) {
+          this.isStarting = false;
+          return;
+        }
       }
 
       PreviewModeBackgroundDrawer.start(this.cameraOffset);
@@ -425,11 +433,13 @@ class PreviewModeController {
       this.isPreviewModeOn = true;
     } catch (error) {
       console.error(error);
+      this.reset();
       if (!Constant.adorModels.includes(device.model)) await this.endBeamSeriesPreviewMode();
       deviceMaster.kick();
       throw error;
     } finally {
       Progress.popById('preview-mode-controller');
+      this.isStarting = false;
     }
   }
 

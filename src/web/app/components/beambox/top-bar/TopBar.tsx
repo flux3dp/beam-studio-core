@@ -50,9 +50,12 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
 
   private defaultDeviceSerial: string | undefined;
 
+  private isSettingUpPreviewMode = false;
+
   constructor(props: Record<string, never>) {
     super(props);
     this.defaultDeviceSerial = storage.get('selected-device');
+    this.isSettingUpPreviewMode = false;
     this.state = {
       hasDiscoverdMachine: false,
     };
@@ -99,11 +102,16 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   };
 
   setupPreviewMode = async (showModal = false): Promise<void> => {
+    if (this.isSettingUpPreviewMode) return;
+    this.isSettingUpPreviewMode = true;
     const { device, isWorkareaMatched } = await getDevice(showModal);
-    await PreviewModeController.checkDevice(device);
-    if (!isWorkareaMatched) {
-      const res = await showResizeAlert(device);
-      if (!res) return;
+    if (!await PreviewModeController.checkDevice(device)) {
+      this.isSettingUpPreviewMode = false;
+      return;
+    }
+    if (!isWorkareaMatched && !await showResizeAlert(device)) {
+      this.isSettingUpPreviewMode = false;
+      return;
     }
 
     const {
@@ -140,6 +148,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       await PreviewModeController.start(device, onPreviewError);
       if (!PreviewModeController.isPreviewModeOn) {
         $(workarea).css('cursor', 'auto');
+        this.isSettingUpPreviewMode = false;
         return;
       }
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
@@ -167,6 +176,8 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
+    } finally {
+      this.isSettingUpPreviewMode = false;
     }
   };
 
