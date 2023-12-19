@@ -307,21 +307,21 @@
   $image-width: min(400px, calc(100vw - 450px));
   width: calc(0.4 * $image-width);
   height: calc(0.05 * $image-width);
-  margin: calc(0.11 * $image-width) 0 0 calc(0.15 * $image-width);
+  margin: calc(0.18 * $image-width) 0 0 calc(0.18 * $image-width);
   border-radius: calc(0.05 * $image-width);
 
   &.wired {
-    margin: calc(0.11 * $image-width) 0 0 calc(0.55 * $image-width);
+    margin: calc(0.295 * $image-width) 0 0 calc(0.18 * $image-width);
   }
 
   @media screen and (max-width: 600px) {
     $image-width: calc(100vw - 60px);
     width: calc(0.35 * $image-width);
     height: calc(0.05 * $image-width);
-    margin: calc(0.11 * $image-width) 0 0 calc(-0.35 * $image-width);
+    margin: calc(0.18 * $image-width) 0 0 calc(-0.25 * $image-width);
 
     &.wired {
-      margin: calc(0.11 * $image-width) 0 0 calc(0.45 * $image-width);
+      margin: calc(0.295 * $image-width) 0 0 calc(-0.25 * $image-width);
     }
   }
 }
