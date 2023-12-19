@@ -4,7 +4,7 @@ import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { moveSelectedElements } from 'app/svgedit/operations/move';
+import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 interface ClipboardElement {
@@ -169,12 +169,14 @@ const pasteRef = (useElement: SVGUseElement) => {
   });
 };
 
-const pasteElements = (
+const pasteElements = (args: {
   type: 'mouse' | 'in_place' | 'point',
   x?: number,
   y?: number,
-  isSubCmd = false,
-): { cmd: IBatchCommand, elems: Element[] } | null => {
+  isSubCmd: boolean,
+  selectElement?: boolean
+}): { cmd: IBatchCommand, elems: Element[] } | null => {
+  const { type, x, y, isSubCmd = false, selectElement = true } = args || {};
   if (!clipboard || !clipboard.length) return null;
 
   const pasted = [];
@@ -217,7 +219,7 @@ const pasteElements = (
     updateElementColor(copy);
   }
 
-  svgCanvas.selectOnly(pasted, true);
+  if (selectElement) svgCanvas.selectOnly(pasted, true);
 
   if (type !== 'in_place') {
     let ctrX: number;
@@ -243,7 +245,7 @@ const pasteElements = (
       dy.push(cy);
     });
 
-    const cmd = moveSelectedElements(dx, dy, false);
+    const cmd = moveElements(dx, dy, pasted, false);
     batchCmd.addSubCommand(cmd);
   }
 
@@ -251,7 +253,7 @@ const pasteElements = (
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     svgCanvas.call('changed', pasted);
   }
-  svgCanvas.tempGroupSelectedElements();
+  if (selectElement) svgCanvas.tempGroupSelectedElements();
   return { cmd: batchCmd, elems: pasted };
 };
 
@@ -264,7 +266,7 @@ const cloneSelectedElements = (dx: number, dy: number, isSubCmd = false): IBatch
   const originalClipboard = clipboard ? [...clipboard] : null;
   const batchCmd = new history.BatchCommand('Clone elements');
   copySelectedElements();
-  const pasteRes = pasteElements('in_place', null, null, true);
+  const pasteRes = pasteElements({ type: 'in_place', x: null, y: null, isSubCmd: true });
   if (!pasteRes) return null;
   let { cmd } = pasteRes;
   if (cmd && !cmd.isEmpty()) {
@@ -289,11 +291,11 @@ const pasteFromNativeClipboard = async (
   isSubCmd = false,
 ): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
   if (clipboard?.length) {
-    return pasteElements(type, x, y, isSubCmd);
+    return pasteElements({ type, x, y, isSubCmd });
   }
   await applyNativeClipboard();
   if (!clipboard?.length) return null;
-  return pasteElements(type, x, y, isSubCmd);
+  return pasteElements({ type, x, y, isSubCmd });
 };
 
 const pasteInCenter = async (): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
@@ -315,13 +317,13 @@ const generateSelectedElementArray = (
   for (let i = 0; i < arraySize.column; i += 1) {
     for (let j = 0; j < arraySize.row; j += 1) {
       if (i !== 0 || j !== 0) {
-        const pasteRes = pasteElements('in_place', null, null, true);
+        const pasteRes = pasteElements({ type: 'in_place', isSubCmd: true, selectElement: false });
         // eslint-disable-next-line no-continue
         if (!pasteRes) continue;
         const { cmd: pasteCmd, elems } = pasteRes;
         arrayElements.push(...elems);
         if (pasteCmd && !pasteCmd.isEmpty()) batchCmd.addSubCommand(pasteCmd);
-        const moveCmd = moveSelectedElements([i * interval.dx], [j * interval.dy], false);
+        const moveCmd = moveElements([i * interval.dx], [j * interval.dy], elems, false, true);
         if (moveCmd && !moveCmd.isEmpty()) batchCmd.addSubCommand(moveCmd);
       }
     }
