@@ -323,7 +323,9 @@ const generateSelectedElementArray = (
         const { cmd: pasteCmd, elems } = pasteRes;
         arrayElements.push(...elems);
         if (pasteCmd && !pasteCmd.isEmpty()) batchCmd.addSubCommand(pasteCmd);
-        const moveCmd = moveElements([i * interval.dx], [j * interval.dy], elems, false, true);
+        const dx = Array(elems.length).fill(i * interval.dx);
+        const dy = Array(elems.length).fill(j * interval.dy);
+        const moveCmd = moveElements(dx, dy, elems, false, true);
         if (moveCmd && !moveCmd.isEmpty()) batchCmd.addSubCommand(moveCmd);
       }
     }
