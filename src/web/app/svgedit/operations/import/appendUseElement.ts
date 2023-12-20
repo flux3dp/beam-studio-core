@@ -116,6 +116,8 @@ const appendUseElement = (
         writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
         writeDataLayer(newLayer, DataType.fullColor, '1');
       }
+    } else if (currentDrawing.getCurrentLayer() !== targetLayer) {
+      svgCanvas.setCurrentLayer(targetLayerName);
     }
   } else {
     let targetLayer = currentDrawing.getCurrentLayer();
