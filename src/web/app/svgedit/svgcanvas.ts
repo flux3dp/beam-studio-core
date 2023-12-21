@@ -1662,7 +1662,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         out.push(' ');
       }
       out.push('<');
-      out.push(elem.nodeName);
+      let { nodeName } = elem;
+      if (nodeName === 'STYLE' && elem.parentNode?.nodeName === 'defs') nodeName = 'style'
+      out.push(nodeName);
       if (elem.id === 'svgcontent') {
         // Process root element separately
         var res = getResolution();
@@ -1836,7 +1838,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           }
         }
         out.push('</');
-        out.push(elem.nodeName);
+        out.push(nodeName);
         out.push('>');
       } else {
         out.push('/>');
