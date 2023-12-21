@@ -320,45 +320,6 @@ export default class SvgEditor extends React.Component {
               <fieldset>
                 <legend id="svginfo_editor_prefs">Editor Preferences</legend>
                 <label>
-                  <span id="svginfo_lang">Language:</span>
-                  {}
-                  <select id="lang_select" defaultValue="en">
-                    <option id="lang_de" value="de">
-                      Deutsche
-                    </option>
-                    <option id="lang_en" value="en">
-                      English
-                    </option>
-                    <option id="lang_zh-TW" value="zh-TW">
-                      繁體中文
-                    </option>
-                    <option id="lang_ja" value="ja">
-                      日本語
-                    </option>
-                    <option id="lang_kr" value="kr">
-                      한국어
-                    </option>
-                    <option id="lang_zh-CN" value="es">
-                      Español
-                    </option>
-                    <option id="lang_pt" value="pt">
-                      Português
-                    </option>
-                    <option id="lang_zh-CN" value="zh-CN">
-                      簡中
-                    </option>
-                    <option id="lang_fr" value="fr">
-                      Français
-                    </option>
-                    <option id="lang_nl" value="nl">
-                      Nederlands
-                    </option>
-                    <option id="lang_pl" value="pl">
-                      Polski
-                    </option>
-                  </select>
-                </label>
-                <label>
                   <span id="svginfo_icons">Icon size:</span>
                   <select id="iconsize" defaultValue="m">
                     <option id="icon_small" value="s">

@@ -30,6 +30,16 @@ exports[`should render correctly 1`] = `
             options={
               [
                 {
+                  "label": "Bahasa Indonesia",
+                  "selected": false,
+                  "value": "id",
+                },
+                {
+                  "label": "Dansk",
+                  "selected": false,
+                  "value": "da",
+                },
+                {
                   "label": "Deutsch",
                   "selected": false,
                   "value": "de",
@@ -45,34 +55,19 @@ exports[`should render correctly 1`] = `
                   "value": "es",
                 },
                 {
-                  "label": "Português",
-                  "selected": false,
-                  "value": "pt",
-                },
-                {
-                  "label": "繁體中文",
-                  "selected": false,
-                  "value": "zh-tw",
-                },
-                {
-                  "label": "日本語",
-                  "selected": false,
-                  "value": "ja",
-                },
-                {
-                  "label": "한국어",
-                  "selected": false,
-                  "value": "kr",
-                },
-                {
-                  "label": "简体中文",
-                  "selected": false,
-                  "value": "zh-cn",
-                },
-                {
                   "label": "Français",
                   "selected": false,
                   "value": "fr",
+                },
+                {
+                  "label": "Italiano",
+                  "selected": false,
+                  "value": "it",
+                },
+                {
+                  "label": "Melayu",
+                  "selected": false,
+                  "value": "ms",
                 },
                 {
                   "label": "Nederlands",
@@ -80,9 +75,64 @@ exports[`should render correctly 1`] = `
                   "value": "nl",
                 },
                 {
+                  "label": "Norsk",
+                  "selected": false,
+                  "value": "no",
+                },
+                {
+                  "label": "Português",
+                  "selected": false,
+                  "value": "pt",
+                },
+                {
                   "label": "Polski",
                   "selected": false,
                   "value": "pl",
+                },
+                {
+                  "label": "Svenska",
+                  "selected": false,
+                  "value": "se",
+                },
+                {
+                  "label": "Suomi",
+                  "selected": false,
+                  "value": "fi",
+                },
+                {
+                  "label": "Tiếng Việt",
+                  "selected": false,
+                  "value": "vi",
+                },
+                {
+                  "label": "Ελληνικά",
+                  "selected": false,
+                  "value": "el",
+                },
+                {
+                  "label": "ภาษาไทย",
+                  "selected": false,
+                  "value": "th",
+                },
+                {
+                  "label": "한국어",
+                  "selected": false,
+                  "value": "kr",
+                },
+                {
+                  "label": "日本語",
+                  "selected": false,
+                  "value": "ja",
+                },
+                {
+                  "label": "简体中文",
+                  "selected": false,
+                  "value": "zh-cn",
+                },
+                {
+                  "label": "繁體中文",
+                  "selected": false,
+                  "value": "zh-tw",
                 },
               ]
             }
