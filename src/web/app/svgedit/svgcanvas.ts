@@ -501,6 +501,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)', 'Split Full Color Layer'].includes(cmd.text)) {
               canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
+              presprayArea.togglePresprayArea();
             }
 
             const textElems = elems.filter((elem) => elem.tagName === 'text');
