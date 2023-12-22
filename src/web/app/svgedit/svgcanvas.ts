@@ -4858,6 +4858,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       svgedit.recalculate.recalculateDimensions(g);
       if (angle) canvas.setRotationAngle(angle, true, g);
       selectOnly([g], true);
+      updateElementColor(g);
       // This is a hack, because when import, we pack svg in 2~3 <g>, so we have to ungroup it when disassemble
       for (let j = 0; j < 3; j++) {
         const res = this.ungroupSelectedElement(true);
