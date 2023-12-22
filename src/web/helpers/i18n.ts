@@ -1,13 +1,23 @@
 import AppSettings from 'app/app-settings';
+import LangDa from 'app/lang/da';
 import LangDe from 'app/lang/de';
+import LangEl from 'app/lang/el';
 import LangEn from 'app/lang/en';
 import LangEs from 'app/lang/es';
-import LangPt from 'app/lang/pt';
+import LangFi from 'app/lang/fi';
 import LangFr from 'app/lang/fr';
+import LangId from 'app/lang/id';
+import LangIt from 'app/lang/it';
 import LangJa from 'app/lang/ja';
 import LangKr from 'app/lang/kr';
+import LangMs from 'app/lang/ms';
 import LangNl from 'app/lang/nl';
+import LangNo from 'app/lang/no';
 import LangPl from 'app/lang/pl';
+import LangPt from 'app/lang/pt';
+import LangSe from 'app/lang/se';
+import LangTh from 'app/lang/th';
+import LangVi from 'app/lang/vi';
 import LangZHCN from 'app/lang/zh-cn';
 import LangZHTW from 'app/lang/zh-tw';
 import storage from 'implementations/storage';
@@ -26,6 +36,16 @@ const langCache = {
   kr: LangKr,
   'zh-cn': LangZHCN,
   pl: LangPl,
+  da: LangDa,
+  el: LangEl,
+  fi: LangFi,
+  id: LangId,
+  it: LangIt,
+  ms: LangMs,
+  no: LangNo,
+  se: LangSe,
+  th: LangTh,
+  vi: LangVi,
 };
 
 let activeLang = storage.get(ACTIVE_LANG) as string || AppSettings.i18n.default_lang;
