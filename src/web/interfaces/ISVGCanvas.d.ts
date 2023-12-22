@@ -122,7 +122,7 @@ export default interface ISVGCanvas {
   opacityAnimation: SVGAnimateElement;
   open: () => void;
   pathActions: IPathActions;
-  pushGroupProperties: (g: SVGGElement, undoable: boolean) => void;
+  pushGroupProperties: (g: SVGGElement, undoable: boolean) => IBatchCommand;
   randomizeIds(enableRandomization: boolean): string;
   ready: (arg0: () => void) => any;
   recalculateAllSelectedDimensions: (isSubCommand?: boolean) => IBatchCommand;
