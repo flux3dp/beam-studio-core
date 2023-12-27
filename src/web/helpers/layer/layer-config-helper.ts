@@ -128,6 +128,8 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
   }
   if (targetDataType === DataType.fullColor)
     return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
+  if (targetDataType === DataType.module)
+    return Number(layer.getAttribute('data-module') || LayerModule.LASER_10W_DIODE) as T;
   return Number(layer.getAttribute(`data-${targetDataType}`) || defaultConfig[targetDataType]) as T;
 };
 

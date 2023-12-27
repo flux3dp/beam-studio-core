@@ -5,6 +5,7 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import dialogCaller from 'app/actions/dialog-caller';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import layerConfigHelper, { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import progressCaller from 'app/actions/progress-caller';
@@ -12,7 +13,6 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import svgLaserParser from 'helpers/api/svg-laser-parser';
-import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ImportType } from 'interfaces/ImportSvg';
 
@@ -180,6 +180,7 @@ const importSvg = async (
     if (!isPrinting || !newElements.length) {
       const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
       const newLayer = svgCanvas.createLayer(layerName);
+      layerConfigHelper.initLayerConfig(layerName);
       if (isPrinting) {
         writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
         writeDataLayer(newLayer, DataType.fullColor, '1');
