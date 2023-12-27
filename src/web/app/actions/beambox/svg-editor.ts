@@ -40,7 +40,6 @@ import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController
 import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
 import Constant from './constant';
 import OpenBottomBoundaryDrawer from './open-bottom-boundary-drawer';
 import PreviewModeController from './preview-mode-controller';
@@ -71,6 +70,7 @@ import importBvg from 'app/svgedit/operations/import/importBvg';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
+import layerConfigHelper from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -5015,6 +5015,7 @@ const svgEditor = window['svgEditor'] = (function () {
           if (!isLayerExist) {
             svgCanvas.getCurrentDrawing();
             svgCanvas.createLayer(layerName, layer.rgbCode);
+            layerConfigHelper.initLayerConfig(layerName);
           }
           const id = svgCanvas.getNextId();
           const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
