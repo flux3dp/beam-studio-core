@@ -48,7 +48,6 @@ export default interface ISVGCanvas {
   contentH: number;
   contentW: number;
   convertToNum(attr: string, val: number): number;
-  createLayer: (layerName: string, hexCode?: string, isFullColor?: boolean) => SVGGElement;
   currentFilePath: string;
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;

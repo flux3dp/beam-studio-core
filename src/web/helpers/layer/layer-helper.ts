@@ -114,11 +114,12 @@ export const createLayer = (
   const drawing = svgCanvas.getCurrentDrawing();
   const { hexCode, isFullColor = false, isSubCmd = false } = opts || {};
   const newLayer = drawing.createLayer(name);
-  if (drawing.layer_map[name]) {
-    if (name && /^#([0-9a-f]{3}){1,2}$/i.test(name)) drawing.layer_map[name].setColor(name);
-    else if (hexCode) drawing.layer_map[name].setColor(hexCode);
-    else drawing.layer_map[name].setColor(randomColor.getColor());
-    if (isFullColor) drawing.layer_map[name].setFullColor(true);
+  const finalName = getLayerName(newLayer);
+  if (drawing.layer_map[finalName]) {
+    if (name && /^#([0-9a-f]{3}){1,2}$/i.test(name)) drawing.layer_map[finalName].setColor(name);
+    else if (hexCode) drawing.layer_map[finalName].setColor(hexCode);
+    else drawing.layer_map[finalName].setColor(randomColor.getColor());
+    if (isFullColor) drawing.layer_map[finalName].setFullColor(true);
   }
   const batchCmd = new history.BatchCommand('Create Layer');
   batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
