@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: '기계 목록',
     disable: '비활성화',
     enable: '활성화',
+    submodule_type: '모듈',
+    cartridge_serial_number: '잉크 카트리지 일련 번호',
+    ink_color: '잉크 색상',
+    ink_type: '잉크 유형',
+    ink_level: '잉크 잔량',
+    close_door_to_read_cartridge_info: '잉크 정보에 접근하려면 기계의 도어 커버를 닫아주세요.',
+    cartridge_info_read_failed: '잉크 카트리지가 완전히 삽입되었는지 확인해주세요. 잉크를 제거하고 다시 설치해보십시오.',
+    cartridge_info_verification_failed: '귀하의 잉크가 FLUX 정품인지 확인해주세요.',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: '튜토리얼은 여기까지입니다. 이제 창작의 시간입니다!',
   },
   layer_module: {
+    none: '없음',
     general_laser: '레이저',
     laser_10w_diode: '10W 다이오드 레이저',
     laser_20w_diode: '20W 다이오드 레이저',
     laser_2w_infrared: '2W 적외선 레이저',
     printing: '인쇄',
+    unknown: '알 수 없는 모듈',
     notification: {
       convertFromPrintingModuleTitle: '인쇄 모듈을 레이저 모듈로 변환하시겠습니까?',
       convertFromPrintingModuleMsg: '이 작업을 완료하면 인쇄 레이어의 색상 설정이 제거되어 현재 레이어에 따라 설정됩니다.',

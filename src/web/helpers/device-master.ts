@@ -13,8 +13,13 @@ import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { ConnectionError, SelectionResult } from 'app/constants/connection-constants';
-import { FisheyeCameraParameters, FisheyeMatrix } from 'app/constants/camera-calibration-constants';
-import { IDeviceInfo, IDeviceConnection } from 'interfaces/IDevice';
+import {
+  FisheyeCameraParameters,
+  FisheyeMatrix,
+  RotationParameters3D,
+  RotationParameters3DGhostApi,
+} from 'app/constants/camera-calibration-constants';
+import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/IDevice';
 
 import Camera from './api/camera';
 import Control from './api/control';
@@ -712,6 +717,11 @@ class DeviceMaster {
     return controlSocket.fetchFisheyeParams() as Promise<FisheyeCameraParameters>;
   }
 
+  fetchFisheye3DRotation(): Promise<RotationParameters3D> {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.fetchFisheye3DRotation();
+  }
+
   fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover' | 'offset') {
     const controlSocket = this.currentDevice.control;
     return controlSocket.fetchAutoLevelingData(dataType);
@@ -953,9 +963,9 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
   }
 
-  getDeviceInfo() {
+  getDeviceDetailInfo(): Promise<IDeviceDetailInfo> {
     const controlSocket = this.currentDevice.control;
-    return controlSocket.addTask(controlSocket.deviceInfo);
+    return controlSocket.addTask(controlSocket.deviceDetailInfo);
   }
 
   async getReport() {
@@ -999,6 +1009,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.uploadFisheyeParams, data);
   };
 
+  updateFisheye3DRotation = (data: RotationParameters3D) => {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.updateFisheye3DRotation, data);
+  };
+
   // Camera functions
   checkCameraNeedFlip(cameraOffset: string) {
     const { currentDevice } = this;
@@ -1028,10 +1043,16 @@ class DeviceMaster {
     return res;
   }
 
+  async set3dRotation(data: RotationParameters3DGhostApi) {
+    const res = await this.currentDevice.camera.set3dRotation(data);
+    return res;
+  }
+
   async takeOnePicture(opts: { timeout? : number } = {}) {
     const { timeout = 30 } = opts;
     const startTime = Date.now();
     const cameraFishEyeSetting = this.currentDevice.camera?.getFisheyeSetting();
+    const fisheyeRotation = this.currentDevice.camera?.getRotationAngles();
     let lastErr = null;
     while (Date.now() - startTime < (timeout * 1000)) {
       try {
@@ -1049,6 +1070,8 @@ class DeviceMaster {
         // eslint-disable-next-line no-await-in-loop
         await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
       }
+      // eslint-disable-next-line no-await-in-loop
+      if (fisheyeRotation) await this.set3dRotation(fisheyeRotation);
     }
     if (lastErr) throw lastErr;
     return null;

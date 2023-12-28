@@ -51,7 +51,7 @@ exports[`test ConnectWiFi should render correctly 1`] = `
             1. Go to Touch Panel &gt; Click "Network" &gt; "Connect to WiFi".
           </div>
           <div>
-            2. Select and connect your prefered Wi-Fi.
+            2. Select and connect your preferred Wi-Fi.
           </div>
         </div>
         <div
@@ -196,7 +196,7 @@ exports[`test ConnectWiFi should render correctly when is ador 1`] = `
             tutorial1
           </div>
           <div>
-            2. Select and connect your prefered Wi-Fi.
+            2. Select and connect your preferred Wi-Fi.
           </div>
         </div>
         <div

@@ -1,4 +1,4 @@
-import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+import { FisheyeCameraParameters, RotationParameters3D } from 'app/constants/camera-calibration-constants';
 import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import {
@@ -45,6 +45,17 @@ const getHeightOffsets = async () => {
   return { autoLevelingData, heightOffset };
 };
 
+const loadCamera3dRotation = async (): Promise<RotationParameters3D | null> => {
+  try {
+    const data = await deviceMaster.fetchFisheye3DRotation();
+    console.log('fetchFisheye3DRotation', data);
+    return data
+  } catch (e) {
+    console.error('Unable to get fisheye 3d rotation', e);
+  }
+  return null;
+};
+
 const getHeight = async (device: IDeviceInfo) => {
   let enteredRawMode = false;
   try {
@@ -69,6 +80,7 @@ const getPerspectiveForAlign = async (
   center: number[]
 ): Promise<[number, number][][]> => {
   const { autoLevelingData, heightOffset } = await getHeightOffsets();
+  const rotationParam = await loadCamera3dRotation();
   const refKey = 'E';
   const refHeight = autoLevelingData[refKey];
   const keys = Object.keys(autoLevelingData);
@@ -76,8 +88,17 @@ const getPerspectiveForAlign = async (
     autoLevelingData[key] = Math.round((autoLevelingData[key] - refHeight) * 1000) / 1000;
     autoLevelingData[key] += heightOffset[key] ?? 0;
   });
-  const height = await getHeight(device);
+
+  let height = await getHeight(device);
+  if (rotationParam) {
+    const { rx, ry, rz, sh, ch } = rotationParam;
+    const z = deviceConstants.WORKAREA_DEEP[device.model] - height;
+    const rotationZ = sh * (z + ch);
+    await deviceMaster.set3dRotation({ rx, ry, rz, h: rotationZ, tx: 0, ty: 0 });
+  }
   console.log('Use Height: ', height);
+  if (rotationParam?.dh) height += rotationParam.dh;
+  console.log('After applying rotation 3d dh: ', height);
   const { heights, points, z3regParam } = param;
   const workarea = [
     deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,

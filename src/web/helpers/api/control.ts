@@ -6,6 +6,8 @@ import EventEmitter from 'eventemitter3';
 import ErrorConstants from 'app/constants/error-constants';
 import rsaKey from 'helpers/rsa-key';
 import Websocket from 'helpers/websocket';
+import { IDeviceDetailInfo } from 'interfaces/IDevice';
+import { RotationParameters3D } from 'app/constants/camera-calibration-constants';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
 const EVENT_COMMAND_ERROR = 'command-error';
@@ -583,7 +585,7 @@ class Control extends EventEmitter {
     return this.useWaitAnyResponse('task quit');
   };
 
-  deviceInfo = () => this.useWaitAnyResponse('deviceInfo');
+  deviceDetailInfo = (): Promise<IDeviceDetailInfo> => this.useWaitAnyResponse('deviceinfo');
 
   getPreview = async () => {
     const { data } = await this.useWaitOKResponse('play info');
@@ -659,6 +661,37 @@ class Control extends EventEmitter {
   fetchFisheyeParams = () => new Promise((resolve, reject) => {
     const file = [];
     this.on(EVENT_COMMAND_MESSAGE, async (response) => {
+      console.log(response);
+      if (response.status === 'transfer') {
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+      } else if (!Object.keys(response).includes('completed')) {
+        file.push(response);
+      }
+      if (response instanceof Blob) {
+        this.removeCommandListeners();
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          try {
+            const jsonString = e.target.result as string;
+            const data = JSON.parse(jsonString);
+            console.log(data);
+            resolve(data);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        fileReader.readAsText(response);
+      }
+    });
+    this.setDefaultErrorResponse(reject);
+    this.setDefaultFatalResponse(reject);
+
+    this.ws.send('fetch_fisheye_params');
+  });
+
+  fetchFisheye3DRotation = () => new Promise<RotationParameters3D>((resolve, reject) => {
+    const file = [];
+    this.on(EVENT_COMMAND_MESSAGE, async (response) => {
       if (response.status === 'transfer') {
         this.emit(EVENT_COMMAND_PROGRESS, response);
       } else if (!Object.keys(response).includes('completed')) {
@@ -682,7 +715,7 @@ class Control extends EventEmitter {
     this.setDefaultErrorResponse(reject);
     this.setDefaultFatalResponse(reject);
 
-    this.ws.send('fetch_fisheye_params');
+    this.ws.send('fetch_fisheye_3d_rotation');
   });
 
   fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover' | 'offset') =>
@@ -1333,6 +1366,36 @@ class Control extends EventEmitter {
     this.setDefaultFatalResponse(reject);
 
     this.ws.send(`update_fisheye_params application/json ${blob.size}`);
+  });
+
+  updateFisheye3DRotation = (data: RotationParameters3D) => new Promise((resolve, reject) => {
+    const strData = JSON.stringify(data, (key, val) => {
+      if (typeof val === 'number') {
+        return Math.round(val * 1e2) / 1e2;
+      }
+      return val;
+    });
+    const blob = new Blob([strData], { type: 'application/json' });
+    this.on(EVENT_COMMAND_MESSAGE, (response) => {
+      if (response.status === 'ok') {
+        this.removeCommandListeners();
+        resolve(response);
+      } else if (response.status === 'continue') {
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+        this.ws.send(blob);
+      } else if (response.status === 'uploading') {
+        response.percentage = ((response.sent || 0) / blob.size) * 100;
+        this.emit(EVENT_COMMAND_PROGRESS, response);
+      } else {
+        this.removeCommandListeners();
+        reject(response);
+      }
+    });
+
+    this.setDefaultErrorResponse(reject);
+    this.setDefaultFatalResponse(reject);
+
+    this.ws.send(`update_fisheye_3d_rotation application/json ${blob.size}`);
   });
 }
 

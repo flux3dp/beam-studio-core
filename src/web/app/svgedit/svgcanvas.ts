@@ -52,6 +52,7 @@ import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
+import ungroupElement from 'app/svgedit/group/ungroup';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -90,7 +91,6 @@ import imageProcessor from 'implementations/imageProcessor';
 import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PathActions from './operations/pathActions';
-import parseSvg from './operations/parseSvg';
 import MouseInteractions from './interaction/mouseInteractions';
 
 let svgCanvas;
@@ -390,11 +390,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       startTransform = transform;
     }
   });
-  var recalculateDimensions = this.recalculateDimensions = svgedit.recalculate.recalculateDimensions;
+  this.recalculateDimensions = svgedit.recalculate.recalculateDimensions;
 
   // import from sanitize.js
   var nsMap = svgedit.getReverseNS();
-  var sanitizeSvg = canvas.sanitizeSvg = svgedit.sanitize.sanitizeSvg;
+  canvas.sanitizeSvg = svgedit.sanitize.sanitizeSvg;
 
   // import from history.js
   var MoveElementCommand = history.MoveElementCommand;
@@ -501,6 +501,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)', 'Split Full Color Layer'].includes(cmd.text)) {
               canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
+              presprayArea.togglePresprayArea();
             }
 
             const textElems = elems.filter((elem) => elem.tagName === 'text');
@@ -1662,7 +1663,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         out.push(' ');
       }
       out.push('<');
-      out.push(elem.nodeName);
+      let { nodeName } = elem;
+      if (nodeName === 'STYLE' && elem.parentNode?.nodeName === 'defs') nodeName = 'style'
+      out.push(nodeName);
       if (elem.id === 'svgcontent') {
         // Process root element separately
         var res = getResolution();
@@ -1836,7 +1839,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           }
         }
         out.push('</');
-        out.push(elem.nodeName);
+        out.push(nodeName);
         out.push('>');
       } else {
         out.push('/>');
@@ -4800,7 +4803,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const href = this.getHref(elem);
       const svg = $(href).toArray()[0];
       const children = [...Array.from(svg.childNodes).reverse()];
-      const g = document.createElementNS(svgedit.NS.SVG, 'g');
+      let g = document.createElementNS(svgedit.NS.SVG, 'g');
       g.setAttribute('id', getNextId());
       g.setAttribute('transform', transform);
       while (children.length > 0) {
@@ -4855,15 +4858,27 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (angle) canvas.setRotationAngle(0, true, g);
       svgedit.recalculate.recalculateDimensions(g);
       if (angle) canvas.setRotationAngle(angle, true, g);
-      selectOnly([g], true);
-      // This is a hack, because when import, we pack svg in 2~3 <g>, so we have to ungroup it when disassemble
-      for (let j = 0; j < 3; j++) {
-        const res = this.ungroupSelectedElement(true);
-        const cmd = res ? res.batchCmd : null;
-        if (cmd && !cmd.isEmpty()) {
-          batchCmd.addSubCommand(cmd);
-        }
+
+      // Ungroup until no nested group
+      while (g.children.length === 1 && g.children[0].tagName === 'g') {
+        const newG = g.children[0] as HTMLElement;
+        // in case it has original layer data
+        newG.removeAttribute('data-original-layer');
+        const res = ungroupElement(g);
+        if (res) {
+          g = newG;
+          const { batchCmd: cmd } = res;
+          if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+        } else break;
       }
+      updateElementColor(g);
+      const res = ungroupElement(g);
+      if (res) {
+        const { batchCmd: cmd, children } = res;
+        if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+        selectOnly(children, true);
+      } else selectOnly([g], true);
+
       selectedElements.forEach((ele) => ele.setAttribute('data-ratiofixed', ratioFixed));
       Progress.update('disassemble-use', {
         message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 100%`,
@@ -5400,67 +5415,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       g = parents_a[0];
     }
 
-    // Look for parent "a"
-    if (g.tagName === 'g' || g.tagName === 'a') {
-
-      var batchCmd = new history.BatchCommand('Ungroup Elements');
-      var cmd = pushGroupProperties(g, true);
-      if (cmd) {
-        batchCmd.addSubCommand(cmd);
-      }
-
-      var parent = g.parentNode;
-      var anchor = g.nextSibling;
-      var children = new Array(g.childNodes.length);
-
-      var i = 0;
-      console.log(`Ungrouped ${g.childNodes.length} nodes`);
-      while (g.firstChild) {
-        var elem = g.firstChild;
-        var oldNextSibling = elem.nextSibling;
-        var oldParent = elem.parentNode;
-        if (elem.getAttribute('data-imageborder') === 'true') {
-          elem.remove();
-          continue;
-        }
-
-        // Remove child title elements
-        if (elem.tagName === 'title') {
-          var nextSibling = elem.nextSibling;
-          batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, oldParent));
-          oldParent.removeChild(elem);
-          continue;
-        }
-
-        const originalLayer = getCurrentDrawing().getLayerByName(elem.getAttribute('data-original-layer'));
-        if (originalLayer) {
-          originalLayer.appendChild(elem);
-          if (this.isUsingLayerColor) {
-            updateElementColor(elem);
-          }
-        } else {
-          elem = parent.insertBefore(elem, anchor);
-        }
-        children[i++] = elem;
-        batchCmd.addSubCommand(new history.MoveElementCommand(elem, oldNextSibling, oldParent));
-      }
-
-      // remove the group from the selection
+    const res = ungroupElement(g);
+    if (res) {
+      const { batchCmd, children } = res;
       clearSelection();
-
-      // delete the group element (but make undo-able)
-      var gNextSibling = g.nextSibling;
-      g = parent.removeChild(g);
-      batchCmd.addSubCommand(new history.RemoveElementCommand(g, gNextSibling, parent));
-      // update selection
       addToSelection(children);
       this.tempGroupSelectedElements();
-      if (!batchCmd.isEmpty() && !isSubCmd) {
-        addCommandToHistory(batchCmd);
-      }
-
-      return { batchCmd, children };
+      if (!batchCmd.isEmpty() && !isSubCmd) addCommandToHistory(batchCmd);
+      return res;
     }
+    return;
   };
 
   this.tempGroupSelectedElements = function () {

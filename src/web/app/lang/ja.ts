@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: 'マシンリスト',
     disable: '無効にする',
     enable: '有効にする',
+    submodule_type: 'モジュール',
+    cartridge_serial_number: 'インクカートリッジ製造番号',
+    ink_color: 'インキ色',
+    ink_type: 'インクタイプ',
+    ink_level: 'インク残量',
+    close_door_to_read_cartridge_info: 'インク情報にアクセスするには、マシンのドアカバーを閉じてください。',
+    cartridge_info_read_failed: 'インクカートリッジが完全に挿入されていることを確認してください。インクを取り出して再度取り付けてみてください。',
+    cartridge_info_verification_failed: 'ご使用のインクがFLUX正規品であることを確認してください。',
   },
   monitor: {
     monitor: 'モニター',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: '紹介が終わりました、作っていきましょう！',
   },
   layer_module: {
+    none: 'なし',
     general_laser: 'レーザー',
     laser_10w_diode: '10Wダイオードレーザー',
     laser_20w_diode: '20Wダイオードレーザー',
     laser_2w_infrared: '2W赤外線レーザー',
     printing: '印刷',
+    unknown: '不明なモジュール',
     notification: {
       convertFromPrintingModuleTitle: '印刷モジュールをレーザーモジュールに変換しますか？',
       convertFromPrintingModuleMsg: 'この操作を完了すると、印刷レイヤーの色設定が削除され、現在のレイヤに設定されます。',

@@ -26,6 +26,7 @@ import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
 // TODO: move all styles from web to modules.scss
@@ -49,9 +50,12 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
 
   private defaultDeviceSerial: string | undefined;
 
+  private isSettingUpPreviewMode = false;
+
   constructor(props: Record<string, never>) {
     super(props);
     this.defaultDeviceSerial = storage.get('selected-device');
+    this.isSettingUpPreviewMode = false;
     this.state = {
       hasDiscoverdMachine: false,
     };
@@ -98,11 +102,16 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   };
 
   setupPreviewMode = async (showModal = false): Promise<void> => {
+    if (this.isSettingUpPreviewMode) return;
+    this.isSettingUpPreviewMode = true;
     const { device, isWorkareaMatched } = await getDevice(showModal);
-    await PreviewModeController.checkDevice(device);
-    if (!isWorkareaMatched) {
-      const res = await showResizeAlert(device);
-      if (!res) return;
+    if (!await PreviewModeController.checkDevice(device)) {
+      this.isSettingUpPreviewMode = false;
+      return;
+    }
+    if (!isWorkareaMatched && !await showResizeAlert(device)) {
+      this.isSettingUpPreviewMode = false;
+      return;
     }
 
     const {
@@ -139,6 +148,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       await PreviewModeController.start(device, onPreviewError);
       if (!PreviewModeController.isPreviewModeOn) {
         $(workarea).css('cursor', 'auto');
+        this.isSettingUpPreviewMode = false;
         return;
       }
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
@@ -166,6 +176,8 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
+    } finally {
+      this.isSettingUpPreviewMode = false;
     }
   };
 
@@ -194,7 +206,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.context;
     const { hasDiscoverdMachine } = this.state;
-    const { isPreviewing, fileName, hasUnsavedChange, selectedElem } = this.context;
+    const { isPreviewing, fileName, hasUnsavedChange } = this.context;
     return (
       <div
         className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
@@ -212,7 +224,9 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
           />
           <GoButton hasText={isWhiteTopBar} hasDiscoverdMachine={hasDiscoverdMachine} />
         </div>
-        <ElementTitle selectedElem={selectedElem} />
+        <SelectedElementContext.Consumer>
+          {({ selectedElement }) => <ElementTitle selectedElem={selectedElement} />}
+        </SelectedElementContext.Consumer>
         {this.renderHint()}
         {this.renderMenu()}
         <CommonTools

@@ -1,12 +1,12 @@
 /* eslint-disable react/require-default-props */
-import React, { useEffect } from 'react';
-import { Input, InputRef, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Checkbox, Input, InputRef, Modal } from 'antd';
 
+import alertConfig, { AlertConfigKey } from 'helpers/api/alert-config';
 import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 
-const LANG = i18n.lang.alert;
-const VISIBLE = true;
+import styles from './Prompt.module.scss';
 
 interface Props {
   caption: string;
@@ -14,26 +14,46 @@ interface Props {
   placeholder?: string;
   defaultValue?: string;
   confirmValue?: string;
+  alertConfigKey?: AlertConfigKey;
   onYes: (value?: string) => void;
   onCancel?: (value?: string) => void;
   onClose: () => void;
 }
 
 function Prompt({
-  caption, message, placeholder, defaultValue = '', confirmValue, onYes, onCancel = () => { }, onClose,
+  caption,
+  message,
+  placeholder,
+  defaultValue = '',
+  confirmValue,
+  alertConfigKey,
+  onYes,
+  onCancel = () => {},
+  onClose,
 }: Props): JSX.Element {
+  const lang = useI18n();
+  const langAlert = lang.alert;
   const inputRef = React.useRef<InputRef>(null);
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
 
-  useEffect(() => () => {
-    if (document.activeElement === inputRef.current?.input) setStopEditingInput();
-  }, []);
+  useEffect(
+    () => () => {
+      if (document.activeElement === inputRef.current?.input) setStopEditingInput();
+    },
+    []
+  );
 
-  const messageContent = typeof message === 'string' ? message.split('\n').map((t) => <p key={t}>{t}</p>) : message;
+  const messageContent =
+    typeof message === 'string' ? message.split('\n').map((t) => <p key={t}>{t}</p>) : message;
   const handleOk = (): void => {
     const inputElem = inputRef.current;
     const value = inputElem?.input?.value;
     onYes(value);
-    if (!confirmValue || value === confirmValue) onClose();
+    if (!confirmValue || value === confirmValue) {
+      if (alertConfigKey && checkboxChecked)
+        alertConfig.write(alertConfigKey, true);
+      onClose();
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent): void => {
@@ -42,7 +62,7 @@ function Prompt({
 
   return (
     <Modal
-      open={VISIBLE}
+      open
       title={caption}
       centered
       onOk={handleOk}
@@ -51,8 +71,8 @@ function Prompt({
         onCancel?.(inputElem?.input?.value);
         onClose();
       }}
-      okText={LANG.ok2}
-      cancelText={LANG.cancel}
+      okText={langAlert.ok2}
+      cancelText={langAlert.cancel}
     >
       {messageContent}
       <InputKeyWrapper inputRef={inputRef}>
@@ -68,6 +88,11 @@ function Prompt({
           defaultValue={defaultValue}
         />
       </InputKeyWrapper>
+      {alertConfigKey && (
+        <Checkbox className={styles.checkbox} onClick={() => setCheckboxChecked(!checkboxChecked)}>
+          {lang.beambox.popup.dont_show_again}
+        </Checkbox>
+      )}
     </Modal>
   );
 }

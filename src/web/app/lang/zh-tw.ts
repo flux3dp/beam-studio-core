@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: '機器列表',
     disable: '關閉',
     enable: '開啟',
+    submodule_type: '模組',
+    cartridge_serial_number: '墨匣序號',
+    ink_color: '墨水顏色',
+    ink_type: '墨水類型',
+    ink_level: '剩餘墨水量',
+    close_door_to_read_cartridge_info: '請關閉機器的門蓋以取得墨匣資訊。',
+    cartridge_info_read_failed: '請確保墨匣完全插入。嘗試將墨水取出並重新安裝。',
+    cartridge_info_verification_failed: '請確認您是否使用 FLUX 原廠墨匣。',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: '介紹完畢，開始創作吧！',
   },
   layer_module: {
+    none: '無',
     general_laser: '雷射',
     laser_10w_diode: '10W 二極體雷射',
     laser_20w_diode: '20W 二極體雷射',
     laser_2w_infrared: '2W 紅外線雷射',
     printing: '列印',
+    unknown: '未知模組',
     notification: {
       convertFromPrintingModuleTitle: '您是否要將列印圖層轉換為雷射圖層？',
       convertFromPrintingModuleMsg: '請注意，如果您繼續此操作，列印圖層的顏色設定將會被刪除，並根據當前圖層參數而定。',

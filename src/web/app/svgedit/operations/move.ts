@@ -11,7 +11,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 export function moveElements(
-  dx: number | number[], dy: number | number[], elems: Element[], undoable = true,
+  dx: number | number[], dy: number | number[], elems: Element[], undoable = true, noCall = false,
 ): IBatchCommand {
   // if single values, scale them to the zoom
   let zoomedX: number;
@@ -54,10 +54,8 @@ export function moveElements(
     }
   }
   if (!batchCmd.isEmpty()) {
-    if (undoable) {
-      svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    }
-    svgCanvas.call('changed', elems);
+    if (undoable) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    if (!noCall) svgCanvas.call('changed', elems);
     return batchCmd;
   }
   return null;

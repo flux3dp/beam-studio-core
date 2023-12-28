@@ -99,7 +99,7 @@ const FrameButton = (): JSX.Element => {
       const vc = versionChecker(device.version);
       if (
         (!isAdor && vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) ||
-        (isAdor && vc.meetRequirement('MAINTAIN_WITH_LINECHECK'))
+        (isAdor && vc.meetRequirement('ADOR_RELEASE'))
       ) {
         await deviceMaster.rawStartLineCheckMode();
         isLineCheckEnabled = true;

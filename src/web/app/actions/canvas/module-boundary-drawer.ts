@@ -59,7 +59,10 @@ const update = (module: LayerModule): void => {
   if (module === LayerModule.PRINTER && offsetY < 0) top = Math.max(top + offsetY, 0);
   if (offsetX >= 0) left = Math.max(left, offsetX);
   else right = Math.max(right, -offsetX);
-  if (offsetY >= 0) top = Math.max(top, offsetY);
+  if (offsetY >= 0) {
+    top = Math.max(top, offsetY);
+    bottom = Math.max(bottom - offsetY, 0);
+  }
   else bottom = Math.max(bottom, -offsetY);
   top *= dpmm;
   left *= dpmm;

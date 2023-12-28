@@ -32,6 +32,16 @@ import frFR from 'antd/locale/fr_FR';
 import zhTW from 'antd/locale/zh_TW';
 import koKR from 'antd/locale/ko_KR';
 import jaJP from 'antd/locale/ja_JP';
+import plPL from 'antd/locale/pl_PL';
+import daDK from 'antd/locale/da_DK';
+import elGR from 'antd/locale/el_GR';
+import fiFI from 'antd/locale/fi_FI';
+import idID from 'antd/locale/id_ID';
+import msMY from 'antd/locale/ms_MY';
+import nbNO from 'antd/locale/nb_NO';
+import svSE from 'antd/locale/sv_SE';
+import thTH from 'antd/locale/th_TH';
+import viVN from 'antd/locale/vi_VN';
 
 const { defaultAlgorithm } = theme;
 
@@ -45,6 +55,16 @@ const localeMap = {
   'it-IT': itIT,
   'de-DE': deDE,
   'en-US': enUS,
+  'pl-PL': plPL,
+  'da_DK': daDK,
+  'el_GR': elGR,
+  'fi_FI': fiFI,
+  'id_ID': idID,
+  'ms_MY': msMY,
+  'nb_NO': nbNO,
+  'sv_SE': svSE,
+  'th_TH': thTH,
+  'vi_VN': viVN,
 };
 
 console.log('Loading language', navigator.language);

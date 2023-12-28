@@ -1221,6 +1221,14 @@ const lang: ILang = {
     deviceList: 'Maschinenliste',
     disable: 'Deaktivieren',
     enable: 'Aktivieren',
+    submodule_type: 'Modul',
+    cartridge_serial_number: 'Tintenpatronen-Seriennummer',
+    ink_color: 'Tintenfarbe',
+    ink_type: 'Tintenart',
+    ink_level: 'Verbleibende Tintenmenge',
+    close_door_to_read_cartridge_info: 'Um auf Tinteninformationen zuzugreifen, schließen Sie bitte die Türabdeckung der Maschine.',
+    cartridge_info_read_failed: 'Bitte stellen Sie sicher, dass die Tintenpatrone vollständig eingesteckt ist. Versuchen Sie, die Tinte zu entfernen und erneut einzusetzen.',
+    cartridge_info_verification_failed: 'Bitte überprüfen Sie, ob Ihre Tinte FLUX authentisch ist.',
   },
   monitor: {
     monitor: 'MONITOR',
@@ -1531,11 +1539,13 @@ const lang: ILang = {
     tutorial_complete: 'Das ist alles für das Tutorial. Jetzt ist es Zeit zu erstellen!',
   },
   layer_module: {
+    none: 'Kein',
     general_laser: 'Laser',
     laser_10w_diode: '10W Diodenlaser',
     laser_20w_diode: '20W Diodenlaser',
     laser_2w_infrared: '2W Infrarotlaser',
     printing: 'Drucken',
+    unknown: 'Unbekanntes Modul',
     notification: {
       convertFromPrintingModuleTitle: 'Möchten Sie das Druckmodul in ein Lasermodul umwandeln?',
       convertFromPrintingModuleMsg: 'Bitte beachten Sie, dass bei Abschluss dieser Operation die Farbeinstellungen der Druckebene entfernt und entsprechend der aktuellen Ebene festgelegt werden.',

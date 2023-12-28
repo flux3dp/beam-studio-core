@@ -1218,6 +1218,14 @@ export interface ILang {
     deviceList: string,
     disable: string,
     enable: string,
+    submodule_type: string;
+    cartridge_serial_number: string;
+    ink_color: string;
+    ink_type: string;
+    ink_level: string;
+    close_door_to_read_cartridge_info: string;
+    cartridge_info_read_failed: string;
+    cartridge_info_verification_failed: string;
   },
   monitor: {
     monitor: string,
@@ -1528,11 +1536,13 @@ export interface ILang {
     tutorial_complete: string,
   },
   layer_module: {
+    none: string;
     general_laser: string;
     laser_10w_diode: string;
     laser_20w_diode: string;
     laser_2w_infrared: string;
     printing: string;
+    unknown: string;
     notification: {
       convertFromPrintingModuleTitle: string;
       convertFromPrintingModuleMsg: string;

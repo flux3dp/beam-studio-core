@@ -77,7 +77,7 @@ const ConfigSlider = ({
   };
   const maxValue = sliderOptions ? sliderOptions.length - 1 : max;
   return (
-    <div className={classNames(styles.container, { [styles.limit]: speedLimit })}>
+    <div id={id} className={classNames(styles.container, { [styles.limit]: speedLimit })}>
       <ConfigProvider
         theme={{
           token: {
@@ -98,7 +98,6 @@ const ConfigSlider = ({
         }}
       >
         <Slider
-          id={id}
           min={sliderOptions ? 0 : min}
           max={sliderOptions ? sliderOptions.length - 1 : max}
           step={sliderOptions ? 1 : step}

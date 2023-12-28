@@ -16,7 +16,8 @@ export type AlertConfigKey =
   'skip-old-firmware-hint-2' |
   'skip-switch-to-printer-module' |
   'skip-switch-to-laser-module' |
-  'done-first-cali';
+  'done-first-cali' |
+  'skip-high-power-confirm';
 
 export default {
   read: (key: AlertConfigKey) => {

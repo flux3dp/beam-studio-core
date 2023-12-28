@@ -11,6 +11,7 @@ interface WorkArea {
   maxSpeed: number; // mm/s
   minSpeed?: number; // mm/s
   rotary: number[];
+  cameraCenter?: number[]; // [mm, mm]
 }
 
 export const WorkareaMap = new Map<WorkAreaModel, WorkArea>();
@@ -46,39 +47,25 @@ WorkareaMap.set('fhexa1', {
   minSpeed: 3,
   rotary: [0, 1],
 });
-WorkareaMap.set('fad1', {
-  label: 'Ador',
-  width: 4300,
-  height: 3000,
-  maxSpeed: 400,
-  minSpeed: 0.5,
-  rotary: [0],
-});
 WorkareaMap.set('ado1', {
   label: 'Ador',
   width: 4300,
-  height: 3000,
+  height: 3200,
   maxSpeed: 400,
   minSpeed: 0.5,
   rotary: [0],
+  cameraCenter: [215, 150],
 });
 
 if (isDev()) {
-  WorkareaMap.set('fad1', {
-    label: 'Ador',
-    width: 4300,
-    height: 3000,
-    maxSpeed: 400,
-    minSpeed: 0.5,
-    rotary: [0, 1],
-  });
   WorkareaMap.set('ado1', {
     label: 'Ador',
     width: 4300,
-    height: 3000,
+    height: 3200,
     maxSpeed: 400,
     minSpeed: 0.5,
     rotary: [0, 1],
+    cameraCenter: [215, 150],
   });
 }
 
@@ -89,6 +76,7 @@ export default {
     getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
     getMaxSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.maxSpeed || 300,
     getMinSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.minSpeed || 3,
+    cameraCenter: (model: WorkAreaModel): number[] | undefined => WorkareaMap.get(model)?.cameraCenter,
   },
   getRotaryModels: (model: WorkAreaModel): number[] => WorkareaMap.get(model)?.rotary || [0],
   camera: {

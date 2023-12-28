@@ -8,9 +8,13 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 
 import ObjectPanelController from './ObjectPanelController';
 
+jest.useFakeTimers();
+
 describe('test ObjectPanelController', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.resetAllMocks();
+    jest.spyOn(global, 'setTimeout');
+    jest.spyOn(global, 'clearTimeout');
   });
 
   test('test updateDimensionValues', () => {
@@ -29,6 +33,10 @@ describe('test ObjectPanelController', () => {
 
   test('test updateObjectPanel', () => {
     ObjectPanelController.updateObjectPanel();
+    expect(clearTimeout).toHaveBeenCalledTimes(1);
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(emit).not.toBeCalled();
+    jest.runAllTimers();
     expect(emit).toHaveBeenCalledTimes(1);
     expect(emit).toHaveBeenNthCalledWith(1, 'UPDATE_OBJECT_PANEL');
   });

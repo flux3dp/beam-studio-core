@@ -3,9 +3,9 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
+import deviceMaster from 'helpers/device-master';
 import dialog from 'implementations/dialog';
-import DeviceMaster from 'helpers/device-master';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
@@ -13,6 +13,7 @@ import MonitorController from 'app/actions/monitor-controller';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import svgLaserParser from 'helpers/api/svg-laser-parser';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import VersionChecker from 'helpers/version-checker';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -31,6 +32,20 @@ getSVGAsync((globalSVG) => {
 const { $ } = window;
 const { lang } = i18n;
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
+
+const getAdorPaddingAccel = async (device: IDeviceInfo | null): Promise<number | null> => {
+  if (!constant.adorModels.includes(device?.model)) return null;
+  try {
+    await deviceMaster.select(device);
+    const deviceDetailInfo = await deviceMaster.getDeviceDetailInfo();
+    const xAcc = parseInt(deviceDetailInfo.x_acc, 10);
+    // handle nan and 0
+    return (Number.isNaN(xAcc) || !xAcc) ? null : xAcc;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
 
 // capture the scene of the svgCanvas to bitmap
 const fetchThumbnail = async () => {
@@ -250,6 +265,7 @@ const fetchTaskCode = async (
     },
   });
 
+  const paddingAccel = await getAdorPaddingAccel(device || TopBarController.getSelectedDevice());
   const getTaskCode = (codeType: 'gcode' | 'fcode', getTaskCodeOpts = {}) =>
     new Promise<{
       fileTimeCost: null | number;
@@ -291,14 +307,15 @@ const fetchTaskCode = async (
         enableAutoFocus:
           doesSupportDiodeAndAF &&
           BeamboxPreference.read('enable-autofocus') &&
-          Constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
+          constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
         enableDiode:
           doesSupportDiodeAndAF &&
           BeamboxPreference.read('enable-diode') &&
-          Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
+          constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
         shouldUseFastGradient,
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
         ...getTaskCodeOpts,
+        paddingAccel,
       });
     });
   const { output = 'fcode' } = opts;
@@ -429,7 +446,7 @@ export default {
       return;
     }
     try {
-      const res = await DeviceMaster.select(device);
+      const res = await deviceMaster.select(device);
       if (!res) {
         return;
       }

@@ -54,6 +54,7 @@ exports[`test Backlash should render correctly 1`] = `
     </div>
     <div
       class="container"
+      id="backlash"
     >
       <div
         class="ant-slider css-dev-only-do-not-override-hash ant-slider-horizontal"

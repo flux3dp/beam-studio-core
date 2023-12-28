@@ -100,23 +100,28 @@ const parseSvg = (
     defNodes.forEach((def: Element) => {
       defChildren = defChildren.concat(Array.from(def.childNodes));
     });
-
     const layerNodes = Array.from(svgElement.childNodes).filter(
       (node: Element) =>
         !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
     );
-    const symbols = layerNodes.map((node) => {
-      const symbol = SymbolMaker.makeSymbol(
-        symbolWrapper(node),
-        [],
-        batchCmd,
-        defChildren,
-        'layer'
-      );
-      return symbol;
-    });
+    if (layerNodes.length === 0) return [];
+    let elem = layerNodes[0];
+    if (layerNodes.length > 1) {
+      const g = document.createElementNS(NS.SVG, 'g');
+      layerNodes.forEach((node) => {
+        g.appendChild(node);
+      });
+      elem = g;
 
-    return symbols;
+    }
+    const symbol = SymbolMaker.makeSymbol(
+      symbolWrapper(elem),
+      [],
+      batchCmd,
+      defChildren,
+      'layer'
+    );
+    return [symbol];
   }
   function parseSvgByColor(svg) {
     function getAllColorInNodes(nodes) {

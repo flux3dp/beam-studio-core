@@ -36,3 +36,9 @@ export interface IReport {
   raw_laser: number;
   Beam_Air: number;
 }
+
+export interface IDeviceDetailInfo {
+  head_submodule_info: string;
+  x_acc: string;
+  head_type: string;
+}
