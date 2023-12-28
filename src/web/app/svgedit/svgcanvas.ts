@@ -79,6 +79,7 @@ import autoSaveHelper from 'helpers/auto-save-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
+import randomColor from 'helpers/randomColor';
 import sanitizeXmlString from 'helpers/sanitize-xml-string';
 import setElementsColor from 'helpers/color/setElementsColor';
 import storage from 'implementations/storage';
@@ -498,7 +499,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             //	}
             // }
           } else if (cmdType === BatchCommand.type()) {
-            if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)', 'Split Full Color Layer'].includes(cmd.text)) {
+            if ([
+              'Delete Layer(s)',
+              'Clone Layer(s)',
+              'Merge Layer',
+              'Merge Layer(s)',
+              'Split Full Color Layer',
+              'Import SVG',
+              'Import DXF',
+            ].includes(cmd.text)) {
               canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
               presprayArea.togglePresprayArea();
@@ -2575,23 +2584,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return true;
   };
 
-  const removeDefaultLayerIfEmpty = this.removeDefaultLayerIfEmpty = () => {
-    const defaultLayerName = LANG.right_panel.layer_panel.layer1;
-    const drawing = getCurrentDrawing();
-    const layer = drawing.getLayerByName(defaultLayerName);
-    if (layer) {
-      const childNodes = Array.from(layer.childNodes);
-      const isEmpty = childNodes.every((node: Element) => ['title', 'filter'].includes(node.tagName));
-      if (isEmpty) {
-        console.log('default layer is empty. delete it!');
-        svgCanvas.setCurrentLayer(defaultLayerName);
-        svgCanvas.deleteCurrentLayer();
-        svgEditor.updateContextPanel();
-        LayerPanelController.updateLayerPanel();
-      }
-    }
-  };
-
   // Function: importSvgString
   // This function imports the input SVG XML as a <symbol> in the <defs>, then adds a
   // <use> to the current layer.
@@ -2622,18 +2614,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     getCurrentDrawing().identifyLayers();
   };
 
-  let randomColorsIdx = 0
-
-  canvas.resetRandomColors = () => {
-    randomColorsIdx = 0
-  };
-
-  const getRandomLayerColor = canvas.getRandomLayerColor = function () {
-    const color = colorConstants.randomLayerColors[randomColorsIdx];
-    randomColorsIdx = randomColorsIdx < colorConstants.randomLayerColors.length - 1 ? randomColorsIdx + 1 : 0;
-    return color;
-  };
-
   // Function: createLayer
   // Creates a new top-level layer in the drawing with the given name, sets the current layer
   // to it, and then clears the selection. This function then calls the 'changed' handler.
@@ -2650,7 +2630,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else if (hexCode) {
         drawing.layer_map[name].setColor(hexCode);
       } else {
-        drawing.layer_map[name].setColor(getRandomLayerColor());
+        drawing.layer_map[name].setColor(randomColor.getColor());
       }
       if (isFullColor) {
         drawing.layer_map[name].setFullColor(true);
@@ -2914,7 +2894,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent);
 
     // Reset Used Layer colors
-    canvas.resetRandomColors();
+    randomColor.reset();
 
     // create empty first layer
     canvas.createLayer(LANG.right_panel.layer_panel.layer1);

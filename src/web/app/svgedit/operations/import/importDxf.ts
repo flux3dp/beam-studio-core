@@ -4,6 +4,8 @@ import alertConstants from 'app/constants/alert-constants';
 import beamboxPreferences from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
+import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import layerConfigHelper from 'helpers/layer/layer-config-helper';
@@ -11,6 +13,7 @@ import NS from 'app/constants/namespaces';
 import progressCaller from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
 import SymbolMaker from 'helpers/symbol-maker';
+import { createLayer, removeDefaultLayerIfEmpty } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas: ISVGCanvas;
@@ -97,6 +100,7 @@ const importDxf = async (file: Blob): Promise<void> => {
       },
     });
   }
+  const batchCmd = HistoryCommandFactory.createBatchCommand('Import DXF');
   const svgdoc = document.getElementById('svgcanvas').ownerDocument;
   const layerNames = Object.keys(outputLayers);
   const promises = [];
@@ -105,8 +109,8 @@ const importDxf = async (file: Blob): Promise<void> => {
     const layer = outputLayers[layerName];
     const isLayerExist = svgCanvas.setCurrentLayer(layerName);
     if (!isLayerExist) {
-      svgCanvas.getCurrentDrawing();
-      svgCanvas.createLayer(layerName, layer.rgbCode);
+      const { cmd } = createLayer(layerName, layer.rgbCode);
+      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       layerConfigHelper.initLayerConfig(layerName);
     }
     const id = svgCanvas.getNextId();
@@ -128,6 +132,7 @@ const importDxf = async (file: Blob): Promise<void> => {
     useElem.id = svgCanvas.getNextId();
     svgedit.utilities.setHref(useElem, `#${symbol.id}`);
     svgCanvas.getCurrentDrawing().getCurrentLayer().appendChild(useElem);
+    batchCmd.addSubCommand(new history.InsertElementCommand(useElem));
     const bb = svgedit.utilities.getBBox(useElem);
 
     // eslint-disable-next-line no-async-promise-executor, @typescript-eslint/no-loop-func
@@ -150,7 +155,8 @@ const importDxf = async (file: Blob): Promise<void> => {
     svgCanvas.updateElementColor(useElem);
   }
   await Promise.all(promises);
-  svgCanvas.removeDefaultLayerIfEmpty();
+  const cmd = removeDefaultLayerIfEmpty();
+  if (cmd) batchCmd.addSubCommand(cmd);
 };
 
 export default importDxf;

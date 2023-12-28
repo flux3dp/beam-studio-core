@@ -10,7 +10,7 @@ import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import NS from 'app/constants/namespaces';
 import rgbToHex from 'helpers/color/rgbToHex';
 import storage from 'implementations/storage';
-import { getLayerByName, getLayerName } from 'helpers/layer/layer-helper';
+import { createLayer, getLayerByName, getLayerName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 import { ImportType } from 'interfaces/ImportSvg';
@@ -39,7 +39,7 @@ const appendUseElement = (
   if (!symbol) {
     return null;
   }
-
+  const batchCmd = new history.BatchCommand('Append Use Element');
   const { type, layerName, targetModule = layerModuleHelper.getDefaultLaserModule() } = args;
   const useEl = document.createElementNS(NS.SVG, 'use');
   useEl.id = svgCanvas.getNextId();
@@ -61,10 +61,10 @@ const appendUseElement = (
 
     const targetLayer = getLayerByName(targetLayerName);
     if (!checkLayerModule(targetLayer, targetModule)) {
-      const newLayer = svgCanvas.createLayer(targetLayerName);
+      const { layer: newLayer, cmd } = createLayer(targetLayerName, { isSubCmd: true });
+      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       const newLayerName = getLayerName(newLayer);
       layerConfigHelper.initLayerConfig(newLayerName);
-      newLayer.color = color;
 
       if (type === 'layer' && targetLayerName) {
         const matchPara = targetLayerName.match(/#([-SP0-9.]*\b)/i);
@@ -122,11 +122,15 @@ const appendUseElement = (
   } else {
     let targetLayer = currentDrawing.getCurrentLayer();
     if (!checkLayerModule(targetLayer, targetModule)) {
-      targetLayer = svgCanvas.createLayer(
+      const { layer, cmd } = createLayer(
         targetModule === LayerModule.PRINTER
           ? i18n.lang.layer_module.printing
-          : i18n.lang.layer_module.general_laser
+          : i18n.lang.layer_module.general_laser,
+        { isSubCmd: true }
       );
+      targetLayer = layer;
+      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+
       const newLayerName = getLayerName(targetLayer);
       layerConfigHelper.initLayerConfig(newLayerName);
       svgCanvas.setCurrentLayer(newLayerName);
@@ -159,8 +163,8 @@ const appendUseElement = (
       }
     }
   }
-
-  return { element: useEl as SVGUseElement, command: new history.InsertElementCommand(useEl) };
+  batchCmd.addSubCommand(new history.InsertElementCommand(useEl));
+  return { element: useEl as SVGUseElement, command: batchCmd };
 };
 
 export default appendUseElement;

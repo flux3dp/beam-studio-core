@@ -7,6 +7,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import { createLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas: ISVGCanvas;
@@ -72,7 +73,7 @@ const funcs = {
     img.src = insertedImageSrc;
     img.style.opacity = '0';
     img.onload = () => {
-      if (!svgCanvas.setCurrentLayer(layerName)) svgCanvas.createLayer(layerName);
+      if (!svgCanvas.setCurrentLayer(layerName)) createLayer(layerName);
       const { x, y, width, height } = dimension;
       const newImage = svgCanvas.addSvgElementFromJson({
         element: 'image',

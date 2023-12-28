@@ -8,7 +8,7 @@ import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { ImportType } from 'interfaces/ImportSvg';
-import { getObjectLayer } from 'helpers/layer/layer-helper';
+import { getObjectLayer, removeDefaultLayerIfEmpty } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgedit;
@@ -85,9 +85,14 @@ const importSvgString = async (
     })
   );
 
-  svgCanvas.removeDefaultLayerIfEmpty();
-  if (parentCmd) parentCmd.addSubCommand(batchCmd);
-  else svgCanvas.addCommandToHistory(batchCmd);
+  if (useElements.length > 0) {
+    const cmd = removeDefaultLayerIfEmpty();
+    if (cmd) batchCmd.addSubCommand(cmd);
+  }
+  if (!batchCmd.isEmpty()) {
+    if (parentCmd) parentCmd.addSubCommand(batchCmd);
+    else svgCanvas.addCommandToHistory(batchCmd);
+  }
   svgCanvas.call('changed', [document.getElementById('svgcontent')]);
 
   return useElements[useElements.length - 1];

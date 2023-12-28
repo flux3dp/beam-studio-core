@@ -16,7 +16,6 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 const mockHasLayer = jest.fn();
-const mockCreateLayer = jest.fn();
 const mockUpdateContextPanel = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (cb) => cb({
@@ -24,12 +23,17 @@ jest.mock('helpers/svg-editor-helper', () => ({
       getCurrentDrawing: () => ({
         hasLayer: (name) => mockHasLayer(name),
       }),
-      createLayer: (name) => mockCreateLayer(name),
     },
     Editor: {
       updateContextPanel: () => mockUpdateContextPanel(),
     },
   }),
+}));
+
+
+const mockCreateLayer = jest.fn();
+jest.mock('helpers/layer/layer-helper', () => ({
+  createLayer: (name) => mockCreateLayer(name),
 }));
 
 const mockInitLayerConfig = jest.fn();
