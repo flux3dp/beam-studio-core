@@ -67,6 +67,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
 import importBitmap from 'app/svgedit/operations/import/importBitmap';
 import importBvg from 'app/svgedit/operations/import/importBvg';
+import importDxf from 'app/svgedit/operations/import/importDxf';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
