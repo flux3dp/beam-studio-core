@@ -178,13 +178,13 @@ const importSvg = async (
       targetModule,
       parentCmd: batchCmd,
     });
-    newElements.push(newElement);
+    if (newElement) newElements.push(newElement);
     newElement = await readSVG(outputs.colors, {
       type: importType,
       targetModule,
       parentCmd: batchCmd,
     });
-    newElements.push(newElement);
+    if (newElement) newElements.push(newElement);
   } else if (importType === 'layer') {
     const keys = Object.keys(outputs);
     for (let i = 0; i < keys.length; i += 1) {
@@ -206,12 +206,12 @@ const importSvg = async (
             parentCmd: batchCmd,
           });
         }
-        newElements.push(newElement);
+        if (newElement) newElements.push(newElement);
       }
     }
   } else {
     newElement = await readSVG(file, { type: importType, targetModule, parentCmd: batchCmd });
-    newElements.push(newElement);
+    if (newElement) newElements.push(newElement);
   }
 
   if (outputs.bitmap.size > 0) {

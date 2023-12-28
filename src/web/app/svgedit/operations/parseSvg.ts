@@ -231,6 +231,7 @@ const parseSvg = (
       (node: Element) =>
         !['defs', 'title', 'style', 'metadata', 'sodipodi:namedview'].includes(node.tagName)
     );
+    if (layerNodes.length === 0) return [];
     const wrappedSymbolContent = symbolWrapper(layerNodes);
     if (!wrappedSymbolContent) return [];
     const symbol = SymbolMaker.makeSymbol(
