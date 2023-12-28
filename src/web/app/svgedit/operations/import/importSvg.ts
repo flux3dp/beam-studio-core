@@ -214,6 +214,7 @@ const importSvg = async (
     if (newElement) newElements.push(newElement);
   }
 
+  newElements = newElements.filter((elem) => elem);
   if (outputs.bitmap.size > 0) {
     const isPrinting = targetModule === LayerModule.PRINTER;
     if (!isPrinting || !newElements.length) {
@@ -226,22 +227,27 @@ const importSvg = async (
         writeDataLayer(newLayer, DataType.fullColor, '1');
       }
     }
-    await readBitmapFile(outputs.bitmap, { offset: outputs.bitmap_offset, gray: !isPrinting });
+    const img = await readBitmapFile(outputs.bitmap, { offset: outputs.bitmap_offset, gray: !isPrinting });
+    newElements.push(img);
     const cmd = removeDefaultLayerIfEmpty();
     if (cmd) batchCmd.addSubCommand(cmd);
   }
   presprayArea.togglePresprayArea();
   progressCaller.popById('loading_image');
-  newElements = newElements.filter((elem) => elem);
   if (args.isFromNounProject) {
     for (let i = 0; i < newElements.length; i += 1) {
       const elem = newElements[i];
       elem.setAttribute('data-np', '1');
     }
   }
-  svgCanvas.selectOnly(newElements);
+
   LayerPanelController.setSelectedLayers([svgCanvas.getCurrentDrawing().getCurrentLayerName()]);
-  if (newElements.length > 1) svgCanvas.tempGroupSelectedElements();
+  if (newElements.length === 0) {
+    svgCanvas.clearSelection();
+  } else {
+    svgCanvas.selectOnly(newElements);
+    if (newElements.length > 1) svgCanvas.tempGroupSelectedElements();
+  }
   if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
 };
 

@@ -30,7 +30,7 @@ const readBitmapFile = async (
     offset?: number[];
     gray?: boolean;
   }
-): Promise<void> => {
+): Promise<SVGImageElement> => {
   const scale = opts?.scale ?? 1;
   const offset = opts?.offset ?? [0, 0];
   const gray = opts?.gray ?? true;
@@ -99,6 +99,7 @@ const readBitmapFile = async (
     }
     resolve();
   });
+  return newImage as SVGImageElement;
 };
 
 export default readBitmapFile;
