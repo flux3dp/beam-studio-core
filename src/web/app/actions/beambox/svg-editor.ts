@@ -4941,118 +4941,6 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.replaceBitmap = replaceBitmap;
-      const importDxf = async file => {
-        const Dxf2Svg = await requirejsHelper('dxf2svg');
-        const ImageTracer = await requirejsHelper('imagetracer');
-        const { defaultDpiValue, parsed } = await new Promise<{ defaultDpiValue: number ;parsed: string; }>(resolve => {
-          const reader = new FileReader();
-          reader.onloadend = evt => {
-            if (!AlertConfig.read('skip_dxf_version_warning')) {
-              let autoCadVersionMatch = (evt.target.result as string).match(/AC\d+/);
-              if (autoCadVersionMatch) {
-                const autoCadVersion = autoCadVersionMatch[0].substring(2, autoCadVersionMatch[0].length);
-                if (autoCadVersion !== '1027') {
-                  Alert.popUp({
-                    id: 'skip_dxf_version_warning',
-                    message: LANG.popup.dxf_version_waring,
-                    type: AlertConstants.SHOW_POPUP_WARNING,
-                    checkbox: {
-                      text: LANG.popup.dont_show_again,
-                      callbacks: () => AlertConfig.write('skip_dxf_version_warning', true),
-                    }
-                  });
-                }
-
-              }
-            }
-
-            let defaultDpiValue = 1;
-            let parsed = Dxf2Svg.parseString(evt.target.result);
-
-            if (parsed.header.insunits == '1') {
-              defaultDpiValue = 25.4;
-            } else if (parsed.header.insunits == '2') {
-              defaultDpiValue = 304.8;
-            } else if (parsed.header.insunits == '4') {
-              defaultDpiValue = 1;
-            } else if (parsed.header.insunits == '5') {
-              defaultDpiValue = 10;
-            } else if (parsed.header.insunits == '6') {
-              defaultDpiValue = 100;
-            }
-            resolve({ parsed, defaultDpiValue });
-          };
-          reader.readAsText(file);
-        });
-        Progress.popById('loading_image');
-        if (!parsed) {
-          alert("DXF Parsing Error");
-          return;
-        }
-        const unitLength = await Dialog.showDxfDpiSelector(defaultDpiValue);
-        if (!unitLength) {
-          return;
-        }
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
-        const { outputLayers, svg: resizedSvg, bbox } = Dxf2Svg.toSVG(parsed, unitLength * 10);
-        if (!AlertConfig.read('skip_dxf_oversize_warning') && (bbox.width > Constant.dimension.getWidth(BeamboxPreference.read('workarea')) || bbox.height > Constant.dimension.getHeight(BeamboxPreference.read('workarea')))) {
-          Alert.popUp({
-            id: 'dxf_size_over_workarea',
-            message: LANG.popup.dxf_bounding_box_size_over,
-            type: AlertConstants.SHOW_POPUP_WARNING,
-            checkbox: {
-              text: LANG.popup.dont_show_again,
-              callbacks: () => { AlertConfig.write('skip_dxf_oversize_warning', true) }
-            }
-          });
-        }
-        const svgdoc = document.getElementById('svgcanvas').ownerDocument;
-        const NS = svgedit.NS;
-        for (let i in outputLayers) {
-          const layerName = i;
-          const layer = outputLayers[i];
-          const isLayerExist = svgCanvas.setCurrentLayer(layerName);
-          if (!isLayerExist) {
-            svgCanvas.getCurrentDrawing();
-            svgCanvas.createLayer(layerName, layer.rgbCode);
-            layerConfigHelper.initLayerConfig(layerName);
-          }
-          const id = svgCanvas.getNextId();
-          const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
-          symbol.setAttribute('overflow', 'visible');
-          symbol.id = id;
-          svgedit.utilities.findDefs().appendChild(symbol);
-          ImageTracer.appendSVGString(layer.paths.join(''), id);
-          for (let j = 0; j < symbol.childNodes.length; j++) {
-            let child = symbol.childNodes[j] as unknown as SVGElement;
-            if (child.tagName === 'path' && !$(child).attr('d')) {
-              child.remove();
-              j--;
-            } else {
-              $(child).attr('id', svgCanvas.getNextId());
-            }
-          }
-          const use_el = svgdoc.createElementNS(NS.SVG, 'use');
-          use_el.id = svgCanvas.getNextId();
-          svgedit.utilities.setHref(use_el, `#${symbol.id}`);
-          svgCanvas.getCurrentDrawing().getCurrentLayer().appendChild(use_el);
-          const bb = svgedit.utilities.getBBox(use_el);
-
-          const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
-          svgedit.utilities.setHref(use_el, `#${imageSymbol.id}`);
-
-          let xform = '';
-          for (let key in bb) {
-            xform += `${key}=${bb[key]} `;
-          }
-          use_el.setAttribute('data-dxf', 'true');
-          use_el.setAttribute('data-ratiofixed', 'true');
-          use_el.setAttribute('data-xform', xform);
-          svgCanvas.updateElementColor(use_el);
-        }
-        svgCanvas.removeDefaultLayerIfEmpty();
-        Progress.popById('loading_image');
-      };
 
       const importJsScript = async (file) => {
         Progress.popById('loading_image');
@@ -5185,7 +5073,8 @@ const svgEditor = window['svgEditor'] = (function () {
             Progress.popById('loading_image');
             break;
           case 'dxf':
-            importDxf(file);
+            await importDxf(file);
+            Progress.popById('loading_image');
             break;
           case 'pdf':
           case 'ai':
