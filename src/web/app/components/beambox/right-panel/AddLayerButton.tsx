@@ -5,6 +5,7 @@ import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import TutorialController from 'app/views/tutorials/tutorialController';
 import useI18n from 'helpers/useI18n';
+import { createLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { initLayerConfig } from 'helpers/layer/layer-config-helper';
 
@@ -31,7 +32,7 @@ function AddLayerButton({ setSelectedLayers }: Props): JSX.Element {
       i += 1;
       uniqName = `${lang.layers.layer} ${i}`;
     }
-    svgCanvas.createLayer(uniqName);
+    createLayer(uniqName);
     if (TutorialController.getNextStepRequirement() === TutorialConstants.ADD_NEW_LAYER) {
       TutorialController.handleNextStep();
     }

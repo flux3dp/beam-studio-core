@@ -8,7 +8,13 @@ import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import { cloneLayerConfig, DataType, getData, initLayerConfig } from 'helpers/layer/layer-config-helper';
+import randomColor from 'helpers/randomColor';
+import {
+  cloneLayerConfig,
+  DataType,
+  getData,
+  initLayerConfig,
+} from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -98,6 +104,28 @@ export const getLayerName = (layer: Element): string => {
     return title.textContent;
   }
   return '';
+};
+
+// TODO: add unittest
+export const createLayer = (
+  name: string,
+  opts?: { hexCode?: string; isFullColor?: boolean; isSubCmd?: boolean }
+): { layer: SVGGElement; cmd: IBatchCommand } => {
+  const drawing = svgCanvas.getCurrentDrawing();
+  const { hexCode, isFullColor = false, isSubCmd = false } = opts || {};
+  const newLayer = drawing.createLayer(name);
+  if (drawing.layer_map[name]) {
+    if (name && /^#([0-9a-f]{3}){1,2}$/i.test(name)) drawing.layer_map[name].setColor(name);
+    else if (hexCode) drawing.layer_map[name].setColor(hexCode);
+    else drawing.layer_map[name].setColor(randomColor.getColor());
+    if (isFullColor) drawing.layer_map[name].setFullColor(true);
+  }
+  const batchCmd = new history.BatchCommand('Create Layer');
+  batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
+  if (!isSubCmd) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  svgCanvas.updateLayerColorFilter(newLayer);
+  svgCanvas.clearSelection();
+  return { layer: newLayer, cmd: batchCmd };
 };
 
 export const deleteLayerByName = (layerName: string): ICommand => {
@@ -471,4 +499,24 @@ export const moveToOtherLayer = (
   } else {
     moveToLayer(true);
   }
+};
+
+// TODO: add unittest
+export const removeDefaultLayerIfEmpty = (): ICommand | null => {
+  const defaultLayerName = LANG.layer1;
+  const drawing = svgCanvas.getCurrentDrawing();
+  const layer = drawing.getLayerByName(defaultLayerName);
+  const layerCount = drawing.getNumLayers();
+  if (layer && layerCount > 1) {
+    const childNodes = Array.from(layer.childNodes);
+    const isEmpty = childNodes.every((node: Element) => ['title', 'filter'].includes(node.tagName));
+    if (isEmpty) {
+      console.log('default layer is empty. delete it!');
+      const cmd = deleteLayerByName(defaultLayerName);
+      drawing.identifyLayers();
+      LayerPanelController.updateLayerPanel();
+      return cmd;
+    }
+  }
+  return null;
 };

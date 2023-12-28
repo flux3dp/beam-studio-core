@@ -10,6 +10,10 @@ declare class ISVGLayer {
   name_: string;
 
   getGroup: () => SVGGElement;
+
+  setColor: (color: string) => void;
+
+  setFullColor: (val: boolean) => void;
 }
 
 export default ISVGLayer;
