@@ -227,7 +227,11 @@ const importSvg = async (
         writeDataLayer(newLayer, DataType.fullColor, '1');
       }
     }
-    const img = await readBitmapFile(outputs.bitmap, { offset: outputs.bitmap_offset, gray: !isPrinting });
+    const img = await readBitmapFile(outputs.bitmap, {
+      offset: outputs.bitmap_offset,
+      gray: !isPrinting,
+      parentCmd: batchCmd,
+    });
     newElements.push(img);
     const cmd = removeDefaultLayerIfEmpty();
     if (cmd) batchCmd.addSubCommand(cmd);

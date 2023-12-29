@@ -499,7 +499,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             //	}
             // }
           } else if (cmdType === BatchCommand.type()) {
+            // Actions may create or remove layers
             if ([
+              'Create Layer',
               'Delete Layer(s)',
               'Clone Layer(s)',
               'Merge Layer',

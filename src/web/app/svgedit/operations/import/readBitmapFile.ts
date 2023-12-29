@@ -4,6 +4,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import imageData from 'helpers/image-data';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IBatchCommand } from 'interfaces/IHistory';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
@@ -29,11 +30,10 @@ const readBitmapFile = async (
     scale?: number;
     offset?: number[];
     gray?: boolean;
+    parentCmd?: IBatchCommand;
   }
 ): Promise<SVGImageElement> => {
-  const scale = opts?.scale ?? 1;
-  const offset = opts?.offset ?? [0, 0];
-  const gray = opts?.gray ?? true;
+  const { parentCmd, scale = 1, offset = [0, 0], gray = true } = opts ?? {};
   const reader = new FileReader();
   const arrayBuffer = await new Promise<ArrayBuffer>((resolve) => {
     reader.onloadend = (e) => {
@@ -92,7 +92,9 @@ const readBitmapFile = async (
     });
     updateElementColor(newImage);
     svgCanvas.selectOnly([newImage]);
-    svgCanvas.undoMgr.addCommandToHistory(new history.InsertElementCommand(newImage));
+    const cmd = new history.InsertElementCommand(newImage);
+    if (!parentCmd) svgCanvas.undoMgr.addCommandToHistory(cmd);
+    else parentCmd.addSubCommand(cmd);
     if (!offset) {
       svgCanvas.alignSelectedElements('l', 'page');
       svgCanvas.alignSelectedElements('t', 'page');
