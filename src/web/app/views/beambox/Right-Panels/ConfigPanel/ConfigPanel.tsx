@@ -242,10 +242,10 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
     if (SET_PRESET_WOOD_ENGRAVING === tutorialController.getNextStepRequirement()) {
-      if (isDefault && key === 'wood_engraving') tutorialController.handleNextStep();
+      if (isDefault && key.startsWith('wood_engraving')) tutorialController.handleNextStep();
       else alertCaller.popUp({ message: i18n.lang.tutorial.newUser.please_select_wood_engraving });
     } else if (SET_PRESET_WOOD_CUTTING === tutorialController.getNextStepRequirement()) {
-      if (isDefault && /^wood_[\d]+mm_cutting$/.test(key)) tutorialController.handleNextStep();
+      if (isDefault && /^wood_[\d]+mm_cutting/.test(key)) tutorialController.handleNextStep();
       else alertCaller.popUp({ message: i18n.lang.tutorial.newUser.please_select_wood_cutting });
     }
   };

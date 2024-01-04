@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import { ITutorialDialog } from 'interfaces/ITutorial';
 import { TutorialCallbacks } from 'app/constants/tutorial-constants';
 
@@ -40,12 +42,11 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     this.clearDefaultRect();
   }
 
-  handleCallback = (callbackId: string) => {
-    if (callbackId === TutorialCallbacks.SELECT_DEFAULT_RECT) {
-      this.selectDefaultRect();
-    } else {
-      console.log('Unknown callback id', callbackId);
-    }
+  handleCallback = (callbackId: TutorialCallbacks): void => {
+    if (callbackId === TutorialCallbacks.SELECT_DEFAULT_RECT) this.selectDefaultRect();
+    else if (callbackId === TutorialCallbacks.SCROLL_TO_PARAMETER) this.scrollToParameterSelect();
+    else if (callbackId === TutorialCallbacks.SCROLL_TO_ADD_LAYER) this.scrollToAddLayerButton();
+    else console.log('Unknown callback id', callbackId);
   };
 
   selectDefaultRect = () => {
@@ -70,6 +71,22 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     svgCanvas.selectOnly([defaultRect], true);
   };
 
+  scrollToParameterSelect = (): void => {
+    const workarea = beamboxPreference.read('workarea');
+    if (!modelsWithModules.includes(workarea)) return;
+    const scroll = () => {
+      if (document.querySelector('#laser-panel').clientHeight > 0) {
+        // height of module block
+        document.querySelector('#sidepanels').scrollTop = 106;
+      } else setTimeout(scroll, 30);
+    };
+    scroll();
+  }
+
+  scrollToAddLayerButton = (): void => {
+    document.querySelector('#sidepanels').scrollTop = 0;
+  };
+
   clearDefaultRect = () => {
     if (this.defaultRect) {
       this.defaultRect.remove();
@@ -82,7 +99,7 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     const { dialogStylesAndContents, onClose } = this.props;
     if (dialogStylesAndContents[currentStep].callback) {
       console.log(dialogStylesAndContents[currentStep].callback);
-      this.handleCallback(dialogStylesAndContents[currentStep].callback);
+      this.handleCallback(dialogStylesAndContents[currentStep].callback as TutorialCallbacks);
     }
     if (currentStep + 1 < dialogStylesAndContents.length) {
       this.setState({ currentStep: currentStep + 1 });
