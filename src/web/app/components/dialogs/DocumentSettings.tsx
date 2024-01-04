@@ -86,11 +86,13 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
     if (workarea !== BeamboxPreference.read('workarea')) {
       changeWorkarea(workarea);
+    } else {
+      // this is called in changeWorkarea
+      OpenBottomBoundaryDrawer.update();
     }
     BeamboxPreference.write('rotary_mode', rotaryMode);
     svgCanvas.setRotaryMode(rotaryMode);
     svgCanvas.runExtensions('updateRotaryAxis');
-    OpenBottomBoundaryDrawer.update();
   };
 
   const doesSupportOpenBottom = constant.addonsSupportList.openBottom.includes(workarea);
