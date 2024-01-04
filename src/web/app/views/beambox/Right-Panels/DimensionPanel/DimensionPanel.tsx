@@ -16,6 +16,7 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { isMobile } from 'helpers/system-helper';
 
+import FlipButtons from './FlipButtons';
 import styles from './DimensionPanel.module.scss';
 
 let svgCanvas;
@@ -610,44 +611,6 @@ class DimensionPanel extends React.Component<Props> {
     return ret;
   };
 
-  renderFlipButtons = (): JSX.Element =>
-    isMobile() ? (
-      <ObjectPanelItem.ActionList
-        id="flip"
-        actions={[
-          {
-            icon: <DimensionPanelIcons.HFlip />,
-            label: LANG.hflip,
-            onClick: () => svgCanvas.flipSelectedElements(-1, 1),
-          },
-          {
-            icon: <DimensionPanelIcons.VFlip />,
-            label: LANG.vflip,
-            onClick: () => svgCanvas.flipSelectedElements(1, -1),
-          },
-        ]}
-        content={<DimensionPanelIcons.HFlip />}
-        label={LANG.flip}
-      />
-    ) : (
-      <div className={styles['flip-btn-container']}>
-        <Button
-          id="horizontal_flip"
-          type="text"
-          icon={<DimensionPanelIcons.HFlip />}
-          onClick={() => svgCanvas.flipSelectedElements(-1, 1)}
-          title={LANG.hflip}
-        />
-        <Button
-          id="vertical_flip"
-          type="text"
-          icon={<DimensionPanelIcons.VFlip />}
-          onClick={() => svgCanvas.flipSelectedElements(1, -1)}
-          title={LANG.vflip}
-        />
-      </div>
-    );
-
   render(): JSX.Element {
     const { elem } = this.props;
     let panels = ['x', 'y', 'w', 'h'];
@@ -658,7 +621,7 @@ class DimensionPanel extends React.Component<Props> {
       <div className={styles.container}>
         <ObjectPanelItem.Divider />
         {this.renderDimensionPanels(panels)}
-        {this.renderFlipButtons()}
+        <FlipButtons />
       </div>
     ) : (
       <div className={styles.panel}>
@@ -669,7 +632,7 @@ class DimensionPanel extends React.Component<Props> {
           </div>
           <div className={styles.row}>
             {this.renderDimensionPanels(['rot'])}
-            {this.renderFlipButtons()}
+            <FlipButtons />
           </div>
         </ConfigProvider>
       </div>

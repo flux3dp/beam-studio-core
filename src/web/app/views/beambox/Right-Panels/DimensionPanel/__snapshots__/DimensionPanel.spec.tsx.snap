@@ -203,24 +203,7 @@ exports[`should render correctly image 1`] = `
           unit="deg"
         />
       </div>
-      <div
-        className="flip-btn-container"
-      >
-        <Button
-          icon={<svgr-url />}
-          id="horizontal_flip"
-          onClick={[Function]}
-          title="Horizontal Flip"
-          type="text"
-        />
-        <Button
-          icon={<svgr-url />}
-          id="vertical_flip"
-          onClick={[Function]}
-          title="Vertical Flip"
-          type="text"
-        />
-      </div>
+      <FlipButtons />
     </div>
   </ConfigProvider>
 </div>
@@ -273,25 +256,7 @@ exports[`should render correctly in mobile image 1`] = `
     updateValue={[Function]}
     value={0}
   />
-  <ObjectPanelActionList
-    actions={
-      [
-        {
-          "icon": <svgr-url />,
-          "label": "Horizontal Flip",
-          "onClick": [Function],
-        },
-        {
-          "icon": <svgr-url />,
-          "label": "Vertical Flip",
-          "onClick": [Function],
-        },
-      ]
-    }
-    content={<svgr-url />}
-    id="flip"
-    label="Flip"
-  />
+  <FlipButtons />
 </div>
 `;
 
@@ -328,25 +293,7 @@ exports[`should render correctly in mobile no elements 1`] = `
     updateValue={[Function]}
     value={0}
   />
-  <ObjectPanelActionList
-    actions={
-      [
-        {
-          "icon": <svgr-url />,
-          "label": "Horizontal Flip",
-          "onClick": [Function],
-        },
-        {
-          "icon": <svgr-url />,
-          "label": "Vertical Flip",
-          "onClick": [Function],
-        },
-      ]
-    }
-    content={<svgr-url />}
-    id="flip"
-    label="Flip"
-  />
+  <FlipButtons />
 </div>
 `;
 
@@ -383,25 +330,7 @@ exports[`should render correctly in mobile unsupported element 1`] = `
     updateValue={[Function]}
     value={0}
   />
-  <ObjectPanelActionList
-    actions={
-      [
-        {
-          "icon": <svgr-url />,
-          "label": "Horizontal Flip",
-          "onClick": [Function],
-        },
-        {
-          "icon": <svgr-url />,
-          "label": "Vertical Flip",
-          "onClick": [Function],
-        },
-      ]
-    }
-    content={<svgr-url />}
-    id="flip"
-    label="Flip"
-  />
+  <FlipButtons />
 </div>
 `;
 
@@ -608,24 +537,7 @@ exports[`should render correctly no elements 1`] = `
           unit="deg"
         />
       </div>
-      <div
-        className="flip-btn-container"
-      >
-        <Button
-          icon={<svgr-url />}
-          id="horizontal_flip"
-          onClick={[Function]}
-          title="Horizontal Flip"
-          type="text"
-        />
-        <Button
-          icon={<svgr-url />}
-          id="vertical_flip"
-          onClick={[Function]}
-          title="Vertical Flip"
-          type="text"
-        />
-      </div>
+      <FlipButtons />
     </div>
   </ConfigProvider>
 </div>
@@ -834,24 +746,7 @@ exports[`should render correctly unsupported element 1`] = `
           unit="deg"
         />
       </div>
-      <div
-        className="flip-btn-container"
-      >
-        <Button
-          icon={<svgr-url />}
-          id="horizontal_flip"
-          onClick={[Function]}
-          title="Horizontal Flip"
-          type="text"
-        />
-        <Button
-          icon={<svgr-url />}
-          id="vertical_flip"
-          onClick={[Function]}
-          title="Vertical Flip"
-          type="text"
-        />
-      </div>
+      <FlipButtons />
     </div>
   </ConfigProvider>
 </div>

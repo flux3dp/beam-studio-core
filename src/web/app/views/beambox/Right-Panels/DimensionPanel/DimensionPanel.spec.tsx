@@ -78,6 +78,10 @@ getSVGAsync.mockImplementation((callback) => {
 
 import DimensionPanel from './DimensionPanel';
 
+jest.mock('app/views/beambox/Right-Panels/DimensionPanel/FlipButtons', () => function FlipButtons() {
+  return <div>Mock FlipButtons</div>;
+});
+
 function tick() {
   return new Promise((resolve) => {
     setTimeout(resolve, 0);
