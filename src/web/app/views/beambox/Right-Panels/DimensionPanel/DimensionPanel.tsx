@@ -1,28 +1,27 @@
-import * as React from 'react';
-import classNames from 'classnames';
-import { Button, ConfigProvider } from 'antd';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
-import DimensionPanelIcons from 'app/icons/dimension-panel/DimensionPanelIcons';
-import i18n from 'helpers/i18n';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
-import KeycodeConstants from 'app/constants/keycode-constants';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SymbolMaker from 'helpers/symbol-maker';
-import storage from 'implementations/storage';
-import UnitInput from 'app/widgets/Unit-Input-v2';
+import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
-import { isMobile } from 'helpers/system-helper';
+import { useIsMobile } from 'helpers/system-helper';
 
+import PositionInput from './PositionInput';
 import FlipButtons from './FlipButtons';
+import RatioLock from './RatioLock';
+import Rotation from './Rotation';
+import SizeInput from './SizeInput';
 import styles from './DimensionPanel.module.scss';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-
-const LANG = i18n.lang.beambox.right_panel.object_panel;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const panelMap = {
   g: ['x', 'y', 'w', 'h'],
@@ -58,586 +57,222 @@ const fixedSizeMapping = {
 };
 
 interface Props {
-  id?: string;
   elem: Element;
-  getDimensionValues: (response: {
-    dimensionValues: any,
-  }) => void;
+  getDimensionValues: (response: { dimensionValues: any }) => void;
   updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
 }
 
-class DimensionPanel extends React.Component<Props> {
-  private unit: string;
+const DimensionPanel = ({
+  elem,
+  updateDimensionValues,
+  getDimensionValues,
+}: Props): JSX.Element => {
+  const isMobile = useIsMobile();
+  const positionKeys = useMemo(() => new Set(['x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy']), []);
+  const sizeKeys = useMemo(() => new Set(['w', 'h', 'rx', 'ry']), []);
 
-  private unitInputClass: any;
+  const forceUpdate = useForceUpdate();
 
-  constructor(props: Props) {
-    super(props);
-    this.unit = storage.get('default-units') === 'inches' ? 'in' : 'mm';
-    this.unitInputClass = { 'dimension-input': true };
-  }
+  const getDisplayValue = useCallback((val: number): number => {
+    if (!val) return 0;
+    return val / Constant.dpmm;
+  }, []);
 
-  componentWillUnmount(): void {
-    this.handleSizeBlur();
-  }
-
-  handlePositionChange = (type: string, val: number): void => {
-    const { elem, updateDimensionValues } = this.props;
-    const posVal = val * Constant.dpmm;
-    if (!['use', 'text'].includes(elem.tagName)) {
-      svgCanvas.changeSelectedAttribute(type, posVal, [elem]);
-    } else {
-      svgCanvas.setSvgElemPosition(type, posVal, elem);
-    }
-    const newDimensionValue = {};
-    newDimensionValue[type] = posVal;
-    updateDimensionValues(newDimensionValue);
-    this.forceUpdate();
-  };
-
-  handleRotationChange = (val: number): void => {
-    const { elem, updateDimensionValues } = this.props;
-    let rotationDeg = val % 360;
-    if (rotationDeg > 180) rotationDeg -= 360;
-    svgCanvas.setRotationAngle(rotationDeg, false, elem);
-    updateDimensionValues({ rotation: rotationDeg });
-    this.forceUpdate();
-  };
-
-  changeSize = (type: string, val: number): IBatchCommand => {
-    const { elem } = this.props;
-    const elemSize = val > 0.1 ? val : 0.1;
-    let cmd = null;
-
-    switch (elem.tagName) {
-      case 'ellipse':
-      case 'rect':
-      case 'image':
-        svgCanvas.undoMgr.beginUndoableChange(type, [elem]);
-        svgCanvas.changeSelectedAttributeNoUndo(type, elemSize, [elem]);
-        cmd = svgCanvas.undoMgr.finishUndoableChange();
-        break;
-      case 'g':
-      case 'polygon':
-      case 'path':
-      case 'text':
-      case 'use':
-        cmd = svgCanvas.setSvgElemSize(type, elemSize);
-        break;
-      default:
-        break;
-    }
-    if (elem.tagName === 'text') {
-      if (elem.getAttribute('stroke-width') === '2') {
-        elem.setAttribute('stroke-width', '2.01');
-      } else {
-        elem.setAttribute('stroke-width', '2');
-      }
-    }
-    return cmd;
-  };
-
-  handleSizeChange = (type: 'width' | 'height' | 'rx' | 'ry', val: number): void => {
-    const batchCmd = HistoryCommandFactory.createBatchCommand('Object Panel Size Change');
-    const { updateDimensionValues, getDimensionValues } = this.props;
-    const response = {
-      dimensionValues: {} as any,
-    };
-    getDimensionValues(response);
-    const { dimensionValues } = response;
-    const isRatioFixed = dimensionValues.isRatioFixed || false;
-
-    const newDimensionValue = {};
-    const sizeVal = val * Constant.dpmm;
-    if (isRatioFixed) {
-      const ratio = sizeVal / parseFloat(dimensionValues[type]);
-      const otherType = fixedSizeMapping[type];
-      const newOtherTypeVal = ratio * parseFloat(dimensionValues[otherType]);
-
-      let cmd = this.changeSize(type, sizeVal);
-      if (cmd && !cmd.isEmpty()) {
-        batchCmd.addSubCommand(cmd);
-      }
-      cmd = this.changeSize(otherType, newOtherTypeVal);
-      if (cmd && !cmd.isEmpty()) {
-        batchCmd.addSubCommand(cmd);
-      }
-      newDimensionValue[type] = sizeVal;
-      newDimensionValue[otherType] = newOtherTypeVal;
-    } else {
-      const cmd = this.changeSize(type, sizeVal);
-      if (cmd && !cmd.isEmpty()) {
-        batchCmd.addSubCommand(cmd);
-      }
-      newDimensionValue[type] = sizeVal;
-    }
-    if (batchCmd && !batchCmd.isEmpty()) {
-      svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    }
-    updateDimensionValues(newDimensionValue);
-    this.forceUpdate();
-  };
-
-  handleSizeKeyUp = (e: KeyboardEvent): void => {
-    const { elem } = this.props;
-    if (elem.tagName === 'use' && (e.keyCode === KeycodeConstants.KEY_UP || e.keyCode === KeycodeConstants.KEY_DOWN)) {
+  const handleSizeBlur = useCallback(async () => {
+    if (elem?.tagName === 'use') {
       SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
-    }
-  };
-
-  handleSizeBlur = async (): Promise<void> => {
-    const { elem } = this.props;
-    if (elem.tagName === 'use') {
-      SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
-    } else if (elem.tagName === 'g') {
+    } else if (elem?.tagName === 'g') {
       const allUses = Array.from(elem.querySelectorAll('use'));
       SymbolMaker.reRenderImageSymbolArray(allUses);
     }
-  };
+  }, [elem]);
 
-  handleFixRatio = (): void => {
-    const { elem, updateDimensionValues } = this.props;
-    const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true';
-    elem.setAttribute('data-ratiofixed', String(!isRatioFixed));
+  const handleSizeKeyUp = useCallback(
+    (e: KeyboardEvent) => {
+      if (elem?.tagName === 'use' && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+        SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
+      }
+    },
+    [elem]
+  );
+
+  useEffect(
+    () => () => {
+      handleSizeBlur();
+    },
+    [handleSizeBlur]
+  );
+
+  const handlePositionChange = useCallback(
+    (type: string, val: number): void => {
+      const posVal = val * Constant.dpmm;
+      if (!['use', 'text'].includes(elem?.tagName))
+        svgCanvas.changeSelectedAttribute(type, posVal, [elem]);
+      else svgCanvas.setSvgElemPosition(type, posVal, elem);
+      updateDimensionValues({ [type]: posVal });
+      forceUpdate();
+    },
+    [elem, updateDimensionValues, forceUpdate]
+  );
+
+  const handleRotationChange = useCallback(
+    (val: number): void => {
+      let rotationDeg = val % 360;
+      if (rotationDeg > 180) rotationDeg -= 360;
+      svgCanvas.setRotationAngle(rotationDeg, false, elem);
+      updateDimensionValues({ rotation: rotationDeg });
+      forceUpdate();
+    },
+    [elem, updateDimensionValues, forceUpdate]
+  );
+
+  const changeSize = useCallback(
+    (type: string, val: number): IBatchCommand => {
+      const elemSize = val > 0.1 ? val : 0.1;
+      let cmd = null;
+
+      switch (elem?.tagName) {
+        case 'ellipse':
+        case 'rect':
+        case 'image':
+          svgCanvas.undoMgr.beginUndoableChange(type, [elem]);
+          svgCanvas.changeSelectedAttributeNoUndo(type, elemSize, [elem]);
+          cmd = svgCanvas.undoMgr.finishUndoableChange();
+          break;
+        case 'g':
+        case 'polygon':
+        case 'path':
+        case 'text':
+        case 'use':
+          cmd = svgCanvas.setSvgElemSize(type, elemSize);
+          break;
+        default:
+          break;
+      }
+      if (elem?.tagName === 'text') {
+        elem?.setAttribute('stroke-width', elem.getAttribute('stroke-width') === '2' ? '2.01' : '2');
+      }
+      return cmd;
+    },
+    [elem]
+  );
+
+  const handleSizeChange = useCallback(
+    (type: 'width' | 'height' | 'rx' | 'ry', val: number): void => {
+      const batchCmd = HistoryCommandFactory.createBatchCommand('Object Panel Size Change');
+      const response = {
+        dimensionValues: {} as any,
+      };
+      getDimensionValues(response);
+      const { dimensionValues } = response;
+      const isRatioFixed = dimensionValues.isRatioFixed || false;
+      const sizeVal = val * Constant.dpmm;
+
+      let cmd = changeSize(type, sizeVal);
+      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+      const newValues = { [type]: sizeVal };
+      if (isRatioFixed) {
+        const ratio = sizeVal / getDisplayValue(dimensionValues[type]);
+        const otherType = fixedSizeMapping[type];
+        const newOtherTypeVal = ratio * getDisplayValue(dimensionValues[otherType]);
+        cmd = changeSize(otherType, newOtherTypeVal);
+        if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+        newValues[otherType] = newOtherTypeVal;
+      }
+      updateDimensionValues(newValues);
+      if (batchCmd && !batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+      forceUpdate();
+    },
+    [changeSize, getDimensionValues, updateDimensionValues, forceUpdate, getDisplayValue]
+  );
+
+  const handleFixRatio = useCallback((): void => {
+    const isRatioFixed = elem?.getAttribute('data-ratiofixed') === 'true';
+    elem?.setAttribute('data-ratiofixed', String(!isRatioFixed));
     updateDimensionValues({ isRatioFixed: !isRatioFixed });
-    this.forceUpdate();
-  };
+    forceUpdate();
+  }, [elem, updateDimensionValues, forceUpdate]);
 
-  getDisplayValue = (val: number): number => {
-    if (!val) {
-      return 0;
+  const response = { dimensionValues: {} as any };
+  getDimensionValues(response);
+  const { dimensionValues } = response;
+
+  const renderBlock = (type: string): JSX.Element => {
+    if (positionKeys.has(type)) {
+      return (
+        <PositionInput
+          key={type}
+          type={type as 'x' | 'y' | 'x1' | 'y1' | 'x2' | 'y2' | 'cx' | 'cy'}
+          value={getDisplayValue(dimensionValues[type])}
+          onChange={handlePositionChange}
+        />
+      );
     }
-    return val / Constant.dpmm;
-  };
-
-  renderDimensionPanel = (type: string): JSX.Element => {
-    const { getDimensionValues } = this.props;
-    const response = {
-      dimensionValues: {} as any,
-    };
-    getDimensionValues(response);
-    const { dimensionValues } = response;
-    const isRatioFixed = dimensionValues.isRatioFixed || false;
-    switch (type) {
-      case 'x':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="x_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label="X"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>X</div>
-            <UnitInput
-              id="x_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.x)}
-              getValue={(val) => this.handlePositionChange('x', val)}
-            />
-          </div>
-        );
-      case 'y':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="y_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label="Y"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>Y</div>
-            <UnitInput
-              id="y_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.y)}
-              getValue={(val) => this.handlePositionChange('y', val)}
-            />
-          </div>
-        );
-      case 'x1':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="x1_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label={
-                <>
-                  X<sub>1</sub>
-                </>
-              }
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>
-              X<sub>1</sub>
-            </div>
-            <UnitInput
-              id="x1_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.x1)}
-              getValue={(val) => this.handlePositionChange('x1', val)}
-            />
-          </div>
-        );
-      case 'y1':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="y1_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label={
-                <>
-                  Y<sub>1</sub>
-                </>
-              }
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>
-              Y<sub>1</sub>
-            </div>
-            <UnitInput
-              id="y1_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.y1)}
-              getValue={(val) => this.handlePositionChange('y1', val)}
-            />
-          </div>
-        );
-      case 'x2':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="x2_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label={
-                <>
-                  X<sub>2</sub>
-                </>
-              }
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>
-              X<sub>2</sub>
-            </div>
-            <UnitInput
-              id="x2_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.x2)}
-              getValue={(val) => this.handlePositionChange('x2', val)}
-            />
-          </div>
-        );
-      case 'y2':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="y2_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label={
-                <>
-                  Y<sub>2</sub>
-                </>
-              }
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>
-              Y<sub>2</sub>
-            </div>
-            <UnitInput
-              id="y2_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.y2)}
-              getValue={(val) => this.handlePositionChange('y2', val)}
-            />
-          </div>
-        );
-      case 'cx':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="cx_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label={
-                <>
-                  X<sub>C</sub>
-                </>
-              }
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>
-              X<sub>C</sub>
-            </div>
-            <UnitInput
-              id="cx_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.cx)}
-              getValue={(val) => this.handlePositionChange('cx', val)}
-            />
-          </div>
-        );
-      case 'cy':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="cy_position"
-              value={this.getDisplayValue(dimensionValues[type])}
-              updateValue={(val) => this.handlePositionChange(type, val)}
-              label={
-                <>
-                  Y<sub>C</sub>
-                </>
-              }
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>
-              Y<sub>C</sub>
-            </div>
-            <UnitInput
-              id="cy_position"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.cy)}
-              getValue={(val) => this.handlePositionChange('cy', val)}
-            />
-          </div>
-        );
-      case 'rot':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="rotate"
-              value={dimensionValues.rotation || 0}
-              updateValue={this.handleRotationChange}
-              label={i18n.lang.topbar.menu.rotate}
-              unit="degree"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={classNames(styles.label, styles.img)}>
-              <DimensionPanelIcons.Rotate />
-            </div>
-            <UnitInput
-              id="rotate"
-              unit="deg"
-              className={this.unitInputClass}
-              defaultValue={dimensionValues.rotation}
-              getValue={(val) => this.handleRotationChange(val)}
-            />
-          </div>
-        );
-      case 'w':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="width"
-              value={this.getDisplayValue(dimensionValues.width)}
-              updateValue={(val) => this.handleSizeChange('width', val)}
-              label="W"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>W</div>
-            <UnitInput
-              id="width"
-              unit={this.unit}
-              className={this.unitInputClass}
-              onBlur={() => this.handleSizeBlur()}
-              onKeyUp={(e) => this.handleSizeKeyUp(e)}
-              defaultValue={this.getDisplayValue(dimensionValues.width)}
-              getValue={(val) => this.handleSizeChange('width', val)}
-            />
-          </div>
-        );
-      case 'h':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="height"
-              value={this.getDisplayValue(dimensionValues.height)}
-              updateValue={(val) => this.handleSizeChange('height', val)}
-              label="H"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>H</div>
-            <UnitInput
-              id="height"
-              unit={this.unit}
-              className={this.unitInputClass}
-              onBlur={() => this.handleSizeBlur()}
-              onKeyUp={(e) => this.handleSizeKeyUp(e)}
-              defaultValue={this.getDisplayValue(dimensionValues.height)}
-              getValue={(val) => this.handleSizeChange('height', val)}
-            />
-          </div>
-        );
-      case 'rx':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="rx_width"
-              value={this.getDisplayValue(dimensionValues.rx * 2)}
-              updateValue={(val) => this.handleSizeChange('rx', val / 2)}
-              label="W"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>W</div>
-            <UnitInput
-              id="rx_width"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.rx * 2)}
-              getValue={(val) => this.handleSizeChange('rx', val / 2)}
-            />
-          </div>
-        );
-      case 'ry':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Number
-              key={type}
-              id="ry_height"
-              value={this.getDisplayValue(dimensionValues.ry * 2)}
-              updateValue={(val) => this.handleSizeChange('ry', val / 2)}
-              label="H"
-            />
-          );
-        }
-        return (
-          <div className={styles.dimension} key={type}>
-            <div className={styles.label}>H</div>
-            <UnitInput
-              id="ry_height"
-              unit={this.unit}
-              className={this.unitInputClass}
-              defaultValue={this.getDisplayValue(dimensionValues.ry * 2)}
-              getValue={(val) => this.handleSizeChange('ry', val / 2)}
-            />
-          </div>
-        );
-      case 'lock':
-        if (isMobile()) {
-          return (
-            <ObjectPanelItem.Item
-              key={type}
-              id="lock"
-              content={
-                isRatioFixed ? <DimensionPanelIcons.Locked /> : <DimensionPanelIcons.Unlocked />
-              }
-              onClick={this.handleFixRatio}
-            />
-          );
-        }
-        return (
-          <Button
-            key={type}
-            id="lock"
-            type="text"
-            title={isRatioFixed ? LANG.unlock_aspect : LANG.lock_aspect}
-            icon={isRatioFixed ? <DimensionPanelIcons.Locked /> : <DimensionPanelIcons.Unlocked />}
-            onClick={() => this.handleFixRatio()}
-          />
-        );
-      default:
-        break;
+    if (sizeKeys.has(type)) {
+      const displayValue = {
+        w: getDisplayValue(dimensionValues.width),
+        h: getDisplayValue(dimensionValues.height),
+        rx: getDisplayValue(dimensionValues.rx * 2),
+        ry: getDisplayValue(dimensionValues.ry * 2),
+      }[type];
+      return (
+        <SizeInput
+          key={type}
+          type={type as 'w' | 'h' | 'rx' | 'ry'}
+          value={displayValue}
+          onChange={handleSizeChange}
+          onKeyUp={handleSizeKeyUp}
+          onBlur={handleSizeBlur}
+        />
+      );
+    }
+    if (type === 'rot') {
+      return (
+        <Rotation key="rot" value={dimensionValues.rotation} onChange={handleRotationChange} />
+      );
+    }
+    if (type === 'lock') {
+      return (
+        <RatioLock
+          key="lock"
+          isLocked={dimensionValues.isRatioFixed || false}
+          onClick={handleFixRatio}
+        />
+      );
     }
     return null;
   };
+  const panels: string[] = (isMobile ? panelMapMobile : panelMap)[elem?.tagName.toLowerCase()] || [
+    'x',
+    'y',
+    'w',
+    'h',
+  ];
+  const contents = [];
+  panels.forEach((type) => {
+    contents.push(renderBlock(type));
+  });
 
-  renderDimensionPanels = (panels: Array<string>): Array<Element> => {
-    const ret = [];
-    for (let i = 0; i < panels.length; i += 1) {
-      ret.push(this.renderDimensionPanel(panels[i]));
-    }
-    return ret;
-  };
-
-  render(): JSX.Element {
-    const { elem } = this.props;
-    let panels = ['x', 'y', 'w', 'h'];
-    if (elem) {
-      panels = (isMobile() ? panelMapMobile : panelMap)[elem.tagName.toLowerCase()] || panels;
-    }
-    return isMobile() ? (
-      <div className={styles.container}>
-        <ObjectPanelItem.Divider />
-        {this.renderDimensionPanels(panels)}
-        <FlipButtons />
-      </div>
-    ) : (
-      <div className={styles.panel}>
-        <ConfigProvider theme={iconButtonTheme}>
-          <div className={styles.row}>
-            <div className={styles.dimensions}>{this.renderDimensionPanels(panels)}</div>
-            {this.renderDimensionPanels(['lock'])}
-          </div>
-          <div className={styles.row}>
-            {this.renderDimensionPanels(['rot'])}
-            <FlipButtons />
-          </div>
-        </ConfigProvider>
-      </div>
-    );
-  }
-}
+  return isMobile ? (
+    <div className={styles.container}>
+      <ObjectPanelItem.Divider />
+      {contents}
+      <FlipButtons />
+    </div>
+  ) : (
+    <div className={styles.panel}>
+      <ConfigProvider theme={iconButtonTheme}>
+        <div className={styles.row}>
+          <div className={styles.dimensions}>{contents}</div>
+          {renderBlock('lock')}
+        </div>
+        <div className={styles.row}>
+          {renderBlock('rot')}
+          <FlipButtons />
+        </div>
+      </ConfigProvider>
+    </div>
+  );
+};
 
 export default DimensionPanel;

@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test SizeInput should render correctly on desktop 1`] = `
+<div>
+  <div
+    class="dimension"
+  >
+    <div
+      class="label"
+    >
+      W
+    </div>
+    <div>
+      <div>
+        w_size
+      </div>
+      <div>
+        mm
+      </div>
+      <div>
+        0
+      </div>
+      <div />
+      <input
+        type="number"
+        value="0"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test SizeInput should render correctly on mobile 1`] = `
+<div>
+  <div
+    id="w_size"
+  >
+    W
+    <div>
+      0
+    </div>
+    <button
+      type="button"
+    />
+  </div>
+</div>
+`;

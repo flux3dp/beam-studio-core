@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PositionInput should render correctly on desktop 1`] = `
+<div>
+  <div
+    class="dimension"
+  >
+    <div
+      class="label"
+    >
+      X
+    </div>
+    <div>
+      <div>
+        x_position
+      </div>
+      <div>
+        mm
+      </div>
+      <div>
+        0
+      </div>
+      <div />
+      <input
+        type="number"
+        value="0"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test PositionInput should render correctly on mobile 1`] = `
+<div>
+  <div
+    id="x_position"
+  >
+    X
+    <div>
+      0
+    </div>
+    <button
+      type="button"
+    />
+  </div>
+</div>
+`;
