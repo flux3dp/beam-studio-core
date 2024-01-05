@@ -5,7 +5,7 @@ import { Button, ConfigProvider } from 'antd';
 import ActionsPanel from 'app/views/beambox/Right-Panels/ActionsPanel';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
 import dialogCaller from 'app/actions/dialog-caller';
-import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel';
+import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel/DimensionPanel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';

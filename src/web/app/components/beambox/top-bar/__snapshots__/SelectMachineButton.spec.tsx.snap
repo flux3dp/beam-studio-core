@@ -18,6 +18,7 @@ exports[`test SelectMachineButton should render correctly 1`] = `
     <svgr-url />
     <span
       class="text"
+      data-testid="select-machine"
     >
       Select a machine
     </span>
@@ -33,6 +34,7 @@ exports[`test SelectMachineButton when previewing 1`] = `
     <svgr-url />
     <span
       class="text"
+      data-testid="select-machine"
     >
       Select a machine
     </span>
@@ -48,6 +50,7 @@ exports[`test SelectMachineButton with device 1`] = `
     <svgr-url />
     <span
       class="text"
+      data-testid="select-machine"
     >
       device name
     </span>

@@ -1,4 +1,4 @@
-@use './_mixins.scss' as mixins;
+@use '../_mixins.scss' as mixins;
 
 .container {
   @include mixins.item-group();
@@ -44,12 +44,6 @@
           width: 66px;
         }
       }
-    }
-
-    .flip-btn-container {
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
   }
 }
