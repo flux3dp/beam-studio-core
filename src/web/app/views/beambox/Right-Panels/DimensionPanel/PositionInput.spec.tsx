@@ -42,7 +42,21 @@ describe('test PositionInput', () => {
 
   it('should render correctly on desktop', () => {
     mockUseIsMobile.mockReturnValue(false);
-    const { container } = render(<PositionInput type="x" value={0} onChange={mockOnChange} />);
+    const { container, rerender } = render(<PositionInput type="x" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="y" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="x1" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="y1" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="x2" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="y2" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="cx" value={0} onChange={mockOnChange} />);
+    expect(container).toMatchSnapshot();
+    rerender(<PositionInput type="cy" value={0} onChange={mockOnChange} />);
     expect(container).toMatchSnapshot();
   });
 

@@ -15,7 +15,7 @@ interface Props {
 
 const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
   const isMobile = useIsMobile();
-  const unit = useMemo(() => storage.get('default-units') === 'inches' ? 'in' : 'mm', []);
+  const unit = useMemo(() => (storage.get('default-units') === 'inches' ? 'in' : 'mm'), []);
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'x') return 'X';
     if (type === 'y') return 'Y';
@@ -61,22 +61,12 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
   const handleChange = useCallback((val: number) => onChange(type, val), [type, onChange]);
   if (isMobile)
     return (
-      <ObjectPanelItem.Number
-        id={inputId}
-        value={value}
-        updateValue={handleChange}
-        label={label}
-      />
+      <ObjectPanelItem.Number id={inputId} value={value} updateValue={handleChange} label={label} />
     );
   return (
     <div className={styles.dimension}>
       <div className={styles.label}>{label}</div>
-      <UnitInput
-        id={inputId}
-        unit={unit}
-        defaultValue={value}
-        getValue={handleChange}
-      />
+      <UnitInput id={inputId} unit={unit} defaultValue={value} getValue={handleChange} />
     </div>
   );
 };
