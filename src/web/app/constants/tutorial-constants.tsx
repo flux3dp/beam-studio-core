@@ -45,14 +45,14 @@ const NEW_USER_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMacOrWeb ? 100 : 27, top: calculateTop(10, TopRef.TOPBAR) },
+        position: { left: isMacOrWeb ? 140 : 67, top: calculateTop(10, TopRef.TOPBAR) },
         arrowDirection: 'top',
         arrowPadding: isMacOrWeb ? undefined : 9,
       },
-      holePosition: { left: isMacOrWeb ? 80 : 7, top: calculateTop(0) },
+      holePosition: { left: isMacOrWeb ? 120 : 47, top: calculateTop(0) },
       holeSize: { width: 40, height: 40 },
       hintCircle: {
-        left: isMacOrWeb ? 82 : 9,
+        left: isMacOrWeb ? 122 : 49,
         top: calculateTop(3),
         width: 36,
         height: 36,
@@ -353,12 +353,12 @@ const INTERFACE_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMacOrWeb ? 100 : 27, top: calculateTop(10, TopRef.TOPBAR) },
+        position: { left: isMacOrWeb ? 140 : 67, top: calculateTop(10, TopRef.TOPBAR) },
         arrowDirection: 'top',
         arrowPadding: isMacOrWeb ? undefined : 9,
       },
       hintCircle: {
-        left: isMacOrWeb ? 82 : 9,
+        left: isMacOrWeb ? 122 : 49,
         top: calculateTop(3),
         width: 36,
         height: 36,
