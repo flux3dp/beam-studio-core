@@ -24,7 +24,7 @@ const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
 const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
 
-const FLUXID_HOST = 'https://id.flux3dp.com';
+export const FLUXID_HOST = 'https://id.flux3dp.com';
 const FLUXID_DOMAIN = '.flux3dp.com';
 export const axiosFluxId = axios.create({
   baseURL: FLUXID_HOST,
@@ -123,9 +123,9 @@ export const signInWithFBToken = async (fb_token: string): Promise<boolean> => {
 };
 
 export const getInfo = async (silent = false) => {
-  const response = await axiosFluxId.get('/user/info', {
+  const response = (await axiosFluxId.get('/user/info?query=credits', {
     withCredentials: true,
-  }) as ResponseWithError;
+  })) as ResponseWithError;
   if (response.error) {
     if (!silent) {
       handleErrorMessage(response.error);
@@ -277,6 +277,7 @@ export const signIn = async (
     const { data } = response;
     if (data.status === 'ok') {
       updateUser({ email: data.email });
+      await getInfo(true);
     }
     return data;
   }

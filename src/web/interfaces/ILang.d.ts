@@ -1135,23 +1135,46 @@ export interface ILang {
     prespray_area: string;
   };
   flux_id_login: {
-    connection_fail: string,
-    login_success: string,
-    login: string,
-    unlock_shape_library: string,
-    email: string,
-    password: string,
-    remember_me: string,
-    forget_password: string,
-    register: string,
-    offline: string,
-    work_offline: string,
-    incorrect: string,
-    not_verified: string,
-    new_to_flux: string,
-    signup_url: string,
-    lost_password_url: string,
-  },
+    connection_fail: string;
+    login_success: string;
+    login: string;
+    unlock_shape_library: string;
+    email: string;
+    password: string;
+    remember_me: string;
+    forget_password: string;
+    register: string;
+    offline: string;
+    work_offline: string;
+    incorrect: string;
+    not_verified: string;
+    new_to_flux: string;
+    signup_url: string;
+    lost_password_url: string;
+    flux_plus: {
+      explore_plans: string;
+      thank_you: string;
+      ai_credit_tooltip: string;
+      flux_credit_tooltip: string;
+      goto_member_center: string;
+      access_plus_feature_1: string;
+      access_plus_feature_2: string;
+      access_plus_feature_note: string;
+      access_monotype_feature: string;
+      access_monotype_feature_note: string;
+      learn_more: string;
+      get_addon: string;
+      website_url: string;
+      member_center_url: string;
+      features: {
+        ai_bg_removal: string;
+        my_cloud: string;
+        boxgen: string;
+        dmkt: string;
+        monotype: string;
+      };
+    };
+  };
   noun_project_panel: {
     login_first: string,
     enjoy_shape_library: string,

@@ -8,7 +8,9 @@ import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
 import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
+import FluxCredit from 'app/components/dialogs/FluxCredit';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
+import FluxPlusWarning from 'app/components/dialogs/FluxPlusWarning';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
@@ -81,6 +83,26 @@ const showLoginDialog = (callback?: () => void, silent = false): void => {
         if (callback) callback();
       }}
     />
+  );
+};
+
+const forceLoginWrapper = (callback: () => void | Promise<void>, silent?: boolean): void => {
+  let user = getCurrentUser();
+  if (!user) {
+    showLoginDialog(() => {
+      user = getCurrentUser();
+      if (user) callback();
+    }, silent);
+  } else {
+    callback();
+  }
+};
+
+const showFluxPlusWarning = (monotype?: boolean): void => {
+  if (isIdExist('flux-plus-warning')) return;
+  addDialogComponent(
+    'flux-plus-warning',
+    <FluxPlusWarning onClose={() => popDialogById('flux-plus-warning')} monotype={monotype} />
   );
 };
 
@@ -306,17 +328,7 @@ export default {
     );
   },
   showLoginDialog,
-  forceLoginWrapper: (callback: () => void | Promise<void>): void => {
-    let user = getCurrentUser();
-    if (!user) {
-      showLoginDialog(() => {
-        user = getCurrentUser();
-        if (user) callback();
-      });
-    } else {
-      callback();
-    }
-  },
+  forceLoginWrapper,
   showDialogBox: (id: string, style: IDialogBoxStyle, content: string): void => {
     if (isIdExist(id)) return;
     console.log(style);
@@ -434,7 +446,11 @@ export default {
         />
       );
     }),
-  showRotationParameters3DPanel: ({ initParams, onApply, onSave }: {
+  showRotationParameters3DPanel: ({
+    initParams,
+    onApply,
+    onSave,
+  }: {
     initParams?: RotationParameters3DCalibration;
     onApply: (params: RotationParameters3DCalibration) => void;
     onSave: (params: RotationParameters3DCalibration) => void;
@@ -449,5 +465,17 @@ export default {
         onClose={() => popDialogById('rotation-parameters-3d')}
       />
     );
-  }
+  },
+  showFluxCreditDialog: (): void => {
+    if (isIdExist('flux-id-credit')) return;
+    forceLoginWrapper(
+      () =>
+        addDialogComponent(
+          'flux-id-credit',
+          <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
+        ),
+      true
+    );
+  },
+  showFluxPlusWarning,
 };
