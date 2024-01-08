@@ -4378,8 +4378,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     recentMenuUpdater.update();
   };
 
-  recentMenuUpdater.update();
-
   /**
    * Create grid array of selected element
    * @param {{dx: number, dy: number}} interval
