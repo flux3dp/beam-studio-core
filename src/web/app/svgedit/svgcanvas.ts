@@ -2743,14 +2743,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Returns:
   // true if the layer's visibility was set, false otherwise
   this.setLayerVisibility = function (layername, bVisible) {
-    var drawing = getCurrentDrawing();
-    var prevVisibility = drawing.getLayerVisibility(layername);
-    var layer = drawing.setLayerVisibility(layername, bVisible);
+    const drawing = getCurrentDrawing();
+    const prevVisibility = drawing.getLayerVisibility(layername);
+    const layer = drawing.setLayerVisibility(layername, bVisible);
+    presprayArea.togglePresprayArea();
     if (layer) {
-      var oldDisplay = prevVisibility ? 'inline' : 'none';
-      addCommandToHistory(new history.ChangeElementCommand(layer, {
-        'display': oldDisplay
-      }, 'Layer Visibility'));
+      const oldDisplay = prevVisibility ? 'inline' : 'none';
+      const cmd = new history.ChangeElementCommand(layer, { 'display': oldDisplay }, 'Layer Visibility');
+      cmd.onAfter = presprayArea.togglePresprayArea;
+      addCommandToHistory(cmd);
     } else {
       return false;
     }
@@ -2759,7 +2760,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       clearSelection();
       pathActions.clear();
     }
-    //		call('changed', [selected]);
     return true;
   };
 
