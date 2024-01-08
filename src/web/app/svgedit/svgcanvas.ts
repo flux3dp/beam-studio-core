@@ -61,6 +61,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import colorConstants from 'app/constants/color-constants';
+import fontHelper from 'implementations/fontHelper';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -91,6 +92,8 @@ import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
 import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import { getCurrentUser } from 'helpers/api/flux-id';
+import { WebFont } from 'interfaces/IFont';
 import PathActions from './operations/pathActions';
 import MouseInteractions from './interaction/mouseInteractions';
 
@@ -2471,6 +2474,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       });
 
+      // Check monotype fonts and load font files
+      if (window.FLUX.version === 'web') {
+        const user = getCurrentUser();
+        content.find('text').each(async function () {
+          const font = fontHelper.findFont({
+            postscriptName: $(this).attr('font-postscript'),
+          }) as WebFont;
+          const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
+          return success;
+        });
+      }
       // For Firefox: Put all paint elems in defs
       if (svgedit.browser.isGecko()) {
         content.find('linearGradient, radialGradient, pattern').appendTo(svgedit.utilities.findDefs());

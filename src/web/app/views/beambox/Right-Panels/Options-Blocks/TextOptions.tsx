@@ -3,6 +3,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { Button, ConfigProvider, Select, Switch } from 'antd';
 
+import FluxIcons from 'app/icons/flux/FluxIcons';
 import fontHelper from 'implementations/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
@@ -17,6 +18,7 @@ import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlo
 import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/StartOffsetBlock';
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { iconButtonTheme, selectTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { isMobile } from 'helpers/system-helper';
@@ -29,6 +31,7 @@ getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
+// TODO: add tests
 interface Props {
   elem: Element;
   textElement: SVGTextElement;
@@ -139,10 +142,16 @@ class TextOptions extends React.Component<Props, State> {
     };
   };
 
-  waitForWebFont = async () => {
+  waitForWebFont = async (fontLoadedPromise?: Promise<void>) => {
     const { elem } = this.props;
-    await progressCaller.openNonstopProgress({ id: 'load-font', caption: 't讀取字體中' });
+    await progressCaller.openNonstopProgress({
+      id: 'load-font',
+      caption: i18n.lang.beambox.right_panel.object_panel.actions_panel.fetching_web_font,
+    });
     await document.fonts.ready;
+    if (fontLoadedPromise) {
+      await fontLoadedPromise;
+    }
     selector.getSelectorManager().resizeSelectors([elem]);
     progressCaller.popById('load-font');
   };
@@ -154,6 +163,11 @@ class TextOptions extends React.Component<Props, State> {
     }
     const { updateDimensionValues, updateObjectPanel, textElement } = this.props;
     const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
+    const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
+      newFont,
+      getCurrentUser()
+    );
+    if (!success) return;
     const batchCmd = new history.BatchCommand('Change Font family');
     let cmd = textEdit.setFontPostscriptName(newFont.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
@@ -173,7 +187,7 @@ class TextOptions extends React.Component<Props, State> {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
     if (window.FLUX.version === 'web') {
-      await this.waitForWebFont();
+      await this.waitForWebFont(fontLoadedPromise);
     }
 
     const newStyle = newFont.style;
@@ -190,7 +204,16 @@ class TextOptions extends React.Component<Props, State> {
     const renderOption = (option) => {
       if (window.FLUX.version === 'web') {
         const src = fontHelper.getWebFontPreviewUrl(option.value);
-        if (src) return <img src={src} alt={option.label} draggable="false" style={{ maxHeight: 20 }}/>;
+        if (src) {
+          return (
+            <div className={styles['family-option']}>
+              <div className={styles['img-container']}>
+                <img src={src} alt={option.label} draggable="false" />
+              </div>
+              {src.includes('monotype') && <FluxIcons.FluxPlus />}
+            </div>
+          );
+        }
       }
       return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 24 }}>{option.label}</div>;
     };
@@ -217,6 +240,7 @@ class TextOptions extends React.Component<Props, State> {
     return (
       <Select
         className={styles['font-family']}
+        popupClassName={styles['font-family-dropdown']}
         title={LANG.font_family}
         value={{ value: fontFamily }}
         options={options}
@@ -235,6 +259,11 @@ class TextOptions extends React.Component<Props, State> {
       family: fontFamily,
       style: val,
     });
+    const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
+      font,
+      getCurrentUser()
+    );
+    if (!success) return;
     const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
@@ -249,7 +278,7 @@ class TextOptions extends React.Component<Props, State> {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
     if (window.FLUX.version === 'web') {
-      await this.waitForWebFont();
+      await this.waitForWebFont(fontLoadedPromise);
     }
 
     updateDimensionValues({ fontStyle: val });

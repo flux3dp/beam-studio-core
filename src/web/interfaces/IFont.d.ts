@@ -1,3 +1,5 @@
+import { IUser } from 'interfaces/IUser';
+
 export interface IFont {
   family?: string,
   postscriptName?: string,
@@ -21,6 +23,11 @@ export interface FontHelper {
   getFontName: (font: FontDescriptor) => string;
   getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
   getWebFontPreviewUrl: (fontFamily: string) => string | null;
+  applyMonotypeStyle: (
+    font: WebFont | IFont,
+    user: IUser | null,
+    silent?: boolean
+  ) => Promise<{ success: boolean; fontLoadedPromise?: Promise<void> }>;
 }
 
 export type FontDescriptorKeys =
@@ -42,12 +49,13 @@ export interface FontDescriptor {
 }
 
 export interface WebFont {
-  family: string,
-  italic: boolean,
-  postscriptName: string,
-  style: string,
-  weight: number,
-  queryString?: string,
-  fileName?: string,
-  supportLangs?: string[],
+  family: string;
+  italic: boolean;
+  postscriptName: string;
+  style: string;
+  weight: number;
+  queryString?: string;
+  fileName?: string;
+  supportLangs?: string[];
+  hasLoaded?: boolean;
 }
