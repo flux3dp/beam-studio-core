@@ -16,10 +16,10 @@ export interface IFontQuery {
 }
 
 export interface FontHelper {
-  findFont: (fontDescriptor: FontDescriptor) => FontDescriptor;
-  findFonts: (fontDescriptor: FontDescriptor) => FontDescriptor[];
-  getAvailableFonts: () => FontDescriptor[];
-  substituteFont: (postscriptName: string, text: string) => FontDescriptor;
+  findFont: (fontDescriptor: FontDescriptor) => Promise<FontDescriptor>;
+  findFonts: (fontDescriptor: FontDescriptor) => Promise<FontDescriptor[]>;
+  getAvailableFonts: () => Promise<FontDescriptor[]>;
+  substituteFont: (postscriptName: string, text: string) => Promise<FontDescriptor>;
   getFontName: (font: FontDescriptor) => string;
   getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
   getWebFontPreviewUrl: (fontFamily: string) => string | null;

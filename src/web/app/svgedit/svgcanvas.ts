@@ -2478,7 +2478,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (window.FLUX.version === 'web') {
         const user = getCurrentUser();
         content.find('text').each(async function () {
-          const font = fontHelper.findFont({
+          const font = await fontHelper.findFont({
             postscriptName: $(this).attr('font-postscript'),
           }) as WebFont;
           const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
