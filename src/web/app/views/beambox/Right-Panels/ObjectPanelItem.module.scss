@@ -117,7 +117,12 @@ div.divider {
     overflow: scroll;
     max-height: 256px;
     &[id='font_family-options'] {
-      width: 256px;
+      > div {
+        padding-right: 10px;
+        > span {
+          width: 100%;
+        }
+      }
     }
   }
   .option {

@@ -70,9 +70,9 @@ if (fontNameMapObj.navigatorLang !== navigator.language) {
   fontNameMapObj = {};
 }
 const fontNameMap = new Map<string, string>();
-const availableFontFamilies = (function requestAvailableFontFamilies() {
+const availableFontFamilies = (async function requestAvailableFontFamilies() {
   // get all available fonts in user PC
-  const fonts = fontHelper.getAvailableFonts();
+  const fonts = await fontHelper.getAvailableFonts();
   fonts.forEach((font) => {
     if (!fontNameMap.get(font.family)) {
       let fontName = font.family;
@@ -112,12 +112,12 @@ fontNameMap.forEach((value: string, key: string) => {
 fontNameMapObj.navigatorLang = navigator.language;
 storage.set('font-name-map', fontNameMapObj);
 
-const getFontOfPostscriptName = memoize((postscriptName) => {
+const getFontOfPostscriptName = memoize(async (postscriptName: string) => {
   if (window.os === 'MacOS') {
-    const font = fontHelper.findFont({ postscriptName });
+    const font = await fontHelper.findFont({ postscriptName });
     return font;
   }
-  const allFonts = fontHelper.getAvailableFonts();
+  const allFonts = await fontHelper.getAvailableFonts();
   const fit = allFonts.filter((f) => f.postscriptName === postscriptName);
   console.log(fit);
   if (fit.length > 0) {
@@ -131,13 +131,13 @@ const init = () => {
 };
 init();
 
-const requestFontsOfTheFontFamily = memoize((family) => {
-  const fonts = fontHelper.findFonts({ family });
+const requestFontsOfTheFontFamily = memoize(async (family: string) => {
+  const fonts = await fontHelper.findFonts({ family });
   return Array.from(fonts);
 });
 
-const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
-  const font = fontHelper.findFont({
+const requestFontByFamilyAndStyle = async (opts: IFontQuery): Promise<IFont> => {
+  const font = await fontHelper.findFont({
     family: opts.family,
     style: opts.style,
     weight: opts.weight,
@@ -146,8 +146,8 @@ const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
   return font;
 };
 
-const substitutedFont = (textElement: Element) => {
-  const originFont = getFontOfPostscriptName(textElement.getAttribute('font-postscript'));
+const substitutedFont = async (textElement: Element) => {
+  const originFont = await getFontOfPostscriptName(textElement.getAttribute('font-postscript'));
   const fontFamily = textElement.getAttribute('font-family');
   const text = textElement.textContent;
 
@@ -177,8 +177,8 @@ const substitutedFont = (textElement: Element) => {
   const originPostscriptName = originFont.postscriptName;
   const unsupportedChar = [];
   const fontOptions: { [postscriptName: string]: FontDescriptor } = {};
-  Array.from(text).forEach((char) => {
-    const sub = fontHelper.substituteFont(originPostscriptName, char);
+  Array.from(text).forEach(async (char) => {
+    const sub = await fontHelper.substituteFont(originPostscriptName, char);
     if (sub.postscriptName !== originPostscriptName) unsupportedChar.push(char);
     if (!fontOptions[sub.postscriptName]) fontOptions[sub.postscriptName] = sub;
   });
@@ -194,7 +194,8 @@ const substitutedFont = (textElement: Element) => {
   for (let i = 0; i < fontList.length; i += 1) {
     let allFit = true;
     for (let j = 0; j < text.length; j += 1) {
-      const foundfont = fontHelper.substituteFont(fontList[i].postscriptName, text[j]);
+      // eslint-disable-next-line no-await-in-loop
+      const foundfont = await fontHelper.substituteFont(fontList[i].postscriptName, text[j]);
       if (fontList[i].postscriptName !== foundfont.postscriptName) {
         allFit = false;
         break;
@@ -257,9 +258,9 @@ const calculateFilled = (textElement: Element) => {
   return false;
 };
 
-const setTextPostscriptnameIfNeeded = (textElement: Element) => {
+const setTextPostscriptnameIfNeeded = async (textElement: Element) => {
   if (!textElement.getAttribute('font-postscript')) {
-    const font = requestFontByFamilyAndStyle({
+    const font = await requestFontByFamilyAndStyle({
       family: textElement.getAttribute('font-family'),
       weight: parseInt(textElement.getAttribute('font-weight'), 10),
       italic: textElement.getAttribute('font-style') === 'italic',
@@ -298,13 +299,13 @@ const convertTextToPath = async (
   await Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
   const { isTempConvert, weldingTexts } = opts || { isTempConvert: false, weldingTexts: false };
 
-  setTextPostscriptnameIfNeeded(textElement);
+  await setTextPostscriptnameIfNeeded(textElement);
   let hasUnsupportedFont = false;
   const batchCmd = new history.BatchCommand('Text to Path');
   const origFontFamily = textElement.getAttribute('font-family');
   const origFontPostscriptName = textElement.getAttribute('font-postscript');
   if (BeamboxPreference.read('font-substitute') !== false) {
-    const { font: newFont, unsupportedChar } = substitutedFont(textElement);
+    const { font: newFont, unsupportedChar } = await substitutedFont(textElement);
     if (
       newFont.postscriptName !== origFontPostscriptName &&
       unsupportedChar &&
