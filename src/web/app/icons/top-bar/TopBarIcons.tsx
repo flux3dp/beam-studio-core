@@ -1,3 +1,4 @@
+import Account from './account.svg';
 import Camera from './camera.svg';
 import Frame from './frame.svg';
 import Go from './go.svg';
@@ -8,6 +9,7 @@ import Trash from './trash.svg';
 import Undo from './undo.svg';
 
 export default {
+  Account,
   Camera,
   Frame,
   Go,
