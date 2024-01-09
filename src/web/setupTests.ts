@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-extraneous-dependencies */
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
-import Adapter from 'enzyme-adapter-react-16';
-import { configure } from 'enzyme';
 import $ from 'jquery';
 import { enableFetchMocks } from 'jest-fetch-mock';
+import { TextEncoder } from 'util';
 
 declare global {
   interface Window {
@@ -39,7 +39,6 @@ declare global {
 
 window.$ = $;
 enableFetchMocks();
-configure({ adapter: new Adapter() });
 Object.defineProperty(window, 'os', {
   value: '',
   writable: true,
@@ -81,9 +80,13 @@ if (!window.matchMedia) {
     }),
   });
 }
+if (typeof global.TextEncoder === 'undefined') {
+  global.TextEncoder = TextEncoder;
+}
 
 const antdCssDevOnlyRegex = /css-dev-only-do-not-override-([A-Za-z0-9]*)/g;
 expect.addSnapshotSerializer({
   test: (val) => typeof val === 'string' && !!val.match(antdCssDevOnlyRegex),
-  print: (val: string) => `"${val.replace(antdCssDevOnlyRegex, 'css-dev-only-do-not-override-hash')}"`,
+  print: (val: string) =>
+    `"${val.replace(antdCssDevOnlyRegex, 'css-dev-only-do-not-override-hash')}"`,
 });
