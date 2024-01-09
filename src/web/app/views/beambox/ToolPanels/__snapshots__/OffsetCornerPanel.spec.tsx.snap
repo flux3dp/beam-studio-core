@@ -1,160 +1,157 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<div
-  className="tool-panel"
->
-  <label
-    className="controls accordion"
+<div>
+  <div
+    class="tool-panel"
   >
-    <input
-      className="accordion-switcher"
-      defaultChecked={true}
-      type="checkbox"
-    />
-    <p
-      className="caption"
-      onClick={[Function]}
+    <label
+      class="controls accordion"
     >
-      Corner
-      <span
-        className="value"
+      <input
+        checked=""
+        class="accordion-switcher"
+        type="checkbox"
+      />
+      <p
+        class="caption"
       >
-        Sharp
-      </span>
-    </p>
-    <div
-      className="tool-panel-body"
-    >
+        Corner
+        <span
+          class="value"
+        >
+          Sharp
+        </span>
+      </p>
       <div
-        className="control offset-corner"
+        class="tool-panel-body"
       >
-        <Select
-          id="select-offset-corner"
-          onChange={[Function]}
-          options={
-            [
-              {
-                "label": "Sharp",
-                "selected": true,
-                "value": "sharp",
-              },
-              {
-                "label": "Round",
-                "selected": false,
-                "value": "round",
-              },
-            ]
-          }
-        />
+        <div
+          class="control offset-corner"
+        >
+          <select
+            id="select-offset-corner"
+          >
+            <option
+              label="Sharp"
+              value="sharp"
+            >
+              Sharp
+            </option>
+            <option
+              label="Round"
+              value="round"
+            >
+              Round
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
-  </label>
+    </label>
+  </div>
 </div>
 `;
 
 exports[`should render correctly 2`] = `
-<div
-  className="tool-panel"
->
-  <label
-    className="controls accordion"
+<div>
+  <div
+    class="tool-panel"
   >
-    <input
-      className="accordion-switcher"
-      defaultChecked={true}
-      type="checkbox"
-    />
-    <p
-      className="caption"
-      onClick={[Function]}
+    <label
+      class="controls accordion"
     >
-      Corner
-      <span
-        className="value"
+      <input
+        checked=""
+        class="accordion-switcher"
+        type="checkbox"
+      />
+      <p
+        class="caption"
       >
-        Sharp
-      </span>
-    </p>
-    <div
-      className="tool-panel-body collapsed"
-    >
+        Corner
+        <span
+          class="value"
+        >
+          Sharp
+        </span>
+      </p>
       <div
-        className="control offset-corner"
+        class="tool-panel-body collapsed"
       >
-        <Select
-          id="select-offset-corner"
-          onChange={[Function]}
-          options={
-            [
-              {
-                "label": "Sharp",
-                "selected": true,
-                "value": "sharp",
-              },
-              {
-                "label": "Round",
-                "selected": false,
-                "value": "round",
-              },
-            ]
-          }
-        />
+        <div
+          class="control offset-corner"
+        >
+          <select
+            id="select-offset-corner"
+          >
+            <option
+              label="Sharp"
+              value="sharp"
+            >
+              Sharp
+            </option>
+            <option
+              label="Round"
+              value="round"
+            >
+              Round
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
-  </label>
+    </label>
+  </div>
 </div>
 `;
 
 exports[`should render correctly 3`] = `
-<div
-  className="tool-panel"
->
-  <label
-    className="controls accordion"
+<div>
+  <div
+    class="tool-panel"
   >
-    <input
-      className="accordion-switcher"
-      defaultChecked={true}
-      type="checkbox"
-    />
-    <p
-      className="caption"
-      onClick={[Function]}
+    <label
+      class="controls accordion"
     >
-      Corner
-      <span
-        className="value"
+      <input
+        checked=""
+        class="accordion-switcher"
+        type="checkbox"
+      />
+      <p
+        class="caption"
       >
-        Round
-      </span>
-    </p>
-    <div
-      className="tool-panel-body collapsed"
-    >
+        Corner
+        <span
+          class="value"
+        >
+          Round
+        </span>
+      </p>
       <div
-        className="control offset-corner"
+        class="tool-panel-body collapsed"
       >
-        <Select
-          id="select-offset-corner"
-          onChange={[Function]}
-          options={
-            [
-              {
-                "label": "Sharp",
-                "selected": false,
-                "value": "sharp",
-              },
-              {
-                "label": "Round",
-                "selected": true,
-                "value": "round",
-              },
-            ]
-          }
-        />
+        <div
+          class="control offset-corner"
+        >
+          <select
+            id="select-offset-corner"
+          >
+            <option
+              label="Sharp"
+              value="sharp"
+            >
+              Sharp
+            </option>
+            <option
+              label="Round"
+              value="round"
+            >
+              Round
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
-  </label>
+    </label>
+  </div>
 </div>
 `;

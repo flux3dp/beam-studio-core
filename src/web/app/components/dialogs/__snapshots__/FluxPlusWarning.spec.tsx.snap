@@ -25,7 +25,6 @@ exports[`test FluxPlusWarning access monotype feature 1`] = `
           <span>
             Get Add-on
           </span>
-          
         </button>
         <button
           class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
@@ -34,7 +33,6 @@ exports[`test FluxPlusWarning access monotype feature 1`] = `
           <span>
             Sign In
           </span>
-          
         </button>
       </div>
       <div
@@ -76,7 +74,6 @@ exports[`test FluxPlusWarning should render correctly 1`] = `
           <span>
             Learn More
           </span>
-          
         </button>
         <button
           class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
@@ -85,7 +82,6 @@ exports[`test FluxPlusWarning should render correctly 1`] = `
           <span>
             Sign In
           </span>
-          
         </button>
       </div>
       <div
@@ -127,7 +123,6 @@ exports[`test FluxPlusWarning with user 1`] = `
           <span>
             Learn More
           </span>
-          
         </button>
       </div>
       <div

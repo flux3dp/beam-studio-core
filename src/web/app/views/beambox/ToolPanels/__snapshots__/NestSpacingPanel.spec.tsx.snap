@@ -1,163 +1,148 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly default unit is inches 1`] = `
-<div
-  className="tool-panel"
->
-  <label
-    className="controls accordion"
+<div>
+  <div
+    class="tool-panel"
   >
-    <input
-      className="accordion-switcher"
-      defaultChecked={true}
-      type="checkbox"
-    />
-    <p
-      className="caption"
-    >
-      Spacing
-      <span
-        className="value"
-      >
-        3.937"
-      </span>
-    </p>
     <label
-      className="accordion-body"
+      class="controls accordion"
     >
-      <div>
-        <div
-          className="control nest-spacing"
+      <input
+        checked=""
+        class="accordion-switcher"
+        type="checkbox"
+      />
+      <p
+        class="caption"
+      >
+        Spacing
+        <span
+          class="value"
         >
-          <UnitInput
-            abbr={false}
-            className={{}}
-            defaultValue={100}
-            disabled={false}
-            displayMultiValue={false}
-            forceUsePropsUnit={false}
-            getValue={[Function]}
-            isDoOnInput={false}
-            max={9007199254740991}
-            min={0}
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onKeyUp={[Function]}
-            step={1}
-            type="text"
-            unit="mm"
-          />
+          3.937"
+        </span>
+      </p>
+      <label
+        class="accordion-body"
+      >
+        <div>
+          <div
+            class="control nest-spacing"
+          >
+            <div>
+              mock-unit-input min:
+              0
+              unit:
+              mm
+              defaultValue:
+              100
+              <input
+                class="unit-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </label>
     </label>
-  </label>
+  </div>
 </div>
 `;
 
 exports[`should render correctly default unit is inches 2`] = `
-<div
-  className="tool-panel"
->
-  <label
-    className="controls accordion"
+<div>
+  <div
+    class="tool-panel"
   >
-    <input
-      className="accordion-switcher"
-      defaultChecked={true}
-      type="checkbox"
-    />
-    <p
-      className="caption"
-    >
-      Spacing
-      <span
-        className="value"
-      >
-        1.969"
-      </span>
-    </p>
     <label
-      className="accordion-body"
+      class="controls accordion"
     >
-      <div>
-        <div
-          className="control nest-spacing"
+      <input
+        checked=""
+        class="accordion-switcher"
+        type="checkbox"
+      />
+      <p
+        class="caption"
+      >
+        Spacing
+        <span
+          class="value"
         >
-          <UnitInput
-            abbr={false}
-            className={{}}
-            defaultValue={50}
-            disabled={false}
-            displayMultiValue={false}
-            forceUsePropsUnit={false}
-            getValue={[Function]}
-            isDoOnInput={false}
-            max={9007199254740991}
-            min={0}
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onKeyUp={[Function]}
-            step={1}
-            type="text"
-            unit="mm"
-          />
+          1.969"
+        </span>
+      </p>
+      <label
+        class="accordion-body"
+      >
+        <div>
+          <div
+            class="control nest-spacing"
+          >
+            <div>
+              mock-unit-input min:
+              0
+              unit:
+              mm
+              defaultValue:
+              50
+              <input
+                class="unit-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </label>
     </label>
-  </label>
+  </div>
 </div>
 `;
 
 exports[`should render correctly default unit is mm 1`] = `
-<div
-  className="tool-panel"
->
-  <label
-    className="controls accordion"
+<div>
+  <div
+    class="tool-panel"
   >
-    <input
-      className="accordion-switcher"
-      defaultChecked={true}
-      type="checkbox"
-    />
-    <p
-      className="caption"
-    >
-      Spacing
-      <span
-        className="value"
-      >
-        100 mm
-      </span>
-    </p>
     <label
-      className="accordion-body"
+      class="controls accordion"
     >
-      <div>
-        <div
-          className="control nest-spacing"
+      <input
+        checked=""
+        class="accordion-switcher"
+        type="checkbox"
+      />
+      <p
+        class="caption"
+      >
+        Spacing
+        <span
+          class="value"
         >
-          <UnitInput
-            abbr={false}
-            className={{}}
-            defaultValue={100}
-            disabled={false}
-            displayMultiValue={false}
-            forceUsePropsUnit={false}
-            getValue={[Function]}
-            isDoOnInput={false}
-            max={9007199254740991}
-            min={0}
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onKeyUp={[Function]}
-            step={1}
-            type="text"
-            unit="mm"
-          />
+          100 mm
+        </span>
+      </p>
+      <label
+        class="accordion-body"
+      >
+        <div>
+          <div
+            class="control nest-spacing"
+          >
+            <div>
+              mock-unit-input min:
+              0
+              unit:
+              mm
+              defaultValue:
+              100
+              <input
+                class="unit-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </label>
     </label>
-  </label>
+  </div>
 </div>
 `;

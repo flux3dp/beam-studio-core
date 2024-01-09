@@ -1,137 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly desktop version 1`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [],
-    }
-  }
->
-  <Children />
-</ContextProvider>
-`;
+exports[`should render correctly desktop version 1`] = `<div />`;
 
 exports[`should render correctly desktop version 2`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [
-        {
-          "component": <div>
-            Hello World
-          </div>,
-          "id": "12345",
-        },
-        {
-          "component": <span>
-            Hello Flux
-          </span>,
-          "id": "67890",
-        },
-        {
-          "component": <span>
-            Flux Login
-          </span>,
-          "id": "flux-id-login",
-        },
-      ],
-    }
-  }
->
-  <Children />
-</ContextProvider>
+<div>
+  <div
+    id="12345"
+  >
+    <div>
+      Hello World
+    </div>
+  </div>
+  <div
+    id="67890"
+  >
+    <span>
+      Hello Flux
+    </span>
+  </div>
+  <div
+    id="flux-id-login"
+  >
+    <span>
+      Flux Login
+    </span>
+  </div>
+</div>
 `;
 
 exports[`should render correctly desktop version 3`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [
-        {
-          "component": <div>
-            Hello World
-          </div>,
-          "id": "12345",
-        },
-        {
-          "component": <span>
-            Flux Login
-          </span>,
-          "id": "flux-id-login",
-        },
-      ],
-    }
-  }
->
-  <Children />
-</ContextProvider>
+<div>
+  <div
+    id="12345"
+  >
+    <div>
+      Hello World
+    </div>
+  </div>
+  <div
+    id="flux-id-login"
+  >
+    <span>
+      Flux Login
+    </span>
+  </div>
+</div>
 `;
 
 exports[`should render correctly desktop version 4`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [
-        {
-          "component": <div>
-            Hello World
-          </div>,
-          "id": "12345",
-        },
-        {
-          "component": <span>
-            Flux Login
-          </span>,
-          "id": "flux-id-login",
-        },
-      ],
-    }
-  }
->
-  <Children />
-</ContextProvider>
+<div>
+  <div
+    id="12345"
+  >
+    <div>
+      Hello World
+    </div>
+  </div>
+  <div
+    id="flux-id-login"
+  >
+    <span>
+      Flux Login
+    </span>
+  </div>
+</div>
 `;
 
-exports[`should render correctly desktop version 5`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [],
-    }
-  }
->
-  <Children />
-</ContextProvider>
-`;
+exports[`should render correctly desktop version 5`] = `<div />`;
 
 exports[`should render correctly web version 1`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [
-        {
-          "component": <span>
-            Flux Login
-          </span>,
-          "id": "flux-id-login",
-        },
-      ],
-    }
-  }
->
-  <Children />
-</ContextProvider>
+<div>
+  <div
+    id="flux-id-login"
+  >
+    <span>
+      Flux Login
+    </span>
+  </div>
+</div>
 `;
 
-exports[`should render correctly web version 2`] = `
-<ContextProvider
-  value={
-    {
-      "dialogComponents": [],
-    }
-  }
->
-  <Children />
-</ContextProvider>
-`;
+exports[`should render correctly web version 2`] = `<div />`;

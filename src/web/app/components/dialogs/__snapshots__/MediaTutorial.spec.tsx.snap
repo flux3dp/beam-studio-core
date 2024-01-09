@@ -93,7 +93,6 @@ exports[`should MediaTutorial cancel button should work 1`] = `
                 <span>
                   NEXT
                 </span>
-                
               </button>
             </div>
           </div>
@@ -202,7 +201,6 @@ exports[`should MediaTutorial next step should work 1`] = `
                 <span>
                   NEXT
                 </span>
-                
               </button>
             </div>
           </div>
@@ -311,7 +309,6 @@ exports[`should MediaTutorial next step should work 2`] = `
                 <span>
                   BACK
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -320,7 +317,6 @@ exports[`should MediaTutorial next step should work 2`] = `
                 <span>
                   NEXT
                 </span>
-                
               </button>
             </div>
           </div>
@@ -429,7 +425,6 @@ exports[`should MediaTutorial next step should work 3`] = `
                 <span>
                   NEXT
                 </span>
-                
               </button>
             </div>
           </div>
@@ -538,7 +533,6 @@ exports[`should MediaTutorial next step should work 4`] = `
                 <span>
                   BACK
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -547,7 +541,6 @@ exports[`should MediaTutorial next step should work 4`] = `
                 <span>
                   NEXT
                 </span>
-                
               </button>
             </div>
           </div>
@@ -667,7 +660,6 @@ exports[`should MediaTutorial next step should work 5`] = `
                 <span>
                   BACK
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -676,7 +668,6 @@ exports[`should MediaTutorial next step should work 5`] = `
                 <span>
                   DONE
                 </span>
-                
               </button>
             </div>
           </div>

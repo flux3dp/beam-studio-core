@@ -1,35 +1,35 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React, { useContext } from 'react';
+import { act } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-import { RightPanelContextProvider } from './RightPanelContext';
+import { RightPanelContext, RightPanelContextProvider } from './RightPanelContext';
+
+const MockChild = () => {
+  const { mode } = useContext(RightPanelContext);
+  return <div>{mode}</div>;
+};
 
 test('should render correctly', () => {
   const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
-  const wrapper = shallow(
+  const { container, unmount } = render(
     <RightPanelContextProvider>
-      <></>
-    </RightPanelContextProvider>,
+      <MockChild />
+    </RightPanelContextProvider>
   );
 
-  expect(wrapper.state()).toEqual({
-    mode: 'element',
-  });
+  expect(container).toHaveTextContent('element');
   expect(rightPanelEventEmitter.eventNames().length).toBe(1);
 
-  rightPanelEventEmitter.emit('SET_MODE', 'path-edit');
-  expect(wrapper.state()).toEqual({
-    mode: 'path-edit',
-  });
-  rightPanelEventEmitter.emit('SET_MODE', 'element');
-  expect(wrapper.state()).toEqual({
-    mode: 'element',
-  });
-  const setState = jest.spyOn(wrapper.instance(), 'setState');
-  rightPanelEventEmitter.emit('SET_MODE', 'element');
+  act(() => rightPanelEventEmitter.emit('SET_MODE', 'path-edit'));
+  expect(container).toHaveTextContent('path-edit');
+  act(() => rightPanelEventEmitter.emit('SET_MODE', 'element'));
+  expect(container).toHaveTextContent('element');
+  const setState = jest.spyOn(RightPanelContextProvider.prototype, 'setState');
+  act(() => rightPanelEventEmitter.emit('SET_MODE', 'element'));
   expect(setState).not.toHaveBeenCalled();
 
-  wrapper.unmount();
+  unmount();
   expect(rightPanelEventEmitter.eventNames().length).toBe(0);
 });

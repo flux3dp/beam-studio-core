@@ -1,26 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<Dialog
-  className="flux"
->
+<div>
   <div
-    className="dialog-container flux"
+    class="dialog-container flux"
   >
-    <ComponentWrapper
-      key="0"
-    >
-      <div>
-        Hello World
-      </div>
-    </ComponentWrapper>
-    <ComponentWrapper
-      key="1"
-    >
-      <span>
-        Hello Flux
-      </span>
-    </ComponentWrapper>
+    <div>
+      Hello World
+    </div>
+    <span>
+      Hello Flux
+    </span>
   </div>
-</Dialog>
+</div>
 `;

@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -21,21 +20,18 @@ import OffsetDirectionPanel from './OffsetDirectionPanel';
 
 test('should render correctly', () => {
   const onValueChange = jest.fn();
-  const wrapper = shallow(<OffsetDirectionPanel
-    dir={1}
-    onValueChange={onValueChange}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container } = render(<OffsetDirectionPanel dir={1} onValueChange={onValueChange} />);
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('p.caption').simulate('click');
-  expect(toJson(wrapper)).toMatchSnapshot();
+  fireEvent.click(container.querySelector('p.caption'));
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('Select').props().onChange({
+  fireEvent.change(container.querySelector('select'), {
     target: {
       value: 0,
     },
   });
   expect(onValueChange).toHaveBeenCalledTimes(1);
   expect(onValueChange).toHaveBeenNthCalledWith(1, 0);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });

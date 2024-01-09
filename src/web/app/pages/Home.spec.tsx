@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import classNames from 'classnames';
+import React from 'react';
+import { render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   getActiveLang: () => 'en',
@@ -17,10 +17,14 @@ jest.mock('implementations/menu', () => ({
   updateLanguage: jest.fn(),
 }));
 
+jest.mock('app/widgets/Modal', () => ({ className, content }: any) => (
+  <div className={classNames(className)}>{content}</div>
+));
+
 // eslint-disable-next-line import/first
 import Home from './Home';
 
 test('should render correctly', () => {
-  const wrapper = shallow(<Home />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container } = render(<Home />);
+  expect(container).toMatchSnapshot();
 });

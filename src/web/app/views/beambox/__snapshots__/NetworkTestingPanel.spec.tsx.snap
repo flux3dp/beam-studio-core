@@ -154,7 +154,6 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                   <span>
                     End
                   </span>
-                  
                 </button>
                 <button
                   class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -163,7 +162,6 @@ exports[`test NetworkTestingPanel should render correctly 1`] = `
                   <span>
                     Start
                   </span>
-                  
                 </button>
               </div>
             </div>
