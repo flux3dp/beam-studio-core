@@ -23,6 +23,7 @@ import SelectMachineButton from 'app/components/beambox/top-bar/SelectMachineBut
 import showResizeAlert from 'helpers/device/fit-device-workarea-alert';
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
+import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -73,11 +74,8 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   }
 
   componentDidUpdate(): void {
-    const {
-      setShouldStartPreviewController,
-      shouldStartPreviewController,
-      setSetupPreviewMode
-    } = this.context;
+    const { setShouldStartPreviewController, shouldStartPreviewController, setSetupPreviewMode } =
+      this.context;
     setSetupPreviewMode(() => this.setupPreviewMode);
     if (shouldStartPreviewController) {
       this.setupPreviewMode();
@@ -206,13 +204,14 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.context;
     const { hasDiscoverdMachine } = this.state;
-    const { isPreviewing, fileName, hasUnsavedChange } = this.context;
+    const { isPreviewing, fileName, hasUnsavedChange, currentUser } = this.context;
     return (
       <div
         className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
         <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
+        <UserAvatar user={currentUser} />
         <PreviewButton />
         <div className={styles.right}>
           <SelectMachineButton />
