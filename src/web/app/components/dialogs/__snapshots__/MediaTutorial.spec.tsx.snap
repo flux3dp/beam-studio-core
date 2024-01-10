@@ -787,7 +787,6 @@ exports[`should MediaTutorial next step should work 6`] = `
                 <span>
                   BACK
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -796,7 +795,6 @@ exports[`should MediaTutorial next step should work 6`] = `
                 <span>
                   DONE
                 </span>
-                
               </button>
             </div>
           </div>

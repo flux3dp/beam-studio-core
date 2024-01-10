@@ -53,21 +53,9 @@ describe('should MediaTutorial', () => {
     fireEvent.click(getByText('NEXT'));
     expect(mockMediaLoad).toHaveBeenCalledTimes(0);
     expect(baseElement).toMatchSnapshot();
-    /* eslint-disable no-console */
-    // https://github.com/testing-library/react-testing-library/issues/470
-    const originalError = console.error;
-    const error = jest.fn();
-    console.error = error;
     fireEvent.click(getByText('NEXT'));
     expect(mockMediaLoad).toHaveBeenCalledTimes(1);
     expect(baseElement).toMatchSnapshot();
-    expect(error).toHaveBeenCalledTimes(1);
-    expect(error).toHaveBeenCalledWith(
-      'Warning: unstable_flushDiscreteUpdates: Cannot flush updates when React is already rendering.%s',
-      expect.any(String)
-    );
-    console.error = originalError;
-    /* eslint-enable no-console */
     fireEvent.click(getByText('DONE'));
     expect(mockOnClose).toBeCalledTimes(1);
     expect(baseElement).toMatchSnapshot();

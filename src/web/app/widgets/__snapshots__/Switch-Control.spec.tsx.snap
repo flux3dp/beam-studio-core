@@ -1,194 +1,154 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test Switch-Control should render correctly 1`] = `
-<SwitchControl
-  default={true}
-  id="abc"
-  label="Work Area"
-  name="rotary_mode"
-  offText="Disable"
-  onChange={[MockFunction]}
-  onText="Enable"
->
+<div>
   <div
-    className="controls"
+    class="controls"
     data-name="abc"
   >
     <div
-      className="label pull-left"
+      class="label pull-left"
     >
       Work Area
     </div>
     <div
-      className="control"
+      class="control"
     >
       <div
-        className="switch-container"
+        class="switch-container"
       >
         <div
-          className="switch-status"
+          class="switch-status"
         >
           Enable
         </div>
         <div
-          className="onoffswitch"
+          class="onoffswitch"
           data-name="rotary_mode"
         >
           <input
-            checked={true}
-            className="onoffswitch-checkbox"
+            checked=""
+            class="onoffswitch-checkbox"
             id="abc"
             name="onoffswitch"
-            onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="onoffswitch-label"
-            htmlFor="abc"
+            class="onoffswitch-label"
+            for="abc"
           >
             <span
-              className="onoffswitch-inner"
+              class="onoffswitch-inner"
             />
             <span
-              className="onoffswitch-switch"
+              class="onoffswitch-switch"
             />
           </label>
         </div>
       </div>
     </div>
   </div>
-</SwitchControl>
+</div>
 `;
 
 exports[`test Switch-Control should render correctly 2`] = `
-<SwitchControl
-  default={true}
-  id="abc"
-  label="Work Area"
-  name="rotary_mode"
-  offText="Disable"
-  onChange={
-    [MockFunction] {
-      "calls": [
-        [
-          false,
-        ],
-      ],
-      "results": [
-        {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
-  onText="Enable"
->
+<div>
   <div
-    className="controls"
+    class="controls"
     data-name="abc"
   >
     <div
-      className="label pull-left"
+      class="label pull-left"
     >
       Work Area
     </div>
     <div
-      className="control"
+      class="control"
     >
       <div
-        className="switch-container"
+        class="switch-container"
       >
         <div
-          className="switch-status"
+          class="switch-status"
         >
           Disable
         </div>
         <div
-          className="onoffswitch"
+          class="onoffswitch"
           data-name="rotary_mode"
         >
           <input
-            checked={false}
-            className="onoffswitch-checkbox"
+            checked=""
+            class="onoffswitch-checkbox"
             id="abc"
             name="onoffswitch"
-            onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="onoffswitch-label"
-            htmlFor="abc"
+            class="onoffswitch-label"
+            for="abc"
           >
             <span
-              className="onoffswitch-inner"
+              class="onoffswitch-inner"
             />
             <span
-              className="onoffswitch-switch"
+              class="onoffswitch-switch"
             />
           </label>
         </div>
       </div>
     </div>
   </div>
-</SwitchControl>
+</div>
 `;
 
 exports[`test Switch-Control should render correctly if disabled 1`] = `
-<SwitchControl
-  default={true}
-  id="abc"
-  isDisabled={true}
-  label="Work Area"
-  name="rotary_mode"
-  onChange={[MockFunction]}
->
+<div>
   <div
-    className="controls disabled"
+    class="controls disabled"
     data-name="abc"
   >
     <div
-      className="label pull-left"
+      class="label pull-left"
     >
       Work Area
     </div>
     <div
-      className="control"
+      class="control"
     >
       <div
-        className="switch-container"
+        class="switch-container"
       >
         <div
-          className="switch-status"
+          class="switch-status"
         >
           ON
         </div>
         <div
-          className="onoffswitch"
+          class="onoffswitch"
           data-name="rotary_mode"
         >
           <input
-            checked={true}
-            className="onoffswitch-checkbox"
+            checked=""
+            class="onoffswitch-checkbox"
             id="abc"
             name="onoffswitch"
-            onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="onoffswitch-label"
-            htmlFor="abc"
+            class="onoffswitch-label"
+            for="abc"
           >
             <span
-              className="onoffswitch-inner"
+              class="onoffswitch-inner"
             />
             <span
-              className="onoffswitch-switch"
+              class="onoffswitch-switch"
             />
           </label>
         </div>
       </div>
     </div>
   </div>
-</SwitchControl>
+</div>
 `;
