@@ -611,6 +611,7 @@ export interface ILang {
         choose_camera: string,
         live_feed: string;
         adjust_height: string;
+        boxgen: string;
       },
     },
     right_panel: {
@@ -1578,5 +1579,39 @@ export interface ILang {
       performIRCaliTitle: string;
       performIRCaliMsg: string;
     };
-  },
+  };
+  boxgen: {
+    back: string;
+    title: string;
+    basic_box: string;
+    coming_soon: string;
+    workarea: string;
+    max_dimension_tooltip: string;
+    volume: string;
+    outer: string;
+    inner: string;
+    width: string;
+    height: string;
+    depth: string;
+    cover: string;
+    thickness: string;
+    add_option: string;
+    joints: string;
+    finger: string;
+    tSlot: string;
+    edge: string;
+    tCount: string;
+    tDiameter: string;
+    tLength: string;
+    continue_export: string;
+    customize: string;
+    merge: string;
+    textLabel: string;
+    export: string;
+    cancel: string;
+    reset: string;
+    zoom: string;
+    control_tooltip: string;
+    control_tooltip_touch: string;
+  };
 }

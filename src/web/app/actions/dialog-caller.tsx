@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import Boxgen from 'app/components/boxgen/Boxgen';
 import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
@@ -25,6 +26,7 @@ import RadioSelectDialog from 'app/components/dialogs/RadioSelectDialog';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationParameters3DPanel';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
+import shortcuts from 'helpers/shortcuts';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
 import { AlertConfigKey } from 'helpers/api/alert-config';
@@ -478,4 +480,23 @@ export default {
     );
   },
   showFluxPlusWarning,
+  showBoxGen: (onClose: () => void): void => {
+    if (isIdExist('box-gen')) return;
+    const user = getCurrentUser();
+    if (!user?.info?.subscription?.is_valid) {
+      showFluxPlusWarning();
+    } else {
+      shortcuts.pauseAll();
+      addDialogComponent(
+        'box-gen',
+        <Boxgen
+          onClose={() => {
+            shortcuts.initialize();
+            onClose();
+            popDialogById('box-gen');
+          }}
+        />
+      );
+    }
+  },
 };
