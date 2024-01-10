@@ -477,13 +477,13 @@ class DeviceMaster {
   }
 
   // Calibration and Machine test functions
-  async waitTillCompleted() {
+  async waitTillCompleted(onProgress?: (number) => void) {
     return new Promise((resolve, reject) => {
       const controlSocket = this.currentDevice.control;
       let statusChanged = false;
       const statusCheckInterval = setInterval(async () => {
         const r = await controlSocket.addTask(controlSocket.report);
-        const { st_id: stId, error } = r.device_status;
+        const { st_id: stId, error, prog } = r.device_status;
         if (stId === 64) {
           clearInterval(statusCheckInterval);
           await new Promise((resolve2) => setTimeout(resolve2, 2000));
@@ -509,6 +509,7 @@ class DeviceMaster {
           }
         } else {
           statusChanged = true;
+          if (prog) onProgress?.(prog);
         }
       }, 2000);
     });
@@ -532,25 +533,14 @@ class DeviceMaster {
       id: 'camera-cali-task',
       message: lang.calibration.drawing_calibration_image,
     });
-    const taskTotalSecs = 30;
-    let elapsedSecs = 0;
-    const progressUpdateTimer = setInterval(() => {
-      elapsedSecs += 0.1;
-      if (elapsedSecs > taskTotalSecs) {
-        clearInterval(progressUpdateTimer);
-        return;
-      }
-      Progress.update('camera-cali-task', {
-        percentage: (elapsedSecs / taskTotalSecs) * 100,
-      });
-    }, 100);
+    const onProgress = (progress: number) => Progress.update('camera-cali-task', {
+      percentage: Math.round(progress * 100),
+    });
 
     try {
-      await this.waitTillCompleted();
-      clearInterval(progressUpdateTimer);
+      await this.waitTillCompleted(onProgress);
       Progress.popById('camera-cali-task');
     } catch (err) {
-      clearInterval(progressUpdateTimer);
       Progress.popById('camera-cali-task');
       throw err; // Error while running test
     }
@@ -573,31 +563,20 @@ class DeviceMaster {
     }
 
     Progress.openSteppingProgress({ id: 'diode-cali-task', message: lang.calibration.drawing_calibration_image });
-    const taskTotalSecs = 35;
-    let elapsedSecs = 0;
-    const progressUpdateTimer = setInterval(() => {
-      elapsedSecs += 0.1;
-      if (elapsedSecs > taskTotalSecs) {
-        clearInterval(progressUpdateTimer);
-        return;
-      }
-      Progress.update('diode-cali-task', {
-        percentage: (elapsedSecs / taskTotalSecs) * 100,
-      });
-    }, 100);
+    const onProgress = (progress: number) => Progress.update('diode-cali-task', {
+      percentage: Math.round(progress * 100),
+    });
 
     try {
-      await this.waitTillCompleted();
-      clearInterval(progressUpdateTimer);
+      await this.waitTillCompleted(onProgress);
       Progress.popById('diode-cali-task');
     } catch (err) { // Error while running test
-      clearInterval(progressUpdateTimer);
       Progress.popById('diode-cali-task');
       throw err;
     }
   }
 
-  doCalibration = async (fcodeBase64: string, estTime: number) => {
+  doCalibration = async (fcodeBase64: string) => {
     const vc = VersionChecker(this.currentDevice.info.version);
     const res = await fetch(fcodeBase64);
     const blob = await res.blob();
@@ -621,39 +600,28 @@ class DeviceMaster {
       id: 'cali-task',
       message: lang.calibration.drawing_calibration_image,
     });
-    let elapsedSecs = 0;
-    const progressUpdateTimer = setInterval(() => {
-      elapsedSecs += 0.1;
-      if (elapsedSecs > estTime) {
-        clearInterval(progressUpdateTimer);
-        return;
-      }
-      Progress.update('cali-task', {
-        percentage: (elapsedSecs / estTime) * 100,
-      });
-    }, 100);
-
+    const onProgress = (progress: number) => Progress.update('cali-task', {
+      percentage: Math.round(progress * 100),
+    });
     try {
-      await this.waitTillCompleted();
-      clearInterval(progressUpdateTimer);
+      await this.waitTillCompleted(onProgress);
       Progress.popById('cali-task');
     } catch (err) {
-      clearInterval(progressUpdateTimer);
       Progress.popById('cali-task');
       throw err; // Error while running test
     }
   }
 
   async doAdorCalibrationCut() {
-    await this.doCalibration(DeviceConstants.ADOR_CALIBRATION, 10);
+    await this.doCalibration(DeviceConstants.ADOR_CALIBRATION);
   }
 
   async doAdorPrinterCalibration() {
-    await this.doCalibration(DeviceConstants.ADOR_PRINTER_CALIBRATION, 30);
+    await this.doCalibration(DeviceConstants.ADOR_PRINTER_CALIBRATION);
   }
 
   async doAdorIRCalibration() {
-    await this.doCalibration(DeviceConstants.ADOR_IR_CALIBRATION, 12);
+    await this.doCalibration(DeviceConstants.ADOR_IR_CALIBRATION);
   }
 
   // fs functions
