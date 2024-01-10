@@ -1,3 +1,4 @@
+import Boxgen from './boxgen.svg';
 import Document from './document.svg';
 import Draw from './draw.svg';
 import Layers from './layers.svg';
@@ -9,6 +10,7 @@ import Trace from './trace.svg';
 import Trash from './trash.svg';
 
 export default {
+  Boxgen,
   Document,
   Draw,
   Shoot,

@@ -109,6 +109,7 @@ const LANG = i18n.lang.beambox;
 
 const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
+const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 // Class: SvgCanvas
 // The main SvgCanvas class that manages all SVG-related functions
@@ -1279,8 +1280,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     var current_layer = getCurrentDrawing().getCurrentLayer();
     if (current_layer && current_layer.getAttribute('data-lock') !== 'true') {
       current_mode = 'select';
-      $('.tool-btn').removeClass('active');
-      $('#left-Cursor').addClass('active');
+      drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
       const elemsToAdd = Array.from($(current_group || current_layer).children()).filter((c: Element) => !['title', 'filter'].includes(c.tagName));
       if (elemsToAdd.length < 1) {
         console.warn('Selecting empty layer in "selectAllInCurrentLayer"');
@@ -3288,30 +3288,30 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (name === 'path') {
       this.collectAlignPoints();
     }
-    $('.tool-btn').removeClass('active');
     switch (name) {
       case 'select':
         $('#svg_editor g').css('cursor', 'move');
-        $('#left-Shoot').addClass('active');
-        $('#left-Cursor').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
         break;
       case 'text':
-        $('#left-Text').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Text');
         break;
       case 'line':
-        $('#left-Line').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Line');
         break;
       case 'rect':
-        $('#left-Rectangle').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Rectangle');
         break;
       case 'ellipse':
-        $('#left-Ellipse').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Ellipse');
         break;
       case 'polygon':
-        $('#left-Polygon').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Polygon');
         break;
       case 'path':
-        $('#left-Pen').addClass('active');
+        drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Pen');
+        break;
+      default:
         break;
     }
   };
