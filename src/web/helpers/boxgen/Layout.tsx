@@ -77,7 +77,7 @@ export const getLayouts = (
   canvasHeight: number,
   data: IController,
   options: IExportOptions
-): { pages: JSX.Element[][] } => {
+): { pages: { shape: JSX.Element[]; label: JSX.Element[] }[] } => {
   const color = DEFAULT_STROKE_COLOR;
   const textColor = DEFAULT_LABEL_COLOR;
   const { width, height, depth } = data;
@@ -108,36 +108,34 @@ export const getLayouts = (
     }
   });
 
-  const pages = outputs.map((output) =>
-    [
-      output.shapes.map((obj: ShapeDisplayObject) => {
-        const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
-        const sh = new Shape(path, true, false);
-        return (
-          <polygon
-            fill="none"
-            stroke={`rgb(${color.r}, ${color.g}, ${color.b})`}
-            points={shapeToSVG(sh, obj.x, obj.y)}
-          />
-        );
-      }),
-      options.textLabel
-        ? output.shapes.map((obj: ShapeDisplayObject) => (
-            <text
-              x={obj.x}
-              y={obj.y}
-              dominantBaseline="middle"
-              textAnchor="middle"
-              style={{
-                fill: `rgb(${textColor.r}, ${textColor.g}, ${textColor.b})`,
-              }}
-            >
-              {obj.text}
-            </text>
-          ))
-        : [],
-    ].flat()
-  );
+  const pages = outputs.map((output) => ({
+    shape: output.shapes.map((obj: ShapeDisplayObject) => {
+      const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
+      const sh = new Shape(path, true, false);
+      return (
+        <polygon
+          fill="none"
+          stroke={`rgb(${color.r}, ${color.g}, ${color.b})`}
+          points={shapeToSVG(sh, obj.x, obj.y)}
+        />
+      );
+    }),
+    label: options.textLabel
+      ? output.shapes.map((obj: ShapeDisplayObject) => (
+          <text
+            x={obj.x}
+            y={obj.y}
+            dominantBaseline="middle"
+            textAnchor="middle"
+            style={{
+              fill: `rgb(${textColor.r}, ${textColor.g}, ${textColor.b})`,
+            }}
+          >
+            {obj.text}
+          </text>
+        ))
+      : [],
+  }));
 
   return { pages };
 };

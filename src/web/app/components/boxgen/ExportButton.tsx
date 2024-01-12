@@ -51,13 +51,26 @@ const ExportDialog = ({
       uniqBoxName = `Box ${i}`;
     } while (boxLayers.includes(uniqBoxName));
     const batchCmd = HistoryCommandFactory.createBatchCommand('Import box layer');
-    const promises = layouts.pages.map((pageContent, idx) => {
-      const content = wrapSVG(canvasWidth, canvasHeight, pageContent);
-      return importSvgString(content, {
-        type: 'layer',
-        layerName: `${uniqBoxName}-${idx + 1}`,
-        parentCmd: batchCmd,
-      });
+    const promises: Promise<SVGUseElement>[] = [];
+    layouts.pages.forEach((pageContent, idx) => {
+      let content = wrapSVG(canvasWidth, canvasHeight, pageContent.shape);
+      promises.push(
+        importSvgString(content, {
+          type: 'layer',
+          layerName: `${uniqBoxName}-${idx + 1}`,
+          parentCmd: batchCmd,
+        })
+      );
+      if (options.textLabel) {
+        content = wrapSVG(canvasWidth, canvasHeight, pageContent.label);
+        promises.push(
+          importSvgString(content, {
+            type: 'layer',
+            layerName: `${uniqBoxName}-${idx + 1} Label`,
+            parentCmd: batchCmd,
+          })
+        );
+      }
     });
     await Promise.allSettled(promises);
     svgCanvas.addCommandToHistory(batchCmd);
@@ -92,7 +105,8 @@ const ExportDialog = ({
             strokeDasharray: 4,
           }}
         />
-        {layouts.pages[page - 1]}
+        {layouts.pages[page - 1].shape}
+        {layouts.pages[page - 1].label}
       </svg>
       <Pagination
         className={styles.pagination}

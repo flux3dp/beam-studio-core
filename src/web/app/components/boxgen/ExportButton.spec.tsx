@@ -77,7 +77,19 @@ describe('test ExportButton', () => {
     );
     expect(container).toMatchSnapshot();
 
-    mockGetLayouts.mockReturnValue({ pages: [['layer1-1', 'layer1-2'], ['layer2']] });
+    mockGetLayouts
+      .mockReturnValueOnce({
+        pages: [
+          { shape: ['layer1-1', 'layer1-2'], label: [] },
+          { shape: ['layer2'], label: [] },
+        ],
+      })
+      .mockReturnValue({
+        pages: [
+          { shape: ['layer1-1', 'layer1-2'], label: ['layer1-1 label', 'layer1-2 label'] },
+          { shape: ['layer2'], label: ['layer2 label'] },
+        ],
+      });
     const button = container.querySelector('button');
     fireEvent.click(button);
 
@@ -118,17 +130,29 @@ describe('test ExportButton', () => {
     fireEvent.click(modal.querySelector('.ant-btn-primary'));
     await waitFor(() => expect(mockOnClose).toBeCalledTimes(1));
     expect(mockCreateBatchCommand).toBeCalledTimes(1);
-    expect(mockWrapSVG).toBeCalledTimes(2);
+    expect(mockWrapSVG).toBeCalledTimes(4);
     expect(mockWrapSVG).toHaveBeenNthCalledWith(1, 300, 210, ['layer1-1', 'layer1-2']);
-    expect(mockWrapSVG).toHaveBeenNthCalledWith(2, 300, 210, ['layer2']);
-    expect(mockImportSvgString).toBeCalledTimes(2);
+    expect(mockWrapSVG).toHaveBeenNthCalledWith(2, 300, 210, ['layer1-1 label', 'layer1-2 label']);
+    expect(mockWrapSVG).toHaveBeenNthCalledWith(3, 300, 210, ['layer2']);
+    expect(mockWrapSVG).toHaveBeenNthCalledWith(4, 300, 210, ['layer2 label']);
+    expect(mockImportSvgString).toBeCalledTimes(4);
     expect(mockImportSvgString).toHaveBeenNthCalledWith(1, 'mock-svg', {
       layerName: 'Box 3-1',
       parentCmd: 'mock-batch-cmd',
       type: 'layer',
     });
     expect(mockImportSvgString).toHaveBeenNthCalledWith(2, 'mock-svg', {
+      layerName: 'Box 3-1 Label',
+      parentCmd: 'mock-batch-cmd',
+      type: 'layer',
+    });
+    expect(mockImportSvgString).toHaveBeenNthCalledWith(3, 'mock-svg', {
       layerName: 'Box 3-2',
+      parentCmd: 'mock-batch-cmd',
+      type: 'layer',
+    });
+    expect(mockImportSvgString).toHaveBeenNthCalledWith(4, 'mock-svg', {
+      layerName: 'Box 3-2 Label',
       parentCmd: 'mock-batch-cmd',
       type: 'layer',
     });
