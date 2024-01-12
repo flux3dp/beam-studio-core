@@ -84,11 +84,11 @@ const Controller = (): JSX.Element => {
     setOptions(isMM ? SHEET_THICKNESS_MM : SHEET_THICKNESS_INCH);
   }, [isMM]);
   const maxTSlotCount = useMemo(
-    () => Math.max(1, Math.floor(Math.max(boxData.width, boxData.height, boxData.depth) / 30)),
+    () => Math.floor(Math.min(boxData.width, boxData.height, boxData.depth) / 30),
     [boxData]
   );
   const maxTeethLength = useMemo(
-    () => Math.max(boxData.width, boxData.height, boxData.depth) - boxData.sheetThickness * 2 - 5,
+    () => Math.min(boxData.width, boxData.height, boxData.depth) - boxData.sheetThickness * 2 - 5,
     [boxData]
   );
 
@@ -96,28 +96,60 @@ const Controller = (): JSX.Element => {
 
   const onValuesChange = (): void => {
     const fields: IController = form.getFieldsValue(true);
-    let { teethLength } = fields;
-    if (fields.joint === 't-slot') {
-      teethLength =
-        Math.min(fields.width, fields.height, fields.depth) / (fields.tSlotCount * 2 + 1);
-      form.setFieldValue('teethLength', teethLength);
-    } else if (fields.joint === 'edge') {
-      teethLength = Math.max(fields.width, fields.height, fields.depth);
-    } else {
-      teethLength = Math.min(teethLength, maxTeethLength);
-      form.setFieldValue('teethLength', teethLength);
+    let { width, height, depth, teethLength, tSlotCount, joint } = fields;
+    const innerSizeInflation: number = fields.volume === 'inner' ? fields.sheetThickness * 2 : 0;
+    width += innerSizeInflation;
+    height += innerSizeInflation;
+    depth += innerSizeInflation;
+    if (joint === 't-slot') {
+      if (maxTSlotCount < 1) {
+        joint = 'edge';
+        form.setFieldValue('joint', joint);
+      } else {
+        tSlotCount = Math.min(Math.max(tSlotCount, 1), maxTSlotCount);
+        form.setFieldValue('tSlotCount', tSlotCount);
+        teethLength = Math.min(width, height, depth) / (tSlotCount * 2 + 1);
+        form.setFieldValue('teethLength', teethLength);
+      }
+    } else if (joint === 'finger') {
+      if (maxTeethLength < 1) {
+        joint = 'edge';
+        form.setFieldValue('joint', joint);
+      } else {
+        teethLength = Math.min(teethLength, maxTeethLength);
+        form.setFieldValue('teethLength', teethLength);
+      }
     }
-    const innerSizeInflation: number =
-      fields.volume === 'inner' ? Number(fields.sheetThickness) * 2 : 0;
+    if (joint === 'edge') {
+      teethLength = Math.max(width, height, depth);
+    }
     const newData = {
       ...fields,
-      width: fields.width + innerSizeInflation,
-      height: fields.height + innerSizeInflation,
-      depth: fields.depth + innerSizeInflation,
+      width,
+      height,
+      depth,
       teethLength,
+      tSlotCount,
+      joint,
     };
     setBoxData(newData);
   };
+
+  useEffect(() => {
+    const { tSlotCount, joint }: IController = form.getFieldsValue(true);
+    if (joint === 't-slot' && (maxTSlotCount < 1 || tSlotCount > maxTSlotCount)) {
+      onValuesChange();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxTSlotCount]);
+
+  useEffect(() => {
+    const { teethLength, joint }: IController = form.getFieldsValue(true);
+    if (joint === 'finger' && (maxTeethLength < 1 || teethLength > maxTeethLength)) {
+      onValuesChange();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxTeethLength]);
 
   const addThicknessOptions = () => {
     if (customThickness <= 0 || thicknessOptions.some((option) => option.value === customThickness))
@@ -165,18 +197,18 @@ const Controller = (): JSX.Element => {
         <LengthInputItem
           className={styles['small-margin']}
           label={lang.width}
-          min={0}
+          min={1}
           max={workareaLimit}
           name="width"
         />
         <LengthInputItem
           className={styles['small-margin']}
           label={lang.height}
-          min={0}
+          min={1}
           max={workareaLimit}
           name="height"
         />
-        <LengthInputItem label={lang.depth} min={0} max={workareaLimit} name="depth" />
+        <LengthInputItem label={lang.depth} min={1} max={workareaLimit} name="depth" />
         <Form.Item label={lang.thickness} name="sheetThickness">
           <Select
             options={thicknessOptions}
@@ -218,11 +250,13 @@ const Controller = (): JSX.Element => {
           />
         </Form.Item>
         <Form.Item label={lang.joints} name="joint">
-          <Select>
-            <Select.Option value="edge">{lang.edge}</Select.Option>
-            <Select.Option value="finger">{lang.finger}</Select.Option>
-            <Select.Option value="t-slot">{lang.tSlot}</Select.Option>
-          </Select>
+          <Select
+            options={[
+              { value: 'edge', label: lang.edge },
+              { value: 'finger', label: lang.finger, disabled: maxTeethLength < 1 },
+              { value: 't-slot', label: lang.tSlot, disabled: maxTSlotCount < 1 },
+            ]}
+          />
         </Form.Item>
 
         <Form.Item
@@ -254,7 +288,12 @@ const Controller = (): JSX.Element => {
         </Form.Item>
 
         <Form.Item label={lang.tCount} name="tSlotCount" hidden={boxData.joint !== 't-slot'}>
-          <Slider min={1} max={maxTSlotCount} step={1} />
+          <Slider
+            disabled={maxTSlotCount === 1}
+            min={maxTSlotCount === 1 ? 0 : 1}
+            max={maxTSlotCount}
+            step={1}
+          />
         </Form.Item>
         <Form.Item label={lang.tDiameter} name="tSlotDiameter" hidden={boxData.joint !== 't-slot'}>
           <Select options={screwSizes} />
