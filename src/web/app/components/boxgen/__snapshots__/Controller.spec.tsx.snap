@@ -55,7 +55,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -130,7 +130,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -182,7 +182,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -304,7 +304,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -426,7 +426,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -548,7 +548,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -640,7 +640,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -732,7 +732,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -919,7 +919,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -975,7 +975,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""
@@ -1067,7 +1067,7 @@ exports[`test Controller should behave correctly 1`] = `
           class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
         >
           <div
-            class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+            class="ant-col ant-col-8 ant-form-item-label css-dev-only-do-not-override-hash"
           >
             <label
               class=""

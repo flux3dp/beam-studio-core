@@ -77,6 +77,7 @@ const Controller = (): JSX.Element => {
 
   const [customThickness, setCustomThickness] = useState(0);
   const [thicknessOptions, setOptions] = useState([]);
+  const [jointWarning, setJointWarning] = useState<string | undefined>(undefined);
 
   const screwSizes = isMM ? SCREW_SIZE_MM : SCREW_SIZE_INCH;
   const screwLens = isMM ? SCREW_LENGTH_MM : SCREW_LENGTH_INCH;
@@ -95,6 +96,7 @@ const Controller = (): JSX.Element => {
   const [form] = Form.useForm();
 
   const onValuesChange = (): void => {
+    setJointWarning(undefined);
     const fields: IController = form.getFieldsValue(true);
     let { width, height, depth, teethLength, tSlotCount, joint } = fields;
     const innerSizeInflation: number = fields.volume === 'inner' ? fields.sheetThickness * 2 : 0;
@@ -105,6 +107,7 @@ const Controller = (): JSX.Element => {
       if (maxTSlotCount < 1) {
         joint = 'edge';
         form.setFieldValue('joint', joint);
+        setJointWarning(lang.tSlot_warning);
       } else {
         tSlotCount = Math.min(Math.max(tSlotCount, 1), maxTSlotCount);
         form.setFieldValue('tSlotCount', tSlotCount);
@@ -115,6 +118,7 @@ const Controller = (): JSX.Element => {
       if (maxTeethLength < 1) {
         joint = 'edge';
         form.setFieldValue('joint', joint);
+        setJointWarning(lang.finger_warning);
       } else {
         teethLength = Math.min(teethLength, maxTeethLength);
         form.setFieldValue('teethLength', teethLength);
@@ -181,7 +185,7 @@ const Controller = (): JSX.Element => {
       <Form
         className={styles.form}
         form={form}
-        labelCol={{ span: 6 }}
+        labelCol={{ span: 8 }}
         onValuesChange={onValuesChange}
         initialValues={boxData}
       >
@@ -212,6 +216,7 @@ const Controller = (): JSX.Element => {
         <Form.Item label={lang.thickness} name="sheetThickness">
           <Select
             options={thicknessOptions}
+            popupMatchSelectWidth={false}
             dropdownRender={(menu) => (
               <>
                 {menu}
@@ -222,6 +227,7 @@ const Controller = (): JSX.Element => {
                 >
                   <InputNumber<number>
                     type="number"
+                    width={60}
                     defaultValue={customThickness}
                     addonAfter={unit}
                     min={0}
@@ -249,7 +255,12 @@ const Controller = (): JSX.Element => {
             )}
           />
         </Form.Item>
-        <Form.Item label={lang.joints} name="joint">
+        <Form.Item
+          label={lang.joints}
+          name="joint"
+          validateStatus={jointWarning ? 'warning' : undefined}
+          help={jointWarning}
+        >
           <Select
             options={[
               { value: 'edge', label: lang.edge },
@@ -287,7 +298,12 @@ const Controller = (): JSX.Element => {
           />
         </Form.Item>
 
-        <Form.Item label={lang.tCount} name="tSlotCount" hidden={boxData.joint !== 't-slot'}>
+        <Form.Item
+          label={lang.tCount}
+          name="tSlotCount"
+          hidden={boxData.joint !== 't-slot'}
+          tooltip={lang.tCount_tooltip}
+        >
           <Slider
             disabled={maxTSlotCount === 1}
             min={maxTSlotCount === 1 ? 0 : 1}

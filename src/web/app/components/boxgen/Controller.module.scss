@@ -31,7 +31,7 @@
         :global(.ant-form-item-label) {
           flex: none;
           padding: 0;
-          width: 80px;
+          width: 120px;
           text-align: end;
           ::after {
             visibility: visible;
@@ -78,4 +78,7 @@
 }
 .thickness-editor {
   padding: 0 8px 4px;
+  > div:first-child {
+    max-width: 140px;
+  }
 }

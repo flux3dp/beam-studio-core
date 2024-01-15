@@ -1598,9 +1598,12 @@ export interface ILang {
     add_option: string;
     joints: string;
     finger: string;
+    finger_warning: string;
     tSlot: string;
+    tSlot_warning: string;
     edge: string;
     tCount: string;
+    tCount_tooltip: string;
     tDiameter: string;
     tLength: string;
     continue_export: string;
