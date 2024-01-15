@@ -4740,7 +4740,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.disassembleUse2Group = async function (
     elems = null,
     skipConfirm = false,
-    addToHistory = true
+    addToHistory = true,
+    showProgress = true
   ) {
     if (!elems) {
       elems = selectedElements;
@@ -4771,11 +4772,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (!elem || elem.tagName !== 'use') {
         continue;
       }
-
-      Progress.openSteppingProgress({
-        id: 'disassemble-use',
-        message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - 0%`,
-      });
+      if (showProgress) {
+        Progress.openSteppingProgress({
+          id: 'disassemble-use',
+          message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - 0%`,
+        });
+      }
 
       const isFromNP = elem.getAttribute('data-np') === '1';
       const ratioFixed = elem.getAttribute('data-ratiofixed');
@@ -4810,8 +4812,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       // apply style
       const descendants = Array.from(g.querySelectorAll('*')) as Element[];
       const nodeNumbers = descendants.length;
-      // Wait for progress open
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      if (showProgress) {
+        // Wait for progress open
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
       let currentProgress = 0;
       for (let j = 0; j < descendants.length; j++) {
         const child = descendants[j];
@@ -4828,23 +4832,29 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         child.addEventListener('mouseover', this.handleGenerateSensorArea);
         child.addEventListener('mouseleave', this.handleGenerateSensorArea);
         svgedit.recalculate.recalculateDimensions(child);
-        const progress = Math.round(200 * j / nodeNumbers) / 2;
-        if (progress > currentProgress) {
-          Progress.update('disassemble-use', {
-            message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - ${Math.round(9000 * j / nodeNumbers) / 100}%`,
-            percentage: progress * 0.9,
-          });
-          // Wait for progress update
-          await new Promise((resolve) => setTimeout(resolve, 10));
-          currentProgress = progress;
+        if (showProgress) {
+          const progress = Math.round((200 * j) / nodeNumbers) / 2;
+          if (progress > currentProgress) {
+            Progress.update('disassemble-use', {
+              message: `${LANG.right_panel.object_panel.actions_panel.disassembling} - ${
+                Math.round((9000 * j) / nodeNumbers) / 100
+              }%`,
+              percentage: progress * 0.9,
+            });
+            // Wait for progress update
+            await new Promise((resolve) => setTimeout(resolve, 10));
+            currentProgress = progress;
+          }
         }
       }
       layer.appendChild(g);
-      Progress.update('disassemble-use', {
-        message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 90%`,
-        percentage: 90,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      if (showProgress) {
+        Progress.update('disassemble-use', {
+          message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 90%`,
+          percentage: 90,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
       batchCmd.addSubCommand(new history.InsertElementCommand(g));
       batchCmd.addSubCommand(new history.RemoveElementCommand(elem, elem.nextSibling, elem.parentNode));
       elem.parentNode.removeChild(elem);
@@ -4874,11 +4884,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else selectOnly([g], true);
 
       selectedElements.forEach((ele) => ele.setAttribute('data-ratiofixed', ratioFixed));
-      Progress.update('disassemble-use', {
-        message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 100%`,
-        percentage: 100,
-      });
-      Progress.popById('disassemble-use');
+      if (showProgress) {
+        Progress.update('disassemble-use', {
+          message: `${LANG.right_panel.object_panel.actions_panel.ungrouping} - 100%`,
+          percentage: 100,
+        });
+        Progress.popById('disassemble-use');
+      }
       if (!tempGroup) {
         this.tempGroupSelectedElements();
       }

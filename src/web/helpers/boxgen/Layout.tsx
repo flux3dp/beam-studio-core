@@ -50,10 +50,7 @@ export class OutputPage {
 
   addShape(shape: ShapeRaw): boolean {
     const [dx, dy] = getBlockDistance(this.options);
-    if (
-      this.cursorY + dy + shape.height > this.maxY &&
-      this.cursorX + dx + shape.width <= this.maxX
-    ) {
+    if (this.cursorY + shape.height > this.maxY && this.cursorX + shape.width <= this.maxX) {
       this.cursorX = this.nextX;
       this.cursorY = 0;
     }
@@ -64,10 +61,8 @@ export class OutputPage {
       y: this.cursorY + shape.height / 2,
       text: shape.text,
     });
-    if (this.cursorY + dy + shape.height <= this.maxY) {
-      this.cursorY += dy + shape.height;
-      this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx);
-    }
+    this.cursorY += dy + shape.height;
+    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx);
     return true;
   }
 }
@@ -109,11 +104,13 @@ export const getLayouts = (
   });
 
   const pages = outputs.map((output) => ({
-    shape: output.shapes.map((obj: ShapeDisplayObject) => {
+    shape: output.shapes.map((obj: ShapeDisplayObject, index) => {
       const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
       const sh = new Shape(path, true, false);
       return (
         <polygon
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
           fill="none"
           stroke={`rgb(${color.r}, ${color.g}, ${color.b})`}
           points={shapeToSVG(sh, obj.x, obj.y)}
@@ -121,8 +118,10 @@ export const getLayouts = (
       );
     }),
     label: options.textLabel
-      ? output.shapes.map((obj: ShapeDisplayObject) => (
+      ? output.shapes.map((obj: ShapeDisplayObject, index) => (
           <text
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             x={obj.x}
             y={obj.y}
             dominantBaseline="middle"

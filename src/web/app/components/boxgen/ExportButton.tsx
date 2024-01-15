@@ -33,12 +33,14 @@ const ExportDialog = ({
     joinOutput: false,
     textLabel: false,
   });
+  const [confirmLoading, setConfirmLoading] = useState(false);
   if (!visible) return null;
 
   const { canvasWidth, canvasHeight } = workarea;
   const layouts = getLayouts(canvasWidth, canvasHeight, boxData, options);
 
   const handleOk = async () => {
+    setConfirmLoading(true);
     const boxLayers = [];
     (svgCanvas.getCurrentDrawing().all_layers as ISVGLayer[]).forEach((layer) => {
       // eslint-disable-next-line no-underscore-dangle
@@ -72,8 +74,12 @@ const ExportDialog = ({
         );
       }
     });
-    await Promise.allSettled(promises);
+    const elems = (await Promise.allSettled(promises)).map((p) =>
+      p.status === 'fulfilled' ? p.value : null
+    );
+    batchCmd.addSubCommand(await svgCanvas.disassembleUse2Group(elems, true, false, false));
     svgCanvas.addCommandToHistory(batchCmd);
+    setConfirmLoading(false);
     setVisible(false);
     onClose();
   };
@@ -87,6 +93,7 @@ const ExportDialog = ({
       okButtonProps={{ icon: <DownloadOutlined /> }}
       okText={lang.export}
       cancelText={lang.cancel}
+      confirmLoading={confirmLoading}
     >
       <svg
         width="100%"
@@ -112,7 +119,8 @@ const ExportDialog = ({
         className={styles.pagination}
         current={page}
         onChange={(value) => setPage(value)}
-        total={layouts.pages.length * 10}
+        total={layouts.pages.length}
+        defaultPageSize={1}
       />
       <div className={styles['form-title']}>{lang.customize}</div>
       <Form

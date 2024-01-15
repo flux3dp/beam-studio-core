@@ -31,7 +31,7 @@ jest.mock(
       mockWrapSVG(...args)
 );
 
-const mockImportSvgString = jest.fn();
+const mockImportSvgString = jest.fn().mockResolvedValue('mock-svg-object');
 jest.mock(
   'app/svgedit/operations/import/importSvgString',
   () =>
@@ -40,17 +40,20 @@ jest.mock(
 );
 
 const mockAddCommandToHistory = jest.fn();
+const mockDisassembleUse2Group = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) =>
     callback({
       Canvas: {
         getCurrentDrawing: () => ({ all_layers: [{ name_: 'Box 1' }, { name_: 'Box 2-1' }] }),
         addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
+        disassembleUse2Group: (...args) => mockDisassembleUse2Group(...args),
       },
     }),
 }));
 
-const mockCreateBatchCommand = jest.fn().mockReturnValue('mock-batch-cmd');
+const mockBatchCommand = { addSubCommand: jest.fn() };
+const mockCreateBatchCommand = jest.fn().mockImplementation(() => mockBatchCommand);
 jest.mock('app/svgedit/HistoryCommandFactory', () => ({
   createBatchCommand: (...args) => mockCreateBatchCommand(...args),
 }));
@@ -138,24 +141,32 @@ describe('test ExportButton', () => {
     expect(mockImportSvgString).toBeCalledTimes(4);
     expect(mockImportSvgString).toHaveBeenNthCalledWith(1, 'mock-svg', {
       layerName: 'Box 3-1',
-      parentCmd: 'mock-batch-cmd',
+      parentCmd: mockBatchCommand,
       type: 'layer',
     });
     expect(mockImportSvgString).toHaveBeenNthCalledWith(2, 'mock-svg', {
       layerName: 'Box 3-1 Label',
-      parentCmd: 'mock-batch-cmd',
+      parentCmd: mockBatchCommand,
       type: 'layer',
     });
     expect(mockImportSvgString).toHaveBeenNthCalledWith(3, 'mock-svg', {
       layerName: 'Box 3-2',
-      parentCmd: 'mock-batch-cmd',
+      parentCmd: mockBatchCommand,
       type: 'layer',
     });
     expect(mockImportSvgString).toHaveBeenNthCalledWith(4, 'mock-svg', {
       layerName: 'Box 3-2 Label',
-      parentCmd: 'mock-batch-cmd',
+      parentCmd: mockBatchCommand,
       type: 'layer',
     });
+    expect(mockDisassembleUse2Group).toBeCalledTimes(1);
+    expect(mockDisassembleUse2Group).toHaveBeenNthCalledWith(
+      1,
+      ['mock-svg-object', 'mock-svg-object', 'mock-svg-object', 'mock-svg-object'],
+      true,
+      false,
+      false
+    );
     expect(mockAddCommandToHistory).toBeCalledTimes(1);
   });
 });
