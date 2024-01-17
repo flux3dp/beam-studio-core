@@ -1,19 +1,16 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 import ProgressBar from './ProgressBar';
 
 test('should render correctly', () => {
   const handleSimTimeChange = jest.fn();
-  const wrapper = shallow(<ProgressBar
-    simTime={0.5}
-    simTimeMax={1}
-    handleSimTimeChange={handleSimTimeChange}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container } = render(
+    <ProgressBar simTime={0.5} simTimeMax={1} handleSimTimeChange={handleSimTimeChange} />
+  );
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('input.slider').simulate('change', {
+  fireEvent.change(container.querySelector('input.slider'), {
     target: { value: 0.7 },
   });
   expect(handleSimTimeChange).toHaveBeenCalledTimes(1);

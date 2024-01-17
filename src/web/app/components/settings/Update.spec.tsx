@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -13,31 +12,45 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+jest.mock('app/components/settings/SelectControl', () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ({ id, label, onChange, options }: any) => (
+    <div>
+      mock-select-control id:{id}
+      label:{label}
+      options:{JSON.stringify(options)}
+      <input className="select-control" onChange={onChange} />
+    </div>
+  )
+);
+
 // eslint-disable-next-line import/first
 import Update from './Update';
 
 describe('should render correctly', () => {
   test('desktop version', () => {
     const updateConfigChange = jest.fn();
-    const wrapper = shallow(<Update
-      isWeb={false}
-      updateNotificationOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: true,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: false,
-        },
-      ]}
-      updateConfigChange={updateConfigChange}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <Update
+        isWeb={false}
+        updateNotificationOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: true,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: false,
+          },
+        ]}
+        updateConfigChange={updateConfigChange}
+      />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('SelectControl').simulate('change', {
+    fireEvent.change(container.querySelector('.select-control'), {
       target: {
         value: 'FALSE',
       },
@@ -48,22 +61,24 @@ describe('should render correctly', () => {
 
   test('web version', () => {
     const updateConfigChange = jest.fn();
-    const wrapper = shallow(<Update
-      isWeb
-      updateNotificationOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: true,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: false,
-        },
-      ]}
-      updateConfigChange={updateConfigChange}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <Update
+        isWeb
+        updateNotificationOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: true,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: false,
+          },
+        ]}
+        updateConfigChange={updateConfigChange}
+      />
+    );
+    expect(container).toMatchSnapshot();
   });
 });

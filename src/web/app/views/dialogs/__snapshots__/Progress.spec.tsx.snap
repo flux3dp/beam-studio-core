@@ -83,7 +83,6 @@ exports[`test Progress should render correctly 1`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -93,7 +92,6 @@ exports[`test Progress should render correctly 1`] = `
                 <span>
                   OK
                 </span>
-                
               </button>
             </div>
           </div>

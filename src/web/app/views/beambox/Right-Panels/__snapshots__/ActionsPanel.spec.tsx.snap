@@ -1,1350 +1,1555 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly ellipse 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Convert to Path"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="convert_to_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Convert to Path
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Offset"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="offset"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Offset
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly g multiple selection 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container half"
-        key="Offset"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          disabled={false}
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="offset"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Offset
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly g single selection 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Array"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly image 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Replace With..."
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="replace_with"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Replace With...
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container"
-        key="ai_bg_removal"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="bg-removal"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             ai_bg_removal
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Trace"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          disabled={false}
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="trace"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Trace
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Grading"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="grading"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Grading
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Sharpen"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="sharpen"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Sharpen
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Crop"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="crop"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Crop
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Bevel"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="bevel"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Bevel
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Invert"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="invert"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Invert
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Outline"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="potrace"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Outline
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly in mobile ellipse 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="convert_to_path"
-    key="Outline"
-    label="Outline"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="offset"
-    key="Offset"
-    label="Offset"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="convert_to_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="offset"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Offset
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile g multiple selection 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    disabled={false}
-    id="offset"
-    key="Offset"
-    label="Offset"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="offset"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Offset
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile g single selection 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile image 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="replace_with"
-    key="Replace"
-    label="Replace"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="potrace"
-    key="Outline"
-    label="Outline"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="grading"
-    key="Brightness"
-    label="Brightness"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="sharpen"
-    key="Sharpen"
-    label="Sharpen"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="crop"
-    key="Crop"
-    label="Crop"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="bevel"
-    key="Bevel"
-    label="Bevel"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="invert"
-    key="Invert"
-    label="Invert"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    disabled={false}
-    id="trace"
-    key="Trace"
-    label="Trace"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="bg-removal"
-    key="BG Removal"
-    label="BG Removal"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="replace_with"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Replace
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="potrace"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="grading"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Brightness
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="sharpen"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Sharpen
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="crop"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Crop
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="bevel"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Bevel
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="invert"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Invert
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="trace"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Trace
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="bg-removal"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        BG Removal
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile line 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="convert_to_path"
-    key="Outline"
-    label="Outline"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="offset"
-    key="Offset"
-    label="Offset"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="convert_to_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="offset"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Offset
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile no elements 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile path 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="edit_path"
-    key="edit_path"
-    label="edit_path"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="decompose_path"
-    key="Decompose"
-    label="Decompose"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="offset"
-    key="Offset"
-    label="Offset"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="simplify"
-    key="simplify"
-    label="simplify"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="edit_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        edit_path
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="decompose_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Decompose
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="offset"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Offset
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="simplify"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        simplify
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile polygon 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="convert_to_path"
-    key="Outline"
-    label="Outline"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="offset"
-    key="Offset"
-    label="Offset"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="convert_to_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="offset"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Offset
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile rect 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="convert_to_path"
-    key="Outline"
-    label="Outline"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="offset"
-    key="Offset"
-    label="Offset"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="convert_to_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="offset"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Offset
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile text 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="convert_to_path"
-    key="Outline"
-    label="Outline"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="weld"
-    key="weld_text"
-    label="weld_text"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="convert_to_path"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="weld"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        weld_text
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly in mobile use 1`] = `
-<div
-  className="container"
->
-  <ObjectPanelDivider />
-  <ObjectPanelItem
-    content={<svgr-url />}
-    id="disassemble_use"
-    key="Disassemble"
-    label="Disassemble"
-    onClick={[Function]}
-  />
-  <ObjectPanelItem
-    autoClose={false}
-    content={<svgr-url />}
-    id="array"
-    key="Array"
-    label="Array"
-    onClick={[Function]}
-  />
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="adm-divider adm-divider-vertical adm-divider-center divider"
+    />
+    <div
+      class="object-panel-item"
+      id="disassemble_use"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Disassemble
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="array"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        Array
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`should render correctly line 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Convert to Path"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="convert_to_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Convert to Path
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Offset"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="offset"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Offset
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly no elements 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     />
   </div>
 </div>
 `;
 
 exports[`should render correctly path 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="edit_path"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="edit_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             edit_path
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container"
-        key="Decompose"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="decompose_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Decompose
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Offset"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="offset"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Offset
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container"
-        key="simplify"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="simplify"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             simplify
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly polygon 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Convert to Path"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="convert_to_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Convert to Path
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Offset"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="offset"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Offset
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly rect 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Convert to Path"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="convert_to_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Convert to Path
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Offset"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="offset"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Offset
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container half"
-        key="Array"
+        class="btn-container half"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly text 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Convert to Path"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="convert_to_path"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Convert to Path
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container"
-        key="weld_text"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="weld"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             weld_text
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container"
-        key="Array"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;
 
 exports[`should render correctly use 1`] = `
-<div
-  className="panel"
->
+<div>
   <div
-    className="title"
+    class="panel"
   >
-    ACTIONS
-  </div>
-  <div
-    className="btns-container"
-  >
-    <ConfigProvider
-      theme={
-        {
-          "components": {
-            "Button": {
-              "colorText": "#333333",
-              "colorTextDisabled": "#B9B9B9",
-              "controlHeight": 30,
-              "fontSize": 24,
-              "lineHeight": 1,
-              "marginXS": 4,
-            },
-          },
-        }
-      }
+    <div
+      class="title"
+    >
+      ACTIONS
+    </div>
+    <div
+      class="btns-container"
     >
       <div
-        className="btn-container"
-        key="Disassemble"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="disassemble_use"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Disassemble
           </span>
-        </Button>
+        </button>
       </div>
       <div
-        className="btn-container"
-        key="Array"
+        class="btn-container"
       >
-        <Button
-          block={true}
-          className="btn"
-          icon={<svgr-url />}
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
-          onClick={[Function]}
+          type="button"
         >
           <span
-            className="label"
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
           >
             Array
           </span>
-        </Button>
+        </button>
       </div>
-    </ConfigProvider>
+    </div>
   </div>
 </div>
 `;

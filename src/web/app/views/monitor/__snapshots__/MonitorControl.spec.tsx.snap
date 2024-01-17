@@ -34,7 +34,6 @@ exports[`test MonitorControl should render correctly in mobile mode is preview 1
         <span>
           Start
         </span>
-        
       </button>
     </div>
   </div>
@@ -76,7 +75,6 @@ exports[`test MonitorControl should render correctly in mobile mode is working 1
         <span>
           Start
         </span>
-        
       </button>
     </div>
   </div>
@@ -117,7 +115,6 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
         <span>
           Stop
         </span>
-        
       </button>
     </div>
     <div
@@ -149,7 +146,6 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
         <span>
           Pause
         </span>
-        
       </button>
     </div>
   </div>
@@ -190,7 +186,6 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
         <span>
           Stop
         </span>
-        
       </button>
     </div>
     <div
@@ -219,7 +214,6 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
             />
           </svg>
         </span>
-        
       </button>
     </div>
   </div>
@@ -260,7 +254,6 @@ exports[`test MonitorControl should render correctly mode is preview 1`] = `
         <span>
           Start
         </span>
-        
       </button>
     </div>
   </div>
@@ -302,7 +295,6 @@ exports[`test MonitorControl should render correctly mode is working 1`] = `
         <span>
           Start
         </span>
-        
       </button>
     </div>
   </div>
@@ -343,7 +335,6 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
         <span>
           Stop
         </span>
-        
       </button>
     </div>
     <div
@@ -375,7 +366,6 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
         <span>
           Pause
         </span>
-        
       </button>
     </div>
   </div>
@@ -416,7 +406,6 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
         <span>
           Stop
         </span>
-        
       </button>
     </div>
     <div
@@ -445,7 +434,6 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
             />
           </svg>
         </span>
-        
       </button>
     </div>
   </div>

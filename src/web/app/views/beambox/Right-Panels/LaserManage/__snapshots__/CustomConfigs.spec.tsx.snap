@@ -33,7 +33,6 @@ exports[`test PresetsList should render correctly 1`] = `
               />
             </svg>
           </span>
-          
         </button>
       </strong>
     </div>

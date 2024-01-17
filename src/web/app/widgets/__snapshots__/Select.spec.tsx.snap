@@ -1,78 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test Select should render correctly 1`] = `
-<select
-  className="test123"
-  defaultValue={
-    [
-      "en",
-      "jp",
-    ]
-  }
-  id="123"
-  multiple={true}
-  name="select-lang"
-  onChange={[MockFunction]}
-  value={
-    [
-      "en",
-      "jp",
-    ]
-  }
->
-  <option
-    key="0"
-    label="en"
-    value="en"
+<div>
+  <select
+    class="test123"
+    id="123"
+    multiple=""
+    name="select-lang"
   >
-    en
-  </option>
-  <option
-    key="1"
-    label="es"
-    value="es"
-  >
-    es
-  </option>
-  <option
-    key="2"
-    label="jp"
-    value="jp"
-  >
-    jp
-  </option>
-</select>
+    <option
+      label="en"
+      value="en"
+    >
+      en
+    </option>
+    <option
+      label="es"
+      value="es"
+    >
+      es
+    </option>
+    <option
+      label="jp"
+      value="jp"
+    >
+      jp
+    </option>
+  </select>
+</div>
 `;
 
 exports[`test Select should render correctly 2`] = `
-<select
-  className="test123"
-  defaultValue="en"
-  id="123"
-  name="select-lang"
-  onChange={[MockFunction]}
-  value="en"
->
-  <option
-    key="0"
-    label="en"
-    value="en"
+<div>
+  <select
+    class="test123"
+    id="123"
+    name="select-lang"
   >
-    en
-  </option>
-  <option
-    key="1"
-    label="es"
-    value="es"
-  >
-    es
-  </option>
-  <option
-    key="2"
-    label="jp"
-    value="jp"
-  >
-    jp
-  </option>
-</select>
+    <option
+      label="en"
+      value="en"
+    >
+      en
+    </option>
+    <option
+      label="es"
+      value="es"
+    >
+      es
+    </option>
+    <option
+      label="jp"
+      value="jp"
+    >
+      jp
+    </option>
+  </select>
+</div>
 `;

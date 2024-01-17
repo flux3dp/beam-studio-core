@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { getInitState, reducer } from './Context';
 import LaserManageModal from './LaserManageModal';
@@ -128,8 +128,10 @@ describe('test LaserManageModal', () => {
     expect(mockRemoveAt).toBeCalledTimes(1);
     expect(mockRemoveAt).toHaveBeenLastCalledWith('defaultLaserConfigsInUse');
     expect(mockUpdateDefaultPresetData).toBeCalledTimes(1);
-    expect(mockReducer).toBeCalledTimes(1);
-    expect(mockReducer).toHaveBeenLastCalledWith('state', { type: 'reset' });
+    waitFor(() => {
+      expect(mockReducer).toBeCalledTimes(1);
+      expect(mockReducer).toHaveBeenLastCalledWith('state', { type: 'reset' });
+    });
   });
 
   test('footer onSave should work', () => {

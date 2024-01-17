@@ -35,7 +35,6 @@ exports[`test ArrowButtons should render correctly 1`] = `
                 />
               </svg>
             </span>
-            
           </button>
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm btn"
@@ -60,7 +59,6 @@ exports[`test ArrowButtons should render correctly 1`] = `
                 />
               </svg>
             </span>
-            
           </button>
         </div>
       </div>
