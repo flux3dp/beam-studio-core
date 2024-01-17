@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Simpan',
       save_as: 'Simpan Sebagai...',
+      save_to_cloud: 'Simpan ke Awan',
       about_beam_studio: 'Tentang Beam Studio',
       undo: 'Batalkan',
       redo: 'Ulangi',
@@ -659,6 +660,7 @@ const lang: ILang = {
         live_feed: 'Siaran Langsung',
         adjust_height: 'Sesuaikan Tinggi',
         boxgen: 'Boxgen',
+        my_cloud: 'Awan Saya',
       },
     },
     right_panel: {
@@ -1739,7 +1741,28 @@ const lang: ILang = {
     zoom: 'Perbesar',
     control_tooltip: 'Klik kiri untuk memutar\nGulir untuk memperbesar\nKlik kanan untuk menggeser',
     control_tooltip_touch: 'Seret untuk memutar\nCubit untuk memperbesar\nDua jari untuk menggeser',
-  }
+  },
+  my_cloud: {
+    title: 'Awan Saya',
+    loading_file: 'Memuat...',
+    no_file_title: 'Simpan berkas ke Awan Saya untuk memulai.',
+    no_file_subtitle: 'Buka Menu > "Berkas" > "Simpan ke Awan"',
+    sort: {
+      most_recent: 'Terbaru',
+      oldest: 'Terlama',
+      a_to_z: 'Nama: A - Z',
+      z_to_a: 'Nama: Z - A',
+    },
+    action: {
+      open: 'Buka',
+      rename: 'Ubah Nama',
+      duplicate: 'Duplikat',
+      download: 'Unduh',
+      delete: 'Hapus',
+      confirmFileDelete:
+        'Apakah Anda yakin ingin menghapus berkas ini? Tindakan ini tidak dapat dibatalkan.',
+    },
+  },
 };
 
 export default lang;

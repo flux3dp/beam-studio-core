@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Salva',
       save_as: 'Salva con nome...',
+      save_to_cloud: 'Salva sul cloud',
       about_beam_studio: 'Informazioni su Beam Studio',
       undo: 'Annulla',
       redo: 'Ripeti',
@@ -658,6 +659,7 @@ const lang: ILang = {
         live_feed: 'Live Feed',
         adjust_height: 'Regola altezza',
         boxgen: 'Boxgen',
+        my_cloud: 'La mia nuvola',
       },
     },
     right_panel: {
@@ -1750,6 +1752,27 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Sinistro per ruotare\nScorri per lo zoom\nDestro per spostare',
     control_tooltip_touch: 'Trascina per ruotare\nStringi per lo zoom\nDue dita per spostare',
+  },
+  my_cloud: {
+    title: 'La mia nuvola',
+    loading_file: 'Caricamento...',
+    no_file_title: 'Salva i file nel cloud per iniziare.',
+    no_file_subtitle: 'Vai al Menu > "File" > "Salva sul cloud"',
+    sort: {
+      most_recent: 'Più recenti',
+      oldest: 'Meno recenti',
+      a_to_z: 'Nome: A-Z',
+      z_to_a: 'Nome: Z-A',
+    },
+    action: {
+      open: 'Apri',
+      rename: 'Rinomina',
+      duplicate: 'Duplica',
+      download: 'Scarica',
+      delete: 'Elimina',
+      confirmFileDelete:
+        "Sei sicuro di voler eliminare questo file? Quest'azione non può essere annullata.",
+    },
   },
 };
 

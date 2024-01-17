@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Tallenna',
       save_as: 'Tallenna nimellä...',
+      save_to_cloud: 'Tallenna pilvipalveluun',
       about_beam_studio: 'Tietoja Beam Studiosta',
       undo: 'Kumoa',
       redo: 'Tee uudelleen',
@@ -653,6 +654,7 @@ const lang: ILang = {
         live_feed: 'Live-syöte',
         adjust_height: 'Säädä korkeutta',
         boxgen: 'Boxgen',
+        my_cloud: 'Pilveni',
       },
     },
     right_panel: {
@@ -1728,7 +1730,27 @@ const lang: ILang = {
     zoom: 'Lähennä',
     control_tooltip: 'Vasen hiiren painike kääntää\nRulla lähentääksesi\nOikea hiiren painike siirtää',
     control_tooltip_touch: 'Vedä kääntääksesi\nNipistä lähentääksesi\nKahdella sormella siirtää',
-  }
+  },
+  my_cloud: {
+    title: 'Pilveni',
+    loading_file: 'Ladataan...',
+    no_file_title: 'Aloita tallentamalla tiedostoja pilveen.',
+    no_file_subtitle: 'Siirry valikkoon > "Tiedosto" > "Tallenna pilvipalveluun"',
+    sort: {
+      most_recent: 'Viimeisimmät',
+      oldest: 'Vanhimmat',
+      a_to_z: 'Nimi: A - Ö',
+      z_to_a: 'Nimi: Ö - A',
+    },
+    action: {
+      open: 'Avaa',
+      rename: 'Nimeä uudelleen',
+      duplicate: 'Kopioi',
+      download: 'Lataa',
+      delete: 'Poista',
+      confirmFileDelete: 'Haluatko varmasti poistaa tämän tiedoston? Toimintoa ei voi perua.',
+    },
+  },
 };
 
 export default lang;

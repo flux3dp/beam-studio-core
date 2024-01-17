@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: '储存',
       save_as: '另存新档',
+      save_to_cloud: '保存到云端',
       about_beam_studio: '关于 Beam Studio',
       undo: '复原',
       redo: '重做',
@@ -615,6 +616,7 @@ const lang: ILang = {
         live_feed: '实时视频',
         adjust_height: '调整高度',
         boxgen: 'Boxgen',
+        my_cloud: '我的云端',
       },
     },
     right_panel: {
@@ -1619,6 +1621,26 @@ const lang: ILang = {
     zoom: '缩放',
     control_tooltip: '左键旋转\n滚轮缩放\n右键平移',
     control_tooltip_touch: '拖动旋转\n捏合缩放\n双指平移',
+  },
+  my_cloud: {
+    title: '我的云端',
+    loading_file: '正在加载...',
+    no_file_title: '保存文件到我的云端开始使用',
+    no_file_subtitle: '转到菜单 > "档案" > "保存到云端"',
+    sort: {
+      most_recent: '最近',
+      oldest: '最旧',
+      a_to_z: '名称: A - Z',
+      z_to_a: '名称: Z - A',
+    },
+    action: {
+      open: '打开',
+      rename: '重命名',
+      duplicate: '复制',
+      download: '下载',
+      delete: '删除',
+      confirmFileDelete: '确定要删除此文件吗?此操作无法撤消。',
+    },
   },
 };
 

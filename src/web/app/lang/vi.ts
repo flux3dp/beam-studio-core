@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Lưu',
       save_as: 'Lưu dưới dạng...',
+      save_to_cloud: 'Lưu lên đám mây',
       about_beam_studio: 'Về Beam Studio',
       undo: 'Hoàn tác',
       redo: 'Làm lại',
@@ -653,6 +654,7 @@ const lang: ILang = {
         live_feed: 'Phát trực tiếp',
         adjust_height: 'Điều chỉnh chiều cao',
         boxgen: 'Boxgen',
+        my_cloud: 'Đám mây của tôi',
       },
     },
     right_panel: {
@@ -1727,6 +1729,27 @@ const lang: ILang = {
     zoom: 'Thu phóng',
     control_tooltip: 'Trái chuột để xoay\nCuộn để thu phóng\nPhải chuột để di chuyển',
     control_tooltip_touch: 'Kéo để xoay\nVuốt để thu phóng\nHai ngón tay để di chuyển',
+  },
+  my_cloud: {
+    title: 'Đám mây của tôi',
+    loading_file: 'Đang tải...',
+    no_file_title: 'Lưu tệp lên Đám mây của tôi để bắt đầu.',
+    no_file_subtitle: 'Vào Menu > "Tệp" > "Lưu lên đám mây"',
+    sort: {
+      most_recent: 'Gần đây nhất',
+      oldest: 'Cũ nhất',
+      a_to_z: 'Tên: A-Z',
+      z_to_a: 'Tên: Z-A',
+    },
+    action: {
+      open: 'Mở',
+      rename: 'Đổi tên',
+      duplicate: 'Nhân bản',
+      download: 'Tải xuống',
+      delete: 'Xóa',
+      confirmFileDelete:
+        'Bạn có chắc chắn muốn xóa tệp tin này không? Hành động này không thể hoàn tác.',
+    },
   },
 };
 

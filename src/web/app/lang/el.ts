@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Αποθήκευση',
       save_as: 'Αποθήκευση ως...',
+      save_to_cloud: 'Αποθήκευση στο Cloud',
       about_beam_studio: 'Σχετικά με το Beam Studio',
       undo: 'Αναίρεση',
       redo: 'Επανάληψη',
@@ -665,6 +666,7 @@ const lang: ILang = {
         live_feed: 'Ζωντανή μετάδοση',
         adjust_height: 'Ρύθμιση ύψους',
         boxgen: 'Boxgen',
+        my_cloud: 'Το Cloud μου',
       },
     },
     right_panel: {
@@ -1761,6 +1763,27 @@ const lang: ILang = {
     zoom: 'Μεγέθυνση',
     control_tooltip: 'Αριστερό κλικ για περιστροφή\nΤροχός ποντικιού για μεγέθυνση\nΔεξί κλικ για μετακίνηση',
     control_tooltip_touch: 'Σύρετε για περιστροφή\nΤσίμπημα για μεγέθυνση\nΔύο δάχτυλα για μετακίνηση',
+  },
+  my_cloud: {
+    title: 'Το Cloud μου',
+    loading_file: 'Φόρτωση...',
+    no_file_title: 'Αποθηκεύστε αρχεία στο My Cloud για να ξεκινήσετε.',
+    no_file_subtitle: 'Μεταβείτε στο Μενού > "Αρχείο" > "Αποθήκευση στο Cloud"',
+    sort: {
+      most_recent: 'Πιο πρόσφατα',
+      oldest: 'Παλαιότερα',
+      a_to_z: 'Όνομα: Α - Ω',
+      z_to_a: 'Όνομα: Ω - Α',
+    },
+    action: {
+      open: 'Άνοιγμα',
+      rename: 'Μετονομασία',
+      duplicate: 'Αντίγραφο',
+      download: 'Λήψη',
+      delete: 'Διαγραφή',
+      confirmFileDelete:
+        'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το αρχείο; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.',
+    },
   },
 };
 

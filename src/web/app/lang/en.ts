@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Save',
       save_as: 'Save As...',
+      save_to_cloud: 'Save to Cloud',
       about_beam_studio: 'About Beam Studio',
       undo: 'Undo',
       redo: 'Redo',
@@ -615,6 +616,7 @@ const lang: ILang = {
         live_feed: 'Live Feed',
         adjust_height: 'Adjust Height',
         boxgen: 'Boxgen',
+        my_cloud: 'My Cloud',
       },
     },
     right_panel: {
@@ -1619,6 +1621,26 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Left mouse to rotate\nScroll to zoom\nRight mouse to pan',
     control_tooltip_touch: 'Drag to rotate\nPinch to zoom\nTwo-finger to pan',
+  },
+  my_cloud: {
+    title: 'My Cloud',
+    loading_file: 'Loading...',
+    no_file_title: 'Save files to My Cloud to get started.',
+    no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
+    sort: {
+      most_recent: 'Most Recent',
+      oldest: 'Oldest',
+      a_to_z: 'Name: A - Z',
+      z_to_a: 'Name: Z - A',
+    },
+    action: {
+      open: 'Open',
+      rename: 'Rename',
+      duplicate: 'Duplicate',
+      download: 'Download',
+      delete: 'Delete',
+      confirmFileDelete: 'Are you sure you want to delete this file? This action cannot be undone.',
+    },
   },
 };
 

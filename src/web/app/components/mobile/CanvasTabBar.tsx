@@ -7,6 +7,7 @@ import createNewText from 'app/svgedit/text/createNewText';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
@@ -64,6 +65,11 @@ const CanvasTabBar = (): JSX.Element => {
       title: lang.beambox.left_panel.label.photo,
       icon: <TabBarIcons.Photo />,
       badge: Badge.dot,
+    },
+    {
+      key: 'cloud',
+      title: lang.beambox.left_panel.label.my_cloud,
+      icon: <LeftPanelIcons.Cloud />,
     },
     {
       key: 'shape',
@@ -168,6 +174,8 @@ const CanvasTabBar = (): JSX.Element => {
       setTimeout(resetActiveKey, 300);
     } else if (key === 'boxgen') {
       dialogCaller.showBoxGen(resetActiveKey);
+    } else if (key === 'cloud') {
+      dialogCaller.showMyCloud(resetActiveKey);
     }
   };
 

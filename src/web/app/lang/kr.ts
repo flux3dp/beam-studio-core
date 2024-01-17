@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: '저장하기',
       save_as: '다른 이름으로 저장하기',
+      save_to_cloud: '클라우드에 저장',
       about_beam_studio: '빔스튜디오에 대해',
       undo: '이전 실행',
       redo: '다시 실행',
@@ -615,6 +616,7 @@ const lang: ILang = {
         live_feed: '라이브 피드',
         adjust_height: '높이 조절',
         boxgen: 'Boxgen',
+        my_cloud: '내 클라우드',
       },
     },
     right_panel: {
@@ -1619,6 +1621,26 @@ const lang: ILang = {
     zoom: '확대/축소',
     control_tooltip: '왼쪽 마우스로 회전\n스크롤로 확대/축소\n오른쪽 마우스로 이동',
     control_tooltip_touch: '드래그로 회전\n핀치로 확대/축소\n두 손가락으로 이동',
+  },
+  my_cloud: {
+    title: '내 클라우드',
+    loading_file: '로딩 중...',
+    no_file_title: '파일을 내 클라우드에 저장하여 시작하세요.',
+    no_file_subtitle: '메뉴 > "파일" > "클라우드에 저장"',
+    sort: {
+      most_recent: '최신 순',
+      oldest: '오래된 순',
+      a_to_z: '이름: A-Z',
+      z_to_a: '이름: Z-A',
+    },
+    action: {
+      open: '열기',
+      rename: '이름 바꾸기',
+      duplicate: '복제',
+      download: '다운로드',
+      delete: '삭제',
+      confirmFileDelete: '이 파일을 정말 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.',
+    },
   },
 };
 

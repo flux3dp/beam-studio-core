@@ -30,9 +30,11 @@ jest.mock('implementations/browser', () => ({
 
 const showShapePanel = jest.fn();
 const showBoxGen = jest.fn();
+const showMyCloud = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
   showShapePanel: (...args) => showShapePanel(...args),
-  showBoxGen: () => showBoxGen(),
+  showBoxGen: (...args) => showBoxGen(...args),
+  showMyCloud: (...args) => showMyCloud(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -114,6 +116,12 @@ describe('test DrawingToolButtonGroup', () => {
     fireEvent.click(container.querySelector('#left-Boxgen'));
     expect(container).toMatchSnapshot();
     expect(showBoxGen).toHaveBeenCalledTimes(1);
+    expect(showBoxGen).toHaveBeenCalledWith(mockUseSelectTool);
+
+    fireEvent.click(container.querySelector('#left-MyCloud'));
+    expect(container).toMatchSnapshot();
+    expect(showMyCloud).toHaveBeenCalledTimes(1);
+    expect(showMyCloud).toHaveBeenCalledWith(mockUseSelectTool);
   });
 
   test('event emitter', async () => {

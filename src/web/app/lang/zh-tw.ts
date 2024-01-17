@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: '儲存',
       save_as: '另存新檔',
+      save_to_cloud: '儲存到雲端',
       about_beam_studio: '關於 Beam Studio',
       undo: '復原',
       redo: '重做',
@@ -615,6 +616,7 @@ const lang: ILang = {
         live_feed: '即時視訊',
         adjust_height: '調整高度',
         boxgen: 'Boxgen',
+        my_cloud: '我的雲端',
       },
     },
     right_panel: {
@@ -1619,6 +1621,26 @@ const lang: ILang = {
     zoom: '縮放',
     control_tooltip: '左鍵旋轉\n滾輪縮放\n右鍵移動',
     control_tooltip_touch: '拖曳旋轉\n捏合縮放\n雙指移動',
+  },
+  my_cloud: {
+    title: '我的雲端',
+    loading_file: '載入中...',
+    no_file_title: '儲存檔案到我的雲端開始使用。',
+    no_file_subtitle: '轉到選單 > “檔案” > “儲存到雲端”',
+    sort: {
+      most_recent: '最近',
+      oldest: '最早',
+      a_to_z: '名稱: A - Z',
+      z_to_a: '名稱: Z - A',
+    },
+    action: {
+      open: '開啟',
+      rename: '重新命名',
+      duplicate: '複製',
+      download: '下載',
+      delete: '刪除',
+      confirmFileDelete: '您確定要刪除此檔案嗎?此操作無法復原。',
+    },
   },
 };
 

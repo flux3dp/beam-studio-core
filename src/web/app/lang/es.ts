@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Guardar',
       save_as: 'Guardar como...',
+      save_to_cloud: 'Guardar en la nube',
       about_beam_studio: 'Acerca de Beam Studio',
       undo: 'Deshacer',
       redo: 'Rehacer',
@@ -615,6 +616,7 @@ const lang: ILang = {
         live_feed: 'Transmisión en vivo',
         adjust_height: 'Ajustar altura',
         boxgen: 'Boxgen',
+        my_cloud: 'Mi nube',
       },
     },
     right_panel: {
@@ -1619,6 +1621,27 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Botón izquierdo para rotar\nDesplazarse para hacer zoom\nBotón derecho para mover',
     control_tooltip_touch: 'Arrastrar para rotar\nPellizcar para hacer zoom\nDos dedos para mover',
+  },
+  my_cloud: {
+    title: 'Mi nube',
+    loading_file: 'Cargando...',
+    no_file_title: 'Guarde archivos en Mi nube para comenzar.',
+    no_file_subtitle: 'Vaya al Menú > "Archivo" > "Guardar en la nube"',
+    sort: {
+      most_recent: 'Más recientes',
+      oldest: 'Más antiguos',
+      a_to_z: 'Nombre: A - Z',
+      z_to_a: 'Nombre: Z - A',
+    },
+    action: {
+      open: 'Abrir',
+      rename: 'Renombrar',
+      duplicate: 'Duplicar',
+      download: 'Descargar',
+      delete: 'Eliminar',
+      confirmFileDelete:
+        '¿Está seguro de que desea eliminar este archivo? Esta acción no se puede deshacer.',
+    },
   },
 };
 
