@@ -197,6 +197,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 No podemos encontrar tu máquina en la red.\nPor favor, sigue esta <a target="_blank" href="https://tupport.flux3dp.com/hc/en-us/articles/360001683556">guía</a> para solucionar el problema de conexión.',
+    no_device_web: '#801 Verifique el estado de su máquina o haga clic en \'Configuración de la máquina\' a continuación para configurar la máquina.'
   },
   update: {
     update: 'Actualizar',

@@ -193,8 +193,9 @@ export interface ILang {
     UNKNOWN_COMMAND: string,
   },
   device_selection: {
-    no_beambox: string,
-  },
+    no_beambox: string;
+    no_device_web: string;
+  };
   update: {
     update: string;
     release_note: string,

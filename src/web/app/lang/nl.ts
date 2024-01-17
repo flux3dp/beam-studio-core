@@ -203,6 +203,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 We kunnen uw machine niet vinden in het netwerk.\nVolg de <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">handleiding</a> om verbindingsproblemen op te lossen.',
+    no_device_web: '#801 Controleer de status van uw machine, of klik op \'Machine-instellingen\' hieronder om de machine in te stellen.',
   },
   update: {
     update: 'Bijwerken',
