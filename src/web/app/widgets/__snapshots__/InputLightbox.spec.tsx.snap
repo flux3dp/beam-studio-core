@@ -116,7 +116,6 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
                 <span>
                   Resolution
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -126,7 +125,6 @@ exports[`test InputLightbox should render correctly when type is file 1`] = `
                 <span>
                   UPLOAD
                 </span>
-                
               </button>
             </div>
           </div>
@@ -258,7 +256,6 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
                 <span>
                   Resolution
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -268,7 +265,6 @@ exports[`test InputLightbox should render correctly when type is password 1`] = 
                 <span>
                   CONNECT
                 </span>
-                
               </button>
             </div>
           </div>

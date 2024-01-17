@@ -70,7 +70,6 @@ exports[`test Breadcrumbs should render correctly 1`] = `
           c
         </span>
       </li>
-      
     </ol>
   </nav>
 </div>

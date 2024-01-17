@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
 
 const mockClearAllDialogComponents = jest.fn();
 const mockShowLoginDialog = jest.fn();
@@ -18,8 +17,8 @@ jest.mock('implementations/storage', () => ({
 import FluxIdLogin from './FluxIdLogin';
 
 test('should render correctly', () => {
-  const wrapper = mount(<FluxIdLogin />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container } = render(<FluxIdLogin />);
+  expect(container).toMatchSnapshot();
   expect(mockClearAllDialogComponents).toHaveBeenCalledTimes(1);
   expect(mockGet).toHaveBeenCalledTimes(1);
   expect(mockGet).toHaveBeenNthCalledWith(1, 'printer-is-ready');

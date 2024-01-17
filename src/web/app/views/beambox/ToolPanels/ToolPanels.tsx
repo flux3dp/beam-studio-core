@@ -5,6 +5,7 @@ import React from 'react';
 import ArrayModal from 'app/views/beambox/ToolPanels/ArrayModal';
 import Constant from 'app/actions/beambox/constant';
 import Dialog from 'app/actions/dialog-caller';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import IntervalPanel from 'app/views/beambox/ToolPanels/Interval';
 import NestGAPanel from 'app/views/beambox/ToolPanels/NestGAPanel';
@@ -23,6 +24,8 @@ import { ToolPanelType } from 'app/actions/beambox/toolPanelsController';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+
+const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const LANG = i18n.lang.beambox.tool_panels;
 const { $ } = window;
@@ -179,8 +182,7 @@ class ToolPanel extends React.Component<Props> {
   _onCancel = () => {
     this.props.unmount();
     svgCanvas.setMode('select');
-    $('.tool-btn').removeClass('active');
-    $('#left-Cursor').addClass('active');
+    drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
   };
 
   _getOnYes = () => {
@@ -195,8 +197,7 @@ class ToolPanel extends React.Component<Props> {
           svgCanvas.gridArraySelectedElement(distance, data.rowcolumn);
           unmount();
           svgCanvas.setMode('select');
-          $('.tool-btn').removeClass('active');
-          $('#left-Cursor').addClass('active');
+          drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
           svgCanvas.setHasUnsavedChange(true);
         };
       case 'offset':
@@ -208,8 +209,7 @@ class ToolPanel extends React.Component<Props> {
           );
           unmount();
           svgCanvas.setMode('select');
-          $('.tool-btn').removeClass('active');
-          $('#left-Cursor').addClass('active');
+          drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
           svgCanvas.setHasUnsavedChange(true);
         };
       case 'nest':
@@ -218,8 +218,7 @@ class ToolPanel extends React.Component<Props> {
           svgCanvas.nestElements(null, null, this.nestOptions);
           unmount();
           svgCanvas.setMode('select');
-          $('.tool-btn').removeClass('active');
-          $('#left-Cursor').addClass('active');
+          drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
         };
       default:
         return () => unmount();

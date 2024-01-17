@@ -20,7 +20,6 @@ exports[`test PolygonOptions should render correctly 1`] = `
           type="text"
           value="5"
         />
-        
       </div>
     </div>
   </div>
@@ -47,7 +46,6 @@ exports[`test PolygonOptions should render correctly 2`] = `
           type="text"
           value="5"
         />
-        
       </div>
     </div>
   </div>
@@ -74,7 +72,6 @@ exports[`test PolygonOptions should render correctly 3`] = `
           type="text"
           value="8"
         />
-        
       </div>
     </div>
   </div>
@@ -101,7 +98,6 @@ exports[`test PolygonOptions should render correctly 4`] = `
           type="text"
           value="5"
         />
-        
       </div>
     </div>
   </div>

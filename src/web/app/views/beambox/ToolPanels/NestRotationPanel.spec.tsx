@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -15,18 +14,26 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+jest.mock('app/widgets/Unit-Input-v2', () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ({ min, defaultValue, getValue }: any) => (
+    <div>
+      mock-unit-input min:{min}
+      defaultValue:{defaultValue}
+      <input className="unit-input" onChange={(e) => getValue(+e.target.value)} />
+    </div>
+  )
+);
+
 import NestRotationPanel from './NestRotationPanel';
 
 test('should render correctly', () => {
   const onValueChange = jest.fn();
-  const wrapper = shallow(<NestRotationPanel
-    rotations={1}
-    onValueChange={onValueChange}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container } = render(<NestRotationPanel rotations={1} onValueChange={onValueChange} />);
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('UnitInput').props().getValue(2);
+  fireEvent.change(container.querySelector('input.unit-input'), { target: { value: 2 } });
   expect(onValueChange).toHaveBeenCalledTimes(1);
   expect(onValueChange).toHaveBeenNthCalledWith(1, 2);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
