@@ -2,7 +2,8 @@ import isDev from 'helpers/is-dev';
 
 export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
 export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'fad1' | 'ado1';
-export const modelsSupportUsb = new Set(['fhexa1', 'ado1'])
+export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1']);
+export const modelsSupportUsb = new Set(['fhexa1', 'ado1']);
 
 interface WorkArea {
   label: WorkAreaLabel;
@@ -76,7 +77,8 @@ export default {
     getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
     getMaxSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.maxSpeed || 300,
     getMinSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.minSpeed || 3,
-    cameraCenter: (model: WorkAreaModel): number[] | undefined => WorkareaMap.get(model)?.cameraCenter,
+    cameraCenter: (model: WorkAreaModel): number[] | undefined =>
+      WorkareaMap.get(model)?.cameraCenter,
   },
   getRotaryModels: (model: WorkAreaModel): number[] => WorkareaMap.get(model)?.rotary || [0],
   camera: {
@@ -129,7 +131,9 @@ export default {
   },
   adorModels: ['ado1', 'fad1'],
   addonsSupportList: {
-    rotary: isDev() ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1'] : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
+    rotary: isDev()
+      ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1']
+      : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
     openBottom: ['fbm1'],
     autoFocus: ['fbm1'],
     hybridLaser: ['fbm1'],
@@ -138,9 +142,9 @@ export default {
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
   rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px
   sidePanelsWidth: window.os !== 'MacOS' ? 308 : 292, // px
-  topBarHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 70 : 40, // px
+  topBarHeight: window.os === 'Windows' && window.FLUX.version !== 'web' ? 70 : 40, // px
   topBarHeightWithoutTitleBar: 40, // px
-  menuberHeight: (window.os === 'Windows' && window.FLUX.version !== 'web') ? 30 : 0, // px
+  menuberHeight: window.os === 'Windows' && window.FLUX.version !== 'web' ? 30 : 0, // px
   layerListHeight: 400, // px
   rulerWidth: 15, // px
   rotaryYRatio: {
