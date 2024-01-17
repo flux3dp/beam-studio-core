@@ -1,10 +1,13 @@
-import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant, { WorkareaMap } from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import { DEFAULT_CONTROLLER_INCH, DEFAULT_CONTROLLER_MM } from 'app/constants/boxgen-constants';
 import { IController } from 'interfaces/IBoxgen';
+import moduleBoundary from 'app/constants/layer-module/module-boundary';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 
 interface BoxgenContextType {
   onClose: () => void;
@@ -37,7 +40,32 @@ interface BoxgenProviderProps {
 
 export function BoxgenProvider({ onClose, children }: BoxgenProviderProps): JSX.Element {
   const workareaValue = BeamboxPreference.read('workarea') || 'fbm1';
-  const workarea = WorkareaMap.get(workareaValue);
+  const workarea = useMemo(() => {
+    const currentWorkarea = WorkareaMap.get(workareaValue);
+    if (currentWorkarea.label === 'Ador') {
+      const laserModule = layerModuleHelper.getDefaultLaserModule();
+      const boundary = moduleBoundary[laserModule] as {
+        top: number;
+        left: number;
+        right: number;
+        bottom: number;
+      };
+      return {
+        value: workareaValue,
+        label: `${currentWorkarea.label} ${
+          laserModule === LayerModule.LASER_10W_DIODE ? '10W' : '20W'
+        }`,
+        canvasWidth: currentWorkarea.width / constant.dpmm - boundary.left - boundary.right,
+        canvasHeight: currentWorkarea.height / constant.dpmm - boundary.top - boundary.bottom,
+      };
+    }
+    return {
+      value: workareaValue,
+      label: currentWorkarea.label,
+      canvasWidth: currentWorkarea.width / constant.dpmm,
+      canvasHeight: currentWorkarea.height / constant.dpmm,
+    };
+  }, [workareaValue]);
 
   const unit = storage.get('default-units') || 'mm';
   const isMM = unit === 'mm';
@@ -59,12 +87,7 @@ export function BoxgenProvider({ onClose, children }: BoxgenProviderProps): JSX.
         setZoomKey,
         resetKey,
         setResetKey,
-        workarea: {
-          value: workareaValue,
-          label: workarea.label,
-          canvasWidth: workarea.width / constant.dpmm,
-          canvasHeight: workarea.height / constant.dpmm,
-        },
+        workarea,
         lengthUnit,
       }}
     >
