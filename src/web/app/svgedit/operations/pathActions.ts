@@ -5,6 +5,7 @@ import history from 'app/svgedit/history';
 import shortcuts from 'helpers/shortcuts';
 import selector from 'app/svgedit/selector';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import * as paper from 'paper';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
@@ -22,6 +23,8 @@ let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
+
+const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const { svgedit, ClipperLib } = window;
 const { NS } = svgedit;
@@ -204,8 +207,7 @@ const toSelectMode = (elem): void => {
   const currentMode = svgCanvas.getCurrentMode();
   if (currentMode === 'select') {
     $(svgedit.path.path.elem).attr('cursor', ''); // Unset path cursor type
-    $('.tool-btn').removeClass('active');
-    $('#left-Cursor').addClass('active');
+    drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
   } else if (currentMode === 'path') {
     $('#workarea').css('cursor', 'crosshair');
   }

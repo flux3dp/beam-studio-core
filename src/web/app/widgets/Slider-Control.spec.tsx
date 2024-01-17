@@ -1,165 +1,163 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+
 import SliderControl from './Slider-Control';
 
 describe('test Slider-Control', () => {
   test('should render correctly', () => {
-    const wrapper = mount(<SliderControl
-      id="abc"
-      label="Threshold"
-      min={0}
-      max={100}
-      step={2}
-      default={0}
-      onChange={jest.fn()}
-      unit="cm"
-      doOnlyOnMouseUp
-      doOnlyOnBlur
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <SliderControl
+        id="abc"
+        label="Threshold"
+        min={0}
+        max={100}
+        step={2}
+        default={0}
+        onChange={jest.fn()}
+        unit="cm"
+        doOnlyOnMouseUp
+        doOnlyOnBlur
+      />
+    );
+    expect(container).toMatchSnapshot();
   });
 
   test('should behave correctly with doOnlyOnMouseUp and doOnlyOnBlur', () => {
     const mockOnChange = jest.fn();
-    const wrapper = mount(<SliderControl
-      id="abc"
-      label="Threshold"
-      min={0}
-      max={100}
-      step={2}
-      default={0}
-      onChange={mockOnChange}
-      unit="cm"
-      doOnlyOnMouseUp
-      doOnlyOnBlur
-    />);
-    expect(wrapper.state().inputValue).toBe(0);
-    expect(wrapper.state().sliderValue).toBe(0);
-    expect(wrapper.state().lastValidValue).toBe(0);
+    const setState = jest.spyOn(SliderControl.prototype, 'setState');
+    const { container } = render(
+      <SliderControl
+        id="abc"
+        label="Threshold"
+        min={0}
+        max={100}
+        step={2}
+        default={0}
+        onChange={mockOnChange}
+        unit="cm"
+        doOnlyOnMouseUp
+        doOnlyOnBlur
+      />
+    );
+    const [slider, input] = container.querySelectorAll('input');
+    expect(input).toHaveValue('0');
+    expect(slider).toHaveValue('0');
 
-    wrapper.find('input.slider').simulate('change', {
+    fireEvent.change(slider, {
       target: {
         value: 1,
       },
     });
-    expect(wrapper.state().inputValue).toBe(1);
-    expect(wrapper.state().sliderValue).toBe(1);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(setState).toBeCalledTimes(1);
+    expect(setState).toHaveBeenLastCalledWith(
+      {
+        inputValue: '1',
+        lastValidValue: '1',
+        sliderValue: '1',
+      },
+      expect.any(Function)
+    );
     expect(mockOnChange).not.toHaveBeenCalled();
 
-    wrapper.find('input.slider').simulate('mouseup', {
+    fireEvent.mouseUp(slider, {
       target: {
         value: '2',
       },
     });
-    expect(wrapper.state().inputValue).toBe(1);
-    expect(wrapper.state().sliderValue).toBe(1);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(input).toHaveValue('1');
+    expect(slider).toHaveValue('2');
     expect(mockOnChange).toHaveBeenCalledTimes(1);
     expect(mockOnChange).toHaveBeenNthCalledWith(1, 'abc', '2');
 
-    wrapper.find('input#abc').simulate('change', {
+    fireEvent.change(input, {
       target: {
         value: '3',
       },
     });
-    expect(wrapper.state().inputValue).toBe('3');
-    expect(wrapper.state().sliderValue).toBe(3);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(input).toHaveValue('3');
+    expect(slider).toHaveValue('3');
     expect(mockOnChange).toHaveBeenCalledTimes(1);
 
-    wrapper.find('input#abc').simulate('focus', {
+    fireEvent.focus(input, {
       target: {
         value: '',
       },
     });
-    expect(wrapper.state().inputValue).toBe('');
-    expect(wrapper.state().sliderValue).toBe(3);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(input).toHaveValue('');
+    expect(slider).toHaveValue('3');
     expect(mockOnChange).toHaveBeenCalledTimes(1);
 
-    wrapper.find('input#abc').simulate('blur', {
+    fireEvent.blur(input, {
       target: {
         value: '4',
       },
     });
-    expect(wrapper.state().inputValue).toBe(1);
-    expect(wrapper.state().sliderValue).toBe(1);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(input).toHaveValue('4');
+    expect(slider).toHaveValue('1');
     expect(mockOnChange).toHaveBeenCalledTimes(1);
-
-    const mockStopPropagation = jest.fn();
-    wrapper.find('input#abc').simulate('keydown', {
-      stopPropagation: mockStopPropagation,
-    });
-    expect(mockStopPropagation).toHaveBeenCalledTimes(1);
   });
 
   test('should behave correctly without doOnlyOnMouseUp and doOnlyOnBlur', () => {
     const mockOnChange = jest.fn();
-    const wrapper = mount(<SliderControl
-      id="abc"
-      label="Threshold"
-      min={0}
-      max={100}
-      step={2}
-      default={0}
-      onChange={mockOnChange}
-      unit="cm"
-    />);
-    expect(wrapper.state().inputValue).toBe(0);
-    expect(wrapper.state().sliderValue).toBe(0);
-    expect(wrapper.state().lastValidValue).toBe(0);
+    const { container } = render(
+      <SliderControl
+        id="abc"
+        label="Threshold"
+        min={0}
+        max={100}
+        step={2}
+        default={0}
+        onChange={mockOnChange}
+        unit="cm"
+      />
+    );
+    const [slider, input] = container.querySelectorAll('input');
+    expect(input).toHaveValue('0');
+    expect(slider).toHaveValue('0');
 
-    wrapper.find('input.slider').simulate('change', {
+    fireEvent.change(slider, {
       target: {
         value: 1,
       },
     });
-    expect(wrapper.state().inputValue).toBe(1);
-    expect(wrapper.state().sliderValue).toBe(1);
-    expect(wrapper.state().lastValidValue).toBe(1);
-    expect(mockOnChange).toHaveBeenNthCalledWith(1, 'abc', 1);
+    expect(input).toHaveValue('1');
+    expect(slider).toHaveValue('1');
+    expect(mockOnChange).toHaveBeenNthCalledWith(1, 'abc', '1');
 
-    wrapper.find('input.slider').simulate('mouseup', {
+    fireEvent.mouseUp(slider, {
       target: {
         value: '2',
       },
     });
-    expect(wrapper.state().inputValue).toBe(1);
-    expect(wrapper.state().sliderValue).toBe(1);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(input).toHaveValue('1');
+    expect(slider).toHaveValue('2');
     expect(mockOnChange).toHaveBeenCalledTimes(1);
 
-    wrapper.find('input#abc').simulate('change', {
+    fireEvent.change(input, {
       target: {
         value: '',
       },
     });
-    expect(wrapper.state().inputValue).toBe('');
-    expect(wrapper.state().sliderValue).toBe(1);
-    expect(wrapper.state().lastValidValue).toBe(1);
+    expect(input).toHaveValue('');
+    expect(slider).toHaveValue('1');
     expect(mockOnChange).toHaveBeenCalledTimes(1);
 
-    wrapper.find('input#abc').simulate('focus', {
+    fireEvent.focus(input, {
       target: {
         value: '3',
       },
     });
-    expect(wrapper.state().inputValue).toBe('3');
-    expect(wrapper.state().sliderValue).toBe(3);
-    expect(wrapper.state().lastValidValue).toBe(3);
+    expect(input).toHaveValue('3');
+    expect(slider).toHaveValue('3');
     expect(mockOnChange).toHaveBeenNthCalledWith(2, 'abc', '3');
 
-    wrapper.find('input#abc').simulate('blur', {
+    fireEvent.blur(input, {
       target: {
         value: '4',
       },
     });
-    expect(wrapper.state().inputValue).toBe('3');
-    expect(wrapper.state().sliderValue).toBe(3);
-    expect(wrapper.state().lastValidValue).toBe(3);
+    expect(input).toHaveValue('4');
+    expect(slider).toHaveValue('3');
     expect(mockOnChange).toHaveBeenCalledTimes(2);
   });
 });

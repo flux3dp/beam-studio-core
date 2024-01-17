@@ -1,272 +1,272 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`side panel test should render correctly when disabled 1`] = `
-<div
-  className="wide"
-  id="path-preview-side-panel"
->
+<div>
   <div
-    className="title"
-  >
-    Preview Information
-  </div>
-  <div
-    className="datas"
+    class="wide"
+    id="path-preview-side-panel"
   >
     <div
-      className="data-block"
+      class="title"
+    >
+      Preview Information
+    </div>
+    <div
+      class="datas"
     >
       <div
-        className="item"
+        class="data-block"
       >
-        Size
+        <div
+          class="item"
+        >
+          Size
+        </div>
+        <div
+          class="value"
+        >
+          100 x 100 mm
+        </div>
       </div>
       <div
-        className="value"
+        class="data-block"
       >
-        100 x 100 mm
+        <div
+          class="item"
+        >
+          Total Time Estimated
+        </div>
+        <div
+          class="value"
+        >
+          60 s
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Cut Time
+        </div>
+        <div
+          class="value"
+        >
+          30 s
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Travel Time
+        </div>
+        <div
+          class="value"
+        >
+          10 s
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Cut Distance
+        </div>
+        <div
+          class="value"
+        >
+          50 mm
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Travel Distance
+        </div>
+        <div
+          class="value"
+        >
+          30 mm
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Current Position
+        </div>
+        <div
+          class="value"
+        >
+          50, 50 mm
+        </div>
       </div>
     </div>
     <div
-      className="data-block"
+      class="remark"
     >
-      <div
-        className="item"
-      >
-        Total Time Estimated
-      </div>
-      <div
-        className="value"
-      >
-        60 s
-      </div>
+      * All pieces of information are estimated value for reference.
     </div>
     <div
-      className="data-block"
+      class="buttons"
     >
       <div
-        className="item"
+        class="btn btn-default primary disabled"
       >
-        Cut Time
+        Start Here
       </div>
       <div
-        className="value"
+        class="btn btn-default"
       >
-        30 s
+        End Preview
       </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Travel Time
-      </div>
-      <div
-        className="value"
-      >
-        10 s
-      </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Cut Distance
-      </div>
-      <div
-        className="value"
-      >
-        50 mm
-      </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Travel Distance
-      </div>
-      <div
-        className="value"
-      >
-        30 mm
-      </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Current Position
-      </div>
-      <div
-        className="value"
-      >
-        50, 50 mm
-      </div>
-    </div>
-  </div>
-  <div
-    className="remark"
-  >
-    * All pieces of information are estimated value for reference.
-  </div>
-  <div
-    className="buttons"
-  >
-    <div
-      className="btn btn-default primary disabled"
-      onClick={null}
-    >
-      Start Here
-    </div>
-    <div
-      className="btn btn-default"
-      onClick={[MockFunction]}
-    >
-      End Preview
     </div>
   </div>
 </div>
 `;
 
 exports[`side panel test should render correctly when enabled 1`] = `
-<div
-  className="wide"
-  id="path-preview-side-panel"
->
+<div>
   <div
-    className="title"
-  >
-    Preview Information
-  </div>
-  <div
-    className="datas"
+    class="wide"
+    id="path-preview-side-panel"
   >
     <div
-      className="data-block"
+      class="title"
+    >
+      Preview Information
+    </div>
+    <div
+      class="datas"
     >
       <div
-        className="item"
+        class="data-block"
       >
-        Size
+        <div
+          class="item"
+        >
+          Size
+        </div>
+        <div
+          class="value"
+        >
+          100 x 100 mm
+        </div>
       </div>
       <div
-        className="value"
+        class="data-block"
       >
-        100 x 100 mm
+        <div
+          class="item"
+        >
+          Total Time Estimated
+        </div>
+        <div
+          class="value"
+        >
+          60 s
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Cut Time
+        </div>
+        <div
+          class="value"
+        >
+          30 s
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Travel Time
+        </div>
+        <div
+          class="value"
+        >
+          10 s
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Cut Distance
+        </div>
+        <div
+          class="value"
+        >
+          50 mm
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Travel Distance
+        </div>
+        <div
+          class="value"
+        >
+          30 mm
+        </div>
+      </div>
+      <div
+        class="data-block"
+      >
+        <div
+          class="item"
+        >
+          Current Position
+        </div>
+        <div
+          class="value"
+        >
+          50, 50 mm
+        </div>
       </div>
     </div>
     <div
-      className="data-block"
+      class="remark"
     >
-      <div
-        className="item"
-      >
-        Total Time Estimated
-      </div>
-      <div
-        className="value"
-      >
-        60 s
-      </div>
+      * All pieces of information are estimated value for reference.
     </div>
     <div
-      className="data-block"
+      class="buttons"
     >
       <div
-        className="item"
+        class="btn btn-default primary"
       >
-        Cut Time
+        Start Here
       </div>
       <div
-        className="value"
+        class="btn btn-default"
       >
-        30 s
+        End Preview
       </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Travel Time
-      </div>
-      <div
-        className="value"
-      >
-        10 s
-      </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Cut Distance
-      </div>
-      <div
-        className="value"
-      >
-        50 mm
-      </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Travel Distance
-      </div>
-      <div
-        className="value"
-      >
-        30 mm
-      </div>
-    </div>
-    <div
-      className="data-block"
-    >
-      <div
-        className="item"
-      >
-        Current Position
-      </div>
-      <div
-        className="value"
-      >
-        50, 50 mm
-      </div>
-    </div>
-  </div>
-  <div
-    className="remark"
-  >
-    * All pieces of information are estimated value for reference.
-  </div>
-  <div
-    className="buttons"
-  >
-    <div
-      className="btn btn-default primary"
-      onClick={[MockFunction]}
-    >
-      Start Here
-    </div>
-    <div
-      className="btn btn-default"
-      onClick={[MockFunction]}
-    >
-      End Preview
     </div>
   </div>
 </div>

@@ -314,7 +314,6 @@ exports[`should render correctly default unit is inches 1`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -323,7 +322,6 @@ exports[`should render correctly default unit is inches 1`] = `
                 <span>
                   Confirm
                 </span>
-                
               </button>
             </div>
           </div>
@@ -653,7 +651,6 @@ exports[`should render correctly default unit is mm 1`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -662,7 +659,6 @@ exports[`should render correctly default unit is mm 1`] = `
                 <span>
                   Confirm
                 </span>
-                
               </button>
             </div>
           </div>

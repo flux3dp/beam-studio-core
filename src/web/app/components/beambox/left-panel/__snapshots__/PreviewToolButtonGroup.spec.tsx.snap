@@ -1,33 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<div
-  className="left-toolbar"
->
-  <LeftPanelButton
-    icon={<svgr-url />}
-    id="preview back"
-    onClick={[MockFunction]}
-    title="End Preview"
-  />
-  <LeftPanelButton
-    active={true}
-    icon={<svgr-url />}
-    id="preview-shoot"
-    onClick={[Function]}
-    title="Camera Preview"
-  />
-  <LeftPanelButton
-    icon={<svgr-url />}
-    id="image-trace"
-    onClick={[Function]}
-    title="Trace Image"
-  />
-  <LeftPanelButton
-    icon={<svgr-url />}
-    id="clear-preview"
-    onClick={[Function]}
-    title="Clear Preview"
-  />
+<div>
+  <div
+    class="left-toolbar"
+  >
+    <div
+      class="container"
+      id="preview back"
+      title="End Preview"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container active"
+      id="preview-shoot"
+      title="Camera Preview"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="image-trace"
+      title="Trace Image"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="clear-preview"
+      title="Clear Preview"
+    >
+      <svgr-url />
+    </div>
+  </div>
 </div>
 `;

@@ -97,6 +97,11 @@ const CanvasTabBar = (): JSX.Element => {
       icon: <TabBarIcons.Draw />,
     },
     {
+      key: 'boxgen',
+      title: lang.beambox.left_panel.label.boxgen,
+      icon: <TabBarIcons.Boxgen />,
+    },
+    {
       key: 'document',
       title: lang.topbar.menu.document_setting_short,
       icon: <TabBarIcons.Document />,
@@ -161,6 +166,8 @@ const CanvasTabBar = (): JSX.Element => {
     } else if (key === 'dmkt') {
       browser.open(lang.topbar.menu.link.design_market);
       setTimeout(resetActiveKey, 300);
+    } else if (key === 'boxgen') {
+      dialogCaller.showBoxGen(resetActiveKey);
     }
   };
 

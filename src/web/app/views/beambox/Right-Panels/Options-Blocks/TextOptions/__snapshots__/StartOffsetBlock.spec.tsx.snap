@@ -1,133 +1,110 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test StartOffsetBlock should render correctly 1`] = `
-<div
-  className="option-block"
->
+<div>
   <div
-    className="label"
+    class="option-block"
   >
-    Text Offset
+    <div
+      class="label"
+    >
+      Text Offset
+    </div>
+    <div>
+      mock-unit-input min:
+      0
+      max:
+      100
+      decimal:
+      0
+      defaultValue:
+      0
+      className:
+      {"option-input":true}
+      <input
+        class="unit-input"
+      />
+    </div>
   </div>
-  <UnitInput
-    abbr={false}
-    className={
-      {
-        "option-input": true,
-      }
-    }
-    decimal={0}
-    defaultValue={0}
-    disabled={false}
-    displayMultiValue={false}
-    forceUsePropsUnit={false}
-    getValue={[MockFunction]}
-    isDoOnInput={false}
-    max={100}
-    min={0}
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyUp={[Function]}
-    step={1}
-    type="text"
-    unit=""
-  />
 </div>
 `;
 
 exports[`test StartOffsetBlock should render correctly 2`] = `
-<div
-  className="option-block"
->
+<div>
   <div
-    className="label"
+    class="option-block"
   >
-    Text Offset
+    <div
+      class="label"
+    >
+      Text Offset
+    </div>
+    <div>
+      mock-unit-input min:
+      0
+      max:
+      100
+      decimal:
+      0
+      defaultValue:
+      0
+      className:
+      {"option-input":true}
+      <input
+        class="unit-input"
+      />
+    </div>
   </div>
-  <UnitInput
-    abbr={false}
-    className={
-      {
-        "option-input": true,
-      }
-    }
-    decimal={0}
-    defaultValue={0}
-    disabled={false}
-    displayMultiValue={false}
-    forceUsePropsUnit={false}
-    getValue={[MockFunction]}
-    isDoOnInput={false}
-    max={100}
-    min={0}
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyUp={[Function]}
-    step={1}
-    type="text"
-    unit=""
-  />
 </div>
 `;
 
 exports[`test StartOffsetBlock should render correctly 3`] = `
-<div
-  className="option-block"
->
+<div>
   <div
-    className="label"
+    class="option-block"
   >
-    Text Offset
+    <div
+      class="label"
+    >
+      Text Offset
+    </div>
+    <div>
+      mock-unit-input min:
+      0
+      max:
+      100
+      decimal:
+      0
+      defaultValue:
+      0
+      className:
+      {"option-input":true}
+      <input
+        class="unit-input"
+      />
+    </div>
   </div>
-  <UnitInput
-    abbr={false}
-    className={
-      {
-        "option-input": true,
-      }
-    }
-    decimal={0}
-    defaultValue={0}
-    disabled={false}
-    displayMultiValue={false}
-    forceUsePropsUnit={false}
-    getValue={
-      [MockFunction] {
-        "calls": [
-          [
-            100,
-          ],
-        ],
-        "results": [
-          {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      }
-    }
-    isDoOnInput={false}
-    max={100}
-    min={0}
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyUp={[Function]}
-    step={1}
-    type="text"
-    unit=""
-  />
 </div>
 `;
 
 exports[`test StartOffsetBlock should render correctly in mobile 1`] = `
-<ObjectPanelNumber
-  decimal={0}
-  id="start_offset"
-  label="Text Offset"
-  max={100}
-  min={0}
-  unit=""
-  updateValue={[MockFunction]}
-  value={0}
-/>
+<div>
+  <div>
+    mock-number-item id:
+    start_offset
+    label:
+    Text Offset
+    min:
+    0
+    max:
+    100
+    decimal:
+    0
+    value:
+    0
+    <input
+      class="unit-input"
+    />
+  </div>
+</div>
 `;

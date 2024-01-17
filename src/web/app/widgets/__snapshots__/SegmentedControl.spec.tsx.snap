@@ -1,161 +1,145 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test SegmentedControl click on selected index 1`] = `
-<div
-  className="segmented-control"
->
+<div>
   <div
-    className="seg-item selected"
-    key="0"
-    onClick={[Function]}
-    title="tCorner"
+    class="segmented-control"
   >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-0.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="1"
-    onClick={[Function]}
-    title="tSmooth"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-1.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="2"
-    onClick={[Function]}
-    title="tSymmetry"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-2.svg"
-    />
+    <div
+      class="seg-item selected"
+      title="tCorner"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-0.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSmooth"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-1.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSymmetry"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-2.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`test SegmentedControl disabled 1`] = `
-<div
-  className="segmented-control disabled"
->
+<div>
   <div
-    className="seg-item selected"
-    key="0"
-    onClick={[Function]}
-    title="tCorner"
+    class="segmented-control disabled"
   >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-0.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="1"
-    onClick={[Function]}
-    title="tSmooth"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-1.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="2"
-    onClick={[Function]}
-    title="tSymmetry"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-2.svg"
-    />
+    <div
+      class="seg-item selected"
+      title="tCorner"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-0.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSmooth"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-1.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSymmetry"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-2.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`test SegmentedControl enabled 1`] = `
-<div
-  className="segmented-control"
->
+<div>
   <div
-    className="seg-item selected"
-    key="0"
-    onClick={[Function]}
-    title="tCorner"
+    class="segmented-control"
   >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-0.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="1"
-    onClick={[Function]}
-    title="tSmooth"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-1.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="2"
-    onClick={[Function]}
-    title="tSymmetry"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-2.svg"
-    />
+    <div
+      class="seg-item selected"
+      title="tCorner"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-0.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSmooth"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-1.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSymmetry"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-2.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`test SegmentedControl multiple selected indexes 1`] = `
-<div
-  className="segmented-control"
->
+<div>
   <div
-    className="seg-item selected"
-    key="0"
-    onClick={[Function]}
-    title="tCorner"
+    class="segmented-control"
   >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-0.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="1"
-    onClick={[Function]}
-    title="tSmooth"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-1.svg"
-    />
-  </div>
-  <div
-    className="seg-item"
-    key="2"
-    onClick={[Function]}
-    title="tSymmetry"
-  >
-    <img
-      className="seg-item-image"
-      src="img/right-panel/icon-nodetype-2.svg"
-    />
+    <div
+      class="seg-item selected"
+      title="tCorner"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-0.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSmooth"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-1.svg"
+      />
+    </div>
+    <div
+      class="seg-item"
+      title="tSymmetry"
+    >
+      <img
+        class="seg-item-image"
+        src="img/right-panel/icon-nodetype-2.svg"
+      />
+    </div>
   </div>
 </div>
 `;
