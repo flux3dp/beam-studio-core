@@ -1232,6 +1232,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Bạn cần có tư cách thành viên FLUX+ Pro hoặc bổ trợ Phông chữ Monotype để truy cập tính năng này.',
       learn_more: 'Tìm hiểu thêm',
       get_addon: 'Nhận bổ trợ',
+      subscribe_now: 'Đăng ký ngay',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

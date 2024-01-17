@@ -1233,6 +1233,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Sinulla on oltava FLUX+ Pro -jäsenyys tai Monotype-fontit lisäosa käyttääksesi tätä ominaisuutta.',
       learn_more: 'Lue lisää',
       get_addon: 'Hanki lisäosa',
+      subscribe_now: 'Tilaa nyt',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

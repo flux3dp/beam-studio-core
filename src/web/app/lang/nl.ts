@@ -1233,6 +1233,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'U moet FLUX+ Pro-lid zijn of de Monotype-lettertypen-invoegtoepassing hebben om toegang te krijgen tot deze functie.',
       learn_more: 'Meer informatie',
       get_addon: 'Krijg invoegtoepassing',
+      subscribe_now: 'Abonneer nu',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

@@ -1237,6 +1237,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Anda perlu mempunyai keahlian FLUX+ Pro atau Tambahan Font Monotype untuk mengakses ciri ini.',
       learn_more: 'Ketahui Lebih Lanjut',
       get_addon: 'Dapatkan Tambahan',
+      subscribe_now: 'Langgan sekarang',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

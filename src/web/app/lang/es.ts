@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Debe tener la membresía FLUX+ Pro o el complemento Fuentes Monotype para acceder a esta característica.',
       learn_more: 'Más información',
       get_addon: 'Obtener complemento',
+      subscribe_now: 'Suscríbase ahora',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

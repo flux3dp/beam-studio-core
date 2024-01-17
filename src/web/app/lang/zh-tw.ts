@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: '您必須擁有 FLUX+ Pro 會員資格或加購 Monotype 字型才能使用此功能。',
       learn_more: '了解更多',
       get_addon: '加購',
+      subscribe_now: '立即訂閱',
       website_url: 'https://tw.flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/zh-TW/subscription',
       features: {
@@ -1177,7 +1178,7 @@ const lang: ILang = {
         my_cloud: '雲端儲存空間',
         boxgen: '3D 盒子產生器',
         dmkt: '1000+ 設計檔案',
-        monotype: '250+ 高級字型',
+        monotype: '250+ 商用字型',
       },
     },
   },

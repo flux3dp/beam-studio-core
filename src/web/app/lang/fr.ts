@@ -1245,6 +1245,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Vous devez être membre de FLUX+ Pro ou avoir le module complémentaire Polices Monotype pour accéder à cette fonctionnalité.',
       learn_more: 'En savoir plus',
       get_addon: 'Obtenir le module',
+      subscribe_now: 'Abonnez-vous maintenant',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

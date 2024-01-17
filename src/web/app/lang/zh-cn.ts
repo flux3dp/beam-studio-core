@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: '您必须是 FLUX+ Pro 会员或购买 Monotype 字体加购才能访问此功能。',
       learn_more: '了解更多',
       get_addon: '购买加购',
+      subscribe_now: '立即订阅',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

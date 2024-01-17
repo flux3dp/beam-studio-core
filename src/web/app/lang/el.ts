@@ -1246,6 +1246,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Πρέπει να έχετε συνδρομή FLUX+ Pro ή το πρόσθετο γραμματοσειρών Monotype για να έχετε πρόσβαση σε αυτή τη λειτουργία.',
       learn_more: 'Μάθετε περισσότερα',
       get_addon: 'Αποκτήστε το πρόσθετο',
+      subscribe_now: 'Εγγραφείτε τώρα',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

@@ -1239,6 +1239,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Devi avere l\'abbonamento FLUX+ Pro o l\'add-on Caratteri Monotype per accedere a questa funzionalità.',
       learn_more: 'Per saperne di più',
       get_addon: 'Ottieni l\'add-on',
+      subscribe_now: 'Iscriviti adesso',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

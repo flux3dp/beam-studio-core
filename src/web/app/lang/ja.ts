@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'この機能をご利用いただくには FLUX+ Pro メンバーシップまたは Monotype フォント アドオンが必要です。',
       learn_more: '詳細を見る',
       get_addon: 'アドオンを取得',
+      subscribe_now: '今すぐ購読する',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

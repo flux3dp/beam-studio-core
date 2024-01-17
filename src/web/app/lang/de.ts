@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Sie müssen FLUX+ Pro-Mitgliedschaft oder Monotype-Schriften-Add-on haben, um auf diese Funktion zuzugreifen.',
       learn_more: 'Mehr erfahren',
       get_addon: 'Add-on holen',
+      subscribe_now: 'Jetzt abonnieren',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

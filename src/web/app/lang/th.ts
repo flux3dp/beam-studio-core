@@ -1224,6 +1224,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'คุณต้องเป็นสมาชิก FLUX+ Pro หรือซื้อโมโนไทป์ ฟอนต์ แอดออน เพื่อใช้คุณสมบัตินี้',
       learn_more: 'เรียนรู้เพิ่มเติม',
       get_addon: 'รับแอดออน',
+      subscribe_now: 'สมัครรับข่าวสารตอนนี้',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

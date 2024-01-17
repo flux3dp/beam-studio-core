@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: '이 기능을 사용하려면 FLUX+ 프로 멤버십 또는 모노타입 글꼴 추가 기능이 필요합니다.',
       learn_more: '자세히 알아보기',
       get_addon: '추가 기능 받기',
+      subscribe_now: '지금 구독하기',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

@@ -1240,6 +1240,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Anda perlu berlangganan FLUX+ Pro atau Add-on Font Monotype untuk mengakses fitur ini.',
       learn_more: 'Pelajari Lebih Lanjut',
       get_addon: 'Dapatkan Add-on',
+      subscribe_now: 'Berlangganan sekarang',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

@@ -1170,6 +1170,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Musisz mieć członkostwo FLUX+ Pro lub dodatek Czcionki Monotype, aby uzyskać dostęp do tej funkcji.',
       learn_more: 'Dowiedz się więcej',
       get_addon: 'Pobierz dodatek',
+      subscribe_now: 'Zapisz się teraz',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

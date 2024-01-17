@@ -1236,6 +1236,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Du måste ha FLUX+ Pro-medlemskap eller Monotype Fonts-tillägget för att använda den här funktionen.',
       learn_more: 'Läs mer',
       get_addon: 'Skaffa tillägg',
+      subscribe_now: 'Prenumerera nu',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {

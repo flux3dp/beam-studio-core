@@ -1167,6 +1167,7 @@ export interface ILang {
       access_monotype_feature_note: string;
       learn_more: string;
       get_addon: string;
+      subscribe_now: string;
       website_url: string;
       member_center_url: string;
       features: {
