@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -43,40 +42,20 @@ getSVGAsync.mockImplementation((callback) => {
   });
 });
 
-jest.mock('app/views/beambox/ToolPanels/Interval', () => function DummyInterval() {
-  return (<div>This is dummy Interval</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/NestGAPanel', () => function DummyNestGAPanel() {
-  return (<div>This is dummy NestGAPanel</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/NestRotationPanel', () => function DummyNestRotationPanel() {
-  return (<div>This is dummy NestRotationPanel</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/NestSpacingPanel', () => function DummyNestSpacingPanel() {
-  return (<div>This is dummy NestSpacingPanel</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/OffsetCornerPanel', () => function DummyOffsetCornerPanel() {
-  return (<div>This is dummy OffsetCornerPanel</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/OffsetDirectionPanel', () => function DummyOffsetDirectionPanel() {
-  return (<div>This is dummy OffsetDirectionPanel</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/OffsetDistancePanel', () => function DummyOffsetDistancePanel() {
-  return (<div>This is dummy OffsetDistancePanel</div>);
-});
-
-jest.mock('app/views/beambox/ToolPanels/RowColumn', () => function DummyRowColumn() {
-  return (<div>This is dummy RowColumn</div>);
-});
-
-jest.mock('app/actions/beambox/toolPanelsController', () => ({
-}));
+jest.mock('app/views/beambox/ToolPanels/Interval', () => 'dummy-interval');
+jest.mock('app/views/beambox/ToolPanels/NestGAPanel', () => ({ nestOptions }: any) => (
+  <div>dummy-nest-ga-panel nestOptions: {JSON.stringify(nestOptions)}</div>
+));
+jest.mock('app/views/beambox/ToolPanels/NestRotationPanel', () => 'dummy-nest-rotation-panel');
+jest.mock('app/views/beambox/ToolPanels/NestSpacingPanel', () => 'dummy-nest-spacing-panel');
+jest.mock('app/views/beambox/ToolPanels/OffsetCornerPanel', () => 'dummy-offset-corner-panel');
+jest.mock(
+  'app/views/beambox/ToolPanels/OffsetDirectionPanel',
+  () => 'dummy-offset-direction-panel'
+);
+jest.mock('app/views/beambox/ToolPanels/OffsetDistancePanel', () => 'dummy-offset-distance-panel');
+jest.mock('app/views/beambox/ToolPanels/RowColumn', () => 'dummy-row-column');
+jest.mock('app/actions/beambox/toolPanelsController', () => ({}));
 
 const isMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
@@ -92,8 +71,6 @@ jest.mock('app/actions/dialog-caller', () => ({
   addDialogComponent,
 }));
 
-import ArrayModal from './ArrayModal';
-import OffsetModal from './OffsetModal';
 import ToolPanels from './ToolPanels';
 
 describe('should render correctly', () => {
@@ -103,59 +80,65 @@ describe('should render correctly', () => {
 
   test('type is gridArray', () => {
     const unmount = jest.fn();
-    const wrapper = shallow(<ToolPanels
-      type="gridArray"
-      data={{
-        rowcolumn: {
-          row: 1,
-          column: 1,
-        },
-        distance: {
-          dx: 0,
-          dy: 0,
-        },
-      }}
-      unmount={unmount}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <ToolPanels
+        type="gridArray"
+        data={{
+          rowcolumn: {
+            row: 1,
+            column: 1,
+          },
+          distance: {
+            dx: 0,
+            dy: 0,
+          },
+        }}
+        unmount={unmount}
+      />
+    );
+    expect(container).toMatchSnapshot();
   });
 
   test('type is offset', () => {
     const unmount = jest.fn();
-    const wrapper = shallow(<ToolPanels
-      type="offset"
-      data={{
-        rowcolumn: {
-          row: 1,
-          column: 1,
-        },
-        distance: {
-          dx: 0,
-          dy: 0,
-        },
-      }}
-      unmount={unmount}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <ToolPanels
+        type="offset"
+        data={{
+          rowcolumn: {
+            row: 1,
+            column: 1,
+          },
+          distance: {
+            dx: 0,
+            dy: 0,
+          },
+        }}
+        unmount={unmount}
+      />
+    );
+    expect(container).toMatchSnapshot();
   });
 
   test('type is nest', () => {
     const unmount = jest.fn();
-    const wrapper = shallow(<ToolPanels
-      type="nest"
-      data={{
-        rowcolumn: {
-          row: 1,
-          column: 1,
-        },
-        distance: {
-          dx: 0,
-          dy: 0,
-        },
-      }}
-      unmount={unmount}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <ToolPanels
+        type="nest"
+        data={{
+          rowcolumn: {
+            row: 1,
+            column: 1,
+          },
+          distance: {
+            dx: 0,
+            dy: 0,
+          },
+        }}
+        unmount={unmount}
+      />
+    );
+    expect(container).toMatchSnapshot();
   });
 });
 
@@ -167,52 +150,52 @@ describe('should render correctly in mobile', () => {
 
   test('type is gridArray', () => {
     const unmount = jest.fn();
-    const wrapper = shallow(<ToolPanels
-      type="gridArray"
-      data={{
-        rowcolumn: {
-          row: 1,
-          column: 1,
-        },
-        distance: {
-          dx: 0,
-          dy: 0,
-        },
-      }}
-      unmount={unmount}
-    />);
-    expect(toJson(wrapper)).toBe('');
+    const { container } = render(
+      <ToolPanels
+        type="gridArray"
+        data={{
+          rowcolumn: {
+            row: 1,
+            column: 1,
+          },
+          distance: {
+            dx: 0,
+            dy: 0,
+          },
+        }}
+        unmount={unmount}
+      />
+    );
+    expect(container).toMatchSnapshot();
     expect(isIdExist).toBeCalledTimes(1);
     expect(isIdExist).toBeCalledWith('gridArray');
     expect(addDialogComponent).toBeCalledTimes(1);
-    expect(addDialogComponent).toBeCalledWith(
-      'gridArray',
-      <ArrayModal onCancel={expect.any(Function)} onOk={expect.any(Function)} />
-    );
+    expect(addDialogComponent).toBeCalledWith('gridArray', expect.anything());
+    expect(addDialogComponent.mock.calls[0][1]).toMatchSnapshot();
   });
 
   test('type is offset', () => {
     const unmount = jest.fn();
-    const wrapper = shallow(<ToolPanels
-      type="offset"
-      data={{
-        rowcolumn: {
-          row: 1,
-          column: 1,
-        },
-        distance: {
-          dx: 0,
-          dy: 0,
-        },
-      }}
-      unmount={unmount}
-    />);
-    expect(toJson(wrapper)).toBe('');
+    const { container } = render(
+      <ToolPanels
+        type="offset"
+        data={{
+          rowcolumn: {
+            row: 1,
+            column: 1,
+          },
+          distance: {
+            dx: 0,
+            dy: 0,
+          },
+        }}
+        unmount={unmount}
+      />
+    );
+    expect(container).toMatchSnapshot();
     expect(isIdExist).toBeCalledWith('offset');
     expect(addDialogComponent).toBeCalledTimes(1);
-    expect(addDialogComponent).toBeCalledWith(
-      'offset',
-      <OffsetModal onCancel={expect.any(Function)} onOk={expect.any(Function)} />
-    );
+    expect(addDialogComponent).toBeCalledWith('offset', expect.anything());
+    expect(addDialogComponent.mock.calls[0][1]).toMatchSnapshot();
   });
 });

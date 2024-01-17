@@ -112,7 +112,6 @@ exports[`test FluxCredit should render correctly 1`] = `
             <span>
               Go to Member Center
             </span>
-            
           </button>
         </div>
         <div
@@ -125,7 +124,6 @@ exports[`test FluxCredit should render correctly 1`] = `
             <span>
               Sign Out
             </span>
-            
           </button>
         </div>
       </div>
@@ -242,7 +240,6 @@ exports[`test FluxCredit should render correctly without user detail 1`] = `
             <span>
               Go to Member Center
             </span>
-            
           </button>
         </div>
         <div
@@ -255,7 +252,6 @@ exports[`test FluxCredit should render correctly without user detail 1`] = `
             <span>
               Sign Out
             </span>
-            
           </button>
         </div>
       </div>

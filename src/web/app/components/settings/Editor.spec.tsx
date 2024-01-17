@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 import { fireEvent, render } from '@testing-library/react';
 
 import { OptionValues } from 'app/constants/enums';
@@ -133,6 +134,8 @@ jest.mock(
       )
 );
 
+const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
+
 // eslint-disable-next-line import/first
 import Editor from './Editor';
 
@@ -238,7 +241,7 @@ describe('should render correctly', () => {
       updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
       updateModel={updateModel}
     />);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await act(tick);
     expect(container).toMatchSnapshot();
 
     const SelectControls = container.querySelectorAll('.select-control');
@@ -249,11 +252,11 @@ describe('should render correctly', () => {
     expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'default-units', 'inches');
 
     await fireEvent.change(SelectControls[1], { target: { value: 'Apple LiSung' } });
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await act(tick);
     expect(container).toMatchSnapshot();
 
     await fireEvent.change(SelectControls[1], { target: { value: 'Courier' } });
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await act(tick);
     expect(container).toMatchSnapshot();
 
     getFontOfPostscriptName.mockResolvedValue({
@@ -262,7 +265,7 @@ describe('should render correctly', () => {
       postscriptName: 'Courier-Bold',
     });
     await fireEvent.change(SelectControls[2], { target: { value: 'Courier-Bold' } });
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await act(tick);
     expect(container).toMatchSnapshot();
 
     fireEvent.change(SelectControls[3], { target: { value: 'fbm1' } });

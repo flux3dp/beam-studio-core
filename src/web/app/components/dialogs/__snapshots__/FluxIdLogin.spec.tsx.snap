@@ -157,7 +157,6 @@ exports[`should render correctly desktop version 1`] = `
             <span>
               Sign In
             </span>
-            
           </button>
         </div>
         <div
@@ -170,7 +169,6 @@ exports[`should render correctly desktop version 1`] = `
             <span>
               Create Your FLUX Account
             </span>
-            
           </button>
         </div>
         <div
@@ -347,7 +345,6 @@ exports[`should render correctly desktop version 2`] = `
             <span>
               Sign In
             </span>
-            
           </button>
         </div>
         <div
@@ -360,7 +357,6 @@ exports[`should render correctly desktop version 2`] = `
             <span>
               Create Your FLUX Account
             </span>
-            
           </button>
         </div>
         <div
@@ -537,7 +533,6 @@ exports[`should render correctly mobile version 1`] = `
             <span>
               Sign In
             </span>
-            
           </button>
         </div>
         <div
@@ -550,7 +545,6 @@ exports[`should render correctly mobile version 1`] = `
             <span>
               Create Your FLUX Account
             </span>
-            
           </button>
         </div>
         <div
@@ -730,7 +724,6 @@ exports[`should render correctly web version 1`] = `
             <span>
               Sign In
             </span>
-            
           </button>
         </div>
         <div
@@ -743,7 +736,6 @@ exports[`should render correctly web version 1`] = `
             <span>
               Create Your FLUX Account
             </span>
-            
           </button>
         </div>
         <div

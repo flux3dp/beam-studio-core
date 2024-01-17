@@ -107,7 +107,6 @@ exports[`test update dialog should render correctly 1`] = `
                 <span>
                   LATER
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -116,7 +115,6 @@ exports[`test update dialog should render correctly 1`] = `
                 <span>
                   UPLOAD
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -125,7 +123,6 @@ exports[`test update dialog should render correctly 1`] = `
                 <span>
                   ONLINE UPDATE
                 </span>
-                
               </button>
             </div>
           </div>

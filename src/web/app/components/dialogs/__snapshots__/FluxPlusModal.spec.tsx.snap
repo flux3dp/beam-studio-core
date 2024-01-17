@@ -82,7 +82,6 @@ exports[`test FluxPlusModal mobile 1`] = `
                     <span>
                       Learn More
                     </span>
-                    
                   </button>
                 </div>
                 <div
@@ -231,7 +230,6 @@ exports[`test FluxPlusModal should render correctly 1`] = `
                     <span>
                       Learn More
                     </span>
-                    
                   </button>
                 </div>
                 <div

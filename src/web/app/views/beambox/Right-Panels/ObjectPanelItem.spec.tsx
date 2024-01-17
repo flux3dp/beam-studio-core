@@ -1,7 +1,5 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
 const mockOnClick1 = jest.fn();
@@ -95,13 +93,13 @@ describe('should render correctly', () => {
   });
 
   test('divider', () => {
-    const wrapper = shallow(<ObjectPanelItem.Divider />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ObjectPanelItem.Divider />);
+    expect(container).toMatchSnapshot();
   });
 
   describe('basic item', () => {
     test('disabled', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <ObjectPanelItem.Item
           id="mock-item"
           content={<div>mock content</div>}
@@ -110,7 +108,7 @@ describe('should render correctly', () => {
           disabled
         />
       );
-      expect(toJson(wrapper)).toBe('');
+      expect(container).toMatchSnapshot();
     });
 
     test('not disabled', () => {
@@ -134,7 +132,7 @@ describe('should render correctly', () => {
 
   describe('action list', () => {
     test('disabled', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <ObjectPanelItem.ActionList
           id="mock-action-list"
           actions={mockActions}
@@ -143,7 +141,7 @@ describe('should render correctly', () => {
           disabled
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
     });
 
     test('not disabled', async () => {

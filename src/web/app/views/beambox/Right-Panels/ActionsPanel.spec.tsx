@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 const mockShowCropPanel = jest.fn();
 const showPhotoEditPanel = jest.fn();
@@ -138,7 +137,12 @@ getSVGAsync.mockImplementation((callback) => {
 import ActionsPanel from './ActionsPanel';
 
 const mockUpdateElementColor = jest.fn();
-jest.mock('helpers/color/updateElementColor', () => (...args) => mockUpdateElementColor(...args));
+jest.mock(
+  'helpers/color/updateElementColor',
+  () =>
+    (...args) =>
+      mockUpdateElementColor(...args)
+);
 
 function tick() {
   return new Promise((resolve) => {
@@ -146,8 +150,8 @@ function tick() {
   });
 }
 
-const ActionButtonSelector = 'div.btn-container>Button';
-const ActionButtonSelectorMobile = 'ObjectPanelItem';
+const ActionButtonSelector = 'div.btn-container>button';
+const ActionButtonSelectorMobile = 'div.object-panel-item';
 
 describe('should render correctly', () => {
   beforeEach(() => {
@@ -155,18 +159,20 @@ describe('should render correctly', () => {
   });
 
   test('no elements', () => {
-    const wrapper = shallow(<ActionsPanel elem={null} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={null} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('image', async () => {
     document.body.innerHTML = '<image id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
     const blob = new Blob();
     getFileFromDialog.mockResolvedValueOnce(blob);
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     await tick();
     expect(getFileFromDialog).toHaveBeenCalledTimes(1);
     expect(getFileFromDialog).toHaveBeenNthCalledWith(1, {
@@ -196,37 +202,37 @@ describe('should render correctly', () => {
 
     jest.resetAllMocks();
     getFileFromDialog.mockResolvedValueOnce(null);
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    fireEvent.click(actionButtons[0]);
     await tick();
     expect(replaceBitmap).not.toHaveBeenCalled();
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
     expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(3).simulate('click');
+    fireEvent.click(actionButtons[3]);
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
-    wrapper.find(ActionButtonSelector).at(4).simulate('click');
+    fireEvent.click(actionButtons[4]);
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    wrapper.find(ActionButtonSelector).at(5).simulate('click');
+    fireEvent.click(actionButtons[5]);
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(6).simulate('click');
+    fireEvent.click(actionButtons[6]);
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find(ActionButtonSelector).at(7).simulate('click');
+    fireEvent.click(actionButtons[7]);
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find(ActionButtonSelector).at(8).simulate('click');
+    fireEvent.click(actionButtons[8]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -237,14 +243,15 @@ describe('should render correctly', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
     expect(mockCheckConnection).not.toBeCalled();
 
     mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
@@ -259,7 +266,7 @@ describe('should render correctly', () => {
       height: 4,
     });
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(2);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
@@ -267,106 +274,117 @@ describe('should render correctly', () => {
     expect(toSelectMode).toHaveBeenCalledTimes(2);
     expect(clearSelection).toHaveBeenCalledTimes(2);
     expect(convertTextToPath).toHaveBeenCalledTimes(2);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'), {
-      x: 1,
-      y: 2,
-      width: 3,
-      height: 4,
-    }, {
-      weldingTexts: true,
-    });
+    expect(convertTextToPath).toHaveBeenNthCalledWith(
+      2,
+      document.getElementById('svg_1'),
+      {
+        x: 1,
+        y: 2,
+        width: 3,
+        height: 4,
+      },
+      {
+        weldingTexts: true,
+      }
+    );
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(decomposePath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(3).simulate('click');
+    fireEvent.click(actionButtons[3]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('line', () => {
     document.body.innerHTML = '<line id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelector).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelector);
+    fireEvent.click(actionButtons[0]);
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelector).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -378,22 +396,24 @@ describe('should render correctly', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_3')} />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
+      expect(container).toMatchSnapshot();
 
-      wrapper.find(ActionButtonSelector).at(0).simulate('click');
+      const actionButtons = container.querySelectorAll(ActionButtonSelector);
+      fireEvent.click(actionButtons[0]);
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-      wrapper.find(ActionButtonSelector).at(1).simulate('click');
+      fireEvent.click(actionButtons[1]);
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const wrapper = shallow(<ActionsPanel elem={document.getElementById('svg_1')} />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+      expect(container).toMatchSnapshot();
 
-      wrapper.find(ActionButtonSelector).at(0).simulate('click');
+      const actionButtons = container.querySelectorAll(ActionButtonSelector);
+      fireEvent.click(actionButtons[0]);
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
   });
@@ -406,29 +426,40 @@ describe('should render correctly in mobile', () => {
   });
 
   test('no elements', () => {
-    const wrapper = shallow(<ActionsPanel
-      elem={null}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={null} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('image', async () => {
     document.body.innerHTML = '<image id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
     const blob = new Blob();
     getFileFromDialog.mockResolvedValueOnce(blob);
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     await tick();
     expect(getFileFromDialog).toHaveBeenCalledTimes(1);
     expect(getFileFromDialog).toHaveBeenNthCalledWith(1, {
       filters: [
         {
           name: 'Images',
-          extensions: ['png', 'jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'bmp', 'jp2', 'j2k', 'jpf', 'jpx', 'jpm'],
+          extensions: [
+            'png',
+            'jpg',
+            'jpeg',
+            'jpe',
+            'jif',
+            'jfif',
+            'jfi',
+            'bmp',
+            'jp2',
+            'j2k',
+            'jpf',
+            'jpx',
+            'jpm',
+          ],
         },
       ],
     });
@@ -437,41 +468,41 @@ describe('should render correctly in mobile', () => {
 
     jest.resetAllMocks();
     getFileFromDialog.mockResolvedValueOnce(null);
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    fireEvent.click(actionButtons[0]);
     await tick();
     expect(replaceBitmap).not.toHaveBeenCalled();
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(mockPotrace).toHaveBeenCalledTimes(1);
     expect(mockPotrace).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
     mockCheckConnection.mockReturnValueOnce(true);
-    wrapper.find(ActionButtonSelectorMobile).at(3).simulate('click');
+    fireEvent.click(actionButtons[3]);
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    wrapper.find(ActionButtonSelectorMobile).at(4).simulate('click');
+    fireEvent.click(actionButtons[4]);
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(5).simulate('click');
+    fireEvent.click(actionButtons[5]);
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find(ActionButtonSelectorMobile).at(6).simulate('click');
+    fireEvent.click(actionButtons[6]);
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    wrapper.find(ActionButtonSelectorMobile).at(7).simulate('click');
+    fireEvent.click(actionButtons[7]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(8).simulate('click');
+    fireEvent.click(actionButtons[8]);
     expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(9).simulate('click');
+    fireEvent.click(actionButtons[9]);
     expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
     expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
   });
@@ -483,16 +514,15 @@ describe('should render correctly in mobile', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
     expect(mockCheckConnection).not.toBeCalled();
 
     mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
     calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(1);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
@@ -507,7 +537,7 @@ describe('should render correctly in mobile', () => {
       height: 4,
     });
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     await tick();
     expect(mockCheckConnection).toHaveBeenCalledTimes(2);
     expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
@@ -515,118 +545,117 @@ describe('should render correctly in mobile', () => {
     expect(toSelectMode).toHaveBeenCalledTimes(2);
     expect(clearSelection).toHaveBeenCalledTimes(2);
     expect(convertTextToPath).toHaveBeenCalledTimes(2);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'), {
-      x: 1,
-      y: 2,
-      width: 3,
-      height: 4,
-    }, {
-      weldingTexts: true,
-    });
+    expect(convertTextToPath).toHaveBeenNthCalledWith(
+      2,
+      document.getElementById('svg_1'),
+      {
+        x: 1,
+        y: 2,
+        width: 3,
+        height: 4,
+      },
+      {
+        weldingTexts: true,
+      }
+    );
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(decomposePath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(3).simulate('click');
+    fireEvent.click(actionButtons[3]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('line', () => {
     document.body.innerHTML = '<line id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     expect(convertToPath).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(2).simulate('click');
+    fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const wrapper = shallow(<ActionsPanel
-      elem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+    fireEvent.click(actionButtons[0]);
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
 
-    wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+    fireEvent.click(actionButtons[1]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
   });
 
@@ -638,26 +667,24 @@ describe('should render correctly in mobile', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const wrapper = shallow(<ActionsPanel
-        elem={document.getElementById('svg_3')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
+      expect(container).toMatchSnapshot();
 
-      wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+      const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+      fireEvent.click(actionButtons[0]);
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
 
-      wrapper.find(ActionButtonSelectorMobile).at(1).simulate('click');
+      fireEvent.click(actionButtons[1]);
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const wrapper = shallow(<ActionsPanel
-        elem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+      expect(container).toMatchSnapshot();
 
-      wrapper.find(ActionButtonSelectorMobile).at(0).simulate('click');
+      const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
+      fireEvent.click(actionButtons[0]);
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
     });
   });

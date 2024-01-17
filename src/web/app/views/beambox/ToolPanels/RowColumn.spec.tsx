@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -15,6 +14,18 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+jest.mock('app/widgets/Unit-Input-v2', () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ({ id, min, defaultValue, getValue }: any) => (
+    <div>
+      mock-unit-input id:{id}
+      min:{min}
+      defaultValue:{defaultValue}
+      <input className="unit-input" onChange={(e) => getValue(+e.target.value)} />
+    </div>
+  )
+);
+
 import RowColumn from './RowColumn';
 
 describe('should render correctly', () => {
@@ -24,36 +35,31 @@ describe('should render correctly', () => {
 
   test('valid input', () => {
     const onValueChange = jest.fn();
-    const wrapper = shallow(<RowColumn
-      row={2}
-      column={3}
-      onValueChange={onValueChange}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, rerender } = render(
+      <RowColumn row={2} column={3} onValueChange={onValueChange} />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('p.caption').simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.click(container.querySelector('p.caption'));
+    expect(container).toMatchSnapshot();
 
-    wrapper.setProps({ row: 3, column: 2, onValueChange });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    rerender(<RowColumn row={3} column={2} onValueChange={onValueChange} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('UnitInput').at(0).props().getValue(4);
+    const inputs = container.querySelectorAll('input.unit-input');
+    fireEvent.change(inputs[0], { target: { value: 4 } });
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenNthCalledWith(1, { row: 3, column: 4 });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('UnitInput').at(1).props().getValue(5);
+    fireEvent.change(inputs[1], { target: { value: 5 } });
     expect(onValueChange).toHaveBeenCalledTimes(2);
     expect(onValueChange).toHaveBeenNthCalledWith(2, { row: 5, column: 4 });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('invalid row and column input', () => {
-    const wrapper = shallow(<RowColumn
-      row={0}
-      column={0}
-      onValueChange={jest.fn()}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<RowColumn row={0} column={0} onValueChange={jest.fn()} />);
+    expect(container).toMatchSnapshot();
   });
 });

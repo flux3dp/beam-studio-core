@@ -177,11 +177,15 @@ const substitutedFont = async (textElement: Element) => {
   const originPostscriptName = originFont.postscriptName;
   const unsupportedChar = [];
   const fontOptions: { [postscriptName: string]: FontDescriptor } = {};
-  Array.from(text).forEach(async (char) => {
+  const textContent = Array.from(text);
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < textContent.length; i++) {
+    const char = textContent[i];
+    // eslint-disable-next-line no-await-in-loop
     const sub = await fontHelper.substituteFont(originPostscriptName, char);
     if (sub.postscriptName !== originPostscriptName) unsupportedChar.push(char);
     if (!fontOptions[sub.postscriptName]) fontOptions[sub.postscriptName] = sub;
-  });
+  }
   const fontList = Object.values(fontOptions);
 
   if (fontList.length === 1) {
@@ -291,7 +295,7 @@ const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
 const convertTextToPath = async (
   textElement: Element,
   bbox: { x: number; y: number; width: number; height: number },
-  opts?: { isTempConvert?: boolean; weldingTexts?: boolean },
+  opts?: { isTempConvert?: boolean; weldingTexts?: boolean }
 ): Promise<ConvertResult> => {
   if (!textElement.textContent) {
     return ConvertResult.CONTINUE;

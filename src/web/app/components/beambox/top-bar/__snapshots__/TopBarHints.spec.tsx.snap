@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<TopBarHints>
+<div>
   <div
-    className="hint-container"
+    class="hint-container"
   />
-</TopBarHints>
+</div>
 `;
 
 exports[`should render correctly 2`] = `
-<TopBarHints>
+<div>
   <div
-    className="hint-container"
+    class="hint-container"
   >
     <div>
       Press + / - key to increase / decrease sides.
     </div>
   </div>
-</TopBarHints>
+</div>
 `;
 
 exports[`should render correctly 3`] = `
-<TopBarHints>
+<div>
   <div
-    className="hint-container"
+    class="hint-container"
   />
-</TopBarHints>
+</div>
 `;

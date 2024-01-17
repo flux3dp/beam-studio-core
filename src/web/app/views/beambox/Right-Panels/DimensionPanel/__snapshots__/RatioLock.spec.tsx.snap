@@ -13,7 +13,6 @@ exports[`test RatioLock should render correctly on desktop 1`] = `
     >
       <svgr-url />
     </span>
-    
   </button>
 </div>
 `;
@@ -31,7 +30,6 @@ exports[`test RatioLock should render correctly on desktop 2`] = `
     >
       <svgr-url />
     </span>
-    
   </button>
 </div>
 `;

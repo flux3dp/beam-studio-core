@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -20,6 +19,18 @@ jest.mock('implementations/storage', () => ({
   get,
 }));
 
+jest.mock('app/widgets/Unit-Input-v2', () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ({ min, unit, defaultValue, getValue }: any) => (
+    <div>
+      mock-unit-input min:{min}
+      unit:{unit}
+      defaultValue:{defaultValue}
+      <input className="unit-input" onChange={(e) => getValue(+e.target.value)} />
+    </div>
+  )
+);
+
 import OffsetDistancePanel from './OffsetDistancePanel';
 
 describe('should render correctly', () => {
@@ -30,32 +41,29 @@ describe('should render correctly', () => {
   test('default unit is inches', () => {
     get.mockReturnValue('inches');
     const onValueChange = jest.fn();
-    const wrapper = shallow(<OffsetDistancePanel
-      distance={100}
-      onValueChange={onValueChange}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <OffsetDistancePanel distance={100} onValueChange={onValueChange} />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('p.caption').simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.click(container.querySelector('p.caption'));
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('UnitInput').props().getValue(50);
+    fireEvent.change(container.querySelector('input.unit-input'), { target: { value: 50 } });
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenNthCalledWith(1, 50);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('default unit is mm', () => {
     get.mockReturnValue(undefined);
-    expect(toJson(shallow(<OffsetDistancePanel
-      distance={100}
-      onValueChange={jest.fn()}
-    />))).toMatchSnapshot();
+    const { container, rerender } = render(
+      <OffsetDistancePanel distance={100} onValueChange={jest.fn()} />
+    );
+    expect(container).toMatchSnapshot();
 
     get.mockReturnValue(undefined);
-    expect(toJson(shallow(<OffsetDistancePanel
-      distance={100}
-      onValueChange={jest.fn()}
-    />))).toMatchSnapshot();
+    rerender(<OffsetDistancePanel distance={100} onValueChange={jest.fn()} />);
+    expect(container).toMatchSnapshot();
   });
 });

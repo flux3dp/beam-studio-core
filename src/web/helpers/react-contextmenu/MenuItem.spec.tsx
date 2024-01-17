@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { render } from '@testing-library/react';
 
 import MenuItem from './MenuItem';
 
@@ -11,10 +10,8 @@ describe('MenuItem tests', () => {
       className: 'CLASSNAME_ATTRIBUTE',
     };
 
-    const wrapper = shallow(
-      <MenuItem className={className} attributes={attributes} />,
-    );
+    const { container } = render(<MenuItem className={className} attributes={attributes} />);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

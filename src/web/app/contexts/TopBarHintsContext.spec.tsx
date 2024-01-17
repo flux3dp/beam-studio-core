@@ -1,27 +1,34 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React, { useContext } from 'react';
+import { act } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-import { TopBarHintsContextProvider } from './TopBarHintsContext';
+import { TopBarHintsContext, TopBarHintsContextProvider } from './TopBarHintsContext';
+
+const Children = () => {
+  const { hintType } = useContext(TopBarHintsContext);
+  return <>{hintType}</>;
+};
 
 test('should render correctly', () => {
   const topBarHintsEventEmitter = eventEmitterFactory.createEventEmitter('top-bar-hints');
 
-  const wrapper = shallow(
+  const { container, unmount } = render(
     <TopBarHintsContextProvider>
-      <></>
-    </TopBarHintsContextProvider>,
+      <Children />
+    </TopBarHintsContextProvider>
   );
-  expect(wrapper.state().hintType).toBeNull();
+
+  expect(container).toHaveTextContent('');
   expect(topBarHintsEventEmitter.eventNames().length).toBe(2);
 
-  topBarHintsEventEmitter.emit('SET_HINT', 'POLYGON');
-  expect(wrapper.state().hintType).toBe('POLYGON');
+  act(() => topBarHintsEventEmitter.emit('SET_HINT', 'POLYGON'));
+  expect(container).toHaveTextContent('POLYGON');
 
-  topBarHintsEventEmitter.emit('REMOVE_HINT');
-  expect(wrapper.state().hintType).toBeNull();
+  act(() => topBarHintsEventEmitter.emit('REMOVE_HINT'));
+  expect(container).toHaveTextContent('');
 
-  wrapper.unmount();
+  unmount();
   expect(topBarHintsEventEmitter.eventNames().length).toBe(0);
 });

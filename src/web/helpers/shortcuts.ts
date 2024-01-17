@@ -161,5 +161,10 @@ export default {
         $(root).off('keyup keydown');
         has_bind = false;
         events = [];
-    }
+    },
+    pauseAll: function () {
+        $(root).off('keyup keydown');
+        has_bind = false;
+    },
+    initialize,
 };

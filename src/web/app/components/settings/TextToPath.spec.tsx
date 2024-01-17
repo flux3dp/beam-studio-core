@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -16,29 +15,44 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+jest.mock('app/components/settings/SelectControl', () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ({ id, label, onChange, options, url }: any) => (
+    <div>
+      mock-select-control id:{id}
+      label:{label}
+      url:{url}
+      options:{JSON.stringify(options)}
+      <input className="select-control" onChange={onChange} />
+    </div>
+  )
+);
+
 // eslint-disable-next-line import/first
 import TextToPath from './TextToPath';
 
 test('should render correctly', () => {
   const updateBeamboxPreferenceChange = jest.fn();
-  const wrapper = shallow(<TextToPath
-    fontSubstituteOptions={[
-      {
-        value: 'TRUE',
-        label: 'On',
-        selected: true,
-      },
-      {
-        value: 'FALSE',
-        label: 'Off',
-        selected: false,
-      },
-    ]}
-    updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
-  />);
-  expect(toJson(wrapper)).toMatchSnapshot();
+  const { container } = render(
+    <TextToPath
+      fontSubstituteOptions={[
+        {
+          value: 'TRUE',
+          label: 'On',
+          selected: true,
+        },
+        {
+          value: 'FALSE',
+          label: 'Off',
+          selected: false,
+        },
+      ]}
+      updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
+    />
+  );
+  expect(container).toMatchSnapshot();
 
-  wrapper.find('SelectControl').simulate('change', {
+  fireEvent.change(container.querySelector('.select-control'), {
     target: {
       value: 'FALSE',
     },

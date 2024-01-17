@@ -1,24 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly action list disabled 1`] = `
-<ForwardRef
-  className="action-list"
-  content={<ActionList />}
-  visible={false}
->
-  <ObjectPanelItem
-    autoClose={false}
-    content={
-      <div>
-        mock content
-      </div>
-    }
-    disabled={true}
-    id="mock-action-list"
-    label="mock-label"
-  />
-</ForwardRef>
-`;
+exports[`should render correctly action list disabled 1`] = `<div />`;
 
 exports[`should render correctly action list not disabled 1`] = `
 <body>
@@ -106,6 +88,8 @@ exports[`should render correctly action list not disabled 1`] = `
 </body>
 `;
 
+exports[`should render correctly basic item disabled 1`] = `<div />`;
+
 exports[`should render correctly basic item not disabled 1`] = `
 <div>
   <div
@@ -129,10 +113,11 @@ exports[`should render correctly basic item not disabled 1`] = `
 `;
 
 exports[`should render correctly divider 1`] = `
-<Divider
-  className="divider"
-  direction="vertical"
-/>
+<div>
+  <div
+    class="adm-divider adm-divider-vertical adm-divider-center divider"
+  />
+</div>
 `;
 
 exports[`should render correctly number item when unit is degree 1`] = `

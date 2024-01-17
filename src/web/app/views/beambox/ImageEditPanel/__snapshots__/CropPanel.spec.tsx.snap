@@ -87,7 +87,6 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                 <span>
                   cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -96,7 +95,6 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                 <span>
                   back
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -105,7 +103,6 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                 <span>
                   apply
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -114,7 +111,6 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                 <span>
                   okay
                 </span>
-                
               </button>
             </div>
           </div>
@@ -217,7 +213,6 @@ exports[`test CropPanel should render correctly 1`] = `
                 <span>
                   cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -227,7 +222,6 @@ exports[`test CropPanel should render correctly 1`] = `
                 <span>
                   back
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -236,7 +230,6 @@ exports[`test CropPanel should render correctly 1`] = `
                 <span>
                   apply
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -245,7 +238,6 @@ exports[`test CropPanel should render correctly 1`] = `
                 <span>
                   okay
                 </span>
-                
               </button>
             </div>
           </div>
@@ -344,7 +336,6 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                   <span>
                     back
                   </span>
-                  
                 </button>
                 <button
                   class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -353,7 +344,6 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                   <span>
                     apply
                   </span>
-                  
                 </button>
               </div>
               <img
@@ -441,7 +431,6 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                 <span>
                   cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -450,7 +439,6 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                 <span>
                   okay
                 </span>
-                
               </button>
             </div>
           </div>
@@ -553,7 +541,6 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                 <span>
                   cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -563,7 +550,6 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                 <span>
                   back
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -572,7 +558,6 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                 <span>
                   apply
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -581,7 +566,6 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                 <span>
                   okay
                 </span>
-                
               </button>
             </div>
           </div>

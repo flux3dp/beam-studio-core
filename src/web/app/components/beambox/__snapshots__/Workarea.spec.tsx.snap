@@ -1,215 +1,183 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test workarea should render correctly 1`] = `
-<Fragment>
-  <DummyContextMenuTrigger
-    disable={false}
-    holdToDisplay={-1}
+<div>
+  <dummy-context-menu-trigger
+    disable="false"
+    holdtodisplay="-1"
     id="canvas-contextmenu"
   >
     <div
-      className="mac"
+      class="mac"
       id="workarea"
     >
       <div
         id="svgcanvas"
-        style={
-          {
-            "position": "relative",
-          }
-        }
+        style="position: relative;"
       />
     </div>
-  </DummyContextMenuTrigger>
-  <DummyContextMenu
+  </dummy-context-menu-trigger>
+  <dummy-context-menu
     id="canvas-contextmenu"
   >
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="true"
     >
       Cut
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Copy
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Paste
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Paste in Place
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     />
     <div
-      className="seperator"
+      class="seperator"
     />
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="true"
     >
       Delete
-    </DummyMenuItem>
+    </dummy-menu-item>
     <div
-      className="seperator"
+      class="seperator"
     />
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="true"
     >
       Group
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Ungroup
-    </DummyMenuItem>
+    </dummy-menu-item>
     <div
-      className="seperator"
+      class="seperator"
     />
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="true"
     >
       Bring to Front
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Bring Forward
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Send Backward
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Send to Back
-    </DummyMenuItem>
-  </DummyContextMenu>
-</Fragment>
+    </dummy-menu-item>
+  </dummy-context-menu>
+</div>
 `;
 
 exports[`test workarea should render correctly 2`] = `
-<Fragment>
-  <DummyContextMenuTrigger
-    disable={true}
-    holdToDisplay={-1}
+<div>
+  <dummy-context-menu-trigger
+    disable="true"
+    holdtodisplay="-1"
     id="canvas-contextmenu"
   >
     <div
-      className="mac"
+      class="mac"
       id="workarea"
     >
       <div
         id="svgcanvas"
-        style={
-          {
-            "position": "relative",
-          }
-        }
+        style="position: relative;"
       />
     </div>
-  </DummyContextMenuTrigger>
-  <DummyContextMenu
+  </dummy-context-menu-trigger>
+  <dummy-context-menu
     id="canvas-contextmenu"
   >
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="false"
     >
       Cut
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     >
       Copy
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     >
       Paste
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     >
       Paste in Place
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     />
     <div
-      className="seperator"
+      class="seperator"
     />
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="false"
     >
       Delete
-    </DummyMenuItem>
+    </dummy-menu-item>
     <div
-      className="seperator"
+      class="seperator"
     />
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="true"
     >
       Group
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={true}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="true"
     >
       Ungroup
-    </DummyMenuItem>
+    </dummy-menu-item>
     <div
-      className="seperator"
+      class="seperator"
     />
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    <dummy-menu-item
+      disabled="false"
     >
       Bring to Front
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     >
       Bring Forward
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     >
       Send Backward
-    </DummyMenuItem>
-    <DummyMenuItem
-      disabled={false}
-      onClick={[Function]}
+    </dummy-menu-item>
+    <dummy-menu-item
+      disabled="false"
     >
       Send to Back
-    </DummyMenuItem>
-  </DummyContextMenu>
-</Fragment>
+    </dummy-menu-item>
+  </dummy-context-menu>
+</div>
 `;

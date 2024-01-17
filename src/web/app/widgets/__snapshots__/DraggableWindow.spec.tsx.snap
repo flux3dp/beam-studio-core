@@ -1,42 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<Draggable
-  allowAnyClick={false}
-  axis="both"
-  bounds="body"
-  defaultClassName="react-draggable 123"
-  defaultClassNameDragged="react-draggable-dragged"
-  defaultClassNameDragging="react-draggable-dragging"
-  defaultPosition={
-    {
-      "x": 0,
-      "y": 0,
-    }
-  }
-  disabled={false}
-  enableUserSelectHack={true}
-  handle=".handle"
-  onDrag={[Function]}
-  onMouseDown={[Function]}
-  onStart={[Function]}
-  onStop={[Function]}
-  scale={1}
->
-  <div>
+<div>
+  <div
+    class="react-draggable 123"
+    style="transform: translate(0px,0px);"
+  >
     <div
-      className="handle 456"
+      class="handle 456"
     >
       Beam Studio
     </div>
     <div
-      className="traffic-lights"
+      class="traffic-lights"
     >
       <div
-        className="traffic-light traffic-light-close"
-        onClick={[MockFunction]}
+        class="traffic-light traffic-light-close"
       />
     </div>
   </div>
-</Draggable>
+</div>
 `;
