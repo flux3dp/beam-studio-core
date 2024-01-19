@@ -1207,8 +1207,8 @@ const lang: ILang = {
     incorrect: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
     not_verified: 'อีเมลยังไม่ได้รับการยืนยัน',
     new_to_flux: 'ใหม่กับ FLUX? สร้างบัญชี',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'เข้าสู่ระบบเพื่อปลดล็อกฐานข้อมูลรูปทรง',

@@ -32,8 +32,8 @@ jest.mock('helpers/i18n', () => ({
       incorrect: 'Email address or password is not correct.',
       not_verified: 'The email address has not been verified yet.',
       new_to_flux: 'New to FLUX? Create an account.',
-      signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-      lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+      signup_url: 'signup_url',
+      lost_password_url: 'lost_password_url',
     },
   },
 }));
@@ -82,11 +82,11 @@ describe('should render correctly', () => {
 
     fireEvent.click(baseElement.querySelector('div.forget-password'));
     expect(open).toHaveBeenCalledTimes(1);
-    expect(open).toHaveBeenNthCalledWith(1, 'https://store.flux3dp.com/my-account/lost-password/');
+    expect(open).toHaveBeenNthCalledWith(1, 'lost_password_url');
 
     fireEvent.click(getByText('Create Your FLUX Account'));
     expect(open).toHaveBeenCalledTimes(2);
-    expect(open).toHaveBeenNthCalledWith(2, 'https://store.flux3dp.com/my-account/#sign-up');
+    expect(open).toHaveBeenNthCalledWith(2, 'signup_url');
 
     fireEvent.click(baseElement.querySelector('div.skip'));
     expect(onClose).toHaveBeenCalledTimes(1);

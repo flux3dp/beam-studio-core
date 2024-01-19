@@ -1218,8 +1218,8 @@ const lang: ILang = {
     incorrect: 'E-mailadresse eller adgangskode er ikke korrekt.',
     not_verified: 'E-mailadressen er endnu ikke bekræftet.',
     new_to_flux: 'Ny til FLUX? Opret en konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Log ind for at låse formdatabasen op.',

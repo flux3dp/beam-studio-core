@@ -1221,8 +1221,8 @@ const lang: ILang = {
     incorrect: 'O endereço de e-mail ou a senha não está correto.',
     not_verified: 'O endereço de e-mail ainda não foi verificado.',
     new_to_flux: 'Novo no FLUX? Crie uma conta.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Faça login para desbloquear o banco de dados de formas.',

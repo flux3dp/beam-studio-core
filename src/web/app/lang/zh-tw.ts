@@ -1153,8 +1153,8 @@ const lang: ILang = {
     incorrect: '信箱或密碼輸入錯誤。',
     not_verified: '信箱尚未認證。',
     new_to_flux: '還不是會員？免費註冊新帳號',
-    signup_url: 'https://tw-store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://tw-store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: '請先登入會員，完成後即可啟用。',

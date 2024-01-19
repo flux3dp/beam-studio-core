@@ -1215,8 +1215,8 @@ const lang: ILang = {
     incorrect: 'Email hoặc mật khẩu không chính xác',
     not_verified: 'Email chưa được xác minh',
     new_to_flux: 'Mới dùng FLUX? Đăng ký tài khoản',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Đăng nhập để mở khóa thư viện hình dạng',

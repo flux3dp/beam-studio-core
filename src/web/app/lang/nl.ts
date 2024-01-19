@@ -1216,8 +1216,8 @@ const lang: ILang = {
     incorrect: 'E-mailadres of wachtwoord is onjuist.',
     not_verified: 'Het e-mailadres is nog niet geverifieerd.',
     new_to_flux: 'Nieuw bij FLUX? Maak een account.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Log in om de vormendatabase te ontgrendelen.',

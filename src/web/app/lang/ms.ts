@@ -1220,8 +1220,8 @@ const lang: ILang = {
     incorrect: 'Alamat e-mel atau kata laluan tidak betul.',
     not_verified: 'Alamat e-mel belum disahkan lagi.',
     new_to_flux: 'Baru kepada FLUX? Buat akaun.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Log masuk untuk membuka pangkalan data bentuk.',

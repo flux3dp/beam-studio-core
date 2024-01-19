@@ -1219,8 +1219,8 @@ const lang: ILang = {
     incorrect: 'Fel e-postadress eller lösenord.',
     not_verified: 'E-postadressen har inte verifierats ännu.',
     new_to_flux: 'Ny på FLUX? Skapa ett konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Logga in för att låsa upp formdatabasen.',

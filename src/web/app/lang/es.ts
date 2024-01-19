@@ -1153,8 +1153,8 @@ const lang: ILang = {
     incorrect: 'El correo y/o la contraseña son incorrectos.',
     not_verified: 'Este correo electrónico no ha sido verificado.',
     new_to_flux: '¿Nuevo en FLUX? Crea una cuenta ahora.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Ingresa para desbloquear la base de datos de figuras.',

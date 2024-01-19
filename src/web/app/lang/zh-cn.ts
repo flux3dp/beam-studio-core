@@ -1153,8 +1153,8 @@ const lang: ILang = {
     incorrect: '信箱或密码输入错误',
     not_verified: '信箱尚未认证。',
     new_to_flux: '还不是会员？免费注册新帐号',
-    signup_url: 'https://tw-store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://tw-store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: '请先登入会员，完成后即可启用。',

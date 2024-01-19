@@ -1153,8 +1153,8 @@ const lang: ILang = {
     incorrect: '이메일 주소 또는 비밀번호가 올바르지 않습니다.',
     not_verified: '이메일 주소가 아직 인증되지 않았습니다.',
     new_to_flux: 'FLUX에 처음이신가요? 계정 만들기.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: '도형 데이터베이스 잠금 해제를 위해 로그인하세요.',

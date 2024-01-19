@@ -1153,8 +1153,8 @@ const lang: ILang = {
     incorrect: 'Adres e-mail lub hasło są nieprawidłowe.',
     not_verified: 'Adres e-mail nie został jeszcze zweryfikowany.',
     new_to_flux: 'Nowy we FLUXie? Utwórz konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Zaloguj się, aby odblokować bazę kształtów.',

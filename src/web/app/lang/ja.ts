@@ -1153,8 +1153,8 @@ const lang: ILang = {
     incorrect: 'メールアドレスまたはパスワードが正しくありません。',
     not_verified: 'メールアドレスが未認証です。',
     new_to_flux: 'FLUXは初めてですか？ アカウントの作成してください。',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'ログインして形状データベースのロックを解除します。',
