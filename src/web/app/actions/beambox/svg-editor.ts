@@ -47,16 +47,12 @@ import Alert from '../alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
-import Dialog from 'app/actions/dialog-caller';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
 import pdfHelper from 'implementations/pdfHelper';
-import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
-import SymbolMaker from 'helpers/symbol-maker';
 import i18n from 'helpers/i18n';
-import AlertConfig from 'helpers/api/alert-config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
@@ -71,7 +67,6 @@ import importDxf from 'app/svgedit/operations/import/importDxf';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
-import layerConfigHelper from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -1247,11 +1242,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     }
 
-    var setInputWidth = function (elem) {
-      var w = Math.min(Math.max(12 + elem.value.length * 6, 50), 300);
-      $(elem).width(w);
-    };
-
     function updateRulers() {
       // draw x ruler then y ruler
       /* 這裡code很亂 值得注意的點有：
@@ -1319,7 +1309,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
         })();
 
-        (function drawRules() {
+        (function drawRulers() {
           const contentPosition = Number($('#svgcontent').attr(axis));
           const zoom = svgCanvas.getZoom();
 
@@ -3752,16 +3742,6 @@ const svgEditor = window['svgEditor'] = (function () {
     //     path.reorient();
     //   }
     // };
-
-    var makeHyperlink = function () {
-      if (selectedElement != null || multiselected) {
-        $.prompt(uiStrings.notification.enterNewLinkURL, 'http://', function (url) {
-          if (url) {
-            svgCanvas.makeHyperlink(url);
-          }
-        });
-      }
-    };
 
     var moveSelected = function (dx, dy) {
       if (selectedElement != null || multiselected) {

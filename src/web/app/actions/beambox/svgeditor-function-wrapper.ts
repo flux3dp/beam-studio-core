@@ -112,14 +112,6 @@ const funcs = {
     };
   },
 
-  // top menu
-  groupSelected(): void {
-    svgCanvas.groupSelectedElements();
-  },
-  ungroupSelected(): void {
-    svgCanvas.ungroupSelectedElement();
-  },
-
   // align toolbox
   alignLeft(): void {
     align('l');

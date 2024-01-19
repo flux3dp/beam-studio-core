@@ -1090,6 +1090,7 @@ exports[`should render correctly no elements 1`] = `
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
             id="group"
             title="Group"
             type="button"
@@ -1327,6 +1328,7 @@ exports[`should render correctly one element is g element 1`] = `
         >
           <button
             class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            disabled=""
             id="group"
             title="Group"
             type="button"
