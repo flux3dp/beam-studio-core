@@ -367,28 +367,41 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
 const potrace = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
+  const worker = new PotraceWorker();
+  let canceled = false;
   progress.openNonstopProgress({
     id: 'potrace',
     message: i18n.lang.beambox.photo_edit_panel.processing,
+    onCancel: () => {
+      worker.terminate();
+      canceled = true;
+    },
   });
 
   const isTransparentBackground = elem.getAttribute('data-no-bg');
   const imgBBox = element.getBBox();
   const imgRotation = svgedit.utilities.getRotationAngle(element);
   let { imgUrl } = getImageAttributes(element);
-  if (!imgUrl) return;
+  if (!imgUrl) {
+    progress.popById('potrace');
+    return;
+  }
   if (isTransparentBackground) {
     imgUrl = await generateBase64Image(imgUrl, false, 254);
+  }
+  if (canceled) {
+    progress.popById('potrace');
+    return;
   }
   const res = await new Promise<
     { success: true; data: { svg: string; sx: number; sy: number } } | { success: false }
   >((resolve) => {
-    const worker = new PotraceWorker();
-    progress.update('potrace', {
-      onCancel: () => {
-        worker.terminate();
-      },
-    });
+    const checkCancelInterval = setInterval(() => {
+      if (canceled) {
+        clearInterval(checkCancelInterval);
+        resolve({ success: false });
+      }
+    }, 1000);
     worker.postMessage({
       imgUrl,
       imgBBox: { width: imgBBox.width, height: imgBBox.height },
@@ -397,13 +410,15 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
     });
     worker.onerror = (e) => {
       console.error(e);
+      clearInterval(checkCancelInterval);
+      resolve({ success: false });
+      worker.terminate();
       alertCaller.popUpError({
         message: 'Failed to potrace image',
       });
-      resolve({ success: false });
-      worker.terminate();
     };
     worker.onmessage = (e) => {
+      clearInterval(checkCancelInterval);
       resolve({ success: true, data: e.data });
       worker.terminate();
     };
