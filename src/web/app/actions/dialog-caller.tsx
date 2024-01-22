@@ -32,7 +32,7 @@ import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
 import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
-import { getCurrentUser } from 'helpers/api/flux-id';
+import { getCurrentUser, getInfo } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
@@ -471,14 +471,13 @@ export default {
   },
   showFluxCreditDialog: (): void => {
     if (isIdExist('flux-id-credit')) return;
-    forceLoginWrapper(
-      () =>
-        addDialogComponent(
-          'flux-id-credit',
-          <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
-        ),
-      true
-    );
+    forceLoginWrapper(async () => {
+      await getInfo(true);
+      addDialogComponent(
+        'flux-id-credit',
+        <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
+      );
+    }, true);
   },
   showFluxPlusWarning,
   showBoxGen: (onClose: () => void): void => {
