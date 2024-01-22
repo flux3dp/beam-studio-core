@@ -991,7 +991,7 @@ const lang: ILang = {
           ai_bg_removal: 'Buang Latar Belakang',
           ai_bg_removal_short: 'Buang LB',
           ai_bg_removal_reminder:
-            'Menekan butang akan menggunakan 0.2 Kredit AI dengan serta-merta, anda mahu meneruskan?',
+            'Menekan butang akan menggunakan 0.2 Kredit dengan serta-merta, anda mahu meneruskan?',
           outline: 'Garis luar',
         },
         path_edit_panel: {

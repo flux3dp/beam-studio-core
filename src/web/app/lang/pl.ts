@@ -935,7 +935,7 @@ const lang: ILang = {
           simplify: 'Uproszczać',
           ai_bg_removal: 'Usunąć tła',
           ai_bg_removal_short: 'BG Usunąć',
-          ai_bg_removal_reminder: 'Naciśnięcie przycisku spowoduje natychmiastowe wykorzystanie 0,2 kredytu AI. Czy chcesz kontynuować?',
+          ai_bg_removal_reminder: 'Naciśnięcie przycisku spowoduje natychmiastowe wykorzystanie 0,2 kredytu. Czy chcesz kontynuować?',
           outline: 'Zarys',
         },
         path_edit_panel: {

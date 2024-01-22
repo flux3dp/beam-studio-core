@@ -997,7 +997,7 @@ const lang: ILang = {
           ai_bg_removal: "Suppression de l'arrière-plan",
           ai_bg_removal_short: 'Suppr. arrière-plan',
           ai_bg_removal_reminder:
-            "L'appui sur le bouton utilisera immédiatement 0,2 crédit IA, voulez-vous continuer ?",
+            "L'appui sur le bouton utilisera immédiatement 0,2 crédit, voulez-vous continuer ?",
           outline: 'Contour',
         },
         path_edit_panel: {

@@ -986,7 +986,7 @@ const lang: ILang = {
           simplify: 'Vereenvoudigen',
           ai_bg_removal: 'Achtergrond verwijderen',
           ai_bg_removal_short: 'Achtergrondverw.',
-          ai_bg_removal_reminder: 'Druk op de knop gebruikt direct 0,2 AI-tegoed, wilt u doorgaan?',
+          ai_bg_removal_reminder: 'Druk op de knop gebruikt direct 0,2 tegoed, wilt u doorgaan?',
           outline: 'Omtrek',
         },
         path_edit_panel: {

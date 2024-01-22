@@ -980,7 +980,7 @@ const lang: ILang = {
           simplify: 'ลดรายละเอียด',
           ai_bg_removal: 'ลบพื้นหลัง',
           ai_bg_removal_short: 'ลบพื้นหลัง',
-          ai_bg_removal_reminder: 'กดปุ่มจะใช้เครดิต AI 0.2 เลย ต้องการดําเนินการต่อหรือไม่',
+          ai_bg_removal_reminder: 'กดปุ่มจะใช้เครดิต 0.2 เลย ต้องการดําเนินการต่อหรือไม่',
           outline: 'เส้นกรอบ',
         },
         path_edit_panel: {

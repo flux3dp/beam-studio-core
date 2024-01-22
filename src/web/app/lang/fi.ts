@@ -986,7 +986,7 @@ const lang: ILang = {
           ai_bg_removal: 'Taustan poisto',
           ai_bg_removal_short: 'TP',
           ai_bg_removal_reminder:
-            'Painamalla nappia käytetään välittömästi 0,2 AI-hyvitystä, haluatko jatkaa?',
+            'Painamalla nappia käytetään välittömästi 0,2 hyvitystä, haluatko jatkaa?',
           outline: 'Ääriviiva',
         },
         path_edit_panel: {

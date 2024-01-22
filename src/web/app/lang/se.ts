@@ -991,7 +991,7 @@ const lang: ILang = {
           ai_bg_removal: 'Ta bort bakgrunden',
           ai_bg_removal_short: 'BG bort',
           ai_bg_removal_reminder:
-            'Tryck på knappen kommer omedelbart att använda 0,2 AI-kredit, vill du fortsätta?',
+            'Tryck på knappen kommer omedelbart att använda 0,2 kredit, vill du fortsätta?',
           outline: 'Kontur',
         },
         path_edit_panel: {

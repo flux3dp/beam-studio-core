@@ -993,7 +993,7 @@ const lang: ILang = {
           ai_bg_removal: 'Hapus Latar Belakang',
           ai_bg_removal_short: 'Hps Latar Blkg',
           ai_bg_removal_reminder:
-            'Menekan tombol akan segera menggunakan 0,2 Kredit AI, apakah Anda ingin melanjutkan?',
+            'Menekan tombol akan segera menggunakan 0,2 Kredit, apakah Anda ingin melanjutkan?',
           outline: 'Garis Besar',
         },
         path_edit_panel: {

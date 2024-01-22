@@ -986,7 +986,7 @@ const lang: ILang = {
           ai_bg_removal: 'Xóa nền',
           ai_bg_removal_short: 'Xóa nền',
           ai_bg_removal_reminder:
-            'Nhấn nút sẽ sử dụng ngay 0.2 Tín dụng AI, bạn có muốn tiếp tục không?',
+            'Nhấn nút sẽ sử dụng ngay 0.2 Tín dụng, bạn có muốn tiếp tục không?',
           outline: 'Đường viền',
         },
         path_edit_panel: {

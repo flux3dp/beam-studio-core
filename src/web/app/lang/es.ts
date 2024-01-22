@@ -935,7 +935,7 @@ const lang: ILang = {
           simplify: 'Simplificar',
           ai_bg_removal: 'Background Removal',
           ai_bg_removal_short: 'Elim. Fondo',
-          ai_bg_removal_reminder: 'Presionar el botón usará inmediatamente 0.2 AI Credit, ¿quieres continuar?',
+          ai_bg_removal_reminder: 'Presionar el botón usará inmediatamente 0.2 Credit, ¿quieres continuar?',
           outline: 'Contornear',
         },
         path_edit_panel: {

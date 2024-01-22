@@ -935,7 +935,7 @@ const lang: ILang = {
           simplify: 'Vereinfachen',
           ai_bg_removal: 'AI-Hintergrundentfernung',
           ai_bg_removal_short: 'BG Entfernung',
-          ai_bg_removal_reminder: 'Durch Drücken der Taste werden sofort 0,2 KI-Credits verbraucht. Möchten Sie fortfahren?',
+          ai_bg_removal_reminder: 'Durch Drücken der Taste werden sofort 0,2 Credits verbraucht. Möchten Sie fortfahren?',
           outline: 'Umriss',
         },
         path_edit_panel: {

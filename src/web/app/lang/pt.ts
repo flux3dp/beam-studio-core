@@ -991,7 +991,7 @@ const lang: ILang = {
           ai_bg_removal: 'Remoção de fundo',
           ai_bg_removal_short: 'Remoção de fundo',
           ai_bg_removal_reminder:
-            'Pressionar o botão usará imediatamente 0,2 créditos de IA, deseja continuar?',
+            'Pressionar o botão usará imediatamente 0,2 créditos de, deseja continuar?',
           outline: 'Contorno',
         },
         path_edit_panel: {

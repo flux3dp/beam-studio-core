@@ -988,7 +988,7 @@ const lang: ILang = {
           ai_bg_removal: 'Baggrundsfjernelse',
           ai_bg_removal_short: 'BG fjernelse',
           ai_bg_removal_reminder:
-            'Tryk på knappen vil straks bruge 0,2 AI-kredit. Vil du fortsætte?',
+            'Tryk på knappen vil straks bruge 0,2 kredit. Vil du fortsætte?',
           outline: 'Omrids',
         },
         path_edit_panel: {
