@@ -13,20 +13,22 @@ getSVGAsync((globalSVG) => {
 });
 
 const layerToImage = async (
-  layer: SVGGElement, opt?: { dpi?: number, shapesOnly?: boolean, isFullColor?: boolean }
+  layer: SVGGElement,
+  opt?: { dpi?: number; shapesOnly?: boolean; isFullColor?: boolean }
 ): Promise<{ blob: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
   const { dpi = 300, shapesOnly = false, isFullColor = false } = opt || {};
   const layerClone = layer.cloneNode(true) as SVGGElement;
   if (shapesOnly) layerClone.querySelectorAll('image').forEach((image) => image.remove());
   if (isFullColor) await updateImageForSpliting(layerClone);
-  const canvasWidth = Math.round((svgCanvas.contentW * dpi) / (25.4 * constant.dpmm));
-  const canvasHeight = Math.round((svgCanvas.contentH * dpi) / (25.4 * constant.dpmm));
+  const ratio = dpi / (constant.dpmm * 25.4);
+  const canvasWidth = Math.round(svgCanvas.contentW * ratio);
+  const canvasHeight = Math.round(svgCanvas.contentH * ratio);
   const svgDefs = svgedit.utilities.findDefs();
   const svgString = `
     <svg
       width="${canvasWidth}"
       height="${canvasHeight}"
-      viewBox="0 0 ${canvasWidth} ${canvasHeight}"
+      viewBox="0 0 ${svgCanvas.contentW} ${svgCanvas.contentH}"
       xmlns:svg="http://www.w3.org/2000/svg"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -35,11 +37,11 @@ const layerToImage = async (
       ${layerClone.outerHTML}
     </svg>`;
   const canvas = await svgStringToCanvas(svgString, canvasWidth, canvasHeight);
-  const ctx = canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
   const { data } = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
   const bounds = { minX: canvasWidth, minY: canvasHeight, maxX: 0, maxY: 0 };
-  for (let y = 0; y < svgCanvas.contentH; y += 1) {
-    for (let x = 0; x < svgCanvas.contentW; x += 1) {
+  for (let y = 0; y < canvasHeight; y += 1) {
+    for (let x = 0; x < canvasWidth; x += 1) {
       const i = (y * canvasWidth + x) * 4;
       const alpha = data[i + 3];
       if (alpha > 0) {
@@ -58,17 +60,32 @@ const layerToImage = async (
     width: bounds.maxX - bounds.minX + 1,
     height: bounds.maxY - bounds.minY + 1,
   };
-  const newImageData = ctx.getImageData(bbox.x, bbox.y, bbox.width, bbox.height);
-  canvas.width = bbox.width;
-  canvas.height = bbox.height;
-  ctx.putImageData(newImageData, 0, 0);
-  if (!isFullColor) {
-    ctx.filter = 'brightness(0%)';
-    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-  }
+  const outputBbox = {
+    x: Math.round(bbox.x / ratio),
+    y: Math.round(bbox.y / ratio),
+    width: Math.round(bbox.width / ratio),
+    height: Math.round(bbox.height / ratio),
+  };
+  const outCanvas = document.createElement('canvas');
+  outCanvas.width = outputBbox.width;
+  outCanvas.height = outputBbox.height;
+  const outCtx = outCanvas.getContext('2d');
+  if (!isFullColor) outCtx.filter = 'brightness(0%)';
+  outCtx.drawImage(
+    canvas,
+    bbox.x,
+    bbox.y,
+    bbox.width,
+    bbox.height,
+    0,
+    0,
+    outCanvas.width,
+    outCanvas.height
+  );
+
   return new Promise((resolve) => {
-    canvas.toBlob((b) => {
-      resolve({ blob: b, bbox });
+    outCanvas.toBlob((b) => {
+      resolve({ blob: b, bbox: outputBbox });
     });
   });
 };
