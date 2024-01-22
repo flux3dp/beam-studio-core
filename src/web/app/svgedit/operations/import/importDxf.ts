@@ -27,7 +27,6 @@ getSVGAsync((globalSVG) => {
 const importDxf = async (file: Blob): Promise<void> => {
   const lang = i18n.lang.beambox;
   const Dxf2Svg = await requirejsHelper('dxf2svg');
-  const ImageTracer = await requirejsHelper('imagetracer');
   const { defaultDpiValue, parsed } = await new Promise<{
     defaultDpiValue: number;
     parsed: string;
@@ -118,7 +117,7 @@ const importDxf = async (file: Blob): Promise<void> => {
     symbol.setAttribute('overflow', 'visible');
     symbol.id = id;
     svgedit.utilities.findDefs().appendChild(symbol);
-    ImageTracer.appendSVGString(layer.paths.join(''), id);
+    symbol.innerHTML = layer.paths.join('');
     for (let j = symbol.childNodes.length - 1; j >= 0; j -= 1) {
       const child = symbol.childNodes[j] as unknown as SVGElement;
       if (child.tagName === 'path' && !$(child).attr('d')) {

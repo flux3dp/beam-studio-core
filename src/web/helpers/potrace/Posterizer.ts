@@ -19,7 +19,9 @@ function Posterizer(options) {
     steps: 3,
     background: Potrace.COLOR_TRANSPARENT,
     fillStrategy: Posterizer.FILL_MEAN,
-    rangeDistribution: Posterizer.RANGES_AUTO
+    rangeDistribution: Posterizer.RANGES_AUTO,
+    // custom option to add z when converting to svg
+    addZ: false,
   };
 
   if (options) {
