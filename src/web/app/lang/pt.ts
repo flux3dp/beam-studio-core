@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'exportar JPG',
       save_scene: 'Salvar',
       save_as: 'Salvar como...',
+      save_to_cloud: 'Salvar na nuvem',
       about_beam_studio: 'Sobre o Beam Studio',
       undo: 'Desfazer',
       redo: 'Refazer',
@@ -658,6 +659,7 @@ const lang: ILang = {
         live_feed: 'Transmissão ao vivo',
         adjust_height: 'Ajustar Altura',
         boxgen: 'Boxgen',
+        my_cloud: 'Minha nuvem',
       },
     },
     right_panel: {
@@ -989,7 +991,7 @@ const lang: ILang = {
           ai_bg_removal: 'Remoção de fundo',
           ai_bg_removal_short: 'Remoção de fundo',
           ai_bg_removal_reminder:
-            'Pressionar o botão usará imediatamente 0,2 créditos de IA, deseja continuar?',
+            'Pressionar o botão usará imediatamente 0,2 créditos de, deseja continuar?',
           outline: 'Contorno',
         },
         path_edit_panel: {
@@ -1236,6 +1238,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Você precisa da assinatura FLUX+ Pro ou do complemento Fontes Monotype para acessar este recurso.',
       learn_more: 'Saiba mais',
       get_addon: 'Obter complemento',
+      subscribe_now: 'Inscreva-se agora',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1742,6 +1745,27 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Botão esquerdo para rotacionar\nRoda para aplicar zoom\nBotão direito para mover',
     control_tooltip_touch: 'Arraste para rotacionar\nAproxime os dedos para aplicar zoom\nDois dedos para mover',
+  },
+  my_cloud: {
+    title: 'Minha nuvem',
+    loading_file: 'Carregando...',
+    no_file_title: 'Salve arquivos em Minha nuvem para começar.',
+    no_file_subtitle: 'Vá para Menu > "Arquivo" > "Salvar na nuvem"',
+    sort: {
+      most_recent: 'Mais recentes',
+      oldest: 'Mais antigos',
+      a_to_z: 'Nome: A - Z',
+      z_to_a: 'Nome: Z - A',
+    },
+    action: {
+      open: 'Abrir',
+      rename: 'Renomear',
+      duplicate: 'Duplicar',
+      download: 'Baixar',
+      delete: 'Excluir',
+      confirmFileDelete:
+        'Tem certeza que deseja excluir este arquivo? Esta ação não pode ser desfeita.',
+    },
   },
 };
 

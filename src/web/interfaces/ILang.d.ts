@@ -80,6 +80,7 @@ export interface ILang {
       export_JPG: string;
       save_scene: string;
       save_as: string;
+      save_to_cloud: string;
       about_beam_studio: string;
       undo: string;
       redo: string;
@@ -612,6 +613,7 @@ export interface ILang {
         live_feed: string;
         adjust_height: string;
         boxgen: string;
+        my_cloud: string;
       },
     },
     right_panel: {
@@ -1165,6 +1167,7 @@ export interface ILang {
       access_monotype_feature_note: string;
       learn_more: string;
       get_addon: string;
+      subscribe_now: string;
       website_url: string;
       member_center_url: string;
       features: {
@@ -1616,5 +1619,25 @@ export interface ILang {
     zoom: string;
     control_tooltip: string;
     control_tooltip_touch: string;
+  };
+  my_cloud: {
+    title: string;
+    loading_file: string;
+    no_file_title: string;
+    no_file_subtitle: string;
+    sort: {
+      most_recent: string;
+      oldest: string;
+      a_to_z: string;
+      z_to_a: string;
+    };
+    action: {
+      open: string;
+      rename: string;
+      duplicate: string;
+      download: string;
+      delete: string;
+      confirmFileDelete: string;
+    };
   };
 }

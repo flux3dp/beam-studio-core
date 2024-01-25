@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Salva',
       save_as: 'Salva con nome...',
+      save_to_cloud: 'Salva sul cloud',
       about_beam_studio: 'Informazioni su Beam Studio',
       undo: 'Annulla',
       redo: 'Ripeti',
@@ -658,6 +659,7 @@ const lang: ILang = {
         live_feed: 'Live Feed',
         adjust_height: 'Regola altezza',
         boxgen: 'Boxgen',
+        my_cloud: 'La mia nuvola',
       },
     },
     right_panel: {
@@ -990,7 +992,7 @@ const lang: ILang = {
           ai_bg_removal: 'Rimozione sfondo',
           ai_bg_removal_short: 'Rimozione sfondo',
           ai_bg_removal_reminder:
-            'Premendo il pulsante verranno immediatamente utilizzati 0,2 crediti IA, vuoi continuare?',
+            'Premendo il pulsante verranno immediatamente utilizzati 0,2 crediti, vuoi continuare?',
           outline: 'Contorno',
         },
         path_edit_panel: {
@@ -1237,6 +1239,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Devi avere l\'abbonamento FLUX+ Pro o l\'add-on Caratteri Monotype per accedere a questa funzionalità.',
       learn_more: 'Per saperne di più',
       get_addon: 'Ottieni l\'add-on',
+      subscribe_now: 'Iscriviti adesso',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1750,6 +1753,27 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Sinistro per ruotare\nScorri per lo zoom\nDestro per spostare',
     control_tooltip_touch: 'Trascina per ruotare\nStringi per lo zoom\nDue dita per spostare',
+  },
+  my_cloud: {
+    title: 'La mia nuvola',
+    loading_file: 'Caricamento...',
+    no_file_title: 'Salva i file nel cloud per iniziare.',
+    no_file_subtitle: 'Vai al Menu > "File" > "Salva sul cloud"',
+    sort: {
+      most_recent: 'Più recenti',
+      oldest: 'Meno recenti',
+      a_to_z: 'Nome: A-Z',
+      z_to_a: 'Nome: Z-A',
+    },
+    action: {
+      open: 'Apri',
+      rename: 'Rinomina',
+      duplicate: 'Duplica',
+      download: 'Scarica',
+      delete: 'Elimina',
+      confirmFileDelete:
+        "Sei sicuro di voler eliminare questo file? Quest'azione non può essere annullata.",
+    },
   },
 };
 

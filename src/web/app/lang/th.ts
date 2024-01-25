@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'บันทึก',
       save_as: 'บันทึกเป็น...',
+      save_to_cloud: 'บันทึกไปยังคลาวด์',
       about_beam_studio: 'เกี่ยวกับ Beam Studio',
       undo: 'เลิกทํา',
       redo: 'ทําซ้ํา',
@@ -649,6 +650,7 @@ const lang: ILang = {
         live_feed: 'ภาพถ่ายสด',
         adjust_height: 'ปรับระดับความสูง',
         boxgen: 'Boxgen',
+        my_cloud: 'คลาวด์ของฉัน',
       },
     },
     right_panel: {
@@ -978,7 +980,7 @@ const lang: ILang = {
           simplify: 'ลดรายละเอียด',
           ai_bg_removal: 'ลบพื้นหลัง',
           ai_bg_removal_short: 'ลบพื้นหลัง',
-          ai_bg_removal_reminder: 'กดปุ่มจะใช้เครดิต AI 0.2 เลย ต้องการดําเนินการต่อหรือไม่',
+          ai_bg_removal_reminder: 'กดปุ่มจะใช้เครดิต 0.2 เลย ต้องการดําเนินการต่อหรือไม่',
           outline: 'เส้นกรอบ',
         },
         path_edit_panel: {
@@ -1222,6 +1224,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'คุณต้องเป็นสมาชิก FLUX+ Pro หรือซื้อโมโนไทป์ ฟอนต์ แอดออน เพื่อใช้คุณสมบัตินี้',
       learn_more: 'เรียนรู้เพิ่มเติม',
       get_addon: 'รับแอดออน',
+      subscribe_now: 'สมัครรับข่าวสารตอนนี้',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1711,6 +1714,26 @@ const lang: ILang = {
     zoom: 'ซูม',
     control_tooltip: 'เมาส์ซ้ายเพื่อหมุน\nเลื่อนเพื่อซูม\nเมาส์ขวาเพื่อเลื่อน',
     control_tooltip_touch: 'ลากเพื่อหมุน\nหุบเพื่อซูม\nสองนิ้วเพื่อเลื่อน',
+  },
+  my_cloud: {
+    title: 'คลาวด์ของฉัน',
+    loading_file: 'กําลังโหลด...',
+    no_file_title: 'บันทึกไฟล์ไปยัง คลาวด์ของฉัน เพื่อเริ่มต้น',
+    no_file_subtitle: 'ไปที่เมนู > "ไฟล์" > "บันทึกไปยังคลาวด์"',
+    sort: {
+      most_recent: 'ล่าสุด',
+      oldest: 'เก่าสุด',
+      a_to_z: 'ชื่อ: ก-ฮ',
+      z_to_a: 'ชื่อ: ฮ-ก',
+    },
+    action: {
+      open: 'เปิด',
+      rename: 'เปลี่ยนชื่อ',
+      duplicate: 'ทําสําเนา',
+      download: 'ดาวน์โหลด',
+      delete: 'ลบ',
+      confirmFileDelete: 'คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์นี้? การกระทํานี้ไม่สามารถยกเลิกได้',
+    },
   },
 };
 

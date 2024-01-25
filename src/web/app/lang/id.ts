@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Simpan',
       save_as: 'Simpan Sebagai...',
+      save_to_cloud: 'Simpan ke Awan',
       about_beam_studio: 'Tentang Beam Studio',
       undo: 'Batalkan',
       redo: 'Ulangi',
@@ -659,6 +660,7 @@ const lang: ILang = {
         live_feed: 'Siaran Langsung',
         adjust_height: 'Sesuaikan Tinggi',
         boxgen: 'Boxgen',
+        my_cloud: 'Awan Saya',
       },
     },
     right_panel: {
@@ -991,7 +993,7 @@ const lang: ILang = {
           ai_bg_removal: 'Hapus Latar Belakang',
           ai_bg_removal_short: 'Hps Latar Blkg',
           ai_bg_removal_reminder:
-            'Menekan tombol akan segera menggunakan 0,2 Kredit AI, apakah Anda ingin melanjutkan?',
+            'Menekan tombol akan segera menggunakan 0,2 Kredit, apakah Anda ingin melanjutkan?',
           outline: 'Garis Besar',
         },
         path_edit_panel: {
@@ -1238,6 +1240,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Anda perlu berlangganan FLUX+ Pro atau Add-on Font Monotype untuk mengakses fitur ini.',
       learn_more: 'Pelajari Lebih Lanjut',
       get_addon: 'Dapatkan Add-on',
+      subscribe_now: 'Berlangganan sekarang',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1739,7 +1742,28 @@ const lang: ILang = {
     zoom: 'Perbesar',
     control_tooltip: 'Klik kiri untuk memutar\nGulir untuk memperbesar\nKlik kanan untuk menggeser',
     control_tooltip_touch: 'Seret untuk memutar\nCubit untuk memperbesar\nDua jari untuk menggeser',
-  }
+  },
+  my_cloud: {
+    title: 'Awan Saya',
+    loading_file: 'Memuat...',
+    no_file_title: 'Simpan berkas ke Awan Saya untuk memulai.',
+    no_file_subtitle: 'Buka Menu > "Berkas" > "Simpan ke Awan"',
+    sort: {
+      most_recent: 'Terbaru',
+      oldest: 'Terlama',
+      a_to_z: 'Nama: A - Z',
+      z_to_a: 'Nama: Z - A',
+    },
+    action: {
+      open: 'Buka',
+      rename: 'Ubah Nama',
+      duplicate: 'Duplikat',
+      download: 'Unduh',
+      delete: 'Hapus',
+      confirmFileDelete:
+        'Apakah Anda yakin ingin menghapus berkas ini? Tindakan ini tidak dapat dibatalkan.',
+    },
+  },
 };
 
 export default lang;

@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Spara',
       save_as: 'Spara som...',
+      save_to_cloud: 'Spara till molnet',
       about_beam_studio: 'Om Beam Studio',
       undo: 'Ångra',
       redo: 'Gör om',
@@ -658,6 +659,7 @@ const lang: ILang = {
         live_feed: 'Livebild',
         adjust_height: 'Justera höjd',
         boxgen: 'Boxgen',
+        my_cloud: 'Mitt moln',
       },
     },
     right_panel: {
@@ -989,7 +991,7 @@ const lang: ILang = {
           ai_bg_removal: 'Ta bort bakgrunden',
           ai_bg_removal_short: 'BG bort',
           ai_bg_removal_reminder:
-            'Tryck på knappen kommer omedelbart att använda 0,2 AI-kredit, vill du fortsätta?',
+            'Tryck på knappen kommer omedelbart att använda 0,2 kredit, vill du fortsätta?',
           outline: 'Kontur',
         },
         path_edit_panel: {
@@ -1234,6 +1236,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Du måste ha FLUX+ Pro-medlemskap eller Monotype Fonts-tillägget för att använda den här funktionen.',
       learn_more: 'Läs mer',
       get_addon: 'Skaffa tillägg',
+      subscribe_now: 'Prenumerera nu',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1732,6 +1735,27 @@ const lang: ILang = {
     zoom: 'Zooma',
     control_tooltip: 'Vänster mus för att rotera\nScrolla för att zooma\nHöger mus för att panorera',
     control_tooltip_touch: 'Dra för att rotera\nNypa för att zooma\nTvå fingrar för att panorera',
+  },
+  my_cloud: {
+    title: 'Mitt moln',
+    loading_file: 'Laddar...',
+    no_file_title: 'Spara filer till Mitt moln för att komma igång.',
+    no_file_subtitle: 'Gå till Meny > "Arkiv" > "Spara till molnet"',
+    sort: {
+      most_recent: 'Senast',
+      oldest: 'Äldst',
+      a_to_z: 'Namn: A - Ö',
+      z_to_a: 'Namn: Ö - A',
+    },
+    action: {
+      open: 'Öppna',
+      rename: 'Byt namn',
+      duplicate: 'Duplicera',
+      download: 'Ladda ner',
+      delete: 'Ta bort',
+      confirmFileDelete:
+        'Är du säker på att du vill ta bort den här filen? Den här åtgärden kan inte ångras.',
+    },
   },
 };
 

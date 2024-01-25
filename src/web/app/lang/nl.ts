@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Opslaan',
       save_as: 'Opslaan als...',
+      save_to_cloud: 'Opslaan in cloud',
       about_beam_studio: 'Over Beam Studio',
       undo: 'Ongedaan maken',
       redo: 'Opnieuw',
@@ -656,6 +657,7 @@ const lang: ILang = {
         live_feed: 'Live beeld',
         adjust_height: 'Hoogte aanpassen',
         boxgen: 'Boxgen',
+        my_cloud: 'Mijn cloud',
       },
     },
     right_panel: {
@@ -984,7 +986,7 @@ const lang: ILang = {
           simplify: 'Vereenvoudigen',
           ai_bg_removal: 'Achtergrond verwijderen',
           ai_bg_removal_short: 'Achtergrondverw.',
-          ai_bg_removal_reminder: 'Druk op de knop gebruikt direct 0,2 AI-tegoed, wilt u doorgaan?',
+          ai_bg_removal_reminder: 'Druk op de knop gebruikt direct 0,2 tegoed, wilt u doorgaan?',
           outline: 'Omtrek',
         },
         path_edit_panel: {
@@ -1231,6 +1233,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'U moet FLUX+ Pro-lid zijn of de Monotype-lettertypen-invoegtoepassing hebben om toegang te krijgen tot deze functie.',
       learn_more: 'Meer informatie',
       get_addon: 'Krijg invoegtoepassing',
+      subscribe_now: 'Abonneer nu',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1738,6 +1741,27 @@ const lang: ILang = {
     zoom: 'Zoomen',
     control_tooltip: 'Linkermuisknop om te draaien\nScrollen om in te zoomen\nRechtermuisknop om te pannen',
     control_tooltip_touch: 'Slepen om te draaien\nKnijpen om in te zoomen\nTwee vingers om te pannen',
+  },
+  my_cloud: {
+    title: 'Mijn cloud',
+    loading_file: 'Bezig met laden...',
+    no_file_title: 'Sla bestanden op in Mijn cloud om te beginnen.',
+    no_file_subtitle: 'Ga naar Menu > "Bestand" > "Opslaan in cloud"',
+    sort: {
+      most_recent: 'Meest recent',
+      oldest: 'Oudste',
+      a_to_z: 'Naam: A - Z',
+      z_to_a: 'Naam: Z - A',
+    },
+    action: {
+      open: 'Openen',
+      rename: 'Hernoemen',
+      duplicate: 'Dupliceren',
+      download: 'Downloaden',
+      delete: 'Verwijderen',
+      confirmFileDelete:
+        'Weet u zeker dat u dit bestand wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.',
+    },
   },
 };
 
