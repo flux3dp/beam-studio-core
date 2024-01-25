@@ -40,9 +40,8 @@ const createBoundary = () => {
 
   boundaryDescText.setAttribute('font-size', '80');
   boundaryDescText.setAttribute('font-weight', 'bold');
-  boundaryDescText.setAttribute('fill', '#fff');
-  boundaryDescText.setAttribute('stroke', '#CCC');
-  boundaryDescText.setAttribute('stroke-width', '5');
+  boundaryDescText.setAttribute('fill', '#999');
+  boundaryDescText.setAttribute('stroke', 'none');
   boundaryDescText.setAttribute('paint-order', 'stroke');
   boundaryDescText.setAttribute('style', 'pointer-events:none');
   const textNode = document.createTextNode(i18n.lang.layer_module.non_working_area);
