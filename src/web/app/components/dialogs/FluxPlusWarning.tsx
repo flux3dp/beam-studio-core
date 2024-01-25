@@ -43,7 +43,7 @@ const FluxPlusWarning = ({ onClose, monotype = false }: Props): JSX.Element => {
             type="primary"
             onClick={() => browser.open(lang.flux_plus.member_center_url)}
           >
-            {monotype ? lang.flux_plus.get_addon : lang.flux_plus.learn_more}
+            {monotype ? lang.flux_plus.get_addon : lang.flux_plus.subscribe_now}
           </Button>
           {!user && (
             <Button

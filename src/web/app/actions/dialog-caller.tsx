@@ -16,6 +16,7 @@ import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
+import MyCloud from 'app/components/dialogs/myCloud/MyCloud';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
@@ -33,7 +34,7 @@ import Tutorial from 'app/views/tutorials/Tutorial';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
-import { getCurrentUser } from 'helpers/api/flux-id';
+import { getCurrentUser, getInfo } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
@@ -486,14 +487,13 @@ export default {
   },
   showFluxCreditDialog: (): void => {
     if (isIdExist('flux-id-credit')) return;
-    forceLoginWrapper(
-      () =>
-        addDialogComponent(
-          'flux-id-credit',
-          <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
-        ),
-      true
-    );
+    forceLoginWrapper(async () => {
+      await getInfo(true);
+      addDialogComponent(
+        'flux-id-credit',
+        <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
+      );
+    }, true);
   },
   showFluxPlusWarning,
   showBoxGen: (onClose: () => void): void => {
@@ -510,6 +510,23 @@ export default {
             shortcuts.initialize();
             onClose();
             popDialogById('box-gen');
+          }}
+        />
+      );
+    }
+  },
+  showMyCloud: (onClose: () => void): void => {
+    if (isIdExist('my-cloud')) return;
+    const user = getCurrentUser();
+    if (!user?.info?.subscription?.is_valid) {
+      showFluxPlusWarning();
+    } else {
+      addDialogComponent(
+        'my-cloud',
+        <MyCloud
+          onClose={() => {
+            onClose();
+            popDialogById('my-cloud');
           }}
         />
       );

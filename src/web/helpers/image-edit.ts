@@ -13,7 +13,12 @@ import jimpHelper from 'helpers/jimp-helper';
 import progress from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
 import updateElementColor from 'helpers/color/updateElementColor';
-import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
+import {
+  axiosFluxId,
+  getCurrentUser,
+  getDefaultHeader,
+  ResponseWithError,
+} from 'helpers/api/flux-id';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -239,6 +244,24 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
 
+  const showBalanceAlert = () =>
+    alertCaller.popUp({
+      caption: i18n.lang.beambox.popup.ai_credit.insufficient_credit,
+      message: sprintf(
+        i18n.lang.beambox.popup.ai_credit.insufficient_credit_msg,
+        i18n.lang.beambox.right_panel.object_panel.actions_panel.ai_bg_removal
+      ),
+      buttonType: alertConstants.CUSTOM_CANCEL,
+      buttonLabels: [i18n.lang.beambox.popup.ai_credit.go],
+      callbacks: () => browser.open(i18n.lang.beambox.popup.ai_credit.buy_link),
+    });
+
+  const user = getCurrentUser();
+  if (user.info && (user.info.subscription?.credit || 0) + (user.info.credit || 0) < 0.2) {
+    showBalanceAlert();
+    return;
+  }
+
   if (!alertConfig.read('skip_bg_removal_warning')) {
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
@@ -326,16 +349,7 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
       if (status === 'error') {
         if (info === 'NOT_LOGGED_IN') dialogCaller.showLoginDialog();
         else if (info === 'INSUFFICIENT_CREDITS') {
-          alertCaller.popUp({
-            caption: i18n.lang.beambox.popup.ai_credit.insufficient_credit,
-            message: sprintf(
-              i18n.lang.beambox.popup.ai_credit.insufficient_credit_msg,
-              i18n.lang.beambox.right_panel.object_panel.actions_panel.ai_bg_removal
-            ),
-            buttonType: alertConstants.CUSTOM_CANCEL,
-            buttonLabels: [i18n.lang.beambox.popup.ai_credit.go],
-            callbacks: () => browser.open(i18n.lang.beambox.popup.ai_credit.buy_link),
-          });
+          showBalanceAlert();
         } else if (info === 'API_ERROR')
           alertCaller.popUpError({ message: `API Error: ${message}` });
         else alertCaller.popUpError({ message: `Error: ${info}` });

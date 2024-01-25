@@ -48,6 +48,9 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
         `${LANG.label.photo} (I)`,
         FnWrapper.importImage
       )}
+      {renderToolButton('MyCloud', <LeftPanelIcons.Cloud />, LANG.label.my_cloud, () =>
+        dialogCaller.showMyCloud(FnWrapper.useSelectTool)
+      )}
       {renderToolButton(
         'Text',
         <LeftPanelIcons.Text />,

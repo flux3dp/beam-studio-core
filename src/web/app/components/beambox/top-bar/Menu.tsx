@@ -6,11 +6,15 @@ import browser from 'implementations/browser';
 import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FluxIcons from 'app/icons/flux/FluxIcons';
 import hotkeys from 'app/constants/hotkeys';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import { useIsMobile } from 'helpers/system-helper';
+
+// TODO: move all styles to core
+import styles from './Menu.module.scss';
 
 interface Props {
   email: string;
@@ -188,6 +192,9 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuDivider />
         <MenuItem onClick={() => callback('SAVE_SCENE')}>{hotkey('save_scene')}</MenuItem>
         <MenuItem onClick={() => callback('SAVE_AS')}>{hotkey('save_as')}</MenuItem>
+        <MenuItem onClick={() => callback('SAVE_TO_CLOUD')}>
+          {menuCms.save_to_cloud} <FluxIcons.FluxPlus className={styles.icon} />
+        </MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
           <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_LASER')}>
@@ -363,6 +370,21 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
         {deviceMenus()}
       </SubMenu>
+      <SubMenu label={menuCms.account}>
+        {email == null ? (
+          <MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>
+        ) : (
+          <MenuItem
+            onClick={() => callback('SIGN_OUT')}
+          >{`${menuCms.sign_out} (${email})`}</MenuItem>
+        )}
+        <MenuItem onClick={() => openPage(menuCms.link.design_market)}>
+          {menuCms.design_market}
+        </MenuItem>
+        <MenuItem disabled={email === null} onClick={() => callback('MANAGE_ACCOUNT')}>
+          {menuCms.manage_account}
+        </MenuItem>
+      </SubMenu>
       <SubMenu label={menuCms.help}>
         <MenuItem onClick={() => callback('ABOUT_BEAM_STUDIO')}>
           {menuCms.about_beam_studio}
@@ -385,21 +407,7 @@ export default function Menu({ email }: Props): JSX.Element {
         </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />
-        <MenuItem onClick={() => openPage(menuCms.link.design_market)}>
-          {menuCms.design_market}
-        </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
-        <MenuDivider />
-        <MenuItem disabled={email === null} onClick={() => callback('MANAGE_ACCOUNT')}>
-          {menuCms.manage_account}
-        </MenuItem>
-        {email == null ? (
-          <MenuItem onClick={() => callback('SIGN_IN')}>{menuCms.sign_in}</MenuItem>
-        ) : (
-          <MenuItem
-            onClick={() => callback('SIGN_OUT')}
-          >{`${menuCms.sign_out} (${email})`}</MenuItem>
-        )}
       </SubMenu>
     </TopBarMenu>
   );

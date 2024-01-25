@@ -277,7 +277,6 @@ export const signIn = async (
     const { data } = response;
     if (data.status === 'ok') {
       updateUser({ email: data.email });
-      await getInfo(true);
     }
     return data;
   }

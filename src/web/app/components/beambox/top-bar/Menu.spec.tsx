@@ -109,7 +109,7 @@ jest.mock('helpers/i18n', () => ({
         questionnaire: 'Feedback Questionnaire',
         change_logs: 'Change Logs',
         contact: 'Contact Us',
-        design_market: 'design_market',
+        design_market: 'Design Market',
         tutorial: 'Start Delta Family Printing Tutorial',
         forum: 'Community Forum',
         software_update: 'Software Update',
@@ -174,30 +174,30 @@ import Menu from './Menu';
 describe('should render correctly', () => {
   test('open the browser and reach the correct page', () => {
     read.mockReturnValue(true);
-    const { container } = render(<Menu email={undefined} />);
+    const { container, getByText } = render(<Menu email={undefined} />);
     expect(container).toMatchSnapshot();
 
     fireEvent.click(container.querySelector('div.menu-btn-container'));
     expect(container).toMatchSnapshot();
 
-    fireEvent.click(container.querySelectorAll('div.rc-menu__item')[4]);
+    fireEvent.click(getByText('Help'));
     expect(container).toMatchSnapshot();
 
-    fireEvent.click(container.querySelectorAll('li.rc-menu__item')[6]);
+    fireEvent.click(getByText('Help Center'));
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenNthCalledWith(1, 'https://helpcenter.flux3dp.com/');
   });
 
   test('test checkbox menu item', () => {
     read.mockReturnValue(false);
-    const { container } = render(<Menu email={undefined} />);
+    const { container, getByText } = render(<Menu email={undefined} />);
     expect(container).toMatchSnapshot();
 
     fireEvent.click(container.querySelector('div.menu-btn-container'));
-    fireEvent.click(container.querySelectorAll('div.rc-menu__item')[2]);
+    fireEvent.click(getByText('View'));
     expect(container).toMatchSnapshot();
 
-    fireEvent.click(container.querySelectorAll('li.rc-menu__item--type-checkbox')[5]);
+    fireEvent.click(getByText('Show Rulers'));
     expect(emit).toHaveBeenCalledTimes(1);
     expect(emit).toHaveBeenNthCalledWith(1, 'MENU_CLICK', null, {
       id: 'SHOW_RULERS',
@@ -207,9 +207,9 @@ describe('should render correctly', () => {
 
   test('already signed in', () => {
     read.mockReturnValue(true);
-    const { container } = render(<Menu email="tester@flux3dp.com" />);
+    const { container, getByText } = render(<Menu email="tester@flux3dp.com" />);
     fireEvent.click(container.querySelector('div.menu-btn-container'));
-    fireEvent.click(container.querySelectorAll('div.rc-menu__item')[4]);
+    fireEvent.click(getByText('Account'));
     expect(container).toMatchSnapshot();
   });
 });

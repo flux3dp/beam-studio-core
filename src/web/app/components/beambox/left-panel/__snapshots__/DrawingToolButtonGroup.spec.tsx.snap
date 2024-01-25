@@ -21,6 +21,12 @@ exports[`test DrawingToolButtonGroup should render correctly 1`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -113,6 +119,12 @@ exports[`test DrawingToolButtonGroup should render correctly 2`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -200,6 +212,12 @@ exports[`test DrawingToolButtonGroup should render correctly 3`] = `
       class="container"
       id="left-Photo"
       title="Image (I)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
     >
       <svgr-url />
     </div>
@@ -297,6 +315,12 @@ exports[`test DrawingToolButtonGroup should render correctly 4`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -384,6 +408,12 @@ exports[`test DrawingToolButtonGroup should render correctly 5`] = `
       class="container"
       id="left-Photo"
       title="Image (I)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
     >
       <svgr-url />
     </div>
@@ -481,6 +511,12 @@ exports[`test DrawingToolButtonGroup should render correctly 6`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -568,6 +604,12 @@ exports[`test DrawingToolButtonGroup should render correctly 7`] = `
       class="container"
       id="left-Photo"
       title="Image (I)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
     >
       <svgr-url />
     </div>
@@ -665,6 +707,12 @@ exports[`test DrawingToolButtonGroup should render correctly 8`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -752,6 +800,12 @@ exports[`test DrawingToolButtonGroup should render correctly 9`] = `
       class="container"
       id="left-Photo"
       title="Image (I)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
     >
       <svgr-url />
     </div>
@@ -849,6 +903,12 @@ exports[`test DrawingToolButtonGroup should render correctly 10`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -941,6 +1001,12 @@ exports[`test DrawingToolButtonGroup should render correctly 11`] = `
     </div>
     <div
       class="container"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Text"
       title="Text (T)"
     >
@@ -1028,6 +1094,12 @@ exports[`test DrawingToolButtonGroup should render correctly 12`] = `
       class="container"
       id="left-Photo"
       title="Image (I)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
     >
       <svgr-url />
     </div>
@@ -1180,6 +1252,98 @@ exports[`test DrawingToolButtonGroup should render correctly 13`] = `
     </div>
     <div
       class="container active"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <svgr-url />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render correctly 13`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container active"
+      id="left-MyCloud"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <svgr-url />
+    </div>
+    <div
+      class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
