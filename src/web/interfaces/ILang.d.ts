@@ -752,6 +752,7 @@ export interface ILang {
             rubber_bw_engraving: string;
             glass_bw_engraving: string;
             metal_bw_engraving: string;
+            steel_engraving_spray_engraving: string;
             stainless_steel_bw_engraving_diode: string;
             gold_engraving: string;
             brass_engraving: string;
@@ -802,6 +803,7 @@ export interface ILang {
             rubber_bw_engraving: string;
             glass_bw_engraving: string;
             metal_bw_engraving: string;
+            steel_engraving_spray_engraving: string;
             stainless_steel_bw_engraving_diode: string;
             gold_engraving: string;
             brass_engraving: string;
