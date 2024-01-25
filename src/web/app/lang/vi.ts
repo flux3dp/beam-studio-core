@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Lưu',
       save_as: 'Lưu dưới dạng...',
+      save_to_cloud: 'Lưu lên đám mây',
       about_beam_studio: 'Về Beam Studio',
       undo: 'Hoàn tác',
       redo: 'Làm lại',
@@ -655,6 +656,7 @@ const lang: ILang = {
         adjust_height: 'Điều chỉnh chiều cao',
         qr_code: 'Mã QR',
         boxgen: 'Boxgen',
+        my_cloud: 'Đám mây của tôi',
       },
     },
     right_panel: {
@@ -988,7 +990,7 @@ const lang: ILang = {
           ai_bg_removal: 'Xóa nền',
           ai_bg_removal_short: 'Xóa nền',
           ai_bg_removal_reminder:
-            'Nhấn nút sẽ sử dụng ngay 0.2 Tín dụng AI, bạn có muốn tiếp tục không?',
+            'Nhấn nút sẽ sử dụng ngay 0.2 Tín dụng, bạn có muốn tiếp tục không?',
           outline: 'Đường viền',
         },
         path_edit_panel: {
@@ -1234,6 +1236,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Bạn cần có tư cách thành viên FLUX+ Pro hoặc bổ trợ Phông chữ Monotype để truy cập tính năng này.',
       learn_more: 'Tìm hiểu thêm',
       get_addon: 'Nhận bổ trợ',
+      subscribe_now: 'Đăng ký ngay',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1740,6 +1743,27 @@ const lang: ILang = {
     zoom: 'Thu phóng',
     control_tooltip: 'Trái chuột để xoay\nCuộn để thu phóng\nPhải chuột để di chuyển',
     control_tooltip_touch: 'Kéo để xoay\nVuốt để thu phóng\nHai ngón tay để di chuyển',
+  },
+  my_cloud: {
+    title: 'Đám mây của tôi',
+    loading_file: 'Đang tải...',
+    no_file_title: 'Lưu tệp lên Đám mây của tôi để bắt đầu.',
+    no_file_subtitle: 'Vào Menu > "Tệp" > "Lưu lên đám mây"',
+    sort: {
+      most_recent: 'Gần đây nhất',
+      oldest: 'Cũ nhất',
+      a_to_z: 'Tên: A-Z',
+      z_to_a: 'Tên: Z-A',
+    },
+    action: {
+      open: 'Mở',
+      rename: 'Đổi tên',
+      duplicate: 'Nhân bản',
+      download: 'Tải xuống',
+      delete: 'Xóa',
+      confirmFileDelete:
+        'Bạn có chắc chắn muốn xóa tệp tin này không? Hành động này không thể hoàn tác.',
+    },
   },
 };
 

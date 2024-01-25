@@ -1,6 +1,7 @@
 import AdjustHeight from './adjust-height.svg';
 import Back from './back.svg';
 import Boxgen from './boxgen.svg';
+import Cloud from './cloud.svg';
 import Cursor from './cursor.svg';
 import Delete from './delete.svg';
 import DM from './dm.svg';
@@ -21,6 +22,7 @@ export default {
   AdjustHeight,
   Back,
   Boxgen,
+  Cloud,
   Cursor,
   Delete,
   DM,

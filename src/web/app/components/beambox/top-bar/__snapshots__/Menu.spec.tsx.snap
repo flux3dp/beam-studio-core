@@ -91,10 +91,10 @@ exports[`should render correctly already signed in 1`] = `
           role="menuitem"
           tabindex="-1"
         >
-          Help
+          Account
         </div>
         <ul
-          aria-label="Help"
+          aria-label="Account"
           class="rc-menu rc-menu--open rc-menu--animation rc-menu--dir-right"
           role="menu"
           style="left: 0px; top: 0px;"
@@ -105,79 +105,15 @@ exports[`should render correctly already signed in 1`] = `
             role="menuitem"
             tabindex="-1"
           >
-            About Beam Studio
+            Sign Out (tester@flux3dp.com)
           </li>
           <li
             class="rc-menu__item"
             role="menuitem"
             tabindex="-1"
           >
-            Show Start Tutorial
+            Design Market
           </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Show Interface Introduction
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            show_gesture_tutorial
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Feedback Questionnaire
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Change Logs
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Help Center
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Contact Us
-          </li>
-          <li
-            class="rc-menu__divider"
-            role="separator"
-          />
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            design_market
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Community Forum
-          </li>
-          <li
-            class="rc-menu__divider"
-            role="separator"
-          />
           <li
             class="rc-menu__item"
             role="menuitem"
@@ -185,14 +121,21 @@ exports[`should render correctly already signed in 1`] = `
           >
             Manage My Account
           </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Sign Out (tester@flux3dp.com)
-          </li>
         </ul>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Help
+        </div>
       </li>
     </ul>
   </div>
@@ -310,6 +253,20 @@ exports[`should render correctly open the browser and reach the correct page 2`]
           role="menuitem"
           tabindex="-1"
         >
+          Account
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
           Help
         </div>
       </li>
@@ -403,6 +360,20 @@ exports[`should render correctly open the browser and reach the correct page 3`]
         role="presentation"
       >
         <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Account
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
           aria-expanded="true"
           aria-haspopup="true"
           class="rc-menu__item rc-menu__item--open"
@@ -483,32 +454,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
             role="menuitem"
             tabindex="-1"
           >
-            design_market
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
             Community Forum
-          </li>
-          <li
-            class="rc-menu__divider"
-            role="separator"
-          />
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Manage My Account
-          </li>
-          <li
-            class="rc-menu__item"
-            role="menuitem"
-            tabindex="-1"
-          >
-            Sign In
           </li>
         </ul>
       </li>
@@ -719,6 +665,20 @@ exports[`should render correctly test checkbox menu item 2`] = `
           role="menuitem"
           tabindex="-1"
         >
+          Account
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
           Help
         </div>
       </li>
@@ -896,6 +856,20 @@ exports[`should render correctly test checkbox menu item 3`] = `
           tabindex="-1"
         >
           Machines
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Account
         </div>
       </li>
       <li

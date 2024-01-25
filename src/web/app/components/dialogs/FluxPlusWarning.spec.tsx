@@ -24,8 +24,8 @@ jest.mock('helpers/useI18n', () => () => ({
       access_monotype_feature: 'You do not have Monotype Fonts Add-on.',
       access_monotype_feature_note:
         'You must have FLUX+ Pro membership or Monotype Fonts Add-on to access this feature.',
-      learn_more: 'Learn More',
       get_addon: 'Get Add-on',
+      subscribe_now: 'Subscribe now',
       member_center_url: 'https://member_center_url',
     },
   },
@@ -49,7 +49,7 @@ describe('test FluxPlusWarning', () => {
     const { container, getByText } = render(<FluxPlusWarning onClose={onClose} />);
     expect(container).toMatchSnapshot();
 
-    fireEvent.click(getByText('Learn More'));
+    fireEvent.click(getByText('Subscribe now'));
     expect(open).toBeCalledTimes(1);
     expect(open).toBeCalledWith('https://member_center_url');
 

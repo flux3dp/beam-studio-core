@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Lagre',
       save_as: 'Lagre som...',
+      save_to_cloud: 'Lagre til skyen',
       about_beam_studio: 'Om Beam Studio',
       undo: 'Angre',
       redo: 'Gjør om',
@@ -656,6 +657,7 @@ const lang: ILang = {
         adjust_height: 'Juster høyde',
         qr_code: 'QR-kode',
         boxgen: 'Boxgen',
+        my_cloud: 'Min sky',
       },
     },
     right_panel: {
@@ -988,7 +990,7 @@ const lang: ILang = {
           ai_bg_removal: 'Bakgrunnsfjerning',
           ai_bg_removal_short: 'BG-fjerning',
           ai_bg_removal_reminder:
-            'Ved å trykke på knappen bruker du umiddelbart 0,2 AI-kreditt. Vil du fortsette?',
+            'Ved å trykke på knappen bruker du umiddelbart 0,2 kreditt. Vil du fortsette?',
           outline: 'Omriss',
         },
         path_edit_panel: {
@@ -1231,6 +1233,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Du må ha FLUX+ Pro medlemskap eller Monotype Fonts-tillegg for å aksessere denne funksjonen.',
       learn_more: 'Lær mer',
       get_addon: 'Få tillegget',
+      subscribe_now: 'Abonner nå',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1737,6 +1740,27 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Venstre mus for å rotere\nRull for å zoome\nHøyre mus for å panorere',
     control_tooltip_touch: 'Dra for å rotere\nKlyp for å zoome\nTo fingre for å panorere',
+  },
+  my_cloud: {
+    title: 'Min sky',
+    loading_file: 'Laster inn...',
+    no_file_title: 'Lagre filer til Min sky for å komme i gang.',
+    no_file_subtitle: 'Gå til Meny > "Fil" > "Lagre til skyen"',
+    sort: {
+      most_recent: 'Nylig',
+      oldest: 'Eldst',
+      a_to_z: 'Navn: A - Å',
+      z_to_a: 'Navn: Å - A',
+    },
+    action: {
+      open: 'Åpne',
+      rename: 'Gi nytt navn',
+      duplicate: 'Dupliser',
+      download: 'Last ned',
+      delete: 'Slett',
+      confirmFileDelete:
+        'Er du sikker på at du vil slette denne filen? Denne handlingen kan ikke angres.',
+    },
   },
 };
 

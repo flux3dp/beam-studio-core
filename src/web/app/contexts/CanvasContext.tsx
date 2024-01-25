@@ -128,9 +128,11 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     forceUpdate();
   }, [forceUpdate]);
 
+  const setUser = useCallback((user) => setCurrentUser({ ...user }), []);
+
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
-    fluxIDEventEmitter.on('update-user', setCurrentUser);
+    fluxIDEventEmitter.on('update-user', setUser);
     topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
     topBarEventEmitter.on('SET_FILE_NAME', setFileName);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
@@ -152,13 +154,13 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     );
     topBarEventEmitter.on('SET_SELECTED_DEVICE', setSelectedDevice);
     window.addEventListener('update-user', (e: CustomEvent) => {
-      setCurrentUser(e.detail.user);
+      setUser(e.detail.user);
     });
     return () => {
-      fluxIDEventEmitter.removeListener('update-user', setCurrentUser);
+      fluxIDEventEmitter.removeListener('update-user', setUser);
       topBarEventEmitter.removeAllListeners();
     };
-  }, [setCurrentUser, isPreviewing, selectedDevice, updateTopBar]);
+  }, [setUser, isPreviewing, selectedDevice, updateTopBar]);
 
   const updateCanvasContext = useCallback(() => {
     forceUpdate();

@@ -6,11 +6,18 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import communicator from 'implementations/communicator';
 import constant from 'app/actions/beambox/constant';
 import dialog from 'implementations/dialog';
+import dialogCaller from 'app/actions/dialog-caller';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
+import {
+  axiosFluxId,
+  getCurrentUser,
+  getDefaultHeader,
+  ResponseWithError,
+} from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -32,7 +39,7 @@ const setCurrentFileName = (filePath: string) => {
   currentFileName = currentFileName[currentFileName.length - 1];
   currentFileName = currentFileName.slice(0, currentFileName.lastIndexOf('.')).replace(':', '/');
   svgCanvas.setLatestImportFileName(currentFileName);
-  svgCanvas.filePath = filePath;
+  svgCanvas.currentFilePath = filePath;
   svgCanvas.updateRecentFiles(filePath);
 };
 
@@ -72,7 +79,6 @@ const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
       width="${imageWidth}"
       height="${imageHeight}"
       viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}"
-      style="background: #fff"
       xmlns:svg="http://www.w3.org/2000/svg"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -82,9 +88,7 @@ const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
     </svg>`;
   const canvas = await svgStringToCanvas(svgString, imageWidth, imageHeight);
   const blob = await new Promise<Blob>((resolve) => {
-    canvas.toBlob((b) => {
-      resolve(b);
-    }, 'image/jpeg', 1.0);
+    canvas.toBlob((b) => resolve(b), 'image/png', 1.0);
   });
   const arrayBuffer = await blob.arrayBuffer();
   return arrayBuffer;
@@ -96,6 +100,75 @@ export const generateBeamBuffer = async (): Promise<Buffer> => {
   const thumbnail = await generateBeamThumbnail();
   const buffer = beamFileHelper.generateBeamBuffer(svgCanvasString, imageSource, thumbnail);
   return buffer;
+};
+
+const saveToCloud = async (uuid?: string): Promise<boolean> => {
+  const id = 'upload-cloud-file';
+  const user = getCurrentUser();
+  if (!user?.info?.subscription?.is_valid) {
+    dialogCaller.showFluxPlusWarning();
+    return false;
+  }
+  svgCanvas.clearSelection();
+  svgCanvas.removeUnusedDefs();
+  await Progress.openNonstopProgress({ id });
+  try {
+    const buffer = await generateBeamBuffer();
+    const arrayBuffer = Uint8Array.from(buffer).buffer;
+    const blob = new Blob([arrayBuffer]);
+    const workarea = beamboxPreference.read('workarea');
+    const form = new FormData();
+    form.append('file', blob);
+    form.append('workarea', workarea);
+    let resp: ResponseWithError;
+    if (uuid) {
+      resp = await axiosFluxId.put(`/api/beam-studio/cloud/file/${uuid}`, form, {
+        withCredentials: true,
+        headers: getDefaultHeader(),
+      });
+    } else {
+      const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
+      form.append('type', 'file');
+      resp = await axiosFluxId.post(`/api/beam-studio/cloud/add/${defaultFileName}`, form, {
+        withCredentials: true,
+        headers: getDefaultHeader(),
+      });
+    }
+    const { data, status: respStatus, error } = resp;
+    if (error) {
+      if (!error.response) {
+        Alert.popUpError({ message: LANG.flux_id_login.connection_fail });
+        return false;
+      }
+      const { status, statusText } = error.response;
+      const { info, message, detail } = error.response.data || {};
+      if (status === 403 && detail && detail.startsWith('CSRF Failed: CSRF')) {
+        Alert.popUp({
+          message: i18n.lang.beambox.popup.ai_credit.relogin_to_use,
+          buttonType: AlertConstants.CONFIRM_CANCEL,
+          onConfirm: dialogCaller.showLoginDialog,
+        });
+        return false;
+      }
+      Alert.popUpError({ caption: info, message: detail || message || `${status}: ${statusText}` });
+      return false;
+    }
+    const { status, info } = data;
+    if (status === 'ok') {
+      svgCanvas.setHasUnsavedChange(false, false);
+      return true;
+    }
+    Alert.popUpError({
+      message: `Server Error: ${respStatus} ${info}`,
+    });
+    return false;
+  } catch (e) {
+    console.error(e);
+    Alert.popUpError({ message: `Error: ${LANG.topbar.menu.save_to_cloud}` });
+    return false;
+  } finally {
+    Progress.popById(id);
+  }
 };
 
 const saveAsFile = async (): Promise<boolean> => {
@@ -145,7 +218,9 @@ const saveFile = async (): Promise<boolean> => {
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
   const output = svgCanvas.getSvgString();
-  console.log(svgCanvas.currentFilePath);
+  if (svgCanvas.currentFilePath.startsWith('cloud:')) {
+    return saveToCloud(svgCanvas.currentFilePath.split('cloud:').pop());
+  }
   if (svgCanvas.currentFilePath.endsWith('.bvg')) {
     fs.writeFile(svgCanvas.currentFilePath, output);
     svgCanvas.setHasUnsavedChange(false, false);
@@ -327,6 +402,7 @@ const toggleUnsavedChangedDialog = async (): Promise<boolean> => new Promise((re
 export default {
   saveAsFile,
   saveFile,
+  saveToCloud,
   exportAsBVG,
   exportAsSVG,
   exportAsImage,

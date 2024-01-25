@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Zapisz',
       save_as: 'Zapisz jako...',
+      save_to_cloud: 'Zapisz w chmurze',
       about_beam_studio: 'O Beam Studio',
       undo: 'Cofnij',
       redo: 'Ponów',
@@ -617,6 +618,7 @@ const lang: ILang = {
         adjust_height: 'Dostosuj wysokość',
         qr_code: 'Kod QR',
         boxgen: 'Boxgen',
+        my_cloud: 'Moja chmura',
       },
     },
     right_panel: {
@@ -937,7 +939,7 @@ const lang: ILang = {
           simplify: 'Uproszczać',
           ai_bg_removal: 'Usunąć tła',
           ai_bg_removal_short: 'BG Usunąć',
-          ai_bg_removal_reminder: 'Naciśnięcie przycisku spowoduje natychmiastowe wykorzystanie 0,2 kredytu AI. Czy chcesz kontynuować?',
+          ai_bg_removal_reminder: 'Naciśnięcie przycisku spowoduje natychmiastowe wykorzystanie 0,2 kredytu. Czy chcesz kontynuować?',
           outline: 'Zarys',
         },
         path_edit_panel: {
@@ -1172,6 +1174,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Musisz mieć członkostwo FLUX+ Pro lub dodatek Czcionki Monotype, aby uzyskać dostęp do tej funkcji.',
       learn_more: 'Dowiedz się więcej',
       get_addon: 'Pobierz dodatek',
+      subscribe_now: 'Zapisz się teraz',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1632,6 +1635,26 @@ const lang: ILang = {
     zoom: 'Powiększenie',
     control_tooltip: 'Lewy przycisk myszy aby obrócić\nPrzewiń aby przybliżyć\nPrawy przycisk myszy aby przesunąć',
     control_tooltip_touch: 'Przeciągnij aby obrócić\nZsuń palcami aby przybliżyć\nDwa palce aby przesunąć',
+  },
+  my_cloud: {
+    title: 'Moja chmura',
+    loading_file: 'Ładowanie...',
+    no_file_title: 'Zapisz pliki w Mojej chmurze, aby rozpocząć.',
+    no_file_subtitle: 'Przejdź do Menu > "Plik" > "Zapisz w chmurze"',
+    sort: {
+      most_recent: 'Najnowsze',
+      oldest: 'Najstarsze',
+      a_to_z: 'Nazwa: A - Z',
+      z_to_a: 'Nazwa: Z - A',
+    },
+    action: {
+      open: 'Otwórz',
+      rename: 'Zmień nazwę',
+      duplicate: 'Duplikuj',
+      download: 'Pobierz',
+      delete: 'Usuń',
+      confirmFileDelete: 'Czy na pewno chcesz usunąć ten plik? Tej akcji nie można cofnąć.',
+    },
   },
 };
 

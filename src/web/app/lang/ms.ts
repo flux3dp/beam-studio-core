@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Simpan',
       save_as: 'Simpan Sebagai...',
+      save_to_cloud: 'Simpan ke Awan',
       about_beam_studio: 'Mengenai Beam Studio',
       undo: 'Buat asal',
       redo: 'Buat semula',
@@ -660,6 +661,7 @@ const lang: ILang = {
         adjust_height: 'Laras Ketinggian',
         qr_code: 'Kod QR',
         boxgen: 'Boxgen',
+        my_cloud: 'Awan Saya',
       },
     },
     right_panel: {
@@ -993,7 +995,7 @@ const lang: ILang = {
           ai_bg_removal: 'Buang Latar Belakang',
           ai_bg_removal_short: 'Buang LB',
           ai_bg_removal_reminder:
-            'Menekan butang akan menggunakan 0.2 Kredit AI dengan serta-merta, anda mahu meneruskan?',
+            'Menekan butang akan menggunakan 0.2 Kredit dengan serta-merta, anda mahu meneruskan?',
           outline: 'Garis luar',
         },
         path_edit_panel: {
@@ -1239,6 +1241,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Anda perlu mempunyai keahlian FLUX+ Pro atau Tambahan Font Monotype untuk mengakses ciri ini.',
       learn_more: 'Ketahui Lebih Lanjut',
       get_addon: 'Dapatkan Tambahan',
+      subscribe_now: 'Langgan sekarang',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1748,6 +1751,26 @@ const lang: ILang = {
     zoom: 'Zum',
     control_tooltip: 'Kiri tetikus untuk putar\nGulung untuk zum\nTetikus kanan untuk anjak',
     control_tooltip_touch: 'Seret untuk putar\nCubit untuk zum\nDua jari untuk anjak',
+  },
+  my_cloud: {
+    title: 'Awan Saya',
+    loading_file: 'Memuat...',
+    no_file_title: 'Simpan fail ke Awan Saya untuk bermula.',
+    no_file_subtitle: 'Pergi ke Menu > "Fail" > "Simpan ke Awan"',
+    sort: {
+      most_recent: 'Terbaru',
+      oldest: 'Terlama',
+      a_to_z: 'Nama: A - Z',
+      z_to_a: 'Nama: Z - A',
+    },
+    action: {
+      open: 'Buka',
+      rename: 'Namakan Semula',
+      duplicate: 'Duplikat',
+      download: 'Muat Turun',
+      delete: 'Padam',
+      confirmFileDelete: 'Anda pasti mahu memadam fail ini? Tindakan ini tidak boleh dibatalkan.',
+    },
   },
 };
 

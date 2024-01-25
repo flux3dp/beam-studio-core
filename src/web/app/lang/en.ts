@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Save',
       save_as: 'Save As...',
+      save_to_cloud: 'Save to Cloud',
       about_beam_studio: 'About Beam Studio',
       undo: 'Undo',
       redo: 'Redo',
@@ -617,6 +618,7 @@ const lang: ILang = {
         adjust_height: 'Adjust Height',
         qr_code: 'QR Code',
         boxgen: 'Boxgen',
+        my_cloud: 'My Cloud',
       },
     },
     right_panel: {
@@ -937,7 +939,7 @@ const lang: ILang = {
           simplify: 'Simplify',
           ai_bg_removal: 'Background Removal',
           ai_bg_removal_short: 'BG Removal',
-          ai_bg_removal_reminder: 'Pressing the button will immediately use 0.2 AI Credit, do you want to continue?',
+          ai_bg_removal_reminder: 'Pressing the button will immediately use 0.2 Credit, do you want to continue?',
           outline: 'Outline',
         },
         path_edit_panel: {
@@ -1172,6 +1174,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'You must have FLUX+ Pro membership or Monotype Fonts Add-on to access this feature.',
       learn_more: 'Learn More',
       get_addon: 'Get Add-on',
+      subscribe_now: 'Subscribe now',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1632,6 +1635,26 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Left mouse to rotate\nScroll to zoom\nRight mouse to pan',
     control_tooltip_touch: 'Drag to rotate\nPinch to zoom\nTwo-finger to pan',
+  },
+  my_cloud: {
+    title: 'My Cloud',
+    loading_file: 'Loading...',
+    no_file_title: 'Save files to My Cloud to get started.',
+    no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
+    sort: {
+      most_recent: 'Most Recent',
+      oldest: 'Oldest',
+      a_to_z: 'Name: A - Z',
+      z_to_a: 'Name: Z - A',
+    },
+    action: {
+      open: 'Open',
+      rename: 'Rename',
+      duplicate: 'Duplicate',
+      download: 'Download',
+      delete: 'Delete',
+      confirmFileDelete: 'Are you sure you want to delete this file? This action cannot be undone.',
+    },
   },
 };
 

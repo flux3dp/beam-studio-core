@@ -72,7 +72,7 @@ exports[`test FluxPlusWarning should render correctly 1`] = `
           type="button"
         >
           <span>
-            Learn More
+            Subscribe now
           </span>
         </button>
         <button
@@ -121,7 +121,7 @@ exports[`test FluxPlusWarning with user 1`] = `
           type="button"
         >
           <span>
-            Learn More
+            Subscribe now
           </span>
         </button>
       </div>

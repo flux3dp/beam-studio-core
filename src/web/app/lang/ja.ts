@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'シーンを保存',
       save_as: '名前を付けて保存',
+      save_to_cloud: 'クラウドに保存',
       about_beam_studio: 'Beam Studioについて',
       undo: '元に戻す',
       redo: 'やり直し',
@@ -617,6 +618,7 @@ const lang: ILang = {
         adjust_height: '高さ調整',
         qr_code: 'QRコード',
         boxgen: 'Boxgen',
+        my_cloud: 'マイクラウド',
       },
     },
     right_panel: {
@@ -937,7 +939,7 @@ const lang: ILang = {
           simplify: '簡略化',
           ai_bg_removal: 'AI 背景リムーバー',
           ai_bg_removal_short: '背景削除',
-          ai_bg_removal_reminder: 'ボタンを押すと、すぐに 0.2 AI クレジットが使用されます。続行しますか?',
+          ai_bg_removal_reminder: 'ボタンを押すと、すぐに 0.2 クレジットが使用されます。続行しますか?',
           outline: '輪郭描画',
         },
         path_edit_panel: {
@@ -1172,6 +1174,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'この機能をご利用いただくには FLUX+ Pro メンバーシップまたは Monotype フォント アドオンが必要です。',
       learn_more: '詳細を見る',
       get_addon: 'アドオンを取得',
+      subscribe_now: '今すぐ購読する',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1632,6 +1635,26 @@ const lang: ILang = {
     zoom: 'ズーム',
     control_tooltip: '左クリックで回転\nスクロールでズーム\n右クリックでパン',
     control_tooltip_touch: 'ドラッグで回転\nピンチでズーム\n2本指でパン',
+  },
+  my_cloud: {
+    title: 'マイクラウド',
+    loading_file: '読み込み中...',
+    no_file_title: 'マイクラウドにファイルを保存して開始します。',
+    no_file_subtitle: 'メニュー > 「ファイル」 > 「クラウドに保存」 に移動します。',
+    sort: {
+      most_recent: '最新の',
+      oldest: '最古の',
+      a_to_z: '名前: A - Z',
+      z_to_a: '名前: Z - A',
+    },
+    action: {
+      open: '開く',
+      rename: '名前の変更',
+      duplicate: '複製',
+      download: 'ダウンロード',
+      delete: '削除',
+      confirmFileDelete: 'このファイルを削除してもよろしいですか?この操作は元に戻せません。',
+    },
   },
 };
 

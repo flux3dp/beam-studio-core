@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Speichern',
       save_as: 'Speichern als...',
+      save_to_cloud: 'In die Cloud speichern',
       about_beam_studio: 'Über Beam Studio',
       undo: 'Rückgängig machen',
       redo: 'Wiederholen',
@@ -617,6 +618,7 @@ const lang: ILang = {
         adjust_height: 'Höhe anpassen',
         qr_code: 'QR-Code',
         boxgen: 'Boxgen',
+        my_cloud: 'Meine Cloud',
       },
     },
     right_panel: {
@@ -937,7 +939,7 @@ const lang: ILang = {
           simplify: 'Vereinfachen',
           ai_bg_removal: 'AI-Hintergrundentfernung',
           ai_bg_removal_short: 'BG Entfernung',
-          ai_bg_removal_reminder: 'Durch Drücken der Taste werden sofort 0,2 KI-Credits verbraucht. Möchten Sie fortfahren?',
+          ai_bg_removal_reminder: 'Durch Drücken der Taste werden sofort 0,2 Credits verbraucht. Möchten Sie fortfahren?',
           outline: 'Umriss',
         },
         path_edit_panel: {
@@ -1172,6 +1174,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Sie müssen FLUX+ Pro-Mitgliedschaft oder Monotype-Schriften-Add-on haben, um auf diese Funktion zuzugreifen.',
       learn_more: 'Mehr erfahren',
       get_addon: 'Add-on holen',
+      subscribe_now: 'Jetzt abonnieren',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1632,6 +1635,26 @@ const lang: ILang = {
     zoom: 'Vergrößern',
     control_tooltip: 'Linke Maustaste zum Drehen\nScrollen zum Zoomen\nRechte Maustaste zum Schwenken',
     control_tooltip_touch: 'Ziehen zum Drehen\nZusammenziehen zum Zoomen\nZwei-Finger zum Schwenken',
+  },
+  my_cloud: {
+    title: 'Meine Cloud',
+    loading_file: 'Lädt...',
+    no_file_title: 'Speichern Sie Dateien in Meine Cloud, um loszulegen.',
+    no_file_subtitle: 'Gehen Sie zum Menü > "Datei" > "In die Cloud speichern"',
+    sort: {
+      most_recent: 'Neueste',
+      oldest: 'Älteste',
+      a_to_z: 'Name: A - Z',
+      z_to_a: 'Name: Z - A',
+    },
+    action: {
+      open: 'Öffnen',
+      rename: 'Umbenennen',
+      duplicate: 'Duplizieren',
+      download: 'Herunterladen',
+      delete: 'Löschen',
+      confirmFileDelete: 'Möchten Sie diese Datei wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.',
+    },
   },
 };
 
