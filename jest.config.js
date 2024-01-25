@@ -27,6 +27,7 @@ module.exports = {
     '!src/web/app/actions/dialog-caller.tsx',
     '!src/**/*.worker.ts',
   ],
+  globalSetup: './jest.global-setup.js',
   setupFilesAfterEnv: ['./src/web/setupTests.ts'],
   moduleDirectories: ['node_modules', 'src/web', 'src'],
   coverageReporters: ['text-summary', 'html']

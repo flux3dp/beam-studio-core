@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Tallenna',
       save_as: 'Tallenna nimellä...',
+      save_to_cloud: 'Tallenna pilvipalveluun',
       about_beam_studio: 'Tietoja Beam Studiosta',
       undo: 'Kumoa',
       redo: 'Tee uudelleen',
@@ -655,6 +656,7 @@ const lang: ILang = {
         adjust_height: 'Säädä korkeutta',
         qr_code: 'QR-koodi',
         boxgen: 'Boxgen',
+        my_cloud: 'Pilveni',
       },
     },
     right_panel: {
@@ -988,7 +990,7 @@ const lang: ILang = {
           ai_bg_removal: 'Taustan poisto',
           ai_bg_removal_short: 'TP',
           ai_bg_removal_reminder:
-            'Painamalla nappia käytetään välittömästi 0,2 AI-hyvitystä, haluatko jatkaa?',
+            'Painamalla nappia käytetään välittömästi 0,2 hyvitystä, haluatko jatkaa?',
           outline: 'Ääriviiva',
         },
         path_edit_panel: {
@@ -1235,6 +1237,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Sinulla on oltava FLUX+ Pro -jäsenyys tai Monotype-fontit lisäosa käyttääksesi tätä ominaisuutta.',
       learn_more: 'Lue lisää',
       get_addon: 'Hanki lisäosa',
+      subscribe_now: 'Tilaa nyt',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1741,7 +1744,27 @@ const lang: ILang = {
     zoom: 'Lähennä',
     control_tooltip: 'Vasen hiiren painike kääntää\nRulla lähentääksesi\nOikea hiiren painike siirtää',
     control_tooltip_touch: 'Vedä kääntääksesi\nNipistä lähentääksesi\nKahdella sormella siirtää',
-  }
+  },
+  my_cloud: {
+    title: 'Pilveni',
+    loading_file: 'Ladataan...',
+    no_file_title: 'Aloita tallentamalla tiedostoja pilveen.',
+    no_file_subtitle: 'Siirry valikkoon > "Tiedosto" > "Tallenna pilvipalveluun"',
+    sort: {
+      most_recent: 'Viimeisimmät',
+      oldest: 'Vanhimmat',
+      a_to_z: 'Nimi: A - Ö',
+      z_to_a: 'Nimi: Ö - A',
+    },
+    action: {
+      open: 'Avaa',
+      rename: 'Nimeä uudelleen',
+      duplicate: 'Kopioi',
+      download: 'Lataa',
+      delete: 'Poista',
+      confirmFileDelete: 'Haluatko varmasti poistaa tämän tiedoston? Toimintoa ei voi perua.',
+    },
+  },
 };
 
 export default lang;

@@ -83,6 +83,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: '儲存',
       save_as: '另存新檔',
+      save_to_cloud: '儲存到雲端',
       about_beam_studio: '關於 Beam Studio',
       undo: '復原',
       redo: '重做',
@@ -617,6 +618,7 @@ const lang: ILang = {
         adjust_height: '調整高度',
         qr_code: 'QR 碼',
         boxgen: 'Boxgen',
+        my_cloud: '我的雲端',
       },
     },
     right_panel: {
@@ -937,7 +939,7 @@ const lang: ILang = {
           simplify: '路徑優化',
           ai_bg_removal: '一鍵去背',
           ai_bg_removal_short: 'AI去背',
-          ai_bg_removal_reminder: '按下按鈕將立即使用 0.2 AI Credit，是否繼續？',
+          ai_bg_removal_reminder: '按下按鈕將立即使用 0.2 Credit，是否繼續？',
           outline: '勾勒輪廓',
         },
         path_edit_panel: {
@@ -1172,6 +1174,7 @@ const lang: ILang = {
       access_monotype_feature_note: '您必須擁有 FLUX+ Pro 會員資格或加購 Monotype 字型才能使用此功能。',
       learn_more: '了解更多',
       get_addon: '加購',
+      subscribe_now: '立即訂閱',
       website_url: 'https://tw.flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/zh-TW/subscription',
       features: {
@@ -1179,7 +1182,7 @@ const lang: ILang = {
         my_cloud: '雲端儲存空間',
         boxgen: '3D 盒子產生器',
         dmkt: '1000+ 設計檔案',
-        monotype: '250+ 高級字型',
+        monotype: '250+ 商用字型',
       },
     },
   },
@@ -1632,6 +1635,26 @@ const lang: ILang = {
     zoom: '縮放',
     control_tooltip: '左鍵旋轉\n滾輪縮放\n右鍵移動',
     control_tooltip_touch: '拖曳旋轉\n捏合縮放\n雙指移動',
+  },
+  my_cloud: {
+    title: '我的雲端',
+    loading_file: '載入中...',
+    no_file_title: '儲存檔案到我的雲端開始使用。',
+    no_file_subtitle: '轉到選單 > “檔案” > “儲存到雲端”',
+    sort: {
+      most_recent: '最近',
+      oldest: '最早',
+      a_to_z: '名稱: A - Z',
+      z_to_a: '名稱: Z - A',
+    },
+    action: {
+      open: '開啟',
+      rename: '重新命名',
+      duplicate: '複製',
+      download: '下載',
+      delete: '刪除',
+      confirmFileDelete: '您確定要刪除此檔案嗎?此操作無法復原。',
+    },
   },
 };
 

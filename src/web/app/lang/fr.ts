@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Enregistrer',
       save_as: 'Enregistrer sous...',
+      save_to_cloud: 'Enregistrer dans le cloud',
       about_beam_studio: 'À propos de Beam Studio',
       undo: 'Annuler',
       redo: 'Rétablir',
@@ -665,6 +666,7 @@ const lang: ILang = {
         adjust_height: 'Ajuster la hauteur',
         qr_code: 'Code QR',
         boxgen: 'Boxgen',
+        my_cloud: 'Mon cloud',
       },
     },
     right_panel: {
@@ -999,7 +1001,7 @@ const lang: ILang = {
           ai_bg_removal: "Suppression de l'arrière-plan",
           ai_bg_removal_short: 'Suppr. arrière-plan',
           ai_bg_removal_reminder:
-            "L'appui sur le bouton utilisera immédiatement 0,2 crédit IA, voulez-vous continuer ?",
+            "L'appui sur le bouton utilisera immédiatement 0,2 crédit, voulez-vous continuer ?",
           outline: 'Contour',
         },
         path_edit_panel: {
@@ -1247,6 +1249,7 @@ const lang: ILang = {
       access_monotype_feature_note: 'Vous devez être membre de FLUX+ Pro ou avoir le module complémentaire Polices Monotype pour accéder à cette fonctionnalité.',
       learn_more: 'En savoir plus',
       get_addon: 'Obtenir le module',
+      subscribe_now: 'Abonnez-vous maintenant',
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
@@ -1772,6 +1775,27 @@ const lang: ILang = {
     zoom: 'Zoom',
     control_tooltip: 'Clic gauche pour pivoter\nMolette pour zoomer\nClic droit pour déplacer',
     control_tooltip_touch: 'Glisser pour pivoter\nPincer pour zoomer\nDeux doigts pour déplacer',
+  },
+  my_cloud: {
+    title: 'Mon cloud',
+    loading_file: 'Chargement...',
+    no_file_title: 'Enregistrez des fichiers dans Mon cloud pour commencer.',
+    no_file_subtitle: 'Accédez au menu > "Fichier" > "Enregistrer dans le cloud"',
+    sort: {
+      most_recent: 'Plus récent',
+      oldest: 'Plus ancien',
+      a_to_z: 'Nom : A - Z',
+      z_to_a: 'Nom : Z - A',
+    },
+    action: {
+      open: 'Ouvrir',
+      rename: 'Renommer',
+      duplicate: 'Dupliquer',
+      download: 'Télécharger',
+      delete: 'Supprimer',
+      confirmFileDelete:
+        'Êtes-vous sûr de vouloir supprimer ce fichier ? Cette action est irréversible.',
+    },
   },
 };
 

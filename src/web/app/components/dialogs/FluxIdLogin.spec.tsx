@@ -39,7 +39,7 @@ jest.mock('helpers/useI18n', () => () => ({
     lost_password_url: 'lost_password_url',
     flux_plus: {
       explore_plans: 'Explore FLUX+ Plans',
-      member_center_url: 'https://member_center_url',
+      website_url: 'https://website_url',
     },
   },
 }));
@@ -124,6 +124,6 @@ describe('should render correctly', () => {
 
     fireEvent.click(getByText('Explore FLUX+ Plans'));
     expect(open).toHaveBeenCalledTimes(1);
-    expect(open).toHaveBeenNthCalledWith(1, 'https://member_center_url');
+    expect(open).toHaveBeenNthCalledWith(1, 'https://website_url');
   });
 });

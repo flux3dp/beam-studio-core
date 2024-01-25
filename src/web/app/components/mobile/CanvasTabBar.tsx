@@ -67,6 +67,11 @@ const CanvasTabBar = (): JSX.Element => {
       badge: Badge.dot,
     },
     {
+      key: 'cloud',
+      title: lang.beambox.left_panel.label.my_cloud,
+      icon: <LeftPanelIcons.Cloud />,
+    },
+    {
       key: 'shape',
       title: lang.beambox.left_panel.label.shapes,
       icon: <TabBarIcons.Shape />,
@@ -176,6 +181,8 @@ const CanvasTabBar = (): JSX.Element => {
       setTimeout(resetActiveKey, 300);
     } else if (key === 'boxgen') {
       dialogCaller.showBoxGen(resetActiveKey);
+    } else if (key === 'cloud') {
+      dialogCaller.showMyCloud(resetActiveKey);
     }
   };
 
