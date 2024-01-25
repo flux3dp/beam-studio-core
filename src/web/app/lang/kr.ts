@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: '적외선 모듈 보정을 수행하세요."',
       performIRCaliMsg: '확인"을 클릭하여 보정을 실행하거나 상단 메뉴에서 보정에 접근하십시오.<br />(기계 > [귀하의 기계 이름] > 적외선 모듈 보정)',
     },
+    non_working_area: '비 작업 영역',
   },
 };
 

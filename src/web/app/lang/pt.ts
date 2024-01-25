@@ -1682,6 +1682,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Clique em "Confirmar" para executar a calibração ou acesse a calibração pelo menu superior.<br />(Máquina > [Nome da sua máquina] > Calibrar módulo Infravermelho)',
     },
+    non_working_area: 'Área Não Laboral',
   },
 };
 

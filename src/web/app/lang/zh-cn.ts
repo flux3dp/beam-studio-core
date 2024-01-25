@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: '执行红外模块校准',
       performIRCaliMsg: '点击「确认」执行校准，或通过顶部菜单中的「机器」 > 「您的机器名称」 > 「校准红外模块」进行校准。',
     },
+    non_working_area: '非工作区域',
   },
 };
 

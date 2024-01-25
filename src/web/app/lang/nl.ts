@@ -1678,6 +1678,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer lasermodule)',
     },
+    non_working_area: 'Niet-Werkgebied',
   },
 };
 

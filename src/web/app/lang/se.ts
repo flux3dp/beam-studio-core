@@ -1672,6 +1672,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera infraröd modul)',
     },
+    non_working_area: 'Icke-Arbetsområde',
   },
 };
 

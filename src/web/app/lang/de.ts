@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Führen Sie die Kalibrierung des Infrarotmoduls durch.',
       performIRCaliMsg: 'Klicken Sie auf \'Bestätigen\', um die Kalibrierung durchzuführen, oder greifen Sie über das Hauptmenü darauf zu.<br />(Maschine > [Ihr Maschinenname] > Infrarotmodul kalibrieren)',
     },
+    non_working_area: 'Nicht-Arbeitsbereich',
   },
 };
 

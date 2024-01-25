@@ -1699,6 +1699,7 @@ const lang: ILang = {
       performIRCaliMsg:
         "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine > [Nom de votre machine] > Étalonner le module infrarouge)",
     },
+    non_working_area: 'Zone non-travail',
   },
 };
 

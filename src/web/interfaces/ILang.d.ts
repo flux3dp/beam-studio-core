@@ -1556,5 +1556,6 @@ export interface ILang {
       performIRCaliTitle: string;
       performIRCaliMsg: string;
     };
+    non_working_area: string;
   },
 }

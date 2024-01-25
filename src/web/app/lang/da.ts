@@ -1676,6 +1676,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik på "Bekræft" for at udføre kalibreringen, eller få adgang til kalibrering via topmenuen.<br />(Maskine > [Dit maskinnavn] > Kalibrer infrarød modul)',
     },
+    non_working_area: 'Ikke-arbejdsområde',
   },
 };
 

@@ -1668,6 +1668,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi infrapunamoduuli)',
     },
+    non_working_area: 'Ei-Työskentelyalue',
   },
 };
 

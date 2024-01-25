@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Realizar la calibración del módulo infrarrojo.',
       performIRCaliMsg: 'Haz clic en "Confirmar" para ejecutar la calibración o accede a la calibración a través del menú superior.<br />(Máquina > [Nombre de tu máquina] > Calibrar módulo infrarrojo)',
     },
+    non_working_area: 'Área no laboral',
   },
 };
 

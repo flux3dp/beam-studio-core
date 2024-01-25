@@ -1675,6 +1675,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Inframerah)',
     },
+    non_working_area: 'Kawasan Bukan Kerja',
   },
 };
 

@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Perform the Infrared module calibration',
       performIRCaliMsg: 'Click “Confirm” to execute the calibration, or access calibration through the top menu.<br />(Machine > [Your Machine Name] >  Calibrate Infrared Module)',
     },
+    non_working_area: 'Non-Working Area',
   },
 };
 

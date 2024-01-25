@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Wykonaj kalibrację modułu podczerwieni',
       performIRCaliMsg: 'Kliknij „Potwierdź”, aby wykonać kalibrację lub przejdź do kalibracji z górnego menu. ( Urządzenie > [Nazwa Twojego urządzenia] > Kalibruj moduł podczerwieni)',
     },
+    non_working_area: 'Obszar Niepracujący',
   },
 };
 

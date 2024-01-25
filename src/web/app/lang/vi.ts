@@ -1667,6 +1667,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng. <br />(Máy > [Tên máy của bạn] > Hiệu chuẩn Module Hồng ngoại)',
     },
+    non_working_area: 'Khu Vực Không Làm Việc',
   },
 };
 

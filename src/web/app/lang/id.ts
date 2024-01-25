@@ -1679,6 +1679,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Inframerah)',
     },
+    non_working_area: 'Area Non-kerja',
   },
 };
 

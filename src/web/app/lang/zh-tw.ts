@@ -1559,6 +1559,7 @@ const lang: ILang = {
       performIRCaliTitle: '執行紅外線模組校正',
       performIRCaliMsg: '點選 「確認」 以執行校正，或者透過上方選單中的「機器」>「您的機器名稱」>「校正紅外線模組」進行校正。',
     },
+    non_working_area: '非工作區域',
   },
 };
 

@@ -1690,6 +1690,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Fare clic su "Conferma" per eseguire la calibrazione o accedere alla calibrazione dal menu in alto.<br />(Macchina> [Nome macchina] > Calibra modulo a infrarossi)',
     },
+    non_working_area: 'Area Non Lavorativa',
   },
 };
 
