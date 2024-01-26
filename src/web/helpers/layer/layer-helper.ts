@@ -514,6 +514,7 @@ export const removeDefaultLayerIfEmpty = (): ICommand | null => {
       console.log('default layer is empty. delete it!');
       const cmd = deleteLayerByName(defaultLayerName);
       drawing.identifyLayers();
+      LayerPanelController.setSelectedLayers([]);
       LayerPanelController.updateLayerPanel();
       return cmd;
     }

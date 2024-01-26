@@ -134,24 +134,24 @@ const importDxf = async (file: Blob): Promise<void> => {
     batchCmd.addSubCommand(new history.InsertElementCommand(useElem));
     const bb = svgedit.utilities.getBBox(useElem);
 
-    // eslint-disable-next-line no-async-promise-executor, @typescript-eslint/no-loop-func
-    promises.push(new Promise<void>(async (resolve) => {
-      const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
-      svgedit.utilities.setHref(useElem, `#${imageSymbol.id}`);
-      resolve();
-    }));
-
     const attrs = [];
     const keys = Object.keys(bb);
     for (let j = 0; j < keys.length; j += 1) {
       const key = keys[j];
-      attrs.push(`${key}="${bb[key]}"`);
+      attrs.push(`${key}=${bb[key]}`);
     }
     const xform = attrs.join(' ');
     useElem.setAttribute('data-dxf', 'true');
     useElem.setAttribute('data-ratiofixed', 'true');
     useElem.setAttribute('data-xform', xform);
-    svgCanvas.updateElementColor(useElem);
+
+    // eslint-disable-next-line no-async-promise-executor, @typescript-eslint/no-loop-func
+    promises.push(new Promise<void>(async (resolve) => {
+      const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
+      svgedit.utilities.setHref(useElem, `#${imageSymbol.id}`);
+      svgCanvas.updateElementColor(useElem);
+      resolve();
+    }));
   }
   await Promise.all(promises);
   const cmd = removeDefaultLayerIfEmpty();
