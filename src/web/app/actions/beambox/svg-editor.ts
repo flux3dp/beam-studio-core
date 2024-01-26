@@ -47,16 +47,12 @@ import Alert from '../alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
-import Dialog from 'app/actions/dialog-caller';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
 import pdfHelper from 'implementations/pdfHelper';
-import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
-import SymbolMaker from 'helpers/symbol-maker';
 import i18n from 'helpers/i18n';
-import AlertConfig from 'helpers/api/alert-config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
@@ -71,7 +67,6 @@ import importDxf from 'app/svgedit/operations/import/importDxf';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
-import layerConfigHelper from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -449,7 +444,6 @@ const svgEditor = window['svgEditor'] = (function () {
         featNotSupported: 'Feature not supported',
         enterNewImgURL: 'Enter the new image URL',
         defsFailOnSave: 'NOTE: Due to a bug in your browser, this image may appear wrong (missing gradients or elements). It will however appear correct once actually saved.',
-        loadingImage: 'Loading image, please wait...',
         saveFromBrowser: 'Select \'Save As...\' in your browser to save this image as a %s file.',
         noteTheseIssues: 'Also note the following issues: ',
         unsavedChanges: 'There are unsaved changes.',
@@ -1247,11 +1241,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     }
 
-    var setInputWidth = function (elem) {
-      var w = Math.min(Math.max(12 + elem.value.length * 6, 50), 300);
-      $(elem).width(w);
-    };
-
     function updateRulers() {
       // draw x ruler then y ruler
       /* 這裡code很亂 值得注意的點有：
@@ -1319,7 +1308,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
         })();
 
-        (function drawRules() {
+        (function drawRulers() {
           const contentPosition = Number($('#svgcontent').attr(axis));
           const zoom = svgCanvas.getZoom();
 
@@ -3753,16 +3742,6 @@ const svgEditor = window['svgEditor'] = (function () {
     //   }
     // };
 
-    var makeHyperlink = function () {
-      if (selectedElement != null || multiselected) {
-        $.prompt(uiStrings.notification.enterNewLinkURL, 'http://', function (url) {
-          if (url) {
-            svgCanvas.makeHyperlink(url);
-          }
-        });
-      }
-    };
-
     var moveSelected = function (dx, dy) {
       if (selectedElement != null || multiselected) {
         if (curConfig.gridSnapping) {
@@ -3815,63 +3794,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
 
     editor.clearScene = clearScene;
-
-    // var clickSave = function () {
-    //   // In the future, more options can be provided here
-    //   var saveOpts = {
-    //     'images': $.pref('img_save'),
-    //     'round_digits': 6
-    //   };
-    //   svgCanvas.save(saveOpts);
-    // };
-
-    // var clickExport = function () {
-    //   $.select('Select an image type for export: ', [
-    //     // See http://kangax.github.io/jstests/toDataUrl_mime_type_test/ for a useful list of MIME types and browser support
-    //     // 'ICO', // Todo: Find a way to preserve transparency in SVG-Edit if not working presently and do full packaging for x-icon; then switch back to position after 'PNG'
-    //     'PNG',
-    //     'JPEG', 'BMP', 'WEBP', 'PDF'
-    //   ], function (imgType) { // todo: replace hard-coded msg with uiStrings.notification.
-    //     if (!imgType) {
-    //       return;
-    //     }
-    //     // Open placeholder window (prevents popup)
-    //     var exportWindowName;
-
-    //     function openExportWindow() {
-    //       var str = uiStrings.notification.loadingImage;
-    //       if (curConfig.exportWindowType === 'new') {
-    //         editor.exportWindowCt++;
-    //       }
-    //       exportWindowName = curConfig.canvasName + editor.exportWindowCt;
-    //       exportWindow = window.open(
-    //         'data:text/html;charset=utf-8,' + encodeURIComponent('<title>' + str + '</title><h1>' + str + '</h1>'),
-    //         exportWindowName
-    //       );
-    //     }
-    //     if (imgType === 'PDF') {
-    //       if (!customExportPDF) {
-    //         openExportWindow();
-    //       }
-    //       svgCanvas.exportPDF(exportWindowName);
-    //     } else {
-    //       if (!customExportImage) {
-    //         openExportWindow();
-    //       }
-    //       var quality = parseInt($('#image-slider').val() as string, 10) / 100;
-    //       svgCanvas.rasterExport(imgType, quality, exportWindowName);
-    //     }
-    //   }, function () {
-    //     var sel = $(this);
-    //     if (sel.val() === 'JPEG' || sel.val() === 'WEBP') {
-    //       if (!$('#image-slider').length) {
-    //         $('<div><label>Quality: <input id="image-slider" type="range" min="1" max="100" value="92" /></label></div>').appendTo(sel.parent()); // Todo: i18n-ize label
-    //       }
-    //     } else {
-    //       $('#image-slider').parent().remove();
-    //     }
-    //   });
-    // };
 
     // by default, svgCanvas.open() is a no-op.
     // it is up to an extension mechanism (opera widget, etc)
@@ -4888,7 +4810,7 @@ const svgEditor = window['svgEditor'] = (function () {
     // get the text contents of the file and send it to the canvas
     if (window.FileReader) {
       const replaceBitmap = async (file, imageElem) => {
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage, });
+        Progress.openNonstopProgress({ id: 'loading_image', caption: LANG.popup.loading_image });
         return new Promise<void>((resolve, reject) => {
           const reader = new FileReader();
           reader.onloadend = async function (e) {
@@ -5022,7 +4944,7 @@ const svgEditor = window['svgEditor'] = (function () {
       };
 
       const handleFile = async (file) => {
-        await Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
+        await Progress.openNonstopProgress({ id: 'loading_image', caption: LANG.popup.loading_image });
         svgCanvas.clearSelection();
         const fileType = (function () {
           if (file.name.toLowerCase().endsWith('.beam')) {
@@ -5151,7 +5073,7 @@ const svgEditor = window['svgEditor'] = (function () {
           if (f.files.length === 1) {
             Alert.popUp({
               id: 'loading_image',
-              message: uiStrings.notification.loadingImage,
+              message: LANG.popup.loading_image,
             });
             var reader = new FileReader();
             reader.onloadend = function (e) {
@@ -5386,7 +5308,7 @@ const svgEditor = window['svgEditor'] = (function () {
         beforeSend: function () {
           Alert.popUp({
             id: 'loading_image',
-            message: uiStrings.notification.loadingImage,
+            message: LANG.popup.loading_image,
           });
         },
         success: function (str) {

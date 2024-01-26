@@ -4,6 +4,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import convertShapeToBitmap from 'helpers/layer/convertShapeToBitmap';
 import deviceMaster from 'helpers/device-master';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -187,9 +188,11 @@ const fetchTaskCode = async (
     caption: i18n.lang.beambox.popup.progress.calculating,
     message: 'Spliting Full color layer',
   });
+  const revertShapesToImage = await convertShapeToBitmap();
   const revertTempSplitFullColorLayers = await tempSplitFullColorLayers();
   const cleanUp = async () => {
     revertTempSplitFullColorLayers();
+    revertShapesToImage();
     await FontFuncs.revertTempConvert();
     SymbolMaker.switchImageSymbolForAll(true);
   };

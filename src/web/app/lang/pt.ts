@@ -204,6 +204,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Não conseguimos encontrar sua máquina na rede.\nSiga o <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guia</a> para resolver o problema de conexão.',
+    no_device_web: '#801 Verifique o estado da sua máquina ou clique em \'Configuração da máquina\' abaixo para configurar a máquina.',
   },
   update: {
     update: 'Atualizar',
@@ -812,6 +813,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Borracha - Gravura',
             glass_bw_engraving: 'Vidro - Gravura',
             metal_bw_engraving: 'Metal - Gravura',
+            steel_engraving_spray_engraving: 'Metal - Gravura',
             stainless_steel_bw_engraving_diode: 'Metal - Gravura (Laser de Diodo)',
             gold_engraving: 'Ouro - Gravura',
             brass_engraving: 'Latão - Gravura',
@@ -862,6 +864,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Borracha - Gravação',
             glass_bw_engraving: 'Vidro - Gravura',
             metal_bw_engraving: 'Metal - Gravura',
+            steel_engraving_spray_engraving: 'Metal - Gravura',
             stainless_steel_bw_engraving_diode: 'Metal - Gravura (Laser de Diodo)',
             gold_engraving: 'Ouro - Gravura',
             brass_engraving: 'Latão - Gravura',
@@ -1223,8 +1226,8 @@ const lang: ILang = {
     incorrect: 'O endereço de e-mail ou a senha não está correto.',
     not_verified: 'O endereço de e-mail ainda não foi verificado.',
     new_to_flux: 'Novo no FLUX? Crie uma conta.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Explore planos FLUX+',
       thank_you: 'Obrigado por ser um membro valioso!',
@@ -1708,6 +1711,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Clique em "Confirmar" para executar a calibração ou acesse a calibração pelo menu superior.<br />(Máquina > [Nome da sua máquina] > Calibrar módulo Infravermelho)',
     },
+    non_working_area: 'Área Não Laboral',
   },
   boxgen: {
     back: 'Voltar para Beam Studio',

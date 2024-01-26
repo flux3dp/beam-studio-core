@@ -198,6 +198,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 Nie możemy znaleźć Twojej maszyny w sieci.',
+    no_device_web: '#801 Sprawdź status swojej maszyny lub kliknij poniżej „Konfiguracja maszyny”, aby skonfigurować maszynę.',
   },
   update: {
     update: 'AKTUALIZACJA',
@@ -757,6 +758,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Guma - grawerowanie',
             glass_bw_engraving: 'Szkło - grawerowanie',
             metal_bw_engraving: 'Metal - grawerowanie',
+            steel_engraving_spray_engraving: 'Metal - grawerowanie',
             stainless_steel_bw_engraving_diode: 'Metal - grawerowanie (laser diodowy)',
             gold_engraving: 'Złoto - grawerowanie',
             brass_engraving: 'Mosiądz - grawerowanie',
@@ -807,6 +809,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Guma - grawerowanie',
             glass_bw_engraving: 'Szkło - grawerowanie',
             metal_bw_engraving: 'Metal - grawerowanie',
+            steel_engraving_spray_engraving: 'Metal - grawerowanie',
             stainless_steel_bw_engraving_diode: 'Metal - grawerowanie (laser diodowy)',
             gold_engraving: 'Złoto - grawerowanie',
             brass_engraving: 'Mosiądz - grawerowanie',
@@ -1155,8 +1158,8 @@ const lang: ILang = {
     incorrect: 'Adres e-mail lub hasło są nieprawidłowe.',
     not_verified: 'Adres e-mail nie został jeszcze zweryfikowany.',
     new_to_flux: 'Nowy we FLUXie? Utwórz konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Zapoznaj się z planami FLUX+',
       thank_you: 'Dziękujemy za bycie cennym członkiem!',
@@ -1585,6 +1588,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Wykonaj kalibrację modułu podczerwieni',
       performIRCaliMsg: 'Kliknij „Potwierdź”, aby wykonać kalibrację lub przejdź do kalibracji z górnego menu. ( Urządzenie > [Nazwa Twojego urządzenia] > Kalibruj moduł podczerwieni)',
     },
+    non_working_area: 'Obszar Niepracujący',
   },
   boxgen: {
     back: 'Wróć do Beam Studio',

@@ -205,6 +205,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Kami tidak dapat menemukan mesin Anda di jaringan.\nHarap ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk mengatasi masalah koneksi.',
+    no_device_web: '#801 Periksa status mesin Anda, atau klik \'Setup Mesin\' di bawah untuk mengatur mesin.',
   },
   update: {
     update: 'Perbarui',
@@ -814,6 +815,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Karet - Ukiran',
             glass_bw_engraving: 'Kaca - Ukiran',
             metal_bw_engraving: 'Logam - Ukiran',
+            steel_engraving_spray_engraving: 'Logam - Ukiran',
             stainless_steel_bw_engraving_diode: 'Baja Tahan Karat - Ukiran (Laser Diode)',
             gold_engraving: 'Emas - Ukiran',
             brass_engraving: 'Perunggu - Ukiran',
@@ -864,6 +866,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Karet - Ukiran',
             glass_bw_engraving: 'Kaca - Ukiran',
             metal_bw_engraving: 'Logam - Ukiran',
+            steel_engraving_spray_engraving: 'Logam - Ukiran',
             stainless_steel_bw_engraving_diode: 'Logam - Ukiran (Laser Diode)',
             gold_engraving: 'Emas - Ukiran',
             brass_engraving: 'Kuningan - Ukiran',
@@ -1225,8 +1228,8 @@ const lang: ILang = {
     incorrect: 'Alamat email atau kata sandi salah.',
     not_verified: 'Alamat email belum diverifikasi.',
     new_to_flux: 'Baru di FLUX? Buat akun.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Jelajahi Rencana FLUX+',
       thank_you: 'Terima kasih telah menjadi anggota berharga!',
@@ -1705,6 +1708,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Inframerah)',
     },
+    non_working_area: 'Area Non-kerja',
   },
   boxgen: {
     back: 'Kembali ke Beam Studio',

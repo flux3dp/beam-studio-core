@@ -205,6 +205,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 เราไม่พบเครื่องของคุณในเครือข่าย\nโปรดทําตาม<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">คําแนะนํา</a>เพื่อแก้ไขปัญหาการเชื่อมต่อ',
+    no_device_web: '#801 กรุณาตรวจสอบสถานะของเครื่องของคุณหรือคลิกที่ \'ตั้งค่าเครื่อง\' ด้านล่างเพื่อตั้งค่าเครื่อง.',
   },
   update: {
     update: 'อัปเดต',
@@ -802,6 +803,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'ยาง - กัดขูด',
             glass_bw_engraving: 'แก้ว - กัดขูด',
             metal_bw_engraving: 'โลหะ - กัดขูด',
+            steel_engraving_spray_engraving: 'โลหะ - กัดขูด',
             stainless_steel_bw_engraving_diode: 'โลหะ - กัดขูด (เลเซอร์ไดโอด)',
             gold_engraving: 'ทองคํา - กัดขูด',
             brass_engraving: 'ทองแดง - กัดขูด',
@@ -852,6 +854,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'ยาง - สกัดลวดลาย',
             glass_bw_engraving: 'แก้ว - สกัดลวดลาย',
             metal_bw_engraving: 'โลหะ - สกัดลวดลาย',
+            steel_engraving_spray_engraving: 'โลหะ - กัดขูด',
             stainless_steel_bw_engraving_diode: 'โลหะ - สกัดลวดลาย (เลเซอร์ไดโอด)',
             gold_engraving: 'ทองคํา - กัดขูด',
             brass_engraving: 'ทองแดง - กัดขูด',
@@ -1209,8 +1212,8 @@ const lang: ILang = {
     incorrect: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
     not_verified: 'อีเมลยังไม่ได้รับการยืนยัน',
     new_to_flux: 'ใหม่กับ FLUX? สร้างบัญชี',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'เรียกดูแผน FLUX+',
       thank_you: 'ขอบคุณที่เป็นสมาชิกที่มีค่าของเรา!',
@@ -1677,6 +1680,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'คลิก "ยืนยัน" เพื่อทําการปรับเทียบ หรือเข้าถึงการปรับเทียบผ่านเมนูด้านบน <br /> (เครื่อง > [ชื่อเครื่องของคุณ] > ปรับเทียบโมดูลอินฟราเรด)',
     },
+    non_working_area: 'พื้นที่ที่ไม่ทำงาน',
   },
   boxgen: {
     back: 'กลับไปที่ Beam Studio',

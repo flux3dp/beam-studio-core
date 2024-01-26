@@ -198,6 +198,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 我們在網路上找不到您的機器，<br/>此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，<br/>請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
+    no_device_web: '#801 請檢查機器狀態，或者點選以下『新增或設定機器』，進行機器設定。',
   },
   update: {
     update: '更新',
@@ -756,7 +757,8 @@ const lang: ILang = {
             fabric_engraving: '布料 - 刻印',
             rubber_bw_engraving: '印章墊 - 刻印',
             glass_bw_engraving: '玻璃 - 刻印',
-            metal_bw_engraving: '不鏽鋼噴劑 - 刻印',
+            metal_bw_engraving: '不鏽鋼 - 刻印',
+            steel_engraving_spray_engraving: '不鏽鋼噴劑 - 刻印',
             stainless_steel_bw_engraving_diode: '不鏽鋼 - 刻印（二極體雷射）',
             gold_engraving: '金 - 刻印',
             brass_engraving: '黃銅 - 刻印',
@@ -806,7 +808,8 @@ const lang: ILang = {
             fabric_engraving: '布料 - 刻印',
             rubber_bw_engraving: '印章墊 - 刻印',
             glass_bw_engraving: '玻璃 - 刻印',
-            metal_bw_engraving: '不鏽鋼噴劑 - 刻印',
+            metal_bw_engraving: '不鏽鋼 - 刻印',
+            steel_engraving_spray_engraving: '不鏽鋼噴劑 - 刻印',
             stainless_steel_bw_engraving_diode: '不鏽鋼 - 刻印（二極體雷射）',
             gold_engraving: '金 - 刻印',
             brass_engraving: '黃銅 - 刻印',
@@ -1155,8 +1158,8 @@ const lang: ILang = {
     incorrect: '信箱或密碼輸入錯誤。',
     not_verified: '信箱尚未認證。',
     new_to_flux: '還不是會員？免費註冊新帳號',
-    signup_url: 'https://tw-store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://tw-store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: '探索 FLUX+ 方案',
       thank_you: '感謝您成為我們的會員!',
@@ -1585,6 +1588,7 @@ const lang: ILang = {
       performIRCaliTitle: '執行紅外線模組校正',
       performIRCaliMsg: '點選 「確認」 以執行校正，或者透過上方選單中的「機器」>「您的機器名稱」>「校正紅外線模組」進行校正。',
     },
+    non_working_area: '非工作區域',
   },
   boxgen: {
     back: '回到 Beam Studio',

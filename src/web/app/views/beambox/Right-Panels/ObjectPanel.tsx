@@ -45,12 +45,10 @@ function ObjectPanel(): JSX.Element {
       }
       return e.tagName.toLowerCase() === 'path' && svgCanvas.isElemFillable(e);
     };
+    const isSingleGroup = elems?.length === 1 && elems[0].tagName.toLowerCase() === 'g';
     return {
-      group: !isMobile || elems?.length > 1,
-      ungroup:
-        elems?.length === 1 &&
-        elems[0].tagName.toLowerCase() === 'g' &&
-        !elem.getAttribute('data-textpath-g'),
+      group: !isSingleGroup || elems?.length > 1,
+      ungroup: isSingleGroup && !elem.getAttribute('data-textpath-g'),
       dist: elems?.length > 2,
       boolean: elems?.length > 1 && elems?.every(allowBooleanOperations),
       union: elems?.length > 1 && elems?.every(allowBooleanOperations),
@@ -273,7 +271,7 @@ function ObjectPanel(): JSX.Element {
               {renderToolBtn(
                 LANG.group,
                 <ObjectPanelIcons.Group />,
-                false,
+                !buttonAvailability.group,
                 () => svgCanvas.groupSelectedElements(),
                 'group'
               )}

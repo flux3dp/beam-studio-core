@@ -198,6 +198,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 Wir können Ihren Computer nicht im Netzwerk finden.\nBefolgen Sie bitte <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">die Anleitung</a>, um das Verbindungsproblem zu beheben.',
+    no_device_web: '#801 Überprüfen Sie bitte den Status Ihrer Maschine oder klicken Sie unten auf \'Maschineneinrichtung\', um die Maschine einzurichten.',
   },
   update: {
     update: 'Aktualisieren',
@@ -757,6 +758,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - Gravur',
             glass_bw_engraving: 'Glas - Gravur',
             metal_bw_engraving: 'Metall - Gravur',
+            steel_engraving_spray_engraving: 'Metall - Gravur',
             stainless_steel_bw_engraving_diode: 'Metall - Gravur (Diodenlaser)',
             gold_engraving: 'Gold - Gravur',
             brass_engraving: 'Messing - Gravur',
@@ -807,6 +809,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - Gravur',
             glass_bw_engraving: 'Glas - Gravur',
             metal_bw_engraving: 'Metall - Gravur',
+            steel_engraving_spray_engraving: 'Metall - Gravur',
             stainless_steel_bw_engraving_diode: 'Metall - Gravur (Diodenlaser)',
             gold_engraving: 'Gold - Gravur',
             brass_engraving: 'Messing - Gravur',
@@ -1155,8 +1158,8 @@ const lang: ILang = {
     incorrect: 'Email Adresse oder Passwort ist falsch.',
     not_verified: 'Die Email Adresse ist noch nicht bestätigt worden.',
     new_to_flux: 'Neu bei FLUX? Erstellen Sie einen Account.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Erkunden Sie FLUX+ Pläne',
       thank_you: 'Vielen Dank für Ihre Mitgliedschaft!',
@@ -1585,6 +1588,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Führen Sie die Kalibrierung des Infrarotmoduls durch.',
       performIRCaliMsg: 'Klicken Sie auf \'Bestätigen\', um die Kalibrierung durchzuführen, oder greifen Sie über das Hauptmenü darauf zu.<br />(Maschine > [Ihr Maschinenname] > Infrarotmodul kalibrieren)',
     },
+    non_working_area: 'Nicht-Arbeitsbereich',
   },
   boxgen: {
     back: 'Zurück zu Beam Studio',

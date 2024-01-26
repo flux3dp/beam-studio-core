@@ -206,6 +206,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Chúng tôi không tìm thấy máy của bạn trên mạng.\nVui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">hướng dẫn</a> để khắc phục sự cố kết nối.',
+    no_device_web: '#801 Vui lòng kiểm tra tình trạng của máy bạn, hoặc nhấn vào \'Thiết lập máy in\' bên dưới để cài đặt máy.'
   },
   update: {
     update: 'Cập nhật',
@@ -807,6 +808,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Cao su - Khắc',
             glass_bw_engraving: 'Kính - Khắc',
             metal_bw_engraving: 'Kim loại - Khắc',
+            steel_engraving_spray_engraving: 'Kim loại - Khắc',
             stainless_steel_bw_engraving_diode: 'Kim loại - Khắc (Laser điốt)',
             gold_engraving: 'Vàng - Khắc',
             brass_engraving: 'Đồng thau - Khắc',
@@ -857,6 +859,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Cao su - Khắc',
             glass_bw_engraving: 'Kính - Khắc',
             metal_bw_engraving: 'Kim loại - Khắc',
+            steel_engraving_spray_engraving: 'Kim loại - Khắc',
             stainless_steel_bw_engraving_diode: 'Kim loại - Khắc (Laser diode)',
             gold_engraving: 'Vàng - Khắc',
             brass_engraving: 'Đồng - Khắc',
@@ -1217,8 +1220,8 @@ const lang: ILang = {
     incorrect: 'Email hoặc mật khẩu không chính xác',
     not_verified: 'Email chưa được xác minh',
     new_to_flux: 'Mới dùng FLUX? Đăng ký tài khoản',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Khám phá các gói FLUX+',
       thank_you: 'Cảm ơn vì đã là thành viên quý giá!',
@@ -1693,6 +1696,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng. <br />(Máy > [Tên máy của bạn] > Hiệu chuẩn Module Hồng ngoại)',
     },
+    non_working_area: 'Khu Vực Không Làm Việc',
   },
   boxgen: {
     back: 'Quay lại Beam Studio',

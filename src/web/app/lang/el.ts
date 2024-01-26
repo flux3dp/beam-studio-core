@@ -206,6 +206,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Δεν μπορούμε να βρούμε το μηχάνημά σας στο δίκτυο.\nΠαρακαλώ ακολουθήστε τον <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">οδηγό</a> για αντιμετώπιση προβλημάτων σύνδεσης.',
+    no_device_web: '#801 Ελέγξτε την κατάσταση της μηχανής σας ή κάντε κλικ στο \'Ρύθμιση μηχανής\' παρακάτω για να ρυθμίσετε τη μηχανή.',
   },
   update: {
     update: 'Ενημέρωση',
@@ -820,6 +821,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Καουτσούκ - Χάραξη',
             glass_bw_engraving: 'Γυαλί - Χάραξη',
             metal_bw_engraving: 'Μέταλλο - Χάραξη',
+            steel_engraving_spray_engraving: 'Μέταλλο - Χάραξη',
             stainless_steel_bw_engraving_diode: 'Ανοξείδωτος χάλυβας - Χάραξη (Δίοδος λέιζερ)',
             gold_engraving: 'Χρυσός - Χάραξη',
             brass_engraving: 'Ορείχαλκος - Χάραξη',
@@ -870,6 +872,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Καουτσούκ - Χάραξη',
             glass_bw_engraving: 'Γυαλί - Χάραξη',
             metal_bw_engraving: 'Μέταλλο - Χάραξη',
+            steel_engraving_spray_engraving: 'Μέταλλο - Χάραξη',
             stainless_steel_bw_engraving_diode: 'Ανοξείδωτος χάλυβας - Χάραξη (Δίοδος λέιζερ)',
             gold_engraving: 'Χρυσός - Χάραξη',
             brass_engraving: 'Ορείχαλκος - Χάραξη',
@@ -1231,8 +1234,8 @@ const lang: ILang = {
     incorrect: 'Το email ή ο κωδικός πρόσβασης δεν είναι σωστά.',
     not_verified: 'Το email δεν έχει επιβεβαιωθεί ακόμα.',
     new_to_flux: 'Νέος στο FLUX; Δημιουργήστε έναν λογαριασμό.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Εξερευνήστε τα σχέδια FLUX+',
       thank_you: 'Σας ευχαριστούμε που είστε τιμημένο μέλος!',
@@ -1727,6 +1730,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Κάντε κλικ στο "Επιβεβαίωση" για να εκτελέσετε βαθμονόμηση ή μέσω του μενού (Μηχάνημα > [Όνομα Μηχανήματος] > Βαθμονόμηση Υπερύθρου)',
     },
+    non_working_area: 'Μη Εργασιακή Περιοχή',
   },
   boxgen: {
     back: 'Επιστροφή στο Beam Studio',

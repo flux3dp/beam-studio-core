@@ -17,7 +17,6 @@ const trace = async (file, options): Promise<string> => {
 
 const posterize = async (file, options): Promise<string> => {
   const potrace = new Posterizer(options);
-  console.log('posterize');
   await potrace.loadImage(file);
   const svg = potrace.getSVG();
   return svg;

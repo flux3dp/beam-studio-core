@@ -23,8 +23,9 @@ import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { moveElements } from 'app/svgedit/operations/move';
+import { simplifyPath } from 'app/svgedit/operations/pathActions';
 
-import { posterize, trace } from './potrace';
+import PotraceWorker from './potrace/potrace.worker';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -63,21 +64,27 @@ const getImageAttributes = (elem: Element) => {
 };
 
 const generateBase64Image = (
-  imgSrc: string, shading: boolean, threshold: number, isFullColor = false,
-) => new Promise<string>((resolve) => {
-  imageData(imgSrc, {
-    grayscale: isFullColor ? undefined : {
-      is_rgba: true,
-      is_shading: shading,
-      threshold,
-      is_svg: false,
-    },
-    isFullResolution: true,
-    onComplete(result) {
-      resolve(result.pngBase64);
-    },
+  imgSrc: string,
+  shading: boolean,
+  threshold: number,
+  isFullColor = false
+) =>
+  new Promise<string>((resolve) => {
+    imageData(imgSrc, {
+      grayscale: isFullColor
+        ? undefined
+        : {
+            is_rgba: true,
+            is_shading: shading,
+            threshold,
+            is_svg: false,
+          },
+      isFullResolution: true,
+      onComplete(result) {
+        resolve(result.pngBase64);
+      },
+    });
   });
-});
 
 const addBatchCommand = (
   commandName: string,
@@ -374,29 +381,64 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
 const potrace = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
+  const worker = new PotraceWorker();
+  let canceled = false;
   progress.openNonstopProgress({
     id: 'potrace',
     message: i18n.lang.beambox.photo_edit_panel.processing,
+    onCancel: () => {
+      worker.terminate();
+      canceled = true;
+    },
   });
 
   const isTransparentBackground = elem.getAttribute('data-no-bg');
   const imgBBox = element.getBBox();
   const imgRotation = svgedit.utilities.getRotationAngle(element);
   let { imgUrl } = getImageAttributes(element);
-  if (!imgUrl) return;
+  if (!imgUrl) {
+    progress.popById('potrace');
+    return;
+  }
   if (isTransparentBackground) {
     imgUrl = await generateBase64Image(imgUrl, false, 254);
   }
-  const image = await jimpHelper.urlToImage(imgUrl);
-  const sx = imgBBox.width / image.bitmap.width;
-  const sy = imgBBox.height / image.bitmap.height;
-
-  let final = '';
-  if (isTransparentBackground) {
-    final = await trace(image, {});
-  } else {
-    final = await posterize(image, {});
+  if (canceled) {
+    progress.popById('potrace');
+    return;
   }
+  const res = await new Promise<
+    { success: true; data: { svg: string; sx: number; sy: number } } | { success: false }
+  >((resolve) => {
+    const checkCancelInterval = setInterval(() => {
+      if (canceled) {
+        clearInterval(checkCancelInterval);
+        resolve({ success: false });
+      }
+    }, 1000);
+    worker.postMessage({
+      imgUrl,
+      imgBBox: { width: imgBBox.width, height: imgBBox.height },
+      method: isTransparentBackground ? 'trace' : 'posterize',
+      options: { addZ: true },
+    });
+    worker.onerror = (e) => {
+      console.error(e);
+      clearInterval(checkCancelInterval);
+      resolve({ success: false });
+      worker.terminate();
+      alertCaller.popUpError({
+        message: 'Failed to potrace image',
+      });
+    };
+    worker.onmessage = (e) => {
+      clearInterval(checkCancelInterval);
+      resolve({ success: true, data: e.data });
+      worker.terminate();
+    };
+  });
+  if (!res.success) return;
+  const { svg: final, sx, sy } = res.data;
 
   const svgStr = final.replace(/<\/?svg[^>]*>/g, '');
   const gId = svgCanvas.getNextId();
@@ -406,8 +448,7 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   const scale = svgRoot.createSVGTransform();
   scale.setScale(sx, sy);
   transforms.insertItemBefore(scale, 0);
-  const ImageTracer = await requirejsHelper('imagetracer');
-  ImageTracer.appendSVGString(svgStr, gId);
+  g.innerHTML = svgStr;
   svgCanvas.setRotationAngle(imgRotation, true, g);
   svgCanvas.pushGroupProperties(g, false);
 
@@ -444,17 +485,14 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
 
   g.remove();
   path.setAttribute('d', d);
+  d = svgedit.utilities.convertPath(path, true);
+  path.setAttribute('d', d);
+  simplifyPath(path);
   moveElements([dx], [dy], [path], false);
+  updateElementColor(path);
   svgCanvas.selectOnly([path], true);
-  const tempOuterContour = await svgCanvas.offsetElements(1, 5, 'round', null, true);
-  svgCanvas.selectOnly([tempOuterContour], true);
-  const finalContour = await svgCanvas.offsetElements(0, 5, 'round', null, true);
-  path.remove();
-  tempOuterContour.remove();
   const batchCmd = new history.BatchCommand('Potrace Image');
-  updateElementColor(finalContour);
-  svgCanvas.selectOnly([finalContour], true);
-  batchCmd.addSubCommand(new history.InsertElementCommand(finalContour));
+  batchCmd.addSubCommand(new history.InsertElementCommand(path));
   svgCanvas.addCommandToHistory(batchCmd);
   progress.popById('potrace');
 };

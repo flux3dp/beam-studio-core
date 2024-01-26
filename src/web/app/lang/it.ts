@@ -205,6 +205,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Impossibile trovare la macchina sulla rete.\nSeguire la <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guida</a> per risolvere il problema di connessione.',
+    no_device_web: '#801 Controlla lo stato della tua macchina o clicca su \'Configura macchina\' qui sotto per configurare la macchina.',
   },
   update: {
     update: 'Aggiorna',
@@ -813,6 +814,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gomma - Incisione',
             glass_bw_engraving: 'Vetro - Incisione',
             metal_bw_engraving: 'Metallo - Incisione',
+            steel_engraving_spray_engraving: 'Metallo - Incisione',
             stainless_steel_bw_engraving_diode: 'Metallo - Incisione (Laser a diodi)',
             gold_engraving: 'Oro - Incisione',
             brass_engraving: 'Ottone - Incisione',
@@ -863,6 +865,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gomma - Incisione',
             glass_bw_engraving: 'Vetro - Incisione',
             metal_bw_engraving: 'Metallo - Incisione',
+            steel_engraving_spray_engraving: 'Metallo - Incisione',
             stainless_steel_bw_engraving_diode: 'Metallo - Incisione (Laser a diodi)',
             gold_engraving: 'Oro - Incisione',
             brass_engraving: 'Ottone - Incisione',
@@ -1224,8 +1227,8 @@ const lang: ILang = {
     incorrect: 'Email o password errati.',
     not_verified: "L'indirizzo email non è stato ancora verificato.",
     new_to_flux: 'Nuovo su FLUX? Registrati.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Esplora i piani FLUX+',
       thank_you: 'Grazie per essere un membro prezioso!',
@@ -1716,6 +1719,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Fare clic su "Conferma" per eseguire la calibrazione o accedere alla calibrazione dal menu in alto.<br />(Macchina> [Nome macchina] > Calibra modulo a infrarossi)',
     },
+    non_working_area: 'Area Non Lavorativa',
   },
   boxgen: {
     back: 'Torna a Beam Studio',

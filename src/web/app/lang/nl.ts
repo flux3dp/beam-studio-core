@@ -204,6 +204,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 We kunnen uw machine niet vinden in het netwerk.\nVolg de <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">handleiding</a> om verbindingsproblemen op te lossen.',
+    no_device_web: '#801 Controleer de status van uw machine, of klik op \'Machine-instellingen\' hieronder om de machine in te stellen.',
   },
   update: {
     update: 'Bijwerken',
@@ -808,6 +809,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Rubber - Graveren',
             glass_bw_engraving: 'Glas - Graveren',
             metal_bw_engraving: 'Metaal - Graveren',
+            steel_engraving_spray_engraving: 'Metaal - Graveren',
             stainless_steel_bw_engraving_diode: 'Metaal - Graveren (Diode Laser)',
             gold_engraving: 'Goud - Graveren',
             brass_engraving: 'Messing - Graveren',
@@ -858,6 +860,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Rubber - graveren',
             glass_bw_engraving: 'Glas - graveren',
             metal_bw_engraving: 'Metaal - graveren',
+            steel_engraving_spray_engraving: 'Metaal - Graveren',
             stainless_steel_bw_engraving_diode: 'RVS - graveren (diodelaser)',
             gold_engraving: 'Goud - graveren',
             brass_engraving: 'Messing - graveren',
@@ -1218,8 +1221,8 @@ const lang: ILang = {
     incorrect: 'E-mailadres of wachtwoord is onjuist.',
     not_verified: 'Het e-mailadres is nog niet geverifieerd.',
     new_to_flux: 'Nieuw bij FLUX? Maak een account.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Verken FLUX+ abonnementen',
       thank_you: 'Bedankt voor uw lidmaatschap!',
@@ -1704,6 +1707,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer lasermodule)',
     },
+    non_working_area: 'Niet-Werkgebied',
   },
   boxgen: {
     back: 'Terug naar Beam Studio',
