@@ -234,6 +234,7 @@ const calculateFontPath = async (textElem: Element): Promise<string> => {
       .getAttribute('y')
       .split(' ')
       .map((v) => +v);
+    const minLength = Math.min(xArry.length, yArry.length);
 
     let fontX = 0;
     let canvasX = 0;
@@ -241,12 +242,10 @@ const calculateFontPath = async (textElem: Element): Promise<string> => {
     const run = fontObj.layout(text);
     d += run.glyphs
       .map((char, i) => {
-        const x = xArry[i];
-        const y = yArry[i];
-        if (x && y) {
+        if (i < minLength) {
           fontX = 0;
-          canvasX = x;
-          canvasY = y;
+          canvasX = xArry[i];
+          canvasY = yArry[i];
         }
         const svg = char.path
           .translate(fontX, 0)
