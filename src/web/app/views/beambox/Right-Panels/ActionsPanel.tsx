@@ -91,26 +91,24 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
-    const bbox = svgCanvas.calculateTransformedBBox(textElem);
     if (textActions.isEditing) {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.convertTextToPath(textElem, bbox);
+    await FontFuncs.convertTextToPath(textElem);
   };
 
   weldText = async (): Promise<void> => {
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
-    const bbox = svgCanvas.calculateTransformedBBox(textElem);
     if (textActions.isEditing) {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.convertTextToPath(textElem, bbox, { weldingTexts: true });
+    await FontFuncs.convertTextToPath(textElem, { weldingTexts: true });
   };
 
   renderButtons = (
@@ -274,7 +272,7 @@ class ActionsPanel extends React.Component<Props> {
       this.renderButtons(
         'convert_to_path',
         LANG.convert_to_path,
-        () => this.webNeedConnectionWrapper(this.convertTextToPath),
+        this.convertTextToPath,
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
         {
@@ -285,7 +283,7 @@ class ActionsPanel extends React.Component<Props> {
       this.renderButtons(
         'weld',
         LANG.weld_text,
-        () => this.webNeedConnectionWrapper(this.weldText),
+        this.weldText,
         <ActionPanelIcons.WeldText />,
         <ActionPanelIcons.WeldText />,
         {
@@ -330,7 +328,7 @@ class ActionsPanel extends React.Component<Props> {
       this.renderButtons(
         'convert_to_path',
         LANG.convert_to_path,
-        () => this.webNeedConnectionWrapper(this.convertTextToPath),
+        this.convertTextToPath,
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
         { isFullLine: true, mobileLabel: LANG.outline }

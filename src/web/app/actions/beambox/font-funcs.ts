@@ -393,7 +393,6 @@ const setTextPostscriptnameIfNeeded = async (textElement: Element) => {
 
 const convertTextToPath = async (
   textElement: Element,
-  bbox: { x: number; y: number; width: number; height: number },
   opts?: { isTempConvert?: boolean; weldingTexts?: boolean }
 ): Promise<ConvertResult> => {
   if (!textElement.textContent) {
@@ -511,9 +510,8 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
   ];
   for (let i = 0; i < texts.length; i += 1) {
     const el = texts[i];
-    const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
     // eslint-disable-next-line no-await-in-loop
-    const convertRes = await convertTextToPath(el, bbox, { isTempConvert: true });
+    const convertRes = await convertTextToPath(el, { isTempConvert: true });
     if (convertRes === ConvertResult.CANCEL_OPERATION) {
       return false;
     }
