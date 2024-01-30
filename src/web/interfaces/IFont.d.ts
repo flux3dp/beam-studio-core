@@ -1,3 +1,4 @@
+import { Font } from 'fontkit';
 import { IUser } from 'interfaces/IUser';
 
 export interface IFont {
@@ -21,13 +22,14 @@ export interface FontHelper {
   getAvailableFonts: () => Promise<FontDescriptor[]>;
   substituteFont: (postscriptName: string, text: string) => Promise<FontDescriptor>;
   getFontName: (font: FontDescriptor) => string;
-  getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
   getWebFontPreviewUrl: (fontFamily: string) => string | null;
   applyMonotypeStyle: (
     font: WebFont | IFont,
     user: IUser | null,
     silent?: boolean
   ) => Promise<{ success: boolean; fontLoadedPromise?: Promise<void> }>;
+  getMonotypeUrl: (postscriptName: string) => Promise<string | null>;
+  getLocalFont: (font: FontDescriptor) => Font | undefined;
 }
 
 export type FontDescriptorKeys =
