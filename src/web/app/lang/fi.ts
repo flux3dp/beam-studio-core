@@ -1751,6 +1751,12 @@ const lang: ILang = {
       delete: 'Poista',
       confirmFileDelete: 'Haluatko varmasti poistaa tämän tiedoston? Toimintoa ei voi perua.',
     },
+    save_file: {
+      choose_action: 'Tallenna tiedosto:',
+      save: 'Tallenna',
+      save_new: 'Tallenna uutena tiedostona',
+      input_file_name: 'Anna tiedoston nimi:',
+    },
   },
 };
 

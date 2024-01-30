@@ -1734,6 +1734,12 @@ const lang: ILang = {
       delete: 'ลบ',
       confirmFileDelete: 'คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์นี้? การกระทํานี้ไม่สามารถยกเลิกได้',
     },
+    save_file: {
+      choose_action: 'บันทึกไฟล์:',
+      save: 'บันทึก',
+      save_new: 'บันทึกเป็นไฟล์ใหม่',
+      input_file_name: 'กรอกชื่อไฟล์:',
+    },
   },
 };
 

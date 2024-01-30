@@ -1758,6 +1758,12 @@ const lang: ILang = {
       delete: 'Padam',
       confirmFileDelete: 'Anda pasti mahu memadam fail ini? Tindakan ini tidak boleh dibatalkan.',
     },
+    save_file: {
+      choose_action: 'Simpan Fail:',
+      save: 'Simpan',
+      save_new: 'Simpan sebagai fail baru',
+      input_file_name: 'Masukkan nama fail:',
+    },
   },
 };
 

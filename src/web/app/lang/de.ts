@@ -1642,6 +1642,12 @@ const lang: ILang = {
       delete: 'Löschen',
       confirmFileDelete: 'Möchten Sie diese Datei wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.',
     },
+    save_file: {
+      choose_action: 'Datei speichern:',
+      save: 'Speichern',
+      save_new: 'Als neue Datei speichern',
+      input_file_name: 'Dateinamen eingeben:',
+    },
   },
 };
 

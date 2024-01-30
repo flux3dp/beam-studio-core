@@ -1751,6 +1751,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Bạn có chắc chắn muốn xóa tệp tin này không? Hành động này không thể hoàn tác.',
     },
+    save_file: {
+      choose_action: 'Lưu tệp:',
+      save: 'Lưu',
+      save_new: 'Lưu thành tệp mới',
+      input_file_name: 'Nhập tên tệp:',
+    },
   },
 };
 

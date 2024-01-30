@@ -1762,6 +1762,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Weet u zeker dat u dit bestand wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.',
     },
+    save_file: {
+      choose_action: 'Bestand opslaan:',
+      save: 'Opslaan',
+      save_new: 'Opslaan als nieuw bestand',
+      input_file_name: 'Voer bestandsnaam in:',
+    },
   },
 };
 

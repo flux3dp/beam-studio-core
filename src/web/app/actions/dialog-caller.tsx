@@ -26,6 +26,7 @@ import Prompt from 'app/views/dialogs/Prompt';
 import RadioSelectDialog from 'app/components/dialogs/RadioSelectDialog';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationParameters3DPanel';
+import SaveFileModal from 'app/components/dialogs/myCloud/SaveFileModal';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import shortcuts from 'helpers/shortcuts';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
@@ -516,4 +517,17 @@ export default {
       );
     }
   },
+  saveToCloud: (uuid?: string): Promise<{ fileName: string | null; isCancelled?: boolean }> =>
+    new Promise<{ fileName: string | null; isCancelled?: boolean }>((resolve) => {
+      addDialogComponent(
+        'save-to-cloud',
+        <SaveFileModal
+          onClose={(fileName: string | null, isCancelled?: boolean) => {
+            popDialogById('save-to-cloud');
+            resolve({ fileName, isCancelled });
+          }}
+          uuid={uuid}
+        />
+      );
+    }),
 };
