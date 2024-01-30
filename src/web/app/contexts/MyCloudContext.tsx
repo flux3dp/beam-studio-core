@@ -252,7 +252,7 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
 
   const renameFile = async (file: IFile, newName: string) => {
     const id = 'rename-cloud-file';
-    if (file.name !== newName) {
+    if (newName && file.name !== newName) {
       await Progress.openNonstopProgress({ id });
       try {
         const resp = await axiosFluxId.put(
