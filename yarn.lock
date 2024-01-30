@@ -1356,11 +1356,12 @@
   dependencies:
     "@sinonjs/commons" "^2.0.0"
 
-"@swc/helpers@^0.3.13":
-  version "0.3.17"
-  resolved "https://registry.npmjs.org/@swc/helpers/-/helpers-0.3.17.tgz"
-  integrity sha512-tb7Iu+oZ+zWJZ3HJqwx8oNwSDIU440hmVMDPhpACWQWnrZHK99Bxs70gT1L2dnr5Hg50ZRWEFkQCAnOVVV0z1Q==
+"@swc/helpers@^0.4.2":
+  version "0.4.36"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.36.tgz#fcfff76ed52c214f357e8e9d3f37b568908072d9"
+  integrity sha512-5lxnyLEYFskErRPenYItLRSge5DjrJngYKdVjRSrWfza9G6KkgHEXi0vUZiyUeMU5JfXH1YnvXZzSp8ul88o2Q==
   dependencies:
+    legacy-swc-helpers "npm:@swc/helpers@=0.4.14"
     tslib "^2.4.0"
 
 "@szhsin/react-menu@^1.10.1":
@@ -1466,6 +1467,13 @@
   integrity sha512-nLbSkHNDMVCyINVOtmDq9lTv+PDzeypazRMoqYDKyLPzrbLLiSHFSZLifMU1PxFHRvLJuyDlr/GU0j60eEyeaA==
   dependencies:
     eventemitter3 "*"
+
+"@types/fontkit@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@types/fontkit/-/fontkit-2.0.6.tgz#dabd933897aa9fd58a321d45a7b3cc050c31d4d7"
+  integrity sha512-GxeaJay2RidoCWRDogp2CRttkv0weLwrB7hC+Qmh0mCdW1g0aEVwlLA6kLv5ZDJ6hGZSEiGZG7r57MgAD+fWOg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/graceful-fs@^4.1.3":
   version "4.1.6"
@@ -3246,19 +3254,19 @@ follow-redirects@^1.14.0:
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
-fontkit@^1.8.1:
-  version "1.9.0"
-  resolved "https://registry.npmjs.org/fontkit/-/fontkit-1.9.0.tgz"
-  integrity sha512-HkW/8Lrk8jl18kzQHvAw9aTHe1cqsyx5sDnxncx652+CIfhawokEPkeM3BoIC+z/Xv7a0yMr0f3pRRwhGH455g==
+fontkit@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/fontkit/-/fontkit-2.0.2.tgz#ac5384f3ecab8327c6d2ea2e4d384afc544b48fd"
+  integrity sha512-jc4k5Yr8iov8QfS6u8w2CnHWVmbOGtdBtOXMze5Y+QD966Rx6PEVWXSEGwXlsDlKtu1G12cJjcsybnqhSk/+LA==
   dependencies:
-    "@swc/helpers" "^0.3.13"
+    "@swc/helpers" "^0.4.2"
     brotli "^1.3.2"
     clone "^2.1.2"
-    deep-equal "^2.0.5"
     dfa "^1.2.0"
-    restructure "^2.0.1"
+    fast-deep-equal "^3.1.3"
+    restructure "^3.0.0"
     tiny-inflate "^1.0.3"
-    unicode-properties "^1.3.1"
+    unicode-properties "^1.4.0"
     unicode-trie "^2.0.0"
 
 for-each@^0.3.3:
@@ -4470,6 +4478,13 @@ language-tags@=1.0.5:
   integrity sha512-qJhlO9cGXi6hBGKoxEG/sKZDAHD5Hnu9Hs4WbOY3pCWXDhw0N8x1NenNzm2EnNLkLkk7J2SdxAkDSbb6ftT+UQ==
   dependencies:
     language-subtag-registry "~0.3.2"
+
+"legacy-swc-helpers@npm:@swc/helpers@=0.4.14":
+  version "0.4.14"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.14.tgz#1352ac6d95e3617ccb7c1498ff019654f1e12a74"
+  integrity sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==
+  dependencies:
+    tslib "^2.4.0"
 
 leven@^3.1.0:
   version "3.1.0"
@@ -5748,10 +5763,10 @@ resolve@^2.0.0-next.4:
     path-parse "^1.0.7"
     supports-preserve-symlinks-flag "^1.0.0"
 
-restructure@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/restructure/-/restructure-2.0.1.tgz"
-  integrity sha512-e0dOpjm5DseomnXx2M5lpdZ5zoHqF1+bqdMJUohoYVVQa7cBdnk7fdmeI6byNWP/kiME72EeTiSypTCVnpLiDg==
+restructure@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/restructure/-/restructure-3.0.0.tgz#a55031d7ed3314bf585f815836fff9da3d65101d"
+  integrity sha512-Xj8/MEIhhfj9X2rmD9iJ4Gga9EFqVlpMj3vfLnV2r/Mh5jRMryNV+6lWh9GdJtDBcBSPIqzRdfBQ3wDtNFv/uw==
 
 reusify@^1.0.4:
   version "1.0.4"
@@ -6377,9 +6392,9 @@ unbox-primitive@^1.0.2:
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
 
-unicode-properties@^1.3.1:
+unicode-properties@^1.4.0:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/unicode-properties/-/unicode-properties-1.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/unicode-properties/-/unicode-properties-1.4.1.tgz#96a9cffb7e619a0dc7368c28da27e05fc8f9be5f"
   integrity sha512-CLjCCLQ6UuMxWnbIylkisbRj31qxHPAurvena/0iwSVbQ2G1VY5/HjV0IRabOEbDHlzZlRdCrD4NhB0JtU40Pg==
   dependencies:
     base64-js "^1.3.0"

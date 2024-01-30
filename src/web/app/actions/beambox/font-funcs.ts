@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
+import * as fontkit from 'fontkit';
 import { sprintf } from 'sprintf-js';
 
 import Alert from 'app/actions/alert-caller';
@@ -15,9 +16,8 @@ import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import storage from 'implementations/storage';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import weldPath from 'helpers/weldPath';
-import { FontDescriptor, IFont, IFontQuery } from 'interfaces/IFont';
+import { FontDescriptor, IFont, IFontQuery, WebFont } from 'interfaces/IFont';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { moveElements } from 'app/svgedit/operations/move';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -32,6 +32,8 @@ const { $ } = window;
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const LANG = i18n.lang.beambox.object_panels;
 const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
+
+const fontObjCache = new Map<string, fontkit.Font>();
 
 enum SubstituteResult {
   DO_SUB = 2,
@@ -144,6 +146,120 @@ const requestFontByFamilyAndStyle = async (opts: IFontQuery): Promise<IFont> => 
     italic: opts.italic,
   });
   return font;
+};
+
+const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font | undefined> => {
+  const { postscriptName } = font;
+  let fontObj = fontObjCache.get(postscriptName);
+  if (!fontObj) {
+    if ((font as FontDescriptor).path) {
+      fontObj = fontHelper.getLocalFont(font);
+    } else {
+      const { protocol } = window.location;
+      const fileName = (font as WebFont).fileName || `${postscriptName}.ttf`;
+      let url = `${protocol}//beam-studio-web.s3.ap-northeast-1.amazonaws.com/fonts/${fileName}`;
+      if ('hasLoaded' in font) {
+        const monotypeUrl = await fontHelper.getMonotypeUrl(postscriptName);
+        if (monotypeUrl) url = monotypeUrl;
+      }
+      const data = await fetch(url, { mode: 'cors' });
+      fontObj = fontkit.create(Buffer.from(await data.arrayBuffer()));
+    }
+    if (fontObj) {
+      fontObjCache.set(postscriptName, fontObj);
+    }
+  }
+  return fontObj;
+};
+
+const calculateFontPath = async (textElem: Element): Promise<string> => {
+  const postscriptName = textElem.getAttribute('font-postscript');
+  const fontSize = +textElem.getAttribute('font-size');
+  const letterSpacing = textElem.getAttribute('letter-spacing');
+  const letterSpacingSize = letterSpacing
+    ? +letterSpacing.slice(0, letterSpacing.length - 2) * fontSize
+    : 0;
+  const font = await getFontOfPostscriptName(postscriptName);
+  const fontObj = await getFontObj(font);
+  if (!fontObj) {
+    Alert.popUpError({ message: `tUnable to get font ${postscriptName}` });
+    return '';
+  }
+  const sizeRatio = fontSize / fontObj.unitsPerEm;
+
+  let d = '';
+  const textPaths = textElem.querySelectorAll('textPath');
+  textPaths.forEach((textPath) => {
+    let alignOffset = 0;
+    const text = textPath.textContent;
+    const alignmentBaseline = textPath.getAttribute('alignment-baseline');
+    const dominantBaseline = textPath.getAttribute('dominant-baseline');
+    if (alignmentBaseline || dominantBaseline) {
+      textPath.textContent = 'i';
+      const { x, y } = textPath.getBBox();
+      textPath.removeAttribute('alignment-baseline');
+      textPath.removeAttribute('dominant-baseline');
+      const { x: x2, y: y2 } = textPath.getBBox();
+      alignOffset = Math.hypot(x - x2, y - y2);
+      textPath.setAttribute('alignment-baseline', alignmentBaseline);
+      textPath.setAttribute('dominant-baseline', dominantBaseline);
+      textPath.textContent = text;
+    }
+
+    const run = fontObj.layout(text);
+    d += run.glyphs
+      .map((char, i) => {
+        const start = textPath.getStartPositionOfChar(i);
+        const end = textPath.getStartPositionOfChar(i);
+        if ([start.x, start.y, end.x, end.y].every((v) => v === 0)) return '';
+        const rot = (textPath.getRotationOfChar(i) / 180) * Math.PI;
+        return char.path
+          .scale(sizeRatio, -sizeRatio)
+          .translate(0, alignOffset)
+          .rotate(rot)
+          .translate(start.x, start.y)
+          .toSVG();
+      })
+      .join('');
+  });
+
+  const tspans = textElem.querySelectorAll('tspan');
+  tspans.forEach((tspan) => {
+    const text = tspan.textContent;
+    const xArry = tspan
+      .getAttribute('x')
+      .split(' ')
+      .map((v) => +v);
+    const yArry = tspan
+      .getAttribute('y')
+      .split(' ')
+      .map((v) => +v);
+    const minLength = Math.min(xArry.length, yArry.length);
+
+    let fontX = 0;
+    let canvasX = 0;
+    let canvasY = 0;
+    const run = fontObj.layout(text);
+    d += run.glyphs
+      .map((char, i) => {
+        if (i < minLength) {
+          fontX = 0;
+          canvasX = xArry[i];
+          canvasY = yArry[i];
+        }
+        const svg = char.path
+          .translate(fontX, 0)
+          .scale(sizeRatio, -sizeRatio)
+          .translate(canvasX, canvasY)
+          .toSVG();
+        fontX += char.advanceWidth;
+        canvasX += letterSpacingSize;
+        return svg;
+      })
+      .join('');
+  });
+
+  return d;
 };
 
 const substitutedFont = async (textElement: Element) => {
@@ -274,27 +390,8 @@ const setTextPostscriptnameIfNeeded = async (textElement: Element) => {
   }
 };
 
-const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
-  new Promise<{ d: string; transform: string }>((resolve) => {
-    const fileReader = new FileReader();
-    fileReader.onloadend = (e) => {
-      const svgString = e.target.result as string;
-      const dRegex = svgString.match(/ d="([^"]+)"/g);
-      const transRegex = svgString.match(/transform="([^"]+)/);
-      const d = dRegex ? dRegex.map((p) => p.substring(4, p.length - 1))?.join('') : '';
-      const transform = transRegex ? transRegex[1] : '';
-      resolve({ d, transform });
-    };
-    if (isFilled) {
-      fileReader.readAsText(data.colors);
-    } else {
-      fileReader.readAsText(data.strokes);
-    }
-  });
-
 const convertTextToPath = async (
   textElement: Element,
-  bbox: { x: number; y: number; width: number; height: number },
   opts?: { isTempConvert?: boolean; weldingTexts?: boolean }
 ): Promise<ConvertResult> => {
   if (!textElement.textContent) {
@@ -345,42 +442,13 @@ const convertTextToPath = async (
   }
   console.log(textElement.getAttribute('font-family'), textElement.getAttribute('font-postscript'));
 
-  if (window.FLUX.version === 'web') {
-    const postscript = textElement.getAttribute('font-postscript');
-    try {
-      const res = await fontHelper.getWebFontAndUpload(postscript);
-      if (!res) {
-        Progress.popById('parsing-font');
-        Alert.popUpError({ message: `tUnable to get font ${postscript}` });
-        return ConvertResult.CANCEL_OPERATION;
-      }
-    } catch (err) {
-      Progress.popById('parsing-font');
-      Alert.popUpError({ message: `tUnable to get font ${postscript}` });
-      return ConvertResult.CANCEL_OPERATION;
-    }
-  }
-
   textElement.removeAttribute('stroke-width');
   const isFilled = calculateFilled(textElement);
   let color = textElement.getAttribute('stroke');
   color = color !== 'none' ? color : textElement.getAttribute('fill');
+  const transform = textElement.getAttribute('transform');
 
-  await svgWebSocket.uploadPlainTextSVG(textElement, bbox);
-  const outputs = await svgWebSocket.divideSVG({ scale: 1, timeout: 15000 });
-  if (!outputs.res) {
-    console.error('Error when convert text by fluxsvg', outputs.data);
-    Alert.popUp({
-      type: AlertConstants.SHOW_POPUP_ERROR,
-      message: `#846 ${sprintf(LANG.text_to_path.error_when_parsing_text, outputs.data)}`,
-    });
-    Progress.popById('parsing-font');
-    return ConvertResult.CONTINUE;
-  }
-
-  const res = await getPathAndTransformFromSvg(outputs.data, isFilled);
-  const { transform } = res;
-  let { d } = res;
+  let d = await calculateFontPath(textElement);
 
   if (d) {
     if (weldingTexts) {
@@ -402,8 +470,6 @@ const convertTextToPath = async (
     path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
     svgCanvas.pathActions.fixEnd(path);
     batchCmd.addSubCommand(new history.InsertElementCommand(path));
-    // output of fluxsvg will locate at (0,0), so move it.
-    moveElements([bbox.x], [bbox.y], [path], false);
 
     if (isTempConvert) {
       textElement.setAttribute('display', 'none');
@@ -443,9 +509,8 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
   ];
   for (let i = 0; i < texts.length; i += 1) {
     const el = texts[i];
-    const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
     // eslint-disable-next-line no-await-in-loop
-    const convertRes = await convertTextToPath(el, bbox, { isTempConvert: true });
+    const convertRes = await convertTextToPath(el, { isTempConvert: true });
     if (convertRes === ConvertResult.CANCEL_OPERATION) {
       return false;
     }

@@ -104,7 +104,6 @@ jest.mock('helpers/system-helper', () => ({
   isMobile: () => isMobile(),
 }));
 
-const calculateTransformedBBox = jest.fn();
 const clearSelection = jest.fn();
 const convertToPath = jest.fn();
 const decomposePath = jest.fn();
@@ -119,7 +118,6 @@ const pathActions = {
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Canvas: {
-      calculateTransformedBBox,
       clearSelection,
       convertToPath,
       decomposePath,
@@ -245,48 +243,24 @@ describe('should render correctly', () => {
     document.body.innerHTML = '<text id="svg_1" />';
     const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
-    expect(mockCheckConnection).not.toBeCalled();
 
-    mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
-    calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
     const actionButtons = container.querySelectorAll(ActionButtonSelector);
     fireEvent.click(actionButtons[0]);
     await tick();
-    expect(mockCheckConnection).toHaveBeenCalledTimes(1);
-    expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
-    expect(calculateTransformedBBox).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     expect(toSelectMode).toHaveBeenCalledTimes(1);
     expect(clearSelection).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenCalledTimes(1);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'), {
-      x: 1,
-      y: 2,
-      width: 3,
-      height: 4,
-    });
+    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
     fireEvent.click(actionButtons[1]);
     await tick();
-    expect(mockCheckConnection).toHaveBeenCalledTimes(2);
-    expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
-    expect(calculateTransformedBBox).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
     expect(toSelectMode).toHaveBeenCalledTimes(2);
     expect(clearSelection).toHaveBeenCalledTimes(2);
     expect(convertTextToPath).toHaveBeenCalledTimes(2);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(
-      2,
-      document.getElementById('svg_1'),
-      {
-        x: 1,
-        y: 2,
-        width: 3,
-        height: 4,
-      },
-      {
-        weldingTexts: true,
-      }
-    );
+    expect(convertTextToPath).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'), {
+      weldingTexts: true,
+    });
 
     fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
@@ -516,48 +490,24 @@ describe('should render correctly in mobile', () => {
     document.body.innerHTML = '<text id="svg_1" />';
     const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
-    expect(mockCheckConnection).not.toBeCalled();
 
-    mockCheckConnection.mockReturnValue(true);
     convertTextToPath.mockResolvedValueOnce({});
-    calculateTransformedBBox.mockReturnValue({ x: 1, y: 2, width: 3, height: 4 });
     const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
     fireEvent.click(actionButtons[0]);
     await tick();
-    expect(mockCheckConnection).toHaveBeenCalledTimes(1);
-    expect(calculateTransformedBBox).toHaveBeenCalledTimes(1);
-    expect(calculateTransformedBBox).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     expect(toSelectMode).toHaveBeenCalledTimes(1);
     expect(clearSelection).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenCalledTimes(1);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'), {
-      x: 1,
-      y: 2,
-      width: 3,
-      height: 4,
-    });
+    expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
     fireEvent.click(actionButtons[1]);
     await tick();
-    expect(mockCheckConnection).toHaveBeenCalledTimes(2);
-    expect(calculateTransformedBBox).toHaveBeenCalledTimes(2);
-    expect(calculateTransformedBBox).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'));
     expect(toSelectMode).toHaveBeenCalledTimes(2);
     expect(clearSelection).toHaveBeenCalledTimes(2);
     expect(convertTextToPath).toHaveBeenCalledTimes(2);
-    expect(convertTextToPath).toHaveBeenNthCalledWith(
-      2,
-      document.getElementById('svg_1'),
-      {
-        x: 1,
-        y: 2,
-        width: 3,
-        height: 4,
-      },
-      {
-        weldingTexts: true,
-      }
-    );
+    expect(convertTextToPath).toHaveBeenNthCalledWith(2, document.getElementById('svg_1'), {
+      weldingTexts: true,
+    });
 
     fireEvent.click(actionButtons[2]);
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
