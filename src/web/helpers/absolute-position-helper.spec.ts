@@ -35,9 +35,10 @@ describe('test calculateTop', () => {
   });
 
   test('TopRef.LAYER_PARAMS', () => {
-    jest.spyOn(document, 'querySelector').mockImplementation(() => {
-      return { getBoundingClientRect: jest.fn().mockReturnValueOnce({ top: 300 }) } as any;
-    });
+    jest.spyOn(document, 'querySelector').mockImplementation(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      () => ({ getBoundingClientRect: jest.fn().mockReturnValueOnce({ top: 300 }) } as any)
+    );
     const result = calculateTop(10, TopRef.LAYER_PARAMS);
     expect(result).toEqual(310);
   });

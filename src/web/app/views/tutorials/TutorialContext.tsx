@@ -86,7 +86,7 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     }
   };
 
-  handleNextStep = async () => {
+  handleNextStep = async (): Promise<void> => {
     const { currentStep } = this.state;
     const { dialogStylesAndContents, onClose } = this.props;
     if (dialogStylesAndContents[currentStep].callback) {

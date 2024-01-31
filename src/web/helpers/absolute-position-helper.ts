@@ -25,9 +25,10 @@ export const calculateTop = (top: number, ref: TopRef = TopRef.WINDOW): number =
       return top + Constant.topBarHeight;
     case TopRef.LAYER_LIST:
       return top + Constant.topBarHeight + Constant.layerListHeight;
-    case TopRef.LAYER_PARAMS:
+    case TopRef.LAYER_PARAMS: {
       const offset = document.querySelector('.layerparams').getBoundingClientRect().top;
       return top + offset;
+    }
     default:
       return top + Constant.menuberHeight;
   }
@@ -39,11 +40,12 @@ export const calculateRight = (right: number, ref: RightRef = RightRef.WINDOW): 
       return right + Constant.rightPanelScrollBarWidth;
     case RightRef.RIGHT_PANEL:
       return right + Constant.rightPanelWidth;
-    case RightRef.PATH_PREVIEW_BTN:
+    case RightRef.PATH_PREVIEW_BTN: {
       const workarea = beamboxPreference.read('workarea');
       const shouldHideBtn = !isDev() && modelsWithModules.includes(workarea);
       const offset = (isMacOrWeb ? 6 : 26) + (shouldHideBtn ? 0 : 42);
       return right + offset;
+    }
     default:
       return right;
   }
