@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import history from 'app/svgedit/history';
+import selector from 'app/svgedit/selector';
 import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { deleteElements } from 'app/svgedit/operations/delete';
@@ -245,7 +246,7 @@ const pasteElements = (args: {
       dy.push(cy);
     });
 
-    const cmd = moveElements(dx, dy, pasted, false);
+    const cmd = moveElements(dx, dy, pasted, false, true);
     batchCmd.addSubCommand(cmd);
   }
 
@@ -253,7 +254,12 @@ const pasteElements = (args: {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     svgCanvas.call('changed', pasted);
   }
-  if (selectElement) svgCanvas.tempGroupSelectedElements();
+  if (selectElement) {
+    if (pasted.length === 1) {
+      const selectorManager = selector.getSelectorManager();
+      selectorManager.requestSelector(pasted[0]).resize();
+    } else svgCanvas.tempGroupSelectedElements();
+  }
   return { cmd: batchCmd, elems: pasted };
 };
 
