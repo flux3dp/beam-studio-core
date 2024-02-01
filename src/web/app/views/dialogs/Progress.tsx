@@ -39,7 +39,6 @@ const Progress = ({ data }: { data: IProgressDialog }): JSX.Element => {
       open
       title={caption}
       onCancel={() => {
-        console.log('cancel', popById);
         popById(id);
         onCancel();
       }}
