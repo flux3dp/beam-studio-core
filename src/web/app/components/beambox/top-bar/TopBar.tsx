@@ -23,6 +23,8 @@ import SelectMachineButton from 'app/components/beambox/top-bar/SelectMachineBut
 import showResizeAlert from 'helpers/device/fit-device-workarea-alert';
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
+import tutorialConstants from 'app/constants/tutorial-constants';
+import tutorialController from 'app/views/tutorials/tutorialController';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -153,7 +155,12 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       }
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
       if (constant.adorModels.includes(device.model)) {
-        PreviewModeController.previewFullWorkarea(() => updateTopBar());
+        PreviewModeController.previewFullWorkarea(() => {
+          updateTopBar();
+          if (tutorialController.getNextStepRequirement() === tutorialConstants.PREVIEW_PLATFORM) {
+            tutorialController.handleNextStep();
+          }
+        });
       }
       setIsPreviewing(true);
       if (startPreviewCallback) {

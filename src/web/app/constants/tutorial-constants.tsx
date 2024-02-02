@@ -175,18 +175,24 @@ const NEW_USER_TUTORIAL: ITutorial = {
       dialogBoxStyles: {
         position: {
           right: calculateRight(4, RightRef.RIGHT_PANEL),
-          top: calculateTop(141, TopRef.LAYER_LIST),
+          get top(): number {
+            return calculateTop(60, TopRef.LAYER_PARAMS);
+          },
         },
         arrowDirection: 'right',
       },
       holePosition: {
         right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(126, TopRef.LAYER_LIST),
+        get top(): number {
+          return calculateTop(45, TopRef.LAYER_PARAMS);
+        },
       },
       holeSize: { width: rightPanelInnerWidth - 60, height: 30 },
       hintCircle: {
         right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(122, TopRef.LAYER_LIST),
+        get top(): number {
+          return calculateTop(40, TopRef.LAYER_PARAMS);
+        },
         width: rightPanelInnerWidth - 55,
         height: 40,
       },
@@ -308,18 +314,24 @@ const NEW_USER_TUTORIAL: ITutorial = {
       dialogBoxStyles: {
         position: {
           right: calculateRight(4, RightRef.RIGHT_PANEL),
-          top: calculateTop(141, TopRef.LAYER_LIST),
+          get top(): number {
+            return calculateTop(60, TopRef.LAYER_PARAMS);
+          },
         },
         arrowDirection: 'right',
       },
       holePosition: {
         right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(126, TopRef.LAYER_LIST),
+        get top(): number {
+          return calculateTop(45, TopRef.LAYER_PARAMS);
+        },
       },
       holeSize: { width: rightPanelInnerWidth - 60, height: 30 },
       hintCircle: {
         right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(122, TopRef.LAYER_LIST),
+        get top(): number {
+          return calculateTop(40, TopRef.LAYER_PARAMS);
+        },
         width: rightPanelInnerWidth - 55,
         height: 40,
       },
@@ -367,11 +379,18 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { right: isMacOrWeb ? 220 : 240, top: calculateTop(10, TopRef.TOPBAR) },
+        position: {
+          get right(): number {
+            return calculateRight(170, RightRef.PATH_PREVIEW_BTN);
+          },
+          top: calculateTop(10, TopRef.TOPBAR),
+        },
         arrowDirection: 'top',
       },
       hintCircle: {
-        right: isMacOrWeb ? 130 : 144,
+        get right(): number {
+          return calculateRight(80, RightRef.PATH_PREVIEW_BTN);
+        },
         top: calculateTop(2),
         width: 180,
         height: 36,
@@ -380,30 +399,39 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { right: isMacOrWeb ? 105 : 125, top: calculateTop(10, TopRef.TOPBAR) },
+        position: {
+          get right(): number {
+            return calculateRight(58, RightRef.PATH_PREVIEW_BTN);
+          },
+          top: calculateTop(10, TopRef.TOPBAR),
+        },
         arrowDirection: 'top',
       },
       hintCircle: {
-        right: isMacOrWeb ? 89 : 107,
+        get right(): number {
+          return calculateRight(42, RightRef.PATH_PREVIEW_BTN);
+        },
         top: calculateTop(2),
         width: 36,
         height: 36,
       },
       text: i18n.lang.topbar.frame_task,
     },
-    {
-      dialogBoxStyles: {
-        position: { right: isMacOrWeb ? 66 : 85, top: calculateTop(10, TopRef.TOPBAR) },
-        arrowDirection: 'top',
-      },
-      hintCircle: {
-        right: isMacOrWeb ? 49 : 65,
-        top: calculateTop(2),
-        width: 36,
-        height: 36,
-      },
-      text: i18n.lang.topbar.task_preview,
-    },
+    // Will be invisible with Ador
+    // Rocover when path preview is ready for Ador
+    // {
+    //   dialogBoxStyles: {
+    //     position: { right: isMacOrWeb ? 66 : 85, top: calculateTop(10, TopRef.TOPBAR) },
+    //     arrowDirection: 'top',
+    //   },
+    //   hintCircle: {
+    //     right: isMacOrWeb ? 49 : 65,
+    //     top: calculateTop(2),
+    //     width: 36,
+    //     height: 36,
+    //   },
+    //   text: i18n.lang.topbar.task_preview,
+    // },
     {
       dialogBoxStyles: {
         position: { right: 24, top: calculateTop(10, TopRef.TOPBAR) },
@@ -453,6 +481,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         height: 40,
       },
       text: LANG.newInterface.pen_tool,
+      callback: TutorialCallbacks.SCROLL_TO_ADD_LAYER,
     },
     {
       dialogBoxStyles: {
