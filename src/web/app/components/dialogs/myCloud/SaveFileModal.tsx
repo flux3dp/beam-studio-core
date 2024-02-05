@@ -17,7 +17,7 @@ interface Props {
 const SaveFileModal = ({ onClose, uuid }: Props): JSX.Element => {
   const LANG = useI18n();
   const lang = LANG.my_cloud.save_file;
-  const [isEditingName, setIsEditingName] = useState(uuid ? false : true);
+  const [isEditingName, setIsEditingName] = useState(!uuid);
   const [fileName, setFileName] = useState<string>(
     (svgCanvas.getLatestImportFileName() || LANG.topbar.untitled).replace('/', ':')
   );
