@@ -1655,6 +1655,12 @@ const lang: ILang = {
       delete: '삭제',
       confirmFileDelete: '이 파일을 정말 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.',
     },
+    save_file: {
+      choose_action: '파일 저장:',
+      save: '저장',
+      save_new: '새 파일로 저장',
+      input_file_name: '파일 이름 입력:',
+    },
   },
 };
 

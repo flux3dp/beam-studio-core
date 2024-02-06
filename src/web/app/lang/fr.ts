@@ -1796,6 +1796,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Êtes-vous sûr de vouloir supprimer ce fichier ? Cette action est irréversible.',
     },
+    save_file: {
+      choose_action: 'Enregistrer le fichier :',
+      save: 'Enregistrer',
+      save_new: 'Enregistrer sous',
+      input_file_name: 'Entrer le nom du fichier :',
+    },
   },
 };
 

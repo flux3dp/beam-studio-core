@@ -161,9 +161,17 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
       if ('hasLoaded' in font) {
         const monotypeUrl = await fontHelper.getMonotypeUrl(postscriptName);
         if (monotypeUrl) url = monotypeUrl;
+        else return undefined;
       }
       const data = await fetch(url, { mode: 'cors' });
-      fontObj = fontkit.create(Buffer.from(await data.arrayBuffer()));
+      const buffer = Buffer.from(await data.arrayBuffer());
+      try {
+        // Font Collection
+        fontObj = fontkit.create(buffer, font.postscriptName);
+      } catch {
+        // Single Font
+        fontObj = fontkit.create(buffer);
+      }
     }
     if (fontObj) {
       fontObjCache.set(postscriptName, fontObj);
@@ -172,19 +180,9 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
   return fontObj;
 };
 
-const calculateFontPath = async (textElem: Element): Promise<string> => {
-  const postscriptName = textElem.getAttribute('font-postscript');
+const calculateFontPath = async (textElem: Element, fontObj: fontkit.Font): Promise<string> => {
+  const FFF = 65535;
   const fontSize = +textElem.getAttribute('font-size');
-  const letterSpacing = textElem.getAttribute('letter-spacing');
-  const letterSpacingSize = letterSpacing
-    ? +letterSpacing.slice(0, letterSpacing.length - 2) * fontSize
-    : 0;
-  const font = await getFontOfPostscriptName(postscriptName);
-  const fontObj = await getFontObj(font);
-  if (!fontObj) {
-    Alert.popUpError({ message: `tUnable to get font ${postscriptName}` });
-    return '';
-  }
   const sizeRatio = fontSize / fontObj.unitsPerEm;
 
   let d = '';
@@ -207,12 +205,14 @@ const calculateFontPath = async (textElem: Element): Promise<string> => {
     }
 
     const run = fontObj.layout(text);
+    let i = 0;
     d += run.glyphs
-      .map((char, i) => {
+      .map((char) => {
         const start = textPath.getStartPositionOfChar(i);
         const end = textPath.getStartPositionOfChar(i);
         if ([start.x, start.y, end.x, end.y].every((v) => v === 0)) return '';
         const rot = (textPath.getRotationOfChar(i) / 180) * Math.PI;
+        i = text.codePointAt(i) > FFF ? i + 2 : i + 1;
         return char.path
           .scale(sizeRatio, -sizeRatio)
           .translate(0, alignOffset)
@@ -226,35 +226,13 @@ const calculateFontPath = async (textElem: Element): Promise<string> => {
   const tspans = textElem.querySelectorAll('tspan');
   tspans.forEach((tspan) => {
     const text = tspan.textContent;
-    const xArry = tspan
-      .getAttribute('x')
-      .split(' ')
-      .map((v) => +v);
-    const yArry = tspan
-      .getAttribute('y')
-      .split(' ')
-      .map((v) => +v);
-    const minLength = Math.min(xArry.length, yArry.length);
-
-    let fontX = 0;
-    let canvasX = 0;
-    let canvasY = 0;
     const run = fontObj.layout(text);
+    let i = 0;
     d += run.glyphs
-      .map((char, i) => {
-        if (i < minLength) {
-          fontX = 0;
-          canvasX = xArry[i];
-          canvasY = yArry[i];
-        }
-        const svg = char.path
-          .translate(fontX, 0)
-          .scale(sizeRatio, -sizeRatio)
-          .translate(canvasX, canvasY)
-          .toSVG();
-        fontX += char.advanceWidth;
-        canvasX += letterSpacingSize;
-        return svg;
+      .map((char) => {
+        const start = tspan.getStartPositionOfChar(i);
+        i = text.codePointAt(i) > FFF ? i + 2 : i + 1;
+        return char.path.scale(sizeRatio, -sizeRatio).translate(start.x, start.y).toSVG();
       })
       .join('');
   });
@@ -390,6 +368,7 @@ const setTextPostscriptnameIfNeeded = async (textElement: Element) => {
   }
 };
 
+// TODO: fallback to machine when fontkit error
 const convertTextToPath = async (
   textElement: Element,
   opts?: { isTempConvert?: boolean; weldingTexts?: boolean }
@@ -405,6 +384,13 @@ const convertTextToPath = async (
   const batchCmd = new history.BatchCommand('Text to Path');
   const origFontFamily = textElement.getAttribute('font-family');
   const origFontPostscriptName = textElement.getAttribute('font-postscript');
+  const font = await getFontOfPostscriptName(origFontPostscriptName);
+  let fontObj = await getFontObj(font);
+  if (!fontObj) {
+    Alert.popUpError({ message: `tUnable to get font ${origFontPostscriptName}` });
+    return ConvertResult.UNSUPPORT;
+  }
+
   if (BeamboxPreference.read('font-substitute') !== false) {
     const { font: newFont, unsupportedChar } = await substitutedFont(textElement);
     if (
@@ -429,6 +415,7 @@ const convertTextToPath = async (
         svgCanvas.undoMgr.beginUndoableChange('font-postscript', [textElement]);
         textElement.setAttribute('font-postscript', newFont.postscriptName);
         batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
+        fontObj = await getFontObj(newFont);
       } else if (doSub === SubstituteResult.CANCEL_OPERATION) {
         Progress.popById('parsing-font');
         return ConvertResult.CANCEL_OPERATION;
@@ -448,7 +435,7 @@ const convertTextToPath = async (
   color = color !== 'none' ? color : textElement.getAttribute('fill');
   const transform = textElement.getAttribute('transform');
 
-  let d = await calculateFontPath(textElement);
+  let d = await calculateFontPath(textElement, fontObj);
 
   if (d) {
     if (weldingTexts) {

@@ -1761,6 +1761,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Er du sikker på at du vil slette denne filen? Denne handlingen kan ikke angres.',
     },
+    save_file: {
+      choose_action: 'Lagre fil:',
+      save: 'Lagre',
+      save_new: 'Lagre som ny fil',
+      input_file_name: 'Skriv inn filnavn:',
+    },
   },
 };
 

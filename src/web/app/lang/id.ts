@@ -1776,6 +1776,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Apakah Anda yakin ingin menghapus berkas ini? Tindakan ini tidak dapat dibatalkan.',
     },
+    save_file: {
+      choose_action: 'Simpan Berkas:',
+      save: 'Simpan',
+      save_new: 'Simpan sebagai berkas baru',
+      input_file_name: 'Masukkan nama berkas:',
+    },
   },
 };
 

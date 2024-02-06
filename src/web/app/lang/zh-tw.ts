@@ -1655,6 +1655,12 @@ const lang: ILang = {
       delete: '刪除',
       confirmFileDelete: '您確定要刪除此檔案嗎?此操作無法復原。',
     },
+    save_file: {
+      choose_action: '保存檔案：',
+      save: '覆蓋舊檔案',
+      save_new: '另存新檔',
+      input_file_name: '另存新檔為：',
+    },
   },
 };
 
