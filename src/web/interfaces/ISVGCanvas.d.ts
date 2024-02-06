@@ -105,7 +105,6 @@ export default interface ISVGCanvas {
   isBezierPathAlignToEdge: boolean;
   isUsingLayerColor: boolean;
   leaveContext: () => void;
-  makeHyperlink(url: string): void;
   mergeLayer: () => void;
   mergeAllLayers: () => void;
   moveDownSelectedElement(): void;

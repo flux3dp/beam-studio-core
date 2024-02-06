@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Modal } from 'antd';
 import { SpinLoading } from 'antd-mobile';
 
@@ -10,7 +10,7 @@ import styles from './AlertAndProgress.module.scss';
 
 const NonStopProgress = ({ data }: { data: IProgressDialog }): JSX.Element => {
   const lang = useI18n();
-  const { popById } = React.useContext(AlertProgressContext);
+  const { popById } = useContext(AlertProgressContext);
   const { key, id, caption, timeout, onCancel } = data;
   useEffect(() => {
     if (timeout) setTimeout(() => popById(id), timeout);
@@ -33,7 +33,7 @@ const NonStopProgress = ({ data }: { data: IProgressDialog }): JSX.Element => {
       closable={false}
       maskClosable={false}
       cancelText={lang.alert.cancel}
-      cancelButtonProps={{ style: { display: 'none' } }}
+      cancelButtonProps={onCancel ? undefined : { style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}
     >
       <div>

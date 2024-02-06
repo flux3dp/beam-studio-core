@@ -1,7 +1,7 @@
 import { sprintf } from 'sprintf-js';
 
-import Alert from 'app/actions/alert-caller';
-import AlertConstants from 'app/constants/alert-constants';
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
@@ -260,7 +260,7 @@ export const showMergeAlert = async (
   modules.add(targetModule);
   if (modules.has(LayerModule.PRINTER) && modules.size > 1) {
     return new Promise<boolean>((resolve) => {
-      Alert.popUp({
+      alertCaller.popUp({
         id: 'merge-layers',
         caption:
           targetModule === LayerModule.PRINTER
@@ -271,7 +271,7 @@ export const showMergeAlert = async (
             ? LANG.notification.mergeLaserLayerToPrintingLayerMsg
             : LANG.notification.mergePrintingLayerToLaserLayerMsg,
         messageIcon: 'notice',
-        buttonType: AlertConstants.CONFIRM_CANCEL,
+        buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: () => resolve(true),
         onCancel: () => resolve(false),
       });
@@ -469,33 +469,32 @@ export const moveToOtherLayer = (
   };
   const selectedElements = svgCanvas.getSelectedElems();
   const origLayer = getObjectLayer(selectedElements[0])?.elem;
-  const isPrintingLayer = getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
+  const isPrintingLayer =
+    origLayer && getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
   const isDestPrintingLayer =
     getData<LayerModule>(getLayerByName(destLayer), DataType.module) === LayerModule.PRINTER;
   const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
   const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
-  if (showAlert || moveOutFromFullColorLayer || moveInToFullColorLayer) {
-    Alert.popUp({
+  if (origLayer && (moveOutFromFullColorLayer || moveInToFullColorLayer)) {
+    alertCaller.popUp({
       id: 'move layer',
-      buttonType:
-        moveOutFromFullColorLayer || moveInToFullColorLayer
-          ? AlertConstants.CONFIRM_CANCEL
-          : AlertConstants.YES_NO,
-      // eslint-disable-next-line no-nested-ternary
+      buttonType: alertConstants.CONFIRM_CANCEL,
       caption: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
-        : moveInToFullColorLayer
-        ? sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer)
-        : undefined,
-      // eslint-disable-next-line no-nested-ternary
+        : sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer),
       message: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerMsg, destLayer)
-        : moveInToFullColorLayer
-        ? sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer)
-        : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
+        : sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer),
+      messageIcon: 'notice',
+      onConfirm: () => moveToLayer(true),
+    });
+  } else if (showAlert) {
+    alertCaller.popUp({
+      id: 'move layer',
+      buttonType: alertConstants.YES_NO,
+      message: sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
       messageIcon: 'notice',
       onYes: moveToLayer,
-      onConfirm: () => moveToLayer(true),
     });
   } else {
     moveToLayer(true);
@@ -515,6 +514,7 @@ export const removeDefaultLayerIfEmpty = (): ICommand | null => {
       console.log('default layer is empty. delete it!');
       const cmd = deleteLayerByName(defaultLayerName);
       drawing.identifyLayers();
+      LayerPanelController.setSelectedLayers([]);
       LayerPanelController.updateLayerPanel();
       return cmd;
     }

@@ -3,19 +3,17 @@ import React, { memo, useContext, useEffect, useState } from 'react';
 
 import useI18n from 'helpers/useI18n';
 import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
 import styles from './SelLayerBlock.module.scss';
 
-let svgCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
-
 const defaultOption = ' ';
 
-function SelLayerBlock(): JSX.Element {
+interface Props {
+  layerNames: string[];
+}
+
+function SelLayerBlock({ layerNames }: Props): JSX.Element {
   const lang = useI18n().beambox.right_panel.layer_panel;
   const [promptMoveLayerOnce, setPromptMoveLayerOnce] = useState(false);
   const [displayValue, setDisplayValue] = useState(defaultOption);
@@ -39,10 +37,7 @@ function SelLayerBlock(): JSX.Element {
     }
   }, [selectedElement]);
   if (!selectedElement) return null;
-
-  const drawing = svgCanvas.getCurrentDrawing();
-  const layerCount = drawing.getNumLayers();
-  if (layerCount === 1) return null;
+  if (layerNames.length === 1) return null;
 
   const onChange = (e: React.ChangeEvent) => {
     const select = e.target as HTMLSelectElement;
@@ -65,8 +60,8 @@ function SelLayerBlock(): JSX.Element {
       </option>
     );
   }
-  for (let i = layerCount - 1; i >= 0; i -= 1) {
-    const layerName = drawing.getLayerName(i);
+  for (let i = layerNames.length - 1; i >= 0; i -= 1) {
+    const layerName = layerNames[i];
     options.push(
       <option value={layerName} key={i}>
         {layerName}

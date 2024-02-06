@@ -4134,21 +4134,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return batchCmd;
   };
 
-  // Function: makeHyperlink
-  // Wraps the selected element(s) in an anchor element or converts group to one
-  this.makeHyperlink = function (url) {
-    canvas.groupSelectedElements('a', url);
-
-    // TODO: If element is a single "g", convert to "a"
-    //	if (selectedElements.length > 1 && selectedElements[1]) {
-
-  };
-
-  // Function: removeHyperlink
-  this.removeHyperlink = function () {
-    canvas.ungroupSelectedElement();
-  };
-
   // TODO(codedread): Remove the getBBox argument and split this function into two.
   // Function: convertToPath
   // Convert selected element to a path, or get the BBox of an element-as-path
@@ -5101,40 +5086,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  /**
-   * Wraps all the selected elements in a group (g) element
-   * @param {string} type type of element to group into 'a' or 'g', defaults to 'g'
-   * @param {string} urlArg url if type if 'a'
-   */
-  this.groupSelectedElements = (type, urlArg) => {
+  this.groupSelectedElements = () => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
 
-    if (selectedElements.length < 1) {
-      return;
-    }
-    if (!type) {
-      type = 'g';
-    }
-    var cmd_str = '';
-
-    switch (type) {
-      case 'a':
-        cmd_str = 'Make hyperlink';
-        var url = '';
-        if (urlArg) {
-          url = urlArg;
-        }
-        break;
-      default:
-        type = 'g';
-        cmd_str = 'Group Elements';
-        break;
-    }
-
-    var batchCmd = new history.BatchCommand(cmd_str);
+    if (selectedElements.length < 1) return;
+    if (selectedElements.length === 1 && selectedElements[0].tagName === 'g') return;
+    const cmd_str = 'Group Elements';
+    const batchCmd = new history.BatchCommand(cmd_str);
 
     const layerNames = [];
     for (let i = 0; i < selectedElements.length; i++) {
@@ -5157,15 +5118,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     // create and insert the group element
     const group = addSvgElementFromJson({
-      'element': type,
+      'element': 'g',
       'attr': {
         'id': getNextId(),
         'data-ratiofixed': true,
       }
     });
-    if (type === 'a') {
-      setHref(group, url);
-    }
     batchCmd.addSubCommand(new history.InsertElementCommand(group));
 
     for (let i = 0; i < selectedElements.length; i++) {
@@ -5177,14 +5135,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       group.appendChild(elem);
       batchCmd.addSubCommand(new history.MoveElementCommand(elem, nextSibling, parentNode));
     }
-    if (!batchCmd.isEmpty()) {
-      addCommandToHistory(batchCmd);
-    }
-
-    if (canvas.isUsingLayerColor) {
-      updateElementColor(group);
-    }
-
+    if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
+    if (canvas.isUsingLayerColor) updateElementColor(group);
     // update selection
     selectOnly([group], true);
   };

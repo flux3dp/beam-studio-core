@@ -194,8 +194,9 @@ export interface ILang {
     UNKNOWN_COMMAND: string,
   },
   device_selection: {
-    no_beambox: string,
-  },
+    no_beambox: string;
+    no_device_web: string;
+  };
   update: {
     update: string;
     release_note: string,
@@ -754,6 +755,7 @@ export interface ILang {
             rubber_bw_engraving: string;
             glass_bw_engraving: string;
             metal_bw_engraving: string;
+            steel_engraving_spray_engraving: string;
             stainless_steel_bw_engraving_diode: string;
             gold_engraving: string;
             brass_engraving: string;
@@ -804,6 +806,7 @@ export interface ILang {
             rubber_bw_engraving: string;
             glass_bw_engraving: string;
             metal_bw_engraving: string;
+            steel_engraving_spray_engraving: string;
             stainless_steel_bw_engraving_diode: string;
             gold_engraving: string;
             brass_engraving: string;
@@ -1582,6 +1585,7 @@ export interface ILang {
       performIRCaliTitle: string;
       performIRCaliMsg: string;
     };
+    non_working_area: string;
   };
   boxgen: {
     back: string;

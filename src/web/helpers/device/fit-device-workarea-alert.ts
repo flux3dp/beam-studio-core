@@ -6,12 +6,13 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { WorkAreaModel } from 'app/actions/beambox/constant';
+import { allWorkareas, WorkAreaModel } from 'app/actions/beambox/constant';
 
 const LANG = i18n.lang;
 
-const showResizeAlert = (device: IDeviceInfo): Promise<boolean> =>
-  new Promise((resolve) => {
+const showResizeAlert = async (device: IDeviceInfo): Promise<boolean> => {
+  if (!allWorkareas.has(device.model)) return true;
+  return new Promise((resolve) => {
     Alert.popUp({
       message: sprintf(LANG.beambox.popup.change_workarea_before_preview, device.name),
       buttonType: AlertConstants.YES_NO,
@@ -23,5 +24,6 @@ const showResizeAlert = (device: IDeviceInfo): Promise<boolean> =>
       onNo: () => resolve(false),
     });
   });
+};
 
 export default showResizeAlert;

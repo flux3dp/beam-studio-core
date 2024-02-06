@@ -1427,7 +1427,7 @@ const booleanOperationByPaperjs = (
   return booleanOperation(baseHTML, elem2HTML, clipType);
 }
 
-const simplifyPath = (elem: SVGPathElement | any) => {
+export const simplifyPath = (elem: SVGPathElement | any) => {
   const d = smoothByFitPath(elem);
   return d;
 };

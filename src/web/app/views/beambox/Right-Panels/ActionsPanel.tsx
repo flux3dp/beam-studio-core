@@ -3,11 +3,8 @@ import React from 'react';
 import { Button, ConfigProvider } from 'antd';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
-import alertCaller from 'app/actions/alert-caller';
-import alertConstants from 'app/constants/alert-constants';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
-import fileExportHelper from 'helpers/file-export-helper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
@@ -17,7 +14,7 @@ import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import updateElementColor from 'helpers/color/updateElementColor';
-import { checkConnection } from 'helpers/api/discover';
+import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
 import { textButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
@@ -38,24 +35,6 @@ interface Props {
 }
 
 class ActionsPanel extends React.Component<Props> {
-  private webNeedConnectionWrapper = (cb: () => void | Promise<void>) => {
-    if (window.FLUX.version === 'web' && !checkConnection()) {
-      alertCaller.popUp({
-        caption: i18n.lang.alert.oops,
-        message: i18n.lang.device_selection.no_beambox,
-        buttonType: alertConstants.CUSTOM_CANCEL,
-        buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
-        callbacks: async () => {
-          ObjectPanelController.updateActiveKey(null);
-          const res = await fileExportHelper.toggleUnsavedChangedDialog();
-          if (res) window.location.hash = '#initialize/connect/select-machine-model';
-        },
-      });
-      return;
-    }
-    cb();
-  };
-
   replaceImage = async (): Promise<void> => {
     setTimeout(() => ObjectPanelController.updateActiveKey(null), 300);
     const { elem } = this.props;
@@ -194,7 +173,7 @@ class ActionsPanel extends React.Component<Props> {
         'sharpen',
         LANG.sharpen,
         () => {
-          this.webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
+          webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
         },
         <ActionPanelIcons.Sharpen />,
         <ActionPanelIcons.SharpenMobile />,

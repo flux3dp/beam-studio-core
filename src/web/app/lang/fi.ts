@@ -205,6 +205,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Emme löydä laitettasi verkosta.\nNoudata <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">ohjetta</a> yhteysongelman vianmääritykseen.',
+    no_device_web: '#801 Tarkista koneesi tila tai napsauta alla olevaa \'Koneen asetukset\' asettaaksesi koneen.',
   },
   update: {
     update: 'Päivitä',
@@ -807,6 +808,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Kumi - kaiverrus',
             glass_bw_engraving: 'Lasi - kaiverrus',
             metal_bw_engraving: 'Metalli - kaiverrus',
+            steel_engraving_spray_engraving: 'Metalli - kaiverrus',
             stainless_steel_bw_engraving_diode: 'Ruostumaton teräs - kaiverrus (Diodilaser)',
             gold_engraving: 'Kulta - kaiverrus',
             brass_engraving: 'Messinki - kaiverrus',
@@ -857,6 +859,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Kumi - kaiverrus',
             glass_bw_engraving: 'Lasi - kaiverrus',
             metal_bw_engraving: 'Metalli - kaiverrus',
+            steel_engraving_spray_engraving: 'Metalli - kaiverrus',
             stainless_steel_bw_engraving_diode: 'Metalli - kaiverrus (Diodilaser)',
             gold_engraving: 'Kulta - kaiverrus',
             brass_engraving: 'Messinki - kaiverrus',
@@ -1218,8 +1221,8 @@ const lang: ILang = {
     incorrect: 'Virheellinen sähköpostiosoite tai salasana',
     not_verified: 'Sähköpostiosoitetta ei ole vielä vahvistettu',
     new_to_flux: 'Uusi käyttäjä? Luo tili',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Tutustu FLUX+ -suunnitelmiin',
       thank_you: 'Kiitos arvokkaasta jäsenyydestä!',
@@ -1694,6 +1697,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi infrapunamoduuli)',
     },
+    non_working_area: 'Ei-Työskentelyalue',
   },
   boxgen: {
     back: 'Takaisin Beam Studioon',

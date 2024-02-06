@@ -198,6 +198,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 我们在网路上找不到您的机器，\n请参考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除连线问题！',
+    no_device_web: '#801 请检查您的机器状态，或点击下方的‘机器设置’来设置机器。',
   },
   update: {
     update: '更新',
@@ -756,7 +757,8 @@ const lang: ILang = {
             fabric_engraving: '布料 - 刻印',
             rubber_bw_engraving: '印章垫 - 刻印',
             glass_bw_engraving: '玻璃 - 刻印',
-            metal_bw_engraving: '不锈钢喷剂 - 刻印',
+            metal_bw_engraving: '不锈钢 - 刻印',
+            steel_engraving_spray_engraving: '不锈钢喷剂 - 刻印',
             stainless_steel_bw_engraving_diode: '不锈钢 - 刻印（二极体雷射）',
             gold_engraving: '金 - 刻印',
             brass_engraving: '黄铜 - 刻印',
@@ -806,7 +808,8 @@ const lang: ILang = {
             fabric_engraving: '布料 - 刻印',
             rubber_bw_engraving: '印章垫 - 刻印',
             glass_bw_engraving: '玻璃 - 刻印',
-            metal_bw_engraving: '不锈钢喷剂 - 刻印',
+            metal_bw_engraving: '不锈钢 - 刻印',
+            steel_engraving_spray_engraving: '不锈钢喷剂 - 刻印',
             stainless_steel_bw_engraving_diode: '不锈钢 - 刻印（二极体雷射）',
             gold_engraving: '金 - 刻印',
             brass_engraving: '黄铜 - 刻印',
@@ -1155,8 +1158,8 @@ const lang: ILang = {
     incorrect: '信箱或密码输入错误',
     not_verified: '信箱尚未认证。',
     new_to_flux: '还不是会员？免费注册新帐号',
-    signup_url: 'https://tw-store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://tw-store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: '探索 FLUX+ 计划',
       thank_you: '感谢您成为我们的重要会员!',
@@ -1585,6 +1588,7 @@ const lang: ILang = {
       performIRCaliTitle: '执行红外模块校准',
       performIRCaliMsg: '点击「确认」执行校准，或通过顶部菜单中的「机器」 > 「您的机器名称」 > 「校准红外模块」进行校准。',
     },
+    non_working_area: '非工作区域',
   },
   boxgen: {
     back: '返回 Beam Studio',

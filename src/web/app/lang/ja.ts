@@ -198,6 +198,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 お使いのマシンがネットワーク上で見つかりません。\n<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">このガイド</a>に従って、接続の問題をトラブルシューティングしてください。',
+    no_device_web: '#801 マシンのステータスを確認するか、下の「マシン設定」をクリックしてマシンを設定してください。',
   },
   update: {
     update: 'アップデート',
@@ -757,6 +758,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'ゴム - 彫刻',
             glass_bw_engraving: 'ガラス - 彫刻',
             metal_bw_engraving: '金属 - 彫刻',
+            steel_engraving_spray_engraving: '金属 - 彫刻',
             stainless_steel_bw_engraving_diode: '金属 - 彫刻 (ダイオードレーザー)',
             gold_engraving: '金 - 彫刻',
             brass_engraving: '黄銅 - 彫刻',
@@ -807,6 +809,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'ゴム - 彫刻',
             glass_bw_engraving: 'ガラス - 彫刻',
             metal_bw_engraving: '金属 - 彫刻',
+            steel_engraving_spray_engraving: '金属 - 彫刻',
             stainless_steel_bw_engraving_diode: '金属 - 彫刻 (ダイオードレーザー)',
             gold_engraving: '金 - 彫刻',
             brass_engraving: '黄銅 - 彫刻',
@@ -1155,8 +1158,8 @@ const lang: ILang = {
     incorrect: 'メールアドレスまたはパスワードが正しくありません。',
     not_verified: 'メールアドレスが未認証です。',
     new_to_flux: 'FLUXは初めてですか？ アカウントの作成してください。',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'FLUX+ プランを見る',
       thank_you: 'ご利用いただきありがとうございます!',
@@ -1585,6 +1588,7 @@ const lang: ILang = {
       performIRCaliTitle: '赤外線モジュールのキャリブレーション実行',
       performIRCaliMsg: '「確認」をクリックしてキャリブレーションを実行する、または上部メニューからアクセスしてください。<br />（機器 > [ご使用の機器名] > 赤外線モジュールのキャリブレーション）',
     },
+    non_working_area: '非作業エリア',
   },
   boxgen: {
     back: 'Beam Studio に戻る',

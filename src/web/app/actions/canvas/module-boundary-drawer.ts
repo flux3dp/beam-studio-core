@@ -2,6 +2,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import i18n from 'helpers/i18n';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 
@@ -10,13 +11,16 @@ const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('docume
 
 let boundarySvg: SVGSVGElement;
 let boundaryPath: SVGPathElement;
+let boundaryDescText: SVGTextElement;
 
 const createBoundary = () => {
   boundarySvg = document.createElementNS(svgedit.NS.SVG, 'svg') as unknown as SVGSVGElement;
   boundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
+  boundaryDescText = document.createElementNS(svgedit.NS.SVG, 'text') as unknown as SVGTextElement;
   document.getElementById('canvasBackground')?.appendChild(boundarySvg);
   const workarea = BeamboxPreference.read('workarea');
   boundarySvg.appendChild(boundaryPath);
+  boundarySvg.appendChild(boundaryDescText);
   boundarySvg.setAttribute('id', 'module-boundary');
   boundarySvg.setAttribute('x', '0');
   boundarySvg.setAttribute('y', '0');
@@ -33,6 +37,15 @@ const createBoundary = () => {
   boundaryPath.setAttribute('fill-rule', 'evenodd');
   boundaryPath.setAttribute('stroke', 'none');
   boundaryPath.setAttribute('style', 'pointer-events:none');
+
+  boundaryDescText.setAttribute('font-size', '80');
+  boundaryDescText.setAttribute('font-weight', 'bold');
+  boundaryDescText.setAttribute('fill', '#999');
+  boundaryDescText.setAttribute('stroke', 'none');
+  boundaryDescText.setAttribute('paint-order', 'stroke');
+  boundaryDescText.setAttribute('style', 'pointer-events:none');
+  const textNode = document.createTextNode(i18n.lang.layer_module.non_working_area);
+  boundaryDescText.appendChild(textNode);
 };
 
 const updateCanvasSize = (): void => {
@@ -46,6 +59,7 @@ const update = (module: LayerModule): void => {
   const workarea = BeamboxPreference.read('workarea');
   if (!modelsWithModules.includes(workarea)) {
     boundaryPath?.setAttribute('d', '');
+    boundaryDescText?.setAttribute('display', 'none');
     return;
   }
   if (!boundaryPath) createBoundary();
@@ -70,6 +84,14 @@ const update = (module: LayerModule): void => {
   right *= dpmm;
   const d2 = `M${left},${top}H${w - right}V${h - bottom}H${left}V${top}`;
   boundaryPath?.setAttribute('d', `${d1} ${d2}`);
+  boundaryDescText?.removeAttribute('display');
+  if (top > bottom) {
+    boundaryDescText?.setAttribute('x', `${top / 2 - 40}`);
+    boundaryDescText?.setAttribute('y', `${top / 2 + 40} `);
+  } else {
+    boundaryDescText?.setAttribute('x', `${bottom / 2 - 40}`);
+    boundaryDescText?.setAttribute('y', `${h - bottom / 2 + 40}`);
+  }
 };
 
 export default {

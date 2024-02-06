@@ -6,7 +6,7 @@ const svgStringToCanvas = (
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = width;
   tempCanvas.height = height;
-  const ctx = tempCanvas.getContext('2d');
+  const ctx = tempCanvas.getContext('2d', { willReadFrequently: true });
   const svgUrl = `data:image/svg+xml; charset=utf8, ${encodeURIComponent(svgString)}`;
   const img = new Image();
   return new Promise((resolve, reject) => {

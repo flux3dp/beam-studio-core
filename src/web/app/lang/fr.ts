@@ -206,6 +206,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Nous ne pouvons pas trouver votre machine sur le réseau.\nVeuillez suivre le <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> pour résoudre le problème de connexion.',
+    no_device_web: '#801 Vérifiez l\'état de votre machine, ou cliquez sur \'Configuration de la machine\' ci-dessous pour configurer la machine.',
   },
   update: {
     update: 'Mettre à jour',
@@ -818,6 +819,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Caoutchouc - Gravure',
             glass_bw_engraving: 'Verre - Gravure',
             metal_bw_engraving: 'Métal - Gravure',
+            steel_engraving_spray_engraving: 'Métal - Gravure',
             stainless_steel_bw_engraving_diode: 'Acier inoxydable - Gravure (Laser diode)',
             gold_engraving: 'Or - Gravure',
             brass_engraving: 'Laiton - Gravure',
@@ -868,6 +870,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Caoutchouc - Gravure',
             glass_bw_engraving: 'Verre - Gravure',
             metal_bw_engraving: 'Métal - Gravure',
+            steel_engraving_spray_engraving: 'Métal - Gravure',
             stainless_steel_bw_engraving_diode: 'Métal - Gravure (Laser à diode)',
             gold_engraving: 'Or - Gravure',
             brass_engraving: 'Laiton - Gravure',
@@ -1230,8 +1233,8 @@ const lang: ILang = {
     incorrect: "L'adresse e-mail ou le mot de passe est incorrect.",
     not_verified: "L'adresse e-mail n'a pas encore été vérifiée.",
     new_to_flux: 'Nouveau chez FLUX ? Créez un compte.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Explorez les forfaits FLUX+',
       thank_you: 'Merci d\'être un membre précieux !',
@@ -1725,6 +1728,7 @@ const lang: ILang = {
       performIRCaliMsg:
         "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine > [Nom de votre machine] > Étalonner le module infrarouge)",
     },
+    non_working_area: 'Zone non-travail',
   },
   boxgen: {
     back: 'Retourner à Beam Studio',

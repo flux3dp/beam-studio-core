@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 
-import alertCaller from 'app/actions/alert-caller';
-import alertConstants from 'app/constants/alert-constants';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
-import fileExportHelper from 'helpers/file-export-helper';
 import FormatDuration from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
+import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { CanvasContext } from 'app/contexts/CanvasContext';
-import { checkConnection } from 'helpers/api/discover';
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -24,21 +21,10 @@ const TimeEstimationButton = (): JSX.Element => {
   if (isPathPreviewing) return <div />;
 
   const calculateEstimatedTime = async () => {
-    if (window.FLUX.version === 'web' && !checkConnection()) {
-      alertCaller.popUp({
-        caption: i18n.lang.alert.oops,
-        message: i18n.lang.device_selection.no_beambox,
-        buttonType: alertConstants.CUSTOM_CANCEL,
-        buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
-        callbacks: async () => {
-          const res = await fileExportHelper.toggleUnsavedChangedDialog();
-          if (res) window.location.hash = '#initialize/connect/select-machine-model';
-        },
-      });
-      return;
-    }
-    const estimateTime = await ExportFuncs.estimateTime();
-    setEstimatedTime(estimateTime);
+    webNeedConnectionWrapper(async () => {
+      const estimateTime = await ExportFuncs.estimateTime();
+      setEstimatedTime(estimateTime);
+    });
   };
 
   const renderButton = () => (

@@ -198,6 +198,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 네트워크에서 기계를 찾을 수 없습니다. 친절하게 <a target=""_blank"" href=""https://support.flux3dp.com/hc/en-us/articles/360001683556"">안내</a>를 따라 연결 문제를 해결해 주세요.',
+    no_device_web: '#801 기계 상태를 확인하거나 아래의 \'기계 설정\'을 클릭하여 기계를 설정하십시오.',
   },
   update: {
     update: '업데이트',
@@ -757,6 +758,7 @@ const lang: ILang = {
             rubber_bw_engraving: '고무 - 각인',
             glass_bw_engraving: '유리 - 각인',
             metal_bw_engraving: '금속 - 각인',
+            steel_engraving_spray_engraving: '금속 - 각인',
             stainless_steel_bw_engraving_diode: '금속 - 각인 (다이오드 레이저)',
             gold_engraving: '금 - 각인',
             brass_engraving: '황동 - 각인',
@@ -807,6 +809,7 @@ const lang: ILang = {
             rubber_bw_engraving: '고무 - 각인',
             glass_bw_engraving: '유리 - 각인',
             metal_bw_engraving: '금속 - 각인',
+            steel_engraving_spray_engraving: '금속 - 각인',
             stainless_steel_bw_engraving_diode: '금속 - 각인 (다이오드 레이저)',
             gold_engraving: '금 - 각인',
             brass_engraving: '황동 - 각인',
@@ -1155,8 +1158,8 @@ const lang: ILang = {
     incorrect: '이메일 주소 또는 비밀번호가 올바르지 않습니다.',
     not_verified: '이메일 주소가 아직 인증되지 않았습니다.',
     new_to_flux: 'FLUX에 처음이신가요? 계정 만들기.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'FLUX+ 플랜 살펴보기',
       thank_you: '소중한 회원이 되어주셔서 감사합니다!',
@@ -1585,6 +1588,7 @@ const lang: ILang = {
       performIRCaliTitle: '적외선 모듈 보정을 수행하세요."',
       performIRCaliMsg: '확인"을 클릭하여 보정을 실행하거나 상단 메뉴에서 보정에 접근하십시오.<br />(기계 > [귀하의 기계 이름] > 적외선 모듈 보정)',
     },
+    non_working_area: '비 작업 영역',
   },
   boxgen: {
     back: 'Beam Studio로 돌아가기',

@@ -204,6 +204,8 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Vi kan ikke finde din maskine på netværket.\nFølg venligst <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> for at finde fejlen i forbindelsen.',
+    no_device_web:
+      "#801 Tjek venligst status for din maskine, eller klik på 'Maskinopsætning' nedenfor for at opsætte maskinen.",
   },
   update: {
     update: 'Opdater',
@@ -809,6 +811,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glas - gravering',
             metal_bw_engraving: 'Metal - gravering',
+            steel_engraving_spray_engraving: 'Metal - gravering',
             stainless_steel_bw_engraving_diode: 'Metal - gravering (diode laser)',
             gold_engraving: 'Guld - gravering',
             brass_engraving: 'Messing - gravering',
@@ -859,6 +862,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glas - gravering',
             metal_bw_engraving: 'Metal - gravering',
+            steel_engraving_spray_engraving: 'Metal - gravering',
             stainless_steel_bw_engraving_diode: 'Metal - gravering (diodelaser)',
             gold_engraving: 'Guld - Gravering',
             brass_engraving: 'Messing - Gravering',
@@ -987,8 +991,7 @@ const lang: ILang = {
           simplify: 'Forenklet',
           ai_bg_removal: 'Baggrundsfjernelse',
           ai_bg_removal_short: 'BG fjernelse',
-          ai_bg_removal_reminder:
-            'Tryk på knappen vil straks bruge 0,2 kredit. Vil du fortsætte?',
+          ai_bg_removal_reminder: 'Tryk på knappen vil straks bruge 0,2 kredit. Vil du fortsætte?',
           outline: 'Omrids',
         },
         path_edit_panel: {
@@ -1220,8 +1223,8 @@ const lang: ILang = {
     incorrect: 'E-mailadresse eller adgangskode er ikke korrekt.',
     not_verified: 'E-mailadressen er endnu ikke bekræftet.',
     new_to_flux: 'Ny til FLUX? Opret en konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Udforsk FLUX+ planer',
       thank_you: 'Tak fordi du er et værdsat medlem!',
@@ -1230,9 +1233,11 @@ const lang: ILang = {
       goto_member_center: 'Gå til Medlemscenter',
       access_plus_feature_1: 'Du får adgang til en',
       access_plus_feature_2: 'funktion.',
-      access_plus_feature_note: 'Du skal have FLUX+ medlemskab for at få adgang til denne funktion.',
+      access_plus_feature_note:
+        'Du skal have FLUX+ medlemskab for at få adgang til denne funktion.',
       access_monotype_feature: 'Du har ikke Monotype-skrifttyper Tilføjelse.',
-      access_monotype_feature_note: 'Du skal have FLUX+ Pro-medlemskab eller Monotype-skrifttyper Tilføjelse for at få adgang til denne funktion.',
+      access_monotype_feature_note:
+        'Du skal have FLUX+ Pro-medlemskab eller Monotype-skrifttyper Tilføjelse for at få adgang til denne funktion.',
       learn_more: 'Lær mere',
       get_addon: 'Få tilføjelse',
       subscribe_now: 'Tilmeld dig nu',
@@ -1702,6 +1707,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik på "Bekræft" for at udføre kalibreringen, eller få adgang til kalibrering via topmenuen.<br />(Maskine > [Dit maskinnavn] > Kalibrer infrarød modul)',
     },
+    non_working_area: 'Ikke-arbejdsområde',
   },
   boxgen: {
     back: 'Tilbage til Beam Studio',
@@ -1721,12 +1727,15 @@ const lang: ILang = {
     add_option: 'Tilføj mulighed',
     joints: 'Samling',
     finger: 'Finger',
-    finger_warning: 'Den indvendige sidelængde af boksen skal være mindst 6 mm (0,24 tommer) for at være kompatibel med fingersammenføjning.',
+    finger_warning:
+      'Den indvendige sidelængde af boksen skal være mindst 6 mm (0,24 tommer) for at være kompatibel med fingersammenføjning.',
     tSlot: 'T-spor',
-    tSlot_warning: 'Boksside længden skal være mindst 30 mm (1,18 tommer) for at være kompatibel med T-spor sammenføjning.',
+    tSlot_warning:
+      'Boksside længden skal være mindst 30 mm (1,18 tommer) for at være kompatibel med T-spor sammenføjning.',
     edge: 'Kant',
     tCount: 'T Tæl',
-    tCount_tooltip: 'T-spor antallet gælder for den korte side; mængden på den lange side beregnes ud fra dens længde.',
+    tCount_tooltip:
+      'T-spor antallet gælder for den korte side; mængden på den lange side beregnes ud fra dens længde.',
     tDiameter: 'T Diameter',
     tLength: 'T Længde',
     continue_export: 'Fortsæt til eksport',
@@ -1737,8 +1746,10 @@ const lang: ILang = {
     cancel: 'Annullér',
     reset: 'Nulstil',
     zoom: 'Zoom',
-    control_tooltip: 'Venstre museknap for at rotere\nRul for at zoome\nHøjre museknap for at panorere',
-    control_tooltip_touch: 'Træk for at rotere\nKnib sammen for at zoome\nTo fingre for at panorere',
+    control_tooltip:
+      'Venstre museknap for at rotere\nRul for at zoome\nHøjre museknap for at panorere',
+    control_tooltip_touch:
+      'Træk for at rotere\nKnib sammen for at zoome\nTo fingre for at panorere',
   },
   my_cloud: {
     title: 'Min sky',
@@ -1757,7 +1768,8 @@ const lang: ILang = {
       duplicate: 'Dupliker',
       download: 'Hent',
       delete: 'Slet',
-      confirmFileDelete: 'Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.',
+      confirmFileDelete:
+        'Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.',
     },
     save_file: {
       choose_action: 'Gem fil:',

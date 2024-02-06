@@ -203,6 +203,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Vi finner ikke maskinen din på nettverket.\nFølg <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">veiledningen</a> for å løse tilkoblingsproblemet.',
+    no_device_web: '#801 Sjekk statusen til maskinen din, eller klikk på \'Maskinoppsett\' nedenfor for å sette opp maskinen.',
   },
   update: {
     update: 'Oppdater',
@@ -807,6 +808,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glass - gravering',
             metal_bw_engraving: 'Metall - gravering',
+            steel_engraving_spray_engraving: 'Metall - gravering',
             stainless_steel_bw_engraving_diode: 'Metall - gravering (diode laser)',
             gold_engraving: 'Gull - Gravering',
             brass_engraving: 'Messing - Gravering',
@@ -857,6 +859,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glass - gravering',
             metal_bw_engraving: 'Metall - gravering',
+            steel_engraving_spray_engraving: 'Metall - gravering',
             stainless_steel_bw_engraving_diode: 'Metall - gravering (diode laser)',
             gold_engraving: 'Gull - Gravering',
             brass_engraving: 'Messing - Gravering',
@@ -1214,8 +1217,8 @@ const lang: ILang = {
     incorrect: 'E-postadresse eller passord er ikke riktig.',
     not_verified: 'E-postadressen er ikke verifisert ennå.',
     new_to_flux: 'Ny til FLUX? Opprett en konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Utforsk FLUX+ planene',
       thank_you: 'Takk for å være et verdsatt medlem!',
@@ -1690,6 +1693,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klikk på "Bekreft" for å utføre kalibreringen, eller gå til kalibrering via toppmenyen.<br />(Maskin > [Maskinnavn] > Kalibrer infrarød modul)',
     },
+    non_working_area: 'Ikke-Arbeidsområde',
   },
   boxgen: {
     back: 'Tilbake til Beam Studio',
