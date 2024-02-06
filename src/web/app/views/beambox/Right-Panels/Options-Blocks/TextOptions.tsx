@@ -277,6 +277,16 @@ const TextOptions = ({
         onKeyDown={(e) => e.stopPropagation()}
         dropdownMatchSelectWidth={false}
         disabled={isOnlyOneOption}
+        filterOption={(input: string, option?: { label: JSX.Element; value: string }) => {
+          if (option?.value) {
+            const searchKey = input.toLowerCase();
+            if (option.value.toLowerCase().includes(searchKey)) return true;
+            const fontName = FontFuncs.fontNameMap.get(option.value) || '';
+            if (fontName.toLowerCase().includes(searchKey)) return true;
+          }
+          return false;
+        }}
+        showSearch
       />
     );
   };

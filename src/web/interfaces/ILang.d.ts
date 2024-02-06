@@ -1651,5 +1651,11 @@ export interface ILang {
       delete: string;
       confirmFileDelete: string;
     };
+    save_file: {
+      choose_action: string;
+      save: string;
+      save_new: string;
+      input_file_name: string;
+    };
   };
 }

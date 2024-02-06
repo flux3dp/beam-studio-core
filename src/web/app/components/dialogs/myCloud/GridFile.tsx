@@ -117,6 +117,8 @@ const GridFile = ({ file }: Props): JSX.Element => {
             defaultValue={file.name}
             ref={inputRef}
             onBlur={onChangeName}
+            onPressEnter={onChangeName}
+            maxLength={255}
           />
         ) : (
           <div className={styles.display} onClick={onClick} onDoubleClick={onDoubleClick}>
