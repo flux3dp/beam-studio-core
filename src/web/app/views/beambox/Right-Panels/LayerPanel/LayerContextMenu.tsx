@@ -325,7 +325,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
           </MenuItem>
           <MenuItem
             attributes={{ id: 'split_color' }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || !isFullColor}
             onClick={handleSplitColor}
           >
             {LANG.layers.splitFullColor}
