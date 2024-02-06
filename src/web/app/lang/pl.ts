@@ -1642,6 +1642,12 @@ const lang: ILang = {
       delete: 'Usuń',
       confirmFileDelete: 'Czy na pewno chcesz usunąć ten plik? Tej akcji nie można cofnąć.',
     },
+    save_file: {
+      choose_action: 'Zapisz plik:',
+      save: 'Zapisz',
+      save_new: 'Zapisz jako nowy plik',
+      input_file_name: 'Wprowadź nazwę pliku:',
+    },
   },
 };
 

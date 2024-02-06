@@ -1643,6 +1643,12 @@ const lang: ILang = {
       confirmFileDelete:
         '¿Está seguro de que desea eliminar este archivo? Esta acción no se puede deshacer.',
     },
+    save_file: {
+      choose_action: 'Guardar archivo:',
+      save: 'Guardar',
+      save_new: 'Guardar como nuevo archivo',
+      input_file_name: 'Introducir nombre de archivo:',
+    },
   },
 };
 

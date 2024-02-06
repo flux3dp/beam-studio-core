@@ -1642,6 +1642,12 @@ const lang: ILang = {
       delete: '删除',
       confirmFileDelete: '确定要删除此文件吗?此操作无法撤消。',
     },
+    save_file: {
+      choose_action: '保存档案：',
+      save: '覆盖旧档案',
+      save_new: '另存新档',
+      input_file_name: '另存新档为：',
+    },
   },
 };
 

@@ -1756,6 +1756,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Är du säker på att du vill ta bort den här filen? Den här åtgärden kan inte ångras.',
     },
+    save_file: {
+      choose_action: 'Spara fil:',
+      save: 'Spara',
+      save_new: 'Spara som ny fil',
+      input_file_name: 'Ange filnamn:',
+    },
   },
 };
 

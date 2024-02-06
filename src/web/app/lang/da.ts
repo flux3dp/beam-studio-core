@@ -1759,6 +1759,12 @@ const lang: ILang = {
       delete: 'Slet',
       confirmFileDelete: 'Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.',
     },
+    save_file: {
+      choose_action: 'Gem fil:',
+      save: 'Gem',
+      save_new: 'Gem som ny fil',
+      input_file_name: 'Indtast filnavn:',
+    },
   },
 };
 

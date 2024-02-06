@@ -252,7 +252,7 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
 
   const renameFile = async (file: IFile, newName: string) => {
     const id = 'rename-cloud-file';
-    if (file.name !== newName) {
+    if (newName && file.name !== newName) {
       await Progress.openNonstopProgress({ id });
       try {
         const resp = await axiosFluxId.put(
@@ -263,6 +263,9 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
         if (await checkResp(resp)) {
           // eslint-disable-next-line no-param-reassign
           file.name = newName;
+          if (svgCanvas.currentFilePath === `cloud:${file.uuid}`) {
+            svgCanvas.setLatestImportFileName(file.name);
+          }
           sortAndSetFiles();
         }
       } catch (e) {
@@ -283,7 +286,9 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
         withCredentials: true,
         headers: getDefaultHeader(),
       });
-      await checkResp(resp);
+      if ((await checkResp(resp)) && svgCanvas.currentFilePath === `cloud:${file.uuid}`) {
+        svgCanvas.currentFilePath = null;
+      }
     } catch (e) {
       console.error(e);
       Alert.popUpError({ message: `Error: ${LANG.my_cloud.action.delete}` });

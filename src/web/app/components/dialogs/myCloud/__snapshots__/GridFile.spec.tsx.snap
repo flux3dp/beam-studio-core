@@ -320,6 +320,7 @@ exports[`test GridFile should behave correctly 3`] = `
     >
       <input
         class="ant-input ant-input-sm css-dev-only-do-not-override-hash edit"
+        maxlength="255"
         type="text"
         value="File name"
       />
