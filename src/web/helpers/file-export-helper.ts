@@ -102,7 +102,7 @@ export const generateBeamBuffer = async (): Promise<Buffer> => {
   return buffer;
 };
 
-const saveToCloud = async (uuid?: string): Promise<boolean> => {
+const saveToCloud = async (): Promise<boolean> => {
   const id = 'upload-cloud-file';
   const user = getCurrentUser();
   if (!user?.info?.subscription?.is_valid) {
@@ -111,6 +111,13 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
   }
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
+  let uuid: string;
+  if (svgCanvas.currentFilePath?.startsWith?.('cloud:')) {
+    uuid = svgCanvas.currentFilePath.split('cloud:').pop();
+  }
+  const { fileName, isCancelled } = await dialogCaller.saveToCloud(uuid);
+  if (isCancelled) return false;
+  if (!uuid && !fileName) return false;
   await Progress.openNonstopProgress({ id });
   try {
     const buffer = await generateBeamBuffer();
@@ -121,15 +128,15 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
     form.append('file', blob);
     form.append('workarea', workarea);
     let resp: ResponseWithError;
-    if (uuid) {
+    if (!fileName) {
       resp = await axiosFluxId.put(`/api/beam-studio/cloud/file/${uuid}`, form, {
         withCredentials: true,
         headers: getDefaultHeader(),
       });
     } else {
-      const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
+      svgCanvas.setLatestImportFileName(fileName);
       form.append('type', 'file');
-      resp = await axiosFluxId.post(`/api/beam-studio/cloud/add/${defaultFileName}`, form, {
+      resp = await axiosFluxId.post(`/api/beam-studio/cloud/add/${fileName}`, form, {
         withCredentials: true,
         headers: getDefaultHeader(),
       });
@@ -153,8 +160,11 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
       Alert.popUpError({ caption: info, message: detail || message || `${status}: ${statusText}` });
       return false;
     }
-    const { status, info } = data;
+    const { status, info, new_file: newUuid } = data;
     if (status === 'ok') {
+      if (newUuid) {
+        svgCanvas.currentFilePath = `cloud:${newUuid}`;
+      }
       svgCanvas.setHasUnsavedChange(false, false);
       return true;
     }
@@ -211,16 +221,13 @@ const saveAsFile = async (): Promise<boolean> => {
 };
 
 const saveFile = async (): Promise<boolean> => {
-  if (!svgCanvas.currentFilePath) {
+  if (!svgCanvas.currentFilePath || svgCanvas.currentFilePath.startsWith('cloud:')) {
     const result = await saveAsFile();
     return result;
   }
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
   const output = svgCanvas.getSvgString();
-  if (svgCanvas.currentFilePath.startsWith('cloud:')) {
-    return saveToCloud(svgCanvas.currentFilePath.split('cloud:').pop());
-  }
   if (svgCanvas.currentFilePath.endsWith('.bvg')) {
     fs.writeFile(svgCanvas.currentFilePath, output);
     svgCanvas.setHasUnsavedChange(false, false);

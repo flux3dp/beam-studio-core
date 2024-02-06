@@ -1779,6 +1779,12 @@ const lang: ILang = {
       confirmFileDelete:
         'Tem certeza que deseja excluir este arquivo? Esta ação não pode ser desfeita.',
     },
+    save_file: {
+      choose_action: 'Salvar arquivo:',
+      save: 'Salvar',
+      save_new: 'Salvar como novo arquivo',
+      input_file_name: 'Digite o nome do arquivo:',
+    },
   },
 };
 

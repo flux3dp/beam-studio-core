@@ -1787,6 +1787,12 @@ const lang: ILang = {
       confirmFileDelete:
         "Sei sicuro di voler eliminare questo file? Quest'azione non può essere annullata.",
     },
+    save_file: {
+      choose_action: 'Salva file:',
+      save: 'Salva',
+      save_new: 'Salva come nuovo file',
+      input_file_name: 'Inserisci nome file:',
+    },
   },
 };
 
