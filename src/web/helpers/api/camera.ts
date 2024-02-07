@@ -12,7 +12,11 @@ import Progress from 'app/actions/progress-caller';
 import rsaKey from 'helpers/rsa-key';
 import VersionChecker from 'helpers/version-checker';
 import Websocket from 'helpers/websocket';
-import { FisheyeMatrix, RotationParameters3DGhostApi } from 'app/constants/camera-calibration-constants';
+import {
+  FisheyeCameraParameters,
+  FisheyeMatrix,
+  RotationParameters3DGhostApi,
+} from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const TIMEOUT = 120000;
@@ -20,28 +24,29 @@ const IMAGE_TRANSMISSION_FAIL_THRESHOLD = 20;
 const CAMERA_CABLE_ALERT_THRESHOLD = 10;
 const LANG = i18n.lang;
 
-const checkBlobIsImage = (blob: Blob, failTime = 3000) => new Promise<boolean>((resolve) => {
-  const img = new Image();
-  const imgUrl = URL.createObjectURL(blob);
-  let resolved = false;
-  const resolveAndCleanUp = (result: boolean) => {
-    resolved = true;
-    URL.revokeObjectURL(imgUrl);
-    resolve(result);
-  };
-  const failTimer = setTimeout(() => {
-    if (!resolved) {
-      resolveAndCleanUp(false);
-    }
-  }, failTime);
-  img.onload = () => {
-    if (!resolved) {
-      resolveAndCleanUp(true);
-      clearTimeout(failTimer);
-    }
-  };
-  img.src = imgUrl;
-});
+const checkBlobIsImage = (blob: Blob, failTime = 3000) =>
+  new Promise<boolean>((resolve) => {
+    const img = new Image();
+    const imgUrl = URL.createObjectURL(blob);
+    let resolved = false;
+    const resolveAndCleanUp = (result: boolean) => {
+      resolved = true;
+      URL.revokeObjectURL(imgUrl);
+      resolve(result);
+    };
+    const failTimer = setTimeout(() => {
+      if (!resolved) {
+        resolveAndCleanUp(false);
+      }
+    }, failTime);
+    img.onload = () => {
+      if (!resolved) {
+        resolveAndCleanUp(true);
+        clearTimeout(failTimer);
+      }
+    };
+    img.src = imgUrl;
+  });
 
 class Camera {
   cameraNeedFlip: boolean = null;
@@ -49,23 +54,28 @@ class Camera {
   shouldCrop: boolean;
 
   private device: {
-    uuid: string | null,
-    source: string | null,
-    model: string | null,
-    version: string | null
+    uuid: string | null;
+    source: string | null;
+    model: string | null;
+    version: string | null;
   };
 
   private ws: any;
 
   private wsSubject: Subject<Blob | { status: string }>;
 
-  private source: Observable<{ imgBlob: Blob, needCameraCableAlert: boolean }>;
+  private source: Observable<{ imgBlob: Blob; needCameraCableAlert: boolean }>;
 
   private nonBinarySource: Observable<{ status: string }>;
 
   private requireFrameRetry: number;
 
-  private fishEyeSetting: { matrix: FisheyeMatrix, shouldCrop?: boolean } = null;
+  private fishEyeSetting: {
+    matrix?: FisheyeMatrix;
+    shouldCrop?: boolean;
+    param?: FisheyeCameraParameters;
+    objectHeight?: number;
+  } = null;
 
   private rotationAngles: RotationParameters3DGhostApi = null;
 
@@ -84,30 +94,35 @@ class Camera {
     this.requireFrameRetry = 0;
     this.wsSubject = new Subject<Blob>();
     const [binary, nonBinary] = partition(this.wsSubject.asObservable(), (x) => x instanceof Blob);
-    this.source = binary.pipe(map(async (blob: Blob) => {
-      const isImage = await checkBlobIsImage(blob);
-      if (!isImage) {
-        if (!Progress.checkIdExist('connect-camera')) {
-          Progress.openNonstopProgress({
-            id: 'connect-camera',
-            message: LANG.message.connectingCamera,
-            timeout: TIMEOUT,
-          });
-        }
-        if (this.requireFrameRetry < IMAGE_TRANSMISSION_FAIL_THRESHOLD) {
-          setTimeout(() => this.ws.send('require_frame'), 500);
-          this.requireFrameRetry += 1;
-          return null;
-        }
-        Progress.popById('connect-camera');
-        throw new Error(LANG.message.camera.fail_to_transmit_image);
-      }
-      Progress.popById('connect-camera');
-      const needCameraCableAlert = this.requireFrameRetry >= CAMERA_CABLE_ALERT_THRESHOLD;
-      this.requireFrameRetry = 0;
-      const imgBlob = await this.preprocessImage(blob);
-      return { imgBlob, needCameraCableAlert };
-    })).pipe(concatMap((p) => from(p))).pipe(filter((res) => res !== null));
+    this.source = binary
+      .pipe(
+        map(async (blob: Blob) => {
+          const isImage = await checkBlobIsImage(blob);
+          if (!isImage) {
+            if (!Progress.checkIdExist('connect-camera')) {
+              Progress.openNonstopProgress({
+                id: 'connect-camera',
+                message: LANG.message.connectingCamera,
+                timeout: TIMEOUT,
+              });
+            }
+            if (this.requireFrameRetry < IMAGE_TRANSMISSION_FAIL_THRESHOLD) {
+              setTimeout(() => this.ws.send('require_frame'), 500);
+              this.requireFrameRetry += 1;
+              return null;
+            }
+            Progress.popById('connect-camera');
+            throw new Error(LANG.message.camera.fail_to_transmit_image);
+          }
+          Progress.popById('connect-camera');
+          const needCameraCableAlert = this.requireFrameRetry >= CAMERA_CABLE_ALERT_THRESHOLD;
+          this.requireFrameRetry = 0;
+          const imgBlob = await this.preprocessImage(blob);
+          return { imgBlob, needCameraCableAlert };
+        })
+      )
+      .pipe(concatMap((p) => from(p)))
+      .pipe(filter((res) => res !== null));
     this.nonBinarySource = nonBinary as Observable<{ status: string }>;
   }
 
@@ -116,14 +131,17 @@ class Camera {
     this.device = device;
     console.log('Device ', device);
     console.assert(device.version, 'device miss version!', device);
-    const method = (device.source === 'h2h') ? `camera/usb/${parseInt(device.uuid, 10)}` : `camera/${device.uuid}`;
+    const method =
+      device.source === 'h2h' ? `camera/usb/${parseInt(device.uuid, 10)}` : `camera/${device.uuid}`;
 
     this.ws = Websocket({
       method,
       onOpen: () => this.ws.send(rsaKey()),
       onMessage: (res) => this.wsSubject.next(res),
-      onError: (res) => this.wsSubject.error(new Error(`Camera WS ${res.error ? res.error.toString() : res}`)),
-      onFatal: (res) => this.wsSubject.error(new Error(`Camera WS ${res.error ? res.error.toString() : res}`)),
+      onError: (res) =>
+        this.wsSubject.error(new Error(`Camera WS ${res.error ? res.error.toString() : res}`)),
+      onFatal: (res) =>
+        this.wsSubject.error(new Error(`Camera WS ${res.error ? res.error.toString() : res}`)),
       onClose: () => this.wsSubject.complete(),
       autoReconnect: false,
     });
@@ -139,16 +157,22 @@ class Camera {
 
     // check whether the camera need flip
     if (this.cameraNeedFlip === null && device && device.model.indexOf('delta-') < 0) {
-      this.cameraNeedFlip = !!(Number((/F:\s?(-?\d+\.?\d+)/.exec(await this.getCameraOffset()) || ['', ''])[1]));
+      this.cameraNeedFlip = !!Number(
+        (/F:\s?(-?\d+\.?\d+)/.exec(await this.getCameraOffset()) || ['', ''])[1]
+      );
     }
   }
 
   async getCameraOffset(): Promise<string> {
-    console.warn('This is additional control socket created in camera.ts, this may take unnecessary time.');
-    const tempWsSubject = new Subject<{ error?: Error, status: string, value: string }>();
+    console.warn(
+      'This is additional control socket created in camera.ts, this may take unnecessary time.'
+    );
+    const tempWsSubject = new Subject<{ error?: Error; status: string; value: string }>();
     const tempWs = Websocket({
-      method: (this.device.source === 'h2h')
-        ? `control/usb/${parseInt(this.device.uuid, 10)}` : `control/${this.device.uuid}`,
+      method:
+        this.device.source === 'h2h'
+          ? `control/usb/${parseInt(this.device.uuid, 10)}`
+          : `control/${this.device.uuid}`,
       onOpen: () => tempWs.send(rsaKey()),
       onMessage: (res) => tempWsSubject.next(res),
       onError: (res) => tempWsSubject.error(new Error(res.error ? res.error.toString() : res)),
@@ -164,16 +188,12 @@ class Camera {
     );
 
     tempWs.send('config get camera_offset');
-    const cameraOffset = await lastValueFrom(
-      tempWsSubject
-        .pipe(take(1))
-        .pipe(timeout(TIMEOUT))
-    );
+    const cameraOffset = await lastValueFrom(tempWsSubject.pipe(take(1)).pipe(timeout(TIMEOUT)));
     console.log(cameraOffset);
     return cameraOffset.value;
   }
 
-  getFisheyeSetting = (): { matrix: FisheyeMatrix, shouldCrop?: boolean } => this.fishEyeSetting;
+  getFisheyeSetting = () => this.fishEyeSetting;
 
   getRotationAngles = (): RotationParameters3DGhostApi => this.rotationAngles;
 
@@ -204,13 +224,33 @@ class Camera {
     return res.status === 'ok';
   };
 
+  setFisheyeParam = async (param: FisheyeCameraParameters): Promise<boolean> => {
+    this.fishEyeSetting = { param };
+    const data = JSON.stringify(param, (key, val) => {
+      if (typeof val === 'number') {
+        return Math.round(val * 1e3) / 1e3;
+      }
+      return val;
+    });
+    this.ws.send(`set_fisheye_matrix ${data}`);
+    const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
+    return res.status === 'ok';
+  };
+
+  setFisheyeObjectHeight = async (h: number): Promise<boolean> => {
+    this.fishEyeSetting = { ...this.fishEyeSetting, objectHeight: h };
+    this.ws.send(`set_fisheye_height ${h.toFixed(3)}`);
+    const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
+    return res.status === 'ok';
+  };
+
   // set 3d rotation angles, rx, ry, rz is rotation angle in degree, h is height in mm
   set3dRotation = async (data: RotationParameters3DGhostApi): Promise<boolean> => {
     this.rotationAngles = { ...data };
-    const radiusData =  {
-      rx: data.rx * Math.PI / 180,
-      ry: data.ry * Math.PI / 180,
-      rz: data.rz * Math.PI / 180,
+    const radiusData = {
+      rx: (data.rx * Math.PI) / 180,
+      ry: (data.ry * Math.PI) / 180,
+      rz: (data.rz * Math.PI) / 180,
       h: data.h,
       tx: data.tx,
       ty: data.ty,
@@ -226,7 +266,7 @@ class Camera {
     return res.status === 'ok';
   };
 
-  async oneShot(): Promise<{ imgBlob: Blob, needCameraCableAlert: boolean }> {
+  async oneShot(): Promise<{ imgBlob: Blob; needCameraCableAlert: boolean }> {
     if (this.wsSubject.isStopped) {
       if (this.wsSubject.hasError) {
         console.error(this.wsSubject.thrownError);
@@ -234,18 +274,13 @@ class Camera {
       throw new Error(LANG.message.camera.ws_closed_unexpectly);
     }
     this.ws.send('require_frame');
-    const data = await lastValueFrom(
-      this.source
-        .pipe(take(1))
-        .pipe(timeout(TIMEOUT))
-    );
+    const data = await lastValueFrom(this.source.pipe(take(1)).pipe(timeout(TIMEOUT)));
     return data;
   }
 
   getLiveStreamSource() {
     this.ws.send('enable_streaming');
-    return this.source
-      .pipe(timeout(TIMEOUT));
+    return this.source.pipe(timeout(TIMEOUT));
   }
 
   closeWs(): void {
@@ -277,43 +312,55 @@ class Camera {
     };
     const resize1280x720ImageTo640x280 = async () => {
       const img = await imageLoadBlob();
-      console.assert(img.width === 1280 && img.height === 720, 'image should be 1280x720', img.width, img.height);
+      console.assert(
+        img.width === 1280 && img.height === 720,
+        'image should be 1280x720',
+        img.width,
+        img.height
+      );
 
       const canvas = document.createElement('canvas');
       canvas.width = 640;
       canvas.height = 280;
       canvas.getContext('2d').drawImage(img, 0, -40, 640, 360); // resize
-      const preprocessedBlob = await new Promise<Blob>(
-        (resolve) => canvas.toBlob((b) => resolve(b)),
+      const preprocessedBlob = await new Promise<Blob>((resolve) =>
+        canvas.toBlob((b) => resolve(b))
       );
       return preprocessedBlob;
     };
 
     const crop640x480ImageTo640x280 = async () => {
       const img = await imageLoadBlob();
-      console.assert(img.width === 640 && img.height === 480, 'image should be 640x480', img.width, img.height);
+      console.assert(
+        img.width === 640 && img.height === 480,
+        'image should be 640x480',
+        img.width,
+        img.height
+      );
 
       const canvas = document.createElement('canvas');
       canvas.width = 640;
       canvas.height = 280;
       canvas.getContext('2d').drawImage(img, 0, -100, 640, 480); // crop top and bottom
-      const preprocessedBlob = await new Promise<Blob>(
-        (resolve) => canvas.toBlob((b) => resolve(b)),
+      const preprocessedBlob = await new Promise<Blob>((resolve) =>
+        canvas.toBlob((b) => resolve(b))
       );
       return preprocessedBlob;
     };
 
     const loadAndFlipImage = async () => {
       const canvas = await imageLoadBlob();
-      const preprocessedBlob = await new Promise<Blob>(
-        (resolve) => canvas.toBlob((b) => resolve(b)),
+      const preprocessedBlob = await new Promise<Blob>((resolve) =>
+        canvas.toBlob((b) => resolve(b))
       );
       return preprocessedBlob;
     };
 
     if (constant.adorModels.includes(this.device.model)) return blob;
     if (
-      !['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(this.device.model)
+      !['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(
+        this.device.model
+      )
     ) {
       return blob;
     }

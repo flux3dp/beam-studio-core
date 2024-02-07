@@ -7,7 +7,7 @@ import ErrorConstants from 'app/constants/error-constants';
 import rsaKey from 'helpers/rsa-key';
 import Websocket from 'helpers/websocket';
 import { IDeviceDetailInfo } from 'interfaces/IDevice';
-import { RotationParameters3D } from 'app/constants/camera-calibration-constants';
+import { RotationParameters3D } from 'interfaces/FisheyePreview';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
 const EVENT_COMMAND_ERROR = 'command-error';
@@ -429,14 +429,16 @@ class Control extends EventEmitter {
     this.prepareUpload(data, resolve, reject);
 
     if (path && fileName) {
+      // eslint-disable-next-line no-param-reassign
       fileName = fileName.replace(/ /g, '_');
       const ext = fileName.split('.');
       if (ext[ext.length - 1] === 'fc') {
-        this.ws.send(`upload application/fcode ${data.size} ${path}/${fileName}`);
+        this.ws.send(`upload application/fcode ${data.size} camera_calib/${fileName}`);
       } else if (ext[ext.length - 1] === 'gcode') {
         const newFileName = fileName.split('.');
         newFileName.pop();
         newFileName.push('fc');
+        // eslint-disable-next-line no-param-reassign
         fileName = newFileName.join('.');
         this.ws.send(`upload text/gcode ${data.size} ${path}/${fileName}`);
       }
@@ -885,7 +887,7 @@ class Control extends EventEmitter {
     return this.useWaitAnyResponse('task quit');
   };
 
-  rawHome = () => {
+  rawHome = (zAxis = false) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -941,7 +943,8 @@ class Control extends EventEmitter {
       this.setDefaultFatalResponse(reject, timeoutTimer);
 
       timeoutTimer = this.setTimeoutTimer(reject, 10000);
-      this.ws.send('raw home');
+      if (!zAxis) this.ws.send('raw home');
+      else this.ws.send('$HZ');
     });
   };
 
@@ -1165,6 +1168,43 @@ class Control extends EventEmitter {
     const command = 'M137P34';
     if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
+  };
+
+  rawAutoFocus = (): Promise<void> => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return new Promise((resolve, reject) => {
+      let responseString = '';
+      const command = 'M137P179Q1';
+      let timeoutTimer: null | NodeJS.Timeout;
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        clearTimeout(timeoutTimer);
+        if (response && response.status === 'raw') {
+          console.log('raw get probe position:\t', response.text);
+          responseString += response.text;
+        }
+        const resps = responseString.split('\r\n');
+        const i = resps.findIndex((r) => r === 'ok');
+        if (i < 0) responseString = resps[resps.length - 1] || '';
+        if (i >= 0) {
+          resolve();
+          return;
+        }
+        if (
+          response.text.indexOf('ER:RESET') >= 0
+          || resps.some((resp) => resp.includes('ER:RESET'))
+          || response.text.indexOf('error:') >= 0
+        ) {
+          this.removeCommandListeners();
+          reject(response);
+        } else timeoutTimer = this.setTimeoutTimer(reject, 10000);
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      timeoutTimer = this.setTimeoutTimer(reject, 16000);
+      this.ws.send(command);
+    });
   };
 
   rawGetProbePos = (): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> => {

@@ -9,24 +9,22 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
-import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
+import FisheyePreviewManagerV1 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV1';
+import FisheyePreviewManagerV2 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2';
 import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import Progress from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
+import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
 import {
-  CameraConfig,
-  CameraParameters,
   FisheyeCameraParameters,
+  FisheyeCameraParametersV1,
+  FisheyePreviewManager,
   RotationParameters3DCalibration,
-} from 'app/constants/camera-calibration-constants';
-import {
-  getPerspectivePointsZ3Regression,
-  interpolatePointsFromHeight,
-} from 'helpers/camera-calibration-helper';
+} from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const { $ } = window;
@@ -49,13 +47,7 @@ class PreviewModeController {
 
   cameraOffset: CameraParameters;
 
-  fisheyeParameters: FisheyeCameraParameters;
-
-  autoLevelingData: { [key: string]: number };
-
-  heightOffset: { [key: string]: number };
-
-  fisheyeObjectHeight: number;
+  fisheyePreviewManager: FisheyePreviewManager;
 
   lastPosition: number[];
 
@@ -73,11 +65,8 @@ class PreviewModeController {
     this.isPreviewBlocked = false;
     this.isLineCheckEnabled = true;
     this.cameraOffset = null;
-    this.fisheyeParameters = null;
-    this.autoLevelingData = null;
     this.lastPosition = [0, 0]; // in mm
     this.errorCallback = () => {};
-    this.fisheyeObjectHeight = 0;
   }
 
   async setupBeamSeriesPreviewMode() {
@@ -112,126 +101,32 @@ class PreviewModeController {
     await deviceMaster.rawSetWaterPump(false);
   }
 
-  fetchAutoLevelingData = async () => {
-    this.autoLevelingData = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, I: 0 };
-    this.heightOffset = { ...this.autoLevelingData };
-    try {
-      this.autoLevelingData = await deviceMaster.fetchAutoLevelingData('hexa_platform');
-      console.log('hexa_platform leveling data', { ...this.autoLevelingData });
-    } catch (e) {
-      console.error('Unable to get hexa_platform leveling data', e);
-    }
-    try {
-      const data = await deviceMaster.fetchAutoLevelingData('bottom_cover');
-      const keys = Object.keys(data);
-      console.log('bottom_cover leveling data', data);
-      keys.forEach((key) => {
-        this.autoLevelingData[key] -= data[key];
-      });
-    } catch (e) {
-      console.error('Unable to get bottom_cover leveling data', e);
-    }
-    try {
-      this.heightOffset = await deviceMaster.fetchAutoLevelingData('offset');
-    } catch (e) {
-      console.error('Unable to get height offset data', e);
-    }
-  };
-
-  applyAFPositionLevelingBias = async () => {
-    const device = this.currentDevice;
-    const workarea = [
-      deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
-      deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
-    ];
-    Progress.update('preview-mode-controller', { message: LANG.message.getProbePosition });
-    const lastPosition = await deviceMaster.rawGetLastPos();
-    const { x, y } = lastPosition;
-    let xIndex = 0;
-    if (x > workarea[0] * (2 / 3)) xIndex = 2;
-    else if (x > workarea[0] * (1 / 3)) xIndex = 1;
-    let yIndex = 0;
-    if (y > workarea[1] * (2 / 3)) yIndex = 2;
-    else if (y > workarea[1] * (1 / 3)) yIndex = 1;
-    const refKey = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'][yIndex * 3 + xIndex];
-    console.log('Probe position', lastPosition, 'refKey', refKey);
-    const keys = Object.keys(this.autoLevelingData);
-    const refHeight = this.autoLevelingData[refKey];
-    keys.forEach((key) => {
-      this.autoLevelingData[key] =
-        Math.round((this.autoLevelingData[key] - refHeight) * 1000) / 1000;
-    });
-  };
-
-  getHeight = async () => {
-    const device = this.currentDevice;
-    try {
-      Progress.update('preview-mode-controller', { message: 'Getting probe position' });
-      const res = await deviceMaster.rawGetProbePos();
-      const { z, didAf } = res;
-      if (didAf) return Math.round((deviceConstants.WORKAREA_DEEP[device.model] - z) * 100) / 100;
-    } catch (e) {
-      console.log('Fail to get probe position, using custom height', e);
-      // do nothing
-    }
-    Progress.popById('preview-mode-controller');
-    const height = await dialogCaller.getPreviewHeight({ initValue: undefined });
-    return height;
-  };
-
   reloadHeightOffset = async () => {
-    this.heightOffset = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, I: 0 };
-    try {
-      this.heightOffset = await deviceMaster.fetchAutoLevelingData('offset');
-    } catch (e) {
-      console.error('Unable to get height offset data', e);
-    }
-    const height = this.fisheyeObjectHeight;
-    await this.setFishEyeObjectHeight(height);
-  };
-
-  loadCamera3dRotation = async () => {
-    try {
-      const data = await deviceMaster.fetchFisheye3DRotation();
-      console.log('fetchFisheye3DRotation', data);
-      if (data) this.handle3DRotationChanged({ ...data, tx: 0, ty: 0 });
-    } catch (e) {
-      console.error('Unable to get fisheye 3d rotation', e);
-    }
-  };
-
-  handle3DRotationChanged = async (newParams: RotationParameters3DCalibration) => {
-    if (newParams) {
-      const dhChanged = this.camera3dRotaion?.dh !== newParams.dh;
-      this.camera3dRotaion = { ...newParams };
-      console.log('Applying', this.camera3dRotaion);
-      const { rx, ry, rz, sh, ch, tx, ty } = this.camera3dRotaion;
-      const device = this.currentDevice;
-      const z = deviceConstants.WORKAREA_DEEP[device.model] - this.fisheyeObjectHeight;
-      const rotationZ = sh * (z + ch);
-      await deviceMaster.set3dRotation({ rx, ry, rz, h: rotationZ, tx, ty });
-      if (dhChanged) {
-        await this.setFishEyeObjectHeight(this.fisheyeObjectHeight);
-      }
-    } else {
-      this.camera3dRotaion = null;
-    }
+    this.fisheyePreviewManager.reloadLevelingOffset();
   };
 
   editCamera3dRotation = async () => {
+    if (!this.fisheyePreviewManager.support3dRotation) return;
     const handleApply = async (newParams: RotationParameters3DCalibration) => {
-      await this.handle3DRotationChanged(newParams);
-      await this.previewFullWorkarea();
+      if (this.fisheyePreviewManager.support3dRotation) {
+        await this.fisheyePreviewManager?.update3DRotation(newParams);
+        await this.previewFullWorkarea();
+      }
     };
+
     const handleSave = async (newParams: RotationParameters3DCalibration) => {
       await handleApply(newParams);
-      Progress.openNonstopProgress({ id: 'saving-fisheye-3d', message: 'Saving fisheye 3d rotation' });
+      Progress.openNonstopProgress({
+        id: 'saving-fisheye-3d',
+        message: 'Saving fisheye 3d rotation',
+      });
       try {
         await deviceMaster.updateFisheye3DRotation(newParams);
         if (newParams.tx !== 0 || newParams.ty !== 0) {
-          const oldCenter = this.fisheyeParameters.center || [0, 0];
+          const fisheyeParams = this.fisheyePreviewManager.params as FisheyeCameraParametersV1;
+          const oldCenter = fisheyeParams.center || [0, 0];
           const newCenter = [oldCenter[0] + newParams.tx, oldCenter[1] + newParams.ty];
-          const strData = JSON.stringify({ ...this.fisheyeParameters, center: newCenter }, (key, val) => {
+          const strData = JSON.stringify({ ...fisheyeParams, center: newCenter }, (key, val) => {
             if (typeof val === 'number') {
               return Math.round(val * 1e6) / 1e6;
             }
@@ -240,109 +135,45 @@ class PreviewModeController {
           await new Promise<void>((resolve) => setTimeout(() => resolve(), 3000));
           await deviceMaster.uploadFisheyeParams(strData, () => {});
         }
-        Alert.popUp({ message: 'Saved Successfully!'});
+        Alert.popUp({ message: 'Saved Successfully!' });
       } catch (e) {
         console.error('Fail to save fisheye 3d rotation', e);
-        Alert.popUpError({ message: 'Unable to save fisheye 3d rotation'});
+        Alert.popUpError({ message: 'Unable to save fisheye 3d rotation' });
       } finally {
         Progress.popById('saving-fisheye-3d');
       }
     };
     dialogCaller.showRotationParameters3DPanel({
-      initParams: this.camera3dRotaion,
+      initParams: this.fisheyePreviewManager.rotationData,
       onApply: handleApply,
       onSave: handleSave,
     });
   };
 
-  setFishEyeObjectHeight = async (height: number) => {
-    const { k, d, heights, center, points, z3regParam } = this.fisheyeParameters;
-    const device = this.currentDevice;
-    const workarea = [
-      deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
-      deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
-    ];
-    let finalHeight = height;
-    console.log('Use Height: ', height);
-    if (this.camera3dRotaion?.dh) finalHeight += this.camera3dRotaion.dh;
-    console.log('After applying 3d rotation dh: ', finalHeight);
-    const levelingData = { ...this.autoLevelingData };
-    const keys = Object.keys(levelingData);
-    keys.forEach((key) => {
-      levelingData[key] += this.heightOffset[key] ?? 0;
-    });
-    let perspectivePoints: [number, number][][];
-    if (points && heights) {
-      [perspectivePoints] = points;
-      perspectivePoints = interpolatePointsFromHeight(finalHeight ?? 0, heights, points, {
-        chessboard: [48, 36],
-        workarea,
-        center,
-        levelingOffsets: levelingData,
-      });
-    } else if (z3regParam) {
-      perspectivePoints = getPerspectivePointsZ3Regression(finalHeight ?? 0, z3regParam, {
-        chessboard: [48, 36],
-        workarea,
-        center,
-        levelingOffsets: levelingData,
-      });
-    }
-    await deviceMaster.setFisheyeMatrix({ k, d, center, points: perspectivePoints }, true);
-  };
-
   resetFishEyeObjectHeight = async () => {
-    try {
-      const newHeight = await dialogCaller.getPreviewHeight({
-        initValue: this.fisheyeObjectHeight,
-      });
-      if (typeof newHeight !== 'number') return;
-      this.fisheyeObjectHeight = newHeight;
-      await this.setFishEyeObjectHeight(newHeight);
-      if (!PreviewModeBackgroundDrawer.isClean()) await this.previewFullWorkarea();
-    } finally {
-      if (deviceMaster.currentControlMode === 'raw') {
-        await deviceMaster.rawLooseMotor();
-        Progress.update('preview-mode-controller', { message: LANG.message.endingRawMode });
-        await deviceMaster.endRawMode();
-      }
-      Progress.popById('preview-mode-controller');
-    }
+    const res = await this.fisheyePreviewManager.resetObjectHeight();
+    if (res && !PreviewModeBackgroundDrawer.isClean()) await this.previewFullWorkarea();
   };
 
   setUpFishEyePreviewMode = async () => {
     try {
+      let params: FisheyeCameraParameters;
       try {
-        this.fisheyeParameters = await deviceMaster.fetchFisheyeParams();
+        params = await deviceMaster.fetchFisheyeParams();
       } catch (err) {
-        // TODO: add alert?
         console.log('Fail to fetchFisheyeParams', err?.message);
         throw new Error(
           'Unable to get fisheye parameters, please make sure you have calibrated the camera'
         );
       }
-      await this.fetchAutoLevelingData();
-      this.camera3dRotaion = null;
-      await this.loadCamera3dRotation();
-      console.log('autoLevelingData', this.autoLevelingData);
-      Progress.update('preview-mode-controller', { message: LANG.message.enteringRawMode });
-      await deviceMaster.enterRawMode();
-      Progress.update('preview-mode-controller', { message: LANG.message.exitingRotaryMode });
-      await deviceMaster.rawSetRotary(false);
-      Progress.update('preview-mode-controller', { message: LANG.message.homing });
-      await deviceMaster.rawHome();
-      await deviceMaster.rawLooseMotor();
-      const height = await this.getHeight();
-      await this.applyAFPositionLevelingBias();
-      if (typeof height !== 'number') return false;
-      this.fisheyeObjectHeight = height;
-      Progress.openNonstopProgress({
-        id: 'preview-mode-controller',
-        message: LANG.message.endingRawMode,
-      });
-      await deviceMaster.endRawMode();
-      await this.setFishEyeObjectHeight(height);
-      return true;
+      const device = this.currentDevice;
+      if (!('v' in params)) {
+        this.fisheyePreviewManager = new FisheyePreviewManagerV1(device, params);
+      } else if (params.v === 2) {
+        this.fisheyePreviewManager = new FisheyePreviewManagerV2(device, params);
+      }
+      const res = await this.fisheyePreviewManager.setupFisheyePreview('preview-mode-controller');
+      return res;
     } finally {
       if (deviceMaster.currentControlMode === 'raw') {
         await deviceMaster.rawLooseMotor();
