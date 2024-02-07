@@ -19,6 +19,7 @@ jest.mock('helpers/useI18n', () => () => ({
 
 const mockInsertImage = jest.fn();
 jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   insertImage: (...props: any) => mockInsertImage(...props),
 }));
 

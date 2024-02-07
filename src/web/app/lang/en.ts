@@ -615,7 +615,7 @@ const lang: ILang = {
         choose_camera: 'Camera',
         live_feed: 'Live Feed',
         adjust_height: 'Adjust Height',
-        qr_code: 'QR Code Generator',
+        qr_code: 'QR Code',
       },
     },
     right_panel: {
