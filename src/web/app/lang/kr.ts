@@ -615,6 +615,7 @@ const lang: ILang = {
         choose_camera: '카메라',
         live_feed: '라이브 피드',
         adjust_height: '높이 조절',
+        qr_code: 'QR 코드',
       },
     },
     right_panel: {
@@ -1562,6 +1563,13 @@ const lang: ILang = {
       performIRCaliMsg: '확인"을 클릭하여 보정을 실행하거나 상단 메뉴에서 보정에 접근하십시오.<br />(기계 > [귀하의 기계 이름] > 적외선 모듈 보정)',
     },
     non_working_area: '비 작업 영역',
+  },
+  qr_code_generator: {
+    title: 'QR 코드 생성기',
+    placeholder: '링크나 텍스트를 입력해 주세요',
+    preview: '미리보기',
+    error_tolerance: '오류 보정 레벨',
+    invert: '배경색 반전',
   },
 };
 

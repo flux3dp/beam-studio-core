@@ -656,6 +656,7 @@ const lang: ILang = {
         choose_camera: 'Camera',
         live_feed: 'Live beeld',
         adjust_height: 'Hoogte aanpassen',
+        qr_code: 'QR-code',
       },
     },
     right_panel: {
@@ -1681,6 +1682,13 @@ const lang: ILang = {
         'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer lasermodule)',
     },
     non_working_area: 'Niet-Werkgebied',
+  },
+  qr_code_generator: {
+    title: 'QR-codegenerator',
+    placeholder: 'Voer een link of tekst in',
+    preview: 'Voorbeeld',
+    error_tolerance: 'Foutcorrectie',
+    invert: 'Achtergrondkleur omkeren',
   },
 };
 

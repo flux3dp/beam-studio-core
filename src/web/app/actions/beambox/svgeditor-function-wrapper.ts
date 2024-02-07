@@ -85,16 +85,17 @@ const funcs = {
   },
   insertImage(
     insertedImageSrc: string,
-    dimension: { x: number; y: number; width: number; height: number; },
+    dimension: { x: number; y: number; width: number; height: number },
     threshold = 255,
+    options: { useCurrentLayer?: boolean; ratioFixed?: boolean } = {}
   ): void {
     const img = new Image();
     const layerName = LANG.right_panel.layer_panel.layer_bitmap;
-
+    const { useCurrentLayer = false, ratioFixed = false } = options;
     img.src = insertedImageSrc;
     img.style.opacity = '0';
     img.onload = () => {
-      if (!svgCanvas.setCurrentLayer(layerName)) createLayer(layerName);
+      if (!useCurrentLayer && !svgCanvas.setCurrentLayer(layerName)) createLayer(layerName);
       const { x, y, width, height } = dimension;
       const newImage = svgCanvas.addSvgElementFromJson({
         element: 'image',
@@ -109,6 +110,7 @@ const funcs = {
           'data-threshold': threshold,
           'data-shading': false,
           origImage: img.src,
+          'data-ratiofixed': ratioFixed ? 'true' : 'false',
         },
       });
 

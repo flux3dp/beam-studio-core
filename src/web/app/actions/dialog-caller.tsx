@@ -19,6 +19,7 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import PhotoEditPanel, { PhotoEditMode } from 'app/views/beambox/Photo-Edit-Panel';
 import PreviewHeight from 'app/components/dialogs/PreviewHeight';
 import Prompt from 'app/views/dialogs/Prompt';
+import QRCodeGenerator from 'app/components/dialogs/QRCodeGenerator';
 import RadioSelectDialog from 'app/components/dialogs/RadioSelectDialog';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationParameters3DPanel';
@@ -454,6 +455,18 @@ export default {
         onApply={onApply}
         onSave={onSave}
         onClose={() => popDialogById('rotation-parameters-3d')}
+      />
+    );
+  },
+  showQRCodeGenerator: (onClose: () => void): void => {
+    if (isIdExist('qr-code-generator')) return;
+    addDialogComponent(
+      'qr-code-generator',
+      <QRCodeGenerator
+        onClose={() => {
+          popDialogById('qr-code-generator');
+          onClose();
+        }}
       />
     );
   },

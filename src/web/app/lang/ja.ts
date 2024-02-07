@@ -615,6 +615,7 @@ const lang: ILang = {
         choose_camera: 'カメラ',
         live_feed: 'ライブフィード',
         adjust_height: '高さ調整',
+        qr_code: 'QRコード',
       },
     },
     right_panel: {
@@ -1562,6 +1563,13 @@ const lang: ILang = {
       performIRCaliMsg: '「確認」をクリックしてキャリブレーションを実行する、または上部メニューからアクセスしてください。<br />（機器 > [ご使用の機器名] > 赤外線モジュールのキャリブレーション）',
     },
     non_working_area: '非作業エリア',
+  },
+  qr_code_generator: {
+    title: 'QRコードジェネレーター',
+    placeholder: 'リンクまたはテキストを入力してください',
+    preview: 'プレビュー',
+    error_tolerance: 'エラー許容度',
+    invert: '背景色を反転',
   },
 };
 

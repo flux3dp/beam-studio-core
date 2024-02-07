@@ -612,6 +612,7 @@ export interface ILang {
         choose_camera: string,
         live_feed: string;
         adjust_height: string;
+        qr_code: string;
       },
     },
     right_panel: {
@@ -1559,5 +1560,12 @@ export interface ILang {
       performIRCaliMsg: string;
     };
     non_working_area: string;
+  },
+  qr_code_generator: {
+    title: string;
+    placeholder: string;
+    preview: string;
+    error_tolerance: string;
+    invert: string;
   },
 }

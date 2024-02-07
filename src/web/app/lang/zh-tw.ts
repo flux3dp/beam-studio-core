@@ -615,6 +615,7 @@ const lang: ILang = {
         choose_camera: '相機預覽',
         live_feed: '即時視訊',
         adjust_height: '調整高度',
+        qr_code: 'QR 碼',
       },
     },
     right_panel: {
@@ -1562,6 +1563,13 @@ const lang: ILang = {
       performIRCaliMsg: '點選 「確認」 以執行校正，或者透過上方選單中的「機器」>「您的機器名稱」>「校正紅外線模組」進行校正。',
     },
     non_working_area: '非工作區域',
+  },
+  qr_code_generator: {
+    title: 'QR 碼產生器',
+    placeholder: '輸入連結或文字',
+    preview: '預覽',
+    error_tolerance: '容錯率',
+    invert: '反轉背景顏色',
   },
 };
 

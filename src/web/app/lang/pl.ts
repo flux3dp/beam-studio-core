@@ -615,6 +615,7 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Na żywo',
         adjust_height: 'Dostosuj wysokość',
+        qr_code: 'Kod QR',
       },
     },
     right_panel: {
@@ -1562,6 +1563,13 @@ const lang: ILang = {
       performIRCaliMsg: 'Kliknij „Potwierdź”, aby wykonać kalibrację lub przejdź do kalibracji z górnego menu. ( Urządzenie > [Nazwa Twojego urządzenia] > Kalibruj moduł podczerwieni)',
     },
     non_working_area: 'Obszar Niepracujący',
+  },
+  qr_code_generator: {
+    title: 'Generator kodów QR',
+    placeholder: 'Wpisz łącze lub tekst',
+    preview: 'Podgląd',
+    error_tolerance: 'Tolerancja błędów',
+    invert: 'Odwróć kolory tła i pierwszego planu',
   },
 };
 
