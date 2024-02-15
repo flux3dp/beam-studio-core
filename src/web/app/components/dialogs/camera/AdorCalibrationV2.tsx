@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
+import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
@@ -14,7 +15,6 @@ import CalculateCameraPosition from './AdorCalibrationV2/CalculateCameraPosition
 import FindCorner from './AdorCalibrationV2/FindCorner';
 import Instruction from './AdorCalibration/Instruction';
 import { getMaterialHeight, prepareToTakePicture } from './AdorCalibrationV2/utils';
-import deviceMaster from 'helpers/device-master';
 
 enum Step {
   PUT_PAPER = 1,
