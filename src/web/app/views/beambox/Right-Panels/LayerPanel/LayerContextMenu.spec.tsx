@@ -460,6 +460,7 @@ describe('test LayerContextMenu', () => {
   test('click split color should work', async () => {
     mockDrawing.getLayerName.mockReturnValue('layer1');
     mockGetLayerElementByName.mockReturnValue(mockElem);
+    mockElem.getAttribute.mockReturnValue('1');
     mockGetData.mockReturnValue(LayerModule.PRINTER);
     const { getByText } = render(
       <LayerPanelContext.Provider

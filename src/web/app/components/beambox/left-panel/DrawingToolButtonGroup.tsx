@@ -5,6 +5,7 @@ import browser from 'implementations/browser';
 import dialogCaller from 'app/actions/dialog-caller';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
+import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 
 const LANG = i18n.lang.beambox.left_panel;
 
@@ -20,7 +21,11 @@ const DrawingToolButton = ({
   id, className, title, iconName, onClick,
 }: Props) => (
   <div id={id} className={className} title={title} onClick={onClick}>
-    <img src={`img/left-bar/icon-${iconName}.svg`} draggable="false" />
+    {iconName === 'qrcode' ? (
+      <LeftPanelIcons.QRCode />
+    ) : (
+      <img src={`img/left-bar/icon-${iconName}.svg`} draggable="false" />
+    )}
   </div>
 );
 
@@ -58,6 +63,9 @@ const DrawingToolButtonGroup = ({ className }: {
       {renderToolButton('polygon', 'Polygon', LANG.label.polygon, FnWrapper.insertPolygon)}
       {renderToolButton('line', 'Line', `${LANG.label.line} (\\)`, FnWrapper.insertLine)}
       {renderToolButton('draw', 'Pen', `${LANG.label.pen} (P)`, FnWrapper.insertPath)}
+      {renderToolButton('qrcode', 'QRCode', LANG.label.qr_code, () =>
+        dialogCaller.showQRCodeGenerator(FnWrapper.useSelectTool)
+      )}
       {renderToolButton('dm', 'DM', 'Design Market', () => browser.open(i18n.lang.topbar.menu.link.design_market))}
     </div>
   );

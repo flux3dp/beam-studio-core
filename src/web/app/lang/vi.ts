@@ -653,6 +653,7 @@ const lang: ILang = {
         choose_camera: 'Camera',
         live_feed: 'Phát trực tiếp',
         adjust_height: 'Điều chỉnh chiều cao',
+        qr_code: 'Mã QR',
       },
     },
     right_panel: {
@@ -1670,6 +1671,13 @@ const lang: ILang = {
         'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng. <br />(Máy > [Tên máy của bạn] > Hiệu chuẩn Module Hồng ngoại)',
     },
     non_working_area: 'Khu Vực Không Làm Việc',
+  },
+  qr_code_generator: {
+    title: 'Tạo mã QR',
+    placeholder: 'Nhập liên kết hoặc văn bản',
+    preview: 'Xem trước',
+    error_tolerance: 'Sai số dung sai',
+    invert: 'Đảo ngược màu nền',
   },
 };
 

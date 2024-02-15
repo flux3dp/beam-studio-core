@@ -658,6 +658,7 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Livebild',
         adjust_height: 'Justera höjd',
+        qr_code: 'QR-kod',
       },
     },
     right_panel: {
@@ -1675,6 +1676,13 @@ const lang: ILang = {
         'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera infraröd modul)',
     },
     non_working_area: 'Icke-Arbetsområde',
+  },
+  qr_code_generator: {
+    title: 'QR-kodsgenerator',
+    placeholder: 'Ange en länk eller text',
+    preview: 'Förhandsgranska',
+    error_tolerance: 'Felmarginal',
+    invert: 'Invertera bakgrundsfärg',
   },
 };
 

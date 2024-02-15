@@ -658,6 +658,7 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Suapan Langsung',
         adjust_height: 'Laras Ketinggian',
+        qr_code: 'Kod QR',
       },
     },
     right_panel: {
@@ -1678,6 +1679,13 @@ const lang: ILang = {
         'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Inframerah)',
     },
     non_working_area: 'Kawasan Bukan Kerja',
+  },
+  qr_code_generator: {
+    title: 'Penjana Kod QR',
+    placeholder: 'Masukkan pautan atau teks',
+    preview: 'Pratonton',
+    error_tolerance: 'Ralat Toleransi',
+    invert: 'Songsangkan warna latar belakang',
   },
 };
 

@@ -82,12 +82,6 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     presprayArea.togglePresprayArea();
   };
 
-  const handleLockLayers = () => {
-    svgCanvas.clearSelection();
-    setLayersLock(selectedLayers, true);
-    forceUpdate();
-  };
-
   const toggleLayerLocked = () => {
     svgCanvas.clearSelection();
     setLayersLock(selectedLayers, !isLocked);
@@ -287,8 +281,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
       <MenuItem attributes={{ id: 'dupelayer' }} onClick={handleCloneLayers}>
         {LANG.layers.dupe}
       </MenuItem>
-      <MenuItem attributes={{ id: 'locklayer' }} onClick={handleLockLayers}>
-        {LANG.layers.lock}
+      <MenuItem attributes={{ id: 'locklayer' }} onClick={toggleLayerLocked}>
+        {isLocked ? LANG.layers.unlock : LANG.layers.lock}
       </MenuItem>
       <MenuItem attributes={{ id: 'deletelayer' }} onClick={handleDeleteLayers}>
         {LANG.layers.del}
@@ -325,7 +319,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
           </MenuItem>
           <MenuItem
             attributes={{ id: 'split_color' }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || !isFullColor}
             onClick={handleSplitColor}
           >
             {LANG.layers.splitFullColor}

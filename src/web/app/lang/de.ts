@@ -615,6 +615,7 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Live-Übertragung',
         adjust_height: 'Höhe anpassen',
+        qr_code: 'QR-Code',
       },
     },
     right_panel: {
@@ -1562,6 +1563,13 @@ const lang: ILang = {
       performIRCaliMsg: 'Klicken Sie auf \'Bestätigen\', um die Kalibrierung durchzuführen, oder greifen Sie über das Hauptmenü darauf zu.<br />(Maschine > [Ihr Maschinenname] > Infrarotmodul kalibrieren)',
     },
     non_working_area: 'Nicht-Arbeitsbereich',
+  },
+  qr_code_generator: {
+    title: 'QR-Code-Generator',
+    placeholder: 'Eingabe eines Links oder Textes',
+    preview: 'Vorschau',
+    error_tolerance: 'Fehlertoleranz',
+    invert: 'Hintergrundfarbe umkehren',
   },
 };
 

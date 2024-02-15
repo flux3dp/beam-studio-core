@@ -659,6 +659,7 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Siaran Langsung',
         adjust_height: 'Sesuaikan Tinggi',
+        qr_code: 'Kode QR',
       },
     },
     right_panel: {
@@ -1682,6 +1683,13 @@ const lang: ILang = {
         'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Inframerah)',
     },
     non_working_area: 'Area Non-kerja',
+  },
+  qr_code_generator: {
+    title: 'Pembuat Kode QR',
+    placeholder: 'Masukkan tautan atau teks',
+    preview: 'Pratinjau',
+    error_tolerance: 'Toleransi Kesalahan',
+    invert: 'Balik warna latar belakang',
   },
 };
 

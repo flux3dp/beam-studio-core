@@ -658,6 +658,7 @@ const lang: ILang = {
         choose_camera: 'Câmera',
         live_feed: 'Transmissão ao vivo',
         adjust_height: 'Ajustar Altura',
+        qr_code: 'Código QR',
       },
     },
     right_panel: {
@@ -1685,6 +1686,13 @@ const lang: ILang = {
         'Clique em "Confirmar" para executar a calibração ou acesse a calibração pelo menu superior.<br />(Máquina > [Nome da sua máquina] > Calibrar módulo Infravermelho)',
     },
     non_working_area: 'Área Não Laboral',
+  },
+  qr_code_generator: {
+    title: 'Gerador de código QR',
+    placeholder: 'Insira um link ou texto',
+    preview: 'Pré-visualização',
+    error_tolerance: 'Tolerância de erro',
+    invert: 'Inverter cor de fundo',
   },
 };
 

@@ -653,6 +653,7 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Live-syöte',
         adjust_height: 'Säädä korkeutta',
+        qr_code: 'QR-koodi',
       },
     },
     right_panel: {
@@ -1671,6 +1672,13 @@ const lang: ILang = {
         'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi infrapunamoduuli)',
     },
     non_working_area: 'Ei-Työskentelyalue',
+  },
+  qr_code_generator: {
+    title: 'QR-koodigeneraattori',
+    placeholder: 'Anna linkki tai teksti',
+    preview: 'Esikatselu',
+    error_tolerance: 'Virhesieto',
+    invert: 'Käännä värit',
   },
 };
 

@@ -663,6 +663,7 @@ const lang: ILang = {
         choose_camera: 'Caméra',
         live_feed: 'Diffusion en direct',
         adjust_height: 'Ajuster la hauteur',
+        qr_code: 'Code QR',
       },
     },
     right_panel: {
@@ -1702,6 +1703,13 @@ const lang: ILang = {
         "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine > [Nom de votre machine] > Étalonner le module infrarouge)",
     },
     non_working_area: 'Zone non-travail',
+  },
+  qr_code_generator: {
+    title: 'Générateur de code QR',
+    placeholder: 'Saisissez un lien ou du texte',
+    preview: 'Aperçu',
+    error_tolerance: 'Tolérance aux erreurs',
+    invert: 'Inverser la couleur de fond',
   },
 };
 

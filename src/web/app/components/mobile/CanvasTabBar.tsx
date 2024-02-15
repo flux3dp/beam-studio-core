@@ -7,6 +7,7 @@ import createNewText from 'app/svgedit/text/createNewText';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
@@ -102,6 +103,11 @@ const CanvasTabBar = (): JSX.Element => {
       icon: <TabBarIcons.Document />,
     },
     {
+      key: 'qrcode',
+      title: lang.beambox.left_panel.label.qr_code,
+      icon: <LeftPanelIcons.QRCode />,
+    },
+    {
       key: 'dmkt',
       title: 'DMKT',
       icon: <DmktIcon style={{ fontSize: 40 }} />,
@@ -158,6 +164,8 @@ const CanvasTabBar = (): JSX.Element => {
     } else if (key === 'document') {
       dialogCaller.showDocumentSettings();
       setTimeout(resetActiveKey, 300);
+    } else if (key === 'qrcode') {
+      dialogCaller.showQRCodeGenerator(resetActiveKey);
     } else if (key === 'dmkt') {
       browser.open(lang.topbar.menu.link.design_market);
       setTimeout(resetActiveKey, 300);

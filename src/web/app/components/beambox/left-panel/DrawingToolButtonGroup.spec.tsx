@@ -28,8 +28,10 @@ jest.mock('implementations/browser', () => ({
 }));
 
 const showShapePanel = jest.fn();
+const showQRCodeGenerator = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
   showShapePanel: (...args) => showShapePanel(...args),
+  showQRCodeGenerator: (...args) => showQRCodeGenerator(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -104,6 +106,11 @@ test('should render correctly', () => {
   wrapper.find('#left-Cursor').simulate('click');
   expect(toJson(wrapper)).toMatchSnapshot();
   expect(mockUseSelectTool).toHaveBeenCalledTimes(1);
+
+  wrapper.find('#left-QRCode').simulate('click');
+  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(showQRCodeGenerator).toHaveBeenCalledTimes(1);
+  expect(showQRCodeGenerator).toHaveBeenCalledWith(mockUseSelectTool);
 
   wrapper.find('#left-DM').simulate('click');
   expect(toJson(wrapper)).toMatchSnapshot();

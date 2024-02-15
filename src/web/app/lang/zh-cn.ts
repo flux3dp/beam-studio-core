@@ -615,6 +615,7 @@ const lang: ILang = {
         choose_camera: '相机预览',
         live_feed: '实时视频',
         adjust_height: '调整高度',
+        qr_code: '二维码',
       },
     },
     right_panel: {
@@ -875,10 +876,10 @@ const lang: ILang = {
         middle_align: '中线对齐',
         bottom_align: '底部对齐',
         boolean: '布林',
-        union: '相加',
-        subtract: '相减',
-        intersect: '相交',
-        difference: '相异',
+        union: '组合形状',
+        subtract: '去除前面形状',
+        intersect: '形状区域相交',
+        difference: '排除重叠形状',
         flip: '翻转',
         hflip: '水平翻转',
         vflip: '垂直翻转',
@@ -1562,6 +1563,13 @@ const lang: ILang = {
       performIRCaliMsg: '点击「确认」执行校准，或通过顶部菜单中的「机器」 > 「您的机器名称」 > 「校准红外模块」进行校准。',
     },
     non_working_area: '非工作区域',
+  },
+  qr_code_generator: {
+    title: '二维码生成器',
+    placeholder: '输入链接或文本',
+    preview: '预览',
+    error_tolerance: '容错级别',
+    invert: '反转背景色',
   },
 };
 
