@@ -433,7 +433,7 @@ class Control extends EventEmitter {
       fileName = fileName.replace(/ /g, '_');
       const ext = fileName.split('.');
       if (ext[ext.length - 1] === 'fc') {
-        this.ws.send(`upload application/fcode ${data.size} camera_calib/${fileName}`);
+        this.ws.send(`upload application/fcode ${data.size} ${path}/${fileName}`);
       } else if (ext[ext.length - 1] === 'gcode') {
         const newFileName = fileName.split('.');
         newFileName.pop();
