@@ -75,7 +75,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
                 const refHeight = await getMaterialHeight();
                 console.log('refHeight', refHeight);
                 calibratingParam.current.refHeight = refHeight;
-                await deviceMaster.doAdorCalibrationV2();
+                await deviceMaster.doAdorCalibrationV2(1);
                 await prepareToTakePicture();
                 onNext();
               } catch (err) {
@@ -118,7 +118,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
                 const dh = elevatedHeight - calibratingParam.current.refHeight;
                 console.log('dh', dh);
                 calibratingParam.current.dh = dh;
-                console.log('TODO: cut elevated calibration shape')
+                await deviceMaster.doAdorCalibrationV2(2);
                 await prepareToTakePicture();
                 onNext();
               } catch (err) {

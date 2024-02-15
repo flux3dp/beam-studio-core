@@ -620,8 +620,8 @@ class DeviceMaster {
     await this.doCalibration(DeviceConstants.ADOR_CALIBRATION);
   }
 
-  async doAdorCalibrationV2() {
-    await this.doCalibration('fcode/ador-camera-v2.fc');
+  async doAdorCalibrationV2(step = 1) {
+    await this.doCalibration(`fcode/ador-camera-v2-${step}.fc`);
   }
 
   async doAdorPrinterCalibration() {
@@ -1040,7 +1040,7 @@ class DeviceMaster {
   async setFisheyeParam(data: FisheyeCameraParameters) {
     const res = await this.currentDevice.camera.setFisheyeParam(data);
     return res;
-  };
+  }
 
   async setFisheyeObjectHeight(height: number) {
     const res = await this.currentDevice.camera.setFisheyeObjectHeight(height);
@@ -1077,8 +1077,9 @@ class DeviceMaster {
         } else if (cameraFishEyeSetting.param) {
           // eslint-disable-next-line no-await-in-loop
           await this.setFisheyeParam(cameraFishEyeSetting.param);
-          // eslint-disable-next-line no-await-in-loop
-          if (cameraFishEyeSetting.objectHeight) await this.setFisheyeObjectHeight(cameraFishEyeSetting.objectHeight);
+          if (cameraFishEyeSetting.objectHeight)
+            // eslint-disable-next-line no-await-in-loop
+            await this.setFisheyeObjectHeight(cameraFishEyeSetting.objectHeight);
         }
       }
       // eslint-disable-next-line no-await-in-loop

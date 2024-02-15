@@ -21,6 +21,7 @@ import { InkDetectionStatus } from 'app/constants/layer-module/ink-cartridge';
 import { Mode } from 'app/constants/monitor-constants';
 import { parsingChipData } from 'app/components/dialogs/CartridgeSettingPanel';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
+import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibrationV2';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 
@@ -34,7 +35,7 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
     }
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      if (constant.adorModels.includes(device.model)) showAdorCalibration();
+      if (constant.adorModels.includes(device.model)) showAdorCalibrationV2();
       else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {
