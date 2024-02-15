@@ -204,6 +204,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Kami tidak dapat mengesan mesin anda dalam rangkaian.\nSila ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk menyelesaikan masalah sambungan.',
+    no_device_web: '#801 Semak status mesin anda, atau klik pada \'Tambah Mesin Baru\' di bawah untuk menetapkan mesin.',
   },
   update: {
     update: 'Kemaskini',
@@ -809,6 +810,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Getah - Ukiran',
             glass_bw_engraving: 'Kaca - Ukiran',
             metal_bw_engraving: 'Logam - Ukiran',
+            steel_engraving_spray_engraving: 'Logam - Ukiran',
             stainless_steel_bw_engraving_diode: 'Logam - Ukiran (Laser Diod)',
             gold_engraving: 'Emas - Ukiran',
             brass_engraving: 'Gangsa - Ukiran',
@@ -859,6 +861,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Getah - Ukiran',
             glass_bw_engraving: 'Kaca - Ukiran',
             metal_bw_engraving: 'Logam - Ukiran',
+            steel_engraving_spray_engraving: 'Logam - Ukiran',
             stainless_steel_bw_engraving_diode: 'Logam - Ukiran (Laser Diod)',
             gold_engraving: 'Emas - Ukir',
             brass_engraving: 'Gangsa - Ukir',
@@ -1219,8 +1222,8 @@ const lang: ILang = {
     incorrect: 'Alamat e-mel atau kata laluan tidak betul.',
     not_verified: 'Alamat e-mel belum disahkan lagi.',
     new_to_flux: 'Baru kepada FLUX? Buat akaun.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Log masuk untuk membuka pangkalan data bentuk.',
@@ -1674,6 +1677,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Inframerah)',
     },
+    non_working_area: 'Kawasan Bukan Kerja',
   },
 };
 

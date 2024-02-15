@@ -23,7 +23,7 @@ function SelectMachineButton(): JSX.Element {
       onClick={() => (isPreviewing ? setupPreviewMode : getDevice)(true)}
     >
       <TopBarIcons.SelectMachine />
-      {!isMobile && <span className={styles.text}>{text}</span>}
+      {!isMobile && <span className={styles.text} data-testid="select-machine">{text}</span>}
     </div>
   );
 }

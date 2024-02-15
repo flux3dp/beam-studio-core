@@ -25,6 +25,7 @@ import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationPar
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
+import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
@@ -112,10 +113,12 @@ export default {
   clearAllDialogComponents,
   isIdExist,
   popDialogById,
-  selectDevice: (): Promise<IDeviceInfo> =>
-    new Promise<IDeviceInfo>((resolve) => {
-      showDeviceSelector(resolve);
-    }),
+  selectDevice: async (): Promise<IDeviceInfo> => {
+    const device = await webNeedConnectionWrapper(
+      () => new Promise<IDeviceInfo>((resolve) => showDeviceSelector(resolve))
+    );
+    return device;
+  },
   showAboutBeamStudio: (): void => {
     if (isIdExist('about-bs')) return;
     addDialogComponent('about-bs', <AboutBeamStudio onClose={() => popDialogById('about-bs')} />);
@@ -434,7 +437,11 @@ export default {
         />
       );
     }),
-  showRotationParameters3DPanel: ({ initParams, onApply, onSave }: {
+  showRotationParameters3DPanel: ({
+    initParams,
+    onApply,
+    onSave,
+  }: {
     initParams?: RotationParameters3DCalibration;
     onApply: (params: RotationParameters3DCalibration) => void;
     onSave: (params: RotationParameters3DCalibration) => void;
@@ -449,5 +456,5 @@ export default {
         onClose={() => popDialogById('rotation-parameters-3d')}
       />
     );
-  }
+  },
 };

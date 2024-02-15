@@ -11,7 +11,7 @@ jest.mock(
 );
 
 jest.mock(
-  'app/views/beambox/Right-Panels/DimensionPanel',
+  'app/views/beambox/Right-Panels/DimensionPanel/DimensionPanel',
   () =>
     function DummyDimensionPanel() {
       return <div>This is dummy DimensionPanel</div>;

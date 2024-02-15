@@ -203,6 +203,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Vi hittar inte din maskin i nätverket.\nFölj <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> för att felsöka anslutningsproblemet.',
+    no_device_web: '#801 Kontrollera statusen för din maskin, eller klicka på \'Maskininställning\' nedan för att ställa in maskinen.',
   },
   update: {
     update: 'Uppdatera',
@@ -809,6 +810,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glas - gravering',
             metal_bw_engraving: 'Metall - gravering',
+            steel_engraving_spray_engraving: 'Metall - gravering',
             stainless_steel_bw_engraving_diode: 'Rostfritt stål - gravering (diodlaser)',
             gold_engraving: 'Guld - gravering',
             brass_engraving: 'Mässing - gravering',
@@ -859,6 +861,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glas - gravering',
             metal_bw_engraving: 'Metall - gravering',
+            steel_engraving_spray_engraving: 'Metall - gravering',
             stainless_steel_bw_engraving_diode: 'Metall - gravering (diodlaser)',
             gold_engraving: 'Guld - Gravyr',
             brass_engraving: 'Mässing - Gravyr',
@@ -1218,8 +1221,8 @@ const lang: ILang = {
     incorrect: 'Fel e-postadress eller lösenord.',
     not_verified: 'E-postadressen har inte verifierats ännu.',
     new_to_flux: 'Ny på FLUX? Skapa ett konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Logga in för att låsa upp formdatabasen.',
@@ -1671,6 +1674,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera infraröd modul)',
     },
+    non_working_area: 'Icke-Arbetsområde',
   },
 };
 

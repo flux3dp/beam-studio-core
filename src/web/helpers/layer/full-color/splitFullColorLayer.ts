@@ -1,10 +1,8 @@
-import constant from 'app/actions/beambox/constant';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import isDev from 'helpers/is-dev';
 import NS from 'app/constants/namespaces';
 import progressCaller from 'app/actions/progress-caller';
-import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import { DataType, getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
@@ -18,74 +16,15 @@ import {
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
+import layerToImage from '../layerToImage';
 import splitColor from './splitColor';
-import updateImageForSpliting from './updateImageForSpliting';
 
 let svgCanvas: ISVGCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const PROGRESS_ID = 'split-full-color';
-
-const layerToImage = async (
-  layer: SVGGElement,
-  dpi: number
-): Promise<{ blob: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
-  const layerClone = layer.cloneNode(true) as SVGGElement;
-  await updateImageForSpliting(layerClone);
-  const canvasWidth = Math.round((svgCanvas.contentW * dpi) / (25.4 * constant.dpmm));
-  const canvasHeight = Math.round((svgCanvas.contentH * dpi) / (25.4 * constant.dpmm));
-  const svgDefs = svgedit.utilities.findDefs();
-  const svgString = `
-    <svg
-      width="${canvasWidth}"
-      height="${canvasHeight}"
-      viewBox="0 0 ${canvasWidth} ${canvasHeight}"
-      xmlns:svg="http://www.w3.org/2000/svg"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-    >
-      ${svgDefs.outerHTML}
-      ${layerClone.outerHTML}
-    </svg>`;
-  const canvas = await svgStringToCanvas(svgString, canvasWidth, canvasHeight);
-  const ctx = canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
-  const { data } = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-  const bounds = { minX: canvasWidth, minY: canvasHeight, maxX: 0, maxY: 0 };
-  for (let y = 0; y < svgCanvas.contentH; y += 1) {
-    for (let x = 0; x < svgCanvas.contentW; x += 1) {
-      const i = (y * canvasWidth + x) * 4;
-      const alpha = data[i + 3];
-      if (alpha > 0) {
-        if (x < bounds.minX) bounds.minX = x;
-        if (x > bounds.maxX) bounds.maxX = x;
-        if (y < bounds.minY) bounds.minY = y;
-        if (y > bounds.maxY) bounds.maxY = y;
-      }
-    }
-  }
-  if (bounds.minX > bounds.maxX || bounds.minY > bounds.maxY)
-    return { blob: null, bbox: { x: 0, y: 0, width: 0, height: 0 } };
-  const bbox = {
-    x: bounds.minX,
-    y: bounds.minY,
-    width: bounds.maxX - bounds.minX + 1,
-    height: bounds.maxY - bounds.minY + 1,
-  };
-  const newImageData = ctx.getImageData(bbox.x, bbox.y, bbox.width, bbox.height);
-  canvas.width = bbox.width;
-  canvas.height = bbox.height;
-  ctx.putImageData(newImageData, 0, 0);
-
-  return new Promise((resolve) => {
-    canvas.toBlob((b) => {
-      resolve({ blob: b, bbox });
-    });
-  });
-};
 
 // TODO: add unit test
 const splitFullColorLayer = async (
@@ -104,7 +43,7 @@ const splitFullColorLayer = async (
   });
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
-  const { blob, bbox } = await layerToImage(layer as SVGGElement, 300);
+  const { blob, bbox } = await layerToImage(layer as SVGGElement, { isFullColor: true });
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
   if (!blob || bbox.width === 0 || bbox.height === 0) {
     progressCaller.popById(PROGRESS_ID);

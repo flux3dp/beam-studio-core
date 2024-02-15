@@ -13,7 +13,6 @@ import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import presprayArea from 'app/actions/beambox/prespray-area';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
@@ -162,7 +161,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const drawing = svgCanvas.getCurrentDrawing();
     const currentLayer: string = drawing.getCurrentLayerName();
 
-    const allLayers: string[] = drawing.all_layers.map((layer) => layer.name_);
+    // eslint-disable-next-line no-underscore-dangle
+    const allLayers: string[] = drawing.all_layers?.map((layer) => layer.name_) ?? [];
     let [startIndex, endIndex] = [-1, -1];
     for (let i = 0; i < allLayers.length; i += 1) {
       if (allLayers[i] === currentLayer) {
@@ -217,7 +217,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
     } else {
       svgCanvas.setLayerVisibility(layerName, !isVis);
     }
-    presprayArea.togglePresprayArea();
     this.forceUpdate();
   };
 
@@ -376,6 +375,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const { draggingDestIndex, draggingLayer } = this.state;
     const { selectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
+    // eslint-disable-next-line no-underscore-dangle
+    const layerNames = drawing.all_layers.map((layer) => layer.name_);
     const isTouchable = navigator.maxTouchPoints >= 1;
     return (
       <div id="layerpanel" onMouseOut={() => highlightLayer()} onBlur={() => { }}>
@@ -405,7 +406,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
         </ContextMenuTrigger>
         {!isMobile() && (
           <>
-            <SelLayerBlock />
+            <SelLayerBlock layerNames={layerNames} />
             <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
             <LayerContextMenu
               drawing={drawing}

@@ -140,7 +140,7 @@ describe('test DocumentSettings', () => {
     expect(setRotaryMode).toHaveBeenLastCalledWith(1);
     expect(runExtensions).toHaveBeenCalledTimes(1);
     expect(runExtensions).toHaveBeenLastCalledWith('updateRotaryAxis');
-    expect(update).toBeCalledTimes(1);
+    expect(update).not.toBeCalled();
     expect(mockUnmount).toBeCalledTimes(1);
   });
 });

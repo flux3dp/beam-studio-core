@@ -3,6 +3,7 @@ import alertConstants from 'app/constants/alert-constants';
 import awsHelper from 'helpers/aws-helper';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import dialogCaller from 'app/actions/dialog-caller';
+import history from 'app/svgedit/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import layerConfigHelper, { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
@@ -14,7 +15,9 @@ import i18n from 'helpers/i18n';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import svgLaserParser from 'helpers/api/svg-laser-parser';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IBatchCommand } from 'interfaces/IHistory';
 import { ImportType } from 'interfaces/ImportSvg';
+import { createLayer, removeDefaultLayerIfEmpty } from 'helpers/layer/layer-helper';
 
 import importSvgString from './importSvgString';
 
@@ -32,10 +35,20 @@ const getBasename = (path) => {
 
 const readSVG = (
   blob: Blob | File,
-  args: { type: ImportType; targetModule?: LayerModule; layerName?: string }
+  args: {
+    type: ImportType;
+    targetModule?: LayerModule;
+    layerName?: string;
+    parentCmd?: IBatchCommand;
+  }
 ) =>
   new Promise<SVGUseElement>((resolve) => {
-    const { type, targetModule = layerModuleHelper.getDefaultLaserModule(), layerName } = args;
+    const {
+      type,
+      targetModule = layerModuleHelper.getDefaultLaserModule(),
+      layerName,
+      parentCmd = null,
+    } = args;
     const reader = new FileReader();
     reader.onloadend = async (e) => {
       let svgString = e.target.result as string;
@@ -67,7 +80,12 @@ const readSVG = (
       const modifiedSvgString = svgString
         .replace(/fill(: ?#(fff(fff)?|FFF(FFF)?));/g, 'fill: none;')
         .replace(/fill= ?"#(fff(fff)?|FFF(FFF))"/g, 'fill="none"');
-      const newElement = await importSvgString(modifiedSvgString, { type, layerName, targetModule });
+      const newElement = await importSvgString(modifiedSvgString, {
+        type,
+        layerName,
+        targetModule,
+        parentCmd,
+      });
 
       // Apply style
       svgCanvas.svgToString($('#svgcontent')[0], 0);
@@ -81,6 +99,7 @@ const importSvg = async (
   file: Blob,
   args: { skipByLayer?: boolean; isFromNounProject?: boolean; isFromAI?: boolean } = {}
 ): Promise<void> => {
+  const batchCmd = new history.BatchCommand('Import SVG');
   const { lang } = i18n;
   let targetModule: LayerModule;
 
@@ -89,7 +108,10 @@ const importSvg = async (
       id: 'import-module',
       title: lang.beambox.popup.select_import_module,
       options: [
-        { label: lang.layer_module.general_laser, value: layerModuleHelper.getDefaultLaserModule() },
+        {
+          label: lang.layer_module.general_laser,
+          value: layerModuleHelper.getDefaultLaserModule(),
+        },
         { label: lang.layer_module.printing, value: LayerModule.PRINTER },
       ],
     });
@@ -151,10 +173,18 @@ const importSvg = async (
   let newElements: SVGUseElement[] = [];
   let newElement: SVGUseElement;
   if (['color', 'nolayer'].includes(importType)) {
-    newElement = await readSVG(outputs.strokes, { type: importType, targetModule });
-    newElements.push(newElement);
-    newElement = await readSVG(outputs.colors, { type: importType, targetModule });
-    newElements.push(newElement);
+    newElement = await readSVG(outputs.strokes, {
+      type: importType,
+      targetModule,
+      parentCmd: batchCmd,
+    });
+    if (newElement) newElements.push(newElement);
+    newElement = await readSVG(outputs.colors, {
+      type: importType,
+      targetModule,
+      parentCmd: batchCmd,
+    });
+    if (newElement) newElements.push(newElement);
   } else if (importType === 'layer') {
     const keys = Object.keys(outputs);
     for (let i = 0; i < keys.length; i += 1) {
@@ -162,44 +192,67 @@ const importSvg = async (
       if (!['bitmap', 'bitmap_offset'].includes(key)) {
         if (key === 'nolayer') {
           // eslint-disable-next-line no-await-in-loop
-          newElement = await readSVG(outputs[key], { type: importType, targetModule });
+          newElement = await readSVG(outputs[key], {
+            type: importType,
+            targetModule,
+            parentCmd: batchCmd,
+          });
         } else {
           // eslint-disable-next-line no-await-in-loop
-          newElement = await readSVG(outputs[key], { type: importType, targetModule, layerName: key });
+          newElement = await readSVG(outputs[key], {
+            type: importType,
+            targetModule,
+            layerName: key,
+            parentCmd: batchCmd,
+          });
         }
-        newElements.push(newElement);
+        if (newElement) newElements.push(newElement);
       }
     }
   } else {
-    newElement = await readSVG(file, { type: importType, targetModule });
-    newElements.push(newElement);
+    newElement = await readSVG(file, { type: importType, targetModule, parentCmd: batchCmd });
+    if (newElement) newElements.push(newElement);
   }
 
+  newElements = newElements.filter((elem) => elem);
   if (outputs.bitmap.size > 0) {
     const isPrinting = targetModule === LayerModule.PRINTER;
     if (!isPrinting || !newElements.length) {
       const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
-      const newLayer = svgCanvas.createLayer(layerName);
+      const { layer: newLayer, cmd } = createLayer(layerName);
+      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       layerConfigHelper.initLayerConfig(layerName);
       if (isPrinting) {
         writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
         writeDataLayer(newLayer, DataType.fullColor, '1');
       }
     }
-    await readBitmapFile(outputs.bitmap, { offset: outputs.bitmap_offset, gray: !isPrinting });
+    const img = await readBitmapFile(outputs.bitmap, {
+      offset: outputs.bitmap_offset,
+      gray: !isPrinting,
+      parentCmd: batchCmd,
+    });
+    newElements.push(img);
+    const cmd = removeDefaultLayerIfEmpty();
+    if (cmd) batchCmd.addSubCommand(cmd);
   }
   presprayArea.togglePresprayArea();
   progressCaller.popById('loading_image');
-  newElements = newElements.filter((elem) => elem);
   if (args.isFromNounProject) {
     for (let i = 0; i < newElements.length; i += 1) {
       const elem = newElements[i];
       elem.setAttribute('data-np', '1');
     }
   }
-  svgCanvas.selectOnly(newElements);
+
   LayerPanelController.setSelectedLayers([svgCanvas.getCurrentDrawing().getCurrentLayerName()]);
-  if (newElements.length > 1) svgCanvas.tempGroupSelectedElements();
+  if (newElements.length === 0) {
+    svgCanvas.clearSelection();
+  } else {
+    svgCanvas.selectOnly(newElements);
+    if (newElements.length > 1) svgCanvas.tempGroupSelectedElements();
+  }
+  if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
 };
 
 export default importSvg;

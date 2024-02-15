@@ -47,16 +47,12 @@ import Alert from '../alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
-import Dialog from 'app/actions/dialog-caller';
 import BeamFileHelper from 'helpers/beam-file-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
 import pdfHelper from 'implementations/pdfHelper';
-import requirejsHelper from 'helpers/requirejs-helper';
 import Shortcuts from 'helpers/shortcuts';
-import SymbolMaker from 'helpers/symbol-maker';
 import i18n from 'helpers/i18n';
-import AlertConfig from 'helpers/api/alert-config';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
@@ -67,10 +63,10 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
 import importBitmap from 'app/svgedit/operations/import/importBitmap';
 import importBvg from 'app/svgedit/operations/import/importBvg';
+import importDxf from 'app/svgedit/operations/import/importDxf';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
-import layerConfigHelper from 'helpers/layer/layer-config-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -448,7 +444,6 @@ const svgEditor = window['svgEditor'] = (function () {
         featNotSupported: 'Feature not supported',
         enterNewImgURL: 'Enter the new image URL',
         defsFailOnSave: 'NOTE: Due to a bug in your browser, this image may appear wrong (missing gradients or elements). It will however appear correct once actually saved.',
-        loadingImage: 'Loading image, please wait...',
         saveFromBrowser: 'Select \'Save As...\' in your browser to save this image as a %s file.',
         noteTheseIssues: 'Also note the following issues: ',
         unsavedChanges: 'There are unsaved changes.',
@@ -1246,11 +1241,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     }
 
-    var setInputWidth = function (elem) {
-      var w = Math.min(Math.max(12 + elem.value.length * 6, 50), 300);
-      $(elem).width(w);
-    };
-
     function updateRulers() {
       // draw x ruler then y ruler
       /* 這裡code很亂 值得注意的點有：
@@ -1318,7 +1308,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
         })();
 
-        (function drawRules() {
+        (function drawRulers() {
           const contentPosition = Number($('#svgcontent').attr(axis));
           const zoom = svgCanvas.getZoom();
 
@@ -3752,16 +3742,6 @@ const svgEditor = window['svgEditor'] = (function () {
     //   }
     // };
 
-    var makeHyperlink = function () {
-      if (selectedElement != null || multiselected) {
-        $.prompt(uiStrings.notification.enterNewLinkURL, 'http://', function (url) {
-          if (url) {
-            svgCanvas.makeHyperlink(url);
-          }
-        });
-      }
-    };
-
     var moveSelected = function (dx, dy) {
       if (selectedElement != null || multiselected) {
         if (curConfig.gridSnapping) {
@@ -3814,63 +3794,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
 
     editor.clearScene = clearScene;
-
-    // var clickSave = function () {
-    //   // In the future, more options can be provided here
-    //   var saveOpts = {
-    //     'images': $.pref('img_save'),
-    //     'round_digits': 6
-    //   };
-    //   svgCanvas.save(saveOpts);
-    // };
-
-    // var clickExport = function () {
-    //   $.select('Select an image type for export: ', [
-    //     // See http://kangax.github.io/jstests/toDataUrl_mime_type_test/ for a useful list of MIME types and browser support
-    //     // 'ICO', // Todo: Find a way to preserve transparency in SVG-Edit if not working presently and do full packaging for x-icon; then switch back to position after 'PNG'
-    //     'PNG',
-    //     'JPEG', 'BMP', 'WEBP', 'PDF'
-    //   ], function (imgType) { // todo: replace hard-coded msg with uiStrings.notification.
-    //     if (!imgType) {
-    //       return;
-    //     }
-    //     // Open placeholder window (prevents popup)
-    //     var exportWindowName;
-
-    //     function openExportWindow() {
-    //       var str = uiStrings.notification.loadingImage;
-    //       if (curConfig.exportWindowType === 'new') {
-    //         editor.exportWindowCt++;
-    //       }
-    //       exportWindowName = curConfig.canvasName + editor.exportWindowCt;
-    //       exportWindow = window.open(
-    //         'data:text/html;charset=utf-8,' + encodeURIComponent('<title>' + str + '</title><h1>' + str + '</h1>'),
-    //         exportWindowName
-    //       );
-    //     }
-    //     if (imgType === 'PDF') {
-    //       if (!customExportPDF) {
-    //         openExportWindow();
-    //       }
-    //       svgCanvas.exportPDF(exportWindowName);
-    //     } else {
-    //       if (!customExportImage) {
-    //         openExportWindow();
-    //       }
-    //       var quality = parseInt($('#image-slider').val() as string, 10) / 100;
-    //       svgCanvas.rasterExport(imgType, quality, exportWindowName);
-    //     }
-    //   }, function () {
-    //     var sel = $(this);
-    //     if (sel.val() === 'JPEG' || sel.val() === 'WEBP') {
-    //       if (!$('#image-slider').length) {
-    //         $('<div><label>Quality: <input id="image-slider" type="range" min="1" max="100" value="92" /></label></div>').appendTo(sel.parent()); // Todo: i18n-ize label
-    //       }
-    //     } else {
-    //       $('#image-slider').parent().remove();
-    //     }
-    //   });
-    // };
 
     // by default, svgCanvas.open() is a no-op.
     // it is up to an extension mechanism (opera widget, etc)
@@ -4887,7 +4810,7 @@ const svgEditor = window['svgEditor'] = (function () {
     // get the text contents of the file and send it to the canvas
     if (window.FileReader) {
       const replaceBitmap = async (file, imageElem) => {
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage, });
+        Progress.openNonstopProgress({ id: 'loading_image', caption: LANG.popup.loading_image });
         return new Promise<void>((resolve, reject) => {
           const reader = new FileReader();
           reader.onloadend = async function (e) {
@@ -4941,118 +4864,6 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       editor.replaceBitmap = replaceBitmap;
-      const importDxf = async file => {
-        const Dxf2Svg = await requirejsHelper('dxf2svg');
-        const ImageTracer = await requirejsHelper('imagetracer');
-        const { defaultDpiValue, parsed } = await new Promise<{ defaultDpiValue: number ;parsed: string; }>(resolve => {
-          const reader = new FileReader();
-          reader.onloadend = evt => {
-            if (!AlertConfig.read('skip_dxf_version_warning')) {
-              let autoCadVersionMatch = (evt.target.result as string).match(/AC\d+/);
-              if (autoCadVersionMatch) {
-                const autoCadVersion = autoCadVersionMatch[0].substring(2, autoCadVersionMatch[0].length);
-                if (autoCadVersion !== '1027') {
-                  Alert.popUp({
-                    id: 'skip_dxf_version_warning',
-                    message: LANG.popup.dxf_version_waring,
-                    type: AlertConstants.SHOW_POPUP_WARNING,
-                    checkbox: {
-                      text: LANG.popup.dont_show_again,
-                      callbacks: () => AlertConfig.write('skip_dxf_version_warning', true),
-                    }
-                  });
-                }
-
-              }
-            }
-
-            let defaultDpiValue = 1;
-            let parsed = Dxf2Svg.parseString(evt.target.result);
-
-            if (parsed.header.insunits == '1') {
-              defaultDpiValue = 25.4;
-            } else if (parsed.header.insunits == '2') {
-              defaultDpiValue = 304.8;
-            } else if (parsed.header.insunits == '4') {
-              defaultDpiValue = 1;
-            } else if (parsed.header.insunits == '5') {
-              defaultDpiValue = 10;
-            } else if (parsed.header.insunits == '6') {
-              defaultDpiValue = 100;
-            }
-            resolve({ parsed, defaultDpiValue });
-          };
-          reader.readAsText(file);
-        });
-        Progress.popById('loading_image');
-        if (!parsed) {
-          alert("DXF Parsing Error");
-          return;
-        }
-        const unitLength = await Dialog.showDxfDpiSelector(defaultDpiValue);
-        if (!unitLength) {
-          return;
-        }
-        Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
-        const { outputLayers, svg: resizedSvg, bbox } = Dxf2Svg.toSVG(parsed, unitLength * 10);
-        if (!AlertConfig.read('skip_dxf_oversize_warning') && (bbox.width > Constant.dimension.getWidth(BeamboxPreference.read('workarea')) || bbox.height > Constant.dimension.getHeight(BeamboxPreference.read('workarea')))) {
-          Alert.popUp({
-            id: 'dxf_size_over_workarea',
-            message: LANG.popup.dxf_bounding_box_size_over,
-            type: AlertConstants.SHOW_POPUP_WARNING,
-            checkbox: {
-              text: LANG.popup.dont_show_again,
-              callbacks: () => { AlertConfig.write('skip_dxf_oversize_warning', true) }
-            }
-          });
-        }
-        const svgdoc = document.getElementById('svgcanvas').ownerDocument;
-        const NS = svgedit.NS;
-        for (let i in outputLayers) {
-          const layerName = i;
-          const layer = outputLayers[i];
-          const isLayerExist = svgCanvas.setCurrentLayer(layerName);
-          if (!isLayerExist) {
-            svgCanvas.getCurrentDrawing();
-            svgCanvas.createLayer(layerName, layer.rgbCode);
-            layerConfigHelper.initLayerConfig(layerName);
-          }
-          const id = svgCanvas.getNextId();
-          const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
-          symbol.setAttribute('overflow', 'visible');
-          symbol.id = id;
-          svgedit.utilities.findDefs().appendChild(symbol);
-          ImageTracer.appendSVGString(layer.paths.join(''), id);
-          for (let j = 0; j < symbol.childNodes.length; j++) {
-            let child = symbol.childNodes[j] as unknown as SVGElement;
-            if (child.tagName === 'path' && !$(child).attr('d')) {
-              child.remove();
-              j--;
-            } else {
-              $(child).attr('id', svgCanvas.getNextId());
-            }
-          }
-          const use_el = svgdoc.createElementNS(NS.SVG, 'use');
-          use_el.id = svgCanvas.getNextId();
-          svgedit.utilities.setHref(use_el, `#${symbol.id}`);
-          svgCanvas.getCurrentDrawing().getCurrentLayer().appendChild(use_el);
-          const bb = svgedit.utilities.getBBox(use_el);
-
-          const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
-          svgedit.utilities.setHref(use_el, `#${imageSymbol.id}`);
-
-          let xform = '';
-          for (let key in bb) {
-            xform += `${key}=${bb[key]} `;
-          }
-          use_el.setAttribute('data-dxf', 'true');
-          use_el.setAttribute('data-ratiofixed', 'true');
-          use_el.setAttribute('data-xform', xform);
-          svgCanvas.updateElementColor(use_el);
-        }
-        svgCanvas.removeDefaultLayerIfEmpty();
-        Progress.popById('loading_image');
-      };
 
       const importJsScript = async (file) => {
         Progress.popById('loading_image');
@@ -5133,7 +4944,7 @@ const svgEditor = window['svgEditor'] = (function () {
       };
 
       const handleFile = async (file) => {
-        await Progress.openNonstopProgress({ id: 'loading_image', caption: uiStrings.notification.loadingImage });
+        await Progress.openNonstopProgress({ id: 'loading_image', caption: LANG.popup.loading_image });
         svgCanvas.clearSelection();
         const fileType = (function () {
           if (file.name.toLowerCase().endsWith('.beam')) {
@@ -5185,7 +4996,8 @@ const svgEditor = window['svgEditor'] = (function () {
             Progress.popById('loading_image');
             break;
           case 'dxf':
-            importDxf(file);
+            await importDxf(file);
+            Progress.popById('loading_image');
             break;
           case 'pdf':
           case 'ai':
@@ -5261,7 +5073,7 @@ const svgEditor = window['svgEditor'] = (function () {
           if (f.files.length === 1) {
             Alert.popUp({
               id: 'loading_image',
-              message: uiStrings.notification.loadingImage,
+              message: LANG.popup.loading_image,
             });
             var reader = new FileReader();
             reader.onloadend = function (e) {
@@ -5496,7 +5308,7 @@ const svgEditor = window['svgEditor'] = (function () {
         beforeSend: function () {
           Alert.popUp({
             id: 'loading_image',
-            message: uiStrings.notification.loadingImage,
+            message: LANG.popup.loading_image,
           });
         },
         success: function (str) {

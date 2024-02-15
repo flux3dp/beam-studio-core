@@ -197,6 +197,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 We can\'t find your machine on the network.\nKindly follow the <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> to troubleshoot the connection problem.',
+    no_device_web: '#801 Please check the status of your machine, or click on ‘Machine Setup’ below to set up machine.',
   },
   update: {
     update: 'Update',
@@ -754,6 +755,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Rubber - Engraving',
             glass_bw_engraving: 'Glass - Engraving',
             metal_bw_engraving: 'Metal - Engraving',
+            steel_engraving_spray_engraving: 'Metal - Engraving',
             stainless_steel_bw_engraving_diode: 'Metal - Engraving (Diode Laser)',
             gold_engraving: 'Gold - Engraving',
             brass_engraving: 'Brass - Engraving',
@@ -804,6 +806,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Rubber - Engraving',
             glass_bw_engraving: 'Glass - Engraving',
             metal_bw_engraving: 'Metal - Engraving',
+            steel_engraving_spray_engraving: 'Metal - Engraving',
             stainless_steel_bw_engraving_diode: 'Metal - Engraving (Diode Laser)',
             gold_engraving: 'Gold - Engraving',
             brass_engraving: 'Brass - Engraving',
@@ -1152,8 +1155,8 @@ const lang: ILang = {
     incorrect: 'Email address or password is not correct.',
     not_verified: 'The email address has not been verified yet.',
     new_to_flux: 'New to FLUX? Create an account.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Login to unlock the shapes database.',
@@ -1558,6 +1561,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Perform the Infrared module calibration',
       performIRCaliMsg: 'Click “Confirm” to execute the calibration, or access calibration through the top menu.<br />(Machine > [Your Machine Name] >  Calibrate Infrared Module)',
     },
+    non_working_area: 'Non-Working Area',
   },
 };
 

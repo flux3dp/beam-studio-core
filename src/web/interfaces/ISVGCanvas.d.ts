@@ -48,7 +48,6 @@ export default interface ISVGCanvas {
   contentH: number;
   contentW: number;
   convertToNum(attr: string, val: number): number;
-  createLayer: (layerName: string, hexCode?: string, isFullColor?: boolean) => SVGGElement;
   currentFilePath: string;
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;
@@ -106,7 +105,6 @@ export default interface ISVGCanvas {
   isBezierPathAlignToEdge: boolean;
   isUsingLayerColor: boolean;
   leaveContext: () => void;
-  makeHyperlink(url: string): void;
   mergeLayer: () => void;
   mergeAllLayers: () => void;
   moveDownSelectedElement(): void;
@@ -126,7 +124,6 @@ export default interface ISVGCanvas {
   randomizeIds(enableRandomization: boolean): string;
   ready: (arg0: () => void) => any;
   recalculateAllSelectedDimensions: (isSubCommand?: boolean) => IBatchCommand;
-  removeDefaultLayerIfEmpty(): void;
   removeFromSelection: (elems: SVGElement[]) => void;
   removeFromTempGroup: (elem: SVGElement) => void;
   renameCurrentLayer: (layerName: string) => void;
@@ -180,6 +177,7 @@ export default interface ISVGCanvas {
   updateCanvas: (width: number, height: number) => void;
   updateElementColor: (elem: Element) => void;
   updateLayerColor: (layerElement: Element) => void;
+  updateLayerColorFilter: (layerElement: Element) => void;
   updateRecentFiles(path: string): void;
   unsafeAccess: {
     setCurrentMode: (v: string) => void;

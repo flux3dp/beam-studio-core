@@ -35,7 +35,9 @@ function Potrace (options) {
     color: Potrace.COLOR_AUTO,
     background: Potrace.COLOR_TRANSPARENT,
     width: null,
-    height: null
+    height: null,
+    // custom option to add z when converting to svg
+    addZ: false,
   };
 
   if (options) {
@@ -1091,10 +1093,13 @@ Potrace.prototype = {
       this._processed = true;
     }
 
+    const addZ = this._params.addZ;
     let tag = '<path d="';
 
     tag += this._pathlist.map(function(path) {
-      return utils.renderCurve(path.curve, scale);
+      let res = utils.renderCurve(path.curve, scale);
+      // every curve is closed, so we can add z to every path
+      return addZ ? res + ' z' : res;
     }).join(' ');
 
     tag += '" stroke="none" fill="' + fillColor + '" fill-rule="evenodd"/>';

@@ -203,6 +203,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox:
       '#801 Vi kan ikke finde din maskine på netværket.\nFølg venligst <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> for at finde fejlen i forbindelsen.',
+    no_device_web: '#801 Tjek venligst status for din maskine, eller klik på \'Maskinopsætning\' nedenfor for at opsætte maskinen.'
   },
   update: {
     update: 'Opdater',
@@ -806,6 +807,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glas - gravering',
             metal_bw_engraving: 'Metal - gravering',
+            steel_engraving_spray_engraving: 'Metal - gravering',
             stainless_steel_bw_engraving_diode: 'Metal - gravering (diode laser)',
             gold_engraving: 'Guld - gravering',
             brass_engraving: 'Messing - gravering',
@@ -856,6 +858,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Gummi - gravering',
             glass_bw_engraving: 'Glas - gravering',
             metal_bw_engraving: 'Metal - gravering',
+            steel_engraving_spray_engraving: 'Metal - gravering',
             stainless_steel_bw_engraving_diode: 'Metal - gravering (diodelaser)',
             gold_engraving: 'Guld - Gravering',
             brass_engraving: 'Messing - Gravering',
@@ -1217,8 +1220,8 @@ const lang: ILang = {
     incorrect: 'E-mailadresse eller adgangskode er ikke korrekt.',
     not_verified: 'E-mailadressen er endnu ikke bekræftet.',
     new_to_flux: 'Ny til FLUX? Opret en konto.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Log ind for at låse formdatabasen op.',
@@ -1675,6 +1678,7 @@ const lang: ILang = {
       performIRCaliMsg:
         'Klik på "Bekræft" for at udføre kalibreringen, eller få adgang til kalibrering via topmenuen.<br />(Maskine > [Dit maskinnavn] > Kalibrer infrarød modul)',
     },
+    non_working_area: 'Ikke-arbejdsområde',
   },
 };
 

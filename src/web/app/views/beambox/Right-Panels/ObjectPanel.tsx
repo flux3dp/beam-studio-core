@@ -5,7 +5,7 @@ import { Button, ConfigProvider } from 'antd';
 import ActionsPanel from 'app/views/beambox/Right-Panels/ActionsPanel';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
 import dialogCaller from 'app/actions/dialog-caller';
-import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel';
+import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel/DimensionPanel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
@@ -45,12 +45,10 @@ function ObjectPanel(): JSX.Element {
       }
       return e.tagName.toLowerCase() === 'path' && svgCanvas.isElemFillable(e);
     };
+    const isSingleGroup = elems?.length === 1 && elems[0].tagName.toLowerCase() === 'g';
     return {
-      group: !isMobile || elems?.length > 1,
-      ungroup:
-        elems?.length === 1 &&
-        elems[0].tagName.toLowerCase() === 'g' &&
-        !elem.getAttribute('data-textpath-g'),
+      group: !isSingleGroup || elems?.length > 1,
+      ungroup: isSingleGroup && !elem.getAttribute('data-textpath-g'),
       dist: elems?.length > 2,
       boolean: elems?.length > 1 && elems?.every(allowBooleanOperations),
       union: elems?.length > 1 && elems?.every(allowBooleanOperations),
@@ -273,7 +271,7 @@ function ObjectPanel(): JSX.Element {
               {renderToolBtn(
                 LANG.group,
                 <ObjectPanelIcons.Group />,
-                false,
+                !buttonAvailability.group,
                 () => svgCanvas.groupSelectedElements(),
                 'group'
               )}

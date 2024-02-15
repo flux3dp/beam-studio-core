@@ -43,7 +43,7 @@ class BeamboxGlobalInteraction {
     if (selectedElements.length > 0 && selectedElements[0].getAttribute('data-tempgroup') === 'true') {
       selectedElements = Array.from(selectedElements[0].childNodes);
     }
-    if (selectedElements && selectedElements.length > 0) {
+    if (selectedElements?.length > 1 || (selectedElements?.length === 1 && selectedElements[0].tagName !== 'g')) {
       menu.enable(['GROUP']);
     }
     if (selectedElements && selectedElements.length === 1 && ['g', 'a', 'use'].includes(selectedElements[0].tagName)) {
@@ -52,7 +52,7 @@ class BeamboxGlobalInteraction {
   }
 
   onObjectBlur() {
-    menu.disable(['DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
+    menu.disable(['GROUP', 'UNGROUP', 'DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
   }
 
   detach() {

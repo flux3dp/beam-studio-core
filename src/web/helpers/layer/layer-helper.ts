@@ -1,14 +1,20 @@
 import { sprintf } from 'sprintf-js';
 
-import Alert from 'app/actions/alert-caller';
-import AlertConstants from 'app/constants/alert-constants';
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import { cloneLayerConfig, DataType, getData, initLayerConfig } from 'helpers/layer/layer-config-helper';
+import randomColor from 'helpers/randomColor';
+import {
+  cloneLayerConfig,
+  DataType,
+  getData,
+  initLayerConfig,
+} from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -98,6 +104,29 @@ export const getLayerName = (layer: Element): string => {
     return title.textContent;
   }
   return '';
+};
+
+// TODO: add unittest
+export const createLayer = (
+  name: string,
+  opts?: { hexCode?: string; isFullColor?: boolean; isSubCmd?: boolean }
+): { layer: SVGGElement; cmd: IBatchCommand } => {
+  const drawing = svgCanvas.getCurrentDrawing();
+  const { hexCode, isFullColor = false, isSubCmd = false } = opts || {};
+  const newLayer = drawing.createLayer(name);
+  const finalName = getLayerName(newLayer);
+  if (drawing.layer_map[finalName]) {
+    if (name && /^#([0-9a-f]{3}){1,2}$/i.test(name)) drawing.layer_map[finalName].setColor(name);
+    else if (hexCode) drawing.layer_map[finalName].setColor(hexCode);
+    else drawing.layer_map[finalName].setColor(randomColor.getColor());
+    if (isFullColor) drawing.layer_map[finalName].setFullColor(true);
+  }
+  const batchCmd = new history.BatchCommand('Create Layer');
+  batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
+  if (!isSubCmd) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  svgCanvas.updateLayerColorFilter(newLayer);
+  svgCanvas.clearSelection();
+  return { layer: newLayer, cmd: batchCmd };
 };
 
 export const deleteLayerByName = (layerName: string): ICommand => {
@@ -231,7 +260,7 @@ export const showMergeAlert = async (
   modules.add(targetModule);
   if (modules.has(LayerModule.PRINTER) && modules.size > 1) {
     return new Promise<boolean>((resolve) => {
-      Alert.popUp({
+      alertCaller.popUp({
         id: 'merge-layers',
         caption:
           targetModule === LayerModule.PRINTER
@@ -242,7 +271,7 @@ export const showMergeAlert = async (
             ? LANG.notification.mergeLaserLayerToPrintingLayerMsg
             : LANG.notification.mergePrintingLayerToLaserLayerMsg,
         messageIcon: 'notice',
-        buttonType: AlertConstants.CONFIRM_CANCEL,
+        buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: () => resolve(true),
         onCancel: () => resolve(false),
       });
@@ -440,35 +469,55 @@ export const moveToOtherLayer = (
   };
   const selectedElements = svgCanvas.getSelectedElems();
   const origLayer = getObjectLayer(selectedElements[0])?.elem;
-  const isPrintingLayer = getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
+  const isPrintingLayer =
+    origLayer && getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
   const isDestPrintingLayer =
     getData<LayerModule>(getLayerByName(destLayer), DataType.module) === LayerModule.PRINTER;
   const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
   const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
-  if (showAlert || moveOutFromFullColorLayer || moveInToFullColorLayer) {
-    Alert.popUp({
+  if (origLayer && (moveOutFromFullColorLayer || moveInToFullColorLayer)) {
+    alertCaller.popUp({
       id: 'move layer',
-      buttonType:
-        moveOutFromFullColorLayer || moveInToFullColorLayer
-          ? AlertConstants.CONFIRM_CANCEL
-          : AlertConstants.YES_NO,
-      // eslint-disable-next-line no-nested-ternary
+      buttonType: alertConstants.CONFIRM_CANCEL,
       caption: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerTitle, destLayer)
-        : moveInToFullColorLayer
-        ? sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer)
-        : undefined,
-      // eslint-disable-next-line no-nested-ternary
+        : sprintf(LANG.notification.moveElemToPrintingLayerTitle, destLayer),
       message: moveOutFromFullColorLayer
         ? sprintf(LANG.notification.moveElemFromPrintingLayerMsg, destLayer)
-        : moveInToFullColorLayer
-        ? sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer)
-        : sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
+        : sprintf(LANG.notification.moveElemToPrintingLayerMsg, destLayer),
+      messageIcon: 'notice',
+      onConfirm: () => moveToLayer(true),
+    });
+  } else if (showAlert) {
+    alertCaller.popUp({
+      id: 'move layer',
+      buttonType: alertConstants.YES_NO,
+      message: sprintf(LANG.notification.QmoveElemsToLayer, destLayer),
       messageIcon: 'notice',
       onYes: moveToLayer,
-      onConfirm: () => moveToLayer(true),
     });
   } else {
     moveToLayer(true);
   }
+};
+
+// TODO: add unittest
+export const removeDefaultLayerIfEmpty = (): ICommand | null => {
+  const defaultLayerName = LANG.layer1;
+  const drawing = svgCanvas.getCurrentDrawing();
+  const layer = drawing.getLayerByName(defaultLayerName);
+  const layerCount = drawing.getNumLayers();
+  if (layer && layerCount > 1) {
+    const childNodes = Array.from(layer.childNodes);
+    const isEmpty = childNodes.every((node: Element) => ['title', 'filter'].includes(node.tagName));
+    if (isEmpty) {
+      console.log('default layer is empty. delete it!');
+      const cmd = deleteLayerByName(defaultLayerName);
+      drawing.identifyLayers();
+      LayerPanelController.setSelectedLayers([]);
+      LayerPanelController.updateLayerPanel();
+      return cmd;
+    }
+  }
+  return null;
 };

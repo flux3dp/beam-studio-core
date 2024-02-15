@@ -9,6 +9,8 @@ import {
 
 export enum TutorialCallbacks {
   SELECT_DEFAULT_RECT = 'SELECT_DEFAULT_RECT',
+  SCROLL_TO_PARAMETER = 'SCROLL_TO_PARAMETER',
+  SCROLL_TO_ADD_LAYER = 'SCROLL_TO_ADD_LAYER',
 }
 
 const LANG = i18n.lang.tutorial;
@@ -167,6 +169,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       },
       text: LANG.newUser.switch_to_layer_panel,
       nextStepRequirement: nextStepRequirements.TO_LAYER_PANEL,
+      callback: TutorialCallbacks.SCROLL_TO_PARAMETER,
     },
     {
       dialogBoxStyles: {
@@ -189,6 +192,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       },
       text: LANG.newUser.set_preset_wood_cut,
       nextStepRequirement: nextStepRequirements.SET_PRESET_WOOD_CUTTING,
+      callback: TutorialCallbacks.SCROLL_TO_ADD_LAYER,
     },
     {
       dialogBoxStyles: {
@@ -298,6 +302,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       },
       text: LANG.newUser.switch_to_layer_panel,
       nextStepRequirement: nextStepRequirements.TO_LAYER_PANEL,
+      callback: TutorialCallbacks.SCROLL_TO_PARAMETER,
     },
     {
       dialogBoxStyles: {

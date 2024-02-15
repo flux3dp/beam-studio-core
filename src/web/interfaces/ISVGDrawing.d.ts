@@ -10,6 +10,8 @@ export default interface ISVGDrawing {
   getLayerColor: (layerName: string) => string;
   getLayerName: (index: number) => string | null;
   hasLayer: (layerName: string) => boolean;
+  createLayer: (name: string) => SVGGElement;
+  layer_map: { [key: string]: ISVGLayer };
   getLayerByName: (layerName: string) => SVGGElement | null;
   getNumLayers: () => number;
   identifyLayers: () => void;

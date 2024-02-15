@@ -20,6 +20,7 @@ import InterProcess from 'helpers/api/inter-process';
 import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
+import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
@@ -71,6 +72,7 @@ class BeamboxInit {
       this.initDefaultFont();
     }
     menu.init();
+    recentMenuUpdater.update();
     autoSaveHelper.init();
     fluxId.init();
     cloud.recordActivity();

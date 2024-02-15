@@ -79,6 +79,7 @@ import autoSaveHelper from 'helpers/auto-save-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
+import randomColor from 'helpers/randomColor';
 import sanitizeXmlString from 'helpers/sanitize-xml-string';
 import setElementsColor from 'helpers/color/setElementsColor';
 import storage from 'implementations/storage';
@@ -498,7 +499,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             //	}
             // }
           } else if (cmdType === BatchCommand.type()) {
-            if (['Delete Layer(s)', 'Clone Layer(s)', 'Merge Layer', 'Merge Layer(s)', 'Split Full Color Layer'].includes(cmd.text)) {
+            // Actions may create or remove layers
+            if ([
+              'Create Layer',
+              'Delete Layer(s)',
+              'Clone Layer(s)',
+              'Merge Layer',
+              'Merge Layer(s)',
+              'Split Full Color Layer',
+              'Import SVG',
+              'Import DXF',
+            ].includes(cmd.text)) {
               canvas.identifyLayers();
               LayerPanelController.setSelectedLayers([]);
               presprayArea.togglePresprayArea();
@@ -2575,23 +2586,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return true;
   };
 
-  const removeDefaultLayerIfEmpty = this.removeDefaultLayerIfEmpty = () => {
-    const defaultLayerName = LANG.right_panel.layer_panel.layer1;
-    const drawing = getCurrentDrawing();
-    const layer = drawing.getLayerByName(defaultLayerName);
-    if (layer) {
-      const childNodes = Array.from(layer.childNodes);
-      const isEmpty = childNodes.every((node: Element) => ['title', 'filter'].includes(node.tagName));
-      if (isEmpty) {
-        console.log('default layer is empty. delete it!');
-        svgCanvas.setCurrentLayer(defaultLayerName);
-        svgCanvas.deleteCurrentLayer();
-        svgEditor.updateContextPanel();
-        LayerPanelController.updateLayerPanel();
-      }
-    }
-  };
-
   // Function: importSvgString
   // This function imports the input SVG XML as a <symbol> in the <defs>, then adds a
   // <use> to the current layer.
@@ -2622,18 +2616,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     getCurrentDrawing().identifyLayers();
   };
 
-  let randomColorsIdx = 0
-
-  canvas.resetRandomColors = () => {
-    randomColorsIdx = 0
-  };
-
-  const getRandomLayerColor = canvas.getRandomLayerColor = function () {
-    const color = colorConstants.randomLayerColors[randomColorsIdx];
-    randomColorsIdx = randomColorsIdx < colorConstants.randomLayerColors.length - 1 ? randomColorsIdx + 1 : 0;
-    return color;
-  };
-
   // Function: createLayer
   // Creates a new top-level layer in the drawing with the given name, sets the current layer
   // to it, and then clears the selection. This function then calls the 'changed' handler.
@@ -2650,7 +2632,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       } else if (hexCode) {
         drawing.layer_map[name].setColor(hexCode);
       } else {
-        drawing.layer_map[name].setColor(getRandomLayerColor());
+        drawing.layer_map[name].setColor(randomColor.getColor());
       }
       if (isFullColor) {
         drawing.layer_map[name].setFullColor(true);
@@ -2761,14 +2743,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Returns:
   // true if the layer's visibility was set, false otherwise
   this.setLayerVisibility = function (layername, bVisible) {
-    var drawing = getCurrentDrawing();
-    var prevVisibility = drawing.getLayerVisibility(layername);
-    var layer = drawing.setLayerVisibility(layername, bVisible);
+    const drawing = getCurrentDrawing();
+    const prevVisibility = drawing.getLayerVisibility(layername);
+    const layer = drawing.setLayerVisibility(layername, bVisible);
+    presprayArea.togglePresprayArea();
     if (layer) {
-      var oldDisplay = prevVisibility ? 'inline' : 'none';
-      addCommandToHistory(new history.ChangeElementCommand(layer, {
-        'display': oldDisplay
-      }, 'Layer Visibility'));
+      const oldDisplay = prevVisibility ? 'inline' : 'none';
+      const cmd = new history.ChangeElementCommand(layer, { 'display': oldDisplay }, 'Layer Visibility');
+      cmd.onAfter = presprayArea.togglePresprayArea;
+      addCommandToHistory(cmd);
     } else {
       return false;
     }
@@ -2777,7 +2760,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       clearSelection();
       pathActions.clear();
     }
-    //		call('changed', [selected]);
     return true;
   };
 
@@ -2914,7 +2896,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent);
 
     // Reset Used Layer colors
-    canvas.resetRandomColors();
+    randomColor.reset();
 
     // create empty first layer
     canvas.createLayer(LANG.right_panel.layer_panel.layer1);
@@ -4138,21 +4120,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return batchCmd;
   };
 
-  // Function: makeHyperlink
-  // Wraps the selected element(s) in an anchor element or converts group to one
-  this.makeHyperlink = function (url) {
-    canvas.groupSelectedElements('a', url);
-
-    // TODO: If element is a single "g", convert to "a"
-    //	if (selectedElements.length > 1 && selectedElements[1]) {
-
-  };
-
-  // Function: removeHyperlink
-  this.removeHyperlink = function () {
-    canvas.ungroupSelectedElement();
-  };
-
   // TODO(codedread): Remove the getBBox argument and split this function into two.
   // Function: convertToPath
   // Convert selected element to a path, or get the BBox of an element-as-path
@@ -4395,8 +4362,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     storage.set('recent_files', recentFiles);
     recentMenuUpdater.update();
   };
-
-  recentMenuUpdater.update();
 
   /**
    * Create grid array of selected element
@@ -5095,40 +5060,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  /**
-   * Wraps all the selected elements in a group (g) element
-   * @param {string} type type of element to group into 'a' or 'g', defaults to 'g'
-   * @param {string} urlArg url if type if 'a'
-   */
-  this.groupSelectedElements = (type, urlArg) => {
+  this.groupSelectedElements = () => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
     }
 
-    if (selectedElements.length < 1) {
-      return;
-    }
-    if (!type) {
-      type = 'g';
-    }
-    var cmd_str = '';
-
-    switch (type) {
-      case 'a':
-        cmd_str = 'Make hyperlink';
-        var url = '';
-        if (urlArg) {
-          url = urlArg;
-        }
-        break;
-      default:
-        type = 'g';
-        cmd_str = 'Group Elements';
-        break;
-    }
-
-    var batchCmd = new history.BatchCommand(cmd_str);
+    if (selectedElements.length < 1) return;
+    if (selectedElements.length === 1 && selectedElements[0].tagName === 'g') return;
+    const cmd_str = 'Group Elements';
+    const batchCmd = new history.BatchCommand(cmd_str);
 
     const layerNames = [];
     for (let i = 0; i < selectedElements.length; i++) {
@@ -5151,15 +5092,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     // create and insert the group element
     const group = addSvgElementFromJson({
-      'element': type,
+      'element': 'g',
       'attr': {
         'id': getNextId(),
         'data-ratiofixed': true,
       }
     });
-    if (type === 'a') {
-      setHref(group, url);
-    }
     batchCmd.addSubCommand(new history.InsertElementCommand(group));
 
     for (let i = 0; i < selectedElements.length; i++) {
@@ -5171,14 +5109,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       group.appendChild(elem);
       batchCmd.addSubCommand(new history.MoveElementCommand(elem, nextSibling, parentNode));
     }
-    if (!batchCmd.isEmpty()) {
-      addCommandToHistory(batchCmd);
-    }
-
-    if (canvas.isUsingLayerColor) {
-      updateElementColor(group);
-    }
-
+    if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
+    if (canvas.isUsingLayerColor) updateElementColor(group);
     // update selection
     selectOnly([group], true);
   };

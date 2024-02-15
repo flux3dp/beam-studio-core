@@ -197,6 +197,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 No podemos encontrar tu máquina en la red.\nPor favor, sigue esta <a target="_blank" href="https://tupport.flux3dp.com/hc/en-us/articles/360001683556">guía</a> para solucionar el problema de conexión.',
+    no_device_web: '#801 Verifique el estado de su máquina o haga clic en \'Configuración de la máquina\' a continuación para configurar la máquina.'
   },
   update: {
     update: 'Actualizar',
@@ -754,6 +755,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Goma - Grabado',
             glass_bw_engraving: 'Vidrio - Grabado',
             metal_bw_engraving: 'Metal - Grabado',
+            steel_engraving_spray_engraving: 'Metal - Grabado',
             stainless_steel_bw_engraving_diode: 'Metal - Grabado (Láser Diodo)',
             gold_engraving: 'Oro - Grabado',
             brass_engraving: 'Latón - Grabado',
@@ -804,6 +806,7 @@ const lang: ILang = {
             rubber_bw_engraving: 'Goma - Grabado',
             glass_bw_engraving: 'Vidrio - Grabado',
             metal_bw_engraving: 'Metal - Grabado',
+            steel_engraving_spray_engraving: 'Metal - Grabado',
             stainless_steel_bw_engraving_diode: 'Metal - Grabado (Láser Diodo)',
             gold_engraving: 'Oro - Grabado',
             brass_engraving: 'Latón - Grabado',
@@ -1152,8 +1155,8 @@ const lang: ILang = {
     incorrect: 'El correo y/o la contraseña son incorrectos.',
     not_verified: 'Este correo electrónico no ha sido verificado.',
     new_to_flux: '¿Nuevo en FLUX? Crea una cuenta ahora.',
-    signup_url: 'https://store.flux3dp.com/my-account/#sign-up',
-    lost_password_url: 'https://store.flux3dp.com/my-account/lost-password/',
+    signup_url: 'https://id.flux3dp.com/user/login#up',
+    lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
   },
   noun_project_panel: {
     login_first: 'Ingresa para desbloquear la base de datos de figuras.',
@@ -1558,6 +1561,7 @@ const lang: ILang = {
       performIRCaliTitle: 'Realizar la calibración del módulo infrarrojo.',
       performIRCaliMsg: 'Haz clic en "Confirmar" para ejecutar la calibración o accede a la calibración a través del menú superior.<br />(Máquina > [Nombre de tu máquina] > Calibrar módulo infrarrojo)',
     },
+    non_working_area: 'Área no laboral',
   },
 };
 

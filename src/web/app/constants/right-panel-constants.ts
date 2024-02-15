@@ -78,7 +78,7 @@ const constants = {
     metal_bw_engraving: {
       power: 50,
       speed: 80,
-      name: 'metal_bw_engraving',
+      name: 'steel_engraving_spray_engraving',
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
@@ -160,7 +160,7 @@ const constants = {
     metal_bw_engraving: {
       power: 50,
       speed: 120,
-      name: 'metal_bw_engraving',
+      name: 'steel_engraving_spray_engraving',
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
@@ -242,7 +242,7 @@ const constants = {
     metal_bw_engraving: {
       power: 50,
       speed: 140,
-      name: 'metal_bw_engraving',
+      name: 'steel_engraving_spray_engraving',
     },
     stainless_steel_bw_engraving_diode: {
       power: 100,
@@ -348,7 +348,7 @@ const constants = {
     metal_bw_engraving: {
       power: 20,
       speed: 150,
-      name: 'metal_bw_engraving',
+      name: 'steel_engraving_spray_engraving',
     },
   },
   ADOR: {
