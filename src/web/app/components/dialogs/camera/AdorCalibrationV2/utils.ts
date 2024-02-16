@@ -1,3 +1,4 @@
+import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 
@@ -6,7 +7,8 @@ export const getMaterialHeight = async (): Promise<number> => {
   await deviceMaster.enterRawMode();
   await deviceMaster.rawHome();
   await deviceMaster.rawStartLineCheckMode();
-  await deviceMaster.rawMove({ x: 215, y: 150, f: 7500 });
+  const cameraCenter = constant.dimension.cameraCenter(device.info.model as WorkAreaModel);
+  if (cameraCenter) await deviceMaster.rawMove({ x: cameraCenter[0], y: cameraCenter[1], f: 7500 });
   await deviceMaster.rawEndLineCheckMode();
   await deviceMaster.rawAutoFocus();
   const { didAf, z } = await deviceMaster.rawGetProbePos();
