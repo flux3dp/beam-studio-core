@@ -44,8 +44,9 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
     const levelingData = await getLevelingData('hexa_platform');
     const bottomCoverLevelingData = await getLevelingData('bottom_cover');
     this.levelingOffset = await getLevelingData('offset');
+    const deviceRotationData = await loadCamera3dRotation();
     const rotationData = {
-      ...(await loadCamera3dRotation()),
+      ...deviceRotationData,
       tx: 0,
       ty: 0,
     } as RotationParameters3DCalibration;
@@ -72,7 +73,7 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
     this.levelingData = levelingData;
     progressCaller.update(progressId || this.progressId, { message: lang.message.endingRawMode });
     await deviceMaster.endRawMode();
-    await this.update3DRotation(rotationData);
+    if (deviceRotationData) await this.update3DRotation(rotationData);
     await this.onObjectHeightChanged();
     if (!progressId) progressCaller.popById(this.progressId);
     return true;
