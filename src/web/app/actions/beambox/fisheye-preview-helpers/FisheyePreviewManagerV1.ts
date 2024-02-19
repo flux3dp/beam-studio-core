@@ -60,12 +60,11 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
     });
     await rawAndHome(progressId || this.progressId);
     const height = await getHeight(device, progressId || this.progressId);
-    if (typeof height !== 'number') return false;
+    if (typeof height !== 'number') {
+      if (!progressId) progressCaller.popById(this.progressId);
+      return false;
+    }
     this.objectHeight = height;
-    progressCaller.openNonstopProgress({
-      id: progressId || this.progressId,
-      message: lang.message.getProbePosition,
-    });
     const autoFocusRefKey = await getAutoFocusPosition(device);
     const refHeight = levelingData[autoFocusRefKey];
     keys.forEach((key) => {
