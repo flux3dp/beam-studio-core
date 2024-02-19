@@ -121,8 +121,12 @@ describe('test FisheyePreviewManagerV1', () => {
     manager.onObjectHeightChanged = mockOnObjectHeightChanged;
     await manager.setupFisheyePreview();
     console.log(manager.setupFisheyePreview);
-    expect(mockOpenNonstopProgress).toHaveBeenCalledTimes(1);
+    expect(mockOpenNonstopProgress).toHaveBeenCalledTimes(2);
     expect(mockOpenNonstopProgress).toHaveBeenNthCalledWith(1, { id: 'fisheye-preview-manager' });
+    expect(mockOpenNonstopProgress).toHaveBeenNthCalledWith(2, {
+      id: 'fisheye-preview-manager',
+      message: 'getProbePosition',
+    });
     expect(mockUpdate).toHaveBeenCalledTimes(3);
     expect(mockUpdate).toHaveBeenNthCalledWith(1, 'fisheye-preview-manager', {
       message: 'Fetching leveling data...',
@@ -160,12 +164,15 @@ describe('test FisheyePreviewManagerV1', () => {
     expect(mockCalculatePerspectivePoints).toHaveBeenCalledTimes(1);
     expect(mockCalculatePerspectivePoints).toHaveBeenCalledWith();
     expect(mockSetFisheyeMatrix).toHaveBeenCalledTimes(1);
-    expect(mockSetFisheyeMatrix).toHaveBeenCalledWith({
-      k: [1, 2],
-      d: [3, 4],
-      center: [[5, 6]],
-      points: 'mockPerspectivePoints',
-    }, true);
+    expect(mockSetFisheyeMatrix).toHaveBeenCalledWith(
+      {
+        k: [1, 2],
+        d: [3, 4],
+        center: [[5, 6]],
+        points: 'mockPerspectivePoints',
+      },
+      true
+    );
   });
 
   test('update3dRotation', async () => {

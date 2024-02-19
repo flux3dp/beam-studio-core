@@ -21,7 +21,6 @@ import getHeight from './getHeight';
 import loadCamera3dRotation from './loadCamera3dRotation';
 import rawAndHome from './rawAndHome';
 
-// TODO: add test
 class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements FisheyePreviewManager {
   declare params: FisheyeCameraParametersV1;
 
@@ -64,6 +63,10 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
       if (!progressId) progressCaller.popById(this.progressId);
       return false;
     }
+    progressCaller.openNonstopProgress({
+      id: progressId || this.progressId,
+      message: lang.message.getProbePosition,
+    });
     this.objectHeight = height;
     const autoFocusRefKey = await getAutoFocusPosition(device);
     const refHeight = levelingData[autoFocusRefKey];

@@ -10,7 +10,6 @@ import getLevelingData from './getLevelingData';
 import getHeight from './getHeight';
 import rawAndHome from './rawAndHome';
 
-// TODO: add test
 class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements FisheyePreviewManager {
   declare params: FisheyeCameraParametersV2;
 
@@ -27,7 +26,7 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
   async setupFisheyePreview(progressId?: string): Promise<boolean> {
     const { lang } = i18n;
     if (!progressId) progressCaller.openNonstopProgress({ id: this.progressId });
-    const device = deviceMaster.currentDevice.info;
+    const { device, params } = this;
     progressCaller.update(progressId || this.progressId, { message: 'Fetching leveling data...' });
     this.levelingData = await getLevelingData('bottom_cover');
     this.levelingOffset = await getLevelingData('offset');
@@ -43,8 +42,8 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
     progressCaller.update(progressId || this.progressId, { message: lang.message.endingRawMode });
     await deviceMaster.endRawMode();
     // V2 calibration use point E as reference
-    console.log(this.params);
-    await deviceMaster.setFisheyeParam(this.params);
+    console.log(params);
+    await deviceMaster.setFisheyeParam(params);
     this.onObjectHeightChanged();
     if (!progressId) progressCaller.popById(this.progressId);
     return true;
