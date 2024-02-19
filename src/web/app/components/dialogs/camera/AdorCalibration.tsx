@@ -13,7 +13,7 @@ import {
   doFishEyeCalibration,
   startFisheyeCalibrate,
 } from 'helpers/camera-calibration-helper';
-import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+import { FisheyeCameraParametersV1 } from 'interfaces/FisheyePreview';
 
 import Align from './AdorCalibration/Align';
 import Calibrate from './AdorCalibration/Calibrate';
@@ -46,13 +46,14 @@ const calibrated = {
 const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX.Element => {
   const isDevMode = isDev();
   const lang = useI18n().calibration;
-  const param = useRef<FisheyeCameraParameters>({} as any);
+  const param = useRef<FisheyeCameraParametersV1>({} as any);
   const [step, setStep] = useState<Step>(Step.WAITING);
   const currentDeviceId = useMemo(() => deviceMaster.currentDevice.info.uuid, []);
   const checkFirstStep = async () => {
-    let fisheyeParameters: FisheyeCameraParameters = null;
+    let fisheyeParameters: FisheyeCameraParametersV1 = null;
     try {
-      fisheyeParameters = await deviceMaster.fetchFisheyeParams();
+      const currentParameter = await deviceMaster.fetchFisheyeParams();
+      if (!('v' in currentParameter)) fisheyeParameters = currentParameter;
     } catch (err) {
       // do nothing
     }

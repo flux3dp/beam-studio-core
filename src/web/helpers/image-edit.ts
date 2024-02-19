@@ -389,10 +389,6 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   if (isTransparentBackground) {
     imgUrl = await generateBase64Image(imgUrl, false, 254);
   }
-  if (canceled) {
-    progress.popById('potrace');
-    return;
-  }
   const res = await new Promise<
     { success: true; data: { svg: string; sx: number; sy: number } } | { success: false }
   >((resolve) => {
