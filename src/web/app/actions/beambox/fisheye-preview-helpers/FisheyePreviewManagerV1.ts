@@ -21,6 +21,7 @@ import getHeight from './getHeight';
 import loadCamera3dRotation from './loadCamera3dRotation';
 import rawAndHome from './rawAndHome';
 
+// TODO: add test
 class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements FisheyePreviewManager {
   declare params: FisheyeCameraParametersV1;
 
