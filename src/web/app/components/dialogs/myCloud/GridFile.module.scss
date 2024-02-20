@@ -9,7 +9,7 @@
 
   .img-container {
     max-width: 100%;
-    width: 216px;
+    width: myCloudVariables.$grid-width;
     height: 180px;
     display: flex;
     justify-content: center;
@@ -79,7 +79,7 @@
   &.selected {
     .img-container {
       background: #eeeeee;
-      border-radius: 5px;
+      border-radius: 12px;
     }
 
     .name {
