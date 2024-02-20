@@ -1149,11 +1149,11 @@ const applyStyle = (fontsInUse: WebFont[]): void => {
   head?.appendChild(link);
 };
 
-const getAvailableFonts = (lang: string): WebFont[] =>
-  fonts.filter((font) => {
-    if (!font.supportLangs) return true;
-    return font.supportLangs.includes(lang);
-  });
+const getAvailableFonts = (lang: string): WebFont[] => fonts;
+// fonts.filter((font) => {
+//   if (!font.supportLangs) return true;
+//   return font.supportLangs.includes(lang);
+// });
 
 export default {
   getAvailableFonts,

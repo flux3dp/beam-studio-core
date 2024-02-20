@@ -34,6 +34,7 @@ const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 const fonts = await fontHelper.getAvailableFonts();
+const pathResSelector = 'path[id^="svg_"]';
 let testIdSync: number;
 let actionSync: number = 0;
 // TODO: add tests
@@ -562,7 +563,7 @@ const TextOptions = ({
           onChange={(v) => {
             if (v !== null) {
               setTestId(v);
-              const oldPath = document.querySelectorAll('path[id*="svg_"]');
+              const oldPath = document.querySelectorAll(pathResSelector);
               oldPath.forEach((e) => e.parentNode.removeChild(e));
               setAction((a) => (a > 2 ? 4 : 1));
             }
@@ -574,22 +575,29 @@ const TextOptions = ({
         />
         <Button
           block
-          onClick={() => {
+          onClick={async () => {
             if (action === 0 || action === 3) {
               if (testId === fonts.length - 1) {
                 alert('Finished!');
               } else {
                 setTestId((v) => (v === undefined ? 0 : v + 1));
-                const oldPath = document.querySelectorAll('path[id*="svg_"]');
+                const oldPath = document.querySelectorAll(pathResSelector);
                 oldPath.forEach((e) => e.parentNode.removeChild(e));
                 setAction((a) => (a > 2 ? 4 : 1));
               }
             } else if (action === 1 || action === 4) {
-              svgCanvas.cloneSelectedElements(0, 0);
-              FontFuncs.convertTextToPath(textElement);
+              svgCanvas.cloneSelectedElements(200, 0);
+              let newElem = svgCanvas.getSelectedElems()[0];
+              await FontFuncs.convertTextToPath(newElem, {} as any, { byFontkit: true });
+              svgCanvas.selectOnly([elem]);
+              svgCanvas.cloneSelectedElements(400, 0);
+              newElem = svgCanvas.getSelectedElems()[0];
+              const bbox = svgCanvas.calculateTransformedBBox(newElem);
+              await FontFuncs.convertTextToPath(newElem, bbox);
+              svgCanvas.selectOnly([elem]);
               setAction((a) => (a + 1) % 6);
             } else {
-              const oldPath = document.querySelectorAll('path[id*="svg_"]');
+              const oldPath = document.querySelectorAll(pathResSelector);
               oldPath.forEach((e) => e.parentNode.removeChild(e));
               setAction((a) => (a + 1) % 6);
             }

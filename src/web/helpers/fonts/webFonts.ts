@@ -1613,11 +1613,12 @@ const applyStyle = (fontsInUse: WebFont[]): void => {
 };
 
 const getAvailableFonts = (lang?: string): WebFont[] => {
-  if (!lang) return fonts;
-  return fonts.filter((font) => {
-    if (!font.supportLangs) return true;
-    return font.supportLangs.includes(lang);
-  });
+  return fonts;
+  // if (!lang) return fonts;
+  // return fonts.filter((font) => {
+  //   if (!font.supportLangs) return true;
+  //   return font.supportLangs.includes(lang);
+  // });
 };
 
 export default {

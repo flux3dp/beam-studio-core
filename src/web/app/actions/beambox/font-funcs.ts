@@ -441,14 +441,18 @@ const setTextPostscriptnameIfNeeded = async (textElement: Element) => {
 const convertTextToPath = async (
   textElement: Element,
   bbox: { x: number; y: number; width: number; height: number },
-  opts?: { isTempConvert?: boolean; weldingTexts?: boolean }
+  opts?: { isTempConvert?: boolean; weldingTexts?: boolean; byFontkit?: boolean }
 ): Promise<ConvertResult> => {
   if (!textElement.textContent) {
     return ConvertResult.CONTINUE;
   }
   await Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
   try {
-    const { isTempConvert, weldingTexts } = opts || { isTempConvert: false, weldingTexts: false };
+    const { isTempConvert, weldingTexts, byFontkit } = opts || {
+      isTempConvert: false,
+      weldingTexts: false,
+      byFontkit: false,
+    };
     await setTextPostscriptnameIfNeeded(textElement);
     const batchCmd = new history.BatchCommand('Text to Path');
     const origFontFamily = textElement.getAttribute('font-family');
@@ -510,14 +514,14 @@ const convertTextToPath = async (
       fontkitErr: string | undefined,
       ghostErr: string | undefined,
       shouldMove: boolean | undefined;
-    ({
-      d,
-      transform,
-      shouldMove,
-      err: fontkitErr,
-    } = convertTextToPathByFontkit(textElement, fontObj));
-
-    if (!d) {
+    if (byFontkit) {
+      ({
+        d,
+        transform,
+        shouldMove,
+        err: fontkitErr,
+      } = convertTextToPathByFontkit(textElement, fontObj));
+    } else {
       ({
         d,
         transform,
@@ -568,7 +572,7 @@ const convertTextToPath = async (
         type: AlertConstants.SHOW_POPUP_ERROR,
         message: `#846 ${sprintf(LANG.text_to_path.error_when_parsing_text, err)}`,
       });
-      return ConvertResult.CONTINUE;
+      // return ConvertResult.CONTINUE;
     }
 
     if (!isTempConvert) {
