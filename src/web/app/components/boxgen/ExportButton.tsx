@@ -42,7 +42,9 @@ const ExportDialog = ({
   const handleOk = async () => {
     setConfirmLoading(true);
     const boxLayers = [];
-    (svgCanvas.getCurrentDrawing().all_layers as ISVGLayer[]).forEach((layer) => {
+    const newLayers = [];
+    const drawing = svgCanvas.getCurrentDrawing();
+    (drawing.all_layers as ISVGLayer[]).forEach((layer) => {
       // eslint-disable-next-line no-underscore-dangle
       if (layer.name_.startsWith('Box ')) boxLayers.push(layer.name_.split('-')[0]);
     });
@@ -63,6 +65,7 @@ const ExportDialog = ({
           parentCmd: batchCmd,
         })
       );
+      newLayers.push(`${uniqBoxName}-${idx + 1}`);
       if (options.textLabel) {
         content = wrapSVG(canvasWidth, canvasHeight, pageContent.label);
         promises.push(
@@ -72,12 +75,16 @@ const ExportDialog = ({
             parentCmd: batchCmd,
           })
         );
+        newLayers.push(`${uniqBoxName}-${idx + 1} Label`);
       }
     });
     const elems = (await Promise.allSettled(promises)).map((p) =>
       p.status === 'fulfilled' ? p.value : null
     );
     batchCmd.addSubCommand(await svgCanvas.disassembleUse2Group(elems, true, false, false));
+    newLayers
+      .slice(options.textLabel ? 2 : 1)
+      .forEach((layername) => drawing.setLayerVisibility(layername, false));
     svgCanvas.addCommandToHistory(batchCmd);
     setConfirmLoading(false);
     setVisible(false);

@@ -22,8 +22,8 @@ interface ShapeRaw {
   text: string;
 }
 
-const shapeToSVG = (shape: Shape, cx: number, cy: number): string =>
-  shape.paths[0].map((p) => `${p.X + cx},${p.Y + cy}`).join(' ');
+const shapeToPath = (shape: Shape, cx: number, cy: number): string =>
+  'M' + shape.paths[0].map((p) => `${p.X + cx},${p.Y + cy}`).join(' L') + ' Z';
 
 const getBlockDistance = (options: IExportOptions) => (options.joinOutput ? [0, 0] : [5, 5]);
 
@@ -108,12 +108,12 @@ export const getLayouts = (
       const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
       const sh = new Shape(path, true, false);
       return (
-        <polygon
+        <path
           // eslint-disable-next-line react/no-array-index-key
           key={index}
           fill="none"
           stroke={`rgb(${color.r}, ${color.g}, ${color.b})`}
-          points={shapeToSVG(sh, obj.x, obj.y)}
+          d={shapeToPath(sh, obj.x, obj.y)}
         />
       );
     }),
