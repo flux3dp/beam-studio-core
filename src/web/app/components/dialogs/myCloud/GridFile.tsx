@@ -2,7 +2,14 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Dropdown, Input, Popconfirm } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
+import {
+  ArrowRightOutlined,
+  CopyOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+} from '@ant-design/icons';
 
 import useI18n from 'helpers/useI18n';
 import { IFile } from 'interfaces/IMyCloud';
@@ -41,11 +48,11 @@ const GridFile = ({ file }: Props): JSX.Element => {
   };
 
   const actions = [
-    { key: 'open', label: lang.open },
-    { key: 'rename', label: lang.rename },
-    { key: 'duplicate', label: lang.duplicate },
-    { key: 'download', label: lang.download },
-    { key: 'delete', label: lang.delete },
+    { key: 'open', icon: <ArrowRightOutlined />, label: lang.open },
+    { key: 'rename', icon: <EditOutlined />, label: lang.rename },
+    { key: 'duplicate', icon: <CopyOutlined />, label: lang.duplicate },
+    { key: 'download', icon: <DownloadOutlined />, label: lang.download },
+    { key: 'delete', icon: <DeleteOutlined />, label: lang.delete, danger: true },
   ];
 
   const onAction = (e: { key: string }) => {
