@@ -70,24 +70,26 @@ class ActionsPanel extends React.Component<Props> {
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
+    const bbox = svgCanvas.calculateTransformedBBox(textElem);
     if (textActions.isEditing) {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.convertTextToPath(textElem);
+    await FontFuncs.convertTextToPath(textElem, bbox);
   };
 
   weldText = async (): Promise<void> => {
     const { elem } = this.props;
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
+    const bbox = svgCanvas.calculateTransformedBBox(textElem);
     if (textActions.isEditing) {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
 
-    await FontFuncs.convertTextToPath(textElem, { weldingTexts: true });
+    await FontFuncs.convertTextToPath(textElem, bbox, { weldingTexts: true });
   };
 
   renderButtons = (

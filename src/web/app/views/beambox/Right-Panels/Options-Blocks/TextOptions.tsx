@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Button, ConfigProvider, Select, Switch } from 'antd';
 
 import FluxIcons from 'app/icons/flux/FluxIcons';
-import fontHelper from 'implementations/fontHelper';
+import fontHelper from 'helpers/fonts/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';

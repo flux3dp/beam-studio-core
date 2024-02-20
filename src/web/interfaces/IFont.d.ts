@@ -2,18 +2,18 @@ import { Font } from 'fontkit';
 import { IUser } from 'interfaces/IUser';
 
 export interface IFont {
-  family?: string,
-  postscriptName?: string,
-  style?: string,
-  weight?: number,
-  italic?: boolean,
+  family?: string;
+  postscriptName?: string;
+  style?: string;
+  weight?: number;
+  italic?: boolean;
 }
 
 export interface IFontQuery {
-  family: string,
-  style?: string,
-  weight?: number,
-  italic?: boolean // not sure about type
+  family: string;
+  style?: string;
+  weight?: number;
+  italic?: boolean; // not sure about type
 }
 
 export interface FontHelper {
@@ -22,6 +22,7 @@ export interface FontHelper {
   getAvailableFonts: () => Promise<FontDescriptor[]>;
   substituteFont: (postscriptName: string, text: string) => Promise<FontDescriptor>;
   getFontName: (font: FontDescriptor) => string;
+  getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
   getWebFontPreviewUrl: (fontFamily: string) => string | null;
   applyMonotypeStyle: (
     font: WebFont | IFont,
@@ -32,12 +33,16 @@ export interface FontHelper {
   getLocalFont: (font: FontDescriptor) => Font | undefined;
 }
 
-export type FontDescriptorKeys =
-  'postscriptName' |
-  'family' |
-  'style' |
-  'weight' |
-  'italic';
+export interface LocalFontHelper {
+  findFont: (fontDescriptor: FontDescriptor) => FontDescriptor | null;
+  findFonts: (fontDescriptor: FontDescriptor) => FontDescriptor[];
+  getAvailableFonts: () => FontDescriptor[];
+  substituteFont: (postscriptName: string, text: string) => FontDescriptor | null;
+  getFontName: (font: FontDescriptor) => string;
+  getLocalFont: (font: FontDescriptor) => Font | undefined;
+}
+
+export type FontDescriptorKeys = 'postscriptName' | 'family' | 'style' | 'weight' | 'italic';
 
 export interface FontDescriptor {
   path?: string;
