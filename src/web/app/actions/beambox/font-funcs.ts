@@ -7,7 +7,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import fontHelper from 'implementations/fontHelper';
+import fontHelper from 'helpers/fonts/fontHelper';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
@@ -18,6 +18,8 @@ import textPathEdit from 'app/actions/beambox/textPathEdit';
 import weldPath from 'helpers/weldPath';
 import { FontDescriptor, IFont, IFontQuery, WebFont } from 'interfaces/IFont';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { moveElements } from 'app/svgedit/operations/move';
+import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -180,64 +182,132 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
   return fontObj;
 };
 
-const calculateFontPath = async (textElem: Element, fontObj: fontkit.Font): Promise<string> => {
-  const FFF = 65535;
-  const fontSize = +textElem.getAttribute('font-size');
-  const sizeRatio = fontSize / fontObj.unitsPerEm;
+const convertTextToPathByFontkit = (
+  textElem: Element,
+  fontObj: fontkit.Font
+): { d?: string; transform?: string | null; shouldMove?: boolean; err?: string } => {
+  try {
+    const FFF = 0xffff;
+    const fontSize = +textElem.getAttribute('font-size');
+    const sizeRatio = fontSize / fontObj.unitsPerEm;
 
-  let d = '';
-  const textPaths = textElem.querySelectorAll('textPath');
-  textPaths.forEach((textPath) => {
-    let alignOffset = 0;
-    const text = textPath.textContent;
-    const alignmentBaseline = textPath.getAttribute('alignment-baseline');
-    const dominantBaseline = textPath.getAttribute('dominant-baseline');
-    if (alignmentBaseline || dominantBaseline) {
-      textPath.textContent = 'i';
-      const { x, y } = textPath.getBBox();
-      textPath.removeAttribute('alignment-baseline');
-      textPath.removeAttribute('dominant-baseline');
-      const { x: x2, y: y2 } = textPath.getBBox();
-      alignOffset = Math.hypot(x - x2, y - y2);
-      textPath.setAttribute('alignment-baseline', alignmentBaseline);
-      textPath.setAttribute('dominant-baseline', dominantBaseline);
-      textPath.textContent = text;
+    let d = '';
+    const textPaths = textElem.querySelectorAll('textPath');
+    textPaths.forEach((textPath) => {
+      let alignOffset = 0;
+      const text = textPath.textContent;
+      const alignmentBaseline = textPath.getAttribute('alignment-baseline');
+      const dominantBaseline = textPath.getAttribute('dominant-baseline');
+      if (alignmentBaseline || dominantBaseline) {
+        textPath.textContent = 'i';
+        const { x, y } = textPath.getBBox();
+        textPath.removeAttribute('alignment-baseline');
+        textPath.removeAttribute('dominant-baseline');
+        const { x: x2, y: y2 } = textPath.getBBox();
+        alignOffset = Math.hypot(x - x2, y - y2);
+        textPath.setAttribute('alignment-baseline', alignmentBaseline);
+        textPath.setAttribute('dominant-baseline', dominantBaseline);
+        textPath.textContent = text;
+      }
+
+      const run = fontObj.layout(text);
+      let i = 0;
+      d += run.glyphs
+        .map((char) => {
+          const start = textPath.getStartPositionOfChar(i);
+          const end = textPath.getStartPositionOfChar(i);
+          if ([start.x, start.y, end.x, end.y].every((v) => v === 0)) return '';
+          const rot = (textPath.getRotationOfChar(i) / 180) * Math.PI;
+          char.codePoints.forEach((codePoint) => {
+            i = codePoint > FFF ? i + 2 : i + 1;
+          });
+          return char.path
+            .scale(sizeRatio, -sizeRatio)
+            .translate(0, alignOffset)
+            .rotate(rot)
+            .translate(start.x, start.y)
+            .toSVG();
+        })
+        .join('');
+    });
+
+    const tspans = textElem.querySelectorAll('tspan');
+    tspans.forEach((tspan) => {
+      const text = tspan.textContent;
+      const run = fontObj.layout(text);
+      let i = 0;
+      d += run.glyphs
+        .map((char) => {
+          const start = tspan.getStartPositionOfChar(i);
+          char.codePoints.forEach((codePoint) => {
+            i = codePoint > FFF ? i + 2 : i + 1;
+          });
+          return char.path.scale(sizeRatio, -sizeRatio).translate(start.x, start.y).toSVG();
+        })
+        .join('');
+    });
+
+    return { d, transform: textElem.getAttribute('transform'), shouldMove: false };
+  } catch (err) {
+    console.log(
+      `Unable to handle font ${textElem.getAttribute('font-postscript')} by fontkit, ${err}`
+    );
+    return { err };
+  }
+};
+
+const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
+  new Promise<{ d: string; transform: string }>((resolve) => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      const svgString = e.target.result as string;
+      const dRegex = svgString.match(/ d="([^"]+)"/g);
+      const transRegex = svgString.match(/transform="([^"]+)/);
+      const d = dRegex ? dRegex.map((p) => p.substring(4, p.length - 1))?.join('') : '';
+      const transform = transRegex ? transRegex[1] : '';
+      resolve({ d, transform });
+    };
+    if (isFilled) {
+      fileReader.readAsText(data.colors);
+    } else {
+      fileReader.readAsText(data.strokes);
     }
-
-    const run = fontObj.layout(text);
-    let i = 0;
-    d += run.glyphs
-      .map((char) => {
-        const start = textPath.getStartPositionOfChar(i);
-        const end = textPath.getStartPositionOfChar(i);
-        if ([start.x, start.y, end.x, end.y].every((v) => v === 0)) return '';
-        const rot = (textPath.getRotationOfChar(i) / 180) * Math.PI;
-        i = text.codePointAt(i) > FFF ? i + 2 : i + 1;
-        return char.path
-          .scale(sizeRatio, -sizeRatio)
-          .translate(0, alignOffset)
-          .rotate(rot)
-          .translate(start.x, start.y)
-          .toSVG();
-      })
-      .join('');
   });
 
-  const tspans = textElem.querySelectorAll('tspan');
-  tspans.forEach((tspan) => {
-    const text = tspan.textContent;
-    const run = fontObj.layout(text);
-    let i = 0;
-    d += run.glyphs
-      .map((char) => {
-        const start = tspan.getStartPositionOfChar(i);
-        i = text.codePointAt(i) > FFF ? i + 2 : i + 1;
-        return char.path.scale(sizeRatio, -sizeRatio).translate(start.x, start.y).toSVG();
-      })
-      .join('');
-  });
-
-  return d;
+const convertTextToPathByGhost = async (
+  textElem: Element,
+  bbox: { x: number; y: number; width: number; height: number },
+  isFilled: boolean,
+  font: FontDescriptor
+): Promise<{ d?: string; transform?: string | null; shouldMove?: boolean; err?: string }> => {
+  try {
+    if ('hasLoaded' in font) {
+      throw new Error('Monotype');
+    }
+    const { postscriptName } = font;
+    let res = await webNeedConnectionWrapper(async () => {
+      const res = await fontHelper.getWebFontAndUpload(postscriptName);
+      if (!res) {
+        throw new Error('error when uploading');
+      }
+      await svgWebSocket.uploadPlainTextSVG(textElem, bbox);
+      const outputs = await svgWebSocket.divideSVG({ scale: 1, timeout: 15000 });
+      if (!outputs.res) {
+        throw new Error(`fluxsvg: ${outputs.data}`);
+      }
+      return outputs.data;
+    });
+    if (!res) {
+      throw new Error('no connection');
+    }
+    res = await getPathAndTransformFromSvg(res, isFilled);
+    return { ...res, shouldMove: true };
+  } catch (err) {
+    console.log(
+      `Unable to handle font ${textElem.getAttribute('font-postscript')} by ghost, ${err}`
+    );
+    return { err };
+  }
 };
 
 const substitutedFont = async (textElement: Element) => {
@@ -368,124 +438,164 @@ const setTextPostscriptnameIfNeeded = async (textElement: Element) => {
   }
 };
 
-// TODO: fallback to machine when fontkit error
 const convertTextToPath = async (
   textElement: Element,
+  bbox: { x: number; y: number; width: number; height: number },
   opts?: { isTempConvert?: boolean; weldingTexts?: boolean }
 ): Promise<ConvertResult> => {
   if (!textElement.textContent) {
     return ConvertResult.CONTINUE;
   }
   await Progress.openNonstopProgress({ id: 'parsing-font', message: LANG.wait_for_parsing_font });
-  const { isTempConvert, weldingTexts } = opts || { isTempConvert: false, weldingTexts: false };
+  try {
+    const { isTempConvert, weldingTexts } = opts || { isTempConvert: false, weldingTexts: false };
+    await setTextPostscriptnameIfNeeded(textElement);
+    const batchCmd = new history.BatchCommand('Text to Path');
+    const origFontFamily = textElement.getAttribute('font-family');
+    const origFontPostscriptName = textElement.getAttribute('font-postscript');
+    let font = await getFontOfPostscriptName(origFontPostscriptName);
+    let fontObj = await getFontObj(font);
+    if (!fontObj) {
+      console.log(`Unable to get font ${origFontPostscriptName} with fontkit`);
+    }
 
-  await setTextPostscriptnameIfNeeded(textElement);
-  let hasUnsupportedFont = false;
-  const batchCmd = new history.BatchCommand('Text to Path');
-  const origFontFamily = textElement.getAttribute('font-family');
-  const origFontPostscriptName = textElement.getAttribute('font-postscript');
-  const font = await getFontOfPostscriptName(origFontPostscriptName);
-  let fontObj = await getFontObj(font);
-  if (!fontObj) {
-    Alert.popUpError({ message: `tUnable to get font ${origFontPostscriptName}` });
-    return ConvertResult.UNSUPPORT;
-  }
+    let hasUnsupportedFont = false;
+    // if (BeamboxPreference.read('font-substitute') !== false) {
+    //   const { font: newFont, unsupportedChar } = await substitutedFont(textElement);
+    //   font = newFont;
+    //   if (
+    //     newFont.postscriptName !== origFontPostscriptName &&
+    //     unsupportedChar &&
+    //     unsupportedChar.length > 0
+    //   ) {
+    //     hasUnsupportedFont = true;
+    //     const familyName = usePostscriptAsFamily
+    //       ? textElement.getAttribute('data-font-family')
+    //       : origFontFamily;
+    //     const doSub = await showSubstitutedFamilyPopup(
+    //       textElement,
+    //       newFont.family,
+    //       familyName,
+    //       unsupportedChar
+    //     );
+    //     if (doSub === SubstituteResult.DO_SUB) {
+    //       svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
+    //       textElement.setAttribute('font-family', newFont.family);
+    //       batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
+    //       svgCanvas.undoMgr.beginUndoableChange('font-postscript', [textElement]);
+    //       textElement.setAttribute('font-postscript', newFont.postscriptName);
+    //       batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
+    //       // fontkit only
+    //       fontObj = await getFontObj(newFont);
+    //     } else if (doSub === SubstituteResult.CANCEL_OPERATION) {
+    //       return ConvertResult.CANCEL_OPERATION;
+    //     }
+    //   }
+    // }
+    if (usePostscriptAsFamily) {
+      svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
+      textElement.setAttribute('font-family', textElement.getAttribute('font-postscript'));
+      batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
+    }
 
-  if (BeamboxPreference.read('font-substitute') !== false) {
-    const { font: newFont, unsupportedChar } = await substitutedFont(textElement);
-    if (
-      newFont.postscriptName !== origFontPostscriptName &&
-      unsupportedChar &&
-      unsupportedChar.length > 0
-    ) {
-      hasUnsupportedFont = true;
-      const familyName = usePostscriptAsFamily
-        ? textElement.getAttribute('data-font-family')
-        : origFontFamily;
-      const doSub = await showSubstitutedFamilyPopup(
-        textElement,
-        newFont.family,
-        familyName,
-        unsupportedChar
-      );
-      if (doSub === SubstituteResult.DO_SUB) {
-        svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
-        textElement.setAttribute('font-family', newFont.family);
-        batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
-        svgCanvas.undoMgr.beginUndoableChange('font-postscript', [textElement]);
-        textElement.setAttribute('font-postscript', newFont.postscriptName);
-        batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
-        fontObj = await getFontObj(newFont);
-      } else if (doSub === SubstituteResult.CANCEL_OPERATION) {
-        Progress.popById('parsing-font');
-        return ConvertResult.CANCEL_OPERATION;
+    const { postscriptName } = font;
+    console.log(textElement.getAttribute('font-family'), postscriptName);
+    textElement.removeAttribute('stroke-width');
+    const isFilled = calculateFilled(textElement);
+    let color = textElement.getAttribute('stroke');
+    color = color !== 'none' ? color : textElement.getAttribute('fill');
+
+    let d: string | undefined,
+      transform: string | null | undefined,
+      fontkitErr: string | undefined,
+      ghostErr: string | undefined,
+      shouldMove: boolean | undefined;
+    ({
+      d,
+      transform,
+      shouldMove,
+      err: fontkitErr,
+    } = convertTextToPathByFontkit(textElement, fontObj));
+
+    if (!d) {
+      ({
+        d,
+        transform,
+        shouldMove,
+        err: ghostErr,
+      } = await convertTextToPathByGhost(textElement, bbox, isFilled, font));
+    }
+
+    if (d) {
+      if (weldingTexts) {
+        d = weldPath(d);
+      }
+      const newPathId = svgCanvas.getNextId();
+      const path = document.createElementNS(svgedit.NS.SVG, 'path');
+      path.setAttribute('id', newPathId);
+      path.setAttribute('d', d);
+      if (transform) path.setAttribute('transform', transform);
+      path.setAttribute('fill', isFilled ? color : 'none');
+      path.setAttribute('fill-opacity', isFilled ? '1' : '0');
+      path.setAttribute('stroke', color);
+      path.setAttribute('stroke-opacity', '1');
+      path.setAttribute('stroke-dasharray', 'none');
+      path.setAttribute('vector-effect', 'non-scaling-stroke');
+      textElement.parentNode.insertBefore(path, textElement.nextSibling);
+      path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
+      path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
+      svgCanvas.pathActions.fixEnd(path);
+      batchCmd.addSubCommand(new history.InsertElementCommand(path));
+      if (shouldMove) {
+        // output of fluxsvg will locate at (0,0), so move it.
+        moveElements([bbox.x], [bbox.y], [path], false);
+      }
+
+      if (isTempConvert) {
+        textElement.setAttribute('display', 'none');
+        textElement.setAttribute('font-family', origFontFamily);
+        textElement.setAttribute('font-postscript', origFontPostscriptName);
+        textElement.setAttribute('stroke-width', '2');
+        textElement.setAttribute('data-path-id', newPathId);
+        tempPaths.push(path);
+      }
+      svgedit.recalculate.recalculateDimensions(path);
+    } else {
+      let err = '';
+      if (fontkitErr) err += `Fontkit: ${fontkitErr}<br/>`;
+      if (ghostErr) err += `Ghost: ${ghostErr}`;
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: `#846 ${sprintf(LANG.text_to_path.error_when_parsing_text, err)}`,
+      });
+      return ConvertResult.CONTINUE;
+    }
+
+    if (!isTempConvert) {
+      const parent = textElement.parentNode;
+      const { nextSibling } = textElement;
+      const elem = parent.removeChild(textElement);
+      batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
+
+      if (textElement.getAttribute('data-textpath')) {
+        const cmd = textPathEdit.ungroupTextPath(parent as SVGGElement);
+        if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+      }
+
+      if (!batchCmd.isEmpty()) {
+        svgCanvas.undoMgr.addCommandToHistory(batchCmd);
       }
     }
+    return hasUnsupportedFont ? ConvertResult.UNSUPPORT : ConvertResult.CONTINUE;
+  } catch (err) {
+    Alert.popUp({
+      type: AlertConstants.SHOW_POPUP_ERROR,
+      message: `#846 ${sprintf(LANG.text_to_path.error_when_parsing_text, err)}`,
+    });
+    return ConvertResult.CONTINUE;
+  } finally {
+    Progress.popById('parsing-font');
   }
-  if (usePostscriptAsFamily) {
-    svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
-    textElement.setAttribute('font-family', textElement.getAttribute('font-postscript'));
-    batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
-  }
-  console.log(textElement.getAttribute('font-family'), textElement.getAttribute('font-postscript'));
-
-  textElement.removeAttribute('stroke-width');
-  const isFilled = calculateFilled(textElement);
-  let color = textElement.getAttribute('stroke');
-  color = color !== 'none' ? color : textElement.getAttribute('fill');
-  const transform = textElement.getAttribute('transform');
-
-  let d = await calculateFontPath(textElement, fontObj);
-
-  if (d) {
-    if (weldingTexts) {
-      d = weldPath(d);
-    }
-    const newPathId = svgCanvas.getNextId();
-    const path = document.createElementNS(svgedit.NS.SVG, 'path');
-    path.setAttribute('id', newPathId);
-    path.setAttribute('d', d);
-    path.setAttribute('transform', transform);
-    path.setAttribute('fill', isFilled ? color : 'none');
-    path.setAttribute('fill-opacity', isFilled ? '1' : '0');
-    path.setAttribute('stroke', color);
-    path.setAttribute('stroke-opacity', '1');
-    path.setAttribute('stroke-dasharray', 'none');
-    path.setAttribute('vector-effect', 'non-scaling-stroke');
-    textElement.parentNode.insertBefore(path, textElement.nextSibling);
-    path.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
-    path.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
-    svgCanvas.pathActions.fixEnd(path);
-    batchCmd.addSubCommand(new history.InsertElementCommand(path));
-
-    if (isTempConvert) {
-      textElement.setAttribute('display', 'none');
-      textElement.setAttribute('font-family', origFontFamily);
-      textElement.setAttribute('font-postscript', origFontPostscriptName);
-      textElement.setAttribute('stroke-width', '2');
-      textElement.setAttribute('data-path-id', newPathId);
-      tempPaths.push(path);
-    }
-    svgedit.recalculate.recalculateDimensions(path);
-  }
-
-  if (!isTempConvert) {
-    const parent = textElement.parentNode;
-    const { nextSibling } = textElement;
-    const elem = parent.removeChild(textElement);
-    batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
-
-    if (textElement.getAttribute('data-textpath')) {
-      const cmd = textPathEdit.ungroupTextPath(parent as SVGGElement);
-      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-    }
-
-    if (!batchCmd.isEmpty()) {
-      svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    }
-  }
-  Progress.popById('parsing-font');
-  return hasUnsupportedFont ? ConvertResult.UNSUPPORT : ConvertResult.CONTINUE;
 };
 
 const tempConvertTextToPathAmoungSvgcontent = async () => {
@@ -496,8 +606,9 @@ const tempConvertTextToPathAmoungSvgcontent = async () => {
   ];
   for (let i = 0; i < texts.length; i += 1) {
     const el = texts[i];
+    const bbox = svgCanvas.calculateTransformedBBox($(el)[0]);
     // eslint-disable-next-line no-await-in-loop
-    const convertRes = await convertTextToPath(el, { isTempConvert: true });
+    const convertRes = await convertTextToPath(el, bbox, { isTempConvert: true });
     if (convertRes === ConvertResult.CANCEL_OPERATION) {
       return false;
     }
