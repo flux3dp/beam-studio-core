@@ -90,7 +90,9 @@ const GridFile = ({ file }: Props): JSX.Element => {
           onClick={onClick}
           onDoubleClick={onDoubleClick}
         >
-          <img src={`${file.thumbnail_url}?lastmod=${file.last_modified_at}`} />
+          {file.thumbnail_url && (
+            <img src={`${file.thumbnail_url}?lastmod=${file.last_modified_at}`} />
+          )}
           <Dropdown
             menu={{ items: actions, onClick: onAction }}
             trigger={['click']}
