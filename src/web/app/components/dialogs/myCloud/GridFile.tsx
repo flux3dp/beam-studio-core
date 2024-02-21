@@ -23,6 +23,18 @@ interface Props {
   file: IFile;
 }
 
+const getFileSize = (bytes: number) => {
+  const k = 1000;
+  let units = ['B', 'KB', 'MB', 'GB'];
+  let size = bytes;
+  let i = 0;
+  for (; i < units.length - 1; i++) {
+    if (size > k) size /= k;
+    else break;
+  }
+  return size.toFixed(1) + units[i];
+};
+
 const GridFile = ({ file }: Props): JSX.Element => {
   const lang = useI18n().my_cloud.action;
   const isMobile = useIsMobile();
@@ -147,8 +159,9 @@ const GridFile = ({ file }: Props): JSX.Element => {
         )}
       </div>
       <div className={styles.info}>
-        {workarea?.label}
-        {isMobile ? <br /> : <> &bull; </>}
+        <div>
+          {workarea?.label} &bull; {getFileSize(file.size)}
+        </div>
         {dayjs(file.last_modified_at).format('MM/DD/YYYY hh:mm A')}
       </div>
     </div>
