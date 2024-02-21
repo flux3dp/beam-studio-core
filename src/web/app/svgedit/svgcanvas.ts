@@ -4348,11 +4348,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     this.latestImportFileName = fileName;
     this.currentFileName = fileName;
     TopBarController.setFileName(fileName);
-    if (window.os === 'Windows' && window.titlebar) {
-      window.titlebar.updateTitle(fileName);
-    } else {
-      $('#svgcanvas').trigger('mouseup'); // update file title
-    }
   };
 
   // Function: getLatestImportFileName

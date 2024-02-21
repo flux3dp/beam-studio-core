@@ -1,7 +1,9 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
+import ReactDomServer from 'react-dom/server';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import FileName from 'app/components/beambox/top-bar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -130,11 +132,21 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
 
   const setUser = useCallback((user) => setCurrentUser({ ...user }), []);
 
+  const setTitle = (newFileName: string) => {
+    setFileName(newFileName);
+    if (window.os === 'Windows' && window.titlebar) {
+      const title = ReactDomServer.renderToStaticMarkup(
+        <FileName fileName={newFileName} hasUnsavedChange={false} isTitle />
+      );
+      window.titlebar._title.innerHtml = title;
+    }
+  };
+
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setUser);
     topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
-    topBarEventEmitter.on('SET_FILE_NAME', setFileName);
+    topBarEventEmitter.on('SET_FILE_NAME', setTitle);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
     topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', (callback) => {
