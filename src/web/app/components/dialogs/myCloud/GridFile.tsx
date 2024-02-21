@@ -32,6 +32,7 @@ const GridFile = ({ file }: Props): JSX.Element => {
   const { fileOperation, editingId, setEditingId, selectedId, setSelectedId } =
     useContext(MyCloudContext);
   const inputRef = useRef(null);
+  const [error, setError] = useState(false);
   const isEditing = useMemo(() => editingId === file.uuid, [editingId, file]);
   const isSelected = useMemo(() => selectedId === file.uuid, [selectedId, file]);
 
@@ -61,6 +62,7 @@ const GridFile = ({ file }: Props): JSX.Element => {
       fileOperation.open(file);
     } else if (e.key === 'rename') {
       setEditingId(file.uuid);
+      setError(false);
     } else if (e.key === 'duplicate') {
       fileOperation.duplicate(file);
     } else if (e.key === 'download') {
@@ -71,6 +73,10 @@ const GridFile = ({ file }: Props): JSX.Element => {
   };
 
   const onChangeName = async (e) => {
+    if (error) {
+      setEditingId(null);
+      return;
+    }
     const newName = e.target.value;
     await fileOperation.rename(file, newName);
   };
@@ -125,8 +131,13 @@ const GridFile = ({ file }: Props): JSX.Element => {
             size="small"
             defaultValue={file.name}
             ref={inputRef}
+            onChange={(e) => {
+              const { value } = e.target;
+              setError(!value || value.includes('/'));
+            }}
             onBlur={onChangeName}
             onPressEnter={onChangeName}
+            status={error ? 'error' : undefined}
             maxLength={255}
           />
         ) : (
