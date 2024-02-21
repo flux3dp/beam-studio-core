@@ -29,6 +29,11 @@ const mockFiles: IFile[] = [
 ];
 
 jest.mock('helpers/useI18n', () => () => ({
+  flux_id_login: {
+    flux_plus: {
+      website_url: 'https://website_url',
+    },
+  },
   my_cloud: {
     title: 'My Cloud',
     loading_file: 'Loading...',
@@ -64,8 +69,12 @@ describe('test MyCloud', () => {
   test('should rendered correctly', () => {
     const { baseElement } = render(<MyCloud onClose={mockOnClose} />);
     expect(baseElement).toMatchSnapshot();
-    const button = baseElement.querySelector('.ant-modal-close');
-    fireEvent.click(button);
+    const upgradeButton = baseElement.querySelector('.button');
+    fireEvent.click(upgradeButton);
+    expect(open).toBeCalledTimes(1);
+    expect(open).toBeCalledWith('https://website_url');
+    const closeButton = baseElement.querySelector('.ant-modal-close');
+    fireEvent.click(closeButton);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 

@@ -17,6 +17,19 @@ $content-height: 60vh;
     margin-bottom: 0;
     justify-content: center;
   }
+
+  .limit {
+    .tag {
+      display: inline;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #cecece;
+    }
+
+    .button {
+      font-weight: 500;
+    }
+  }
 }
 
 .grids {

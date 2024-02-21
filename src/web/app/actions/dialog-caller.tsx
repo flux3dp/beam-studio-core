@@ -477,6 +477,7 @@ export default {
     if (isIdExist('flux-id-credit')) return;
     forceLoginWrapper(async () => {
       await getInfo(true);
+      if (isIdExist('flux-id-credit')) return;
       addDialogComponent(
         'flux-id-credit',
         <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
@@ -505,10 +506,8 @@ export default {
   },
   showMyCloud: (onClose: () => void): void => {
     if (isIdExist('my-cloud')) return;
-    const user = getCurrentUser();
-    if (!user?.info?.subscription?.is_valid) {
-      showFluxPlusWarning();
-    } else {
+    forceLoginWrapper(() => {
+      if (isIdExist('my-cloud')) return;
       addDialogComponent(
         'my-cloud',
         <MyCloud
@@ -518,7 +517,7 @@ export default {
           }}
         />
       );
-    }
+    }, true);
   },
   saveToCloud: (uuid?: string): Promise<{ fileName: string | null; isCancelled?: boolean }> =>
     new Promise<{ fileName: string | null; isCancelled?: boolean }>((resolve) => {

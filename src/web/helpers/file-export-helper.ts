@@ -105,8 +105,8 @@ export const generateBeamBuffer = async (): Promise<Buffer> => {
 const saveToCloud = async (): Promise<boolean> => {
   const id = 'upload-cloud-file';
   const user = getCurrentUser();
-  if (!user?.info?.subscription?.is_valid) {
-    dialogCaller.showFluxPlusWarning();
+  if (!user) {
+    dialogCaller.showLoginDialog();
     return false;
   }
   svgCanvas.clearSelection();
