@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, Form, Modal, Pagination, Switch } from 'antd';
+import { Button, Form, InputNumber, Modal, Pagination, Switch } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
@@ -27,11 +27,13 @@ const ExportDialog = ({
   setVisible: (visible: boolean) => void;
 }): JSX.Element => {
   const lang = useI18n().boxgen;
-  const { boxData, workarea, onClose } = useContext(BoxgenContext);
+  const { boxData, workarea, onClose, lengthUnit } = useContext(BoxgenContext);
+  const { unit, unitRatio, decimal } = lengthUnit;
   const [page, setPage] = useState(1);
   const [options, setOptions] = useState<IExportOptions>({
     joinOutput: false,
     textLabel: false,
+    compRadius: 0,
   });
   const [confirmLoading, setConfirmLoading] = useState(false);
   if (!visible) return null;
@@ -93,12 +95,12 @@ const ExportDialog = ({
 
   return (
     <Modal
-      title={lang.export}
+      title={lang.import}
       open={visible}
       onOk={handleOk}
       onCancel={() => setVisible(false)}
       okButtonProps={{ icon: <DownloadOutlined /> }}
-      okText={lang.export}
+      okText={lang.import}
       cancelText={lang.cancel}
       confirmLoading={confirmLoading}
     >
@@ -148,11 +150,25 @@ const ExportDialog = ({
         </Form.Item>
         <Form.Item
           className={styles['form-item']}
-          label={lang.textLabel}
+          label={lang.text_label}
           name="textLabel"
           valuePropName="checked"
         >
           <Switch />
+        </Form.Item>
+        <Form.Item className={styles['form-item']} label={lang.beam_radius} name="compRadius">
+          <InputNumber<number>
+            type="number"
+            size="small"
+            min={0}
+            max={0.5}
+            addonAfter={unit}
+            step={0.1 * unitRatio}
+            formatter={(v, { userTyping, input }) =>
+              userTyping ? input : ((v as number) / unitRatio).toFixed(decimal + 2)
+            }
+            parser={(v) => Number(v) * unitRatio}
+          />
         </Form.Item>
       </Form>
     </Modal>
@@ -165,7 +181,7 @@ const ExportButton = (): JSX.Element => {
   return (
     <>
       <Button type="primary" onClick={() => setVisible(true)}>
-        {lang.continue_export}
+        {lang.continue_import}
       </Button>
       <ExportDialog visible={visible} setVisible={setVisible} />
     </>

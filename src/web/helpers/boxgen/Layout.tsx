@@ -43,26 +43,33 @@ export class OutputPage {
   maxY = 0;
 
   constructor(canvasWidth: number, canvasHeight: number, options: IExportOptions) {
+    this.nextX = options.compRadius;
+    this.cursorX = options.compRadius;
+    this.cursorY = options.compRadius;
     this.maxX = canvasWidth;
     this.maxY = canvasHeight;
     this.options = options;
   }
 
   addShape(shape: ShapeRaw): boolean {
+    const { compRadius } = this.options;
     const [dx, dy] = getBlockDistance(this.options);
-    if (this.cursorY + shape.height > this.maxY && this.cursorX + shape.width <= this.maxX) {
+    if (
+      this.cursorY + shape.height + compRadius > this.maxY &&
+      this.cursorX + shape.width + compRadius <= this.maxX
+    ) {
       this.cursorX = this.nextX;
-      this.cursorY = 0;
+      this.cursorY = compRadius;
     }
-    if (this.cursorX + shape.width > this.maxX) return false;
+    if (this.cursorX + shape.width + compRadius > this.maxX) return false;
     this.shapes.push({
       shape: shape.shape,
       x: this.cursorX + shape.width / 2,
       y: this.cursorY + shape.height / 2,
       text: shape.text,
     });
-    this.cursorY += dy + shape.height;
-    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx);
+    this.cursorY += shape.height + dy + compRadius;
+    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx + compRadius);
     return true;
   }
 }
@@ -106,7 +113,11 @@ export const getLayouts = (
   const pages = outputs.map((output) => ({
     shape: output.shapes.map((obj: ShapeDisplayObject, index) => {
       const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
-      const sh = new Shape(path, true, false);
+      const sh = new Shape(path, true, false).offset(options.compRadius, {
+        jointType: 'jtSquare',
+        endType: 'etClosedPolygon',
+        miterLimit: 2.0,
+      });
       return (
         <path
           // eslint-disable-next-line react/no-array-index-key

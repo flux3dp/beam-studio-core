@@ -7,12 +7,13 @@ import ExportButton from './ExportButton';
 
 jest.mock('helpers/useI18n', () => () => ({
   boxgen: {
-    continue_export: 'Continue to Export',
-    export: 'Export',
+    continue_import: 'Continue to Import',
+    import: 'Import',
     cancel: 'Cancel',
     customize: 'Customize',
     merge: 'Merge',
-    textLabel: 'Label',
+    text_label: 'Label',
+    beam_radius: 'Kerf compensation',
   },
 }));
 
@@ -103,6 +104,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toBeCalledWith(300, 210, mockData, {
       joinOutput: false,
       textLabel: false,
+      compRadius: 0,
     });
 
     const paginationButtons = modal.querySelectorAll('.ant-pagination-item');
@@ -119,6 +121,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: false,
+      compRadius: 0,
     });
     expect(optionButtons[0].getAttribute('aria-checked')).toBe('true');
     expect(paginationButtons[0]).toHaveClass('ant-pagination-item-active');
@@ -128,6 +131,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: true,
+      compRadius: 0,
     });
 
     fireEvent.click(modal.querySelector('.ant-btn-primary'));
