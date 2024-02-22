@@ -39,7 +39,28 @@ jest.mock('helpers/useI18n', () => () => ({
     loading_file: 'Loading...',
     no_file_title: 'Save files to My Cloud to get started.',
     no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
+    file_limit: 'File limit',
+    upgrade: 'Upgrade',
   },
+}));
+
+const mockUser = {
+  email: 'test123@gmail.com',
+  info: {
+    subscription: {
+      is_valid: false,
+    },
+  },
+};
+
+const getCurrentUser = jest.fn();
+jest.mock('helpers/api/flux-id', () => ({
+  getCurrentUser: () => getCurrentUser(),
+}));
+
+const open = jest.fn();
+jest.mock('implementations/browser', () => ({
+  open: (...args) => open(...args),
 }));
 
 jest.mock('app/contexts/MyCloudContext', () => ({
@@ -67,6 +88,7 @@ describe('test MyCloud', () => {
   });
 
   test('should rendered correctly', () => {
+    getCurrentUser.mockReturnValue(mockUser);
     const { baseElement } = render(<MyCloud onClose={mockOnClose} />);
     expect(baseElement).toMatchSnapshot();
     const upgradeButton = baseElement.querySelector('.button');
@@ -78,7 +100,21 @@ describe('test MyCloud', () => {
     expect(mockOnClose).toBeCalledTimes(1);
   });
 
+  test('should rendered correctly when user is subscribed', () => {
+    getCurrentUser.mockReturnValue({
+      email: 'test123@gmail.com',
+      info: {
+        subscription: {
+          is_valid: true,
+        },
+      },
+    });
+    const { baseElement } = render(<MyCloud onClose={mockOnClose} />);
+    expect(baseElement).toMatchSnapshot();
+  });
+
   test('should rendered correctly in mobile', () => {
+    getCurrentUser.mockReturnValue(mockUser);
     mockUseIsMobile.mockReturnValue(true);
     const { container } = render(<MyCloud onClose={mockOnClose} />);
     expect(container).toMatchSnapshot();
