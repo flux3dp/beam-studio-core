@@ -2,6 +2,7 @@
 @use './_mixins.scss' as mixins;
 
 .user-avatar {
+  cursor: pointer;
   height: variables.$topBarHeight;
   position: absolute;
   margin-left: 80px;
