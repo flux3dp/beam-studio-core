@@ -44,24 +44,29 @@ const findFont = async (fontDescriptor: FontDescriptor): Promise<FontDescriptor>
   let match = await getAvailableFonts();
   let font = match[0];
   if (fontDescriptor.postscriptName) {
-    match = match.filter((f) => f.postscriptName === fontDescriptor.postscriptName);
-    font = match[0] || font;
+    const filtered = match.filter((f) => f.postscriptName === fontDescriptor.postscriptName);
+    if (filtered.length) match = filtered;
+    font = filtered[0] || font;
   }
   if (fontDescriptor.family) {
-    match = match.filter((f) => f.family === fontDescriptor.family);
-    font = match[0] || font;
+    const filtered = match.filter((f) => f.family === fontDescriptor.family);
+    if (filtered.length) match = filtered;
+    font = filtered[0] || font;
   }
   if ('italic' in fontDescriptor && fontDescriptor.italic !== undefined) {
-    match = match.filter((f) => f.italic === fontDescriptor.italic);
-    font = match[0] || font;
+    const filtered = match.filter((f) => f.italic === fontDescriptor.italic);
+    if (filtered.length) match = filtered;
+    font = filtered[0] || font;
   }
   if (fontDescriptor.style) {
-    match = match.filter((f) => f.style === fontDescriptor.style);
+    const filtered = match.filter((f) => f.style === fontDescriptor.style);
+    if (filtered.length) match = filtered;
+    font = filtered[0] || font;
   }
-  font = match[0] || font;
   if (fontDescriptor.weight) {
-    match = match.filter((f) => f.weight === fontDescriptor.weight);
-    font = match[0] || font;
+    const filtered = match.filter((f) => f.weight === fontDescriptor.weight);
+    if (filtered.length) match = filtered;
+    font = filtered[0] || font;
   }
   return font;
 };
