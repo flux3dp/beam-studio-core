@@ -1015,10 +1015,13 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: '글꼴 분석 중... 잠시만 기다려주세요.',
       text_to_path: {
-        font_substitute_pop: '<strong>%s</strong>의 문자열 <strong>%s</strong>은(는) 현재 글꼴 <strong>%s</strong>에서 지원되지 않습니다. 대체로 <strong>%s</strong>을(를) 사용하시겠습니까?',
-        check_thumbnail_warning: '문자열을 패스로 변환하는 동안 일부 문자열이 다른 글꼴로 변경되어 일부 문자가 제대로 변환되지 않을 수 있습니다. 작업을 보내기 전 미리보기 이미지를 다시 확인해주세요.',
-        error_when_parsing_text: '텍스트를 패스로 변환하는 동안 오류가 발생했습니다. 오류 메시지: %s',
+        font_substitute_pop:
+          '귀하의 텍스트에 현재 글꼴에서 지원하지 않는 문자가 포함되어 있습니다. <br/>대신 <strong>%s</strong>을(를) 사용하시겠습니까?',
+        check_thumbnail_warning:
+          '문자열을 패스로 변환하는 동안 일부 문자열이 다른 글꼴로 변경되어 일부 문자가 제대로 변환되지 않을 수 있습니다. 작업을 보내기 전 미리보기 이미지를 다시 확인해주세요.',
+        error_when_parsing_text: '텍스트를 패스로 변환하는 동안 오류가 발생했습니다. 오류 메시지',
         use_current_font: '현재 글꼴 사용',
+        retry: '다시 시도하거나 다른 글꼴을 선택하세요',
       },
       lock_desc: '너비와 높이의 비율 유지하기 (SHIFT)',
     },
@@ -1616,11 +1619,12 @@ const lang: ILang = {
     tCount_tooltip: 'T 슬롯의 수는 짧은 변에 적용됩니다. 긴 변의 수량은 길이에 따라 자동 계산됩니다.',
     tDiameter: 'T 지름',
     tLength: 'T 길이',
-    continue_export: '내보내기 계속',
+    continue_import: '계속 가져오기',
     customize: '사용자 정의',
     merge: '병합',
-    textLabel: '라벨',
-    export: '내보내기',
+    text_label: '라벨',
+    beam_radius: '빔 보정',
+    import: '가져오기',
     cancel: '취소',
     reset: '리셋',
     zoom: '확대/축소',
@@ -1632,6 +1636,8 @@ const lang: ILang = {
     loading_file: '로딩 중...',
     no_file_title: '파일을 내 클라우드에 저장하여 시작하세요.',
     no_file_subtitle: '메뉴 > "파일" > "클라우드에 저장"',
+    file_limit: '파일 제한',
+    upgrade: '업그레이드',
     sort: {
       most_recent: '최신 순',
       oldest: '오래된 순',
@@ -1651,6 +1657,7 @@ const lang: ILang = {
       save: '저장',
       save_new: '새 파일로 저장',
       input_file_name: '파일 이름 입력:',
+      invalid_char: '잘못된 문자:',
     },
   },
 };

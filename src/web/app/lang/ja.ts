@@ -1015,10 +1015,13 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'フォントの解析中です… 少々お待ちください',
       text_to_path: {
-        font_substitute_pop: 'テキスト：「%s」に書体：「%s」サポートできない文字があります.\n%s\n書体「%s」に変更して宜しいですか',
-        check_thumbnail_warning: 'テキストをパスに解析するときに一部の書体が他のフォントに変更され、一部の文字が正常に変換されないことがあります.\nタスクを送信する前に、プレビュー画像をもう一度確認してください。',
-        error_when_parsing_text: 'テキストをパスに変換するときにエラーが発生しました：\n%s',
+        font_substitute_pop:
+          'テキストに現在のフォントではサポートされていない文字が含まれています。<br/>代わりに<strong>%s</strong>を使用しますか?',
+        check_thumbnail_warning:
+          'テキストをパスに解析するときに一部の書体が他のフォントに変更され、一部の文字が正常に変換されないことがあります.\nタスクを送信する前に、プレビュー画像をもう一度確認してください。',
+        error_when_parsing_text: 'テキストをパスに変換するときにエラーが発生しました',
         use_current_font: '現在のフォントを使用',
+        retry: '後で再試行するか、別のフォントを選択してください',
       },
       lock_desc: '幅と高さの比率を保持（SHIFT）',
     },
@@ -1616,11 +1619,12 @@ const lang: ILang = {
     tCount_tooltip: 'Tスロットの数は短辺に適用されます。長辺の数は、長さに基づいて計算されます。',
     tDiameter: 'T の直径',
     tLength: 'T の長さ',
-    continue_export: 'エクスポートを続行',
+    continue_import: 'インポートを続行する',
     customize: 'カスタマイズ',
     merge: 'マージ',
-    textLabel: 'ラベル',
-    export: 'エクスポート',
+    text_label: 'ラベル',
+    beam_radius: 'レーザー半径補正',
+    import: 'インポート',
     cancel: 'キャンセル',
     reset: 'リセット',
     zoom: 'ズーム',
@@ -1632,6 +1636,8 @@ const lang: ILang = {
     loading_file: '読み込み中...',
     no_file_title: 'マイクラウドにファイルを保存して開始します。',
     no_file_subtitle: 'メニュー > 「ファイル」 > 「クラウドに保存」 に移動します。',
+    file_limit: 'ファイル制限',
+    upgrade: 'アップグレード',
     sort: {
       most_recent: '最新の',
       oldest: '最古の',
@@ -1651,6 +1657,7 @@ const lang: ILang = {
       save: '保存',
       save_new: '新規ファイルとして保存',
       input_file_name: 'ファイル名を入力:',
+      invalid_char: '無効な文字:',
     },
   },
 };

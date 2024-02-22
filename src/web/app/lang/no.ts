@@ -1068,11 +1068,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Analyserer skrifttype ... Vennligst vent et øyeblikk',
       text_to_path: {
         font_substitute_pop:
-          'Tekst: <strong>%s</strong> inneholder tegn <strong>%s</strong> som ikke støttes av gjeldende skrifttype: <strong>%s</strong>. <br/>Vil du bruke <strong>%s</strong> som erstatning?',
+          'Teksten din inneholder tegn som ikke støttes av gjeldende skrift. <br/>Vil du bruke <strong>%s</strong> som erstatning?',
         check_thumbnail_warning:
           'Noen tekster ble endret til andre skrifttyper når tekst ble konvertert til baner, og noen tegn ble kanskje ikke konvertert normalt. \nSjekk forhåndsvisningsbildet igjen før du sender oppgaven.',
-        error_when_parsing_text: 'Feil ved konvertering av tekst til bane: \n%s',
+        error_when_parsing_text: 'Feil ved konvertering av tekst til bane',
         use_current_font: 'Bruk gjeldende skrifttype',
+        retry: 'Prøv igjen senere eller velg en annen skrift',
       },
       lock_desc: 'Bevar forholdet mellom bredde og høyde (SHIFT)',
     },
@@ -1721,11 +1722,12 @@ const lang: ILang = {
     tCount_tooltip: 'Antall T-spor gjelder for den korte siden; mengden på den lange siden beregnes basert på lengden.',
     tDiameter: 'T-diameter',
     tLength: 'T-lengde',
-    continue_export: 'Fortsett til eksport',
+    continue_import: 'Fortsett å importere',
     customize: 'Tilpass',
     merge: 'Slå sammen',
-    textLabel: 'Tekstetikett',
-    export: 'Eksporter',
+    text_label: 'Tekstetikett',
+    beam_radius: 'Kompensasjon for kuttebredde',
+    import: 'Importer',
     cancel: 'Avbryt',
     reset: 'Tilbakestill',
     zoom: 'Zoom',
@@ -1737,6 +1739,8 @@ const lang: ILang = {
     loading_file: 'Laster inn...',
     no_file_title: 'Lagre filer til Min sky for å komme i gang.',
     no_file_subtitle: 'Gå til Meny > "Fil" > "Lagre til skyen"',
+    file_limit: 'Filgrense',
+    upgrade: 'Oppgrader',
     sort: {
       most_recent: 'Nylig',
       oldest: 'Eldst',
@@ -1757,6 +1761,7 @@ const lang: ILang = {
       save: 'Lagre',
       save_new: 'Lagre som ny fil',
       input_file_name: 'Skriv inn filnavn:',
+      invalid_char: 'Ugyldige tegn:',
     },
   },
 };

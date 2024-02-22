@@ -1068,11 +1068,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Lettertypen aan het verwerken... Een moment geduld',
       text_to_path: {
         font_substitute_pop:
-          'Tekst: <strong>%s</strong> bevat tekens <strong>%s</strong> die niet worden ondersteund door het huidige lettertype: <strong>%s</strong>. <br/>Wilt u <strong>%s</strong> gebruiken als vervanging?',
+          'Uw tekst bevat tekens die niet worden ondersteund door het huidige lettertype. <br/>Wilt u <strong>%s</strong> gebruiken als vervanging?',
         check_thumbnail_warning:
           'Sommige teksten zijn veranderd in andere lettertypen bij het converteren van tekst naar paden en sommige tekens zijn mogelijk niet correct geconverteerd.\nControleer de voorbeeldafbeelding opnieuw voordat u de taak verstuurt.',
-        error_when_parsing_text: 'Fout bij het converteren van tekst naar pad:\n%s',
+        error_when_parsing_text: 'Fout bij het converteren van tekst naar pad',
         use_current_font: 'Huidig lettertype gebruiken',
+        retry: 'Probeer het later opnieuw of kies een ander lettertype',
       },
       lock_desc: 'Breedte-hoogteverhouding behouden (SHIFT)',
     },
@@ -1735,11 +1736,12 @@ const lang: ILang = {
     tCount_tooltip: 'Het aantal T-sleuven heeft betrekking op de korte zijde; het aantal aan de lange zijde wordt berekend op basis van de lengte.',
     tDiameter: 'T Diameter',
     tLength: 'T Lengte',
-    continue_export: 'Doorgaan met exporteren',
+    continue_import: 'Doorgaan met importeren',
     customize: 'Aanpassen',
     merge: 'Samenvoegen',
-    textLabel: 'Label',
-    export: 'Exporteren',
+    text_label: 'Label',
+    beam_radius: 'Straalcompensatie',
+    import: 'Importeren',
     cancel: 'Annuleren',
     reset: 'Resetten',
     zoom: 'Zoomen',
@@ -1751,6 +1753,8 @@ const lang: ILang = {
     loading_file: 'Bezig met laden...',
     no_file_title: 'Sla bestanden op in Mijn cloud om te beginnen.',
     no_file_subtitle: 'Ga naar Menu > "Bestand" > "Opslaan in cloud"',
+    file_limit: 'Bestandslimiet',
+    upgrade: 'Upgrade',
     sort: {
       most_recent: 'Meest recent',
       oldest: 'Oudste',
@@ -1771,6 +1775,7 @@ const lang: ILang = {
       save: 'Opslaan',
       save_new: 'Opslaan als nieuw bestand',
       input_file_name: 'Voer bestandsnaam in:',
+      invalid_char: 'Ongeldige tekens:',
     },
   },
 };

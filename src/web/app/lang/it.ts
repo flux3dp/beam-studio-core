@@ -1075,11 +1075,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Analisi font in corso... Attendere un secondo',
       text_to_path: {
         font_substitute_pop:
-          'Il testo: <strong>%s</strong> contiene caratteri <strong>%s</strong> non supportati dal font corrente: <strong>%s</strong>. <br/>Vuoi usare <strong>%s</strong> come sostituzione?',
+          'Il tuo testo contiene caratteri non supportati dal carattere corrente. <br/>Vuoi usare <strong>%s</strong> come sostituzione?',
         check_thumbnail_warning:
           "Alcuni testi sono stati modificati in altri font durante la conversione in percorsi e alcuni caratteri potrebbero non essere convertiti correttamente.\nSi prega di controllare nuovamente l'anteprima prima di inviare il task.",
-        error_when_parsing_text: 'Errore durante la conversione del testo in percorso:\n%s',
+        error_when_parsing_text: 'Errore durante la conversione del testo in percorso',
         use_current_font: 'Usa font corrente',
+        retry: 'Riprova più tardi o scegli un altro carattere',
       },
       lock_desc: 'Mantieni proporzioni (MAIUSC)',
     },
@@ -1747,11 +1748,12 @@ const lang: ILang = {
     tCount_tooltip: 'Il conteggio degli slot a T si applica al lato corto; la quantità sul lato lungo viene calcolata in base alla sua lunghezza.',
     tDiameter: 'Diametro T',
     tLength: 'Lunghezza T',
-    continue_export: "Continua all'esportazione",
+    continue_import: 'Continua a importare',
     customize: 'Personalizza',
     merge: 'Unisci',
-    textLabel: 'Etichetta',
-    export: 'Esporta',
+    text_label: 'Etichetta',
+    beam_radius: 'Compensazione della tacca',
+    import: 'Importa',
     cancel: 'Annulla',
     reset: 'Ripristina',
     zoom: 'Zoom',
@@ -1763,6 +1765,8 @@ const lang: ILang = {
     loading_file: 'Caricamento...',
     no_file_title: 'Salva i file nel cloud per iniziare.',
     no_file_subtitle: 'Vai al Menu > "File" > "Salva sul cloud"',
+    file_limit: 'Limite file',
+    upgrade: 'Aggiorna',
     sort: {
       most_recent: 'Più recenti',
       oldest: 'Meno recenti',
@@ -1783,6 +1787,7 @@ const lang: ILang = {
       save: 'Salva',
       save_new: 'Salva come nuovo file',
       input_file_name: 'Inserisci nome file:',
+      invalid_char: 'Caratteri non validi:',
     },
   },
 };

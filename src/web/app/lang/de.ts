@@ -1015,10 +1015,13 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Schriftart analysieren ... Bitte warten.',
       text_to_path: {
-        font_substitute_pop: 'Text: "%s" enthält folgende Zeichen, die von der aktuellen Schriftart nicht unterstützt werden: "%s".\n%s\nMöchtest du "%s" als Ersatz verwenden?',
-        check_thumbnail_warning: 'Einige Texte wurden beim Verwandeln von Texten in Pfade in andere Schriftarten geändert, und einige Zeichen werden möglicherweise nicht normal konvertiert.\nBitte überprüfe das Vorschaubild erneut, bevor du die Aufgabe sendest.',
-        error_when_parsing_text: 'Fehler beim Konvertieren von Text in Pfad:\n%s',
+        font_substitute_pop:
+          'Ihr Text enthält Zeichen, die von der aktuellen Schriftart nicht unterstützt werden. <br/>Möchten Sie <strong>%s</strong> als Ersatz verwenden?',
+        check_thumbnail_warning:
+          'Einige Texte wurden beim Verwandeln von Texten in Pfade in andere Schriftarten geändert, und einige Zeichen werden möglicherweise nicht normal konvertiert.\nBitte überprüfe das Vorschaubild erneut, bevor du die Aufgabe sendest.',
+        error_when_parsing_text: 'Fehler beim Konvertieren von Text in Pfad',
         use_current_font: 'Aktuelle Schriftart verwenden',
+        retry: 'Bitte versuchen Sie es später noch einmal oder wählen Sie eine andere Schriftart',
       },
       lock_desc: 'Behalte das Verhältnis von Breite und Höhe bei (UMSCHALTTASTE)',
     },
@@ -1616,11 +1619,12 @@ const lang: ILang = {
     tCount_tooltip: 'Die T Anzahl bezieht sich auf die kurze Seite; die Menge auf der langen Seite wird anhand ihrer Länge berechnet.',
     tDiameter: 'T Durchmesser',
     tLength: 'T Länge',
-    continue_export: 'Export fortsetzen',
+    continue_import: 'Weiter importieren',
     customize: 'Anpassen',
     merge: 'Zusammenführen',
-    textLabel: 'Textbeschriftung',
-    export: 'Exportieren',
+    text_label: 'Textbeschriftung',
+    beam_radius: 'Strahlradius',
+    import: 'Importieren',
     cancel: 'Abbrechen',
     reset: 'Zurücksetzen',
     zoom: 'Vergrößern',
@@ -1632,6 +1636,8 @@ const lang: ILang = {
     loading_file: 'Lädt...',
     no_file_title: 'Speichern Sie Dateien in Meine Cloud, um loszulegen.',
     no_file_subtitle: 'Gehen Sie zum Menü > "Datei" > "In die Cloud speichern"',
+    file_limit: 'Dateibegrenzung',
+    upgrade: 'Aktualisieren',
     sort: {
       most_recent: 'Neueste',
       oldest: 'Älteste',
@@ -1651,6 +1657,7 @@ const lang: ILang = {
       save: 'Speichern',
       save_new: 'Als neue Datei speichern',
       input_file_name: 'Dateinamen eingeben:',
+      invalid_char: 'Ungültige Zeichen:',
     },
   },
 };

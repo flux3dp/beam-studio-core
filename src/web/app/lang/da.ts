@@ -1070,10 +1070,11 @@ const lang: ILang = {
       wait_for_parsing_font: 'Parser skrifttype ... Vent et sekund',
       text_to_path: {
         font_substitute_pop:
-          'Tekst: <strong>%s</strong> indeholder tegn <strong>%s</strong> som ikke understøttes af nuværende skrifttype: <strong>%s</strong>. <br/>Vil du bruge <strong>%s</strong> som erstatning?',
+          'Din tekst indeholder tegn, der ikke understøttes af den aktuelle skrifttype. <br/>Vil du bruge <strong>%s</strong> som erstatning?',
         check_thumbnail_warning:
           'Nogle tekster blev ændret til andre skrifttyper ved parsing af tekster til stier, og nogle tegn konverteres muligvis ikke korrekt. <br/>Kontrollér venligst billedet igen, før du sender opgaven.',
-        error_when_parsing_text: 'Fejl ved konvertering af tekst til sti: <br/>%s',
+        error_when_parsing_text: 'Fejl ved konvertering af tekst til sti',
+        retry: 'Prøv igen senere eller vælg en anden skrifttype',
         use_current_font: 'Brug nuværende skrifttype',
       },
       lock_desc: 'Bevar forholdet mellem bredde og højde (SHIFT)',
@@ -1738,11 +1739,12 @@ const lang: ILang = {
       'T-spor antallet gælder for den korte side; mængden på den lange side beregnes ud fra dens længde.',
     tDiameter: 'T Diameter',
     tLength: 'T Længde',
-    continue_export: 'Fortsæt til eksport',
+    continue_import: 'Fortsæt med at importere',
     customize: 'Tilpas',
     merge: 'Sammenføj',
-    textLabel: 'Etiket',
-    export: 'Eksportér',
+    text_label: 'Etiket',
+    beam_radius: 'Kerfkompensation',
+    import: 'Importer',
     cancel: 'Annullér',
     reset: 'Nulstil',
     zoom: 'Zoom',
@@ -1756,6 +1758,8 @@ const lang: ILang = {
     loading_file: 'Indlæser...',
     no_file_title: 'Gem filer til Min sky for at komme i gang.',
     no_file_subtitle: 'Gå til Menu > "Fil" > "Gem i skyen"',
+    file_limit: 'Filgrænse',
+    upgrade: 'Opgrader',
     sort: {
       most_recent: 'Nyeste',
       oldest: 'Ældste',
@@ -1776,6 +1780,7 @@ const lang: ILang = {
       save: 'Gem',
       save_new: 'Gem som ny fil',
       input_file_name: 'Indtast filnavn:',
+      invalid_char: 'Ugyldige tegn:',
     },
   },
 };

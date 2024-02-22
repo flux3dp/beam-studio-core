@@ -1015,10 +1015,13 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Parsowanie czcionki... Proszę chwilę poczekać',
       text_to_path: {
-        font_substitute_pop: 'Tekst: "%s" zawiera poniższe znaki, które nie są obsługiwane przez bieżącą czcionkę: %s"".\n%s\nCzy chcesz użyć ""%s"" jako zamiennika?"',
-        check_thumbnail_warning: 'Niektóre teksty zostały zmienione na inne czcionki podczas zmieniania tekstów na ścieżki, a niektóre znaki mogą nie zostać normalnie przekonwertowane.Sprawdź ponownie obraz podglądu przed wysłaniem zadania.',
-        error_when_parsing_text: 'Błąd podczas konwersji tekstu na ścieżkę:\n%s',
+        font_substitute_pop:
+          'Twój tekst zawiera znaki, które nie są obsługiwane przez bieżącą czcionkę. <br/>Czy chcesz użyć <strong>%s</strong> jako zamiennika?',
+        check_thumbnail_warning:
+          'Niektóre teksty zostały zmienione na inne czcionki podczas zmieniania tekstów na ścieżki, a niektóre znaki mogą nie zostać normalnie przekonwertowane.Sprawdź ponownie obraz podglądu przed wysłaniem zadania.',
+        error_when_parsing_text: 'Błąd podczas konwersji tekstu na ścieżkę',
         use_current_font: 'Użyj bieżącej czcionki',
+        retry: 'Spróbuj ponownie później lub wybierz inną czcionkę',
       },
       lock_desc: 'Zachowaj proporcje szerokości i wysokości (SHIFT)',
     },
@@ -1616,11 +1619,12 @@ const lang: ILang = {
     tCount_tooltip: 'Liczba gniazd T dotyczy krótszego boku; ilość na dłuższym boku jest obliczana na podstawie jego długości.',
     tDiameter: 'Średnica T',
     tLength: 'Długość T',
-    continue_export: 'Kontynuuj eksport',
+    continue_import: 'Kontynuuj import',
     customize: 'Dostosuj',
     merge: 'Scal',
-    textLabel: 'Etykieta',
-    export: 'Eksport',
+    text_label: 'Etykieta',
+    beam_radius: 'Kompensacja promienia wiązki',
+    import: 'Importuj',
     cancel: 'Anuluj',
     reset: 'Resetuj',
     zoom: 'Powiększenie',
@@ -1632,6 +1636,8 @@ const lang: ILang = {
     loading_file: 'Ładowanie...',
     no_file_title: 'Zapisz pliki w Mojej chmurze, aby rozpocząć.',
     no_file_subtitle: 'Przejdź do Menu > "Plik" > "Zapisz w chmurze"',
+    file_limit: 'Limit plików',
+    upgrade: 'Uaktualnij',
     sort: {
       most_recent: 'Najnowsze',
       oldest: 'Najstarsze',
@@ -1651,6 +1657,7 @@ const lang: ILang = {
       save: 'Zapisz',
       save_new: 'Zapisz jako nowy plik',
       input_file_name: 'Wprowadź nazwę pliku:',
+      invalid_char: 'Nieprawidłowe znaki:',
     },
   },
 };
