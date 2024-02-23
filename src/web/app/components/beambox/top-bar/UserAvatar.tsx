@@ -13,22 +13,20 @@ interface Props {
 }
 
 const UserAvatar = ({ user }: Props): JSX.Element => (
-  <div>
-    <div className={styles['user-avatar']} onClick={() => dialogCaller.showFluxCreditDialog()}>
-      <Badge
-        count={
-          user?.info?.subscription?.is_valid ? <FluxIcons.FluxPlus className={styles.badge} /> : 0
-        }
-        offset={[-4, 4]}
-      >
-        <Avatar
-          icon={<TopBarIcons.Account className={styles['default-avatar']} />}
-          src={user?.info?.avatar || undefined}
-          size={28}
-          alt="avatar"
-        />
-      </Badge>
-    </div>
+  <div className={styles['user-avatar']} onClick={() => dialogCaller.showFluxCreditDialog()}>
+    <Badge
+      count={
+        user?.info?.subscription?.is_valid ? <FluxIcons.FluxPlus className={styles.badge} /> : 0
+      }
+      offset={[-4, 4]}
+    >
+      <Avatar
+        icon={<TopBarIcons.Account className={styles['default-avatar']} />}
+        src={user?.info?.avatar || undefined}
+        size={28}
+        alt="avatar"
+      />
+    </Badge>
   </div>
 );
 

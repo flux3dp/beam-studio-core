@@ -3,6 +3,7 @@
 
 .user-avatar {
   cursor: pointer;
+  -webkit-app-region: no-drag;
   height: variables.$topBarHeight;
   position: absolute;
   margin-left: 80px;
