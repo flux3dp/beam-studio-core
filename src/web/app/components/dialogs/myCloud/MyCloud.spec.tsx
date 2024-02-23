@@ -39,7 +39,7 @@ jest.mock('helpers/useI18n', () => () => ({
     loading_file: 'Loading...',
     no_file_title: 'Save files to My Cloud to get started.',
     no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
-    file_limit: 'File limit',
+    file_limit: 'Free file',
     upgrade: 'Upgrade',
   },
 }));
@@ -89,10 +89,9 @@ describe('test MyCloud', () => {
 
   test('should rendered correctly', () => {
     getCurrentUser.mockReturnValue(mockUser);
-    const { baseElement } = render(<MyCloud onClose={mockOnClose} />);
+    const { baseElement, getByText } = render(<MyCloud onClose={mockOnClose} />);
     expect(baseElement).toMatchSnapshot();
-    const upgradeButton = baseElement.querySelector('.button');
-    fireEvent.click(upgradeButton);
+    fireEvent.click(getByText('Upgrade'));
     expect(open).toBeCalledTimes(1);
     expect(open).toBeCalledWith('https://website_url');
     const closeButton = baseElement.querySelector('.ant-modal-close');

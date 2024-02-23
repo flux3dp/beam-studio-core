@@ -74,7 +74,7 @@ exports[`test MyCloud should rendered correctly 1`] = `
                 id="test-id"
               >
                 <div
-                  class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-start ant-space-gap-row-middle ant-space-gap-col-middle"
+                  class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-middle ant-space-gap-col-middle title-container"
                 >
                   <div
                     class="ant-space-item"
@@ -95,13 +95,13 @@ exports[`test MyCloud should rendered correctly 1`] = `
                       <div
                         class="tag"
                       >
-                        File limit
+                        Free file
                          
                         2
                         /5
                       </div>
                       <button
-                        class="ant-btn css-dev-only-do-not-override-hash ant-btn-link ant-btn-sm button"
+                        class="ant-btn css-dev-only-do-not-override-hash ant-btn-link ant-btn-sm"
                         type="button"
                       >
                         <span>
@@ -182,7 +182,7 @@ exports[`test MyCloud should rendered correctly in mobile 1`] = `
         class="title"
       >
         <div
-          class="ant-space css-dev-only-do-not-override-hash ant-space-vertical ant-space-align-center ant-space-gap-row-middle ant-space-gap-col-middle"
+          class="ant-space css-dev-only-do-not-override-hash ant-space-vertical ant-space-align-center ant-space-gap-row-middle ant-space-gap-col-middle title-container"
         >
           <div
             class="ant-space-item"
@@ -203,13 +203,13 @@ exports[`test MyCloud should rendered correctly in mobile 1`] = `
               <div
                 class="tag"
               >
-                File limit
+                Free file
                  
                 2
                 /5
               </div>
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-link ant-btn-sm button"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-link ant-btn-sm"
                 type="button"
               >
                 <span>
@@ -316,7 +316,7 @@ exports[`test MyCloud should rendered correctly when user is subscribed 1`] = `
                 id="test-id"
               >
                 <div
-                  class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-start ant-space-gap-row-middle ant-space-gap-col-middle"
+                  class="ant-space css-dev-only-do-not-override-hash ant-space-horizontal ant-space-align-center ant-space-gap-row-middle ant-space-gap-col-middle title-container"
                 >
                   <div
                     class="ant-space-item"
