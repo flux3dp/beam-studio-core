@@ -21,7 +21,13 @@ export default async (source: string | Blob, opts) => {
   // now we use jimp for full color image, and use new Image() for grayscale image
   if (opts.grayscale === undefined) {
     const url = typeof source === 'string' ? source : URL.createObjectURL(source);
-    const exifrData = await exifr.parse(url, { icc: true });
+    let exifrData;
+    try {
+      exifrData = await exifr.parse(url, { icc: true });
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error('Failed to parse exif data');
+    }
     const isCMYK = exifrData?.ColorSpaceData === 'CMYK';
     const resp = await fetch(url);
     if (opts?.purpose !== 'spliting' && isCMYK) {
