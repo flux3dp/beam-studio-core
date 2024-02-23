@@ -1743,7 +1743,7 @@ const lang: ILang = {
     loading_file: 'Ladataan...',
     no_file_title: 'Aloita tallentamalla tiedostoja pilveen.',
     no_file_subtitle: 'Siirry valikkoon > "Tiedosto" > "Tallenna pilvipalveluun"',
-    file_limit: 'Tiedoston koko raja',
+    file_limit: 'Ilmainen tiedosto',
     upgrade: 'Päivitä',
     sort: {
       most_recent: 'Viimeisimmät',

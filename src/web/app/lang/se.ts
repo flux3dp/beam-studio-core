@@ -1747,7 +1747,7 @@ const lang: ILang = {
     loading_file: 'Laddar...',
     no_file_title: 'Spara filer till Mitt moln för att komma igång.',
     no_file_subtitle: 'Gå till Meny > "Arkiv" > "Spara till molnet"',
-    file_limit: 'Fillimit',
+    file_limit: 'Gratis fil',
     upgrade: 'Uppgradera',
     sort: {
       most_recent: 'Senast',

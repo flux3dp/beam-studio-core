@@ -1739,7 +1739,7 @@ const lang: ILang = {
     loading_file: 'Laster inn...',
     no_file_title: 'Lagre filer til Min sky for å komme i gang.',
     no_file_subtitle: 'Gå til Meny > "Fil" > "Lagre til skyen"',
-    file_limit: 'Filgrense',
+    file_limit: 'Gratis fil',
     upgrade: 'Oppgrader',
     sort: {
       most_recent: 'Nylig',

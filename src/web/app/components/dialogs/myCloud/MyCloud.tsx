@@ -46,8 +46,9 @@ const MyCloudModal = (): JSX.Element => {
 
   const title = (
     <Space
+      className={styles['title-container']}
       size="middle"
-      align={isMobile ? 'center' : 'start'}
+      align="center"
       direction={isMobile ? 'vertical' : 'horizontal'}
     >
       <div className={styles.title}>
@@ -60,7 +61,6 @@ const MyCloudModal = (): JSX.Element => {
             {lang.file_limit} {files ? files.length : '?'}/5
           </div>
           <Button
-            className={styles.button}
             type="link"
             size="small"
             onClick={() => browser.open(LANG.flux_id_login.flux_plus.website_url)}

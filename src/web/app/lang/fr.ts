@@ -1774,7 +1774,7 @@ const lang: ILang = {
     loading_file: 'Chargement...',
     no_file_title: 'Enregistrez des fichiers dans Mon cloud pour commencer.',
     no_file_subtitle: 'Accédez au menu > "Fichier" > "Enregistrer dans le cloud"',
-    file_limit: 'Limite de fichier',
+    file_limit: 'Fichier gratuit',
     upgrade: 'Mettre à niveau',
     sort: {
       most_recent: 'Plus récent',

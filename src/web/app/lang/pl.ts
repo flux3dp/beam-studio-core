@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: 'Ładowanie...',
     no_file_title: 'Zapisz pliki w Mojej chmurze, aby rozpocząć.',
     no_file_subtitle: 'Przejdź do Menu > "Plik" > "Zapisz w chmurze"',
-    file_limit: 'Limit plików',
+    file_limit: 'Bezpłatny plik',
     upgrade: 'Uaktualnij',
     sort: {
       most_recent: 'Najnowsze',

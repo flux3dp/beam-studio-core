@@ -1754,7 +1754,7 @@ const lang: ILang = {
     loading_file: 'Memuat...',
     no_file_title: 'Simpan berkas ke Awan Saya untuk memulai.',
     no_file_subtitle: 'Buka Menu > "Berkas" > "Simpan ke Awan"',
-    file_limit: 'Batas file',
+    file_limit: 'File gratis',
     upgrade: 'Tingkatkan',
     sort: {
       most_recent: 'Terbaru',

@@ -1726,7 +1726,7 @@ const lang: ILang = {
     loading_file: 'กําลังโหลด...',
     no_file_title: 'บันทึกไฟล์ไปยัง คลาวด์ของฉัน เพื่อเริ่มต้น',
     no_file_subtitle: 'ไปที่เมนู > "ไฟล์" > "บันทึกไปยังคลาวด์"',
-    file_limit: 'จํากัดไฟล์',
+    file_limit: 'ไฟล์ฟรี',
     upgrade: 'อัพเกรด',
     sort: {
       most_recent: 'ล่าสุด',

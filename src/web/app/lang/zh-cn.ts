@@ -1635,7 +1635,7 @@ const lang: ILang = {
     loading_file: '正在加载...',
     no_file_title: '保存文件到我的云端开始使用',
     no_file_subtitle: '转到菜单 > "档案" > "保存到云端"',
-    file_limit: '文件限制',
+    file_limit: '免费文件',
     upgrade: '升级',
     sort: {
       most_recent: '最近',

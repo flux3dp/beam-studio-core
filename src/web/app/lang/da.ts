@@ -1758,7 +1758,7 @@ const lang: ILang = {
     loading_file: 'Indlæser...',
     no_file_title: 'Gem filer til Min sky for at komme i gang.',
     no_file_subtitle: 'Gå til Menu > "Fil" > "Gem i skyen"',
-    file_limit: 'Filgrænse',
+    file_limit: 'Gratis fil',
     upgrade: 'Opgrader',
     sort: {
       most_recent: 'Nyeste',

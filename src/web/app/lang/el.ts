@@ -1776,7 +1776,7 @@ const lang: ILang = {
     loading_file: 'Φόρτωση...',
     no_file_title: 'Αποθηκεύστε αρχεία στο My Cloud για να ξεκινήσετε.',
     no_file_subtitle: 'Μεταβείτε στο Μενού > "Αρχείο" > "Αποθήκευση στο Cloud"',
-    file_limit: 'Όριο αρχείου',
+    file_limit: 'δωρεάν αρχείο',
     upgrade: 'Αναβάθμιση',
     sort: {
       most_recent: 'Πιο πρόσφατα',

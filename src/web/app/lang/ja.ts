@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: '読み込み中...',
     no_file_title: 'マイクラウドにファイルを保存して開始します。',
     no_file_subtitle: 'メニュー > 「ファイル」 > 「クラウドに保存」 に移動します。',
-    file_limit: 'ファイル制限',
+    file_limit: '無料ファイル',
     upgrade: 'アップグレード',
     sort: {
       most_recent: '最新の',

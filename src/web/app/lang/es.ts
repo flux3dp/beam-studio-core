@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: 'Cargando...',
     no_file_title: 'Guarde archivos en Mi nube para comenzar.',
     no_file_subtitle: 'Vaya al Menú > "Archivo" > "Guardar en la nube"',
-    file_limit: 'Límite de archivo',
+    file_limit: 'Archivo gratuito',
     upgrade: 'Actualizar',
     sort: {
       most_recent: 'Más recientes',

@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: '載入中...',
     no_file_title: '儲存檔案到我的雲端開始使用。',
     no_file_subtitle: '轉到選單 > “檔案” > “儲存到雲端”',
-    file_limit: '檔案限制',
+    file_limit: '免費檔案',
     upgrade: '升級',
     sort: {
       most_recent: '最近',

@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: 'Lädt...',
     no_file_title: 'Speichern Sie Dateien in Meine Cloud, um loszulegen.',
     no_file_subtitle: 'Gehen Sie zum Menü > "Datei" > "In die Cloud speichern"',
-    file_limit: 'Dateibegrenzung',
+    file_limit: 'Kostenlose Datei',
     upgrade: 'Aktualisieren',
     sort: {
       most_recent: 'Neueste',

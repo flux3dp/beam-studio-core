@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: 'Loading...',
     no_file_title: 'Save files to My Cloud to get started.',
     no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
-    file_limit: 'File limit',
+    file_limit: 'Free file',
     upgrade: 'Upgrade',
     sort: {
       most_recent: 'Most Recent',

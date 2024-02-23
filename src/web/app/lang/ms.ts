@@ -1750,7 +1750,7 @@ const lang: ILang = {
     loading_file: 'Memuat...',
     no_file_title: 'Simpan fail ke Awan Saya untuk bermula.',
     no_file_subtitle: 'Pergi ke Menu > "Fail" > "Simpan ke Awan"',
-    file_limit: 'Had fail',
+    file_limit: 'Fail percuma',
     upgrade: 'Naik taraf',
     sort: {
       most_recent: 'Terbaru',

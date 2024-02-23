@@ -1742,7 +1742,7 @@ const lang: ILang = {
     loading_file: 'Đang tải...',
     no_file_title: 'Lưu tệp lên Đám mây của tôi để bắt đầu.',
     no_file_subtitle: 'Vào Menu > "Tệp" > "Lưu lên đám mây"',
-    file_limit: 'Giới hạn tệp tin',
+    file_limit: 'Tệp miễn phí',
     upgrade: 'Nâng cấp',
     sort: {
       most_recent: 'Gần đây nhất',

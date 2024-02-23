@@ -1636,7 +1636,7 @@ const lang: ILang = {
     loading_file: '로딩 중...',
     no_file_title: '파일을 내 클라우드에 저장하여 시작하세요.',
     no_file_subtitle: '메뉴 > "파일" > "클라우드에 저장"',
-    file_limit: '파일 제한',
+    file_limit: '무료 파일',
     upgrade: '업그레이드',
     sort: {
       most_recent: '최신 순',

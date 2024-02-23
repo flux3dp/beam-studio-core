@@ -1753,7 +1753,7 @@ const lang: ILang = {
     loading_file: 'Bezig met laden...',
     no_file_title: 'Sla bestanden op in Mijn cloud om te beginnen.',
     no_file_subtitle: 'Ga naar Menu > "Bestand" > "Opslaan in cloud"',
-    file_limit: 'Bestandslimiet',
+    file_limit: 'Gratis bestand',
     upgrade: 'Upgrade',
     sort: {
       most_recent: 'Meest recent',
