@@ -58,7 +58,7 @@ const FindCorner = ({updateParam, onClose, onBack, onNext }: Props): JSX.Element
           updateParam({ k: data.k, d: data.d, rvec: data.rvec, points: data.points });
         }
       } catch (err) {
-        alertCaller.popUpError({ message: err.message });
+        alertCaller.popUpError({ message: err.message || 'Fail to find corners' });
       }
     }
     progressCaller.popById(PROGRESS_ID);
