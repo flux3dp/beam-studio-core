@@ -60,13 +60,15 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
     const handleNext = async (doCutting = true) => {
       progressCaller.openNonstopProgress({
         id: PROGRESS_ID,
-        message: lang.drawing_calibration_image,
+        message: 'tGetting plane height',
       });
       try {
         const refHeight = await getMaterialHeight();
         console.log('refHeight', refHeight);
         calibratingParam.current.refHeight = refHeight;
+        progressCaller.update(PROGRESS_ID, { message: lang.drawing_calibration_image });
         if (doCutting) await deviceMaster.doAdorCalibrationV2(1);
+        progressCaller.update(PROGRESS_ID, { message: 'tPreparing to taking picture' });
         await prepareToTakePicture();
         onNext();
       } catch (err) {
@@ -113,14 +115,16 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
             onClick: async () => {
               progressCaller.openNonstopProgress({
                 id: PROGRESS_ID,
-                message: lang.drawing_calibration_image,
+                message: 'tGetting plane height',
               });
               try {
                 const elevatedHeight = await getMaterialHeight();
                 const dh = elevatedHeight - calibratingParam.current.refHeight;
                 console.log('dh', dh);
                 calibratingParam.current.dh = dh;
+                progressCaller.update(PROGRESS_ID, { message: lang.drawing_calibration_image });
                 await deviceMaster.doAdorCalibrationV2(2);
+                progressCaller.update(PROGRESS_ID, { message: 'tPreparing to taking picture' });
                 await prepareToTakePicture();
                 onNext();
               } catch (err) {
