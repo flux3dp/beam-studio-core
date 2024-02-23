@@ -66,7 +66,6 @@ const getDpmm = async (arrayBuffer: ArrayBuffer, fileType: string): Promise<numb
   }
   if (fileType === 'image/jpeg') {
     const exifrData = await exifr.parse(arrayBuffer, { jfif: true, tiff: { multiSegment: true } });
-    console.log(exifrData)
     if (exifrData?.XResolution && exifrData?.YResolution) {
       return [exifrData.XResolution / 25.4, exifrData.YResolution / 25.4];
     }
