@@ -266,10 +266,10 @@ class Control extends EventEmitter {
       const timeoutTimer = this.setTimeoutTimer(reject, timeout);
       let responseString = '';
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        clearTimeout(timeoutTimer);
         if (response && response.status === 'raw') responseString += response.text;
         const resps = responseString.split('\r\n');
-        if (resps.findIndex((r) => r === 'ok')) {
+        if (resps.some((r) => r === 'ok')) {
+          clearTimeout(timeoutTimer);
           this.removeCommandListeners();
           resolve(responseString);
         }
