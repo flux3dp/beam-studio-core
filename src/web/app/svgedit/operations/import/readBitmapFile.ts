@@ -1,3 +1,4 @@
+import getDpmm from 'helpers/image/getDpmm';
 import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -33,7 +34,7 @@ const readBitmapFile = async (
     parentCmd?: IBatchCommand;
   }
 ): Promise<SVGImageElement> => {
-  const { parentCmd, scale = 1, offset = [0, 0], gray = true } = opts ?? {};
+  const { parentCmd, offset = [0, 0], gray = true } = opts ?? {};
   const reader = new FileReader();
   const arrayBuffer = await new Promise<ArrayBuffer>((resolve) => {
     reader.onloadend = (e) => {
@@ -41,6 +42,9 @@ const readBitmapFile = async (
     };
     reader.readAsArrayBuffer(file);
   });
+  const [dpmmX, dpmmY] = await getDpmm(arrayBuffer, file.type);
+  const scaleX = 10 / dpmmX;
+  const scaleY = 10 / dpmmY;
   const rotationFlag = getExifRotationFlag(arrayBuffer);
   const img = new Image();
   const blob = new Blob([arrayBuffer]);
@@ -54,10 +58,10 @@ const readBitmapFile = async (
   const newImage = svgCanvas.addSvgElementFromJson({
     element: 'image',
     attr: {
-      x: offset[0] * scale,
-      y: offset[1] * scale,
-      width: (rotationFlag <= 4 ? width : height) * scale,
-      height: (rotationFlag <= 4 ? height : width) * scale,
+      x: offset[0],
+      y: offset[1],
+      width: (rotationFlag <= 4 ? width : height) * scaleX,
+      height: (rotationFlag <= 4 ? height : width) * scaleY,
       id: svgCanvas.getNextId(),
       style: 'pointer-events:inherit',
       preserveAspectRatio: 'none',
