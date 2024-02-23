@@ -25,10 +25,10 @@ interface Props {
 
 const getFileSize = (bytes: number) => {
   const k = 1000;
-  let units = ['B', 'KB', 'MB', 'GB'];
+  const units = ['B', 'KB', 'MB', 'GB'];
   let size = bytes;
   let i = 0;
-  for (; i < units.length - 1; i++) {
+  for (; i < units.length - 1; i += 1) {
     if (size > k) size /= k;
     else break;
   }

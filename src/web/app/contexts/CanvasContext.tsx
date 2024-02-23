@@ -26,29 +26,29 @@ getSVGAsync((globalSVG) => {
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 interface CanvasContextType {
-  changeToPreviewMode: () => void,
-  currentUser: IUser,
+  changeToPreviewMode: () => void;
+  currentUser: IUser;
   displayLayer: boolean;
   endPreviewMode: () => void;
-  fileName: string | null,
-  hasUnsavedChange: boolean,
-  isPathPreviewing: boolean,
-  isPreviewing: boolean,
+  fileName: string | null;
+  hasUnsavedChange: boolean;
+  isPathPreviewing: boolean;
+  isPreviewing: boolean;
   setDisplayLayer: (displayLayer: boolean) => void;
   setIsPathPreviewing: (displayLayer: boolean) => void;
   setIsPreviewing: (displayLayer: boolean) => void;
-  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void,
-  setStartPreviewCallback: (callback: () => void | null) => void,
-  setTopBarPreviewMode: (topBarPreviewMode: boolean) => void,
-  shouldStartPreviewController: boolean,
-  setupPreviewMode: () => void,
-  setSetupPreviewMode: (callback: () => void | null) => void,
-  startPreviewCallback: () => void | null,
-  togglePathPreview: () => void,
-  updateCanvasContext: () => void,
-  selectedDevice: IDeviceInfo | null,
-  setSelectedDevice: (IDeviceInfo) => void,
-  updateTopBar: () => void,
+  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
+  setStartPreviewCallback: (callback: () => void | null) => void;
+  setTopBarPreviewMode: (topBarPreviewMode: boolean) => void;
+  shouldStartPreviewController: boolean;
+  setupPreviewMode: () => void;
+  setSetupPreviewMode: (callback: () => void | null) => void;
+  startPreviewCallback: () => void | null;
+  togglePathPreview: () => void;
+  updateCanvasContext: () => void;
+  selectedDevice: IDeviceInfo | null;
+  setSelectedDevice: (IDeviceInfo) => void;
+  updateTopBar: () => void;
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -138,6 +138,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       const title = ReactDomServer.renderToStaticMarkup(
         <FileName fileName={newFileName} hasUnsavedChange={false} isTitle />
       );
+      // eslint-disable-next-line no-underscore-dangle
       window.titlebar._title.innerHtml = title;
     }
   };
@@ -153,11 +154,12 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       // wrap callback with a function to prevent calling it immediately
       setStartPreviewCallback(() => callback);
     });
-    topBarEventEmitter.on('GET_TOP_BAR_PREVIEW_MODE', (response: {
-      isPreviewMode: boolean,
-    }): void => {
-      response.isPreviewMode = isPreviewing;
-    });
+    topBarEventEmitter.on(
+      'GET_TOP_BAR_PREVIEW_MODE',
+      (response: { isPreviewMode: boolean }): void => {
+        response.isPreviewMode = isPreviewing;
+      }
+    );
     topBarEventEmitter.on(
       'GET_SELECTED_DEVICE',
       (response: { selectedDevice: IDeviceInfo | null }): void => {
@@ -203,38 +205,38 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   };
 
-  const togglePathPreview = () => { setIsPathPreviewing(!isPathPreviewing); };
+  const togglePathPreview = () => {
+    setIsPathPreviewing(!isPathPreviewing);
+  };
 
   const { children } = props;
   return (
     <CanvasContext.Provider
-      value={
-        {
-          changeToPreviewMode,
-          currentUser,
-          displayLayer,
-          endPreviewMode,
-          fileName,
-          hasUnsavedChange,
-          isPathPreviewing,
-          isPreviewing,
-          setDisplayLayer,
-          setIsPathPreviewing,
-          setIsPreviewing,
-          setShouldStartPreviewController,
-          setSetupPreviewMode,
-          setStartPreviewCallback,
-          setTopBarPreviewMode,
-          shouldStartPreviewController,
-          setupPreviewMode,
-          startPreviewCallback,
-          togglePathPreview,
-          updateCanvasContext,
-          selectedDevice,
-          setSelectedDevice,
-          updateTopBar,
-        }
-      }
+      value={{
+        changeToPreviewMode,
+        currentUser,
+        displayLayer,
+        endPreviewMode,
+        fileName,
+        hasUnsavedChange,
+        isPathPreviewing,
+        isPreviewing,
+        setDisplayLayer,
+        setIsPathPreviewing,
+        setIsPreviewing,
+        setShouldStartPreviewController,
+        setSetupPreviewMode,
+        setStartPreviewCallback,
+        setTopBarPreviewMode,
+        shouldStartPreviewController,
+        setupPreviewMode,
+        startPreviewCallback,
+        togglePathPreview,
+        updateCanvasContext,
+        selectedDevice,
+        setSelectedDevice,
+        updateTopBar,
+      }}
     >
       {children}
     </CanvasContext.Provider>

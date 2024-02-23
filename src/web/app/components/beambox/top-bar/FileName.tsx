@@ -8,7 +8,9 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import styles from './FileName.module.scss';
 
 let svgCanvas: ISVGCanvas;
-getSVGAsync((globalSVG) => (svgCanvas = globalSVG.Canvas));
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 interface Props {
   fileName: string;

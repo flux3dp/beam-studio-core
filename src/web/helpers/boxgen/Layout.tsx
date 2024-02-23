@@ -23,7 +23,7 @@ interface ShapeRaw {
 }
 
 const shapeToPath = (shape: Shape, cx: number, cy: number): string =>
-  'M' + shape.paths[0].map((p) => `${p.X + cx},${p.Y + cy}`).join(' L') + ' Z';
+  `M${shape.paths[0].map((p) => `${p.X + cx},${p.Y + cy}`).join(' L')} Z`;
 
 const getBlockDistance = (options: IExportOptions) => (options.joinOutput ? [0, 0] : [5, 5]);
 

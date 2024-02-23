@@ -202,6 +202,7 @@ const convertTextToPathByFontkit = (textElem: Element, fontObj: fontkit.Font): I
 
     let d = '';
     const textPaths = textElem.querySelectorAll('textPath');
+    /* eslint-disable no-param-reassign */
     textPaths.forEach((textPath) => {
       let alignOffset = 0;
       const text = textPath.textContent;
@@ -218,6 +219,7 @@ const convertTextToPathByFontkit = (textElem: Element, fontObj: fontkit.Font): I
         textPath.setAttribute('dominant-baseline', dominantBaseline);
         textPath.textContent = text;
       }
+      /* eslint-enable no-param-reassign */
 
       const run = fontObj.layout(text);
       let i = 0;
@@ -265,6 +267,7 @@ const convertTextToPathByFontkit = (textElem: Element, fontObj: fontkit.Font): I
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getPathAndTransformFromSvg = async (data: any, isFilled: boolean) =>
   new Promise<{ d: string; transform: string }>((resolve) => {
     const fileReader = new FileReader();
@@ -294,8 +297,7 @@ const convertTextToPathByGhost = async (
     }
     const bbox = svgCanvas.calculateTransformedBBox(textElem);
     const { postscriptName } = font;
-    // TODO: new error code
-    let res = await webNeedConnectionWrapper(async () => {
+    let convertRes = await webNeedConnectionWrapper(async () => {
       const res = await fontHelper.getWebFontAndUpload(postscriptName);
       if (!res) {
         throw new Error('error when uploading');
@@ -307,11 +309,11 @@ const convertTextToPathByGhost = async (
       }
       return outputs.data;
     });
-    if (!res) {
+    if (!convertRes) {
       throw new Error('no connection');
     }
-    res = await getPathAndTransformFromSvg(res, isFilled);
-    return { ...res, moveElement: bbox };
+    convertRes = await getPathAndTransformFromSvg(convertRes, isFilled);
+    return { ...convertRes, moveElement: bbox };
   } catch (err) {
     console.log(
       `Unable to handle font ${textElem.getAttribute('font-postscript')} by ghost, ${err}`
@@ -389,6 +391,7 @@ const substitutedFont = async (font: WebFont | FontDescriptor, textElement: Elem
   }
   // Test all found fonts and Noto fonts with fontkit and select the best one
   const NotoFamilySuffixes = ['', ' TC', ' HK', ' SC', ' JP', ' KR'];
+  /* eslint-disable no-await-in-loop */
   for (let i = 0; i < NotoFamilySuffixes.length; i += 1) {
     const family = `Noto Sans${NotoFamilySuffixes[i]}`;
     const res = await fontHelper.findFont({ ...font, family, postscriptName: undefined });
@@ -399,18 +402,22 @@ const substitutedFont = async (font: WebFont | FontDescriptor, textElement: Elem
   for (let i = 0; i < fontList.length; i += 1) {
     const currentFont = fontList[i];
     const fontObj = await getFontObj(currentFont);
-    if (!fontObj) continue;
-    const unsupported = textContent.filter((c) => !fontObj.hasGlyphForCodePoint(c.codePointAt(0)));
-    if (currentFont.postscriptName === font.postscriptName) unsupportedChar = unsupported;
-    if (unsupported.length === 0) {
-      console.log(`Find ${currentFont.postscriptName} fit for all char with fontkit`);
-      return { font: currentFont, unsupportedChar };
-    }
-    if (unsupported.length < minFailure) {
-      minFailure = unsupported.length;
-      bestFont = currentFont;
+    if (fontObj) {
+      const unsupported = textContent.filter(
+        (c) => !fontObj.hasGlyphForCodePoint(c.codePointAt(0))
+      );
+      if (currentFont.postscriptName === font.postscriptName) unsupportedChar = unsupported;
+      if (unsupported.length === 0) {
+        console.log(`Find ${currentFont.postscriptName} fit for all char with fontkit`);
+        return { font: currentFont, unsupportedChar };
+      }
+      if (unsupported.length < minFailure) {
+        minFailure = unsupported.length;
+        bestFont = currentFont;
+      }
     }
   }
+  /* eslint-ensable no-await-in-loop */
   return {
     font: bestFont,
     unsupportedChar,
