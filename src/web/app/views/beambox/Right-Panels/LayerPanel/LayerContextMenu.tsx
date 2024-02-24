@@ -102,7 +102,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayerName = await mergeLayers(allLayerNames);
     if (!baseLayerName) return;
     const elem = getLayerElementByName(baseLayerName);
-    toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
+    svgCanvas.updateLayerColor(elem);
     selectOnlyLayer(baseLayerName);
   };
 
@@ -111,7 +111,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayer = await mergeLayers(selectedLayers, currentLayerName);
     if (!baseLayer) return;
     const elem = getLayerElementByName(baseLayer);
-    toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
+    svgCanvas.updateLayerColor(elem);
     setSelectedLayers([baseLayer]);
   };
 
@@ -154,7 +154,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     ) {
       layerElem.setAttribute('data-color', newColor || colorConstants.printingLayerColor[0]);
     }
-    toggleFullColorLayer(layerElem);
+    const cmd = toggleFullColorLayer(layerElem);
+    if (cmd && !cmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(cmd);
     setSelectedLayers([]);
   };
 
