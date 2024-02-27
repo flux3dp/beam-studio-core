@@ -1,4 +1,5 @@
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import updateLayerColor from 'helpers/color/updateLayerColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -17,7 +18,7 @@ const toggleFullColorLayer = (layer: Element, opts: { val?: boolean; } = {}): IB
   if (targetVal) layer.setAttribute('data-fullcolor', '1');
   else layer.removeAttribute('data-fullcolor');
   const cmd = svgCanvas.undoMgr.finishUndoableChange();
-  svgCanvas.updateLayerColor(layer);
+  updateLayerColor(layer as SVGGElement);
   cmd.onAfter = () => svgCanvas.updateLayerColor(layer);
   return cmd;
 };

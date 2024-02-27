@@ -1,8 +1,9 @@
 import NS from 'app/constants/namespaces';
 
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
-import { getSVGAsync } from '../../../helpers/svg-editor-helper';
 
 let svgedit;
 getSVGAsync((globalSVG) => {

@@ -5,12 +5,13 @@ const endByLayerSymbol = Symbol('end by_layer');
 const endByColorSymbol = Symbol('end by_color');
 
 // TODO: add test
-const setElementsColor = (elements: Element[], color: string, isFullColor = false): void => {
+const setElementsColor = (elements: Element[], color: string, isFullColor = false): Promise<void> => {
   const descendants: (Element | typeof endByLayerSymbol | typeof endByColorSymbol)[] = [
     ...elements,
   ];
   let svgByColor = 0;
   let svgByLayer = false;
+  const promises = [];
   while (descendants.length > 0) {
     const elem = descendants.pop();
     if (elem === endByColorSymbol) {
@@ -38,7 +39,10 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
         } else {
           elem.setAttribute('filter', `url(#filter${color})`);
         }
-        if (!elem.closest('#svg_defs')) updateImageDisplay(elem as SVGImageElement)
+        if (!elem.closest('#svg_defs')) {
+          const promise = updateImageDisplay(elem as SVGImageElement);
+          promises.push(promise);
+        }
       } else if (['g', 'svg', 'symbol'].includes(elem.tagName)) {
         if (elem.getAttribute('data-color')) {
           descendants.push(endByColorSymbol);
@@ -54,12 +58,18 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
         const href = $(elem).attr('href') || $(elem).attr('xlink:href');
         const shadowRoot = $(href).toArray();
         descendants.push(...shadowRoot);
-        symbolMaker.reRenderImageSymbol(elem as SVGUseElement);
+        const promise = symbolMaker.reRenderImageSymbol(elem as SVGUseElement);
+        promises.push(promise);
       } else {
         // console.log(`setElementsColor: unsupported element type ${elem.tagName}`);
       }
     }
   }
+  return new Promise<void>((resolve) => {
+    Promise.allSettled(promises).then(() => {
+      resolve();
+    });
+  });
 };
 
 export default setElementsColor;

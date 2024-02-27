@@ -10,6 +10,8 @@ import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import randomColor from 'helpers/randomColor';
+import updateLayerColor from 'helpers/color/updateLayerColor';
+import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import {
   cloneLayerConfig,
   DataType,
@@ -125,7 +127,7 @@ export const createLayer = (
   const batchCmd = new history.BatchCommand('Create Layer');
   batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
   if (!isSubCmd) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-  svgCanvas.updateLayerColorFilter(newLayer);
+  updateLayerColorFilter(newLayer);
   svgCanvas.clearSelection();
   return { layer: newLayer, cmd: batchCmd };
 };
@@ -332,7 +334,7 @@ const mergeLayer = (
     const cmd = deleteLayerByName(layersToBeMerged[i]);
     if (cmd) batchCmd.addSubCommand(cmd);
   }
-  svgCanvas.updateLayerColor(baseLayer);
+  updateLayerColor(baseLayer as SVGGElement);
   return batchCmd;
 };
 

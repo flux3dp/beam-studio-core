@@ -11,14 +11,12 @@ jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,
 }));
 
-const updateLayerColor = jest.fn();
 const updateRulers = jest.fn();
 const resetView = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Canvas: {
       isUsingLayerColor: false,
-      updateLayerColor,
     },
     Editor: {
       curConfig: {
@@ -31,6 +29,9 @@ getSVGAsync.mockImplementation((callback) => {
 });
 
 import viewMenu from './view';
+
+const updateLayerColor = jest.fn();
+jest.mock('helpers/color/updateLayerColor', () => (...args) => updateLayerColor(...args));
 
 describe('test view', () => {
   afterEach(() => {

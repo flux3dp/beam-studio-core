@@ -7,18 +7,17 @@ import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/Layer
 import LayerContextMenu from './LayerContextMenu';
 
 const mockClearSelection = jest.fn();
-const mockUpdateLayerColor = jest.fn();
 const mockAddCommandToHistory = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (cb) => cb({
-    Canvas: {
-      clearSelection: () => mockClearSelection(),
-      updateLayerColor: (...args) => mockUpdateLayerColor(...args),
-      undoMgr: {
-        addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
+  getSVGAsync: (cb) =>
+    cb({
+      Canvas: {
+        clearSelection: () => mockClearSelection(),
+        undoMgr: {
+          addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
+        },
       },
-    },
-  }),
+    }),
 }));
 
 const mockCloneLayers = jest.fn();
@@ -73,10 +72,20 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
 }));
 
 const mockSplitFullColorLayer = jest.fn();
-jest.mock('helpers/layer/full-color/splitFullColorLayer', () => (...args) => mockSplitFullColorLayer(...args));
+jest.mock(
+  'helpers/layer/full-color/splitFullColorLayer',
+  () =>
+    (...args) =>
+      mockSplitFullColorLayer(...args)
+);
 
 const mockToggleFullColorLayer = jest.fn();
-jest.mock('helpers/layer/full-color/toggleFullColorLayer', () => (...args) => mockToggleFullColorLayer(...args));
+jest.mock(
+  'helpers/layer/full-color/toggleFullColorLayer',
+  () =>
+    (...args) =>
+      mockToggleFullColorLayer(...args)
+);
 
 jest.mock('app/views/beambox/Right-Panels/contexts/LayerPanelContext', () => ({
   LayerPanelContext: React.createContext(null),
@@ -99,6 +108,14 @@ const mockTogglePresprayArea = jest.fn();
 jest.mock('app/actions/beambox/prespray-area', () => ({
   togglePresprayArea: () => mockTogglePresprayArea(),
 }));
+
+const mockUpdateLayerColor = jest.fn();
+jest.mock(
+  'helpers/color/updateLayerColor',
+  () =>
+    (...args) =>
+      mockUpdateLayerColor(...args)
+);
 
 const mockDrawing = {
   getLayerName: jest.fn(),
