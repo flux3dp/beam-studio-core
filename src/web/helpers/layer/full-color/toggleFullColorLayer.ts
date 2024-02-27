@@ -19,7 +19,7 @@ const toggleFullColorLayer = (layer: Element, opts: { val?: boolean; } = {}): IB
   else layer.removeAttribute('data-fullcolor');
   const cmd = svgCanvas.undoMgr.finishUndoableChange();
   updateLayerColor(layer as SVGGElement);
-  cmd.onAfter = () => svgCanvas.updateLayerColor(layer);
+  cmd.onAfter = () => updateLayerColor(layer as SVGGElement);
   return cmd;
 };
 
