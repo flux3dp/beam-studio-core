@@ -15,6 +15,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
+import updateLayerColor from 'helpers/color/updateLayerColor';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
@@ -102,7 +103,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayerName = await mergeLayers(allLayerNames);
     if (!baseLayerName) return;
     const elem = getLayerElementByName(baseLayerName);
-    svgCanvas.updateLayerColor(elem);
+    updateLayerColor(elem as SVGGElement);
     selectOnlyLayer(baseLayerName);
   };
 
@@ -111,7 +112,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayer = await mergeLayers(selectedLayers, currentLayerName);
     if (!baseLayer) return;
     const elem = getLayerElementByName(baseLayer);
-    svgCanvas.updateLayerColor(elem);
+    updateLayerColor(elem as SVGGElement);
     setSelectedLayers([baseLayer]);
   };
 

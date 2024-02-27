@@ -1,4 +1,5 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import updateLayerColor from 'helpers/color/updateLayerColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -21,7 +22,7 @@ const toggleLayerColor = (): boolean => {
   BeamboxPreference.write('use_layer_color', isUsingLayerColor);
   const layers = Array.from(document.querySelectorAll('g.layer'));
   layers.forEach((layer) => {
-    svgCanvas.updateLayerColor(layer);
+    updateLayerColor(layer as SVGGElement);
   });
   return isUsingLayerColor;
 };
