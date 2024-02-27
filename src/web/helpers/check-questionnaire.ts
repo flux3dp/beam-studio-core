@@ -22,7 +22,6 @@ const checkQuestionnaire = async (
       resultCache = result;
     }
     const lastQuestionnaireVersion = storage.get('questionnaire-version') || 0;
-    console.log(lastQuestionnaireVersion, result);
     if (!allowOldVersion && lastQuestionnaireVersion >= result.version) return null;
     if (result.version >= MIN_ALLOWED_VERSION) {
       return result;

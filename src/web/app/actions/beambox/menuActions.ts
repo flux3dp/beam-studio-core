@@ -166,12 +166,12 @@ export default {
   MANAGE_ACCOUNT: () => externalLinkMemberDashboard(),
   SIGN_OUT: () => signOut(),
   QUESTIONNAIRE: async () => {
-    const res = await checkQuestionnaire();
+    const res = await checkQuestionnaire({ allowOldVersion: true });
     if (!res) {
       Alert.popUp({ message: i18n.lang.beambox.popup.questionnaire.unable_to_get_url });
       return;
     }
-    let url: null;
+    let url: string;
     if (res.version > 0 && res.urls) {
       url = res.urls[i18n.getActiveLang()] || res.urls.en;
     }

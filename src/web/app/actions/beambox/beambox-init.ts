@@ -355,7 +355,8 @@ class BeamboxInit {
   private async showQuestionnaire(): Promise<void> {
     const res = await checkQuestionnaire();
     if (!res) return null;
-
+    const lastQuestionnaireVersion = storage.get('questionnaire-version') || 0;
+    if (lastQuestionnaireVersion >= res.version) return null;
     let url: string;
     if (res.urls) {
       url = res.urls[i18n.getActiveLang()] || res.urls.en;
