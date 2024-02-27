@@ -2,8 +2,8 @@ import beamboxPrefernce from 'app/actions/beambox/beambox-preference';
 import { getLayerName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-import updateLayerColorFilter from './updateLayerColorFilter';
 import setElementsColor from './setElementsColor';
+import updateLayerColorFilter from './updateLayerColorFilter';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
