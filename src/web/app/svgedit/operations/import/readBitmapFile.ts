@@ -42,7 +42,9 @@ const readBitmapFile = async (
     };
     reader.readAsArrayBuffer(file);
   });
-  const [dpmmX, dpmmY] = await getDpmm(arrayBuffer, file.type);
+  // TODO: comment out this until more precise spec is defined
+  // const [dpmmX, dpmmY] = await getDpmm(arrayBuffer, file.type);
+  const [dpmmX, dpmmY] = [10, 10];
   const scaleX = 10 / dpmmX;
   const scaleY = 10 / dpmmY;
   const rotationFlag = getExifRotationFlag(arrayBuffer);
