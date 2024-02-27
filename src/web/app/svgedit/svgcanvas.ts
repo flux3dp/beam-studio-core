@@ -81,7 +81,6 @@ import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import randomColor from 'helpers/randomColor';
 import sanitizeXmlString from 'helpers/sanitize-xml-string';
-import setElementsColor from 'helpers/color/setElementsColor';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';

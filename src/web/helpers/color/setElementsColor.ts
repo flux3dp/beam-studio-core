@@ -34,15 +34,17 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
           elem.removeAttribute('vector-effect');
         }
       } else if (elem.tagName === 'image') {
-        if (isFullColor || color === '#000') {
-          elem.removeAttribute('filter');
-        } else {
-          elem.setAttribute('filter', `url(#filter${color})`);
-        }
-        if (!elem.closest('#svg_defs')) {
-          const promise = updateImageDisplay(elem as SVGImageElement);
-          promises.push(promise);
-        }
+        // eslint-disable-next-line no-async-promise-executor
+        const promise = new Promise<void>(async (resolve) => {
+          if (!elem.closest('#svg_defs')) await updateImageDisplay(elem as SVGImageElement);
+          if (isFullColor || color === '#000') {
+            elem.removeAttribute('filter');
+          } else {
+            elem.setAttribute('filter', `url(#filter${color})`);
+          }
+          resolve();
+        });
+        promises.push(promise);
       } else if (['g', 'svg', 'symbol'].includes(elem.tagName)) {
         if (elem.getAttribute('data-color')) {
           descendants.push(endByColorSymbol);
