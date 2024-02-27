@@ -13,6 +13,7 @@ const hexToRgb = (hexColorCode) => {
   return { r: 0, g: 0, b: 0 };
 };
 
+// TODO: add test
 const updateLayerColorFilter = (layer: SVGGElement): void => {
   const filter = Array.from(layer.childNodes).filter(
     (child: Element) => child.tagName === 'filter'
