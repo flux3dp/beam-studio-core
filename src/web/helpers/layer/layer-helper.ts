@@ -2,6 +2,7 @@ import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
+import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
@@ -232,19 +233,38 @@ export const cloneLayers = (layerNames: string[]): string[] => {
   return clonedLayerNames;
 };
 
-export const setLayerLock = (layerName: string, isLocked: boolean): void => {
+export const setLayerLock = (
+  layerName: string,
+  isLocked: boolean,
+  opts: { parentCmd?: IBatchCommand } = {}
+): ICommand => {
+  const { parentCmd } = opts;
   const layer = getLayerElementByName(layerName);
+  const origValue = layer.getAttribute('data-lock') === 'true';
   if (isLocked) {
     layer.setAttribute('data-lock', 'true');
   } else {
     layer.removeAttribute('data-lock');
   }
+  const cmd = new history.ChangeElementCommand(layer, { 'data-lock': origValue ? 'true' : undefined });
+  if (parentCmd) parentCmd.addSubCommand(cmd);
+  else {
+    cmd.onAfter = () => LayerPanelController.updateLayerPanel();
+    svgCanvas.undoMgr.addCommandToHistory(cmd);
+  }
+  return cmd;
 };
 
-export const setLayersLock = (layerNames: string[], isLocked: boolean): void => {
+export const setLayersLock = (layerNames: string[], isLocked: boolean): IBatchCommand => {
+  const batchCmd = HistoryCommandFactory.createBatchCommand('Set Layer(s) Lock');
   for (let i = 0; i < layerNames.length; i += 1) {
-    setLayerLock(layerNames[i], isLocked);
+    setLayerLock(layerNames[i], isLocked, { parentCmd: batchCmd });
   }
+  if (!batchCmd.isEmpty()) {
+    batchCmd.onAfter = () => LayerPanelController.updateLayerPanel();
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  }
+  return batchCmd;
 };
 
 export const showMergeAlert = async (

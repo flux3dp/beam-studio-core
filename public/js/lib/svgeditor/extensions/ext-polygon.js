@@ -16,20 +16,20 @@ svgEditor.addExtension('polygon', function (S) {
         newPoly,
         polygonSides = 5;
 
-    window.polygonAddSides = () => {
+    window.polygonAddSides = (val = 1) => {
         if (started) {
             polygonSides++;
             polygonExt.renderPolygon();
         } else {
-            const elems = svgCanvas.getSelectedElems();
-            if (elems.length === 1 && elems[0].tagName === 'polygon') {
-                const poly = elems[0];
-                polygonExt.updatePolygonSide(poly, 1);
-            }
+          const elems = svgCanvas.getSelectedElems();
+          if (elems.length === 1 && elems[0].tagName === 'polygon') {
+              const poly = elems[0];
+              polygonExt.updatePolygonSide(poly, val);
+          }
         }
     };
 
-    window.polygonDecreaseSides = () => {
+    window.polygonDecreaseSides = (val = 1) => {
         if (started) {
             polygonSides--;
             if (polygonSides < 3) {
@@ -40,9 +40,13 @@ svgEditor.addExtension('polygon', function (S) {
             const elems = svgCanvas.getSelectedElems();
             if (elems.length === 1 && elems[0].tagName === 'polygon') {
                 const poly = elems[0];
-                polygonExt.updatePolygonSide(poly, -1);
+                polygonExt.updatePolygonSide(poly, -val);
             }
         }
+    };
+
+    window.updatePolygonSides = (elem, val) => {
+      polygonExt.updatePolygonSide(elem, val);
     };
 
     function showPanel(on) {
