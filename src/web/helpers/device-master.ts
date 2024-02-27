@@ -602,6 +602,9 @@ class DeviceMaster {
     Progress.openSteppingProgress({
       id: 'cali-task',
       message: lang.calibration.drawing_calibration_image,
+      onCancel: () => {
+        this.stop();
+      },
     });
     const onProgress = (progress: number) =>
       Progress.update('cali-task', {
