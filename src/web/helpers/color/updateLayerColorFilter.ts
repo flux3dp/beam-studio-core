@@ -19,7 +19,6 @@ const updateLayerColorFilter = (layer: SVGGElement): void => {
   )[0] as Element;
   if (layer?.getAttribute('data-fullcolor') === '1') {
     filter?.remove();
-    console.log('remove filter');
     return;
   }
   const useLayerColor = beamboxPrefernce.read('use_layer_color') !== false;
