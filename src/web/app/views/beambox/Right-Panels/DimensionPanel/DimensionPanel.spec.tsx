@@ -276,13 +276,15 @@ describe('test DimensionPanel', () => {
         updateDimensionValues={mockUpdateDimensionValues}
       />
     );
-    expect(mockImage.setAttribute).not.toHaveBeenCalled();
+    expect(mockChangeSelectedAttribute).not.toHaveBeenCalled();
     mockImage.getAttribute.mockReturnValueOnce('true');
     fireEvent.click(getByText('lock'));
     expect(mockImage.getAttribute).toHaveBeenCalledTimes(1);
     expect(mockImage.getAttribute).toHaveBeenNthCalledWith(1, 'data-ratiofixed');
-    expect(mockImage.setAttribute).toHaveBeenCalledTimes(1);
-    expect(mockImage.setAttribute).toHaveBeenNthCalledWith(1, 'data-ratiofixed', 'false');
+    expect(mockChangeSelectedAttribute).toHaveBeenCalledTimes(1);
+    expect(mockChangeSelectedAttribute).toHaveBeenNthCalledWith(1, 'data-ratiofixed', 'false', [
+      mockImage,
+    ]);
     expect(mockUpdateDimensionValues).toHaveBeenCalledTimes(1);
     expect(mockUpdateDimensionValues).toHaveBeenNthCalledWith(1, {
       isRatioFixed: false,

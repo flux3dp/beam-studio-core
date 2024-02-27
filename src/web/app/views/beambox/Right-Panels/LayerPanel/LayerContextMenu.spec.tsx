@@ -7,10 +7,16 @@ import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/Layer
 import LayerContextMenu from './LayerContextMenu';
 
 const mockClearSelection = jest.fn();
+const mockUpdateLayerColor = jest.fn();
+const mockAddCommandToHistory = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (cb) => cb({
     Canvas: {
       clearSelection: () => mockClearSelection(),
+      updateLayerColor: (...args) => mockUpdateLayerColor(...args),
+      undoMgr: {
+        addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
+      },
     },
   }),
 }));
@@ -314,7 +320,7 @@ describe('test LayerContextMenu', () => {
     expect(mockTogglePresprayArea).toBeCalledTimes(1);
   });
 
-  test('merge down should work', () => {
+  test('merge down should work', async () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
         value={{
@@ -341,13 +347,13 @@ describe('test LayerContextMenu', () => {
     expect(mockDrawing.getLayerName).toBeCalledTimes(2);
     expect(mockDrawing.getLayerName).toHaveBeenLastCalledWith(0);
     expect(mockMergeLayers).toBeCalledWith(['layer1'], 'layer2');
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockSelectOnlyLayer).toBeCalledTimes(1);
       expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer2');
     });
   });
 
-  test('merge all should work', () => {
+  test('merge all should work', async () => {
     mockGetAllLayerNames.mockReturnValue(['layer1', 'layer2', 'layer3']);
     const { getByText } = render(
       <LayerPanelContext.Provider
@@ -374,20 +380,15 @@ describe('test LayerContextMenu', () => {
     expect(mockGetAllLayerNames).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2', 'layer3']);
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockSelectOnlyLayer).toBeCalledTimes(1);
       expect(mockSelectOnlyLayer).toHaveBeenLastCalledWith('layer1');
-      expect(mockElem.getAttribute).toBeCalledTimes(1);
-      expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
-      expect(mockToggleFullColorLayer).toBeCalledTimes(1);
-      expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, {
-        val: true,
-        force: true,
-      });
+      expect(mockUpdateLayerColor).toBeCalledTimes(1);
+      expect(mockUpdateLayerColor).toHaveBeenLastCalledWith(mockElem);
     });
   });
 
-  test('merge selected should work', () => {
+  test('merge selected should work', async () => {
     const { getByText } = render(
       <LayerPanelContext.Provider
         value={{
@@ -415,18 +416,13 @@ describe('test LayerContextMenu', () => {
     expect(mockDrawing.getCurrentLayerName).toBeCalledTimes(1);
     expect(mockMergeLayers).toBeCalledTimes(1);
     expect(mockMergeLayers).toHaveBeenLastCalledWith(['layer1', 'layer2'], 'layer2');
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockSetSelectedLayers).toBeCalledTimes(1);
       expect(mockSetSelectedLayers).toHaveBeenLastCalledWith(['layer2']);
       expect(mockGetLayerElementByName).toBeCalledTimes(2);
       expect(mockGetLayerElementByName).toHaveBeenLastCalledWith('layer2');
-      expect(mockElem.getAttribute).toBeCalledTimes(1);
-      expect(mockElem.getAttribute).toHaveBeenLastCalledWith('data-fullcolor');
-      expect(mockToggleFullColorLayer).toBeCalledTimes(1);
-      expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem, {
-        val: false,
-        force: true,
-      });
+      expect(mockUpdateLayerColor).toBeCalledTimes(1);
+      expect(mockUpdateLayerColor).toHaveBeenLastCalledWith(mockElem);
     });
   });
 
@@ -484,7 +480,7 @@ describe('test LayerContextMenu', () => {
     });
     expect(mockPopUp).toBeCalledTimes(1);
     mockPopUp.mock.calls[0][0].onConfirm();
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockSplitFullColorLayer).toBeCalledTimes(1);
       expect(mockSplitFullColorLayer).toHaveBeenLastCalledWith('layer1');
       expect(mockSetSelectedLayers).toBeCalledTimes(1);
@@ -515,6 +511,11 @@ describe('test LayerContextMenu', () => {
       </LayerPanelContext.Provider>
     );
     expect(mockSplitFullColorLayer).not.toBeCalled();
+    const mockCmd = {
+      isEmpty: jest.fn(),
+    };
+    mockToggleFullColorLayer.mockReturnValue(mockCmd);
+    mockCmd.isEmpty.mockReturnValue(false);
     await act(async () => {
       fireEvent.click(getByText('switchToFullColor'));
     });
@@ -525,5 +526,8 @@ describe('test LayerContextMenu', () => {
     expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem);
     expect(mockSetSelectedLayers).toBeCalledTimes(1);
     expect(mockSetSelectedLayers).toHaveBeenLastCalledWith([]);
+    expect(mockAddCommandToHistory).toBeCalledTimes(1);
+    expect(mockAddCommandToHistory).toHaveBeenLastCalledWith(mockCmd);
+    expect(mockCmd.isEmpty).toBeCalledTimes(1);
   });
 });

@@ -31,6 +31,10 @@ svgEditor.addExtension('rotary_axis', function () {
     });
     canvBG.append(rotaryAxis);
 
+    const titile = svgdoc.createElementNS(NS.SVG, 'title');
+    titile.textContent = 'Rotary Axis';
+    rotaryAxis.append(titile);
+
     // grid-box
     var rotaryLine = svgdoc.createElementNS(NS.SVG, 'line');
     const rotaryLineWidth = 3;
