@@ -7,12 +7,13 @@ import ExportButton from './ExportButton';
 
 jest.mock('helpers/useI18n', () => () => ({
   boxgen: {
-    continue_export: 'Continue to Export',
-    export: 'Export',
+    continue_import: 'Continue to Import',
+    import: 'Import',
     cancel: 'Cancel',
     customize: 'Customize',
     merge: 'Merge',
-    textLabel: 'Label',
+    text_label: 'Label',
+    beam_radius: 'Kerf compensation',
   },
 }));
 
@@ -41,11 +42,15 @@ jest.mock(
 
 const mockAddCommandToHistory = jest.fn();
 const mockDisassembleUse2Group = jest.fn();
+const mockSetLayerVisibility = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) =>
     callback({
       Canvas: {
-        getCurrentDrawing: () => ({ all_layers: [{ name_: 'Box 1' }, { name_: 'Box 2-1' }] }),
+        getCurrentDrawing: () => ({
+          all_layers: [{ name_: 'Box 1' }, { name_: 'Box 2-1' }],
+          setLayerVisibility: (...args) => mockSetLayerVisibility(...args),
+        }),
         addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
         disassembleUse2Group: (...args) => mockDisassembleUse2Group(...args),
       },
@@ -103,6 +108,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toBeCalledWith(300, 210, mockData, {
       joinOutput: false,
       textLabel: false,
+      compRadius: 0,
     });
 
     const paginationButtons = modal.querySelectorAll('.ant-pagination-item');
@@ -119,6 +125,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: false,
+      compRadius: 0,
     });
     expect(optionButtons[0].getAttribute('aria-checked')).toBe('true');
     expect(paginationButtons[0]).toHaveClass('ant-pagination-item-active');
@@ -128,6 +135,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: true,
+      compRadius: 0,
     });
 
     fireEvent.click(modal.querySelector('.ant-btn-primary'));
@@ -167,6 +175,9 @@ describe('test ExportButton', () => {
       false,
       false
     );
+    expect(mockSetLayerVisibility).toBeCalledTimes(2);
+    expect(mockSetLayerVisibility).toHaveBeenNthCalledWith(1, 'Box 3-2', false);
+    expect(mockSetLayerVisibility).toHaveBeenNthCalledWith(2, 'Box 3-2 Label', false);
     expect(mockAddCommandToHistory).toBeCalledTimes(1);
   });
 });

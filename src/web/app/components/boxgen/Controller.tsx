@@ -171,14 +171,19 @@ const Controller = (): JSX.Element => {
     <div className={styles.controller}>
       <div className={styles.workarea}>
         <Tooltip
-          title={sprintf(lang.max_dimension_tooltip, `${workareaLimit}mm`)}
+          title={sprintf(
+            lang.max_dimension_tooltip,
+            `${(workareaLimit / unitRatio).toFixed(isMM ? 0 : 2)}${unit}`
+          )}
           placement="bottomLeft"
           arrow={{ pointAtCenter: true }}
         >
           <QuestionCircleOutlined className={styles.icon} />
         </Tooltip>
         <span>
-          {lang.workarea} : {workarea.label} ( {workarea.canvasWidth}x{workarea.canvasHeight}mm
+          {lang.workarea} : {workarea.label} ({' '}
+          {(workarea.canvasWidth / unitRatio).toFixed(isMM ? 0 : 2)} x{' '}
+          {(workarea.canvasHeight / unitRatio).toFixed(isMM ? 0 : 2)} {unit}
           <sup>2</sup> )
         </span>
       </div>

@@ -20,8 +20,8 @@ export interface FontHelper {
   findFont: (fontDescriptor: FontDescriptor) => Promise<FontDescriptor>;
   findFonts: (fontDescriptor: FontDescriptor) => Promise<FontDescriptor[]>;
   getAvailableFonts: () => Promise<FontDescriptor[]>;
-  substituteFont: (postscriptName: string, text: string) => Promise<FontDescriptor>;
   getFontName: (font: FontDescriptor) => string;
+  getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
   getWebFontPreviewUrl: (fontFamily: string) => string | null;
   applyMonotypeStyle: (
     font: WebFont | IFont,
@@ -29,6 +29,14 @@ export interface FontHelper {
     silent?: boolean
   ) => Promise<{ success: boolean; fontLoadedPromise?: Promise<void> }>;
   getMonotypeUrl: (postscriptName: string) => Promise<string | null>;
+}
+
+export interface LocalFontHelper {
+  findFont: (fontDescriptor: FontDescriptor) => FontDescriptor | null;
+  findFonts: (fontDescriptor: FontDescriptor) => FontDescriptor[];
+  getAvailableFonts: () => FontDescriptor[];
+  substituteFont: (postscriptName: string, text: string) => FontDescriptor | null;
+  getFontName: (font: FontDescriptor) => string;
   getLocalFont: (font: FontDescriptor) => Font | undefined;
 }
 

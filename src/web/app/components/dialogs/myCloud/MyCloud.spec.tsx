@@ -29,12 +29,38 @@ const mockFiles: IFile[] = [
 ];
 
 jest.mock('helpers/useI18n', () => () => ({
+  flux_id_login: {
+    flux_plus: {
+      website_url: 'https://website_url',
+    },
+  },
   my_cloud: {
     title: 'My Cloud',
     loading_file: 'Loading...',
     no_file_title: 'Save files to My Cloud to get started.',
     no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
+    file_limit: 'Free file',
+    upgrade: 'Upgrade',
   },
+}));
+
+const mockUser = {
+  email: 'test123@gmail.com',
+  info: {
+    subscription: {
+      is_valid: false,
+    },
+  },
+};
+
+const getCurrentUser = jest.fn();
+jest.mock('helpers/api/flux-id', () => ({
+  getCurrentUser: () => getCurrentUser(),
+}));
+
+const open = jest.fn();
+jest.mock('implementations/browser', () => ({
+  open: (...args) => open(...args),
 }));
 
 jest.mock('app/contexts/MyCloudContext', () => ({
@@ -62,14 +88,32 @@ describe('test MyCloud', () => {
   });
 
   test('should rendered correctly', () => {
-    const { baseElement } = render(<MyCloud onClose={mockOnClose} />);
+    getCurrentUser.mockReturnValue(mockUser);
+    const { baseElement, getByText } = render(<MyCloud onClose={mockOnClose} />);
     expect(baseElement).toMatchSnapshot();
-    const button = baseElement.querySelector('.ant-modal-close');
-    fireEvent.click(button);
+    fireEvent.click(getByText('Upgrade'));
+    expect(open).toBeCalledTimes(1);
+    expect(open).toBeCalledWith('https://website_url');
+    const closeButton = baseElement.querySelector('.ant-modal-close');
+    fireEvent.click(closeButton);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 
+  test('should rendered correctly when user is subscribed', () => {
+    getCurrentUser.mockReturnValue({
+      email: 'test123@gmail.com',
+      info: {
+        subscription: {
+          is_valid: true,
+        },
+      },
+    });
+    const { baseElement } = render(<MyCloud onClose={mockOnClose} />);
+    expect(baseElement).toMatchSnapshot();
+  });
+
   test('should rendered correctly in mobile', () => {
+    getCurrentUser.mockReturnValue(mockUser);
     mockUseIsMobile.mockReturnValue(true);
     const { container } = render(<MyCloud onClose={mockOnClose} />);
     expect(container).toMatchSnapshot();

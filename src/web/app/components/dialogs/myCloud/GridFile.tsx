@@ -2,7 +2,14 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Dropdown, Input, Popconfirm } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
+import {
+  ArrowRightOutlined,
+  CopyOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+} from '@ant-design/icons';
 
 import useI18n from 'helpers/useI18n';
 import { IFile } from 'interfaces/IMyCloud';
@@ -16,6 +23,18 @@ interface Props {
   file: IFile;
 }
 
+const getFileSize = (bytes: number) => {
+  const k = 1000;
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let size = bytes;
+  let i = 0;
+  for (; i < units.length - 1; i += 1) {
+    if (size > k) size /= k;
+    else break;
+  }
+  return size.toFixed(1) + units[i];
+};
+
 const GridFile = ({ file }: Props): JSX.Element => {
   const lang = useI18n().my_cloud.action;
   const isMobile = useIsMobile();
@@ -25,6 +44,7 @@ const GridFile = ({ file }: Props): JSX.Element => {
   const { fileOperation, editingId, setEditingId, selectedId, setSelectedId } =
     useContext(MyCloudContext);
   const inputRef = useRef(null);
+  const [error, setError] = useState(false);
   const isEditing = useMemo(() => editingId === file.uuid, [editingId, file]);
   const isSelected = useMemo(() => selectedId === file.uuid, [selectedId, file]);
 
@@ -41,11 +61,11 @@ const GridFile = ({ file }: Props): JSX.Element => {
   };
 
   const actions = [
-    { key: 'open', label: lang.open },
-    { key: 'rename', label: lang.rename },
-    { key: 'duplicate', label: lang.duplicate },
-    { key: 'download', label: lang.download },
-    { key: 'delete', label: lang.delete },
+    { key: 'open', icon: <ArrowRightOutlined />, label: lang.open },
+    { key: 'rename', icon: <EditOutlined />, label: lang.rename },
+    { key: 'duplicate', icon: <CopyOutlined />, label: lang.duplicate },
+    { key: 'download', icon: <DownloadOutlined />, label: lang.download },
+    { key: 'delete', icon: <DeleteOutlined />, label: lang.delete, danger: true },
   ];
 
   const onAction = (e: { key: string }) => {
@@ -54,6 +74,7 @@ const GridFile = ({ file }: Props): JSX.Element => {
       fileOperation.open(file);
     } else if (e.key === 'rename') {
       setEditingId(file.uuid);
+      setError(false);
     } else if (e.key === 'duplicate') {
       fileOperation.duplicate(file);
     } else if (e.key === 'download') {
@@ -64,6 +85,10 @@ const GridFile = ({ file }: Props): JSX.Element => {
   };
 
   const onChangeName = async (e) => {
+    if (error) {
+      setEditingId(null);
+      return;
+    }
     const newName = e.target.value;
     await fileOperation.rename(file, newName);
   };
@@ -83,7 +108,9 @@ const GridFile = ({ file }: Props): JSX.Element => {
           onClick={onClick}
           onDoubleClick={onDoubleClick}
         >
-          <img src={`${file.thumbnail_url}?lastmod=${file.last_modified_at}`} />
+          {file.thumbnail_url && (
+            <img src={`${file.thumbnail_url}?lastmod=${file.last_modified_at}`} />
+          )}
           <Dropdown
             menu={{ items: actions, onClick: onAction }}
             trigger={['click']}
@@ -116,8 +143,13 @@ const GridFile = ({ file }: Props): JSX.Element => {
             size="small"
             defaultValue={file.name}
             ref={inputRef}
+            onChange={(e) => {
+              const { value } = e.target;
+              setError(!value || value.includes('/'));
+            }}
             onBlur={onChangeName}
             onPressEnter={onChangeName}
+            status={error ? 'error' : undefined}
             maxLength={255}
           />
         ) : (
@@ -127,8 +159,9 @@ const GridFile = ({ file }: Props): JSX.Element => {
         )}
       </div>
       <div className={styles.info}>
-        {workarea?.label}
-        {isMobile ? <br /> : <> &bull; </>}
+        <div>
+          {workarea?.label} &bull; {getFileSize(file.size)}
+        </div>
         {dayjs(file.last_modified_at).format('MM/DD/YYYY hh:mm A')}
       </div>
     </div>

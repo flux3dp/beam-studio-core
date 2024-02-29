@@ -2,28 +2,47 @@
 
 $content-height: 60vh;
 
-.title {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 16px;
-  font-weight: 600;
+.title-container {
   margin-bottom: 20px;
-  > svg {
-    font-size: 24px;
+  min-height: 32px;
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    > svg {
+      font-size: 24px;
+    }
+
+    @media screen and (max-width: 600px) {
+      margin-bottom: 0;
+      justify-content: center;
+    }
   }
 
-  @media screen and (max-width: 600px) {
-    margin-bottom: 0;
-    justify-content: center;
+  .limit {
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+
+    .tag {
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: 1px solid #cecece;
+      margin: auto;
+      line-height: 1;
+    }
   }
 }
 
 .grids {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(variables.$grid-width, 1fr));
-  overflow: scroll;
-  gap: 20px 12px;
+  overflow-y: scroll;
+  gap: 20px 10px;
   height: $content-height;
 }
 

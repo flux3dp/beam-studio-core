@@ -84,7 +84,8 @@
   &.desktop {
     z-index: 1000;
     .back {
-      margin-top: 30px;
+      margin-top: 42px;
+      margin-bottom: 0;
     }
     @media screen and (max-width: 600px) {
       .title {

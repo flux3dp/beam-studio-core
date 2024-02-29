@@ -23,4 +23,5 @@ export interface IController {
 export interface IExportOptions {
   joinOutput: boolean;
   textLabel: boolean;
+  compRadius: number;
 }

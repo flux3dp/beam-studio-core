@@ -217,7 +217,9 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
         className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
-        <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
+        {(window.os === 'Windows' && window.titlebar) || (
+          <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
+        )}
         <UserAvatar user={currentUser} />
         <PreviewButton />
         <div className={styles.right}>

@@ -257,7 +257,11 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
     });
 
   const user = getCurrentUser();
-  if (user.info && (user.info.subscription?.credit || 0) + (user.info.credit || 0) < 0.2) {
+  if (!user) {
+    dialogCaller.showLoginDialog();
+    return;
+  }
+  if (user.info?.subscription && user.info.subscription.credit + user.info.credit < 0.2) {
     showBalanceAlert();
     return;
   }
