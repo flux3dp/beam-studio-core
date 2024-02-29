@@ -1,20 +1,22 @@
+/* eslint-disable import/first */
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import FileName from './FileName';
-
-const mockUseIsMobile = jest.fn();
-jest.mock('helpers/system-helper', () => ({
-  useIsMobile: (...args) => mockUseIsMobile(...args),
-}));
-
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    topbar: {
-      untitled: 'Untitled',
-    },
+jest.mock('helpers/useI18n', () => () => ({
+  topbar: {
+    untitled: 'Untitled',
   },
 }));
+
+const mockSvgCanvas = { currentFilePath: '/local/file' };
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: mockSvgCanvas,
+    }),
+}));
+
+import FileName from './FileName';
 
 describe('test FileName', () => {
   beforeEach(() => {
@@ -22,36 +24,25 @@ describe('test FileName', () => {
   });
 
   it('should render correctly', () => {
-    mockUseIsMobile.mockReturnValue(false);
-    const { container } = render(<FileName
-      fileName="abc.svg"
-      hasUnsavedChange
-    />);
+    const { container, rerender } = render(<FileName fileName="abc.svg" hasUnsavedChange />);
     expect(container).toMatchSnapshot();
 
-    const { container: container2 } = render(<FileName
-      fileName=""
-      hasUnsavedChange={false}
-    />);
-    expect(container2).toMatchSnapshot();
+    rerender(<FileName fileName="" hasUnsavedChange={false} />);
+    expect(container).toMatchSnapshot();
+
+    rerender(<FileName fileName="" hasUnsavedChange={false} isTitle />);
+    expect(container).toMatchSnapshot();
   });
 
-  it('should hide on windows', () => {
-    mockUseIsMobile.mockReturnValue(false);
-    window.os = 'Windows';
-    const { container } = render(<FileName
-      fileName="abc.svg"
-      hasUnsavedChange
-    />);
-    expect(container).toBeEmptyDOMElement();
-  });
+  it('should render correctly with cloud file', () => {
+    mockSvgCanvas.currentFilePath = 'cloud:uuid';
+    const { container, rerender } = render(<FileName fileName="abc.svg" hasUnsavedChange />);
+    expect(container).toMatchSnapshot();
 
-  it('should hide on mobile', () => {
-    mockUseIsMobile.mockReturnValue(true);
-    const { container } = render(<FileName
-      fileName="abc.svg"
-      hasUnsavedChange
-    />);
-    expect(container).toBeEmptyDOMElement();
+    rerender(<FileName fileName="" hasUnsavedChange={false} />);
+    expect(container).toMatchSnapshot();
+
+    rerender(<FileName fileName="" hasUnsavedChange={false} isTitle />);
+    expect(container).toMatchSnapshot();
   });
 });

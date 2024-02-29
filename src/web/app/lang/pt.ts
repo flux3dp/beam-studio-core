@@ -1074,11 +1074,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Analisando fonte... Por favor, aguarde um momento',
       text_to_path: {
         font_substitute_pop:
-          'O texto: <strong>%s</strong> contém caracteres <strong>%s</strong> que não são suportados pela fonte atual: <strong>%s</strong>. <br/> Gostaria de usar <strong>%s</strong> como substituição?',
+          'Seu texto contém caracteres que não são suportados pela fonte atual. <br/>Gostaria de usar <strong>%s</strong> como substituição?',
         check_thumbnail_warning:
           'Alguns textos foram alterados para outras fontes ao converter textos em caminhos e alguns caracteres podem não ter sido convertidos corretamente. \nVerifique a visualização novamente antes de enviar a tarefa.',
-        error_when_parsing_text: 'Erro ao converter texto em caminho: \n%s',
+        error_when_parsing_text: 'Erro ao converter texto em caminho',
         use_current_font: 'Usar Fonte Atual',
+        retry: 'Por favor, tente novamente mais tarde ou escolha outra fonte',
       },
       lock_desc: 'Manter proporção de largura e altura (SHIFT)',
     },
@@ -1739,11 +1740,12 @@ const lang: ILang = {
     tCount_tooltip: 'A contagem de ranhuras em T aplica-se ao lado curto; a quantidade no lado longo é calculada com base no seu comprimento.',
     tDiameter: 'Diâmetro T',
     tLength: 'Comprimento T',
-    continue_export: 'Continuar para Exportar',
+    continue_import: 'Continuar a Importar',
     customize: 'Personalizar',
     merge: 'Mesclar',
-    textLabel: 'Rótulo',
-    export: 'Exportar',
+    text_label: 'Rótulo',
+    beam_radius: 'Compensação do raio do feixe',
+    import: 'Importar',
     cancel: 'Cancelar',
     reset: 'Redefinir',
     zoom: 'Zoom',
@@ -1755,6 +1757,8 @@ const lang: ILang = {
     loading_file: 'Carregando...',
     no_file_title: 'Salve arquivos em Minha nuvem para começar.',
     no_file_subtitle: 'Vá para Menu > "Arquivo" > "Salvar na nuvem"',
+    file_limit: 'Arquivo gratuito',
+    upgrade: 'Atualizar',
     sort: {
       most_recent: 'Mais recentes',
       oldest: 'Mais antigos',
@@ -1775,6 +1779,7 @@ const lang: ILang = {
       save: 'Salvar',
       save_new: 'Salvar como novo arquivo',
       input_file_name: 'Digite o nome do arquivo:',
+      invalid_char: 'Caracteres inválidos:',
     },
   },
 };

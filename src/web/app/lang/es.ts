@@ -1015,10 +1015,13 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',
       text_to_path: {
-        font_substitute_pop: 'Texto: "%s" contiene debajo de los caracteres que no son soportados por la fuente actual: "%s".\n%s\n¿Te gustaría usar "%s" como sustituto?',
-        check_thumbnail_warning: 'Algunos textos fueron cambiados a otras fuentes cuando se analizan los textos en las rutas y algunos caracteres no se convierten normalmente.\nPor favor, comprueba otra vez la imagen de vista previa antes de enviar la tarea.',
-        error_when_parsing_text: 'Error al convertir texto a ruta:\n%s',
+        font_substitute_pop:
+          'Su texto contiene caracteres que no son compatibles con la fuente actual. <br/>¿Le gustaría usar <strong>%s</strong> como sustituto?',
+        check_thumbnail_warning:
+          'Algunos textos fueron cambiados a otras fuentes cuando se analizan los textos en las rutas y algunos caracteres no se convierten normalmente.\nPor favor, comprueba otra vez la imagen de vista previa antes de enviar la tarea.',
+        error_when_parsing_text: 'Error al convertir texto a ruta',
         use_current_font: 'Usar fuente actual',
+        retry: 'Por favor, inténtelo de nuevo más tarde o elija otra fuente',
       },
       lock_desc: 'Preservar la relación entre anchura y altura (SHIFT)',
     },
@@ -1616,11 +1619,12 @@ const lang: ILang = {
     tCount_tooltip: 'El recuento de ranuras en T se aplica al lado corto; la cantidad en el lado largo se calcula en función de su longitud.',
     tDiameter: 'Diámetro de T',
     tLength: 'Longitud de T',
-    continue_export: 'Continuar a Exportar',
+    continue_import: 'Continuar importando',
     customize: 'Personalizar',
     merge: 'Fusionar',
-    textLabel: 'Etiqueta',
-    export: 'Exportar',
+    text_label: 'Etiqueta',
+    beam_radius: 'Compensación del radio del láser',
+    import: 'Importar',
     cancel: 'Cancelar',
     reset: 'Restablecer',
     zoom: 'Zoom',
@@ -1632,6 +1636,8 @@ const lang: ILang = {
     loading_file: 'Cargando...',
     no_file_title: 'Guarde archivos en Mi nube para comenzar.',
     no_file_subtitle: 'Vaya al Menú > "Archivo" > "Guardar en la nube"',
+    file_limit: 'Archivo gratuito',
+    upgrade: 'Actualizar',
     sort: {
       most_recent: 'Más recientes',
       oldest: 'Más antiguos',
@@ -1652,6 +1658,7 @@ const lang: ILang = {
       save: 'Guardar',
       save_new: 'Guardar como nuevo archivo',
       input_file_name: 'Introducir nombre de archivo:',
+      invalid_char: 'Caracteres no válidos:',
     },
   },
 };

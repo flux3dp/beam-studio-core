@@ -1076,11 +1076,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Mengurai font... Mohon tunggu sebentar',
       text_to_path: {
         font_substitute_pop:
-          'Teks: <strong>%s</strong> berisi karakter <strong>%s</strong> yang tidak didukung oleh font saat ini: <strong>%s</strong>. <br/>Apakah Anda ingin menggunakan <strong>%s</strong> sebagai pengganti?',
+          'Teks Anda berisi karakter yang tidak didukung oleh font saat ini. <br/>Apakah Anda ingin menggunakan <strong>%s</strong> sebagai pengganti?',
         check_thumbnail_warning:
           'Beberapa teks diubah ke font lain saat mengubah teks ke path dan beberapa karakter mungkin tidak dikonversi dengan normal.\nPeriksa gambar pratinjau lagi sebelum mengirim tugas.',
-        error_when_parsing_text: 'Kesalahan saat mengubah teks ke path:\n%s',
+        error_when_parsing_text: 'Kesalahan saat mengubah teks ke path',
         use_current_font: 'Gunakan Font Saat Ini',
+        retry: 'Coba lagi nanti atau pilih font lain',
       },
       lock_desc: 'Jaga rasio lebar dan tinggi (SHIFT)',
     },
@@ -1736,11 +1737,12 @@ const lang: ILang = {
     tCount_tooltip: 'Jumlah slot T berlaku untuk sisi pendek; jumlah pada sisi panjang dihitung berdasarkan panjangnya.',
     tDiameter: 'Diameter T',
     tLength: 'Panjang T',
-    continue_export: 'Lanjutkan ke Ekspor',
+    continue_import: 'Lanjutkan untuk Impor',
     customize: 'Sesuaikan',
     merge: 'Gabung',
-    textLabel: 'Label',
-    export: 'Ekspor',
+    text_label: 'Label',
+    beam_radius: 'Kompensasi kerf',
+    import: 'Impor',
     cancel: 'Batal',
     reset: 'Setel Ulang',
     zoom: 'Perbesar',
@@ -1752,6 +1754,8 @@ const lang: ILang = {
     loading_file: 'Memuat...',
     no_file_title: 'Simpan berkas ke Awan Saya untuk memulai.',
     no_file_subtitle: 'Buka Menu > "Berkas" > "Simpan ke Awan"',
+    file_limit: 'File gratis',
+    upgrade: 'Tingkatkan',
     sort: {
       most_recent: 'Terbaru',
       oldest: 'Terlama',
@@ -1772,6 +1776,7 @@ const lang: ILang = {
       save: 'Simpan',
       save_new: 'Simpan sebagai berkas baru',
       input_file_name: 'Masukkan nama berkas:',
+      invalid_char: 'Karakter tidak valid:',
     },
   },
 };

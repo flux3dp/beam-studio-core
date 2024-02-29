@@ -61,7 +61,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import colorConstants from 'app/constants/color-constants';
-import fontHelper from 'implementations/fontHelper';
+import fontHelper from 'helpers/fonts/fontHelper';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -4348,11 +4348,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     this.latestImportFileName = fileName;
     this.currentFileName = fileName;
     TopBarController.setFileName(fileName);
-    if (window.os === 'Windows' && window.titlebar) {
-      window.titlebar.updateTitle(fileName);
-    } else {
-      $('#svgcanvas').trigger('mouseup'); // update file title
-    }
   };
 
   // Function: getLatestImportFileName

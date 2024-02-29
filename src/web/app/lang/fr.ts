@@ -1080,11 +1080,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Analyse de la police en cours... Veuillez patienter une seconde',
       text_to_path: {
         font_substitute_pop:
-          'Le texte : <strong>%s</strong> contient des caractères <strong>%s</strong> qui ne sont pas pris en charge par la police actuelle : <strong>%s</strong>. <br/>Souhaitez-vous utiliser <strong>%s</strong> à la place ?',
+          'Votre texte contient des caractères qui ne sont pas pris en charge par la police actuelle. <br/>Souhaitez-vous utiliser <strong>%s</strong> comme substitution ?',
         check_thumbnail_warning:
           "Certains textes ont été modifiés avec d'autres polices lors de la conversion des textes en tracés et certains caractères peuvent ne pas être convertis normalement. <br/> Veuillez vérifier à nouveau l'image d'aperçu avant d'envoyer la tâche.",
-        error_when_parsing_text: 'Erreur lors de la conversion du texte en tracé :\n%s',
+        error_when_parsing_text: 'Erreur lors de la conversion du texte en tracé',
         use_current_font: 'Utiliser la police actuelle',
+        retry: 'Veuillez réessayer plus tard ou choisir une autre police',
       },
       lock_desc: 'Conserver le rapport largeur/hauteur (MAJ)',
     },
@@ -1756,11 +1757,12 @@ const lang: ILang = {
     tCount_tooltip: "Le nombre de rainures en T s'applique au côté court ; la quantité sur le côté long est calculée en fonction de sa longueur.",
     tDiameter: 'Diamètre de T',
     tLength: 'Longueur de T',
-    continue_export: 'Continuer à exporter',
+    continue_import: 'Continuer à importer',
     customize: 'Personnaliser',
     merge: 'Fusionner',
-    textLabel: 'Étiquette',
-    export: 'Exporter',
+    text_label: 'Étiquette',
+    beam_radius: 'Compensation du faisceau',
+    import: 'Importer',
     cancel: 'Annuler',
     reset: 'Réinitialiser',
     zoom: 'Zoom',
@@ -1772,6 +1774,8 @@ const lang: ILang = {
     loading_file: 'Chargement...',
     no_file_title: 'Enregistrez des fichiers dans Mon cloud pour commencer.',
     no_file_subtitle: 'Accédez au menu > "Fichier" > "Enregistrer dans le cloud"',
+    file_limit: 'Fichier gratuit',
+    upgrade: 'Mettre à niveau',
     sort: {
       most_recent: 'Plus récent',
       oldest: 'Plus ancien',
@@ -1792,6 +1796,7 @@ const lang: ILang = {
       save: 'Enregistrer',
       save_new: 'Enregistrer sous',
       input_file_name: 'Entrer le nom du fichier :',
+      invalid_char: 'Caractères non valides :',
     },
   },
 };

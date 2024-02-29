@@ -1073,11 +1073,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Tolkar teckensnitt ... Vänta en sekund',
       text_to_path: {
         font_substitute_pop:
-          'Text: <strong>%s</strong> innehåller tecken <strong>%s</strong> som inte stöds av aktuellt teckensnitt: <strong>%s</strong>. <br/>Vill du använda <strong>%s</strong> som ersättning?',
+          'Din text innehåller tecken som inte stöds av aktuellt typsnitt. <br/>Vill du använda <strong>%s</strong> som ersättning?',
         check_thumbnail_warning:
           'Vissa texter ändrades till andra typsnitt när text tolkades till banor och vissa tecken kanske inte konverterades korrekt. <br/> Kontrollera förhandsgranskningsbilden igen innan du skickar uppgiften.',
-        error_when_parsing_text: 'Fel vid omvandling av text till bana: <br/>%s',
+        error_when_parsing_text: 'Fel vid omvandling av text till bana',
         use_current_font: 'Använd aktuellt typsnitt',
+        retry: 'Försök igen senare eller välj ett annat typsnitt',
       },
       lock_desc: 'Behåll bredd- och höjdförhållandet (SHIFT)',
     },
@@ -1729,11 +1730,12 @@ const lang: ILang = {
     tCount_tooltip: 'Antalet T-spår gäller den korta sidan; kvantiteten på den långa sidan beräknas baserat på dess längd.',
     tDiameter: 'T Diameter',
     tLength: 'T Längd',
-    continue_export: 'Fortsätt till export',
+    continue_import: 'Fortsätt importera',
     customize: 'Anpassa',
     merge: 'Sammanfoga',
-    textLabel: 'Etikett',
-    export: 'Exportera',
+    text_label: 'Etikett',
+    beam_radius: 'Kompensation för skärstråle',
+    import: 'Importera',
     cancel: 'Avbryt',
     reset: 'Återställ',
     zoom: 'Zooma',
@@ -1745,6 +1747,8 @@ const lang: ILang = {
     loading_file: 'Laddar...',
     no_file_title: 'Spara filer till Mitt moln för att komma igång.',
     no_file_subtitle: 'Gå till Meny > "Arkiv" > "Spara till molnet"',
+    file_limit: 'Gratis fil',
+    upgrade: 'Uppgradera',
     sort: {
       most_recent: 'Senast',
       oldest: 'Äldst',
@@ -1765,6 +1769,7 @@ const lang: ILang = {
       save: 'Spara',
       save_new: 'Spara som ny fil',
       input_file_name: 'Ange filnamn:',
+      invalid_char: 'Ogiltiga tecken:',
     },
   },
 };

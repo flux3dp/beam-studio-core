@@ -1015,10 +1015,13 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: '解析字體中...',
       text_to_path: {
-        font_substitute_pop: '文字: <strong>%s</strong> 中含有當前字體: <strong>%s</strong> 不支援的字元: %s，<br/>將替換成以下字體: <strong>%s</strong>。',
-        check_thumbnail_warning: '轉換文字時出現字體不支援的情形，請在送出工作前，再次檢查預覽圖確認文字是否如預期轉換。',
-        error_when_parsing_text: '文字轉換路徑時發生錯誤：<br/>%s',
+        font_substitute_pop:
+          '您的文字包含當前字型不支援的字元。<br/>您想使用<strong>%s</strong>作為替換嗎?',
+        check_thumbnail_warning:
+          '轉換文字時出現字體不支援的情形，請在送出工作前，再次檢查預覽圖確認文字是否如預期轉換。',
+        error_when_parsing_text: '文字轉換路徑時發生錯誤',
         use_current_font: '使用當前字體',
+        retry: '請稍後重試或選擇其他字型',
       },
       lock_desc: '縮放時固定比例 (SHIFT)',
     },
@@ -1616,11 +1619,12 @@ const lang: ILang = {
     tCount_tooltip: 'T 槽數量適用於短邊；長邊的數量則根據其長度計算。',
     tDiameter: 'T 槽直徑',
     tLength: 'T 槽長度',
-    continue_export: '繼續匯出',
+    continue_import: '繼續匯入',
     customize: '自定義',
     merge: '合併',
-    textLabel: '標籤',
-    export: '匯出',
+    text_label: '標籤',
+    beam_radius: '切口補償',
+    import: '匯入',
     cancel: '取消',
     reset: '重置',
     zoom: '縮放',
@@ -1632,6 +1636,8 @@ const lang: ILang = {
     loading_file: '載入中...',
     no_file_title: '儲存檔案到我的雲端開始使用。',
     no_file_subtitle: '轉到選單 > “檔案” > “儲存到雲端”',
+    file_limit: '免費檔案',
+    upgrade: '升級',
     sort: {
       most_recent: '最近',
       oldest: '最早',
@@ -1651,6 +1657,7 @@ const lang: ILang = {
       save: '覆蓋舊檔案',
       save_new: '另存新檔',
       input_file_name: '另存新檔為：',
+      invalid_char: '無效字元:',
     },
   },
 };

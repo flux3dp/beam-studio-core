@@ -1015,10 +1015,12 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: '解析字体中...',
       text_to_path: {
-        font_substitute_pop: '文字:『%s』中含有当前字体:『%s』不支援的字元: %s，\n将替换成以下字体:『%s』。',
-        check_thumbnail_warning: '转换文字时出现字体不支援的情形，请在送出工作前，再次检查预览图确认文字是否如预期转换。',
-        error_when_parsing_text: '将文本转换为路径时出错：\n%s',
+        font_substitute_pop: '您的文本包含当前字体不支持的字符。<br/>您想使用『%s』来替换吗?',
+        check_thumbnail_warning:
+          '转换文字时出现字体不支援的情形，请在送出工作前，再次检查预览图确认文字是否如预期转换。',
+        error_when_parsing_text: '将文本转换为路径时出错',
         use_current_font: '使用当前字体',
+        retry: '请稍后重试或选择其他字体',
       },
       lock_desc: '缩放时固定比例 (SHIFT)',
     },
@@ -1616,11 +1618,12 @@ const lang: ILang = {
     tCount_tooltip: 'T型槽数量适用于短边;长边的数量根据其长度计算。',
     tDiameter: 'T 直径',
     tLength: 'T 长度',
-    continue_export: '继续导出',
+    continue_import: '继续导入',
     customize: '自定义',
     merge: '合并',
-    textLabel: '文本标签',
-    export: '导出',
+    text_label: '文本标签',
+    beam_radius: '切口补偿',
+    import: '导入',
     cancel: '取消',
     reset: '重置',
     zoom: '缩放',
@@ -1632,6 +1635,8 @@ const lang: ILang = {
     loading_file: '正在加载...',
     no_file_title: '保存文件到我的云端开始使用',
     no_file_subtitle: '转到菜单 > "档案" > "保存到云端"',
+    file_limit: '免费文件',
+    upgrade: '升级',
     sort: {
       most_recent: '最近',
       oldest: '最旧',
@@ -1651,6 +1656,7 @@ const lang: ILang = {
       save: '覆盖旧档案',
       save_new: '另存新档',
       input_file_name: '另存新档为：',
+      invalid_char: '无效字符:',
     },
   },
 };

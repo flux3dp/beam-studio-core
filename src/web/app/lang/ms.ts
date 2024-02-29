@@ -1074,11 +1074,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Menghurai font... Sila tunggu sebentar',
       text_to_path: {
         font_substitute_pop:
-          'Teks: <strong>%s</strong> mengandungi aksara <strong>%s</strong> yang tidak disokong oleh font semasa: <strong>%s</strong>. <br/>Adakah anda mahu menggunakan <strong>%s</strong> sebagai pengganti?',
+          'Teks anda mengandungi aksara yang tidak disokong oleh fon semasa. <br/>Adakah anda mahu menggunakan <strong>%s</strong> sebagai pengganti?',
         check_thumbnail_warning:
           'Sesetengah teks telah ditukar kepada font lain semasa menukar teks kepada laluan dan sesetengah aksara mungkin tidak ditukar dengan betul.\nSila semak pratonton imej sekali lagi sebelum menghantar tugasan.',
-        error_when_parsing_text: 'Ralat semasa menukar teks kepada laluan:\n%s',
+        error_when_parsing_text: 'Ralat semasa menukar teks kepada laluan',
         use_current_font: 'Guna Font Semasa',
+        retry: 'Sila cuba semula kemudian atau pilih fon lain',
       },
       lock_desc: 'Pelihara nisbah lebar dan tinggi (SHIFT)',
     },
@@ -1732,11 +1733,12 @@ const lang: ILang = {
     tCount_tooltip: 'Bilangan slot T terpakai pada sisi pendek; kuantiti pada sisi panjang dikira berdasarkan panjangnya.',
     tDiameter: 'Diameter T',
     tLength: 'Panjang T',
-    continue_export: 'Teruskan ke Eksport',
+    continue_import: 'Teruskan untuk Import',
     customize: 'Ubah suai',
     merge: 'Gabung',
-    textLabel: 'Label Teks',
-    export: 'Eksport',
+    text_label: 'Label Teks',
+    beam_radius: 'Pampasan kerf',
+    import: 'Import',
     cancel: 'Batal',
     reset: 'Tetapkan Semula',
     zoom: 'Zum',
@@ -1748,6 +1750,8 @@ const lang: ILang = {
     loading_file: 'Memuat...',
     no_file_title: 'Simpan fail ke Awan Saya untuk bermula.',
     no_file_subtitle: 'Pergi ke Menu > "Fail" > "Simpan ke Awan"',
+    file_limit: 'Fail percuma',
+    upgrade: 'Naik taraf',
     sort: {
       most_recent: 'Terbaru',
       oldest: 'Terlama',
@@ -1767,6 +1771,7 @@ const lang: ILang = {
       save: 'Simpan',
       save_new: 'Simpan sebagai fail baru',
       input_file_name: 'Masukkan nama fail:',
+      invalid_char: 'Aksara tidak sah:',
     },
   },
 };
