@@ -14,7 +14,7 @@ import Constant from 'app/actions/beambox/constant';
 import Dialog from 'app/actions/dialog-caller';
 import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
-import fontHelper from 'implementations/fontHelper';
+import fontHelper from 'helpers/fonts/fontHelper';
 import getDevice from 'helpers/device/get-device';
 import InterProcess from 'helpers/api/inter-process';
 import i18n from 'helpers/i18n';

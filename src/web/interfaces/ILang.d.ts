@@ -1011,15 +1011,16 @@ export interface ILang {
       };
     },
     object_panels: {
-      wait_for_parsing_font: string,
+      wait_for_parsing_font: string;
       text_to_path: {
-        font_substitute_pop: string,
-        check_thumbnail_warning: string,
-        error_when_parsing_text: string,
-        use_current_font: string,
-      },
-      lock_desc: string,
-    },
+        font_substitute_pop: string;
+        check_thumbnail_warning: string;
+        error_when_parsing_text: string;
+        retry: string;
+        use_current_font: string;
+      };
+      lock_desc: string;
+    };
     tool_panels: {
       cancel: string,
       confirm: string,
@@ -1622,11 +1623,12 @@ export interface ILang {
     tCount_tooltip: string;
     tDiameter: string;
     tLength: string;
-    continue_export: string;
+    continue_import: string;
     customize: string;
     merge: string;
-    textLabel: string;
-    export: string;
+    text_label: string;
+    beam_radius: string;
+    import: string;
     cancel: string;
     reset: string;
     zoom: string;
@@ -1638,6 +1640,8 @@ export interface ILang {
     loading_file: string;
     no_file_title: string;
     no_file_subtitle: string;
+    file_limit: string;
+    upgrade: string;
     sort: {
       most_recent: string;
       oldest: string;
@@ -1657,6 +1661,7 @@ export interface ILang {
       save: string;
       save_new: string;
       input_file_name: string;
+      invalid_char: string;
     };
   };
 }

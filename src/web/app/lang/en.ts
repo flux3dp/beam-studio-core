@@ -1016,9 +1016,12 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Parsing font... Please wait a second',
       text_to_path: {
-        font_substitute_pop: 'Text: <strong>%s</strong> contains characters <strong>%s</strong> which are not supported by current font: <strong>%s</strong>. <br/>Would you like to use <strong>%s</strong> as substitution?',
-        check_thumbnail_warning: 'Some texts were changed to other fonts when parsing texts to paths and some character may not converted normally.\nPlease check preview image again before sending task.',
-        error_when_parsing_text: 'Error when converting text to path:\n%s',
+        font_substitute_pop:
+          'Your text contains characters which are not supported by current font. <br/>Would you like to use <strong>%s</strong> as substitution?',
+        check_thumbnail_warning:
+          'Some texts were changed to other fonts when parsing texts to paths and some character may not converted normally.\nPlease check preview image again before sending task.',
+        error_when_parsing_text: 'Error when converting text to path',
+        retry: 'Please retry later or choose another font',
         use_current_font: 'Use Current Font',
       },
       lock_desc: 'Preserve the ratio of width and height (SHIFT)',
@@ -1625,11 +1628,12 @@ const lang: ILang = {
     tCount_tooltip: 'The T slot count applies to the short side; the quantity on the long side is calculated based on its length.',
     tDiameter: 'T Diameter',
     tLength: 'T Length',
-    continue_export: 'Continue to Export',
+    continue_import: 'Continue to Import',
     customize: 'Customize',
     merge: 'Merge',
-    textLabel: 'Label',
-    export: 'Export',
+    text_label: 'Label',
+    beam_radius: 'Kerf compensation',
+    import: 'Import',
     cancel: 'Cancel',
     reset: 'Reset',
     zoom: 'Zoom',
@@ -1641,6 +1645,8 @@ const lang: ILang = {
     loading_file: 'Loading...',
     no_file_title: 'Save files to My Cloud to get started.',
     no_file_subtitle: 'Go to Menu > "File" > "Save to Cloud"',
+    file_limit: 'Free file',
+    upgrade: 'Upgrade',
     sort: {
       most_recent: 'Most Recent',
       oldest: 'Oldest',
@@ -1660,6 +1666,7 @@ const lang: ILang = {
       save: 'Save',
       save_new: 'Save as new file',
       input_file_name: 'Input file name:',
+      invalid_char: 'Invalid characters:',
     },
   },
 };

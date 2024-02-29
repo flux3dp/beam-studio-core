@@ -178,8 +178,8 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
       });
       if (await checkResp(resp)) {
         await BeamFileHelper.readBeam(resp.data);
-        svgCanvas.setLatestImportFileName(file.name);
         svgCanvas.currentFilePath = `cloud:${file.uuid}`;
+        svgCanvas.setLatestImportFileName(file.name);
         onClose();
       }
     } catch (e) {
