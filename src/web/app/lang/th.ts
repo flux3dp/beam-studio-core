@@ -1063,11 +1063,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'กําลังแปลงฟอนต์... กรุณารอสักครู่',
       text_to_path: {
         font_substitute_pop:
-          'ข้อความ: <strong>%s</strong> มีอักขระ <strong>%s</strong> ที่ไม่รองรับในฟอนต์ปัจจุบัน: <strong>%s</strong> <br/>ต้องการใช้ <strong>%s</strong> แทนหรือไม่?',
+          'ข้อความของคุณมีอักขระที่แบบอักษรปัจจุบันไม่รองรับ <br/>คุณต้องการใช้ <strong>%s</strong> แทนไหม?',
         check_thumbnail_warning:
           'บางข้อความถูกเปลี่ยนเป็นฟอนต์อื่นเมื่อแปลงข้อความเป็นเส้นทาง และบางอักขระอาจไม่ได้แปลงไปตามปกติ\nกรุณาตรวจสอบภาพตัวอย่างอีกครั้งก่อนส่งงาน',
-        error_when_parsing_text: 'ข้อผิดพลาดเมื่อแปลงข้อความเป็นเส้นทาง:\n%s',
+        error_when_parsing_text: 'ข้อผิดพลาดเมื่อแปลงข้อความเป็นเส้นทาง',
         use_current_font: 'ใช้ฟอนต์ปัจจุบัน',
+        retry: 'โปรดลองใหม่ในภายหลังหรือเลือกแบบอักษรอื่น',
       },
       lock_desc: 'รักษาสัดส่วนความกว้างและความสูง (SHIFT)',
     },
@@ -1717,11 +1718,12 @@ const lang: ILang = {
     tCount_tooltip: 'จํานวนช่อง T นั้นจะนับจากด้านสั้น ส่วนปริมาณบนด้านยาวจะคํานวณจากความยาว',
     tDiameter: 'เส้นผ่านศูนย์กลาง T',
     tLength: 'ความยาว T',
-    continue_export: 'ดําเนินการส่งออกต่อ',
+    continue_import: 'ดําเนินการนําเข้าต่อ',
     customize: 'ปรับแต่ง',
     merge: 'รวม',
-    textLabel: 'ป้ายชื่อ',
-    export: 'ส่งออก',
+    text_label: 'ป้ายชื่อ',
+    beam_radius: 'ช่องว่างสําหรับตัด',
+    import: 'นําเข้า',
     cancel: 'ยกเลิก',
     reset: 'รีเซ็ต',
     zoom: 'ซูม',
@@ -1733,6 +1735,8 @@ const lang: ILang = {
     loading_file: 'กําลังโหลด...',
     no_file_title: 'บันทึกไฟล์ไปยัง คลาวด์ของฉัน เพื่อเริ่มต้น',
     no_file_subtitle: 'ไปที่เมนู > "ไฟล์" > "บันทึกไปยังคลาวด์"',
+    file_limit: 'ไฟล์ฟรี',
+    upgrade: 'อัพเกรด',
     sort: {
       most_recent: 'ล่าสุด',
       oldest: 'เก่าสุด',
@@ -1752,6 +1756,7 @@ const lang: ILang = {
       save: 'บันทึก',
       save_new: 'บันทึกเป็นไฟล์ใหม่',
       input_file_name: 'กรอกชื่อไฟล์:',
+      invalid_char: 'อักขระไม่ถูกต้อง:',
     },
   },
 };

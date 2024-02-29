@@ -1069,11 +1069,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Đang phân tích font... Vui lòng đợi',
       text_to_path: {
         font_substitute_pop:
-          'Văn bản: <strong>%s</strong> chứa các ký tự <strong>%s</strong> không được hỗ trợ bởi font hiện tại: <strong>%s</strong>. <br/>Bạn có muốn sử dụng <strong>%s</strong> thay thế không?',
+          'Văn bản của bạn chứa các ký tự không được hỗ trợ bởi font hiện tại. <br/>Bạn có muốn sử dụng <strong>%s</strong> làm ký tự thay thế?',
         check_thumbnail_warning:
           'Một số văn bản đã được thay đổi sang các font khác khi chuyển đổi văn bản thành đường dẫn và một số ký tự có thể không được chuyển đổi bình thường. Vui lòng kiểm tra lại trước khi gửi.',
-        error_when_parsing_text: 'Lỗi khi chuyển đổi văn bản thành đường dẫn: \n%s',
+        error_when_parsing_text: 'Lỗi khi chuyển đổi văn bản thành đường dẫn',
         use_current_font: 'Sử dụng font hiện tại',
+        retry: 'Vui lòng thử lại sau hoặc chọn font khác',
       },
       lock_desc: 'Giữ nguyên tỷ lệ chiều rộng và chiều cao (SHIFT)',
     },
@@ -1733,11 +1734,12 @@ const lang: ILang = {
     tCount_tooltip: 'Số lượng khớp T áp dụng cho cạnh ngắn; số lượng ở cạnh dài được tính dựa trên chiều dài của nó.',
     tDiameter: 'Đường kính T',
     tLength: 'Chiều dài T',
-    continue_export: 'Tiếp tục Xuất',
+    continue_import: 'Tiếp tục nhập',
     customize: 'Tùy chỉnh',
     merge: 'Gộp',
-    textLabel: 'Nhãn',
-    export: 'Xuất',
+    text_label: 'Nhãn',
+    beam_radius: 'Bù đường kính tia laser',
+    import: 'Nhập',
     cancel: 'Hủy',
     reset: 'Đặt lại',
     zoom: 'Thu phóng',
@@ -1749,6 +1751,8 @@ const lang: ILang = {
     loading_file: 'Đang tải...',
     no_file_title: 'Lưu tệp lên Đám mây của tôi để bắt đầu.',
     no_file_subtitle: 'Vào Menu > "Tệp" > "Lưu lên đám mây"',
+    file_limit: 'Tệp miễn phí',
+    upgrade: 'Nâng cấp',
     sort: {
       most_recent: 'Gần đây nhất',
       oldest: 'Cũ nhất',
@@ -1769,6 +1773,7 @@ const lang: ILang = {
       save: 'Lưu',
       save_new: 'Lưu thành tệp mới',
       input_file_name: 'Nhập tên tệp:',
+      invalid_char: 'Ký tự không hợp lệ:',
     },
   },
 };

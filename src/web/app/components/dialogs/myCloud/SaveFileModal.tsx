@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Input, Modal, Space } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { Button, Input, Modal, Space, Typography } from 'antd';
 
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -19,15 +19,17 @@ const SaveFileModal = ({ onClose, uuid }: Props): JSX.Element => {
   const lang = LANG.my_cloud.save_file;
   const [isEditingName, setIsEditingName] = useState(!uuid);
   const [fileName, setFileName] = useState<string>(
-    (svgCanvas.getLatestImportFileName() || LANG.topbar.untitled).replace('/', ':')
+    (svgCanvas.getLatestImportFileName() || LANG.topbar.untitled).split('/').pop()
   );
+  const slashError = useMemo(() => fileName.includes('/'), [fileName]);
+  const error = slashError || !fileName;
 
   return isEditingName ? (
     <Modal
-      title={lang.input_file_name}
+      title={LANG.topbar.menu.save_to_cloud}
       onOk={() => onClose(fileName)}
       onCancel={() => onClose(null, true)}
-      okButtonProps={{ disabled: !fileName }}
+      okButtonProps={{ disabled: error }}
       width={350}
       centered
       open
@@ -35,9 +37,15 @@ const SaveFileModal = ({ onClose, uuid }: Props): JSX.Element => {
       <Input
         size="small"
         value={fileName}
+        status={error ? 'error' : undefined}
         onChange={(e) => setFileName(e.target.value)}
         maxLength={255}
       />
+      {slashError && (
+        <div>
+          {lang.invalid_char} <Typography.Text keyboard>/</Typography.Text>
+        </div>
+      )}
     </Modal>
   ) : (
     <Modal

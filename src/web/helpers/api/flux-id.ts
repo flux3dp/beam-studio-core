@@ -211,6 +211,8 @@ export const init = async (): Promise<void> => {
     cookies.on('changed', (event, cookie, cause, removed) => {
       if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
         axiosFluxId.defaults.headers.post['X-CSRFToken'] = cookie.value;
+        axiosFluxId.defaults.headers.put['X-CSRFToken'] = cookie.value;
+        axiosFluxId.defaults.headers.delete['X-CSRFToken'] = cookie.value;
       }
     });
   }

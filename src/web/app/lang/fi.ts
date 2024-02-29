@@ -1069,11 +1069,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Jäsentää fonttia... Odota hetki',
       text_to_path: {
         font_substitute_pop:
-          'Teksti: <strong>%s</strong> sisältää merkkejä <strong>%s</strong> joita nykyinen fontti ei tue: <strong>%s</strong>. <br/>Haluaisitko käyttää <strong>%s</strong> korvaavana fonttina?',
+          'Tekstissäsi on merkkejä, joita nykyinen fontti ei tue. <br/>Haluaisitko käyttää <strong>%s</strong> korvaavana fonttina?',
         check_thumbnail_warning:
           'Joitakin tekstejä vaihdettiin toisiin fontteihin muunnettaessa tekstejä poluiksi ja joitakin merkkejä ei ehkä muunnettu oikein. <br/>Tarkista esikatselukuva uudelleen ennen tehtävän lähettämistä.',
-        error_when_parsing_text: 'Virhe tekstiä poluksi muunnettaessa: \n%s',
+        error_when_parsing_text: 'Virhe tekstiä poluksi muunnettaessa',
         use_current_font: 'Käytä nykyistä fonttia',
+        retry: 'Yritä myöhemmin uudelleen tai valitse toinen fontti',
       },
       lock_desc: 'Säilytä leveyden ja korkeuden suhde (SHIFT)',
     },
@@ -1734,11 +1735,12 @@ const lang: ILang = {
     tCount_tooltip: 'T-urien määrä koskee lyhyttä sivua; pitkän sivun määrä lasketaan sen pituuden mukaan.',
     tDiameter: 'T-halkaisija',
     tLength: 'T-pituus',
-    continue_export: 'Jatka vientiin',
+    continue_import: 'Jatka tuontia',
     customize: 'Mukauta',
     merge: 'Yhdistä',
-    textLabel: 'Tekstikenttä',
-    export: 'Vie',
+    text_label: 'Tekstikenttä',
+    beam_radius: 'Säteen kompensaatio',
+    import: 'Tuo',
     cancel: 'Peruuta',
     reset: 'Nollaa',
     zoom: 'Lähennä',
@@ -1750,6 +1752,8 @@ const lang: ILang = {
     loading_file: 'Ladataan...',
     no_file_title: 'Aloita tallentamalla tiedostoja pilveen.',
     no_file_subtitle: 'Siirry valikkoon > "Tiedosto" > "Tallenna pilvipalveluun"',
+    file_limit: 'Ilmainen tiedosto',
+    upgrade: 'Päivitä',
     sort: {
       most_recent: 'Viimeisimmät',
       oldest: 'Vanhimmat',
@@ -1769,6 +1773,7 @@ const lang: ILang = {
       save: 'Tallenna',
       save_new: 'Tallenna uutena tiedostona',
       input_file_name: 'Anna tiedoston nimi:',
+      invalid_char: 'Virheelliset merkit:',
     },
   },
 };
