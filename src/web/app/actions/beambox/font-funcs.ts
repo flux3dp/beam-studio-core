@@ -7,6 +7,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import fileExportHelper from 'helpers/file-export-helper';
 import fontHelper from 'helpers/fonts/fontHelper';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -16,8 +17,8 @@ import Progress from 'app/actions/progress-caller';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import storage from 'implementations/storage';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
-import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import weldPath from 'helpers/weldPath';
+import { checkConnection } from 'helpers/api/discover';
 import { FontDescriptor, IFont, IFontQuery, WebFont } from 'interfaces/IFont';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
@@ -298,24 +299,21 @@ const convertTextToPathByGhost = async (
     if (window.FLUX.version !== 'web' && !('path' in font)) {
       throw new Error('Web font');
     }
+    if (window.FLUX.version === 'web' && !checkConnection()) {
+      throw new Error('No connection');
+    }
     const bbox = svgCanvas.calculateTransformedBBox(textElem);
     const { postscriptName } = font;
-    let convertRes = await webNeedConnectionWrapper(async () => {
-      const res = await fontHelper.getWebFontAndUpload(postscriptName);
-      if (!res) {
-        throw new Error('error when uploading');
-      }
-      await svgWebSocket.uploadPlainTextSVG(textElem, bbox);
-      const outputs = await svgWebSocket.divideSVG({ scale: 1, timeout: 15000 });
-      if (!outputs.res) {
-        throw new Error(`fluxsvg: ${outputs.data}`);
-      }
-      return outputs.data;
-    });
-    if (!convertRes) {
-      throw new Error('no connection');
+    const res = await fontHelper.getWebFontAndUpload(postscriptName);
+    if (!res) {
+      throw new Error('Error when uploading');
     }
-    convertRes = await getPathAndTransformFromSvg(convertRes, isFilled);
+    await svgWebSocket.uploadPlainTextSVG(textElem, bbox);
+    const outputs = await svgWebSocket.divideSVG({ scale: 1, timeout: 15000 });
+    if (!outputs.res) {
+      throw new Error(`Fluxsvg: ${outputs.data}`);
+    }
+    const convertRes = await getPathAndTransformFromSvg(outputs.data, isFilled);
     return { ...convertRes, moveElement: bbox };
   } catch (err) {
     console.log(
@@ -531,6 +529,19 @@ const convertTextToPath = async (
 
     let res: IConvertInfo = null;
     if (BeamboxPreference.read('font-convert') === '1.0') {
+      if (window.FLUX.version === 'web' && !checkConnection()) {
+        Alert.popUp({
+          caption: i18n.lang.alert.oops,
+          message: i18n.lang.device_selection.no_device_web,
+          buttonType: AlertConstants.CUSTOM_CANCEL,
+          buttonLabels: [i18n.lang.topbar.menu.add_new_machine],
+          callbacks: async () => {
+            const saveRes = await fileExportHelper.toggleUnsavedChangedDialog();
+            if (saveRes) window.location.hash = '#initialize/connect/select-machine-model';
+          },
+        });
+        return ConvertResult.CONTINUE;
+      }
       res =
         (await convertTextToPathByGhost(textElement, isFilled, font)) ||
         convertTextToPathByFontkit(textElement, fontObj);
