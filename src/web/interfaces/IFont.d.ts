@@ -70,4 +70,5 @@ export interface WebFont {
   fileName?: string;
   supportLangs?: string[];
   hasLoaded?: boolean;
+  fontkitError?: boolean;
 }
