@@ -24,6 +24,8 @@ const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
 const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
 
+const OAUTH_TOKEN = new Set<string>();
+
 export const FLUXID_HOST = 'https://id.flux3dp.com';
 const FLUXID_DOMAIN = '.flux3dp.com';
 export const axiosFluxId = axios.create({
@@ -96,33 +98,10 @@ const handleOAuthLoginSuccess = (data) => {
   fluxIDEvents.emit('oauth-logged-in');
   if (window.location.hash === '#/initialize/connect/flux-id-login') {
     window.location.hash = '#initialize/connect/select-machine-model';
-  } else {
-    alert.popUp({ message: i18n.lang.flux_id_login.login_success });
   }
 };
 
-export const signInWithFBToken = async (fb_token: string): Promise<boolean> => {
-  progress.openNonstopProgress({ id: 'flux-id-login' });
-  const response = await axiosFluxId.post('/user/signin', { fb_token }, {
-    withCredentials: true,
-  }) as ResponseWithError;
-  progress.popById('flux-id-login');
-  if (response.error) {
-    handleErrorMessage(response.error);
-    return false;
-  }
-
-  const { data } = response;
-  if (data.status === 'ok') {
-    handleOAuthLoginSuccess(data);
-    return true;
-  }
-  const message = data.message ? `${data.info}: ${data.message}` : data.info;
-  alert.popUpError({ message });
-  return false;
-};
-
-export const getInfo = async (silent = false) => {
+export const getInfo = async (silent = false, isWebSocialSignIn = false) => {
   const response = (await axiosFluxId.get('/user/info?query=credits', {
     withCredentials: true,
   })) as ResponseWithError;
@@ -135,7 +114,7 @@ export const getInfo = async (silent = false) => {
   const responseData = response.data;
   if (response.status === 200) {
     if (responseData.status === 'ok') {
-      updateUser(responseData);
+      updateUser(responseData, isWebSocialSignIn);
     }
     return responseData;
   }
@@ -166,11 +145,41 @@ const getAccessToken = async () => {
   return null;
 };
 
+export const signInWithFBToken = async (fb_token: string): Promise<boolean> => {
+  if (OAUTH_TOKEN.has(fb_token)) return false;
+  OAUTH_TOKEN.add(fb_token);
+  progress.openNonstopProgress({ id: 'flux-id-login' });
+  const response = (await axiosFluxId.post(
+    '/user/signin',
+    { fb_token },
+    {
+      withCredentials: true,
+    }
+  )) as ResponseWithError;
+  progress.popById('flux-id-login');
+  if (response.error) {
+    handleErrorMessage(response.error);
+    return false;
+  }
+
+  const { data } = response;
+  if (data.status === 'ok') {
+    handleOAuthLoginSuccess(data);
+    await getInfo(true, true);
+    return true;
+  }
+  const message = data.message ? `${data.info}: ${data.message}` : data.info;
+  alert.popUpError({ message });
+  return false;
+};
+
 export const signInWithGoogleCode = async (info: { [key: string]: string }): Promise<boolean> => {
   const data = {
     google_code: info.code,
     redirect_uri: info.redirect_url,
   };
+  if (OAUTH_TOKEN.has(data.google_code)) return false;
+  OAUTH_TOKEN.add(data.google_code);
   progress.openNonstopProgress({ id: 'flux-id-login' });
   const response = await axiosFluxId.post('/user/signin', data, {
     withCredentials: true,
@@ -185,6 +194,7 @@ export const signInWithGoogleCode = async (info: { [key: string]: string }): Pro
   const responseData = response.data;
   if (responseData.status === 'ok') {
     handleOAuthLoginSuccess(responseData);
+    await getInfo(true, true);
     return true;
   }
   const message = responseData.message ? `${responseData.info}: ${responseData.message}` : responseData.info;
@@ -249,11 +259,13 @@ export const init = async (): Promise<void> => {
 };
 
 export const externalLinkFBSignIn = (): void => {
+  // eslint-disable-next-line max-len
   const fbAuthUrl = `${FB_OAUTH_URI}?client_id=${FB_APP_ID}&redirect_uri=${FB_REDIRECT_URI}&response_type=token&scope=email`;
   browser.open(fbAuthUrl);
 };
 
 export const externalLinkGoogleSignIn = (): void => {
+  // eslint-disable-next-line max-len
   const gAuthUrl = `${G_OAUTH_URL}?client_id=${G_CLIENT_ID}&redirect_uri=${G_REDIRECT_URI}&response_type=code&scope=email+profile`;
   browser.open(gAuthUrl);
 };
@@ -279,6 +291,7 @@ export const signIn = async (
     const { data } = response;
     if (data.status === 'ok') {
       updateUser({ email: data.email });
+      await getInfo(true);
     }
     return data;
   }
