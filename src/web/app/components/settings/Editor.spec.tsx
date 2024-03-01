@@ -38,55 +38,69 @@ jest.mock('helpers/i18n', () => ({
 
 const getFontOfPostscriptName = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
-  availableFontFamilies: new Promise((r) => r(['Arial', 'Courier', 'Apple LiSung'])),
-  fontNameMap: new Map(Object.entries({
-    Arial: 'Arial',
-    Courier: 'Courier',
-    'Apple LiSung': '蘋果儷細宋',
-  })),
+  requestAvailableFontFamilies: () => ['Arial', 'Courier', 'Apple LiSung'],
+  fontNameMap: new Map(
+    Object.entries({
+      Arial: 'Arial',
+      Courier: 'Courier',
+      'Apple LiSung': '蘋果儷細宋',
+    })
+  ),
   requestFontsOfTheFontFamily: (family) => {
     const fonts = {
-      Arial: [{
-        family: 'Arial',
-        style: 'Regular',
-        postscriptName: 'ArialMT',
-      }, {
-        family: 'Arial',
-        style: 'Bold',
-        postscriptName: 'Arial-BoldMT',
-      }, {
-        family: 'Arial',
-        style: 'Bold Italic',
-        postscriptName: 'Arial-BoldItalicMT',
-      }, {
-        family: 'Arial',
-        style: 'Italic',
-        postscriptName: 'Arial-ItalicMT',
-      }],
-      Courier: [{
-        family: 'Courier',
-        style: 'Regular',
-        postscriptName: 'Regular',
-      }, {
-        family: 'Courier',
-        style: 'Bold',
-        postscriptName: 'Courier-Bold',
-      }, {
-        family: 'Courier',
-        style: 'Bold Oblique',
-        postscriptName: 'Courier-BoldOblique',
-      }, {
-        family: 'Courier',
-        style: 'Oblique',
-        postscriptName: 'Courier-Oblique',
-      }],
-      'Apple LiSung': [{
-        family: 'Apple LiSung',
-        style: 'Light',
-        postscriptName: 'LiSungLight',
-      }],
+      Arial: [
+        {
+          family: 'Arial',
+          style: 'Regular',
+          postscriptName: 'ArialMT',
+        },
+        {
+          family: 'Arial',
+          style: 'Bold',
+          postscriptName: 'Arial-BoldMT',
+        },
+        {
+          family: 'Arial',
+          style: 'Bold Italic',
+          postscriptName: 'Arial-BoldItalicMT',
+        },
+        {
+          family: 'Arial',
+          style: 'Italic',
+          postscriptName: 'Arial-ItalicMT',
+        },
+      ],
+      Courier: [
+        {
+          family: 'Courier',
+          style: 'Regular',
+          postscriptName: 'Regular',
+        },
+        {
+          family: 'Courier',
+          style: 'Bold',
+          postscriptName: 'Courier-Bold',
+        },
+        {
+          family: 'Courier',
+          style: 'Bold Oblique',
+          postscriptName: 'Courier-BoldOblique',
+        },
+        {
+          family: 'Courier',
+          style: 'Oblique',
+          postscriptName: 'Courier-Oblique',
+        },
+      ],
+      'Apple LiSung': [
+        {
+          family: 'Apple LiSung',
+          style: 'Light',
+          postscriptName: 'LiSungLight',
+        },
+      ],
     };
-    return new Promise((r) => r(fonts[family]));
+    return fonts[family];
   },
   getFontOfPostscriptName,
 }));
@@ -134,8 +148,6 @@ jest.mock(
       )
 );
 
-const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
-
 // eslint-disable-next-line import/first
 import Editor from './Editor';
 
@@ -148,100 +160,101 @@ describe('should render correctly', () => {
     const updateConfigChange = jest.fn();
     const updateBeamboxPreferenceChange = jest.fn();
     const updateModel = jest.fn();
-    const { container } = render(<Editor
-      defaultUnit="mm"
-      x0={0}
-      y0={0}
-      selectedModel="fbb1b"
-      guideSelectionOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      imageDownsamplingOptions={[
-        {
-          value: 'TRUE',
-          label: 'Low',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Normal',
-          selected: true,
-        },
-      ]}
-      antiAliasingOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      continuousDrawingOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      simplifyClipperPath={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      enableLowSpeedOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      enableCustomBacklashOptions={[
-        {
-          value: OptionValues.TRUE,
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: OptionValues.FALSE,
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      updateConfigChange={updateConfigChange}
-      updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
-      updateModel={updateModel}
-    />);
-    await act(tick);
+    const { container } = render(
+      <Editor
+        defaultUnit="mm"
+        x0={0}
+        y0={0}
+        selectedModel="fbb1b"
+        guideSelectionOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        imageDownsamplingOptions={[
+          {
+            value: 'TRUE',
+            label: 'Low',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Normal',
+            selected: true,
+          },
+        ]}
+        antiAliasingOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        continuousDrawingOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        simplifyClipperPath={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        enableLowSpeedOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        enableCustomBacklashOptions={[
+          {
+            value: OptionValues.TRUE,
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: OptionValues.FALSE,
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        updateConfigChange={updateConfigChange}
+        updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
+        updateModel={updateModel}
+      />
+    );
     expect(container).toMatchSnapshot();
 
     const SelectControls = container.querySelectorAll('.select-control');
@@ -251,21 +264,18 @@ describe('should render correctly', () => {
     expect(updateConfigChange).toHaveBeenCalledTimes(1);
     expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'default-units', 'inches');
 
-    await fireEvent.change(SelectControls[1], { target: { value: 'Apple LiSung' } });
-    await act(tick);
+    fireEvent.change(SelectControls[1], { target: { value: 'Apple LiSung' } });
     expect(container).toMatchSnapshot();
 
-    await fireEvent.change(SelectControls[1], { target: { value: 'Courier' } });
-    await act(tick);
+    fireEvent.change(SelectControls[1], { target: { value: 'Courier' } });
     expect(container).toMatchSnapshot();
 
-    getFontOfPostscriptName.mockResolvedValue({
+    getFontOfPostscriptName.mockReturnValue({
       family: 'Courier',
       style: 'Bold',
       postscriptName: 'Courier-Bold',
     });
-    await fireEvent.change(SelectControls[2], { target: { value: 'Courier-Bold' } });
-    await act(tick);
+    fireEvent.change(SelectControls[2], { target: { value: 'Courier-Bold' } });
     expect(container).toMatchSnapshot();
 
     fireEvent.change(SelectControls[3], { target: { value: 'fbm1' } });

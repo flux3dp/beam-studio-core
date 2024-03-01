@@ -2475,16 +2475,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
 
       // Check monotype fonts and load font files
-      if (window.FLUX.version === 'web') {
-        const user = getCurrentUser();
-        content.find('text').each(async function () {
-          const font = await fontHelper.findFont({
-            postscriptName: $(this).attr('font-postscript'),
-          }) as WebFont;
-          const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
-          return success;
-        });
-      }
+      const user = getCurrentUser();
+      content.find('text').each(async function () {
+        await fontHelper.getMonotypeFonts();
+        const font = fontHelper.findFont({
+          postscriptName: $(this).attr('font-postscript'),
+        }) as WebFont;
+        const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
+        return success;
+      });
+
       // For Firefox: Put all paint elems in defs
       if (svgedit.browser.isGecko()) {
         content.find('linearGradient, radialGradient, pattern').appendTo(svgedit.utilities.findDefs());

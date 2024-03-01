@@ -62,7 +62,7 @@ const getAvailableFonts = async (
 ): Promise<{
   monotypeLangFonts: WebFont[];
   monotypePreviewSrcMap: { [family: string]: string };
-}> => {
+} | null> => {
   try {
     const { data } = await axiosFluxId.get(
       `api/beam-studio/monotype/fonts${lang ? `?lang=${lang}` : ''}`
@@ -82,7 +82,7 @@ const getAvailableFonts = async (
     return { monotypeLangFonts, monotypePreviewSrcMap };
   } catch {
     console.error('Failed to get monotype font list');
-    return { monotypeLangFonts: [], monotypePreviewSrcMap: {} };
+    return null;
   }
 };
 

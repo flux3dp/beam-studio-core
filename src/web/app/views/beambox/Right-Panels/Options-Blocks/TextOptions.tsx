@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Button, ConfigProvider, Select, Switch } from 'antd';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FluxIcons from 'app/icons/flux/FluxIcons';
 import fontHelper from 'helpers/fonts/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -30,6 +31,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+const eventEmitter = eventEmitterFactory.createEventEmitter('font');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
@@ -79,18 +81,26 @@ const TextOptions = ({
   const { fontFamily } = state;
   const [styleOptions, setStyleOptions] = useState([]);
 
+  const getFontFamilies = async () => {
+    const families = FontFuncs.requestAvailableFontFamilies();
+    setAvailableFontFamilies(families);
+  };
+
   useEffect(() => {
-    const getFontFamilies = async () => {
-      const families = await FontFuncs.availableFontFamilies;
-      setAvailableFontFamilies(families);
+    eventEmitter.on('GET_MONOTYPE_FONTS', getFontFamilies);
+    return () => {
+      eventEmitter.removeListener('GET_MONOTYPE_FONTS');
     };
+  }, []);
+
+  useEffect(() => {
     const getStateFromElem = async () => {
       const elemId = textElement.getAttribute('id');
       if (elemId === state.id) return;
       const postscriptName = textEdit.getFontPostscriptName(textElement);
       let font;
       if (postscriptName) {
-        font = await FontFuncs.getFontOfPostscriptName(postscriptName);
+        font = FontFuncs.getFontOfPostscriptName(postscriptName);
         if (!textElement.getAttribute('font-style')) {
           textElement.setAttribute('font-style', font.italic ? 'italic' : 'normal');
         }
@@ -103,7 +113,7 @@ const TextOptions = ({
           : textEdit.getFontFamily(textElement);
         const weight = textEdit.getFontWeight(textElement);
         const italic = textEdit.getItalic(textElement);
-        font = await FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
+        font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
       }
       // eslint-disable-next-line no-console
       console.log(font);
@@ -126,9 +136,7 @@ const TextOptions = ({
         // eslint-disable-next-line no-console
         console.log(`unsupported font ${font.family}, fallback to ${sanitizedDefaultFontFamily}`);
         textEdit.setFontFamily(sanitizedDefaultFontFamily, true);
-        const newFont = (
-          await FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)
-        )[0];
+        const newFont = FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)[0];
         textEdit.setFontPostscriptName(newFont.postscriptName, true);
       }
       updateDimensionValues({ fontStyle: font.style });
@@ -165,8 +173,8 @@ const TextOptions = ({
   }, [textElement, availableFontFamilies]);
 
   useEffect(() => {
-    const getStyleOptions = async (family: string) => {
-      const fontStyles = (await FontFuncs.requestFontsOfTheFontFamily(family)).map((f) => f.style);
+    const getStyleOptions = (family: string) => {
+      const fontStyles = FontFuncs.requestFontsOfTheFontFamily(family).map((f) => f.style);
       const options = fontStyles.map((option: string) => ({ value: option, label: option }));
       setStyleOptions(options);
     };
@@ -191,7 +199,7 @@ const TextOptions = ({
     if (typeof newFamily === 'object') {
       family = newFamily.value;
     }
-    const newFont = (await FontFuncs.requestFontsOfTheFontFamily(family))[0];
+    const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
     const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
       newFont,
       getCurrentUser()
@@ -292,7 +300,7 @@ const TextOptions = ({
   };
 
   const handleFontStyleChange = async (val: string) => {
-    const font = await FontFuncs.requestFontByFamilyAndStyle({
+    const font = FontFuncs.requestFontByFamilyAndStyle({
       family: fontFamily,
       style: val,
     });

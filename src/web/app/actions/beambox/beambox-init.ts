@@ -187,7 +187,7 @@ class BeamboxInit {
     }
   }
 
-  private async initDefaultFont(): Promise<void> {
+  private initDefaultFont(): void {
     const lang = navigator.language;
     const isWeb = window.FLUX.version === 'web';
     const { os } = window;
@@ -201,7 +201,7 @@ class BeamboxInit {
         defaultFontFamily = FontConstants[lang][os];
       }
     }
-    const fonts = await fontHelper.findFonts({ family: defaultFontFamily });
+    const fonts = fontHelper.findFonts({ family: defaultFontFamily });
     if (fonts.length > 0) {
       const defaultFont: IFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
       storage.set('default-font', {

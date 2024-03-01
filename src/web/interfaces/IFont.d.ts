@@ -17,12 +17,13 @@ export interface IFontQuery {
 }
 
 export interface FontHelper {
-  findFont: (fontDescriptor: FontDescriptor) => Promise<FontDescriptor>;
-  findFonts: (fontDescriptor: FontDescriptor) => Promise<FontDescriptor[]>;
-  getAvailableFonts: () => Promise<FontDescriptor[]>;
+  findFont: (fontDescriptor: FontDescriptor) => FontDescriptor;
+  findFonts: (fontDescriptor: FontDescriptor) => FontDescriptor[];
+  getAvailableFonts: (withoutMonotype?: boolean) => FontDescriptor[];
   getFontName: (font: FontDescriptor) => string;
   getWebFontAndUpload: (postscriptName: string) => Promise<boolean>;
   getWebFontPreviewUrl: (fontFamily: string) => string | null;
+  getMonotypeFonts: () => Promise<boolean>;
   applyMonotypeStyle: (
     font: WebFont | IFont,
     user: IUser | null,
