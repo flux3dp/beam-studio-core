@@ -14,6 +14,8 @@ jest.mock('helpers/useI18n', () => () => ({
     merge: 'Merge',
     text_label: 'Label',
     beam_radius: 'Kerf compensation',
+    beam_radius_warning:
+      'Remove Kerf compensation when the edges or joints of the box are short to ensure box assembly',
   },
 }));
 
@@ -108,7 +110,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toBeCalledWith(300, 210, mockData, {
       joinOutput: false,
       textLabel: false,
-      compRadius: 0,
+      compRadius: 0.2,
     });
 
     const paginationButtons = modal.querySelectorAll('.ant-pagination-item');
@@ -125,7 +127,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: false,
-      compRadius: 0,
+      compRadius: 0.2,
     });
     expect(optionButtons[0].getAttribute('aria-checked')).toBe('true');
     expect(paginationButtons[0]).toHaveClass('ant-pagination-item-active');
@@ -135,7 +137,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: true,
-      compRadius: 0,
+      compRadius: 0.2,
     });
 
     fireEvent.click(modal.querySelector('.ant-btn-primary'));

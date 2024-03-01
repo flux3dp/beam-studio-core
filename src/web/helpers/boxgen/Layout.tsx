@@ -1,5 +1,5 @@
 import React from 'react';
-import Shape, { Point } from '@doodle3d/clipper-js';
+import Shape from '@doodle3d/clipper-js';
 import { DEFAULT_LABEL_COLOR, DEFAULT_STROKE_COLOR } from 'app/constants/boxgen-constants';
 import {
   getTopBottomShape,
@@ -22,8 +22,11 @@ interface ShapeRaw {
   text: string;
 }
 
+// doodle3d clipper only works with intergers
+const scale = 1000;
+
 const shapeToPath = (shape: Shape, cx: number, cy: number): string =>
-  `M${shape.paths[0].map((p) => `${p.X + cx},${p.Y + cy}`).join(' L')} Z`;
+  `M${shape.paths[0].map((p) => `${p.X / scale + cx},${p.Y / scale + cy}`).join(' L')} Z`;
 
 const getBlockDistance = (options: IExportOptions) => (options.joinOutput ? [0, 0] : [5, 5]);
 
@@ -112,8 +115,8 @@ export const getLayouts = (
 
   const pages = outputs.map((output) => ({
     shape: output.shapes.map((obj: ShapeDisplayObject, index) => {
-      const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
-      const sh = new Shape(path, true, false).offset(options.compRadius, {
+      const path = [obj.shape.getPoints().map((p) => ({ X: p.x * scale, Y: p.y * scale }))];
+      const sh = new Shape(path, true, false).offset(options.compRadius * scale, {
         jointType: 'jtSquare',
         endType: 'etClosedPolygon',
         miterLimit: 2.0,
