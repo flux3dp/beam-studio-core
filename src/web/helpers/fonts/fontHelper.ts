@@ -121,6 +121,7 @@ export default {
     return localFontHelper.getFontName(font) || font.family;
   },
   async getWebFontAndUpload(postscriptName: string) {
+    if (window.FLUX.version !== 'web') return true;
     const utilWS = getUtilWS();
     const font = availableFonts.find((f) => f.postscriptName === postscriptName) as WebFont;
     const fileName = font?.fileName || `${postscriptName}.ttf`;

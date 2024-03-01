@@ -19,6 +19,7 @@ import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlo
 import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/StartOffsetBlock';
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { FontDescriptor } from 'interfaces/IFont';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { iconButtonTheme, selectTheme } from 'app/views/beambox/Right-Panels/antd-config';
@@ -33,7 +34,7 @@ getSVGAsync((globalSVG) => {
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('font');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
+const isLocalFont = (font: FontDescriptor) => 'path' in font;
 
 // TODO: add tests
 interface Props {
@@ -221,7 +222,7 @@ const TextOptions = ({
     }
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
-    if (window.FLUX.version === 'web') {
+    if (!isLocalFont(newFont)) {
       await waitForWebFont(fontLoadedPromise);
     }
 
@@ -237,18 +238,16 @@ const TextOptions = ({
 
   const renderFontFamilyBlock = (): JSX.Element => {
     const renderOption = (option) => {
-      if (window.FLUX.version === 'web') {
-        const src = fontHelper.getWebFontPreviewUrl(option.value);
-        if (src) {
-          return (
-            <div className={styles['family-option']}>
-              <div className={styles['img-container']}>
-                <img src={src} alt={option.label} draggable="false" />
-              </div>
-              {src.includes('monotype') && <FluxIcons.FluxPlus />}
+      const src = fontHelper.getWebFontPreviewUrl(option.value);
+      if (src) {
+        return (
+          <div className={styles['family-option']}>
+            <div className={styles['img-container']}>
+              <img src={src} alt={option.label} draggable="false" />
             </div>
-          );
-        }
+            {src.includes('monotype') && <FluxIcons.FluxPlus />}
+          </div>
+        );
       }
       return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 24 }}>{option.label}</div>;
     };
@@ -320,7 +319,7 @@ const TextOptions = ({
     batchCmd.addSubCommand(cmd);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
-    if (window.FLUX.version === 'web') {
+    if (!isLocalFont(font)) {
       await waitForWebFont(fontLoadedPromise);
     }
 

@@ -164,7 +164,8 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
       if ((font as FontDescriptor).path) {
         fontObj = localFontHelper.getLocalFont(font);
       } else {
-        const { protocol } = window.location;
+        let { protocol } = window.location;
+        if (window.FLUX.version !== 'web') protocol = 'https:';
         const fileName = (font as WebFont).fileName || `${postscriptName}.ttf`;
         let url = `${protocol}//beam-studio-web.s3.ap-northeast-1.amazonaws.com/fonts/${fileName}`;
         if ('hasLoaded' in font) {
@@ -293,6 +294,9 @@ const convertTextToPathByGhost = async (
   try {
     if ('hasLoaded' in font) {
       throw new Error('Monotype');
+    }
+    if (window.FLUX.version !== 'web' && !('path' in font)) {
+      throw new Error('Web font');
     }
     const bbox = svgCanvas.calculateTransformedBBox(textElem);
     const { postscriptName } = font;
