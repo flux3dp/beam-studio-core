@@ -493,7 +493,6 @@ const convertTextToPath = async (
     let hasUnsupportedFont = false;
     if (BeamboxPreference.read('font-substitute') !== false) {
       const { font: newFont, unsupportedChar } = await substitutedFont(font, textElement);
-      font = newFont;
       if (
         newFont.postscriptName !== origFontPostscriptName &&
         unsupportedChar &&
@@ -509,6 +508,7 @@ const convertTextToPath = async (
           textElement.setAttribute('font-postscript', newFont.postscriptName);
           batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
           fontObj = await getFontObj(newFont);
+          font = newFont;
         } else if (doSub === SubstituteResult.CANCEL_OPERATION) {
           return ConvertResult.CANCEL_OPERATION;
         }
