@@ -214,15 +214,19 @@ export const signOut = async (): Promise<boolean> => {
   return false;
 };
 
+const setHeaders = (csrftoken: string) => {
+  axiosFluxId.defaults.headers.post['X-CSRFToken'] = csrftoken;
+  axiosFluxId.defaults.headers.put['X-CSRFToken'] = csrftoken;
+  axiosFluxId.defaults.headers.delete['X-CSRFToken'] = csrftoken;
+};
+
 export const init = async (): Promise<void> => {
   axiosFluxId.defaults.withCredentials = true;
   if (!isWeb()) {
     // Set csrf cookie for electron only
     cookies.on('changed', (event, cookie, cause, removed) => {
       if (cookie.domain === FLUXID_DOMAIN && cookie.name === 'csrftoken' && !removed) {
-        axiosFluxId.defaults.headers.post['X-CSRFToken'] = cookie.value;
-        axiosFluxId.defaults.headers.put['X-CSRFToken'] = cookie.value;
-        axiosFluxId.defaults.headers.delete['X-CSRFToken'] = cookie.value;
+        setHeaders(cookie.value);
       }
     });
   }
@@ -245,7 +249,7 @@ export const init = async (): Promise<void> => {
       });
       if (csrfcookies.length > 0) {
         // Should be unique
-        axiosFluxId.defaults.headers.post['X-CSRFToken'] = csrfcookies[0].value;
+        setHeaders(csrfcookies[0].value);
       }
     }
     const res = await getInfo(true);
