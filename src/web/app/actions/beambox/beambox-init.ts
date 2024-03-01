@@ -24,6 +24,7 @@ import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
+import updateFontConvert from 'app/components/dialogs/UpdateFontConvert';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';
@@ -86,6 +87,7 @@ class BeamboxInit {
   async showStartUpDialogs(): Promise<void> {
     await this.askAndInitSentry();
     const isNewUser = storage.get('new-user');
+    const defaultFontConvert = BeamboxPreference.read('font-convert');
     const hasMachineConnection = checkConnection();
     if (window.FLUX.version === 'web' && navigator.maxTouchPoints >= 1) {
       const res = await fluxId.getPreference('did_gesture_tutorial', true);
@@ -106,6 +108,15 @@ class BeamboxInit {
       if (window.FLUX.version !== lastInstalledVersion) {
         await this.showChangeLog();
       }
+    }
+    if (defaultFontConvert === undefined) {
+      if (isNewUser) BeamboxPreference.write('font-convert', '2.0');
+      else {
+        const version = await updateFontConvert();
+        BeamboxPreference.write('font-convert', version);
+      }
+    }
+    if (!isNewUser) {
       await this.showQuestionnaire();
     }
     ratingHelper.init();
