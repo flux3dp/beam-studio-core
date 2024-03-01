@@ -46,9 +46,9 @@ export class OutputPage {
   maxY = 0;
 
   constructor(canvasWidth: number, canvasHeight: number, options: IExportOptions) {
-    this.nextX = options.compRadius;
-    this.cursorX = options.compRadius;
-    this.cursorY = options.compRadius;
+    this.nextX = options.compRadius * 2;
+    this.cursorX = options.compRadius * 2;
+    this.cursorY = options.compRadius * 2;
     this.maxX = canvasWidth;
     this.maxY = canvasHeight;
     this.options = options;
@@ -56,23 +56,24 @@ export class OutputPage {
 
   addShape(shape: ShapeRaw): boolean {
     const { compRadius } = this.options;
+    const inflation = compRadius * 2;
     const [dx, dy] = getBlockDistance(this.options);
     if (
-      this.cursorY + shape.height + compRadius > this.maxY &&
-      this.cursorX + shape.width + compRadius <= this.maxX
+      this.cursorY + shape.height + inflation > this.maxY &&
+      this.cursorX + shape.width + inflation <= this.maxX
     ) {
       this.cursorX = this.nextX;
-      this.cursorY = compRadius;
+      this.cursorY = inflation;
     }
-    if (this.cursorX + shape.width + compRadius > this.maxX) return false;
+    if (this.cursorX + shape.width + inflation > this.maxX) return false;
     this.shapes.push({
       shape: shape.shape,
       x: this.cursorX + shape.width / 2,
       y: this.cursorY + shape.height / 2,
       text: shape.text,
     });
-    this.cursorY += shape.height + dy + compRadius;
-    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx + compRadius);
+    this.cursorY += shape.height + dy + inflation;
+    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx + inflation);
     return true;
   }
 }
