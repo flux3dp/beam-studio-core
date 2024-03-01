@@ -20,5 +20,17 @@ exports[`should render correctly 1`] = `
       class="select-control"
     />
   </div>
+  <div>
+    mock-select-control id:
+    font-convert
+    label:
+    Convert Text to Path
+    url:
+    options:
+    [{"value":"1.0","label":"1.0","selected":true},{"value":"2.0","label":"2.0","selected":false}]
+    <input
+      class="select-control"
+    />
+  </div>
 </div>
 `;

@@ -1,15 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
-import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
+import useI18n from 'helpers/useI18n';
 
 interface Props {
-  fontSubstituteOptions: { value: any, label: string, selected: boolean }[];
+  fontSubstituteOptions: { value: any; label: string; selected: boolean }[];
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
+  defaultFontConvert: string;
 }
 
-function TextToPath({ fontSubstituteOptions, updateBeamboxPreferenceChange }: Props): JSX.Element {
-  const lang = i18n.lang;
+function TextToPath({
+  fontSubstituteOptions,
+  updateBeamboxPreferenceChange,
+  defaultFontConvert,
+}: Props): JSX.Element {
+  const lang = useI18n();
+  const defaultLaserModuleOptions = React.useMemo(
+    () => [
+      { value: '1.0', label: '1.0', selected: defaultFontConvert === '1.0' },
+      { value: '2.0', label: '2.0', selected: defaultFontConvert === '2.0' },
+    ],
+    [defaultFontConvert]
+  );
   return (
     <>
       <div className="subtitle">{lang.settings.groups.text_to_path}</div>
@@ -19,6 +32,14 @@ function TextToPath({ fontSubstituteOptions, updateBeamboxPreferenceChange }: Pr
         id="font-substitue"
         options={fontSubstituteOptions}
         onChange={(e) => updateBeamboxPreferenceChange('font-substitute', e.target.value)}
+      />
+      <SelectControl
+        label={lang.settings.font_convert}
+        // TODO: update help center link
+        // url={lang.settings.help_center_urls.font_convert}
+        id="font-convert"
+        options={defaultLaserModuleOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('font-convert', e.target.value)}
       />
     </>
   );
