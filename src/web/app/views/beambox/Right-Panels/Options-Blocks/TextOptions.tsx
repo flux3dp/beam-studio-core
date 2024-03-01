@@ -123,7 +123,7 @@ const TextOptions = ({
           'Arial',
           'Times New Roman',
           'Ubuntu',
-          availableFontFamilies[0],
+          'Noto Sans',
         ];
         const sanitizedFontFamily = [font.family, ...fontFamilyFallback].find((f) =>
           availableFontFamilies.includes(f)
