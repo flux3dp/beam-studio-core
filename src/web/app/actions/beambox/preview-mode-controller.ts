@@ -366,9 +366,9 @@ class PreviewModeController {
   }
 
   async preview(x, y, last = false, callback = () => {}): Promise<boolean> {
-    const { isPreviewBlocked, currentDevice } = this;
-    if (isPreviewBlocked) return false;
-    if (Constant.adorModels.includes(currentDevice.model)) {
+    const { isPreviewBlocked, isPreviewModeOn, currentDevice } = this;
+    if (isPreviewBlocked || !isPreviewModeOn) return false;
+    if (Constant.adorModels.includes(currentDevice?.model)) {
       const res = await this.previewFullWorkarea(callback);
       return res;
     }
