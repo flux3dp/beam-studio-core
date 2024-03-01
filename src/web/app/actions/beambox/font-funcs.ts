@@ -34,7 +34,6 @@ const { $ } = window;
 
 const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 const LANG = i18n.lang.beambox.object_panels;
-const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 const fontObjCache = new Map<string, fontkit.Font>();
 
@@ -513,7 +512,7 @@ const convertTextToPath = async (
         }
       }
     }
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(font)) {
       svgCanvas.undoMgr.beginUndoableChange('font-family', [textElement]);
       textElement.setAttribute('font-family', textElement.getAttribute('font-postscript'));
       batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());

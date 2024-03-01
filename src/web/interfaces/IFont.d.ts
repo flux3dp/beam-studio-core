@@ -30,6 +30,7 @@ export interface FontHelper {
     silent?: boolean
   ) => Promise<{ success: boolean; fontLoadedPromise?: Promise<void> }>;
   getMonotypeUrl: (postscriptName: string) => Promise<string | null>;
+  usePostscriptAsFamily: (font?: FontDescriptor | string) => boolean;
 }
 
 export interface LocalFontHelper {

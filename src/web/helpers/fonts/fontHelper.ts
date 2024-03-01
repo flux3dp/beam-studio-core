@@ -211,4 +211,11 @@ export default {
   getMonotypeFonts,
   applyMonotypeStyle: monotypeFonts.applyStyle,
   getMonotypeUrl: monotypeFonts.getUrlWithToken,
+  usePostscriptAsFamily: (font?: FontDescriptor | string) => {
+    if (window.os !== 'MacOS' || window.FLUX.version === 'web' || !font) return false;
+    const currentFont =
+      typeof font === 'string' ? availableFonts?.find((f) => f.postscriptName === font) : font;
+    if (currentFont) return 'path' in currentFont;
+    return false;
+  },
 } as FontHelper;

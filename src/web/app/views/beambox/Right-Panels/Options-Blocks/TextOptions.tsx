@@ -108,9 +108,7 @@ const TextOptions = ({
           textElement.setAttribute('font-weight', font.weight ? font.weight : 'normal');
         }
       } else {
-        const family = usePostscriptAsFamily
-          ? textEdit.getFontFamilyData(textElement)
-          : textEdit.getFontFamily(textElement);
+        const family = textEdit.getFontFamilyData(textElement);
         const weight = textEdit.getFontWeight(textElement);
         const italic = textEdit.getItalic(textElement);
         font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
@@ -212,7 +210,7 @@ const TextOptions = ({
     batchCmd.addSubCommand(cmd);
     cmd = textEdit.setFontWeight(newFont.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(newFont)) {
       cmd = textEdit.setFontFamily(newFont.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
       cmd = textEdit.setFontFamilyData(family, true, [textElement]);
@@ -312,7 +310,7 @@ const TextOptions = ({
     const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(font)) {
       cmd = textEdit.setFontFamily(font.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }
