@@ -449,6 +449,7 @@ const lang: ILang = {
     mask: 'Pemotongan Area Kerja',
     text_path_calc_optimization: 'Optimasi Perhitungan Jalur',
     font_substitute: 'Ganti Karakter yang Tidak Didukung',
+    font_convert: 'Konverter Teks ke Jalur',
     default_borderless_mode: 'Buka Bawah Default',
     default_enable_autofocus_module: 'Autofokus Default',
     default_enable_diode_module: 'Laser Diode Default',
@@ -501,6 +502,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -623,6 +625,11 @@ const lang: ILang = {
           'Anda tidak dapat menggunakan %s. Pergi ke pusat anggota dan beli Kredit AI.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Pergi',
+      },
+      text_to_path: {
+        caption: 'Konverter Teks ke Jalur 2.0',
+        message:
+          "Beam Studio sekarang memperkenalkan konverter teks ke jalur yang baru (Konverter 2.0), yang menghasilkan hasil yang lebih andal! Apakah Anda ingin beralih ke sana sekarang? \nAnda juga dapat menyesuaikan pengaturan ini nanti di bagian 'Konverter Teks ke Jalur' dalam preferensi.",
       },
     },
     zoom_block: {
@@ -1742,6 +1749,8 @@ const lang: ILang = {
     merge: 'Gabung',
     text_label: 'Label',
     beam_radius: 'Kompensasi kerf',
+    beam_radius_warning:
+      'Hapus kompensasi kerf saat tepi atau sambungan kotak pendek untuk memastikan perakitan kotak yang tepat',
     import: 'Impor',
     cancel: 'Batal',
     reset: 'Setel Ulang',
@@ -1777,6 +1786,8 @@ const lang: ILang = {
       save_new: 'Simpan sebagai berkas baru',
       input_file_name: 'Masukkan nama berkas:',
       invalid_char: 'Karakter tidak valid:',
+      storage_limit_exceeded:
+        'Penyimpanan cloud Anda telah mencapai batas atas. Harap hapus file yang tidak diperlukan sebelum menyimpan file baru.',
     },
   },
 };

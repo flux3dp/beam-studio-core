@@ -454,6 +454,7 @@ const lang: ILang = {
     mask: 'Περικοπή Περιοχής Εργασίας',
     text_path_calc_optimization: 'Βελτιστοποίηση Υπολογισμού Διαδρομής Κειμένου',
     font_substitute: 'Υποκατάσταση Μη Υποστηριζόμενων Χαρακτήρων',
+    font_convert: 'Μετατροπέας κειμένου σε μονοπάτι',
     default_borderless_mode: 'Προεπιλογή Άνοιγμα Κάτω',
     default_enable_autofocus_module: 'Προεπιλογή Αυτόματης Εστίασης',
     default_enable_diode_module: 'Προεπιλογή Διόδου Λέιζερ',
@@ -506,6 +507,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -629,6 +631,11 @@ const lang: ILang = {
           'Δεν μπορείτε να χρησιμοποιήσετε το %s. Μεταβείτε στο κέντρο μελών και αγοράστε πίστωση AI.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Μετάβαση',
+      },
+      text_to_path: {
+        caption: 'Μετατροπέας κειμένου σε μονοπάτι 2.0',
+        message:
+          "Το Beam Studio εισάγει τώρα έναν νέο μετατροπέα κειμένου σε μονοπάτι (Μετατροπέας 2.0), ο οποίος παράγει πιο αξιόπιστα αποτελέσματα! Θα θέλατε να τον ενεργοποιήσετε τώρα; \\nΜπορείτε επίσης να προσαρμόσετε αυτήν τη ρύθμιση αργότερα στην ενότητα 'Μετατροπέας κειμένου σε μονοπάτι' εντός των προτιμήσεων.",
       },
     },
     zoom_block: {
@@ -1764,6 +1771,8 @@ const lang: ILang = {
     merge: 'Συγχώνευση',
     text_label: 'Ετικέτα',
     beam_radius: 'Αντιστάθμιση ακτίνας κοπής',
+    beam_radius_warning:
+      'Αφαιρέστε την αντιστάθμιση Kerf όταν οι άκρες ή οι αρμοί του κουτιού είναι σύντομοι για να διασφαλίσετε τη συναρμολόγηση του κουτιού',
     import: 'Εισαγωγή',
     cancel: 'Ακύρωση',
     reset: 'Επαναφορά',
@@ -1799,6 +1808,8 @@ const lang: ILang = {
       save_new: 'Αποθήκευση ως νέο αρχείο',
       input_file_name: 'Εισαγωγή ονόματος αρχείου:',
       invalid_char: 'Μη έγκυροι χαρακτήρες:',
+      storage_limit_exceeded:
+        'Η αποθήκευση στο cloud σας έχει φτάσει στο ανώτατο όριο. Παρακαλώ διαγράψτε τυχόν περιττά αρχεία πριν αποθηκεύσετε νέα.',
     },
   },
 };

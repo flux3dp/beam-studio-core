@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: 'Przycinanie obszaru roboczego',
     text_path_calc_optimization: 'Optymalizacja obliczania ścieżki',
     font_substitute: 'Zastąp nieobsługiwane znaki',
+    font_convert: 'Konwerter tekstu na ścieżkę',
     default_borderless_mode: 'Domyślnie otwarte dno',
     default_enable_autofocus_module: 'Domyślny autofokus',
     default_enable_diode_module: 'Domyślny laser diodowy',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Nie możesz użyć %s. Przejdź do centrum członkowskiego i kup kredyt AI.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Iść',
+      },
+      text_to_path: {
+        caption: 'Konwerter tekstu na ścieżkę 2.0',
+        message:
+          'Beam Studio wprowadza nowy konwerter tekstu na ścieżkę (Konwerter 2.0), który daje bardziej niezawodne wyniki! Czy chcesz teraz przełączyć się na niego? \nMożesz również dostosować to ustawienie później w sekcji "Konwerter tekstu na ścieżkę" w preferencjach.',
       },
     },
     zoom_block: {
@@ -1624,6 +1631,8 @@ const lang: ILang = {
     merge: 'Scal',
     text_label: 'Etykieta',
     beam_radius: 'Kompensacja promienia wiązki',
+    beam_radius_warning:
+      'Fjern kompensasjon for kuttebredde når kantene eller sammenføyningene på boksen er korte for å sikre riktig sammensetting',
     import: 'Importuj',
     cancel: 'Anuluj',
     reset: 'Resetuj',
@@ -1658,6 +1667,8 @@ const lang: ILang = {
       save_new: 'Zapisz jako nowy plik',
       input_file_name: 'Wprowadź nazwę pliku:',
       invalid_char: 'Nieprawidłowe znaki:',
+      storage_limit_exceeded:
+        'Twoja pamięć w chmurze osiągnęła górny limit. Usuń niepotrzebne pliki przed zapisaniem nowych.',
     },
   },
 };

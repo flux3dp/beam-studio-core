@@ -449,6 +449,7 @@ const lang: ILang = {
     mask: 'Arbetsområdesklippning',
     text_path_calc_optimization: 'Bana beräkningsoptimering',
     font_substitute: 'Ersätt osupportade tecken',
+    font_convert: 'Text till bana konverterare',
     default_borderless_mode: 'Öppna botten som standard',
     default_enable_autofocus_module: 'Autofokus som standard',
     default_enable_diode_module: 'Diodlaser som standard',
@@ -501,6 +502,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -622,6 +624,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Du kan inte använda %s. Gå till medlemscentret och köp AI-kredit',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Gå',
+      },
+      text_to_path: {
+        caption: 'Text till bana konverterare 2.0',
+        message:
+          'Beam Studio introducerar nu en ny text till bana konverterare (Konverterare 2.0), som producerar mer tillförlitliga resultat! Vill du byta till den nu?\\nDu kan också justera den här inställningen senare i avsnittet "Text till bana konverterare" under inställningarna.',
       },
     },
     zoom_block: {
@@ -1735,6 +1742,8 @@ const lang: ILang = {
     merge: 'Sammanfoga',
     text_label: 'Etikett',
     beam_radius: 'Kompensation för skärstråle',
+    beam_radius_warning:
+      'Ta bort kompensation för sågkärv när kanterna eller fogarna på lådan är korta för att säkerställa montering',
     import: 'Importera',
     cancel: 'Avbryt',
     reset: 'Återställ',
@@ -1770,6 +1779,8 @@ const lang: ILang = {
       save_new: 'Spara som ny fil',
       input_file_name: 'Ange filnamn:',
       invalid_char: 'Ogiltiga tecken:',
+      storage_limit_exceeded:
+        'Din molnlagring har nått gränsen. Ta bort eventuella onödiga filer innan du sparar nya.',
     },
   },
 };

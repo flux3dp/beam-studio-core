@@ -452,6 +452,7 @@ const lang: ILang = {
     mask: 'Masque de la zone de travail',
     text_path_calc_optimization: 'Optimisation du calcul de chemin de texte',
     font_substitute: 'Remplacer les caractères non pris en charge',
+    font_convert: 'Convertisseur de texte en tracé',
     default_borderless_mode: 'Ouverture inférieure par défaut',
     default_enable_autofocus_module: 'Autofocus par défaut',
     default_enable_diode_module: 'Laser à diode par défaut',
@@ -504,6 +505,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -627,6 +629,11 @@ const lang: ILang = {
           'Vous ne pouvez pas utiliser le %s. Allez au centre des membres et achetez un crédit IA.',
         buy_link: 'https://member.flux3dp.com/en-us/credit',
         go: 'Aller',
+      },
+      text_to_path: {
+        caption: 'Convertisseur de texte en tracé 2.0',
+        message:
+          "Beam Studio introduit maintenant un nouveau convertisseur de texte en tracé (Convertisseur 2.0), qui produit des résultats plus fiables ! Voulez-vous passer à celui-ci maintenant ?\nVous pouvez également ajuster ce paramètre plus tard dans la section 'Convertisseur de texte en tracé' dans les préférences.",
       },
     },
     zoom_block: {
@@ -1762,6 +1769,8 @@ const lang: ILang = {
     merge: 'Fusionner',
     text_label: 'Étiquette',
     beam_radius: 'Compensation du faisceau',
+    beam_radius_warning:
+      "Supprimez la compensation de la rainure lorsque les bords ou les joints de la boîte sont courts pour assurer l'assemblage de la boîte",
     import: 'Importer',
     cancel: 'Annuler',
     reset: 'Réinitialiser',
@@ -1797,6 +1806,8 @@ const lang: ILang = {
       save_new: 'Enregistrer sous',
       input_file_name: 'Entrer le nom du fichier :',
       invalid_char: 'Caractères non valides :',
+      storage_limit_exceeded:
+        "Votre stockage cloud a atteint la limite supérieure. Veuillez supprimer les fichiers inutiles avant d'en sauvegarder de nouveaux.",
     },
   },
 };

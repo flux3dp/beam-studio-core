@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: '工作範圍剪裁',
     text_path_calc_optimization: '路徑計算優化',
     font_substitute: '自動替換字體',
+    font_convert: '文字轉路徑',
     default_borderless_mode: '開蓋模式預設',
     default_enable_autofocus_module: '自動對焦預設',
     default_enable_diode_module: '二極體雷射預設',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/zh-tw/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/zh-tw/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/zh-tw/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/zh-tw/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/zh-tw/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/zh-tw/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: '您無法使用%s，請前往會員中心購買 AI Credit。',
         buy_link: 'https://member.flux3dp.com/zh-TW/credit',
         go: '前往',
+      },
+      text_to_path: {
+        caption: '文字轉路徑 2.0',
+        message:
+          'Beam Studio 現在推出全新的文字轉路徑 2.0，為您帶來更穩定的使用體驗！您是否要立即切換？\n您也可以稍後於偏好設定中的「文字轉路徑」修改此設定。',
       },
     },
     zoom_block: {
@@ -1624,6 +1631,7 @@ const lang: ILang = {
     merge: '合併',
     text_label: '標籤',
     beam_radius: '切口補償',
+    beam_radius_warning: '建議在盒子或榫接邊較短時取消補償，以確保盒子的接合。',
     import: '匯入',
     cancel: '取消',
     reset: '重置',
@@ -1658,6 +1666,7 @@ const lang: ILang = {
       save_new: '另存新檔',
       input_file_name: '另存新檔為：',
       invalid_char: '無效字元:',
+      storage_limit_exceeded: '您的雲端儲存空間已滿。在儲存新檔案前，請先刪除您不需要的檔案。',
     },
   },
 };

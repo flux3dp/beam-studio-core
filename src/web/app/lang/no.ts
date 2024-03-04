@@ -445,6 +445,7 @@ const lang: ILang = {
     mask: 'Arbeidsområdeklipping',
     text_path_calc_optimization: 'Baneberegningoptimalisering',
     font_substitute: 'Erstatt ustøttede tegn',
+    font_convert: 'Tekst til bane konverterer',
     default_borderless_mode: 'Åpne bunn som standard',
     default_enable_autofocus_module: 'Autofokus som standard',
     default_enable_diode_module: 'Diodlaser som standard',
@@ -497,6 +498,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -618,6 +620,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Du kan ikke bruke %s. Gå til medlemssenteret og kjøp AI-kreditt',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Gå',
+      },
+      text_to_path: {
+        caption: 'Tekst til bane konverterer 2.0',
+        message:
+          "Beam Studio introduserer nå en ny tekst til bane konverterer (Konverterer 2.0), som produserer mer pålitelige resultater! Vil du bytte til den nå? \nDu kan også justere denne innstillingen senere i 'Tekst til bane konverterer' delen i innstillingene.",
       },
     },
     zoom_block: {
@@ -1727,6 +1734,8 @@ const lang: ILang = {
     merge: 'Slå sammen',
     text_label: 'Tekstetikett',
     beam_radius: 'Kompensasjon for kuttebredde',
+    beam_radius_warning:
+      'Fjern kompensasjon for kuttebredde når kantene eller sammenføyningene på boksen er korte for å sikre riktig sammensetting',
     import: 'Importer',
     cancel: 'Avbryt',
     reset: 'Tilbakestill',
@@ -1762,6 +1771,8 @@ const lang: ILang = {
       save_new: 'Lagre som ny fil',
       input_file_name: 'Skriv inn filnavn:',
       invalid_char: 'Ugyldige tegn:',
+      storage_limit_exceeded:
+        'Skyen din har nådd øvre grense. Vennligst slett unødvendige filer før du lagrer nye.',
     },
   },
 };

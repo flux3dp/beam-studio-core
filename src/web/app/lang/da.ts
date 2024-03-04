@@ -449,6 +449,7 @@ const lang: ILang = {
     mask: 'Arbejdsområde Beskæring',
     text_path_calc_optimization: 'Stiberegning Optimering',
     font_substitute: 'Erstat Ikke-understøttede Tegn',
+    font_convert: 'Tekst til sti konverter',
     default_borderless_mode: 'Åbn Bund Standard',
     default_enable_autofocus_module: 'Autofokus Standard',
     default_enable_diode_module: 'Diode Laser Standard',
@@ -501,6 +502,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -622,6 +624,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Du kan ikke bruge %s. Gå til medlemscenteret og køb AI-kredit',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Gå til',
+      },
+      text_to_path: {
+        caption: 'Tekst til sti konverter 2.0',
+        message:
+          "Beam Studio introducerer nu en ny tekst til sti konverter (Konverter 2.0), som producerer mere pålidelige resultater! Vil du skifte til den nu? \nDu kan også justere denne indstilling senere i 'Tekst til sti konverter' afsnittet i indstillingerne.",
       },
     },
     zoom_block: {
@@ -1744,6 +1751,8 @@ const lang: ILang = {
     merge: 'Sammenføj',
     text_label: 'Etiket',
     beam_radius: 'Kerfkompensation',
+    beam_radius_warning:
+      'Fjern kerfkompensation, når kantene eller samlingerne på kassen er korte for at sikre kassemontering',
     import: 'Importer',
     cancel: 'Annullér',
     reset: 'Nulstil',
@@ -1781,6 +1790,8 @@ const lang: ILang = {
       save_new: 'Gem som ny fil',
       input_file_name: 'Indtast filnavn:',
       invalid_char: 'Ugyldige tegn:',
+      storage_limit_exceeded:
+        'Din cloud-lager har nået øvre grænse. Slet venligst eventuelle unødvendige filer, før du gemmer nye.',
     },
   },
 };

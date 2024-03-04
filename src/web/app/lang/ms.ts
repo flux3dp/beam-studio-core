@@ -448,6 +448,7 @@ const lang: ILang = {
     mask: 'Penyepadan Kawasan Kerja',
     text_path_calc_optimization: 'Pengoptimuman Pengiraan Laluan',
     font_substitute: 'Gantikan Aksara Tidak Disokong',
+    font_convert: 'Penukar Teks ke Laluan',
     default_borderless_mode: 'Buka Bawah Lalai',
     default_enable_autofocus_module: 'Autofokus Lalai',
     default_enable_diode_module: 'Laser Diod Lalai',
@@ -500,6 +501,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -622,6 +624,11 @@ const lang: ILang = {
           'Anda tidak boleh guna %s. Pergi ke pusat ahli dan beli Kredit AI.',
         buy_link: 'https://member.flux3dp.com/en-us/credit',
         go: 'Pergi',
+      },
+      text_to_path: {
+        caption: 'Penukar Teks ke Laluan 2.0',
+        message:
+          "Beam Studio kini memperkenalkan penukar teks ke laluan yang baru (Penukar 2.0), yang menghasilkan keputusan yang lebih boleh dipercayai! Adakah anda mahu beralih kepadanya sekarang? \nAnda juga boleh menyesuaikan tetapan ini kemudian dalam bahagian 'Penukar Teks ke Laluan' dalam keutamaan.",
       },
     },
     zoom_block: {
@@ -1738,6 +1745,8 @@ const lang: ILang = {
     merge: 'Gabung',
     text_label: 'Label Teks',
     beam_radius: 'Pampasan kerf',
+    beam_radius_warning:
+      'Alih keluar pampasan kerf apabila tepi atau sambungan kotak pendek untuk memastikan pemasangan kotak',
     import: 'Import',
     cancel: 'Batal',
     reset: 'Tetapkan Semula',
@@ -1772,6 +1781,8 @@ const lang: ILang = {
       save_new: 'Simpan sebagai fail baru',
       input_file_name: 'Masukkan nama fail:',
       invalid_char: 'Aksara tidak sah:',
+      storage_limit_exceeded:
+        'Penyimpanan awan anda telah mencapai had atas. Sila padam mana-mana fail yang tidak diperlukan sebelum menyimpan fail baru.',
     },
   },
 };

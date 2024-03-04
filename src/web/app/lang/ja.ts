@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: 'ワークエリアのクリッピング',
     text_path_calc_optimization: 'パス計算の最適化',
     font_substitute: 'サポートされていない文字を置き換える',
+    font_convert: 'テキストからパスへの変換機能',
     default_borderless_mode: 'オープンボトム既定',
     default_enable_autofocus_module: 'オートフォーカス既定',
     default_enable_diode_module: 'ダイオードレーザー既定',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: '%s は使用できません。メンバー センターにアクセスして AI Credit を購入してください。',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: '行く',
+      },
+      text_to_path: {
+        caption: 'テキストからパスへの変換 2.0',
+        message:
+          'Beam Studioに新しいテキストからパスへの変換機能(変換 2.0)が追加されました。これにより、より信頼できる結果が得られます。今すぐ変換を切り替えますか?\n「テキストからパスへの変換」の設定セクションから、後でこの設定を調整することもできます。',
       },
     },
     zoom_block: {
@@ -1624,6 +1631,8 @@ const lang: ILang = {
     merge: 'マージ',
     text_label: 'ラベル',
     beam_radius: 'レーザー半径補正',
+    beam_radius_warning:
+      '箱の端や接合部が短い場合は、組み立てを確実にするためにカーブ補正を削除してください',
     import: 'インポート',
     cancel: 'キャンセル',
     reset: 'リセット',
@@ -1658,6 +1667,8 @@ const lang: ILang = {
       save_new: '新規ファイルとして保存',
       input_file_name: 'ファイル名を入力:',
       invalid_char: '無効な文字:',
+      storage_limit_exceeded:
+        'クラウドストレージの上限に達しました。新しいファイルを保存する前に、不要なファイルを削除してください。',
     },
   },
 };

@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: 'Arbeitsbereich-Ausschnitt',
     text_path_calc_optimization: 'Optimierung der Pfadberechnung',
     font_substitute: 'Ersetzen Sie nicht unterstützte Zeichen',
+    font_convert: 'Text-zu-Pfad-Konverter',
     default_borderless_mode: 'Boden offen',
     default_enable_autofocus_module: 'Standardeinstellung für Autofokusmodul',
     default_enable_diode_module: 'Diodenlaser Standard',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Sie können %s nicht verwenden. Gehen Sie zum Mitgliedercenter und kaufen Sie AI Credit.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Gehen',
+      },
+      text_to_path: {
+        caption: 'Text-zu-Pfad-Konverter 2.0',
+        message:
+          'Beam Studio führt nun einen neuen Text-zu-Pfad-Konverter (Konverter 2.0) ein, der zuverlässigere Ergebnisse liefert! Möchten Sie jetzt umsteigen? \nSie können diese Einstellung auch später im Abschnitt "Text-zu-Pfad-Konverter" in den Einstellungen anpassen.',
       },
     },
     zoom_block: {
@@ -1624,6 +1631,8 @@ const lang: ILang = {
     merge: 'Zusammenführen',
     text_label: 'Textbeschriftung',
     beam_radius: 'Strahlradius',
+    beam_radius_warning:
+      'Entfernen Sie die Kerfkompensation, wenn die Kanten oder Verbindungen der Box kurz sind, um die Montage der Box sicherzustellen',
     import: 'Importieren',
     cancel: 'Abbrechen',
     reset: 'Zurücksetzen',
@@ -1658,6 +1667,8 @@ const lang: ILang = {
       save_new: 'Als neue Datei speichern',
       input_file_name: 'Dateinamen eingeben:',
       invalid_char: 'Ungültige Zeichen:',
+      storage_limit_exceeded:
+        'Ihr Cloudspeicher hat das obere Limit erreicht. Bitte löschen Sie vor dem Speichern neuer Dateien alle nicht benötigten Dateien.',
     },
   },
 };

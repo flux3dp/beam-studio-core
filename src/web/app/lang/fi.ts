@@ -446,6 +446,7 @@ const lang: ILang = {
     mask: 'Työalueen rajaus',
     text_path_calc_optimization: 'Polun laskennan optimointi',
     font_substitute: 'Korvaa tukemattomat merkit',
+    font_convert: 'Teksti-polku muunnin',
     default_borderless_mode: 'Avaa alaosa oletuksena',
     default_enable_autofocus_module: 'Automaattitarkennuksen oletus',
     default_enable_diode_module: 'Diodilaserin oletus',
@@ -498,6 +499,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -617,6 +619,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Et voi käyttää %s. Mene jäsenkeskukseen ja osta AI-credittejä.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Siirry',
+      },
+      text_to_path: {
+        caption: 'Teksti-polku muunnin 2.0',
+        message:
+          'Beam Studio esittelee nyt uuden teksti-polku muuntimen (Muunnin 2.0), joka tuottaa luotettavampia tuloksia! Haluaisitko vaihtaa siihen nyt? \nVoit myös säätää tätä asetusta myöhemmin Teksti-polku muunnin -osiossa asetuksissa.',
       },
     },
     zoom_block: {
@@ -1731,6 +1738,8 @@ const lang: ILang = {
     merge: 'Yhdistä',
     text_label: 'Tekstikenttä',
     beam_radius: 'Säteen kompensaatio',
+    beam_radius_warning:
+      'Poista saumakompensaatio, kun laatikon reunat tai liitokset ovat lyhyitä, jotta laatikon kokoaminen onnistuu',
     import: 'Tuo',
     cancel: 'Peruuta',
     reset: 'Nollaa',
@@ -1765,6 +1774,8 @@ const lang: ILang = {
       save_new: 'Tallenna uutena tiedostona',
       input_file_name: 'Anna tiedoston nimi:',
       invalid_char: 'Virheelliset merkit:',
+      storage_limit_exceeded:
+        'Pilvitallennustilasi on saavuttanut ylärajan. Poista kaikki tarpeettomat tiedostot ennen uusien tallentamista.',
     },
   },
 };
