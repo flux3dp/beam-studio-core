@@ -2,6 +2,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import blobSegments from 'helpers/blob-segments';
+import InsecureWebsocket, { checkFluxTunnel } from 'helpers/InsecureWebsocket';
 import i18n from 'helpers/i18n';
 import isJson from 'helpers/is-json';
 import Logger from 'helpers/logger';
@@ -38,7 +39,7 @@ const readyState = {
 //      onClose       - fired on connection closed
 //      onOpen        - fired on connection connecting
 export default function (options) {
-  const defaultCallback = () => { };
+  const defaultCallback = () => {};
   const defaultOptions = {
     method: '',
     get hostname() {
@@ -57,7 +58,7 @@ export default function (options) {
     onOpen: defaultCallback,
   };
   let receivedData = [];
-  let ws: WebSocket = null;
+  let ws: WebSocket | InsecureWebsocket = null;
   const trimMessage = (origMessage: string): string => {
     const message = origMessage.replace(/"/g, '');
 
@@ -72,7 +73,7 @@ export default function (options) {
     const newOpts = { ...opts };
     for (let i = 0; i < keys.length; i += 1) {
       const name = keys[i];
-      if (!['port', 'hostname'].includes(name) && (typeof opts[name] === 'undefined')) {
+      if (!['port', 'hostname'].includes(name) && typeof opts[name] === 'undefined') {
         newOpts[name] = defaultOptions[name];
       }
     }
@@ -114,7 +115,10 @@ export default function (options) {
       }
       return null;
     }
-    const nodeWs = new WebSocket(url);
+    // TODO: determine when to use InsecureWebsocket
+    const WebSocketClass =
+      window.FLUX.version === 'web' && checkFluxTunnel() ? InsecureWebsocket : WebSocket;
+    const nodeWs = new WebSocketClass(url);
     wsCreateFailedCount = 0;
 
     nodeWs.onerror = () => {
@@ -149,7 +153,7 @@ export default function (options) {
     };
 
     nodeWs.onmessage = (result) => {
-      let data = (isJson(result.data) === true ? JSON.parse(result.data) : result.data);
+      let data = isJson(result.data) ? JSON.parse(result.data) : result.data;
       let errorStr = '';
       let skipError = false;
       if (!(result.data instanceof Blob)) {
@@ -169,7 +173,7 @@ export default function (options) {
         data = data.replace(/\\/g, '\\\\');
         data = data.replace(/\bNaN\b/g, 'null');
         data = data.replace(/\r?\n|\r/g, ' ');
-        data = (isJson(data) === true ? JSON.parse(data) : data);
+        data = isJson(data) === true ? JSON.parse(data) : data;
       }
 
       while (receivedData.length >= logLimit) {
@@ -186,7 +190,7 @@ export default function (options) {
             errorStr = data.error.join('_');
           }
 
-          if (errorStr === 'NOT_EXIST_BAD_NODE') { skipError = true; }
+          if (errorStr === 'NOT_EXIST_BAD_NODE') skipError = true;
 
           if (window.FLUX.allowTracking && !skipError) {
             // window.Raven.captureException(data);
@@ -202,7 +206,7 @@ export default function (options) {
             errorStr = data.error.join('_');
           }
 
-          if (errorStr === 'AUTH_ERROR') { skipError = true; }
+          if (errorStr === 'AUTH_ERROR') skipError = true;
 
           // if identify error, reconnect again
           if (errorStr === 'REMOTE_IDENTIFY_ERROR') {
@@ -239,7 +243,7 @@ export default function (options) {
       // The connection was closed abnormally without sending or receving data
       // ref: http://tools.ietf.org/html/rfc6455#section-7.4.1
       if (result.code === 1006) {
-        wsLog.log.push(['**abnormal disconnection**'].join(' '));
+        wsLog.log.push('**abnormal disconnection**');
         socketOptions.onFatal(result);
       }
 
@@ -258,7 +262,7 @@ export default function (options) {
   const keepAlive = () => {
     if (timer) clearInterval(timer);
     timer = setInterval(() => {
-      if (ws !== null && readyState.OPEN === ws.readyState) {
+      if (ws?.readyState === readyState.OPEN) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         sender('ping');
       }
@@ -289,7 +293,12 @@ export default function (options) {
     url: `/ws/${options.method}`,
     log: wsLog.log,
     send(data) {
-      if (!ws || ws === null || ws?.readyState === readyState.CLOSING || ws?.readyState === readyState.CLOSED) {
+      if (
+        !ws ||
+        ws === null ||
+        ws?.readyState === readyState.CLOSING ||
+        ws?.readyState === readyState.CLOSED
+      ) {
         ws = createWebSocket(socketOptions);
       }
       if (ws.readyState === readyState.CONNECTING) {
