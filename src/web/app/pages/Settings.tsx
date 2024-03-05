@@ -230,6 +230,8 @@ class Settings extends React.PureComponent<null, State> {
     const isFontSubstitutionOn = this.getBeamboxPreferenceEditingValue('font-substitute') !== false;
     const fontSubstituteOptions = this.onOffOptionFactory(isFontSubstitutionOn);
 
+    const defaultFontConvert = this.getBeamboxPreferenceEditingValue('font-convert') || '2.0';
+
     const isDefaultBorderlessOn = this.getBeamboxPreferenceEditingValue('default-borderless');
     const borderlessModeOptions = this.onOffOptionFactory(isDefaultBorderlessOn);
 
@@ -387,6 +389,7 @@ class Settings extends React.PureComponent<null, State> {
           <TextToPath
             fontSubstituteOptions={fontSubstituteOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+            defaultFontConvert={defaultFontConvert}
           />
           <Module
             defaultUnit={this.getConfigEditingValue('default-units')}

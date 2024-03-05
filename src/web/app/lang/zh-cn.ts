@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: '工作范围剪裁',
     text_path_calc_optimization: '路径计算优化',
     font_substitute: '自动替换字体',
+    font_convert: '文本转路径',
     default_borderless_mode: '开盖模式预设',
     default_enable_autofocus_module: '自动对焦预设',
     default_enable_diode_module: '二极管激光预设',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: '您无法使用%s，请前往会员中心充值 AI Credit。',
         buy_link: 'https://member.flux3dp.com/zh-TW/credit',
         go: '前往',
+      },
+      text_to_path: {
+        caption: '文字转路径 2.0',
+        message:
+          'Beam Studio 现在推出全新的文字转路径2.0，为您带来更稳定的使用体验！您是否要立即切换？\n您也可以稍后于偏好设定中的「文字转路径」修改此设定。 ',
       },
     },
     zoom_block: {
@@ -1632,6 +1639,7 @@ const lang: ILang = {
     merge: '合并',
     text_label: '文本标签',
     beam_radius: '切口补偿',
+    beam_radius_warning: '建议在盒子或榫接边较短时取消补偿，以确保盒子的接合。',
     import: '导入',
     cancel: '取消',
     reset: '重置',
@@ -1666,6 +1674,7 @@ const lang: ILang = {
       save_new: '另存新档',
       input_file_name: '另存新档为：',
       invalid_char: '无效字符:',
+      storage_limit_exceeded: '您的云端储存空间已满。在储存新档案前，请先删除您不需要的档案。',
     },
   },
 };

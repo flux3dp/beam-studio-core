@@ -1,5 +1,5 @@
 import React from 'react';
-import Shape, { Point } from '@doodle3d/clipper-js';
+import Shape from '@doodle3d/clipper-js';
 import { DEFAULT_LABEL_COLOR, DEFAULT_STROKE_COLOR } from 'app/constants/boxgen-constants';
 import {
   getTopBottomShape,
@@ -22,8 +22,11 @@ interface ShapeRaw {
   text: string;
 }
 
+// doodle3d clipper only works with intergers
+const scale = 1000;
+
 const shapeToPath = (shape: Shape, cx: number, cy: number): string =>
-  `M${shape.paths[0].map((p) => `${p.X + cx},${p.Y + cy}`).join(' L')} Z`;
+  `M${shape.paths[0].map((p) => `${p.X / scale + cx},${p.Y / scale + cy}`).join(' L')} Z`;
 
 const getBlockDistance = (options: IExportOptions) => (options.joinOutput ? [0, 0] : [5, 5]);
 
@@ -43,9 +46,9 @@ export class OutputPage {
   maxY = 0;
 
   constructor(canvasWidth: number, canvasHeight: number, options: IExportOptions) {
-    this.nextX = options.compRadius;
-    this.cursorX = options.compRadius;
-    this.cursorY = options.compRadius;
+    this.nextX = options.compRadius * 2;
+    this.cursorX = options.compRadius * 2;
+    this.cursorY = options.compRadius * 2;
     this.maxX = canvasWidth;
     this.maxY = canvasHeight;
     this.options = options;
@@ -53,23 +56,24 @@ export class OutputPage {
 
   addShape(shape: ShapeRaw): boolean {
     const { compRadius } = this.options;
+    const inflation = compRadius * 2;
     const [dx, dy] = getBlockDistance(this.options);
     if (
-      this.cursorY + shape.height + compRadius > this.maxY &&
-      this.cursorX + shape.width + compRadius <= this.maxX
+      this.cursorY + shape.height + inflation > this.maxY &&
+      this.cursorX + shape.width + inflation <= this.maxX
     ) {
       this.cursorX = this.nextX;
-      this.cursorY = compRadius;
+      this.cursorY = inflation;
     }
-    if (this.cursorX + shape.width + compRadius > this.maxX) return false;
+    if (this.cursorX + shape.width + inflation > this.maxX) return false;
     this.shapes.push({
       shape: shape.shape,
       x: this.cursorX + shape.width / 2,
       y: this.cursorY + shape.height / 2,
       text: shape.text,
     });
-    this.cursorY += shape.height + dy + compRadius;
-    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx + compRadius);
+    this.cursorY += shape.height + dy + inflation;
+    this.nextX = Math.max(this.nextX, this.cursorX + shape.width + dx + inflation);
     return true;
   }
 }
@@ -112,8 +116,8 @@ export const getLayouts = (
 
   const pages = outputs.map((output) => ({
     shape: output.shapes.map((obj: ShapeDisplayObject, index) => {
-      const path = [obj.shape.getPoints().map((p) => ({ X: p.x, Y: p.y })) as Point[]];
-      const sh = new Shape(path, true, false).offset(options.compRadius, {
+      const path = [obj.shape.getPoints().map((p) => ({ X: p.x * scale, Y: p.y * scale }))];
+      const sh = new Shape(path, true, false).offset(options.compRadius * scale, {
         jointType: 'jtSquare',
         endType: 'etClosedPolygon',
         miterLimit: 2.0,

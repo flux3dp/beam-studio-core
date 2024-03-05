@@ -445,6 +445,7 @@ const lang: ILang = {
     mask: 'ตัดขอบพื้นที่ทํางาน',
     text_path_calc_optimization: 'เพิ่มประสิทธิภาพการคํานวณเส้นทาง',
     font_substitute: 'แทนที่อักขระที่ไม่รองรับ',
+    font_convert: 'โปรแกรมแปลงข้อความเป็นเส้นทาง',
     default_borderless_mode: 'เปิดด้านล่างเริ่มต้น',
     default_enable_autofocus_module: 'เปิดใช้งานโหมดอัตโนมัติเริ่มต้น',
     default_enable_diode_module: 'เลเซอร์ไดโอดเริ่มต้น',
@@ -497,6 +498,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -613,6 +615,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'คุณไม่สามารถใช้ %s ได้ ไปที่ศูนย์สมาชิกและซื้อเครดิต AI',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'ไป',
+      },
+      text_to_path: {
+        caption: 'โปรแกรมแปลงข้อความเป็นเส้นทาง 2.0',
+        message:
+          "Beam Studio แนะนําโปรแกรมแปลงข้อความเป็นเส้นทางใหม่ (โปรแกรมแปลง 2.0) ซึ่งให้ผลลัพธ์ที่เชื่อถือได้มากขึ้น! คุณต้องการสลับไปใช้โปรแกรมแปลงนี้เลยหรือไม่?\nคุณยังสามารถปรับการตั้งค่านี้ในภายหลังได้ในส่วน 'โปรแกรมแปลงข้อความเป็นเส้นทาง' ภายในการตั้งค่า",
       },
     },
     zoom_block: {
@@ -1723,6 +1730,8 @@ const lang: ILang = {
     merge: 'รวม',
     text_label: 'ป้ายชื่อ',
     beam_radius: 'ช่องว่างสําหรับตัด',
+    beam_radius_warning:
+      'เมื่อขอบหรือรอยต่อของกล่องสั้น ให้ลดรัศมีของลําแสงเลเซอร์เพื่อให้แน่ใจว่ากล่องประกอบได้',
     import: 'นําเข้า',
     cancel: 'ยกเลิก',
     reset: 'รีเซ็ต',
@@ -1757,6 +1766,8 @@ const lang: ILang = {
       save_new: 'บันทึกเป็นไฟล์ใหม่',
       input_file_name: 'กรอกชื่อไฟล์:',
       invalid_char: 'อักขระไม่ถูกต้อง:',
+      storage_limit_exceeded:
+        'พื้นที่จัดเก็บข้อมูลบนคลาวด์ของคุณเต็มแล้ว โปรดลบไฟล์ที่ไม่จําเป็นออกก่อนบันทึกไฟล์ใหม่',
     },
   },
 };

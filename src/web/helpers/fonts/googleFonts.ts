@@ -1,5 +1,9 @@
 import { WebFont } from 'interfaces/IFont';
 
+// Note:
+// TextOptions Fallback font family: Noto Sans
+// Web substitute candidates: Noto Sans series
+// Fix above two if Noto sans series are removed
 const fonts: WebFont[] = [
   // Noto Sans
   {

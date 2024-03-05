@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: '작업 영역 클리핑',
     text_path_calc_optimization: '경로 계산 최적화',
     font_substitute: '지원되지 않는 문자 대체',
+    font_convert: '텍스트-경로 변환기',
     default_borderless_mode: '열린 밑면 기본 설정',
     default_enable_autofocus_module: '오토포커스 기본 설정',
     default_enable_diode_module: '다이오드 레이저 기본 설정',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: '%s 사용할 수 없습니다. 회원센터로 이동하여 AI 크레딧을 구매하세요.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: '가다',
+      },
+      text_to_path: {
+        caption: '텍스트-경로 변환기 2.0',
+        message:
+          "Beam Studio에 새로운 텍스트-경로 변환기(Converter 2.0)가 추가되었습니다. 이는 더 신뢰할 수 있는 결과를 제공합니다! 지금 전환하시겠습니까?\\n환경 설정의 '텍스트-경로 변환기' 섹션에서 나중에 이 설정을 조정할 수도 있습니다.",
       },
     },
     zoom_block: {
@@ -1633,6 +1640,8 @@ const lang: ILang = {
     merge: '병합',
     text_label: '라벨',
     beam_radius: '빔 보정',
+    beam_radius_warning:
+      '박스의 가장자리나 접합부가 짧을 때 박스 조립을 보장하기 위해 빔 반경 보정을 제거하십시오',
     import: '가져오기',
     cancel: '취소',
     reset: '리셋',
@@ -1667,6 +1676,8 @@ const lang: ILang = {
       save_new: '새 파일로 저장',
       input_file_name: '파일 이름 입력:',
       invalid_char: '잘못된 문자:',
+      storage_limit_exceeded:
+        '클라우드 저장소 용량이 상한에 도달했습니다. 새 파일을 저장하기 전에 불필요한 파일을 삭제하세요.',
     },
   },
 };

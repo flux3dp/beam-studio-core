@@ -448,6 +448,7 @@ const lang: ILang = {
     mask: 'Cắt vùng làm việc',
     text_path_calc_optimization: 'Tối ưu hóa tính toán đường dẫn văn bản',
     font_substitute: 'Thay thế ký tự không hỗ trợ',
+    font_convert: 'Cài đặt bộ chuyển đổi văn bản thành đường dẫn',
     default_borderless_mode: 'Mở đáy mặc định',
     default_enable_autofocus_module: 'Lấy nét tự động mặc định',
     default_enable_diode_module: 'Laser đi-ốt mặc định',
@@ -500,6 +501,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -617,6 +619,11 @@ const lang: ILang = {
           'Bạn không thể sử dụng %s. Vào trung tâm thành viên và mua Tín dụng AI.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Đi',
+      },
+      text_to_path: {
+        caption: 'Bộ chuyển đổi Văn bản thành Đường dẫn 2.0',
+        message:
+          "Beam Studio giới thiệu một bộ chuyển đổi văn bản thành đường dẫn mới (Bộ chuyển đổi 2.0), tạo ra kết quả đáng tin cậy hơn! Bạn có muốn chuyển sang nó bây giờ không? \nBạn cũng có thể điều chỉnh cài đặt này sau trong phần 'Cài đặt bộ chuyển đổi văn bản thành đường dẫn' trong tùy chọn.",
       },
     },
     zoom_block: {
@@ -1739,6 +1746,8 @@ const lang: ILang = {
     merge: 'Gộp',
     text_label: 'Nhãn',
     beam_radius: 'Bù đường kính tia laser',
+    beam_radius_warning:
+      'Xóa bỏ bù độ rộng lưỡi cắt khi các cạnh hoặc khớp của hộp ngắn để đảm bảo lắp ráp hộp',
     import: 'Nhập',
     cancel: 'Hủy',
     reset: 'Đặt lại',
@@ -1774,6 +1783,8 @@ const lang: ILang = {
       save_new: 'Lưu thành tệp mới',
       input_file_name: 'Nhập tên tệp:',
       invalid_char: 'Ký tự không hợp lệ:',
+      storage_limit_exceeded:
+        'Bộ nhớ đám mây của bạn đã đạt giới hạn. Vui lòng xóa các tệp không cần thiết trước khi lưu các tệp mới.',
     },
   },
 };

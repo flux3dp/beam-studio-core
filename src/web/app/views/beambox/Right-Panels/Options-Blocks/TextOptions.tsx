@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Button, ConfigProvider, Select, Switch } from 'antd';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FluxIcons from 'app/icons/flux/FluxIcons';
 import fontHelper from 'helpers/fonts/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -18,6 +19,7 @@ import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlo
 import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/StartOffsetBlock';
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { FontDescriptor } from 'interfaces/IFont';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { iconButtonTheme, selectTheme } from 'app/views/beambox/Right-Panels/antd-config';
@@ -30,8 +32,9 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+const eventEmitter = eventEmitterFactory.createEventEmitter('font');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
+const isLocalFont = (font: FontDescriptor) => 'path' in font;
 
 // TODO: add tests
 interface Props {
@@ -79,18 +82,26 @@ const TextOptions = ({
   const { fontFamily } = state;
   const [styleOptions, setStyleOptions] = useState([]);
 
+  const getFontFamilies = async () => {
+    const families = FontFuncs.requestAvailableFontFamilies();
+    setAvailableFontFamilies(families);
+  };
+
   useEffect(() => {
-    const getFontFamilies = async () => {
-      const families = await FontFuncs.availableFontFamilies;
-      setAvailableFontFamilies(families);
+    eventEmitter.on('GET_MONOTYPE_FONTS', getFontFamilies);
+    return () => {
+      eventEmitter.removeListener('GET_MONOTYPE_FONTS');
     };
+  }, []);
+
+  useEffect(() => {
     const getStateFromElem = async () => {
       const elemId = textElement.getAttribute('id');
       if (elemId === state.id) return;
       const postscriptName = textEdit.getFontPostscriptName(textElement);
       let font;
       if (postscriptName) {
-        font = await FontFuncs.getFontOfPostscriptName(postscriptName);
+        font = FontFuncs.getFontOfPostscriptName(postscriptName);
         if (!textElement.getAttribute('font-style')) {
           textElement.setAttribute('font-style', font.italic ? 'italic' : 'normal');
         }
@@ -98,12 +109,10 @@ const TextOptions = ({
           textElement.setAttribute('font-weight', font.weight ? font.weight : 'normal');
         }
       } else {
-        const family = usePostscriptAsFamily
-          ? textEdit.getFontFamilyData(textElement)
-          : textEdit.getFontFamily(textElement);
+        const family = textEdit.getFontFamilyData(textElement);
         const weight = textEdit.getFontWeight(textElement);
         const italic = textEdit.getItalic(textElement);
-        font = await FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
+        font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
       }
       // eslint-disable-next-line no-console
       console.log(font);
@@ -114,7 +123,7 @@ const TextOptions = ({
           'Arial',
           'Times New Roman',
           'Ubuntu',
-          availableFontFamilies[0],
+          'Noto Sans',
         ];
         const sanitizedFontFamily = [font.family, ...fontFamilyFallback].find((f) =>
           availableFontFamilies.includes(f)
@@ -126,9 +135,7 @@ const TextOptions = ({
         // eslint-disable-next-line no-console
         console.log(`unsupported font ${font.family}, fallback to ${sanitizedDefaultFontFamily}`);
         textEdit.setFontFamily(sanitizedDefaultFontFamily, true);
-        const newFont = (
-          await FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)
-        )[0];
+        const newFont = FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)[0];
         textEdit.setFontPostscriptName(newFont.postscriptName, true);
       }
       updateDimensionValues({ fontStyle: font.style });
@@ -165,8 +172,8 @@ const TextOptions = ({
   }, [textElement, availableFontFamilies]);
 
   useEffect(() => {
-    const getStyleOptions = async (family: string) => {
-      const fontStyles = (await FontFuncs.requestFontsOfTheFontFamily(family)).map((f) => f.style);
+    const getStyleOptions = (family: string) => {
+      const fontStyles = FontFuncs.requestFontsOfTheFontFamily(family).map((f) => f.style);
       const options = fontStyles.map((option: string) => ({ value: option, label: option }));
       setStyleOptions(options);
     };
@@ -191,7 +198,7 @@ const TextOptions = ({
     if (typeof newFamily === 'object') {
       family = newFamily.value;
     }
-    const newFont = (await FontFuncs.requestFontsOfTheFontFamily(family))[0];
+    const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
     const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
       newFont,
       getCurrentUser()
@@ -204,7 +211,7 @@ const TextOptions = ({
     batchCmd.addSubCommand(cmd);
     cmd = textEdit.setFontWeight(newFont.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(newFont)) {
       cmd = textEdit.setFontFamily(newFont.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
       cmd = textEdit.setFontFamilyData(family, true, [textElement]);
@@ -215,7 +222,7 @@ const TextOptions = ({
     }
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
-    if (window.FLUX.version === 'web') {
+    if (!isLocalFont(newFont)) {
       await waitForWebFont(fontLoadedPromise);
     }
 
@@ -231,18 +238,16 @@ const TextOptions = ({
 
   const renderFontFamilyBlock = (): JSX.Element => {
     const renderOption = (option) => {
-      if (window.FLUX.version === 'web') {
-        const src = fontHelper.getWebFontPreviewUrl(option.value);
-        if (src) {
-          return (
-            <div className={styles['family-option']}>
-              <div className={styles['img-container']}>
-                <img src={src} alt={option.label} draggable="false" />
-              </div>
-              {src.includes('monotype') && <FluxIcons.FluxPlus />}
+      const src = fontHelper.getWebFontPreviewUrl(option.value);
+      if (src) {
+        return (
+          <div className={styles['family-option']}>
+            <div className={styles['img-container']}>
+              <img src={src} alt={option.label} draggable="false" />
             </div>
-          );
-        }
+            {src.includes('monotype') && <FluxIcons.FluxPlus />}
+          </div>
+        );
       }
       return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 24 }}>{option.label}</div>;
     };
@@ -292,7 +297,7 @@ const TextOptions = ({
   };
 
   const handleFontStyleChange = async (val: string) => {
-    const font = await FontFuncs.requestFontByFamilyAndStyle({
+    const font = FontFuncs.requestFontByFamilyAndStyle({
       family: fontFamily,
       style: val,
     });
@@ -304,7 +309,7 @@ const TextOptions = ({
     const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(font)) {
       cmd = textEdit.setFontFamily(font.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }
@@ -314,7 +319,7 @@ const TextOptions = ({
     batchCmd.addSubCommand(cmd);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
-    if (window.FLUX.version === 'web') {
+    if (!isLocalFont(font)) {
       await waitForWebFont(fontLoadedPromise);
     }
 

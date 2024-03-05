@@ -423,22 +423,23 @@ export interface ILang {
     enable_low_speed: string;
     enable_custom_backlash: string;
     custom_preview_height: string;
-    mask: string,
-    text_path_calc_optimization: string,
-    font_substitute: string,
-    default_borderless_mode: string,
-    default_enable_autofocus_module: string,
-    default_enable_diode_module: string,
-    diode_offset: string,
+    mask: string;
+    text_path_calc_optimization: string;
+    font_substitute: string;
+    font_convert: string;
+    default_borderless_mode: string;
+    default_enable_autofocus_module: string;
+    default_enable_diode_module: string;
+    diode_offset: string;
     autofocus_offset: string;
-    diode_one_way_engraving: string,
+    diode_one_way_engraving: string;
     diode_two_way_warning: string;
-    share_with_flux: string,
-    none: string,
-    close: string,
-    enabled: string,
-    disabled: string,
-    cancel: string,
+    share_with_flux: string;
+    none: string;
+    close: string;
+    enabled: string;
+    disabled: string;
+    cancel: string;
     done: string;
     module_offset_10w: string;
     module_offset_20w: string;
@@ -466,22 +467,23 @@ export interface ILang {
     update_latest: string,
     update_beta: string,
     help_center_urls: {
-      connection: string,
-      image_downsampling: string,
-      anti_aliasing: string,
-      continuous_drawing: string,
-      simplify_clipper_path: string,
-      fast_gradient: string,
-      reverse_engraving: string,
-      vector_speed_constraint: string,
-      loop_compensation: string,
-      mask: string,
-      font_substitute: string,
-      default_borderless_mode: string,
-      default_enable_autofocus_module: string,
-      default_enable_diode_module: string,
-    },
-  },
+      connection: string;
+      image_downsampling: string;
+      anti_aliasing: string;
+      continuous_drawing: string;
+      simplify_clipper_path: string;
+      fast_gradient: string;
+      reverse_engraving: string;
+      vector_speed_constraint: string;
+      loop_compensation: string;
+      mask: string;
+      font_substitute: string;
+      font_convert: string;
+      default_borderless_mode: string;
+      default_enable_autofocus_module: string;
+      default_enable_diode_module: string;
+    };
+  };
   beambox: {
     tag: {
       g: string,
@@ -576,8 +578,12 @@ export interface ILang {
         insufficient_credit_msg: string;
         buy_link: string;
         go: string;
-      },
-    },
+      };
+      text_to_path: {
+        caption: string;
+        message: string;
+      };
+    };
     zoom_block: {
       fit_to_window: string,
     },
@@ -1628,6 +1634,7 @@ export interface ILang {
     merge: string;
     text_label: string;
     beam_radius: string;
+    beam_radius_warning: string;
     import: string;
     cancel: string;
     reset: string;
@@ -1662,6 +1669,7 @@ export interface ILang {
       save_new: string;
       input_file_name: string;
       invalid_char: string;
+      storage_limit_exceeded: string;
     };
   };
 }
