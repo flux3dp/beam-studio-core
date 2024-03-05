@@ -447,6 +447,7 @@ const lang: ILang = {
     mask: 'Máscara da área de trabalho',
     text_path_calc_optimization: 'Otimização de cálculo de caminho de texto',
     font_substitute: 'Substituir caracteres não suportados',
+    font_convert: 'Conversor de Texto para Trajetória',
     default_borderless_mode: 'Abrir sem borda por padrão',
     default_enable_autofocus_module: 'Foco automático padrão',
     default_enable_diode_module: 'Laser de diodo padrão',
@@ -499,6 +500,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -622,6 +624,11 @@ const lang: ILang = {
           'Você não pode usar o %s. Vá para o centro de membros e compre Créditos de IA.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Ir',
+      },
+      text_to_path: {
+        caption: 'Conversor de Texto para Trajetória 2.0',
+        message:
+          'O Beam Studio agora apresenta um novo conversor de texto para trajetória (Conversor 2.0), que produz resultados mais confiáveis! Gostaria de mudar para ele agora? \nVocê também pode ajustar essa configuração posteriormente na seção "Conversor de Texto para Trajetória" nas preferências.',
       },
     },
     zoom_block: {
@@ -1754,6 +1761,8 @@ const lang: ILang = {
     merge: 'Mesclar',
     text_label: 'Rótulo',
     beam_radius: 'Compensação do raio do feixe',
+    beam_radius_warning:
+      'Remova a compensação de corte quando as bordas ou juntas da caixa forem curtas para garantir a montagem da caixa',
     import: 'Importar',
     cancel: 'Cancelar',
     reset: 'Redefinir',
@@ -1789,6 +1798,8 @@ const lang: ILang = {
       save_new: 'Salvar como novo arquivo',
       input_file_name: 'Digite o nome do arquivo:',
       invalid_char: 'Caracteres inválidos:',
+      storage_limit_exceeded:
+        'Seu armazenamento em nuvem atingiu o limite superior. Exclua quaisquer arquivos desnecessários antes de salvar novos.',
     },
   },
 };

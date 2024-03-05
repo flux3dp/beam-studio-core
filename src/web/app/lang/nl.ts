@@ -448,6 +448,7 @@ const lang: ILang = {
     mask: 'Werkgebied bijsnijden',
     text_path_calc_optimization: 'Padberekeningsoptimalisatie',
     font_substitute: 'Vervang onondersteunde tekens',
+    font_convert: 'Tekst naar pad Converter',
     default_borderless_mode: 'Open onderkant standaard',
     default_enable_autofocus_module: 'Autofocus standaard',
     default_enable_diode_module: 'Diode laser standaard',
@@ -500,6 +501,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -620,6 +622,11 @@ const lang: ILang = {
           'Je kunt %s niet gebruiken. Ga naar het tegoedcentrum en koop AI-tegoed.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Ga',
+      },
+      text_to_path: {
+        caption: 'Tekst naar pad Converter 2.0',
+        message:
+          "Beam Studio introduceert nu een nieuwe tekst naar pad converter (Converter 2.0), die betrouwbaardere resultaten oplevert! Wilt u nu overschakelen? \nU kunt deze instelling later ook aanpassen in het gedeelte 'Tekst naar pad Converter' binnen de voorkeuren.",
       },
     },
     zoom_block: {
@@ -1750,6 +1757,8 @@ const lang: ILang = {
     merge: 'Samenvoegen',
     text_label: 'Label',
     beam_radius: 'Straalcompensatie',
+    beam_radius_warning:
+      'Verwijder de zaagcompensatie wanneer de randen of verbindingen van de doos kort zijn om de doosassemblage te garanderen',
     import: 'Importeren',
     cancel: 'Annuleren',
     reset: 'Resetten',
@@ -1785,6 +1794,8 @@ const lang: ILang = {
       save_new: 'Opslaan als nieuw bestand',
       input_file_name: 'Voer bestandsnaam in:',
       invalid_char: 'Ongeldige tekens:',
+      storage_limit_exceeded:
+        'Uw cloudopslag heeft de bovengrens bereikt. Verwijder onnodige bestanden voordat u nieuwe opslaat.',
     },
   },
 };

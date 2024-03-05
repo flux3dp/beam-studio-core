@@ -93,6 +93,10 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
           });
           return false;
         }
+        if (info === 'STORAGE_LIMIT_EXCEEDED') {
+          Alert.popUpError({ message: LANG.my_cloud.save_file.storage_limit_exceeded });
+          return false;
+        }
         Alert.popUpError({
           caption: info,
           message: detail || message || `${status}: ${statusText}`,

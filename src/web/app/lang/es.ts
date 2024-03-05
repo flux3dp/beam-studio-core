@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: 'Recorte del área de trabajo',
     text_path_calc_optimization: 'Optimización del cálculo de la trayectoria',
     font_substitute: 'sustituir los caracteres no compatibles',
+    font_convert: 'Convertidor de texto a trayectoria',
     default_borderless_mode: 'Abrir fondo por defecto',
     default_enable_autofocus_module: 'Autoenfoque predeterminado',
     default_enable_diode_module: 'Láser diodo por defecto',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'No puede usar %s Vaya al centro de miembros y compre AI Credit.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Ir',
+      },
+      text_to_path: {
+        caption: 'Convertidor de texto a trayectoria 2.0',
+        message:
+          '¡Beam Studio ahora presenta un nuevo convertidor de texto a trayectoria (Convertidor 2.0), que produce resultados más confiables! ¿Le gustaría cambiar a él ahora? \nTambién puede ajustar esta configuración más tarde en la sección "Convertidor de texto a trayectoria" dentro de las preferencias.',
       },
     },
     zoom_block: {
@@ -1633,6 +1640,8 @@ const lang: ILang = {
     merge: 'Fusionar',
     text_label: 'Etiqueta',
     beam_radius: 'Compensación del radio del láser',
+    beam_radius_warning:
+      'Elimine la compensación de corte cuando los bordes o uniones de la caja sean cortos para asegurar el montaje de la caja',
     import: 'Importar',
     cancel: 'Cancelar',
     reset: 'Restablecer',
@@ -1668,6 +1677,8 @@ const lang: ILang = {
       save_new: 'Guardar como nuevo archivo',
       input_file_name: 'Introducir nombre de archivo:',
       invalid_char: 'Caracteres no válidos:',
+      storage_limit_exceeded:
+        'Su almacenamiento en la nube ha alcanzado el límite superior. Elimine cualquier archivo innecesario antes de guardar nuevos.',
     },
   },
 };

@@ -447,6 +447,7 @@ const lang: ILang = {
     mask: 'Maschera area di lavoro',
     text_path_calc_optimization: 'Ottimizzazione calcolo percorso',
     font_substitute: 'Sostituisci caratteri non supportati',
+    font_convert: 'Convertitore di testo in percorso',
     default_borderless_mode: 'Apri inferiore predefinito',
     default_enable_autofocus_module: 'Messa a fuoco automatica predefinita',
     default_enable_diode_module: 'Laser a diodi predefinito',
@@ -499,6 +500,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -622,6 +624,11 @@ const lang: ILang = {
           'Non puoi utilizzare %s. Vai al centro membri e acquista crediti AI',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Vai',
+      },
+      text_to_path: {
+        caption: 'Convertitore di testo in percorso 2.0',
+        message:
+          "Beam Studio introduce ora un nuovo convertitore di testo in percorso (Convertitore 2.0), che produce risultati più affidabili! Vuoi passare ad esso ora?\\nPuoi anche regolare questa impostazione più tardi nella sezione 'Convertitore di testo in percorso' all'interno delle preferenze.",
       },
     },
     zoom_block: {
@@ -1762,6 +1769,8 @@ const lang: ILang = {
     merge: 'Unisci',
     text_label: 'Etichetta',
     beam_radius: 'Compensazione della tacca',
+    beam_radius_warning:
+      'Rimuovere il compenso della tacca quando i bordi o le giunzioni della scatola sono corti per garantire il montaggio della scatola',
     import: 'Importa',
     cancel: 'Annulla',
     reset: 'Ripristina',
@@ -1797,6 +1806,8 @@ const lang: ILang = {
       save_new: 'Salva come nuovo file',
       input_file_name: 'Inserisci nome file:',
       invalid_char: 'Caratteri non validi:',
+      storage_limit_exceeded:
+        "L'archiviazione cloud ha raggiunto il limite massimo. Elimina eventuali file non necessari prima di salvarne di nuovi.",
     },
   },
 };

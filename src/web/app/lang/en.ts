@@ -429,6 +429,7 @@ const lang: ILang = {
     mask: 'Workarea Clipping',
     text_path_calc_optimization: 'Path Calculation Optimization',
     font_substitute: 'Substitute Unsupported Characters',
+    font_convert: 'Text-to-Path Converter',
     default_borderless_mode: 'Open Bottom Default',
     default_enable_autofocus_module: 'Autofocus Default',
     default_enable_diode_module: 'Diode Laser Default',
@@ -480,6 +481,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -579,6 +581,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'You can not use the %s. Go to member center and purchase AI Credit.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Go',
+      },
+      text_to_path: {
+        caption: 'Text-to-Path Converter 2.0',
+        message:
+          "Beam Studio now introduces a new text-to-path converter (Converter 2.0), which produces more dependable results! Would you like to switch to it now? \nYou can also adjust this setting later in the 'Text-to-Path Converter' section within the preferences.",
       },
     },
     zoom_block: {
@@ -1633,6 +1640,8 @@ const lang: ILang = {
     merge: 'Merge',
     text_label: 'Label',
     beam_radius: 'Kerf compensation',
+    beam_radius_warning:
+      'Remove Kerf compensation when the edges or joints of the box are short to ensure box assembly',
     import: 'Import',
     cancel: 'Cancel',
     reset: 'Reset',
@@ -1667,6 +1676,8 @@ const lang: ILang = {
       save_new: 'Save as new file',
       input_file_name: 'Input file name:',
       invalid_char: 'Invalid characters:',
+      storage_limit_exceeded:
+        'Your cloud storage has reached upper limit. Please delete any unnecessary files before saving new ones.',
     },
   },
 };
