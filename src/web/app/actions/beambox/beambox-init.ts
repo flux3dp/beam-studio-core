@@ -24,7 +24,7 @@ import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
-import updateFontConvert from 'app/components/dialogs/UpdateFontConvert';
+import updateFontConvert from 'app/components/dialogs/updateFontConvert';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';

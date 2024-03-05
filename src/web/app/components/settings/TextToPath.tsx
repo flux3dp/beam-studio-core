@@ -35,8 +35,7 @@ function TextToPath({
       />
       <SelectControl
         label={lang.settings.font_convert}
-        // TODO: update help center link
-        // url={lang.settings.help_center_urls.font_convert}
+        url={lang.settings.help_center_urls.font_convert}
         id="font-convert"
         options={defaultLaserModuleOptions}
         onChange={(e) => updateBeamboxPreferenceChange('font-convert', e.target.value)}

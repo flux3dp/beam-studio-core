@@ -26,6 +26,7 @@ exports[`should render correctly 1`] = `
     label:
     Convert Text to Path
     url:
+    https://support.flux3dp.com/hc/Convert-Text-to-Path
     options:
     [{"value":"1.0","label":"1.0","selected":true},{"value":"2.0","label":"2.0","selected":false}]
     <input
