@@ -897,6 +897,7 @@ const fonts: WebFont[] = [
     weight: 400,
     fileName: 'GlowSansTC-Normal-Regular.otf',
     supportLangs: ['zh-tw'],
+    fontkitError: true,
   },
   {
     family: 'Glow Sans TC',
@@ -906,6 +907,7 @@ const fonts: WebFont[] = [
     weight: 700,
     fileName: 'GlowSansTC-Normal-Bold.otf',
     supportLangs: ['zh-tw'],
+    fontkitError: true,
   },
   // GlowSans SC
   {
@@ -916,6 +918,7 @@ const fonts: WebFont[] = [
     weight: 400,
     fileName: 'GlowSansSC-Normal-Regular.otf',
     supportLangs: ['zh-cn'],
+    fontkitError: true,
   },
   {
     family: 'Glow Sans SC',
@@ -925,6 +928,7 @@ const fonts: WebFont[] = [
     weight: 700,
     fileName: 'GlowSansSC-Normal-Bold.otf',
     supportLangs: ['zh-cn'],
+    fontkitError: true,
   },
   // Glow Sans J
   {
@@ -935,6 +939,7 @@ const fonts: WebFont[] = [
     weight: 400,
     fileName: 'GlowSansJ-Normal-Regular.otf',
     supportLangs: ['ja'],
+    fontkitError: true,
   },
   {
     family: 'Glow Sans J',
@@ -944,6 +949,7 @@ const fonts: WebFont[] = [
     weight: 700,
     fileName: 'GlowSansJ-Normal-Bold.otf',
     supportLangs: ['ja'],
+    fontkitError: true,
   },
   // 07TetsubinGothic
   {
@@ -1613,11 +1619,15 @@ const applyStyle = (fontsInUse: WebFont[]): void => {
 };
 
 const getAvailableFonts = (lang?: string): WebFont[] => {
-  if (!lang) return fonts;
-  return fonts.filter((font) => {
-    if (!font.supportLangs) return true;
-    return font.supportLangs.includes(lang);
-  });
+  let availableFonts = fonts;
+  if (lang)
+    availableFonts = availableFonts.filter((font) => {
+      if (!font.supportLangs) return true;
+      return font.supportLangs.includes(lang);
+    });
+  if (window.FLUX.version !== 'web')
+    availableFonts = availableFonts.filter((font) => !font.fontkitError);
+  return availableFonts;
 };
 
 export default {

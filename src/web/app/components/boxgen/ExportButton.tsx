@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Button, Form, InputNumber, Modal, Pagination, Switch } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
@@ -29,11 +29,12 @@ const ExportDialog = ({
   const lang = useI18n().boxgen;
   const { boxData, workarea, onClose, lengthUnit } = useContext(BoxgenContext);
   const { unit, unitRatio, decimal } = lengthUnit;
+  const isMM = useMemo(() => unit === 'mm', [unit]);
   const [page, setPage] = useState(1);
   const [options, setOptions] = useState<IExportOptions>({
     joinOutput: false,
     textLabel: false,
-    compRadius: 0,
+    compRadius: 0.2,
   });
   const [confirmLoading, setConfirmLoading] = useState(false);
   if (!visible) return null;
@@ -156,14 +157,19 @@ const ExportDialog = ({
         >
           <Switch />
         </Form.Item>
-        <Form.Item className={styles['form-item']} label={lang.beam_radius} name="compRadius">
+        <Form.Item
+          tooltip={lang.beam_radius_warning}
+          className={styles['form-item']}
+          label={lang.beam_radius}
+          name="compRadius"
+        >
           <InputNumber<number>
             type="number"
             size="small"
             min={0}
-            max={0.5}
+            max={isMM ? 0.5 : 0.508}
             addonAfter={unit}
-            step={0.1 * unitRatio}
+            step={isMM ? 0.1 : 0.001 * unitRatio}
             formatter={(v, { userTyping, input }) =>
               userTyping ? input : ((v as number) / unitRatio).toFixed(decimal + 2)
             }

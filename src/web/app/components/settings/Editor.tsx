@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
 import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
@@ -8,8 +9,11 @@ import isDev from 'helpers/is-dev';
 import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { FontDescriptor } from 'interfaces/IFont';
 import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
+
+const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
 
 interface Props {
   defaultUnit: string;
@@ -53,37 +57,26 @@ function Editor({
       style: 'Regular',
     }
   );
-  const [fontOptions, updateFamilyOptions] = React.useState<SelectOption[]>([]);
-  const [fontStyleOptions, updateStyleOptions] = React.useState<SelectOption[]>([]);
-  React.useEffect(() => {
-    const getFamilyOptions = async () => {
-      const options = (await FontFuncs.availableFontFamilies).map((family: string) => {
-        const fontName = FontFuncs.fontNameMap.get(family);
-        const label = typeof fontName === 'string' ? fontName : family;
-        return {
-          value: family,
-          label,
-          selected: family === defaultFont.family,
-        };
-      });
-      updateFamilyOptions(options);
-    };
-    const getStyleOptions = async () => {
-      const options = (await FontFuncs.requestFontsOfTheFontFamily(defaultFont.family)).map(
-        (font) => ({
-          value: font.postscriptName,
-          label: font.style,
-          selected: font.style === defaultFont.style,
-        })
-      );
-      updateStyleOptions(options);
-    };
-    getFamilyOptions();
-    getStyleOptions();
-  }, [defaultFont]);
 
-  const onSelectFont = async (family) => {
-    const fonts = await FontFuncs.requestFontsOfTheFontFamily(family);
+  const fontOptions: SelectOption[] = fontFamilies.map((family: string) => {
+    const fontName = FontFuncs.fontNameMap.get(family);
+    const label = typeof fontName === 'string' ? fontName : family;
+    return {
+      value: family,
+      label,
+      selected: family === defaultFont.family,
+    };
+  });
+  const fontStyleOptions: SelectOption[] = FontFuncs.requestFontsOfTheFontFamily(
+    defaultFont.family
+  ).map((font: FontDescriptor) => ({
+    value: font.postscriptName,
+    label: font.style,
+    selected: font.style === defaultFont.style,
+  }));
+
+  const onSelectFont = (family) => {
+    const fonts: FontDescriptor[] = FontFuncs.requestFontsOfTheFontFamily(family);
     const newDefaultFont = fonts.filter((font) => font.style === 'Regular')[0] || fonts[0];
     storage.set('default-font', {
       family: newDefaultFont.family,
@@ -96,8 +89,8 @@ function Editor({
       style: newDefaultFont.style,
     });
   };
-  const onSelectFontStyle = async (postscriptName) => {
-    const newDefaultFont = await FontFuncs.getFontOfPostscriptName(postscriptName);
+  const onSelectFontStyle = (postscriptName) => {
+    const newDefaultFont = FontFuncs.getFontOfPostscriptName(postscriptName);
     storage.set('default-font', {
       family: newDefaultFont.family,
       postscriptName: newDefaultFont.postscriptName,

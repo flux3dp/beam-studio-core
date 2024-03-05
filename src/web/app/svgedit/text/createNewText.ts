@@ -1,4 +1,5 @@
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import fontHelper from 'helpers/fonts/fontHelper';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import textEdit from 'app/svgedit/text/textedit';
@@ -13,10 +14,10 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const createNewText = (x: number, y: number, text = '', addToHistory = false) => {
-  const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
+const createNewText = (x: number, y: number, text = '', addToHistory = false): void => {
   const currentShape = svgCanvas.getCurrentShape();
   const curText = textEdit.getCurText();
+  const usePostscriptAsFamily = fontHelper.usePostscriptAsFamily(curText.font_postscriptName);
 
   const newText = svgCanvas.addSvgElementFromJson({
     element: 'text',

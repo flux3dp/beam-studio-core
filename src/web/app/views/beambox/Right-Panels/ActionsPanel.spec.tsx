@@ -37,6 +37,11 @@ jest.mock('helpers/image-edit', () => ({
   removeBackground: (...args) => mockRemoveBackground(...args),
 }));
 
+const renderText = jest.fn();
+jest.mock('app/svgedit/text/textedit', () => ({
+  renderText,
+}));
+
 const openNonstopProgress = jest.fn();
 const popById = jest.fn();
 jest.mock('app/actions/progress-caller', () => ({
