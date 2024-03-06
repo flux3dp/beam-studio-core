@@ -1620,6 +1620,7 @@ const applyStyle = (fontsInUse: WebFont[]): void => {
 
 const getAvailableFonts = (lang?: string): WebFont[] => {
   let availableFonts = fonts;
+  return availableFonts;
   if (lang)
     availableFonts = availableFonts.filter((font) => {
       if (!font.supportLangs) return true;

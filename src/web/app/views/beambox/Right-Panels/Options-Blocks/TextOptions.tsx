@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { Button, ConfigProvider, Select, Switch } from 'antd';
+import { Button, ConfigProvider, InputNumber, Select, Switch } from 'antd';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FluxIcons from 'app/icons/flux/FluxIcons';
@@ -36,6 +36,11 @@ const eventEmitter = eventEmitterFactory.createEventEmitter('font');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
 const isLocalFont = (font: FontDescriptor) => 'path' in font;
 
+await fontHelper.getMonotypeFonts();
+const fonts = fontHelper.getAvailableFonts();
+const pathResSelector = 'path[id^="svg_"]';
+let testIdSync: number;
+let actionSync = 0;
 // TODO: add tests
 interface Props {
   elem: Element;
@@ -81,6 +86,11 @@ const TextOptions = ({
   });
   const { fontFamily } = state;
   const [styleOptions, setStyleOptions] = useState([]);
+  const [testId, setTestId] = useState(testIdSync);
+  const [action, setAction] = useState(actionSync);
+  useEffect(() => {
+    actionSync = action;
+  }, [action]);
 
   const getFontFamilies = async () => {
     const families = FontFuncs.requestAvailableFontFamilies();
@@ -193,12 +203,12 @@ const TextOptions = ({
     progressCaller.popById('load-font');
   };
 
-  const handleFontFamilyChange = async (newFamily) => {
+  const handleFontFamilyChange = async (newFamily, testFont = undefined) => {
     let family = newFamily;
     if (typeof newFamily === 'object') {
       family = newFamily.value;
     }
-    const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
+    const newFont = testFont ?? FontFuncs.requestFontsOfTheFontFamily(family)[0];
     const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
       newFont,
       getCurrentUser()
@@ -235,6 +245,11 @@ const TextOptions = ({
     });
     updateObjectPanel();
   };
+
+  useEffect(() => {
+    testIdSync = testId;
+    if (typeof testId === 'number') handleFontFamilyChange(fonts[testId].family, fonts[testId]);
+  }, [testId]);
 
   const renderFontFamilyBlock = (): JSX.Element => {
     const renderOption = (option) => {
@@ -539,6 +554,58 @@ const TextOptions = ({
         ) : (
           <div className={styles.row}>{renderMultiLineTextOptions()}</div>
         )}
+        <div style={{ marginBottom: 10 }}>
+          <Button
+            onClick={() => {
+              navigator.clipboard.writeText(fonts[testId].postscriptName);
+            }}
+          >
+            {testId !== undefined && fonts[testId].postscriptName}
+          </Button>
+        </div>
+        <InputNumber<number>
+          type="number"
+          value={testId}
+          onChange={(v) => {
+            if (v !== null) {
+              setTestId(v);
+              const oldPath = document.querySelectorAll(pathResSelector);
+              oldPath.forEach((e) => e.parentNode.removeChild(e));
+              setAction((a) => (a > 2 ? 4 : 1));
+            }
+          }}
+          precision={0}
+          min={0}
+          max={fonts.length - 1}
+          addonAfter={`/${fonts.length - 1}`}
+        />
+        <Button
+          block
+          onClick={async () => {
+            if (action === 0 || action === 3) {
+              if (testId === fonts.length - 1) {
+                alert('Finished!');
+              } else {
+                setTestId((v) => (v === undefined ? 0 : v + 1));
+                const oldPath = document.querySelectorAll(pathResSelector);
+                oldPath.forEach((e) => e.parentNode.removeChild(e));
+                setAction((a) => (a > 2 ? 4 : 1));
+              }
+            } else if (action === 1 || action === 4) {
+              svgCanvas.cloneSelectedElements(200, 0);
+              const newElem = svgCanvas.getSelectedElems()[0];
+              await FontFuncs.convertTextToPath(newElem);
+              svgCanvas.selectOnly([elem]);
+              setAction((a) => (a + 1) % 6);
+            } else {
+              const oldPath = document.querySelectorAll(pathResSelector);
+              oldPath.forEach((e) => e.parentNode.removeChild(e));
+              setAction((a) => (a + 1) % 6);
+            }
+          }}
+        >
+          {['Next Font', 'Text to Path', 'OK', 'Next Font', 'Text to Path', 'OK'][action]}
+        </Button>
       </div>
     </ConfigProvider>
   );
